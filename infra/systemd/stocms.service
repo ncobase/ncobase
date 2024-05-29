@@ -1,0 +1,16 @@
+[Unit]
+Description=stocms backend service
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sleep 5
+User=www-data
+SyslogIdentifier=stocms
+ExecReload=/bin/kill -s -HUP $MAINPID
+ExecStart=/data/stocms/stocms -conf /etc/stocms/config.yaml
+ExecStop=/bin/sleep 5; /bin/kill -s QUIT $MAINPID
+Restart=always
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
