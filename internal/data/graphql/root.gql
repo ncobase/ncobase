@@ -1,0 +1,44 @@
+# GraphQL schema
+# https://gqlgen.com/getting-started/
+scalar Time
+scalar Date
+scalar DateTime
+
+#directive @hasRole(role: Roles!) on FIELD_DEFINITION
+#
+#enum Roles {
+#  OWNER
+#  PERMISSION
+#}
+
+input Pagination {
+  limit: Int!
+  offset: Int!
+  total: Int
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+input Sort {
+  sort_by: String!
+  order: SortOrder! = DESC
+}
+
+#schema {
+#    query: Query
+#    mutation: Mutation
+#    # subscription: Subscription
+#}
+#
+#type Query {
+#
+#}
+#
+#type Mutation {
+#
+#}
+
+# type Subscription {}

@@ -1,0 +1,12 @@
+type Query {
+  hello: Sample
+  samples: [Sample!]
+}
+
+type Sample{
+  id: ID!,
+  name: String!
+  content: String!
+  created_at: Time
+  updated_at: Time
+}

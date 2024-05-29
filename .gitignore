@@ -1,0 +1,11 @@
+.idea/
+.vscode/
+runtime/
+bin/
+out/
+.DS_Store
+logs/*
+
+# config
+!config.example.yml
+config.yml

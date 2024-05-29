@@ -1,0 +1,61 @@
+# Application name
+app_name: stocms
+# Run mode (release / debug)
+run_mode: release
+
+server:
+  # Protocol type http / https
+  protocol: http
+  # Running domain
+  domain: localhost
+  # Application running address (localhost: 127.0.0.1, all addresses: 0.0.0.0)
+  host: 127.0.0.1
+  # Application running port
+  port: 3000
+
+data:
+  database:
+    driver: postgres # postgresql / mysql
+    source: postgres://user:password@127.0.0.1:5432/db?sslmode=disable # mysql: user:password@tcp(127.0.0.1:3306)/db?params / postgres: host=127.0.0.1 port=5432 dbname=db user=user password=password sslmode=disable TimeZone=Asia/Shanghai
+    migrate: true
+    max_open_conn: 64
+    max_life_time: 7200
+    max_idle_conn: 16
+    table_prefix:
+  redis:
+    addr: 127.0.0.1:6378
+    password:
+    read_timeout: 0.4s
+    write_timeout: 0.6s
+    dial_timeout: 1s
+
+logger:
+  # Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug)
+  level: 4
+  # Log format (supported output formats: text/json)
+  format: text
+  # Log output (supported: stdout/stderr/file)
+  output: stdout
+  # Specify the file path for log output
+  output_file: logs/access.log
+
+casbin:
+  path:
+
+jwt:
+  secret: # openssl passwd -stdin < <(echo) | base64 | shasum / nanoid.String(35)
+  exp_time: 48 # hours
+
+aws:
+  region:
+  access_key:
+  access_secret:
+  bucket:
+
+github:
+  id:
+  secret:
+
+mailgun:
+  key:
+  domain:
