@@ -7,5 +7,5 @@ out/
 logs/*
 
 # config
-!config.example.yml
-config.yml
+!config.example.yaml
+config.yaml

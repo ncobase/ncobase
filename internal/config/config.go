@@ -32,7 +32,7 @@ type Config struct {
 }
 
 func init() {
-	flag.StringVar(&confPath, "conf", "", "e.g: bin ./config.yml")
+	flag.StringVar(&confPath, "conf", "", "e.g: bin ./config.yaml")
 }
 
 // Init initializes and loads the application configuration.
