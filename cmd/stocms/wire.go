@@ -6,15 +6,15 @@ package main
 
 // TODO: implement
 // // wireApp is a Wire provider function that initializes the server.
-// func wireApp(cfg *config.Config) (*server.Server, func(), error) {
+// func wireApp(conf *config.Config) (*server.Server, func(), error) {
 // 	// Initialize the logger
-// 	loggerClean, err := log.Init(cfg.Logger)
+// 	loggerClean, err := log.Init(conf.Logger)
 // 	if err != nil {
 // 		return nil, nil, err
 // 	}
 //
 // 	// Create and return the server instance along with the cleanup function
-// 	serve, err := server.New(cfg)
+// 	serve, err := server.New(conf)
 // 	if err != nil {
 // 		loggerClean() // Clean up logger before returning
 // 		return nil, nil, err

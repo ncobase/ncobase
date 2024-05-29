@@ -8,15 +8,15 @@ import (
 )
 
 // initialize initializes the database, services, and handlers.
-func initialize(cfg *config.Config) (*handler.Handler, *service.Service, func(), error) {
+func initialize(conf *config.Config) (*handler.Handler, *service.Service, func(), error) {
 	// Initialize database
-	d, cleanup, err := data.New(&cfg.Data)
+	d, cleanup, err := data.New(&conf.Data)
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
 	// Initialize services
-	svc := service.New(cfg, d)
+	svc := service.New(conf, d)
 
 	// Initialize handlers
 	h := handler.New(svc)

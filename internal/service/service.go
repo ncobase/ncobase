@@ -7,14 +7,14 @@ import (
 
 // Service represents a service definition.
 type Service struct {
-	cfg    *config.Config
+	conf   *config.Config
 	sample data.ISample
 }
 
 // New creates a Service instance and returns it.
-func New(cfg *config.Config, d *data.Data) *Service {
+func New(conf *config.Config, d *data.Data) *Service {
 	return &Service{
-		cfg:    cfg,
+		conf:   conf,
 		sample: data.NewSample(d),
 	}
 }
