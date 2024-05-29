@@ -32,11 +32,11 @@ func NewSample(d *Data) ISample {
 }
 
 func (r *sampleRepo) Hello(ctx context.Context, p structs.Sample) (*ent.Sample, error) {
-	// try to fetch from c.
+	// try to fetch from cache.
 	cf := p.Name
 	row, err := r.c.get(ctx, cf)
 	if validator.IsNotNil(err) {
-		// fetch from db when c is empty.
+		// fetch from db when cache is empty.
 		// use internal get method.
 		row, err = r.getSample(ctx, &structs.FindSample{
 			ID:   p.ID,
@@ -45,7 +45,7 @@ func (r *sampleRepo) Hello(ctx context.Context, p structs.Sample) (*ent.Sample, 
 		if validator.IsNotNil(err) {
 			return nil, err
 		}
-		// set the c.
+		// set the cache.
 		r.c.set(ctx, row, cf)
 	}
 	return row, err
