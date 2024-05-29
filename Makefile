@@ -18,7 +18,7 @@ generate:
 build-linux:
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o ${OUT}/${APP_NAME} ${CMD_PATH}
 	if [ ! -d "${OUT}" ]; then mkdir ${OUT}; fi
-	if [ ! -f "${OUT}/config.yml" ]; then cp -r ./configs/config.yml ${OUT}; fi
+	if [ ! -f "${OUT}/config.yaml" ]; then cp -r ./configs/config.yaml ${OUT}; fi
 
 build:
 	@go build $(LDFLAGS) -o ${OUT}/${APP_NAME} ${CMD_PATH}
