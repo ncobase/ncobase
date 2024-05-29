@@ -15,7 +15,7 @@ import (
 	// mysql
 	_ "github.com/go-sql-driver/mysql"
 	// postgres
-	_ "github.com/jackc/pgx/v4/stdlib"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 var (
@@ -60,7 +60,7 @@ func newRedis(conf *config.Redis) redis.Cmdable {
 		Addr:         conf.Addr,
 		Username:     conf.Username,
 		Password:     conf.Password,
-		DB:           int(conf.Db),
+		DB:           conf.Db,
 		ReadTimeout:  conf.ReadTimeout,
 		WriteTimeout: conf.WriteTimeout,
 		DialTimeout:  conf.DialTimeout,
