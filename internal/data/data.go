@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"stocms/internal/config"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/ent/migrate"
@@ -52,17 +51,6 @@ func New(conf *config.Data) (*Data, func(), error) {
 	return d, cleanup, nil
 }
 
-type Cache[T any] interface {
-	// getCache data from cache using the specified field and return a pointer to type T and a possible error.
-	getCache(context.Context, string) (*T, error)
-	// setCache Save the specified data into cache using the specified string as key.
-	setCache(context.Context, *T, string)
-	// deleteCache data from cache using the specified key and an optional filter condition.
-	deleteCache(context.Context, string)
-	// resetCache data in cache using the specified pointer to type T as new value.
-	resetCache(context.Context, *T, string)
-}
-
 // newRedis creates a new Redis datastore.
 func newRedis(conf *config.Redis) redis.Cmdable {
 	if conf == nil {
@@ -86,11 +74,6 @@ func newRedis(conf *config.Redis) redis.Cmdable {
 	}
 
 	return rc
-}
-
-// getCacheKey - define cache key of the user service.
-func getCacheKey(key string) string {
-	return fmt.Sprintf("%s_%s:%s", "sc", "sample", key) // os.Args[0]
 }
 
 // newClient creates a new ent client.
