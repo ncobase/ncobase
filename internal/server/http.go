@@ -24,11 +24,11 @@ func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service) (*gi
 	engine.Use(middleware.CORSHandler())
 	engine.Use(middleware.ConsumeUser())
 
-	// Register REST router
-	registerRestRouter(engine, h)
+	// Register REST
+	registerRest(engine, h, conf)
 
-	// Register GraphQL router
-	registerGraphqlRouter(engine, svc, conf.RunMode)
+	// Register GraphQL
+	registerGraphql(engine, svc, conf.RunMode)
 
 	engine.NoRoute(notFound)
 	engine.NoMethod()

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"stocms/internal/config"
 	"stocms/internal/data"
 )
@@ -8,6 +9,7 @@ import (
 // Service represents a service definition.
 type Service struct {
 	conf   *config.Config
+	d      *data.Data
 	sample data.ISample
 }
 
@@ -15,6 +17,12 @@ type Service struct {
 func New(conf *config.Config, d *data.Data) *Service {
 	return &Service{
 		conf:   conf,
+		d:      d,
 		sample: data.NewSample(d),
 	}
+}
+
+// Ping check server
+func (svc *Service) Ping(ctx context.Context) error {
+	return svc.d.Ping(ctx)
 }
