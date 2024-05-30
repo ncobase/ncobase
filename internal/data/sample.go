@@ -18,7 +18,7 @@ type ISample interface {
 // sampleRepo implements the ISample interface.
 type sampleRepo struct {
 	ec *ent.Client
-	rc redis.Cmdable
+	rc *redis.Client
 	c  *Cache[ent.Sample]
 }
 

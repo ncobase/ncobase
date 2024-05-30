@@ -24,7 +24,7 @@ type ICache[T any] interface {
 
 // Cache implements the ICache interface
 type Cache[T any] struct {
-	rc  redis.Cmdable
+	rc  *redis.Client
 	key string
 }
 
@@ -35,7 +35,7 @@ func cacheKey(key string) string {
 }
 
 // NewCache creates a new Cache instance
-func NewCache[T any](rc redis.Cmdable, key string) *Cache[T] {
+func NewCache[T any](rc *redis.Client, key string) *Cache[T] {
 	return &Cache[T]{rc: rc, key: key}
 }
 

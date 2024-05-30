@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"stocms/internal/graphql/generated"
 	graph "stocms/internal/graphql/resolvers"
+	"stocms/internal/service"
 
 	"strings"
 	"time"
@@ -31,14 +32,11 @@ func newGraphQLServer(es graphql.ExecutableSchema) *handler.Server {
 		},
 		KeepAlivePingInterval: 15 * time.Second,
 	})
-
 	s.AddTransport(transport.Options{})
 	s.AddTransport(transport.GET{})
 	s.AddTransport(transport.POST{})
 	s.AddTransport(transport.MultipartForm{})
-
 	s.SetQueryCache(lru.New(1000))
-
 	s.Use(extension.Introspection{})
 	s.Use(extension.AutomaticPersistedQuery{
 		Cache: lru.New(100),
@@ -48,16 +46,13 @@ func newGraphQLServer(es graphql.ExecutableSchema) *handler.Server {
 }
 
 // graphqlHandler defines the GraphQL handler.
-func graphqlHandler() gin.HandlerFunc {
-
+func graphqlHandler(svc *service.Service) gin.HandlerFunc {
 	config := generated.Config{
 		Resolvers: &graph.Resolver{
 			Svc: svc,
 		},
 	}
-
 	s := newGraphQLServer(generated.NewExecutableSchema(config))
-
 	return func(c *gin.Context) {
 		s.ServeHTTP(c.Writer, c.Request)
 	}
@@ -66,17 +61,15 @@ func graphqlHandler() gin.HandlerFunc {
 // playgroundHandler defines the Playground handler.
 func playgroundHandler() gin.HandlerFunc {
 	h := playground.Handler("GraphQL playground", "/graphql")
-
 	return func(c *gin.Context) {
 		h.ServeHTTP(c.Writer, c.Request)
 	}
 }
 
 // registerGraphqlRouter registers the GraphQL router.
-func registerGraphqlRouter(e *gin.Engine, mode string) {
-	// GraphQL
+func registerGraphqlRouter(e *gin.Engine, svc *service.Service, mode string) {
 	g := e.Group("/graphql")
-	g.POST("", graphqlHandler())
+	g.POST("", graphqlHandler(svc))
 	if !strings.Contains("release", mode) {
 		g.GET("", playgroundHandler())
 	}

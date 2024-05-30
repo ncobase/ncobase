@@ -4,7 +4,7 @@ import (
 	"stocms/internal/service"
 )
 
-// Handler represents a controller definition.
+// Handler represents a handler definition.
 type Handler struct {
 	svc *service.Service
 }
