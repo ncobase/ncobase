@@ -12,20 +12,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	svc     *service.Service
-	h       *handler.Handler
-	cleanup func()
-	err     error
-)
-
-// New creates an HTTP server.
-func New(conf *config.Config) (*gin.Engine, func(), error) {
-	// Initialize database / services / handlers
-	h, svc, cleanup, err = initialize(conf)
-	if err != nil {
-		return nil, nil, err
-	}
+// newHTTP creates an HTTP server.
+func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service) (*gin.Engine, error) {
 
 	gin.SetMode(conf.RunMode)
 	engine := gin.New()
@@ -40,12 +28,12 @@ func New(conf *config.Config) (*gin.Engine, func(), error) {
 	registerRestRouter(engine, h)
 
 	// Register GraphQL router
-	registerGraphqlRouter(engine, conf.RunMode)
+	registerGraphqlRouter(engine, svc, conf.RunMode)
 
 	engine.NoRoute(notFound)
 	engine.NoMethod()
 
-	return engine, cleanup, nil
+	return engine, nil
 }
 
 func notFound(c *gin.Context) {

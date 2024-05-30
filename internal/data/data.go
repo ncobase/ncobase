@@ -22,13 +22,13 @@ var (
 	err error
 	db  *sql.DB
 	ec  *ent.Client
-	rc  redis.Cmdable
+	rc  *redis.Client
 )
 
 // Data .
 type Data struct {
 	ec *ent.Client
-	rc redis.Cmdable
+	rc *redis.Client
 	db *sql.DB
 }
 
@@ -42,9 +42,9 @@ func New(conf *config.Data) (*Data, func(), error) {
 	}
 
 	cleanup := func() {
-		log.Printf(context.Background(), "execute data cleanup of content service.")
-		if err := d.ec.Close(); err != nil {
-			log.Errorf(context.Background(), err.Error())
+		log.Printf(context.Background(), "execute data cleanup.")
+		if errs := d.Close(); errs != nil {
+			log.Errorf(context.Background(), "cleanup errors: %v", errs)
 		}
 	}
 
@@ -52,7 +52,7 @@ func New(conf *config.Data) (*Data, func(), error) {
 }
 
 // newRedis creates a new Redis datastore.
-func newRedis(conf *config.Redis) redis.Cmdable {
+func newRedis(conf *config.Redis) *redis.Client {
 	if conf == nil {
 		log.Fatalf(context.Background(), "redis configuration cannot be nil")
 	}
@@ -109,4 +109,21 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	}
 
 	return ec, db
+}
+
+// Close .
+func (d *Data) Close() (errs []error) {
+	if err := d.rc.Close(); err != nil {
+		errs = append(errs, err)
+	}
+	if err := d.db.Close(); err != nil {
+		errs = append(errs, err)
+	}
+	if err := d.ec.Close(); err != nil {
+		errs = append(errs, err)
+	}
+	if len(errs) > 0 {
+		return errs
+	}
+	return nil
 }
