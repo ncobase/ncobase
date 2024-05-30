@@ -127,3 +127,8 @@ func (d *Data) Close() (errs []error) {
 	}
 	return nil
 }
+
+// Ping .
+func (d *Data) Ping(ctx context.Context) error {
+	return d.db.PingContext(ctx)
+}

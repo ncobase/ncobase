@@ -66,8 +66,8 @@ func playgroundHandler() gin.HandlerFunc {
 	}
 }
 
-// registerGraphqlRouter registers the GraphQL router.
-func registerGraphqlRouter(e *gin.Engine, svc *service.Service, mode string) {
+// registerGraphql registers the GraphQL router.
+func registerGraphql(e *gin.Engine, svc *service.Service, mode string) {
 	g := e.Group("/graphql")
 	g.POST("", graphqlHandler(svc))
 	if !strings.Contains("release", mode) {
