@@ -1,10 +1,5 @@
 package util
 
-import (
-	"fmt"
-	"stocms/internal/config"
-)
-
 // Find returns the smallest index i at which x == a[i],
 // or len(a) if there is no such index.
 func Find(a []string, x string) int {
@@ -33,12 +28,4 @@ func Contains(a []string, x string) bool {
 		}
 	}
 	return false
-}
-
-// GetDomain returns the run domain based on the given domain and conf.
-func GetDomain(conf *config.Config, domain string) string {
-	if domain == "localhost" {
-		return fmt.Sprintf("%v://%v:%d", conf.Protocol, conf.Domain, conf.Port)
-	}
-	return fmt.Sprintf("%v://%v", conf.Protocol, conf.Domain)
 }
