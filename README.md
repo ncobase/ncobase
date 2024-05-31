@@ -30,10 +30,12 @@ make run
 │   ├── data               # Data handling
 │   │   ├── ent            # ent ORM related
 │   │   ├── graphql        # GraphQL schemas
+│   │   ├── repository     # Repositories for data access
 │   │   ├── schema         # Database schemas
 │   │   └── structs        # Data structures
 │   ├── graphql            # GraphQL resolvers and types
 │   ├── handler            # Request handlers
+│   ├── helper             # Helper utilities and functions
 │   ├── server             # Server-related code
 │   │   └── middleware     # Middleware
 │   └── service            # Business logic
@@ -41,10 +43,12 @@ make run
     ├── consts             # Constants
     ├── cookie             # Cookie handling
     ├── ecode              # Error codes
+│   ├── email              # Email related logic
     ├── encrypt            # Encryption
     ├── jwt                # JWT handling
     ├── log                # Logging
     ├── nanoid             # NanoID generation
+│   ├── oauth              # OAuth related logic
     ├── resp               # Response handling
     ├── slug               # Slug generation
     ├── time               # Time utilities
