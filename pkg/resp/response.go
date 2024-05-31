@@ -47,26 +47,31 @@ func fail(r *Exception) (int, any) {
 func success(r *Exception) (int, any) {
 	status := http.StatusOK
 
-	if r != nil {
-		if r.Status != 0 {
-			status = r.Status
-		}
-		if status < 200 || status >= 400 {
-			return fail(r)
-		}
+	if r != nil && r.Status != 0 {
+		status = r.Status
+	}
+
+	if status < 200 || status >= 400 {
+		return fail(r)
+	}
+
+	if r != nil && r.Data != nil {
 		return status, r.Data
 	}
 
 	return status, types.JSON{"message": "ok"}
 }
 
-// Write writes the response based on the specified type and status code.
+// write writes the response based on the specified type and status code.
 func write(w http.ResponseWriter, contextType string, code int, res any) {
 	w.WriteHeader(code)
 	switch contextType {
 	case "JSON":
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(res)
+		err := json.NewEncoder(w).Encode(res)
+		if err != nil {
+			return
+		}
 	case "XML":
 		w.Header().Set("Content-Type", "application/xml")
 		// Implement XML encoding here
@@ -76,7 +81,10 @@ func write(w http.ResponseWriter, contextType string, code int, res any) {
 	default:
 		// Default to JSON if no contextType matches
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(res)
+		err := json.NewEncoder(w).Encode(res)
+		if err != nil {
+			return
+		}
 	}
 }
 

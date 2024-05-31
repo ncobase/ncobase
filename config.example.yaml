@@ -59,3 +59,4 @@ github:
 mailgun:
   key:
   domain:
+  from:

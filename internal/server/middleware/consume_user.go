@@ -2,22 +2,24 @@ package middleware
 
 import (
 	"net/http"
+	"stocms/internal/helper"
 	"stocms/pkg/ecode"
 	"stocms/pkg/jwt"
 	"stocms/pkg/resp"
+	"stocms/pkg/types"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
-// refreshToken TODO 刷新 Token
+// refreshToken TODO refresh token
 func refreshToken(oldToken string) (string, error) {
 	return oldToken, nil
 }
 
-// isTokenExpiring 检查令牌是否即将过期
-func isTokenExpiring(tokenData map[string]interface{}) bool {
+// isTokenExpiring token is expiring
+func isTokenExpiring(tokenData map[string]any) bool {
 	exp, ok := tokenData["exp"].(int64)
 	if !ok {
 		return false
@@ -26,23 +28,23 @@ func isTokenExpiring(tokenData map[string]interface{}) bool {
 	return time.Until(expirationTime) < 10*time.Minute // 假设如果令牌在 10 分钟内过期，则刷新
 }
 
-// ConsumeUser 处理当前用户
+// ConsumeUser consume user
 func ConsumeUser() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		token := ctx.Request.Header.Get("Authorization")
+	return func(c *gin.Context) {
+		token := c.Request.Header.Get("Authorization")
 		// Check format
-		// ie Bearer: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
-		b := "Bearer: "
+		// ie Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+		b := "Bearer "
 		if !strings.Contains(token, b) {
-			ctx.Next()
+			c.Next()
 			return
 		}
 		t := strings.Split(token, b)
 		if len(t) < 2 {
-			ctx.Next()
+			c.Next()
 			return
 		}
-		// 解密令牌
+		// decode token
 		tokenData, err := jwt.DecodeToken(signingKey, t[1])
 		if err != nil {
 			exception := &resp.Exception{
@@ -50,23 +52,25 @@ func ConsumeUser() gin.HandlerFunc {
 				Code:    ecode.AccessDenied,
 				Message: err.Error(),
 			}
-			resp.Fail(ctx, exception)
+			resp.Fail(c.Writer, exception)
 			return
 		}
 
-		// 设置当前用户 ID
-		userID := tokenData["user_id"].(string)
-		ctx.Set("uid", userID)
+		payload := tokenData["payload"].(types.JSON)
 
-		// 检查令牌是否即将过期并刷新令牌
+		// set uid
+		userID := payload["user_id"].(string)
+		helper.SetUserID(c, userID)
+
+		// if token is expiring, refresh token
 		if isTokenExpiring(tokenData) {
 			newToken, err := refreshToken(t[1])
 			if err == nil {
-				ctx.Header("Authorization", "Bearer "+newToken)
+				c.Header("Authorization", "Bearer "+newToken)
 			}
 		}
 
-		ctx.Next()
+		c.Next()
 
 	}
 }

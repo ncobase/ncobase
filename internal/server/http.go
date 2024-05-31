@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"stocms/internal/config"
 	"stocms/internal/handler"
+	"stocms/internal/helper"
 	"stocms/internal/server/middleware"
 	"stocms/internal/service"
 	"stocms/pkg/ecode"
@@ -29,6 +30,14 @@ func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service) (*gi
 
 	// Register GraphQL
 	registerGraphql(engine, svc, conf.RunMode)
+
+	// Register config to Context
+	engine.Use(func(c *gin.Context) {
+		// Set the config to the gin.Context
+		helper.SetConfig(c, conf)
+		// Proceed to the next middleware or handler
+		c.Next()
+	})
 
 	engine.NoRoute(notFound)
 	engine.NoMethod()
