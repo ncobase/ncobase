@@ -6,6 +6,7 @@ require (
 	entgo.io/contrib v0.5.0
 	entgo.io/ent v0.13.1
 	github.com/99designs/gqlgen v0.17.47
+	github.com/alexpantyukhin/go-pattern-match v0.0.0-20230301210247-d84479c117d7
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
@@ -15,6 +16,7 @@ require (
 	github.com/gorilla/websocket v1.5.1
 	github.com/gosimple/slug v1.14.0
 	github.com/jackc/pgx/v5 v5.6.0
+	github.com/jinzhu/copier v0.4.0
 	github.com/mailgun/mailgun-go/v4 v4.12.0
 	github.com/matoous/go-nanoid/v2 v2.1.0
 	github.com/pkg/errors v0.9.1
