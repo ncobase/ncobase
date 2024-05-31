@@ -70,10 +70,15 @@ func newRedis(conf *config.Redis) *redis.Client {
 	timeout, cancelFunc := context.WithTimeout(context.Background(), conf.DialTimeout)
 	defer cancelFunc()
 	if err := rc.Ping(timeout).Err(); err != nil {
-		log.Fatalf(context.Background(), "redis connect error: %w", err)
+		log.Fatalf(context.Background(), "redis connect error: %v", err)
 	}
 
 	return rc
+}
+
+// GetRedis returns the redis client
+func (d *Data) GetRedis() *redis.Client {
+	return d.rc
 }
 
 // newClient creates a new ent client.
@@ -109,6 +114,16 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	}
 
 	return ec, db
+}
+
+// GetEntClient returns the ent client
+func (d *Data) GetEntClient() *ent.Client {
+	return d.ec
+}
+
+// GetDB returns the database
+func (d *Data) GetDB() *sql.DB {
+	return d.db
 }
 
 // Close .
