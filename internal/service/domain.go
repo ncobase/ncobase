@@ -1,0 +1,197 @@
+package service
+
+import (
+	"context"
+	"errors"
+	"stocms/internal/data/ent"
+	"stocms/internal/data/structs"
+	"stocms/internal/helper"
+	"stocms/pkg/resp"
+	"stocms/pkg/types"
+	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
+)
+
+// AccountDomainService account domain service
+func (svc *Service) AccountDomainService(c *gin.Context) (*resp.Exception, error) {
+	userID := helper.GetUserID(c)
+	if userID == "" {
+		return nil, errors.New("INVALID_USER_ID")
+	}
+
+	domain, err := svc.findDomainByUserID(c, userID)
+	if ent.IsNotFound(err) {
+		return resp.NotFound("Domain is not found"), nil
+	}
+
+	return &resp.Exception{
+		Data: svc.serializeDomain(c, domain, true),
+	}, nil
+}
+
+// AccountDomainsService account domains service
+// func (svc *Service) AccountDomainsService(c *gin.Context) (*resp.Exception, error) {
+// 	userID := helper.GetUserID(c)
+// 	if userID == "" {
+// 		return nil, errors.New("INVALID_USER_ID")
+// 	}
+//
+// 	domain, err :=
+// 	if ent.IsNotFound(err) {
+// 		return resp.NotFound("Domain is not found"), nil
+// 	}
+//
+// 	return &resp.Exception{
+// 		Data: svc.serializeDomain(c, domain, false),
+// 	}, nil
+// }
+
+// CreateDomainService create domain service
+func (svc *Service) CreateDomainService(c *gin.Context, body *structs.CreateDomainBody) (*resp.Exception, error) {
+	userID := helper.GetUserID(c)
+	if userID == "" {
+		return resp.UnAuthorized("INVALID_USER_ID"), nil
+	}
+
+	user, err := svc.findUserByID(c, userID)
+	if ent.IsNotFound(err) {
+		return resp.NotFound("User is not found"), nil
+	}
+
+	body.UserID = user.ID
+	domain, err := svc.domain.Create(helper.FromGinContext(c), body)
+	if err != nil {
+		return resp.InternalServer(err.Error()), nil
+	}
+
+	return &resp.Exception{
+		Data: types.JSON{
+			"id": domain.ID,
+		},
+	}, nil
+}
+
+// UpdateDomainService update domain service
+func (svc *Service) UpdateDomainService(c *gin.Context, body *structs.UpdateDomainBody) (*resp.Exception, error) {
+	userID := helper.GetUserID(c)
+	if userID == "" {
+		return nil, errors.New("INVALID_USER_ID")
+	}
+
+	if body.UserID != "" {
+		_, err := svc.domain.GetByUser(helper.FromGinContext(c), body.UserID)
+		if ent.IsNotFound(err) {
+			return resp.NotFound("User is not found"), nil
+		}
+	}
+
+	if body.ID == "" {
+		body.ID, _ = svc.domain.GetIDByUser(helper.FromGinContext(c), userID)
+	}
+
+	domain, err := svc.domain.GetByID(helper.FromGinContext(c), body.ID)
+	if err != nil {
+		return resp.NotFound("Domain is not found"), nil
+	}
+
+	if domain.UserID != userID {
+		return resp.Forbidden("This domain is not yours"), nil
+	}
+
+	_, err = svc.domain.Update(helper.FromGinContext(c), body)
+	if err != nil {
+		return resp.InternalServer(err.Error()), nil
+	}
+
+	return &resp.Exception{
+		Data: types.JSON{
+			"id": body.ID,
+		},
+	}, nil
+}
+
+// ReadDomainService read domain service
+func (svc *Service) ReadDomainService(c *gin.Context, id string) (*resp.Exception, error) {
+	userID := helper.GetUserID(c)
+	if userID == "" {
+		return nil, errors.New("INVALID_USER_ID")
+	}
+
+	if id == "" {
+		id, _ = svc.domain.GetIDByUser(helper.FromGinContext(c), userID)
+	}
+
+	domain, err := svc.domain.GetByID(helper.FromGinContext(c), id)
+	if err != nil {
+		return resp.NotFound("Domain is not found"), nil
+	}
+
+	if domain.UserID != userID {
+		return resp.Forbidden("This domain is not yours"), nil
+	}
+
+	return &resp.Exception{
+		Data: svc.serializeDomain(c, domain, true),
+	}, nil
+}
+
+// ****** Internal methods of service
+
+// createDomain  Internal method to create domain
+func (svc *Service) createDomain(ctx context.Context, body *structs.CreateDomainBody) (*ent.Domain, error) {
+	if body.UserID == "" {
+		return nil, errors.New("INVALID_USER_ID")
+	}
+
+	client := svc.d.GetEntClient()
+	countUser := client.User.Query().CountX(context.Background())
+	if countUser <= 1 {
+		return svc.domain.Create(ctx, body)
+	}
+	return nil, nil
+}
+
+// findDomainByID  Internal method to find domain by ID
+func (svc *Service) findDomainByID(c *gin.Context, id string) (*ent.Domain, error) {
+	if id == "" {
+		return nil, errors.New("INVALID_DOMAIN_ID")
+	}
+	return svc.domain.GetByID(helper.FromGinContext(c), id)
+}
+
+// findDomainByUserID  Internal method to find domain by user ID
+func (svc *Service) findDomainByUserID(c *gin.Context, uid string) (*ent.Domain, error) {
+	if uid == "" {
+		uid = helper.GetUserID(c)
+	}
+	return svc.domain.GetByUser(helper.FromGinContext(c), uid)
+}
+
+// serializeDomain  Serialize domain
+func (svc *Service) serializeDomain(c *gin.Context, domain *ent.Domain, withUser bool) *structs.ReadDomain {
+	readDomain := &structs.ReadDomain{
+		ID:          domain.ID,
+		Name:        domain.Name,
+		Title:       domain.Title,
+		URL:         domain.URL,
+		Logo:        domain.Logo,
+		LogoAlt:     domain.LogoAlt,
+		Keywords:    strings.Split(domain.Keywords, ","),
+		Copyright:   domain.Copyright,
+		Description: domain.Description,
+		Order:       int64(domain.Order),
+		Disabled:    domain.Disabled,
+		Extras:      domain.Extras,
+	}
+
+	if withUser {
+		user, err := svc.findUserByID(c, domain.UserID)
+		if err == nil {
+			_ = copier.Copy(&readDomain.User, user)
+		}
+	}
+
+	return readDomain
+}

@@ -25,6 +25,7 @@ type Config struct {
 	Port       int
 	JWTSecret  string
 	JWTExpTime int
+	Frontend   Frontend
 	Logger     Logger
 	Data       Data
 	Github     Github
@@ -86,6 +87,7 @@ func load(in string) (*Config, error) {
 		Port:       c.GetInt("server.port"),
 		JWTSecret:  c.GetString("jwt.secret"),
 		JWTExpTime: c.GetInt("jwt.exp_time"),
+		Frontend:   getFrontendConfig(),
 		Logger:     getLoggerConfig(),
 		Data:       getDataConfig(),
 		Github:     getGithubConfig(),

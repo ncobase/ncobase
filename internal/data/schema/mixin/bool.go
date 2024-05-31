@@ -84,6 +84,19 @@ func (Disabled) Fields() []ent.Field {
 // disabled mixin must implement `Mixin` interface.
 var _ ent.Mixin = (*Disabled)(nil)
 
+// Logged adds logged field.
+type Logged struct{ mixin.Schema }
+
+// Fields of the logged mixin.
+func (Logged) Fields() []ent.Field {
+	return []ent.Field{
+		field.Bool("logged").Comment("is logged").Optional(), // is logged
+	}
+}
+
+// logged mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*Logged)(nil)
+
 // System adds system field.
 type System struct{ mixin.Schema }
 
@@ -109,3 +122,29 @@ func (Hidden) Fields() []ent.Field {
 
 // hidden mixin must implement `Mixin` interface.
 var _ ent.Mixin = (*Hidden)(nil)
+
+// IsCertified adds is certified field.
+type IsCertified struct{ mixin.Schema }
+
+// Fields of the is certified mixin.
+func (IsCertified) Fields() []ent.Field {
+	return []ent.Field{
+		field.Bool("is_certified").Comment("is certified").Optional(), // is certified
+	}
+}
+
+// is certified mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*IsCertified)(nil)
+
+// IsAdmin adds is admin field.
+type IsAdmin struct{ mixin.Schema }
+
+// Fields of the is admin mixin.
+func (IsAdmin) Fields() []ent.Field {
+	return []ent.Field{
+		field.Bool("is_admin").Comment("is admin").Optional(), // is admin
+	}
+}
+
+// is admin mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*IsAdmin)(nil)

@@ -9,35 +9,211 @@ import (
 )
 
 var (
-	// SampleColumns holds the columns for the "sample" table.
-	SampleColumns = []*schema.Column{
+	// ScAuthTokenColumns holds the columns for the "sc_auth_token" table.
+	ScAuthTokenColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
-		{Name: "content", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "content, big text"},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "user id"},
+	}
+	// ScAuthTokenTable holds the schema information for the "sc_auth_token" table.
+	ScAuthTokenTable = &schema.Table{
+		Name:       "sc_auth_token",
+		Columns:    ScAuthTokenColumns,
+		PrimaryKey: []*schema.Column{ScAuthTokenColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "authtoken_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScAuthTokenColumns[0]},
+			},
+			{
+				Name:    "authtoken_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScAuthTokenColumns[4]},
+			},
+		},
+	}
+	// ScCodeAuthColumns holds the columns for the "sc_code_auth" table.
+	ScCodeAuthColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "code"},
+		{Name: "email", Type: field.TypeString, Nullable: true, Comment: "email"},
+		{Name: "logged", Type: field.TypeBool, Nullable: true, Comment: "is logged"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
-	// SampleTable holds the schema information for the "sample" table.
-	SampleTable = &schema.Table{
-		Name:       "sample",
-		Columns:    SampleColumns,
-		PrimaryKey: []*schema.Column{SampleColumns[0]},
+	// ScCodeAuthTable holds the schema information for the "sc_code_auth" table.
+	ScCodeAuthTable = &schema.Table{
+		Name:       "sc_code_auth",
+		Columns:    ScCodeAuthColumns,
+		PrimaryKey: []*schema.Column{ScCodeAuthColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "sample_id",
+				Name:    "codeauth_id",
 				Unique:  false,
-				Columns: []*schema.Column{SampleColumns[0]},
+				Columns: []*schema.Column{ScCodeAuthColumns[0]},
+			},
+			{
+				Name:    "codeauth_code",
+				Unique:  false,
+				Columns: []*schema.Column{ScCodeAuthColumns[1]},
+			},
+		},
+	}
+	// ScDomainColumns holds the columns for the "sc_domain" table.
+	ScDomainColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
+		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
+		{Name: "logo", Type: field.TypeString, Nullable: true, Comment: "logo"},
+		{Name: "logo_alt", Type: field.TypeString, Nullable: true, Comment: "logo alt"},
+		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
+		{Name: "copyright", Type: field.TypeString, Nullable: true, Comment: "copyright"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "order", Type: field.TypeInt32, Comment: "order", Default: 99},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "extend properties"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "user id"},
+	}
+	// ScDomainTable holds the schema information for the "sc_domain" table.
+	ScDomainTable = &schema.Table{
+		Name:       "sc_domain",
+		Columns:    ScDomainColumns,
+		PrimaryKey: []*schema.Column{ScDomainColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScDomainColumns[0]},
+			},
+			{
+				Name:    "domain_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScDomainColumns[14]},
+			},
+		},
+	}
+	// ScOauthUserColumns holds the columns for the "sc_oauth_user" table.
+	ScOauthUserColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "oauth_id", Type: field.TypeString, Nullable: true, Comment: "oauth id"},
+		{Name: "access_token", Type: field.TypeString, Comment: "access token"},
+		{Name: "provider", Type: field.TypeString, Nullable: true, Comment: "provider"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "user id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScOauthUserTable holds the schema information for the "sc_oauth_user" table.
+	ScOauthUserTable = &schema.Table{
+		Name:       "sc_oauth_user",
+		Columns:    ScOauthUserColumns,
+		PrimaryKey: []*schema.Column{ScOauthUserColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "oauthuser_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScOauthUserColumns[0]},
+			},
+			{
+				Name:    "oauthuser_oauth_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScOauthUserColumns[1]},
+			},
+			{
+				Name:    "oauthuser_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScOauthUserColumns[4]},
+			},
+		},
+	}
+	// ScUserColumns holds the columns for the "sc_user" table.
+	ScUserColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "username", Type: field.TypeString, Unique: true, Nullable: true, Size: 50, Comment: "username"},
+		{Name: "password", Type: field.TypeString, Nullable: true, Comment: "password"},
+		{Name: "email", Type: field.TypeString, Nullable: true, Comment: "email"},
+		{Name: "phone", Type: field.TypeString, Nullable: true, Comment: "phone"},
+		{Name: "is_certified", Type: field.TypeBool, Nullable: true, Comment: "is certified"},
+		{Name: "is_admin", Type: field.TypeBool, Nullable: true, Comment: "is admin"},
+		{Name: "status", Type: field.TypeInt32, Comment: "status", Default: 1},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "extend properties"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScUserTable holds the schema information for the "sc_user" table.
+	ScUserTable = &schema.Table{
+		Name:       "sc_user",
+		Columns:    ScUserColumns,
+		PrimaryKey: []*schema.Column{ScUserColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserColumns[0]},
+			},
+			{
+				Name:    "user_username",
+				Unique:  true,
+				Columns: []*schema.Column{ScUserColumns[1]},
+			},
+		},
+	}
+	// ScUserProfileColumns holds the columns for the "sc_user_profile" table.
+	ScUserProfileColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
+		{Name: "display_name", Type: field.TypeString, Nullable: true, Comment: "display name"},
+		{Name: "short_bio", Type: field.TypeString, Nullable: true, Comment: "short bio"},
+		{Name: "about", Type: field.TypeString, Nullable: true, Comment: "about"},
+		{Name: "links", Type: field.TypeJSON, Nullable: true, Comment: "social link / more profile"},
+		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "extend properties"},
+	}
+	// ScUserProfileTable holds the schema information for the "sc_user_profile" table.
+	ScUserProfileTable = &schema.Table{
+		Name:       "sc_user_profile",
+		Columns:    ScUserProfileColumns,
+		PrimaryKey: []*schema.Column{ScUserProfileColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userprofile_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserProfileColumns[0]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		SampleTable,
+		ScAuthTokenTable,
+		ScCodeAuthTable,
+		ScDomainTable,
+		ScOauthUserTable,
+		ScUserTable,
+		ScUserProfileTable,
 	}
 )
 
 func init() {
-	SampleTable.Annotation = &entsql.Annotation{
-		Table: "sample",
+	ScAuthTokenTable.Annotation = &entsql.Annotation{
+		Table: "sc_auth_token",
+	}
+	ScCodeAuthTable.Annotation = &entsql.Annotation{
+		Table: "sc_code_auth",
+	}
+	ScDomainTable.Annotation = &entsql.Annotation{
+		Table: "sc_domain",
+	}
+	ScOauthUserTable.Annotation = &entsql.Annotation{
+		Table: "sc_oauth_user",
+	}
+	ScUserTable.Annotation = &entsql.Annotation{
+		Table: "sc_user",
+	}
+	ScUserProfileTable.Annotation = &entsql.Annotation{
+		Table: "sc_user_profile",
 	}
 }

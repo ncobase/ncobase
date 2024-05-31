@@ -64,3 +64,8 @@ func Forbidden(message string, data ...types.JSON) *Exception {
 func InternalServer(message string, data ...types.JSON) *Exception {
 	return newResponse(http.StatusInternalServerError, ecode.ServerErr, message, data...)
 }
+
+// Conflict indicates a conflict error.
+func Conflict(message string, data ...types.JSON) *Exception {
+	return newResponse(http.StatusConflict, ecode.Conflict, message, data...)
+}

@@ -1,36 +1,8 @@
-definitions:
-  resp.Exception:
-    properties:
-      code:
-        description: Business code
-        type: integer
-      data:
-        description: Response data
-      message:
-        description: Message
-        type: string
-      status:
-        description: HTTP status
-        type: integer
-    type: object
 info:
   contact: {}
   description: a modern content management system
   termsOfService: https://stocms.com
   title: stocms
   version: 0.1.0
-paths:
-  /sample/hello:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: ok
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
+paths: {}
 swagger: "2.0"

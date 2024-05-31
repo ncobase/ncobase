@@ -1,7 +1,6 @@
 package jwt
 
 import (
-	"stocms/pkg/nanoid"
 	"stocms/pkg/validator"
 	"time"
 
@@ -78,13 +77,13 @@ func DecodeToken(key, token string) (map[string]any, error) {
 }
 
 // GenerateAccessToken - Generate access token, default expire time is 24 hours
-func GenerateAccessToken(key string, payload map[string]any, subject ...string) (string, error) {
+func GenerateAccessToken(key, jti string, payload map[string]any, subject ...string) (string, error) {
 	defaultSubject := "access"
 	if len(subject) > 0 {
 		defaultSubject = subject[0]
 	}
 	return generateToken(key, &Token{
-		JTI:     nanoid.PrimaryKey()(),
+		JTI:     jti,
 		Payload: payload,
 		Subject: defaultSubject,
 		Expire:  DefaultAccessTokenExpire.Milliseconds(),
@@ -92,13 +91,13 @@ func GenerateAccessToken(key string, payload map[string]any, subject ...string) 
 }
 
 // GenerateRegisterToken - Generate register token, default expire time is 60 minutes
-func GenerateRegisterToken(key string, payload map[string]any, subject ...string) (string, error) {
+func GenerateRegisterToken(key, jti string, payload map[string]any, subject ...string) (string, error) {
 	defaultSubject := "register"
 	if len(subject) > 0 {
 		defaultSubject = subject[0]
 	}
 	return generateToken(key, &Token{
-		JTI:     nanoid.PrimaryKey()(),
+		JTI:     jti,
 		Payload: payload,
 		Subject: defaultSubject,
 		Expire:  DefaultRegisterTokenExpire.Milliseconds(),
@@ -106,13 +105,13 @@ func GenerateRegisterToken(key string, payload map[string]any, subject ...string
 }
 
 // GenerateRefreshToken - Generate refresh token, default expire time is 7 days
-func GenerateRefreshToken(key string, payload map[string]any, subject ...string) (string, error) {
+func GenerateRefreshToken(key, jti string, payload map[string]any, subject ...string) (string, error) {
 	defaultSubject := "refresh"
 	if len(subject) > 0 {
 		defaultSubject = subject[0]
 	}
 	return generateToken(key, &Token{
-		JTI:     nanoid.PrimaryKey()(),
+		JTI:     jti,
 		Payload: payload,
 		Subject: defaultSubject,
 		Expire:  DefaultRefreshTokenExpire.Milliseconds(),

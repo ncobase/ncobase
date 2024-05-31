@@ -3,7 +3,12 @@
 package ent
 
 import (
-	"stocms/internal/data/ent/sample"
+	"stocms/internal/data/ent/authtoken"
+	"stocms/internal/data/ent/codeauth"
+	"stocms/internal/data/ent/domain"
+	"stocms/internal/data/ent/oauthuser"
+	"stocms/internal/data/ent/user"
+	"stocms/internal/data/ent/userprofile"
 	"stocms/internal/data/schema"
 	"time"
 )
@@ -12,25 +17,207 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
-	sampleMixin := schema.Sample{}.Mixin()
-	sampleMixinFields0 := sampleMixin[0].Fields()
-	_ = sampleMixinFields0
-	sampleMixinFields3 := sampleMixin[3].Fields()
-	_ = sampleMixinFields3
-	sampleFields := schema.Sample{}.Fields()
-	_ = sampleFields
-	// sampleDescCreatedAt is the schema descriptor for created_at field.
-	sampleDescCreatedAt := sampleMixinFields3[0].Descriptor()
-	// sample.DefaultCreatedAt holds the default value on creation for the created_at field.
-	sample.DefaultCreatedAt = sampleDescCreatedAt.Default.(func() time.Time)
-	// sampleDescUpdatedAt is the schema descriptor for updated_at field.
-	sampleDescUpdatedAt := sampleMixinFields3[1].Descriptor()
-	// sample.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	sample.DefaultUpdatedAt = sampleDescUpdatedAt.Default.(func() time.Time)
-	// sample.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	sample.UpdateDefaultUpdatedAt = sampleDescUpdatedAt.UpdateDefault.(func() time.Time)
-	// sampleDescID is the schema descriptor for id field.
-	sampleDescID := sampleMixinFields0[0].Descriptor()
-	// sample.DefaultID holds the default value on creation for the id field.
-	sample.DefaultID = sampleDescID.Default.(func() string)
+	authtokenMixin := schema.AuthToken{}.Mixin()
+	authtokenMixinFields0 := authtokenMixin[0].Fields()
+	_ = authtokenMixinFields0
+	authtokenMixinFields2 := authtokenMixin[2].Fields()
+	_ = authtokenMixinFields2
+	authtokenMixinFields3 := authtokenMixin[3].Fields()
+	_ = authtokenMixinFields3
+	authtokenFields := schema.AuthToken{}.Fields()
+	_ = authtokenFields
+	// authtokenDescCreatedAt is the schema descriptor for created_at field.
+	authtokenDescCreatedAt := authtokenMixinFields2[0].Descriptor()
+	// authtoken.DefaultCreatedAt holds the default value on creation for the created_at field.
+	authtoken.DefaultCreatedAt = authtokenDescCreatedAt.Default.(func() time.Time)
+	// authtokenDescUpdatedAt is the schema descriptor for updated_at field.
+	authtokenDescUpdatedAt := authtokenMixinFields2[1].Descriptor()
+	// authtoken.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	authtoken.DefaultUpdatedAt = authtokenDescUpdatedAt.Default.(func() time.Time)
+	// authtoken.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	authtoken.UpdateDefaultUpdatedAt = authtokenDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// authtokenDescUserID is the schema descriptor for user_id field.
+	authtokenDescUserID := authtokenMixinFields3[0].Descriptor()
+	// authtoken.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	authtoken.UserIDValidator = authtokenDescUserID.Validators[0].(func(string) error)
+	// authtokenDescID is the schema descriptor for id field.
+	authtokenDescID := authtokenMixinFields0[0].Descriptor()
+	// authtoken.DefaultID holds the default value on creation for the id field.
+	authtoken.DefaultID = authtokenDescID.Default.(func() string)
+	codeauthMixin := schema.CodeAuth{}.Mixin()
+	codeauthMixinFields0 := codeauthMixin[0].Fields()
+	_ = codeauthMixinFields0
+	codeauthMixinFields4 := codeauthMixin[4].Fields()
+	_ = codeauthMixinFields4
+	codeauthFields := schema.CodeAuth{}.Fields()
+	_ = codeauthFields
+	// codeauthDescCreatedAt is the schema descriptor for created_at field.
+	codeauthDescCreatedAt := codeauthMixinFields4[0].Descriptor()
+	// codeauth.DefaultCreatedAt holds the default value on creation for the created_at field.
+	codeauth.DefaultCreatedAt = codeauthDescCreatedAt.Default.(func() time.Time)
+	// codeauthDescUpdatedAt is the schema descriptor for updated_at field.
+	codeauthDescUpdatedAt := codeauthMixinFields4[1].Descriptor()
+	// codeauth.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	codeauth.DefaultUpdatedAt = codeauthDescUpdatedAt.Default.(func() time.Time)
+	// codeauth.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	codeauth.UpdateDefaultUpdatedAt = codeauthDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// codeauthDescID is the schema descriptor for id field.
+	codeauthDescID := codeauthMixinFields0[0].Descriptor()
+	// codeauth.DefaultID holds the default value on creation for the id field.
+	codeauth.DefaultID = codeauthDescID.Default.(func() string)
+	domainMixin := schema.Domain{}.Mixin()
+	domainMixinFields0 := domainMixin[0].Fields()
+	_ = domainMixinFields0
+	domainMixinFields9 := domainMixin[9].Fields()
+	_ = domainMixinFields9
+	domainMixinFields11 := domainMixin[11].Fields()
+	_ = domainMixinFields11
+	domainMixinFields12 := domainMixin[12].Fields()
+	_ = domainMixinFields12
+	domainMixinFields13 := domainMixin[13].Fields()
+	_ = domainMixinFields13
+	domainFields := schema.Domain{}.Fields()
+	_ = domainFields
+	// domainDescOrder is the schema descriptor for order field.
+	domainDescOrder := domainMixinFields9[0].Descriptor()
+	// domain.DefaultOrder holds the default value on creation for the order field.
+	domain.DefaultOrder = domainDescOrder.Default.(int32)
+	// domain.OrderValidator is a validator for the "order" field. It is called by the builders before save.
+	domain.OrderValidator = domainDescOrder.Validators[0].(func(int32) error)
+	// domainDescExtras is the schema descriptor for extras field.
+	domainDescExtras := domainMixinFields11[0].Descriptor()
+	// domain.DefaultExtras holds the default value on creation for the extras field.
+	domain.DefaultExtras = domainDescExtras.Default.(map[string]interface{})
+	// domainDescCreatedAt is the schema descriptor for created_at field.
+	domainDescCreatedAt := domainMixinFields12[0].Descriptor()
+	// domain.DefaultCreatedAt holds the default value on creation for the created_at field.
+	domain.DefaultCreatedAt = domainDescCreatedAt.Default.(func() time.Time)
+	// domainDescUpdatedAt is the schema descriptor for updated_at field.
+	domainDescUpdatedAt := domainMixinFields12[1].Descriptor()
+	// domain.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	domain.DefaultUpdatedAt = domainDescUpdatedAt.Default.(func() time.Time)
+	// domain.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	domain.UpdateDefaultUpdatedAt = domainDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// domainDescUserID is the schema descriptor for user_id field.
+	domainDescUserID := domainMixinFields13[0].Descriptor()
+	// domain.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	domain.UserIDValidator = domainDescUserID.Validators[0].(func(string) error)
+	// domainDescID is the schema descriptor for id field.
+	domainDescID := domainMixinFields0[0].Descriptor()
+	// domain.DefaultID holds the default value on creation for the id field.
+	domain.DefaultID = domainDescID.Default.(func() string)
+	oauthuserMixin := schema.OAuthUser{}.Mixin()
+	oauthuserMixinFields0 := oauthuserMixin[0].Fields()
+	_ = oauthuserMixinFields0
+	oauthuserMixinFields2 := oauthuserMixin[2].Fields()
+	_ = oauthuserMixinFields2
+	oauthuserMixinFields4 := oauthuserMixin[4].Fields()
+	_ = oauthuserMixinFields4
+	oauthuserMixinFields5 := oauthuserMixin[5].Fields()
+	_ = oauthuserMixinFields5
+	oauthuserMixinFields6 := oauthuserMixin[6].Fields()
+	_ = oauthuserMixinFields6
+	oauthuserFields := schema.OAuthUser{}.Fields()
+	_ = oauthuserFields
+	// oauthuserDescAccessToken is the schema descriptor for access_token field.
+	oauthuserDescAccessToken := oauthuserMixinFields2[0].Descriptor()
+	// oauthuser.AccessTokenValidator is a validator for the "access_token" field. It is called by the builders before save.
+	oauthuser.AccessTokenValidator = oauthuserDescAccessToken.Validators[0].(func(string) error)
+	// oauthuserDescUserID is the schema descriptor for user_id field.
+	oauthuserDescUserID := oauthuserMixinFields4[0].Descriptor()
+	// oauthuser.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	oauthuser.UserIDValidator = oauthuserDescUserID.Validators[0].(func(string) error)
+	// oauthuserDescCreatedAt is the schema descriptor for created_at field.
+	oauthuserDescCreatedAt := oauthuserMixinFields5[0].Descriptor()
+	// oauthuser.DefaultCreatedAt holds the default value on creation for the created_at field.
+	oauthuser.DefaultCreatedAt = oauthuserDescCreatedAt.Default.(func() time.Time)
+	// oauthuserDescUpdatedAt is the schema descriptor for updated_at field.
+	oauthuserDescUpdatedAt := oauthuserMixinFields6[0].Descriptor()
+	// oauthuser.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	oauthuser.DefaultUpdatedAt = oauthuserDescUpdatedAt.Default.(func() time.Time)
+	// oauthuser.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	oauthuser.UpdateDefaultUpdatedAt = oauthuserDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// oauthuserDescID is the schema descriptor for id field.
+	oauthuserDescID := oauthuserMixinFields0[0].Descriptor()
+	// oauthuser.DefaultID holds the default value on creation for the id field.
+	oauthuser.DefaultID = oauthuserDescID.Default.(func() string)
+	userMixin := schema.User{}.Mixin()
+	userMixinFields0 := userMixin[0].Fields()
+	_ = userMixinFields0
+	userMixinFields1 := userMixin[1].Fields()
+	_ = userMixinFields1
+	userMixinFields7 := userMixin[7].Fields()
+	_ = userMixinFields7
+	userMixinFields8 := userMixin[8].Fields()
+	_ = userMixinFields8
+	userMixinFields9 := userMixin[9].Fields()
+	_ = userMixinFields9
+	userMixinFields10 := userMixin[10].Fields()
+	_ = userMixinFields10
+	userFields := schema.User{}.Fields()
+	_ = userFields
+	// userDescUsername is the schema descriptor for username field.
+	userDescUsername := userMixinFields1[0].Descriptor()
+	// user.UsernameValidator is a validator for the "username" field. It is called by the builders before save.
+	user.UsernameValidator = func() func(string) error {
+		validators := userDescUsername.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+			validators[2].(func(string) error),
+		}
+		return func(username string) error {
+			for _, fn := range fns {
+				if err := fn(username); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// userDescStatus is the schema descriptor for status field.
+	userDescStatus := userMixinFields7[0].Descriptor()
+	// user.DefaultStatus holds the default value on creation for the status field.
+	user.DefaultStatus = userDescStatus.Default.(int32)
+	// user.StatusValidator is a validator for the "status" field. It is called by the builders before save.
+	user.StatusValidator = userDescStatus.Validators[0].(func(int32) error)
+	// userDescExtras is the schema descriptor for extras field.
+	userDescExtras := userMixinFields8[0].Descriptor()
+	// user.DefaultExtras holds the default value on creation for the extras field.
+	user.DefaultExtras = userDescExtras.Default.(map[string]interface{})
+	// userDescCreatedAt is the schema descriptor for created_at field.
+	userDescCreatedAt := userMixinFields9[0].Descriptor()
+	// user.DefaultCreatedAt holds the default value on creation for the created_at field.
+	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() time.Time)
+	// userDescUpdatedAt is the schema descriptor for updated_at field.
+	userDescUpdatedAt := userMixinFields10[0].Descriptor()
+	// user.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	user.DefaultUpdatedAt = userDescUpdatedAt.Default.(func() time.Time)
+	// user.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	user.UpdateDefaultUpdatedAt = userDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// userDescID is the schema descriptor for id field.
+	userDescID := userMixinFields0[0].Descriptor()
+	// user.DefaultID holds the default value on creation for the id field.
+	user.DefaultID = userDescID.Default.(func() string)
+	userprofileMixin := schema.UserProfile{}.Mixin()
+	userprofileMixinFields0 := userprofileMixin[0].Fields()
+	_ = userprofileMixinFields0
+	userprofileMixinFields4 := userprofileMixin[4].Fields()
+	_ = userprofileMixinFields4
+	userprofileMixinFields6 := userprofileMixin[6].Fields()
+	_ = userprofileMixinFields6
+	userprofileFields := schema.UserProfile{}.Fields()
+	_ = userprofileFields
+	// userprofileDescLinks is the schema descriptor for links field.
+	userprofileDescLinks := userprofileMixinFields4[0].Descriptor()
+	// userprofile.DefaultLinks holds the default value on creation for the links field.
+	userprofile.DefaultLinks = userprofileDescLinks.Default.([]map[string]interface{})
+	// userprofileDescExtras is the schema descriptor for extras field.
+	userprofileDescExtras := userprofileMixinFields6[0].Descriptor()
+	// userprofile.DefaultExtras holds the default value on creation for the extras field.
+	userprofile.DefaultExtras = userprofileDescExtras.Default.(map[string]interface{})
+	// userprofileDescID is the schema descriptor for id field.
+	userprofileDescID := userprofileMixinFields0[0].Descriptor()
+	// userprofile.DefaultID holds the default value on creation for the id field.
+	userprofile.DefaultID = userprofileDescID.Default.(func() string)
 }

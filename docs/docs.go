@@ -15,51 +15,7 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {
-        "/sample/hello": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "ok",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "resp.Exception": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "Business code",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "Response data"
-                },
-                "message": {
-                    "description": "Message",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "HTTP status",
-                    "type": "integer"
-                }
-            }
-        }
-    }
+    "paths": {}
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it

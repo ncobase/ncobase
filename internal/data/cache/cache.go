@@ -53,15 +53,15 @@ func (c *Cache[T]) Get(ctx context.Context, field string) (*T, error) {
 }
 
 // Set saves data into cache
-func (c *Cache[T]) Set(ctx context.Context, data *T, field string) {
+func (c *Cache[T]) Set(ctx context.Context, field string, data *T) {
 	bytes, err := json.Marshal(data)
 	if validator.IsNotNil(err) {
-		log.Errorf(context.Background(), "failed to Set cache: json.Marshal(%v) error(%v)", data, err)
+		log.Errorf(nil, "failed to Set cache: json.Marshal(%v) error(%v)", data, err)
 		return
 	}
 	err = c.rc.HSet(ctx, c.key, field, string(bytes)).Err()
 	if validator.IsNotNil(err) {
-		log.Errorf(context.Background(), "failed to Set cache: redis.HSet(%v) error(%v)", data, err)
+		log.Errorf(nil, "failed to Set cache: redis.HSet(%v) error(%v)", data, err)
 	}
 }
 
@@ -69,11 +69,11 @@ func (c *Cache[T]) Set(ctx context.Context, data *T, field string) {
 func (c *Cache[T]) Delete(ctx context.Context, field string) {
 	err := c.rc.HDel(ctx, c.key, field).Err()
 	if validator.IsNotNil(err) {
-		log.Errorf(context.Background(), "failed to Delete cache: redis.HDel(%v) field(%v) error(%v)", c.key, field, err)
+		log.Errorf(nil, "failed to Delete cache: redis.HDel(%v) field(%v) error(%v)", c.key, field, err)
 	}
 }
 
 // Reset resets data in cache
-func (c *Cache[T]) Reset(ctx context.Context, data *T, field string) {
-	c.Set(ctx, data, field)
+func (c *Cache[T]) Reset(ctx context.Context, field string, data *T) {
+	c.Set(ctx, field, data)
 }

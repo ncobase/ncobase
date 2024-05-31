@@ -12,8 +12,18 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
-	// Sample is the client for interacting with the Sample builders.
-	Sample *SampleClient
+	// AuthToken is the client for interacting with the AuthToken builders.
+	AuthToken *AuthTokenClient
+	// CodeAuth is the client for interacting with the CodeAuth builders.
+	CodeAuth *CodeAuthClient
+	// Domain is the client for interacting with the Domain builders.
+	Domain *DomainClient
+	// OAuthUser is the client for interacting with the OAuthUser builders.
+	OAuthUser *OAuthUserClient
+	// User is the client for interacting with the User builders.
+	User *UserClient
+	// UserProfile is the client for interacting with the UserProfile builders.
+	UserProfile *UserProfileClient
 
 	// lazily loaded.
 	client     *Client
@@ -145,7 +155,12 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
-	tx.Sample = NewSampleClient(tx.config)
+	tx.AuthToken = NewAuthTokenClient(tx.config)
+	tx.CodeAuth = NewCodeAuthClient(tx.config)
+	tx.Domain = NewDomainClient(tx.config)
+	tx.OAuthUser = NewOAuthUserClient(tx.config)
+	tx.User = NewUserClient(tx.config)
+	tx.UserProfile = NewUserProfileClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -155,7 +170,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: Sample.QueryXXX(), the query will be executed
+// applies a query, for example: AuthToken.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

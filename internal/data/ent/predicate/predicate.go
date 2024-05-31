@@ -6,5 +6,20 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Sample is the predicate function for sample builders.
-type Sample func(*sql.Selector)
+// AuthToken is the predicate function for authtoken builders.
+type AuthToken func(*sql.Selector)
+
+// CodeAuth is the predicate function for codeauth builders.
+type CodeAuth func(*sql.Selector)
+
+// Domain is the predicate function for domain builders.
+type Domain func(*sql.Selector)
+
+// OAuthUser is the predicate function for oauthuser builders.
+type OAuthUser func(*sql.Selector)
+
+// User is the predicate function for user builders.
+type User func(*sql.Selector)
+
+// UserProfile is the predicate function for userprofile builders.
+type UserProfile func(*sql.Selector)

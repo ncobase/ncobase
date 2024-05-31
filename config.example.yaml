@@ -13,6 +13,10 @@ server:
   # Application running port
   port: 3000
 
+frontend:
+  sign_in_url: http://localhost:3000/login
+  sign_up_url: http://localhost:3000/register
+
 data:
   database:
     driver: postgres # postgresql / mysql
