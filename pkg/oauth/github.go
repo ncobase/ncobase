@@ -29,7 +29,7 @@ type GithubToken struct {
 	TokenType    string
 	RefreshToken string
 	Expiry       time.Time
-	Raw          interface{}
+	Raw          any
 }
 
 // GithubTokenJSON is used for unmarshalling the JSON response from GitHub.
@@ -125,7 +125,7 @@ func parseJSONToken(body []byte) (*GithubToken, error) {
 		TokenType:    tokenJSON.TokenType,
 		RefreshToken: tokenJSON.RefreshToken,
 		Expiry:       tokenJSON.expiry(),
-		Raw:          make(map[string]interface{}),
+		Raw:          make(map[string]any),
 	}
 	_ = json.Unmarshal(body, &token.Raw)
 	return token, nil

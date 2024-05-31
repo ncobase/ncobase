@@ -149,7 +149,7 @@ func StartSpan(ctx context.Context, opts ...SpanOption) *Entry {
 	for _, opt := range opts {
 		opt(&o)
 	}
-	fields := map[string]interface{}{
+	fields := map[string]any{
 		VersionKey: version,
 	}
 	if v := FromTraceIDContext(ctx); v != "" {
@@ -169,32 +169,32 @@ func StartSpan(ctx context.Context, opts ...SpanOption) *Entry {
 }
 
 // Debugf writes debug log.
-func Debugf(ctx context.Context, format string, args ...interface{}) {
+func Debugf(ctx context.Context, format string, args ...any) {
 	StartSpan(ctx).Debugf(format, args...)
 }
 
 // Infof writes info log.
-func Infof(ctx context.Context, format string, args ...interface{}) {
+func Infof(ctx context.Context, format string, args ...any) {
 	StartSpan(ctx).Infof(format, args...)
 }
 
 // Printf writes info log.
-func Printf(ctx context.Context, format string, args ...interface{}) {
+func Printf(ctx context.Context, format string, args ...any) {
 	StartSpan(ctx).Printf(format, args...)
 }
 
 // Warnf writes warning log.
-func Warnf(ctx context.Context, format string, args ...interface{}) {
+func Warnf(ctx context.Context, format string, args ...any) {
 	StartSpan(ctx).Warnf(format, args...)
 }
 
 // Errorf writes error log.
-func Errorf(ctx context.Context, format string, args ...interface{}) {
+func Errorf(ctx context.Context, format string, args ...any) {
 	StartSpan(ctx).Errorf(format, args...)
 }
 
 // Fatalf writes fatal error log.
-func Fatalf(ctx context.Context, format string, args ...interface{}) {
+func Fatalf(ctx context.Context, format string, args ...any) {
 	StartSpan(ctx).Fatalf(format, args...)
 }
 
@@ -212,7 +212,7 @@ func newEntry(entry *logrus.Entry) *Entry {
 	return &Entry{entry: entry}
 }
 
-func (e *Entry) checkAndDelete(fields map[string]interface{}, keys ...string) *Entry {
+func (e *Entry) checkAndDelete(fields map[string]any, keys ...string) *Entry {
 	for _, key := range keys {
 		delete(fields, key)
 	}
@@ -220,43 +220,43 @@ func (e *Entry) checkAndDelete(fields map[string]interface{}, keys ...string) *E
 }
 
 // WithFields writes structured fields.
-func (e *Entry) WithFields(fields map[string]interface{}) *Entry {
+func (e *Entry) WithFields(fields map[string]any) *Entry {
 	e.checkAndDelete(fields, TraceIDKey, SpanTitleKey, SpanFunctionKey, VersionKey)
 	return newEntry(e.entry.WithFields(fields))
 }
 
 // WithField writes a structured field.
-func (e *Entry) WithField(key string, value interface{}) *Entry {
-	return e.WithFields(map[string]interface{}{key: value})
+func (e *Entry) WithField(key string, value any) *Entry {
+	return e.WithFields(map[string]any{key: value})
 }
 
 // Fatalf writes a fatal error log.
-func (e *Entry) Fatalf(format string, args ...interface{}) {
+func (e *Entry) Fatalf(format string, args ...any) {
 	e.entry.Fatalf(format, args...)
 }
 
 // Errorf writes an error log.
-func (e *Entry) Errorf(format string, args ...interface{}) {
+func (e *Entry) Errorf(format string, args ...any) {
 	e.entry.Errorf(format, args...)
 }
 
 // Warnf writes a warning log.
-func (e *Entry) Warnf(format string, args ...interface{}) {
+func (e *Entry) Warnf(format string, args ...any) {
 	e.entry.Warnf(format, args...)
 }
 
 // Infof writes an info log.
-func (e *Entry) Infof(format string, args ...interface{}) {
+func (e *Entry) Infof(format string, args ...any) {
 	e.entry.Infof(format, args...)
 }
 
 // Printf writes an info log.
-func (e *Entry) Printf(format string, args ...interface{}) {
+func (e *Entry) Printf(format string, args ...any) {
 	e.entry.Printf(format, args...)
 }
 
 // Debugf writes a debug log.
-func (e *Entry) Debugf(format string, args ...interface{}) {
+func (e *Entry) Debugf(format string, args ...any) {
 	e.entry.Debugf(format, args...)
 }
 
