@@ -8,7 +8,7 @@ import (
 
 // newResponse creates a new response.
 func newResponse(status int, code int, message string, data ...types.JSON) *Exception {
-	var responseData interface{}
+	var responseData any
 	if len(data) > 0 {
 		responseData = data[0]
 	}

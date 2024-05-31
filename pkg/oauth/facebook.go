@@ -35,11 +35,11 @@ type FacebookProfile struct {
 
 // FacebookToken represents a Facebook OAuth token.
 type FacebookToken struct {
-	AccessToken  string      `json:"access_token"`
-	TokenType    string      `json:"token_type"`
-	RefreshToken string      `json:"refresh_token"`
-	Expiry       time.Time   `json:"expiry"`
-	Raw          interface{} `json:"raw"`
+	AccessToken  string    `json:"access_token"`
+	TokenType    string    `json:"token_type"`
+	RefreshToken string    `json:"refresh_token"`
+	Expiry       time.Time `json:"expiry"`
+	Raw          any       `json:"raw"`
 }
 
 // FacebookTokenJSON is used for unmarshalling the JSON response from Facebook.
@@ -148,7 +148,7 @@ func parseFacebookToken(body []byte, contentType string) (*FacebookToken, error)
 			TokenType:    tokenJSON.TokenType,
 			RefreshToken: tokenJSON.RefreshToken,
 			Expiry:       tokenJSON.expiry(),
-			Raw:          make(map[string]interface{}),
+			Raw:          make(map[string]any),
 		}
 		if err := json.Unmarshal(body, &token.Raw); err != nil {
 			return nil, err

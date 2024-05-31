@@ -34,7 +34,7 @@ func UnixMilliToTime(i *int64) *time.Time {
 	return &t
 }
 
-func ToUnixMilli(v interface{}) int64 {
+func ToUnixMilli(v any) int64 {
 	switch t := v.(type) {
 	case float64:
 		return int64(t)

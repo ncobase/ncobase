@@ -1,23 +1,22 @@
 package resp
 
 import (
+	"encoding/json"
 	"net/http"
 	"stocms/pkg/ecode"
 	"stocms/pkg/types"
-
-	"github.com/gin-gonic/gin"
 )
 
 // Exception represents the response structure.
 type Exception struct {
-	Status  int         `json:"status,omitempty"`  // HTTP status
-	Code    int         `json:"code,omitempty"`    // Business code
-	Message string      `json:"message,omitempty"` // Message
-	Data    interface{} `json:"data,omitempty"`    // Response data
+	Status  int    `json:"status,omitempty"`  // HTTP status
+	Code    int    `json:"code,omitempty"`    // Business code
+	Message string `json:"message,omitempty"` // Message
+	Data    any    `json:"data,omitempty"`    // Response data
 }
 
 // response builds the response structure.
-func response(code int, message string, data interface{}) *Exception {
+func response(code int, message string, data any) *Exception {
 	return &Exception{
 		Code:    code,
 		Message: message,
@@ -26,7 +25,7 @@ func response(code int, message string, data interface{}) *Exception {
 }
 
 // fail builds the failure response.
-func fail(r *Exception) (int, interface{}) {
+func fail(r *Exception) (int, any) {
 	status := http.StatusBadRequest
 	code := ecode.RequestErr
 	message := ecode.Text(code)
@@ -45,7 +44,7 @@ func fail(r *Exception) (int, interface{}) {
 }
 
 // success builds the success response.
-func success(r *Exception) (int, interface{}) {
+func success(r *Exception) (int, any) {
 	status := http.StatusOK
 
 	if r != nil {
@@ -61,39 +60,36 @@ func success(r *Exception) (int, interface{}) {
 	return status, types.JSON{"message": "ok"}
 }
 
-// write writes the response based on the specified type.
-func write(context *gin.Context, contextType string, code int, res interface{}) {
+// Write writes the response based on the specified type and status code.
+func write(w http.ResponseWriter, contextType string, code int, res any) {
+	w.WriteHeader(code)
 	switch contextType {
-	case "IndentedJSON":
-		context.IndentedJSON(code, res)
-	case "SecureJSON":
-		context.SecureJSON(code, res)
 	case "JSON":
-		context.JSON(code, res)
-	case "AsciiJSON":
-		context.AsciiJSON(code, res)
-	case "PureJSON":
-		context.PureJSON(code, res)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 	case "XML":
-		context.XML(code, res)
-	case "YAML":
-		context.YAML(code, res)
-	case "ProtoBuf":
-		context.ProtoBuf(code, res)
+		w.Header().Set("Content-Type", "application/xml")
+		// Implement XML encoding here
+	case "Text":
+		w.Header().Set("Content-Type", "text/plain")
+		// Convert res to string if needed and write it to response writer
+	default:
+		// Default to JSON if no contextType matches
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 	}
-	context.Abort()
 }
 
 // Fail handles failure responses.
-func Fail(context *gin.Context, r *Exception) {
+func Fail(w http.ResponseWriter, r *Exception) {
 	contextType := "JSON"
 	statusCode, result := fail(r)
-	write(context, contextType, statusCode, result)
+	write(w, contextType, statusCode, result)
 }
 
 // Success handles success responses.
-func Success(context *gin.Context, r *Exception) {
+func Success(w http.ResponseWriter, r *Exception) {
 	contextType := "JSON"
 	statusCode, result := success(r)
-	write(context, contextType, statusCode, result)
+	write(w, contextType, statusCode, result)
 }
