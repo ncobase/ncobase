@@ -9,8 +9,8 @@ type Logger struct {
 	OutputFile string
 }
 
-func getLog() *Logger {
-	return &Logger{
+func getLoggerConfig() Logger {
+	return Logger{
 		Level:      c.GetInt("logger.level"),
 		Format:     c.GetString("logger.format"),
 		Path:       c.GetString("logger.path"),
