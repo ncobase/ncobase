@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"context"
 	"stocms/internal/service"
 	"stocms/pkg/log"
+	"stocms/pkg/oauth"
 	"stocms/pkg/resp"
 
 	"github.com/gin-gonic/gin"
@@ -11,18 +11,19 @@ import (
 
 // Handler represents a handler definition.
 type Handler struct {
-	svc *service.Service
+	OAuthConfig map[string]oauth.ProviderConfig
+	svc         *service.Service
 }
 
 // New creates a new Handler instance.
 func New(svc *service.Service) *Handler {
-	return &Handler{svc}
+	return &Handler{svc: svc}
 }
 
-// Ping health status
-func (h *Handler) Ping(ctx *gin.Context) {
-	if err := h.svc.Ping(ctx); err != nil {
-		log.Fatalf(context.Background(), "ping error: %+v", err)
+// HealthHandler health status
+func (h *Handler) HealthHandler(c *gin.Context) {
+	if err := h.svc.Ping(c); err != nil {
+		log.Fatalf(nil, "ping error: %+v", err)
 	}
-	resp.Success(ctx, nil)
+	resp.Success(c.Writer, nil)
 }

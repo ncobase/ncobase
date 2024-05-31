@@ -42,9 +42,9 @@ func New(conf *config.Data) (*Data, func(), error) {
 	}
 
 	cleanup := func() {
-		log.Printf(context.Background(), "execute data cleanup.")
+		log.Printf(nil, "execute data cleanup.")
 		if errs := d.Close(); errs != nil {
-			log.Errorf(context.Background(), "cleanup errors: %v", errs)
+			log.Errorf(nil, "cleanup errors: %v", errs)
 		}
 	}
 
@@ -54,7 +54,7 @@ func New(conf *config.Data) (*Data, func(), error) {
 // newRedis creates a new Redis datastore.
 func newRedis(conf *config.Redis) *redis.Client {
 	if conf == nil {
-		log.Fatalf(context.Background(), "redis configuration cannot be nil")
+		log.Fatalf(nil, "redis configuration cannot be nil")
 	}
 	rc = redis.NewClient(&redis.Options{
 		Addr:         conf.Addr,
@@ -70,7 +70,7 @@ func newRedis(conf *config.Redis) *redis.Client {
 	timeout, cancelFunc := context.WithTimeout(context.Background(), conf.DialTimeout)
 	defer cancelFunc()
 	if err := rc.Ping(timeout).Err(); err != nil {
-		log.Fatalf(context.Background(), "redis connect error: %v", err)
+		log.Fatalf(nil, "redis connect error: %v", err)
 	}
 
 	return rc
@@ -90,11 +90,11 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	case "mysql":
 		db, err = sql.Open("mysql", conf.Source)
 	default:
-		log.Fatalf(context.Background(), "Dialect %v not supported.", conf.Driver)
+		log.Fatalf(nil, "Dialect %v not supported.", conf.Driver)
 	}
 
 	if err != nil {
-		log.Fatalf(context.Background(), "Failed to connect to database %v", err)
+		log.Fatalf(nil, "Failed to connect to database %v", err)
 		return nil, nil
 	}
 
@@ -109,7 +109,7 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	// Auto migrate
 	if conf.Migrate {
 		if err = ec.Schema.Create(context.Background(), migrate.WithForeignKeys(false), migrate.WithDropIndex(true), migrate.WithDropColumn(true)); err != nil {
-			log.Fatalf(context.Background(), "data.client.Schema.Create error: %v", err)
+			log.Fatalf(nil, "data.client.Schema.Create error: %v", err)
 		}
 	}
 

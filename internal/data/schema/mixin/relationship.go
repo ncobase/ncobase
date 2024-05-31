@@ -108,6 +108,26 @@ func (DomainID) Indexes() []ent.Index {
 // domain id mixin must implement `Mixin` interface.
 var _ ent.Mixin = (*DomainID)(nil)
 
+// OrganizationID adds organization id field.
+type OrganizationID struct{ ent.Schema }
+
+// Fields of the organization id mixin.
+func (OrganizationID) Fields() []ent.Field {
+	return []ent.Field{
+		field.String("organization_id").Comment("organization id").Optional().MaxLen(nanoid.PrimaryKeySize), // related organization id
+	}
+}
+
+// Indexes of the OrganizationID.
+func (OrganizationID) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("organization_id"),
+	}
+}
+
+// organization id mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*OrganizationID)(nil)
+
 // ParentID adds parent id field.
 type ParentID struct{ ent.Schema }
 

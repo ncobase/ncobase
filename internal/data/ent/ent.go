@@ -7,7 +7,12 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"stocms/internal/data/ent/sample"
+	"stocms/internal/data/ent/authtoken"
+	"stocms/internal/data/ent/codeauth"
+	"stocms/internal/data/ent/domain"
+	"stocms/internal/data/ent/oauthuser"
+	"stocms/internal/data/ent/user"
+	"stocms/internal/data/ent/userprofile"
 	"sync"
 
 	"entgo.io/ent"
@@ -73,7 +78,12 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			sample.Table: sample.ValidColumn,
+			authtoken.Table:   authtoken.ValidColumn,
+			codeauth.Table:    codeauth.ValidColumn,
+			domain.Table:      domain.ValidColumn,
+			oauthuser.Table:   oauthuser.ValidColumn,
+			user.Table:        user.ValidColumn,
+			userprofile.Table: userprofile.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

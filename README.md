@@ -17,7 +17,6 @@ make run
 
 [Golang](https://go.dev), [PostgreSQL](https://www.postgresql.org) / [MySQL](https://www.mysql.com), [Gin](https://github.com/gin-gonic/gin), [ent.](https://entgo.io), [GraphQL](https://graphql.org), [Swagger 2.0](https://github.com/swaggo/gin-swagger)
 
-
 ## Project structure
 
 ```plaintext
@@ -57,7 +56,6 @@ make run
     ├── uuid               # UUID generation
     └── validator          # Validators
 ```
-
 
 ## Documentation
 

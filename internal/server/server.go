@@ -1,7 +1,6 @@
 package server
 
 import (
-	"context"
 	"net/http"
 	"stocms/internal/config"
 	"stocms/internal/data"
@@ -14,7 +13,7 @@ import (
 func New(conf *config.Config) (http.Handler, func(), error) {
 	d, cleanup, err := data.New(&conf.Data)
 	if err != nil {
-		log.Fatalf(context.Background(), "❌ Failed initializing data: %+v", err)
+		log.Fatalf(nil, "❌ Failed initializing data: %+v", err)
 		// panic(err)
 	}
 
@@ -24,7 +23,7 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 	// New HTTP server
 	h, err := newHTTP(conf, handler.New(svc), svc)
 	if err != nil {
-		log.Fatalf(context.Background(), "❌ Failed initializing http: %+v", err)
+		log.Fatalf(nil, "❌ Failed initializing http: %+v", err)
 		// panic(err)
 	}
 

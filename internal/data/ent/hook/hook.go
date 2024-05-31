@@ -8,16 +8,76 @@ import (
 	"stocms/internal/data/ent"
 )
 
-// The SampleFunc type is an adapter to allow the use of ordinary
-// function as Sample mutator.
-type SampleFunc func(context.Context, *ent.SampleMutation) (ent.Value, error)
+// The AuthTokenFunc type is an adapter to allow the use of ordinary
+// function as AuthToken mutator.
+type AuthTokenFunc func(context.Context, *ent.AuthTokenMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f SampleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.SampleMutation); ok {
+func (f AuthTokenFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.AuthTokenMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SampleMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AuthTokenMutation", m)
+}
+
+// The CodeAuthFunc type is an adapter to allow the use of ordinary
+// function as CodeAuth mutator.
+type CodeAuthFunc func(context.Context, *ent.CodeAuthMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CodeAuthFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.CodeAuthMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CodeAuthMutation", m)
+}
+
+// The DomainFunc type is an adapter to allow the use of ordinary
+// function as Domain mutator.
+type DomainFunc func(context.Context, *ent.DomainMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f DomainFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DomainMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DomainMutation", m)
+}
+
+// The OAuthUserFunc type is an adapter to allow the use of ordinary
+// function as OAuthUser mutator.
+type OAuthUserFunc func(context.Context, *ent.OAuthUserMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f OAuthUserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.OAuthUserMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.OAuthUserMutation", m)
+}
+
+// The UserFunc type is an adapter to allow the use of ordinary
+// function as User mutator.
+type UserFunc func(context.Context, *ent.UserMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.UserMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserMutation", m)
+}
+
+// The UserProfileFunc type is an adapter to allow the use of ordinary
+// function as UserProfile mutator.
+type UserProfileFunc func(context.Context, *ent.UserProfileMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserProfileFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.UserProfileMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserProfileMutation", m)
 }
 
 // Condition is a hook condition function.

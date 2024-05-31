@@ -711,3 +711,29 @@ func (ExtensionName) Fields() []ent.Field {
 
 // extension name mixin must implement `Mixin` interface.
 var _ ent.Mixin = (*ExtensionName)(nil)
+
+// Memo adds memo field.
+type Memo struct{ mixin.Schema }
+
+// Fields of the memo mixin.
+func (Memo) Fields() []ent.Field {
+	return []ent.Field{
+		field.Text("memo").Comment("Memo, big text").Optional(),
+	}
+}
+
+// memo mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*Memo)(nil)
+
+// Remark adds remark field.
+type Remark struct{ mixin.Schema }
+
+// Fields of the remark mixin.
+func (Remark) Fields() []ent.Field {
+	return []ent.Field{
+		field.Text("remark").Comment("Remark, big text").Optional(),
+	}
+}
+
+// remark mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*Remark)(nil)
