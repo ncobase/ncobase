@@ -1,6 +1,7 @@
 package config
 
 import (
+	"context"
 	"flag"
 	"os"
 	"path/filepath"
@@ -9,8 +10,9 @@ import (
 )
 
 var (
-	c        *viper.Viper
-	confPath string
+	c            *viper.Viper
+	globalConfig *Config
+	confPath     string
 )
 
 // Config is a struct representing the application's configuration.
@@ -38,7 +40,22 @@ func init() {
 // Init initializes and loads the application configuration.
 func Init() (*Config, error) {
 	flag.Parse()
-	return load(confPath)
+	conf, err := load(confPath)
+	if err == nil {
+		globalConfig = conf
+	}
+	return conf, err
+
+}
+
+// GetConfig returns the application configuration.
+func GetConfig() *Config {
+	return globalConfig
+}
+
+// BindConfigToContext binds the application configuration to the context.
+func BindConfigToContext(ctx context.Context) context.Context {
+	return context.WithValue(ctx, "config", globalConfig)
 }
 
 func load(in string) (*Config, error) {
@@ -69,14 +86,11 @@ func load(in string) (*Config, error) {
 		Port:       c.GetInt("server.port"),
 		JWTSecret:  c.GetString("jwt.secret"),
 		JWTExpTime: c.GetInt("jwt.exp_time"),
-		Logger:     *getLog(),
-		Data: Data{
-			Database: *getDatabase(),
-			Redis:    *getRedis(),
-		},
-		Github:   *getGithub(),
-		Facebook: *getFacebook(),
-		AWS:      *getAWS(),
-		Mailgun:  *getMailgun(),
+		Logger:     getLoggerConfig(),
+		Data:       getDataConfig(),
+		Github:     getGithubConfig(),
+		Facebook:   getFacebookConfig(),
+		AWS:        getAWSConfig(),
+		Mailgun:    getMailgunConfig(),
 	}, err
 }

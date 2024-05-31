@@ -8,8 +8,8 @@ type AWS struct {
 	Bucket          string
 }
 
-func getAWS() *AWS {
-	return &AWS{
+func getAWSConfig() AWS {
+	return AWS{
 		Region:          c.GetString("aws.region"),
 		AccessKey:       c.GetString("aws.access_key"),
 		AccessSecretKey: c.GetString("aws.access_secret"),

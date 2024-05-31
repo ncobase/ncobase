@@ -6,8 +6,8 @@ type Github struct {
 	Secret string
 }
 
-func getGithub() *Github {
-	return &Github{
+func getGithubConfig() Github {
+	return Github{
 		ID:     c.GetString("github.id"),
 		Secret: c.GetString("github.secret"),
 	}
