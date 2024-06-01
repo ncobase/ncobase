@@ -56,3 +56,7 @@ models:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
       - github.com/99designs/gqlgen/graphql.Int32
+  JSON:
+    model:
+      - github.com/99designs/gqlgen/graphql.Map
+      - github.com/99designs/gqlgen/graphql.JSON

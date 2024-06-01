@@ -3,13 +3,7 @@
 scalar Time
 scalar Date
 scalar DateTime
-
-#directive @hasRole(role: Roles!) on FIELD_DEFINITION
-#
-#enum Roles {
-#  OWNER
-#  PERMISSION
-#}
+scalar JSON
 
 input Pagination {
   limit: Int!
@@ -27,18 +21,15 @@ input Sort {
   order: SortOrder! = DESC
 }
 
-#schema {
-#    query: Query
-#    mutation: Mutation
-#    # subscription: Subscription
-#}
-#
-#type Query {
-#
-#}
-#
-#type Mutation {
-#
-#}
+schema {
+  query: Query
+  mutation: Mutation
+}
 
-# type Subscription {}
+type Query {
+  dummyQueryField: Boolean
+}
+
+type Mutation {
+  dummyMutationField: Boolean
+}

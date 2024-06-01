@@ -8,6 +8,44 @@ import (
 	"strconv"
 )
 
+type AuthPayload struct {
+	Token *string `json:"token,omitempty"`
+	User  *User   `json:"user,omitempty"`
+}
+
+type Domain struct {
+	ID          string                 `json:"id"`
+	Name        *string                `json:"name,omitempty"`
+	Title       *string                `json:"title,omitempty"`
+	URL         *string                `json:"url,omitempty"`
+	Logo        *string                `json:"logo,omitempty"`
+	LogoAlt     *string                `json:"logoAlt,omitempty"`
+	Keywords    []*string              `json:"keywords,omitempty"`
+	Copyright   *string                `json:"copyright,omitempty"`
+	Description *string                `json:"description,omitempty"`
+	Order       *int                   `json:"order,omitempty"`
+	Disabled    *bool                  `json:"disabled,omitempty"`
+	Extras      map[string]interface{} `json:"extras,omitempty"`
+	User        *User                  `json:"user,omitempty"`
+}
+
+type DomainInput struct {
+	Name        *string                `json:"name,omitempty"`
+	Title       *string                `json:"title,omitempty"`
+	URL         *string                `json:"url,omitempty"`
+	Logo        *string                `json:"logo,omitempty"`
+	LogoAlt     *string                `json:"logoAlt,omitempty"`
+	Keywords    []*string              `json:"keywords,omitempty"`
+	Copyright   *string                `json:"copyright,omitempty"`
+	Description *string                `json:"description,omitempty"`
+	Order       *int                   `json:"order,omitempty"`
+	Disabled    *bool                  `json:"disabled,omitempty"`
+	Extras      map[string]interface{} `json:"extras,omitempty"`
+}
+
+type Mutation struct {
+}
+
 type Pagination struct {
 	Limit  int  `json:"limit"`
 	Offset int  `json:"offset"`
@@ -17,9 +55,43 @@ type Pagination struct {
 type Query struct {
 }
 
+type RegisterInput struct {
+	RegisterToken string  `json:"registerToken"`
+	DisplayName   string  `json:"displayName"`
+	Username      string  `json:"username"`
+	Phone         *string `json:"phone,omitempty"`
+	ShortBio      *string `json:"shortBio,omitempty"`
+}
+
+type SendCodeInput struct {
+	Email *string `json:"email,omitempty"`
+	Phone *string `json:"phone,omitempty"`
+}
+
 type Sort struct {
 	SortBy string    `json:"sort_by"`
 	Order  SortOrder `json:"order"`
+}
+
+type User struct {
+	ID          string       `json:"id"`
+	Username    string       `json:"username"`
+	Email       *string      `json:"email,omitempty"`
+	Phone       *string      `json:"phone,omitempty"`
+	IsCertified *bool        `json:"isCertified,omitempty"`
+	IsAdmin     *bool        `json:"isAdmin,omitempty"`
+	Profile     *UserProfile `json:"profile,omitempty"`
+	CreatedAt   *string      `json:"createdAt,omitempty"`
+	UpdatedAt   *string      `json:"updatedAt,omitempty"`
+}
+
+type UserProfile struct {
+	ID           *string   `json:"id,omitempty"`
+	DisplayName  *string   `json:"displayName,omitempty"`
+	ShortBio     *string   `json:"shortBio,omitempty"`
+	About        *string   `json:"about,omitempty"`
+	Thumbnail    *string   `json:"thumbnail,omitempty"`
+	ProfileLinks []*string `json:"profileLinks,omitempty"`
 }
 
 type SortOrder string

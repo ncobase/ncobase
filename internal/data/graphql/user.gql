@@ -1,0 +1,25 @@
+extend type Query {
+  account: User
+  user(id: String!): User
+}
+
+type User {
+  id: String!
+  username: String!
+  email: String
+  phone: String
+  isCertified: Boolean
+  isAdmin: Boolean
+  profile: UserProfile
+  createdAt: String
+  updatedAt: String
+}
+
+type UserProfile {
+  id: String
+  displayName: String
+  shortBio: String
+  about: String
+  thumbnail: String
+  profileLinks: [String]
+}

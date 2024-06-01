@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"errors"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/structs"
@@ -41,8 +42,7 @@ func (svc *Service) readUser(c *gin.Context, userID string) (*resp.Exception, er
 }
 
 // findUserByID - Internal method to find user by ID
-func (svc *Service) findUserByID(c *gin.Context, id string) (structs.User, error) {
-	ctx := helper.FromGinContext(c)
+func (svc *Service) findUserByID(ctx context.Context, id string) (structs.User, error) {
 	user, err := svc.user.GetByID(ctx, id)
 	if err != nil {
 		return structs.User{}, err

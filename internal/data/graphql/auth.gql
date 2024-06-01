@@ -1,0 +1,23 @@
+extend type Mutation {
+  register(input: RegisterInput!): AuthPayload
+  sendAuthorizeCode(input: SendCodeInput!): Boolean
+  authorize(code: String!): AuthPayload
+}
+
+input RegisterInput {
+  registerToken: String!
+  displayName: String!
+  username: String!
+  phone: String
+  shortBio: String
+}
+
+input SendCodeInput {
+  email: String
+  phone: String
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
