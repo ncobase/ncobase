@@ -25,3 +25,18 @@ func (h *Handler) ReadMeHandler(c *gin.Context) {
 	}
 	resp.Success(c.Writer, result)
 }
+
+// // UpdateUserHandler Update user handler
+// func (h *Handler) UpdateUserHandler(c *gin.Context) {
+// 	var body *structs.UserRequestBody
+// 	if err := c.ShouldBind(&body); err != nil {
+// 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+// 		return
+// 	}
+// 	result, err := h.svc.UpdateUserService(c, body)
+// 	if err != nil {
+// 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+// 		return
+// 	}
+// 	resp.Success(c.Writer, result)
+// }

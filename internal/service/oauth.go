@@ -62,7 +62,7 @@ func (svc *Service) OAuthRegisterService(c *gin.Context, body *structs.OAuthRegi
 	if user, err := svc.createUserEntities(ctx, tx, body, payload); err != nil {
 		return err, nil
 	} else {
-		return svc.generateAndSetTokens(c, tx, &structs.ReadUser{ID: user.ID}), tx.Commit()
+		return svc.generateAndSetTokens(c, tx, &structs.User{ID: user.ID}), tx.Commit()
 	}
 }
 
@@ -91,10 +91,11 @@ func (svc *Service) checkUserExistence(tx *ent.Tx, username, email string) (stri
 
 // createUserEntities - Create user and related entities
 func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *structs.OAuthRegisterBody, payload structs.RegisterTokenBody) (*ent.User, *resp.Exception) {
-	user, err := svc.user.Create(ctx, &structs.CreateUserBody{
+	user, err := svc.user.Create(ctx, &structs.UserRequestBody{
 		Username: body.Username,
 		Email:    payload.Profile.Email,
 		Phone:    body.Phone,
+		Action:   "create",
 	})
 	if err != nil {
 		return nil, resp.InternalServer(err.Error())
@@ -135,10 +136,11 @@ func (svc *Service) createOAuthUser(ctx context.Context, tx *ent.Tx, payload str
 
 // createUserProfile - Create user profile
 func (svc *Service) createUserProfile(ctx context.Context, userID, displayName, shortBio string) *resp.Exception {
-	_, err := svc.user.CreateProfile(ctx, &structs.CreateProfileBody{
+	_, err := svc.user.CreateProfile(ctx, &structs.UserRequestBody{
 		UserID:      userID,
 		DisplayName: displayName,
 		ShortBio:    shortBio,
+		Action:      "profile",
 	})
 	if err != nil {
 		return resp.InternalServer(err.Error())
@@ -147,7 +149,7 @@ func (svc *Service) createUserProfile(ctx context.Context, userID, displayName, 
 }
 
 // generateAndSetTokens - Generate and set tokens
-func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *structs.ReadUser) *resp.Exception {
+func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *structs.User) *resp.Exception {
 	conf := helper.GetConfig(c)
 	authToken, err := tx.AuthToken.Create().SetUserID(user.ID).Save(context.Background())
 	if err != nil {
@@ -281,7 +283,7 @@ func (svc *Service) handleExistingOAuthUser(c *gin.Context, tx *ent.Tx, oauthUse
 // handleNewOAuthUser - Handle new OAuth user
 func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oauth.Profile, token, provider string) (*resp.Exception, error) {
 	conf := helper.GetConfig(c)
-	user, err := svc.findUser(c, &structs.UserKey{Email: profile.Email})
+	user, err := svc.findUser(c, &structs.FindUser{Email: profile.Email})
 	if err != nil {
 		return resp.InternalServer(err.Error()), nil
 	}

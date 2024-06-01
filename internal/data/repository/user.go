@@ -18,12 +18,12 @@ import (
 
 // User represents the user repository interface.
 type User interface {
-	Create(ctx context.Context, body *structs.CreateUserBody) (*ent.User, error)
-	CreateProfile(ctx context.Context, body *structs.CreateProfileBody) (*ent.UserProfile, error)
+	Create(ctx context.Context, body *structs.UserRequestBody) (*ent.User, error)
+	CreateProfile(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error)
 	GetByID(ctx context.Context, id string) (*ent.User, error)
-	Find(ctx context.Context, m *structs.UserKey) (*ent.User, error)
+	Find(ctx context.Context, m *structs.FindUser) (*ent.User, error)
 	GetProfile(ctx context.Context, id string) (*ent.UserProfile, error)
-	Existed(ctx context.Context, m *structs.UserKey) bool
+	Existed(ctx context.Context, m *structs.FindUser) bool
 	Delete(ctx context.Context, id string) error
 }
 
@@ -42,7 +42,7 @@ func NewUser(d *data.Data) User {
 }
 
 // Create - Create user
-func (r *userRepo) Create(ctx context.Context, body *structs.CreateUserBody) (*ent.User, error) {
+func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*ent.User, error) {
 	countUser := r.ec.User.Query().CountX(ctx)
 
 	row, err := r.ec.User.
@@ -63,7 +63,7 @@ func (r *userRepo) Create(ctx context.Context, body *structs.CreateUserBody) (*e
 }
 
 // CreateProfile - Create user profile
-func (r *userRepo) CreateProfile(ctx context.Context, body *structs.CreateProfileBody) (*ent.UserProfile, error) {
+func (r *userRepo) CreateProfile(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error) {
 	row, err := r.ec.UserProfile.
 		Create().
 		SetID(body.UserID).
@@ -106,7 +106,7 @@ func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 }
 
 // Find - Find user by username, email, or phone
-func (r *userRepo) Find(ctx context.Context, m *structs.UserKey) (*ent.User, error) {
+func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, error) {
 	params := url.Values{}
 	if validator.IsNotEmpty(m.Username) {
 		params.Set("username", m.Username)
@@ -160,7 +160,7 @@ func (r *userRepo) GetProfile(ctx context.Context, id string) (*ent.UserProfile,
 }
 
 // Existed - Verify user existed by username, email, or phone
-func (r *userRepo) Existed(ctx context.Context, m *structs.UserKey) bool {
+func (r *userRepo) Existed(ctx context.Context, m *structs.FindUser) bool {
 	return r.ec.User.Query().Where(user.Or(user.UsernameEQ(m.Username), user.EmailEQ(m.Email), user.PhoneEQ(m.Phone))).ExistX(ctx)
 }
 

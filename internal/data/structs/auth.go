@@ -1,8 +1,6 @@
 package structs
 
-import (
-	"stocms/pkg/oauth"
-)
+import "stocms/pkg/oauth"
 
 // SendCodeBody Send verify code body
 type SendCodeBody struct {
@@ -12,25 +10,27 @@ type SendCodeBody struct {
 
 // CodeParams Verify code param
 type CodeParams struct {
-	Code string `json:"code" binging:"required"`
+	Code string `json:"code" binding:"required"`
+}
+
+// CommonRegisterBody Common fields for register body
+type CommonRegisterBody struct {
+	DisplayName string `json:"display_name" binding:"required"`
+	Username    string `json:"username" binding:"required"`
+	Phone       string `json:"phone,omitempty"`
+	ShortBio    string `json:"short_bio,omitempty"`
 }
 
 // RegisterBody Register body
 type RegisterBody struct {
+	CommonRegisterBody
 	RegisterToken string `json:"register_token" binding:"required"`
-	DisplayName   string `json:"display_name" binding:"required"`
-	Username      string `json:"username" binding:"required"`
-	Phone         string `json:"phone"`
-	ShortBio      string `json:"short_bio"`
 }
 
 // OAuthRegisterBody OAuth register body
 type OAuthRegisterBody struct {
-	RegisterToken string `json:"register_token"`
-	DisplayName   string `json:"display_name" binding:"required"`
-	Username      string `json:"username" binding:"required"`
-	ShortBio      string `json:"short_bio"`
-	Phone         string `json:"phone"`
+	CommonRegisterBody
+	RegisterToken string `json:"register_token,omitempty"`
 }
 
 // RegisterTokenBody Register token body
