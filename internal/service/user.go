@@ -41,11 +41,11 @@ func (svc *Service) readUser(c *gin.Context, userID string) (*resp.Exception, er
 }
 
 // findUserByID - Internal method to find user by ID
-func (svc *Service) findUserByID(c *gin.Context, id string) (structs.ReadUser, error) {
+func (svc *Service) findUserByID(c *gin.Context, id string) (structs.User, error) {
 	ctx := helper.FromGinContext(c)
 	user, err := svc.user.GetByID(ctx, id)
 	if err != nil {
-		return structs.ReadUser{}, err
+		return structs.User{}, err
 	}
 
 	profile, _ := svc.user.GetProfile(ctx, user.ID)
@@ -53,15 +53,15 @@ func (svc *Service) findUserByID(c *gin.Context, id string) (structs.ReadUser, e
 }
 
 // findUser - Internal method to find user by username, email, or phone
-func (svc *Service) findUser(c *gin.Context, m *structs.UserKey) (structs.ReadUser, error) {
+func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.User, error) {
 	ctx := helper.FromGinContext(c)
-	user, err := svc.user.Find(ctx, &structs.UserKey{
+	user, err := svc.user.Find(ctx, &structs.FindUser{
 		Username: m.Username,
 		Email:    m.Email,
 		Phone:    m.Phone,
 	})
 	if err != nil {
-		return structs.ReadUser{}, err
+		return structs.User{}, err
 	}
 
 	profile, _ := svc.user.GetProfile(ctx, user.ID)
@@ -69,8 +69,8 @@ func (svc *Service) findUser(c *gin.Context, m *structs.UserKey) (structs.ReadUs
 }
 
 // serializeUser - Serialize user
-func (svc *Service) serializeUser(user *ent.User, profile *ent.UserProfile) structs.ReadUser {
-	readUser := structs.ReadUser{
+func (svc *Service) serializeUser(user *ent.User, profile *ent.UserProfile) structs.User {
+	readUser := structs.User{
 		ID:          user.ID,
 		Username:    user.Username,
 		Email:       user.Email,
@@ -82,7 +82,7 @@ func (svc *Service) serializeUser(user *ent.User, profile *ent.UserProfile) stru
 	}
 
 	if profile != nil {
-		readUser.Profile = &structs.UserProfileSchema{
+		readUser.Profile = &structs.UserProfile{
 			DisplayName: profile.DisplayName,
 			ShortBio:    profile.ShortBio,
 		}

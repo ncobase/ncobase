@@ -42,21 +42,19 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	authorize.POST("/send", h.SendCodeHandler)
 	// verify the verification code to obtain a register token or access token
 	authorize.GET("/:code", h.CodeAuthHandler)
-	// verify authorization and return current user
-	authorize.GET("", middleware.Authorized, h.ReadMeHandler)
 
-	// // ****** Account
+	// ****** Account
 	account := v1.Group("/account", middleware.Authorized)
-	// current user，with /authorize same
+	// current user
 	account.GET("", h.ReadMeHandler)
-	// // update current user
-	// // account.PUT("", h.UpdateMeHandler)
+	// update current user
+	// account.PUT("", h.UpdateMeHandler)
 	// get domains of current user
 	// account.GET("/domains", h.AccountDomainHandler)
 	// get domain detail of current user
 	account.GET("/domains/:id", h.ReadDomainHandler)
-	//
-	// // ****** User
+
+	// ****** User
 	user := v1.Group("/users", middleware.Authorized)
 	// get detail of user
 	user.GET("/:id", h.ReadUserHandler)
@@ -76,7 +74,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// update domain of the user
 	// user.PUT("/domains", h.UpdateDomainHandler)
 
-	// // ****** OAuth register callback and redirect
+	// ****** OAuth register callback and redirect
 	// oauth := v1.Group("/oauth")
 	// oauth.POST("/signup", h.OAuthRegisterHandler)
 	// oauth.GET("/profile", h.GetOAuthProfileHandler)
@@ -84,7 +82,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
 	// oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
 	//
-	// // ****** Domain TODO
+	// ****** Domain TODO
 	// domain := v1.Group("/domains", middleware.Authorized)
 	// // get config params of domain
 	// domain.GET("/params", h.Ping)

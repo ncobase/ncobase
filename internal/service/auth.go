@@ -34,13 +34,13 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 	}
 
 	// Verify user existence
-	exists, err := svc.user.Find(ctx, &structs.UserKey{
+	exists, err := svc.user.Find(ctx, &structs.FindUser{
 		Username: body.Username,
 		Email:    payload["email"].(string),
 		Phone:    body.Phone,
 	})
 	if exists != nil {
-		return resp.Conflict(getExistMessage(&structs.UserKey{
+		return resp.Conflict(getExistMessage(&structs.FindUser{
 			Username: exists.Username,
 			Email:    exists.Email,
 			Phone:    exists.Phone,
@@ -110,7 +110,7 @@ func decodeRegisterToken(secret, token string) (types.JSON, error) {
 	return decoded["payload"].(types.JSON), nil
 }
 
-func getExistMessage(exists *structs.UserKey, body *structs.RegisterBody) string {
+func getExistMessage(exists *structs.FindUser, body *structs.RegisterBody) string {
 	switch {
 	case exists.Username == body.Username:
 		return "username already exists"
@@ -127,18 +127,20 @@ func disableCodeAuth(ctx context.Context, client *ent.Client, id string) error {
 }
 
 func createUserAndProfile(ctx context.Context, svc *Service, body *structs.RegisterBody, payload types.JSON) (*ent.User, error) {
-	user, err := svc.user.Create(ctx, &structs.CreateUserBody{
+	user, err := svc.user.Create(ctx, &structs.UserRequestBody{
 		Username: body.Username,
 		Email:    payload["email"].(string),
 		Phone:    body.Phone,
+		Action:   "create",
 	})
 	if err != nil {
 		return nil, err
 	}
-	_, err = svc.user.CreateProfile(ctx, &structs.CreateProfileBody{
+	_, err = svc.user.CreateProfile(ctx, &structs.UserRequestBody{
 		UserID:      user.ID,
 		DisplayName: body.DisplayName,
 		ShortBio:    body.ShortBio,
+		Action:      "profile",
 	})
 	if err != nil {
 		return nil, err
@@ -164,7 +166,7 @@ func (svc *Service) CodeAuthService(c *gin.Context, code string) (*resp.Exceptio
 		return resp.Forbidden("EXPIRED_CODE"), nil
 	}
 
-	user, err := svc.user.Find(ctx, &structs.UserKey{Email: codeAuth.Email})
+	user, err := svc.user.Find(ctx, &structs.FindUser{Email: codeAuth.Email})
 	if ent.IsNotFound(err) {
 		return sendRegisterMail(c, conf, codeAuth)
 	}
@@ -222,7 +224,7 @@ func (svc *Service) SendCodeService(c *gin.Context, body *structs.SendCodeBody) 
 	ctx := helper.FromGinContext(c)
 	client := svc.d.GetEntClient()
 
-	user, _ := svc.user.Find(ctx, &structs.UserKey{Email: body.Email, Phone: body.Phone})
+	user, _ := svc.user.Find(ctx, &structs.FindUser{Email: body.Email, Phone: body.Phone})
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return resp.Transactions(err.Error()), nil
