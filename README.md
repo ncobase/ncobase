@@ -4,7 +4,7 @@
 
 ```shell
 # go mod
-go mod download
+go mod tidy
 
 # generate
 make generate
@@ -42,12 +42,12 @@ make run
     ├── consts             # Constants
     ├── cookie             # Cookie handling
     ├── ecode              # Error codes
-│   ├── email              # Email related logic
+    ├── email              # Email related logic
     ├── encrypt            # Encryption
     ├── jwt                # JWT handling
     ├── log                # Logging
     ├── nanoid             # NanoID generation
-│   ├── oauth              # OAuth related logic
+    ├── oauth              # OAuth related logic
     ├── resp               # Response handling
     ├── slug               # Slug generation
     ├── time               # Time utilities
