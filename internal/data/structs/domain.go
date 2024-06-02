@@ -2,6 +2,12 @@ package structs
 
 import "stocms/pkg/types"
 
+// FindDomain represents the parameters for finding a domain.
+type FindDomain struct {
+	ID     string `json:"id,omitempty"`
+	UserID string `json:"user_id,omitempty"`
+}
+
 // DomainBody - Common fields for creating and updating domains
 type DomainBody struct {
 	Name        string     `json:"name,omitempty"`

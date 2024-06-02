@@ -1,7 +1,13 @@
 extend type Mutation {
+  login(input: LoginInput!): AuthPayload
   register(input: RegisterInput!): AuthPayload
   sendAuthorizeCode(input: SendCodeInput!): Boolean
   authorize(code: String!): AuthPayload
+}
+
+input LoginInput {
+  username: String!
+  password: String!
 }
 
 input RegisterInput {
@@ -18,6 +24,7 @@ input SendCodeInput {
 }
 
 type AuthPayload {
-  token: String
-  user: User
+  id: String
+  access_token: String
+  refresh_token: String
 }

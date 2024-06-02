@@ -15,6 +15,7 @@ import (
 	"stocms/pkg/nanoid"
 	"stocms/pkg/resp"
 	"stocms/pkg/types"
+	"stocms/pkg/validator"
 	"strings"
 	"time"
 
@@ -113,11 +114,11 @@ func decodeRegisterToken(secret, token string) (types.JSON, error) {
 func getExistMessage(exists *structs.FindUser, body *structs.RegisterBody) string {
 	switch {
 	case exists.Username == body.Username:
-		return "username already exists"
+		return "Username already exists"
 	case exists.Phone == body.Phone:
-		return "phone already exists"
+		return "Phone already exists"
 	default:
-		return "email already exists"
+		return "Email already exists"
 	}
 }
 
@@ -208,7 +209,7 @@ func generateTokensForUser(c *gin.Context, client *ent.Client, user *ent.User, d
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil
 		}
-		return resp.InternalServer("authorize is not created"), nil
+		return resp.InternalServer("Authorize is not created"), nil
 	}
 	cookie.Set(c.Writer, accessToken, refreshToken, domain)
 	return &resp.Exception{
@@ -269,4 +270,38 @@ func sendAuthEmail(c *gin.Context, e, code string, registered bool) error {
 		From:   conf.Mailgun.From,
 	}, e, template)
 	return err
+}
+
+// LoginService - Login service
+func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp.Exception, error) {
+	ctx := helper.FromGinContext(c)
+	conf := helper.GetConfig(c)
+	client := svc.d.GetEntClient()
+
+	user, err := svc.user.FindUser(ctx, &structs.FindUser{Username: body.Username})
+	if err != nil {
+		return resp.InternalServer(err.Error()), nil
+	}
+
+	if user.Status != 0 {
+		return resp.Forbidden("Your account has not been activated"), nil
+	}
+
+	verifyResult := svc.verifyUserPassword(c, user.ID, body.Password)
+	switch v := verifyResult.(type) {
+	case VerifyPasswordResult:
+		if v.Valid == false {
+			return resp.BadRequest(v.Error), nil
+		} else if v.Valid && v.NeedsPasswordSet == true {
+			// The user has not set a password and the mailbox is empty
+			if validator.IsEmpty(user.Email) {
+				return resp.BadRequest("Has not set a password, and the mailbox is empty, please contact the administrator"), nil
+			}
+			return svc.SendCodeService(c, &structs.SendCodeBody{Email: user.Email})
+		}
+	case error:
+		return resp.InternalServer(v.Error()), nil
+	}
+
+	return generateTokensForUser(c, client, user, conf.Domain)
 }

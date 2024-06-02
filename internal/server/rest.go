@@ -31,6 +31,8 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	v1 := e.Group("/v1")
 
 	// ****** Authentication
+	// sign in, use username / email / phone and password
+	v1.POST("/login", h.LoginHandler)
 	// sign up
 	v1.POST("/register", h.RegisterHandler)
 	// logout
@@ -49,15 +51,15 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	account.GET("", h.ReadMeHandler)
 	// update current user
 	// account.PUT("", h.UpdateMeHandler)
-	// get domains of current user
-	// account.GET("/domains", h.AccountDomainHandler)
 	// get domain detail of current user
-	account.GET("/domains/:id", h.ReadDomainHandler)
+	account.GET("/domain", h.AccountDomainHandler)
+
+	account.POST("/password", h.UpdatePasswordHandler)
 
 	// ****** User
-	user := v1.Group("/users", middleware.Authorized)
+	// user := v1.Group("/users", middleware.Authorized)
 	// get detail of user
-	user.GET("/:id", h.ReadUserHandler)
+	// user.GET("/:id", h.ReadUserHandler)
 
 	// // get user setting TODO
 	// user.GET("/settings", h.Ping)

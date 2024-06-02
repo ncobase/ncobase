@@ -12,7 +12,7 @@ type Status struct{ mixin.Schema }
 // Fields of the status mixin.
 func (Status) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("status").Comment("status").Default(1).Positive(), // status
+		field.Int32("status").Comment("status").Default(0).Positive(), // status
 	}
 }
 

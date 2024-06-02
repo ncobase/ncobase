@@ -6,10 +6,11 @@ import (
 	"net/url"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
-	"stocms/internal/data/ent/user"
+	userEnt "stocms/internal/data/ent/user"
 	userProfileEnt "stocms/internal/data/ent/userprofile"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
+	"stocms/pkg/crypto"
 	"stocms/pkg/log"
 	"stocms/pkg/validator"
 
@@ -25,6 +26,8 @@ type User interface {
 	GetProfile(ctx context.Context, id string) (*ent.UserProfile, error)
 	Existed(ctx context.Context, m *structs.FindUser) bool
 	Delete(ctx context.Context, id string) error
+	UpdatePassword(ctx context.Context, p *structs.UserRequestBody) error
+	FindUser(ctx context.Context, p *structs.FindUser) (*ent.User, error) // not use cache
 }
 
 // userRepo implements the User interface.
@@ -89,10 +92,7 @@ func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 	}
 
 	// If not found in cache, query the database
-	row, err := r.ec.User.
-		Query().
-		Where(user.IDEQ(id)).
-		Only(ctx)
+	row, err := r.FindUser(ctx, &structs.FindUser{ID: id})
 
 	if err != nil {
 		log.Errorf(nil, "userRepo.GetByID error: %v\n", err)
@@ -128,14 +128,7 @@ func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, er
 	}
 
 	// If not found in cache, query the database
-	row, err := r.ec.User.
-		Query().
-		Where(user.Or(
-			user.UsernameEQ(m.Username),
-			user.EmailEQ(m.Email),
-			user.PhoneEQ(m.Phone),
-		)).
-		Only(ctx)
+	row, err := r.FindUser(ctx, m)
 
 	if err != nil {
 		log.Errorf(nil, "userRepo.Find error: %v\n", err)
@@ -167,7 +160,7 @@ func (r *userRepo) GetProfile(ctx context.Context, id string) (*ent.UserProfile,
 
 // Existed - Verify user existed by username, email, or phone
 func (r *userRepo) Existed(ctx context.Context, m *structs.FindUser) bool {
-	return r.ec.User.Query().Where(user.Or(user.UsernameEQ(m.Username), user.EmailEQ(m.Email), user.PhoneEQ(m.Phone))).ExistX(ctx)
+	return r.ec.User.Query().Where(userEnt.Or(userEnt.UsernameEQ(m.Username), userEnt.EmailEQ(m.Email), userEnt.PhoneEQ(m.Phone))).ExistX(ctx)
 }
 
 // Delete - Delete user
@@ -186,3 +179,63 @@ func (r *userRepo) Delete(ctx context.Context, id string) error {
 
 	return nil
 }
+
+// UpdatePassword - update user password.
+func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBody) error {
+	row, err := r.FindUser(ctx, &structs.FindUser{ID: p.UserID})
+	if validator.IsNotNil(err) {
+		return err
+	}
+
+	// create builder.
+	builder := row.Update()
+
+	ph, err := crypto.HashPassword(ctx, p.NewPassword)
+	if validator.IsNotNil(err) {
+		return err
+	}
+
+	builder.SetPassword(ph)
+
+	// execute the builder.
+	_, err = builder.Save(ctx)
+	if validator.IsNotNil(err) {
+		return err
+	}
+
+	return nil
+}
+
+func (r *userRepo) FindUser(ctx context.Context, p *structs.FindUser) (*ent.User, error) {
+	// create builder.
+	builder := r.ec.User.Query()
+
+	if validator.IsNotEmpty(p.ID) {
+		builder = builder.Where(userEnt.IDEQ(p.ID))
+	}
+
+	if validator.IsNotEmpty(p.Username) {
+		// username value could be username, email, or phone
+		builder = builder.Where(userEnt.Or(
+			userEnt.UsernameEQ(p.Username),
+			userEnt.EmailEQ(p.Username),
+			userEnt.PhoneEQ(p.Username),
+		))
+	}
+	if validator.IsNotEmpty(p.Email) {
+		builder = builder.Where(userEnt.EmailEQ(p.Email))
+	}
+	if validator.IsNotEmpty(p.Phone) {
+		builder = builder.Where(userEnt.PhoneEQ(p.Phone))
+	}
+
+	// execute the builder.
+	row, err := builder.Only(ctx)
+	if validator.IsNotNil(err) {
+		return nil, err
+	}
+
+	return row, nil
+}
+
+// ****** Internal methods of repository
