@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"stocms/internal/data"
-	"stocms/internal/data/cache"
 	"stocms/internal/data/ent"
 	domainEnt "stocms/internal/data/ent/domain"
 	"stocms/internal/data/structs"
+	"stocms/pkg/cache"
 	"stocms/pkg/log"
 	"stocms/pkg/validator"
 	"strings"
@@ -39,7 +39,7 @@ type domainRepo struct {
 func NewDomain(d *data.Data) Domain {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &domainRepo{ec, rc, cache.NewCache[ent.Domain](rc, cache.Key("domain"))}
+	return &domainRepo{ec, rc, cache.NewCache[ent.Domain](rc, cache.Key("sc_domain"), true)}
 }
 
 // Create create domain
@@ -95,7 +95,10 @@ func (r *domainRepo) GetByID(ctx context.Context, id string) (*ent.Domain, error
 	}
 
 	// Cache the result
-	r.c.Set(ctx, cacheKey, row)
+	err = r.c.Set(ctx, cacheKey, row)
+	if err != nil {
+		log.Errorf(nil, "domainRepo.GetByID cache error: %v\n", err)
+	}
 
 	return row, nil
 }
@@ -121,7 +124,10 @@ func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain,
 	}
 
 	// Cache the result
-	r.c.Set(ctx, cacheKey, row)
+	err = r.c.Set(ctx, cacheKey, row)
+	if err != nil {
+		log.Errorf(nil, "domainRepo.GetByUser cache error: %v\n", err)
+	}
 
 	return row, nil
 }
@@ -180,9 +186,15 @@ func (r *domainRepo) Update(ctx context.Context, body *structs.UpdateDomainBody)
 
 	// Remove from cache
 	cacheKey := fmt.Sprintf("%s", body.ID)
-	r.c.Delete(ctx, cacheKey)
+	err = r.c.Delete(ctx, cacheKey)
+	if err != nil {
+		log.Errorf(nil, "domainRepo.Update cache error: %v\n", err)
+	}
 	cacheUserKey := fmt.Sprintf("user:%s", body.UserID)
-	r.c.Delete(ctx, cacheUserKey)
+	err = r.c.Delete(ctx, cacheUserKey)
+	if err != nil {
+		log.Errorf(nil, "domainRepo.Update cache error: %v\n", err)
+	}
 
 	return row, nil
 }
@@ -242,7 +254,10 @@ func (r *domainRepo) Delete(ctx context.Context, id string) error {
 	if err == nil {
 		// Remove from cache
 		cacheKey := fmt.Sprintf("%s", id)
-		r.c.Delete(ctx, cacheKey)
+		err := r.c.Delete(ctx, cacheKey)
+		if err != nil {
+			log.Errorf(nil, "domainRepo.Delete cache error: %v\n", err)
+		}
 	}
 
 	return err
@@ -258,7 +273,10 @@ func (r *domainRepo) DeleteByUser(ctx context.Context, userID string) error {
 	if err == nil {
 		// Remove from cache
 		cacheUserKey := fmt.Sprintf("user:%s", userID)
-		r.c.Delete(ctx, cacheUserKey)
+		err = r.c.Delete(ctx, cacheUserKey)
+		if err != nil {
+			log.Errorf(nil, "domainRepo.DeleteByUser cache error: %v\n", err)
+		}
 	}
 
 	return err
