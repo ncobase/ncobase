@@ -15,6 +15,9 @@ import (
 	"stocms/internal/data/ent/codeauth"
 	"stocms/internal/data/ent/domain"
 	"stocms/internal/data/ent/oauthuser"
+	"stocms/internal/data/ent/taxonomy"
+	"stocms/internal/data/ent/taxonomyrelations"
+	"stocms/internal/data/ent/topic"
 	"stocms/internal/data/ent/user"
 	"stocms/internal/data/ent/userprofile"
 
@@ -36,6 +39,12 @@ type Client struct {
 	Domain *DomainClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
 	OAuthUser *OAuthUserClient
+	// Taxonomy is the client for interacting with the Taxonomy builders.
+	Taxonomy *TaxonomyClient
+	// TaxonomyRelations is the client for interacting with the TaxonomyRelations builders.
+	TaxonomyRelations *TaxonomyRelationsClient
+	// Topic is the client for interacting with the Topic builders.
+	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 	// UserProfile is the client for interacting with the UserProfile builders.
@@ -55,6 +64,9 @@ func (c *Client) init() {
 	c.CodeAuth = NewCodeAuthClient(c.config)
 	c.Domain = NewDomainClient(c.config)
 	c.OAuthUser = NewOAuthUserClient(c.config)
+	c.Taxonomy = NewTaxonomyClient(c.config)
+	c.TaxonomyRelations = NewTaxonomyRelationsClient(c.config)
+	c.Topic = NewTopicClient(c.config)
 	c.User = NewUserClient(c.config)
 	c.UserProfile = NewUserProfileClient(c.config)
 }
@@ -147,14 +159,17 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:         ctx,
-		config:      cfg,
-		AuthToken:   NewAuthTokenClient(cfg),
-		CodeAuth:    NewCodeAuthClient(cfg),
-		Domain:      NewDomainClient(cfg),
-		OAuthUser:   NewOAuthUserClient(cfg),
-		User:        NewUserClient(cfg),
-		UserProfile: NewUserProfileClient(cfg),
+		ctx:               ctx,
+		config:            cfg,
+		AuthToken:         NewAuthTokenClient(cfg),
+		CodeAuth:          NewCodeAuthClient(cfg),
+		Domain:            NewDomainClient(cfg),
+		OAuthUser:         NewOAuthUserClient(cfg),
+		Taxonomy:          NewTaxonomyClient(cfg),
+		TaxonomyRelations: NewTaxonomyRelationsClient(cfg),
+		Topic:             NewTopicClient(cfg),
+		User:              NewUserClient(cfg),
+		UserProfile:       NewUserProfileClient(cfg),
 	}, nil
 }
 
@@ -172,14 +187,17 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:         ctx,
-		config:      cfg,
-		AuthToken:   NewAuthTokenClient(cfg),
-		CodeAuth:    NewCodeAuthClient(cfg),
-		Domain:      NewDomainClient(cfg),
-		OAuthUser:   NewOAuthUserClient(cfg),
-		User:        NewUserClient(cfg),
-		UserProfile: NewUserProfileClient(cfg),
+		ctx:               ctx,
+		config:            cfg,
+		AuthToken:         NewAuthTokenClient(cfg),
+		CodeAuth:          NewCodeAuthClient(cfg),
+		Domain:            NewDomainClient(cfg),
+		OAuthUser:         NewOAuthUserClient(cfg),
+		Taxonomy:          NewTaxonomyClient(cfg),
+		TaxonomyRelations: NewTaxonomyRelationsClient(cfg),
+		Topic:             NewTopicClient(cfg),
+		User:              NewUserClient(cfg),
+		UserProfile:       NewUserProfileClient(cfg),
 	}, nil
 }
 
@@ -209,7 +227,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.AuthToken, c.CodeAuth, c.Domain, c.OAuthUser, c.User, c.UserProfile,
+		c.AuthToken, c.CodeAuth, c.Domain, c.OAuthUser, c.Taxonomy, c.TaxonomyRelations,
+		c.Topic, c.User, c.UserProfile,
 	} {
 		n.Use(hooks...)
 	}
@@ -219,7 +238,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.AuthToken, c.CodeAuth, c.Domain, c.OAuthUser, c.User, c.UserProfile,
+		c.AuthToken, c.CodeAuth, c.Domain, c.OAuthUser, c.Taxonomy, c.TaxonomyRelations,
+		c.Topic, c.User, c.UserProfile,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -236,6 +256,12 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Domain.mutate(ctx, m)
 	case *OAuthUserMutation:
 		return c.OAuthUser.mutate(ctx, m)
+	case *TaxonomyMutation:
+		return c.Taxonomy.mutate(ctx, m)
+	case *TaxonomyRelationsMutation:
+		return c.TaxonomyRelations.mutate(ctx, m)
+	case *TopicMutation:
+		return c.Topic.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
 	case *UserProfileMutation:
@@ -777,6 +803,405 @@ func (c *OAuthUserClient) mutate(ctx context.Context, m *OAuthUserMutation) (Val
 	}
 }
 
+// TaxonomyClient is a client for the Taxonomy schema.
+type TaxonomyClient struct {
+	config
+}
+
+// NewTaxonomyClient returns a client for the Taxonomy from the given config.
+func NewTaxonomyClient(c config) *TaxonomyClient {
+	return &TaxonomyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `taxonomy.Hooks(f(g(h())))`.
+func (c *TaxonomyClient) Use(hooks ...Hook) {
+	c.hooks.Taxonomy = append(c.hooks.Taxonomy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `taxonomy.Intercept(f(g(h())))`.
+func (c *TaxonomyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Taxonomy = append(c.inters.Taxonomy, interceptors...)
+}
+
+// Create returns a builder for creating a Taxonomy entity.
+func (c *TaxonomyClient) Create() *TaxonomyCreate {
+	mutation := newTaxonomyMutation(c.config, OpCreate)
+	return &TaxonomyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Taxonomy entities.
+func (c *TaxonomyClient) CreateBulk(builders ...*TaxonomyCreate) *TaxonomyCreateBulk {
+	return &TaxonomyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *TaxonomyClient) MapCreateBulk(slice any, setFunc func(*TaxonomyCreate, int)) *TaxonomyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &TaxonomyCreateBulk{err: fmt.Errorf("calling to TaxonomyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*TaxonomyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &TaxonomyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Taxonomy.
+func (c *TaxonomyClient) Update() *TaxonomyUpdate {
+	mutation := newTaxonomyMutation(c.config, OpUpdate)
+	return &TaxonomyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *TaxonomyClient) UpdateOne(t *Taxonomy) *TaxonomyUpdateOne {
+	mutation := newTaxonomyMutation(c.config, OpUpdateOne, withTaxonomy(t))
+	return &TaxonomyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *TaxonomyClient) UpdateOneID(id string) *TaxonomyUpdateOne {
+	mutation := newTaxonomyMutation(c.config, OpUpdateOne, withTaxonomyID(id))
+	return &TaxonomyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Taxonomy.
+func (c *TaxonomyClient) Delete() *TaxonomyDelete {
+	mutation := newTaxonomyMutation(c.config, OpDelete)
+	return &TaxonomyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *TaxonomyClient) DeleteOne(t *Taxonomy) *TaxonomyDeleteOne {
+	return c.DeleteOneID(t.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *TaxonomyClient) DeleteOneID(id string) *TaxonomyDeleteOne {
+	builder := c.Delete().Where(taxonomy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &TaxonomyDeleteOne{builder}
+}
+
+// Query returns a query builder for Taxonomy.
+func (c *TaxonomyClient) Query() *TaxonomyQuery {
+	return &TaxonomyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeTaxonomy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Taxonomy entity by its id.
+func (c *TaxonomyClient) Get(ctx context.Context, id string) (*Taxonomy, error) {
+	return c.Query().Where(taxonomy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *TaxonomyClient) GetX(ctx context.Context, id string) *Taxonomy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *TaxonomyClient) Hooks() []Hook {
+	return c.hooks.Taxonomy
+}
+
+// Interceptors returns the client interceptors.
+func (c *TaxonomyClient) Interceptors() []Interceptor {
+	return c.inters.Taxonomy
+}
+
+func (c *TaxonomyClient) mutate(ctx context.Context, m *TaxonomyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&TaxonomyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&TaxonomyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&TaxonomyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&TaxonomyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Taxonomy mutation op: %q", m.Op())
+	}
+}
+
+// TaxonomyRelationsClient is a client for the TaxonomyRelations schema.
+type TaxonomyRelationsClient struct {
+	config
+}
+
+// NewTaxonomyRelationsClient returns a client for the TaxonomyRelations from the given config.
+func NewTaxonomyRelationsClient(c config) *TaxonomyRelationsClient {
+	return &TaxonomyRelationsClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `taxonomyrelations.Hooks(f(g(h())))`.
+func (c *TaxonomyRelationsClient) Use(hooks ...Hook) {
+	c.hooks.TaxonomyRelations = append(c.hooks.TaxonomyRelations, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `taxonomyrelations.Intercept(f(g(h())))`.
+func (c *TaxonomyRelationsClient) Intercept(interceptors ...Interceptor) {
+	c.inters.TaxonomyRelations = append(c.inters.TaxonomyRelations, interceptors...)
+}
+
+// Create returns a builder for creating a TaxonomyRelations entity.
+func (c *TaxonomyRelationsClient) Create() *TaxonomyRelationsCreate {
+	mutation := newTaxonomyRelationsMutation(c.config, OpCreate)
+	return &TaxonomyRelationsCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of TaxonomyRelations entities.
+func (c *TaxonomyRelationsClient) CreateBulk(builders ...*TaxonomyRelationsCreate) *TaxonomyRelationsCreateBulk {
+	return &TaxonomyRelationsCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *TaxonomyRelationsClient) MapCreateBulk(slice any, setFunc func(*TaxonomyRelationsCreate, int)) *TaxonomyRelationsCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &TaxonomyRelationsCreateBulk{err: fmt.Errorf("calling to TaxonomyRelationsClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*TaxonomyRelationsCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &TaxonomyRelationsCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for TaxonomyRelations.
+func (c *TaxonomyRelationsClient) Update() *TaxonomyRelationsUpdate {
+	mutation := newTaxonomyRelationsMutation(c.config, OpUpdate)
+	return &TaxonomyRelationsUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *TaxonomyRelationsClient) UpdateOne(tr *TaxonomyRelations) *TaxonomyRelationsUpdateOne {
+	mutation := newTaxonomyRelationsMutation(c.config, OpUpdateOne, withTaxonomyRelations(tr))
+	return &TaxonomyRelationsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *TaxonomyRelationsClient) UpdateOneID(id string) *TaxonomyRelationsUpdateOne {
+	mutation := newTaxonomyRelationsMutation(c.config, OpUpdateOne, withTaxonomyRelationsID(id))
+	return &TaxonomyRelationsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for TaxonomyRelations.
+func (c *TaxonomyRelationsClient) Delete() *TaxonomyRelationsDelete {
+	mutation := newTaxonomyRelationsMutation(c.config, OpDelete)
+	return &TaxonomyRelationsDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *TaxonomyRelationsClient) DeleteOne(tr *TaxonomyRelations) *TaxonomyRelationsDeleteOne {
+	return c.DeleteOneID(tr.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *TaxonomyRelationsClient) DeleteOneID(id string) *TaxonomyRelationsDeleteOne {
+	builder := c.Delete().Where(taxonomyrelations.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &TaxonomyRelationsDeleteOne{builder}
+}
+
+// Query returns a query builder for TaxonomyRelations.
+func (c *TaxonomyRelationsClient) Query() *TaxonomyRelationsQuery {
+	return &TaxonomyRelationsQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeTaxonomyRelations},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a TaxonomyRelations entity by its id.
+func (c *TaxonomyRelationsClient) Get(ctx context.Context, id string) (*TaxonomyRelations, error) {
+	return c.Query().Where(taxonomyrelations.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *TaxonomyRelationsClient) GetX(ctx context.Context, id string) *TaxonomyRelations {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *TaxonomyRelationsClient) Hooks() []Hook {
+	return c.hooks.TaxonomyRelations
+}
+
+// Interceptors returns the client interceptors.
+func (c *TaxonomyRelationsClient) Interceptors() []Interceptor {
+	return c.inters.TaxonomyRelations
+}
+
+func (c *TaxonomyRelationsClient) mutate(ctx context.Context, m *TaxonomyRelationsMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&TaxonomyRelationsCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&TaxonomyRelationsUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&TaxonomyRelationsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&TaxonomyRelationsDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown TaxonomyRelations mutation op: %q", m.Op())
+	}
+}
+
+// TopicClient is a client for the Topic schema.
+type TopicClient struct {
+	config
+}
+
+// NewTopicClient returns a client for the Topic from the given config.
+func NewTopicClient(c config) *TopicClient {
+	return &TopicClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `topic.Hooks(f(g(h())))`.
+func (c *TopicClient) Use(hooks ...Hook) {
+	c.hooks.Topic = append(c.hooks.Topic, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `topic.Intercept(f(g(h())))`.
+func (c *TopicClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Topic = append(c.inters.Topic, interceptors...)
+}
+
+// Create returns a builder for creating a Topic entity.
+func (c *TopicClient) Create() *TopicCreate {
+	mutation := newTopicMutation(c.config, OpCreate)
+	return &TopicCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Topic entities.
+func (c *TopicClient) CreateBulk(builders ...*TopicCreate) *TopicCreateBulk {
+	return &TopicCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *TopicClient) MapCreateBulk(slice any, setFunc func(*TopicCreate, int)) *TopicCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &TopicCreateBulk{err: fmt.Errorf("calling to TopicClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*TopicCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &TopicCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Topic.
+func (c *TopicClient) Update() *TopicUpdate {
+	mutation := newTopicMutation(c.config, OpUpdate)
+	return &TopicUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *TopicClient) UpdateOne(t *Topic) *TopicUpdateOne {
+	mutation := newTopicMutation(c.config, OpUpdateOne, withTopic(t))
+	return &TopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *TopicClient) UpdateOneID(id string) *TopicUpdateOne {
+	mutation := newTopicMutation(c.config, OpUpdateOne, withTopicID(id))
+	return &TopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Topic.
+func (c *TopicClient) Delete() *TopicDelete {
+	mutation := newTopicMutation(c.config, OpDelete)
+	return &TopicDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *TopicClient) DeleteOne(t *Topic) *TopicDeleteOne {
+	return c.DeleteOneID(t.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *TopicClient) DeleteOneID(id string) *TopicDeleteOne {
+	builder := c.Delete().Where(topic.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &TopicDeleteOne{builder}
+}
+
+// Query returns a query builder for Topic.
+func (c *TopicClient) Query() *TopicQuery {
+	return &TopicQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeTopic},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Topic entity by its id.
+func (c *TopicClient) Get(ctx context.Context, id string) (*Topic, error) {
+	return c.Query().Where(topic.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *TopicClient) GetX(ctx context.Context, id string) *Topic {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *TopicClient) Hooks() []Hook {
+	return c.hooks.Topic
+}
+
+// Interceptors returns the client interceptors.
+func (c *TopicClient) Interceptors() []Interceptor {
+	return c.inters.Topic
+}
+
+func (c *TopicClient) mutate(ctx context.Context, m *TopicMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&TopicCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&TopicUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&TopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&TopicDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Topic mutation op: %q", m.Op())
+	}
+}
+
 // UserClient is a client for the User schema.
 type UserClient struct {
 	config
@@ -1046,9 +1471,11 @@ func (c *UserProfileClient) mutate(ctx context.Context, m *UserProfileMutation) 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		AuthToken, CodeAuth, Domain, OAuthUser, User, UserProfile []ent.Hook
+		AuthToken, CodeAuth, Domain, OAuthUser, Taxonomy, TaxonomyRelations, Topic,
+		User, UserProfile []ent.Hook
 	}
 	inters struct {
-		AuthToken, CodeAuth, Domain, OAuthUser, User, UserProfile []ent.Interceptor
+		AuthToken, CodeAuth, Domain, OAuthUser, Taxonomy, TaxonomyRelations, Topic,
+		User, UserProfile []ent.Interceptor
 	}
 )

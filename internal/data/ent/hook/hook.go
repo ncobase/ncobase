@@ -56,6 +56,42 @@ func (f OAuthUserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, e
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.OAuthUserMutation", m)
 }
 
+// The TaxonomyFunc type is an adapter to allow the use of ordinary
+// function as Taxonomy mutator.
+type TaxonomyFunc func(context.Context, *ent.TaxonomyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TaxonomyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TaxonomyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TaxonomyMutation", m)
+}
+
+// The TaxonomyRelationsFunc type is an adapter to allow the use of ordinary
+// function as TaxonomyRelations mutator.
+type TaxonomyRelationsFunc func(context.Context, *ent.TaxonomyRelationsMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TaxonomyRelationsFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TaxonomyRelationsMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TaxonomyRelationsMutation", m)
+}
+
+// The TopicFunc type is an adapter to allow the use of ordinary
+// function as Topic mutator.
+type TopicFunc func(context.Context, *ent.TopicMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TopicFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TopicMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TopicMutation", m)
+}
+
 // The UserFunc type is an adapter to allow the use of ordinary
 // function as User mutator.
 type UserFunc func(context.Context, *ent.UserMutation) (ent.Value, error)

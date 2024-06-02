@@ -11,6 +11,9 @@ import (
 	"stocms/internal/data/ent/codeauth"
 	"stocms/internal/data/ent/domain"
 	"stocms/internal/data/ent/oauthuser"
+	"stocms/internal/data/ent/taxonomy"
+	"stocms/internal/data/ent/taxonomyrelations"
+	"stocms/internal/data/ent/topic"
 	"stocms/internal/data/ent/user"
 	"stocms/internal/data/ent/userprofile"
 	"sync"
@@ -78,12 +81,15 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			authtoken.Table:   authtoken.ValidColumn,
-			codeauth.Table:    codeauth.ValidColumn,
-			domain.Table:      domain.ValidColumn,
-			oauthuser.Table:   oauthuser.ValidColumn,
-			user.Table:        user.ValidColumn,
-			userprofile.Table: userprofile.ValidColumn,
+			authtoken.Table:         authtoken.ValidColumn,
+			codeauth.Table:          codeauth.ValidColumn,
+			domain.Table:            domain.ValidColumn,
+			oauthuser.Table:         oauthuser.ValidColumn,
+			taxonomy.Table:          taxonomy.ValidColumn,
+			taxonomyrelations.Table: taxonomyrelations.ValidColumn,
+			topic.Table:             topic.ValidColumn,
+			user.Table:              user.ValidColumn,
+			userprofile.Table:       userprofile.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)
