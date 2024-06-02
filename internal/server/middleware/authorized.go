@@ -12,7 +12,7 @@ import (
 
 // Authorized is a middleware for verifying the existence of a user.
 func Authorized(c *gin.Context) {
-	if userID := helper.GetUserID(c); validator.IsNil(userID) {
+	if userID := helper.GetUserID(c); validator.IsEmpty(userID) {
 		exception := &resp.Exception{
 			Status:  http.StatusUnauthorized,
 			Code:    ecode.Unauthorized,

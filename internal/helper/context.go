@@ -27,9 +27,11 @@ func GetGinContext(ctx context.Context) (*gin.Context, bool) {
 
 // GetValue retrieves a value from the context.
 func GetValue(c *gin.Context, key string) any {
+	// if c, ok := GetGinContext(ctx); ok {
 	if val, exists := c.Get(key); exists {
 		return val
 	}
+	// }
 	return nil
 }
 
