@@ -25,7 +25,6 @@ data:
     max_open_conn: 64
     max_life_time: 7200
     max_idle_conn: 16
-    table_prefix:
   redis:
     addr: 127.0.0.1:6378
     password:

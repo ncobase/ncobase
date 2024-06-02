@@ -36,7 +36,6 @@ func getDataConfig() Data {
 			Driver:          c.GetString("data.database.driver"),
 			Source:          c.GetString("data.database.source"),
 			Migrate:         c.GetBool("data.database.migrate"),
-			TablePrefix:     c.GetString("data.database.table_prefix"),
 			MaxIdleConn:     c.GetInt("data.database.max_idle_conn"),
 			MaxOpenConn:     c.GetInt("data.database.max_open_conn"),
 			ConnMaxLifeTime: c.GetDuration("data.database.max_life_time"),
