@@ -131,6 +131,137 @@ var (
 			},
 		},
 	}
+	// ScTaxonomyColumns holds the columns for the "sc_taxonomy" table.
+	ScTaxonomyColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "cover", Type: field.TypeString, Nullable: true, Comment: "cover"},
+		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
+		{Name: "color", Type: field.TypeString, Nullable: true, Comment: "color"},
+		{Name: "icon", Type: field.TypeString, Nullable: true, Comment: "icon"},
+		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
+		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "status", Type: field.TypeInt32, Comment: "status", Default: 1},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "extend properties"},
+		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "parent id"},
+		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "created by"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "updated by"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScTaxonomyTable holds the schema information for the "sc_taxonomy" table.
+	ScTaxonomyTable = &schema.Table{
+		Name:       "sc_taxonomy",
+		Columns:    ScTaxonomyColumns,
+		PrimaryKey: []*schema.Column{ScTaxonomyColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "taxonomy_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTaxonomyColumns[0]},
+			},
+			{
+				Name:    "taxonomy_slug",
+				Unique:  false,
+				Columns: []*schema.Column{ScTaxonomyColumns[3]},
+			},
+			{
+				Name:    "taxonomy_parent_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTaxonomyColumns[13]},
+			},
+			{
+				Name:    "taxonomy_domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTaxonomyColumns[14]},
+			},
+		},
+	}
+	// ScTaxonomyRelationsColumns holds the columns for the "sc_taxonomy_relations" table.
+	ScTaxonomyRelationsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "taxonomy id"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
+		{Name: "order", Type: field.TypeInt32, Comment: "order", Default: 99},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "created by"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+	}
+	// ScTaxonomyRelationsTable holds the schema information for the "sc_taxonomy_relations" table.
+	ScTaxonomyRelationsTable = &schema.Table{
+		Name:       "sc_taxonomy_relations",
+		Columns:    ScTaxonomyRelationsColumns,
+		PrimaryKey: []*schema.Column{ScTaxonomyRelationsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "taxonomyrelations_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTaxonomyRelationsColumns[0]},
+			},
+			{
+				Name:    "taxonomyrelations_taxonomy_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTaxonomyRelationsColumns[1]},
+			},
+			{
+				Name:    "taxonomyrelations_object_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTaxonomyRelationsColumns[3]},
+			},
+		},
+	}
+	// ScTopicColumns holds the columns for the "sc_topic" table.
+	ScTopicColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "content", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "content, big text"},
+		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
+		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp"},
+		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown"},
+		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private"},
+		{Name: "status", Type: field.TypeInt32, Comment: "status", Default: 1},
+		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
+		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "taxonomy id"},
+		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "created by"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "updated by"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScTopicTable holds the schema information for the "sc_topic" table.
+	ScTopicTable = &schema.Table{
+		Name:       "sc_topic",
+		Columns:    ScTopicColumns,
+		PrimaryKey: []*schema.Column{ScTopicColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "topic_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTopicColumns[0]},
+			},
+			{
+				Name:    "topic_slug",
+				Unique:  false,
+				Columns: []*schema.Column{ScTopicColumns[3]},
+			},
+			{
+				Name:    "topic_taxonomy_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTopicColumns[11]},
+			},
+			{
+				Name:    "topic_domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScTopicColumns[12]},
+			},
+		},
+	}
 	// ScUserColumns holds the columns for the "sc_user" table.
 	ScUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
@@ -192,6 +323,9 @@ var (
 		ScCodeAuthTable,
 		ScDomainTable,
 		ScOauthUserTable,
+		ScTaxonomyTable,
+		ScTaxonomyRelationsTable,
+		ScTopicTable,
 		ScUserTable,
 		ScUserProfileTable,
 	}
@@ -209,6 +343,15 @@ func init() {
 	}
 	ScOauthUserTable.Annotation = &entsql.Annotation{
 		Table: "sc_oauth_user",
+	}
+	ScTaxonomyTable.Annotation = &entsql.Annotation{
+		Table: "sc_taxonomy",
+	}
+	ScTaxonomyRelationsTable.Annotation = &entsql.Annotation{
+		Table: "sc_taxonomy_relations",
+	}
+	ScTopicTable.Annotation = &entsql.Annotation{
+		Table: "sc_topic",
 	}
 	ScUserTable.Annotation = &entsql.Annotation{
 		Table: "sc_user",

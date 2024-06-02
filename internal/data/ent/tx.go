@@ -20,6 +20,12 @@ type Tx struct {
 	Domain *DomainClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
 	OAuthUser *OAuthUserClient
+	// Taxonomy is the client for interacting with the Taxonomy builders.
+	Taxonomy *TaxonomyClient
+	// TaxonomyRelations is the client for interacting with the TaxonomyRelations builders.
+	TaxonomyRelations *TaxonomyRelationsClient
+	// Topic is the client for interacting with the Topic builders.
+	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 	// UserProfile is the client for interacting with the UserProfile builders.
@@ -159,6 +165,9 @@ func (tx *Tx) init() {
 	tx.CodeAuth = NewCodeAuthClient(tx.config)
 	tx.Domain = NewDomainClient(tx.config)
 	tx.OAuthUser = NewOAuthUserClient(tx.config)
+	tx.Taxonomy = NewTaxonomyClient(tx.config)
+	tx.TaxonomyRelations = NewTaxonomyRelationsClient(tx.config)
+	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 	tx.UserProfile = NewUserProfileClient(tx.config)
 }
