@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"net/url"
 	"stocms/internal/data"
-	"stocms/internal/data/cache"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/ent/user"
 	userProfileEnt "stocms/internal/data/ent/userprofile"
 	"stocms/internal/data/structs"
+	"stocms/pkg/cache"
 	"stocms/pkg/log"
 	"stocms/pkg/validator"
 
@@ -38,7 +38,7 @@ type userRepo struct {
 func NewUser(d *data.Data) User {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userRepo{ec, rc, cache.NewCache[ent.User](rc, cache.Key("user"))}
+	return &userRepo{ec, rc, cache.NewCache[ent.User](rc, cache.Key("sc_user"), true)}
 }
 
 // Create - Create user
@@ -100,7 +100,10 @@ func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 	}
 
 	// Cache the result
-	r.c.Set(ctx, cacheKey, row)
+	err = r.c.Set(ctx, cacheKey, row)
+	if err != nil {
+		log.Errorf(nil, "userRepo.GetByID cache error: %v\n", err)
+	}
 
 	return row, nil
 }
@@ -140,7 +143,10 @@ func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, er
 	}
 
 	// Cache the result
-	r.c.Set(ctx, cacheKey, row)
+	err = r.c.Set(ctx, cacheKey, row)
+	if err != nil {
+		log.Errorf(nil, "userRepo.Find cache error: %v\n", err)
+	}
 
 	return row, nil
 }
@@ -173,7 +179,10 @@ func (r *userRepo) Delete(ctx context.Context, id string) error {
 
 	// Remove from cache
 	cacheKey := fmt.Sprintf("%s", id)
-	r.c.Delete(ctx, cacheKey)
+	err := r.c.Delete(ctx, cacheKey)
+	if err != nil {
+		log.Errorf(nil, "userRepo.Delete cache error: %v\n", err)
+	}
 
 	return nil
 }
