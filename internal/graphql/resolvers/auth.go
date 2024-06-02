@@ -12,6 +12,35 @@ import (
 	"stocms/internal/helper"
 )
 
+// Login is the resolver for the login field.
+func (r *mutationResolver) Login(ctx context.Context, input types.LoginInput) (*types.AuthPayload, error) {
+	c, _ := helper.GetGinContext(ctx)
+	resp, err := r.Svc.LoginService(c, &structs.LoginBody{
+		Username: input.Username,
+		Password: input.Password,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	data, ok := resp.Data.(map[string]any)
+	if !ok {
+		return nil, errors.New("invalid response data format")
+	}
+
+	id, idOK := data["id"].(string)
+	token, tokenOK := data["access_token"].(string)
+
+	if !idOK || !tokenOK {
+		return nil, errors.New("invalid response data format")
+	}
+
+	return &types.AuthPayload{
+		ID:          &id,
+		AccessToken: &token,
+	}, nil
+}
+
 // Register is the resolver for the register field.
 func (r *mutationResolver) Register(ctx context.Context, input types.RegisterInput) (*types.AuthPayload, error) {
 	c, _ := helper.GetGinContext(ctx)
@@ -41,8 +70,8 @@ func (r *mutationResolver) Register(ctx context.Context, input types.RegisterInp
 	}
 
 	return &types.AuthPayload{
-		User:  &types.User{ID: id},
-		Token: &token,
+		ID:          &id,
+		AccessToken: &token,
 	}, nil
 }
 
@@ -92,7 +121,7 @@ func (r *mutationResolver) Authorize(ctx context.Context, code string) (*types.A
 	}
 
 	return &types.AuthPayload{
-		User:  &types.User{ID: id},
-		Token: &token,
+		ID:          &id,
+		AccessToken: &token,
 	}, nil
 }

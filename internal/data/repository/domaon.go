@@ -84,10 +84,7 @@ func (r *domainRepo) GetByID(ctx context.Context, id string) (*ent.Domain, error
 	}
 
 	// If not found in cache, query the database
-	row, err := r.ec.Domain.
-		Query().
-		Where(domainEnt.IDEQ(id)).
-		Only(ctx)
+	row, err := r.FindDomain(ctx, &structs.FindDomain{ID: id})
 
 	if err != nil {
 		log.Errorf(nil, " domainRepo.GetByID error: %v\n", err)
@@ -113,10 +110,7 @@ func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain,
 	}
 
 	// If not found in cache, query the database
-	row, err := r.ec.Domain.
-		Query().
-		Where(domainEnt.UserIDEQ(userID)).
-		Only(ctx)
+	row, err := r.FindDomain(ctx, &structs.FindDomain{UserID: userID})
 
 	if err != nil {
 		log.Errorf(nil, " domainRepo.GetByUser error: %v\n", err)
@@ -281,3 +275,25 @@ func (r *domainRepo) DeleteByUser(ctx context.Context, userID string) error {
 
 	return err
 }
+
+func (r *domainRepo) FindDomain(ctx context.Context, p *structs.FindDomain) (*ent.Domain, error) {
+	// create builder.
+	builder := r.ec.Domain.Query()
+
+	if validator.IsNotEmpty(p.ID) {
+		builder = builder.Where(domainEnt.IDEQ(p.ID))
+	}
+	if validator.IsNotEmpty(p.UserID) {
+		builder = builder.Where(domainEnt.UserIDEQ(p.UserID))
+	}
+
+	// execute the builder.
+	row, err := builder.Only(ctx)
+	if validator.IsNotNil(err) {
+		return nil, err
+	}
+
+	return row, nil
+}
+
+// ****** Internal methods of repository

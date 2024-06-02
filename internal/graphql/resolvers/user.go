@@ -6,11 +6,25 @@ package graph
 
 import (
 	"context"
+	"stocms/internal/data/structs"
 	"stocms/internal/graphql/types"
 	"stocms/internal/helper"
 
 	"github.com/jinzhu/copier"
 )
+
+// UpdatePassword is the resolver for the update_password field.
+func (r *mutationResolver) UpdatePassword(ctx context.Context, input *types.UpdatePassword) (*types.RStruct, error) {
+	c, _ := helper.GetGinContext(ctx)
+	resp, err := r.Svc.UpdatePasswordService(c, &structs.UserRequestBody{OldPassword: *input.OldPassword, NewPassword: *input.NewPassword})
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.RStruct{
+		Message: &resp.Message,
+	}, nil
+}
 
 // Account is the resolver for the account field.
 func (r *queryResolver) Account(ctx context.Context) (*types.User, error) {

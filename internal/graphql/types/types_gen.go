@@ -9,8 +9,9 @@ import (
 )
 
 type AuthPayload struct {
-	Token *string `json:"token,omitempty"`
-	User  *User   `json:"user,omitempty"`
+	ID           *string `json:"id,omitempty"`
+	AccessToken  *string `json:"access_token,omitempty"`
+	RefreshToken *string `json:"refresh_token,omitempty"`
 }
 
 type Domain struct {
@@ -43,6 +44,11 @@ type DomainInput struct {
 	Extras      map[string]interface{} `json:"extras,omitempty"`
 }
 
+type LoginInput struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type Mutation struct {
 }
 
@@ -53,6 +59,13 @@ type Pagination struct {
 }
 
 type Query struct {
+}
+
+type RStruct struct {
+	Status  *int                   `json:"status,omitempty"`
+	Code    *int                   `json:"code,omitempty"`
+	Message *string                `json:"message,omitempty"`
+	Data    map[string]interface{} `json:"Data,omitempty"`
 }
 
 type RegisterInput struct {
@@ -71,6 +84,12 @@ type SendCodeInput struct {
 type Sort struct {
 	SortBy string    `json:"sort_by"`
 	Order  SortOrder `json:"order"`
+}
+
+type UpdatePassword struct {
+	UserID      *string `json:"user_id,omitempty"`
+	OldPassword *string `json:"old_password,omitempty"`
+	NewPassword *string `json:"new_password,omitempty"`
 }
 
 type User struct {

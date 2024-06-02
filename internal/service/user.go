@@ -3,9 +3,12 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/structs"
 	"stocms/internal/helper"
+	"stocms/pkg/crypto"
+	"stocms/pkg/log"
 	"stocms/pkg/resp"
 
 	"github.com/gin-gonic/gin"
@@ -19,6 +22,28 @@ func (svc *Service) ReadMeService(c *gin.Context) (*resp.Exception, error) {
 // ReadUserService - Read user service
 func (svc *Service) ReadUserService(c *gin.Context, userID string) (*resp.Exception, error) {
 	return svc.readUser(c, userID)
+}
+
+// UpdatePasswordService - Update user password service
+func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserRequestBody) (*resp.Exception, error) {
+	verifyResult := svc.verifyUserPassword(c, helper.GetUserID(c), body.OldPassword)
+	switch v := verifyResult.(type) {
+	case VerifyPasswordResult:
+		if v.Valid == false {
+			return resp.BadRequest(v.Error), nil
+		} else if v.Valid && v.NeedsPasswordSet == true { // 记录第一次设置密码的日志
+			log.Printf(nil, "User %s is setting password for the first time", helper.GetUserID(c))
+		}
+	case error:
+		return resp.InternalServer(v.Error()), nil
+	}
+
+	err := svc.updateUserPassword(c, helper.GetUserID(c), body.NewPassword)
+	if err != nil {
+		return resp.InternalServer(err.Error()), nil
+	}
+
+	return nil, nil
 }
 
 // ****** Internal methods of service
@@ -39,6 +64,47 @@ func (svc *Service) readUser(c *gin.Context, userID string) (*resp.Exception, er
 	return &resp.Exception{
 		Data: user,
 	}, nil
+}
+
+// VerifyPasswordResult - Verify password result
+type VerifyPasswordResult struct {
+	Valid            bool
+	NeedsPasswordSet bool
+	Error            string
+}
+
+// verifyUserPassword - Internal method to verify user password
+func (svc *Service) verifyUserPassword(c *gin.Context, userID string, password string) any {
+	user, err := svc.user.FindUser(c, &structs.FindUser{ID: userID})
+	if ent.IsNotFound(err) {
+		return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: "user not found"}
+	} else if err != nil {
+		return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: fmt.Sprintf("error getting user by ID: %v", err)}
+	}
+
+	if user.Password == "" {
+		return VerifyPasswordResult{Valid: true, NeedsPasswordSet: true, Error: "user password not set"}
+	}
+
+	if crypto.ComparePassword(user.Password, password) {
+		return VerifyPasswordResult{Valid: true, NeedsPasswordSet: false, Error: ""}
+	}
+
+	return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: "wrong password"}
+}
+
+// updateUserPassword - Internal method to update user password
+func (svc *Service) updateUserPassword(ctx context.Context, userID string, password string) error {
+	err := svc.user.UpdatePassword(ctx, &structs.UserRequestBody{
+		UserID:      userID,
+		NewPassword: password,
+	})
+
+	if err != nil {
+		log.Printf(nil, "Error updating password for user %s: %v", userID, err)
+	}
+
+	return err
 }
 
 // findUserByID - Internal method to find user by ID

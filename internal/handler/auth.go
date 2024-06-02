@@ -46,3 +46,14 @@ func (h *Handler) LogoutHandler(c *gin.Context) {
 	cookie.ClearAll(c.Writer)
 	resp.Success(c.Writer, nil)
 }
+
+// LoginHandler Login handler
+func (h *Handler) LoginHandler(c *gin.Context) {
+	var body *structs.LoginBody
+	if err := c.ShouldBind(&body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	result, _ := h.svc.LoginService(c, body)
+	resp.Success(c.Writer, result)
+}
