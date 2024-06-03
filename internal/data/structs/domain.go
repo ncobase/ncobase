@@ -55,7 +55,7 @@ type ReadDomain struct {
 
 // ListDomainParams - Query domain list params
 type ListDomainParams struct {
-	Cursor string `json:"cursor"`
-	Limit  int64  `json:"limit"`
-	UserID string `json:"uid"`
+	Cursor string `form:"cursor" json:"cursor"`
+	Limit  int64  `form:"limit" json:"limit"`
+	UserID string `form:"user_id" json:"user_id"`
 }

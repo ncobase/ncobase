@@ -61,21 +61,6 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// get detail of user
 	// user.GET("/:id", h.ReadUserHandler)
 
-	// // get user setting TODO
-	// user.GET("/settings", h.Ping)
-	// // update user setting TODO
-	// user.PUT("/settings", h.Ping)
-	// // get user security TODO
-	// user.GET("/security", h.Ping)
-	// // update user security TODO
-	// user.PUT("/security", h.Ping)
-	// // update user password and reset TODO
-	// user.PUT("/password", h.Ping)
-	// get user domain
-	// user.GET("/domains", h.ReadDomainHandler)
-	// update domain of the user
-	// user.PUT("/domains", h.UpdateDomainHandler)
-
 	// ****** OAuth register callback and redirect
 	// oauth := v1.Group("/oauth")
 	// oauth.POST("/signup", h.OAuthRegisterHandler)
@@ -83,15 +68,22 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// oauth.GET("/redirect/:provider", h.OAuthRedirectHandler)
 	// oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
 	// oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
-	//
-	// ****** Domain TODO
-	// domain := v1.Group("/domains", middleware.Authorized)
-	// // get config params of domain
-	// domain.GET("/params", h.Ping)
-	// // get dictionary of domain
-	// domain.GET("/dictionaries", h.Ping)
-	// // get have modules of domain
-	// domain.GET("/modules", h.Ping)
+
+	// ****** Taxonomy
+	taxonomy := v1.Group("/taxonomies", middleware.Authorized)
+	taxonomy.GET("", h.ListTaxonomyHandler)
+	taxonomy.POST("", h.CreateTaxonomyHandler)
+	taxonomy.GET("/:slug", h.GetTaxonomyHandler)
+	taxonomy.PUT("/:slug", h.UpdateTaxonomyHandler)
+	taxonomy.DELETE("/:slug", h.DeleteTaxonomyHandler)
+
+	// ****** Topic
+	topic := v1.Group("/topics", middleware.Authorized)
+	topic.GET("", h.ListTopicHandler)
+	topic.POST("", h.CreateTopicHandler)
+	topic.GET("/:slug", h.GetTopicHandler)
+	topic.PUT("/:slug", h.UpdateTopicHandler)
+	topic.DELETE("/:slug", h.DeleteTopicHandler)
 
 	// Swagger
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

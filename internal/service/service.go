@@ -2,23 +2,24 @@ package service
 
 import (
 	"context"
-	"stocms/internal/config"
 	"stocms/internal/data"
-	"stocms/internal/data/repository"
+	"stocms/internal/data/ent"
+	repo "stocms/internal/data/repository"
+	"stocms/pkg/ecode"
+	"stocms/pkg/resp"
+	"stocms/pkg/validator"
 )
 
 // Service represents a service definition.
 type Service struct {
-	conf   *config.Config
 	d      *data.Data
 	domain repo.Domain
 	user   repo.User
 }
 
 // New creates a Service instance and returns it.
-func New(conf *config.Config, d *data.Data) *Service {
+func New(d *data.Data) *Service {
 	return &Service{
-		conf:   conf,
 		d:      d,
 		domain: repo.NewDomain(d),
 		user:   repo.NewUser(d),
@@ -28,4 +29,18 @@ func New(conf *config.Config, d *data.Data) *Service {
 // Ping check server
 func (svc *Service) Ping(ctx context.Context) error {
 	return svc.d.Ping(ctx)
+}
+
+// handleError is a helper function to handle errors in a consistent manner.
+func handleError(k string, err error) (*resp.Exception, error) {
+	if ent.IsNotFound(err) {
+		return resp.NotFound(ecode.NotExist(k)), nil
+	}
+	if ent.IsConstraintError(err) {
+		return resp.Conflict(ecode.AlreadyExist(k)), nil
+	}
+	if validator.IsNotNil(err) {
+		return resp.InternalServer(err.Error()), nil
+	}
+	return nil, err
 }

@@ -97,8 +97,8 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 		Phone:    body.Phone,
 		Action:   "create",
 	})
-	if err != nil {
-		return nil, resp.InternalServer(err.Error())
+	if exception, _ := handleError("User", err); exception != nil {
+		return nil, exception
 	}
 
 	if err := svc.createOAuthUser(ctx, tx, payload, user.ID); err != nil {
@@ -109,7 +109,7 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 		return nil, err
 	}
 
-	if _, err := svc.createDomain(ctx, &structs.CreateDomainBody{UserID: user.ID}); err != nil {
+	if _, err := svc.isCreateDomain(ctx, &structs.CreateDomainBody{UserID: user.ID}); err != nil {
 		return nil, resp.InternalServer(err.Error())
 	}
 
@@ -142,9 +142,10 @@ func (svc *Service) createUserProfile(ctx context.Context, userID, displayName, 
 		ShortBio:    shortBio,
 		Action:      "profile",
 	})
-	if err != nil {
-		return resp.InternalServer(err.Error())
+	if exception, _ := handleError("User", err); exception != nil {
+		return exception
 	}
+
 	return nil
 }
 
@@ -283,13 +284,13 @@ func (svc *Service) handleExistingOAuthUser(c *gin.Context, tx *ent.Tx, oauthUse
 // handleNewOAuthUser - Handle new OAuth user
 func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oauth.Profile, token, provider string) (*resp.Exception, error) {
 	conf := helper.GetConfig(c)
-	user, err := svc.findUser(c, &structs.FindUser{Email: profile.Email})
+	user, err := svc.user.FindUser(c, &structs.FindUser{Email: profile.Email})
 	if err != nil {
 		return resp.InternalServer(err.Error()), nil
 	}
 
 	if validator.IsNil(user) {
-		return svc.generateAndSetTokens(c, tx, &user), tx.Commit()
+		return svc.generateAndSetTokens(c, tx, &structs.User{ID: user.ID}), tx.Commit()
 	}
 
 	subject := "email-register"

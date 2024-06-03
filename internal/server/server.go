@@ -18,7 +18,7 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 	}
 
 	// Initialize services
-	svc := service.New(conf, d)
+	svc := service.New(d)
 
 	// New HTTP server
 	h, err := newHTTP(conf, handler.New(svc), svc)

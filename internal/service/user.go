@@ -39,8 +39,9 @@ func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserRequ
 	}
 
 	err := svc.updateUserPassword(c, helper.GetUserID(c), body.NewPassword)
-	if err != nil {
-		return resp.InternalServer(err.Error()), nil
+
+	if exception, err := handleError("User", err); exception != nil {
+		return exception, err
 	}
 
 	return nil, nil
@@ -55,10 +56,9 @@ func (svc *Service) readUser(c *gin.Context, userID string) (*resp.Exception, er
 	}
 
 	user, err := svc.findUserByID(c, userID)
-	if ent.IsNotFound(err) {
-		return resp.NotFound("User is not found"), nil
-	} else if err != nil {
-		return resp.InternalServer(err.Error()), nil
+
+	if exception, err := handleError("User", err); exception != nil {
+		return exception, err
 	}
 
 	return &resp.Exception{
