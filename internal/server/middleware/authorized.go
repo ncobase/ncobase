@@ -4,23 +4,26 @@ import (
 	"net/http"
 	"stocms/internal/helper"
 	"stocms/pkg/ecode"
-	"stocms/pkg/resp"
 	"stocms/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
-// Authorized is a middleware for verifying the existence of a user.
+// Authorized middleware verifies the existence of a user.
 func Authorized(c *gin.Context) {
-	if userID := helper.GetUserID(c); validator.IsEmpty(userID) {
-		exception := &resp.Exception{
-			Status:  http.StatusUnauthorized,
-			Code:    ecode.Unauthorized,
-			Message: ecode.Text(ecode.Unauthorized),
-		}
-		resp.Fail(c.Writer, exception)
-		c.Abort() // Abort all handlers
+	// Retrieve user ID from the context
+	userID := helper.GetUserID(c)
+
+	// Check if user ID is empty
+	if validator.IsEmpty(userID) {
+		// Respond with unauthorized error
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"code":    ecode.Unauthorized,
+			"message": ecode.Text(ecode.Unauthorized),
+		})
 		return
 	}
+
+	// Continue to the next handler
 	c.Next()
 }

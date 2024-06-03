@@ -7,8 +7,11 @@ import (
 	"os"
 	"path/filepath"
 	"stocms/internal/config"
+	"strings"
+	"time"
 
 	"github.com/sirupsen/logrus"
+	"google.golang.org/appengine/log"
 )
 
 // Define keys
@@ -27,6 +30,8 @@ type TraceIDFunc func() string
 var (
 	version     string
 	traceIDFunc TraceIDFunc
+	logFile     *os.File
+	logPath     string
 )
 
 func init() {
@@ -264,36 +269,72 @@ func (e *Entry) Debugf(format string, args ...any) {
 func Init(c config.Logger) (clean func(), err error) {
 	setLevel(c.Level)
 	setFormatter(c.Format)
+
 	// Set log output
-	var file *os.File
-	if c.Output != "" {
-		switch c.Output {
-		case "stdout":
-			setOutput(os.Stdout)
-		case "stderr":
-			setOutput(os.Stderr)
-		case "file":
-			if name := c.OutputFile; name != "" {
-				err := os.MkdirAll(filepath.Dir(name), 0777)
-				if err != nil {
+	switch c.Output {
+	case "stdout":
+		setOutput(os.Stdout)
+	case "stderr":
+		setOutput(os.Stderr)
+	case "file":
+		logPath = c.OutputFile
+		if logPath != "" {
+			logDir := filepath.Dir(logPath)
+			if logDir != "." { // If logPath contains directory information
+				if err := os.MkdirAll(logDir, 0777); err != nil {
 					return nil, err
 				}
-				f, err := os.OpenFile(name, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
-				if err != nil {
-					return nil, err
-				}
-				setOutput(f)
-				file = f
 			}
+			if err := rotateLog(); err != nil {
+				return nil, err
+			}
+			go periodicLogRotation()
 		}
 	}
 
 	// Return a cleanup function to close the file
 	clean = func() {
-		if file != nil {
-			_ = file.Close()
+		if logFile != nil {
+			_ = logFile.Close()
 		}
 	}
 
 	return clean, nil
+}
+
+func rotateLog() error {
+	if logFile != nil {
+		if err := logFile.Close(); err != nil {
+			return err
+		}
+	}
+
+	logFilePath := logPath
+	if strings.HasSuffix(logPath, ".log") {
+		logFilePath = strings.TrimSuffix(logPath, ".log") + "." + time.Now().Format(time.DateOnly) + ".log"
+	} else {
+		logFilePath = logPath + "." + time.Now().Format("2006-01-02") + ".log"
+	}
+	f, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		return err
+	}
+	logFile = f
+	setOutput(logFile)
+	return nil
+}
+
+func periodicLogRotation() {
+	// Rotate logs every day at midnight
+	ticker := time.NewTicker(24 * time.Hour)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ticker.C:
+			if err := rotateLog(); err != nil {
+				log.Errorf(context.Background(), "Error rotating log: %v", err)
+			}
+		}
+	}
 }

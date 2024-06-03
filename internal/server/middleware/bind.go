@@ -8,16 +8,29 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// BindConfig binds config to gin.Context
+// BindConfig binds the application configuration to the Gin context.
 func BindConfig(c *gin.Context) {
-	ctx := helper.SetConfig(c, config.GetConfig())
+	// Get the application configuration
+	appConfig := config.GetConfig()
+
+	// Set the configuration in the Gin context
+	ctx := helper.SetConfig(c, appConfig)
+
+	// Update the request context with the new context
 	c.Request = c.Request.WithContext(ctx)
+
+	// Call the next handler
 	c.Next()
 }
 
-// BindGinContext binds gin.Context to context.Context
+// BindGinContext binds the Gin context to the standard context.Context.
 func BindGinContext(c *gin.Context) {
+	// Wrap the Gin context with a standard context
 	ctx := helper.WithGinContext(context.Background(), c)
+
+	// Update the request context with the new context
 	c.Request = c.Request.WithContext(ctx)
+
+	// Call the next handler
 	c.Next()
 }
