@@ -67,7 +67,7 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 		return resp.InternalServer(err.Error()), nil
 	}
 
-	if _, err := svc.createDomain(c, &structs.CreateDomainBody{UserID: user.ID}); err != nil {
+	if _, err := svc.isCreateDomain(c, &structs.CreateDomainBody{UserID: user.ID}); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil
 		}
@@ -160,8 +160,8 @@ func (svc *Service) CodeAuthService(c *gin.Context, code string) (*resp.Exceptio
 	client := svc.d.GetEntClient()
 
 	codeAuth, err := client.CodeAuth.Query().Where(codeAuthEnt.CodeEQ(code)).Only(ctx)
-	if ent.IsNotFound(err) {
-		return resp.NotFound("Code is not found"), nil
+	if exception, err := handleError("Code", err); exception != nil {
+		return exception, err
 	}
 	if codeAuth.Logged || isCodeExpired(codeAuth.CreatedAt) {
 		return resp.Forbidden("EXPIRED_CODE"), nil
@@ -279,8 +279,8 @@ func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp
 	client := svc.d.GetEntClient()
 
 	user, err := svc.user.FindUser(ctx, &structs.FindUser{Username: body.Username})
-	if err != nil {
-		return resp.InternalServer(err.Error()), nil
+	if exception, err := handleError("User", err); exception != nil {
+		return exception, err
 	}
 
 	if user.Status != 0 {
