@@ -316,11 +316,6 @@ func (tc *TopicCreate) check() error {
 	if _, ok := tc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Topic.status"`)}
 	}
-	if v, ok := tc.mutation.Status(); ok {
-		if err := topic.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Topic.status": %w`, err)}
-		}
-	}
 	if v, ok := tc.mutation.TaxonomyID(); ok {
 		if err := topic.TaxonomyIDValidator(v); err != nil {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}

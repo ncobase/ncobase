@@ -364,11 +364,6 @@ func (tu *TopicUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tu *TopicUpdate) check() error {
-	if v, ok := tu.mutation.Status(); ok {
-		if err := topic.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Topic.status": %w`, err)}
-		}
-	}
 	if v, ok := tu.mutation.TaxonomyID(); ok {
 		if err := topic.TaxonomyIDValidator(v); err != nil {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}
@@ -866,11 +861,6 @@ func (tuo *TopicUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tuo *TopicUpdateOne) check() error {
-	if v, ok := tuo.mutation.Status(); ok {
-		if err := topic.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Topic.status": %w`, err)}
-		}
-	}
 	if v, ok := tuo.mutation.TaxonomyID(); ok {
 		if err := topic.TaxonomyIDValidator(v); err != nil {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}

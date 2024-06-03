@@ -396,11 +396,6 @@ func (tu *TaxonomyUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tu *TaxonomyUpdate) check() error {
-	if v, ok := tu.mutation.Status(); ok {
-		if err := taxonomy.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.status": %w`, err)}
-		}
-	}
 	if v, ok := tu.mutation.ParentID(); ok {
 		if err := taxonomy.ParentIDValidator(v); err != nil {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.parent_id": %w`, err)}
@@ -942,11 +937,6 @@ func (tuo *TaxonomyUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tuo *TaxonomyUpdateOne) check() error {
-	if v, ok := tuo.mutation.Status(); ok {
-		if err := taxonomy.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.status": %w`, err)}
-		}
-	}
 	if v, ok := tuo.mutation.ParentID(); ok {
 		if err := taxonomy.ParentIDValidator(v); err != nil {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.parent_id": %w`, err)}
