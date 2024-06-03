@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"stocms/internal/config"
+	"stocms/internal/helper"
 	"stocms/internal/server"
 	"stocms/pkg/log"
 	"syscall"
@@ -16,16 +17,13 @@ import (
 	_ "stocms/docs"
 )
 
-// Version Version number, can be specified during compilation: go build -ldflags "-X main.Version=x.x.x"
-var Version = "dev+"
-
 // @title stocms
 // @version 0.1.0
 // @description a modern content management system
 // @termsOfService https://stocms.com
 
 func main() {
-	log.SetVersion(Version)
+	log.SetVersion(helper.Version)
 
 	// Loading config
 	conf, err := config.Init()
