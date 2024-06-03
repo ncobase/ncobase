@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	"google.golang.org/appengine/log"
 )
 
 // Define keys
@@ -313,7 +312,7 @@ func rotateLog() error {
 	if strings.HasSuffix(logPath, ".log") {
 		logFilePath = strings.TrimSuffix(logPath, ".log") + "." + time.Now().Format(time.DateOnly) + ".log"
 	} else {
-		logFilePath = logPath + "." + time.Now().Format("2006-01-02") + ".log"
+		logFilePath = logPath + "." + time.Now().Format(time.DateOnly) + ".log"
 	}
 	f, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -333,7 +332,7 @@ func periodicLogRotation() {
 		select {
 		case <-ticker.C:
 			if err := rotateLog(); err != nil {
-				log.Errorf(context.Background(), "Error rotating log: %v", err)
+				Errorf(context.Background(), "Error rotating log: %v", err)
 			}
 		}
 	}
