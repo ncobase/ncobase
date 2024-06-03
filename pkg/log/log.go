@@ -13,8 +13,8 @@ import (
 
 // Define keys
 const (
-	TraceIDKey      = "trace"
-	UserIDKey       = "user"
+	TraceIDKey      = "trace_id"
+	UserIDKey       = "user_id"
 	SpanTitleKey    = "title"
 	SpanFunctionKey = "function"
 	VersionKey      = "version"

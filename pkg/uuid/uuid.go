@@ -11,6 +11,16 @@ var base64Table = [64]byte{
 	'+', '-',
 }
 
+// New generate uuid
+func New() uuid.UUID {
+	return uuid.New()
+}
+
+// NewString generate uuid string
+func NewString() string {
+	return uuid.New().String()
+}
+
 // ShortUUID short uuid
 func ShortUUID(u uuid.UUID) string {
 	var dst = make([]byte, 16)

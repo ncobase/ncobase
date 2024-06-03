@@ -25,10 +25,28 @@ func getSize(l ...int) int {
 	return size
 }
 
+// Must -  generate optional length nanoid
+func Must(l ...int) string {
+	size := getSize(l...)
+	return gonanoid.Must(size)
+}
+
 // String -  generate optional length nanoid, use const by default
 func String(l ...int) string {
 	size := getSize(l...)
 	return gonanoid.MustGenerate(alphabet, size)
+}
+
+// Lower -  generate optional length nanoid, use const by default
+func Lower(l ...int) string {
+	size := getSize(l...)
+	return gonanoid.MustGenerate(consts.Lowercase, size)
+}
+
+// Upper -  generate optional length nanoid, use const by default
+func Upper(l ...int) string {
+	size := getSize(l...)
+	return gonanoid.MustGenerate(consts.Uppercase, size)
 }
 
 // Number -  generate optional length nanoid, use const by default
