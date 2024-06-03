@@ -6,13 +6,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CORSHeaders contains the CORS headers.
+var CORSHeaders = map[string]string{
+	"Access-Control-Allow-Origin":      "*",
+	"Access-Control-Allow-Credentials": "true",
+	"Access-Control-Allow-Headers":     "content-type, content-length, accept-encoding, x-csrf-token, authorization, accept, origin, cache-control, x-requested-with",
+	"Access-Control-Allow-Methods":     "POST, GET, OPTIONS, PUT, DELETE",
+}
+
 // CORSHandler is a middleware for handling CORS.
 func CORSHandler(c *gin.Context) {
 	// Set CORS headers
-	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-	c.Writer.Header().Set("Access-Control-Allow-Headers", "content-type, content-length, accept-encoding, x-csrf-token, authorization, accept, origin, cache-control, x-requested-with")
-	c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	for key, value := range CORSHeaders {
+		c.Writer.Header().Set(key, value)
+	}
 
 	// Handle preflight requests
 	if c.Request.Method == http.MethodOptions {
