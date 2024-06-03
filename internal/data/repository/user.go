@@ -48,15 +48,17 @@ func NewUser(d *data.Data) User {
 func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*ent.User, error) {
 	countUser := r.ec.User.Query().CountX(ctx)
 
-	row, err := r.ec.User.
-		Create().
-		SetUsername(body.Username).
-		SetEmail(body.Email).
-		SetPhone(body.Phone).
-		SetIsCertified(true).
-		SetIsAdmin(countUser < 1).
-		Save(ctx)
+	// create builder.
+	builder := r.ec.User.Create()
+	// Set values
+	builder.SetUsername(body.Username)
+	builder.SetEmail(body.Email)
+	builder.SetPhone(body.Phone)
+	builder.SetIsCertified(true)
+	builder.SetIsAdmin(countUser < 1)
 
+	// execute the builder.
+	row, err := builder.Save(ctx)
 	if err != nil {
 		log.Errorf(nil, "userRepo.Create error: %v\n", err)
 		return nil, err
@@ -67,13 +69,15 @@ func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*
 
 // CreateProfile - Create user profile
 func (r *userRepo) CreateProfile(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error) {
-	row, err := r.ec.UserProfile.
-		Create().
-		SetID(body.UserID).
-		SetDisplayName(body.DisplayName).
-		SetShortBio(body.ShortBio).
-		Save(ctx)
+	// create builder.
+	builder := r.ec.UserProfile.Create()
+	// Set values
+	builder.SetID(body.UserID)
+	builder.SetDisplayName(body.DisplayName)
+	builder.SetShortBio(body.ShortBio)
 
+	// execute the builder.
+	row, err := builder.Save(ctx)
 	if err != nil {
 		log.Errorf(nil, "userRepo.CreateProfile error: %v\n", err)
 		return nil, err
@@ -206,6 +210,7 @@ func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBod
 	return nil
 }
 
+// FindUser - Find user by id, username, email, or phone
 func (r *userRepo) FindUser(ctx context.Context, p *structs.FindUser) (*ent.User, error) {
 	// create builder.
 	builder := r.ec.User.Query()
@@ -215,8 +220,9 @@ func (r *userRepo) FindUser(ctx context.Context, p *structs.FindUser) (*ent.User
 	}
 
 	if validator.IsNotEmpty(p.Username) {
-		// username value could be username, email, or phone
+		// username value could be id, username, email, or phone
 		builder = builder.Where(userEnt.Or(
+			userEnt.IDEQ(p.Username),
 			userEnt.UsernameEQ(p.Username),
 			userEnt.EmailEQ(p.Username),
 			userEnt.PhoneEQ(p.Username),

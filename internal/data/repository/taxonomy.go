@@ -1,1 +1,331 @@
 package repo
+
+import (
+	"context"
+	"fmt"
+	"stocms/internal/data"
+	"stocms/internal/data/ent"
+	taxonomyEnt "stocms/internal/data/ent/taxonomy"
+	"stocms/internal/data/structs"
+	"stocms/pkg/cache"
+	"stocms/pkg/log"
+	"stocms/pkg/validator"
+	"strings"
+
+	"github.com/redis/go-redis/v9"
+)
+
+// Taxonomy represents the taxonomy repository interface.
+type Taxonomy interface {
+	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*ent.Taxonomy, error)
+	GetByID(ctx context.Context, id string) (*ent.Taxonomy, error)
+	GetBySlug(ctx context.Context, slug string) (*ent.Taxonomy, error)
+	Update(ctx context.Context, body *structs.UpdateTaxonomyBody) (*ent.Taxonomy, error)
+	List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error)
+	Delete(ctx context.Context, slug string) error
+	FindTaxonomy(ctx context.Context, p *structs.FindTaxonomy) (*ent.Taxonomy, error)
+	ListBuilder(ctx context.Context, p *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error)
+	CountX(ctx context.Context, p *structs.ListTaxonomyParams) int
+}
+
+// taxonomyRepo implements the Taxonomy interface.
+type taxonomyRepo struct {
+	ec *ent.Client
+	rc *redis.Client
+	c  *cache.Cache[ent.Taxonomy]
+}
+
+// NewTaxonomy creates a new taxonomy repository.
+func NewTaxonomy(d *data.Data) Taxonomy {
+	ec := d.GetEntClient()
+	rc := d.GetRedis()
+	return &taxonomyRepo{ec, rc, cache.NewCache[ent.Taxonomy](rc, cache.Key("sc_taxonomy"), true)}
+}
+
+// Create create taxonomy
+func (r *taxonomyRepo) Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*ent.Taxonomy, error) {
+	// create builder.
+	builder := r.ec.Taxonomy.Create()
+
+	// Set values
+	builder.SetNillableName(&body.Name)
+	builder.SetNillableType(&body.Type)
+	builder.SetNillableSlug(&body.Slug)
+	builder.SetNillableCover(&body.Cover)
+	builder.SetNillableThumbnail(&body.Thumbnail)
+	builder.SetNillableColor(&body.Color)
+	builder.SetNillableIcon(&body.Icon)
+	builder.SetNillableURL(&body.URL)
+	builder.SetKeywords(strings.Join(body.Keywords, ","))
+	builder.SetNillableDescription(&body.Description)
+	builder.SetStatus(body.Status)
+	builder.SetExtras(body.ExtraProps)
+	builder.SetNillableParentID(&body.ParentID)
+	builder.SetCreatedBy(body.CreatedBy)
+
+	// execute the builder.
+	row, err := builder.Save(ctx)
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.Create error: %v\n", err)
+		return nil, err
+	}
+
+	return row, nil
+}
+
+// GetByID get taxonomy by id
+func (r *taxonomyRepo) GetByID(ctx context.Context, id string) (*ent.Taxonomy, error) {
+	cacheKey := fmt.Sprintf("%s", id)
+
+	// Check cache first
+	if cachedTaxonomy, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cachedTaxonomy, nil
+	}
+
+	// If not found in cache, query the database
+	row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{ID: id})
+
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.GetByID error: %v\n", err)
+		return nil, err
+	}
+
+	// Cache the result
+	err = r.c.Set(ctx, cacheKey, row)
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.GetByID cache error: %v\n", err)
+	}
+
+	return row, nil
+}
+
+// GetBySlug get taxonomy by slug
+func (r *taxonomyRepo) GetBySlug(ctx context.Context, slug string) (*ent.Taxonomy, error) {
+	cacheKey := fmt.Sprintf("%s", slug)
+
+	// Check cache first
+	if cachedTaxonomy, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cachedTaxonomy, nil
+	}
+
+	// If not found in cache, query the database
+	row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Slug: slug})
+
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.GetBySlug error: %v\n", err)
+		return nil, err
+	}
+
+	// Cache the result
+	err = r.c.Set(ctx, cacheKey, row)
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.GetBySlug cache error: %v\n", err)
+	}
+
+	return row, nil
+}
+
+// Update update taxonomy
+func (r *taxonomyRepo) Update(ctx context.Context, body *structs.UpdateTaxonomyBody) (*ent.Taxonomy, error) {
+	taxonomy, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Slug: body.ID})
+	if err != nil {
+		return nil, err
+	}
+
+	// create builder.
+	builder := taxonomy.Update()
+
+	// Set values
+	builder.SetNillableName(&body.Name)
+	builder.SetNillableType(&body.Type)
+	builder.SetNillableSlug(&body.Slug)
+	builder.SetNillableCover(&body.Cover)
+	builder.SetNillableThumbnail(&body.Thumbnail)
+	builder.SetNillableColor(&body.Color)
+	builder.SetNillableIcon(&body.Icon)
+	builder.SetNillableURL(&body.URL)
+	builder.SetKeywords(strings.Join(body.Keywords, ","))
+	builder.SetNillableDescription(&body.Description)
+	builder.SetStatus(body.Status)
+	builder.SetExtras(body.ExtraProps)
+	builder.SetNillableParentID(&body.ParentID)
+	builder.SetNillableUpdatedBy(&body.UpdatedBy)
+
+	// execute the builder.
+	row, err := builder.Save(ctx)
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.Update error: %v\n", err)
+		return nil, err
+	}
+
+	// Remove from cache
+	cacheKey := fmt.Sprintf("%s", taxonomy.ID)
+	err = r.c.Delete(ctx, cacheKey)
+	err = r.c.Delete(ctx, taxonomy.Slug)
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.Update cache error: %v\n", err)
+	}
+
+	return row, nil
+}
+
+// List get taxonomy list
+func (r *taxonomyRepo) List(ctx context.Context, p *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error) {
+	// Generate cache key based on query parameters
+	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", p.Cursor, p.Limit, p.DomainID, p.Type)
+
+	// // Check cache first
+	// cachedResult, err := r.c.Get(ctx, cacheKey)
+	// if err == nil {
+	// 	// Convert cached JSON data back to []*ent.Taxonomy
+	// 	var result []*ent.Taxonomy
+	// 	if err := json.Unmarshal([]byte(cachedResult), &result); err != nil {
+	// 		return nil, err
+	// 	}
+	// 	return result, nil
+	// } else if err != cache.ErrCacheMiss {
+	// 	log.Errorf(nil, "taxonomyRepo.List cache error: %v\n", err)
+	// }
+
+	// create list builder
+	builder, err := r.ListBuilder(ctx, p)
+	if validator.IsNotNil(err) {
+		return nil, err
+	}
+
+	// limit the result
+	builder.Limit(int(p.Limit))
+
+	// belong domain
+	if p.Domain != "" {
+		builder.Where(taxonomyEnt.DomainIDEQ(p.Domain))
+	}
+
+	// type
+	if p.Type != "" {
+		builder.Where(taxonomyEnt.TypeEQ(p.Type))
+	}
+
+	// sort
+	builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt))
+
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.List error: %v\n", err)
+		return nil, err
+	}
+
+	// // Convert []*ent.Taxonomy to JSON data
+	// jsonData, err := json.Marshal(rows)
+	// if err != nil {
+	// 	log.Errorf(nil, "taxonomyRepo.List cache error: %v\n", err)
+	// } else {
+	// 	// Cache the result
+	// 	if err := r.c.Set(ctx, cacheKey, jsonData); err != nil {
+	// 		log.Errorf(nil, "taxonomyRepo.List cache error: %v\n", err)
+	// 	}
+	// }
+
+	return rows, nil
+}
+
+// Delete delete taxonomy
+func (r *taxonomyRepo) Delete(ctx context.Context, slug string) error {
+	taxonomy, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Slug: slug})
+	if err != nil {
+		return err
+	}
+
+	// create builder.
+	builder := r.ec.Taxonomy.Delete()
+
+	// execute the builder.
+	_, err = builder.Where(taxonomyEnt.IDEQ(taxonomy.ID)).Exec(ctx)
+	if err == nil {
+		// Remove from cache
+		err = r.c.Delete(ctx, taxonomy.ID)
+		err = r.c.Delete(ctx, slug)
+		if err != nil {
+			log.Errorf(nil, "taxonomyRepo.Delete cache error: %v\n", err)
+		}
+
+	}
+
+	return err
+}
+
+// FindTaxonomy find taxonomy
+func (r *taxonomyRepo) FindTaxonomy(ctx context.Context, p *structs.FindTaxonomy) (*ent.Taxonomy, error) {
+	// create builder.
+	builder := r.ec.Taxonomy.Query()
+
+	if validator.IsNotEmpty(p.ID) {
+		builder = builder.Where(taxonomyEnt.IDEQ(p.ID))
+	}
+	// support slug or ID
+	if validator.IsNotEmpty(p.Slug) {
+		builder = builder.Where(taxonomyEnt.Or(
+			taxonomyEnt.ID(p.Slug),
+			taxonomyEnt.SlugEQ(p.Slug),
+		))
+	}
+	if validator.IsNotEmpty(p.DomainID) {
+		builder = builder.Where(taxonomyEnt.DomainIDEQ(p.DomainID))
+	}
+
+	// execute the builder.
+	row, err := builder.Only(ctx)
+	if validator.IsNotNil(err) {
+		return nil, err
+	}
+
+	return row, nil
+}
+
+// ListBuilder create list builder
+func (r *taxonomyRepo) ListBuilder(ctx context.Context, p *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error) {
+	// verify query params.
+	var next *ent.Taxonomy
+	if validator.IsNotEmpty(p.Cursor) {
+		// query the address.
+		row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{
+			ID: p.Cursor,
+		})
+		if validator.IsNotNil(err) || validator.IsNil(row) {
+			return nil, err
+		}
+		next = row
+	}
+
+	// create builder.
+	builder := r.ec.Taxonomy.Query()
+
+	// lt the cursor create time
+	if next != nil {
+		builder.Where(taxonomyEnt.CreatedAtLT(next.CreatedAt))
+	}
+
+	// match parent id.
+	// default is root.
+	if validator.IsEmpty(p.Parent) {
+		builder.Where(taxonomyEnt.Or(
+			taxonomyEnt.ParentIDIsNil(),
+			taxonomyEnt.ParentIDEQ(""),
+			taxonomyEnt.ParentIDEQ("root"),
+		))
+	} else {
+		builder.Where(taxonomyEnt.ParentIDEQ(p.Parent))
+	}
+
+	return builder, nil
+}
+
+// CountX gets a count of taxonomies.
+func (r *taxonomyRepo) CountX(ctx context.Context, p *structs.ListTaxonomyParams) int {
+	// create list builder
+	builder, err := r.ListBuilder(ctx, p)
+	if validator.IsNotNil(err) {
+		return 0
+	}
+	return builder.CountX(ctx)
+}

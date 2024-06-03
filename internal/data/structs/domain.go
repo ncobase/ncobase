@@ -47,15 +47,15 @@ type ReadDomain struct {
 	Keywords    []string   `json:"keywords"`
 	Copyright   string     `json:"copyright"`
 	Description string     `json:"description"`
-	Order       int64      `json:"order"`
+	Order       int32      `json:"order"`
 	Disabled    bool       `json:"disabled"`
 	Extras      types.JSON `json:"extras,omitempty"`
-	User        User       `json:"user,omitempty"`
+	User        *User      `json:"user,omitempty"`
 }
 
 // ListDomainParams - Query domain list params
 type ListDomainParams struct {
 	Cursor string `form:"cursor" json:"cursor"`
-	Limit  int64  `form:"limit" json:"limit"`
+	Limit  int32  `form:"limit" json:"limit"`
 	UserID string `form:"user_id" json:"user_id"`
 }
