@@ -340,11 +340,6 @@ func (tc *TaxonomyCreate) check() error {
 	if _, ok := tc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Taxonomy.status"`)}
 	}
-	if v, ok := tc.mutation.Status(); ok {
-		if err := taxonomy.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.status": %w`, err)}
-		}
-	}
 	if v, ok := tc.mutation.ParentID(); ok {
 		if err := taxonomy.ParentIDValidator(v); err != nil {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.parent_id": %w`, err)}

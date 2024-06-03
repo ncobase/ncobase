@@ -39,7 +39,7 @@ type Taxonomy struct {
 	Keywords string `json:"keywords,omitempty"`
 	// description
 	Description string `json:"description,omitempty"`
-	// status
+	// status, 0 activated, 1 unactivated, 2 disabled
 	Status int32 `json:"status,omitempty"`
 	// extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`

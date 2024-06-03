@@ -83,8 +83,6 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus int32
-	// StatusValidator is a validator for the "status" field. It is called by the builders before save.
-	StatusValidator func(int32) error
 	// TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
 	TaxonomyIDValidator func(string) error
 	// DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.

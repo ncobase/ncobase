@@ -34,7 +34,7 @@ type Topic struct {
 	Markdown bool `json:"markdown,omitempty"`
 	// is private
 	Private bool `json:"private,omitempty"`
-	// status
+	// status, 0 activated, 1 unactivated, 2 disabled
 	Status int32 `json:"status,omitempty"`
 	// released
 	Released time.Time `json:"released,omitempty"`

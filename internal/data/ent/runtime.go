@@ -165,8 +165,6 @@ func init() {
 	taxonomyDescStatus := taxonomyMixinFields11[0].Descriptor()
 	// taxonomy.DefaultStatus holds the default value on creation for the status field.
 	taxonomy.DefaultStatus = taxonomyDescStatus.Default.(int32)
-	// taxonomy.StatusValidator is a validator for the "status" field. It is called by the builders before save.
-	taxonomy.StatusValidator = taxonomyDescStatus.Validators[0].(func(int32) error)
 	// taxonomyDescExtras is the schema descriptor for extras field.
 	taxonomyDescExtras := taxonomyMixinFields12[0].Descriptor()
 	// taxonomy.DefaultExtras holds the default value on creation for the extras field.
@@ -261,8 +259,6 @@ func init() {
 	topicDescStatus := topicMixinFields9[0].Descriptor()
 	// topic.DefaultStatus holds the default value on creation for the status field.
 	topic.DefaultStatus = topicDescStatus.Default.(int32)
-	// topic.StatusValidator is a validator for the "status" field. It is called by the builders before save.
-	topic.StatusValidator = topicDescStatus.Validators[0].(func(int32) error)
 	// topicDescTaxonomyID is the schema descriptor for taxonomy_id field.
 	topicDescTaxonomyID := topicMixinFields11[0].Descriptor()
 	// topic.TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
@@ -331,8 +327,6 @@ func init() {
 	userDescStatus := userMixinFields7[0].Descriptor()
 	// user.DefaultStatus holds the default value on creation for the status field.
 	user.DefaultStatus = userDescStatus.Default.(int32)
-	// user.StatusValidator is a validator for the "status" field. It is called by the builders before save.
-	user.StatusValidator = userDescStatus.Validators[0].(func(int32) error)
 	// userDescExtras is the schema descriptor for extras field.
 	userDescExtras := userMixinFields8[0].Descriptor()
 	// user.DefaultExtras holds the default value on creation for the extras field.

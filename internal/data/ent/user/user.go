@@ -67,8 +67,6 @@ var (
 	UsernameValidator func(string) error
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus int32
-	// StatusValidator is a validator for the "status" field. It is called by the builders before save.
-	StatusValidator func(int32) error
 	// DefaultExtras holds the default value on creation for the "extras" field.
 	DefaultExtras map[string]interface{}
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
