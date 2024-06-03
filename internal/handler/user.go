@@ -9,7 +9,7 @@ import (
 
 // ReadUserHandler Read user handler
 func (h *Handler) ReadUserHandler(c *gin.Context) {
-	result, err := h.svc.ReadUserService(c, c.Param("id"))
+	result, err := h.svc.ReadUserService(c, c.Param("username"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

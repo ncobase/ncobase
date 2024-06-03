@@ -8,6 +8,7 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/internal/helper"
 	"stocms/pkg/crypto"
+	"stocms/pkg/ecode"
 	"stocms/pkg/log"
 	"stocms/pkg/resp"
 
@@ -20,8 +21,17 @@ func (svc *Service) ReadMeService(c *gin.Context) (*resp.Exception, error) {
 }
 
 // ReadUserService - Read user service
-func (svc *Service) ReadUserService(c *gin.Context, userID string) (*resp.Exception, error) {
-	return svc.readUser(c, userID)
+func (svc *Service) ReadUserService(c *gin.Context, username string) (*resp.Exception, error) {
+	if username == "" {
+		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
+	}
+	user, err := svc.findUser(c, &structs.FindUser{Username: username})
+	if exception, err := handleError("User", err); exception != nil {
+		return exception, err
+	}
+	return &resp.Exception{
+		Data: user,
+	}, nil
 }
 
 // UpdatePasswordService - Update user password service

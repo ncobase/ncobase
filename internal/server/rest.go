@@ -33,9 +33,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// ****** Authentication
 	// sign in, use username / email / phone and password
 	v1.POST("/login", h.LoginHandler)
-	// sign up
 	v1.POST("/register", h.RegisterHandler)
-	// logout
 	v1.POST("/logout", h.LogoutHandler)
 
 	// ****** Authorization
@@ -47,27 +45,24 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 
 	// ****** Account
 	account := v1.Group("/account", middleware.Authorized)
-	// current user
 	account.GET("", h.ReadMeHandler)
-	// update current user
 	// account.PUT("", h.UpdateMeHandler)
-	// get domain detail of current user
 	account.GET("/domain", h.AccountDomainHandler)
 
 	account.POST("/password", h.UpdatePasswordHandler)
 
 	// ****** User
-	// user := v1.Group("/users", middleware.Authorized)
-	// get detail of user
-	// user.GET("/:id", h.ReadUserHandler)
+	user := v1.Group("/users", middleware.Authorized)
+	user.GET("/:username", h.ReadUserHandler)
+	user.GET("/:username/domain", h.UserDomainHandler)
 
 	// ****** OAuth register callback and redirect
-	// oauth := v1.Group("/oauth")
-	// oauth.POST("/signup", h.OAuthRegisterHandler)
-	// oauth.GET("/profile", h.GetOAuthProfileHandler)
-	// oauth.GET("/redirect/:provider", h.OAuthRedirectHandler)
-	// oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
-	// oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
+	oauth := v1.Group("/oauth")
+	oauth.POST("/signup", h.OAuthRegisterHandler)
+	oauth.GET("/profile", h.GetOAuthProfileHandler)
+	oauth.GET("/redirect/:provider", h.OAuthRedirectHandler)
+	oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
+	oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
 
 	// ****** Taxonomy
 	taxonomy := v1.Group("/taxonomies", middleware.Authorized)

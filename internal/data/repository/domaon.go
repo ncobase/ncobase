@@ -44,28 +44,30 @@ func NewDomain(d *data.Data) Domain {
 
 // Create create domain
 func (r *domainRepo) Create(ctx context.Context, body *structs.CreateDomainBody) (*ent.Domain, error) {
-	query := r.ec.Domain.
-		Create().
-		SetNillableName(&body.Name).
-		SetNillableTitle(&body.Title).
-		SetNillableURL(&body.URL).
-		SetNillableLogo(&body.Logo).
-		SetNillableLogoAlt(&body.LogoAlt).
-		SetKeywords(strings.Join(body.Keywords, ",")).
-		SetNillableCopyright(&body.Copyright).
-		SetNillableDescription(&body.Description).
-		SetDisabled(body.Disabled).
-		SetUserID(body.UserID)
+	// create builder.
+	builder := r.ec.Domain.Create()
+	// Set values
+	builder.SetNillableName(&body.Name)
+	builder.SetNillableTitle(&body.Title)
+	builder.SetNillableURL(&body.URL)
+	builder.SetNillableLogo(&body.Logo)
+	builder.SetNillableLogoAlt(&body.LogoAlt)
+	builder.SetKeywords(strings.Join(body.Keywords, ","))
+	builder.SetNillableCopyright(&body.Copyright)
+	builder.SetNillableDescription(&body.Description)
+	builder.SetDisabled(body.Disabled)
+	builder.SetUserID(body.UserID)
 
 	if body.Order > 0 {
-		query.SetOrder(int32(body.Order))
+		builder.SetOrder(int32(body.Order))
 	}
 
 	if !validator.IsNil(body.Extras) && len(body.Extras) > 0 {
-		query.SetExtras(body.Extras)
+		builder.SetExtras(body.Extras)
 	}
 
-	row, err := query.Save(ctx)
+	// execute the builder.
+	row, err := builder.Save(ctx)
 	if err != nil {
 		log.Errorf(nil, "domainRepo.Create error: %v\n", err)
 		return nil, err
@@ -143,48 +145,51 @@ func (r *domainRepo) GetIDByUser(ctx context.Context, userID string) (string, er
 
 // Update update domain
 func (r *domainRepo) Update(ctx context.Context, body *structs.UpdateDomainBody) (*ent.Domain, error) {
-	domain, err := r.GetByID(ctx, body.ID)
+	domain, err := r.FindDomain(ctx, &structs.FindDomain{ID: body.ID})
 	if err != nil {
 		return nil, err
 	}
 
-	query := domain.
-		Update().
-		SetNillableName(&body.Name).
-		SetNillableTitle(&body.Title).
-		SetNillableURL(&body.URL).
-		SetNillableLogo(&body.Logo).
-		SetNillableLogoAlt(&body.LogoAlt).
-		SetKeywords(strings.Join(body.Keywords, ",")).
-		SetNillableCopyright(&body.Copyright).
-		SetNillableDescription(&body.Description).
-		SetDisabled(body.Disabled)
+	// create builder.
+	builder := domain.Update()
+
+	// Set values
+	builder.SetNillableName(&body.Name)
+	builder.SetNillableTitle(&body.Title)
+	builder.SetNillableURL(&body.URL)
+	builder.SetNillableLogo(&body.Logo)
+	builder.SetNillableLogoAlt(&body.LogoAlt)
+	builder.SetKeywords(strings.Join(body.Keywords, ","))
+	builder.SetNillableCopyright(&body.Copyright)
+	builder.SetNillableDescription(&body.Description)
+	builder.SetDisabled(body.Disabled)
 
 	if body.Order > 0 {
-		query.SetOrder(int32(body.Order))
+		builder.SetOrder(int32(body.Order))
 	}
 
 	if !validator.IsNil(body.Extras) && len(body.Extras) > 0 {
-		query.SetExtras(body.Extras)
+		builder.SetExtras(body.Extras)
 	}
 
 	if body.UserID != "" {
-		query.SetUserID(body.UserID)
+		builder.SetUserID(body.UserID)
 	}
 
-	row, err := query.Save(ctx)
+	// execute the builder.
+	row, err := builder.Save(ctx)
 	if err != nil {
 		log.Errorf(nil, "domainRepo.Update error: %v\n", err)
 		return nil, err
 	}
 
 	// Remove from cache
-	cacheKey := fmt.Sprintf("%s", body.ID)
+	cacheKey := fmt.Sprintf("%s", domain.ID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
 		log.Errorf(nil, "domainRepo.Update cache error: %v\n", err)
 	}
-	cacheUserKey := fmt.Sprintf("user:%s", body.UserID)
+	cacheUserKey := fmt.Sprintf("user:%s", domain.UserID)
 	err = r.c.Delete(ctx, cacheUserKey)
 	if err != nil {
 		log.Errorf(nil, "domainRepo.Update cache error: %v\n", err)
@@ -240,14 +245,18 @@ func (r *domainRepo) List(ctx context.Context, p *structs.ListDomainParams) ([]*
 
 // Delete delete domain
 func (r *domainRepo) Delete(ctx context.Context, id string) error {
-	_, err := r.ec.Domain.
-		Delete().
-		Where(domainEnt.IDEQ(id)).
-		Exec(ctx)
+	domain, err := r.FindDomain(ctx, &structs.FindDomain{ID: id})
+	if err != nil {
+		return err
+	}
+	// create builder.
+	builder := r.ec.Domain.Delete()
 
+	// execute the builder.
+	_, err = builder.Where(domainEnt.IDEQ(id)).Exec(ctx)
 	if err == nil {
 		// Remove from cache
-		cacheKey := fmt.Sprintf("%s", id)
+		cacheKey := fmt.Sprintf("%s", domain.ID)
 		err := r.c.Delete(ctx, cacheKey)
 		if err != nil {
 			log.Errorf(nil, "domainRepo.Delete cache error: %v\n", err)

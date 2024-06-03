@@ -6,6 +6,7 @@ import (
 	"stocms/internal/data/ent"
 	"stocms/internal/data/structs"
 	"stocms/internal/helper"
+	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 	"stocms/pkg/types"
 	"strings"
@@ -27,7 +28,28 @@ func (svc *Service) AccountDomainService(c *gin.Context) (*resp.Exception, error
 	}
 
 	return &resp.Exception{
-		Data: svc.serializeDomain(c, domain, true),
+		Data: svc.serializeDomain(c, domain, false),
+	}, nil
+}
+
+// UserDomainService user domain service
+func (svc *Service) UserDomainService(c *gin.Context, username string) (*resp.Exception, error) {
+	if username == "" {
+		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
+	}
+
+	user, err := svc.findUser(c, &structs.FindUser{Username: username})
+	if exception, err := handleError("User", err); exception != nil {
+		return exception, err
+	}
+
+	domain, err := svc.domain.GetByUser(c, user.ID)
+	if exception, err := handleError("Domain", err); exception != nil {
+		return exception, err
+	}
+
+	return &resp.Exception{
+		Data: svc.serializeDomain(c, domain, false),
 	}, nil
 }
 
@@ -148,7 +170,7 @@ func (svc *Service) serializeDomain(c *gin.Context, domain *ent.Domain, withUser
 		Keywords:    strings.Split(domain.Keywords, ","),
 		Copyright:   domain.Copyright,
 		Description: domain.Description,
-		Order:       int64(domain.Order),
+		Order:       domain.Order,
 		Disabled:    domain.Disabled,
 		Extras:      domain.Extras,
 	}
@@ -156,6 +178,7 @@ func (svc *Service) serializeDomain(c *gin.Context, domain *ent.Domain, withUser
 	if withUser {
 		user, err := svc.user.GetByID(c, domain.UserID)
 		if err == nil {
+			readDomain.User = new(structs.User)
 			_ = copier.Copy(&readDomain.User, user)
 		}
 	}

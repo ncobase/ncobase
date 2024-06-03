@@ -1,0 +1,87 @@
+package service
+
+import (
+	"stocms/internal/data/ent"
+	"stocms/internal/data/structs"
+	"stocms/pkg/ecode"
+	"stocms/pkg/resp"
+	"stocms/pkg/slug"
+	"stocms/pkg/validator"
+
+	"github.com/gin-gonic/gin"
+)
+
+// CreateTopicService creates a new topic.
+func (svc *Service) CreateTopicService(c *gin.Context, body *structs.CreateTopicBody) (*resp.Exception, error) {
+	// set slug field.
+	if validator.IsEmpty(body.Slug) {
+		body.Slug = slug.Unicode(body.Name)
+	}
+	topic, err := svc.topic.Create(c, body)
+	if exception, err := handleError("Topic", err); exception != nil {
+		return exception, err
+	}
+
+	return &resp.Exception{
+		Data: topic,
+	}, nil
+}
+
+// UpdateTopicService updates an existing topic.
+func (svc *Service) UpdateTopicService(c *gin.Context, body *structs.UpdateTopicBody) (*resp.Exception, error) {
+	topic, err := svc.topic.Update(c, body)
+	if exception, err := handleError("Topic", err); exception != nil {
+		return exception, err
+	}
+
+	return &resp.Exception{
+		Data: topic,
+	}, nil
+}
+
+// GetTopicService retrieves a topic by ID.
+func (svc *Service) GetTopicService(c *gin.Context, slug string) (*resp.Exception, error) {
+	topic, err := svc.topic.GetBySlug(c, slug)
+	if exception, err := handleError("Topic", err); exception != nil {
+		return exception, err
+	}
+
+	return &resp.Exception{
+		Data: topic,
+	}, nil
+}
+
+// DeleteTopicService deletes a topic by ID.
+func (svc *Service) DeleteTopicService(c *gin.Context, slug string) (*resp.Exception, error) {
+	err := svc.topic.Delete(c, slug)
+	if exception, err := handleError("Topic", err); exception != nil {
+		return exception, err
+	}
+
+	return nil, nil
+}
+
+// ListTopicsService lists all topics.
+func (svc *Service) ListTopicsService(c *gin.Context, params *structs.ListTopicParams) (*resp.Exception, error) {
+	// limit default value
+	if validator.IsEmpty(params.Limit) {
+		params.Limit = 20
+	}
+	// limit must less than 100
+	if params.Limit > 100 {
+		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
+	}
+
+	topics, err := svc.topic.List(c, params)
+
+	if ent.IsNotFound(err) {
+		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
+	}
+	if validator.IsNotNil(err) {
+		return resp.InternalServer(err.Error()), nil
+	}
+
+	return &resp.Exception{
+		Data: topics,
+	}, nil
+}

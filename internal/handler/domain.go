@@ -17,6 +17,16 @@ func (h *Handler) AccountDomainHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
+// UserDomainHandler Read user domain handler
+func (h *Handler) UserDomainHandler(c *gin.Context) {
+	result, err := h.svc.UserDomainService(c, c.Param("username"))
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, result)
+}
+
 // UpdateDomainHandler Update domain handler
 func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 	var body *structs.UpdateDomainBody

@@ -12,17 +12,23 @@ import (
 
 // Service represents a service definition.
 type Service struct {
-	d      *data.Data
-	domain repo.Domain
-	user   repo.User
+	d                 *data.Data
+	domain            repo.Domain
+	user              repo.User
+	taxonomy          repo.Taxonomy
+	taxonomyRelations repo.TaxonomyRelations
+	topic             repo.Topic
 }
 
 // New creates a Service instance and returns it.
 func New(d *data.Data) *Service {
 	return &Service{
-		d:      d,
-		domain: repo.NewDomain(d),
-		user:   repo.NewUser(d),
+		d:                 d,
+		domain:            repo.NewDomain(d),
+		user:              repo.NewUser(d),
+		taxonomy:          repo.NewTaxonomy(d),
+		taxonomyRelations: repo.NewTaxonomyRelations(d),
+		topic:             repo.NewTopic(d),
 	}
 }
 
