@@ -2,7 +2,7 @@ package slug
 
 import "github.com/gosimple/slug"
 
-// UnicodeSlug generate slug from unicode string,
-func UnicodeSlug(s string) string {
+// Unicode generate slug from unicode string,
+func Unicode(s string) string {
 	return slug.Make(s)
 }
