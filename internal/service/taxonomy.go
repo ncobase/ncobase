@@ -6,6 +6,7 @@ import (
 	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 	"stocms/pkg/slug"
+	"stocms/pkg/types"
 	"stocms/pkg/validator"
 
 	"github.com/gin-gonic/gin"
@@ -27,9 +28,19 @@ func (svc *Service) CreateTaxonomyService(c *gin.Context, body *structs.CreateTa
 	}, nil
 }
 
-// UpdateTaxonomyService updates an existing taxonomy.
-func (svc *Service) UpdateTaxonomyService(c *gin.Context, body *structs.UpdateTaxonomyBody) (*resp.Exception, error) {
-	taxonomy, err := svc.taxonomy.Update(c, body)
+// UpdateTaxonomyService updates an existing taxonomy (full and partial)..
+func (svc *Service) UpdateTaxonomyService(c *gin.Context, slug string, updates types.JSON) (*resp.Exception, error) {
+	if validator.IsEmpty(slug) {
+		return resp.BadRequest(ecode.FieldIsRequired("slug / id")), nil
+	}
+
+	// Validate the updates map
+	if len(updates) == 0 {
+		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
+	}
+
+	// Call the repo Patch method
+	taxonomy, err := svc.taxonomy.Update(c, slug, updates)
 	if exception, err := handleError("Taxonomy", err); exception != nil {
 		return exception, err
 	}

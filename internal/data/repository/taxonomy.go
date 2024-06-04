@@ -9,6 +9,7 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
+	"stocms/pkg/types"
 	"stocms/pkg/validator"
 	"strings"
 
@@ -20,7 +21,7 @@ type Taxonomy interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*ent.Taxonomy, error)
 	GetByID(ctx context.Context, id string) (*ent.Taxonomy, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Taxonomy, error)
-	Update(ctx context.Context, body *structs.UpdateTaxonomyBody) (*ent.Taxonomy, error)
+	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Taxonomy, error)
 	List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error)
 	Delete(ctx context.Context, slug string) error
 	FindTaxonomy(ctx context.Context, p *structs.FindTaxonomy) (*ent.Taxonomy, error)
@@ -126,8 +127,8 @@ func (r *taxonomyRepo) GetBySlug(ctx context.Context, slug string) (*ent.Taxonom
 }
 
 // Update update taxonomy
-func (r *taxonomyRepo) Update(ctx context.Context, body *structs.UpdateTaxonomyBody) (*ent.Taxonomy, error) {
-	taxonomy, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Slug: body.ID})
+func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JSON) (*ent.Taxonomy, error) {
+	taxonomy, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Slug: slug})
 	if err != nil {
 		return nil, err
 	}
@@ -136,20 +137,38 @@ func (r *taxonomyRepo) Update(ctx context.Context, body *structs.UpdateTaxonomyB
 	builder := taxonomy.Update()
 
 	// Set values
-	builder.SetNillableName(&body.Name)
-	builder.SetNillableType(&body.Type)
-	builder.SetNillableSlug(&body.Slug)
-	builder.SetNillableCover(&body.Cover)
-	builder.SetNillableThumbnail(&body.Thumbnail)
-	builder.SetNillableColor(&body.Color)
-	builder.SetNillableIcon(&body.Icon)
-	builder.SetNillableURL(&body.URL)
-	builder.SetKeywords(strings.Join(body.Keywords, ","))
-	builder.SetNillableDescription(&body.Description)
-	builder.SetStatus(body.Status)
-	builder.SetExtras(body.ExtraProps)
-	builder.SetNillableParentID(&body.ParentID)
-	builder.SetNillableUpdatedBy(&body.UpdatedBy)
+	for field, value := range updates {
+		switch field {
+		case "name":
+			builder.SetNillableName(types.ToPointer(value.(string)))
+		case "type":
+			builder.SetNillableType(types.ToPointer(value.(string)))
+		case "slug":
+			builder.SetNillableSlug(types.ToPointer(value.(string)))
+		case "cover":
+			builder.SetNillableCover(types.ToPointer(value.(string)))
+		case "thumbnail":
+			builder.SetNillableThumbnail(types.ToPointer(value.(string)))
+		case "color":
+			builder.SetNillableColor(types.ToPointer(value.(string)))
+		case "icon":
+			builder.SetNillableIcon(types.ToPointer(value.(string)))
+		case "url":
+			builder.SetNillableURL(types.ToPointer(value.(string)))
+		case "keywords":
+			builder.SetKeywords(strings.Join(value.([]string), ","))
+		case "description":
+			builder.SetNillableDescription(types.ToPointer(value.(string)))
+		case "status":
+			builder.SetStatus(value.(int32))
+		case "extras":
+			builder.SetExtras(value.(types.JSON))
+		case "parent_id":
+			builder.SetNillableParentID(types.ToPointer(value.(string)))
+		case "updated_by":
+			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+		}
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)

@@ -6,6 +6,7 @@ import (
 
 const (
 	emptyMsg    = "empty"
+	requiredMsg = "required"
 	invalidMsg  = "invalid"
 	successMsg  = "success"
 	failedMsg   = "failed"
@@ -13,6 +14,30 @@ const (
 	notExistMsg = "not exist"
 	expiredMsg  = "expired"
 )
+
+// FieldIsBlank returns field blank message
+func FieldIsBlank(k ...string) string {
+	if len(k) > 0 {
+		return fmt.Sprintf("%s %s", k[0], emptyMsg)
+	}
+	return emptyMsg
+}
+
+// FieldIsNil returns field nil message
+func FieldIsNil(k ...string) string {
+	if len(k) > 0 {
+		return fmt.Sprintf("%s %s", k[0], emptyMsg)
+	}
+	return emptyMsg
+}
+
+// FieldIsRequired returns field required message
+func FieldIsRequired(k ...string) string {
+	if len(k) > 0 {
+		return fmt.Sprintf("%s %s", k[0], requiredMsg)
+	}
+	return emptyMsg
+}
 
 // FieldIsEmpty returns field empty message
 func FieldIsEmpty(k ...string) string {

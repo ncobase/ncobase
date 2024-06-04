@@ -2,7 +2,9 @@ package handler
 
 import (
 	"stocms/internal/data/structs"
+	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
+	"stocms/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,13 +28,19 @@ func (h *Handler) CreateTaxonomyHandler(c *gin.Context) {
 
 // UpdateTaxonomyHandler handles updating a taxonomy
 func (h *Handler) UpdateTaxonomyHandler(c *gin.Context) {
-	var body *structs.UpdateTaxonomyBody
-	if err := c.ShouldBind(&body); err != nil {
+	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug / id")))
+		return
+	}
+
+	var updates types.JSON
+	if err := c.ShouldBind(&updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
 
-	result, err := h.svc.UpdateTaxonomyService(c, body)
+	result, err := h.svc.UpdateTaxonomyService(c, slug, updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -44,6 +52,10 @@ func (h *Handler) UpdateTaxonomyHandler(c *gin.Context) {
 // GetTaxonomyHandler handles getting a taxonomy
 func (h *Handler) GetTaxonomyHandler(c *gin.Context) {
 	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug / id")))
+		return
+	}
 
 	result, err := h.svc.GetTaxonomyService(c, slug)
 	if err != nil {
@@ -57,6 +69,10 @@ func (h *Handler) GetTaxonomyHandler(c *gin.Context) {
 // DeleteTaxonomyHandler handles deleting a taxonomy
 func (h *Handler) DeleteTaxonomyHandler(c *gin.Context) {
 	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug / id")))
+		return
+	}
 
 	result, err := h.svc.DeleteTaxonomyService(c, slug)
 	if err != nil {
