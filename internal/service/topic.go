@@ -6,6 +6,7 @@ import (
 	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 	"stocms/pkg/slug"
+	"stocms/pkg/types"
 	"stocms/pkg/validator"
 
 	"github.com/gin-gonic/gin"
@@ -27,9 +28,19 @@ func (svc *Service) CreateTopicService(c *gin.Context, body *structs.CreateTopic
 	}, nil
 }
 
-// UpdateTopicService updates an existing topic.
-func (svc *Service) UpdateTopicService(c *gin.Context, body *structs.UpdateTopicBody) (*resp.Exception, error) {
-	topic, err := svc.topic.Update(c, body)
+// UpdateTopicService updates an existing topic (full and partial).
+func (svc *Service) UpdateTopicService(c *gin.Context, slug string, updates types.JSON) (*resp.Exception, error) {
+	if validator.IsEmpty(slug) {
+		return resp.BadRequest(ecode.FieldIsRequired("slug / id")), nil
+	}
+
+	// Validate the updates map
+	if len(updates) == 0 {
+		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
+	}
+
+	// Call the repo Patch method
+	topic, err := svc.topic.Update(c, slug, updates)
 	if exception, err := handleError("Topic", err); exception != nil {
 		return exception, err
 	}

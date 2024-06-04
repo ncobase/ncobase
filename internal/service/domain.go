@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/structs"
@@ -78,7 +79,7 @@ func (svc *Service) CreateDomainService(c *gin.Context, body *structs.CreateDoma
 	}, nil
 }
 
-// UpdateDomainService update domain service
+// UpdateDomainService update domain service (full and partial).
 func (svc *Service) UpdateDomainService(c *gin.Context, body *structs.UpdateDomainBody) (*resp.Exception, error) {
 	userID := helper.GetUserID(c)
 	if userID == "" {
@@ -105,7 +106,17 @@ func (svc *Service) UpdateDomainService(c *gin.Context, body *structs.UpdateDoma
 		return resp.Forbidden("This domain is not yours"), nil
 	}
 
-	_, err = svc.domain.Update(helper.FromGinContext(c), body)
+	bodyJSON, err := json.Marshal(body)
+	if err != nil {
+		return resp.InternalServer(err.Error()), nil
+	}
+
+	bodyData := types.JSON{}
+	if err := json.Unmarshal(bodyJSON, &bodyData); err != nil {
+		return resp.InternalServer(err.Error()), nil
+	}
+
+	_, err = svc.domain.Update(helper.FromGinContext(c), domain.ID, bodyData)
 	if exception, err := handleError("Domain", err); exception != nil {
 		return exception, err
 	}

@@ -2,7 +2,9 @@ package handler
 
 import (
 	"stocms/internal/data/structs"
+	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
+	"stocms/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,15 +26,21 @@ func (h *Handler) CreateTopicHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// UpdateTopicHandler handles updating a topic
+// UpdateTopicHandler handles updating a topic (full and partial)
 func (h *Handler) UpdateTopicHandler(c *gin.Context) {
-	var body *structs.UpdateTopicBody
-	if err := c.ShouldBind(&body); err != nil {
+	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug / id")))
+		return
+	}
+
+	var updates types.JSON
+	if err := c.ShouldBindJSON(&updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
 
-	result, err := h.svc.UpdateTopicService(c, body)
+	result, err := h.svc.UpdateTopicService(c, slug, updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -44,6 +52,10 @@ func (h *Handler) UpdateTopicHandler(c *gin.Context) {
 // GetTopicHandler handles getting a topic
 func (h *Handler) GetTopicHandler(c *gin.Context) {
 	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug / id")))
+		return
+	}
 
 	result, err := h.svc.GetTopicService(c, slug)
 	if err != nil {
@@ -57,6 +69,10 @@ func (h *Handler) GetTopicHandler(c *gin.Context) {
 // DeleteTopicHandler handles deleting a topic
 func (h *Handler) DeleteTopicHandler(c *gin.Context) {
 	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug / id")))
+		return
+	}
 
 	result, err := h.svc.DeleteTopicService(c, slug)
 	if err != nil {

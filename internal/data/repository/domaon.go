@@ -10,6 +10,7 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
+	"stocms/pkg/types"
 	"stocms/pkg/validator"
 	"strings"
 
@@ -22,7 +23,7 @@ type Domain interface {
 	GetByID(ctx context.Context, id string) (*ent.Domain, error)
 	GetByUser(ctx context.Context, user string) (*ent.Domain, error)
 	GetIDByUser(ctx context.Context, user string) (string, error)
-	Update(ctx context.Context, body *structs.UpdateDomainBody) (*ent.Domain, error)
+	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Domain, error)
 	List(ctx context.Context, params *structs.ListDomainParams) ([]*ent.Domain, error)
 	Delete(ctx context.Context, id string) error
 	DeleteByUser(ctx context.Context, id string) error
@@ -144,8 +145,8 @@ func (r *domainRepo) GetIDByUser(ctx context.Context, userID string) (string, er
 }
 
 // Update update domain
-func (r *domainRepo) Update(ctx context.Context, body *structs.UpdateDomainBody) (*ent.Domain, error) {
-	domain, err := r.FindDomain(ctx, &structs.FindDomain{ID: body.ID})
+func (r *domainRepo) Update(ctx context.Context, id string, updates types.JSON) (*ent.Domain, error) {
+	domain, err := r.FindDomain(ctx, &structs.FindDomain{ID: id})
 	if err != nil {
 		return nil, err
 	}
@@ -154,26 +155,33 @@ func (r *domainRepo) Update(ctx context.Context, body *structs.UpdateDomainBody)
 	builder := domain.Update()
 
 	// Set values
-	builder.SetNillableName(&body.Name)
-	builder.SetNillableTitle(&body.Title)
-	builder.SetNillableURL(&body.URL)
-	builder.SetNillableLogo(&body.Logo)
-	builder.SetNillableLogoAlt(&body.LogoAlt)
-	builder.SetKeywords(strings.Join(body.Keywords, ","))
-	builder.SetNillableCopyright(&body.Copyright)
-	builder.SetNillableDescription(&body.Description)
-	builder.SetDisabled(body.Disabled)
-
-	if body.Order > 0 {
-		builder.SetOrder(int32(body.Order))
-	}
-
-	if !validator.IsNil(body.Extras) && len(body.Extras) > 0 {
-		builder.SetExtras(body.Extras)
-	}
-
-	if body.UserID != "" {
-		builder.SetUserID(body.UserID)
+	for field, value := range updates {
+		switch field {
+		case "name":
+			builder.SetNillableName(types.ToPointer(value.(string)))
+		case "title":
+			builder.SetNillableTitle(types.ToPointer(value.(string)))
+		case "url":
+			builder.SetNillableURL(types.ToPointer(value.(string)))
+		case "logo":
+			builder.SetNillableLogo(types.ToPointer(value.(string)))
+		case "logo_alt":
+			builder.SetNillableLogoAlt(types.ToPointer(value.(string)))
+		case "keywords":
+			builder.SetKeywords(strings.Join(value.([]string), ","))
+		case "copyright":
+			builder.SetNillableCopyright(types.ToPointer(value.(string)))
+		case "description":
+			builder.SetNillableDescription(types.ToPointer(value.(string)))
+		case "disabled":
+			builder.SetDisabled(value.(bool))
+		case "order":
+			builder.SetOrder(int32(value.(float64)))
+		case "extras":
+			builder.SetExtras(value.(types.JSON))
+		case "user_id":
+			builder.SetNillableUserID(types.ToPointer(value.(string)))
+		}
 	}
 
 	// execute the builder.

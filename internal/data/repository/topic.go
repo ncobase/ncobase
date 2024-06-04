@@ -9,7 +9,9 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
+	"stocms/pkg/types"
 	"stocms/pkg/validator"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -19,7 +21,7 @@ type Topic interface {
 	Create(ctx context.Context, body *structs.CreateTopicBody) (*ent.Topic, error)
 	GetByID(ctx context.Context, id string) (*ent.Topic, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Topic, error)
-	Update(ctx context.Context, body *structs.UpdateTopicBody) (*ent.Topic, error)
+	Update(ctx context.Context, slug string, body types.JSON) (*ent.Topic, error)
 	List(ctx context.Context, params *structs.ListTopicParams) ([]*ent.Topic, error)
 	Delete(ctx context.Context, slug string) error
 	FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.Topic, error)
@@ -124,9 +126,9 @@ func (r *topicRepo) GetBySlug(ctx context.Context, slug string) (*ent.Topic, err
 	return row, nil
 }
 
-// Update updates a topic.
-func (r *topicRepo) Update(ctx context.Context, body *structs.UpdateTopicBody) (*ent.Topic, error) {
-	topic, err := r.FindTopic(ctx, &structs.FindTopic{Slug: body.ID})
+// Update updates a topic (full or partial).
+func (r *topicRepo) Update(ctx context.Context, slug string, updates types.JSON) (*ent.Topic, error) {
+	topic, err := r.FindTopic(ctx, &structs.FindTopic{Slug: slug})
 	if err != nil {
 		return nil, err
 	}
@@ -135,19 +137,36 @@ func (r *topicRepo) Update(ctx context.Context, body *structs.UpdateTopicBody) (
 	builder := topic.Update()
 
 	// Set values
-	builder.SetNillableName(&body.Name)
-	builder.SetNillableTitle(&body.Title)
-	builder.SetNillableSlug(&body.Slug)
-	builder.SetNillableContent(&body.Content)
-	builder.SetNillableThumbnail(&body.Thumbnail)
-	builder.SetTemp(body.Temp)
-	builder.SetMarkdown(body.Markdown)
-	builder.SetPrivate(body.Private)
-	builder.SetStatus(body.Status)
-	builder.SetNillableReleased(&body.Released)
-	builder.SetTaxonomyID(body.TaxonomyID)
-	builder.SetDomainID(body.DomainID)
-	builder.SetUpdatedBy(body.UpdatedBy)
+	for field, value := range updates {
+		switch field {
+		case "name":
+			builder.SetNillableName(types.ToPointer(value.(string)))
+		case "title":
+			builder.SetNillableTitle(types.ToPointer(value.(string)))
+		case "slug":
+			builder.SetNillableSlug(types.ToPointer(value.(string)))
+		case "content":
+			builder.SetNillableContent(types.ToPointer(value.(string)))
+		case "thumbnail":
+			builder.SetNillableThumbnail(types.ToPointer(value.(string)))
+		case "temp":
+			builder.SetTemp(value.(bool))
+		case "markdown":
+			builder.SetMarkdown(value.(bool))
+		case "private":
+			builder.SetPrivate(value.(bool))
+		case "status":
+			builder.SetStatus(value.(int32))
+		case "released":
+			builder.SetNillableReleased(types.ToPointer(value.(time.Time)))
+		case "taxonomy_id":
+			builder.SetNillableTaxonomyID(types.ToPointer(value.(string)))
+		case "domain_id":
+			builder.SetNillableDomainID(types.ToPointer(value.(string)))
+		case "updated_by":
+			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+		}
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)
@@ -282,4 +301,14 @@ func (r *topicRepo) CountX(ctx context.Context, p *structs.ListTopicParams) int 
 		return 0
 	}
 	return builder.CountX(ctx)
+}
+
+// Count gets a count of topics.
+func (r *topicRepo) Count(ctx context.Context, p *structs.ListTopicParams) (int, error) {
+	// create list builder
+	builder, err := r.ListBuilder(ctx, p)
+	if validator.IsNotNil(err) {
+		return 0, err
+	}
+	return builder.Count(ctx)
 }
