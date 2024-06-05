@@ -45,7 +45,8 @@ func SendTemplateEmailWithMailgun(config *MailgunConfig, recipientEmail string, 
 	// Send email
 	_, id, err := mg.Send(ctx, message)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to send email")
+		log.Errorf(ctx, "Error sending email: %v", err)
+		return "", err
 	}
 
 	log.Printf(ctx, "Email queued: %s", id)

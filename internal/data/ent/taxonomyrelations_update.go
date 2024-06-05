@@ -67,26 +67,6 @@ func (tru *TaxonomyRelationsUpdate) ClearType() *TaxonomyRelationsUpdate {
 	return tru
 }
 
-// SetObjectID sets the "object_id" field.
-func (tru *TaxonomyRelationsUpdate) SetObjectID(s string) *TaxonomyRelationsUpdate {
-	tru.mutation.SetObjectID(s)
-	return tru
-}
-
-// SetNillableObjectID sets the "object_id" field if the given value is not nil.
-func (tru *TaxonomyRelationsUpdate) SetNillableObjectID(s *string) *TaxonomyRelationsUpdate {
-	if s != nil {
-		tru.SetObjectID(*s)
-	}
-	return tru
-}
-
-// ClearObjectID clears the value of the "object_id" field.
-func (tru *TaxonomyRelationsUpdate) ClearObjectID() *TaxonomyRelationsUpdate {
-	tru.mutation.ClearObjectID()
-	return tru
-}
-
 // SetOrder sets the "order" field.
 func (tru *TaxonomyRelationsUpdate) SetOrder(i int32) *TaxonomyRelationsUpdate {
 	tru.mutation.ResetOrder()
@@ -167,11 +147,6 @@ func (tru *TaxonomyRelationsUpdate) check() error {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.taxonomy_id": %w`, err)}
 		}
 	}
-	if v, ok := tru.mutation.ObjectID(); ok {
-		if err := taxonomyrelations.ObjectIDValidator(v); err != nil {
-			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.object_id": %w`, err)}
-		}
-	}
 	if v, ok := tru.mutation.Order(); ok {
 		if err := taxonomyrelations.OrderValidator(v); err != nil {
 			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.order": %w`, err)}
@@ -208,12 +183,6 @@ func (tru *TaxonomyRelationsUpdate) sqlSave(ctx context.Context) (n int, err err
 	}
 	if tru.mutation.TypeCleared() {
 		_spec.ClearField(taxonomyrelations.FieldType, field.TypeString)
-	}
-	if value, ok := tru.mutation.ObjectID(); ok {
-		_spec.SetField(taxonomyrelations.FieldObjectID, field.TypeString, value)
-	}
-	if tru.mutation.ObjectIDCleared() {
-		_spec.ClearField(taxonomyrelations.FieldObjectID, field.TypeString)
 	}
 	if value, ok := tru.mutation.Order(); ok {
 		_spec.SetField(taxonomyrelations.FieldOrder, field.TypeInt32, value)
@@ -287,26 +256,6 @@ func (truo *TaxonomyRelationsUpdateOne) SetNillableType(s *string) *TaxonomyRela
 // ClearType clears the value of the "type" field.
 func (truo *TaxonomyRelationsUpdateOne) ClearType() *TaxonomyRelationsUpdateOne {
 	truo.mutation.ClearType()
-	return truo
-}
-
-// SetObjectID sets the "object_id" field.
-func (truo *TaxonomyRelationsUpdateOne) SetObjectID(s string) *TaxonomyRelationsUpdateOne {
-	truo.mutation.SetObjectID(s)
-	return truo
-}
-
-// SetNillableObjectID sets the "object_id" field if the given value is not nil.
-func (truo *TaxonomyRelationsUpdateOne) SetNillableObjectID(s *string) *TaxonomyRelationsUpdateOne {
-	if s != nil {
-		truo.SetObjectID(*s)
-	}
-	return truo
-}
-
-// ClearObjectID clears the value of the "object_id" field.
-func (truo *TaxonomyRelationsUpdateOne) ClearObjectID() *TaxonomyRelationsUpdateOne {
-	truo.mutation.ClearObjectID()
 	return truo
 }
 
@@ -403,11 +352,6 @@ func (truo *TaxonomyRelationsUpdateOne) check() error {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.taxonomy_id": %w`, err)}
 		}
 	}
-	if v, ok := truo.mutation.ObjectID(); ok {
-		if err := taxonomyrelations.ObjectIDValidator(v); err != nil {
-			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.object_id": %w`, err)}
-		}
-	}
 	if v, ok := truo.mutation.Order(); ok {
 		if err := taxonomyrelations.OrderValidator(v); err != nil {
 			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.order": %w`, err)}
@@ -461,12 +405,6 @@ func (truo *TaxonomyRelationsUpdateOne) sqlSave(ctx context.Context) (_node *Tax
 	}
 	if truo.mutation.TypeCleared() {
 		_spec.ClearField(taxonomyrelations.FieldType, field.TypeString)
-	}
-	if value, ok := truo.mutation.ObjectID(); ok {
-		_spec.SetField(taxonomyrelations.FieldObjectID, field.TypeString, value)
-	}
-	if truo.mutation.ObjectIDCleared() {
-		_spec.ClearField(taxonomyrelations.FieldObjectID, field.TypeString)
 	}
 	if value, ok := truo.mutation.Order(); ok {
 		_spec.SetField(taxonomyrelations.FieldOrder, field.TypeInt32, value)

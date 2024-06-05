@@ -41,7 +41,7 @@ func (Domain) Mixin() []ent.Mixin {
 		mixin.Disabled{},
 		mixin.ExtraProps{},
 		mixin.TimeAt{},
-		mixin.UserID{},
+		mixin.UserID,
 	}
 }
 

@@ -31,9 +31,9 @@ type User struct {
 	IsCertified bool `json:"is_certified,omitempty"`
 	// is admin
 	IsAdmin bool `json:"is_admin,omitempty"`
-	// status, 0 activated, 1 unactivated, 2 disabled
+	// status: 0 activated, 1 unactivated, 2 disabled
 	Status int32 `json:"status,omitempty"`
-	// extend properties
+	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`

@@ -6,41 +6,48 @@ import (
 	"entgo.io/ent/schema/mixin"
 )
 
-// Status adds status field.
+// Status adds a status field to the schema.
 type Status struct{ mixin.Schema }
 
-// Fields of the status mixin.
+// Fields of the Status mixin.
 func (Status) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("status").Comment("status, 0 activated, 1 unactivated, 2 disabled").Default(0), // status, 0 activated, 1 unactivated, 2 disabled
+		field.Int32("status").
+			Default(0).
+			Comment("status: 0 activated, 1 unactivated, 2 disabled"),
 	}
 }
 
-// status mixin must implement `Mixin` interface.
+// Ensure Status implements the Mixin interface.
 var _ ent.Mixin = (*Status)(nil)
 
-// Order adds order field.
+// Order adds an order field to the schema.
 type Order struct{ mixin.Schema }
 
-// Fields of the order mixin.
+// Fields of the Order mixin.
 func (Order) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("order").Comment("order").Default(99).Positive(), // order
+		field.Int32("order").
+			Default(99).
+			Positive().
+			Comment("display order"),
 	}
 }
 
-// order mixin must implement `Mixin` interface.
+// Ensure Order implements the Mixin interface.
 var _ ent.Mixin = (*Order)(nil)
 
-// Size adds size field.
+// Size adds a size field to the schema.
 type Size struct{ mixin.Schema }
 
-// Fields of the size mixin.
+// Fields of the Size mixin.
 func (Size) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("size").Comment("size, byte").Default(0), // size
+		field.Int("size").
+			Default(0).
+			Comment("size in bytes"),
 	}
 }
 
-// size mixin must implement `Mixin` interface.
+// Ensure Size implements the Mixin interface.
 var _ ent.Mixin = (*Size)(nil)

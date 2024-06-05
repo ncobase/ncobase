@@ -40,8 +40,8 @@ func (Topic) Mixin() []ent.Mixin {
 		mixin.Private{},
 		mixin.Status{}, // status, 0: draft, 1: published, 2: trashed, 3: temp, ...
 		mixin.Released{},
-		mixin.TaxonomyID{},
-		mixin.DomainID{},
+		mixin.TaxonomyID,
+		mixin.DomainID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

@@ -18,10 +18,10 @@ import (
 // TaxonomyRelations represents the taxonomy relations repository interface.
 type TaxonomyRelations interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyRelationsBody) (*ent.TaxonomyRelations, error)
-	GetByID(ctx context.Context, id string) (*ent.TaxonomyRelations, error)
+	GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelations, error)
 	Update(ctx context.Context, body *structs.UpdateTaxonomyRelationsBody) (*ent.TaxonomyRelations, error)
 	List(ctx context.Context, params *structs.ListTaxonomyRelationsParams) ([]*ent.TaxonomyRelations, error)
-	Delete(ctx context.Context, id string) error
+	Delete(ctx context.Context, object string) error
 	BatchCreate(ctx context.Context, bodies []*structs.CreateTaxonomyRelationsBody) ([]*ent.TaxonomyRelations, error)
 	FindRelations(ctx context.Context, params *structs.FindTaxonomyRelationsParams) ([]*ent.TaxonomyRelations, error)
 }
@@ -44,9 +44,9 @@ func NewTaxonomyRelations(d *data.Data) TaxonomyRelations {
 func (r *taxonomyRelationsRepo) Create(ctx context.Context, body *structs.CreateTaxonomyRelationsBody) (*ent.TaxonomyRelations, error) {
 	query := r.ec.TaxonomyRelations.
 		Create().
+		SetID(body.ObjectID).
 		SetTaxonomyID(body.TaxonomyID).
 		SetType(body.Type).
-		SetObjectID(body.ObjectID).
 		SetOrder(body.Order).
 		SetCreatedBy(body.CreatedBy).
 		SetCreatedAt(body.CreatedAt)
@@ -60,9 +60,9 @@ func (r *taxonomyRelationsRepo) Create(ctx context.Context, body *structs.Create
 	return row, nil
 }
 
-// GetByID gets a taxonomy relation by ID.
-func (r *taxonomyRelationsRepo) GetByID(ctx context.Context, id string) (*ent.TaxonomyRelations, error) {
-	cacheKey := fmt.Sprintf("%s", id)
+// GetByObject gets a taxonomy relation by Object.
+func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelations, error) {
+	cacheKey := fmt.Sprintf("%s", object)
 
 	// Check cache first
 	if cachedTaxonomyRelations, err := r.c.Get(ctx, cacheKey); err == nil {
@@ -70,17 +70,17 @@ func (r *taxonomyRelationsRepo) GetByID(ctx context.Context, id string) (*ent.Ta
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindTaxonomyRelations(ctx, &structs.FindTaxonomyRelations{ID: id})
+	row, err := r.FindTaxonomyRelations(ctx, &structs.FindTaxonomyRelations{Object: object})
 
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.GetByID error: %v\n", err)
+		log.Errorf(nil, "taxonomyRelationsRepo.GetByObject error: %v\n", err)
 		return nil, err
 	}
 
 	// Cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.GetByID cache error: %v\n", err)
+		log.Errorf(nil, "taxonomyRelationsRepo.GetByObject cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -88,7 +88,7 @@ func (r *taxonomyRelationsRepo) GetByID(ctx context.Context, id string) (*ent.Ta
 
 // Update updates a taxonomy relation.
 func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.UpdateTaxonomyRelationsBody) (*ent.TaxonomyRelations, error) {
-	taxonomyRelations, err := r.GetByID(ctx, body.ID)
+	taxonomyRelations, err := r.GetByObject(ctx, body.ObjectID)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +97,6 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 		Update().
 		SetTaxonomyID(body.TaxonomyID).
 		SetType(body.Type).
-		SetObjectID(body.ObjectID).
 		SetOrder(body.Order)
 
 	row, err := query.Save(ctx)
@@ -107,7 +106,7 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 	}
 
 	// Remove from cache
-	cacheKey := fmt.Sprintf("%s", body.ID)
+	cacheKey := fmt.Sprintf("%s", body.ObjectID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
 		log.Errorf(nil, "taxonomyRelationsRepo.Update cache error: %v\n", err)
@@ -154,15 +153,15 @@ func (r *taxonomyRelationsRepo) List(ctx context.Context, p *structs.ListTaxonom
 }
 
 // Delete deletes a taxonomy relation.
-func (r *taxonomyRelationsRepo) Delete(ctx context.Context, id string) error {
+func (r *taxonomyRelationsRepo) Delete(ctx context.Context, object string) error {
 	_, err := r.ec.TaxonomyRelations.
 		Delete().
-		Where(taxonomyRelationsEnt.IDEQ(id)).
+		Where(taxonomyRelationsEnt.IDEQ(object)).
 		Exec(ctx)
 
 	if err == nil {
 		// Remove from cache
-		cacheKey := fmt.Sprintf("%s", id)
+		cacheKey := fmt.Sprintf("%s", object)
 		err := r.c.Delete(ctx, cacheKey)
 		if err != nil {
 			log.Errorf(nil, "taxonomyRelationsRepo.Delete cache error: %v\n", err)
@@ -178,9 +177,9 @@ func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*struc
 	for i, body := range bodies {
 		bulk[i] = r.ec.TaxonomyRelations.
 			Create().
+			SetID(body.ObjectID).
 			SetTaxonomyID(body.TaxonomyID).
 			SetType(body.Type).
-			SetObjectID(body.ObjectID).
 			SetOrder(body.Order).
 			SetCreatedBy(body.CreatedBy).
 			SetCreatedAt(body.CreatedAt)
@@ -198,17 +197,14 @@ func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.Fi
 	// create builder.
 	builder := r.ec.TaxonomyRelations.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(taxonomyRelationsEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(p.Object) {
+		builder = builder.Where(taxonomyRelationsEnt.IDEQ(p.Object))
 	}
 	if validator.IsNotEmpty(p.Taxonomy) {
 		builder = builder.Where(taxonomyRelationsEnt.TaxonomyIDEQ(p.Taxonomy))
 	}
 	if validator.IsNotEmpty(p.Type) {
 		builder = builder.Where(taxonomyRelationsEnt.TypeEQ(p.Type))
-	}
-	if validator.IsNotEmpty(p.Object) {
-		builder = builder.Where(taxonomyRelationsEnt.ObjectIDEQ(p.Object))
 	}
 
 	// execute the builder.
@@ -226,17 +222,14 @@ func (r *taxonomyRelationsRepo) FindTaxonomyRelations(ctx context.Context, p *st
 	// create builder.
 	builder := r.ec.TaxonomyRelations.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(taxonomyRelationsEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(p.Object) {
+		builder = builder.Where(taxonomyRelationsEnt.IDEQ(p.Object))
 	}
 	if validator.IsNotEmpty(p.Taxonomy) {
 		builder = builder.Where(taxonomyRelationsEnt.TaxonomyIDEQ(p.Taxonomy))
 	}
 	if validator.IsNotEmpty(p.Type) {
 		builder = builder.Where(taxonomyRelationsEnt.TypeEQ(p.Type))
-	}
-	if validator.IsNotEmpty(p.Object) {
-		builder = builder.Where(taxonomyRelationsEnt.ObjectIDEQ(p.Object))
 	}
 
 	// execute the builder.

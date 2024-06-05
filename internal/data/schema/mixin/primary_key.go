@@ -28,22 +28,38 @@ func (PrimaryKey) Indexes() []ent.Index {
 // primary key mixin must implement `Mixin` interface.
 var _ ent.Mixin = (*PrimaryKey)(nil)
 
-// UserPrimaryKeyAlias adds user primary key alias field.
-type UserPrimaryKeyAlias struct{ ent.Schema }
+// PrimaryKeyAlias adds a primary key alias field.
+type PrimaryKeyAlias struct {
+	ent.Schema
+	AliasName string
+	AliasKey  string
+}
 
-// Fields of the user primary key alias mixin.
-func (UserPrimaryKeyAlias) Fields() []ent.Field {
+// Fields of the primary key alias mixin.
+func (m PrimaryKeyAlias) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("id").StorageKey("user_id").Comment("user primary key alias").Immutable().Unique().DefaultFunc(nanoid.PrimaryKey()), // user primary key alias
+		field.String("id").
+			StorageKey(m.AliasKey).
+			Comment(m.AliasName + " primary key alias").
+			Unique().
+			DefaultFunc(nanoid.PrimaryKey()), // primary key alias
 	}
 }
 
-// Indexes of the UserPrimaryKeyAlias.
-func (UserPrimaryKeyAlias) Indexes() []ent.Index {
+// Indexes of the PrimaryKeyAlias.
+func (m PrimaryKeyAlias) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("id"),
 	}
 }
 
-// user primary key alias mixin must implement `Mixin` interface.
-var _ ent.Mixin = (*UserPrimaryKeyAlias)(nil)
+// primary key alias mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*PrimaryKeyAlias)(nil)
+
+// NewPrimaryKeyAlias creates a new PrimaryKeyAlias mixin with the given alias name and key.
+func NewPrimaryKeyAlias(aliasName, aliasKey string) PrimaryKeyAlias {
+	return PrimaryKeyAlias{
+		AliasName: aliasName,
+		AliasKey:  aliasKey,
+	}
+}

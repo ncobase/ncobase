@@ -12,13 +12,11 @@ const (
 	// Label holds the string label denoting the taxonomyrelations type in the database.
 	Label = "taxonomy_relations"
 	// FieldID holds the string denoting the id field in the database.
-	FieldID = "id"
+	FieldID = "object_id"
 	// FieldTaxonomyID holds the string denoting the taxonomy_id field in the database.
 	FieldTaxonomyID = "taxonomy_id"
 	// FieldType holds the string denoting the type field in the database.
 	FieldType = "type"
-	// FieldObjectID holds the string denoting the object_id field in the database.
-	FieldObjectID = "object_id"
 	// FieldOrder holds the string denoting the order field in the database.
 	FieldOrder = "order"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
@@ -34,7 +32,6 @@ var Columns = []string{
 	FieldID,
 	FieldTaxonomyID,
 	FieldType,
-	FieldObjectID,
 	FieldOrder,
 	FieldCreatedBy,
 	FieldCreatedAt,
@@ -53,8 +50,6 @@ func ValidColumn(column string) bool {
 var (
 	// TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
 	TaxonomyIDValidator func(string) error
-	// ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
-	ObjectIDValidator func(string) error
 	// DefaultOrder holds the default value on creation for the "order" field.
 	DefaultOrder int32
 	// OrderValidator is a validator for the "order" field. It is called by the builders before save.
@@ -83,11 +78,6 @@ func ByTaxonomyID(opts ...sql.OrderTermOption) OrderOption {
 // ByType orders the results by the type field.
 func ByType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldType, opts...).ToFunc()
-}
-
-// ByObjectID orders the results by the object_id field.
-func ByObjectID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldObjectID, opts...).ToFunc()
 }
 
 // ByOrder orders the results by the order field.

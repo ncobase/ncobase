@@ -28,7 +28,7 @@ func (UserProfile) Annotations() []schema.Annotation {
 // Mixin of the UserProfile.
 func (UserProfile) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.UserPrimaryKeyAlias{},
+		mixin.NewPrimaryKeyAlias("user", "user_id"),
 		mixin.DisplayName{},
 		mixin.ShortBio{},
 		mixin.About{},

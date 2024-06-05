@@ -16,17 +16,15 @@ import (
 type TaxonomyRelations struct {
 	config `json:"-"`
 	// ID of the ent.
-	// primary key
+	// object primary key alias
 	ID string `json:"id,omitempty"`
 	// taxonomy id
 	TaxonomyID string `json:"taxonomy_id,omitempty"`
 	// type
 	Type string `json:"type,omitempty"`
-	// object id
-	ObjectID string `json:"object_id,omitempty"`
-	// order
+	// display order
 	Order int32 `json:"order,omitempty"`
-	// created by
+	// ID of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// created at
 	CreatedAt    time.Time `json:"created_at,omitempty"`
@@ -40,7 +38,7 @@ func (*TaxonomyRelations) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case taxonomyrelations.FieldOrder:
 			values[i] = new(sql.NullInt64)
-		case taxonomyrelations.FieldID, taxonomyrelations.FieldTaxonomyID, taxonomyrelations.FieldType, taxonomyrelations.FieldObjectID, taxonomyrelations.FieldCreatedBy:
+		case taxonomyrelations.FieldID, taxonomyrelations.FieldTaxonomyID, taxonomyrelations.FieldType, taxonomyrelations.FieldCreatedBy:
 			values[i] = new(sql.NullString)
 		case taxonomyrelations.FieldCreatedAt:
 			values[i] = new(sql.NullTime)
@@ -76,12 +74,6 @@ func (tr *TaxonomyRelations) assignValues(columns []string, values []any) error 
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
 				tr.Type = value.String
-			}
-		case taxonomyrelations.FieldObjectID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field object_id", values[i])
-			} else if value.Valid {
-				tr.ObjectID = value.String
 			}
 		case taxonomyrelations.FieldOrder:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -142,9 +134,6 @@ func (tr *TaxonomyRelations) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("type=")
 	builder.WriteString(tr.Type)
-	builder.WriteString(", ")
-	builder.WriteString("object_id=")
-	builder.WriteString(tr.ObjectID)
 	builder.WriteString(", ")
 	builder.WriteString("order=")
 	builder.WriteString(fmt.Sprintf("%v", tr.Order))
