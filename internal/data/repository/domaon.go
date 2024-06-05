@@ -105,7 +105,7 @@ func (r *domainRepo) GetByID(ctx context.Context, id string) (*ent.Domain, error
 
 // GetByUser get domain by user
 func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain, error) {
-	cacheKey := fmt.Sprintf("user:%s", userID)
+	cacheKey := fmt.Sprintf("%s", userID)
 
 	// Check cache first
 	if cachedDomain, err := r.c.Get(ctx, cacheKey); err == nil {
