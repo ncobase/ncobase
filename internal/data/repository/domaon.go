@@ -10,6 +10,7 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
+	meili "stocms/pkg/meilisearch"
 	"stocms/pkg/types"
 	"stocms/pkg/validator"
 	"strings"
@@ -33,6 +34,7 @@ type Domain interface {
 type domainRepo struct {
 	ec *ent.Client
 	rc *redis.Client
+	ms *meili.Client
 	c  *cache.Cache[ent.Domain]
 }
 
@@ -40,7 +42,8 @@ type domainRepo struct {
 func NewDomain(d *data.Data) Domain {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &domainRepo{ec, rc, cache.NewCache[ent.Domain](rc, cache.Key("sc_domain"), true)}
+	ms := d.GetMeilisearch()
+	return &domainRepo{ec, rc, ms, cache.NewCache[ent.Domain](rc, cache.Key("sc_domain"), true)}
 }
 
 // Create create domain
@@ -74,14 +77,25 @@ func (r *domainRepo) Create(ctx context.Context, body *structs.CreateDomainBody)
 		return nil, err
 	}
 
+	// Create the domain in Meilisearch index
+	if err = r.ms.IndexDocuments(ctx, "domains", row); err != nil {
+		log.Errorf(nil, "domainRepo.Create error creating Meilisearch index: %v\n", err)
+		// return nil, err
+	}
+
 	return row, nil
 }
 
 // GetByID get domain by id
 func (r *domainRepo) GetByID(ctx context.Context, id string) (*ent.Domain, error) {
+	// // Search in Meilisearch index
+	// if res, _ := r.ms.Search(ctx, "taxonomies", id, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
+	// 	if hit, ok := res.Hits[0].(*ent.Domain); ok {
+	// 		return hit, nil
+	// 	}
+	// }
+	// Check cache
 	cacheKey := fmt.Sprintf("%s", id)
-
-	// Check cache first
 	if cachedDomain, err := r.c.Get(ctx, cacheKey); err == nil {
 		return cachedDomain, nil
 	}
@@ -105,9 +119,14 @@ func (r *domainRepo) GetByID(ctx context.Context, id string) (*ent.Domain, error
 
 // GetByUser get domain by user
 func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain, error) {
+	// // Search in Meilisearch index
+	// if res, _ := r.ms.Search(ctx, "taxonomies", userID, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
+	// 	if hit, ok := res.Hits[0].(*ent.Domain); ok {
+	// 		return hit, nil
+	// 	}
+	// }
+	// Check cache
 	cacheKey := fmt.Sprintf("%s", userID)
-
-	// Check cache first
 	if cachedDomain, err := r.c.Get(ctx, cacheKey); err == nil {
 		return cachedDomain, nil
 	}
@@ -201,6 +220,15 @@ func (r *domainRepo) Update(ctx context.Context, id string, updates types.JSON) 
 	err = r.c.Delete(ctx, cacheUserKey)
 	if err != nil {
 		log.Errorf(nil, "domainRepo.Update cache error: %v\n", err)
+	}
+
+	// doc := types.JSON{}
+	// if err = copier.Copy(doc, row); err != nil {
+	// 	log.Errorf(nil, "domainRepo.Update error copying data: %v\n", err)
+	// 	// return nil, err
+	// }
+	if err = r.ms.UpdateDocuments(ctx, "topics", row, row.ID); err != nil {
+		log.Errorf(nil, "domainRepo.Update error updating Meilisearch index: %v\n", err)
 	}
 
 	return row, nil
@@ -313,4 +341,33 @@ func (r *domainRepo) FindDomain(ctx context.Context, p *structs.FindDomain) (*en
 	return row, nil
 }
 
-// ****** Internal methods of repository
+// // CreateIndex creates a new index in Meilisearch.
+// func (r *domainRepo) CreateIndex(ctx context.Context, domain *ent.Domain) error {
+// 	// Get Meilisearch client
+// 	ms := r.ms
+//
+// 	// Create Meilisearch index
+// 	index := ms.Index("domains")
+//
+// 	// Define the document to index
+// 	doc := map[string]any{
+// 		"id":          domain.ID,
+// 		"name":        domain.Name,
+// 		"title":       domain.Title,
+// 		"url":         domain.URL,
+// 		"logo":        domain.Logo,
+// 		"logo_alt":    domain.LogoAlt,
+// 		"keywords":    strings.Split(domain.Keywords, ","),
+// 		"description": domain.Description,
+// 		// Add other fields as needed
+// 	}
+//
+// 	// Index the document
+// 	_, err := index.AddDocuments([]map[string]any{doc})
+// 	if err != nil {
+// 		log.Errorf(nil, "domainRepo.CreateIndex error: %v\n", err)
+// 		return err
+// 	}
+//
+// 	return nil
+// }

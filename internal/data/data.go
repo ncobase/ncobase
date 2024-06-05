@@ -3,10 +3,13 @@ package data
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"stocms/internal/config"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/ent/migrate"
+	"stocms/pkg/elastic"
 	"stocms/pkg/log"
+	meili "stocms/pkg/meilisearch"
 
 	"github.com/redis/go-redis/v9"
 
@@ -23,28 +26,39 @@ var (
 	db  *sql.DB
 	ec  *ent.Client
 	rc  *redis.Client
+	ms  *meili.Client
+	// es  *elastic.Client
 )
 
 // Data .
 type Data struct {
+	db *sql.DB
 	ec *ent.Client
 	rc *redis.Client
-	db *sql.DB
+	ms *meili.Client
+	es *elastic.Client
 }
 
 // New creates a new Database Connection.
 func New(conf *config.Data) (*Data, func(), error) {
 	ec, db := newClient(&conf.Database)
+	// es, err := newElasticsearch(&conf.Elasticsearch)
+	// if err != nil {
+	// 	log.Fatalf(nil, "Failed to create Elasticsearch client: %v", err)
+	// 	return nil, nil, err
+	// }
 	d := &Data{
+		db: db,
 		ec: ec,
 		rc: newRedis(&conf.Redis),
-		db: db,
+		ms: newMeilisearch(&conf.Meilisearch),
+		// es: es,
 	}
 
 	cleanup := func() {
 		log.Printf(nil, "execute data cleanup.")
 		if errs := d.Close(); errs != nil {
-			log.Errorf(nil, "cleanup errors: %v", errs)
+			log.Fatalf(nil, "cleanup errors: %v", errs)
 		}
 	}
 
@@ -53,7 +67,7 @@ func New(conf *config.Data) (*Data, func(), error) {
 
 // newRedis creates a new Redis datastore.
 func newRedis(conf *config.Redis) *redis.Client {
-	if conf == nil {
+	if conf == nil || conf.Addr == "" {
 		log.Fatalf(nil, "redis configuration cannot be nil")
 	}
 	rc = redis.NewClient(&redis.Options{
@@ -70,7 +84,7 @@ func newRedis(conf *config.Redis) *redis.Client {
 	timeout, cancelFunc := context.WithTimeout(context.Background(), conf.DialTimeout)
 	defer cancelFunc()
 	if err := rc.Ping(timeout).Err(); err != nil {
-		log.Fatalf(nil, "redis connect error: %v", err)
+		log.Errorf(nil, "redis connect error: %v", err)
 	}
 
 	return rc
@@ -124,6 +138,55 @@ func (d *Data) GetEntClient() *ent.Client {
 // GetDB returns the database
 func (d *Data) GetDB() *sql.DB {
 	return d.db
+}
+
+// newMeilisearch creates a new Meilisearch client.
+func newMeilisearch(conf *config.Meilisearch) *meili.Client {
+	if conf == nil || conf.Host == "" {
+		log.Fatalf(nil, "Meilisearch configuration cannot be nil")
+	}
+	ms = meili.NewMeilisearch(conf.Host, conf.APIKey)
+
+	// Check connection
+	_, err := ms.GetClient().Health()
+	if err != nil {
+		log.Fatalf(nil, "Meilisearch connect error: %v", err)
+	}
+
+	return ms
+}
+
+// GetMeilisearch returns the Meilisearch client
+func (d *Data) GetMeilisearch() *meili.Client {
+	return ms
+}
+
+func newElasticsearch(conf *config.Elasticsearch) (*elastic.Client, error) {
+	if conf == nil || len(conf.Addresses) == 0 {
+		log.Fatalf(nil, "Elasticsearch configuration cannot be nil")
+	}
+
+	es, err := elastic.NewClient(conf.Addresses, conf.Username, conf.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	// Check connection
+	res, err := es.GetClient().Info()
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.IsError() {
+		return nil, fmt.Errorf("elasticsearch info error: %s", res.Status())
+	}
+
+	return es, nil
+}
+
+func (d *Data) GetElasticsearchClient() *elastic.Client {
+	return d.es
 }
 
 // Close .

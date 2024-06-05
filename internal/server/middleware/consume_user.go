@@ -50,7 +50,7 @@ func ConsumeUser(c *gin.Context) {
 	}
 
 	// Extract payload from token data
-	payload, ok := tokenData["payload"].(map[string]interface{})
+	payload, ok := tokenData["payload"].(map[string]any)
 	if !ok {
 		handleTokenError(c, errors.New("invalid token payload format"))
 		return
