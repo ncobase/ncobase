@@ -67,7 +67,10 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 		return resp.InternalServer(err.Error()), nil
 	}
 
-	if _, err := svc.isCreateDomain(c, &structs.CreateDomainBody{UserID: user.ID}); err != nil {
+	if _, err := svc.isCreateDomain(ctx, &structs.CreateDomainBody{
+		DomainBody: structs.DomainBody{Name: body.DomainName},
+		UserID:     user.ID,
+	}); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil
 		}

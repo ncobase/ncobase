@@ -19,6 +19,7 @@ type CommonRegisterBody struct {
 	Username    string `json:"username" binding:"required"`
 	Phone       string `json:"phone,omitempty"`
 	ShortBio    string `json:"short_bio,omitempty"`
+	DomainName  string `json:"domain_name,omitempty"`
 }
 
 // RegisterBody Register body

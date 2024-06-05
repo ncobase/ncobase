@@ -109,7 +109,10 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 		return nil, err
 	}
 
-	if _, err := svc.isCreateDomain(ctx, &structs.CreateDomainBody{UserID: user.ID}); err != nil {
+	if _, err := svc.isCreateDomain(ctx, &structs.CreateDomainBody{
+		DomainBody: structs.DomainBody{Name: body.DomainName},
+		UserID:     user.ID,
+	}); err != nil {
 		return nil, resp.InternalServer(err.Error())
 	}
 

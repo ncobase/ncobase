@@ -10,6 +10,7 @@ import (
 	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 	"stocms/pkg/types"
+	"stocms/pkg/validator"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -166,6 +167,15 @@ func (svc *Service) isCreateDomain(ctx context.Context, body *structs.CreateDoma
 	if countUser <= 1 {
 		return svc.domain.Create(ctx, body)
 	}
+
+	// check if user already have domain
+	if validator.IsEmpty(body.Name) {
+		if domain, _ := svc.domain.GetByUser(ctx, body.UserID); domain != nil {
+			return domain, nil
+		}
+		return svc.domain.Create(ctx, body)
+	}
+
 	return nil, nil
 }
 
