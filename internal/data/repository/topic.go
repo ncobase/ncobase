@@ -9,10 +9,12 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
+	meili "stocms/pkg/meilisearch"
 	"stocms/pkg/types"
 	"stocms/pkg/validator"
 	"time"
 
+	"github.com/jinzhu/copier"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -21,7 +23,7 @@ type Topic interface {
 	Create(ctx context.Context, body *structs.CreateTopicBody) (*ent.Topic, error)
 	GetByID(ctx context.Context, id string) (*ent.Topic, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Topic, error)
-	Update(ctx context.Context, slug string, body types.JSON) (*ent.Topic, error)
+	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Topic, error)
 	List(ctx context.Context, params *structs.ListTopicParams) ([]*ent.Topic, error)
 	Delete(ctx context.Context, slug string) error
 	FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.Topic, error)
@@ -33,6 +35,7 @@ type Topic interface {
 type topicRepo struct {
 	ec *ent.Client
 	rc *redis.Client
+	ms *meili.Client
 	c  *cache.Cache[ent.Topic]
 }
 
@@ -40,7 +43,8 @@ type topicRepo struct {
 func NewTopic(d *data.Data) Topic {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &topicRepo{ec, rc, cache.NewCache[ent.Topic](rc, cache.Key("sc_topic"), true)}
+	ms := d.GetMeilisearch()
+	return &topicRepo{ec, rc, ms, cache.NewCache[ent.Topic](rc, cache.Key("sc_topic"), true)}
 }
 
 // Create creates a new topic.
@@ -71,21 +75,37 @@ func (r *topicRepo) Create(ctx context.Context, body *structs.CreateTopicBody) (
 		return nil, err
 	}
 
+	// Create the topic in Meilisearch index
+	doc := types.JSON{}
+	if err = copier.Copy(doc, row); err != nil {
+		log.Errorf(nil, "topicRepo.Create error copying data: %v\n", err)
+		// return nil, err
+	}
+
+	if err = r.ms.IndexDocuments(ctx, "topics", row); err != nil {
+		log.Errorf(nil, "topicRepo.Create error creating Meilisearch index: %v\n", err)
+		// return nil, err
+	}
+
 	return row, nil
 }
 
 // GetByID gets a topic by ID.
 func (r *topicRepo) GetByID(ctx context.Context, id string) (*ent.Topic, error) {
+	// // Search in Meilisearch index
+	// if res, _ := r.ms.Search(ctx, "topics", id, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
+	// 	if hit, ok := res.Hits[0].(*ent.Topic); ok {
+	// 		return hit, nil
+	// 	}
+	// }
+	// Check cache
 	cacheKey := fmt.Sprintf("%s", id)
-
-	// Check cache first
 	if cachedTopic, err := r.c.Get(ctx, cacheKey); err == nil {
 		return cachedTopic, nil
 	}
 
 	// If not found in cache, query the database
 	row, err := r.FindTopic(ctx, &structs.FindTopic{ID: id})
-
 	if err != nil {
 		log.Errorf(nil, "topicRepo.GetByID error: %v\n", err)
 		return nil, err
@@ -102,16 +122,20 @@ func (r *topicRepo) GetByID(ctx context.Context, id string) (*ent.Topic, error) 
 
 // GetBySlug gets a topic by slug.
 func (r *topicRepo) GetBySlug(ctx context.Context, slug string) (*ent.Topic, error) {
+	// // Search in Meilisearch index
+	// if res, _ := r.ms.Search(ctx, "topics", slug, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
+	// 	if hit, ok := res.Hits[0].(*ent.Topic); ok {
+	// 		return hit, nil
+	// 	}
+	// }
+	// Check cache
 	cacheKey := fmt.Sprintf("%s", slug)
-
-	// Check cache first
 	if cachedTopic, err := r.c.Get(ctx, cacheKey); err == nil {
 		return cachedTopic, nil
 	}
 
 	// If not found in cache, query the database
 	row, err := r.FindTopic(ctx, &structs.FindTopic{Slug: slug})
-
 	if err != nil {
 		log.Errorf(nil, "topicRepo.GetBySlug error: %v\n", err)
 		return nil, err
@@ -183,6 +207,16 @@ func (r *topicRepo) Update(ctx context.Context, slug string, updates types.JSON)
 		log.Errorf(nil, "topicRepo.Update cache error: %v\n", err)
 	}
 
+	// Update the topic in Meilisearch index
+	if err = r.ms.DeleteDocuments(ctx, "topics", slug); err != nil {
+		log.Errorf(nil, "topicRepo.Update error deleting Meilisearch index: %v\n", err)
+		// return nil, err
+	}
+	if err = r.ms.IndexDocuments(ctx, "topics", row); err != nil {
+		log.Errorf(nil, "topicRepo.Update error updating Meilisearch index: %v\n", err)
+		// return nil, err
+	}
+
 	return row, nil
 }
 
@@ -226,20 +260,28 @@ func (r *topicRepo) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder.
 	_, err = builder.Where(topicEnt.IDEQ(topic.ID)).Exec(ctx)
-	if err == nil {
-		// Remove from cache
-		cacheKey := fmt.Sprintf("%s", topic.Slug)
-		err := r.c.Delete(ctx, cacheKey)
-		err = r.c.Delete(ctx, topic.ID)
-		if err != nil {
-			log.Errorf(nil, "topicRepo.Delete cache error: %v\n", err)
-		}
+	if err != nil {
+		log.Errorf(nil, "topicRepo.Delete error: %v\n", err)
+		return err
 	}
 
-	return err
+	cacheKey := fmt.Sprintf("topic:%s", topic.ID)
+	err = r.c.Delete(ctx, cacheKey)
+	err = r.c.Delete(ctx, fmt.Sprintf("topic:slug:%s", topic.Slug))
+	if err != nil {
+		log.Errorf(nil, "topicRepo.Delete cache error: %v\n", err)
+	}
+
+	// Delete from Meilisearch index
+	if err = r.ms.DeleteDocuments(ctx, "topics", topic.ID); err != nil {
+		log.Errorf(nil, "topicRepo.Delete index error: %v\n", err)
+		// return nil, err
+	}
+
+	return nil
 }
 
-// FindTopic finds a topic
+// FindTopic finds a topic.
 func (r *topicRepo) FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.Topic, error) {
 	// create builder.
 	builder := r.ec.Topic.Query()
@@ -267,15 +309,11 @@ func (r *topicRepo) FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.T
 	return row, nil
 }
 
-// ListBuilder create list builder
+// ListBuilder creates list builder.
 func (r *topicRepo) ListBuilder(ctx context.Context, p *structs.ListTopicParams) (*ent.TopicQuery, error) {
-	// verify query params.
 	var next *ent.Topic
 	if validator.IsNotEmpty(p.Cursor) {
-		// query the address.
-		row, err := r.FindTopic(ctx, &structs.FindTopic{
-			ID: p.Cursor,
-		})
+		row, err := r.FindTopic(ctx, &structs.FindTopic{ID: p.Cursor})
 		if validator.IsNotNil(err) || validator.IsNil(row) {
 			return nil, err
 		}

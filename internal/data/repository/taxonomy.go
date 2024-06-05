@@ -9,6 +9,7 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
+	meili "stocms/pkg/meilisearch"
 	"stocms/pkg/types"
 	"stocms/pkg/validator"
 	"strings"
@@ -33,6 +34,7 @@ type Taxonomy interface {
 type taxonomyRepo struct {
 	ec *ent.Client
 	rc *redis.Client
+	ms *meili.Client
 	c  *cache.Cache[ent.Taxonomy]
 }
 
@@ -40,7 +42,8 @@ type taxonomyRepo struct {
 func NewTaxonomy(d *data.Data) Taxonomy {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &taxonomyRepo{ec, rc, cache.NewCache[ent.Taxonomy](rc, cache.Key("sc_taxonomy"), true)}
+	ms := d.GetMeilisearch()
+	return &taxonomyRepo{ec, rc, ms, cache.NewCache[ent.Taxonomy](rc, cache.Key("sc_taxonomy"), true)}
 }
 
 // Create create taxonomy
@@ -71,14 +74,25 @@ func (r *taxonomyRepo) Create(ctx context.Context, body *structs.CreateTaxonomyB
 		return nil, err
 	}
 
+	// Create the taxonomy in Meilisearch index
+	if err = r.ms.IndexDocuments(ctx, "taxonomies", row); err != nil {
+		log.Errorf(nil, "taxonomyRepo.Create error creating Meilisearch index: %v\n", err)
+		return nil, err
+	}
+
 	return row, nil
 }
 
 // GetByID get taxonomy by id
 func (r *taxonomyRepo) GetByID(ctx context.Context, id string) (*ent.Taxonomy, error) {
+	// // Search in Meilisearch index
+	// if res, _ := r.ms.Search(ctx, "taxonomies", id, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
+	// 	if hit, ok := res.Hits[0].(*ent.Taxonomy); ok {
+	// 		return hit, nil
+	// 	}
+	// }
+	// Check cache
 	cacheKey := fmt.Sprintf("%s", id)
-
-	// Check cache first
 	if cachedTaxonomy, err := r.c.Get(ctx, cacheKey); err == nil {
 		return cachedTaxonomy, nil
 	}
@@ -102,9 +116,14 @@ func (r *taxonomyRepo) GetByID(ctx context.Context, id string) (*ent.Taxonomy, e
 
 // GetBySlug get taxonomy by slug
 func (r *taxonomyRepo) GetBySlug(ctx context.Context, slug string) (*ent.Taxonomy, error) {
+	// // Search in Meilisearch index
+	// if res, _ := r.ms.Search(ctx, "taxonomies", slug, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
+	// 	if hit, ok := res.Hits[0].(*ent.Taxonomy); ok {
+	// 		return hit, nil
+	// 	}
+	// }
+	// Check cache
 	cacheKey := fmt.Sprintf("%s", slug)
-
-	// Check cache first
 	if cachedTaxonomy, err := r.c.Get(ctx, cacheKey); err == nil {
 		return cachedTaxonomy, nil
 	}
@@ -183,6 +202,16 @@ func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JS
 	err = r.c.Delete(ctx, taxonomy.Slug)
 	if err != nil {
 		log.Errorf(nil, "taxonomyRepo.Update cache error: %v\n", err)
+	}
+
+	// Update the taxonomy in Meilisearch
+	if err = r.ms.DeleteDocuments(ctx, "taxonomies", slug); err != nil {
+		log.Errorf(nil, "taxonomyRepo.Update error deleting Meilisearch index: %v\n", err)
+		// return nil, err
+	}
+	if err = r.ms.IndexDocuments(ctx, "taxonomies", row, row.ID); err != nil {
+		log.Errorf(nil, "taxonomyRepo.Update error updating Meilisearch index: %v\n", err)
+		// return nil, err
 	}
 
 	return row, nil
@@ -267,7 +296,12 @@ func (r *taxonomyRepo) Delete(ctx context.Context, slug string) error {
 		if err != nil {
 			log.Errorf(nil, "taxonomyRepo.Delete cache error: %v\n", err)
 		}
+	}
 
+	// Delete from Meilisearch index
+	if err = r.ms.DeleteDocuments(ctx, "taxonomies", taxonomy.ID); err != nil {
+		log.Errorf(nil, "topicRepo.Delete index error: %v\n", err)
+		// return nil, err
 	}
 
 	return err
