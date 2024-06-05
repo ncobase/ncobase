@@ -24,11 +24,11 @@ type UserProfile struct {
 	ShortBio string `json:"short_bio,omitempty"`
 	// about
 	About string `json:"about,omitempty"`
-	// social link / more profile
+	// List of social links or profile links
 	Links []map[string]interface{} `json:"links,omitempty"`
 	// thumbnail
 	Thumbnail string `json:"thumbnail,omitempty"`
-	// extend properties
+	// Extend properties
 	Extras       map[string]interface{} `json:"extras,omitempty"`
 	selectValues sql.SelectValues
 }

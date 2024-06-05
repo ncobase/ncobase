@@ -35,8 +35,8 @@ func (svc *Service) UpdateTaxonomyRelationService(c *gin.Context, body *structs.
 }
 
 // GetTaxonomyRelationService retrieves a taxonomy relation by ID.
-func (svc *Service) GetTaxonomyRelationService(c *gin.Context, id string) (*resp.Exception, error) {
-	relation, err := svc.taxonomyRelations.GetByID(c, id)
+func (svc *Service) GetTaxonomyRelationService(c *gin.Context, object string) (*resp.Exception, error) {
+	relation, err := svc.taxonomyRelations.GetByObject(c, object)
 	if exception, err := handleError("Taxonomy relation", err); exception != nil {
 		return exception, err
 	}
@@ -47,8 +47,8 @@ func (svc *Service) GetTaxonomyRelationService(c *gin.Context, id string) (*resp
 }
 
 // DeleteTaxonomyRelationService deletes a taxonomy relation by ID.
-func (svc *Service) DeleteTaxonomyRelationService(c *gin.Context, id string) (*resp.Exception, error) {
-	err := svc.taxonomyRelations.Delete(c, id)
+func (svc *Service) DeleteTaxonomyRelationService(c *gin.Context, object string) (*resp.Exception, error) {
+	err := svc.taxonomyRelations.Delete(c, object)
 	if exception, err := handleError("Taxonomy relation", err); exception != nil {
 		return exception, err
 	}

@@ -73,9 +73,9 @@ var (
 		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
 		{Name: "copyright", Type: field.TypeString, Nullable: true, Comment: "copyright"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "order", Type: field.TypeInt32, Comment: "order", Default: 99},
+		{Name: "order", Type: field.TypeInt32, Comment: "display order", Default: 99},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
-		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "extend properties"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "user id"},
@@ -144,12 +144,13 @@ var (
 		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
 		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "status", Type: field.TypeInt32, Comment: "status, 0 activated, 1 unactivated, 2 disabled", Default: 0},
-		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "extend properties"},
+		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "parent id"},
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "created by"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "updated by"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "deleted_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who deleted the entity"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -183,12 +184,11 @@ var (
 	}
 	// ScTaxonomyRelationsColumns holds the columns for the "sc_taxonomy_relations" table.
 	ScTaxonomyRelationsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "object_id", Type: field.TypeString, Unique: true, Comment: "object primary key alias"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "taxonomy id"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
-		{Name: "order", Type: field.TypeInt32, Comment: "order", Default: 99},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "created by"},
+		{Name: "order", Type: field.TypeInt32, Comment: "display order", Default: 99},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 	}
 	// ScTaxonomyRelationsTable holds the schema information for the "sc_taxonomy_relations" table.
@@ -198,7 +198,7 @@ var (
 		PrimaryKey: []*schema.Column{ScTaxonomyRelationsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "taxonomyrelations_id",
+				Name:    "taxonomyrelations_object_id",
 				Unique:  false,
 				Columns: []*schema.Column{ScTaxonomyRelationsColumns[0]},
 			},
@@ -206,11 +206,6 @@ var (
 				Name:    "taxonomyrelations_taxonomy_id",
 				Unique:  false,
 				Columns: []*schema.Column{ScTaxonomyRelationsColumns[1]},
-			},
-			{
-				Name:    "taxonomyrelations_object_id",
-				Unique:  false,
-				Columns: []*schema.Column{ScTaxonomyRelationsColumns[3]},
 			},
 		},
 	}
@@ -225,12 +220,13 @@ var (
 		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp"},
 		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown"},
 		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private"},
-		{Name: "status", Type: field.TypeInt32, Comment: "status, 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "taxonomy id"},
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "created by"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "updated by"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "deleted_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who deleted the entity"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -271,8 +267,8 @@ var (
 		{Name: "phone", Type: field.TypeString, Nullable: true, Comment: "phone"},
 		{Name: "is_certified", Type: field.TypeBool, Nullable: true, Comment: "is certified"},
 		{Name: "is_admin", Type: field.TypeBool, Nullable: true, Comment: "is admin"},
-		{Name: "status", Type: field.TypeInt32, Comment: "status, 0 activated, 1 unactivated, 2 disabled", Default: 0},
-		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "extend properties"},
+		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -300,9 +296,9 @@ var (
 		{Name: "display_name", Type: field.TypeString, Nullable: true, Comment: "display name"},
 		{Name: "short_bio", Type: field.TypeString, Nullable: true, Comment: "short bio"},
 		{Name: "about", Type: field.TypeString, Nullable: true, Comment: "about"},
-		{Name: "links", Type: field.TypeJSON, Nullable: true, Comment: "social link / more profile"},
+		{Name: "links", Type: field.TypeJSON, Nullable: true, Comment: "List of social links or profile links"},
 		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
-		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "extend properties"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 	}
 	// ScUserProfileTable holds the schema information for the "sc_user_profile" table.
 	ScUserProfileTable = &schema.Table{

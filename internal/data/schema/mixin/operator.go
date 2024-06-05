@@ -8,54 +8,58 @@ import (
 	"entgo.io/ent/schema/mixin"
 )
 
-// CreatedBy adds created by operator field.
+// CreatedBy adds a "created_by" field to store the creator's ID.
 type CreatedBy struct{ mixin.Schema }
 
-// Fields of the created by mixin.
+// Fields of the CreatedBy mixin.
 func (CreatedBy) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("created_by").Comment("created by").Optional().MaxLen(nanoid.PrimaryKeySize), // created by
+		field.String("created_by").
+			Optional().
+			MaxLen(nanoid.PrimaryKeySize).
+			Comment("ID of the creator"),
 	}
 }
 
-// created by mixin must implement `Mixin` interface.
-var _ ent.Mixin = (*CreatedBy)(nil)
-
-// UpdatedBy adds updated by operator field.
+// UpdatedBy adds an "updated_by" field to store the ID of the person who last updated the entity.
 type UpdatedBy struct{ mixin.Schema }
 
-// Fields of the updated by mixin.
+// Fields of the UpdatedBy mixin.
 func (UpdatedBy) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("updated_by").Comment("updated by").Optional().MaxLen(nanoid.PrimaryKeySize), // updated by
+		field.String("updated_by").
+			Optional().
+			MaxLen(nanoid.PrimaryKeySize).
+			Comment("ID of the person who last updated the entity"),
 	}
 }
 
-// updated by mixin must implement `Mixin` interface.
-var _ ent.Mixin = (*UpdatedBy)(nil)
-
-// DeletedBy adds deleted by operator field.
+// DeletedBy adds a "deleted_by" field to store the ID of the person who deleted the entity.
 type DeletedBy struct{ mixin.Schema }
 
-// Fields of the deleted by mixin.
+// Fields of the DeletedBy mixin.
 func (DeletedBy) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("deleted_by").Comment("deleted by").Optional().MaxLen(nanoid.PrimaryKeySize), // deleted by
+		field.String("deleted_by").
+			Optional().
+			MaxLen(nanoid.PrimaryKeySize).
+			Comment("ID of the person who deleted the entity"),
 	}
 }
 
-// deleted by mixin must implement `Mixin` interface.
-var _ ent.Mixin = (*DeletedBy)(nil)
-
+// OperatorBy combines CreatedBy, UpdatedBy, and DeletedBy fields into a single mixin.
 type OperatorBy struct{ mixin.Schema }
 
-// Fields of the created at mixin.
+// Fields of the OperatorBy mixin.
 func (OperatorBy) Fields() []ent.Field {
 	return append(
 		CreatedBy{}.Fields(),
-		UpdatedBy{}.Fields()...,
+		append(
+			UpdatedBy{}.Fields(),
+			DeletedBy{}.Fields()...,
+		)...,
 	)
 }
 
-// operator mixin must implement `Mixin` interface.
+// Ensure OperatorBy implements the Mixin interface.
 var _ ent.Mixin = (*OperatorBy)(nil)

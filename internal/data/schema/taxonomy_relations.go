@@ -29,10 +29,9 @@ func (TaxonomyRelations) Annotations() []schema.Annotation {
 // Mixin of the TaxonomyRelations.
 func (TaxonomyRelations) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.TaxonomyID{},
+		mixin.NewPrimaryKeyAlias("object", "object_id"),
+		mixin.TaxonomyID,
 		mixin.Type{}, // type, topic, comment, other, ...
-		mixin.ObjectID{},
 		mixin.Order{},
 		mixin.CreatedBy{},
 		mixin.CreatedAt{},

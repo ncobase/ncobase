@@ -35,11 +35,11 @@ type Domain struct {
 	Copyright string `json:"copyright,omitempty"`
 	// description
 	Description string `json:"description,omitempty"`
-	// order
+	// display order
 	Order int32 `json:"order,omitempty"`
 	// is disabled
 	Disabled bool `json:"disabled,omitempty"`
-	// extend properties
+	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`

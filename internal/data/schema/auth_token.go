@@ -31,7 +31,7 @@ func (AuthToken) Mixin() []ent.Mixin {
 		mixin.PrimaryKey{},
 		mixin.Disabled{},
 		mixin.TimeAt{},
-		mixin.UserID{},
+		mixin.UserID,
 	}
 }
 

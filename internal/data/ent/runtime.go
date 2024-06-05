@@ -185,6 +185,10 @@ func init() {
 	taxonomyDescUpdatedBy := taxonomyMixinFields15[1].Descriptor()
 	// taxonomy.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	taxonomy.UpdatedByValidator = taxonomyDescUpdatedBy.Validators[0].(func(string) error)
+	// taxonomyDescDeletedBy is the schema descriptor for deleted_by field.
+	taxonomyDescDeletedBy := taxonomyMixinFields15[2].Descriptor()
+	// taxonomy.DeletedByValidator is a validator for the "deleted_by" field. It is called by the builders before save.
+	taxonomy.DeletedByValidator = taxonomyDescDeletedBy.Validators[0].(func(string) error)
 	// taxonomyDescCreatedAt is the schema descriptor for created_at field.
 	taxonomyDescCreatedAt := taxonomyMixinFields16[0].Descriptor()
 	// taxonomy.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -210,30 +214,24 @@ func init() {
 	_ = taxonomyrelationsMixinFields4
 	taxonomyrelationsMixinFields5 := taxonomyrelationsMixin[5].Fields()
 	_ = taxonomyrelationsMixinFields5
-	taxonomyrelationsMixinFields6 := taxonomyrelationsMixin[6].Fields()
-	_ = taxonomyrelationsMixinFields6
 	taxonomyrelationsFields := schema.TaxonomyRelations{}.Fields()
 	_ = taxonomyrelationsFields
 	// taxonomyrelationsDescTaxonomyID is the schema descriptor for taxonomy_id field.
 	taxonomyrelationsDescTaxonomyID := taxonomyrelationsMixinFields1[0].Descriptor()
 	// taxonomyrelations.TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
 	taxonomyrelations.TaxonomyIDValidator = taxonomyrelationsDescTaxonomyID.Validators[0].(func(string) error)
-	// taxonomyrelationsDescObjectID is the schema descriptor for object_id field.
-	taxonomyrelationsDescObjectID := taxonomyrelationsMixinFields3[0].Descriptor()
-	// taxonomyrelations.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
-	taxonomyrelations.ObjectIDValidator = taxonomyrelationsDescObjectID.Validators[0].(func(string) error)
 	// taxonomyrelationsDescOrder is the schema descriptor for order field.
-	taxonomyrelationsDescOrder := taxonomyrelationsMixinFields4[0].Descriptor()
+	taxonomyrelationsDescOrder := taxonomyrelationsMixinFields3[0].Descriptor()
 	// taxonomyrelations.DefaultOrder holds the default value on creation for the order field.
 	taxonomyrelations.DefaultOrder = taxonomyrelationsDescOrder.Default.(int32)
 	// taxonomyrelations.OrderValidator is a validator for the "order" field. It is called by the builders before save.
 	taxonomyrelations.OrderValidator = taxonomyrelationsDescOrder.Validators[0].(func(int32) error)
 	// taxonomyrelationsDescCreatedBy is the schema descriptor for created_by field.
-	taxonomyrelationsDescCreatedBy := taxonomyrelationsMixinFields5[0].Descriptor()
+	taxonomyrelationsDescCreatedBy := taxonomyrelationsMixinFields4[0].Descriptor()
 	// taxonomyrelations.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	taxonomyrelations.CreatedByValidator = taxonomyrelationsDescCreatedBy.Validators[0].(func(string) error)
 	// taxonomyrelationsDescCreatedAt is the schema descriptor for created_at field.
-	taxonomyrelationsDescCreatedAt := taxonomyrelationsMixinFields6[0].Descriptor()
+	taxonomyrelationsDescCreatedAt := taxonomyrelationsMixinFields5[0].Descriptor()
 	// taxonomyrelations.DefaultCreatedAt holds the default value on creation for the created_at field.
 	taxonomyrelations.DefaultCreatedAt = taxonomyrelationsDescCreatedAt.Default.(func() time.Time)
 	// taxonomyrelationsDescID is the schema descriptor for id field.
@@ -275,6 +273,10 @@ func init() {
 	topicDescUpdatedBy := topicMixinFields13[1].Descriptor()
 	// topic.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	topic.UpdatedByValidator = topicDescUpdatedBy.Validators[0].(func(string) error)
+	// topicDescDeletedBy is the schema descriptor for deleted_by field.
+	topicDescDeletedBy := topicMixinFields13[2].Descriptor()
+	// topic.DeletedByValidator is a validator for the "deleted_by" field. It is called by the builders before save.
+	topic.DeletedByValidator = topicDescDeletedBy.Validators[0].(func(string) error)
 	// topicDescCreatedAt is the schema descriptor for created_at field.
 	topicDescCreatedAt := topicMixinFields14[0].Descriptor()
 	// topic.DefaultCreatedAt holds the default value on creation for the created_at field.

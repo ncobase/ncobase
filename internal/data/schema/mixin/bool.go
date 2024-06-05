@@ -6,145 +6,145 @@ import (
 	"entgo.io/ent/schema/mixin"
 )
 
-// Default adds default field.
+// Default adds a default field to the schema.
 type Default struct{ mixin.Schema }
 
-// Fields of the default mixin.
+// Fields of the Default mixin.
 func (Default) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("default").Comment("is default").Optional(), // is default
+		field.Bool("default").Optional().Comment("is default"),
 	}
 }
 
-// default mixin must implement `Mixin` interface.
+// Ensure Default implements the Mixin interface.
 var _ ent.Mixin = (*Default)(nil)
 
-// Markdown adds markdown field.
+// Markdown adds a markdown field to the schema.
 type Markdown struct{ mixin.Schema }
 
-// Fields of the markdown mixin.
+// Fields of the Markdown mixin.
 func (Markdown) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("markdown").Comment("is markdown").Optional(), // is markdown
+		field.Bool("markdown").Optional().Comment("is markdown"),
 	}
 }
 
-// markdown mixin must implement `Mixin` interface.
+// Ensure Markdown implements the Mixin interface.
 var _ ent.Mixin = (*Markdown)(nil)
 
-// Temp adds temp field.
+// Temp adds a temp field to the schema.
 type Temp struct{ mixin.Schema }
 
-// Fields of the temp mixin.
+// Fields of the Temp mixin.
 func (Temp) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("temp").Comment("is temp").Optional(), // is temp
+		field.Bool("temp").Optional().Comment("is temp"),
 	}
 }
 
-// temp mixin must implement `Mixin` interface.
+// Ensure Temp implements the Mixin interface.
 var _ ent.Mixin = (*Temp)(nil)
 
-// Private adds private field.
+// Private adds a private field to the schema.
 type Private struct{ mixin.Schema }
 
-// Fields of the private mixin.
+// Fields of the Private mixin.
 func (Private) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("private").Comment("is private").Optional(), // is private
+		field.Bool("private").Optional().Comment("is private"),
 	}
 }
 
-// private mixin must implement `Mixin` interface.
+// Ensure Private implements the Mixin interface.
 var _ ent.Mixin = (*Private)(nil)
 
-// Approved adds approved field.
+// Approved adds an approved field to the schema.
 type Approved struct{ mixin.Schema }
 
-// Fields of the approved mixin.
+// Fields of the Approved mixin.
 func (Approved) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("approved").Comment("is approved").Optional(), // is approved
+		field.Bool("approved").Optional().Comment("is approved"),
 	}
 }
 
-// approved mixin must implement `Mixin` interface.
+// Ensure Approved implements the Mixin interface.
 var _ ent.Mixin = (*Approved)(nil)
 
-// Disabled adds disabled field.
+// Disabled adds a disabled field to the schema.
 type Disabled struct{ mixin.Schema }
 
-// Fields of the disabled mixin.
+// Fields of the Disabled mixin.
 func (Disabled) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("disabled").Comment("is disabled").Optional(), // is disabled
+		field.Bool("disabled").Optional().Comment("is disabled"),
 	}
 }
 
-// disabled mixin must implement `Mixin` interface.
+// Ensure Disabled implements the Mixin interface.
 var _ ent.Mixin = (*Disabled)(nil)
 
-// Logged adds logged field.
+// Logged adds a logged field to the schema.
 type Logged struct{ mixin.Schema }
 
-// Fields of the logged mixin.
+// Fields of the Logged mixin.
 func (Logged) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("logged").Comment("is logged").Optional(), // is logged
+		field.Bool("logged").Optional().Comment("is logged"),
 	}
 }
 
-// logged mixin must implement `Mixin` interface.
+// Ensure Logged implements the Mixin interface.
 var _ ent.Mixin = (*Logged)(nil)
 
-// System adds system field.
+// System adds a system field to the schema.
 type System struct{ mixin.Schema }
 
-// Fields of the system mixin.
+// Fields of the System mixin.
 func (System) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("system").Comment("is system").Optional(), // is system
+		field.Bool("system").Optional().Comment("is system"),
 	}
 }
 
-// system mixin must implement `Mixin` interface.
+// Ensure System implements the Mixin interface.
 var _ ent.Mixin = (*System)(nil)
 
-// Hidden adds hidden field.
+// Hidden adds a hidden field to the schema.
 type Hidden struct{ mixin.Schema }
 
-// Fields of the hidden mixin.
+// Fields of the Hidden mixin.
 func (Hidden) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("hidden").Comment("is hidden").Optional(), // is hidden
+		field.Bool("hidden").Optional().Comment("is hidden"),
 	}
 }
 
-// hidden mixin must implement `Mixin` interface.
+// Ensure Hidden implements the Mixin interface.
 var _ ent.Mixin = (*Hidden)(nil)
 
-// IsCertified adds is certified field.
+// IsCertified adds an is_certified field to the schema.
 type IsCertified struct{ mixin.Schema }
 
-// Fields of the is certified mixin.
+// Fields of the IsCertified mixin.
 func (IsCertified) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("is_certified").Comment("is certified").Optional(), // is certified
+		field.Bool("is_certified").Optional().Comment("is certified"),
 	}
 }
 
-// is certified mixin must implement `Mixin` interface.
+// Ensure IsCertified implements the Mixin interface.
 var _ ent.Mixin = (*IsCertified)(nil)
 
-// IsAdmin adds is admin field.
+// IsAdmin adds an is_admin field to the schema.
 type IsAdmin struct{ mixin.Schema }
 
-// Fields of the is admin mixin.
+// Fields of the IsAdmin mixin.
 func (IsAdmin) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("is_admin").Comment("is admin").Optional(), // is admin
+		field.Bool("is_admin").Optional().Comment("is admin"),
 	}
 }
 
-// is admin mixin must implement `Mixin` interface.
+// Ensure IsAdmin implements the Mixin interface.
 var _ ent.Mixin = (*IsAdmin)(nil)

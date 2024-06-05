@@ -3305,6 +3305,7 @@ type TaxonomyMutation struct {
 	domain_id     *string
 	created_by    *string
 	updated_by    *string
+	deleted_by    *string
 	created_at    *time.Time
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
@@ -4208,6 +4209,55 @@ func (m *TaxonomyMutation) ResetUpdatedBy() {
 	delete(m.clearedFields, taxonomy.FieldUpdatedBy)
 }
 
+// SetDeletedBy sets the "deleted_by" field.
+func (m *TaxonomyMutation) SetDeletedBy(s string) {
+	m.deleted_by = &s
+}
+
+// DeletedBy returns the value of the "deleted_by" field in the mutation.
+func (m *TaxonomyMutation) DeletedBy() (r string, exists bool) {
+	v := m.deleted_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedBy returns the old "deleted_by" field's value of the Taxonomy entity.
+// If the Taxonomy object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TaxonomyMutation) OldDeletedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedBy: %w", err)
+	}
+	return oldValue.DeletedBy, nil
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (m *TaxonomyMutation) ClearDeletedBy() {
+	m.deleted_by = nil
+	m.clearedFields[taxonomy.FieldDeletedBy] = struct{}{}
+}
+
+// DeletedByCleared returns if the "deleted_by" field was cleared in this mutation.
+func (m *TaxonomyMutation) DeletedByCleared() bool {
+	_, ok := m.clearedFields[taxonomy.FieldDeletedBy]
+	return ok
+}
+
+// ResetDeletedBy resets all changes to the "deleted_by" field.
+func (m *TaxonomyMutation) ResetDeletedBy() {
+	m.deleted_by = nil
+	delete(m.clearedFields, taxonomy.FieldDeletedBy)
+}
+
 // SetCreatedAt sets the "created_at" field.
 func (m *TaxonomyMutation) SetCreatedAt(t time.Time) {
 	m.created_at = &t
@@ -4340,7 +4390,7 @@ func (m *TaxonomyMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TaxonomyMutation) Fields() []string {
-	fields := make([]string, 0, 18)
+	fields := make([]string, 0, 19)
 	if m.name != nil {
 		fields = append(fields, taxonomy.FieldName)
 	}
@@ -4389,6 +4439,9 @@ func (m *TaxonomyMutation) Fields() []string {
 	if m.updated_by != nil {
 		fields = append(fields, taxonomy.FieldUpdatedBy)
 	}
+	if m.deleted_by != nil {
+		fields = append(fields, taxonomy.FieldDeletedBy)
+	}
 	if m.created_at != nil {
 		fields = append(fields, taxonomy.FieldCreatedAt)
 	}
@@ -4435,6 +4488,8 @@ func (m *TaxonomyMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedBy()
 	case taxonomy.FieldUpdatedBy:
 		return m.UpdatedBy()
+	case taxonomy.FieldDeletedBy:
+		return m.DeletedBy()
 	case taxonomy.FieldCreatedAt:
 		return m.CreatedAt()
 	case taxonomy.FieldUpdatedAt:
@@ -4480,6 +4535,8 @@ func (m *TaxonomyMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldCreatedBy(ctx)
 	case taxonomy.FieldUpdatedBy:
 		return m.OldUpdatedBy(ctx)
+	case taxonomy.FieldDeletedBy:
+		return m.OldDeletedBy(ctx)
 	case taxonomy.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case taxonomy.FieldUpdatedAt:
@@ -4605,6 +4662,13 @@ func (m *TaxonomyMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUpdatedBy(v)
 		return nil
+	case taxonomy.FieldDeletedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedBy(v)
+		return nil
 	case taxonomy.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -4709,6 +4773,9 @@ func (m *TaxonomyMutation) ClearedFields() []string {
 	if m.FieldCleared(taxonomy.FieldUpdatedBy) {
 		fields = append(fields, taxonomy.FieldUpdatedBy)
 	}
+	if m.FieldCleared(taxonomy.FieldDeletedBy) {
+		fields = append(fields, taxonomy.FieldDeletedBy)
+	}
 	if m.FieldCleared(taxonomy.FieldCreatedAt) {
 		fields = append(fields, taxonomy.FieldCreatedAt)
 	}
@@ -4774,6 +4841,9 @@ func (m *TaxonomyMutation) ClearField(name string) error {
 	case taxonomy.FieldUpdatedBy:
 		m.ClearUpdatedBy()
 		return nil
+	case taxonomy.FieldDeletedBy:
+		m.ClearDeletedBy()
+		return nil
 	case taxonomy.FieldCreatedAt:
 		m.ClearCreatedAt()
 		return nil
@@ -4835,6 +4905,9 @@ func (m *TaxonomyMutation) ResetField(name string) error {
 		return nil
 	case taxonomy.FieldUpdatedBy:
 		m.ResetUpdatedBy()
+		return nil
+	case taxonomy.FieldDeletedBy:
+		m.ResetDeletedBy()
 		return nil
 	case taxonomy.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -4902,7 +4975,6 @@ type TaxonomyRelationsMutation struct {
 	id            *string
 	taxonomy_id   *string
 	_type         *string
-	object_id     *string
 	_order        *int32
 	add_order     *int32
 	created_by    *string
@@ -5115,55 +5187,6 @@ func (m *TaxonomyRelationsMutation) ResetType() {
 	delete(m.clearedFields, taxonomyrelations.FieldType)
 }
 
-// SetObjectID sets the "object_id" field.
-func (m *TaxonomyRelationsMutation) SetObjectID(s string) {
-	m.object_id = &s
-}
-
-// ObjectID returns the value of the "object_id" field in the mutation.
-func (m *TaxonomyRelationsMutation) ObjectID() (r string, exists bool) {
-	v := m.object_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldObjectID returns the old "object_id" field's value of the TaxonomyRelations entity.
-// If the TaxonomyRelations object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaxonomyRelationsMutation) OldObjectID(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldObjectID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldObjectID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldObjectID: %w", err)
-	}
-	return oldValue.ObjectID, nil
-}
-
-// ClearObjectID clears the value of the "object_id" field.
-func (m *TaxonomyRelationsMutation) ClearObjectID() {
-	m.object_id = nil
-	m.clearedFields[taxonomyrelations.FieldObjectID] = struct{}{}
-}
-
-// ObjectIDCleared returns if the "object_id" field was cleared in this mutation.
-func (m *TaxonomyRelationsMutation) ObjectIDCleared() bool {
-	_, ok := m.clearedFields[taxonomyrelations.FieldObjectID]
-	return ok
-}
-
-// ResetObjectID resets all changes to the "object_id" field.
-func (m *TaxonomyRelationsMutation) ResetObjectID() {
-	m.object_id = nil
-	delete(m.clearedFields, taxonomyrelations.FieldObjectID)
-}
-
 // SetOrder sets the "order" field.
 func (m *TaxonomyRelationsMutation) SetOrder(i int32) {
 	m._order = &i
@@ -5352,15 +5375,12 @@ func (m *TaxonomyRelationsMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TaxonomyRelationsMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 5)
 	if m.taxonomy_id != nil {
 		fields = append(fields, taxonomyrelations.FieldTaxonomyID)
 	}
 	if m._type != nil {
 		fields = append(fields, taxonomyrelations.FieldType)
-	}
-	if m.object_id != nil {
-		fields = append(fields, taxonomyrelations.FieldObjectID)
 	}
 	if m._order != nil {
 		fields = append(fields, taxonomyrelations.FieldOrder)
@@ -5383,8 +5403,6 @@ func (m *TaxonomyRelationsMutation) Field(name string) (ent.Value, bool) {
 		return m.TaxonomyID()
 	case taxonomyrelations.FieldType:
 		return m.GetType()
-	case taxonomyrelations.FieldObjectID:
-		return m.ObjectID()
 	case taxonomyrelations.FieldOrder:
 		return m.Order()
 	case taxonomyrelations.FieldCreatedBy:
@@ -5404,8 +5422,6 @@ func (m *TaxonomyRelationsMutation) OldField(ctx context.Context, name string) (
 		return m.OldTaxonomyID(ctx)
 	case taxonomyrelations.FieldType:
 		return m.OldType(ctx)
-	case taxonomyrelations.FieldObjectID:
-		return m.OldObjectID(ctx)
 	case taxonomyrelations.FieldOrder:
 		return m.OldOrder(ctx)
 	case taxonomyrelations.FieldCreatedBy:
@@ -5434,13 +5450,6 @@ func (m *TaxonomyRelationsMutation) SetField(name string, value ent.Value) error
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetType(v)
-		return nil
-	case taxonomyrelations.FieldObjectID:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetObjectID(v)
 		return nil
 	case taxonomyrelations.FieldOrder:
 		v, ok := value.(int32)
@@ -5514,9 +5523,6 @@ func (m *TaxonomyRelationsMutation) ClearedFields() []string {
 	if m.FieldCleared(taxonomyrelations.FieldType) {
 		fields = append(fields, taxonomyrelations.FieldType)
 	}
-	if m.FieldCleared(taxonomyrelations.FieldObjectID) {
-		fields = append(fields, taxonomyrelations.FieldObjectID)
-	}
 	if m.FieldCleared(taxonomyrelations.FieldCreatedBy) {
 		fields = append(fields, taxonomyrelations.FieldCreatedBy)
 	}
@@ -5543,9 +5549,6 @@ func (m *TaxonomyRelationsMutation) ClearField(name string) error {
 	case taxonomyrelations.FieldType:
 		m.ClearType()
 		return nil
-	case taxonomyrelations.FieldObjectID:
-		m.ClearObjectID()
-		return nil
 	case taxonomyrelations.FieldCreatedBy:
 		m.ClearCreatedBy()
 		return nil
@@ -5565,9 +5568,6 @@ func (m *TaxonomyRelationsMutation) ResetField(name string) error {
 		return nil
 	case taxonomyrelations.FieldType:
 		m.ResetType()
-		return nil
-	case taxonomyrelations.FieldObjectID:
-		m.ResetObjectID()
 		return nil
 	case taxonomyrelations.FieldOrder:
 		m.ResetOrder()
@@ -5651,6 +5651,7 @@ type TopicMutation struct {
 	domain_id     *string
 	created_by    *string
 	updated_by    *string
+	deleted_by    *string
 	created_at    *time.Time
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
@@ -6456,6 +6457,55 @@ func (m *TopicMutation) ResetUpdatedBy() {
 	delete(m.clearedFields, topic.FieldUpdatedBy)
 }
 
+// SetDeletedBy sets the "deleted_by" field.
+func (m *TopicMutation) SetDeletedBy(s string) {
+	m.deleted_by = &s
+}
+
+// DeletedBy returns the value of the "deleted_by" field in the mutation.
+func (m *TopicMutation) DeletedBy() (r string, exists bool) {
+	v := m.deleted_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedBy returns the old "deleted_by" field's value of the Topic entity.
+// If the Topic object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TopicMutation) OldDeletedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedBy: %w", err)
+	}
+	return oldValue.DeletedBy, nil
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (m *TopicMutation) ClearDeletedBy() {
+	m.deleted_by = nil
+	m.clearedFields[topic.FieldDeletedBy] = struct{}{}
+}
+
+// DeletedByCleared returns if the "deleted_by" field was cleared in this mutation.
+func (m *TopicMutation) DeletedByCleared() bool {
+	_, ok := m.clearedFields[topic.FieldDeletedBy]
+	return ok
+}
+
+// ResetDeletedBy resets all changes to the "deleted_by" field.
+func (m *TopicMutation) ResetDeletedBy() {
+	m.deleted_by = nil
+	delete(m.clearedFields, topic.FieldDeletedBy)
+}
+
 // SetCreatedAt sets the "created_at" field.
 func (m *TopicMutation) SetCreatedAt(t time.Time) {
 	m.created_at = &t
@@ -6588,7 +6638,7 @@ func (m *TopicMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TopicMutation) Fields() []string {
-	fields := make([]string, 0, 16)
+	fields := make([]string, 0, 17)
 	if m.name != nil {
 		fields = append(fields, topic.FieldName)
 	}
@@ -6630,6 +6680,9 @@ func (m *TopicMutation) Fields() []string {
 	}
 	if m.updated_by != nil {
 		fields = append(fields, topic.FieldUpdatedBy)
+	}
+	if m.deleted_by != nil {
+		fields = append(fields, topic.FieldDeletedBy)
 	}
 	if m.created_at != nil {
 		fields = append(fields, topic.FieldCreatedAt)
@@ -6673,6 +6726,8 @@ func (m *TopicMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedBy()
 	case topic.FieldUpdatedBy:
 		return m.UpdatedBy()
+	case topic.FieldDeletedBy:
+		return m.DeletedBy()
 	case topic.FieldCreatedAt:
 		return m.CreatedAt()
 	case topic.FieldUpdatedAt:
@@ -6714,6 +6769,8 @@ func (m *TopicMutation) OldField(ctx context.Context, name string) (ent.Value, e
 		return m.OldCreatedBy(ctx)
 	case topic.FieldUpdatedBy:
 		return m.OldUpdatedBy(ctx)
+	case topic.FieldDeletedBy:
+		return m.OldDeletedBy(ctx)
 	case topic.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case topic.FieldUpdatedAt:
@@ -6825,6 +6882,13 @@ func (m *TopicMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUpdatedBy(v)
 		return nil
+	case topic.FieldDeletedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedBy(v)
+		return nil
 	case topic.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -6923,6 +6987,9 @@ func (m *TopicMutation) ClearedFields() []string {
 	if m.FieldCleared(topic.FieldUpdatedBy) {
 		fields = append(fields, topic.FieldUpdatedBy)
 	}
+	if m.FieldCleared(topic.FieldDeletedBy) {
+		fields = append(fields, topic.FieldDeletedBy)
+	}
 	if m.FieldCleared(topic.FieldCreatedAt) {
 		fields = append(fields, topic.FieldCreatedAt)
 	}
@@ -6982,6 +7049,9 @@ func (m *TopicMutation) ClearField(name string) error {
 	case topic.FieldUpdatedBy:
 		m.ClearUpdatedBy()
 		return nil
+	case topic.FieldDeletedBy:
+		m.ClearDeletedBy()
+		return nil
 	case topic.FieldCreatedAt:
 		m.ClearCreatedAt()
 		return nil
@@ -7037,6 +7107,9 @@ func (m *TopicMutation) ResetField(name string) error {
 		return nil
 	case topic.FieldUpdatedBy:
 		m.ResetUpdatedBy()
+		return nil
+	case topic.FieldDeletedBy:
+		m.ResetDeletedBy()
 		return nil
 	case topic.FieldCreatedAt:
 		m.ResetCreatedAt()

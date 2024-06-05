@@ -29,10 +29,10 @@ func (OAuthUser) Annotations() []schema.Annotation {
 func (OAuthUser) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey{},
-		mixin.OAuthID{},
+		mixin.OAuthID,
 		mixin.AccessToken{},
 		mixin.Provider{},
-		mixin.UserID{},
+		mixin.UserID,
 		mixin.CreatedAt{},
 		mixin.UpdatedAt{},
 	}
