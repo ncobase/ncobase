@@ -112,11 +112,13 @@ func Logger(c *gin.Context) {
 		QueryParams: make(map[string]string),
 	}
 
-	// Read the request body
-	if c.Request.Body != nil && !strings.Contains(path, "/resources") {
-		bodyBytes, _ := io.ReadAll(c.Request.Body)
-		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
-		entry.Body = string(bodyBytes)
+	// Read the request body if not in whitelist
+	if !isInWhiteList(path) {
+		if c.Request.Body != nil {
+			bodyBytes, _ := io.ReadAll(c.Request.Body)
+			c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+			entry.Body = string(bodyBytes)
+		}
 	}
 
 	// Capture query parameters
@@ -127,16 +129,28 @@ func Logger(c *gin.Context) {
 	// Proceed with the request
 	c.Next()
 
-	// Capture response data
-	entry.Status = c.Writer.Status()
-	entry.Latency = time.Since(time.Now())
+	// Capture response data if not in whitelist
+	if !isInWhiteList(path) {
+		entry.Status = c.Writer.Status()
+		entry.Latency = time.Since(time.Now())
+		entry.ResponseBody = responseWriter.body.String()
+	}
 
-	// Log the entry
-	entry.ResponseBody = responseWriter.body.String()
 	entry.EndAt = time.Now().Format(time.RFC3339Nano)
 
 	// config
 	conf := helper.GetConfig(c)
 
 	log.Infof(c.Request.Context(), FormatLog(entry, conf.Logger.Format))
+}
+
+// isInWhiteList checks if the given path is in the whitelist
+func isInWhiteList(path string) bool {
+	whitelist := []string{"/resources", "/resources/*"}
+	for _, allowedPath := range whitelist {
+		if path == allowedPath || strings.Contains(path, allowedPath) {
+			return true
+		}
+	}
+	return false
 }
