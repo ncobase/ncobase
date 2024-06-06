@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"stocms/pkg/storage"
 
 	"github.com/spf13/viper"
 )
@@ -28,9 +29,8 @@ type Config struct {
 	Frontend   Frontend
 	Logger     Logger
 	Data       Data
-	Github     Github
-	Facebook   Facebook
-	AWS        AWS
+	OAuth      OAuth
+	Storage    storage.Config
 	Mailgun    Mailgun
 }
 
@@ -90,9 +90,8 @@ func load(in string) (*Config, error) {
 		Frontend:   getFrontendConfig(),
 		Logger:     getLoggerConfig(),
 		Data:       getDataConfig(),
-		Github:     getGithubConfig(),
-		Facebook:   getFacebookConfig(),
-		AWS:        getAWSConfig(),
+		OAuth:      getOAuthConfig(),
+		Storage:    getStorageConfig(),
 		Mailgun:    getMailgunConfig(),
 	}, err
 }

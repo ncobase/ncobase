@@ -46,8 +46,6 @@ type Topic struct {
 	CreatedBy string `json:"created_by,omitempty"`
 	// ID of the person who last updated the entity
 	UpdatedBy string `json:"updated_by,omitempty"`
-	// ID of the person who deleted the entity
-	DeletedBy string `json:"deleted_by,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// updated at
@@ -64,7 +62,7 @@ func (*Topic) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case topic.FieldStatus:
 			values[i] = new(sql.NullInt64)
-		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldDomainID, topic.FieldCreatedBy, topic.FieldUpdatedBy, topic.FieldDeletedBy:
+		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldDomainID, topic.FieldCreatedBy, topic.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		case topic.FieldReleased, topic.FieldCreatedAt, topic.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -173,12 +171,6 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.UpdatedBy = value.String
 			}
-		case topic.FieldDeletedBy:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field deleted_by", values[i])
-			} else if value.Valid {
-				t.DeletedBy = value.String
-			}
 		case topic.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
@@ -268,9 +260,6 @@ func (t *Topic) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
 	builder.WriteString(t.UpdatedBy)
-	builder.WriteString(", ")
-	builder.WriteString("deleted_by=")
-	builder.WriteString(t.DeletedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
 	builder.WriteString(t.CreatedAt.Format(time.ANSIC))

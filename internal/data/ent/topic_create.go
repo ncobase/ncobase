@@ -216,20 +216,6 @@ func (tc *TopicCreate) SetNillableUpdatedBy(s *string) *TopicCreate {
 	return tc
 }
 
-// SetDeletedBy sets the "deleted_by" field.
-func (tc *TopicCreate) SetDeletedBy(s string) *TopicCreate {
-	tc.mutation.SetDeletedBy(s)
-	return tc
-}
-
-// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableDeletedBy(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetDeletedBy(*s)
-	}
-	return tc
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (tc *TopicCreate) SetCreatedAt(t time.Time) *TopicCreate {
 	tc.mutation.SetCreatedAt(t)
@@ -350,11 +336,6 @@ func (tc *TopicCreate) check() error {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Topic.updated_by": %w`, err)}
 		}
 	}
-	if v, ok := tc.mutation.DeletedBy(); ok {
-		if err := topic.DeletedByValidator(v); err != nil {
-			return &ValidationError{Name: "deleted_by", err: fmt.Errorf(`ent: validator failed for field "Topic.deleted_by": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -445,10 +426,6 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.UpdatedBy(); ok {
 		_spec.SetField(topic.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
-	}
-	if value, ok := tc.mutation.DeletedBy(); ok {
-		_spec.SetField(topic.FieldDeletedBy, field.TypeString, value)
-		_node.DeletedBy = value
 	}
 	if value, ok := tc.mutation.CreatedAt(); ok {
 		_spec.SetField(topic.FieldCreatedAt, field.TypeTime, value)

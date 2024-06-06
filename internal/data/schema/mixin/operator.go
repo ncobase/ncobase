@@ -54,10 +54,7 @@ type OperatorBy struct{ mixin.Schema }
 func (OperatorBy) Fields() []ent.Field {
 	return append(
 		CreatedBy{}.Fields(),
-		append(
-			UpdatedBy{}.Fields(),
-			DeletedBy{}.Fields()...,
-		)...,
+		UpdatedBy{}.Fields()...,
 	)
 }
 

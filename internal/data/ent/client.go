@@ -15,6 +15,7 @@ import (
 	"stocms/internal/data/ent/codeauth"
 	"stocms/internal/data/ent/domain"
 	"stocms/internal/data/ent/oauthuser"
+	"stocms/internal/data/ent/resource"
 	"stocms/internal/data/ent/taxonomy"
 	"stocms/internal/data/ent/taxonomyrelations"
 	"stocms/internal/data/ent/topic"
@@ -39,6 +40,8 @@ type Client struct {
 	Domain *DomainClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
 	OAuthUser *OAuthUserClient
+	// Resource is the client for interacting with the Resource builders.
+	Resource *ResourceClient
 	// Taxonomy is the client for interacting with the Taxonomy builders.
 	Taxonomy *TaxonomyClient
 	// TaxonomyRelations is the client for interacting with the TaxonomyRelations builders.
@@ -64,6 +67,7 @@ func (c *Client) init() {
 	c.CodeAuth = NewCodeAuthClient(c.config)
 	c.Domain = NewDomainClient(c.config)
 	c.OAuthUser = NewOAuthUserClient(c.config)
+	c.Resource = NewResourceClient(c.config)
 	c.Taxonomy = NewTaxonomyClient(c.config)
 	c.TaxonomyRelations = NewTaxonomyRelationsClient(c.config)
 	c.Topic = NewTopicClient(c.config)
@@ -165,6 +169,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		CodeAuth:          NewCodeAuthClient(cfg),
 		Domain:            NewDomainClient(cfg),
 		OAuthUser:         NewOAuthUserClient(cfg),
+		Resource:          NewResourceClient(cfg),
 		Taxonomy:          NewTaxonomyClient(cfg),
 		TaxonomyRelations: NewTaxonomyRelationsClient(cfg),
 		Topic:             NewTopicClient(cfg),
@@ -193,6 +198,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		CodeAuth:          NewCodeAuthClient(cfg),
 		Domain:            NewDomainClient(cfg),
 		OAuthUser:         NewOAuthUserClient(cfg),
+		Resource:          NewResourceClient(cfg),
 		Taxonomy:          NewTaxonomyClient(cfg),
 		TaxonomyRelations: NewTaxonomyRelationsClient(cfg),
 		Topic:             NewTopicClient(cfg),
@@ -227,8 +233,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.AuthToken, c.CodeAuth, c.Domain, c.OAuthUser, c.Taxonomy, c.TaxonomyRelations,
-		c.Topic, c.User, c.UserProfile,
+		c.AuthToken, c.CodeAuth, c.Domain, c.OAuthUser, c.Resource, c.Taxonomy,
+		c.TaxonomyRelations, c.Topic, c.User, c.UserProfile,
 	} {
 		n.Use(hooks...)
 	}
@@ -238,8 +244,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.AuthToken, c.CodeAuth, c.Domain, c.OAuthUser, c.Taxonomy, c.TaxonomyRelations,
-		c.Topic, c.User, c.UserProfile,
+		c.AuthToken, c.CodeAuth, c.Domain, c.OAuthUser, c.Resource, c.Taxonomy,
+		c.TaxonomyRelations, c.Topic, c.User, c.UserProfile,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -256,6 +262,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Domain.mutate(ctx, m)
 	case *OAuthUserMutation:
 		return c.OAuthUser.mutate(ctx, m)
+	case *ResourceMutation:
+		return c.Resource.mutate(ctx, m)
 	case *TaxonomyMutation:
 		return c.Taxonomy.mutate(ctx, m)
 	case *TaxonomyRelationsMutation:
@@ -800,6 +808,139 @@ func (c *OAuthUserClient) mutate(ctx context.Context, m *OAuthUserMutation) (Val
 		return (&OAuthUserDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown OAuthUser mutation op: %q", m.Op())
+	}
+}
+
+// ResourceClient is a client for the Resource schema.
+type ResourceClient struct {
+	config
+}
+
+// NewResourceClient returns a client for the Resource from the given config.
+func NewResourceClient(c config) *ResourceClient {
+	return &ResourceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `resource.Hooks(f(g(h())))`.
+func (c *ResourceClient) Use(hooks ...Hook) {
+	c.hooks.Resource = append(c.hooks.Resource, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `resource.Intercept(f(g(h())))`.
+func (c *ResourceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Resource = append(c.inters.Resource, interceptors...)
+}
+
+// Create returns a builder for creating a Resource entity.
+func (c *ResourceClient) Create() *ResourceCreate {
+	mutation := newResourceMutation(c.config, OpCreate)
+	return &ResourceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Resource entities.
+func (c *ResourceClient) CreateBulk(builders ...*ResourceCreate) *ResourceCreateBulk {
+	return &ResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *ResourceClient) MapCreateBulk(slice any, setFunc func(*ResourceCreate, int)) *ResourceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &ResourceCreateBulk{err: fmt.Errorf("calling to ResourceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*ResourceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &ResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Resource.
+func (c *ResourceClient) Update() *ResourceUpdate {
+	mutation := newResourceMutation(c.config, OpUpdate)
+	return &ResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *ResourceClient) UpdateOne(r *Resource) *ResourceUpdateOne {
+	mutation := newResourceMutation(c.config, OpUpdateOne, withResource(r))
+	return &ResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *ResourceClient) UpdateOneID(id string) *ResourceUpdateOne {
+	mutation := newResourceMutation(c.config, OpUpdateOne, withResourceID(id))
+	return &ResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Resource.
+func (c *ResourceClient) Delete() *ResourceDelete {
+	mutation := newResourceMutation(c.config, OpDelete)
+	return &ResourceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *ResourceClient) DeleteOne(r *Resource) *ResourceDeleteOne {
+	return c.DeleteOneID(r.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *ResourceClient) DeleteOneID(id string) *ResourceDeleteOne {
+	builder := c.Delete().Where(resource.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &ResourceDeleteOne{builder}
+}
+
+// Query returns a query builder for Resource.
+func (c *ResourceClient) Query() *ResourceQuery {
+	return &ResourceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeResource},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Resource entity by its id.
+func (c *ResourceClient) Get(ctx context.Context, id string) (*Resource, error) {
+	return c.Query().Where(resource.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *ResourceClient) GetX(ctx context.Context, id string) *Resource {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *ResourceClient) Hooks() []Hook {
+	return c.hooks.Resource
+}
+
+// Interceptors returns the client interceptors.
+func (c *ResourceClient) Interceptors() []Interceptor {
+	return c.inters.Resource
+}
+
+func (c *ResourceClient) mutate(ctx context.Context, m *ResourceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&ResourceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&ResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&ResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&ResourceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Resource mutation op: %q", m.Op())
 	}
 }
 
@@ -1471,11 +1612,11 @@ func (c *UserProfileClient) mutate(ctx context.Context, m *UserProfileMutation) 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		AuthToken, CodeAuth, Domain, OAuthUser, Taxonomy, TaxonomyRelations, Topic,
-		User, UserProfile []ent.Hook
+		AuthToken, CodeAuth, Domain, OAuthUser, Resource, Taxonomy, TaxonomyRelations,
+		Topic, User, UserProfile []ent.Hook
 	}
 	inters struct {
-		AuthToken, CodeAuth, Domain, OAuthUser, Taxonomy, TaxonomyRelations, Topic,
-		User, UserProfile []ent.Interceptor
+		AuthToken, CodeAuth, Domain, OAuthUser, Resource, Taxonomy, TaxonomyRelations,
+		Topic, User, UserProfile []ent.Interceptor
 	}
 )

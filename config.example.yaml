@@ -56,15 +56,33 @@ jwt:
   secret: # openssl passwd -stdin < <(echo) | base64 | shasum / nanoid.String(35)
   exp_time: 48 # hours
 
-aws:
-  region:
-  access_key:
-  access_secret:
-  bucket:
 
-github:
-  id:
-  secret:
+storage:
+  # filesystem（need to set the bucket as the storage path）/ minio / aliyun-oss / aws-s3 / azure / tencent-cos
+  provider: filesystem
+  bucket: uploads
+  endpoint:
+
+#  provider: minio
+#  id:
+#  secret:
+#  region:
+#  bucket:
+#  endpoint:
+
+oauth:
+  github:
+    id:
+    secret:
+    redirect_url:
+  facebook:
+    id:
+    secret:
+    redirect_url:
+  google:
+    client_id:
+    client_secret:
+    redirect_url:
 
 mailgun:
   key:

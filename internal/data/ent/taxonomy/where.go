@@ -139,11 +139,6 @@ func UpdatedBy(v string) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldEQ(FieldUpdatedBy, v))
 }
 
-// DeletedBy applies equality check predicate on the "deleted_by" field. It's identical to DeletedByEQ.
-func DeletedBy(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldEQ(FieldDeletedBy, v))
-}
-
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldEQ(FieldCreatedAt, v))
@@ -1252,81 +1247,6 @@ func UpdatedByEqualFold(v string) predicate.Taxonomy {
 // UpdatedByContainsFold applies the ContainsFold predicate on the "updated_by" field.
 func UpdatedByContainsFold(v string) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldContainsFold(FieldUpdatedBy, v))
-}
-
-// DeletedByEQ applies the EQ predicate on the "deleted_by" field.
-func DeletedByEQ(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldEQ(FieldDeletedBy, v))
-}
-
-// DeletedByNEQ applies the NEQ predicate on the "deleted_by" field.
-func DeletedByNEQ(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldNEQ(FieldDeletedBy, v))
-}
-
-// DeletedByIn applies the In predicate on the "deleted_by" field.
-func DeletedByIn(vs ...string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldIn(FieldDeletedBy, vs...))
-}
-
-// DeletedByNotIn applies the NotIn predicate on the "deleted_by" field.
-func DeletedByNotIn(vs ...string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldNotIn(FieldDeletedBy, vs...))
-}
-
-// DeletedByGT applies the GT predicate on the "deleted_by" field.
-func DeletedByGT(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldGT(FieldDeletedBy, v))
-}
-
-// DeletedByGTE applies the GTE predicate on the "deleted_by" field.
-func DeletedByGTE(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldGTE(FieldDeletedBy, v))
-}
-
-// DeletedByLT applies the LT predicate on the "deleted_by" field.
-func DeletedByLT(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldLT(FieldDeletedBy, v))
-}
-
-// DeletedByLTE applies the LTE predicate on the "deleted_by" field.
-func DeletedByLTE(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldLTE(FieldDeletedBy, v))
-}
-
-// DeletedByContains applies the Contains predicate on the "deleted_by" field.
-func DeletedByContains(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldContains(FieldDeletedBy, v))
-}
-
-// DeletedByHasPrefix applies the HasPrefix predicate on the "deleted_by" field.
-func DeletedByHasPrefix(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldHasPrefix(FieldDeletedBy, v))
-}
-
-// DeletedByHasSuffix applies the HasSuffix predicate on the "deleted_by" field.
-func DeletedByHasSuffix(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldHasSuffix(FieldDeletedBy, v))
-}
-
-// DeletedByIsNil applies the IsNil predicate on the "deleted_by" field.
-func DeletedByIsNil() predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldIsNull(FieldDeletedBy))
-}
-
-// DeletedByNotNil applies the NotNil predicate on the "deleted_by" field.
-func DeletedByNotNil() predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldNotNull(FieldDeletedBy))
-}
-
-// DeletedByEqualFold applies the EqualFold predicate on the "deleted_by" field.
-func DeletedByEqualFold(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldEqualFold(FieldDeletedBy, v))
-}
-
-// DeletedByContainsFold applies the ContainsFold predicate on the "deleted_by" field.
-func DeletedByContainsFold(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldContainsFold(FieldDeletedBy, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.

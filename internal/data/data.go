@@ -9,7 +9,7 @@ import (
 	"stocms/internal/data/ent/migrate"
 	"stocms/pkg/elastic"
 	"stocms/pkg/log"
-	meili "stocms/pkg/meilisearch"
+	"stocms/pkg/meili"
 
 	"github.com/redis/go-redis/v9"
 

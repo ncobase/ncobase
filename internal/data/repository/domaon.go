@@ -10,7 +10,7 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
-	meili "stocms/pkg/meilisearch"
+	"stocms/pkg/meili"
 	"stocms/pkg/types"
 	"stocms/pkg/validator"
 	"strings"
@@ -50,7 +50,7 @@ func NewDomain(d *data.Data) Domain {
 func (r *domainRepo) Create(ctx context.Context, body *structs.CreateDomainBody) (*ent.Domain, error) {
 	// create builder.
 	builder := r.ec.Domain.Create()
-	// Set values
+	// set values.
 	builder.SetNillableName(&body.Name)
 	builder.SetNillableTitle(&body.Title)
 	builder.SetNillableURL(&body.URL)
@@ -94,10 +94,10 @@ func (r *domainRepo) GetByID(ctx context.Context, id string) (*ent.Domain, error
 	// 		return hit, nil
 	// 	}
 	// }
-	// Check cache
+	// check cache
 	cacheKey := fmt.Sprintf("%s", id)
-	if cachedDomain, err := r.c.Get(ctx, cacheKey); err == nil {
-		return cachedDomain, nil
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cached, nil
 	}
 
 	// If not found in cache, query the database
@@ -108,7 +108,7 @@ func (r *domainRepo) GetByID(ctx context.Context, id string) (*ent.Domain, error
 		return nil, err
 	}
 
-	// Cache the result
+	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
 		log.Errorf(nil, "domainRepo.GetByID cache error: %v\n", err)
@@ -125,10 +125,10 @@ func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain,
 	// 		return hit, nil
 	// 	}
 	// }
-	// Check cache
+	// check cache
 	cacheKey := fmt.Sprintf("%s", userID)
-	if cachedDomain, err := r.c.Get(ctx, cacheKey); err == nil {
-		return cachedDomain, nil
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cached, nil
 	}
 
 	// If not found in cache, query the database
@@ -139,7 +139,7 @@ func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain,
 		return nil, err
 	}
 
-	// Cache the result
+	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
 		log.Errorf(nil, "domainRepo.GetByUser cache error: %v\n", err)
@@ -173,7 +173,7 @@ func (r *domainRepo) Update(ctx context.Context, id string, updates types.JSON) 
 	// create builder.
 	builder := domain.Update()
 
-	// Set values
+	// set values
 	for field, value := range updates {
 		switch field {
 		case "name":
@@ -210,7 +210,7 @@ func (r *domainRepo) Update(ctx context.Context, id string, updates types.JSON) 
 		return nil, err
 	}
 
-	// Remove from cache
+	// remove from cache
 	cacheKey := fmt.Sprintf("%s", domain.ID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
@@ -285,18 +285,27 @@ func (r *domainRepo) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		return err
 	}
+
 	// create builder.
 	builder := r.ec.Domain.Delete()
 
-	// execute the builder.
-	_, err = builder.Where(domainEnt.IDEQ(id)).Exec(ctx)
-	if err == nil {
-		// Remove from cache
-		cacheKey := fmt.Sprintf("%s", domain.ID)
-		err := r.c.Delete(ctx, cacheKey)
-		if err != nil {
-			log.Errorf(nil, "domainRepo.Delete cache error: %v\n", err)
-		}
+	// execute the builder and verify the result.
+	if _, err = builder.Where(domainEnt.IDEQ(id)).Exec(ctx); err == nil {
+		log.Errorf(nil, "domainRepo.Delete error: %v\n", err)
+		return err
+	}
+
+	// remove from cache
+	cacheKey := fmt.Sprintf("%s", domain.ID)
+	err = r.c.Delete(ctx, cacheKey)
+	if err != nil {
+		log.Errorf(nil, "domainRepo.Delete cache error: %v\n", err)
+	}
+
+	// delete from Meilisearch index
+	if err = r.ms.DeleteDocuments(ctx, "domains", domain.ID); err != nil {
+		log.Errorf(nil, "domainRepo.Delete index error: %v\n", err)
+		// return nil, err
 	}
 
 	return err
@@ -304,24 +313,33 @@ func (r *domainRepo) Delete(ctx context.Context, id string) error {
 
 // DeleteByUser delete domain by user ID
 func (r *domainRepo) DeleteByUser(ctx context.Context, userID string) error {
-	_, err := r.ec.Domain.
-		Delete().
-		Where(domainEnt.UserIDEQ(userID)).
-		Exec(ctx)
 
-	if err == nil {
-		// Remove from cache
-		cacheUserKey := fmt.Sprintf("user:%s", userID)
-		err = r.c.Delete(ctx, cacheUserKey)
-		if err != nil {
-			log.Errorf(nil, "domainRepo.DeleteByUser cache error: %v\n", err)
-		}
+	// create builder.
+	builder := r.ec.Domain.Delete()
+
+	if _, err := builder.Where(domainEnt.UserIDEQ(userID)).Exec(ctx); err == nil {
+		log.Errorf(nil, "domainRepo.DeleteByUser error: %v\n", err)
+		return err
+	}
+
+	// remove from cache
+	cacheUserKey := fmt.Sprintf("user:%s", userID)
+	err := r.c.Delete(ctx, cacheUserKey)
+	if err != nil {
+		log.Errorf(nil, "domainRepo.DeleteByUser cache error: %v\n", err)
+	}
+
+	// delete from Meilisearch index
+	if err = r.ms.DeleteDocuments(ctx, "domains", userID); err != nil {
+		log.Errorf(nil, "domainRepo.DeleteByUser index error: %v\n", err)
+		// return nil, err
 	}
 
 	return err
 }
 
 func (r *domainRepo) FindDomain(ctx context.Context, p *structs.FindDomain) (*ent.Domain, error) {
+
 	// create builder.
 	builder := r.ec.Domain.Query()
 
@@ -340,34 +358,3 @@ func (r *domainRepo) FindDomain(ctx context.Context, p *structs.FindDomain) (*en
 
 	return row, nil
 }
-
-// // CreateIndex creates a new index in Meilisearch.
-// func (r *domainRepo) CreateIndex(ctx context.Context, domain *ent.Domain) error {
-// 	// Get Meilisearch client
-// 	ms := r.ms
-//
-// 	// Create Meilisearch index
-// 	index := ms.Index("domains")
-//
-// 	// Define the document to index
-// 	doc := map[string]any{
-// 		"id":          domain.ID,
-// 		"name":        domain.Name,
-// 		"title":       domain.Title,
-// 		"url":         domain.URL,
-// 		"logo":        domain.Logo,
-// 		"logo_alt":    domain.LogoAlt,
-// 		"keywords":    strings.Split(domain.Keywords, ","),
-// 		"description": domain.Description,
-// 		// Add other fields as needed
-// 	}
-//
-// 	// Index the document
-// 	_, err := index.AddDocuments([]map[string]any{doc})
-// 	if err != nil {
-// 		log.Errorf(nil, "domainRepo.CreateIndex error: %v\n", err)
-// 		return err
-// 	}
-//
-// 	return nil
-// }

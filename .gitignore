@@ -5,6 +5,7 @@ bin/
 out/
 .DS_Store
 logs/*
+uploads/
 
 # config
 !config.example.yaml

@@ -341,26 +341,6 @@ func (tu *TaxonomyUpdate) ClearUpdatedBy() *TaxonomyUpdate {
 	return tu
 }
 
-// SetDeletedBy sets the "deleted_by" field.
-func (tu *TaxonomyUpdate) SetDeletedBy(s string) *TaxonomyUpdate {
-	tu.mutation.SetDeletedBy(s)
-	return tu
-}
-
-// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableDeletedBy(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetDeletedBy(*s)
-	}
-	return tu
-}
-
-// ClearDeletedBy clears the value of the "deleted_by" field.
-func (tu *TaxonomyUpdate) ClearDeletedBy() *TaxonomyUpdate {
-	tu.mutation.ClearDeletedBy()
-	return tu
-}
-
 // SetUpdatedAt sets the "updated_at" field.
 func (tu *TaxonomyUpdate) SetUpdatedAt(t time.Time) *TaxonomyUpdate {
 	tu.mutation.SetUpdatedAt(t)
@@ -434,11 +414,6 @@ func (tu *TaxonomyUpdate) check() error {
 	if v, ok := tu.mutation.UpdatedBy(); ok {
 		if err := taxonomy.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.updated_by": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.DeletedBy(); ok {
-		if err := taxonomy.DeletedByValidator(v); err != nil {
-			return &ValidationError{Name: "deleted_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.deleted_by": %w`, err)}
 		}
 	}
 	return nil
@@ -551,12 +526,6 @@ func (tu *TaxonomyUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if tu.mutation.UpdatedByCleared() {
 		_spec.ClearField(taxonomy.FieldUpdatedBy, field.TypeString)
-	}
-	if value, ok := tu.mutation.DeletedBy(); ok {
-		_spec.SetField(taxonomy.FieldDeletedBy, field.TypeString, value)
-	}
-	if tu.mutation.DeletedByCleared() {
-		_spec.ClearField(taxonomy.FieldDeletedBy, field.TypeString)
 	}
 	if tu.mutation.CreatedAtCleared() {
 		_spec.ClearField(taxonomy.FieldCreatedAt, field.TypeTime)
@@ -900,26 +869,6 @@ func (tuo *TaxonomyUpdateOne) ClearUpdatedBy() *TaxonomyUpdateOne {
 	return tuo
 }
 
-// SetDeletedBy sets the "deleted_by" field.
-func (tuo *TaxonomyUpdateOne) SetDeletedBy(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetDeletedBy(s)
-	return tuo
-}
-
-// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableDeletedBy(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetDeletedBy(*s)
-	}
-	return tuo
-}
-
-// ClearDeletedBy clears the value of the "deleted_by" field.
-func (tuo *TaxonomyUpdateOne) ClearDeletedBy() *TaxonomyUpdateOne {
-	tuo.mutation.ClearDeletedBy()
-	return tuo
-}
-
 // SetUpdatedAt sets the "updated_at" field.
 func (tuo *TaxonomyUpdateOne) SetUpdatedAt(t time.Time) *TaxonomyUpdateOne {
 	tuo.mutation.SetUpdatedAt(t)
@@ -1006,11 +955,6 @@ func (tuo *TaxonomyUpdateOne) check() error {
 	if v, ok := tuo.mutation.UpdatedBy(); ok {
 		if err := taxonomy.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.updated_by": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.DeletedBy(); ok {
-		if err := taxonomy.DeletedByValidator(v); err != nil {
-			return &ValidationError{Name: "deleted_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.deleted_by": %w`, err)}
 		}
 	}
 	return nil
@@ -1140,12 +1084,6 @@ func (tuo *TaxonomyUpdateOne) sqlSave(ctx context.Context) (_node *Taxonomy, err
 	}
 	if tuo.mutation.UpdatedByCleared() {
 		_spec.ClearField(taxonomy.FieldUpdatedBy, field.TypeString)
-	}
-	if value, ok := tuo.mutation.DeletedBy(); ok {
-		_spec.SetField(taxonomy.FieldDeletedBy, field.TypeString, value)
-	}
-	if tuo.mutation.DeletedByCleared() {
-		_spec.ClearField(taxonomy.FieldDeletedBy, field.TypeString)
 	}
 	if tuo.mutation.CreatedAtCleared() {
 		_spec.ClearField(taxonomy.FieldCreatedAt, field.TypeTime)

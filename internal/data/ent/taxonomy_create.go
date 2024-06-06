@@ -236,20 +236,6 @@ func (tc *TaxonomyCreate) SetNillableUpdatedBy(s *string) *TaxonomyCreate {
 	return tc
 }
 
-// SetDeletedBy sets the "deleted_by" field.
-func (tc *TaxonomyCreate) SetDeletedBy(s string) *TaxonomyCreate {
-	tc.mutation.SetDeletedBy(s)
-	return tc
-}
-
-// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableDeletedBy(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetDeletedBy(*s)
-	}
-	return tc
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (tc *TaxonomyCreate) SetCreatedAt(t time.Time) *TaxonomyCreate {
 	tc.mutation.SetCreatedAt(t)
@@ -374,11 +360,6 @@ func (tc *TaxonomyCreate) check() error {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.updated_by": %w`, err)}
 		}
 	}
-	if v, ok := tc.mutation.DeletedBy(); ok {
-		if err := taxonomy.DeletedByValidator(v); err != nil {
-			return &ValidationError{Name: "deleted_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.deleted_by": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -477,10 +458,6 @@ func (tc *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.UpdatedBy(); ok {
 		_spec.SetField(taxonomy.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
-	}
-	if value, ok := tc.mutation.DeletedBy(); ok {
-		_spec.SetField(taxonomy.FieldDeletedBy, field.TypeString, value)
-		_node.DeletedBy = value
 	}
 	if value, ok := tc.mutation.CreatedAt(); ok {
 		_spec.SetField(taxonomy.FieldCreatedAt, field.TypeTime, value)

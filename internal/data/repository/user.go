@@ -50,7 +50,7 @@ func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*
 
 	// create builder.
 	builder := r.ec.User.Create()
-	// Set values
+	// set values.
 	builder.SetUsername(body.Username)
 	builder.SetEmail(body.Email)
 	builder.SetPhone(body.Phone)
@@ -69,9 +69,10 @@ func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*
 
 // CreateProfile - Create user profile
 func (r *userRepo) CreateProfile(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error) {
+
 	// create builder.
 	builder := r.ec.UserProfile.Create()
-	// Set values
+	// set values.
 	builder.SetID(body.UserID)
 	builder.SetDisplayName(body.DisplayName)
 	builder.SetShortBio(body.ShortBio)
@@ -90,9 +91,9 @@ func (r *userRepo) CreateProfile(ctx context.Context, body *structs.UserRequestB
 func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 	cacheKey := fmt.Sprintf("%s", id)
 
-	// Check cache first
-	if cachedUser, err := r.c.Get(ctx, cacheKey); err == nil {
-		return cachedUser, nil
+	// check cache first
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cached, nil
 	}
 
 	// If not found in cache, query the database
@@ -103,7 +104,7 @@ func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 		return nil, err
 	}
 
-	// Cache the result
+	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
 		log.Errorf(nil, "userRepo.GetByID cache error: %v\n", err)
@@ -126,9 +127,9 @@ func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, er
 	}
 	cacheKey := params.Encode()
 
-	// Check cache first
-	if cachedUser, err := r.c.Get(ctx, cacheKey); err == nil {
-		return cachedUser, nil
+	// check cache first
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cached, nil
 	}
 
 	// If not found in cache, query the database
@@ -139,7 +140,7 @@ func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, er
 		return nil, err
 	}
 
-	// Cache the result
+	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
 		log.Errorf(nil, "userRepo.Find cache error: %v\n", err)
@@ -174,7 +175,7 @@ func (r *userRepo) Delete(ctx context.Context, id string) error {
 		return err
 	}
 
-	// Remove from cache
+	// remove from cache
 	cacheKey := fmt.Sprintf("%s", id)
 	err := r.c.Delete(ctx, cacheKey)
 	if err != nil {
@@ -191,7 +192,6 @@ func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBod
 		return err
 	}
 
-	// create builder.
 	builder := row.Update()
 
 	ph, err := crypto.HashPassword(ctx, p.NewPassword)
@@ -201,7 +201,6 @@ func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBod
 
 	builder.SetPassword(ph)
 
-	// execute the builder.
 	_, err = builder.Save(ctx)
 	if validator.IsNotNil(err) {
 		return err
@@ -212,6 +211,7 @@ func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBod
 
 // FindUser - Find user by id, username, email, or phone
 func (r *userRepo) FindUser(ctx context.Context, p *structs.FindUser) (*ent.User, error) {
+
 	// create builder.
 	builder := r.ec.User.Query()
 

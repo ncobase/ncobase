@@ -7,6 +7,7 @@ import (
 	"stocms/internal/data/ent/codeauth"
 	"stocms/internal/data/ent/domain"
 	"stocms/internal/data/ent/oauthuser"
+	"stocms/internal/data/ent/resource"
 	"stocms/internal/data/ent/taxonomy"
 	"stocms/internal/data/ent/taxonomyrelations"
 	"stocms/internal/data/ent/topic"
@@ -144,6 +145,61 @@ func init() {
 	oauthuserDescID := oauthuserMixinFields0[0].Descriptor()
 	// oauthuser.DefaultID holds the default value on creation for the id field.
 	oauthuser.DefaultID = oauthuserDescID.Default.(func() string)
+	resourceMixin := schema.Resource{}.Mixin()
+	resourceMixinFields0 := resourceMixin[0].Fields()
+	_ = resourceMixinFields0
+	resourceMixinFields4 := resourceMixin[4].Fields()
+	_ = resourceMixinFields4
+	resourceMixinFields6 := resourceMixin[6].Fields()
+	_ = resourceMixinFields6
+	resourceMixinFields7 := resourceMixin[7].Fields()
+	_ = resourceMixinFields7
+	resourceMixinFields8 := resourceMixin[8].Fields()
+	_ = resourceMixinFields8
+	resourceMixinFields9 := resourceMixin[9].Fields()
+	_ = resourceMixinFields9
+	resourceMixinFields10 := resourceMixin[10].Fields()
+	_ = resourceMixinFields10
+	resourceFields := schema.Resource{}.Fields()
+	_ = resourceFields
+	// resourceDescSize is the schema descriptor for size field.
+	resourceDescSize := resourceMixinFields4[0].Descriptor()
+	// resource.DefaultSize holds the default value on creation for the size field.
+	resource.DefaultSize = resourceDescSize.Default.(int64)
+	// resourceDescObjectID is the schema descriptor for object_id field.
+	resourceDescObjectID := resourceMixinFields6[0].Descriptor()
+	// resource.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
+	resource.ObjectIDValidator = resourceDescObjectID.Validators[0].(func(string) error)
+	// resourceDescDomainID is the schema descriptor for domain_id field.
+	resourceDescDomainID := resourceMixinFields7[0].Descriptor()
+	// resource.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
+	resource.DomainIDValidator = resourceDescDomainID.Validators[0].(func(string) error)
+	// resourceDescExtras is the schema descriptor for extras field.
+	resourceDescExtras := resourceMixinFields8[0].Descriptor()
+	// resource.DefaultExtras holds the default value on creation for the extras field.
+	resource.DefaultExtras = resourceDescExtras.Default.(map[string]interface{})
+	// resourceDescCreatedBy is the schema descriptor for created_by field.
+	resourceDescCreatedBy := resourceMixinFields9[0].Descriptor()
+	// resource.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	resource.CreatedByValidator = resourceDescCreatedBy.Validators[0].(func(string) error)
+	// resourceDescUpdatedBy is the schema descriptor for updated_by field.
+	resourceDescUpdatedBy := resourceMixinFields9[1].Descriptor()
+	// resource.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	resource.UpdatedByValidator = resourceDescUpdatedBy.Validators[0].(func(string) error)
+	// resourceDescCreatedAt is the schema descriptor for created_at field.
+	resourceDescCreatedAt := resourceMixinFields10[0].Descriptor()
+	// resource.DefaultCreatedAt holds the default value on creation for the created_at field.
+	resource.DefaultCreatedAt = resourceDescCreatedAt.Default.(func() time.Time)
+	// resourceDescUpdatedAt is the schema descriptor for updated_at field.
+	resourceDescUpdatedAt := resourceMixinFields10[1].Descriptor()
+	// resource.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	resource.DefaultUpdatedAt = resourceDescUpdatedAt.Default.(func() time.Time)
+	// resource.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	resource.UpdateDefaultUpdatedAt = resourceDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// resourceDescID is the schema descriptor for id field.
+	resourceDescID := resourceMixinFields0[0].Descriptor()
+	// resource.DefaultID holds the default value on creation for the id field.
+	resource.DefaultID = resourceDescID.Default.(func() string)
 	taxonomyMixin := schema.Taxonomy{}.Mixin()
 	taxonomyMixinFields0 := taxonomyMixin[0].Fields()
 	_ = taxonomyMixinFields0
@@ -185,10 +241,6 @@ func init() {
 	taxonomyDescUpdatedBy := taxonomyMixinFields15[1].Descriptor()
 	// taxonomy.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	taxonomy.UpdatedByValidator = taxonomyDescUpdatedBy.Validators[0].(func(string) error)
-	// taxonomyDescDeletedBy is the schema descriptor for deleted_by field.
-	taxonomyDescDeletedBy := taxonomyMixinFields15[2].Descriptor()
-	// taxonomy.DeletedByValidator is a validator for the "deleted_by" field. It is called by the builders before save.
-	taxonomy.DeletedByValidator = taxonomyDescDeletedBy.Validators[0].(func(string) error)
 	// taxonomyDescCreatedAt is the schema descriptor for created_at field.
 	taxonomyDescCreatedAt := taxonomyMixinFields16[0].Descriptor()
 	// taxonomy.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -273,10 +325,6 @@ func init() {
 	topicDescUpdatedBy := topicMixinFields13[1].Descriptor()
 	// topic.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	topic.UpdatedByValidator = topicDescUpdatedBy.Validators[0].(func(string) error)
-	// topicDescDeletedBy is the schema descriptor for deleted_by field.
-	topicDescDeletedBy := topicMixinFields13[2].Descriptor()
-	// topic.DeletedByValidator is a validator for the "deleted_by" field. It is called by the builders before save.
-	topic.DeletedByValidator = topicDescDeletedBy.Validators[0].(func(string) error)
 	// topicDescCreatedAt is the schema descriptor for created_at field.
 	topicDescCreatedAt := topicMixinFields14[0].Descriptor()
 	// topic.DefaultCreatedAt holds the default value on creation for the created_at field.
