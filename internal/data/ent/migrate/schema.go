@@ -131,6 +131,55 @@ var (
 			},
 		},
 	}
+	// StoResourceColumns holds the columns for the "sto_resource" table.
+	StoResourceColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "size", Type: field.TypeInt64, Comment: "size in bytes", Default: 0},
+		{Name: "storage", Type: field.TypeString, Nullable: true, Comment: "storage type"},
+		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
+		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// StoResourceTable holds the schema information for the "sto_resource" table.
+	StoResourceTable = &schema.Table{
+		Name:       "sto_resource",
+		Columns:    StoResourceColumns,
+		PrimaryKey: []*schema.Column{StoResourceColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "resource_id",
+				Unique:  false,
+				Columns: []*schema.Column{StoResourceColumns[0]},
+			},
+			{
+				Name:    "resource_object_id",
+				Unique:  false,
+				Columns: []*schema.Column{StoResourceColumns[6]},
+			},
+			{
+				Name:    "resource_domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{StoResourceColumns[7]},
+			},
+			{
+				Name:    "resource_name",
+				Unique:  false,
+				Columns: []*schema.Column{StoResourceColumns[1]},
+			},
+			{
+				Name:    "resource_path",
+				Unique:  false,
+				Columns: []*schema.Column{StoResourceColumns[2]},
+			},
+		},
+	}
 	// ScTaxonomyColumns holds the columns for the "sc_taxonomy" table.
 	ScTaxonomyColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
@@ -150,7 +199,6 @@ var (
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
-		{Name: "deleted_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who deleted the entity"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -226,7 +274,6 @@ var (
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
-		{Name: "deleted_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who deleted the entity"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -319,6 +366,7 @@ var (
 		ScCodeAuthTable,
 		ScDomainTable,
 		ScOauthUserTable,
+		StoResourceTable,
 		ScTaxonomyTable,
 		ScTaxonomyRelationsTable,
 		ScTopicTable,
@@ -339,6 +387,9 @@ func init() {
 	}
 	ScOauthUserTable.Annotation = &entsql.Annotation{
 		Table: "sc_oauth_user",
+	}
+	StoResourceTable.Annotation = &entsql.Annotation{
+		Table: "sto_resource",
 	}
 	ScTaxonomyTable.Annotation = &entsql.Annotation{
 		Table: "sc_taxonomy",

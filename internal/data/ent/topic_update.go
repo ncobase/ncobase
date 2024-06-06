@@ -309,26 +309,6 @@ func (tu *TopicUpdate) ClearUpdatedBy() *TopicUpdate {
 	return tu
 }
 
-// SetDeletedBy sets the "deleted_by" field.
-func (tu *TopicUpdate) SetDeletedBy(s string) *TopicUpdate {
-	tu.mutation.SetDeletedBy(s)
-	return tu
-}
-
-// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableDeletedBy(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetDeletedBy(*s)
-	}
-	return tu
-}
-
-// ClearDeletedBy clears the value of the "deleted_by" field.
-func (tu *TopicUpdate) ClearDeletedBy() *TopicUpdate {
-	tu.mutation.ClearDeletedBy()
-	return tu
-}
-
 // SetUpdatedAt sets the "updated_at" field.
 func (tu *TopicUpdate) SetUpdatedAt(t time.Time) *TopicUpdate {
 	tu.mutation.SetUpdatedAt(t)
@@ -402,11 +382,6 @@ func (tu *TopicUpdate) check() error {
 	if v, ok := tu.mutation.UpdatedBy(); ok {
 		if err := topic.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Topic.updated_by": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.DeletedBy(); ok {
-		if err := topic.DeletedByValidator(v); err != nil {
-			return &ValidationError{Name: "deleted_by", err: fmt.Errorf(`ent: validator failed for field "Topic.deleted_by": %w`, err)}
 		}
 	}
 	return nil
@@ -507,12 +482,6 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if tu.mutation.UpdatedByCleared() {
 		_spec.ClearField(topic.FieldUpdatedBy, field.TypeString)
-	}
-	if value, ok := tu.mutation.DeletedBy(); ok {
-		_spec.SetField(topic.FieldDeletedBy, field.TypeString, value)
-	}
-	if tu.mutation.DeletedByCleared() {
-		_spec.ClearField(topic.FieldDeletedBy, field.TypeString)
 	}
 	if tu.mutation.CreatedAtCleared() {
 		_spec.ClearField(topic.FieldCreatedAt, field.TypeTime)
@@ -824,26 +793,6 @@ func (tuo *TopicUpdateOne) ClearUpdatedBy() *TopicUpdateOne {
 	return tuo
 }
 
-// SetDeletedBy sets the "deleted_by" field.
-func (tuo *TopicUpdateOne) SetDeletedBy(s string) *TopicUpdateOne {
-	tuo.mutation.SetDeletedBy(s)
-	return tuo
-}
-
-// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableDeletedBy(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetDeletedBy(*s)
-	}
-	return tuo
-}
-
-// ClearDeletedBy clears the value of the "deleted_by" field.
-func (tuo *TopicUpdateOne) ClearDeletedBy() *TopicUpdateOne {
-	tuo.mutation.ClearDeletedBy()
-	return tuo
-}
-
 // SetUpdatedAt sets the "updated_at" field.
 func (tuo *TopicUpdateOne) SetUpdatedAt(t time.Time) *TopicUpdateOne {
 	tuo.mutation.SetUpdatedAt(t)
@@ -930,11 +879,6 @@ func (tuo *TopicUpdateOne) check() error {
 	if v, ok := tuo.mutation.UpdatedBy(); ok {
 		if err := topic.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Topic.updated_by": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.DeletedBy(); ok {
-		if err := topic.DeletedByValidator(v); err != nil {
-			return &ValidationError{Name: "deleted_by", err: fmt.Errorf(`ent: validator failed for field "Topic.deleted_by": %w`, err)}
 		}
 	}
 	return nil
@@ -1052,12 +996,6 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 	}
 	if tuo.mutation.UpdatedByCleared() {
 		_spec.ClearField(topic.FieldUpdatedBy, field.TypeString)
-	}
-	if value, ok := tuo.mutation.DeletedBy(); ok {
-		_spec.SetField(topic.FieldDeletedBy, field.TypeString, value)
-	}
-	if tuo.mutation.DeletedByCleared() {
-		_spec.ClearField(topic.FieldDeletedBy, field.TypeString)
 	}
 	if tuo.mutation.CreatedAtCleared() {
 		_spec.ClearField(topic.FieldCreatedAt, field.TypeTime)

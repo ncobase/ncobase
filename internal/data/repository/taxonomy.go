@@ -9,7 +9,7 @@ import (
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
-	meili "stocms/pkg/meilisearch"
+	"stocms/pkg/meili"
 	"stocms/pkg/types"
 	"stocms/pkg/validator"
 	"strings"
@@ -48,10 +48,10 @@ func NewTaxonomy(d *data.Data) Taxonomy {
 
 // Create create taxonomy
 func (r *taxonomyRepo) Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*ent.Taxonomy, error) {
+
 	// create builder.
 	builder := r.ec.Taxonomy.Create()
-
-	// Set values
+	// set values.
 	builder.SetNillableName(&body.Name)
 	builder.SetNillableType(&body.Type)
 	builder.SetNillableSlug(&body.Slug)
@@ -77,7 +77,7 @@ func (r *taxonomyRepo) Create(ctx context.Context, body *structs.CreateTaxonomyB
 	// Create the taxonomy in Meilisearch index
 	if err = r.ms.IndexDocuments(ctx, "taxonomies", row); err != nil {
 		log.Errorf(nil, "taxonomyRepo.Create error creating Meilisearch index: %v\n", err)
-		return nil, err
+		// return nil, err
 	}
 
 	return row, nil
@@ -91,10 +91,10 @@ func (r *taxonomyRepo) GetByID(ctx context.Context, id string) (*ent.Taxonomy, e
 	// 		return hit, nil
 	// 	}
 	// }
-	// Check cache
+	// check cache
 	cacheKey := fmt.Sprintf("%s", id)
-	if cachedTaxonomy, err := r.c.Get(ctx, cacheKey); err == nil {
-		return cachedTaxonomy, nil
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cached, nil
 	}
 
 	// If not found in cache, query the database
@@ -105,7 +105,7 @@ func (r *taxonomyRepo) GetByID(ctx context.Context, id string) (*ent.Taxonomy, e
 		return nil, err
 	}
 
-	// Cache the result
+	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
 		log.Errorf(nil, "taxonomyRepo.GetByID cache error: %v\n", err)
@@ -122,10 +122,10 @@ func (r *taxonomyRepo) GetBySlug(ctx context.Context, slug string) (*ent.Taxonom
 	// 		return hit, nil
 	// 	}
 	// }
-	// Check cache
+	// check cache
 	cacheKey := fmt.Sprintf("%s", slug)
-	if cachedTaxonomy, err := r.c.Get(ctx, cacheKey); err == nil {
-		return cachedTaxonomy, nil
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cached, nil
 	}
 
 	// If not found in cache, query the database
@@ -136,7 +136,7 @@ func (r *taxonomyRepo) GetBySlug(ctx context.Context, slug string) (*ent.Taxonom
 		return nil, err
 	}
 
-	// Cache the result
+	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
 		log.Errorf(nil, "taxonomyRepo.GetBySlug cache error: %v\n", err)
@@ -152,10 +152,9 @@ func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JS
 		return nil, err
 	}
 
-	// create builder.
 	builder := taxonomy.Update()
 
-	// Set values
+	// set values
 	for field, value := range updates {
 		switch field {
 		case "name":
@@ -196,7 +195,7 @@ func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JS
 		return nil, err
 	}
 
-	// Remove from cache
+	// remove from cache
 	cacheKey := fmt.Sprintf("%s", taxonomy.ID)
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, taxonomy.Slug)
@@ -222,7 +221,7 @@ func (r *taxonomyRepo) List(ctx context.Context, p *structs.ListTaxonomyParams) 
 	// Generate cache key based on query parameters
 	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", p.Cursor, p.Limit, p.DomainID, p.Type)
 
-	// // Check cache first
+	// // check cache first
 	// cachedResult, err := r.c.Get(ctx, cacheKey)
 	// if err == nil {
 	// 	// Convert cached JSON data back to []*ent.Taxonomy
@@ -268,7 +267,7 @@ func (r *taxonomyRepo) List(ctx context.Context, p *structs.ListTaxonomyParams) 
 	// if err != nil {
 	// 	log.Errorf(nil, "taxonomyRepo.List cache error: %v\n", err)
 	// } else {
-	// 	// Cache the result
+	// 	// cache the result
 	// 	if err := r.c.Set(ctx, cacheKey, jsonData); err != nil {
 	// 		log.Errorf(nil, "taxonomyRepo.List cache error: %v\n", err)
 	// 	}
@@ -287,18 +286,20 @@ func (r *taxonomyRepo) Delete(ctx context.Context, slug string) error {
 	// create builder.
 	builder := r.ec.Taxonomy.Delete()
 
-	// execute the builder.
-	_, err = builder.Where(taxonomyEnt.IDEQ(taxonomy.ID)).Exec(ctx)
-	if err == nil {
-		// Remove from cache
-		err = r.c.Delete(ctx, taxonomy.ID)
-		err = r.c.Delete(ctx, slug)
-		if err != nil {
-			log.Errorf(nil, "taxonomyRepo.Delete cache error: %v\n", err)
-		}
+	// execute the builder and verify the result.
+	if _, err = builder.Where(taxonomyEnt.IDEQ(taxonomy.ID)).Exec(ctx); err == nil {
+		log.Errorf(nil, "taxonomyRepo.Delete error: %v\n", err)
+		return err
 	}
 
-	// Delete from Meilisearch index
+	// remove from cache
+	err = r.c.Delete(ctx, taxonomy.ID)
+	err = r.c.Delete(ctx, slug)
+	if err != nil {
+		log.Errorf(nil, "taxonomyRepo.Delete cache error: %v\n", err)
+	}
+
+	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments(ctx, "taxonomies", taxonomy.ID); err != nil {
 		log.Errorf(nil, "topicRepo.Delete index error: %v\n", err)
 		// return nil, err

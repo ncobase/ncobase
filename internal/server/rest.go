@@ -14,49 +14,44 @@ import (
 )
 
 func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
-	// root Jump when domain is configured and it is not localhost
+	// Root Jump when domain is configured and it is not localhost
 	e.GET("/", func(c *gin.Context) {
-		if conf.Domain != "localhost" {
-			url := helper.GetHost(conf, conf.Domain)
+		if domain := conf.Domain; domain != "localhost" {
+			url := helper.GetHost(conf, domain)
 			c.Redirect(http.StatusMovedPermanently, url)
-		} else {
-			c.String(http.StatusOK, "It's working.")
+			return
 		}
+		c.String(http.StatusOK, "It's working.")
 	})
 
-	// Health
+	// Health check endpoint
 	e.GET("/health", h.HealthHandler)
 
-	// api prefix for v1 version
+	// API prefix for v1 version
 	v1 := e.Group("/v1")
 
-	// ****** Authentication
-	// sign in, use username / email / phone and password
+	// Authentication endpoints
 	v1.POST("/login", h.LoginHandler)
 	v1.POST("/register", h.RegisterHandler)
 	v1.POST("/logout", h.LogoutHandler)
 
-	// ****** Authorization
+	// Authorization endpoints
 	authorize := v1.Group("/authorize")
-	// send authorization code
 	authorize.POST("/send", h.SendCodeHandler)
-	// verify the verification code to obtain a register token or access token
 	authorize.GET("/:code", h.CodeAuthHandler)
 
-	// ****** Account
+	// Account endpoints
 	account := v1.Group("/account", middleware.Authorized)
 	account.GET("", h.ReadMeHandler)
-	// account.PUT("", h.UpdateMeHandler)
+	account.POST("/password", h.UpdatePasswordHandler)
 	account.GET("/domain", h.AccountDomainHandler)
 
-	account.POST("/password", h.UpdatePasswordHandler)
-
-	// ****** User
+	// User endpoints
 	user := v1.Group("/users", middleware.Authorized)
 	user.GET("/:username", h.ReadUserHandler)
 	user.GET("/:username/domain", h.UserDomainHandler)
 
-	// ****** OAuth register callback and redirect
+	// OAuth endpoints
 	oauth := v1.Group("/oauth")
 	oauth.POST("/signup", h.OAuthRegisterHandler)
 	oauth.GET("/profile", h.GetOAuthProfileHandler)
@@ -64,7 +59,16 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
 	oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
 
-	// ****** Taxonomy
+	// Resource endpoints
+	resource := v1.Group("/resources")
+	resource.GET("", h.ListResourceHandler)
+	resource.POST("", h.CreateResourceHandler)
+	resource.GET("/:slug", h.GetResourceHandler)
+	resource.PUT("/:slug", h.UpdateResourceHandler)
+	resource.DELETE("/:slug", h.DeleteResourceHandler)
+	resource.GET("/:slug/stream", h.DownloadResourceHandler)
+
+	// Taxonomy endpoints
 	taxonomy := v1.Group("/taxonomies", middleware.Authorized)
 	taxonomy.GET("", h.ListTaxonomyHandler)
 	taxonomy.POST("", h.CreateTaxonomyHandler)
@@ -72,7 +76,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	taxonomy.PUT("/:slug", h.UpdateTaxonomyHandler)
 	taxonomy.DELETE("/:slug", h.DeleteTaxonomyHandler)
 
-	// ****** Topic
+	// Topic endpoints
 	topic := v1.Group("/topics", middleware.Authorized)
 	topic.GET("", h.ListTopicHandler)
 	topic.POST("", h.CreateTopicHandler)
@@ -80,6 +84,6 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	topic.PUT("/:slug", h.UpdateTopicHandler)
 	topic.DELETE("/:slug", h.DeleteTopicHandler)
 
-	// Swagger
+	// Swagger documentation endpoint
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

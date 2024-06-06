@@ -6,6 +6,7 @@ import (
 	"stocms/internal/data/ent"
 	repo "stocms/internal/data/repository"
 	"stocms/pkg/ecode"
+	"stocms/pkg/log"
 	"stocms/pkg/resp"
 	"stocms/pkg/validator"
 )
@@ -15,6 +16,7 @@ type Service struct {
 	d                 *data.Data
 	domain            repo.Domain
 	user              repo.User
+	resource          repo.Resource
 	taxonomy          repo.Taxonomy
 	taxonomyRelations repo.TaxonomyRelations
 	topic             repo.Topic
@@ -26,6 +28,7 @@ func New(d *data.Data) *Service {
 		d:                 d,
 		domain:            repo.NewDomain(d),
 		user:              repo.NewUser(d),
+		resource:          repo.NewResource(d),
 		taxonomy:          repo.NewTaxonomy(d),
 		taxonomyRelations: repo.NewTaxonomyRelations(d),
 		topic:             repo.NewTopic(d),
@@ -40,12 +43,15 @@ func (svc *Service) Ping(ctx context.Context) error {
 // handleError is a helper function to handle errors in a consistent manner.
 func handleError(k string, err error) (*resp.Exception, error) {
 	if ent.IsNotFound(err) {
+		log.Errorf(nil, "Error not found in %s: %v\n", k, err)
 		return resp.NotFound(ecode.NotExist(k)), nil
 	}
 	if ent.IsConstraintError(err) {
+		log.Errorf(nil, "Error constraint in %s: %v\n", k, err)
 		return resp.Conflict(ecode.AlreadyExist(k)), nil
 	}
 	if validator.IsNotNil(err) {
+		log.Errorf(nil, "Error internal in %s: %v\n", k, err)
 		return resp.InternalServer(err.Error()), nil
 	}
 	return nil, err

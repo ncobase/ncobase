@@ -113,7 +113,7 @@ func Logger(c *gin.Context) {
 	}
 
 	// Read the request body
-	if c.Request.Body != nil {
+	if c.Request.Body != nil && !strings.Contains(path, "/resources") {
 		bodyBytes, _ := io.ReadAll(c.Request.Body)
 		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 		entry.Body = string(bodyBytes)

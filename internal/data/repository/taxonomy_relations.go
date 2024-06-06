@@ -64,9 +64,9 @@ func (r *taxonomyRelationsRepo) Create(ctx context.Context, body *structs.Create
 func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelations, error) {
 	cacheKey := fmt.Sprintf("%s", object)
 
-	// Check cache first
-	if cachedTaxonomyRelations, err := r.c.Get(ctx, cacheKey); err == nil {
-		return cachedTaxonomyRelations, nil
+	// check cache first
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+		return cached, nil
 	}
 
 	// If not found in cache, query the database
@@ -77,7 +77,7 @@ func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) 
 		return nil, err
 	}
 
-	// Cache the result
+	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
 		log.Errorf(nil, "taxonomyRelationsRepo.GetByObject cache error: %v\n", err)
@@ -105,7 +105,7 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 		return nil, err
 	}
 
-	// Remove from cache
+	// remove from cache
 	cacheKey := fmt.Sprintf("%s", body.ObjectID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
@@ -160,7 +160,7 @@ func (r *taxonomyRelationsRepo) Delete(ctx context.Context, object string) error
 		Exec(ctx)
 
 	if err == nil {
-		// Remove from cache
+		// remove from cache
 		cacheKey := fmt.Sprintf("%s", object)
 		err := r.c.Delete(ctx, cacheKey)
 		if err != nil {
@@ -194,6 +194,7 @@ func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*struc
 
 // FindRelations finds taxonomy relations by various criteria.
 func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.FindTaxonomyRelationsParams) ([]*ent.TaxonomyRelations, error) {
+
 	// create builder.
 	builder := r.ec.TaxonomyRelations.Query()
 
@@ -207,7 +208,6 @@ func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.Fi
 		builder = builder.Where(taxonomyRelationsEnt.TypeEQ(p.Type))
 	}
 
-	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(nil, "taxonomyRelationsRepo.FindRelations error: %v\n", err)
@@ -219,6 +219,7 @@ func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.Fi
 
 // FindTaxonomyRelations gets a single taxonomy relation by criteria.
 func (r *taxonomyRelationsRepo) FindTaxonomyRelations(ctx context.Context, p *structs.FindTaxonomyRelations) (*ent.TaxonomyRelations, error) {
+
 	// create builder.
 	builder := r.ec.TaxonomyRelations.Query()
 

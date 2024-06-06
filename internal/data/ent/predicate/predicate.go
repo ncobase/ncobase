@@ -18,6 +18,9 @@ type Domain func(*sql.Selector)
 // OAuthUser is the predicate function for oauthuser builders.
 type OAuthUser func(*sql.Selector)
 
+// Resource is the predicate function for resource builders.
+type Resource func(*sql.Selector)
+
 // Taxonomy is the predicate function for taxonomy builders.
 type Taxonomy func(*sql.Selector)
 

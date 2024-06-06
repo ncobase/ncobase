@@ -530,6 +530,19 @@ func (Type) Fields() []ent.Field {
 // type mixin must implement `Mixin` interface.
 var _ ent.Mixin = (*Type)(nil)
 
+// Storage adds storage type field.
+type Storage struct{ mixin.Schema }
+
+// Fields of the storage type mixin.
+func (Storage) Fields() []ent.Field {
+	return []ent.Field{
+		field.String("storage").Comment("storage type").Optional(),
+	}
+}
+
+// storage type mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*Storage)(nil)
+
 // Value adds value field.
 type Value struct{ mixin.Schema }
 

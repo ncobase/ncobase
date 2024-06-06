@@ -43,7 +43,7 @@ type Size struct{ mixin.Schema }
 // Fields of the Size mixin.
 func (Size) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("size").
+		field.Int64("size").
 			Default(0).
 			Comment("size in bytes"),
 	}
