@@ -22,6 +22,7 @@ require (
 	github.com/jinzhu/copier v0.4.0
 	github.com/mailgun/mailgun-go/v4 v4.12.0
 	github.com/matoous/go-nanoid/v2 v2.1.0
+	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/meilisearch/meilisearch-go v0.26.3
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.5.1

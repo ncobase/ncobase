@@ -40,6 +40,11 @@ func NewCache[T any](rc *redis.Client, key string, useHash bool) *Cache[T] {
 
 // Get retrieves data from cache
 func (c *Cache[T]) Get(ctx context.Context, field string) (*T, error) {
+	if c.rc == nil {
+		log.Printf(ctx, "redis client is nil, skipping Get operation")
+		return nil, nil
+	}
+
 	var result string
 	var err error
 
@@ -65,9 +70,14 @@ func (c *Cache[T]) Get(ctx context.Context, field string) (*T, error) {
 
 // Set saves data into cache
 func (c *Cache[T]) Set(ctx context.Context, field string, data *T) error {
+	if c.rc == nil {
+		log.Printf(ctx, "redis client is nil, skipping Set operation")
+		return nil
+	}
+
 	bytes, err := json.Marshal(data)
 	if err != nil {
-		log.Errorf(nil, "failed to marshal data for cache set: %v, error: %v", data, err)
+		log.Errorf(ctx, "failed to marshal data for cache set: %v, error: %v", data, err)
 		return fmt.Errorf("failed to marshal data: %w", err)
 	}
 
@@ -78,7 +88,7 @@ func (c *Cache[T]) Set(ctx context.Context, field string, data *T) error {
 	}
 
 	if err != nil {
-		log.Errorf(nil, "failed to set cache: %v, error: %v", data, err)
+		log.Errorf(ctx, "failed to set cache: %v, error: %v", data, err)
 		return fmt.Errorf("failed to set cache: %w", err)
 	}
 	return nil
@@ -86,6 +96,11 @@ func (c *Cache[T]) Set(ctx context.Context, field string, data *T) error {
 
 // Delete removes data from cache
 func (c *Cache[T]) Delete(ctx context.Context, field string) error {
+	if c.rc == nil {
+		log.Printf(ctx, "redis client is nil, skipping Delete operation")
+		return nil
+	}
+
 	var err error
 
 	if c.useHash {
@@ -95,7 +110,7 @@ func (c *Cache[T]) Delete(ctx context.Context, field string) error {
 	}
 
 	if err != nil {
-		log.Errorf(nil, "failed to delete cache field: %s, error: %v", field, err)
+		log.Errorf(ctx, "failed to delete cache field: %s, error: %v", field, err)
 		return fmt.Errorf("failed to delete cache: %w", err)
 	}
 	return nil

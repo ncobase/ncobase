@@ -1,11 +1,12 @@
 package elastic
 
 import (
+	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 
-	"context"
-	"encoding/json"
 	"stocms/pkg/log"
 
 	"github.com/elastic/go-elasticsearch/v8"
@@ -19,6 +20,10 @@ type Client struct {
 
 // NewClient new Elasticsearch client
 func NewClient(addresses []string, username, password string) (*Client, error) {
+	if len(addresses) == 0 {
+		return &Client{client: nil}, nil
+	}
+
 	cfg := elasticsearch.Config{
 		Addresses: addresses,
 		Username:  username,
@@ -36,6 +41,11 @@ func NewClient(addresses []string, username, password string) (*Client, error) {
 
 // Search search from Elasticsearch
 func (c *Client) Search(ctx context.Context, indexName, query string) (*esapi.Response, error) {
+	if c.client == nil {
+		log.Errorf(ctx, "Elasticsearch client is nil, cannot perform search")
+		return nil, errors.New("elasticsearch client is nil")
+	}
+
 	res, err := c.client.Search(
 		c.client.Search.WithContext(ctx),
 		c.client.Search.WithIndex(indexName),
@@ -60,6 +70,11 @@ func (c *Client) Search(ctx context.Context, indexName, query string) (*esapi.Re
 
 // IndexDocument index document to Elasticsearch
 func (c *Client) IndexDocument(ctx context.Context, indexName string, documentID string, document any) error {
+	if c.client == nil {
+		log.Errorf(ctx, "Elasticsearch client is nil, cannot index documents")
+		return errors.New("elasticsearch client is nil")
+	}
+
 	var b strings.Builder
 	enc := json.NewEncoder(&b)
 	if err := enc.Encode(document); err != nil {
@@ -96,6 +111,11 @@ func (c *Client) IndexDocument(ctx context.Context, indexName string, documentID
 
 // DeleteDocument delete document from Elasticsearch
 func (c *Client) DeleteDocument(ctx context.Context, indexName, documentID string) error {
+	if c.client == nil {
+		log.Errorf(ctx, "Elasticsearch client is nil, cannot delete documents")
+		return errors.New("elasticsearch client is nil")
+	}
+
 	req := esapi.DeleteRequest{
 		Index:      indexName,
 		DocumentID: documentID,
@@ -116,7 +136,7 @@ func (c *Client) DeleteDocument(ctx context.Context, indexName, documentID strin
 		} else {
 			log.Errorf(ctx, "Elasticsearch deletion error: %s: %s", res.Status(), respBody["error"])
 		}
-		return fmt.Errorf("Elasticsearch deletion error: %s", res.Status())
+		return fmt.Errorf("elasticsearch deletion error: %s", res.Status())
 	}
 
 	return nil
