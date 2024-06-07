@@ -19,8 +19,12 @@ frontend:
 
 data:
   database:
-    driver: postgres # postgresql / mysql
-    source: postgres://user:password@127.0.0.1:5432/db?sslmode=disable # mysql: user:password@tcp(127.0.0.1:3306)/db?params / postgres: host=127.0.0.1 port=5432 dbname=db user=user password=password sslmode=disable TimeZone=Asia/Shanghai
+    # postgresql / mysql / sqlite3
+    driver: postgres
+    # mysql: user:password@tcp(127.0.0.1:3306)/db?params
+    # postgres: host=127.0.0.1 port=5432 dbname=db user=user password=password sslmode=disable TimeZone=Asia/Shanghai
+    # sqlite3: file:./data.db?cache=shared&&_fk=1
+    source: postgres://user:password@127.0.0.1:5432/db?sslmode=disable
     migrate: true
     max_open_conn: 64
     max_life_time: 7200

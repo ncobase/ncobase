@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"io"
 	"stocms/internal/config"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/ent/migrate"
@@ -15,6 +16,8 @@ import (
 
 	entsql "entgo.io/ent/dialect/sql"
 
+	// sqlite3
+	_ "github.com/mattn/go-sqlite3"
 	// mysql
 	_ "github.com/go-sql-driver/mysql"
 	// postgres
@@ -27,7 +30,6 @@ var (
 	ec  *ent.Client
 	rc  *redis.Client
 	ms  *meili.Client
-	// es  *elastic.Client
 )
 
 // Data .
@@ -42,17 +44,13 @@ type Data struct {
 // New creates a new Database Connection.
 func New(conf *config.Data) (*Data, func(), error) {
 	ec, db := newClient(&conf.Database)
-	// es, err := newElasticsearch(&conf.Elasticsearch)
-	// if err != nil {
-	// 	log.Fatalf(nil, "Failed to create Elasticsearch client: %v", err)
-	// 	return nil, nil, err
-	// }
+	es, _ := newElasticsearch(&conf.Elasticsearch)
 	d := &Data{
 		db: db,
 		ec: ec,
 		rc: newRedis(&conf.Redis),
 		ms: newMeilisearch(&conf.Meilisearch),
-		// es: es,
+		es: es,
 	}
 
 	cleanup := func() {
@@ -68,8 +66,11 @@ func New(conf *config.Data) (*Data, func(), error) {
 // newRedis creates a new Redis datastore.
 func newRedis(conf *config.Redis) *redis.Client {
 	if conf == nil || conf.Addr == "" {
-		log.Fatalf(nil, "redis configuration cannot be nil")
+		log.Printf(nil, "redis configuration is nil or empty")
+		return nil
 	}
+
+	// Create client
 	rc = redis.NewClient(&redis.Options{
 		Addr:         conf.Addr,
 		Username:     conf.Username,
@@ -103,6 +104,8 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 		db, err = sql.Open("pgx", conf.Source)
 	case "mysql":
 		db, err = sql.Open("mysql", conf.Source)
+	case "sqlite3":
+		db, err = sql.Open("sqlite3", conf.Source)
 	default:
 		log.Fatalf(nil, "Dialect %v not supported.", conf.Driver)
 	}
@@ -143,14 +146,18 @@ func (d *Data) GetDB() *sql.DB {
 // newMeilisearch creates a new Meilisearch client.
 func newMeilisearch(conf *config.Meilisearch) *meili.Client {
 	if conf == nil || conf.Host == "" {
-		log.Fatalf(nil, "Meilisearch configuration cannot be nil")
+		log.Printf(nil, "Meilisearch configuration is nil or empty")
+		return nil
 	}
+
+	// Create client
 	ms = meili.NewMeilisearch(conf.Host, conf.APIKey)
 
 	// Check connection
 	_, err := ms.GetClient().Health()
 	if err != nil {
-		log.Fatalf(nil, "Meilisearch connect error: %v", err)
+		log.Errorf(nil, "Meilisearch connect error: %v", err)
+		return nil
 	}
 
 	return ms
@@ -158,27 +165,37 @@ func newMeilisearch(conf *config.Meilisearch) *meili.Client {
 
 // GetMeilisearch returns the Meilisearch client
 func (d *Data) GetMeilisearch() *meili.Client {
-	return ms
+	return d.ms
 }
 
 func newElasticsearch(conf *config.Elasticsearch) (*elastic.Client, error) {
 	if conf == nil || len(conf.Addresses) == 0 {
-		log.Fatalf(nil, "Elasticsearch configuration cannot be nil")
+		log.Printf(nil, "Elasticsearch configuration is nil or empty")
+		return nil, nil
 	}
 
+	// Create client
 	es, err := elastic.NewClient(conf.Addresses, conf.Username, conf.Password)
 	if err != nil {
+		log.Errorf(nil, "Elasticsearch client creation error: %v", err)
 		return nil, err
 	}
 
 	// Check connection
 	res, err := es.GetClient().Info()
 	if err != nil {
+		log.Errorf(nil, "Elasticsearch connect error: %v", err)
 		return nil, err
 	}
-	defer res.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Errorf(nil, "Elasticsearch response body close error: %v", err)
+		}
+	}(res.Body)
 
 	if res.IsError() {
+		log.Errorf(nil, "Elasticsearch info error: %s", res.Status())
 		return nil, fmt.Errorf("elasticsearch info error: %s", res.Status())
 	}
 
@@ -189,16 +206,22 @@ func (d *Data) GetElasticsearchClient() *elastic.Client {
 	return d.es
 }
 
-// Close .
+// Close closes all the resources in Data and returns any errors encountered.
 func (d *Data) Close() (errs []error) {
-	if err := d.rc.Close(); err != nil {
-		errs = append(errs, err)
+	if d.rc != nil {
+		if err := d.rc.Close(); err != nil {
+			errs = append(errs, err)
+		}
 	}
-	if err := d.db.Close(); err != nil {
-		errs = append(errs, err)
+	if d.db != nil {
+		if err := d.db.Close(); err != nil {
+			errs = append(errs, err)
+		}
 	}
-	if err := d.ec.Close(); err != nil {
-		errs = append(errs, err)
+	if d.ec != nil {
+		if err := d.ec.Close(); err != nil {
+			errs = append(errs, err)
+		}
 	}
 	if len(errs) > 0 {
 		return errs

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/casdoor/oss"
+	"github.com/pkg/errors"
 )
 
 // FileSystem represents the interface for file system storage.
@@ -31,7 +32,10 @@ type LocalFileSystem struct {
 func NewFileSystem(folder string) *LocalFileSystem {
 	abs, err := filepath.Abs(folder)
 	if err != nil {
-		panic("local file system storage's base folder is not initialized")
+		panic("failed to get absolute path for local file system storage's base folder")
+	}
+	if err := os.MkdirAll(abs, os.ModePerm); err != nil {
+		panic("failed to create local file system storage's base folder")
 	}
 	return &LocalFileSystem{Folder: abs}
 }
@@ -59,18 +63,18 @@ func (fs *LocalFileSystem) GetStream(p string) (io.ReadCloser, error) {
 func (fs *LocalFileSystem) Put(p string, r io.Reader) (*oss.Object, error) {
 	fp := fs.GetFullPath(p)
 	if err := os.MkdirAll(filepath.Dir(fp), os.ModePerm); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to create directories for file path")
 	}
 
 	dst, err := os.Create(fp)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to create file")
 	}
 	defer dst.Close()
 
 	_, err = io.Copy(dst, r)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to copy data to file")
 	}
 
 	return &oss.Object{Path: p, Name: filepath.Base(p), StorageInterface: fs}, nil
@@ -88,12 +92,15 @@ func (fs *LocalFileSystem) List(p string) ([]*oss.Object, error) {
 		fp      = fs.GetFullPath(p)
 	)
 
-	_ = filepath.Walk(fp, func(p string, info os.FileInfo, err error) error {
+	err := filepath.Walk(fp, func(p string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
 		if p == fp {
 			return nil
 		}
 
-		if err == nil && !info.IsDir() {
+		if !info.IsDir() {
 			mt := info.ModTime()
 			objects = append(objects, &oss.Object{
 				Path:             strings.TrimPrefix(p, fs.Folder),
@@ -104,6 +111,10 @@ func (fs *LocalFileSystem) List(p string) ([]*oss.Object, error) {
 		}
 		return nil
 	})
+
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to list files")
+	}
 
 	return objects, nil
 }

@@ -2,6 +2,7 @@ package meili
 
 import (
 	"context"
+	"errors"
 	"stocms/pkg/log"
 
 	"github.com/meilisearch/meilisearch-go"
@@ -14,6 +15,9 @@ type Client struct {
 
 // NewMeilisearch new Meilisearch client
 func NewMeilisearch(host, apiKey string) *Client {
+	if host == "" {
+		return &Client{client: nil}
+	}
 	ms := meilisearch.NewClient(meilisearch.ClientConfig{
 		Host:   host,
 		APIKey: apiKey,
@@ -23,6 +27,10 @@ func NewMeilisearch(host, apiKey string) *Client {
 
 // Search search from Meilisearch
 func (c *Client) Search(ctx context.Context, index, query string, options *meilisearch.SearchRequest) (*meilisearch.SearchResponse, error) {
+	if c.client == nil {
+		log.Errorf(ctx, "Meilisearch client is nil, cannot perform search")
+		return nil, errors.New("meilisearch client is nil")
+	}
 	resp, err := c.client.Index(index).Search(query, options)
 	if err != nil {
 		log.Errorf(ctx, "Meilisearch search error: %v", err)
@@ -33,6 +41,10 @@ func (c *Client) Search(ctx context.Context, index, query string, options *meili
 
 // IndexDocuments index document to Meilisearch
 func (c *Client) IndexDocuments(ctx context.Context, index string, document any, primaryKey ...string) error {
+	if c.client == nil {
+		log.Errorf(ctx, "Meilisearch client is nil, cannot index documents")
+		return errors.New("meilisearch client is nil")
+	}
 	_, err := c.client.Index(index).AddDocuments(document, primaryKey...)
 	if err != nil {
 		log.Errorf(ctx, "Meilisearch index document error: %v", err)
@@ -43,6 +55,10 @@ func (c *Client) IndexDocuments(ctx context.Context, index string, document any,
 
 // UpdateDocuments update document to Meilisearch
 func (c *Client) UpdateDocuments(ctx context.Context, index string, document any, documentID string) error {
+	if c.client == nil {
+		log.Errorf(ctx, "Meilisearch client is nil, cannot update documents")
+		return errors.New("meilisearch client is nil")
+	}
 	_, err := c.client.Index(index).UpdateDocuments(document, documentID)
 	if err != nil {
 		log.Errorf(ctx, "Meilisearch update document error: %v", err)
@@ -53,6 +69,10 @@ func (c *Client) UpdateDocuments(ctx context.Context, index string, document any
 
 // DeleteDocuments delete document from Meilisearch
 func (c *Client) DeleteDocuments(ctx context.Context, index, documentID string) error {
+	if c.client == nil {
+		log.Errorf(ctx, "Meilisearch client is nil, cannot delete documents")
+		return errors.New("meilisearch client is nil")
+	}
 	_, err := c.client.Index(index).DeleteDocument(documentID)
 	if err != nil {
 		log.Errorf(ctx, "Meilisearch delete document error: %v", err)
