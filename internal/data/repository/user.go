@@ -92,7 +92,7 @@ func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 	cacheKey := fmt.Sprintf("%s", id)
 
 	// check cache first
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
@@ -128,7 +128,7 @@ func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, er
 	cacheKey := params.Encode()
 
 	// check cache first
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 

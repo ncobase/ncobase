@@ -78,7 +78,7 @@ func (r *resourceRepo) Create(ctx context.Context, body *structs.CreateResourceB
 func (r *resourceRepo) GetByID(ctx context.Context, slug string) (*ent.Resource, error) {
 	// check cache
 	cacheKey := fmt.Sprintf("%s", slug)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 

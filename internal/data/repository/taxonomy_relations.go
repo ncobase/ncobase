@@ -65,7 +65,7 @@ func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) 
 	cacheKey := fmt.Sprintf("%s", object)
 
 	// check cache first
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 

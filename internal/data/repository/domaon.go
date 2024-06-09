@@ -96,7 +96,7 @@ func (r *domainRepo) GetByID(ctx context.Context, id string) (*ent.Domain, error
 	// }
 	// check cache
 	cacheKey := fmt.Sprintf("%s", id)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
@@ -127,7 +127,7 @@ func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain,
 	// }
 	// check cache
 	cacheKey := fmt.Sprintf("%s", userID)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 

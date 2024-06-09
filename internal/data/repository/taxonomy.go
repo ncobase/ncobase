@@ -93,7 +93,7 @@ func (r *taxonomyRepo) GetByID(ctx context.Context, id string) (*ent.Taxonomy, e
 	// }
 	// check cache
 	cacheKey := fmt.Sprintf("%s", id)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
@@ -124,7 +124,7 @@ func (r *taxonomyRepo) GetBySlug(ctx context.Context, slug string) (*ent.Taxonom
 	// }
 	// check cache
 	cacheKey := fmt.Sprintf("%s", slug)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
