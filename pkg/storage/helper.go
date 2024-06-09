@@ -47,7 +47,7 @@ func GetFileHeader(f *multipart.FileHeader, prefix ...string) *FileHeader {
 
 	// Generate unique file name
 	originalName := fullName[0 : len(fullName)-len(file.Ext)]
-	uniqueSuffix := fmt.Sprintf("%d-%s", time.Now().Unix(), nanoid.Must(8))
+	uniqueSuffix := fmt.Sprintf("%d-%s", time.Now().Unix(), nanoid.Number(8))
 	file.Name = fmt.Sprintf("%s-%s", originalName, uniqueSuffix)
 	file.Path = fmt.Sprintf("%s%s", file.Name, file.Ext)
 
