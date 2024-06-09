@@ -139,6 +139,7 @@ var (
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "size", Type: field.TypeInt64, Comment: "size in bytes", Default: 0},
 		{Name: "storage", Type: field.TypeString, Nullable: true, Comment: "storage type"},
+		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
 		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
@@ -166,12 +167,12 @@ var (
 			{
 				Name:    "resource_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{StoResourceColumns[6]},
+				Columns: []*schema.Column{StoResourceColumns[7]},
 			},
 			{
 				Name:    "resource_domain_id",
 				Unique:  false,
-				Columns: []*schema.Column{StoResourceColumns[7]},
+				Columns: []*schema.Column{StoResourceColumns[8]},
 			},
 			{
 				Name:    "resource_name",

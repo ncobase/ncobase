@@ -36,6 +36,7 @@ func (Resource) Mixin() []ent.Mixin {
 		mixin.Type{},
 		mixin.Size{},
 		mixin.Storage{},
+		mixin.URL{},
 		mixin.ObjectID,
 		mixin.DomainID,
 		mixin.ExtraProps{},

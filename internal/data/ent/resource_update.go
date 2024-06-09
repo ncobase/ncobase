@@ -129,6 +129,26 @@ func (ru *ResourceUpdate) ClearStorage() *ResourceUpdate {
 	return ru
 }
 
+// SetURL sets the "url" field.
+func (ru *ResourceUpdate) SetURL(s string) *ResourceUpdate {
+	ru.mutation.SetURL(s)
+	return ru
+}
+
+// SetNillableURL sets the "url" field if the given value is not nil.
+func (ru *ResourceUpdate) SetNillableURL(s *string) *ResourceUpdate {
+	if s != nil {
+		ru.SetURL(*s)
+	}
+	return ru
+}
+
+// ClearURL clears the value of the "url" field.
+func (ru *ResourceUpdate) ClearURL() *ResourceUpdate {
+	ru.mutation.ClearURL()
+	return ru
+}
+
 // SetObjectID sets the "object_id" field.
 func (ru *ResourceUpdate) SetObjectID(s string) *ResourceUpdate {
 	ru.mutation.SetObjectID(s)
@@ -346,6 +366,12 @@ func (ru *ResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ru.mutation.StorageCleared() {
 		_spec.ClearField(resource.FieldStorage, field.TypeString)
 	}
+	if value, ok := ru.mutation.URL(); ok {
+		_spec.SetField(resource.FieldURL, field.TypeString, value)
+	}
+	if ru.mutation.URLCleared() {
+		_spec.ClearField(resource.FieldURL, field.TypeString)
+	}
 	if value, ok := ru.mutation.ObjectID(); ok {
 		_spec.SetField(resource.FieldObjectID, field.TypeString, value)
 	}
@@ -503,6 +529,26 @@ func (ruo *ResourceUpdateOne) SetNillableStorage(s *string) *ResourceUpdateOne {
 // ClearStorage clears the value of the "storage" field.
 func (ruo *ResourceUpdateOne) ClearStorage() *ResourceUpdateOne {
 	ruo.mutation.ClearStorage()
+	return ruo
+}
+
+// SetURL sets the "url" field.
+func (ruo *ResourceUpdateOne) SetURL(s string) *ResourceUpdateOne {
+	ruo.mutation.SetURL(s)
+	return ruo
+}
+
+// SetNillableURL sets the "url" field if the given value is not nil.
+func (ruo *ResourceUpdateOne) SetNillableURL(s *string) *ResourceUpdateOne {
+	if s != nil {
+		ruo.SetURL(*s)
+	}
+	return ruo
+}
+
+// ClearURL clears the value of the "url" field.
+func (ruo *ResourceUpdateOne) ClearURL() *ResourceUpdateOne {
+	ruo.mutation.ClearURL()
 	return ruo
 }
 
@@ -752,6 +798,12 @@ func (ruo *ResourceUpdateOne) sqlSave(ctx context.Context) (_node *Resource, err
 	}
 	if ruo.mutation.StorageCleared() {
 		_spec.ClearField(resource.FieldStorage, field.TypeString)
+	}
+	if value, ok := ruo.mutation.URL(); ok {
+		_spec.SetField(resource.FieldURL, field.TypeString, value)
+	}
+	if ruo.mutation.URLCleared() {
+		_spec.ClearField(resource.FieldURL, field.TypeString)
 	}
 	if value, ok := ruo.mutation.ObjectID(); ok {
 		_spec.SetField(resource.FieldObjectID, field.TypeString, value)

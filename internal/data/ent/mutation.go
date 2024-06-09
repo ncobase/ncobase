@@ -3296,6 +3296,7 @@ type ResourceMutation struct {
 	size          *int64
 	addsize       *int64
 	storage       *string
+	url           *string
 	object_id     *string
 	domain_id     *string
 	extras        *map[string]interface{}
@@ -3663,6 +3664,55 @@ func (m *ResourceMutation) StorageCleared() bool {
 func (m *ResourceMutation) ResetStorage() {
 	m.storage = nil
 	delete(m.clearedFields, resource.FieldStorage)
+}
+
+// SetURL sets the "url" field.
+func (m *ResourceMutation) SetURL(s string) {
+	m.url = &s
+}
+
+// URL returns the value of the "url" field in the mutation.
+func (m *ResourceMutation) URL() (r string, exists bool) {
+	v := m.url
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldURL returns the old "url" field's value of the Resource entity.
+// If the Resource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ResourceMutation) OldURL(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldURL is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldURL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldURL: %w", err)
+	}
+	return oldValue.URL, nil
+}
+
+// ClearURL clears the value of the "url" field.
+func (m *ResourceMutation) ClearURL() {
+	m.url = nil
+	m.clearedFields[resource.FieldURL] = struct{}{}
+}
+
+// URLCleared returns if the "url" field was cleared in this mutation.
+func (m *ResourceMutation) URLCleared() bool {
+	_, ok := m.clearedFields[resource.FieldURL]
+	return ok
+}
+
+// ResetURL resets all changes to the "url" field.
+func (m *ResourceMutation) ResetURL() {
+	m.url = nil
+	delete(m.clearedFields, resource.FieldURL)
 }
 
 // SetObjectID sets the "object_id" field.
@@ -4042,7 +4092,7 @@ func (m *ResourceMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ResourceMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 13)
 	if m.name != nil {
 		fields = append(fields, resource.FieldName)
 	}
@@ -4057,6 +4107,9 @@ func (m *ResourceMutation) Fields() []string {
 	}
 	if m.storage != nil {
 		fields = append(fields, resource.FieldStorage)
+	}
+	if m.url != nil {
+		fields = append(fields, resource.FieldURL)
 	}
 	if m.object_id != nil {
 		fields = append(fields, resource.FieldObjectID)
@@ -4097,6 +4150,8 @@ func (m *ResourceMutation) Field(name string) (ent.Value, bool) {
 		return m.Size()
 	case resource.FieldStorage:
 		return m.Storage()
+	case resource.FieldURL:
+		return m.URL()
 	case resource.FieldObjectID:
 		return m.ObjectID()
 	case resource.FieldDomainID:
@@ -4130,6 +4185,8 @@ func (m *ResourceMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldSize(ctx)
 	case resource.FieldStorage:
 		return m.OldStorage(ctx)
+	case resource.FieldURL:
+		return m.OldURL(ctx)
 	case resource.FieldObjectID:
 		return m.OldObjectID(ctx)
 	case resource.FieldDomainID:
@@ -4187,6 +4244,13 @@ func (m *ResourceMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStorage(v)
+		return nil
+	case resource.FieldURL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetURL(v)
 		return nil
 	case resource.FieldObjectID:
 		v, ok := value.(string)
@@ -4294,6 +4358,9 @@ func (m *ResourceMutation) ClearedFields() []string {
 	if m.FieldCleared(resource.FieldStorage) {
 		fields = append(fields, resource.FieldStorage)
 	}
+	if m.FieldCleared(resource.FieldURL) {
+		fields = append(fields, resource.FieldURL)
+	}
 	if m.FieldCleared(resource.FieldObjectID) {
 		fields = append(fields, resource.FieldObjectID)
 	}
@@ -4341,6 +4408,9 @@ func (m *ResourceMutation) ClearField(name string) error {
 	case resource.FieldStorage:
 		m.ClearStorage()
 		return nil
+	case resource.FieldURL:
+		m.ClearURL()
+		return nil
 	case resource.FieldObjectID:
 		m.ClearObjectID()
 		return nil
@@ -4384,6 +4454,9 @@ func (m *ResourceMutation) ResetField(name string) error {
 		return nil
 	case resource.FieldStorage:
 		m.ResetStorage()
+		return nil
+	case resource.FieldURL:
+		m.ResetURL()
 		return nil
 	case resource.FieldObjectID:
 		m.ResetObjectID()

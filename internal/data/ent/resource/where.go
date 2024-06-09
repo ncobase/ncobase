@@ -89,6 +89,11 @@ func Storage(v string) predicate.Resource {
 	return predicate.Resource(sql.FieldEQ(FieldStorage, v))
 }
 
+// URL applies equality check predicate on the "url" field. It's identical to URLEQ.
+func URL(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldEQ(FieldURL, v))
+}
+
 // ObjectID applies equality check predicate on the "object_id" field. It's identical to ObjectIDEQ.
 func ObjectID(v string) predicate.Resource {
 	return predicate.Resource(sql.FieldEQ(FieldObjectID, v))
@@ -457,6 +462,81 @@ func StorageEqualFold(v string) predicate.Resource {
 // StorageContainsFold applies the ContainsFold predicate on the "storage" field.
 func StorageContainsFold(v string) predicate.Resource {
 	return predicate.Resource(sql.FieldContainsFold(FieldStorage, v))
+}
+
+// URLEQ applies the EQ predicate on the "url" field.
+func URLEQ(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldEQ(FieldURL, v))
+}
+
+// URLNEQ applies the NEQ predicate on the "url" field.
+func URLNEQ(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldNEQ(FieldURL, v))
+}
+
+// URLIn applies the In predicate on the "url" field.
+func URLIn(vs ...string) predicate.Resource {
+	return predicate.Resource(sql.FieldIn(FieldURL, vs...))
+}
+
+// URLNotIn applies the NotIn predicate on the "url" field.
+func URLNotIn(vs ...string) predicate.Resource {
+	return predicate.Resource(sql.FieldNotIn(FieldURL, vs...))
+}
+
+// URLGT applies the GT predicate on the "url" field.
+func URLGT(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldGT(FieldURL, v))
+}
+
+// URLGTE applies the GTE predicate on the "url" field.
+func URLGTE(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldGTE(FieldURL, v))
+}
+
+// URLLT applies the LT predicate on the "url" field.
+func URLLT(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldLT(FieldURL, v))
+}
+
+// URLLTE applies the LTE predicate on the "url" field.
+func URLLTE(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldLTE(FieldURL, v))
+}
+
+// URLContains applies the Contains predicate on the "url" field.
+func URLContains(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldContains(FieldURL, v))
+}
+
+// URLHasPrefix applies the HasPrefix predicate on the "url" field.
+func URLHasPrefix(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldHasPrefix(FieldURL, v))
+}
+
+// URLHasSuffix applies the HasSuffix predicate on the "url" field.
+func URLHasSuffix(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldHasSuffix(FieldURL, v))
+}
+
+// URLIsNil applies the IsNil predicate on the "url" field.
+func URLIsNil() predicate.Resource {
+	return predicate.Resource(sql.FieldIsNull(FieldURL))
+}
+
+// URLNotNil applies the NotNil predicate on the "url" field.
+func URLNotNil() predicate.Resource {
+	return predicate.Resource(sql.FieldNotNull(FieldURL))
+}
+
+// URLEqualFold applies the EqualFold predicate on the "url" field.
+func URLEqualFold(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldEqualFold(FieldURL, v))
+}
+
+// URLContainsFold applies the ContainsFold predicate on the "url" field.
+func URLContainsFold(v string) predicate.Resource {
+	return predicate.Resource(sql.FieldContainsFold(FieldURL, v))
 }
 
 // ObjectIDEQ applies the EQ predicate on the "object_id" field.

@@ -21,6 +21,7 @@ type ResourceBody struct {
 	Type       string     `json:"type,omitempty"`
 	Size       int64      `json:"size,omitempty"`
 	Storage    string     `json:"storage,omitempty"`
+	URL        string     `json:"url,omitempty"`
 	ObjectID   string     `json:"object_id,omitempty"`
 	DomainID   string     `json:"domain_id,omitempty"`
 	ExtraProps types.JSON `json:"extras,omitempty"`

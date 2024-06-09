@@ -31,6 +31,8 @@ func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateRe
 
 	// set storage provider
 	body.Storage = storageConfig.Provider
+	// TODO: set url
+	// body.URL = obj.StorageInterface.GetEndpoint() +
 	// set created by
 	body.CreatedBy = helper.GetUserID(c)
 
@@ -71,6 +73,8 @@ func (svc *Service) UpdateResourceService(c *gin.Context, slug string, updates m
 				log.Errorf(c, "Error updating file: %v\n", err)
 				return resp.InternalServer("Error updating file"), err
 			}
+			// TODO: set url
+			// updates["url"] = storage.GetEndpoint()
 			// Remove file from updates after storing to avoid saving the file object itself in DB
 			delete(updates, "file")
 		} else {

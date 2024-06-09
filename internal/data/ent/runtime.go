@@ -152,8 +152,6 @@ func init() {
 	_ = resourceMixinFields1
 	resourceMixinFields4 := resourceMixin[4].Fields()
 	_ = resourceMixinFields4
-	resourceMixinFields6 := resourceMixin[6].Fields()
-	_ = resourceMixinFields6
 	resourceMixinFields7 := resourceMixin[7].Fields()
 	_ = resourceMixinFields7
 	resourceMixinFields8 := resourceMixin[8].Fields()
@@ -162,6 +160,8 @@ func init() {
 	_ = resourceMixinFields9
 	resourceMixinFields10 := resourceMixin[10].Fields()
 	_ = resourceMixinFields10
+	resourceMixinFields11 := resourceMixin[11].Fields()
+	_ = resourceMixinFields11
 	resourceFields := schema.Resource{}.Fields()
 	_ = resourceFields
 	// resourceDescName is the schema descriptor for name field.
@@ -173,31 +173,31 @@ func init() {
 	// resource.DefaultSize holds the default value on creation for the size field.
 	resource.DefaultSize = resourceDescSize.Default.(int64)
 	// resourceDescObjectID is the schema descriptor for object_id field.
-	resourceDescObjectID := resourceMixinFields6[0].Descriptor()
+	resourceDescObjectID := resourceMixinFields7[0].Descriptor()
 	// resource.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
 	resource.ObjectIDValidator = resourceDescObjectID.Validators[0].(func(string) error)
 	// resourceDescDomainID is the schema descriptor for domain_id field.
-	resourceDescDomainID := resourceMixinFields7[0].Descriptor()
+	resourceDescDomainID := resourceMixinFields8[0].Descriptor()
 	// resource.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
 	resource.DomainIDValidator = resourceDescDomainID.Validators[0].(func(string) error)
 	// resourceDescExtras is the schema descriptor for extras field.
-	resourceDescExtras := resourceMixinFields8[0].Descriptor()
+	resourceDescExtras := resourceMixinFields9[0].Descriptor()
 	// resource.DefaultExtras holds the default value on creation for the extras field.
 	resource.DefaultExtras = resourceDescExtras.Default.(map[string]interface{})
 	// resourceDescCreatedBy is the schema descriptor for created_by field.
-	resourceDescCreatedBy := resourceMixinFields9[0].Descriptor()
+	resourceDescCreatedBy := resourceMixinFields10[0].Descriptor()
 	// resource.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	resource.CreatedByValidator = resourceDescCreatedBy.Validators[0].(func(string) error)
 	// resourceDescUpdatedBy is the schema descriptor for updated_by field.
-	resourceDescUpdatedBy := resourceMixinFields9[1].Descriptor()
+	resourceDescUpdatedBy := resourceMixinFields10[1].Descriptor()
 	// resource.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	resource.UpdatedByValidator = resourceDescUpdatedBy.Validators[0].(func(string) error)
 	// resourceDescCreatedAt is the schema descriptor for created_at field.
-	resourceDescCreatedAt := resourceMixinFields10[0].Descriptor()
+	resourceDescCreatedAt := resourceMixinFields11[0].Descriptor()
 	// resource.DefaultCreatedAt holds the default value on creation for the created_at field.
 	resource.DefaultCreatedAt = resourceDescCreatedAt.Default.(func() time.Time)
 	// resourceDescUpdatedAt is the schema descriptor for updated_at field.
-	resourceDescUpdatedAt := resourceMixinFields10[1].Descriptor()
+	resourceDescUpdatedAt := resourceMixinFields11[1].Descriptor()
 	// resource.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	resource.DefaultUpdatedAt = resourceDescUpdatedAt.Default.(func() time.Time)
 	// resource.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
