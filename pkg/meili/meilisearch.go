@@ -26,7 +26,7 @@ func NewMeilisearch(host, apiKey string) *Client {
 
 // Search search from Meilisearch
 func (c *Client) Search(index, query string, options *meilisearch.SearchRequest) (*meilisearch.SearchResponse, error) {
-	if c.client == nil {
+	if c == nil || c.client == nil {
 		log.Printf("Meilisearch client is nil, cannot perform search")
 		return nil, errors.New("meilisearch client is nil")
 	}
@@ -40,7 +40,7 @@ func (c *Client) Search(index, query string, options *meilisearch.SearchRequest)
 
 // IndexDocuments index document to Meilisearch
 func (c *Client) IndexDocuments(index string, document any, primaryKey ...string) error {
-	if c.client == nil {
+	if c == nil || c.client == nil {
 		log.Printf("Meilisearch client is nil, cannot index documents")
 		return errors.New("meilisearch client is nil")
 	}
@@ -54,7 +54,7 @@ func (c *Client) IndexDocuments(index string, document any, primaryKey ...string
 
 // UpdateDocuments update document to Meilisearch
 func (c *Client) UpdateDocuments(index string, document any, documentID string) error {
-	if c.client == nil {
+	if c == nil || c.client == nil {
 		log.Printf("Meilisearch client is nil, cannot update documents")
 		return errors.New("meilisearch client is nil")
 	}
@@ -68,7 +68,7 @@ func (c *Client) UpdateDocuments(index string, document any, documentID string) 
 
 // DeleteDocuments delete document from Meilisearch
 func (c *Client) DeleteDocuments(index, documentID string) error {
-	if c.client == nil {
+	if c == nil || c.client == nil {
 		log.Printf("Meilisearch client is nil, cannot delete documents")
 		return errors.New("meilisearch client is nil")
 	}
