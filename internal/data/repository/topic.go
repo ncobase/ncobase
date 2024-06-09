@@ -92,7 +92,7 @@ func (r *topicRepo) GetByID(ctx context.Context, id string) (*ent.Topic, error) 
 	// }
 	// check cache
 	cacheKey := fmt.Sprintf("%s", id)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
@@ -122,7 +122,7 @@ func (r *topicRepo) GetBySlug(ctx context.Context, slug string) (*ent.Topic, err
 	// }
 	// check cache
 	cacheKey := fmt.Sprintf("%s", slug)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
