@@ -2,11 +2,14 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"mime/multipart"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/structs"
 	"stocms/pkg/ecode"
+	"stocms/pkg/log"
 	"stocms/pkg/resp"
 	"stocms/pkg/storage"
 	"stocms/pkg/types"
@@ -14,25 +17,72 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateResourceHandler handles the creation of an resource
-func (h *Handler) CreateResourceHandler(c *gin.Context) {
-
-	// Handle file upload
+// CreateResourcesHandler handles the creation of resources, both single and multiple
+func (h *Handler) CreateResourcesHandler(c *gin.Context) {
 	file, header, err := c.Request.FormFile("file")
+	if err == nil {
+		defer func(file multipart.File) {
+			err := file.Close()
+			if err != nil {
+				log.Errorf(c, "Error closing file: %v\n", err)
+			}
+		}(file)
+		body, err := processFile(c, header, file)
+		if err != nil {
+			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+			return
+		}
+		result, err := h.svc.CreateResourceService(c, body)
+		if err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+		resp.Success(c.Writer, result)
+		return
+	}
+
+	err = c.Request.ParseMultipartForm(32 << 20) // Set maxMemory to 32MB
 	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer("Failed to parse multipart form"))
+		return
+	}
+	files := c.Request.MultipartForm.File["files"]
+	if len(files) == 0 {
 		resp.Fail(c.Writer, resp.BadRequest("File is required"))
 		return
 	}
-	defer func(file multipart.File) {
-		err := file.Close()
+	var results []interface{}
+	for _, fileHeader := range files {
+		file, err := fileHeader.Open()
+		if err != nil {
+			resp.Fail(c.Writer, resp.InternalServer("Failed to open file"))
+			return
+		}
+		defer func(file multipart.File) {
+			err := file.Close()
+			if err != nil {
+				log.Errorf(c, "Error closing file: %v\n", err)
+			}
+		}(file)
+
+		body, err := processFile(c, fileHeader, file)
+		if err != nil {
+			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+			return
+		}
+		result, err := h.svc.CreateResourceService(c, body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
 		}
-	}(file)
+		results = append(results, result.Data)
+	}
+	resp.Success(c.Writer, &resp.Exception{Data: results})
+}
 
-	var body structs.CreateResourceBody
-
-	// Set the file details in the request body
+// processFile processes file details and binds other fields from the form to the resource body
+func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateResourceBody, error) {
+	body := &structs.CreateResourceBody{}
 	fileHeader := storage.GetFileHeader(header, "resources")
 	body.Path = fileHeader.Path
 	body.File = file
@@ -40,16 +90,21 @@ func (h *Handler) CreateResourceHandler(c *gin.Context) {
 	body.Name = fileHeader.Name
 	body.Size = fileHeader.Size
 
+	// Bind other fields from the form
+	if err := bindResourceFields(c, body); err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+// bindResourceFields binds other fields from the form to the resource body
+func bindResourceFields(c *gin.Context, body *structs.CreateResourceBody) error {
 	// Manually bind other fields from the form
 	for key, values := range c.Request.Form {
 		if len(values) == 0 || (key != "file" && values[0] == "") {
 			continue
 		}
 		switch key {
-		case "name":
-			body.Name = values[0]
-		case "storage":
-			body.Storage = values[0]
 		case "object_id":
 			body.ObjectID = values[0]
 		case "domain_id":
@@ -57,20 +112,12 @@ func (h *Handler) CreateResourceHandler(c *gin.Context) {
 		case "extras":
 			var extraProps types.JSON
 			if err := json.Unmarshal([]byte(values[0]), &extraProps); err != nil {
-				resp.Fail(c.Writer, resp.BadRequest("Invalid extras format"))
-				return
+				return errors.New("invalid extras format")
 			}
 			body.ExtraProps = extraProps
 		}
 	}
-
-	result, err := h.svc.CreateResourceService(c, &body)
-	if err != nil {
-		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
-		return
-	}
-
-	resp.Success(c.Writer, result)
+	return nil
 }
 
 // UpdateResourceHandler handles updating an resource
@@ -104,9 +151,9 @@ func (h *Handler) UpdateResourceHandler(c *gin.Context) {
 		// Get file data
 		fileHeader := storage.GetFileHeader(header, "resources")
 		// Add file header data to updates
-		if updates["name"] == nil {
-			updates["name"] = fileHeader.Name
-		}
+		// if updates["name"] == nil {
+		updates["name"] = fileHeader.Name
+		// }
 		updates["size"] = fileHeader.Size
 		updates["type"] = fileHeader.Type
 		updates["path"] = fileHeader.Path
@@ -140,6 +187,16 @@ func (h *Handler) GetResourceHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("file")))
+		return
+	}
+
+	if c.Query("type") == "download" {
+		h.DownloadResourceHandler(c)
+		return
+	}
+
+	if c.Query("type") == "stream" {
+		h.ResourceStreamHandler(c)
 		return
 	}
 
@@ -186,8 +243,18 @@ func (h *Handler) ListResourceHandler(c *gin.Context) {
 	resp.Success(c.Writer, resources)
 }
 
-// DownloadResourceHandler handles downloading an resource
+// DownloadResourceHandler handles the direct download of an resource
 func (h *Handler) DownloadResourceHandler(c *gin.Context) {
+	h.downloadFile(c, "attachment")
+}
+
+// ResourceStreamHandler handles the streaming of an resource
+func (h *Handler) ResourceStreamHandler(c *gin.Context) {
+	h.downloadFile(c, "inline")
+}
+
+// downloadFile handles the download or streaming of a resource
+func (h *Handler) downloadFile(c *gin.Context, dispositionType string) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
@@ -202,7 +269,13 @@ func (h *Handler) DownloadResourceHandler(c *gin.Context) {
 		}
 		resource := exception.Data.(*ent.Resource)
 		filename := storage.RestoreOriginalFileName(resource.Name, true)
-		c.Header("Content-Disposition", "resource; filename="+filename)
+		c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", dispositionType, filename))
+
+		// Set the Content-Type header based on the original content type
+		if resource.Type == "" {
+			c.Header("Content-Type", "application/octet-stream")
+		}
+		c.Header("Content-Type", resource.Type)
 
 		_, err := io.Copy(c.Writer, fileStream)
 		if err != nil {
@@ -213,9 +286,11 @@ func (h *Handler) DownloadResourceHandler(c *gin.Context) {
 
 	// close file stream
 	defer func(file io.ReadCloser) {
-		err := file.Close()
-		if err != nil {
-			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		if file != nil {
+			err := file.Close()
+			if err != nil {
+				resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			}
 		}
 	}(fileStream)
 }

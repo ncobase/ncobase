@@ -60,13 +60,11 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
 
 	// Resource endpoints
-	resource := v1.Group("/resources", middleware.Authorized)
+	resource := v1.Group("/resources")
 	resource.GET("", h.ListResourceHandler)
-	resource.POST("", h.CreateResourceHandler)
+	resource.POST("", h.CreateResourcesHandler)
 	resource.GET("/:slug", h.GetResourceHandler)
-	resource.PUT("/:slug", h.UpdateResourceHandler)
 	resource.DELETE("/:slug", h.DeleteResourceHandler)
-	resource.GET("/:slug/stream", h.DownloadResourceHandler)
 
 	// Taxonomy endpoints
 	taxonomy := v1.Group("/taxonomies", middleware.Authorized)
