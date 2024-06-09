@@ -75,7 +75,7 @@ func (r *taxonomyRepo) Create(ctx context.Context, body *structs.CreateTaxonomyB
 	}
 
 	// Create the taxonomy in Meilisearch index
-	if err = r.ms.IndexDocuments(ctx, "taxonomies", row); err != nil {
+	if err = r.ms.IndexDocuments("taxonomies", row); err != nil {
 		log.Errorf(nil, "taxonomyRepo.Create error creating Meilisearch index: %v\n", err)
 		// return nil, err
 	}
@@ -204,11 +204,11 @@ func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JS
 	}
 
 	// Update the taxonomy in Meilisearch
-	if err = r.ms.DeleteDocuments(ctx, "taxonomies", slug); err != nil {
+	if err = r.ms.DeleteDocuments("taxonomies", slug); err != nil {
 		log.Errorf(nil, "taxonomyRepo.Update error deleting Meilisearch index: %v\n", err)
 		// return nil, err
 	}
-	if err = r.ms.IndexDocuments(ctx, "taxonomies", row, row.ID); err != nil {
+	if err = r.ms.IndexDocuments("taxonomies", row, row.ID); err != nil {
 		log.Errorf(nil, "taxonomyRepo.Update error updating Meilisearch index: %v\n", err)
 		// return nil, err
 	}
@@ -300,7 +300,7 @@ func (r *taxonomyRepo) Delete(ctx context.Context, slug string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments(ctx, "taxonomies", taxonomy.ID); err != nil {
+	if err = r.ms.DeleteDocuments("taxonomies", taxonomy.ID); err != nil {
 		log.Errorf(nil, "topicRepo.Delete index error: %v\n", err)
 		// return nil, err
 	}

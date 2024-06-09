@@ -66,7 +66,7 @@ func (r *resourceRepo) Create(ctx context.Context, body *structs.CreateResourceB
 	}
 
 	// create the resource in Meilisearch index
-	if err = r.ms.IndexDocuments(ctx, "resources", row); err != nil {
+	if err = r.ms.IndexDocuments("resources", row); err != nil {
 		log.Errorf(ctx, "resourceRepo.Create index error: %v\n", err)
 		// return nil, err
 	}
@@ -146,7 +146,7 @@ func (r *resourceRepo) Update(ctx context.Context, slug string, updates types.JS
 	}
 
 	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments(ctx, "resources", resource.ID); err != nil {
+	if err = r.ms.DeleteDocuments("resources", resource.ID); err != nil {
 		log.Errorf(nil, "resourceRepo.Update index error: %v\n", err)
 		// return nil, err
 	}
@@ -177,7 +177,7 @@ func (r *resourceRepo) Delete(ctx context.Context, slug string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments(ctx, "resources", resource.ID); err != nil {
+	if err = r.ms.DeleteDocuments("resources", resource.ID); err != nil {
 		log.Errorf(nil, "resourceRepo.Delete index error: %v\n", err)
 		// return nil, err
 	}

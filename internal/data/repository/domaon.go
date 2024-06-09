@@ -78,7 +78,7 @@ func (r *domainRepo) Create(ctx context.Context, body *structs.CreateDomainBody)
 	}
 
 	// Create the domain in Meilisearch index
-	if err = r.ms.IndexDocuments(ctx, "domains", row); err != nil {
+	if err = r.ms.IndexDocuments("domains", row); err != nil {
 		log.Errorf(nil, "domainRepo.Create error creating Meilisearch index: %v\n", err)
 		// return nil, err
 	}
@@ -227,7 +227,7 @@ func (r *domainRepo) Update(ctx context.Context, id string, updates types.JSON) 
 	// 	log.Errorf(nil, "domainRepo.Update error copying data: %v\n", err)
 	// 	// return nil, err
 	// }
-	if err = r.ms.UpdateDocuments(ctx, "topics", row, row.ID); err != nil {
+	if err = r.ms.UpdateDocuments("topics", row, row.ID); err != nil {
 		log.Errorf(nil, "domainRepo.Update error updating Meilisearch index: %v\n", err)
 	}
 
@@ -303,7 +303,7 @@ func (r *domainRepo) Delete(ctx context.Context, id string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments(ctx, "domains", domain.ID); err != nil {
+	if err = r.ms.DeleteDocuments("domains", domain.ID); err != nil {
 		log.Errorf(nil, "domainRepo.Delete index error: %v\n", err)
 		// return nil, err
 	}
@@ -330,7 +330,7 @@ func (r *domainRepo) DeleteByUser(ctx context.Context, userID string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments(ctx, "domains", userID); err != nil {
+	if err = r.ms.DeleteDocuments("domains", userID); err != nil {
 		log.Errorf(nil, "domainRepo.DeleteByUser index error: %v\n", err)
 		// return nil, err
 	}

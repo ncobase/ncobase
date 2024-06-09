@@ -74,7 +74,7 @@ func (r *topicRepo) Create(ctx context.Context, body *structs.CreateTopicBody) (
 	}
 
 	// Create the topic in Meilisearch index
-	if err = r.ms.IndexDocuments(ctx, "topics", row); err != nil {
+	if err = r.ms.IndexDocuments("topics", row); err != nil {
 		log.Errorf(nil, "topicRepo.Create error creating Meilisearch index: %v\n", err)
 		// return nil, err
 	}
@@ -198,11 +198,11 @@ func (r *topicRepo) Update(ctx context.Context, slug string, updates types.JSON)
 	}
 
 	// Update the topic in Meilisearch index
-	if err = r.ms.DeleteDocuments(ctx, "topics", slug); err != nil {
+	if err = r.ms.DeleteDocuments("topics", slug); err != nil {
 		log.Errorf(nil, "topicRepo.Update error deleting Meilisearch index: %v\n", err)
 		// return nil, err
 	}
-	if err = r.ms.IndexDocuments(ctx, "topics", row); err != nil {
+	if err = r.ms.IndexDocuments("topics", row); err != nil {
 		log.Errorf(nil, "topicRepo.Update error updating Meilisearch index: %v\n", err)
 		// return nil, err
 	}
@@ -263,7 +263,7 @@ func (r *topicRepo) Delete(ctx context.Context, slug string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments(ctx, "topics", topic.ID); err != nil {
+	if err = r.ms.DeleteDocuments("topics", topic.ID); err != nil {
 		log.Errorf(nil, "topicRepo.Delete index error: %v\n", err)
 		// return nil, err
 	}

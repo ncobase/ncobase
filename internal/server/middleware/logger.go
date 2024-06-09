@@ -2,15 +2,13 @@ package middleware
 
 import (
 	"bytes"
-	"encoding/json"
-	"fmt"
 	"io"
-	"stocms/internal/helper"
 	"stocms/pkg/log"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 // ResponseLoggerWriter wraps around the original ResponseWriter to capture response data.
@@ -41,53 +39,89 @@ type LogFormat struct {
 	EndAt        string            `json:"end_at,omitempty"`
 }
 
-// FormatLog converts the log entry struct into a key-value formatted string, excluding empty values.
-func FormatLog(entry *LogFormat, f ...string) string {
-	if entry == nil {
-		return ""
-	}
-
-	if len(f) > 0 && f[0] == "json" {
-		jsonData, _ := json.Marshal(entry)
-		return string(jsonData)
-	}
-
-	var b strings.Builder
-
+// ToLogrusFields Convert LogFormat to logrus.Fields
+func (entry *LogFormat) ToLogrusFields() logrus.Fields {
+	fields := logrus.Fields{}
 	if entry.Status != 0 {
-		fmt.Fprintf(&b, "status=%d ", entry.Status)
+		fields["status"] = entry.Status
 	}
 	if entry.Path != "" {
-		fmt.Fprintf(&b, "path=%s ", entry.Path)
+		fields["path"] = entry.Path
 	}
 	if entry.Method != "" {
-		fmt.Fprintf(&b, "method=%s ", entry.Method)
+		fields["method"] = entry.Method
 	}
 	if len(entry.QueryParams) > 0 {
-		queryParamsJSON, _ := json.Marshal(entry.QueryParams)
-		_, _ = fmt.Fprintf(&b, "params=%s ", queryParamsJSON)
+		fields["params"] = entry.QueryParams
 	}
 	if entry.Body != "" {
-		fmt.Fprintf(&b, "body=%s ", entry.Body)
+		fields["body"] = entry.Body
 	}
 	if entry.ResponseBody != "" {
-		fmt.Fprintf(&b, "res=%s ", entry.ResponseBody)
+		fields["res"] = entry.ResponseBody
 	}
 	if entry.IP != "" {
-		fmt.Fprintf(&b, "ip=%s ", entry.IP)
+		fields["ip"] = entry.IP
 	}
 	if entry.Latency != 0 {
-		fmt.Fprintf(&b, "latency=%v ", entry.Latency)
+		fields["latency"] = entry.Latency
 	}
 	if entry.StartAt != "" {
-		fmt.Fprintf(&b, "start_at=%s ", entry.StartAt)
+		fields["start_at"] = entry.StartAt
 	}
 	if entry.EndAt != "" {
-		fmt.Fprintf(&b, "end_at=%s ", entry.EndAt)
+		fields["end_at"] = entry.EndAt
 	}
-
-	return strings.TrimSpace(b.String())
+	return fields
 }
+
+// // FormatLog converts the log entry struct into a key-value formatted string, excluding empty values.
+// func FormatLog(entry *LogFormat, f ...string) string {
+// 	if entry == nil {
+// 		return ""
+// 	}
+//
+// 	if len(f) > 0 && f[0] == "json" {
+// 		jsonData, _ := json.Marshal(entry)
+// 		return string(jsonData)
+// 	}
+//
+// 	var b strings.Builder
+//
+// 	if entry.Status != 0 {
+// 		fmt.Fprintf(&b, "status=%d ", entry.Status)
+// 	}
+// 	if entry.Path != "" {
+// 		fmt.Fprintf(&b, "path=%s ", entry.Path)
+// 	}
+// 	if entry.Method != "" {
+// 		fmt.Fprintf(&b, "method=%s ", entry.Method)
+// 	}
+// 	if len(entry.QueryParams) > 0 {
+// 		queryParamsJSON, _ := json.Marshal(entry.QueryParams)
+// 		_, _ = fmt.Fprintf(&b, "params=%s ", queryParamsJSON)
+// 	}
+// 	if entry.Body != "" {
+// 		fmt.Fprintf(&b, "body=%s ", entry.Body)
+// 	}
+// 	if entry.ResponseBody != "" {
+// 		fmt.Fprintf(&b, "res=%s ", entry.ResponseBody)
+// 	}
+// 	if entry.IP != "" {
+// 		fmt.Fprintf(&b, "ip=%s ", entry.IP)
+// 	}
+// 	if entry.Latency != 0 {
+// 		fmt.Fprintf(&b, "latency=%v ", entry.Latency)
+// 	}
+// 	if entry.StartAt != "" {
+// 		fmt.Fprintf(&b, "start_at=%s ", entry.StartAt)
+// 	}
+// 	if entry.EndAt != "" {
+// 		fmt.Fprintf(&b, "end_at=%s ", entry.EndAt)
+// 	}
+//
+// 	return strings.TrimSpace(b.String())
+// }
 
 // Logger is a middleware for logging requests.
 func Logger(c *gin.Context) {
@@ -98,6 +132,8 @@ func Logger(c *gin.Context) {
 	}
 	c.Writer = responseWriter
 
+	startTime := time.Now()
+
 	path := c.Request.URL.Path
 	raw := c.Request.URL.RawQuery
 	if raw != "" {
@@ -105,7 +141,7 @@ func Logger(c *gin.Context) {
 	}
 
 	entry := &LogFormat{
-		StartAt:     time.Now().Format(time.RFC3339Nano),
+		StartAt:     startTime.Format(time.RFC3339Nano),
 		Method:      c.Request.Method,
 		Path:        path,
 		IP:          c.ClientIP(),
@@ -132,16 +168,18 @@ func Logger(c *gin.Context) {
 	// Capture response data if not in whitelist
 	if !isInWhiteList(path) {
 		entry.Status = c.Writer.Status()
-		entry.Latency = time.Since(time.Now())
+		entry.Latency = time.Since(startTime)
 		entry.ResponseBody = responseWriter.body.String()
 	}
 
 	entry.EndAt = time.Now().Format(time.RFC3339Nano)
 
-	// config
-	conf := helper.GetConfig(c)
+	logEntry := log.StandardLogger().WithFields(entry.ToLogrusFields())
+	logEntry.Info("Request completed")
 
-	log.Infof(c.Request.Context(), FormatLog(entry, conf.Logger.Format))
+	// config
+	// conf := helper.GetConfig(c)
+	// logEntry.Infof(FormatLog(entry, conf.Logger.Format))
 }
 
 // isInWhiteList checks if the given path is in the whitelist
