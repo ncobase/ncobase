@@ -38,6 +38,8 @@ func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateRe
 	resource, err := svc.resource.Create(c, body)
 	if err != nil {
 		log.Errorf(c, "Error creating resource: %v\n", err)
+		// delete file from storage
+		_ = storage.Delete(body.Path)
 		return resp.InternalServer("Error creating resource"), err
 	}
 

@@ -134,7 +134,7 @@ var (
 	// StoResourceColumns holds the columns for the "sto_resource" table.
 	StoResourceColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "size", Type: field.TypeInt64, Comment: "size in bytes", Default: 0},
@@ -157,6 +157,11 @@ var (
 				Name:    "resource_id",
 				Unique:  false,
 				Columns: []*schema.Column{StoResourceColumns[0]},
+			},
+			{
+				Name:    "resource_name",
+				Unique:  true,
+				Columns: []*schema.Column{StoResourceColumns[1]},
 			},
 			{
 				Name:    "resource_object_id",

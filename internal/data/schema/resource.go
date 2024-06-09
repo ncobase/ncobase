@@ -31,7 +31,7 @@ func (Resource) Annotations() []schema.Annotation {
 func (Resource) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey{},
-		mixin.Name{},
+		mixin.NameUnique{},
 		mixin.Path{},
 		mixin.Type{},
 		mixin.Size{},

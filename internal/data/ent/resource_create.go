@@ -253,6 +253,11 @@ func (rc *ResourceCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (rc *ResourceCreate) check() error {
+	if v, ok := rc.mutation.Name(); ok {
+		if err := resource.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Resource.name": %w`, err)}
+		}
+	}
 	if _, ok := rc.mutation.Size(); !ok {
 		return &ValidationError{Name: "size", err: errors.New(`ent: missing required field "Resource.size"`)}
 	}

@@ -69,6 +69,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// NameValidator is a validator for the "name" field. It is called by the builders before save.
+	NameValidator func(string) error
 	// DefaultSize holds the default value on creation for the "size" field.
 	DefaultSize int64
 	// ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
