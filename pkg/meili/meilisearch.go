@@ -1,9 +1,8 @@
 package meili
 
 import (
-	"context"
 	"errors"
-	"stocms/pkg/log"
+	"log"
 
 	"github.com/meilisearch/meilisearch-go"
 )
@@ -26,56 +25,56 @@ func NewMeilisearch(host, apiKey string) *Client {
 }
 
 // Search search from Meilisearch
-func (c *Client) Search(ctx context.Context, index, query string, options *meilisearch.SearchRequest) (*meilisearch.SearchResponse, error) {
+func (c *Client) Search(index, query string, options *meilisearch.SearchRequest) (*meilisearch.SearchResponse, error) {
 	if c.client == nil {
-		log.Errorf(ctx, "Meilisearch client is nil, cannot perform search")
+		log.Printf("Meilisearch client is nil, cannot perform search")
 		return nil, errors.New("meilisearch client is nil")
 	}
 	resp, err := c.client.Index(index).Search(query, options)
 	if err != nil {
-		log.Errorf(ctx, "Meilisearch search error: %v", err)
+		log.Printf("Meilisearch search error: %v", err)
 		return nil, err
 	}
 	return resp, nil
 }
 
 // IndexDocuments index document to Meilisearch
-func (c *Client) IndexDocuments(ctx context.Context, index string, document any, primaryKey ...string) error {
+func (c *Client) IndexDocuments(index string, document any, primaryKey ...string) error {
 	if c.client == nil {
-		log.Errorf(ctx, "Meilisearch client is nil, cannot index documents")
+		log.Printf("Meilisearch client is nil, cannot index documents")
 		return errors.New("meilisearch client is nil")
 	}
 	_, err := c.client.Index(index).AddDocuments(document, primaryKey...)
 	if err != nil {
-		log.Errorf(ctx, "Meilisearch index document error: %v", err)
+		log.Printf("Meilisearch index document error: %v", err)
 		return err
 	}
 	return nil
 }
 
 // UpdateDocuments update document to Meilisearch
-func (c *Client) UpdateDocuments(ctx context.Context, index string, document any, documentID string) error {
+func (c *Client) UpdateDocuments(index string, document any, documentID string) error {
 	if c.client == nil {
-		log.Errorf(ctx, "Meilisearch client is nil, cannot update documents")
+		log.Printf("Meilisearch client is nil, cannot update documents")
 		return errors.New("meilisearch client is nil")
 	}
 	_, err := c.client.Index(index).UpdateDocuments(document, documentID)
 	if err != nil {
-		log.Errorf(ctx, "Meilisearch update document error: %v", err)
+		log.Printf("Meilisearch update document error: %v", err)
 		return err
 	}
 	return nil
 }
 
 // DeleteDocuments delete document from Meilisearch
-func (c *Client) DeleteDocuments(ctx context.Context, index, documentID string) error {
+func (c *Client) DeleteDocuments(index, documentID string) error {
 	if c.client == nil {
-		log.Errorf(ctx, "Meilisearch client is nil, cannot delete documents")
+		log.Printf("Meilisearch client is nil, cannot delete documents")
 		return errors.New("meilisearch client is nil")
 	}
 	_, err := c.client.Index(index).DeleteDocument(documentID)
 	if err != nil {
-		log.Errorf(ctx, "Meilisearch delete document error: %v", err)
+		log.Printf("Meilisearch delete document error: %v", err)
 		return err
 	}
 	return nil
