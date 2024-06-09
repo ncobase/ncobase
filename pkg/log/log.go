@@ -2,11 +2,14 @@ package log
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"stocms/internal/config"
+	"stocms/pkg/elastic"
+	"stocms/pkg/meili"
 	"strings"
 	"time"
 
@@ -31,6 +34,9 @@ var (
 	traceIDFunc TraceIDFunc
 	logFile     *os.File
 	logPath     string
+	meiliClient *meili.Client
+	esClient    *elastic.Client
+	indexName   string // Meilisearch / Elasticsearch index name
 )
 
 func init() {
@@ -291,6 +297,22 @@ func Init(c config.Logger) (clean func(), err error) {
 		}
 	}
 
+	// Initialize MeiliSearch and Elasticsearch clients
+	if c.Meilisearch.Host != "" {
+		meiliClient = meili.NewMeilisearch(c.Meilisearch.Host, c.Meilisearch.APIKey)
+		indexName = c.IndexName
+		AddMeiliSearchHook()
+	}
+
+	if len(c.Elasticsearch.Addresses) > 0 {
+		esClient, err = elastic.NewClient(c.Elasticsearch.Addresses, c.Elasticsearch.Username, c.Elasticsearch.Password)
+		if err != nil {
+			return nil, fmt.Errorf("error initializing Elasticsearch client: %w", err)
+		}
+		indexName = c.IndexName
+		AddElasticSearchHook()
+	}
+
 	// Return a cleanup function to close the file
 	clean = func() {
 		if logFile != nil {
@@ -335,5 +357,53 @@ func periodicLogRotation() {
 				Errorf(context.Background(), "Error rotating log: %v", err)
 			}
 		}
+	}
+}
+
+// MeiliSearch and Elasticsearch log hooks
+
+type MeiliSearchHook struct{}
+
+func (h *MeiliSearchHook) Levels() []logrus.Level {
+	return logrus.AllLevels
+}
+
+func (h *MeiliSearchHook) Fire(entry *logrus.Entry) error {
+	if meiliClient == nil {
+		return nil
+	}
+	jsonData, err := json.Marshal(entry.Data)
+	if err != nil {
+		return err
+	}
+	err = meiliClient.IndexDocuments(indexName, jsonData)
+	return err
+}
+
+type ElasticSearchHook struct{}
+
+func (h *ElasticSearchHook) Levels() []logrus.Level {
+	return logrus.AllLevels
+}
+
+func (h *ElasticSearchHook) Fire(entry *logrus.Entry) error {
+	if esClient == nil {
+		return nil
+	}
+	err := esClient.IndexDocument(context.Background(), indexName, entry.Time.Format(time.RFC3339), entry.Data)
+	return err
+}
+
+// AddMeiliSearchHook Adding MeiliSearch hook to logrus
+func AddMeiliSearchHook() {
+	if meiliClient != nil {
+		AddHook(&MeiliSearchHook{})
+	}
+}
+
+// AddElasticSearchHook Adding Elasticsearch hook to logrus
+func AddElasticSearchHook() {
+	if esClient != nil {
+		AddHook(&ElasticSearchHook{})
 	}
 }

@@ -5,9 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"strings"
-
-	"stocms/pkg/log"
 
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/elastic/go-elasticsearch/v8/esapi"
@@ -32,7 +31,7 @@ func NewClient(addresses []string, username, password string) (*Client, error) {
 
 	es, err := elasticsearch.NewClient(cfg)
 	if err != nil {
-		log.Errorf(nil, "Elasticsearch client creation error: %s", err)
+		log.Printf("Elasticsearch client creation error: %s", err)
 		return nil, err
 	}
 
@@ -42,7 +41,7 @@ func NewClient(addresses []string, username, password string) (*Client, error) {
 // Search search from Elasticsearch
 func (c *Client) Search(ctx context.Context, indexName, query string) (*esapi.Response, error) {
 	if c.client == nil {
-		log.Errorf(ctx, "Elasticsearch client is nil, cannot perform search")
+		log.Printf("Elasticsearch client is nil, cannot perform search")
 		return nil, errors.New("elasticsearch client is nil")
 	}
 
@@ -54,14 +53,14 @@ func (c *Client) Search(ctx context.Context, indexName, query string) (*esapi.Re
 		c.client.Search.WithPretty(),
 	)
 	if err != nil {
-		log.Errorf(ctx, "Elasticsearch search error: %s", err)
+		log.Printf("Elasticsearch search error: %s", err)
 		return nil, err
 	}
 	defer res.Body.Close()
 
 	var sr esapi.Response
 	if err := json.NewDecoder(res.Body).Decode(&sr); err != nil {
-		log.Errorf(ctx, "Error parsing the response body: %s", err)
+		log.Printf("Error parsing the response body: %s", err)
 		return nil, err
 	}
 
@@ -71,14 +70,14 @@ func (c *Client) Search(ctx context.Context, indexName, query string) (*esapi.Re
 // IndexDocument index document to Elasticsearch
 func (c *Client) IndexDocument(ctx context.Context, indexName string, documentID string, document any) error {
 	if c.client == nil {
-		log.Errorf(ctx, "Elasticsearch client is nil, cannot index documents")
+		log.Printf("Elasticsearch client is nil, cannot index documents")
 		return errors.New("elasticsearch client is nil")
 	}
 
 	var b strings.Builder
 	enc := json.NewEncoder(&b)
 	if err := enc.Encode(document); err != nil {
-		log.Errorf(ctx, "Error encoding document: %s", err)
+		log.Printf("Error encoding document: %s", err)
 		return err
 	}
 
@@ -91,7 +90,7 @@ func (c *Client) IndexDocument(ctx context.Context, indexName string, documentID
 
 	res, err := req.Do(ctx, c.client)
 	if err != nil {
-		log.Errorf(ctx, "Error indexing document: %s", err)
+		log.Printf("Error indexing document: %s", err)
 		return err
 	}
 	defer res.Body.Close()
@@ -99,9 +98,9 @@ func (c *Client) IndexDocument(ctx context.Context, indexName string, documentID
 	if res.IsError() {
 		var respBody map[string]any
 		if err := json.NewDecoder(res.Body).Decode(&respBody); err != nil {
-			log.Errorf(ctx, "Error parsing the response body: %s", err)
+			log.Printf("Error parsing the response body: %s", err)
 		} else {
-			log.Errorf(ctx, "Elasticsearch indexing error: %s: %s", res.Status(), respBody["error"])
+			log.Printf("Elasticsearch indexing error: %s: %s", res.Status(), respBody["error"])
 		}
 		return fmt.Errorf("elasticsearch indexing error: %s", res.Status())
 	}
@@ -112,7 +111,7 @@ func (c *Client) IndexDocument(ctx context.Context, indexName string, documentID
 // DeleteDocument delete document from Elasticsearch
 func (c *Client) DeleteDocument(ctx context.Context, indexName, documentID string) error {
 	if c.client == nil {
-		log.Errorf(ctx, "Elasticsearch client is nil, cannot delete documents")
+		log.Printf("Elasticsearch client is nil, cannot delete documents")
 		return errors.New("elasticsearch client is nil")
 	}
 
@@ -124,7 +123,7 @@ func (c *Client) DeleteDocument(ctx context.Context, indexName, documentID strin
 
 	res, err := req.Do(ctx, c.client)
 	if err != nil {
-		log.Errorf(ctx, "Error deleting document: %s", err)
+		log.Printf("Error deleting document: %s", err)
 		return err
 	}
 	defer res.Body.Close()
@@ -132,9 +131,9 @@ func (c *Client) DeleteDocument(ctx context.Context, indexName, documentID strin
 	if res.IsError() {
 		var respBody map[string]any
 		if err := json.NewDecoder(res.Body).Decode(&respBody); err != nil {
-			log.Errorf(ctx, "Error parsing the response body: %s", err)
+			log.Printf("Error parsing the response body: %s", err)
 		} else {
-			log.Errorf(ctx, "Elasticsearch deletion error: %s: %s", res.Status(), respBody["error"])
+			log.Printf("Elasticsearch deletion error: %s: %s", res.Status(), respBody["error"])
 		}
 		return fmt.Errorf("elasticsearch deletion error: %s", res.Status())
 	}
