@@ -276,6 +276,26 @@ func (Name) Fields() []ent.Field {
 // name mixin must implement `Mixin` interface.
 var _ ent.Mixin = (*Name)(nil)
 
+// NameUnique adds name field.
+type NameUnique struct{ mixin.Schema }
+
+// Fields of the name mixin.
+func (NameUnique) Fields() []ent.Field {
+	return []ent.Field{
+		field.String("name").Comment("name").Unique().NotEmpty().Optional(), // name
+	}
+}
+
+// Indexes of the name.
+func (NameUnique) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("name").Unique(),
+	}
+}
+
+// name mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*NameUnique)(nil)
+
 // Label adds label field.
 type Label struct{ mixin.Schema }
 

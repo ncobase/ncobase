@@ -148,6 +148,8 @@ func init() {
 	resourceMixin := schema.Resource{}.Mixin()
 	resourceMixinFields0 := resourceMixin[0].Fields()
 	_ = resourceMixinFields0
+	resourceMixinFields1 := resourceMixin[1].Fields()
+	_ = resourceMixinFields1
 	resourceMixinFields4 := resourceMixin[4].Fields()
 	_ = resourceMixinFields4
 	resourceMixinFields6 := resourceMixin[6].Fields()
@@ -162,6 +164,10 @@ func init() {
 	_ = resourceMixinFields10
 	resourceFields := schema.Resource{}.Fields()
 	_ = resourceFields
+	// resourceDescName is the schema descriptor for name field.
+	resourceDescName := resourceMixinFields1[0].Descriptor()
+	// resource.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	resource.NameValidator = resourceDescName.Validators[0].(func(string) error)
 	// resourceDescSize is the schema descriptor for size field.
 	resourceDescSize := resourceMixinFields4[0].Descriptor()
 	// resource.DefaultSize holds the default value on creation for the size field.

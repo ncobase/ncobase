@@ -276,6 +276,11 @@ func (ru *ResourceUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ru *ResourceUpdate) check() error {
+	if v, ok := ru.mutation.Name(); ok {
+		if err := resource.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Resource.name": %w`, err)}
+		}
+	}
 	if v, ok := ru.mutation.ObjectID(); ok {
 		if err := resource.ObjectIDValidator(v); err != nil {
 			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "Resource.object_id": %w`, err)}
@@ -661,6 +666,11 @@ func (ruo *ResourceUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ruo *ResourceUpdateOne) check() error {
+	if v, ok := ruo.mutation.Name(); ok {
+		if err := resource.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Resource.name": %w`, err)}
+		}
+	}
 	if v, ok := ruo.mutation.ObjectID(); ok {
 		if err := resource.ObjectIDValidator(v); err != nil {
 			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "Resource.object_id": %w`, err)}
