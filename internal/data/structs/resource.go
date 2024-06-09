@@ -46,6 +46,7 @@ type ListResourceParams struct {
 	Cursor  string `form:"cursor" json:"cursor"`
 	Limit   int64  `form:"limit" json:"limit"`
 	Domain  string `form:"domain,omitempty" json:"domain,omitempty"`
+	Object  string `form:"object,omitempty" json:"object,omitempty"`
 	User    string `form:"user,omitempty" json:"user,omitempty"`
 	Type    string `form:"type,omitempty" json:"type,omitempty"`
 	Storage string `form:"storage,omitempty" json:"storage,omitempty"`

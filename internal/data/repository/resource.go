@@ -227,6 +227,11 @@ func (r *resourceRepo) List(ctx context.Context, p *structs.ListResourceParams) 
 		builder.Where(resourceEnt.CreatedByEQ(p.User))
 	}
 
+	// object id
+	if p.Object != "" {
+		builder.Where(resourceEnt.ObjectIDEQ(p.Object))
+	}
+
 	// resource type
 	if p.Type != "" {
 		builder.Where(resourceEnt.TypeEQ(p.Type))
