@@ -29,6 +29,8 @@ type Resource struct {
 	Size int64 `json:"size,omitempty"`
 	// storage type
 	Storage string `json:"storage,omitempty"`
+	// url, website / link...
+	URL string `json:"url,omitempty"`
 	// object id
 	ObjectID string `json:"object_id,omitempty"`
 	// domain id
@@ -55,7 +57,7 @@ func (*Resource) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case resource.FieldSize:
 			values[i] = new(sql.NullInt64)
-		case resource.FieldID, resource.FieldName, resource.FieldPath, resource.FieldType, resource.FieldStorage, resource.FieldObjectID, resource.FieldDomainID, resource.FieldCreatedBy, resource.FieldUpdatedBy:
+		case resource.FieldID, resource.FieldName, resource.FieldPath, resource.FieldType, resource.FieldStorage, resource.FieldURL, resource.FieldObjectID, resource.FieldDomainID, resource.FieldCreatedBy, resource.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		case resource.FieldCreatedAt, resource.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -109,6 +111,12 @@ func (r *Resource) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field storage", values[i])
 			} else if value.Valid {
 				r.Storage = value.String
+			}
+		case resource.FieldURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field url", values[i])
+			} else if value.Valid {
+				r.URL = value.String
 			}
 		case resource.FieldObjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -204,6 +212,9 @@ func (r *Resource) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("storage=")
 	builder.WriteString(r.Storage)
+	builder.WriteString(", ")
+	builder.WriteString("url=")
+	builder.WriteString(r.URL)
 	builder.WriteString(", ")
 	builder.WriteString("object_id=")
 	builder.WriteString(r.ObjectID)

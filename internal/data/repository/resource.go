@@ -53,6 +53,7 @@ func (r *resourceRepo) Create(ctx context.Context, body *structs.CreateResourceB
 	builder.SetNillableType(&body.Type)
 	builder.SetNillableSize(&body.Size)
 	builder.SetNillableStorage(&body.Storage)
+	builder.SetNillableURL(&body.URL)
 	builder.SetNillableObjectID(&body.ObjectID)
 	builder.SetNillableDomainID(&body.DomainID)
 	builder.SetExtras(body.ExtraProps)
@@ -121,6 +122,8 @@ func (r *resourceRepo) Update(ctx context.Context, slug string, updates types.JS
 			builder.SetNillableSize(types.ToPointer(value.(int64)))
 		case "storage":
 			builder.SetNillableStorage(types.ToPointer(value.(string)))
+		case "url":
+			builder.SetNillableURL(types.ToPointer(value.(string)))
 		case "object_id":
 			builder.SetNillableObjectID(types.ToPointer(value.(string)))
 		case "domain_id":

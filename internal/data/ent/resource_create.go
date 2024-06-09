@@ -90,6 +90,20 @@ func (rc *ResourceCreate) SetNillableStorage(s *string) *ResourceCreate {
 	return rc
 }
 
+// SetURL sets the "url" field.
+func (rc *ResourceCreate) SetURL(s string) *ResourceCreate {
+	rc.mutation.SetURL(s)
+	return rc
+}
+
+// SetNillableURL sets the "url" field if the given value is not nil.
+func (rc *ResourceCreate) SetNillableURL(s *string) *ResourceCreate {
+	if s != nil {
+		rc.SetURL(*s)
+	}
+	return rc
+}
+
 // SetObjectID sets the "object_id" field.
 func (rc *ResourceCreate) SetObjectID(s string) *ResourceCreate {
 	rc.mutation.SetObjectID(s)
@@ -335,6 +349,10 @@ func (rc *ResourceCreate) createSpec() (*Resource, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.Storage(); ok {
 		_spec.SetField(resource.FieldStorage, field.TypeString, value)
 		_node.Storage = value
+	}
+	if value, ok := rc.mutation.URL(); ok {
+		_spec.SetField(resource.FieldURL, field.TypeString, value)
+		_node.URL = value
 	}
 	if value, ok := rc.mutation.ObjectID(); ok {
 		_spec.SetField(resource.FieldObjectID, field.TypeString, value)
