@@ -40,7 +40,7 @@ func NewClient(addresses []string, username, password string) (*Client, error) {
 
 // Search search from Elasticsearch
 func (c *Client) Search(ctx context.Context, indexName, query string) (*esapi.Response, error) {
-	if c.client == nil {
+	if c == nil || c.client == nil {
 		log.Printf("Elasticsearch client is nil, cannot perform search")
 		return nil, errors.New("elasticsearch client is nil")
 	}
@@ -69,7 +69,7 @@ func (c *Client) Search(ctx context.Context, indexName, query string) (*esapi.Re
 
 // IndexDocument index document to Elasticsearch
 func (c *Client) IndexDocument(ctx context.Context, indexName string, documentID string, document any) error {
-	if c.client == nil {
+	if c == nil || c.client == nil {
 		log.Printf("Elasticsearch client is nil, cannot index documents")
 		return errors.New("elasticsearch client is nil")
 	}
@@ -110,7 +110,7 @@ func (c *Client) IndexDocument(ctx context.Context, indexName string, documentID
 
 // DeleteDocument delete document from Elasticsearch
 func (c *Client) DeleteDocument(ctx context.Context, indexName, documentID string) error {
-	if c.client == nil {
+	if c == nil || c.client == nil {
 		log.Printf("Elasticsearch client is nil, cannot delete documents")
 		return errors.New("elasticsearch client is nil")
 	}
