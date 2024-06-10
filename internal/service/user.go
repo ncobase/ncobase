@@ -124,7 +124,7 @@ func (svc *Service) findUserByID(ctx context.Context, id string) (structs.User, 
 		return structs.User{}, err
 	}
 
-	profile, _ := svc.user.GetProfile(ctx, user.ID)
+	profile, _ := svc.userProfile.GetByUserID(ctx, user.ID)
 	return svc.serializeUser(user, profile), nil
 }
 
@@ -140,7 +140,7 @@ func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.User,
 		return structs.User{}, err
 	}
 
-	profile, _ := svc.user.GetProfile(ctx, user.ID)
+	profile, _ := svc.userProfile.GetByUserID(ctx, user.ID)
 	return svc.serializeUser(user, profile), nil
 }
 

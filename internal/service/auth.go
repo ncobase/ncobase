@@ -139,7 +139,7 @@ func createUserAndProfile(ctx context.Context, svc *Service, body *structs.Regis
 	if err != nil {
 		return nil, err
 	}
-	_, err = svc.user.CreateProfile(ctx, &structs.UserRequestBody{
+	_, err = svc.userProfile.Create(ctx, &structs.UserRequestBody{
 		UserID:      user.ID,
 		DisplayName: body.DisplayName,
 		ShortBio:    body.ShortBio,

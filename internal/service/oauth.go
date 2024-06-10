@@ -138,7 +138,7 @@ func (svc *Service) createOAuthUser(ctx context.Context, tx *ent.Tx, payload str
 
 // createUserProfile - Create user profile
 func (svc *Service) createUserProfile(ctx context.Context, userID, displayName, shortBio string) *resp.Exception {
-	_, err := svc.user.CreateProfile(ctx, &structs.UserRequestBody{
+	_, err := svc.userProfile.Create(ctx, &structs.UserRequestBody{
 		UserID:      userID,
 		DisplayName: displayName,
 		ShortBio:    shortBio,
