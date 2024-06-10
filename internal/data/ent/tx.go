@@ -18,6 +18,8 @@ type Tx struct {
 	CodeAuth *CodeAuthClient
 	// Domain is the client for interacting with the Domain builders.
 	Domain *DomainClient
+	// Module is the client for interacting with the Module builders.
+	Module *ModuleClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
 	OAuthUser *OAuthUserClient
 	// Resource is the client for interacting with the Resource builders.
@@ -166,6 +168,7 @@ func (tx *Tx) init() {
 	tx.AuthToken = NewAuthTokenClient(tx.config)
 	tx.CodeAuth = NewCodeAuthClient(tx.config)
 	tx.Domain = NewDomainClient(tx.config)
+	tx.Module = NewModuleClient(tx.config)
 	tx.OAuthUser = NewOAuthUserClient(tx.config)
 	tx.Resource = NewResourceClient(tx.config)
 	tx.Taxonomy = NewTaxonomyClient(tx.config)

@@ -98,6 +98,42 @@ var (
 			},
 		},
 	}
+	// ScModuleColumns holds the columns for the "sc_module" table.
+	ScModuleColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "content", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "content, big text"},
+		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
+		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp"},
+		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown"},
+		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private"},
+		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScModuleTable holds the schema information for the "sc_module" table.
+	ScModuleTable = &schema.Table{
+		Name:       "sc_module",
+		Columns:    ScModuleColumns,
+		PrimaryKey: []*schema.Column{ScModuleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "module_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScModuleColumns[0]},
+			},
+			{
+				Name:    "module_slug",
+				Unique:  false,
+				Columns: []*schema.Column{ScModuleColumns[3]},
+			},
+		},
+	}
 	// ScOauthUserColumns holds the columns for the "sc_oauth_user" table.
 	ScOauthUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
@@ -371,6 +407,7 @@ var (
 		ScAuthTokenTable,
 		ScCodeAuthTable,
 		ScDomainTable,
+		ScModuleTable,
 		ScOauthUserTable,
 		StoResourceTable,
 		ScTaxonomyTable,
@@ -390,6 +427,9 @@ func init() {
 	}
 	ScDomainTable.Annotation = &entsql.Annotation{
 		Table: "sc_domain",
+	}
+	ScModuleTable.Annotation = &entsql.Annotation{
+		Table: "sc_module",
 	}
 	ScOauthUserTable.Annotation = &entsql.Annotation{
 		Table: "sc_oauth_user",

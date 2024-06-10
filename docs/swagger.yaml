@@ -13,6 +13,37 @@ definitions:
         description: HTTP status
         type: integer
     type: object
+  structs.CreateModuleBody:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.CreateTaxonomyBody:
     properties:
       color:
@@ -475,6 +506,136 @@ paths:
       summary: Logout
       tags:
       - authentication
+  /modules:
+    get:
+      description: Retrieve a list of modules based on the provided query parameters
+      parameters:
+      - description: Module name
+        in: query
+        name: name
+        type: string
+      - description: Maximum number of modules to retrieve
+        in: query
+        name: limit
+        type: integer
+      - description: Number of modules to skip
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List all modules
+      tags:
+      - modules
+    post:
+      consumes:
+      - application/json
+      description: Create a new module with the provided data
+      parameters:
+      - description: Module data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateModuleBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Create a new module
+      tags:
+      - modules
+  /modules/{slug}:
+    delete:
+      description: Delete a module by its slug or ID
+      parameters:
+      - description: Module slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Delete a module by slug or ID
+      tags:
+      - modules
+    get:
+      description: Retrieve a module by its slug or ID
+      parameters:
+      - description: Module slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get a module by slug or ID
+      tags:
+      - modules
+    put:
+      consumes:
+      - application/json
+      description: Update an existing module with the provided data
+      parameters:
+      - description: Module slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Module updates
+        in: body
+        name: body
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Update an existing module
+      tags:
+      - modules
   /oauth/{provider}/redirect:
     get:
       description: Redirect to OAuth provider for authentication.
@@ -499,7 +660,7 @@ paths:
             $ref: '#/definitions/resp.Exception'
       summary: OAuth redirect
       tags:
-      - OAuth
+      - oauth
   /oauth/callback:
     get:
       description: Handle callback from OAuth provider.
@@ -514,7 +675,7 @@ paths:
             $ref: '#/definitions/resp.Exception'
       summary: OAuth callback
       tags:
-      - OAuth
+      - oauth
   /oauth/facebook/callback:
     get:
       description: Handle callback from Facebook OAuth provider.
@@ -535,7 +696,7 @@ paths:
             $ref: '#/definitions/resp.Exception'
       summary: Facebook OAuth callback
       tags:
-      - OAuth
+      - oauth
   /oauth/github/callback:
     get:
       description: Handle callback from GitHub OAuth provider.
@@ -556,7 +717,7 @@ paths:
             $ref: '#/definitions/resp.Exception'
       summary: GitHub OAuth callback
       tags:
-      - OAuth
+      - oauth
   /oauth/profile:
     get:
       description: Retrieve profile information from OAuth provider.
@@ -573,7 +734,7 @@ paths:
             $ref: '#/definitions/resp.Exception'
       summary: Get OAuth profile
       tags:
-      - OAuth
+      - oauth
   /oauth/register:
     post:
       consumes:
@@ -599,7 +760,7 @@ paths:
             $ref: '#/definitions/resp.Exception'
       summary: OAuth register
       tags:
-      - OAuth
+      - oauth
   /register:
     post:
       consumes:

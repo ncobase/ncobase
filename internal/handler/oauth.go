@@ -14,7 +14,7 @@ import (
 //
 // @Summary OAuth register
 // @Description Register a user using OAuth.
-// @Tags OAuth
+// @Tags oauth
 // @Accept json
 // @Produce json
 // @Param body body structs.OAuthRegisterBody true "OAuthRegisterBody object"
@@ -36,7 +36,7 @@ func (h *Handler) OAuthRegisterHandler(c *gin.Context) {
 //
 // @Summary OAuth redirect
 // @Description Redirect to OAuth provider for authentication.
-// @Tags OAuth
+// @Tags oauth
 // @Param provider path string true "OAuth provider"
 // @Param next query string false "Next URL after authentication"
 // @Success 302 {object} resp.Exception "redirect"
@@ -70,7 +70,7 @@ func (h *Handler) OAuthRedirectHandler(c *gin.Context) {
 //
 // @Summary Facebook OAuth callback
 // @Description Handle callback from Facebook OAuth provider.
-// @Tags OAuth
+// @Tags oauth
 // @Param code query string true "Authorization code"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 401 {object} resp.Exception "unauthorized"
@@ -88,7 +88,7 @@ func (h *Handler) OAuthFacebookCallbackHandler(c *gin.Context) {
 //
 // @Summary GitHub OAuth callback
 // @Description Handle callback from GitHub OAuth provider.
-// @Tags OAuth
+// @Tags oauth
 // @Param code query string true "Authorization code"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 401 {object} resp.Exception "unauthorized"
@@ -106,7 +106,7 @@ func (h *Handler) OAuthGithubCallbackHandler(c *gin.Context) {
 //
 // @Summary OAuth callback
 // @Description Handle callback from OAuth provider.
-// @Tags OAuth
+// @Tags oauth
 // @Success 302 {object} resp.Exception "redirect"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /oauth/callback [get]
@@ -123,7 +123,7 @@ func (h *Handler) OAuthCallbackHandler(c *gin.Context) {
 //
 // @Summary Get OAuth profile
 // @Description Retrieve profile information from OAuth provider.
-// @Tags OAuth
+// @Tags oauth
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"

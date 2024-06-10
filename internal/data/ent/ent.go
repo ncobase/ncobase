@@ -10,6 +10,7 @@ import (
 	"stocms/internal/data/ent/authtoken"
 	"stocms/internal/data/ent/codeauth"
 	"stocms/internal/data/ent/domain"
+	"stocms/internal/data/ent/module"
 	"stocms/internal/data/ent/oauthuser"
 	"stocms/internal/data/ent/resource"
 	"stocms/internal/data/ent/taxonomy"
@@ -85,6 +86,7 @@ func checkColumn(table, column string) error {
 			authtoken.Table:         authtoken.ValidColumn,
 			codeauth.Table:          codeauth.ValidColumn,
 			domain.Table:            domain.ValidColumn,
+			module.Table:            module.ValidColumn,
 			oauthuser.Table:         oauthuser.ValidColumn,
 			resource.Table:          resource.ValidColumn,
 			taxonomy.Table:          taxonomy.ValidColumn,
