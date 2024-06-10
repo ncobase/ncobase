@@ -20,7 +20,14 @@ func New(svc *service.Service) *Handler {
 	return &Handler{svc: svc}
 }
 
-// HealthHandler health status
+// HealthHandler handles health status checks.
+//
+// @Summary Health status
+// @Description Check the health status of the service.
+// @Tags root
+// @Produce json
+// @Success 200 {object} resp.Exception "success"
+// @Router /health [get]
 func (h *Handler) HealthHandler(c *gin.Context) {
 	if err := h.svc.Ping(c); err != nil {
 		log.Fatalf(nil, "ping error: %+v", err)

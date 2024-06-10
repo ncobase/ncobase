@@ -7,10 +7,9 @@ import (
 	"stocms/internal/helper"
 	"stocms/internal/server/middleware"
 
+	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-
-	"github.com/gin-gonic/gin"
 )
 
 func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
@@ -83,5 +82,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	topic.DELETE("/:slug", h.DeleteTopicHandler)
 
 	// Swagger documentation endpoint
-	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	if conf.RunMode != gin.ReleaseMode {
+		e.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 }

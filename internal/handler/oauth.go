@@ -10,7 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// OAuthRegisterHandler OAuth register handler
+// OAuthRegisterHandler handles OAuth registration.
+//
+// @Summary OAuth register
+// @Description Register a user using OAuth.
+// @Tags OAuth
+// @Accept json
+// @Produce json
+// @Param body body structs.OAuthRegisterBody true "OAuthRegisterBody object"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /oauth/register [post]
 func (h *Handler) OAuthRegisterHandler(c *gin.Context) {
 	var body *structs.OAuthRegisterBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -22,7 +32,16 @@ func (h *Handler) OAuthRegisterHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// OAuthRedirectHandler OAuth redirect handler
+// OAuthRedirectHandler handles OAuth redirection.
+//
+// @Summary OAuth redirect
+// @Description Redirect to OAuth provider for authentication.
+// @Tags OAuth
+// @Param provider path string true "OAuth provider"
+// @Param next query string false "Next URL after authentication"
+// @Success 302 {object} resp.Exception "redirect"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /oauth/{provider}/redirect [get]
 func (h *Handler) OAuthRedirectHandler(c *gin.Context) {
 	provider := c.Param("provider")
 	next := c.Query("next")
@@ -47,7 +66,15 @@ func (h *Handler) OAuthRedirectHandler(c *gin.Context) {
 	c.Redirect(http.StatusMovedPermanently, redirectUrl)
 }
 
-// OAuthFacebookCallbackHandler Facebook OAuth callback handler
+// OAuthFacebookCallbackHandler handles Facebook OAuth callback.
+//
+// @Summary Facebook OAuth callback
+// @Description Handle callback from Facebook OAuth provider.
+// @Tags OAuth
+// @Param code query string true "Authorization code"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 401 {object} resp.Exception "unauthorized"
+// @Router /oauth/facebook/callback [get]
 func (h *Handler) OAuthFacebookCallbackHandler(c *gin.Context) {
 	result, _ := h.svc.OAuthCallbackService(c, "facebook", c.Query("code"))
 	if result.Code != http.StatusOK {
@@ -57,7 +84,15 @@ func (h *Handler) OAuthFacebookCallbackHandler(c *gin.Context) {
 	c.Next()
 }
 
-// OAuthGithubCallbackHandler  Github OAuth callback handler
+// OAuthGithubCallbackHandler handles GitHub OAuth callback.
+//
+// @Summary GitHub OAuth callback
+// @Description Handle callback from GitHub OAuth provider.
+// @Tags OAuth
+// @Param code query string true "Authorization code"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 401 {object} resp.Exception "unauthorized"
+// @Router /oauth/github/callback [get]
 func (h *Handler) OAuthGithubCallbackHandler(c *gin.Context) {
 	result, _ := h.svc.OAuthCallbackService(c, "github", c.Query("code"))
 	if result.Code != http.StatusOK {
@@ -67,7 +102,14 @@ func (h *Handler) OAuthGithubCallbackHandler(c *gin.Context) {
 	c.Next()
 }
 
-// OAuthCallbackHandler  OAuth callback handler
+// OAuthCallbackHandler handles generic OAuth callback.
+//
+// @Summary OAuth callback
+// @Description Handle callback from OAuth provider.
+// @Tags OAuth
+// @Success 302 {object} resp.Exception "redirect"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /oauth/callback [get]
 func (h *Handler) OAuthCallbackHandler(c *gin.Context) {
 	result, _ := h.svc.OAuthAuthenticationService(c)
 	if result.Code == http.StatusMovedPermanently {
@@ -77,7 +119,15 @@ func (h *Handler) OAuthCallbackHandler(c *gin.Context) {
 	c.JSON(result.Code, result)
 }
 
-// GetOAuthProfileHandler Get OAuth profile handler
+// GetOAuthProfileHandler handles getting OAuth profile information.
+//
+// @Summary Get OAuth profile
+// @Description Retrieve profile information from OAuth provider.
+// @Tags OAuth
+// @Produce json
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /oauth/profile [get]
 func (h *Handler) GetOAuthProfileHandler(c *gin.Context) {
 	result, _ := h.svc.GetOAuthProfileInfoService(c)
 	c.JSON(result.Code, result)
