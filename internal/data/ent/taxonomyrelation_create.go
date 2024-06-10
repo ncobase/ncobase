@@ -6,28 +6,28 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"stocms/internal/data/ent/taxonomyrelations"
+	"stocms/internal/data/ent/taxonomyrelation"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
 
-// TaxonomyRelationsCreate is the builder for creating a TaxonomyRelations entity.
-type TaxonomyRelationsCreate struct {
+// TaxonomyRelationCreate is the builder for creating a TaxonomyRelation entity.
+type TaxonomyRelationCreate struct {
 	config
-	mutation *TaxonomyRelationsMutation
+	mutation *TaxonomyRelationMutation
 	hooks    []Hook
 }
 
 // SetTaxonomyID sets the "taxonomy_id" field.
-func (trc *TaxonomyRelationsCreate) SetTaxonomyID(s string) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetTaxonomyID(s string) *TaxonomyRelationCreate {
 	trc.mutation.SetTaxonomyID(s)
 	return trc
 }
 
 // SetNillableTaxonomyID sets the "taxonomy_id" field if the given value is not nil.
-func (trc *TaxonomyRelationsCreate) SetNillableTaxonomyID(s *string) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetNillableTaxonomyID(s *string) *TaxonomyRelationCreate {
 	if s != nil {
 		trc.SetTaxonomyID(*s)
 	}
@@ -35,13 +35,13 @@ func (trc *TaxonomyRelationsCreate) SetNillableTaxonomyID(s *string) *TaxonomyRe
 }
 
 // SetType sets the "type" field.
-func (trc *TaxonomyRelationsCreate) SetType(s string) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetType(s string) *TaxonomyRelationCreate {
 	trc.mutation.SetType(s)
 	return trc
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (trc *TaxonomyRelationsCreate) SetNillableType(s *string) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetNillableType(s *string) *TaxonomyRelationCreate {
 	if s != nil {
 		trc.SetType(*s)
 	}
@@ -49,13 +49,13 @@ func (trc *TaxonomyRelationsCreate) SetNillableType(s *string) *TaxonomyRelation
 }
 
 // SetOrder sets the "order" field.
-func (trc *TaxonomyRelationsCreate) SetOrder(i int32) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetOrder(i int32) *TaxonomyRelationCreate {
 	trc.mutation.SetOrder(i)
 	return trc
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (trc *TaxonomyRelationsCreate) SetNillableOrder(i *int32) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetNillableOrder(i *int32) *TaxonomyRelationCreate {
 	if i != nil {
 		trc.SetOrder(*i)
 	}
@@ -63,13 +63,13 @@ func (trc *TaxonomyRelationsCreate) SetNillableOrder(i *int32) *TaxonomyRelation
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (trc *TaxonomyRelationsCreate) SetCreatedBy(s string) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetCreatedBy(s string) *TaxonomyRelationCreate {
 	trc.mutation.SetCreatedBy(s)
 	return trc
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (trc *TaxonomyRelationsCreate) SetNillableCreatedBy(s *string) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetNillableCreatedBy(s *string) *TaxonomyRelationCreate {
 	if s != nil {
 		trc.SetCreatedBy(*s)
 	}
@@ -77,13 +77,13 @@ func (trc *TaxonomyRelationsCreate) SetNillableCreatedBy(s *string) *TaxonomyRel
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (trc *TaxonomyRelationsCreate) SetCreatedAt(t time.Time) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetCreatedAt(t time.Time) *TaxonomyRelationCreate {
 	trc.mutation.SetCreatedAt(t)
 	return trc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (trc *TaxonomyRelationsCreate) SetNillableCreatedAt(t *time.Time) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetNillableCreatedAt(t *time.Time) *TaxonomyRelationCreate {
 	if t != nil {
 		trc.SetCreatedAt(*t)
 	}
@@ -91,32 +91,32 @@ func (trc *TaxonomyRelationsCreate) SetNillableCreatedAt(t *time.Time) *Taxonomy
 }
 
 // SetID sets the "id" field.
-func (trc *TaxonomyRelationsCreate) SetID(s string) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetID(s string) *TaxonomyRelationCreate {
 	trc.mutation.SetID(s)
 	return trc
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (trc *TaxonomyRelationsCreate) SetNillableID(s *string) *TaxonomyRelationsCreate {
+func (trc *TaxonomyRelationCreate) SetNillableID(s *string) *TaxonomyRelationCreate {
 	if s != nil {
 		trc.SetID(*s)
 	}
 	return trc
 }
 
-// Mutation returns the TaxonomyRelationsMutation object of the builder.
-func (trc *TaxonomyRelationsCreate) Mutation() *TaxonomyRelationsMutation {
+// Mutation returns the TaxonomyRelationMutation object of the builder.
+func (trc *TaxonomyRelationCreate) Mutation() *TaxonomyRelationMutation {
 	return trc.mutation
 }
 
-// Save creates the TaxonomyRelations in the database.
-func (trc *TaxonomyRelationsCreate) Save(ctx context.Context) (*TaxonomyRelations, error) {
+// Save creates the TaxonomyRelation in the database.
+func (trc *TaxonomyRelationCreate) Save(ctx context.Context) (*TaxonomyRelation, error) {
 	trc.defaults()
 	return withHooks(ctx, trc.sqlSave, trc.mutation, trc.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (trc *TaxonomyRelationsCreate) SaveX(ctx context.Context) *TaxonomyRelations {
+func (trc *TaxonomyRelationCreate) SaveX(ctx context.Context) *TaxonomyRelation {
 	v, err := trc.Save(ctx)
 	if err != nil {
 		panic(err)
@@ -125,58 +125,58 @@ func (trc *TaxonomyRelationsCreate) SaveX(ctx context.Context) *TaxonomyRelation
 }
 
 // Exec executes the query.
-func (trc *TaxonomyRelationsCreate) Exec(ctx context.Context) error {
+func (trc *TaxonomyRelationCreate) Exec(ctx context.Context) error {
 	_, err := trc.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (trc *TaxonomyRelationsCreate) ExecX(ctx context.Context) {
+func (trc *TaxonomyRelationCreate) ExecX(ctx context.Context) {
 	if err := trc.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (trc *TaxonomyRelationsCreate) defaults() {
+func (trc *TaxonomyRelationCreate) defaults() {
 	if _, ok := trc.mutation.Order(); !ok {
-		v := taxonomyrelations.DefaultOrder
+		v := taxonomyrelation.DefaultOrder
 		trc.mutation.SetOrder(v)
 	}
 	if _, ok := trc.mutation.CreatedAt(); !ok {
-		v := taxonomyrelations.DefaultCreatedAt()
+		v := taxonomyrelation.DefaultCreatedAt()
 		trc.mutation.SetCreatedAt(v)
 	}
 	if _, ok := trc.mutation.ID(); !ok {
-		v := taxonomyrelations.DefaultID()
+		v := taxonomyrelation.DefaultID()
 		trc.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (trc *TaxonomyRelationsCreate) check() error {
+func (trc *TaxonomyRelationCreate) check() error {
 	if v, ok := trc.mutation.TaxonomyID(); ok {
-		if err := taxonomyrelations.TaxonomyIDValidator(v); err != nil {
-			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.taxonomy_id": %w`, err)}
+		if err := taxonomyrelation.TaxonomyIDValidator(v); err != nil {
+			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
 		}
 	}
 	if _, ok := trc.mutation.Order(); !ok {
-		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "TaxonomyRelations.order"`)}
+		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "TaxonomyRelation.order"`)}
 	}
 	if v, ok := trc.mutation.Order(); ok {
-		if err := taxonomyrelations.OrderValidator(v); err != nil {
-			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.order": %w`, err)}
+		if err := taxonomyrelation.OrderValidator(v); err != nil {
+			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.order": %w`, err)}
 		}
 	}
 	if v, ok := trc.mutation.CreatedBy(); ok {
-		if err := taxonomyrelations.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelations.created_by": %w`, err)}
+		if err := taxonomyrelation.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.created_by": %w`, err)}
 		}
 	}
 	return nil
 }
 
-func (trc *TaxonomyRelationsCreate) sqlSave(ctx context.Context) (*TaxonomyRelations, error) {
+func (trc *TaxonomyRelationCreate) sqlSave(ctx context.Context) (*TaxonomyRelation, error) {
 	if err := trc.check(); err != nil {
 		return nil, err
 	}
@@ -191,7 +191,7 @@ func (trc *TaxonomyRelationsCreate) sqlSave(ctx context.Context) (*TaxonomyRelat
 		if id, ok := _spec.ID.Value.(string); ok {
 			_node.ID = id
 		} else {
-			return nil, fmt.Errorf("unexpected TaxonomyRelations.ID type: %T", _spec.ID.Value)
+			return nil, fmt.Errorf("unexpected TaxonomyRelation.ID type: %T", _spec.ID.Value)
 		}
 	}
 	trc.mutation.id = &_node.ID
@@ -199,59 +199,59 @@ func (trc *TaxonomyRelationsCreate) sqlSave(ctx context.Context) (*TaxonomyRelat
 	return _node, nil
 }
 
-func (trc *TaxonomyRelationsCreate) createSpec() (*TaxonomyRelations, *sqlgraph.CreateSpec) {
+func (trc *TaxonomyRelationCreate) createSpec() (*TaxonomyRelation, *sqlgraph.CreateSpec) {
 	var (
-		_node = &TaxonomyRelations{config: trc.config}
-		_spec = sqlgraph.NewCreateSpec(taxonomyrelations.Table, sqlgraph.NewFieldSpec(taxonomyrelations.FieldID, field.TypeString))
+		_node = &TaxonomyRelation{config: trc.config}
+		_spec = sqlgraph.NewCreateSpec(taxonomyrelation.Table, sqlgraph.NewFieldSpec(taxonomyrelation.FieldID, field.TypeString))
 	)
 	if id, ok := trc.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
 	if value, ok := trc.mutation.TaxonomyID(); ok {
-		_spec.SetField(taxonomyrelations.FieldTaxonomyID, field.TypeString, value)
+		_spec.SetField(taxonomyrelation.FieldTaxonomyID, field.TypeString, value)
 		_node.TaxonomyID = value
 	}
 	if value, ok := trc.mutation.GetType(); ok {
-		_spec.SetField(taxonomyrelations.FieldType, field.TypeString, value)
+		_spec.SetField(taxonomyrelation.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
 	if value, ok := trc.mutation.Order(); ok {
-		_spec.SetField(taxonomyrelations.FieldOrder, field.TypeInt32, value)
+		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt32, value)
 		_node.Order = value
 	}
 	if value, ok := trc.mutation.CreatedBy(); ok {
-		_spec.SetField(taxonomyrelations.FieldCreatedBy, field.TypeString, value)
+		_spec.SetField(taxonomyrelation.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
 	if value, ok := trc.mutation.CreatedAt(); ok {
-		_spec.SetField(taxonomyrelations.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(taxonomyrelation.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
 	return _node, _spec
 }
 
-// TaxonomyRelationsCreateBulk is the builder for creating many TaxonomyRelations entities in bulk.
-type TaxonomyRelationsCreateBulk struct {
+// TaxonomyRelationCreateBulk is the builder for creating many TaxonomyRelation entities in bulk.
+type TaxonomyRelationCreateBulk struct {
 	config
 	err      error
-	builders []*TaxonomyRelationsCreate
+	builders []*TaxonomyRelationCreate
 }
 
-// Save creates the TaxonomyRelations entities in the database.
-func (trcb *TaxonomyRelationsCreateBulk) Save(ctx context.Context) ([]*TaxonomyRelations, error) {
+// Save creates the TaxonomyRelation entities in the database.
+func (trcb *TaxonomyRelationCreateBulk) Save(ctx context.Context) ([]*TaxonomyRelation, error) {
 	if trcb.err != nil {
 		return nil, trcb.err
 	}
 	specs := make([]*sqlgraph.CreateSpec, len(trcb.builders))
-	nodes := make([]*TaxonomyRelations, len(trcb.builders))
+	nodes := make([]*TaxonomyRelation, len(trcb.builders))
 	mutators := make([]Mutator, len(trcb.builders))
 	for i := range trcb.builders {
 		func(i int, root context.Context) {
 			builder := trcb.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
-				mutation, ok := m.(*TaxonomyRelationsMutation)
+				mutation, ok := m.(*TaxonomyRelationMutation)
 				if !ok {
 					return nil, fmt.Errorf("unexpected mutation type %T", m)
 				}
@@ -294,7 +294,7 @@ func (trcb *TaxonomyRelationsCreateBulk) Save(ctx context.Context) ([]*TaxonomyR
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (trcb *TaxonomyRelationsCreateBulk) SaveX(ctx context.Context) []*TaxonomyRelations {
+func (trcb *TaxonomyRelationCreateBulk) SaveX(ctx context.Context) []*TaxonomyRelation {
 	v, err := trcb.Save(ctx)
 	if err != nil {
 		panic(err)
@@ -303,13 +303,13 @@ func (trcb *TaxonomyRelationsCreateBulk) SaveX(ctx context.Context) []*TaxonomyR
 }
 
 // Exec executes the query.
-func (trcb *TaxonomyRelationsCreateBulk) Exec(ctx context.Context) error {
+func (trcb *TaxonomyRelationCreateBulk) Exec(ctx context.Context) error {
 	_, err := trcb.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (trcb *TaxonomyRelationsCreateBulk) ExecX(ctx context.Context) {
+func (trcb *TaxonomyRelationCreateBulk) ExecX(ctx context.Context) {
 	if err := trcb.Exec(ctx); err != nil {
 		panic(err)
 	}

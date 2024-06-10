@@ -41,12 +41,12 @@ type Domain struct {
 	Disabled bool `json:"disabled,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
+	// ID of the creator
+	CreatedBy string `json:"created_by,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// user id
-	UserID       string `json:"user_id,omitempty"`
+	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -61,7 +61,7 @@ func (*Domain) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case domain.FieldOrder:
 			values[i] = new(sql.NullInt64)
-		case domain.FieldID, domain.FieldName, domain.FieldTitle, domain.FieldURL, domain.FieldLogo, domain.FieldLogoAlt, domain.FieldKeywords, domain.FieldCopyright, domain.FieldDescription, domain.FieldUserID:
+		case domain.FieldID, domain.FieldName, domain.FieldTitle, domain.FieldURL, domain.FieldLogo, domain.FieldLogoAlt, domain.FieldKeywords, domain.FieldCopyright, domain.FieldDescription, domain.FieldCreatedBy:
 			values[i] = new(sql.NullString)
 		case domain.FieldCreatedAt, domain.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -154,6 +154,12 @@ func (d *Domain) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
+		case domain.FieldCreatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
+			} else if value.Valid {
+				d.CreatedBy = value.String
+			}
 		case domain.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
@@ -165,12 +171,6 @@ func (d *Domain) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
 				d.UpdatedAt = value.Time
-			}
-		case domain.FieldUserID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field user_id", values[i])
-			} else if value.Valid {
-				d.UserID = value.String
 			}
 		default:
 			d.selectValues.Set(columns[i], values[i])
@@ -241,14 +241,14 @@ func (d *Domain) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", d.Extras))
 	builder.WriteString(", ")
+	builder.WriteString("created_by=")
+	builder.WriteString(d.CreatedBy)
+	builder.WriteString(", ")
 	builder.WriteString("created_at=")
 	builder.WriteString(d.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(d.UpdatedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("user_id=")
-	builder.WriteString(d.UserID)
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -40,8 +40,8 @@ func (Domain) Mixin() []ent.Mixin {
 		mixin.Order{},
 		mixin.Disabled{},
 		mixin.ExtraProps{},
+		mixin.CreatedBy{},
 		mixin.TimeAt{},
-		mixin.UserID,
 	}
 }
 

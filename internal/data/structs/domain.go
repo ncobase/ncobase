@@ -4,8 +4,8 @@ import "stocms/pkg/types"
 
 // FindDomain represents the parameters for finding a domain.
 type FindDomain struct {
-	ID     string `json:"id,omitempty"`
-	UserID string `json:"user_id,omitempty"`
+	ID   string `json:"id,omitempty"`
+	User string `json:"user,omitempty"`
 }
 
 // DomainBody - Common fields for creating and updating domains
@@ -21,13 +21,12 @@ type DomainBody struct {
 	Order       int64      `json:"order,omitempty"`
 	Disabled    bool       `json:"disabled,omitempty"`
 	Extras      types.JSON `json:"extras,omitempty"`
-	UserID      string     `json:"user_id,omitempty"`
+	CreatedBy   string     `json:"created_by,omitempty"`
 }
 
 // CreateDomainBody - Create domain body
 type CreateDomainBody struct {
 	DomainBody
-	UserID string `json:"user_id"`
 }
 
 // UpdateDomainBody - Update domain body
@@ -57,5 +56,5 @@ type ReadDomain struct {
 type ListDomainParams struct {
 	Cursor string `form:"cursor" json:"cursor"`
 	Limit  int32  `form:"limit" json:"limit"`
-	UserID string `form:"user_id" json:"user_id"`
+	User   string `form:"user,omitempty" json:"user,omitempty"`
 }

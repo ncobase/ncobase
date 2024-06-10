@@ -2,8 +2,8 @@ package structs
 
 import "time"
 
-// CreateTaxonomyRelationsBody represents the request body for creating a taxonomy relation.
-type CreateTaxonomyRelationsBody struct {
+// CreateTaxonomyRelationBody represents the request body for creating a taxonomy relation.
+type CreateTaxonomyRelationBody struct {
 	TaxonomyID string    `json:"taxonomy_id"`
 	Type       string    `json:"type"`
 	ObjectID   string    `json:"object_id"`
@@ -12,8 +12,8 @@ type CreateTaxonomyRelationsBody struct {
 	CreatedAt  time.Time `json:"created_at"`
 }
 
-// UpdateTaxonomyRelationsBody represents the request body for updating a taxonomy relation.
-type UpdateTaxonomyRelationsBody struct {
+// UpdateTaxonomyRelationBody represents the request body for updating a taxonomy relation.
+type UpdateTaxonomyRelationBody struct {
 	ObjectID   string    `json:"object_id"`
 	TaxonomyID string    `json:"taxonomy_id"`
 	Type       string    `json:"type"`
@@ -22,22 +22,22 @@ type UpdateTaxonomyRelationsBody struct {
 	CreatedAt  time.Time `json:"created_at"`
 }
 
-// ListTaxonomyRelationsParams represents the parameters for listing taxonomy relations.
-type ListTaxonomyRelationsParams struct {
+// ListTaxonomyRelationParams represents the parameters for listing taxonomy relations.
+type ListTaxonomyRelationParams struct {
 	Cursor string `json:"cursor"`
 	Limit  int    `json:"limit"`
 	Domain string `json:"domain"`
 }
 
-// FindTaxonomyRelations represents the parameters for finding a single taxonomy relation.
-type FindTaxonomyRelations struct {
+// FindTaxonomyRelation represents the parameters for finding a single taxonomy relation.
+type FindTaxonomyRelation struct {
 	Object   string `json:"object"`
 	Taxonomy string `json:"taxonomy"`
 	Type     string `json:"type"`
 }
 
-// FindTaxonomyRelationsParams represents the parameters for finding multiple taxonomy relations.
-type FindTaxonomyRelationsParams struct {
+// FindTaxonomyRelationParams represents the parameters for finding multiple taxonomy relations.
+type FindTaxonomyRelationParams struct {
 	Object   string `json:"object"`
 	Taxonomy string `json:"taxonomy"`
 	Type     string `json:"type"`

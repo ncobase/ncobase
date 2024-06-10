@@ -40,7 +40,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the resource in the database.
-	Table = "sto_resource"
+	Table = "sc_resource"
 )
 
 // Columns holds all SQL columns for resource fields.

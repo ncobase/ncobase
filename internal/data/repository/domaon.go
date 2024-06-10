@@ -60,7 +60,8 @@ func (r *domainRepo) Create(ctx context.Context, body *structs.CreateDomainBody)
 	builder.SetNillableCopyright(&body.Copyright)
 	builder.SetNillableDescription(&body.Description)
 	builder.SetDisabled(body.Disabled)
-	builder.SetUserID(body.UserID)
+	builder.SetExtras(body.Extras)
+	builder.SetNillableCreatedBy(&body.CreatedBy)
 
 	if body.Order > 0 {
 		builder.SetOrder(int32(body.Order))
@@ -132,7 +133,7 @@ func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain,
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindDomain(ctx, &structs.FindDomain{UserID: userID})
+	row, err := r.FindDomain(ctx, &structs.FindDomain{User: userID})
 
 	if err != nil {
 		log.Errorf(nil, " domainRepo.GetByUser error: %v\n", err)
@@ -152,7 +153,7 @@ func (r *domainRepo) GetByUser(ctx context.Context, userID string) (*ent.Domain,
 func (r *domainRepo) GetIDByUser(ctx context.Context, userID string) (string, error) {
 	id, err := r.ec.Domain.
 		Query().
-		Where(domainEnt.UserIDEQ(userID)).
+		Where(domainEnt.CreatedByEQ(userID)).
 		OnlyID(ctx)
 
 	if err != nil {
@@ -199,7 +200,7 @@ func (r *domainRepo) Update(ctx context.Context, id string, updates types.JSON) 
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "user_id":
-			builder.SetNillableUserID(types.ToPointer(value.(string)))
+			builder.SetNillableCreatedBy(types.ToPointer(value.(string)))
 		}
 	}
 
@@ -216,7 +217,7 @@ func (r *domainRepo) Update(ctx context.Context, id string, updates types.JSON) 
 	if err != nil {
 		log.Errorf(nil, "domainRepo.Update cache error: %v\n", err)
 	}
-	cacheUserKey := fmt.Sprintf("user:%s", domain.UserID)
+	cacheUserKey := fmt.Sprintf("user:%s", domain.CreatedBy)
 	err = r.c.Delete(ctx, cacheUserKey)
 	if err != nil {
 		log.Errorf(nil, "domainRepo.Update cache error: %v\n", err)
@@ -263,8 +264,8 @@ func (r *domainRepo) List(ctx context.Context, p *structs.ListDomainParams) ([]*
 	}
 
 	// belong domain
-	if p.UserID != "" {
-		query.Where(domainEnt.UserIDEQ(p.UserID))
+	if p.User != "" {
+		query.Where(domainEnt.CreatedByEQ(p.User))
 	}
 
 	// sort
@@ -317,7 +318,7 @@ func (r *domainRepo) DeleteByUser(ctx context.Context, userID string) error {
 	// create builder.
 	builder := r.ec.Domain.Delete()
 
-	if _, err := builder.Where(domainEnt.UserIDEQ(userID)).Exec(ctx); err == nil {
+	if _, err := builder.Where(domainEnt.CreatedByEQ(userID)).Exec(ctx); err == nil {
 		log.Errorf(nil, "domainRepo.DeleteByUser error: %v\n", err)
 		return err
 	}
@@ -346,8 +347,8 @@ func (r *domainRepo) FindDomain(ctx context.Context, p *structs.FindDomain) (*en
 	if validator.IsNotEmpty(p.ID) {
 		builder = builder.Where(domainEnt.IDEQ(p.ID))
 	}
-	if validator.IsNotEmpty(p.UserID) {
-		builder = builder.Where(domainEnt.UserIDEQ(p.UserID))
+	if validator.IsNotEmpty(p.User) {
+		builder = builder.Where(domainEnt.CreatedByEQ(p.User))
 	}
 
 	// execute the builder.

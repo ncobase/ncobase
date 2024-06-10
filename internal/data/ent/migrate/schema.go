@@ -35,6 +35,23 @@ var (
 			},
 		},
 	}
+	// ScCasbinRuleColumns holds the columns for the "sc_casbin_rule" table.
+	ScCasbinRuleColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString},
+		{Name: "p_type", Type: field.TypeString, Nullable: true, Size: 255},
+		{Name: "v0", Type: field.TypeString, Nullable: true, Size: 255},
+		{Name: "v1", Type: field.TypeString, Nullable: true, Size: 255},
+		{Name: "v2", Type: field.TypeString, Nullable: true, Size: 255},
+		{Name: "v3", Type: field.TypeString, Nullable: true, Size: 255},
+		{Name: "v4", Type: field.TypeString, Nullable: true, Size: 255},
+		{Name: "v5", Type: field.TypeString, Nullable: true, Size: 255},
+	}
+	// ScCasbinRuleTable holds the schema information for the "sc_casbin_rule" table.
+	ScCasbinRuleTable = &schema.Table{
+		Name:       "sc_casbin_rule",
+		Columns:    ScCasbinRuleColumns,
+		PrimaryKey: []*schema.Column{ScCasbinRuleColumns[0]},
+	}
 	// ScCodeAuthColumns holds the columns for the "sc_code_auth" table.
 	ScCodeAuthColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
@@ -76,9 +93,9 @@ var (
 		{Name: "order", Type: field.TypeInt32, Comment: "display order", Default: 99},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "user id"},
 	}
 	// ScDomainTable holds the schema information for the "sc_domain" table.
 	ScDomainTable = &schema.Table{
@@ -91,10 +108,71 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{ScDomainColumns[0]},
 			},
+		},
+	}
+	// ScGroupColumns holds the columns for the "sc_group" table.
+	ScGroupColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "leader", Type: field.TypeJSON, Nullable: true, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "parent id"},
+		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScGroupTable holds the schema information for the "sc_group" table.
+	ScGroupTable = &schema.Table{
+		Name:       "sc_group",
+		Columns:    ScGroupColumns,
+		PrimaryKey: []*schema.Column{ScGroupColumns[0]},
+		Indexes: []*schema.Index{
 			{
-				Name:    "domain_user_id",
+				Name:    "group_id",
 				Unique:  false,
-				Columns: []*schema.Column{ScDomainColumns[14]},
+				Columns: []*schema.Column{ScGroupColumns[0]},
+			},
+			{
+				Name:    "group_parent_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScGroupColumns[6]},
+			},
+			{
+				Name:    "group_domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScGroupColumns[7]},
+			},
+		},
+	}
+	// ScGroupRoleColumns holds the columns for the "sc_group_role" table.
+	ScGroupRoleColumns = []*schema.Column{
+		{Name: "group_id", Type: field.TypeString, Unique: true, Comment: "group primary key alias"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "role id"},
+	}
+	// ScGroupRoleTable holds the schema information for the "sc_group_role" table.
+	ScGroupRoleTable = &schema.Table{
+		Name:       "sc_group_role",
+		Columns:    ScGroupRoleColumns,
+		PrimaryKey: []*schema.Column{ScGroupRoleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "grouprole_group_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScGroupRoleColumns[0]},
+			},
+			{
+				Name:    "grouprole_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScGroupRoleColumns[1]},
+			},
+			{
+				Name:    "grouprole_group_id_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScGroupRoleColumns[0], ScGroupRoleColumns[1]},
 			},
 		},
 	}
@@ -167,8 +245,41 @@ var (
 			},
 		},
 	}
-	// StoResourceColumns holds the columns for the "sto_resource" table.
-	StoResourceColumns = []*schema.Column{
+	// ScPermissionColumns holds the columns for the "sc_permission" table.
+	ScPermissionColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "action", Type: field.TypeString, Nullable: true, Comment: "action"},
+		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "subject"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "default", Type: field.TypeBool, Nullable: true, Comment: "is default"},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScPermissionTable holds the schema information for the "sc_permission" table.
+	ScPermissionTable = &schema.Table{
+		Name:       "sc_permission",
+		Columns:    ScPermissionColumns,
+		PrimaryKey: []*schema.Column{ScPermissionColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "permission_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScPermissionColumns[0]},
+			},
+			{
+				Name:    "permission_action_subject",
+				Unique:  false,
+				Columns: []*schema.Column{ScPermissionColumns[2], ScPermissionColumns[3]},
+			},
+		},
+	}
+	// ScResourceColumns holds the columns for the "sc_resource" table.
+	ScResourceColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
@@ -184,41 +295,90 @@ var (
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
-	// StoResourceTable holds the schema information for the "sto_resource" table.
-	StoResourceTable = &schema.Table{
-		Name:       "sto_resource",
-		Columns:    StoResourceColumns,
-		PrimaryKey: []*schema.Column{StoResourceColumns[0]},
+	// ScResourceTable holds the schema information for the "sc_resource" table.
+	ScResourceTable = &schema.Table{
+		Name:       "sc_resource",
+		Columns:    ScResourceColumns,
+		PrimaryKey: []*schema.Column{ScResourceColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "resource_id",
 				Unique:  false,
-				Columns: []*schema.Column{StoResourceColumns[0]},
+				Columns: []*schema.Column{ScResourceColumns[0]},
 			},
 			{
 				Name:    "resource_name",
 				Unique:  true,
-				Columns: []*schema.Column{StoResourceColumns[1]},
+				Columns: []*schema.Column{ScResourceColumns[1]},
 			},
 			{
 				Name:    "resource_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{StoResourceColumns[7]},
+				Columns: []*schema.Column{ScResourceColumns[7]},
 			},
 			{
 				Name:    "resource_domain_id",
 				Unique:  false,
-				Columns: []*schema.Column{StoResourceColumns[8]},
+				Columns: []*schema.Column{ScResourceColumns[8]},
+			},
+		},
+	}
+	// ScRoleColumns holds the columns for the "sc_role" table.
+	ScRoleColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScRoleTable holds the schema information for the "sc_role" table.
+	ScRoleTable = &schema.Table{
+		Name:       "sc_role",
+		Columns:    ScRoleColumns,
+		PrimaryKey: []*schema.Column{ScRoleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "role_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScRoleColumns[0]},
 			},
 			{
-				Name:    "resource_name",
+				Name:    "role_slug",
 				Unique:  false,
-				Columns: []*schema.Column{StoResourceColumns[1]},
+				Columns: []*schema.Column{ScRoleColumns[2]},
+			},
+		},
+	}
+	// ScRolePermissionColumns holds the columns for the "sc_role_permission" table.
+	ScRolePermissionColumns = []*schema.Column{
+		{Name: "role_id", Type: field.TypeString, Unique: true, Comment: "role primary key alias"},
+		{Name: "permission_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "permission id"},
+	}
+	// ScRolePermissionTable holds the schema information for the "sc_role_permission" table.
+	ScRolePermissionTable = &schema.Table{
+		Name:       "sc_role_permission",
+		Columns:    ScRolePermissionColumns,
+		PrimaryKey: []*schema.Column{ScRolePermissionColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "rolepermission_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScRolePermissionColumns[0]},
 			},
 			{
-				Name:    "resource_path",
+				Name:    "rolepermission_permission_id",
 				Unique:  false,
-				Columns: []*schema.Column{StoResourceColumns[2]},
+				Columns: []*schema.Column{ScRolePermissionColumns[1]},
+			},
+			{
+				Name:    "rolepermission_role_id_permission_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScRolePermissionColumns[0], ScRolePermissionColumns[1]},
 			},
 		},
 	}
@@ -272,8 +432,8 @@ var (
 			},
 		},
 	}
-	// ScTaxonomyRelationsColumns holds the columns for the "sc_taxonomy_relations" table.
-	ScTaxonomyRelationsColumns = []*schema.Column{
+	// ScTaxonomyRelationColumns holds the columns for the "sc_taxonomy_relation" table.
+	ScTaxonomyRelationColumns = []*schema.Column{
 		{Name: "object_id", Type: field.TypeString, Unique: true, Comment: "object primary key alias"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "taxonomy id"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
@@ -281,21 +441,21 @@ var (
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 	}
-	// ScTaxonomyRelationsTable holds the schema information for the "sc_taxonomy_relations" table.
-	ScTaxonomyRelationsTable = &schema.Table{
-		Name:       "sc_taxonomy_relations",
-		Columns:    ScTaxonomyRelationsColumns,
-		PrimaryKey: []*schema.Column{ScTaxonomyRelationsColumns[0]},
+	// ScTaxonomyRelationTable holds the schema information for the "sc_taxonomy_relation" table.
+	ScTaxonomyRelationTable = &schema.Table{
+		Name:       "sc_taxonomy_relation",
+		Columns:    ScTaxonomyRelationColumns,
+		PrimaryKey: []*schema.Column{ScTaxonomyRelationColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "taxonomyrelations_object_id",
+				Name:    "taxonomyrelation_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{ScTaxonomyRelationsColumns[0]},
+				Columns: []*schema.Column{ScTaxonomyRelationColumns[0]},
 			},
 			{
-				Name:    "taxonomyrelations_taxonomy_id",
+				Name:    "taxonomyrelation_taxonomy_id",
 				Unique:  false,
-				Columns: []*schema.Column{ScTaxonomyRelationsColumns[1]},
+				Columns: []*schema.Column{ScTaxonomyRelationColumns[1]},
 			},
 		},
 	}
@@ -379,6 +539,96 @@ var (
 			},
 		},
 	}
+	// ScUserDomainColumns holds the columns for the "sc_user_domain" table.
+	ScUserDomainColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
+		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+	}
+	// ScUserDomainTable holds the schema information for the "sc_user_domain" table.
+	ScUserDomainTable = &schema.Table{
+		Name:       "sc_user_domain",
+		Columns:    ScUserDomainColumns,
+		PrimaryKey: []*schema.Column{ScUserDomainColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userdomain_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserDomainColumns[0]},
+			},
+			{
+				Name:    "userdomain_domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserDomainColumns[1]},
+			},
+			{
+				Name:    "userdomain_user_id_domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserDomainColumns[0], ScUserDomainColumns[1]},
+			},
+		},
+	}
+	// ScUserDomainRoleColumns holds the columns for the "sc_user_domain_role" table.
+	ScUserDomainRoleColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
+		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "role id"},
+	}
+	// ScUserDomainRoleTable holds the schema information for the "sc_user_domain_role" table.
+	ScUserDomainRoleTable = &schema.Table{
+		Name:       "sc_user_domain_role",
+		Columns:    ScUserDomainRoleColumns,
+		PrimaryKey: []*schema.Column{ScUserDomainRoleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userdomainrole_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserDomainRoleColumns[0]},
+			},
+			{
+				Name:    "userdomainrole_domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserDomainRoleColumns[1]},
+			},
+			{
+				Name:    "userdomainrole_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserDomainRoleColumns[2]},
+			},
+			{
+				Name:    "userdomainrole_user_id_domain_id_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserDomainRoleColumns[0], ScUserDomainRoleColumns[1], ScUserDomainRoleColumns[2]},
+			},
+		},
+	}
+	// ScUserGroupColumns holds the columns for the "sc_user_group" table.
+	ScUserGroupColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
+		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "group id"},
+	}
+	// ScUserGroupTable holds the schema information for the "sc_user_group" table.
+	ScUserGroupTable = &schema.Table{
+		Name:       "sc_user_group",
+		Columns:    ScUserGroupColumns,
+		PrimaryKey: []*schema.Column{ScUserGroupColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "usergroup_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserGroupColumns[0]},
+			},
+			{
+				Name:    "usergroup_group_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserGroupColumns[1]},
+			},
+			{
+				Name:    "usergroup_user_id_group_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserGroupColumns[0], ScUserGroupColumns[1]},
+			},
+		},
+	}
 	// ScUserProfileColumns holds the columns for the "sc_user_profile" table.
 	ScUserProfileColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
@@ -402,19 +652,57 @@ var (
 			},
 		},
 	}
+	// ScUserRoleColumns holds the columns for the "sc_user_role" table.
+	ScUserRoleColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "role id"},
+	}
+	// ScUserRoleTable holds the schema information for the "sc_user_role" table.
+	ScUserRoleTable = &schema.Table{
+		Name:       "sc_user_role",
+		Columns:    ScUserRoleColumns,
+		PrimaryKey: []*schema.Column{ScUserRoleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userrole_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserRoleColumns[0]},
+			},
+			{
+				Name:    "userrole_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserRoleColumns[1]},
+			},
+			{
+				Name:    "userrole_user_id_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScUserRoleColumns[0], ScUserRoleColumns[1]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		ScAuthTokenTable,
+		ScCasbinRuleTable,
 		ScCodeAuthTable,
 		ScDomainTable,
+		ScGroupTable,
+		ScGroupRoleTable,
 		ScModuleTable,
 		ScOauthUserTable,
-		StoResourceTable,
+		ScPermissionTable,
+		ScResourceTable,
+		ScRoleTable,
+		ScRolePermissionTable,
 		ScTaxonomyTable,
-		ScTaxonomyRelationsTable,
+		ScTaxonomyRelationTable,
 		ScTopicTable,
 		ScUserTable,
+		ScUserDomainTable,
+		ScUserDomainRoleTable,
+		ScUserGroupTable,
 		ScUserProfileTable,
+		ScUserRoleTable,
 	}
 )
 
@@ -422,11 +710,20 @@ func init() {
 	ScAuthTokenTable.Annotation = &entsql.Annotation{
 		Table: "sc_auth_token",
 	}
+	ScCasbinRuleTable.Annotation = &entsql.Annotation{
+		Table: "sc_casbin_rule",
+	}
 	ScCodeAuthTable.Annotation = &entsql.Annotation{
 		Table: "sc_code_auth",
 	}
 	ScDomainTable.Annotation = &entsql.Annotation{
 		Table: "sc_domain",
+	}
+	ScGroupTable.Annotation = &entsql.Annotation{
+		Table: "sc_group",
+	}
+	ScGroupRoleTable.Annotation = &entsql.Annotation{
+		Table: "sc_group_role",
 	}
 	ScModuleTable.Annotation = &entsql.Annotation{
 		Table: "sc_module",
@@ -434,14 +731,23 @@ func init() {
 	ScOauthUserTable.Annotation = &entsql.Annotation{
 		Table: "sc_oauth_user",
 	}
-	StoResourceTable.Annotation = &entsql.Annotation{
-		Table: "sto_resource",
+	ScPermissionTable.Annotation = &entsql.Annotation{
+		Table: "sc_permission",
+	}
+	ScResourceTable.Annotation = &entsql.Annotation{
+		Table: "sc_resource",
+	}
+	ScRoleTable.Annotation = &entsql.Annotation{
+		Table: "sc_role",
+	}
+	ScRolePermissionTable.Annotation = &entsql.Annotation{
+		Table: "sc_role_permission",
 	}
 	ScTaxonomyTable.Annotation = &entsql.Annotation{
 		Table: "sc_taxonomy",
 	}
-	ScTaxonomyRelationsTable.Annotation = &entsql.Annotation{
-		Table: "sc_taxonomy_relations",
+	ScTaxonomyRelationTable.Annotation = &entsql.Annotation{
+		Table: "sc_taxonomy_relation",
 	}
 	ScTopicTable.Annotation = &entsql.Annotation{
 		Table: "sc_topic",
@@ -449,7 +755,19 @@ func init() {
 	ScUserTable.Annotation = &entsql.Annotation{
 		Table: "sc_user",
 	}
+	ScUserDomainTable.Annotation = &entsql.Annotation{
+		Table: "sc_user_domain",
+	}
+	ScUserDomainRoleTable.Annotation = &entsql.Annotation{
+		Table: "sc_user_domain_role",
+	}
+	ScUserGroupTable.Annotation = &entsql.Annotation{
+		Table: "sc_user_group",
+	}
 	ScUserProfileTable.Annotation = &entsql.Annotation{
 		Table: "sc_user_profile",
+	}
+	ScUserRoleTable.Annotation = &entsql.Annotation{
+		Table: "sc_user_role",
 	}
 }

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
-	taxonomyRelationsEnt "stocms/internal/data/ent/taxonomyrelations"
+	taxonomyRelationEnt "stocms/internal/data/ent/taxonomyrelation"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
@@ -15,34 +15,34 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// TaxonomyRelations represents the taxonomy relations repository interface.
-type TaxonomyRelations interface {
-	Create(ctx context.Context, body *structs.CreateTaxonomyRelationsBody) (*ent.TaxonomyRelations, error)
-	GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelations, error)
-	Update(ctx context.Context, body *structs.UpdateTaxonomyRelationsBody) (*ent.TaxonomyRelations, error)
-	List(ctx context.Context, params *structs.ListTaxonomyRelationsParams) ([]*ent.TaxonomyRelations, error)
+// TaxonomyRelation represents the taxonomy relations repository interface.
+type TaxonomyRelation interface {
+	Create(ctx context.Context, body *structs.CreateTaxonomyRelationBody) (*ent.TaxonomyRelation, error)
+	GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelation, error)
+	Update(ctx context.Context, body *structs.UpdateTaxonomyRelationBody) (*ent.TaxonomyRelation, error)
+	List(ctx context.Context, params *structs.ListTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error)
 	Delete(ctx context.Context, object string) error
-	BatchCreate(ctx context.Context, bodies []*structs.CreateTaxonomyRelationsBody) ([]*ent.TaxonomyRelations, error)
-	FindRelations(ctx context.Context, params *structs.FindTaxonomyRelationsParams) ([]*ent.TaxonomyRelations, error)
+	BatchCreate(ctx context.Context, bodies []*structs.CreateTaxonomyRelationBody) ([]*ent.TaxonomyRelation, error)
+	FindRelations(ctx context.Context, params *structs.FindTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error)
 }
 
-// taxonomyRelationsRepo implements the TaxonomyRelations interface.
+// taxonomyRelationsRepo implements the TaxonomyRelation interface.
 type taxonomyRelationsRepo struct {
 	ec *ent.Client
 	rc *redis.Client
-	c  *cache.Cache[ent.TaxonomyRelations]
+	c  *cache.Cache[ent.TaxonomyRelation]
 }
 
-// NewTaxonomyRelations creates a new taxonomy relations repository.
-func NewTaxonomyRelations(d *data.Data) TaxonomyRelations {
+// NewTaxonomyRelation creates a new taxonomy relations repository.
+func NewTaxonomyRelation(d *data.Data) TaxonomyRelation {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &taxonomyRelationsRepo{ec, rc, cache.NewCache[ent.TaxonomyRelations](rc, cache.Key("sc_taxonomy_relations"), true)}
+	return &taxonomyRelationsRepo{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, cache.Key("sc_taxonomy_relations"), true)}
 }
 
 // Create creates a new taxonomy relation.
-func (r *taxonomyRelationsRepo) Create(ctx context.Context, body *structs.CreateTaxonomyRelationsBody) (*ent.TaxonomyRelations, error) {
-	query := r.ec.TaxonomyRelations.
+func (r *taxonomyRelationsRepo) Create(ctx context.Context, body *structs.CreateTaxonomyRelationBody) (*ent.TaxonomyRelation, error) {
+	query := r.ec.TaxonomyRelation.
 		Create().
 		SetID(body.ObjectID).
 		SetTaxonomyID(body.TaxonomyID).
@@ -61,7 +61,7 @@ func (r *taxonomyRelationsRepo) Create(ctx context.Context, body *structs.Create
 }
 
 // GetByObject gets a taxonomy relation by Object.
-func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelations, error) {
+func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelation, error) {
 	cacheKey := fmt.Sprintf("%s", object)
 
 	// check cache first
@@ -70,7 +70,7 @@ func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) 
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindTaxonomyRelations(ctx, &structs.FindTaxonomyRelations{Object: object})
+	row, err := r.FindTaxonomyRelation(ctx, &structs.FindTaxonomyRelation{Object: object})
 
 	if err != nil {
 		log.Errorf(nil, "taxonomyRelationsRepo.GetByObject error: %v\n", err)
@@ -87,7 +87,7 @@ func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) 
 }
 
 // Update updates a taxonomy relation.
-func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.UpdateTaxonomyRelationsBody) (*ent.TaxonomyRelations, error) {
+func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.UpdateTaxonomyRelationBody) (*ent.TaxonomyRelation, error) {
 	taxonomyRelations, err := r.GetByObject(ctx, body.ObjectID)
 	if err != nil {
 		return nil, err
@@ -116,32 +116,32 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 }
 
 // List gets a list of taxonomy relations.
-func (r *taxonomyRelationsRepo) List(ctx context.Context, p *structs.ListTaxonomyRelationsParams) ([]*ent.TaxonomyRelations, error) {
-	var nextTaxonomyRelations *ent.TaxonomyRelations
+func (r *taxonomyRelationsRepo) List(ctx context.Context, p *structs.ListTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
+	var nextTaxonomyRelation *ent.TaxonomyRelation
 	if p.Cursor != "" {
-		taxonomyRelations, err := r.ec.TaxonomyRelations.
+		taxonomyRelations, err := r.ec.TaxonomyRelation.
 			Query().
 			Where(
-				taxonomyRelationsEnt.IDEQ(p.Cursor),
+				taxonomyRelationEnt.IDEQ(p.Cursor),
 			).
 			First(ctx)
 		if err != nil || taxonomyRelations == nil {
 			return nil, errors.New("invalid cursor")
 		}
-		nextTaxonomyRelations = taxonomyRelations
+		nextTaxonomyRelation = taxonomyRelations
 	}
 
-	query := r.ec.TaxonomyRelations.
+	query := r.ec.TaxonomyRelation.
 		Query().
 		Limit(int(p.Limit))
 
 	// lt the cursor create time
-	if nextTaxonomyRelations != nil {
-		query.Where(taxonomyRelationsEnt.CreatedAtLT(nextTaxonomyRelations.CreatedAt))
+	if nextTaxonomyRelation != nil {
+		query.Where(taxonomyRelationEnt.CreatedAtLT(nextTaxonomyRelation.CreatedAt))
 	}
 
 	// sort
-	query.Order(ent.Desc(taxonomyRelationsEnt.FieldCreatedAt))
+	query.Order(ent.Desc(taxonomyRelationEnt.FieldCreatedAt))
 
 	rows, err := query.All(ctx)
 	if err != nil {
@@ -154,9 +154,9 @@ func (r *taxonomyRelationsRepo) List(ctx context.Context, p *structs.ListTaxonom
 
 // Delete deletes a taxonomy relation.
 func (r *taxonomyRelationsRepo) Delete(ctx context.Context, object string) error {
-	_, err := r.ec.TaxonomyRelations.
+	_, err := r.ec.TaxonomyRelation.
 		Delete().
-		Where(taxonomyRelationsEnt.IDEQ(object)).
+		Where(taxonomyRelationEnt.IDEQ(object)).
 		Exec(ctx)
 
 	if err == nil {
@@ -172,10 +172,10 @@ func (r *taxonomyRelationsRepo) Delete(ctx context.Context, object string) error
 }
 
 // BatchCreate creates multiple taxonomy relations.
-func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*structs.CreateTaxonomyRelationsBody) ([]*ent.TaxonomyRelations, error) {
-	bulk := make([]*ent.TaxonomyRelationsCreate, len(bodies))
+func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*structs.CreateTaxonomyRelationBody) ([]*ent.TaxonomyRelation, error) {
+	bulk := make([]*ent.TaxonomyRelationCreate, len(bodies))
 	for i, body := range bodies {
-		bulk[i] = r.ec.TaxonomyRelations.
+		bulk[i] = r.ec.TaxonomyRelation.
 			Create().
 			SetID(body.ObjectID).
 			SetTaxonomyID(body.TaxonomyID).
@@ -184,7 +184,7 @@ func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*struc
 			SetCreatedBy(body.CreatedBy).
 			SetCreatedAt(body.CreatedAt)
 	}
-	rows, err := r.ec.TaxonomyRelations.CreateBulk(bulk...).Save(ctx)
+	rows, err := r.ec.TaxonomyRelation.CreateBulk(bulk...).Save(ctx)
 	if err != nil {
 		log.Errorf(nil, "taxonomyRelationsRepo.BatchCreate error: %v\n", err)
 		return nil, err
@@ -193,19 +193,19 @@ func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*struc
 }
 
 // FindRelations finds taxonomy relations by various criteria.
-func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.FindTaxonomyRelationsParams) ([]*ent.TaxonomyRelations, error) {
+func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.FindTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
 
 	// create builder.
-	builder := r.ec.TaxonomyRelations.Query()
+	builder := r.ec.TaxonomyRelation.Query()
 
 	if validator.IsNotEmpty(p.Object) {
-		builder = builder.Where(taxonomyRelationsEnt.IDEQ(p.Object))
+		builder = builder.Where(taxonomyRelationEnt.IDEQ(p.Object))
 	}
 	if validator.IsNotEmpty(p.Taxonomy) {
-		builder = builder.Where(taxonomyRelationsEnt.TaxonomyIDEQ(p.Taxonomy))
+		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(p.Taxonomy))
 	}
 	if validator.IsNotEmpty(p.Type) {
-		builder = builder.Where(taxonomyRelationsEnt.TypeEQ(p.Type))
+		builder = builder.Where(taxonomyRelationEnt.TypeEQ(p.Type))
 	}
 
 	rows, err := builder.All(ctx)
@@ -217,20 +217,20 @@ func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.Fi
 	return rows, nil
 }
 
-// FindTaxonomyRelations gets a single taxonomy relation by criteria.
-func (r *taxonomyRelationsRepo) FindTaxonomyRelations(ctx context.Context, p *structs.FindTaxonomyRelations) (*ent.TaxonomyRelations, error) {
+// FindTaxonomyRelation gets a single taxonomy relation by criteria.
+func (r *taxonomyRelationsRepo) FindTaxonomyRelation(ctx context.Context, p *structs.FindTaxonomyRelation) (*ent.TaxonomyRelation, error) {
 
 	// create builder.
-	builder := r.ec.TaxonomyRelations.Query()
+	builder := r.ec.TaxonomyRelation.Query()
 
 	if validator.IsNotEmpty(p.Object) {
-		builder = builder.Where(taxonomyRelationsEnt.IDEQ(p.Object))
+		builder = builder.Where(taxonomyRelationEnt.IDEQ(p.Object))
 	}
 	if validator.IsNotEmpty(p.Taxonomy) {
-		builder = builder.Where(taxonomyRelationsEnt.TaxonomyIDEQ(p.Taxonomy))
+		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(p.Taxonomy))
 	}
 	if validator.IsNotEmpty(p.Type) {
-		builder = builder.Where(taxonomyRelationsEnt.TypeEQ(p.Type))
+		builder = builder.Where(taxonomyRelationEnt.TypeEQ(p.Type))
 	}
 
 	// execute the builder.

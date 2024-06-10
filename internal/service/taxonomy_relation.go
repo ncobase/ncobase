@@ -11,7 +11,7 @@ import (
 )
 
 // CreateTaxonomyRelationService creates a new taxonomy relation.
-func (svc *Service) CreateTaxonomyRelationService(c *gin.Context, body *structs.CreateTaxonomyRelationsBody) (*resp.Exception, error) {
+func (svc *Service) CreateTaxonomyRelationService(c *gin.Context, body *structs.CreateTaxonomyRelationBody) (*resp.Exception, error) {
 	relation, err := svc.taxonomyRelations.Create(c, body)
 	if exception, err := handleError("Taxonomy relation", err); exception != nil {
 		return exception, err
@@ -23,7 +23,7 @@ func (svc *Service) CreateTaxonomyRelationService(c *gin.Context, body *structs.
 }
 
 // UpdateTaxonomyRelationService updates an existing taxonomy relation.
-func (svc *Service) UpdateTaxonomyRelationService(c *gin.Context, body *structs.UpdateTaxonomyRelationsBody) (*resp.Exception, error) {
+func (svc *Service) UpdateTaxonomyRelationService(c *gin.Context, body *structs.UpdateTaxonomyRelationBody) (*resp.Exception, error) {
 	relation, err := svc.taxonomyRelations.Update(c, body)
 	if exception, err := handleError("Taxonomy relation", err); exception != nil {
 		return exception, err
@@ -56,8 +56,8 @@ func (svc *Service) DeleteTaxonomyRelationService(c *gin.Context, object string)
 	return nil, nil
 }
 
-// ListTaxonomyRelationsService lists all taxonomy relations.
-func (svc *Service) ListTaxonomyRelationsService(c *gin.Context, params *structs.ListTaxonomyRelationsParams) (*resp.Exception, error) {
+// ListTaxonomyRelationService lists all taxonomy relations.
+func (svc *Service) ListTaxonomyRelationService(c *gin.Context, params *structs.ListTaxonomyRelationParams) (*resp.Exception, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20

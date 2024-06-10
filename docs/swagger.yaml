@@ -13,6 +13,28 @@ definitions:
         description: HTTP status
         type: integer
     type: object
+  structs.CasbinRuleBody:
+    properties:
+      p_type:
+        type: string
+      v0:
+        type: string
+      v1:
+        type: string
+      v2:
+        type: string
+      v3:
+        type: string
+      v4:
+        type: string
+      v5:
+        type: string
+    required:
+    - p_type
+    - v0
+    - v1
+    - v2
+    type: object
   structs.CreateModuleBody:
     properties:
       content:
@@ -20,6 +42,8 @@ definitions:
       created_at:
         type: string
       created_by:
+        type: string
+      id:
         type: string
       markdown:
         type: boolean
@@ -181,6 +205,8 @@ definitions:
     properties:
       copyright:
         type: string
+      created_by:
+        type: string
       description:
         type: string
       disabled:
@@ -204,8 +230,6 @@ definitions:
       title:
         type: string
       url:
-        type: string
-      user_id:
         type: string
     type: object
   structs.UserRequestBody:
@@ -761,6 +785,132 @@ paths:
       summary: OAuth register
       tags:
       - oauth
+  /policies:
+    get:
+      description: Retrieve a list of Casbin rules.
+      parameters:
+      - description: Result limit
+        in: query
+        name: limit
+        type: integer
+      - description: Result offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List Casbin rules
+      tags:
+      - casbin
+    post:
+      consumes:
+      - application/json
+      description: Create a new Casbin rule.
+      parameters:
+      - description: CasbinRuleBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CasbinRuleBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Create Casbin rule
+      tags:
+      - casbin
+  /policies/{id}:
+    delete:
+      description: Delete an existing Casbin rule.
+      parameters:
+      - description: Casbin rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Delete Casbin rule
+      tags:
+      - casbin
+    get:
+      description: Retrieve details of a Casbin rule.
+      parameters:
+      - description: Casbin rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get Casbin rule
+      tags:
+      - casbin
+    put:
+      consumes:
+      - application/json
+      description: Update an existing Casbin rule, either fully or partially.
+      parameters:
+      - description: Casbin rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update data
+        in: body
+        name: body
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Update Casbin rule
+      tags:
+      - casbin
   /register:
     post:
       consumes:

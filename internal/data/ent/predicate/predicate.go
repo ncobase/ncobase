@@ -9,11 +9,20 @@ import (
 // AuthToken is the predicate function for authtoken builders.
 type AuthToken func(*sql.Selector)
 
+// CasbinRule is the predicate function for casbinrule builders.
+type CasbinRule func(*sql.Selector)
+
 // CodeAuth is the predicate function for codeauth builders.
 type CodeAuth func(*sql.Selector)
 
 // Domain is the predicate function for domain builders.
 type Domain func(*sql.Selector)
+
+// Group is the predicate function for group builders.
+type Group func(*sql.Selector)
+
+// GroupRole is the predicate function for grouprole builders.
+type GroupRole func(*sql.Selector)
 
 // Module is the predicate function for module builders.
 type Module func(*sql.Selector)
@@ -21,14 +30,23 @@ type Module func(*sql.Selector)
 // OAuthUser is the predicate function for oauthuser builders.
 type OAuthUser func(*sql.Selector)
 
+// Permission is the predicate function for permission builders.
+type Permission func(*sql.Selector)
+
 // Resource is the predicate function for resource builders.
 type Resource func(*sql.Selector)
+
+// Role is the predicate function for role builders.
+type Role func(*sql.Selector)
+
+// RolePermission is the predicate function for rolepermission builders.
+type RolePermission func(*sql.Selector)
 
 // Taxonomy is the predicate function for taxonomy builders.
 type Taxonomy func(*sql.Selector)
 
-// TaxonomyRelations is the predicate function for taxonomyrelations builders.
-type TaxonomyRelations func(*sql.Selector)
+// TaxonomyRelation is the predicate function for taxonomyrelation builders.
+type TaxonomyRelation func(*sql.Selector)
 
 // Topic is the predicate function for topic builders.
 type Topic func(*sql.Selector)
@@ -36,5 +54,17 @@ type Topic func(*sql.Selector)
 // User is the predicate function for user builders.
 type User func(*sql.Selector)
 
+// UserDomain is the predicate function for userdomain builders.
+type UserDomain func(*sql.Selector)
+
+// UserDomainRole is the predicate function for userdomainrole builders.
+type UserDomainRole func(*sql.Selector)
+
+// UserGroup is the predicate function for usergroup builders.
+type UserGroup func(*sql.Selector)
+
 // UserProfile is the predicate function for userprofile builders.
 type UserProfile func(*sql.Selector)
+
+// UserRole is the predicate function for userrole builders.
+type UserRole func(*sql.Selector)

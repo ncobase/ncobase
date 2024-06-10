@@ -8,16 +8,26 @@ import (
 	"fmt"
 	"reflect"
 	"stocms/internal/data/ent/authtoken"
+	"stocms/internal/data/ent/casbinrule"
 	"stocms/internal/data/ent/codeauth"
 	"stocms/internal/data/ent/domain"
+	"stocms/internal/data/ent/group"
+	"stocms/internal/data/ent/grouprole"
 	"stocms/internal/data/ent/module"
 	"stocms/internal/data/ent/oauthuser"
+	"stocms/internal/data/ent/permission"
 	"stocms/internal/data/ent/resource"
+	"stocms/internal/data/ent/role"
+	"stocms/internal/data/ent/rolepermission"
 	"stocms/internal/data/ent/taxonomy"
-	"stocms/internal/data/ent/taxonomyrelations"
+	"stocms/internal/data/ent/taxonomyrelation"
 	"stocms/internal/data/ent/topic"
 	"stocms/internal/data/ent/user"
+	"stocms/internal/data/ent/userdomain"
+	"stocms/internal/data/ent/userdomainrole"
+	"stocms/internal/data/ent/usergroup"
 	"stocms/internal/data/ent/userprofile"
+	"stocms/internal/data/ent/userrole"
 	"sync"
 
 	"entgo.io/ent"
@@ -83,17 +93,27 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			authtoken.Table:         authtoken.ValidColumn,
-			codeauth.Table:          codeauth.ValidColumn,
-			domain.Table:            domain.ValidColumn,
-			module.Table:            module.ValidColumn,
-			oauthuser.Table:         oauthuser.ValidColumn,
-			resource.Table:          resource.ValidColumn,
-			taxonomy.Table:          taxonomy.ValidColumn,
-			taxonomyrelations.Table: taxonomyrelations.ValidColumn,
-			topic.Table:             topic.ValidColumn,
-			user.Table:              user.ValidColumn,
-			userprofile.Table:       userprofile.ValidColumn,
+			authtoken.Table:        authtoken.ValidColumn,
+			casbinrule.Table:       casbinrule.ValidColumn,
+			codeauth.Table:         codeauth.ValidColumn,
+			domain.Table:           domain.ValidColumn,
+			group.Table:            group.ValidColumn,
+			grouprole.Table:        grouprole.ValidColumn,
+			module.Table:           module.ValidColumn,
+			oauthuser.Table:        oauthuser.ValidColumn,
+			permission.Table:       permission.ValidColumn,
+			resource.Table:         resource.ValidColumn,
+			role.Table:             role.ValidColumn,
+			rolepermission.Table:   rolepermission.ValidColumn,
+			taxonomy.Table:         taxonomy.ValidColumn,
+			taxonomyrelation.Table: taxonomyrelation.ValidColumn,
+			topic.Table:            topic.ValidColumn,
+			user.Table:             user.ValidColumn,
+			userdomain.Table:       userdomain.ValidColumn,
+			userdomainrole.Table:   userdomainrole.ValidColumn,
+			usergroup.Table:        usergroup.ValidColumn,
+			userprofile.Table:      userprofile.ValidColumn,
+			userrole.Table:         userrole.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)
