@@ -16,6 +16,7 @@ type Service struct {
 	d                 *data.Data
 	domain            repo.Domain
 	user              repo.User
+	userProfile       repo.UserProfile
 	resource          repo.Resource
 	module            repo.Module
 	casbinRule        repo.CasbinRule
@@ -30,6 +31,7 @@ func New(d *data.Data) *Service {
 		d:                 d,
 		domain:            repo.NewDomain(d),
 		user:              repo.NewUser(d),
+		userProfile:       repo.NewUserProfile(d),
 		resource:          repo.NewResource(d),
 		module:            repo.NewModule(d),
 		casbinRule:        repo.NewCasbinRule(d),

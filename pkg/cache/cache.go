@@ -30,8 +30,12 @@ func Key(key string) string {
 }
 
 // NewCache creates a new Cache instance
-func NewCache[T any](rc *redis.Client, key string, useHash bool) *Cache[T] {
-	return &Cache[T]{rc: rc, key: key, useHash: useHash}
+func NewCache[T any](rc *redis.Client, key string, useHash ...bool) *Cache[T] {
+	hash := true
+	if len(useHash) > 0 {
+		hash = useHash[0]
+	}
+	return &Cache[T]{rc: rc, key: key, useHash: hash}
 }
 
 // Get retrieves data from cache

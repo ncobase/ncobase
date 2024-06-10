@@ -7,7 +7,6 @@ import (
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
 	userEnt "stocms/internal/data/ent/user"
-	userProfileEnt "stocms/internal/data/ent/userprofile"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/crypto"
@@ -20,10 +19,8 @@ import (
 // User represents the user repository interface.
 type User interface {
 	Create(ctx context.Context, body *structs.UserRequestBody) (*ent.User, error)
-	CreateProfile(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error)
 	GetByID(ctx context.Context, id string) (*ent.User, error)
 	Find(ctx context.Context, m *structs.FindUser) (*ent.User, error)
-	GetProfile(ctx context.Context, id string) (*ent.UserProfile, error)
 	Existed(ctx context.Context, m *structs.FindUser) bool
 	Delete(ctx context.Context, id string) error
 	UpdatePassword(ctx context.Context, p *structs.UserRequestBody) error
@@ -61,26 +58,6 @@ func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*
 	row, err := builder.Save(ctx)
 	if err != nil {
 		log.Errorf(nil, "userRepo.Create error: %v\n", err)
-		return nil, err
-	}
-
-	return row, nil
-}
-
-// CreateProfile - Create user profile
-func (r *userRepo) CreateProfile(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error) {
-
-	// create builder.
-	builder := r.ec.UserProfile.Create()
-	// set values.
-	builder.SetID(body.UserID)
-	builder.SetDisplayName(body.DisplayName)
-	builder.SetShortBio(body.ShortBio)
-
-	// execute the builder.
-	row, err := builder.Save(ctx)
-	if err != nil {
-		log.Errorf(nil, "userRepo.CreateProfile error: %v\n", err)
 		return nil, err
 	}
 
@@ -146,20 +123,6 @@ func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, er
 		log.Errorf(nil, "userRepo.Find cache error: %v\n", err)
 	}
 
-	return row, nil
-}
-
-// GetProfile - Find profile by user id
-func (r *userRepo) GetProfile(ctx context.Context, id string) (*ent.UserProfile, error) {
-	row, err := r.ec.UserProfile.
-		Query().
-		Where(userProfileEnt.IDEQ(id)).
-		Only(ctx)
-
-	if err != nil {
-		log.Errorf(nil, "userRepo.GetProfile error: %v\n", err)
-		return nil, err
-	}
 	return row, nil
 }
 
