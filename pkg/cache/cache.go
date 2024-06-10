@@ -4,20 +4,16 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"stocms/pkg/log"
+	"log"
 
 	"github.com/redis/go-redis/v9"
 )
 
 // ICache defines a general caching interface
 type ICache[T any] interface {
-	// Get data from cache using the specified field and return a pointer to type T and a possible error.
 	Get(context.Context, string) (*T, error)
-	// Set saves the specified data into cache using the specified string as key.
 	Set(context.Context, string, *T) error
-	// Delete data from cache using the specified key.
 	Delete(context.Context, string) error
-	// Reset data in cache using the specified pointer to type T as new value.
 	Reset(context.Context, string, *T) error
 }
 
@@ -41,7 +37,7 @@ func NewCache[T any](rc *redis.Client, key string, useHash bool) *Cache[T] {
 // Get retrieves data from cache
 func (c *Cache[T]) Get(ctx context.Context, field string) (*T, error) {
 	if c.rc == nil {
-		log.Printf(ctx, "redis client is nil, skipping Get operation")
+		log.Printf("redis client is nil, skipping Get operation")
 		return nil, nil
 	}
 
@@ -71,13 +67,13 @@ func (c *Cache[T]) Get(ctx context.Context, field string) (*T, error) {
 // Set saves data into cache
 func (c *Cache[T]) Set(ctx context.Context, field string, data *T) error {
 	if c.rc == nil {
-		log.Printf(ctx, "redis client is nil, skipping Set operation")
+		log.Printf("redis client is nil, skipping Set operation")
 		return nil
 	}
 
 	bytes, err := json.Marshal(data)
 	if err != nil {
-		log.Errorf(ctx, "failed to marshal data for cache set: %v, error: %v", data, err)
+		log.Printf("failed to marshal data for cache set: %v, error: %v", data, err)
 		return fmt.Errorf("failed to marshal data: %w", err)
 	}
 
@@ -88,7 +84,7 @@ func (c *Cache[T]) Set(ctx context.Context, field string, data *T) error {
 	}
 
 	if err != nil {
-		log.Errorf(ctx, "failed to set cache: %v, error: %v", data, err)
+		log.Printf("failed to set cache: %v, error: %v", data, err)
 		return fmt.Errorf("failed to set cache: %w", err)
 	}
 	return nil
@@ -97,7 +93,7 @@ func (c *Cache[T]) Set(ctx context.Context, field string, data *T) error {
 // Delete removes data from cache
 func (c *Cache[T]) Delete(ctx context.Context, field string) error {
 	if c.rc == nil {
-		log.Printf(ctx, "redis client is nil, skipping Delete operation")
+		log.Printf("redis client is nil, skipping Delete operation")
 		return nil
 	}
 
@@ -110,7 +106,7 @@ func (c *Cache[T]) Delete(ctx context.Context, field string) error {
 	}
 
 	if err != nil {
-		log.Errorf(ctx, "failed to delete cache field: %s, error: %v", field, err)
+		log.Printf("failed to delete cache field: %s, error: %v", field, err)
 		return fmt.Errorf("failed to delete cache: %w", err)
 	}
 	return nil
