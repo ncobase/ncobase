@@ -88,7 +88,33 @@ oauth:
     client_secret:
     redirect_url:
 
-mailgun:
-  key:
-  domain:
-  from:
+email:
+  # use only one of these, optional: mailgun / aliyun / netease / sendgrid / smtp / tencent_cloud
+  provider: smtp
+  mailgun:
+    key:
+    domain:
+    from:
+  aliyun:
+    id:
+    secret:
+    account:
+  netease:
+    username:
+    password:
+    from:
+    smtpHost:
+    smtpPort:
+  sendgrid:
+    key:
+    from:
+  smtp:
+    smtpHost:
+    smtpPort:
+    username:
+    password:
+    from:
+  tencent_cloud:
+    id:
+    secret:
+    from:

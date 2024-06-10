@@ -51,7 +51,7 @@ func (h *Handler) CreateResourcesHandler(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest("File is required"))
 		return
 	}
-	var results []interface{}
+	var results []any
 	for _, fileHeader := range files {
 		file, err := fileHeader.Open()
 		if err != nil {

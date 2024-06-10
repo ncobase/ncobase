@@ -26,6 +26,7 @@ require (
 	github.com/meilisearch/meilisearch-go v0.26.3
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.5.1
+	github.com/sendgrid/sendgrid-go v3.14.0+incompatible
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.18.2
 	github.com/swaggo/files v1.0.1
@@ -97,6 +98,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
+	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect

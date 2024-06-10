@@ -51,7 +51,7 @@ func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateRe
 }
 
 // UpdateResourceService updates an existing resource.
-func (svc *Service) UpdateResourceService(c *gin.Context, slug string, updates map[string]interface{}) (*resp.Exception, error) {
+func (svc *Service) UpdateResourceService(c *gin.Context, slug string, updates map[string]any) (*resp.Exception, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return resp.BadRequest(ecode.FieldIsRequired("slug")), nil

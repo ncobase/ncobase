@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"stocms/pkg/email"
 	"stocms/pkg/storage"
 
 	"github.com/spf13/viper"
@@ -31,7 +32,7 @@ type Config struct {
 	Data       Data
 	OAuth      OAuth
 	Storage    storage.Config
-	Mailgun    Mailgun
+	Email      email.Email
 }
 
 func init() {
@@ -92,6 +93,6 @@ func load(in string) (*Config, error) {
 		Data:       getDataConfig(),
 		OAuth:      getOAuthConfig(),
 		Storage:    getStorageConfig(),
-		Mailgun:    getMailgunConfig(),
+		Email:      getEmailConfig(),
 	}, err
 }

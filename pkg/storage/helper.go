@@ -57,7 +57,7 @@ func GetFileHeader(f *multipart.FileHeader, prefix ...string) *FileHeader {
 
 	// TODO get image exif data
 	if IsImage(file.Ext) {
-		file.Metadata = map[string]interface{}{}
+		file.Metadata = map[string]any{}
 	}
 
 	return file
