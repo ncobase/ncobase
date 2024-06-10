@@ -28,7 +28,7 @@ build-linux:
 build:generate
 	@go build -trimpath $(LDFLAGS) -o ${OUT}/${APP_NAME} ${CMD_PATH}
 
-swag:
+swagger:
 	@swag init --parseDependency --parseInternal --parseDepth 1 -g ${CMD_PATH}/main.go -o ./docs
 
 run:

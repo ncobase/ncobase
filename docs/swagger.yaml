@@ -1,8 +1,1138 @@
+definitions:
+  resp.Exception:
+    properties:
+      code:
+        description: Business code
+        type: integer
+      data:
+        description: Response data
+      message:
+        description: Message
+        type: string
+      status:
+        description: HTTP status
+        type: integer
+    type: object
+  structs.CreateTaxonomyBody:
+    properties:
+      color:
+        type: string
+      cover:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      domain_id:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      icon:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      status:
+        description: 'status, 0: enabled, 1: disabled, ...'
+        type: integer
+      thumbnail:
+        type: string
+      type:
+        description: 'type, default ''node'', options: ''node'', ''plane'', ''event'',
+          ''page'', ''tag'', ''link'''
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      url:
+        type: string
+    type: object
+  structs.CreateTopicBody:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      domain_id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      taxonomy_id:
+        type: string
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.LoginBody:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  structs.OAuthRegisterBody:
+    properties:
+      display_name:
+        type: string
+      domain_name:
+        type: string
+      phone:
+        type: string
+      register_token:
+        type: string
+      short_bio:
+        type: string
+      username:
+        type: string
+    required:
+    - display_name
+    - username
+    type: object
+  structs.RegisterBody:
+    properties:
+      display_name:
+        type: string
+      domain_name:
+        type: string
+      phone:
+        type: string
+      register_token:
+        type: string
+      short_bio:
+        type: string
+      username:
+        type: string
+    required:
+    - display_name
+    - register_token
+    - username
+    type: object
+  structs.SendCodeBody:
+    properties:
+      email:
+        type: string
+      phone:
+        type: string
+    type: object
+  structs.UpdateDomainBody:
+    properties:
+      copyright:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/types.JSON'
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      logo:
+        type: string
+      logo_alt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      title:
+        type: string
+      url:
+        type: string
+      user_id:
+        type: string
+    type: object
+  structs.UserRequestBody:
+    properties:
+      about:
+        type: string
+      display_name:
+        type: string
+      email:
+        type: string
+      new_password:
+        type: string
+      old_password:
+        type: string
+      phone:
+        type: string
+      profile_links:
+        items:
+          type: string
+        type: array
+      register_token:
+        type: string
+      short_bio:
+        type: string
+      thumbnail:
+        type: string
+      user_id:
+        type: string
+      username:
+        type: string
+    type: object
+  types.JSON:
+    additionalProperties: {}
+    type: object
 info:
   contact: {}
   description: a modern content management system
   termsOfService: https://stocms.com
   title: stocms
   version: 0.1.0
-paths: {}
+paths:
+  /account:
+    get:
+      description: Retrieve information about the current user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Read current user
+      tags:
+      - account
+  /account/domain:
+    get:
+      description: Retrieve the domain associated with the current user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Read current user domain
+      tags:
+      - account
+  /account/password:
+    put:
+      consumes:
+      - application/json
+      description: Update the password of the current user.
+      parameters:
+      - description: UserRequestBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UserRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Update user password
+      tags:
+      - account
+  /authorize/{code}:
+    get:
+      consumes:
+      - application/json
+      description: Verify the provided code.
+      parameters:
+      - description: Verification code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Verify code
+      tags:
+      - authorization
+      - authentication
+  /authorize/send:
+    post:
+      consumes:
+      - application/json
+      description: Send a verification code to the specified destination.
+      parameters:
+      - description: SendCodeBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.SendCodeBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Send verification code
+      tags:
+      - authorization
+  /domain:
+    put:
+      consumes:
+      - application/json
+      description: Update the domain information.
+      parameters:
+      - description: UpdateDomainBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateDomainBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Update domain
+      tags:
+      - domain
+  /domain/{id}:
+    get:
+      description: Retrieve information about a specific domain.
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Read domain
+      tags:
+      - domain
+  /domain/{id}/menu:
+    get:
+      description: Retrieve the menu associated with a specific domain.
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Read domain menu
+      tags:
+      - domain
+  /domain/{id}/setting:
+    get:
+      description: Retrieve the settings associated with a specific domain.
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Read domain setting
+      tags:
+      - domain
+  /health:
+    get:
+      description: Check the health status of the service.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Health status
+      tags:
+      - root
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Log in a user.
+      parameters:
+      - description: LoginBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.LoginBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Login
+      tags:
+      - authentication
+  /logout:
+    post:
+      description: Logout the current user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Logout
+      tags:
+      - authentication
+  /oauth/{provider}/redirect:
+    get:
+      description: Redirect to OAuth provider for authentication.
+      parameters:
+      - description: OAuth provider
+        in: path
+        name: provider
+        required: true
+        type: string
+      - description: Next URL after authentication
+        in: query
+        name: next
+        type: string
+      responses:
+        "302":
+          description: redirect
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: OAuth redirect
+      tags:
+      - OAuth
+  /oauth/callback:
+    get:
+      description: Handle callback from OAuth provider.
+      responses:
+        "302":
+          description: redirect
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: OAuth callback
+      tags:
+      - OAuth
+  /oauth/facebook/callback:
+    get:
+      description: Handle callback from Facebook OAuth provider.
+      parameters:
+      - description: Authorization code
+        in: query
+        name: code
+        required: true
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "401":
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Facebook OAuth callback
+      tags:
+      - OAuth
+  /oauth/github/callback:
+    get:
+      description: Handle callback from GitHub OAuth provider.
+      parameters:
+      - description: Authorization code
+        in: query
+        name: code
+        required: true
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "401":
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: GitHub OAuth callback
+      tags:
+      - OAuth
+  /oauth/profile:
+    get:
+      description: Retrieve profile information from OAuth provider.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get OAuth profile
+      tags:
+      - OAuth
+  /oauth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a user using OAuth.
+      parameters:
+      - description: OAuthRegisterBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.OAuthRegisterBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: OAuth register
+      tags:
+      - OAuth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user.
+      parameters:
+      - description: RegisterBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.RegisterBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Register
+      tags:
+      - authentication
+  /resources:
+    get:
+      description: List resources based on specified parameters.
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Page size
+        in: query
+        name: page_size
+        type: integer
+      - description: Sort by field
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort order ('asc' or 'desc')
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List resources
+      tags:
+      - resources
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create one or multiple resources.
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Object ID associated with the resource
+        in: formData
+        name: object_id
+        type: string
+      - description: Domain ID associated with the resource
+        in: formData
+        name: domain_id
+        type: string
+      - description: Additional properties associated with the resource (JSON format)
+        in: formData
+        name: extras
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Create resources
+      tags:
+      - resources
+  /resources/{slug}:
+    delete:
+      description: Delete a specific resource.
+      parameters:
+      - description: Slug of the resource to delete
+        in: path
+        name: slug
+        required: true
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Delete resource
+      tags:
+      - resources
+    get:
+      description: Get details of a specific resource.
+      parameters:
+      - description: Slug of the resource to retrieve
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Type of retrieval ('download' or 'stream')
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get resource
+      tags:
+      - resources
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update an existing resource.
+      parameters:
+      - description: Slug of the resource to update
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: File to upload (optional)
+        in: formData
+        name: file
+        type: file
+      - description: Object ID associated with the resource
+        in: formData
+        name: object_id
+        type: string
+      - description: Domain ID associated with the resource
+        in: formData
+        name: domain_id
+        type: string
+      - description: Additional properties associated with the resource (JSON format)
+        in: formData
+        name: extras
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Update resource
+      tags:
+      - resources
+  /resources/{slug}/download:
+    get:
+      description: Download a specific resource.
+      parameters:
+      - description: Slug of the resource to download
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Download resource
+      tags:
+      - resources
+  /resources/{slug}/stream:
+    get:
+      description: Stream a specific resource.
+      parameters:
+      - description: Slug of the resource to stream
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Stream resource
+      tags:
+      - resources
+  /taxonomy:
+    get:
+      description: Retrieve a list of taxonomies.
+      parameters:
+      - description: Category filter
+        in: query
+        name: category
+        type: string
+      - description: Result limit
+        in: query
+        name: limit
+        type: integer
+      - description: Result offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List taxonomies
+      tags:
+      - taxonomy
+    post:
+      consumes:
+      - application/json
+      description: Create a new taxonomy.
+      parameters:
+      - description: CreateTaxonomyBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTaxonomyBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Create taxonomy
+      tags:
+      - taxonomy
+  /taxonomy/{slug}:
+    delete:
+      description: Delete an existing taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Delete taxonomy
+      tags:
+      - taxonomy
+    get:
+      description: Retrieve details of a taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get taxonomy
+      tags:
+      - taxonomy
+    put:
+      consumes:
+      - application/json
+      description: Update an existing taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Update data
+        in: body
+        name: body
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Update taxonomy
+      tags:
+      - taxonomy
+  /topic:
+    get:
+      description: Retrieve a list of topics.
+      parameters:
+      - description: Category filter
+        in: query
+        name: category
+        type: string
+      - description: Result limit
+        in: query
+        name: limit
+        type: integer
+      - description: Result offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List topics
+      tags:
+      - topic
+    post:
+      consumes:
+      - application/json
+      description: Create a new topic.
+      parameters:
+      - description: CreateTopicBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTopicBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Create topic
+      tags:
+      - topic
+  /topic/{slug}:
+    delete:
+      description: Delete an existing topic.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Delete topic
+      tags:
+      - topic
+    get:
+      description: Retrieve details of a topic.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get topic
+      tags:
+      - topic
+    put:
+      consumes:
+      - application/json
+      description: Update an existing topic, either fully or partially.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Update data
+        in: body
+        name: body
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Update topic
+      tags:
+      - topic
+  /user/{username}:
+    get:
+      description: Retrieve information about a specific user.
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Read user
+      tags:
+      - user
+  /user/{username}/domain:
+    get:
+      description: Retrieve the domain associated with the specified user.
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Read user domain
+      tags:
+      - user
 swagger: "2.0"

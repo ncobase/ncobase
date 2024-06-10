@@ -8,7 +8,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// SendCodeHandler Send verify code handler
+// SendCodeHandler handles sending a verification code.
+//
+// @Summary Send verification code
+// @Description Send a verification code to the specified destination.
+// @Tags authorization
+// @Accept json
+// @Produce json
+// @Param body body structs.SendCodeBody true "SendCodeBody object"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /authorize/send [post]
 func (h *Handler) SendCodeHandler(c *gin.Context) {
 	var body *structs.SendCodeBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -19,7 +29,18 @@ func (h *Handler) SendCodeHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// CodeAuthHandler verify code handler
+// CodeAuthHandler handles verifying a code.
+//
+// @Summary Verify code
+// @Description Verify the provided code.
+// @Tags authorization
+// @Tags authentication
+// @Accept json
+// @Produce json
+// @Param code path string true "Verification code"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /authorize/{code} [get]
 func (h *Handler) CodeAuthHandler(c *gin.Context) {
 	result, err := h.svc.CodeAuthService(c, c.Param("code"))
 	if err != nil {
@@ -29,7 +50,17 @@ func (h *Handler) CodeAuthHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// RegisterHandler Register handler
+// RegisterHandler handles user registration.
+//
+// @Summary Register
+// @Description Register a new user.
+// @Tags authentication
+// @Accept json
+// @Produce json
+// @Param body body structs.RegisterBody true "RegisterBody object"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /register [post]
 func (h *Handler) RegisterHandler(c *gin.Context) {
 	var body *structs.RegisterBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -41,13 +72,30 @@ func (h *Handler) RegisterHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// LogoutHandler Logout handler
+// LogoutHandler handles user logout.
+//
+// @Summary Logout
+// @Description Logout the current user.
+// @Tags authentication
+// @Produce json
+// @Success 200 {object} resp.Exception "success"
+// @Router /logout [post]
 func (h *Handler) LogoutHandler(c *gin.Context) {
 	cookie.ClearAll(c.Writer)
 	resp.Success(c.Writer, nil)
 }
 
-// LoginHandler Login handler
+// LoginHandler handles user login.
+//
+// @Summary Login
+// @Description Log in a user.
+// @Tags authentication
+// @Accept json
+// @Produce json
+// @Param body body structs.LoginBody true "LoginBody object"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /login [post]
 func (h *Handler) LoginHandler(c *gin.Context) {
 	var body *structs.LoginBody
 	if err := c.ShouldBind(&body); err != nil {

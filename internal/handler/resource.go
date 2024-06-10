@@ -21,7 +21,20 @@ import (
 
 var maxResourceSize int64 = 2048 << 20 // 2048 MB
 
-// CreateResourcesHandler handles the creation of resources, both single and multiple
+// CreateResourcesHandler handles the creation of resources, both single and multiple.
+//
+// @Summary Create resources
+// @Description Create one or multiple resources.
+// @Tags resources
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "File to upload"
+// @Param object_id formData string false "Object ID associated with the resource"
+// @Param domain_id formData string false "Domain ID associated with the resource"
+// @Param extras formData string false "Additional properties associated with the resource (JSON format)"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /resources [post]
 func (h *Handler) CreateResourcesHandler(c *gin.Context) {
 	if c.Request.Method != http.MethodPost {
 		resp.Fail(c.Writer, resp.NotAllowed("Method not allowed"))
@@ -182,7 +195,21 @@ func bindResourceFields(c *gin.Context, body *structs.CreateResourceBody) error 
 	return nil
 }
 
-// UpdateResourceHandler handles updating an resource
+// UpdateResourceHandler handles updating a resource.
+//
+// @Summary Update resource
+// @Description Update an existing resource.
+// @Tags resources
+// @Accept multipart/form-data
+// @Produce json
+// @Param slug path string true "Slug of the resource to update"
+// @Param file formData file false "File to upload (optional)"
+// @Param object_id formData string false "Object ID associated with the resource"
+// @Param domain_id formData string false "Domain ID associated with the resource"
+// @Param extras formData string false "Additional properties associated with the resource (JSON format)"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /resources/{slug} [put]
 func (h *Handler) UpdateResourceHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -244,7 +271,17 @@ func (h *Handler) UpdateResourceHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// GetResourceHandler handles getting an resource
+// GetResourceHandler handles getting a resource.
+//
+// @Summary Get resource
+// @Description Get details of a specific resource.
+// @Tags resources
+// @Produce json
+// @Param slug path string true "Slug of the resource to retrieve"
+// @Param type query string false "Type of retrieval ('download' or 'stream')"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /resources/{slug} [get]
 func (h *Handler) GetResourceHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -271,7 +308,15 @@ func (h *Handler) GetResourceHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// DeleteResourceHandler handles deleting an resource
+// DeleteResourceHandler handles deleting a resource.
+//
+// @Summary Delete resource
+// @Description Delete a specific resource.
+// @Tags resources
+// @Param slug path string true "Slug of the resource to delete"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /resources/{slug} [delete]
 func (h *Handler) DeleteResourceHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -288,7 +333,19 @@ func (h *Handler) DeleteResourceHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// ListResourceHandler handles listing resources
+// ListResourceHandler handles listing resources.
+//
+// @Summary List resources
+// @Description List resources based on specified parameters.
+// @Tags resources
+// @Produce json
+// @Param page query integer false "Page number"
+// @Param page_size query integer false "Page size"
+// @Param sort_by query string false "Sort by field"
+// @Param order query string false "Sort order ('asc' or 'desc')"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /resources [get]
 func (h *Handler) ListResourceHandler(c *gin.Context) {
 	params := &structs.ListResourceParams{}
 	if err := c.ShouldBindQuery(&params); err != nil {
@@ -305,12 +362,30 @@ func (h *Handler) ListResourceHandler(c *gin.Context) {
 	resp.Success(c.Writer, resources)
 }
 
-// DownloadResourceHandler handles the direct download of an resource
+// DownloadResourceHandler handles the direct download of a resource.
+//
+// @Summary Download resource
+// @Description Download a specific resource.
+// @Tags resources
+// @Produce octet-stream
+// @Param slug path string true "Slug of the resource to download"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /resources/{slug}/download [get]
 func (h *Handler) DownloadResourceHandler(c *gin.Context) {
 	h.downloadFile(c, "attachment")
 }
 
-// ResourceStreamHandler handles the streaming of an resource
+// ResourceStreamHandler handles the streaming of a resource.
+//
+// @Summary Stream resource
+// @Description Stream a specific resource.
+// @Tags resources
+// @Produce octet-stream
+// @Param slug path string true "Slug of the resource to stream"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /resources/{slug}/stream [get]
 func (h *Handler) ResourceStreamHandler(c *gin.Context) {
 	h.downloadFile(c, "inline")
 }
