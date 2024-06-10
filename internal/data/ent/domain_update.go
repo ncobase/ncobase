@@ -241,6 +241,26 @@ func (du *DomainUpdate) ClearExtras() *DomainUpdate {
 	return du
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (du *DomainUpdate) SetCreatedBy(s string) *DomainUpdate {
+	du.mutation.SetCreatedBy(s)
+	return du
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (du *DomainUpdate) SetNillableCreatedBy(s *string) *DomainUpdate {
+	if s != nil {
+		du.SetCreatedBy(*s)
+	}
+	return du
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (du *DomainUpdate) ClearCreatedBy() *DomainUpdate {
+	du.mutation.ClearCreatedBy()
+	return du
+}
+
 // SetUpdatedAt sets the "updated_at" field.
 func (du *DomainUpdate) SetUpdatedAt(t time.Time) *DomainUpdate {
 	du.mutation.SetUpdatedAt(t)
@@ -250,26 +270,6 @@ func (du *DomainUpdate) SetUpdatedAt(t time.Time) *DomainUpdate {
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (du *DomainUpdate) ClearUpdatedAt() *DomainUpdate {
 	du.mutation.ClearUpdatedAt()
-	return du
-}
-
-// SetUserID sets the "user_id" field.
-func (du *DomainUpdate) SetUserID(s string) *DomainUpdate {
-	du.mutation.SetUserID(s)
-	return du
-}
-
-// SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (du *DomainUpdate) SetNillableUserID(s *string) *DomainUpdate {
-	if s != nil {
-		du.SetUserID(*s)
-	}
-	return du
-}
-
-// ClearUserID clears the value of the "user_id" field.
-func (du *DomainUpdate) ClearUserID() *DomainUpdate {
-	du.mutation.ClearUserID()
 	return du
 }
 
@@ -321,9 +321,9 @@ func (du *DomainUpdate) check() error {
 			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "Domain.order": %w`, err)}
 		}
 	}
-	if v, ok := du.mutation.UserID(); ok {
-		if err := domain.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Domain.user_id": %w`, err)}
+	if v, ok := du.mutation.CreatedBy(); ok {
+		if err := domain.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Domain.created_by": %w`, err)}
 		}
 	}
 	return nil
@@ -407,6 +407,12 @@ func (du *DomainUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if du.mutation.ExtrasCleared() {
 		_spec.ClearField(domain.FieldExtras, field.TypeJSON)
 	}
+	if value, ok := du.mutation.CreatedBy(); ok {
+		_spec.SetField(domain.FieldCreatedBy, field.TypeString, value)
+	}
+	if du.mutation.CreatedByCleared() {
+		_spec.ClearField(domain.FieldCreatedBy, field.TypeString)
+	}
 	if du.mutation.CreatedAtCleared() {
 		_spec.ClearField(domain.FieldCreatedAt, field.TypeTime)
 	}
@@ -415,12 +421,6 @@ func (du *DomainUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if du.mutation.UpdatedAtCleared() {
 		_spec.ClearField(domain.FieldUpdatedAt, field.TypeTime)
-	}
-	if value, ok := du.mutation.UserID(); ok {
-		_spec.SetField(domain.FieldUserID, field.TypeString, value)
-	}
-	if du.mutation.UserIDCleared() {
-		_spec.ClearField(domain.FieldUserID, field.TypeString)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, du.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -655,6 +655,26 @@ func (duo *DomainUpdateOne) ClearExtras() *DomainUpdateOne {
 	return duo
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (duo *DomainUpdateOne) SetCreatedBy(s string) *DomainUpdateOne {
+	duo.mutation.SetCreatedBy(s)
+	return duo
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (duo *DomainUpdateOne) SetNillableCreatedBy(s *string) *DomainUpdateOne {
+	if s != nil {
+		duo.SetCreatedBy(*s)
+	}
+	return duo
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (duo *DomainUpdateOne) ClearCreatedBy() *DomainUpdateOne {
+	duo.mutation.ClearCreatedBy()
+	return duo
+}
+
 // SetUpdatedAt sets the "updated_at" field.
 func (duo *DomainUpdateOne) SetUpdatedAt(t time.Time) *DomainUpdateOne {
 	duo.mutation.SetUpdatedAt(t)
@@ -664,26 +684,6 @@ func (duo *DomainUpdateOne) SetUpdatedAt(t time.Time) *DomainUpdateOne {
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (duo *DomainUpdateOne) ClearUpdatedAt() *DomainUpdateOne {
 	duo.mutation.ClearUpdatedAt()
-	return duo
-}
-
-// SetUserID sets the "user_id" field.
-func (duo *DomainUpdateOne) SetUserID(s string) *DomainUpdateOne {
-	duo.mutation.SetUserID(s)
-	return duo
-}
-
-// SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (duo *DomainUpdateOne) SetNillableUserID(s *string) *DomainUpdateOne {
-	if s != nil {
-		duo.SetUserID(*s)
-	}
-	return duo
-}
-
-// ClearUserID clears the value of the "user_id" field.
-func (duo *DomainUpdateOne) ClearUserID() *DomainUpdateOne {
-	duo.mutation.ClearUserID()
 	return duo
 }
 
@@ -748,9 +748,9 @@ func (duo *DomainUpdateOne) check() error {
 			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "Domain.order": %w`, err)}
 		}
 	}
-	if v, ok := duo.mutation.UserID(); ok {
-		if err := domain.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Domain.user_id": %w`, err)}
+	if v, ok := duo.mutation.CreatedBy(); ok {
+		if err := domain.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Domain.created_by": %w`, err)}
 		}
 	}
 	return nil
@@ -851,6 +851,12 @@ func (duo *DomainUpdateOne) sqlSave(ctx context.Context) (_node *Domain, err err
 	if duo.mutation.ExtrasCleared() {
 		_spec.ClearField(domain.FieldExtras, field.TypeJSON)
 	}
+	if value, ok := duo.mutation.CreatedBy(); ok {
+		_spec.SetField(domain.FieldCreatedBy, field.TypeString, value)
+	}
+	if duo.mutation.CreatedByCleared() {
+		_spec.ClearField(domain.FieldCreatedBy, field.TypeString)
+	}
 	if duo.mutation.CreatedAtCleared() {
 		_spec.ClearField(domain.FieldCreatedAt, field.TypeTime)
 	}
@@ -859,12 +865,6 @@ func (duo *DomainUpdateOne) sqlSave(ctx context.Context) (_node *Domain, err err
 	}
 	if duo.mutation.UpdatedAtCleared() {
 		_spec.ClearField(domain.FieldUpdatedAt, field.TypeTime)
-	}
-	if value, ok := duo.mutation.UserID(); ok {
-		_spec.SetField(domain.FieldUserID, field.TypeString, value)
-	}
-	if duo.mutation.UserIDCleared() {
-		_spec.ClearField(domain.FieldUserID, field.TypeString)
 	}
 	_node = &Domain{config: duo.config}
 	_spec.Assign = _node.assignValues

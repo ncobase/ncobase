@@ -1,0 +1,150 @@
+package handler
+
+import (
+	"stocms/internal/data/structs"
+	"stocms/pkg/ecode"
+	"stocms/pkg/resp"
+	"stocms/pkg/types"
+
+	"github.com/gin-gonic/gin"
+)
+
+// CreateCasbinRuleHandler handles the creation of a Casbin rule.
+//
+// @Summary Create Casbin rule
+// @Description Create a new Casbin rule.
+// @Tags casbin
+// @Accept json
+// @Produce json
+// @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /policies [post]
+func (h *Handler) CreateCasbinRuleHandler(c *gin.Context) {
+	var body *structs.CasbinRuleBody
+	if err := c.ShouldBind(&body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	result, err := h.svc.CreateCasbinRuleService(c, body)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// UpdateCasbinRuleHandler handles updating a Casbin rule.
+//
+// @Summary Update Casbin rule
+// @Description Update an existing Casbin rule, either fully or partially.
+// @Tags casbin
+// @Accept json
+// @Produce json
+// @Param id path string true "Casbin rule ID"
+// @Param body body object true "Update data"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /policies/{id} [put]
+func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("id")))
+		return
+	}
+
+	var updates types.JSON
+	if err := c.ShouldBindJSON(&updates); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	result, err := h.svc.UpdateCasbinRuleService(c, id, updates)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// GetCasbinRuleHandler handles getting a Casbin rule.
+//
+// @Summary Get Casbin rule
+// @Description Retrieve details of a Casbin rule.
+// @Tags casbin
+// @Produce json
+// @Param id path string true "Casbin rule ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /policies/{id} [get]
+func (h *Handler) GetCasbinRuleHandler(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("id")))
+		return
+	}
+
+	result, err := h.svc.GetCasbinRuleService(c, id)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// DeleteCasbinRuleHandler handles deleting a Casbin rule.
+//
+// @Summary Delete Casbin rule
+// @Description Delete an existing Casbin rule.
+// @Tags casbin
+// @Produce json
+// @Param id path string true "Casbin rule ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /policies/{id} [delete]
+func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("id")))
+		return
+	}
+
+	result, err := h.svc.DeleteCasbinRuleService(c, id)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// ListCasbinRuleHandler handles listing Casbin rules.
+//
+// @Summary List Casbin rules
+// @Description Retrieve a list of Casbin rules.
+// @Tags casbin
+// @Produce json
+// @Param limit query int false "Result limit"
+// @Param offset query int false "Result offset"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /policies [get]
+func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
+	params := &structs.CasbinRuleParams{}
+	if err := c.ShouldBindQuery(&params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	casbinRules, err := h.svc.ListCasbinRulesService(c, params)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, casbinRules)
+}

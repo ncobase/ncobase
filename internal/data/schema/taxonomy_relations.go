@@ -10,14 +10,14 @@ import (
 	"entgo.io/ent/schema"
 )
 
-// TaxonomyRelations holds the schema definition for the TaxonomyRelations entity.
-type TaxonomyRelations struct {
+// TaxonomyRelation holds the schema definition for the TaxonomyRelation entity.
+type TaxonomyRelation struct {
 	ent.Schema
 }
 
-// Annotations of the TaxonomyRelations.
-func (TaxonomyRelations) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"sc", "taxonomy", "relations"}, "_")
+// Annotations of the TaxonomyRelation.
+func (TaxonomyRelation) Annotations() []schema.Annotation {
+	table := strings.Join([]string{"sc", "taxonomy_relation"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.QueryField(),
@@ -26,8 +26,8 @@ func (TaxonomyRelations) Annotations() []schema.Annotation {
 	}
 }
 
-// Mixin of the TaxonomyRelations.
-func (TaxonomyRelations) Mixin() []ent.Mixin {
+// Mixin of the TaxonomyRelation.
+func (TaxonomyRelation) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.NewPrimaryKeyAlias("object", "object_id"),
 		mixin.TaxonomyID,
@@ -38,17 +38,17 @@ func (TaxonomyRelations) Mixin() []ent.Mixin {
 	}
 }
 
-// Fields of the TaxonomyRelations.
-func (TaxonomyRelations) Fields() []ent.Field {
+// Fields of the TaxonomyRelation.
+func (TaxonomyRelation) Fields() []ent.Field {
 	return []ent.Field{}
 }
 
-// Edges of the TaxonomyRelations.
-func (TaxonomyRelations) Edges() []ent.Edge {
+// Edges of the TaxonomyRelation.
+func (TaxonomyRelation) Edges() []ent.Edge {
 	return []ent.Edge{}
 }
 
-// Indexes of the TaxonomyRelations
-func (TaxonomyRelations) Indexes() []ent.Index {
+// Indexes of the TaxonomyRelation
+func (TaxonomyRelation) Indexes() []ent.Index {
 	return []ent.Index{}
 }

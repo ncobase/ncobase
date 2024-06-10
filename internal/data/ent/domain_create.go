@@ -166,6 +166,20 @@ func (dc *DomainCreate) SetExtras(m map[string]interface{}) *DomainCreate {
 	return dc
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (dc *DomainCreate) SetCreatedBy(s string) *DomainCreate {
+	dc.mutation.SetCreatedBy(s)
+	return dc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (dc *DomainCreate) SetNillableCreatedBy(s *string) *DomainCreate {
+	if s != nil {
+		dc.SetCreatedBy(*s)
+	}
+	return dc
+}
+
 // SetCreatedAt sets the "created_at" field.
 func (dc *DomainCreate) SetCreatedAt(t time.Time) *DomainCreate {
 	dc.mutation.SetCreatedAt(t)
@@ -190,20 +204,6 @@ func (dc *DomainCreate) SetUpdatedAt(t time.Time) *DomainCreate {
 func (dc *DomainCreate) SetNillableUpdatedAt(t *time.Time) *DomainCreate {
 	if t != nil {
 		dc.SetUpdatedAt(*t)
-	}
-	return dc
-}
-
-// SetUserID sets the "user_id" field.
-func (dc *DomainCreate) SetUserID(s string) *DomainCreate {
-	dc.mutation.SetUserID(s)
-	return dc
-}
-
-// SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (dc *DomainCreate) SetNillableUserID(s *string) *DomainCreate {
-	if s != nil {
-		dc.SetUserID(*s)
 	}
 	return dc
 }
@@ -289,9 +289,9 @@ func (dc *DomainCreate) check() error {
 			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "Domain.order": %w`, err)}
 		}
 	}
-	if v, ok := dc.mutation.UserID(); ok {
-		if err := domain.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Domain.user_id": %w`, err)}
+	if v, ok := dc.mutation.CreatedBy(); ok {
+		if err := domain.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Domain.created_by": %w`, err)}
 		}
 	}
 	return nil
@@ -373,6 +373,10 @@ func (dc *DomainCreate) createSpec() (*Domain, *sqlgraph.CreateSpec) {
 		_spec.SetField(domain.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
+	if value, ok := dc.mutation.CreatedBy(); ok {
+		_spec.SetField(domain.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
 	if value, ok := dc.mutation.CreatedAt(); ok {
 		_spec.SetField(domain.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
@@ -380,10 +384,6 @@ func (dc *DomainCreate) createSpec() (*Domain, *sqlgraph.CreateSpec) {
 	if value, ok := dc.mutation.UpdatedAt(); ok {
 		_spec.SetField(domain.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
-	}
-	if value, ok := dc.mutation.UserID(); ok {
-		_spec.SetField(domain.FieldUserID, field.TypeString, value)
-		_node.UserID = value
 	}
 	return _node, _spec
 }

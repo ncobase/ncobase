@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"stocms/internal/data/ent/taxonomyrelations"
+	"stocms/internal/data/ent/taxonomyrelation"
 	"strings"
 	"time"
 
@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// TaxonomyRelations is the model entity for the TaxonomyRelations schema.
-type TaxonomyRelations struct {
+// TaxonomyRelation is the model entity for the TaxonomyRelation schema.
+type TaxonomyRelation struct {
 	config `json:"-"`
 	// ID of the ent.
 	// object primary key alias
@@ -32,15 +32,15 @@ type TaxonomyRelations struct {
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*TaxonomyRelations) scanValues(columns []string) ([]any, error) {
+func (*TaxonomyRelation) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case taxonomyrelations.FieldOrder:
+		case taxonomyrelation.FieldOrder:
 			values[i] = new(sql.NullInt64)
-		case taxonomyrelations.FieldID, taxonomyrelations.FieldTaxonomyID, taxonomyrelations.FieldType, taxonomyrelations.FieldCreatedBy:
+		case taxonomyrelation.FieldID, taxonomyrelation.FieldTaxonomyID, taxonomyrelation.FieldType, taxonomyrelation.FieldCreatedBy:
 			values[i] = new(sql.NullString)
-		case taxonomyrelations.FieldCreatedAt:
+		case taxonomyrelation.FieldCreatedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -50,44 +50,44 @@ func (*TaxonomyRelations) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the TaxonomyRelations fields.
-func (tr *TaxonomyRelations) assignValues(columns []string, values []any) error {
+// to the TaxonomyRelation fields.
+func (tr *TaxonomyRelation) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case taxonomyrelations.FieldID:
+		case taxonomyrelation.FieldID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
 				tr.ID = value.String
 			}
-		case taxonomyrelations.FieldTaxonomyID:
+		case taxonomyrelation.FieldTaxonomyID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field taxonomy_id", values[i])
 			} else if value.Valid {
 				tr.TaxonomyID = value.String
 			}
-		case taxonomyrelations.FieldType:
+		case taxonomyrelation.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
 				tr.Type = value.String
 			}
-		case taxonomyrelations.FieldOrder:
+		case taxonomyrelation.FieldOrder:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field order", values[i])
 			} else if value.Valid {
 				tr.Order = int32(value.Int64)
 			}
-		case taxonomyrelations.FieldCreatedBy:
+		case taxonomyrelation.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
 				tr.CreatedBy = value.String
 			}
-		case taxonomyrelations.FieldCreatedAt:
+		case taxonomyrelation.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
@@ -100,34 +100,34 @@ func (tr *TaxonomyRelations) assignValues(columns []string, values []any) error 
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the TaxonomyRelations.
+// Value returns the ent.Value that was dynamically selected and assigned to the TaxonomyRelation.
 // This includes values selected through modifiers, order, etc.
-func (tr *TaxonomyRelations) Value(name string) (ent.Value, error) {
+func (tr *TaxonomyRelation) Value(name string) (ent.Value, error) {
 	return tr.selectValues.Get(name)
 }
 
-// Update returns a builder for updating this TaxonomyRelations.
-// Note that you need to call TaxonomyRelations.Unwrap() before calling this method if this TaxonomyRelations
+// Update returns a builder for updating this TaxonomyRelation.
+// Note that you need to call TaxonomyRelation.Unwrap() before calling this method if this TaxonomyRelation
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (tr *TaxonomyRelations) Update() *TaxonomyRelationsUpdateOne {
-	return NewTaxonomyRelationsClient(tr.config).UpdateOne(tr)
+func (tr *TaxonomyRelation) Update() *TaxonomyRelationUpdateOne {
+	return NewTaxonomyRelationClient(tr.config).UpdateOne(tr)
 }
 
-// Unwrap unwraps the TaxonomyRelations entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the TaxonomyRelation entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (tr *TaxonomyRelations) Unwrap() *TaxonomyRelations {
+func (tr *TaxonomyRelation) Unwrap() *TaxonomyRelation {
 	_tx, ok := tr.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: TaxonomyRelations is not a transactional entity")
+		panic("ent: TaxonomyRelation is not a transactional entity")
 	}
 	tr.config.driver = _tx.drv
 	return tr
 }
 
 // String implements the fmt.Stringer.
-func (tr *TaxonomyRelations) String() string {
+func (tr *TaxonomyRelation) String() string {
 	var builder strings.Builder
-	builder.WriteString("TaxonomyRelations(")
+	builder.WriteString("TaxonomyRelation(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", tr.ID))
 	builder.WriteString("taxonomy_id=")
 	builder.WriteString(tr.TaxonomyID)
@@ -147,5 +147,5 @@ func (tr *TaxonomyRelations) String() string {
 	return builder.String()
 }
 
-// TaxonomyRelationsSlice is a parsable slice of TaxonomyRelations.
-type TaxonomyRelationsSlice []*TaxonomyRelations
+// TaxonomyRelations is a parsable slice of TaxonomyRelation.
+type TaxonomyRelations []*TaxonomyRelation

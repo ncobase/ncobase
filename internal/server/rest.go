@@ -89,6 +89,14 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	topic.PUT("/:slug", h.UpdateTopicHandler)
 	topic.DELETE("/:slug", h.DeleteTopicHandler)
 
+	// Casbin Rule endpoints
+	casbin := v1.Group("/policies", middleware.Authorized)
+	casbin.GET("", h.ListCasbinRuleHandler)
+	casbin.POST("", h.CreateCasbinRuleHandler)
+	casbin.GET("/:id", h.GetCasbinRuleHandler)
+	casbin.PUT("/:id", h.UpdateCasbinRuleHandler)
+	casbin.DELETE("/:id", h.DeleteCasbinRuleHandler)
+
 	// Swagger documentation endpoint
 	if conf.RunMode != gin.ReleaseMode {
 		e.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

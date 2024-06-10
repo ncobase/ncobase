@@ -5,11 +5,9 @@ import (
 	"strings"
 
 	"entgo.io/contrib/entgql"
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/index"
-
-	"entgo.io/ent"
 )
 
 // Resource holds the schema definition for the Resource entity.
@@ -19,7 +17,7 @@ type Resource struct {
 
 // Annotations of the Resource.
 func (Resource) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"sto", "resource"}, "_")
+	table := strings.Join([]string{"sc", "resource"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -57,8 +55,5 @@ func (Resource) Edges() []ent.Edge {
 
 // Indexes of the Resource.
 func (Resource) Indexes() []ent.Index {
-	return []ent.Index{
-		index.Fields("name"),
-		index.Fields("path"),
-	}
+	return []ent.Index{}
 }

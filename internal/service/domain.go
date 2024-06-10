@@ -67,7 +67,7 @@ func (svc *Service) CreateDomainService(c *gin.Context, body *structs.CreateDoma
 		return exception, err
 	}
 
-	body.UserID = user.ID
+	body.CreatedBy = user.ID
 	domain, err := svc.domain.Create(helper.FromGinContext(c), body)
 	if exception, err := handleError("Domain", err); exception != nil {
 		return exception, err
@@ -87,8 +87,8 @@ func (svc *Service) UpdateDomainService(c *gin.Context, body *structs.UpdateDoma
 		return nil, errors.New("INVALID_USER_ID")
 	}
 
-	if body.UserID != "" {
-		_, err := svc.domain.GetByUser(helper.FromGinContext(c), body.UserID)
+	if body.CreatedBy != "" {
+		_, err := svc.domain.GetByUser(helper.FromGinContext(c), body.CreatedBy)
 		if exception, err := handleError("Domain", err); exception != nil {
 			return exception, err
 		}
@@ -103,7 +103,7 @@ func (svc *Service) UpdateDomainService(c *gin.Context, body *structs.UpdateDoma
 		return exception, err
 	}
 
-	if domain.UserID != userID {
+	if domain.CreatedBy != userID {
 		return resp.Forbidden("This domain is not yours"), nil
 	}
 
@@ -145,7 +145,7 @@ func (svc *Service) ReadDomainService(c *gin.Context, id string) (*resp.Exceptio
 		return exception, err
 	}
 
-	if domain.UserID != userID {
+	if domain.CreatedBy != userID {
 		return resp.Forbidden("This domain is not yours"), nil
 	}
 
@@ -158,19 +158,29 @@ func (svc *Service) ReadDomainService(c *gin.Context, id string) (*resp.Exceptio
 
 // isCreateDomain user count <= 1, create domain
 func (svc *Service) isCreateDomain(ctx context.Context, body *structs.CreateDomainBody) (*ent.Domain, error) {
-	if body.UserID == "" {
+	if body.CreatedBy == "" {
 		return nil, errors.New("INVALID_USER_ID")
 	}
 
 	client := svc.d.GetEntClient()
 	countUser := client.User.Query().CountX(context.Background())
 	if countUser <= 1 {
-		return svc.domain.Create(ctx, body)
+		domain, err := svc.domain.Create(ctx, body)
+		if err != nil {
+			return nil, err
+		}
+
+		_, err = client.UserDomain.Create().SetID(body.CreatedBy).SetDomainID(domain.ID).Save(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		return domain, nil
 	}
 
 	// check if user already have domain
 	if validator.IsEmpty(body.Name) {
-		if domain, _ := svc.domain.GetByUser(ctx, body.UserID); domain != nil {
+		if domain, _ := svc.domain.GetByUser(ctx, body.CreatedBy); domain != nil {
 			return domain, nil
 		}
 		return svc.domain.Create(ctx, body)
@@ -197,7 +207,7 @@ func (svc *Service) serializeDomain(c *gin.Context, domain *ent.Domain, withUser
 	}
 
 	if withUser {
-		user, err := svc.user.GetByID(c, domain.UserID)
+		user, err := svc.user.GetByID(c, domain.CreatedBy)
 		if err == nil {
 			readDomain.User = new(structs.User)
 			_ = copier.Copy(&readDomain.User, user)

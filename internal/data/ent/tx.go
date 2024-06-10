@@ -14,26 +14,46 @@ type Tx struct {
 	config
 	// AuthToken is the client for interacting with the AuthToken builders.
 	AuthToken *AuthTokenClient
+	// CasbinRule is the client for interacting with the CasbinRule builders.
+	CasbinRule *CasbinRuleClient
 	// CodeAuth is the client for interacting with the CodeAuth builders.
 	CodeAuth *CodeAuthClient
 	// Domain is the client for interacting with the Domain builders.
 	Domain *DomainClient
+	// Group is the client for interacting with the Group builders.
+	Group *GroupClient
+	// GroupRole is the client for interacting with the GroupRole builders.
+	GroupRole *GroupRoleClient
 	// Module is the client for interacting with the Module builders.
 	Module *ModuleClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
 	OAuthUser *OAuthUserClient
+	// Permission is the client for interacting with the Permission builders.
+	Permission *PermissionClient
 	// Resource is the client for interacting with the Resource builders.
 	Resource *ResourceClient
+	// Role is the client for interacting with the Role builders.
+	Role *RoleClient
+	// RolePermission is the client for interacting with the RolePermission builders.
+	RolePermission *RolePermissionClient
 	// Taxonomy is the client for interacting with the Taxonomy builders.
 	Taxonomy *TaxonomyClient
-	// TaxonomyRelations is the client for interacting with the TaxonomyRelations builders.
-	TaxonomyRelations *TaxonomyRelationsClient
+	// TaxonomyRelation is the client for interacting with the TaxonomyRelation builders.
+	TaxonomyRelation *TaxonomyRelationClient
 	// Topic is the client for interacting with the Topic builders.
 	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
+	// UserDomain is the client for interacting with the UserDomain builders.
+	UserDomain *UserDomainClient
+	// UserDomainRole is the client for interacting with the UserDomainRole builders.
+	UserDomainRole *UserDomainRoleClient
+	// UserGroup is the client for interacting with the UserGroup builders.
+	UserGroup *UserGroupClient
 	// UserProfile is the client for interacting with the UserProfile builders.
 	UserProfile *UserProfileClient
+	// UserRole is the client for interacting with the UserRole builders.
+	UserRole *UserRoleClient
 
 	// lazily loaded.
 	client     *Client
@@ -166,16 +186,26 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.AuthToken = NewAuthTokenClient(tx.config)
+	tx.CasbinRule = NewCasbinRuleClient(tx.config)
 	tx.CodeAuth = NewCodeAuthClient(tx.config)
 	tx.Domain = NewDomainClient(tx.config)
+	tx.Group = NewGroupClient(tx.config)
+	tx.GroupRole = NewGroupRoleClient(tx.config)
 	tx.Module = NewModuleClient(tx.config)
 	tx.OAuthUser = NewOAuthUserClient(tx.config)
+	tx.Permission = NewPermissionClient(tx.config)
 	tx.Resource = NewResourceClient(tx.config)
+	tx.Role = NewRoleClient(tx.config)
+	tx.RolePermission = NewRolePermissionClient(tx.config)
 	tx.Taxonomy = NewTaxonomyClient(tx.config)
-	tx.TaxonomyRelations = NewTaxonomyRelationsClient(tx.config)
+	tx.TaxonomyRelation = NewTaxonomyRelationClient(tx.config)
 	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)
+	tx.UserDomain = NewUserDomainClient(tx.config)
+	tx.UserDomainRole = NewUserDomainRoleClient(tx.config)
+	tx.UserGroup = NewUserGroupClient(tx.config)
 	tx.UserProfile = NewUserProfileClient(tx.config)
+	tx.UserRole = NewUserRoleClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

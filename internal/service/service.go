@@ -18,8 +18,9 @@ type Service struct {
 	user              repo.User
 	resource          repo.Resource
 	module            repo.Module
+	casbinRule        repo.CasbinRule
 	taxonomy          repo.Taxonomy
-	taxonomyRelations repo.TaxonomyRelations
+	taxonomyRelations repo.TaxonomyRelation
 	topic             repo.Topic
 }
 
@@ -31,8 +32,9 @@ func New(d *data.Data) *Service {
 		user:              repo.NewUser(d),
 		resource:          repo.NewResource(d),
 		module:            repo.NewModule(d),
+		casbinRule:        repo.NewCasbinRule(d),
 		taxonomy:          repo.NewTaxonomy(d),
-		taxonomyRelations: repo.NewTaxonomyRelations(d),
+		taxonomyRelations: repo.NewTaxonomyRelation(d),
 		topic:             repo.NewTopic(d),
 	}
 }
