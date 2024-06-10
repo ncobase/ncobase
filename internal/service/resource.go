@@ -21,13 +21,16 @@ func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateRe
 	storage, storageConfig := helper.GetStorage(c)
 
 	// Handle file storage
-	obj, err := storage.Put(body.Path, body.File)
+	_, err := storage.Put(body.Path, body.File)
 	if err != nil {
 		log.Errorf(c, "Error storing file: %v\n", err)
-		return resp.InternalServer("Error storing file"), err
+		return resp.InternalServer("failed to store file"), nil
 	}
-
-	fmt.Printf("obj: %v\n", obj)
+	defer func() {
+		if err != nil {
+			_ = storage.Delete(body.Path)
+		}
+	}()
 
 	// set storage provider
 	body.Storage = storageConfig.Provider
@@ -40,9 +43,7 @@ func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateRe
 	resource, err := svc.resource.Create(c, body)
 	if err != nil {
 		log.Errorf(c, "Error creating resource: %v\n", err)
-		// delete file from storage
-		_ = storage.Delete(body.Path)
-		return resp.InternalServer("Error creating resource"), err
+		return resp.InternalServer("failed to create resource"), nil
 	}
 
 	return &resp.Exception{

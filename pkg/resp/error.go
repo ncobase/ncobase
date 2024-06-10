@@ -69,3 +69,8 @@ func InternalServer(message string, data ...types.JSON) *Exception {
 func Conflict(message string, data ...types.JSON) *Exception {
 	return newResponse(http.StatusConflict, ecode.Conflict, message, data...)
 }
+
+// NotAllowed indicates a not allowed error.
+func NotAllowed(message string, data ...types.JSON) *Exception {
+	return newResponse(http.StatusMethodNotAllowed, ecode.MethodNotAllowed, message, data...)
+}

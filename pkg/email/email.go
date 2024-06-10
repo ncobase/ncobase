@@ -24,7 +24,7 @@ type AuthEmailTemplate struct {
 }
 
 // Config is a generic email configuration interface
-type Config interface{}
+type Config any
 
 // Sender is a generic interface for sending emails
 type Sender interface {

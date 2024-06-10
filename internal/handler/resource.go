@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"mime/multipart"
+	"net/http"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/structs"
 	"stocms/pkg/ecode"
@@ -13,12 +14,32 @@ import (
 	"stocms/pkg/resp"
 	"stocms/pkg/storage"
 	"stocms/pkg/types"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
+var maxResourceSize int64 = 2048 << 20 // 2048 MB
+
 // CreateResourcesHandler handles the creation of resources, both single and multiple
 func (h *Handler) CreateResourcesHandler(c *gin.Context) {
+	if c.Request.Method != http.MethodPost {
+		resp.Fail(c.Writer, resp.NotAllowed("Method not allowed"))
+		return
+	}
+	contentType := c.ContentType()
+	switch {
+	case strings.HasPrefix(contentType, "multipart/"):
+		h.handleFormDataUpload(c)
+	// case contentType == "application/octet-stream":
+	// 	h.handleBlobUpload(c)
+	default:
+		resp.Fail(c.Writer, resp.BadRequest("Unsupported content type"))
+	}
+}
+
+// handleFormDataUpload handles file upload using multipart form data
+func (h *Handler) handleFormDataUpload(c *gin.Context) {
 	file, header, err := c.Request.FormFile("file")
 	if err == nil {
 		defer func(file multipart.File) {
@@ -41,7 +62,7 @@ func (h *Handler) CreateResourcesHandler(c *gin.Context) {
 		return
 	}
 
-	err = c.Request.ParseMultipartForm(32 << 20) // Set maxMemory to 32MB
+	err = c.Request.ParseMultipartForm(maxResourceSize) // Set maxMemory to 32MB
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer("Failed to parse multipart form"))
 		return
@@ -58,6 +79,7 @@ func (h *Handler) CreateResourcesHandler(c *gin.Context) {
 			resp.Fail(c.Writer, resp.InternalServer("Failed to open file"))
 			return
 		}
+		//goland:noinspection ALL
 		defer func(file multipart.File) {
 			err := file.Close()
 			if err != nil {
@@ -79,6 +101,46 @@ func (h *Handler) CreateResourcesHandler(c *gin.Context) {
 	}
 	resp.Success(c.Writer, &resp.Exception{Data: results})
 }
+
+// // handleBlobUpload handles file upload using Blob object
+// func (h *Handler) handleBlobUpload(c *gin.Context) {
+// 	// Limit the maximum request body size
+// 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, maxResourceSize)
+//
+// 	// Create a buffer to store the file data
+// 	fileBuffer := bytes.Buffer{}
+//
+// 	// Copy data from request body to buffer
+// 	_, err := io.Copy(&fileBuffer, c.Request.Body)
+// 	if err != nil {
+// 		resp.Fail(c.Writer, resp.InternalServer("Failed to read request body"))
+// 		return
+// 	}
+//
+// 	// Check if file is empty
+// 	if fileBuffer.Len() == 0 {
+// 		resp.Fail(c.Writer, resp.BadRequest("No file provided"))
+// 		return
+// 	}
+//
+// 	// Determine file type
+// 	fileType := http.DetectContentType(fileBuffer.Bytes())
+//
+// 	// Create a new CreateResourceBody instance
+// 	body := &structs.CreateResourceBody{}
+//
+// 	body.File = bytes.NewReader(fileBuffer.Bytes())
+// 	body.Type = fileType
+//
+// 	// Call service to create resource
+// 	result, err := h.svc.CreateResourceService(c, body)
+// 	if err != nil {
+// 		resp.Fail(c.Writer, resp.InternalServer("Failed to create resource"))
+// 		return
+// 	}
+//
+// 	resp.Success(c.Writer, result)
+// }
 
 // processFile processes file details and binds other fields from the form to the resource body
 func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateResourceBody, error) {
@@ -132,7 +194,7 @@ func (h *Handler) UpdateResourceHandler(c *gin.Context) {
 	updates := make(types.JSON)
 
 	// Parse multipart form
-	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
+	if err := c.Request.ParseMultipartForm(maxResourceSize); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse form"))
 		return
 	}
@@ -271,7 +333,7 @@ func (h *Handler) downloadFile(c *gin.Context, dispositionType string) {
 		filename := storage.RestoreOriginalFileName(resource.Name, true)
 		c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", dispositionType, filename))
 
-		// Set the Content-Type header based on the original content type
+		// Set the Content-Type header based on the original content t
 		if resource.Type == "" {
 			c.Header("Content-Type", "application/octet-stream")
 		}
