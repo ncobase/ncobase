@@ -6,6 +6,7 @@ import (
 	"stocms/internal/data/ent/authtoken"
 	"stocms/internal/data/ent/codeauth"
 	"stocms/internal/data/ent/domain"
+	"stocms/internal/data/ent/module"
 	"stocms/internal/data/ent/oauthuser"
 	"stocms/internal/data/ent/resource"
 	"stocms/internal/data/ent/taxonomy"
@@ -110,6 +111,43 @@ func init() {
 	domainDescID := domainMixinFields0[0].Descriptor()
 	// domain.DefaultID holds the default value on creation for the id field.
 	domain.DefaultID = domainDescID.Default.(func() string)
+	moduleMixin := schema.Module{}.Mixin()
+	moduleMixinFields0 := moduleMixin[0].Fields()
+	_ = moduleMixinFields0
+	moduleMixinFields9 := moduleMixin[9].Fields()
+	_ = moduleMixinFields9
+	moduleMixinFields11 := moduleMixin[11].Fields()
+	_ = moduleMixinFields11
+	moduleMixinFields12 := moduleMixin[12].Fields()
+	_ = moduleMixinFields12
+	moduleFields := schema.Module{}.Fields()
+	_ = moduleFields
+	// moduleDescStatus is the schema descriptor for status field.
+	moduleDescStatus := moduleMixinFields9[0].Descriptor()
+	// module.DefaultStatus holds the default value on creation for the status field.
+	module.DefaultStatus = moduleDescStatus.Default.(int32)
+	// moduleDescCreatedBy is the schema descriptor for created_by field.
+	moduleDescCreatedBy := moduleMixinFields11[0].Descriptor()
+	// module.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	module.CreatedByValidator = moduleDescCreatedBy.Validators[0].(func(string) error)
+	// moduleDescUpdatedBy is the schema descriptor for updated_by field.
+	moduleDescUpdatedBy := moduleMixinFields11[1].Descriptor()
+	// module.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	module.UpdatedByValidator = moduleDescUpdatedBy.Validators[0].(func(string) error)
+	// moduleDescCreatedAt is the schema descriptor for created_at field.
+	moduleDescCreatedAt := moduleMixinFields12[0].Descriptor()
+	// module.DefaultCreatedAt holds the default value on creation for the created_at field.
+	module.DefaultCreatedAt = moduleDescCreatedAt.Default.(func() time.Time)
+	// moduleDescUpdatedAt is the schema descriptor for updated_at field.
+	moduleDescUpdatedAt := moduleMixinFields12[1].Descriptor()
+	// module.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	module.DefaultUpdatedAt = moduleDescUpdatedAt.Default.(func() time.Time)
+	// module.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	module.UpdateDefaultUpdatedAt = moduleDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// moduleDescID is the schema descriptor for id field.
+	moduleDescID := moduleMixinFields0[0].Descriptor()
+	// module.DefaultID holds the default value on creation for the id field.
+	module.DefaultID = moduleDescID.Default.(func() string)
 	oauthuserMixin := schema.OAuthUser{}.Mixin()
 	oauthuserMixinFields0 := oauthuserMixin[0].Fields()
 	_ = oauthuserMixinFields0

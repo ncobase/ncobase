@@ -15,6 +15,9 @@ type CodeAuth func(*sql.Selector)
 // Domain is the predicate function for domain builders.
 type Domain func(*sql.Selector)
 
+// Module is the predicate function for module builders.
+type Module func(*sql.Selector)
+
 // OAuthUser is the predicate function for oauthuser builders.
 type OAuthUser func(*sql.Selector)
 

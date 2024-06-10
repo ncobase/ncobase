@@ -17,6 +17,7 @@ type Service struct {
 	domain            repo.Domain
 	user              repo.User
 	resource          repo.Resource
+	module            repo.Module
 	taxonomy          repo.Taxonomy
 	taxonomyRelations repo.TaxonomyRelations
 	topic             repo.Topic
@@ -29,6 +30,7 @@ func New(d *data.Data) *Service {
 		domain:            repo.NewDomain(d),
 		user:              repo.NewUser(d),
 		resource:          repo.NewResource(d),
+		module:            repo.NewModule(d),
 		taxonomy:          repo.NewTaxonomy(d),
 		taxonomyRelations: repo.NewTaxonomyRelations(d),
 		topic:             repo.NewTopic(d),

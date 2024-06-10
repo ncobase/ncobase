@@ -412,11 +412,208 @@ const docTemplate = `{
                 }
             }
         },
+        "/modules": {
+            "get": {
+                "description": "Retrieve a list of modules based on the provided query parameters",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "modules"
+                ],
+                "summary": "List all modules",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Module name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Maximum number of modules to retrieve",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of modules to skip",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new module with the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "modules"
+                ],
+                "summary": "Create a new module",
+                "parameters": [
+                    {
+                        "description": "Module data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateModuleBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/modules/{slug}": {
+            "get": {
+                "description": "Retrieve a module by its slug or ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "modules"
+                ],
+                "summary": "Get a module by slug or ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Module slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing module with the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "modules"
+                ],
+                "summary": "Update an existing module",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Module slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Module updates",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a module by its slug or ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "modules"
+                ],
+                "summary": "Delete a module by slug or ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Module slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/oauth/callback": {
             "get": {
                 "description": "Handle callback from OAuth provider.",
                 "tags": [
-                    "OAuth"
+                    "oauth"
                 ],
                 "summary": "OAuth callback",
                 "responses": {
@@ -439,7 +636,7 @@ const docTemplate = `{
             "get": {
                 "description": "Handle callback from Facebook OAuth provider.",
                 "tags": [
-                    "OAuth"
+                    "oauth"
                 ],
                 "summary": "Facebook OAuth callback",
                 "parameters": [
@@ -471,7 +668,7 @@ const docTemplate = `{
             "get": {
                 "description": "Handle callback from GitHub OAuth provider.",
                 "tags": [
-                    "OAuth"
+                    "oauth"
                 ],
                 "summary": "GitHub OAuth callback",
                 "parameters": [
@@ -506,7 +703,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "OAuth"
+                    "oauth"
                 ],
                 "summary": "Get OAuth profile",
                 "responses": {
@@ -535,7 +732,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "OAuth"
+                    "oauth"
                 ],
                 "summary": "OAuth register",
                 "parameters": [
@@ -569,7 +766,7 @@ const docTemplate = `{
             "get": {
                 "description": "Redirect to OAuth provider for authentication.",
                 "tags": [
-                    "OAuth"
+                    "oauth"
                 ],
                 "summary": "OAuth redirect",
                 "parameters": [
@@ -1433,6 +1630,53 @@ const docTemplate = `{
                 "status": {
                     "description": "HTTP status",
                     "type": "integer"
+                }
+            }
+        },
+        "structs.CreateModuleBody": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
                 }
             }
         },

@@ -65,6 +65,14 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	resource.GET("/:slug", h.GetResourceHandler)
 	resource.DELETE("/:slug", h.DeleteResourceHandler)
 
+	// module endpoints
+	module := v1.Group("/modules")
+	module.GET("", h.ListModuleHandler)
+	module.POST("", h.CreateModuleHandler)
+	module.GET("/:slug", h.GetModuleHandler)
+	module.PUT("/:slug", h.UpdateModuleHandler)
+	module.DELETE("/:slug", h.DeleteModuleHandler)
+
 	// Taxonomy endpoints
 	taxonomy := v1.Group("/taxonomies", middleware.Authorized)
 	taxonomy.GET("", h.ListTaxonomyHandler)
