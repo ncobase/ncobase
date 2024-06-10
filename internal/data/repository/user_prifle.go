@@ -15,7 +15,8 @@ import (
 // UserProfile represents the user profile repository interface.
 type UserProfile interface {
 	Create(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error)
-	GetByUserID(ctx context.Context, id string) (*ent.UserProfile, error)
+	Get(ctx context.Context, id string) (*ent.UserProfile, error)
+	Delete(ctx context.Context, id string) error
 }
 
 // userProfileRepo implements the User interface.
@@ -52,8 +53,8 @@ func (r *userProfileRepo) Create(ctx context.Context, body *structs.UserRequestB
 	return row, nil
 }
 
-// GetByUserID - Find profile by user id
-func (r *userProfileRepo) GetByUserID(ctx context.Context, id string) (*ent.UserProfile, error) {
+// Get - Find profile by user id
+func (r *userProfileRepo) Get(ctx context.Context, id string) (*ent.UserProfile, error) {
 	row, err := r.ec.UserProfile.
 		Query().
 		Where(userProfileEnt.IDEQ(id)).
@@ -64,4 +65,13 @@ func (r *userProfileRepo) GetByUserID(ctx context.Context, id string) (*ent.User
 		return nil, err
 	}
 	return row, nil
+}
+
+// Delete - Delete user profile
+func (r *userProfileRepo) Delete(ctx context.Context, id string) error {
+	if _, err := r.ec.UserProfile.Delete().Where(userProfileEnt.IDEQ(id)).Exec(ctx); err != nil {
+		log.Errorf(nil, "userProfileRepo.Delete error: %v\n", err)
+		return err
+	}
+	return nil
 }

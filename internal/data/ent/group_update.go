@@ -48,6 +48,26 @@ func (gu *GroupUpdate) ClearName() *GroupUpdate {
 	return gu
 }
 
+// SetSlug sets the "slug" field.
+func (gu *GroupUpdate) SetSlug(s string) *GroupUpdate {
+	gu.mutation.SetSlug(s)
+	return gu
+}
+
+// SetNillableSlug sets the "slug" field if the given value is not nil.
+func (gu *GroupUpdate) SetNillableSlug(s *string) *GroupUpdate {
+	if s != nil {
+		gu.SetSlug(*s)
+	}
+	return gu
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (gu *GroupUpdate) ClearSlug() *GroupUpdate {
+	gu.mutation.ClearSlug()
+	return gu
+}
+
 // SetDisabled sets the "disabled" field.
 func (gu *GroupUpdate) SetDisabled(b bool) *GroupUpdate {
 	gu.mutation.SetDisabled(b)
@@ -288,6 +308,12 @@ func (gu *GroupUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if gu.mutation.NameCleared() {
 		_spec.ClearField(group.FieldName, field.TypeString)
 	}
+	if value, ok := gu.mutation.Slug(); ok {
+		_spec.SetField(group.FieldSlug, field.TypeString, value)
+	}
+	if gu.mutation.SlugCleared() {
+		_spec.ClearField(group.FieldSlug, field.TypeString)
+	}
 	if value, ok := gu.mutation.Disabled(); ok {
 		_spec.SetField(group.FieldDisabled, field.TypeBool, value)
 	}
@@ -382,6 +408,26 @@ func (guo *GroupUpdateOne) SetNillableName(s *string) *GroupUpdateOne {
 // ClearName clears the value of the "name" field.
 func (guo *GroupUpdateOne) ClearName() *GroupUpdateOne {
 	guo.mutation.ClearName()
+	return guo
+}
+
+// SetSlug sets the "slug" field.
+func (guo *GroupUpdateOne) SetSlug(s string) *GroupUpdateOne {
+	guo.mutation.SetSlug(s)
+	return guo
+}
+
+// SetNillableSlug sets the "slug" field if the given value is not nil.
+func (guo *GroupUpdateOne) SetNillableSlug(s *string) *GroupUpdateOne {
+	if s != nil {
+		guo.SetSlug(*s)
+	}
+	return guo
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (guo *GroupUpdateOne) ClearSlug() *GroupUpdateOne {
+	guo.mutation.ClearSlug()
 	return guo
 }
 
@@ -654,6 +700,12 @@ func (guo *GroupUpdateOne) sqlSave(ctx context.Context) (_node *Group, err error
 	}
 	if guo.mutation.NameCleared() {
 		_spec.ClearField(group.FieldName, field.TypeString)
+	}
+	if value, ok := guo.mutation.Slug(); ok {
+		_spec.SetField(group.FieldSlug, field.TypeString, value)
+	}
+	if guo.mutation.SlugCleared() {
+		_spec.ClearField(group.FieldSlug, field.TypeString)
 	}
 	if value, ok := guo.mutation.Disabled(); ok {
 		_spec.SetField(group.FieldDisabled, field.TypeBool, value)
