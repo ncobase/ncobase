@@ -158,8 +158,6 @@ func init() {
 	groupMixin := schema.Group{}.Mixin()
 	groupMixinFields0 := groupMixin[0].Fields()
 	_ = groupMixinFields0
-	groupMixinFields4 := groupMixin[4].Fields()
-	_ = groupMixinFields4
 	groupMixinFields5 := groupMixin[5].Fields()
 	_ = groupMixinFields5
 	groupMixinFields6 := groupMixin[6].Fields()
@@ -170,38 +168,40 @@ func init() {
 	_ = groupMixinFields8
 	groupMixinFields9 := groupMixin[9].Fields()
 	_ = groupMixinFields9
+	groupMixinFields10 := groupMixin[10].Fields()
+	_ = groupMixinFields10
 	groupFields := schema.Group{}.Fields()
 	_ = groupFields
 	// groupDescLeader is the schema descriptor for leader field.
-	groupDescLeader := groupMixinFields4[0].Descriptor()
+	groupDescLeader := groupMixinFields5[0].Descriptor()
 	// group.DefaultLeader holds the default value on creation for the leader field.
 	group.DefaultLeader = groupDescLeader.Default.(map[string]interface{})
 	// groupDescExtras is the schema descriptor for extras field.
-	groupDescExtras := groupMixinFields5[0].Descriptor()
+	groupDescExtras := groupMixinFields6[0].Descriptor()
 	// group.DefaultExtras holds the default value on creation for the extras field.
 	group.DefaultExtras = groupDescExtras.Default.(map[string]interface{})
 	// groupDescParentID is the schema descriptor for parent_id field.
-	groupDescParentID := groupMixinFields6[0].Descriptor()
+	groupDescParentID := groupMixinFields7[0].Descriptor()
 	// group.ParentIDValidator is a validator for the "parent_id" field. It is called by the builders before save.
 	group.ParentIDValidator = groupDescParentID.Validators[0].(func(string) error)
 	// groupDescDomainID is the schema descriptor for domain_id field.
-	groupDescDomainID := groupMixinFields7[0].Descriptor()
+	groupDescDomainID := groupMixinFields8[0].Descriptor()
 	// group.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
 	group.DomainIDValidator = groupDescDomainID.Validators[0].(func(string) error)
 	// groupDescCreatedBy is the schema descriptor for created_by field.
-	groupDescCreatedBy := groupMixinFields8[0].Descriptor()
+	groupDescCreatedBy := groupMixinFields9[0].Descriptor()
 	// group.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	group.CreatedByValidator = groupDescCreatedBy.Validators[0].(func(string) error)
 	// groupDescUpdatedBy is the schema descriptor for updated_by field.
-	groupDescUpdatedBy := groupMixinFields8[1].Descriptor()
+	groupDescUpdatedBy := groupMixinFields9[1].Descriptor()
 	// group.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	group.UpdatedByValidator = groupDescUpdatedBy.Validators[0].(func(string) error)
 	// groupDescCreatedAt is the schema descriptor for created_at field.
-	groupDescCreatedAt := groupMixinFields9[0].Descriptor()
+	groupDescCreatedAt := groupMixinFields10[0].Descriptor()
 	// group.DefaultCreatedAt holds the default value on creation for the created_at field.
 	group.DefaultCreatedAt = groupDescCreatedAt.Default.(func() time.Time)
 	// groupDescUpdatedAt is the schema descriptor for updated_at field.
-	groupDescUpdatedAt := groupMixinFields9[1].Descriptor()
+	groupDescUpdatedAt := groupMixinFields10[1].Descriptor()
 	// group.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	group.DefaultUpdatedAt = groupDescUpdatedAt.Default.(func() time.Time)
 	// group.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.

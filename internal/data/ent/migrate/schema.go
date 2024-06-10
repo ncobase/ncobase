@@ -114,6 +114,7 @@ var (
 	ScGroupColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "leader", Type: field.TypeJSON, Nullable: true, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"},
@@ -137,14 +138,19 @@ var (
 				Columns: []*schema.Column{ScGroupColumns[0]},
 			},
 			{
+				Name:    "group_slug",
+				Unique:  false,
+				Columns: []*schema.Column{ScGroupColumns[2]},
+			},
+			{
 				Name:    "group_parent_id",
 				Unique:  false,
-				Columns: []*schema.Column{ScGroupColumns[6]},
+				Columns: []*schema.Column{ScGroupColumns[7]},
 			},
 			{
 				Name:    "group_domain_id",
 				Unique:  false,
-				Columns: []*schema.Column{ScGroupColumns[7]},
+				Columns: []*schema.Column{ScGroupColumns[8]},
 			},
 		},
 	}

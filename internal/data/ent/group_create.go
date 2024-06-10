@@ -33,6 +33,20 @@ func (gc *GroupCreate) SetNillableName(s *string) *GroupCreate {
 	return gc
 }
 
+// SetSlug sets the "slug" field.
+func (gc *GroupCreate) SetSlug(s string) *GroupCreate {
+	gc.mutation.SetSlug(s)
+	return gc
+}
+
+// SetNillableSlug sets the "slug" field if the given value is not nil.
+func (gc *GroupCreate) SetNillableSlug(s *string) *GroupCreate {
+	if s != nil {
+		gc.SetSlug(*s)
+	}
+	return gc
+}
+
 // SetDisabled sets the "disabled" field.
 func (gc *GroupCreate) SetDisabled(b bool) *GroupCreate {
 	gc.mutation.SetDisabled(b)
@@ -288,6 +302,10 @@ func (gc *GroupCreate) createSpec() (*Group, *sqlgraph.CreateSpec) {
 	if value, ok := gc.mutation.Name(); ok {
 		_spec.SetField(group.FieldName, field.TypeString, value)
 		_node.Name = value
+	}
+	if value, ok := gc.mutation.Slug(); ok {
+		_spec.SetField(group.FieldSlug, field.TypeString, value)
+		_node.Slug = value
 	}
 	if value, ok := gc.mutation.Disabled(); ok {
 		_spec.SetField(group.FieldDisabled, field.TypeBool, value)

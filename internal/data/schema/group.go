@@ -30,6 +30,7 @@ func (Group) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey{},
 		mixin.Name{},
+		mixin.SlugUnique{},
 		mixin.Disabled{},
 		mixin.Description{},
 		mixin.Leader{},
