@@ -247,7 +247,7 @@ func (svc *Service) SendCodeService(c *gin.Context, body *structs.SendCodeBody) 
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil
 		}
-		return resp.BadRequest("Send mail failed"), nil
+		return resp.BadRequest("send mail failed, please try again or contact support"), nil
 	}
 
 	return &resp.Exception{Data: types.JSON{"registered": user != nil}}, tx.Commit()
@@ -267,11 +267,7 @@ func sendAuthEmail(c *gin.Context, e, code string, registered bool) error {
 		template.Keyword = "Sign Up"
 		template.URL = conf.Frontend.SignUpURL + "?code=" + code
 	}
-	_, err := email.SendTemplateEmailWithMailgun(&email.MailgunConfig{
-		APIKey: conf.Mailgun.Key,
-		Domain: conf.Mailgun.Domain,
-		From:   conf.Mailgun.From,
-	}, e, template)
+	_, err := helper.SendEmailWithTemplate(c, e, template)
 	return err
 }
 
