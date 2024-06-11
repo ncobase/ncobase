@@ -232,8 +232,12 @@ func (svc *Service) isCreateDomain(ctx context.Context, body *structs.CreateDoma
 		return existingDomain, nil
 	}
 
-	// No existing domain found for the user, create a new domain
-	return svc.createInitialDomain(ctx, body)
+	// If there are no existing domains and body.Domain is not empty, create the initial domain
+	if body.Domain.Name != "" {
+		return svc.createInitialDomain(ctx, body)
+	}
+
+	return nil, nil
 
 }
 

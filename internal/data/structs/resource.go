@@ -14,16 +14,16 @@ type FindResource struct {
 
 // ResourceBody represents the common fields for creating and updating a resource.
 type ResourceBody struct {
-	File       io.Reader   `json:"-"`
-	Name       string      `json:"name,omitempty"`
-	Path       string      `json:"path,omitempty"`
-	Type       string      `json:"type,omitempty"`
-	Size       *int64      `json:"size,omitempty"`
-	Storage    string      `json:"storage,omitempty"`
-	URL        string      `json:"url,omitempty"`
-	ObjectID   string      `json:"object_id,omitempty"`
-	DomainID   string      `json:"domain_id,omitempty"`
-	ExtraProps *types.JSON `json:"extras,omitempty"`
+	File     io.Reader   `json:"-"`
+	Name     string      `json:"name,omitempty"`
+	Path     string      `json:"path,omitempty"`
+	Type     string      `json:"type,omitempty"`
+	Size     *int64      `json:"size,omitempty"`
+	Storage  string      `json:"storage,omitempty"`
+	URL      string      `json:"url,omitempty"`
+	ObjectID string      `json:"object_id,omitempty"`
+	DomainID string      `json:"domain_id,omitempty"`
+	Extras   *types.JSON `json:"extras,omitempty"`
 	BaseEntity
 }
 

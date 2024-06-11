@@ -106,7 +106,7 @@ func (svc *Service) serializeRole(row *ent.Role) *structs.Role {
 		Slug:        row.Slug,
 		Disabled:    row.Disabled,
 		Description: row.Description,
-		ExtraProps:  &row.Extras,
+		Extras:      &row.Extras,
 		BaseEntity: structs.BaseEntity{
 			CreatedBy: &row.CreatedBy,
 			CreatedAt: &row.CreatedAt,

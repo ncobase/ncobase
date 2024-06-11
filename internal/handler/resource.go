@@ -185,11 +185,11 @@ func bindResourceFields(c *gin.Context, body *structs.CreateResourceBody) error 
 		case "domain_id":
 			body.DomainID = values[0]
 		case "extras":
-			var extraProps types.JSON
-			if err := json.Unmarshal([]byte(values[0]), &extraProps); err != nil {
+			var extras types.JSON
+			if err := json.Unmarshal([]byte(values[0]), &extras); err != nil {
 				return errors.New("invalid extras format")
 			}
-			body.ExtraProps = &extraProps
+			body.Extras = &extras
 		}
 	}
 	return nil

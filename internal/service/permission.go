@@ -84,7 +84,7 @@ func (svc *Service) serializePermission(row *ent.Permission) *structs.Permission
 		Description: row.Description,
 		Default:     &row.Default,
 		Disabled:    &row.Disabled,
-		ExtraProps:  &row.Extras,
+		Extras:      &row.Extras,
 		BaseEntity: structs.BaseEntity{
 			CreatedBy: &row.CreatedBy,
 			CreatedAt: &row.CreatedAt,

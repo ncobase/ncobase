@@ -107,7 +107,7 @@ func (svc *Service) serializeGroup(row *ent.Group) *structs.Group {
 		Disabled:    row.Disabled,
 		Description: row.Description,
 		Leader:      &row.Leader,
-		ExtraProps:  &row.Extras,
+		Extras:      &row.Extras,
 		ParentID:    &row.ParentID,
 		DomainID:    &row.DomainID,
 		BaseEntity: structs.BaseEntity{

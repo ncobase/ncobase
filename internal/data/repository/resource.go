@@ -56,8 +56,11 @@ func (r *resourceRepo) Create(ctx context.Context, body *structs.CreateResourceB
 	builder.SetNillableURL(&body.URL)
 	builder.SetNillableObjectID(&body.ObjectID)
 	builder.SetNillableDomainID(&body.DomainID)
-	builder.SetExtras(types.ToValue(body.ExtraProps))
 	builder.SetNillableCreatedBy(body.CreatedBy)
+
+	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
+		builder.SetExtras(*body.Extras)
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)

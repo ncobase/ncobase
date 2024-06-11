@@ -11,7 +11,7 @@ type Role struct {
 	Slug        string      `json:"slug,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
 	Description string      `json:"description,omitempty"`
-	ExtraProps  *types.JSON `json:"extras,omitempty"`
+	Extras      *types.JSON `json:"extras,omitempty"`
 	BaseEntity
 }
 

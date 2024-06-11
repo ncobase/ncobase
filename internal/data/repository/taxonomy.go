@@ -63,9 +63,12 @@ func (r *taxonomyRepo) Create(ctx context.Context, body *structs.CreateTaxonomyB
 	builder.SetKeywords(strings.Join(body.Keywords, ","))
 	builder.SetNillableDescription(&body.Description)
 	builder.SetStatus(body.Status)
-	builder.SetExtras(types.ToValue(body.ExtraProps))
 	builder.SetNillableParentID(&body.ParentID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
+
+	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
+		builder.SetExtras(*body.Extras)
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)
