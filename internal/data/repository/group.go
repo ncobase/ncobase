@@ -26,6 +26,8 @@ type Group interface {
 	FindGroup(ctx context.Context, p *structs.FindGroup) (*ent.Group, error)
 	ListBuilder(ctx context.Context, p *structs.ListGroupParams) (*ent.GroupQuery, error)
 	CountX(ctx context.Context, p *structs.ListGroupParams) int
+	GetGroupsByDomainID(ctx context.Context, domainID string) ([]*ent.Group, error)
+	IsGroupInDomain(ctx context.Context, groupID string, domainID string) (bool, error)
 }
 
 // groupRepo implements the Group interface.
@@ -250,4 +252,24 @@ func (r *groupRepo) ListBuilder(ctx context.Context, p *structs.ListGroupParams)
 func (r *groupRepo) CountX(ctx context.Context, p *structs.ListGroupParams) int {
 	// Here you can implement the logic to count the number of groups based on the provided parameters.
 	return 0
+}
+
+// GetGroupsByDomainID retrieves all groups under a domain.
+func (r *groupRepo) GetGroupsByDomainID(ctx context.Context, domainID string) ([]*ent.Group, error) {
+	groups, err := r.ec.Group.Query().Where(groupEnt.DomainIDEQ(domainID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "groupRepo.GetGroupsByDomainID error: %v\n", err)
+		return nil, err
+	}
+	return groups, nil
+}
+
+// IsGroupInDomain verifies if a group belongs to a specific domain.
+func (r *groupRepo) IsGroupInDomain(ctx context.Context, domainID string, groupID string) (bool, error) {
+	count, err := r.ec.Group.Query().Where(groupEnt.DomainIDEQ(domainID), groupEnt.IDEQ(groupID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "groupRepo.IsGroupInDomain error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
 }

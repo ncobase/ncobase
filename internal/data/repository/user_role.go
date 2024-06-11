@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
+	roleEnt "stocms/internal/data/ent/role"
+	userEnt "stocms/internal/data/ent/user"
 	userRoleEnt "stocms/internal/data/ent/userrole"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
@@ -25,6 +27,9 @@ type UserRole interface {
 	DeleteAllByID(ctx context.Context, id string) error
 	DeleteAllByRoleID(ctx context.Context, id string) error
 	VerifyUserRole(ctx context.Context, userID, roleID string) (bool, error)
+	GetRolesByUserID(ctx context.Context, userID string) ([]*ent.Role, error)
+	GetUsersByRoleID(ctx context.Context, roleID string) ([]*ent.User, error)
+	IsUserInRole(ctx context.Context, userID string, roleID string) (bool, error)
 }
 
 // userRoleRepo implements the User interface.
@@ -202,4 +207,58 @@ func (r *userRoleRepo) DeleteAllByRoleID(ctx context.Context, id string) error {
 		return err
 	}
 	return nil
+}
+
+// GetRolesByUserID retrieves all roles assigned to a user.
+func (r *userRoleRepo) GetRolesByUserID(ctx context.Context, userID string) ([]*ent.Role, error) {
+	userRoles, err := r.ec.UserRole.Query().Where(userRoleEnt.IDEQ(userID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userRoleRepo.GetRolesByUserID error: %v\n", err)
+		return nil, err
+	}
+
+	var roleIDs []string
+	for _, userRole := range userRoles {
+		roleIDs = append(roleIDs, userRole.RoleID)
+	}
+
+	roles, err := r.ec.Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userRoleRepo.GetRolesByUserID error: %v\n", err)
+		return nil, err
+	}
+
+	return roles, nil
+}
+
+// GetUsersByRoleID retrieves all users assigned to a role.
+func (r *userRoleRepo) GetUsersByRoleID(ctx context.Context, roleID string) ([]*ent.User, error) {
+	userRoles, err := r.ec.UserRole.Query().Where(userRoleEnt.RoleIDEQ(roleID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userRoleRepo.GetUsersByRoleID error: %v\n", err)
+		return nil, err
+	}
+
+	var userIDs []string
+	for _, userRole := range userRoles {
+		userIDs = append(userIDs, userRole.ID)
+	}
+
+	users, err := r.ec.User.Query().Where(userEnt.IDIn(userIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userRoleRepo.GetUsersByRoleID error: %v\n", err)
+		return nil, err
+	}
+
+	return users, nil
+}
+
+// IsUserInRole verifies if a user has a specific role.
+func (r *userRoleRepo) IsUserInRole(ctx context.Context, userID string, roleID string) (bool, error) {
+	count, err := r.ec.UserRole.Query().Where(userRoleEnt.IDEQ(userID), userRoleEnt.RoleIDEQ(roleID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "userRoleRepo.IsUserInRole error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
 }

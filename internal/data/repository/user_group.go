@@ -4,6 +4,8 @@ import (
 	"context"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
+	groupEnt "stocms/internal/data/ent/group"
+	userEnt "stocms/internal/data/ent/user"
 	userGroupEnt "stocms/internal/data/ent/usergroup"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
@@ -23,6 +25,9 @@ type UserGroup interface {
 	DeleteByGroupID(ctx context.Context, id string) error
 	DeleteAllByUserID(ctx context.Context, id string) error
 	DeleteAllByGroupID(ctx context.Context, id string) error
+	GetGroupsByUserID(ctx context.Context, userID string) ([]*ent.Group, error)
+	GetUsersByGroupID(ctx context.Context, groupID string) ([]*ent.User, error)
+	IsUserInGroup(ctx context.Context, userID string, groupID string) (bool, error)
 }
 
 // userGroupRepo implements the User interface.
@@ -148,4 +153,55 @@ func (r *userGroupRepo) DeleteAllByGroupID(ctx context.Context, id string) error
 		return err
 	}
 	return nil
+}
+
+// GetGroupsByUserID retrieves all groups a user belongs to.
+func (r *userGroupRepo) GetGroupsByUserID(ctx context.Context, userID string) ([]*ent.Group, error) {
+	userGroups, err := r.ec.UserGroup.Query().Where(userGroupEnt.IDEQ(userID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userGroupRepo.GetGroupsByUserID error: %v\n", err)
+		return nil, err
+	}
+	var groupIDs []string
+	for _, group := range userGroups {
+		groupIDs = append(groupIDs, group.GroupID)
+	}
+
+	groups, err := r.ec.Group.Query().Where(groupEnt.IDIn(groupIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userGroupRepo.GetGroupsByUserID error: %v\n", err)
+		return nil, err
+	}
+
+	return groups, nil
+}
+
+// GetUsersByGroupID retrieves all users in a group.
+func (r *userGroupRepo) GetUsersByGroupID(ctx context.Context, groupID string) ([]*ent.User, error) {
+	userGroups, err := r.ec.UserGroup.Query().Where(userGroupEnt.GroupIDEQ(groupID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userGroupRepo.GetUsersByGroupID error: %v\n", err)
+		return nil, err
+	}
+	var userIDs []string
+	for _, userGroup := range userGroups {
+		userIDs = append(userIDs, userGroup.ID)
+	}
+
+	users, err := r.ec.User.Query().Where(userEnt.IDIn(userIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userGroupRepo.GetUsersByGroupID error: %v\n", err)
+		return nil, err
+	}
+	return users, nil
+}
+
+// IsUserInGroup verifies if a user belongs to a specific group.
+func (r *userGroupRepo) IsUserInGroup(ctx context.Context, userID string, groupID string) (bool, error) {
+	count, err := r.ec.UserGroup.Query().Where(userGroupEnt.IDEQ(userID), userGroupEnt.GroupIDEQ(groupID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "userGroupRepo.IsUserInGroup error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
 }

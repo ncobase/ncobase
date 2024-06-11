@@ -7,6 +7,7 @@ import (
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
 	domainEnt "stocms/internal/data/ent/domain"
+	groupEnt "stocms/internal/data/ent/group"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
@@ -28,6 +29,8 @@ type Domain interface {
 	List(ctx context.Context, params *structs.ListDomainParams) ([]*ent.Domain, error)
 	Delete(ctx context.Context, id string) error
 	DeleteByUser(ctx context.Context, id string) error
+	GetGroupsByDomainID(ctx context.Context, domainID string) ([]*ent.Group, error)
+	IsGroupInDomain(ctx context.Context, groupID string, domainID string) (bool, error)
 }
 
 // domainRepo implements the Domain interface.
@@ -339,6 +342,7 @@ func (r *domainRepo) DeleteByUser(ctx context.Context, userID string) error {
 	return err
 }
 
+// FindDomain retrieves a domain.
 func (r *domainRepo) FindDomain(ctx context.Context, p *structs.FindDomain) (*ent.Domain, error) {
 
 	// create builder.
@@ -358,4 +362,24 @@ func (r *domainRepo) FindDomain(ctx context.Context, p *structs.FindDomain) (*en
 	}
 
 	return row, nil
+}
+
+// GetGroupsByDomainID retrieves all groups under a domain.
+func (r *domainRepo) GetGroupsByDomainID(ctx context.Context, domainID string) ([]*ent.Group, error) {
+	groups, err := r.ec.Group.Query().Where(groupEnt.DomainIDEQ(domainID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "domainRepo.GetGroupsByDomainID error: %v\n", err)
+		return nil, err
+	}
+	return groups, nil
+}
+
+// IsGroupInDomain verifies if a group belongs to a specific domain.
+func (r *domainRepo) IsGroupInDomain(ctx context.Context, domainID string, groupID string) (bool, error) {
+	count, err := r.ec.Group.Query().Where(groupEnt.DomainIDEQ(domainID), groupEnt.IDEQ(groupID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "domainRepo.IsGroupInDomain error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
 }

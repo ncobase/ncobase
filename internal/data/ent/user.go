@@ -29,7 +29,7 @@ type User struct {
 	Phone string `json:"phone,omitempty"`
 	// is certified
 	IsCertified bool `json:"is_certified,omitempty"`
-	// is admin
+	// is a superuser
 	IsAdmin bool `json:"is_admin,omitempty"`
 	// status: 0 activated, 1 unactivated, 2 disabled
 	Status int32 `json:"status,omitempty"`

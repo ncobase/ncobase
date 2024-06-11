@@ -4,6 +4,8 @@ import (
 	"context"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
+	permissionEnt "stocms/internal/data/ent/permission"
+	roleEnt "stocms/internal/data/ent/role"
 	rolePermissionEnt "stocms/internal/data/ent/rolepermission"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
@@ -23,6 +25,10 @@ type RolePermission interface {
 	DeleteByRoleID(ctx context.Context, id string) error
 	DeleteAllByPermissionID(ctx context.Context, id string) error
 	DeleteAllByRoleID(ctx context.Context, id string) error
+	GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*ent.Permission, error)
+	GetRolesByPermissionID(ctx context.Context, permissionID string) ([]*ent.Role, error)
+	IsPermissionInRole(ctx context.Context, roleID string, permissionID string) (bool, error)
+	IsRoleInPermission(ctx context.Context, permissionID string, roleID string) (bool, error)
 }
 
 // rolePermissionRepo implements the Permission interface.
@@ -148,4 +154,69 @@ func (r *rolePermissionRepo) DeleteAllByRoleID(ctx context.Context, id string) e
 		return err
 	}
 	return nil
+}
+
+// GetPermissionsByRoleID retrieves all permissions assigned to a role.
+func (r *rolePermissionRepo) GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*ent.Permission, error) {
+	rolePermissions, err := r.ec.RolePermission.Query().Where(rolePermissionEnt.IDEQ(roleID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "rolePermissionRepo.GetPermissionsByRoleID error: %v\n", err)
+		return nil, err
+	}
+
+	// extract permission ids from rolePermissions
+	var permissionIDs []string
+	for _, rolePermission := range rolePermissions {
+		permissionIDs = append(permissionIDs, rolePermission.PermissionID)
+	}
+
+	// query permissions based on extracted permission ids
+	permissions, err := r.ec.Permission.Query().Where(permissionEnt.IDIn(permissionIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "rolePermissionRepo.GetPermissionsByRoleID error: %v\n", err)
+		return nil, err
+	}
+
+	return permissions, nil
+}
+
+// GetRolesByPermissionID retrieves all roles assigned to a permission.
+func (r *rolePermissionRepo) GetRolesByPermissionID(ctx context.Context, permissionID string) ([]*ent.Role, error) {
+	rolePermissions, err := r.ec.RolePermission.Query().Where(rolePermissionEnt.PermissionIDEQ(permissionID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "rolePermissionRepo.GetRolesByPermissionID error: %v\n", err)
+		return nil, err
+	}
+
+	var roleIDs []string
+	for _, rolePermission := range rolePermissions {
+		roleIDs = append(roleIDs, rolePermission.ID)
+	}
+
+	roles, err := r.ec.Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "rolePermissionRepo.GetRolesByPermissionID error: %v\n", err)
+		return nil, err
+	}
+	return roles, nil
+}
+
+// IsPermissionInRole verifies if a permission is assigned to a specific role.
+func (r *rolePermissionRepo) IsPermissionInRole(ctx context.Context, roleID string, permissionID string) (bool, error) {
+	count, err := r.ec.RolePermission.Query().Where(rolePermissionEnt.IDEQ(roleID), rolePermissionEnt.PermissionIDEQ(permissionID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "rolePermissionRepo.IsPermissionInRole error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
+}
+
+// IsRoleInPermission verifies if a role is assigned to a specific permission.
+func (r *rolePermissionRepo) IsRoleInPermission(ctx context.Context, roleID string, permissionID string) (bool, error) {
+	count, err := r.ec.RolePermission.Query().Where(rolePermissionEnt.IDEQ(roleID), rolePermissionEnt.PermissionIDEQ(permissionID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "rolePermissionRepo.IsRoleInPermission error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
 }

@@ -521,7 +521,7 @@ var (
 		{Name: "email", Type: field.TypeString, Nullable: true, Comment: "email"},
 		{Name: "phone", Type: field.TypeString, Nullable: true, Comment: "phone"},
 		{Name: "is_certified", Type: field.TypeBool, Nullable: true, Comment: "is certified"},
-		{Name: "is_admin", Type: field.TypeBool, Nullable: true, Comment: "is admin"},
+		{Name: "is_admin", Type: field.TypeBool, Nullable: true, Comment: "is a superuser"},
 		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},

@@ -18,6 +18,7 @@ import (
 // Role represents the role repository interface.
 type Role interface {
 	Create(ctx context.Context, body *structs.CreateRoleBody) (*ent.Role, error)
+	CreateSuperAdminRole(ctx context.Context) (*ent.Role, error)
 	GetByID(ctx context.Context, id string) (*ent.Role, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Role, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Role, error)
@@ -62,6 +63,19 @@ func (r *roleRepo) Create(ctx context.Context, body *structs.CreateRoleBody) (*e
 	}
 
 	return row, nil
+}
+
+// CreateSuperAdminRole creates a new super admin role.
+func (r *roleRepo) CreateSuperAdminRole(ctx context.Context) (*ent.Role, error) {
+	return r.Create(ctx, &structs.CreateRoleBody{
+		Role: structs.Role{
+			Name:        "Super Admin",
+			Slug:        "super-admin",
+			Disabled:    false,
+			Description: "Super Admin Role",
+			ExtraProps:  nil,
+		},
+	})
 }
 
 // GetByID gets a role by ID.
