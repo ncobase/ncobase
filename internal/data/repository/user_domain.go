@@ -4,6 +4,7 @@ import (
 	"context"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
+	domainEnt "stocms/internal/data/ent/domain"
 	userDomainEnt "stocms/internal/data/ent/userdomain"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
@@ -23,6 +24,9 @@ type UserDomain interface {
 	DeleteByDomainID(ctx context.Context, id string) error
 	DeleteAllByUserID(ctx context.Context, id string) error
 	DeleteAllByDomainID(ctx context.Context, id string) error
+	GetDomainsByUserID(ctx context.Context, userID string) ([]*ent.Domain, error)
+	IsDomainInUser(ctx context.Context, userID string, domainID string) (bool, error)
+	IsUserInDomain(ctx context.Context, domainID string, userID string) (bool, error)
 }
 
 // userDomainRepo implements the User interface.
@@ -148,4 +152,46 @@ func (r *userDomainRepo) DeleteAllByDomainID(ctx context.Context, id string) err
 		return err
 	}
 	return nil
+}
+
+// GetDomainsByUserID retrieves all domains a user belongs to.
+func (r *userDomainRepo) GetDomainsByUserID(ctx context.Context, userID string) ([]*ent.Domain, error) {
+	userDomains, err := r.ec.UserDomain.Query().Where(userDomainEnt.IDEQ(userID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userDomainRepo.GetDomainsByUserID error: %v\n", err)
+		return nil, err
+	}
+
+	var domainIDs []string
+	for _, userDomain := range userDomains {
+		domainIDs = append(domainIDs, userDomain.DomainID)
+	}
+
+	domains, err := r.ec.Domain.Query().Where(domainEnt.IDIn(domainIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userDomainRepo.GetDomainsByUserID error: %v\n", err)
+		return nil, err
+	}
+
+	return domains, nil
+}
+
+// IsUserInDomain verifies if a user belongs to a specific domain.
+func (r *userDomainRepo) IsUserInDomain(ctx context.Context, userID string, domainID string) (bool, error) {
+	count, err := r.ec.UserDomain.Query().Where(userDomainEnt.IDEQ(userID), userDomainEnt.DomainIDEQ(domainID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "userDomainRepo.IsUserInDomain error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
+}
+
+// IsDomainInUser verifies if a domain is assigned to a specific user.
+func (r *userDomainRepo) IsDomainInUser(ctx context.Context, domainID string, userID string) (bool, error) {
+	count, err := r.ec.UserDomain.Query().Where(userDomainEnt.DomainIDEQ(domainID), userDomainEnt.IDEQ(userID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "userDomainRepo.IsDomainInUser error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
 }

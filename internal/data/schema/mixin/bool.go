@@ -142,7 +142,7 @@ type IsAdmin struct{ mixin.Schema }
 // Fields of the IsAdmin mixin.
 func (IsAdmin) Fields() []ent.Field {
 	return []ent.Field{
-		field.Bool("is_admin").Optional().Comment("is admin"),
+		field.Bool("is_admin").Optional().Comment("is a superuser"),
 	}
 }
 

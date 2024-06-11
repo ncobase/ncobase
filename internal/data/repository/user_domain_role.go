@@ -4,6 +4,7 @@ import (
 	"context"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
+	roleEnt "stocms/internal/data/ent/role"
 	userDomainRoleEnt "stocms/internal/data/ent/userdomainrole"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
@@ -24,6 +25,8 @@ type UserDomainRole interface {
 	DeleteAllByUserID(ctx context.Context, userID string) error
 	DeleteAllByDomainID(ctx context.Context, domainID string) error
 	DeleteAllByRoleID(ctx context.Context, roleID string) error
+	GetRolesByUserAndDomain(ctx context.Context, userID, domainID string) ([]*ent.Role, error)
+	IsUserInRoleInDomain(ctx context.Context, userID string, domainID string, roleID string) (bool, error)
 }
 
 // userDomainRoleRepo implements the UserDomainRole interface.
@@ -160,4 +163,36 @@ func (r *userDomainRoleRepo) DeleteAllByRoleID(ctx context.Context, roleID strin
 	}
 
 	return nil
+}
+
+// GetRolesByUserAndDomain retrieves all roles a user has in a domain.
+func (r *userDomainRoleRepo) GetRolesByUserAndDomain(ctx context.Context, userID string, domainID string) ([]*ent.Role, error) {
+	userDomainRoles, err := r.ec.UserDomainRole.Query().Where(userDomainRoleEnt.IDEQ(userID), userDomainRoleEnt.DomainIDEQ(domainID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userDomainRoleRepo.GetRolesByUserAndDomain error: %v\n", err)
+		return nil, err
+	}
+
+	var roleIDs []string
+	for _, userRole := range userDomainRoles {
+		roleIDs = append(roleIDs, userRole.RoleID)
+	}
+
+	roles, err := r.ec.Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "userDomainRoleRepo.GetRolesByUserAndDomain error: %v\n", err)
+		return nil, err
+	}
+
+	return roles, nil
+}
+
+// IsUserInRoleInDomain verifies if a user has a specific role in a domain.
+func (r *userDomainRoleRepo) IsUserInRoleInDomain(ctx context.Context, userID string, domainID string, roleID string) (bool, error) {
+	count, err := r.ec.UserDomainRole.Query().Where(userDomainRoleEnt.IDEQ(userID), userDomainRoleEnt.DomainIDEQ(domainID), userDomainRoleEnt.RoleIDEQ(roleID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "userDomainRoleRepo.IsUserInRoleInDomain error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
 }

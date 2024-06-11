@@ -4,7 +4,9 @@ import (
 	"context"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
+	groupEnt "stocms/internal/data/ent/group"
 	groupRoleEnt "stocms/internal/data/ent/grouprole"
+	roleEnt "stocms/internal/data/ent/role"
 	"stocms/internal/data/structs"
 	"stocms/pkg/cache"
 	"stocms/pkg/log"
@@ -23,6 +25,10 @@ type GroupRole interface {
 	DeleteByRoleID(ctx context.Context, id string) error
 	DeleteAllByGroupID(ctx context.Context, id string) error
 	DeleteAllByRoleID(ctx context.Context, id string) error
+	GetRolesByGroupID(ctx context.Context, groupID string) ([]*ent.Role, error)
+	GetGroupsByRoleID(ctx context.Context, roleID string) ([]*ent.Group, error)
+	IsRoleInGroup(ctx context.Context, groupID string, roleID string) (bool, error)
+	IsGroupInRole(ctx context.Context, roleID string, groupID string) (bool, error)
 }
 
 // groupRoleRepo implements the Group interface.
@@ -148,4 +154,68 @@ func (r *groupRoleRepo) DeleteAllByRoleID(ctx context.Context, id string) error 
 		return err
 	}
 	return nil
+}
+
+// GetRolesByGroupID retrieves all roles under a group.
+func (r *groupRoleRepo) GetRolesByGroupID(ctx context.Context, groupID string) ([]*ent.Role, error) {
+	groupRoles, err := r.ec.GroupRole.Query().Where(groupRoleEnt.IDEQ(groupID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "groupRoleRepo.GetRolesByGroupID error: %v\n", err)
+		return nil, err
+	}
+
+	var roleIDs []string
+	for _, groupRole := range groupRoles {
+		roleIDs = append(roleIDs, groupRole.RoleID)
+	}
+
+	roles, err := r.ec.Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "groupRoleRepo.GetRolesByGroupID error: %v\n", err)
+		return nil, err
+	}
+
+	return roles, nil
+}
+
+// GetGroupsByRoleID retrieves all groups under a role.
+func (r *groupRoleRepo) GetGroupsByRoleID(ctx context.Context, roleID string) ([]*ent.Group, error) {
+	groupRoles, err := r.ec.GroupRole.Query().Where(groupRoleEnt.RoleIDEQ(roleID)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "groupRoleRepo.GetGroupsByRoleID error: %v\n", err)
+		return nil, err
+	}
+
+	var groupIDs []string
+	for _, groupRole := range groupRoles {
+		groupIDs = append(groupIDs, groupRole.ID)
+	}
+
+	groups, err := r.ec.Group.Query().Where(groupEnt.IDIn(groupIDs...)).All(ctx)
+	if err != nil {
+		log.Errorf(nil, "groupRoleRepo.GetGroupsByRoleID error: %v\n", err)
+		return nil, err
+	}
+
+	return groups, nil
+}
+
+// IsRoleInGroup verifies if a role belongs to a specific group.
+func (r *groupRoleRepo) IsRoleInGroup(ctx context.Context, groupID string, roleID string) (bool, error) {
+	count, err := r.ec.GroupRole.Query().Where(groupRoleEnt.IDEQ(groupID), groupRoleEnt.RoleIDEQ(roleID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "groupRoleRepo.IsRoleInGroup error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
+}
+
+// IsGroupInRole verifies if a group belongs to a specific role.
+func (r *groupRoleRepo) IsGroupInRole(ctx context.Context, groupID string, roleID string) (bool, error) {
+	count, err := r.ec.GroupRole.Query().Where(groupRoleEnt.IDEQ(groupID), groupRoleEnt.RoleIDEQ(roleID)).Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "groupRoleRepo.IsGroupInRole error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
 }
