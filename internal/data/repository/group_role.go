@@ -21,8 +21,7 @@ type GroupRole interface {
 	GetByRoleID(ctx context.Context, id string) (*ent.GroupRole, error)
 	GetByGroupIDs(ctx context.Context, ids []string) ([]*ent.GroupRole, error)
 	GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.GroupRole, error)
-	DeleteByGroupID(ctx context.Context, id string) error
-	DeleteByRoleID(ctx context.Context, id string) error
+	Delete(ctx context.Context, gid, rid string) error
 	DeleteAllByGroupID(ctx context.Context, id string) error
 	DeleteAllByRoleID(ctx context.Context, id string) error
 	GetRolesByGroupID(ctx context.Context, groupID string) ([]*ent.Role, error)
@@ -45,7 +44,7 @@ func NewGroupRole(d *data.Data) GroupRole {
 	return &groupRoleRepo{ec, rc, cache.NewCache[ent.GroupRole](rc, cache.Key("sc_group_role"), true)}
 }
 
-// Create - Create group role
+// Create group role
 func (r *groupRoleRepo) Create(ctx context.Context, body *structs.GroupRole) (*ent.GroupRole, error) {
 
 	// create builder.
@@ -64,7 +63,7 @@ func (r *groupRoleRepo) Create(ctx context.Context, body *structs.GroupRole) (*e
 	return row, nil
 }
 
-// GetByGroupID - Find role by group id
+// GetByGroupID Find role by group id
 func (r *groupRoleRepo) GetByGroupID(ctx context.Context, id string) (*ent.GroupRole, error) {
 	row, err := r.ec.GroupRole.
 		Query().
@@ -78,7 +77,7 @@ func (r *groupRoleRepo) GetByGroupID(ctx context.Context, id string) (*ent.Group
 	return row, nil
 }
 
-// GetByGroupIDs - Find roles by group ids
+// GetByGroupIDs Find roles by group ids
 func (r *groupRoleRepo) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent.GroupRole, error) {
 	rows, err := r.ec.GroupRole.
 		Query().
@@ -92,7 +91,7 @@ func (r *groupRoleRepo) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent
 	return rows, nil
 }
 
-// GetByRoleID - Find role by role id
+// GetByRoleID Find role by role id
 func (r *groupRoleRepo) GetByRoleID(ctx context.Context, id string) (*ent.GroupRole, error) {
 	row, err := r.ec.GroupRole.
 		Query().
@@ -106,7 +105,7 @@ func (r *groupRoleRepo) GetByRoleID(ctx context.Context, id string) (*ent.GroupR
 	return row, nil
 }
 
-// GetByRoleIDs - Find roles by role ids
+// GetByRoleIDs Find roles by role ids
 func (r *groupRoleRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.GroupRole, error) {
 	rows, err := r.ec.GroupRole.
 		Query().
@@ -120,25 +119,16 @@ func (r *groupRoleRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.
 	return rows, nil
 }
 
-// DeleteByGroupID - Delete group role
-func (r *groupRoleRepo) DeleteByGroupID(ctx context.Context, id string) error {
-	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "groupRoleRepo.DeleteByGroupID error: %v\n", err)
+// Delete group role
+func (r *groupRoleRepo) Delete(ctx context.Context, gid, rid string) error {
+	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.IDEQ(gid), groupRoleEnt.RoleIDEQ(rid)).Exec(ctx); err != nil {
+		log.Errorf(nil, "groupRoleRepo.Delete error: %v\n", err)
 		return err
 	}
 	return nil
 }
 
-// DeleteByRoleID - Delete group role
-func (r *groupRoleRepo) DeleteByRoleID(ctx context.Context, id string) error {
-	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.RoleIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "groupRoleRepo.DeleteByRoleID error: %v\n", err)
-		return err
-	}
-	return nil
-}
-
-// DeleteAllByGroupID - Delete all group role
+// DeleteAllByGroupID Delete all group role
 func (r *groupRoleRepo) DeleteAllByGroupID(ctx context.Context, id string) error {
 	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.IDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "groupRoleRepo.DeleteAllByGroupID error: %v\n", err)
@@ -147,7 +137,7 @@ func (r *groupRoleRepo) DeleteAllByGroupID(ctx context.Context, id string) error
 	return nil
 }
 
-// DeleteAllByRoleID - Delete all group role
+// DeleteAllByRoleID Delete all group role
 func (r *groupRoleRepo) DeleteAllByRoleID(ctx context.Context, id string) error {
 	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.RoleIDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "groupRoleRepo.DeleteAllByRoleID error: %v\n", err)

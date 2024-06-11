@@ -22,7 +22,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// RegisterService - Register service
+// RegisterService register service
 func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) (*resp.Exception, error) {
 	ctx := helper.FromGinContext(c)
 	conf := helper.GetConfig(c)
@@ -68,7 +68,7 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 	}
 
 	if _, err := svc.isCreateDomain(ctx, &structs.CreateDomainBody{
-		DomainBody: structs.DomainBody{Name: body.DomainName, CreatedBy: user.ID},
+		Domain: structs.Domain{Name: body.DomainName, CreatedBy: user.ID},
 	}); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil
@@ -155,7 +155,7 @@ func createAuthToken(ctx context.Context, tx *ent.Tx, userID string) (*ent.AuthT
 	return tx.AuthToken.Create().SetUserID(userID).Save(ctx)
 }
 
-// CodeAuthService - Code auth service
+// CodeAuthService code auth service
 func (svc *Service) CodeAuthService(c *gin.Context, code string) (*resp.Exception, error) {
 	ctx := helper.FromGinContext(c)
 	conf := helper.GetConfig(c)
@@ -222,7 +222,7 @@ func generateTokensForUser(c *gin.Context, client *ent.Client, user *ent.User, d
 	}, tx.Commit()
 }
 
-// SendCodeService - Send code service
+// SendCodeService send code service
 func (svc *Service) SendCodeService(c *gin.Context, body *structs.SendCodeBody) (*resp.Exception, error) {
 	ctx := helper.FromGinContext(c)
 	client := svc.d.GetEntClient()
@@ -270,7 +270,7 @@ func sendAuthEmail(c *gin.Context, e, code string, registered bool) error {
 	return err
 }
 
-// LoginService - Login service
+// LoginService login service
 func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp.Exception, error) {
 	ctx := helper.FromGinContext(c)
 	conf := helper.GetConfig(c)

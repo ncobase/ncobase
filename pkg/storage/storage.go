@@ -6,7 +6,7 @@ import (
 	"github.com/casdoor/oss"
 )
 
-// Config - config
+// Config config
 type Config struct {
 	Provider string
 	ID       string
@@ -16,7 +16,7 @@ type Config struct {
 	Endpoint string
 }
 
-// NewStorage - new storage
+// NewStorage new storage
 func NewStorage(c *Config) (oss.StorageInterface, error) {
 	switch c.Provider {
 	case "aliyun-oss":

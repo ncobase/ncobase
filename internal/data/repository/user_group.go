@@ -21,8 +21,7 @@ type UserGroup interface {
 	GetByGroupID(ctx context.Context, id string) (*ent.UserGroup, error)
 	GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserGroup, error)
 	GetByGroupIDs(ctx context.Context, ids []string) ([]*ent.UserGroup, error)
-	DeleteByUserID(ctx context.Context, id string) error
-	DeleteByGroupID(ctx context.Context, id string) error
+	Delete(ctx context.Context, uid, gid string) error
 	DeleteAllByUserID(ctx context.Context, id string) error
 	DeleteAllByGroupID(ctx context.Context, id string) error
 	GetGroupsByUserID(ctx context.Context, userID string) ([]*ent.Group, error)
@@ -44,7 +43,7 @@ func NewUserGroup(d *data.Data) UserGroup {
 	return &userGroupRepo{ec, rc, cache.NewCache[ent.UserGroup](rc, cache.Key("sc_user_group"), true)}
 }
 
-// Create - Create user group
+// Create create user group
 func (r *userGroupRepo) Create(ctx context.Context, body *structs.UserGroup) (*ent.UserGroup, error) {
 
 	// create builder.
@@ -63,7 +62,7 @@ func (r *userGroupRepo) Create(ctx context.Context, body *structs.UserGroup) (*e
 	return row, nil
 }
 
-// GetByUserID - Find group by user id
+// GetByUserID find group by user id
 func (r *userGroupRepo) GetByUserID(ctx context.Context, id string) (*ent.UserGroup, error) {
 	row, err := r.ec.UserGroup.
 		Query().
@@ -77,7 +76,7 @@ func (r *userGroupRepo) GetByUserID(ctx context.Context, id string) (*ent.UserGr
 	return row, nil
 }
 
-// GetByUserIDs - Find groups by user ids
+// GetByUserIDs find groups by user ids
 func (r *userGroupRepo) GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserGroup, error) {
 	rows, err := r.ec.UserGroup.
 		Query().
@@ -91,7 +90,7 @@ func (r *userGroupRepo) GetByUserIDs(ctx context.Context, ids []string) ([]*ent.
 	return rows, nil
 }
 
-// GetByGroupID - Find group by group id
+// GetByGroupID find group by group id
 func (r *userGroupRepo) GetByGroupID(ctx context.Context, id string) (*ent.UserGroup, error) {
 	row, err := r.ec.UserGroup.
 		Query().
@@ -105,7 +104,7 @@ func (r *userGroupRepo) GetByGroupID(ctx context.Context, id string) (*ent.UserG
 	return row, nil
 }
 
-// GetByGroupIDs - Find groups by group ids
+// GetByGroupIDs find groups by group ids
 func (r *userGroupRepo) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent.UserGroup, error) {
 	rows, err := r.ec.UserGroup.
 		Query().
@@ -119,25 +118,16 @@ func (r *userGroupRepo) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent
 	return rows, nil
 }
 
-// DeleteByUserID - Delete user group
-func (r *userGroupRepo) DeleteByUserID(ctx context.Context, id string) error {
-	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.IDEQ(id)).Exec(ctx); err != nil {
+// Delete delete user group
+func (r *userGroupRepo) Delete(ctx context.Context, uid, gid string) error {
+	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.IDEQ(uid), userGroupEnt.GroupIDEQ(gid)).Exec(ctx); err != nil {
 		log.Errorf(nil, "userGroupRepo.DeleteByUserID error: %v\n", err)
 		return err
 	}
 	return nil
 }
 
-// DeleteByGroupID - Delete user group
-func (r *userGroupRepo) DeleteByGroupID(ctx context.Context, id string) error {
-	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.GroupIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userGroupRepo.DeleteByGroupID error: %v\n", err)
-		return err
-	}
-	return nil
-}
-
-// DeleteAllByUserID - Delete all user group
+// DeleteAllByUserID delete all user group
 func (r *userGroupRepo) DeleteAllByUserID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.IDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "userGroupRepo.DeleteAllByUserID error: %v\n", err)
@@ -146,7 +136,7 @@ func (r *userGroupRepo) DeleteAllByUserID(ctx context.Context, id string) error 
 	return nil
 }
 
-// DeleteAllByGroupID - Delete all user group
+// DeleteAllByGroupID delete all user group
 func (r *userGroupRepo) DeleteAllByGroupID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.GroupIDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "userGroupRepo.DeleteAllByGroupID error: %v\n", err)

@@ -163,7 +163,7 @@ func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.Fi
 	body.File = file
 	body.Type = fileHeader.Type
 	body.Name = fileHeader.Name
-	body.Size = fileHeader.Size
+	body.Size = &fileHeader.Size
 
 	// Bind other fields from the form
 	if err := bindResourceFields(c, body); err != nil {
@@ -189,7 +189,7 @@ func bindResourceFields(c *gin.Context, body *structs.CreateResourceBody) error 
 			if err := json.Unmarshal([]byte(values[0]), &extraProps); err != nil {
 				return errors.New("invalid extras format")
 			}
-			body.ExtraProps = extraProps
+			body.ExtraProps = &extraProps
 		}
 	}
 	return nil

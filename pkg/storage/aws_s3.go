@@ -6,7 +6,7 @@ import (
 	"github.com/casdoor/oss/s3"
 )
 
-// NewS3 - new aws s3
+// NewS3 new aws s3
 func NewS3(c *Config) oss.StorageInterface {
 	return s3.New(&s3.Config{
 		AccessID:   c.ID,

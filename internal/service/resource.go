@@ -37,7 +37,8 @@ func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateRe
 	// TODO: set url
 	// body.URL = obj.StorageInterface.GetEndpoint() +
 	// set created by
-	body.CreatedBy = helper.GetUserID(c)
+	userID := helper.GetUserID(c)
+	body.CreatedBy = &userID
 
 	// Create the resource using the repository
 	resource, err := svc.resource.Create(c, body)

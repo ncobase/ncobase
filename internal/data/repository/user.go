@@ -41,7 +41,7 @@ func NewUser(d *data.Data) User {
 	return &userRepo{ec, rc, cache.NewCache[ent.User](rc, cache.Key("sc_user"), true)}
 }
 
-// Create - Create user
+// Create create user
 func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*ent.User, error) {
 	countUser := r.ec.User.Query().CountX(ctx)
 
@@ -64,7 +64,7 @@ func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*
 	return row, nil
 }
 
-// GetByID - Get user by id
+// GetByID get user by id
 func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 	cacheKey := fmt.Sprintf("%s", id)
 
@@ -90,7 +90,7 @@ func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 	return row, nil
 }
 
-// Find - Find user by username, email, or phone
+// Find user by username, email, or phone
 func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, error) {
 	params := url.Values{}
 	if validator.IsNotEmpty(m.Username) {
@@ -126,12 +126,12 @@ func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, er
 	return row, nil
 }
 
-// Existed - Verify user existed by username, email, or phone
+// Existed verify user existed by username, email, or phone
 func (r *userRepo) Existed(ctx context.Context, m *structs.FindUser) bool {
 	return r.ec.User.Query().Where(userEnt.Or(userEnt.UsernameEQ(m.Username), userEnt.EmailEQ(m.Email), userEnt.PhoneEQ(m.Phone))).ExistX(ctx)
 }
 
-// Delete - Delete user
+// Delete delete user
 func (r *userRepo) Delete(ctx context.Context, id string) error {
 	if err := r.ec.User.DeleteOneID(id).Exec(ctx); err != nil {
 		log.Errorf(nil, "userRepo.Delete error: %v\n", err)
@@ -148,7 +148,7 @@ func (r *userRepo) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// UpdatePassword - update user password.
+// UpdatePassword  update user password.
 func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBody) error {
 	row, err := r.FindUser(ctx, &structs.FindUser{ID: p.UserID})
 	if validator.IsNotNil(err) {
@@ -172,7 +172,7 @@ func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBod
 	return nil
 }
 
-// FindUser - Find user by id, username, email, or phone
+// FindUser find user by id, username, email, or phone
 func (r *userRepo) FindUser(ctx context.Context, p *structs.FindUser) (*ent.User, error) {
 
 	// create builder.

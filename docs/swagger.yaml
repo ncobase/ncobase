@@ -52,10 +52,12 @@ definitions:
       private:
         type: boolean
       released:
+        description: Use pointer for nullable field
         type: string
       slug:
         type: string
       status:
+        description: Use pointer for nullable field
         type: integer
       temp:
         type: boolean
@@ -97,13 +99,10 @@ definitions:
       slug:
         type: string
       status:
-        description: 'status, 0: enabled, 1: disabled, ...'
         type: integer
       thumbnail:
         type: string
       type:
-        description: 'type, default ''node'', options: ''node'', ''plane'', ''event'',
-          ''page'', ''tag'', ''link'''
         type: string
       updated_at:
         type: string
@@ -226,6 +225,7 @@ definitions:
       name:
         type: string
       order:
+        description: Use pointer for nullable int
         type: integer
       title:
         type: string
@@ -285,7 +285,7 @@ paths:
           description: bad request
           schema:
             $ref: '#/definitions/resp.Exception'
-      summary: Read current user
+      summary: Get current user
       tags:
       - account
   /account/domain:
@@ -302,7 +302,7 @@ paths:
           description: bad request
           schema:
             $ref: '#/definitions/resp.Exception'
-      summary: Read current user domain
+      summary: Get current user domain
       tags:
       - account
   /account/password:
@@ -429,7 +429,7 @@ paths:
           description: bad request
           schema:
             $ref: '#/definitions/resp.Exception'
-      summary: Read domain
+      summary: Get domain
       tags:
       - domain
   /domain/{id}/menu:
@@ -452,7 +452,7 @@ paths:
           description: bad request
           schema:
             $ref: '#/definitions/resp.Exception'
-      summary: Read domain menu
+      summary: Get domain menu
       tags:
       - domain
   /domain/{id}/setting:
@@ -475,7 +475,7 @@ paths:
           description: bad request
           schema:
             $ref: '#/definitions/resp.Exception'
-      summary: Read domain setting
+      summary: Get domain setting
       tags:
       - domain
   /health:
@@ -1420,7 +1420,7 @@ paths:
           description: bad request
           schema:
             $ref: '#/definitions/resp.Exception'
-      summary: Read user
+      summary: Get user
       tags:
       - user
   /user/{username}/domain:
@@ -1443,7 +1443,7 @@ paths:
           description: bad request
           schema:
             $ref: '#/definitions/resp.Exception'
-      summary: Read user domain
+      summary: Get user domain
       tags:
       - user
 swagger: "2.0"

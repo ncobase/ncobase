@@ -5,7 +5,7 @@ import (
 	"github.com/casdoor/oss/azureblob"
 )
 
-// NewAzure - new azure blob storage
+// NewAzure new azure blob storage
 func NewAzure(c *Config) oss.StorageInterface {
 	return azureblob.New(&azureblob.Config{
 		AccessId:  c.ID,

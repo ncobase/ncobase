@@ -25,7 +25,7 @@ const docTemplate = `{
                 "tags": [
                     "account"
                 ],
-                "summary": "Read current user",
+                "summary": "Get current user",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -51,7 +51,7 @@ const docTemplate = `{
                 "tags": [
                     "account"
                 ],
-                "summary": "Read current user domain",
+                "summary": "Get current user domain",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -236,7 +236,7 @@ const docTemplate = `{
                 "tags": [
                     "domain"
                 ],
-                "summary": "Read domain",
+                "summary": "Get domain",
                 "parameters": [
                     {
                         "type": "string",
@@ -271,7 +271,7 @@ const docTemplate = `{
                 "tags": [
                     "domain"
                 ],
-                "summary": "Read domain menu",
+                "summary": "Get domain menu",
                 "parameters": [
                     {
                         "type": "string",
@@ -306,7 +306,7 @@ const docTemplate = `{
                 "tags": [
                     "domain"
                 ],
-                "summary": "Read domain setting",
+                "summary": "Get domain setting",
                 "parameters": [
                     {
                         "type": "string",
@@ -1741,7 +1741,7 @@ const docTemplate = `{
                 "tags": [
                     "user"
                 ],
-                "summary": "Read user",
+                "summary": "Get user",
                 "parameters": [
                     {
                         "type": "string",
@@ -1776,7 +1776,7 @@ const docTemplate = `{
                 "tags": [
                     "user"
                 ],
-                "summary": "Read user domain",
+                "summary": "Get user domain",
                 "parameters": [
                     {
                         "type": "string",
@@ -1881,12 +1881,14 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "released": {
+                    "description": "Use pointer for nullable field",
                     "type": "string"
                 },
                 "slug": {
                     "type": "string"
                 },
                 "status": {
+                    "description": "Use pointer for nullable field",
                     "type": "integer"
                 },
                 "temp": {
@@ -1949,14 +1951,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "status, 0: enabled, 1: disabled, ...",
                     "type": "integer"
                 },
                 "thumbnail": {
                     "type": "string"
                 },
                 "type": {
-                    "description": "type, default 'node', options: 'node', 'plane', 'event', 'page', 'tag', 'link'",
                     "type": "string"
                 },
                 "updated_at": {
@@ -2141,6 +2141,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "order": {
+                    "description": "Use pointer for nullable int",
                     "type": "integer"
                 },
                 "title": {

@@ -52,8 +52,8 @@ func (r *roleRepo) Create(ctx context.Context, body *structs.CreateRoleBody) (*e
 	builder.SetNillableSlug(&body.Slug)
 	builder.SetDisabled(body.Disabled)
 	builder.SetNillableDescription(&body.Description)
-	builder.SetExtras(body.ExtraProps)
-	builder.SetNillableCreatedBy(&body.CreatedBy)
+	builder.SetExtras(types.ToValue(body.ExtraProps))
+	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	// execute the builder.
 	row, err := builder.Save(ctx)

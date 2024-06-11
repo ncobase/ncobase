@@ -130,8 +130,8 @@ func (svc *Service) UpdateDomainService(c *gin.Context, body *structs.UpdateDoma
 	}, nil
 }
 
-// ReadDomainService reads domain service.
-func (svc *Service) ReadDomainService(c *gin.Context, id string) (*resp.Exception, error) {
+// GetDomainService reads domain service.
+func (svc *Service) GetDomainService(c *gin.Context, id string) (*resp.Exception, error) {
 	userID := helper.GetUserID(c)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
@@ -237,25 +237,28 @@ func (svc *Service) isCreateDomain(ctx context.Context, body *structs.CreateDoma
 
 }
 
-// serializeDomain  Serialize domain
-func (svc *Service) serializeDomain(c *gin.Context, domain *ent.Domain, withUser bool) *structs.ReadDomain {
-	readDomain := &structs.ReadDomain{
-		ID:          domain.ID,
-		Name:        domain.Name,
-		Title:       domain.Title,
-		URL:         domain.URL,
-		Logo:        domain.Logo,
-		LogoAlt:     domain.LogoAlt,
-		Keywords:    strings.Split(domain.Keywords, ","),
-		Copyright:   domain.Copyright,
-		Description: domain.Description,
-		Order:       domain.Order,
-		Disabled:    domain.Disabled,
-		Extras:      domain.Extras,
+// serializeDomain serialize domain
+func (svc *Service) serializeDomain(c *gin.Context, row *ent.Domain, withUser bool) *structs.GetDomain {
+	readDomain := &structs.GetDomain{
+		ID: row.ID,
+		Domain: structs.Domain{
+			Name:        row.Name,
+			Title:       row.Title,
+			URL:         row.URL,
+			Logo:        row.Logo,
+			LogoAlt:     row.LogoAlt,
+			Keywords:    strings.Split(row.Keywords, ","),
+			Copyright:   row.Copyright,
+			Description: row.Description,
+			Order:       &row.Order,
+			Disabled:    row.Disabled,
+			Extras:      &row.Extras,
+			CreatedBy:   row.CreatedBy,
+		},
 	}
 
 	if withUser {
-		user, err := svc.user.GetByID(c, domain.CreatedBy)
+		user, err := svc.user.GetByID(c, row.CreatedBy)
 		if err == nil {
 			readDomain.User = new(structs.User)
 			_ = copier.Copy(&readDomain.User, user)

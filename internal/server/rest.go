@@ -41,13 +41,13 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 
 	// Account endpoints
 	account := v1.Group("/account", middleware.Authorized)
-	account.GET("", h.ReadMeHandler)
+	account.GET("", h.GetMeHandler)
 	account.POST("/password", h.UpdatePasswordHandler)
 	account.GET("/domain", h.AccountDomainHandler)
 
 	// User endpoints
 	user := v1.Group("/users", middleware.Authorized)
-	user.GET("/:username", h.ReadUserHandler)
+	user.GET("/:username", h.GetUserHandler)
 	user.GET("/:username/domain", h.UserDomainHandler)
 
 	// OAuth endpoints

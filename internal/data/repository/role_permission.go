@@ -21,8 +21,7 @@ type RolePermission interface {
 	GetByRoleID(ctx context.Context, id string) (*ent.RolePermission, error)
 	GetByPermissionIDs(ctx context.Context, ids []string) ([]*ent.RolePermission, error)
 	GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.RolePermission, error)
-	DeleteByPermissionID(ctx context.Context, id string) error
-	DeleteByRoleID(ctx context.Context, id string) error
+	Delete(ctx context.Context, roleId, permissionId string) error
 	DeleteAllByPermissionID(ctx context.Context, id string) error
 	DeleteAllByRoleID(ctx context.Context, id string) error
 	GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*ent.Permission, error)
@@ -45,7 +44,7 @@ func NewRolePermission(d *data.Data) RolePermission {
 	return &rolePermissionRepo{ec, rc, cache.NewCache[ent.RolePermission](rc, cache.Key("sc_group_role"), true)}
 }
 
-// Create - Create role permission
+// Create role permission
 func (r *rolePermissionRepo) Create(ctx context.Context, body *structs.RolePermission) (*ent.RolePermission, error) {
 
 	// create builder.
@@ -64,7 +63,7 @@ func (r *rolePermissionRepo) Create(ctx context.Context, body *structs.RolePermi
 	return row, nil
 }
 
-// GetByPermissionID - Find role permission by permission id
+// GetByPermissionID Find role permission by permission id
 func (r *rolePermissionRepo) GetByPermissionID(ctx context.Context, id string) (*ent.RolePermission, error) {
 	row, err := r.ec.RolePermission.
 		Query().
@@ -78,7 +77,7 @@ func (r *rolePermissionRepo) GetByPermissionID(ctx context.Context, id string) (
 	return row, nil
 }
 
-// GetByPermissionIDs - Find role permissions by permission ids
+// GetByPermissionIDs Find role permissions by permission ids
 func (r *rolePermissionRepo) GetByPermissionIDs(ctx context.Context, ids []string) ([]*ent.RolePermission, error) {
 	rows, err := r.ec.RolePermission.
 		Query().
@@ -92,7 +91,7 @@ func (r *rolePermissionRepo) GetByPermissionIDs(ctx context.Context, ids []strin
 	return rows, nil
 }
 
-// GetByRoleID - Find role permission by role id
+// GetByRoleID Find role permission by role id
 func (r *rolePermissionRepo) GetByRoleID(ctx context.Context, id string) (*ent.RolePermission, error) {
 	row, err := r.ec.RolePermission.
 		Query().
@@ -106,7 +105,7 @@ func (r *rolePermissionRepo) GetByRoleID(ctx context.Context, id string) (*ent.R
 	return row, nil
 }
 
-// GetByRoleIDs - Find role permissions by role ids
+// GetByRoleIDs Find role permissions by role ids
 func (r *rolePermissionRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.RolePermission, error) {
 	rows, err := r.ec.RolePermission.
 		Query().
@@ -120,25 +119,16 @@ func (r *rolePermissionRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]
 	return rows, nil
 }
 
-// DeleteByPermissionID - Delete role permission
-func (r *rolePermissionRepo) DeleteByPermissionID(ctx context.Context, id string) error {
-	if _, err := r.ec.RolePermission.Delete().Where(rolePermissionEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "rolePermissionRepo.DeleteByPermissionID error: %v\n", err)
+// Delete role permission
+func (r *rolePermissionRepo) Delete(ctx context.Context, rid, pid string) error {
+	if _, err := r.ec.RolePermission.Delete().Where(rolePermissionEnt.IDEQ(rid), rolePermissionEnt.PermissionIDEQ(pid)).Exec(ctx); err != nil {
+		log.Errorf(nil, "rolePermissionRepo.Delete error: %v\n", err)
 		return err
 	}
 	return nil
 }
 
-// DeleteByRoleID - Delete role permission
-func (r *rolePermissionRepo) DeleteByRoleID(ctx context.Context, id string) error {
-	if _, err := r.ec.RolePermission.Delete().Where(rolePermissionEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "rolePermissionRepo.DeleteByRoleID error: %v\n", err)
-		return err
-	}
-	return nil
-}
-
-// DeleteAllByPermissionID - Delete all role permission
+// DeleteAllByPermissionID Delete all role permission
 func (r *rolePermissionRepo) DeleteAllByPermissionID(ctx context.Context, id string) error {
 	if _, err := r.ec.RolePermission.Delete().Where(rolePermissionEnt.IDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "rolePermissionRepo.DeleteAllByPermissionID error: %v\n", err)
@@ -147,7 +137,7 @@ func (r *rolePermissionRepo) DeleteAllByPermissionID(ctx context.Context, id str
 	return nil
 }
 
-// DeleteAllByRoleID - Delete all role permission
+// DeleteAllByRoleID Delete all role permission
 func (r *rolePermissionRepo) DeleteAllByRoleID(ctx context.Context, id string) error {
 	if _, err := r.ec.RolePermission.Delete().Where(rolePermissionEnt.IDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "rolePermissionRepo.DeleteAllByRoleID error: %v\n", err)

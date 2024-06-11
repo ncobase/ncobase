@@ -15,7 +15,7 @@ import (
 // AccountDomain is the resolver for the accountDomain field.
 func (r *queryResolver) AccountDomain(ctx context.Context, id string) (*types.Domain, error) {
 	c, _ := helper.GetGinContext(ctx)
-	resp, err := r.Svc.ReadDomainService(c, id)
+	resp, err := r.Svc.GetDomainService(c, id)
 	if err != nil {
 		return nil, err
 	}

@@ -9,7 +9,7 @@ import (
 
 // AccountDomainHandler handles reading the current user's domain.
 //
-// @Summary Read current user domain
+// @Summary Get current user domain
 // @Description Retrieve the domain associated with the current user.
 // @Tags account
 // @Produce json
@@ -27,7 +27,7 @@ func (h *Handler) AccountDomainHandler(c *gin.Context) {
 
 // UserDomainHandler handles reading a user's domain.
 //
-// @Summary Read user domain
+// @Summary Get user domain
 // @Description Retrieve the domain associated with the specified user.
 // @Tags user
 // @Produce json
@@ -70,9 +70,9 @@ func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// ReadDomainHandler handles reading domain information.
+// GetDomainHandler handles reading domain information.
 //
-// @Summary Read domain
+// @Summary Get domain
 // @Description Retrieve information about a specific domain.
 // @Tags domain
 // @Produce json
@@ -80,8 +80,8 @@ func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /domain/{id} [get]
-func (h *Handler) ReadDomainHandler(c *gin.Context) {
-	result, err := h.svc.ReadDomainService(c, c.Param("id"))
+func (h *Handler) GetDomainHandler(c *gin.Context) {
+	result, err := h.svc.GetDomainService(c, c.Param("id"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -89,9 +89,9 @@ func (h *Handler) ReadDomainHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// ReadDomainMenuHandler handles reading domain menu.
+// GetDomainMenuHandler handles reading domain menu.
 //
-// @Summary Read domain menu
+// @Summary Get domain menu
 // @Description Retrieve the menu associated with a specific domain.
 // @Tags domain
 // @Produce json
@@ -99,8 +99,8 @@ func (h *Handler) ReadDomainHandler(c *gin.Context) {
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /domain/{id}/menu [get]
-func (h *Handler) ReadDomainMenuHandler(c *gin.Context) {
-	result, err := h.svc.ReadDomainService(c, c.Param("id"))
+func (h *Handler) GetDomainMenuHandler(c *gin.Context) {
+	result, err := h.svc.GetDomainService(c, c.Param("id"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -108,9 +108,9 @@ func (h *Handler) ReadDomainMenuHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// ReadDomainSettingHandler handles reading domain setting.
+// GetDomainSettingHandler handles reading domain setting.
 //
-// @Summary Read domain setting
+// @Summary Get domain setting
 // @Description Retrieve the settings associated with a specific domain.
 // @Tags domain
 // @Produce json
@@ -118,8 +118,8 @@ func (h *Handler) ReadDomainMenuHandler(c *gin.Context) {
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /domain/{id}/setting [get]
-func (h *Handler) ReadDomainSettingHandler(c *gin.Context) {
-	result, err := h.svc.ReadDomainService(c, c.Param("id"))
+func (h *Handler) GetDomainSettingHandler(c *gin.Context) {
+	result, err := h.svc.GetDomainService(c, c.Param("id"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

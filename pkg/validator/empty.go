@@ -4,7 +4,7 @@ import (
 	"reflect"
 )
 
-// IsNil - verify nil
+// IsNil verify nil
 func IsNil(v any) bool {
 	if v == nil {
 		return true

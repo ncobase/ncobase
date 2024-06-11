@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-// IsPhoneValid - verify phone number
+// IsPhoneValid verify phone number
 func IsPhoneValid(phone string) bool {
 	// reference: https://learnku.com/articles/31543
 	phoneCN, _ := regexp.Compile(`^1(3\d|4[5-9]|5[0-35-9]|6[2567]|7[0-8]|8\d|9[0-35-9])\d{8}$`)
@@ -18,7 +18,7 @@ func IsPhoneValid(phone string) bool {
 	return global.MatchString(phone)
 }
 
-// IsEmailValid - verify email
+// IsEmailValid verify email
 func IsEmailValid(address string) bool {
 	_, err := mail.ParseAddress(address)
 	return err == nil

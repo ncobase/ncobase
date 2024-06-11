@@ -1,12 +1,12 @@
 package consts
 
 const (
-	// SocialWechat - Wechat
+	// SocialWechat Wechat
 	SocialWechat = "wechat"
-	// SocialQQ - QQ
+	// SocialQQ QQ
 	SocialQQ = "qq"
-	// SocialWeibo - Weibo
+	// SocialWeibo Weibo
 	SocialWeibo = "weibo"
-	// SocialGithub - Github
+	// SocialGithub Github
 	SocialGithub = "github"
 )
