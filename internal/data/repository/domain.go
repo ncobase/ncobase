@@ -63,7 +63,6 @@ func (r *domainRepo) Create(ctx context.Context, body *structs.CreateDomainBody)
 	builder.SetNillableCopyright(&body.Copyright)
 	builder.SetNillableDescription(&body.Description)
 	builder.SetDisabled(body.Disabled)
-	builder.SetExtras(types.ToValue(body.Extras))
 	builder.SetNillableCreatedBy(&body.CreatedBy)
 
 	if !validator.IsNil(body.Order) {
@@ -71,7 +70,7 @@ func (r *domainRepo) Create(ctx context.Context, body *structs.CreateDomainBody)
 	}
 
 	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
-		builder.SetExtras(types.ToValue(body.Extras))
+		builder.SetExtras(*body.Extras)
 	}
 
 	// execute the builder.

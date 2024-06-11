@@ -2040,7 +2040,7 @@
                 "display_name": {
                     "type": "string"
                 },
-                "domain_name": {
+                "domain": {
                     "type": "string"
                 },
                 "phone": {
@@ -2068,7 +2068,7 @@
                 "display_name": {
                     "type": "string"
                 },
-                "domain_name": {
+                "domain": {
                     "type": "string"
                 },
                 "phone": {

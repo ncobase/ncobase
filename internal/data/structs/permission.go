@@ -13,7 +13,7 @@ type Permission struct {
 	Description string      `json:"description,omitempty"`
 	Default     *bool       `json:"default,omitempty"`
 	Disabled    *bool       `json:"disabled,omitempty"`
-	ExtraProps  *types.JSON `json:"extras,omitempty"`
+	Extras      *types.JSON `json:"extras,omitempty"`
 	BaseEntity
 }
 

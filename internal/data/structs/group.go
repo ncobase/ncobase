@@ -12,7 +12,7 @@ type Group struct {
 	Disabled    bool        `json:"disabled,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Leader      *types.JSON `json:"leader,omitempty"`
-	ExtraProps  *types.JSON `json:"extras,omitempty"`
+	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    *string     `json:"parent_id,omitempty"` // Use pointer for nullable field
 	DomainID    *string     `json:"domain_id,omitempty"` // Use pointer for nullable field
 	BaseEntity

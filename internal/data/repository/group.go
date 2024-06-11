@@ -53,12 +53,18 @@ func (r *groupRepo) Create(ctx context.Context, body *structs.CreateGroupBody) (
 	builder.SetNillableName(&body.Name)
 	builder.SetNillableSlug(&body.Slug)
 	builder.SetNillableDescription(&body.Description)
-	builder.SetLeader(types.ToValue(body.Leader))
 	builder.SetDisabled(body.Disabled)
-	builder.SetExtras(types.ToValue(body.ExtraProps))
 	builder.SetNillableParentID(body.ParentID)
 	builder.SetNillableDomainID(body.DomainID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
+
+	if !validator.IsNil(body.Leader) && !validator.IsEmpty(body.Leader) {
+		builder.SetLeader(*body.Leader)
+	}
+
+	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
+		builder.SetExtras(*body.Extras)
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)

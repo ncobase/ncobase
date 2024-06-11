@@ -160,7 +160,7 @@ definitions:
     properties:
       display_name:
         type: string
-      domain_name:
+      domain:
         type: string
       phone:
         type: string
@@ -178,7 +178,7 @@ definitions:
     properties:
       display_name:
         type: string
-      domain_name:
+      domain:
         type: string
       phone:
         type: string

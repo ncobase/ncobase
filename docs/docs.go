@@ -2048,7 +2048,7 @@ const docTemplate = `{
                 "display_name": {
                     "type": "string"
                 },
-                "domain_name": {
+                "domain": {
                     "type": "string"
                 },
                 "phone": {
@@ -2076,7 +2076,7 @@ const docTemplate = `{
                 "display_name": {
                     "type": "string"
                 },
-                "domain_name": {
+                "domain": {
                     "type": "string"
                 },
                 "phone": {

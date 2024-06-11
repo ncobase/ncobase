@@ -54,8 +54,11 @@ func (r *permissionRepo) Create(ctx context.Context, body *structs.CreatePermiss
 	builder.SetNillableDescription(&body.Description)
 	builder.SetNillableDefault(body.Default)
 	builder.SetNillableDisabled(body.Disabled)
-	builder.SetExtras(types.ToValue(body.ExtraProps))
 	builder.SetNillableCreatedBy(body.CreatedBy)
+
+	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
+		builder.SetExtras(*body.Extras)
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)

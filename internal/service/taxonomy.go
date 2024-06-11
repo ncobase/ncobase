@@ -14,6 +14,12 @@ import (
 
 // CreateTaxonomyService creates a new taxonomy.
 func (svc *Service) CreateTaxonomyService(c *gin.Context, body *structs.CreateTaxonomyBody) (*resp.Exception, error) {
+	if validator.IsEmpty(body.Name) {
+		return resp.BadRequest(ecode.FieldIsRequired("name")), nil
+	}
+	if validator.IsEmpty(body.Type) {
+		return resp.BadRequest(ecode.FieldIsRequired("type")), nil
+	}
 	// set slug field.
 	if validator.IsEmpty(body.Slug) {
 		body.Slug = slug.Unicode(body.Name)

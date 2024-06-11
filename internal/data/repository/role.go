@@ -52,8 +52,11 @@ func (r *roleRepo) Create(ctx context.Context, body *structs.CreateRoleBody) (*e
 	builder.SetNillableSlug(&body.Slug)
 	builder.SetDisabled(body.Disabled)
 	builder.SetNillableDescription(&body.Description)
-	builder.SetExtras(types.ToValue(body.ExtraProps))
 	builder.SetNillableCreatedBy(body.CreatedBy)
+
+	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
+		builder.SetExtras(*body.Extras)
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)
@@ -73,7 +76,7 @@ func (r *roleRepo) CreateSuperAdminRole(ctx context.Context) (*ent.Role, error) 
 			Slug:        "super-admin",
 			Disabled:    false,
 			Description: "Super Admin Role",
-			ExtraProps:  nil,
+			Extras:      &types.JSON{},
 		},
 	})
 }

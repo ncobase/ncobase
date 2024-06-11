@@ -25,7 +25,7 @@ type TaxonomyBody struct {
 	Keywords    []string    `json:"keywords,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Status      int32       `json:"status,omitempty"`
-	ExtraProps  *types.JSON `json:"extras,omitempty"`
+	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id,omitempty"`
 	DomainID    string      `json:"domain_id,omitempty"`
 	BaseEntity
@@ -56,7 +56,7 @@ type GetTaxonomy struct {
 	Keywords    []string    `json:"keywords"`
 	Description string      `json:"description"`
 	Status      int32       `json:"status"`
-	ExtraProps  *types.JSON `json:"extras,omitempty"`
+	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id"`
 	DomainID    string      `json:"domain_id"`
 	BaseEntity
