@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"fmt"
 	"stocms/internal/data"
 	"stocms/internal/data/ent"
 	userRoleEnt "stocms/internal/data/ent/userrole"
@@ -15,14 +16,15 @@ import (
 // UserRole represents the user role repository interface.
 type UserRole interface {
 	Create(ctx context.Context, body *structs.UserRole) (*ent.UserRole, error)
-	GetByUserID(ctx context.Context, id string) (*ent.UserRole, error)
+	GetByID(ctx context.Context, id string) (*ent.UserRole, error)
 	GetByRoleID(ctx context.Context, id string) (*ent.UserRole, error)
-	GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserRole, error)
+	GetByIDs(ctx context.Context, ids []string) ([]*ent.UserRole, error)
 	GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.UserRole, error)
-	DeleteByUserID(ctx context.Context, id string) error
+	DeleteByID(ctx context.Context, id string) error
 	DeleteByRoleID(ctx context.Context, id string) error
-	DeleteAllByUserID(ctx context.Context, id string) error
+	DeleteAllByID(ctx context.Context, id string) error
 	DeleteAllByRoleID(ctx context.Context, id string) error
+	VerifyUserRole(ctx context.Context, userID, roleID string) (bool, error)
 }
 
 // userRoleRepo implements the User interface.
@@ -39,14 +41,38 @@ func NewUserRole(d *data.Data) UserRole {
 	return &userRoleRepo{ec, rc, cache.NewCache[ent.UserRole](rc, cache.Key("sc_user_role"), true)}
 }
 
+// VerifyUserRole verifies if a user has a specific role.
+func (r *userRoleRepo) VerifyUserRole(ctx context.Context, userID, roleID string) (bool, error) {
+	count, err := r.ec.UserRole.Query().
+		Where(
+			userRoleEnt.IDEQ(userID),
+			userRoleEnt.RoleIDEQ(roleID),
+		).
+		Count(ctx)
+	if err != nil {
+		log.Errorf(nil, "userRoleRepo.VerifyUserRole error: %v\n", err)
+		return false, err
+	}
+	return count > 0, nil
+}
+
 // Create - Create user role
 func (r *userRoleRepo) Create(ctx context.Context, body *structs.UserRole) (*ent.UserRole, error) {
+	// Verify if the user already has the role
+	exists, err := r.VerifyUserRole(ctx, body.UserID, body.RoleID)
+	if err != nil {
+		return nil, err
+	}
+	if exists {
+		return nil, fmt.Errorf("user %s already has role %s", body.UserID, body.RoleID)
+	}
 
 	// create builder.
 	builder := r.ec.UserRole.Create()
+
 	// set values.
-	builder.SetNillableID(&body.UserID)
-	builder.SetNillableRoleID(&body.RoleID)
+	builder.SetID(body.UserID)
+	builder.SetRoleID(body.RoleID)
 
 	// execute the builder.
 	row, err := builder.Save(ctx)
@@ -58,29 +84,29 @@ func (r *userRoleRepo) Create(ctx context.Context, body *structs.UserRole) (*ent
 	return row, nil
 }
 
-// GetByUserID - Find role by user id
-func (r *userRoleRepo) GetByUserID(ctx context.Context, id string) (*ent.UserRole, error) {
+// GetByID - Find role by user id
+func (r *userRoleRepo) GetByID(ctx context.Context, id string) (*ent.UserRole, error) {
 	row, err := r.ec.UserRole.
 		Query().
 		Where(userRoleEnt.IDEQ(id)).
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userRoleRepo.GetProfile error: %v\n", err)
+		log.Errorf(nil, "userRoleRepo.GetByID error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
 }
 
-// GetByUserIDs - Find roles by user ids
-func (r *userRoleRepo) GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserRole, error) {
+// GetByIDs - Find roles by user ids
+func (r *userRoleRepo) GetByIDs(ctx context.Context, ids []string) ([]*ent.UserRole, error) {
 	rows, err := r.ec.UserRole.
 		Query().
 		Where(userRoleEnt.IDIn(ids...)).
 		All(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userRoleRepo.GetByUserIDs error: %v\n", err)
+		log.Errorf(nil, "userRoleRepo.GetByIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -94,7 +120,7 @@ func (r *userRoleRepo) GetByRoleID(ctx context.Context, id string) (*ent.UserRol
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userRoleRepo.GetProfile error: %v\n", err)
+		log.Errorf(nil, "userRoleRepo.GetByRoleID error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -114,10 +140,24 @@ func (r *userRoleRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.U
 	return rows, nil
 }
 
-// DeleteByUserID - Delete user role
-func (r *userRoleRepo) DeleteByUserID(ctx context.Context, id string) error {
+// DeleteByID - Delete user role
+func (r *userRoleRepo) DeleteByID(ctx context.Context, id string) error {
+	userRole, err := r.GetByID(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	// verify if the user has the role
+	exists, err := r.VerifyUserRole(ctx, userRole.ID, userRole.RoleID)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		return fmt.Errorf("user %s does not have role %s", userRole.ID, userRole.RoleID)
+	}
+
 	if _, err := r.ec.UserRole.Delete().Where(userRoleEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userRoleRepo.DeleteByUserID error: %v\n", err)
+		log.Errorf(nil, "userRoleRepo.DeleteByID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -125,6 +165,20 @@ func (r *userRoleRepo) DeleteByUserID(ctx context.Context, id string) error {
 
 // DeleteByRoleID - Delete user role
 func (r *userRoleRepo) DeleteByRoleID(ctx context.Context, id string) error {
+	userRole, err := r.GetByRoleID(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	// verify if the role belongs to the user
+	exists, err := r.VerifyUserRole(ctx, userRole.ID, userRole.RoleID)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		return fmt.Errorf("user %s does not have role %s", userRole.ID, userRole.RoleID)
+	}
+
 	if _, err := r.ec.UserRole.Delete().Where(userRoleEnt.RoleIDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "userRoleRepo.DeleteByRoleID error: %v\n", err)
 		return err
@@ -132,16 +186,16 @@ func (r *userRoleRepo) DeleteByRoleID(ctx context.Context, id string) error {
 	return nil
 }
 
-// DeleteAllByUserID - Delete all user role
-func (r *userRoleRepo) DeleteAllByUserID(ctx context.Context, id string) error {
+// DeleteAllByID - Delete all user roles by user ID
+func (r *userRoleRepo) DeleteAllByID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserRole.Delete().Where(userRoleEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userRoleRepo.DeleteAllByUserID error: %v\n", err)
+		log.Errorf(nil, "userRoleRepo.DeleteAllByID error: %v\n", err)
 		return err
 	}
 	return nil
 }
 
-// DeleteAllByRoleID - Delete all user role
+// DeleteAllByRoleID - Delete all user roles by role ID
 func (r *userRoleRepo) DeleteAllByRoleID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserRole.Delete().Where(userRoleEnt.RoleIDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "userRoleRepo.DeleteAllByRoleID error: %v\n", err)

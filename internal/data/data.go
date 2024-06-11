@@ -122,15 +122,22 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	// Max Connect Lifetime
 	db.SetConnMaxLifetime(conf.ConnMaxLifeTime)
 
-	ec = ent.NewClient(ent.Driver(entsql.OpenDB(conf.Driver, db)))
+	// Create ent client
+	client := ent.NewClient(ent.Driver(entsql.OpenDB(conf.Driver, db)))
+
+	// Enable SQL logging
+	if conf.Debug {
+		client = client.Debug()
+	}
+
 	// Auto migrate
 	if conf.Migrate {
-		if err = ec.Schema.Create(context.Background(), migrate.WithForeignKeys(false), migrate.WithDropIndex(true), migrate.WithDropColumn(true)); err != nil {
+		if err = client.Schema.Create(context.Background(), migrate.WithForeignKeys(false), migrate.WithDropIndex(true), migrate.WithDropColumn(true)); err != nil {
 			log.Fatalf(nil, "data.client.Schema.Create error: %v", err)
 		}
 	}
 
-	return ec, db
+	return client, db
 }
 
 // GetEntClient returns the ent client
