@@ -17,6 +17,13 @@ import (
 
 // CreateResourceService creates a new resource.
 func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateResourceBody) (*resp.Exception, error) {
+	if validator.IsEmpty(body.ObjectID) {
+		return resp.BadRequest(ecode.FieldIsRequired("belongsTo object")), nil
+	}
+
+	if validator.IsEmpty(body.DomainID) {
+		return resp.BadRequest(ecode.FieldIsRequired("belongsTo domain")), nil
+	}
 	// get storage interface
 	storage, storageConfig := helper.GetStorage(c)
 
