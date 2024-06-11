@@ -6,7 +6,7 @@ import (
 	"github.com/casdoor/oss/s3"
 )
 
-// NewMinio - new minio
+// NewMinio new minio
 func NewMinio(c *Config) oss.StorageInterface {
 	return s3.New(&s3.Config{
 		AccessID:         c.ID,

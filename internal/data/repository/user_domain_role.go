@@ -19,9 +19,10 @@ type UserDomainRole interface {
 	GetByUserID(ctx context.Context, userID string) (*ent.UserDomainRole, error)
 	GetByDomainID(ctx context.Context, domainID string) ([]*ent.UserDomainRole, error)
 	GetByRoleID(ctx context.Context, roleID string) ([]*ent.UserDomainRole, error)
-	DeleteByUserID(ctx context.Context, userID string) error
-	DeleteByDomainID(ctx context.Context, domainID string) error
-	DeleteByRoleID(ctx context.Context, roleID string) error
+	DeleteByUserIDAndDomainID(ctx context.Context, userID, domainID string) error
+	DeleteByUserIDAndRoleID(ctx context.Context, userID, roleID string) error
+	DeleteByDomainIDAndRoleID(ctx context.Context, domainID, roleID string) error
+	DeleteByUserIDAndDomainIDAndRoleID(ctx context.Context, userID, domainID, roleID string) error
 	DeleteAllByUserID(ctx context.Context, userID string) error
 	DeleteAllByDomainID(ctx context.Context, domainID string) error
 	DeleteAllByRoleID(ctx context.Context, roleID string) error
@@ -105,30 +106,39 @@ func (r *userDomainRoleRepo) GetByRoleID(ctx context.Context, roleID string) ([]
 	return rows, nil
 }
 
-// DeleteByUserID deletes user domain roles by user ID.
-func (r *userDomainRoleRepo) DeleteByUserID(ctx context.Context, userID string) error {
-	if _, err := r.ec.UserDomainRole.Delete().Where(userDomainRoleEnt.IDEQ(userID)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userDomainRoleRepo.DeleteByUserID error: %v\n", err)
+// DeleteByUserIDAndDomainID deletes user domain role by user ID and domain ID.
+func (r *userDomainRoleRepo) DeleteByUserIDAndDomainID(ctx context.Context, userID, domainID string) error {
+	if _, err := r.ec.UserDomainRole.Delete().Where(userDomainRoleEnt.IDEQ(userID), userDomainRoleEnt.DomainID(domainID)).Exec(ctx); err != nil {
+		log.Errorf(nil, "userDomainRoleRepo.DeleteByUserIDAndDomainID error: %v\n", err)
 		return err
 	}
 
 	return nil
 }
 
-// DeleteByDomainID deletes user domain roles by domain ID.
-func (r *userDomainRoleRepo) DeleteByDomainID(ctx context.Context, domainID string) error {
-	if _, err := r.ec.UserDomainRole.Delete().Where(userDomainRoleEnt.DomainID(domainID)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userDomainRoleRepo.DeleteByDomainID error: %v\n", err)
+// DeleteByUserIDAndRoleID deletes user domain role by user ID and role ID.
+func (r *userDomainRoleRepo) DeleteByUserIDAndRoleID(ctx context.Context, userID, roleID string) error {
+	if _, err := r.ec.UserDomainRole.Delete().Where(userDomainRoleEnt.IDEQ(userID), userDomainRoleEnt.RoleID(roleID)).Exec(ctx); err != nil {
+		log.Errorf(nil, "userDomainRoleRepo.DeleteByUserIDAndRoleID error: %v\n", err)
+		return err
+	}
+	return nil
+}
+
+// DeleteByDomainIDAndRoleID deletes user domain role by domain ID and role ID.
+func (r *userDomainRoleRepo) DeleteByDomainIDAndRoleID(ctx context.Context, domainID, roleID string) error {
+	if _, err := r.ec.UserDomainRole.Delete().Where(userDomainRoleEnt.DomainID(domainID), userDomainRoleEnt.RoleID(roleID)).Exec(ctx); err != nil {
+		log.Errorf(nil, "userDomainRoleRepo.DeleteByDomainIDAndRoleID error: %v\n", err)
 		return err
 	}
 
 	return nil
 }
 
-// DeleteByRoleID deletes user domain roles by role ID.
-func (r *userDomainRoleRepo) DeleteByRoleID(ctx context.Context, roleID string) error {
-	if _, err := r.ec.UserDomainRole.Delete().Where(userDomainRoleEnt.RoleID(roleID)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userDomainRoleRepo.DeleteByRoleID error: %v\n", err)
+// DeleteByUserIDAndDomainIDAndRoleID deletes user domain role by user ID, domain ID and role ID.
+func (r *userDomainRoleRepo) DeleteByUserIDAndDomainIDAndRoleID(ctx context.Context, userID, domainID, roleID string) error {
+	if _, err := r.ec.UserDomainRole.Delete().Where(userDomainRoleEnt.IDEQ(userID), userDomainRoleEnt.DomainID(domainID), userDomainRoleEnt.RoleID(roleID)).Exec(ctx); err != nil {
+		log.Errorf(nil, "userDomainRoleRepo.DeleteByUserIDAndDomainIDAndRoleID error: %v\n", err)
 		return err
 	}
 

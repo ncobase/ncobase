@@ -20,8 +20,7 @@ type UserDomain interface {
 	GetByDomainID(ctx context.Context, id string) (*ent.UserDomain, error)
 	GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserDomain, error)
 	GetByDomainIDs(ctx context.Context, ids []string) ([]*ent.UserDomain, error)
-	DeleteByUserID(ctx context.Context, id string) error
-	DeleteByDomainID(ctx context.Context, id string) error
+	Delete(ctx context.Context, uid, did string) error
 	DeleteAllByUserID(ctx context.Context, id string) error
 	DeleteAllByDomainID(ctx context.Context, id string) error
 	GetDomainsByUserID(ctx context.Context, userID string) ([]*ent.Domain, error)
@@ -43,7 +42,7 @@ func NewUserDomain(d *data.Data) UserDomain {
 	return &userDomainRepo{ec, rc, cache.NewCache[ent.UserDomain](rc, cache.Key("sc_user_domain"), true)}
 }
 
-// Create - Create user domain
+// Create  creates a new user domain
 func (r *userDomainRepo) Create(ctx context.Context, body *structs.UserDomain) (*ent.UserDomain, error) {
 
 	// create builder.
@@ -62,7 +61,7 @@ func (r *userDomainRepo) Create(ctx context.Context, body *structs.UserDomain) (
 	return row, nil
 }
 
-// GetByUserID - Find domain by user id
+// GetByUserID find domain by user id
 func (r *userDomainRepo) GetByUserID(ctx context.Context, id string) (*ent.UserDomain, error) {
 	row, err := r.ec.UserDomain.
 		Query().
@@ -76,7 +75,7 @@ func (r *userDomainRepo) GetByUserID(ctx context.Context, id string) (*ent.UserD
 	return row, nil
 }
 
-// GetByUserIDs - Find domains by user ids
+// GetByUserIDs find domains by user ids
 func (r *userDomainRepo) GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserDomain, error) {
 	rows, err := r.ec.UserDomain.
 		Query().
@@ -90,7 +89,7 @@ func (r *userDomainRepo) GetByUserIDs(ctx context.Context, ids []string) ([]*ent
 	return rows, nil
 }
 
-// GetByDomainID - Find domain by domain id
+// GetByDomainID find domain by domain id
 func (r *userDomainRepo) GetByDomainID(ctx context.Context, id string) (*ent.UserDomain, error) {
 	row, err := r.ec.UserDomain.
 		Query().
@@ -104,7 +103,7 @@ func (r *userDomainRepo) GetByDomainID(ctx context.Context, id string) (*ent.Use
 	return row, nil
 }
 
-// GetByDomainIDs - Find domains by domain ids
+// GetByDomainIDs find domains by domain ids
 func (r *userDomainRepo) GetByDomainIDs(ctx context.Context, ids []string) ([]*ent.UserDomain, error) {
 	rows, err := r.ec.UserDomain.
 		Query().
@@ -118,25 +117,16 @@ func (r *userDomainRepo) GetByDomainIDs(ctx context.Context, ids []string) ([]*e
 	return rows, nil
 }
 
-// DeleteByUserID - Delete user domain
-func (r *userDomainRepo) DeleteByUserID(ctx context.Context, id string) error {
-	if _, err := r.ec.UserDomain.Delete().Where(userDomainEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userDomainRepo.DeleteByUserID error: %v\n", err)
+// Delete delete user domain
+func (r *userDomainRepo) Delete(ctx context.Context, uid, did string) error {
+	if _, err := r.ec.UserDomain.Delete().Where(userDomainEnt.IDEQ(uid), userDomainEnt.DomainIDEQ(did)).Exec(ctx); err != nil {
+		log.Errorf(nil, "userDomainRepo.Delete error: %v\n", err)
 		return err
 	}
 	return nil
 }
 
-// DeleteByDomainID - Delete user domain
-func (r *userDomainRepo) DeleteByDomainID(ctx context.Context, id string) error {
-	if _, err := r.ec.UserDomain.Delete().Where(userDomainEnt.DomainIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userDomainRepo.DeleteByDomainID error: %v\n", err)
-		return err
-	}
-	return nil
-}
-
-// DeleteAllByUserID - Delete all user domain
+// DeleteAllByUserID delete all user domain
 func (r *userDomainRepo) DeleteAllByUserID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserDomain.Delete().Where(userDomainEnt.IDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "userDomainRepo.DeleteAllByUserID error: %v\n", err)
@@ -145,7 +135,7 @@ func (r *userDomainRepo) DeleteAllByUserID(ctx context.Context, id string) error
 	return nil
 }
 
-// DeleteAllByDomainID - Delete all user domain
+// DeleteAllByDomainID delete all user domain
 func (r *userDomainRepo) DeleteAllByDomainID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserDomain.Delete().Where(userDomainEnt.DomainIDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "userDomainRepo.DeleteAllByDomainID error: %v\n", err)

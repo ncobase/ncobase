@@ -22,7 +22,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// OAuthRegisterService - OAuth register service
+// OAuthRegisterService OAuth register service
 func (svc *Service) OAuthRegisterService(c *gin.Context, body *structs.OAuthRegisterBody) (*resp.Exception, error) {
 	ctx := helper.FromGinContext(c)
 	conf := helper.GetConfig(c)
@@ -66,7 +66,7 @@ func (svc *Service) OAuthRegisterService(c *gin.Context, body *structs.OAuthRegi
 	}
 }
 
-// checkUserExistence - Check if user exists
+// checkUserExistence Check if user exists
 func (svc *Service) checkUserExistence(tx *ent.Tx, username, email string) (string, error) {
 	exists, err := tx.User.
 		Query().
@@ -89,7 +89,7 @@ func (svc *Service) checkUserExistence(tx *ent.Tx, username, email string) (stri
 	return "", nil
 }
 
-// createUserEntities - Create user and related entities
+// createUserEntities Create user and related entities
 func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *structs.OAuthRegisterBody, payload structs.RegisterTokenBody) (*ent.User, *resp.Exception) {
 	user, err := svc.user.Create(ctx, &structs.UserRequestBody{
 		Username: body.Username,
@@ -110,7 +110,7 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 	}
 
 	if _, err := svc.isCreateDomain(ctx, &structs.CreateDomainBody{
-		DomainBody: structs.DomainBody{Name: body.DomainName, CreatedBy: user.ID},
+		Domain: structs.Domain{Name: body.DomainName, CreatedBy: user.ID},
 	}); err != nil {
 		return nil, resp.InternalServer(err.Error())
 	}
@@ -118,7 +118,7 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 	return user, nil
 }
 
-// createOAuthUser - Create OAuth user
+// createOAuthUser Create OAuth user
 func (svc *Service) createOAuthUser(ctx context.Context, tx *ent.Tx, payload structs.RegisterTokenBody, userID string) *resp.Exception {
 	_, err := tx.OAuthUser.
 		Create().
@@ -136,7 +136,7 @@ func (svc *Service) createOAuthUser(ctx context.Context, tx *ent.Tx, payload str
 	return nil
 }
 
-// createUserProfile - Create user profile
+// createUserProfile Create user profile
 func (svc *Service) createUserProfile(ctx context.Context, userID, displayName, shortBio string) *resp.Exception {
 	_, err := svc.userProfile.Create(ctx, &structs.UserRequestBody{
 		UserID:      userID,
@@ -151,7 +151,7 @@ func (svc *Service) createUserProfile(ctx context.Context, userID, displayName, 
 	return nil
 }
 
-// generateAndSetTokens - Generate and set tokens
+// generateAndSetTokens Generate and set tokens
 func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *structs.User) *resp.Exception {
 	conf := helper.GetConfig(c)
 	authToken, err := tx.AuthToken.Create().SetUserID(user.ID).Save(context.Background())
@@ -180,7 +180,7 @@ func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *struc
 	}
 }
 
-// GetOAuthProfileInfoService - Get OAuth profile info service
+// GetOAuthProfileInfoService Get OAuth profile info service
 func (svc *Service) GetOAuthProfileInfoService(c *gin.Context) (*resp.Exception, error) {
 	conf := helper.GetConfig(c)
 	registerToken, err := cookie.Get(c.Request, "register_token")
@@ -202,7 +202,7 @@ func (svc *Service) GetOAuthProfileInfoService(c *gin.Context) (*resp.Exception,
 	}, nil
 }
 
-// OAuthCallbackService - OAuth callback service
+// OAuthCallbackService OAuth callback service
 func (svc *Service) OAuthCallbackService(c *gin.Context, provider, code string) (*resp.Exception, error) {
 	if code == "" {
 		return resp.BadRequest("CODE IS EMPTY"), nil
@@ -216,7 +216,7 @@ func (svc *Service) OAuthCallbackService(c *gin.Context, provider, code string) 
 	return &resp.Exception{}, nil
 }
 
-// OAuthAuthenticationService - OAuth authentication service
+// OAuthAuthenticationService OAuth authentication service
 func (svc *Service) OAuthAuthenticationService(c *gin.Context) (*resp.Exception, error) {
 	ctx := helper.FromGinContext(c)
 	token := helper.GetToken(c)
@@ -249,7 +249,7 @@ func (svc *Service) OAuthAuthenticationService(c *gin.Context) (*resp.Exception,
 	return svc.handleNewOAuthUser(c, tx, profile, token, provider)
 }
 
-// handleExistingOAuthUser - Handle existing OAuth user
+// Handle existing OAuth user
 func (svc *Service) handleExistingOAuthUser(c *gin.Context, tx *ent.Tx, oauthUser *ent.OAuthUser) (*resp.Exception, error) {
 	conf := helper.GetConfig(c)
 	user, err := tx.User.Query().Where(userEnt.IDEQ(oauthUser.UserID)).Only(context.Background())
@@ -283,7 +283,7 @@ func (svc *Service) handleExistingOAuthUser(c *gin.Context, tx *ent.Tx, oauthUse
 	}, tx.Commit()
 }
 
-// handleNewOAuthUser - Handle new OAuth user
+// Handle new OAuth user
 func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oauth.Profile, token, provider string) (*resp.Exception, error) {
 	conf := helper.GetConfig(c)
 	user, err := svc.user.FindUser(c, &structs.FindUser{Email: profile.Email})
@@ -317,7 +317,7 @@ func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oaut
 	}, tx.Commit()
 }
 
-// getRegisterToken - Get register token from request
+// Get register token from request
 func (svc *Service) getRegisterToken(c *gin.Context, bodyToken string) (string, error) {
 	if bodyToken != "" {
 		return bodyToken, nil
@@ -330,7 +330,7 @@ func (svc *Service) getRegisterToken(c *gin.Context, bodyToken string) (string, 
 	return cookieRegisterToken, nil
 }
 
-// getOAuthInfo - Get OAuth provider information
+// Get OAuth provider information
 func (svc *Service) getOAuthInfo(c *gin.Context, provider, code string) any {
 	conf := helper.GetConfig(c)
 	_, result := match.Match(provider).

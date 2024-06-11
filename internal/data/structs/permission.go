@@ -2,23 +2,19 @@ package structs
 
 import (
 	"stocms/pkg/types"
-	"time"
 )
 
 // Permission represents a permission entity.
 type Permission struct {
-	ID          string     `json:"id,omitempty"`
-	Name        string     `json:"name,omitempty"`
-	Action      string     `json:"action,omitempty"`
-	Subject     string     `json:"subject,omitempty"`
-	Description string     `json:"description,omitempty"`
-	Default     bool       `json:"default,omitempty"`
-	Disabled    bool       `json:"disabled,omitempty"`
-	ExtraProps  types.JSON `json:"extras,omitempty"`
-	CreatedBy   string     `json:"created_by,omitempty"`
-	CreatedAt   time.Time  `json:"created_at,omitempty"`
-	UpdatedBy   string     `json:"updated_by,omitempty"`
-	UpdatedAt   time.Time  `json:"updated_at,omitempty"`
+	ID          string      `json:"id,omitempty"`
+	Name        string      `json:"name,omitempty"`
+	Action      string      `json:"action,omitempty"`
+	Subject     string      `json:"subject,omitempty"`
+	Description string      `json:"description,omitempty"`
+	Default     *bool       `json:"default,omitempty"`
+	Disabled    *bool       `json:"disabled,omitempty"`
+	ExtraProps  *types.JSON `json:"extras,omitempty"`
+	BaseEntity
 }
 
 // CreatePermissionBody represents the body for creating or updating a permission.

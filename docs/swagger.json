@@ -17,7 +17,7 @@
                 "tags": [
                     "account"
                 ],
-                "summary": "Read current user",
+                "summary": "Get current user",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -43,7 +43,7 @@
                 "tags": [
                     "account"
                 ],
-                "summary": "Read current user domain",
+                "summary": "Get current user domain",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -228,7 +228,7 @@
                 "tags": [
                     "domain"
                 ],
-                "summary": "Read domain",
+                "summary": "Get domain",
                 "parameters": [
                     {
                         "type": "string",
@@ -263,7 +263,7 @@
                 "tags": [
                     "domain"
                 ],
-                "summary": "Read domain menu",
+                "summary": "Get domain menu",
                 "parameters": [
                     {
                         "type": "string",
@@ -298,7 +298,7 @@
                 "tags": [
                     "domain"
                 ],
-                "summary": "Read domain setting",
+                "summary": "Get domain setting",
                 "parameters": [
                     {
                         "type": "string",
@@ -1733,7 +1733,7 @@
                 "tags": [
                     "user"
                 ],
-                "summary": "Read user",
+                "summary": "Get user",
                 "parameters": [
                     {
                         "type": "string",
@@ -1768,7 +1768,7 @@
                 "tags": [
                     "user"
                 ],
-                "summary": "Read user domain",
+                "summary": "Get user domain",
                 "parameters": [
                     {
                         "type": "string",
@@ -1873,12 +1873,14 @@
                     "type": "boolean"
                 },
                 "released": {
+                    "description": "Use pointer for nullable field",
                     "type": "string"
                 },
                 "slug": {
                     "type": "string"
                 },
                 "status": {
+                    "description": "Use pointer for nullable field",
                     "type": "integer"
                 },
                 "temp": {
@@ -1941,14 +1943,12 @@
                     "type": "string"
                 },
                 "status": {
-                    "description": "status, 0: enabled, 1: disabled, ...",
                     "type": "integer"
                 },
                 "thumbnail": {
                     "type": "string"
                 },
                 "type": {
-                    "description": "type, default 'node', options: 'node', 'plane', 'event', 'page', 'tag', 'link'",
                     "type": "string"
                 },
                 "updated_at": {
@@ -2133,6 +2133,7 @@
                     "type": "string"
                 },
                 "order": {
+                    "description": "Use pointer for nullable int",
                     "type": "integer"
                 },
                 "title": {

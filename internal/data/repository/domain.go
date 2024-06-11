@@ -63,15 +63,15 @@ func (r *domainRepo) Create(ctx context.Context, body *structs.CreateDomainBody)
 	builder.SetNillableCopyright(&body.Copyright)
 	builder.SetNillableDescription(&body.Description)
 	builder.SetDisabled(body.Disabled)
-	builder.SetExtras(body.Extras)
+	builder.SetExtras(types.ToValue(body.Extras))
 	builder.SetNillableCreatedBy(&body.CreatedBy)
 
-	if body.Order > 0 {
-		builder.SetOrder(int32(body.Order))
+	if !validator.IsNil(body.Order) {
+		builder.SetNillableOrder(body.Order)
 	}
 
-	if !validator.IsNil(body.Extras) && len(body.Extras) > 0 {
-		builder.SetExtras(body.Extras)
+	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
+		builder.SetExtras(types.ToValue(body.Extras))
 	}
 
 	// execute the builder.

@@ -7,9 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ReadUserHandler handles reading a user.
+// GetUserHandler handles reading a user.
 //
-// @Summary Read user
+// @Summary Get user
 // @Description Retrieve information about a specific user.
 // @Tags user
 // @Produce json
@@ -17,8 +17,8 @@ import (
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /user/{username} [get]
-func (h *Handler) ReadUserHandler(c *gin.Context) {
-	result, err := h.svc.ReadUserService(c, c.Param("username"))
+func (h *Handler) GetUserHandler(c *gin.Context) {
+	result, err := h.svc.GetUserService(c, c.Param("username"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -26,17 +26,17 @@ func (h *Handler) ReadUserHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// ReadMeHandler handles reading the current user.
+// GetMeHandler handles reading the current user.
 //
-// @Summary Read current user
+// @Summary Get current user
 // @Description Retrieve information about the current user.
 // @Tags account
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /account [get]
-func (h *Handler) ReadMeHandler(c *gin.Context) {
-	result, err := h.svc.ReadMeService(c)
+func (h *Handler) GetMeHandler(c *gin.Context) {
+	result, err := h.svc.GetMeService(c)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

@@ -4,21 +4,18 @@ import "time"
 
 // Module represents a module entity.
 type Module struct {
-	ID        string    `json:"id,omitempty"`
-	Name      string    `json:"name,omitempty"`
-	Title     string    `json:"title,omitempty"`
-	Slug      string    `json:"slug,omitempty"`
-	Content   string    `json:"content,omitempty"`
-	Thumbnail string    `json:"thumbnail,omitempty"`
-	Temp      bool      `json:"temp,omitempty"`
-	Markdown  bool      `json:"markdown,omitempty"`
-	Private   bool      `json:"private,omitempty"`
-	Status    int32     `json:"status,omitempty"`
-	Released  time.Time `json:"released,omitempty"`
-	CreatedBy string    `json:"created_by,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	UpdatedBy string    `json:"updated_by,omitempty"`
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	ID        string     `json:"id,omitempty"`
+	Name      string     `json:"name,omitempty"`
+	Title     string     `json:"title,omitempty"`
+	Slug      string     `json:"slug,omitempty"`
+	Content   string     `json:"content,omitempty"`
+	Thumbnail string     `json:"thumbnail,omitempty"`
+	Temp      *bool      `json:"temp,omitempty"`
+	Markdown  *bool      `json:"markdown,omitempty"`
+	Private   *bool      `json:"private,omitempty"`
+	Status    *int32     `json:"status,omitempty"`   // Use pointer for nullable field
+	Released  *time.Time `json:"released,omitempty"` // Use pointer for nullable field
+	BaseEntity
 }
 
 // CreateModuleBody represents the body for creating or updating a module.

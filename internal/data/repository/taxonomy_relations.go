@@ -47,9 +47,8 @@ func (r *taxonomyRelationsRepo) Create(ctx context.Context, body *structs.Create
 		SetID(body.ObjectID).
 		SetTaxonomyID(body.TaxonomyID).
 		SetType(body.Type).
-		SetOrder(body.Order).
-		SetCreatedBy(body.CreatedBy).
-		SetCreatedAt(body.CreatedAt)
+		SetNillableOrder(body.Order).
+		SetNillableCreatedBy(body.CreatedBy)
 
 	row, err := query.Save(ctx)
 	if err != nil {
@@ -97,7 +96,7 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 		Update().
 		SetTaxonomyID(body.TaxonomyID).
 		SetType(body.Type).
-		SetOrder(body.Order)
+		SetNillableOrder(body.Order)
 
 	row, err := query.Save(ctx)
 	if err != nil {
@@ -133,7 +132,7 @@ func (r *taxonomyRelationsRepo) List(ctx context.Context, p *structs.ListTaxonom
 
 	query := r.ec.TaxonomyRelation.
 		Query().
-		Limit(int(p.Limit))
+		Limit(p.Limit)
 
 	// lt the cursor create time
 	if nextTaxonomyRelation != nil {
@@ -180,9 +179,8 @@ func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*struc
 			SetID(body.ObjectID).
 			SetTaxonomyID(body.TaxonomyID).
 			SetType(body.Type).
-			SetOrder(body.Order).
-			SetCreatedBy(body.CreatedBy).
-			SetCreatedAt(body.CreatedAt)
+			SetNillableOrder(body.Order).
+			SetNillableCreatedBy(body.CreatedBy)
 	}
 	rows, err := r.ec.TaxonomyRelation.CreateBulk(bulk...).Save(ctx)
 	if err != nil {

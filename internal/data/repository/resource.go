@@ -51,13 +51,13 @@ func (r *resourceRepo) Create(ctx context.Context, body *structs.CreateResourceB
 	builder.SetNillableName(&body.Name)
 	builder.SetNillablePath(&body.Path)
 	builder.SetNillableType(&body.Type)
-	builder.SetNillableSize(&body.Size)
+	builder.SetNillableSize(body.Size)
 	builder.SetNillableStorage(&body.Storage)
 	builder.SetNillableURL(&body.URL)
 	builder.SetNillableObjectID(&body.ObjectID)
 	builder.SetNillableDomainID(&body.DomainID)
-	builder.SetExtras(body.ExtraProps)
-	builder.SetNillableCreatedBy(&body.CreatedBy)
+	builder.SetExtras(types.ToValue(body.ExtraProps))
+	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	// execute the builder.
 	row, err := builder.Save(ctx)

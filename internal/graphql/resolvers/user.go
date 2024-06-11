@@ -29,7 +29,7 @@ func (r *mutationResolver) UpdatePassword(ctx context.Context, input *types.Upda
 // Account is the resolver for the account field.
 func (r *queryResolver) Account(ctx context.Context) (*types.User, error) {
 	c, _ := helper.GetGinContext(ctx)
-	resp, err := r.Svc.ReadMeService(c)
+	resp, err := r.Svc.GetMeService(c)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (r *queryResolver) Account(ctx context.Context) (*types.User, error) {
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, id string) (*types.User, error) {
 	c, _ := helper.GetGinContext(ctx)
-	resp, err := r.Svc.ReadUserService(c, id)
+	resp, err := r.Svc.GetUserService(c, id)
 	if err != nil {
 		return nil, err
 	}

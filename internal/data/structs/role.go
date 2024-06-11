@@ -2,21 +2,17 @@ package structs
 
 import (
 	"stocms/pkg/types"
-	"time"
 )
 
 // Role represents a role entity.
 type Role struct {
-	ID          string     `json:"id,omitempty"`
-	Name        string     `json:"name,omitempty"`
-	Slug        string     `json:"slug,omitempty"`
-	Disabled    bool       `json:"disabled,omitempty"`
-	Description string     `json:"description,omitempty"`
-	ExtraProps  types.JSON `json:"extras,omitempty"`
-	CreatedBy   string     `json:"created_by,omitempty"`
-	CreatedAt   time.Time  `json:"created_at,omitempty"`
-	UpdatedBy   string     `json:"updated_by,omitempty"`
-	UpdatedAt   time.Time  `json:"updated_at,omitempty"`
+	ID          string      `json:"id,omitempty"`
+	Name        string      `json:"name,omitempty"`
+	Slug        string      `json:"slug,omitempty"`
+	Disabled    bool        `json:"disabled,omitempty"`
+	Description string      `json:"description,omitempty"`
+	ExtraProps  *types.JSON `json:"extras,omitempty"`
+	BaseEntity
 }
 
 // CreateRoleBody represents the body for creating or updating a role.

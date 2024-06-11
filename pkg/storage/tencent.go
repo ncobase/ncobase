@@ -5,7 +5,7 @@ import (
 	"github.com/casdoor/oss/tencent"
 )
 
-// NewTencentCloud - new tencent cloud cos
+// NewTencentCloud new tencent cloud cos
 func NewTencentCloud(c *Config) oss.StorageInterface {
 	return tencent.New(&tencent.Config{
 		AccessID:  c.ID,

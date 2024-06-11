@@ -33,7 +33,7 @@ func NewUserProfile(d *data.Data) UserProfile {
 	return &userProfileRepo{ec, rc, cache.NewCache[ent.UserProfile](rc, cache.Key("sc_user_profile"), true)}
 }
 
-// Create - Create user profile
+// Create create user profile
 func (r *userProfileRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error) {
 
 	// create builder.
@@ -53,7 +53,7 @@ func (r *userProfileRepo) Create(ctx context.Context, body *structs.UserRequestB
 	return row, nil
 }
 
-// Get - Find profile by user id
+// Get find profile by user id
 func (r *userProfileRepo) Get(ctx context.Context, id string) (*ent.UserProfile, error) {
 	row, err := r.ec.UserProfile.
 		Query().
@@ -67,7 +67,7 @@ func (r *userProfileRepo) Get(ctx context.Context, id string) (*ent.UserProfile,
 	return row, nil
 }
 
-// Delete - Delete user profile
+// Delete delete user profile
 func (r *userProfileRepo) Delete(ctx context.Context, id string) error {
 	if _, err := r.ec.UserProfile.Delete().Where(userProfileEnt.IDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(nil, "userProfileRepo.Delete error: %v\n", err)

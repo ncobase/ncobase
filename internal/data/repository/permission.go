@@ -52,10 +52,10 @@ func (r *permissionRepo) Create(ctx context.Context, body *structs.CreatePermiss
 	builder.SetNillableAction(&body.Action)
 	builder.SetNillableSubject(&body.Subject)
 	builder.SetNillableDescription(&body.Description)
-	builder.SetDefault(body.Default)
-	builder.SetDisabled(body.Disabled)
-	builder.SetExtras(body.ExtraProps)
-	builder.SetNillableCreatedBy(&body.CreatedBy)
+	builder.SetNillableDefault(body.Default)
+	builder.SetNillableDisabled(body.Disabled)
+	builder.SetExtras(types.ToValue(body.ExtraProps))
+	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	// execute the builder.
 	row, err := builder.Save(ctx)

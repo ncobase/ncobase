@@ -41,13 +41,13 @@ var timeFormats = []string{
 }
 
 const (
-	// DefaultLayout24h - default 24h layout
+	// DefaultLayout24h default 24h layout
 	DefaultLayout24h = "yyyy-MM-dd HH:mm:ss"
-	// DefaultLayout12h - default 12h layout
+	// DefaultLayout12h default 12h layout
 	DefaultLayout12h = "yyyy-MM-dd hh:mm:ss"
 )
 
-// ParseLocalTime - parse to local time
+// ParseLocalTime parse to local time
 func ParseLocalTime(str string) (t time.Time, err error) {
 	location := time.Now().Location()
 	for _, format := range timeFormats {
@@ -60,7 +60,7 @@ func ParseLocalTime(str string) (t time.Time, err error) {
 	return
 }
 
-// FormatTime - format time
+// FormatTime format time
 func FormatTime(t time.Time, layout string) string {
 	if validator.IsEmpty(layout) {
 		return ""
@@ -86,12 +86,12 @@ func FormatTime(t time.Time, layout string) string {
 	return t.Format(layout)
 }
 
-// UnixSecToTime - unix sec to time
+// UnixSecToTime unix sec to time
 func UnixSecToTime(sec int64) time.Time {
 	return time.Unix(sec, 0)
 }
 
-// ToPBTimestamp - convert time.Time to pb.Timestamp
+// ToPBTimestamp convert time.Time to pb.Timestamp
 func ToPBTimestamp(t time.Time) *timestamppb.Timestamp {
 	return timestamppb.New(t)
 }

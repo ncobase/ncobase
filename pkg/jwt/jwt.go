@@ -23,7 +23,7 @@ const (
 	ErrTokenParsing      = TokenError("token parsing error")
 )
 
-// Token - token body
+// Token token body
 type Token struct {
 	JTI     string         `json:"jti"`
 	Payload map[string]any `json:"payload"`
@@ -31,7 +31,7 @@ type Token struct {
 	Expire  int64          `json:"exp"`
 }
 
-// generateToken - Generate token
+// generateToken Generate token
 func generateToken(key string, token *Token) (string, error) {
 	if validator.IsEmpty(key) {
 		return "", ErrNeedTokenProvider
@@ -50,7 +50,7 @@ func generateToken(key string, token *Token) (string, error) {
 	return tokenString, nil
 }
 
-// ValidateToken - Validate Token
+// ValidateToken Validate Token
 func ValidateToken(key, token string) (*jwtstd.Token, error) {
 	if validator.IsEmpty(key) {
 		return nil, ErrNeedTokenProvider
@@ -64,7 +64,7 @@ func ValidateToken(key, token string) (*jwtstd.Token, error) {
 	return t, nil
 }
 
-// DecodeToken - Decode token
+// DecodeToken Decode token
 func DecodeToken(key, token string) (map[string]any, error) {
 	t, err := ValidateToken(key, token)
 	if validator.IsNotNil(err) {
@@ -76,7 +76,7 @@ func DecodeToken(key, token string) (map[string]any, error) {
 	return t.Claims.(jwtstd.MapClaims), nil
 }
 
-// GenerateAccessToken - Generate access token, default expire time is 24 hours
+// GenerateAccessToken Generate access token, default expire time is 24 hours
 func GenerateAccessToken(key, jti string, payload map[string]any, subject ...string) (string, error) {
 	defaultSubject := "access"
 	if len(subject) > 0 {
@@ -90,7 +90,7 @@ func GenerateAccessToken(key, jti string, payload map[string]any, subject ...str
 	})
 }
 
-// GenerateRegisterToken - Generate register token, default expire time is 60 minutes
+// GenerateRegisterToken Generate register token, default expire time is 60 minutes
 func GenerateRegisterToken(key, jti string, payload map[string]any, subject ...string) (string, error) {
 	defaultSubject := "register"
 	if len(subject) > 0 {
@@ -104,7 +104,7 @@ func GenerateRegisterToken(key, jti string, payload map[string]any, subject ...s
 	})
 }
 
-// GenerateRefreshToken - Generate refresh token, default expire time is 7 days
+// GenerateRefreshToken Generate refresh token, default expire time is 7 days
 func GenerateRefreshToken(key, jti string, payload map[string]any, subject ...string) (string, error) {
 	defaultSubject := "refresh"
 	if len(subject) > 0 {

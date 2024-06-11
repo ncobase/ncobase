@@ -12,7 +12,7 @@ type FindTopic struct {
 	DomainID   string `json:"domain_id,omitempty"`
 }
 
-// TopicBody - Common fields for creating and updating topics
+// Common fields for creating and updating topics
 type TopicBody struct {
 	Name       string    `json:"name,omitempty"`
 	Title      string    `json:"title,omitempty"`
@@ -32,19 +32,19 @@ type TopicBody struct {
 	UpdatedAt  time.Time `json:"updated_at,omitempty"`
 }
 
-// CreateTopicBody - Create topic body
+// Create topic body
 type CreateTopicBody struct {
 	TopicBody
 }
 
-// UpdateTopicBody - Update topic body
+// Update topic body
 type UpdateTopicBody struct {
 	TopicBody
 	ID string `json:"id"`
 }
 
-// ReadTopic - Output topic schema
-type ReadTopic struct {
+// Output topic schema
+type GetTopic struct {
 	ID         string    `json:"id"`
 	Name       string    `json:"name"`
 	Title      string    `json:"title"`
@@ -64,7 +64,7 @@ type ReadTopic struct {
 	UpdatedAt  time.Time `json:"updated_at,omitempty"`
 }
 
-// ListTopicParams - Query topic list params
+// Query topic list params
 type ListTopicParams struct {
 	Cursor   string `form:"cursor" json:"cursor"`
 	Limit    int64  `form:"limit" json:"limit"`
