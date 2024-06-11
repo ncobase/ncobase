@@ -14,6 +14,7 @@ import (
 	"stocms/pkg/resp"
 	"stocms/pkg/storage"
 	"stocms/pkg/types"
+	"stocms/pkg/validator"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -66,6 +67,10 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
+		if err := h.validateResourceBody(body); err != nil {
+			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+			return
+		}
 		result, err := h.svc.CreateResourceService(c, body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
@@ -105,6 +110,10 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
+		if err := h.validateResourceBody(body); err != nil {
+			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+			return
+		}
 		result, err := h.svc.CreateResourceService(c, body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
@@ -113,6 +122,16 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 		results = append(results, result.Data)
 	}
 	resp.Success(c.Writer, &resp.Exception{Data: results})
+}
+
+func (h *Handler) validateResourceBody(body *structs.CreateResourceBody) error {
+	if validator.IsEmpty(body.ObjectID) {
+		return errors.New("belongsTo object is required")
+	}
+	if validator.IsEmpty(body.DomainID) {
+		return errors.New("belongsTo domain is required")
+	}
+	return nil
 }
 
 // // handleBlobUpload handles file upload using Blob object
