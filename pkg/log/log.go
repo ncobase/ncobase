@@ -297,21 +297,21 @@ func Init(c config.Logger) (clean func(), err error) {
 		}
 	}
 
-	// Initialize MeiliSearch and Elasticsearch clients
-	if c.Meilisearch.Host != "" {
-		meiliClient = meili.NewMeilisearch(c.Meilisearch.Host, c.Meilisearch.APIKey)
-		indexName = c.IndexName
-		AddMeiliSearchHook()
-	}
-
-	if len(c.Elasticsearch.Addresses) > 0 {
-		esClient, err = elastic.NewClient(c.Elasticsearch.Addresses, c.Elasticsearch.Username, c.Elasticsearch.Password)
-		if err != nil {
-			return nil, fmt.Errorf("error initializing Elasticsearch client: %w", err)
-		}
-		indexName = c.IndexName
-		AddElasticSearchHook()
-	}
+	// // Initialize MeiliSearch and Elasticsearch clients
+	// if c.Meilisearch.Host != "" {
+	// 	meiliClient = meili.NewMeilisearch(c.Meilisearch.Host, c.Meilisearch.APIKey)
+	// 	indexName = c.IndexName
+	// 	AddMeiliSearchHook()
+	// }
+	//
+	// if len(c.Elasticsearch.Addresses) > 0 {
+	// 	esClient, err = elastic.NewClient(c.Elasticsearch.Addresses, c.Elasticsearch.Username, c.Elasticsearch.Password)
+	// 	if err != nil {
+	// 		return nil, fmt.Errorf("error initializing Elasticsearch client: %w", err)
+	// 	}
+	// 	indexName = c.IndexName
+	// 	AddElasticSearchHook()
+	// }
 
 	// Return a cleanup function to close the file
 	clean = func() {
