@@ -15,7 +15,8 @@ import (
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /account/domain [get]
+// @Router /v1/account/dom [get]
+// @Security Bearer
 func (h *Handler) AccountDomainHandler(c *gin.Context) {
 	result, err := h.svc.AccountDomainService(c)
 	if err != nil {
@@ -35,7 +36,8 @@ func (h *Handler) AccountDomainHandler(c *gin.Context) {
 // @Param body body structs.CreateDomainBody true "CreateDomainBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /domain [post]
+// @Router /v1/dom [post]
+// @Security Bearer
 func (h *Handler) CreateDomainHandler(c *gin.Context) {
 	var body *structs.CreateDomainBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -53,14 +55,15 @@ func (h *Handler) CreateDomainHandler(c *gin.Context) {
 
 // UserDomainHandler handles reading a user's domain.
 //
-// @Summary Get user domain
+// @Summary Get user owned domain
 // @Description Retrieve the domain associated with the specified user.
 // @Tags user
 // @Produce json
 // @Param username path string true "Username"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /user/{username}/domain [get]
+// @Router /v1/user/{username}/dom [get]
+// @Security Bearer
 func (h *Handler) UserDomainHandler(c *gin.Context) {
 	result, err := h.svc.UserDomainService(c, c.Param("username"))
 	if err != nil {
@@ -80,7 +83,8 @@ func (h *Handler) UserDomainHandler(c *gin.Context) {
 // @Param body body structs.UpdateDomainBody true "UpdateDomainBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /domain [put]
+// @Router /v1/dom [put]
+// @Security Bearer
 func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 	var body *structs.UpdateDomainBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -102,12 +106,13 @@ func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 // @Description Retrieve information about a specific domain.
 // @Tags domain
 // @Produce json
-// @Param id path string true "Domain ID"
+// @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /domain/{id} [get]
+// @Router /v1/dom/{slug} [get]
+// @Security Bearer
 func (h *Handler) GetDomainHandler(c *gin.Context) {
-	result, err := h.svc.GetDomainService(c, c.Param("id"))
+	result, err := h.svc.GetDomainService(c, c.Param("slug"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -121,12 +126,13 @@ func (h *Handler) GetDomainHandler(c *gin.Context) {
 // @Description Retrieve the menu associated with a specific domain.
 // @Tags domain
 // @Produce json
-// @Param id path string true "Domain ID"
+// @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /domain/{id}/menu [get]
+// @Router /v1/dom/{slug}/menu [get]
+// @Security Bearer
 func (h *Handler) GetDomainMenuHandler(c *gin.Context) {
-	result, err := h.svc.GetDomainService(c, c.Param("id"))
+	result, err := h.svc.GetDomainService(c, c.Param("slug"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -140,12 +146,13 @@ func (h *Handler) GetDomainMenuHandler(c *gin.Context) {
 // @Description Retrieve the settings associated with a specific domain.
 // @Tags domain
 // @Produce json
-// @Param id path string true "Domain ID"
+// @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /domain/{id}/setting [get]
+// @Router /v1/dom/{slug}/setting [get]
+// @Security Bearer
 func (h *Handler) GetDomainSettingHandler(c *gin.Context) {
-	result, err := h.svc.GetDomainService(c, c.Param("id"))
+	result, err := h.svc.GetDomainService(c, c.Param("slug"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -159,12 +166,13 @@ func (h *Handler) GetDomainSettingHandler(c *gin.Context) {
 // @Description Delete a specific domain.
 // @Tags domain
 // @Produce json
-// @Param id path string true "Domain ID"
+// @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /domain/{id} [delete]
+// @Router /v1/dom/{slug} [delete]
+// @Security Bearer
 func (h *Handler) DeleteDomainHandler(c *gin.Context) {
-	result, err := h.svc.DeleteDomainService(c, c.Param("id"))
+	result, err := h.svc.DeleteDomainService(c, c.Param("slug"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -180,7 +188,8 @@ func (h *Handler) DeleteDomainHandler(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /domain [get]
+// @Router /v1/dom [get]
+// @Security Bearer
 func (h *Handler) ListDomainHandler(c *gin.Context) {
 	params := &structs.ListDomainParams{}
 	if err := c.ShouldBindQuery(params); err != nil {
@@ -200,4 +209,64 @@ func (h *Handler) ListDomainHandler(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, result)
+}
+
+// ListDomainAssetHandler handles listing domain assets.
+// TODO: implement this
+// @Summary List domain assets
+// @Description Retrieve a list of assets associated with a specific domain.
+// @Tags domain
+// @Produce json
+// @Param slug path string true "Domain ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/dom/{slug}/assets [get]
+// @Security Bearer
+func (h *Handler) ListDomainAssetHandler(c *gin.Context) {
+	// result, err := h.svc.ListDomainAssetsService(c, c.Param("slug"))
+	// if err != nil {
+	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+	// 	return
+	// }
+	resp.Success(c.Writer, nil)
+}
+
+// ListDomainUserHandler handles listing domain users.
+// TODO: implement this
+// @Summary List domain users
+// @Description Retrieve a list of users associated with a specific domain.
+// @Tags domain
+// @Produce json
+// @Param slug path string true "Domain ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/dom/{slug}/users [get]
+// @Security Bearer
+func (h *Handler) ListDomainUserHandler(c *gin.Context) {
+	// result, err := h.svc.ListDomainUsersService(c, c.Param("slug"))
+	// if err != nil {
+	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+	// 	return
+	// }
+	resp.Success(c.Writer, nil)
+}
+
+// ListDomainGroupHandler handles listing domain groups.
+// TODO: implement this
+// @Summary List domain groups
+// @Description Retrieve a list of groups associated with a specific domain.
+// @Tags domain
+// @Produce json
+// @Param slug path string true "Domain ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/dom/{slug}/groups [get]
+// @Security Bearer
+func (h *Handler) ListDomainGroupHandler(c *gin.Context) {
+	// result, err := h.svc.ListDomainGroupsService(c, c.Param("slug"))
+	// if err != nil {
+	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+	// 	return
+	// }
+	resp.Success(c.Writer, nil)
 }

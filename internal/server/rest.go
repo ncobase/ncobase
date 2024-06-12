@@ -44,11 +44,11 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	{
 		account.GET("", h.GetMeHandler)
 		account.POST("/password", h.UpdatePasswordHandler)
-		account.GET("/domain", h.AccountDomainHandler)
+		account.GET("/dom", h.AccountDomainHandler)
 	}
 
 	// User endpoints
-	user := v1.Group("/users", middleware.Authorized)
+	user := v1.Group("/users")
 	{
 		// user.GET("", h.ListUserHandler)
 		// user.POST("", h.CreateUserHandler)
@@ -57,8 +57,9 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		// user.DELETE("/:username", h.DeleteUserHandler)
 		// user.GET("/:username/roles", h.ListUserRoleHandler)
 		// user.GET("/:username/groups", h.ListUserGroupHandler)
-		// user.GET("/:username/domains", h.ListUserDomainHandler)
-		user.GET("/:username/domains/:slug", h.UserDomainHandler)
+		// user.GET("/:username/dom", h.ListUserDomainHandler)
+		user.GET("/:username/dom", middleware.Authorized, h.UserDomainHandler)
+		// user.GET("/:username/dom/belongs", middleware.Authorized, h.ListUserBelongHandler)
 	}
 
 	// OAuth endpoints
@@ -75,27 +76,27 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	asset := v1.Group("/assets")
 	{
 		asset.GET("", h.ListAssetHandler)
-		asset.POST("", h.CreateAssetsHandler)
+		asset.POST("", middleware.Authorized, h.CreateAssetsHandler)
 		asset.GET("/:slug", h.GetAssetHandler)
-		asset.PUT("/:slug", h.UpdateAssetHandler)
-		asset.DELETE("/:slug", h.DeleteAssetHandler)
+		asset.PUT("/:slug", middleware.Authorized, h.UpdateAssetHandler)
+		asset.DELETE("/:slug", middleware.Authorized, h.DeleteAssetHandler)
 	}
 
 	// Domain endpoints
-	domain := v1.Group("/domains")
+	domain := v1.Group("/dom", middleware.Authorized)
 	{
 		domain.GET("", h.ListDomainHandler)
 		domain.POST("", h.CreateDomainHandler)
 		domain.GET("/:slug", h.GetDomainHandler)
 		domain.PUT("/:slug", h.UpdateDomainHandler)
 		domain.DELETE("/:slug", h.DeleteDomainHandler)
-		// domain.GET("/:slug/assets", h.ListDomainAssetHandler)
-		// domain.GET("/:slug/users", h.ListDomainUserHandler)
-		// domain.GET("/:slug/groups", h.ListDomainGroupHandler)
+		domain.GET("/:slug/assets", h.ListDomainAssetHandler)
+		domain.GET("/:slug/users", h.ListDomainUserHandler)
+		domain.GET("/:slug/groups", h.ListDomainGroupHandler)
 	}
 
 	// Group endpoints
-	// group := v1.Group("/groups")
+	// group := v1.Group("/groups", middleware.Authorized)
 	// {
 	// 	group.GET("", h.ListGroupHandler)
 	// 	group.POST("", h.CreateGroupHandler)
@@ -107,7 +108,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// }
 
 	// Role endpoints
-	// role := v1.Group("/roles")
+	// role := v1.Group("/roles", middleware.Authorized)
 	// {
 	// 	role.GET("", h.ListRoleHandler)
 	// 	role.POST("", h.CreateRoleHandler)
@@ -119,7 +120,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// }
 
 	// Permission endpoints
-	// permission := v1.Group("/permissions")
+	// permission := v1.Group("/permissions", middleware.Authorized)
 	// {
 	// 	permission.GET("", h.ListPermissionHandler)
 	// 	permission.POST("", h.CreatePermissionHandler)
@@ -129,27 +130,27 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// }
 
 	// Taxonomy endpoints
-	taxonomy := v1.Group("/taxonomies", middleware.Authorized)
+	taxonomy := v1.Group("/taxa")
 	{
 		taxonomy.GET("", h.ListTaxonomyHandler)
-		taxonomy.POST("", h.CreateTaxonomyHandler)
+		taxonomy.POST("", middleware.Authorized, h.CreateTaxonomyHandler)
 		taxonomy.GET("/:slug", h.GetTaxonomyHandler)
-		taxonomy.PUT("/:slug", h.UpdateTaxonomyHandler)
-		taxonomy.DELETE("/:slug", h.DeleteTaxonomyHandler)
+		taxonomy.PUT("/:slug", middleware.Authorized, h.UpdateTaxonomyHandler)
+		taxonomy.DELETE("/:slug", middleware.Authorized, h.DeleteTaxonomyHandler)
 	}
 
 	// Topic endpoints
-	topic := v1.Group("/topics", middleware.Authorized)
+	topic := v1.Group("/topics")
 	{
 		topic.GET("", h.ListTopicHandler)
-		topic.POST("", h.CreateTopicHandler)
+		topic.POST("", middleware.Authorized, h.CreateTopicHandler)
 		topic.GET("/:slug", h.GetTopicHandler)
-		topic.PUT("/:slug", h.UpdateTopicHandler)
-		topic.DELETE("/:slug", h.DeleteTopicHandler)
+		topic.PUT("/:slug", middleware.Authorized, h.UpdateTopicHandler)
+		topic.DELETE("/:slug", middleware.Authorized, h.DeleteTopicHandler)
 	}
 
 	// Casbin Rule endpoints
-	casbin := v1.Group("/policies", middleware.Authorized)
+	casbin := v1.Group("/pols", middleware.Authorized)
 	{
 		casbin.GET("", h.ListCasbinRuleHandler)
 		casbin.POST("", h.CreateCasbinRuleHandler)
@@ -157,6 +158,10 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		casbin.PUT("/:id", h.UpdateCasbinRuleHandler)
 		casbin.DELETE("/:id", h.DeleteCasbinRuleHandler)
 	}
+
+	// ******************************
+	// Admin endpoints
+	// ******************************
 
 	// Swagger documentation endpoint
 	if conf.RunMode != gin.ReleaseMode {

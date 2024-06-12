@@ -19,7 +19,8 @@ import (
 // @Param body body structs.CreateTaxonomyBody true "CreateTaxonomyBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /taxonomy [post]
+// @Router /v1/taxa [post]
+// @Security Bearer
 func (h *Handler) CreateTaxonomyHandler(c *gin.Context) {
 	var body *structs.CreateTaxonomyBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -47,7 +48,8 @@ func (h *Handler) CreateTaxonomyHandler(c *gin.Context) {
 // @Param body body object true "Update data"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /taxonomy/{slug} [put]
+// @Router /v1/taxa/{slug} [put]
+// @Security Bearer
 func (h *Handler) UpdateTaxonomyHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -79,7 +81,7 @@ func (h *Handler) UpdateTaxonomyHandler(c *gin.Context) {
 // @Param slug path string true "Taxonomy slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /taxonomy/{slug} [get]
+// @Router /v1/taxa/{slug} [get]
 func (h *Handler) GetTaxonomyHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -105,7 +107,8 @@ func (h *Handler) GetTaxonomyHandler(c *gin.Context) {
 // @Param slug path string true "Taxonomy slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /taxonomy/{slug} [delete]
+// @Router /v1/taxa/{slug} [delete]
+// @Security Bearer
 func (h *Handler) DeleteTaxonomyHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -133,7 +136,7 @@ func (h *Handler) DeleteTaxonomyHandler(c *gin.Context) {
 // @Param offset query int false "Result offset"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /taxonomy [get]
+// @Router /v1/taxa [get]
 func (h *Handler) ListTaxonomyHandler(c *gin.Context) {
 	params := &structs.ListTaxonomyParams{}
 	if err := c.ShouldBindQuery(params); err != nil {

@@ -20,8 +20,11 @@ import (
 // @title stocms
 // @version 0.1.0
 // @description a modern content management system
+// @securityDefinitions.apikey Bearer
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
 // @termsOfService https://stocms.com
-
 func main() {
 	log.SetVersion(helper.Version)
 
