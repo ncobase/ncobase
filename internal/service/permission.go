@@ -75,8 +75,8 @@ func (svc *Service) GetPermissionsByRoleIDService(ctx context.Context, roleID st
 // ****** Internal methods of service
 
 // serializePermission serializes a permission entity to a response format.
-func (svc *Service) serializePermission(row *ent.Permission) *structs.Permission {
-	return &structs.Permission{
+func (svc *Service) serializePermission(row *ent.Permission) *structs.ReadPermission {
+	return &structs.ReadPermission{
 		ID:          row.ID,
 		Name:        row.Name,
 		Action:      row.Action,

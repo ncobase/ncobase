@@ -9,6 +9,51 @@ import (
 )
 
 var (
+	// ScAssetColumns holds the columns for the "sc_asset" table.
+	ScAssetColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
+		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "size", Type: field.TypeInt64, Comment: "size in bytes", Default: 0},
+		{Name: "storage", Type: field.TypeString, Nullable: true, Comment: "storage type"},
+		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
+		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
+		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// ScAssetTable holds the schema information for the "sc_asset" table.
+	ScAssetTable = &schema.Table{
+		Name:       "sc_asset",
+		Columns:    ScAssetColumns,
+		PrimaryKey: []*schema.Column{ScAssetColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "asset_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScAssetColumns[0]},
+			},
+			{
+				Name:    "asset_name",
+				Unique:  true,
+				Columns: []*schema.Column{ScAssetColumns[1]},
+			},
+			{
+				Name:    "asset_object_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScAssetColumns[7]},
+			},
+			{
+				Name:    "asset_domain_id",
+				Unique:  false,
+				Columns: []*schema.Column{ScAssetColumns[8]},
+			},
+		},
+	}
 	// ScAuthTokenColumns holds the columns for the "sc_auth_token" table.
 	ScAuthTokenColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
@@ -281,51 +326,6 @@ var (
 				Name:    "permission_action_subject",
 				Unique:  false,
 				Columns: []*schema.Column{ScPermissionColumns[2], ScPermissionColumns[3]},
-			},
-		},
-	}
-	// ScResourceColumns holds the columns for the "sc_resource" table.
-	ScResourceColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
-		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
-		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "size", Type: field.TypeInt64, Comment: "size in bytes", Default: 0},
-		{Name: "storage", Type: field.TypeString, Nullable: true, Comment: "storage type"},
-		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
-		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
-		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
-		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
-	}
-	// ScResourceTable holds the schema information for the "sc_resource" table.
-	ScResourceTable = &schema.Table{
-		Name:       "sc_resource",
-		Columns:    ScResourceColumns,
-		PrimaryKey: []*schema.Column{ScResourceColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "resource_id",
-				Unique:  false,
-				Columns: []*schema.Column{ScResourceColumns[0]},
-			},
-			{
-				Name:    "resource_name",
-				Unique:  true,
-				Columns: []*schema.Column{ScResourceColumns[1]},
-			},
-			{
-				Name:    "resource_object_id",
-				Unique:  false,
-				Columns: []*schema.Column{ScResourceColumns[7]},
-			},
-			{
-				Name:    "resource_domain_id",
-				Unique:  false,
-				Columns: []*schema.Column{ScResourceColumns[8]},
 			},
 		},
 	}
@@ -688,6 +688,7 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		ScAssetTable,
 		ScAuthTokenTable,
 		ScCasbinRuleTable,
 		ScCodeAuthTable,
@@ -697,7 +698,6 @@ var (
 		ScModuleTable,
 		ScOauthUserTable,
 		ScPermissionTable,
-		ScResourceTable,
 		ScRoleTable,
 		ScRolePermissionTable,
 		ScTaxonomyTable,
@@ -713,6 +713,9 @@ var (
 )
 
 func init() {
+	ScAssetTable.Annotation = &entsql.Annotation{
+		Table: "sc_asset",
+	}
 	ScAuthTokenTable.Annotation = &entsql.Annotation{
 		Table: "sc_auth_token",
 	}
@@ -739,9 +742,6 @@ func init() {
 	}
 	ScPermissionTable.Annotation = &entsql.Annotation{
 		Table: "sc_permission",
-	}
-	ScResourceTable.Annotation = &entsql.Annotation{
-		Table: "sc_resource",
 	}
 	ScRoleTable.Annotation = &entsql.Annotation{
 		Table: "sc_role",

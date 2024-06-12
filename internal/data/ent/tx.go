@@ -12,6 +12,8 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// Asset is the client for interacting with the Asset builders.
+	Asset *AssetClient
 	// AuthToken is the client for interacting with the AuthToken builders.
 	AuthToken *AuthTokenClient
 	// CasbinRule is the client for interacting with the CasbinRule builders.
@@ -30,8 +32,6 @@ type Tx struct {
 	OAuthUser *OAuthUserClient
 	// Permission is the client for interacting with the Permission builders.
 	Permission *PermissionClient
-	// Resource is the client for interacting with the Resource builders.
-	Resource *ResourceClient
 	// Role is the client for interacting with the Role builders.
 	Role *RoleClient
 	// RolePermission is the client for interacting with the RolePermission builders.
@@ -185,6 +185,7 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.Asset = NewAssetClient(tx.config)
 	tx.AuthToken = NewAuthTokenClient(tx.config)
 	tx.CasbinRule = NewCasbinRuleClient(tx.config)
 	tx.CodeAuth = NewCodeAuthClient(tx.config)
@@ -194,7 +195,6 @@ func (tx *Tx) init() {
 	tx.Module = NewModuleClient(tx.config)
 	tx.OAuthUser = NewOAuthUserClient(tx.config)
 	tx.Permission = NewPermissionClient(tx.config)
-	tx.Resource = NewResourceClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
 	tx.RolePermission = NewRolePermissionClient(tx.config)
 	tx.Taxonomy = NewTaxonomyClient(tx.config)
@@ -215,7 +215,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: AuthToken.QueryXXX(), the query will be executed
+// applies a query, for example: Asset.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

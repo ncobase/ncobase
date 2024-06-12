@@ -43,8 +43,6 @@ definitions:
         type: string
       created_by:
         type: string
-      id:
-        type: string
       markdown:
         type: boolean
       name:
@@ -225,7 +223,6 @@ definitions:
       name:
         type: string
       order:
-        description: Use pointer for nullable int
         type: integer
       title:
         type: string
@@ -331,6 +328,209 @@ paths:
       summary: Update user password
       tags:
       - account
+  /assets:
+    get:
+      description: List assets based on specified parameters.
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Page size
+        in: query
+        name: page_size
+        type: integer
+      - description: Sort by field
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort order ('asc' or 'desc')
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List assets
+      tags:
+      - assets
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create one or multiple assets.
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Object ID associated with the asset
+        in: formData
+        name: object_id
+        type: string
+      - description: Domain ID associated with the asset
+        in: formData
+        name: domain_id
+        type: string
+      - description: Additional properties associated with the asset (JSON format)
+        in: formData
+        name: extras
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Create assets
+      tags:
+      - assets
+  /assets/{slug}:
+    delete:
+      description: Delete a specific asset.
+      parameters:
+      - description: Slug of the asset to delete
+        in: path
+        name: slug
+        required: true
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Delete asset
+      tags:
+      - assets
+    get:
+      description: Get details of a specific asset.
+      parameters:
+      - description: Slug of the asset to retrieve
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Type of retrieval ('download' or 'stream')
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get asset
+      tags:
+      - assets
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update an existing asset.
+      parameters:
+      - description: Slug of the asset to update
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: File to upload (optional)
+        in: formData
+        name: file
+        type: file
+      - description: Object ID associated with the asset
+        in: formData
+        name: object_id
+        type: string
+      - description: Domain ID associated with the asset
+        in: formData
+        name: domain_id
+        type: string
+      - description: Additional properties associated with the asset (JSON format)
+        in: formData
+        name: extras
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Update asset
+      tags:
+      - assets
+  /assets/{slug}/download:
+    get:
+      description: Download a specific asset.
+      parameters:
+      - description: Slug of the asset to download
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Download asset
+      tags:
+      - assets
+  /assets/{slug}/stream:
+    get:
+      description: Stream a specific asset.
+      parameters:
+      - description: Slug of the asset to stream
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Stream asset
+      tags:
+      - assets
   /authorize/{code}:
     get:
       consumes:
@@ -937,209 +1137,6 @@ paths:
       summary: Register
       tags:
       - authentication
-  /resources:
-    get:
-      description: List resources based on specified parameters.
-      parameters:
-      - description: Page number
-        in: query
-        name: page
-        type: integer
-      - description: Page size
-        in: query
-        name: page_size
-        type: integer
-      - description: Sort by field
-        in: query
-        name: sort_by
-        type: string
-      - description: Sort order ('asc' or 'desc')
-        in: query
-        name: order
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: List resources
-      tags:
-      - resources
-    post:
-      consumes:
-      - multipart/form-data
-      description: Create one or multiple resources.
-      parameters:
-      - description: File to upload
-        in: formData
-        name: file
-        required: true
-        type: file
-      - description: Object ID associated with the resource
-        in: formData
-        name: object_id
-        type: string
-      - description: Domain ID associated with the resource
-        in: formData
-        name: domain_id
-        type: string
-      - description: Additional properties associated with the resource (JSON format)
-        in: formData
-        name: extras
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: Create resources
-      tags:
-      - resources
-  /resources/{slug}:
-    delete:
-      description: Delete a specific resource.
-      parameters:
-      - description: Slug of the resource to delete
-        in: path
-        name: slug
-        required: true
-        type: string
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: Delete resource
-      tags:
-      - resources
-    get:
-      description: Get details of a specific resource.
-      parameters:
-      - description: Slug of the resource to retrieve
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: Type of retrieval ('download' or 'stream')
-        in: query
-        name: type
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: Get resource
-      tags:
-      - resources
-    put:
-      consumes:
-      - multipart/form-data
-      description: Update an existing resource.
-      parameters:
-      - description: Slug of the resource to update
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: File to upload (optional)
-        in: formData
-        name: file
-        type: file
-      - description: Object ID associated with the resource
-        in: formData
-        name: object_id
-        type: string
-      - description: Domain ID associated with the resource
-        in: formData
-        name: domain_id
-        type: string
-      - description: Additional properties associated with the resource (JSON format)
-        in: formData
-        name: extras
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: Update resource
-      tags:
-      - resources
-  /resources/{slug}/download:
-    get:
-      description: Download a specific resource.
-      parameters:
-      - description: Slug of the resource to download
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/octet-stream
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: Download resource
-      tags:
-      - resources
-  /resources/{slug}/stream:
-    get:
-      description: Stream a specific resource.
-      parameters:
-      - description: Slug of the resource to stream
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/octet-stream
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: Stream resource
-      tags:
-      - resources
   /taxonomy:
     get:
       description: Retrieve a list of taxonomies.

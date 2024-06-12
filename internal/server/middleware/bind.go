@@ -19,7 +19,7 @@ func BindConfig(c *gin.Context) {
 	// Update the request context with the new context
 	c.Request = c.Request.WithContext(ctx)
 
-	// Call the next handler
+	// call the next handler
 	c.Next()
 }
 
@@ -31,6 +31,6 @@ func BindGinContext(c *gin.Context) {
 	// Update the request context with the new context
 	c.Request = c.Request.WithContext(ctx)
 
-	// Call the next handler
+	// call the next handler
 	c.Next()
 }

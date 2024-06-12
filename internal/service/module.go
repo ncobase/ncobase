@@ -39,7 +39,6 @@ func (svc *Service) UpdateModuleService(c *gin.Context, slug string, updates typ
 		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
 	}
 
-	// Call the repo Patch method
 	module, err := svc.module.Update(c, slug, updates)
 	if exception, err := handleError("Module", err); exception != nil {
 		return exception, err

@@ -20,23 +20,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var maxResourceSize int64 = 2048 << 20 // 2048 MB
+var maxAssetSize int64 = 2048 << 20 // 2048 MB
 
-// CreateResourcesHandler handles the creation of resources, both single and multiple.
+// CreateAssetsHandler handles the creation of assets, both single and multiple.
 //
-// @Summary Create resources
-// @Description Create one or multiple resources.
-// @Tags resources
+// @Summary Create assets
+// @Description Create one or multiple assets.
+// @Tags assets
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file true "File to upload"
-// @Param object_id formData string false "Object ID associated with the resource"
-// @Param domain_id formData string false "Domain ID associated with the resource"
-// @Param extras formData string false "Additional properties associated with the resource (JSON format)"
+// @Param object_id formData string false "Object ID associated with the asset"
+// @Param domain_id formData string false "Domain ID associated with the asset"
+// @Param extras formData string false "Additional properties associated with the asset (JSON format)"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /resources [post]
-func (h *Handler) CreateResourcesHandler(c *gin.Context) {
+// @Router /assets [post]
+func (h *Handler) CreateAssetsHandler(c *gin.Context) {
 	if c.Request.Method != http.MethodPost {
 		resp.Fail(c.Writer, resp.NotAllowed("Method not allowed"))
 		return
@@ -67,11 +67,11 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		if err := h.validateResourceBody(body); err != nil {
+		if err := h.validateAssetBody(body); err != nil {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.svc.CreateResourceService(c, body)
+		result, err := h.svc.CreateAssetService(c, body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -80,7 +80,7 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 		return
 	}
 
-	err = c.Request.ParseMultipartForm(maxResourceSize) // Set maxMemory to 32MB
+	err = c.Request.ParseMultipartForm(maxAssetSize) // Set maxMemory to 32MB
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer("Failed to parse multipart form"))
 		return
@@ -110,11 +110,11 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		if err := h.validateResourceBody(body); err != nil {
+		if err := h.validateAssetBody(body); err != nil {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.svc.CreateResourceService(c, body)
+		result, err := h.svc.CreateAssetService(c, body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -124,7 +124,7 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 	resp.Success(c.Writer, &resp.Exception{Data: results})
 }
 
-func (h *Handler) validateResourceBody(body *structs.CreateResourceBody) error {
+func (h *Handler) validateAssetBody(body *structs.CreateAssetBody) error {
 	if validator.IsEmpty(body.ObjectID) {
 		return errors.New("belongsTo object is required")
 	}
@@ -137,7 +137,7 @@ func (h *Handler) validateResourceBody(body *structs.CreateResourceBody) error {
 // // handleBlobUpload handles file upload using Blob object
 // func (h *Handler) handleBlobUpload(c *gin.Context) {
 // 	// Limit the maximum request body size
-// 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, maxResourceSize)
+// 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, maxAssetSize)
 //
 // 	// Create a buffer to store the file data
 // 	fileBuffer := bytes.Buffer{}
@@ -158,26 +158,26 @@ func (h *Handler) validateResourceBody(body *structs.CreateResourceBody) error {
 // 	// Determine file type
 // 	fileType := http.DetectContentType(fileBuffer.Bytes())
 //
-// 	// Create a new CreateResourceBody instance
-// 	body := &structs.CreateResourceBody{}
+// 	// Create a new CreateAssetBody instance
+// 	body := &structs.CreateAssetBody{}
 //
 // 	body.File = bytes.NewReader(fileBuffer.Bytes())
 // 	body.Type = fileType
 //
-// 	// Call service to create resource
-// 	result, err := h.svc.CreateResourceService(c, body)
+// 	// Call service to create asset
+// 	result, err := h.svc.CreateAssetService(c, body)
 // 	if err != nil {
-// 		resp.Fail(c.Writer, resp.InternalServer("Failed to create resource"))
+// 		resp.Fail(c.Writer, resp.InternalServer("Failed to create asset"))
 // 		return
 // 	}
 //
 // 	resp.Success(c.Writer, result)
 // }
 
-// processFile processes file details and binds other fields from the form to the resource body
-func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateResourceBody, error) {
-	body := &structs.CreateResourceBody{}
-	fileHeader := storage.GetFileHeader(header, "resources")
+// processFile processes file details and binds other fields from the form to the asset body
+func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateAssetBody, error) {
+	body := &structs.CreateAssetBody{}
+	fileHeader := storage.GetFileHeader(header, "assets")
 	body.Path = fileHeader.Path
 	body.File = file
 	body.Type = fileHeader.Type
@@ -185,14 +185,14 @@ func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.Fi
 	body.Size = &fileHeader.Size
 
 	// Bind other fields from the form
-	if err := bindResourceFields(c, body); err != nil {
+	if err := bindAssetFields(c, body); err != nil {
 		return nil, err
 	}
 	return body, nil
 }
 
-// bindResourceFields binds other fields from the form to the resource body
-func bindResourceFields(c *gin.Context, body *structs.CreateResourceBody) error {
+// bindAssetFields binds other fields from the form to the asset body
+func bindAssetFields(c *gin.Context, body *structs.CreateAssetBody) error {
 	// Manually bind other fields from the form
 	for key, values := range c.Request.Form {
 		if len(values) == 0 || (key != "file" && values[0] == "") {
@@ -214,22 +214,22 @@ func bindResourceFields(c *gin.Context, body *structs.CreateResourceBody) error 
 	return nil
 }
 
-// UpdateResourceHandler handles updating a resource.
+// UpdateAssetHandler handles updating a asset.
 //
-// @Summary Update resource
-// @Description Update an existing resource.
-// @Tags resources
+// @Summary Update asset
+// @Description Update an existing asset.
+// @Tags assets
 // @Accept multipart/form-data
 // @Produce json
-// @Param slug path string true "Slug of the resource to update"
+// @Param slug path string true "Slug of the asset to update"
 // @Param file formData file false "File to upload (optional)"
-// @Param object_id formData string false "Object ID associated with the resource"
-// @Param domain_id formData string false "Domain ID associated with the resource"
-// @Param extras formData string false "Additional properties associated with the resource (JSON format)"
+// @Param object_id formData string false "Object ID associated with the asset"
+// @Param domain_id formData string false "Domain ID associated with the asset"
+// @Param extras formData string false "Additional properties associated with the asset (JSON format)"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /resources/{slug} [put]
-func (h *Handler) UpdateResourceHandler(c *gin.Context) {
+// @Router /assets/{slug} [put]
+func (h *Handler) UpdateAssetHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
@@ -240,7 +240,7 @@ func (h *Handler) UpdateResourceHandler(c *gin.Context) {
 	updates := make(types.JSON)
 
 	// Parse multipart form
-	if err := c.Request.ParseMultipartForm(maxResourceSize); err != nil {
+	if err := c.Request.ParseMultipartForm(maxAssetSize); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse form"))
 		return
 	}
@@ -257,7 +257,7 @@ func (h *Handler) UpdateResourceHandler(c *gin.Context) {
 		// Fetch file header from request
 		header := fileHeaders[0]
 		// Get file data
-		fileHeader := storage.GetFileHeader(header, "resources")
+		fileHeader := storage.GetFileHeader(header, "assets")
 		// Add file header data to updates
 		// if updates["name"] == nil {
 		updates["name"] = fileHeader.Name
@@ -281,7 +281,7 @@ func (h *Handler) UpdateResourceHandler(c *gin.Context) {
 		updates["file"] = file
 	}
 
-	result, err := h.svc.UpdateResourceService(c, slug, updates)
+	result, err := h.svc.UpdateAssetService(c, slug, updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -290,18 +290,18 @@ func (h *Handler) UpdateResourceHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// GetResourceHandler handles getting a resource.
+// GetAssetHandler handles getting a asset.
 //
-// @Summary Get resource
-// @Description Get details of a specific resource.
-// @Tags resources
+// @Summary Get asset
+// @Description Get details of a specific asset.
+// @Tags assets
 // @Produce json
-// @Param slug path string true "Slug of the resource to retrieve"
+// @Param slug path string true "Slug of the asset to retrieve"
 // @Param type query string false "Type of retrieval ('download' or 'stream')"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /resources/{slug} [get]
-func (h *Handler) GetResourceHandler(c *gin.Context) {
+// @Router /assets/{slug} [get]
+func (h *Handler) GetAssetHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("file")))
@@ -309,16 +309,16 @@ func (h *Handler) GetResourceHandler(c *gin.Context) {
 	}
 
 	if c.Query("type") == "download" {
-		h.DownloadResourceHandler(c)
+		h.DownloadAssetHandler(c)
 		return
 	}
 
 	if c.Query("type") == "stream" {
-		h.ResourceStreamHandler(c)
+		h.AssetStreamHandler(c)
 		return
 	}
 
-	result, err := h.svc.GetResourceService(c, slug)
+	result, err := h.svc.GetAssetService(c, slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -327,23 +327,23 @@ func (h *Handler) GetResourceHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// DeleteResourceHandler handles deleting a resource.
+// DeleteAssetHandler handles deleting a asset.
 //
-// @Summary Delete resource
-// @Description Delete a specific resource.
-// @Tags resources
-// @Param slug path string true "Slug of the resource to delete"
+// @Summary Delete asset
+// @Description Delete a specific asset.
+// @Tags assets
+// @Param slug path string true "Slug of the asset to delete"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /resources/{slug} [delete]
-func (h *Handler) DeleteResourceHandler(c *gin.Context) {
+// @Router /assets/{slug} [delete]
+func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("file")))
 		return
 	}
 
-	result, err := h.svc.DeleteResourceService(c, slug)
+	result, err := h.svc.DeleteAssetService(c, slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -352,11 +352,11 @@ func (h *Handler) DeleteResourceHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// ListResourceHandler handles listing resources.
+// ListAssetHandler handles listing assets.
 //
-// @Summary List resources
-// @Description List resources based on specified parameters.
-// @Tags resources
+// @Summary List assets
+// @Description List assets based on specified parameters.
+// @Tags assets
 // @Produce json
 // @Param page query integer false "Page number"
 // @Param page_size query integer false "Page size"
@@ -364,52 +364,52 @@ func (h *Handler) DeleteResourceHandler(c *gin.Context) {
 // @Param order query string false "Sort order ('asc' or 'desc')"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /resources [get]
-func (h *Handler) ListResourceHandler(c *gin.Context) {
-	params := &structs.ListResourceParams{}
+// @Router /assets [get]
+func (h *Handler) ListAssetHandler(c *gin.Context) {
+	params := &structs.ListAssetParams{}
 	if err := c.ShouldBindQuery(&params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
 
-	resources, err := h.svc.ListResourcesService(c, params)
+	assets, err := h.svc.ListAssetsService(c, params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
-	resp.Success(c.Writer, resources)
+	resp.Success(c.Writer, assets)
 }
 
-// DownloadResourceHandler handles the direct download of a resource.
+// DownloadAssetHandler handles the direct download of a asset.
 //
-// @Summary Download resource
-// @Description Download a specific resource.
-// @Tags resources
+// @Summary Download asset
+// @Description Download a specific asset.
+// @Tags assets
 // @Produce octet-stream
-// @Param slug path string true "Slug of the resource to download"
+// @Param slug path string true "Slug of the asset to download"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /resources/{slug}/download [get]
-func (h *Handler) DownloadResourceHandler(c *gin.Context) {
+// @Router /assets/{slug}/download [get]
+func (h *Handler) DownloadAssetHandler(c *gin.Context) {
 	h.downloadFile(c, "attachment")
 }
 
-// ResourceStreamHandler handles the streaming of a resource.
+// AssetStreamHandler handles the streaming of a asset.
 //
-// @Summary Stream resource
-// @Description Stream a specific resource.
-// @Tags resources
+// @Summary Stream asset
+// @Description Stream a specific asset.
+// @Tags assets
 // @Produce octet-stream
-// @Param slug path string true "Slug of the resource to stream"
+// @Param slug path string true "Slug of the asset to stream"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /resources/{slug}/stream [get]
-func (h *Handler) ResourceStreamHandler(c *gin.Context) {
+// @Router /assets/{slug}/stream [get]
+func (h *Handler) AssetStreamHandler(c *gin.Context) {
 	h.downloadFile(c, "inline")
 }
 
-// downloadFile handles the download or streaming of a resource
+// downloadFile handles the download or streaming of a asset
 func (h *Handler) downloadFile(c *gin.Context, dispositionType string) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -423,15 +423,15 @@ func (h *Handler) downloadFile(c *gin.Context, dispositionType string) {
 			resp.Fail(c.Writer, exception)
 			return
 		}
-		resource := exception.Data.(*ent.Resource)
-		filename := storage.RestoreOriginalFileName(resource.Name, true)
+		asset := exception.Data.(*ent.Asset)
+		filename := storage.RestoreOriginalFileName(asset.Name, true)
 		c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", dispositionType, filename))
 
 		// Set the Content-Type header based on the original content t
-		if resource.Type == "" {
+		if asset.Type == "" {
 			c.Header("Content-Type", "application/octet-stream")
 		}
-		c.Header("Content-Type", resource.Type)
+		c.Header("Content-Type", asset.Type)
 
 		_, err := io.Copy(c.Writer, fileStream)
 		if err != nil {

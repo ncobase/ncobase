@@ -233,7 +233,7 @@ func (svc *Service) isCreateDomain(ctx context.Context, body *structs.CreateDoma
 	}
 
 	// If there are no existing domains and body.Domain is not empty, create the initial domain
-	if body.Domain.Name != "" {
+	if body.DomainBody.Name != "" {
 		return svc.createInitialDomain(ctx, body)
 	}
 
@@ -242,23 +242,23 @@ func (svc *Service) isCreateDomain(ctx context.Context, body *structs.CreateDoma
 }
 
 // serializeDomain serialize domain
-func (svc *Service) serializeDomain(c *gin.Context, row *ent.Domain, withUser bool) *structs.GetDomain {
-	readDomain := &structs.GetDomain{
-		ID: row.ID,
-		Domain: structs.Domain{
-			Name:        row.Name,
-			Title:       row.Title,
-			URL:         row.URL,
-			Logo:        row.Logo,
-			LogoAlt:     row.LogoAlt,
-			Keywords:    strings.Split(row.Keywords, ","),
-			Copyright:   row.Copyright,
-			Description: row.Description,
-			Order:       &row.Order,
-			Disabled:    row.Disabled,
-			Extras:      &row.Extras,
-			CreatedBy:   row.CreatedBy,
-		},
+func (svc *Service) serializeDomain(c *gin.Context, row *ent.Domain, withUser bool) *structs.ReadDomain {
+	readDomain := &structs.ReadDomain{
+		ID:          row.ID,
+		Name:        row.Name,
+		Title:       row.Title,
+		URL:         row.URL,
+		Logo:        row.Logo,
+		LogoAlt:     row.LogoAlt,
+		Keywords:    strings.Split(row.Keywords, ","),
+		Copyright:   row.Copyright,
+		Description: row.Description,
+		Order:       &row.Order,
+		Disabled:    row.Disabled,
+		Extras:      &row.Extras,
+		CreatedBy:   row.CreatedBy,
+		CreatedAt:   row.CreatedAt,
+		UpdatedAt:   row.UpdatedAt,
 	}
 
 	if withUser {

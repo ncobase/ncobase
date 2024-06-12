@@ -6,6 +6,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// Asset is the predicate function for asset builders.
+type Asset func(*sql.Selector)
+
 // AuthToken is the predicate function for authtoken builders.
 type AuthToken func(*sql.Selector)
 
@@ -32,9 +35,6 @@ type OAuthUser func(*sql.Selector)
 
 // Permission is the predicate function for permission builders.
 type Permission func(*sql.Selector)
-
-// Resource is the predicate function for resource builders.
-type Resource func(*sql.Selector)
 
 // Role is the predicate function for role builders.
 type Role func(*sql.Selector)

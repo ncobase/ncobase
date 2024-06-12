@@ -69,7 +69,7 @@ func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) 
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindTaxonomyRelation(ctx, &structs.FindTaxonomyRelation{Object: object})
+	row, err := r.FindTaxonomyRelation(ctx, &structs.FindTaxonomyRelation{ObjectID: object})
 
 	if err != nil {
 		log.Errorf(nil, "taxonomyRelationsRepo.GetByObject error: %v\n", err)
@@ -196,11 +196,11 @@ func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.Fi
 	// create builder.
 	builder := r.ec.TaxonomyRelation.Query()
 
-	if validator.IsNotEmpty(p.Object) {
-		builder = builder.Where(taxonomyRelationEnt.IDEQ(p.Object))
+	if validator.IsNotEmpty(p.ObjectID) {
+		builder = builder.Where(taxonomyRelationEnt.IDEQ(p.ObjectID))
 	}
-	if validator.IsNotEmpty(p.Taxonomy) {
-		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(p.Taxonomy))
+	if validator.IsNotEmpty(p.TaxonomyID) {
+		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(p.TaxonomyID))
 	}
 	if validator.IsNotEmpty(p.Type) {
 		builder = builder.Where(taxonomyRelationEnt.TypeEQ(p.Type))
@@ -221,11 +221,11 @@ func (r *taxonomyRelationsRepo) FindTaxonomyRelation(ctx context.Context, p *str
 	// create builder.
 	builder := r.ec.TaxonomyRelation.Query()
 
-	if validator.IsNotEmpty(p.Object) {
-		builder = builder.Where(taxonomyRelationEnt.IDEQ(p.Object))
+	if validator.IsNotEmpty(p.ObjectID) {
+		builder = builder.Where(taxonomyRelationEnt.IDEQ(p.ObjectID))
 	}
-	if validator.IsNotEmpty(p.Taxonomy) {
-		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(p.Taxonomy))
+	if validator.IsNotEmpty(p.TaxonomyID) {
+		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(p.TaxonomyID))
 	}
 	if validator.IsNotEmpty(p.Type) {
 		builder = builder.Where(taxonomyRelationEnt.TypeEQ(p.Type))

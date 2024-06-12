@@ -45,7 +45,6 @@ func (svc *Service) UpdateTaxonomyService(c *gin.Context, slug string, updates t
 		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
 	}
 
-	// Call the repo Patch method
 	taxonomy, err := svc.taxonomy.Update(c, slug, updates)
 	if exception, err := handleError("Taxonomy", err); exception != nil {
 		return exception, err

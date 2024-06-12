@@ -34,7 +34,6 @@ func (svc *Service) UpdateCasbinRuleService(c *gin.Context, id string, updates t
 		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
 	}
 
-	// Call the repository's Update method
 	casbinRule, err := svc.casbinRule.Update(c, id, updates)
 	if exception, err := handleError("CasbinRule", err); exception != nil {
 		return exception, err
@@ -69,7 +68,6 @@ func (svc *Service) DeleteCasbinRuleService(c *gin.Context, id string) (*resp.Ex
 
 // ListCasbinRulesService lists all Casbin rules based on query parameters.
 func (svc *Service) ListCasbinRulesService(c *gin.Context, params *structs.CasbinRuleParams) (*resp.Exception, error) {
-	// Call the repository's Find method
 	casbinRules, err := svc.casbinRule.Find(c, params)
 	if exception, err := handleError("CasbinRule", err); exception != nil {
 		return exception, err

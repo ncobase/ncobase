@@ -64,7 +64,7 @@ func (r *topicRepo) Create(ctx context.Context, body *structs.CreateTopicBody) (
 	builder.SetNillableReleased(&body.Released)
 	builder.SetTaxonomyID(body.TaxonomyID)
 	builder.SetDomainID(body.DomainID)
-	builder.SetCreatedBy(body.CreatedBy)
+	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	// execute the builder.
 	row, err := builder.Save(ctx)
@@ -222,8 +222,8 @@ func (r *topicRepo) List(ctx context.Context, p *structs.ListTopicParams) ([]*en
 	builder.Limit(int(p.Limit))
 
 	// belong domain
-	if p.Domain != "" {
-		builder.Where(topicEnt.DomainIDEQ(p.Domain))
+	if p.DomainID != "" {
+		builder.Where(topicEnt.DomainIDEQ(p.DomainID))
 	}
 
 	// sort
