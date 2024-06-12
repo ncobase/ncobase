@@ -9,15 +9,39 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "https://stocms.com",
         "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/account": {
+        "/health": {
             "get": {
+                "description": "Check the health status of the service.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "root"
+                ],
+                "summary": "Health status",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/account": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve information about the current user.",
                 "produces": [
                     "application/json"
@@ -42,8 +66,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/account/domain": {
+        "/v1/account/dom": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve the domain associated with the current user.",
                 "produces": [
                     "application/json"
@@ -68,8 +97,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/account/password": {
+        "/v1/account/password": {
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update the password of the current user.",
                 "consumes": [
                     "application/json"
@@ -108,7 +142,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/assets": {
+        "/v1/assets": {
             "get": {
                 "description": "List assets based on specified parameters.",
                 "produces": [
@@ -160,6 +194,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create one or multiple assets.",
                 "consumes": [
                     "multipart/form-data"
@@ -214,7 +253,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/assets/{slug}": {
+        "/v1/assets/{slug}": {
             "get": {
                 "description": "Get details of a specific asset.",
                 "produces": [
@@ -255,6 +294,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update an existing asset.",
                 "consumes": [
                     "multipart/form-data"
@@ -315,6 +359,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a specific asset.",
                 "tags": [
                     "assets"
@@ -345,7 +394,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/assets/{slug}/download": {
+        "/v1/assets/{slug}/download": {
             "get": {
                 "description": "Download a specific asset.",
                 "produces": [
@@ -380,7 +429,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/assets/{slug}/stream": {
+        "/v1/assets/{slug}/stream": {
             "get": {
                 "description": "Stream a specific asset.",
                 "produces": [
@@ -415,7 +464,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/authorize/send": {
+        "/v1/authorize/send": {
             "post": {
                 "description": "Send a verification code to the specified destination.",
                 "consumes": [
@@ -455,7 +504,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/authorize/{code}": {
+        "/v1/authorize/{code}": {
             "get": {
                 "description": "Verify the provided code.",
                 "consumes": [
@@ -494,8 +543,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/domain": {
+        "/v1/dom": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve a list of domains.",
                 "produces": [
                     "application/json"
@@ -520,6 +574,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update the domain information.",
                 "consumes": [
                     "application/json"
@@ -558,6 +617,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new domain.",
                 "consumes": [
                     "application/json"
@@ -596,8 +660,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/domain/{id}": {
+        "/v1/dom/{slug}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve information about a specific domain.",
                 "produces": [
                     "application/json"
@@ -610,7 +679,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Domain ID",
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -631,6 +700,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a specific domain.",
                 "produces": [
                     "application/json"
@@ -643,7 +717,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Domain ID",
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -664,8 +738,93 @@ const docTemplate = `{
                 }
             }
         },
-        "/domain/{id}/menu": {
+        "/v1/dom/{slug}/assets": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of assets associated with a specific domain.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain"
+                ],
+                "summary": "List domain assets",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Domain ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/dom/{slug}/groups": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of groups associated with a specific domain.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain"
+                ],
+                "summary": "List domain groups",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Domain ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/dom/{slug}/menu": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve the menu associated with a specific domain.",
                 "produces": [
                     "application/json"
@@ -678,7 +837,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Domain ID",
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -699,8 +858,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/domain/{id}/setting": {
+        "/v1/dom/{slug}/setting": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve the settings associated with a specific domain.",
                 "produces": [
                     "application/json"
@@ -713,7 +877,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Domain ID",
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -734,19 +898,39 @@ const docTemplate = `{
                 }
             }
         },
-        "/health": {
+        "/v1/dom/{slug}/users": {
             "get": {
-                "description": "Check the health status of the service.",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of users associated with a specific domain.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "root"
+                    "domain"
                 ],
-                "summary": "Health status",
+                "summary": "List domain users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Domain ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
@@ -754,7 +938,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/login": {
+        "/v1/login": {
             "post": {
                 "description": "Log in a user.",
                 "consumes": [
@@ -794,8 +978,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/logout": {
+        "/v1/logout": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Logout the current user.",
                 "produces": [
                     "application/json"
@@ -814,8 +1003,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/modules": {
+        "/v1/modules": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve a list of modules based on the provided query parameters",
                 "produces": [
                     "application/json"
@@ -860,6 +1054,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new module with the provided data",
                 "consumes": [
                     "application/json"
@@ -898,8 +1097,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/modules/{slug}": {
+        "/v1/modules/{slug}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve a module by its slug or ID",
                 "produces": [
                     "application/json"
@@ -933,6 +1137,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update an existing module with the provided data",
                 "consumes": [
                     "application/json"
@@ -978,6 +1187,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a module by its slug or ID",
                 "produces": [
                     "application/json"
@@ -1011,7 +1225,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/oauth/callback": {
+        "/v1/oauth/callback": {
             "get": {
                 "description": "Handle callback from OAuth provider.",
                 "tags": [
@@ -1034,7 +1248,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/oauth/facebook/callback": {
+        "/v1/oauth/facebook/callback": {
             "get": {
                 "description": "Handle callback from Facebook OAuth provider.",
                 "tags": [
@@ -1066,7 +1280,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/oauth/github/callback": {
+        "/v1/oauth/github/callback": {
             "get": {
                 "description": "Handle callback from GitHub OAuth provider.",
                 "tags": [
@@ -1098,7 +1312,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/oauth/profile": {
+        "/v1/oauth/profile": {
             "get": {
                 "description": "Retrieve profile information from OAuth provider.",
                 "produces": [
@@ -1124,7 +1338,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/oauth/register": {
+        "/v1/oauth/register": {
             "post": {
                 "description": "Register a user using OAuth.",
                 "consumes": [
@@ -1164,7 +1378,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/oauth/{provider}/redirect": {
+        "/v1/oauth/{provider}/redirect": {
             "get": {
                 "description": "Redirect to OAuth provider for authentication.",
                 "tags": [
@@ -1202,8 +1416,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/policies": {
+        "/v1/pols": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve a list of Casbin rules.",
                 "produces": [
                     "application/json"
@@ -1242,6 +1461,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new Casbin rule.",
                 "consumes": [
                     "application/json"
@@ -1280,8 +1504,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/policies/{id}": {
+        "/v1/pols/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve details of a Casbin rule.",
                 "produces": [
                     "application/json"
@@ -1315,6 +1544,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update an existing Casbin rule, either fully or partially.",
                 "consumes": [
                     "application/json"
@@ -1360,6 +1594,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete an existing Casbin rule.",
                 "produces": [
                     "application/json"
@@ -1393,7 +1632,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/register": {
+        "/v1/register": {
             "post": {
                 "description": "Register a new user.",
                 "consumes": [
@@ -1433,7 +1672,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/taxonomy": {
+        "/v1/taxa": {
             "get": {
                 "description": "Retrieve a list of taxonomies.",
                 "produces": [
@@ -1479,6 +1718,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new taxonomy.",
                 "consumes": [
                     "application/json"
@@ -1517,7 +1761,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/taxonomy/{slug}": {
+        "/v1/taxa/{slug}": {
             "get": {
                 "description": "Retrieve details of a taxonomy.",
                 "produces": [
@@ -1552,6 +1796,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update an existing taxonomy.",
                 "consumes": [
                     "application/json"
@@ -1597,6 +1846,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete an existing taxonomy.",
                 "produces": [
                     "application/json"
@@ -1630,7 +1884,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/topic": {
+        "/v1/topic": {
             "get": {
                 "description": "Retrieve a list of topics.",
                 "produces": [
@@ -1676,6 +1930,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new topic.",
                 "consumes": [
                     "application/json"
@@ -1714,7 +1973,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/topic/{slug}": {
+        "/v1/topic/{slug}": {
             "get": {
                 "description": "Retrieve details of a topic.",
                 "produces": [
@@ -1749,6 +2008,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update an existing topic, either fully or partially.",
                 "consumes": [
                     "application/json"
@@ -1794,6 +2058,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete an existing topic.",
                 "produces": [
                     "application/json"
@@ -1827,7 +2096,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/{username}": {
+        "/v1/user/{username}": {
             "get": {
                 "description": "Retrieve information about a specific user.",
                 "produces": [
@@ -1862,8 +2131,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/{username}/domain": {
+        "/v1/user/{username}/dom": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Retrieve the domain associated with the specified user.",
                 "produces": [
                     "application/json"
@@ -1871,7 +2145,7 @@ const docTemplate = `{
                 "tags": [
                     "user"
                 ],
-                "summary": "Get user domain",
+                "summary": "Get user owned domain",
                 "parameters": [
                     {
                         "type": "string",
@@ -2334,6 +2608,14 @@ const docTemplate = `{
         "types.JSON": {
             "type": "object",
             "additionalProperties": {}
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "description": "Type \"Bearer\" followed by a space and JWT token.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

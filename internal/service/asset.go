@@ -42,7 +42,7 @@ func (svc *Service) CreateAssetService(c *gin.Context, body *structs.CreateAsset
 	// set storage provider
 	body.Storage = storageConfig.Provider
 	// TODO: set url
-	// body.URL = obj.StorageInterface.GetEndpoint() +
+	// body.URL = obj.StorageInterface.GetEndpoint()
 	// set created by
 	userID := helper.GetUserID(c)
 	body.CreatedBy = &userID

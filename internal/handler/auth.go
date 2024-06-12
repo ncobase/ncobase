@@ -18,7 +18,7 @@ import (
 // @Param body body structs.SendCodeBody true "SendCodeBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /authorize/send [post]
+// @Router /v1/authorize/send [post]
 func (h *Handler) SendCodeHandler(c *gin.Context) {
 	var body *structs.SendCodeBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -40,7 +40,7 @@ func (h *Handler) SendCodeHandler(c *gin.Context) {
 // @Param code path string true "Verification code"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /authorize/{code} [get]
+// @Router /v1/authorize/{code} [get]
 func (h *Handler) CodeAuthHandler(c *gin.Context) {
 	result, err := h.svc.CodeAuthService(c, c.Param("code"))
 	if err != nil {
@@ -60,7 +60,7 @@ func (h *Handler) CodeAuthHandler(c *gin.Context) {
 // @Param body body structs.RegisterBody true "RegisterBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /register [post]
+// @Router /v1/register [post]
 func (h *Handler) RegisterHandler(c *gin.Context) {
 	var body *structs.RegisterBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -79,7 +79,8 @@ func (h *Handler) RegisterHandler(c *gin.Context) {
 // @Tags authentication
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
-// @Router /logout [post]
+// @Router /v1/logout [post]
+// @Security Bearer
 func (h *Handler) LogoutHandler(c *gin.Context) {
 	cookie.ClearAll(c.Writer)
 	resp.Success(c.Writer, nil)
@@ -95,7 +96,7 @@ func (h *Handler) LogoutHandler(c *gin.Context) {
 // @Param body body structs.LoginBody true "LoginBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /login [post]
+// @Router /v1/login [post]
 func (h *Handler) LoginHandler(c *gin.Context) {
 	var body *structs.LoginBody
 	if err := c.ShouldBind(&body); err != nil {

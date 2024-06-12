@@ -19,7 +19,8 @@ import (
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /policies [post]
+// @Router /v1/pols [post]
+// @Security Bearer
 func (h *Handler) CreateCasbinRuleHandler(c *gin.Context) {
 	var body *structs.CasbinRuleBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -47,7 +48,8 @@ func (h *Handler) CreateCasbinRuleHandler(c *gin.Context) {
 // @Param body body object true "Update data"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /policies/{id} [put]
+// @Router /v1/pols/{id} [put]
+// @Security Bearer
 func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
@@ -79,7 +81,8 @@ func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /policies/{id} [get]
+// @Router /v1/pols/{id} [get]
+// @Security Bearer
 func (h *Handler) GetCasbinRuleHandler(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
@@ -105,7 +108,8 @@ func (h *Handler) GetCasbinRuleHandler(c *gin.Context) {
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /policies/{id} [delete]
+// @Router /v1/pols/{id} [delete]
+// @Security Bearer
 func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
@@ -132,7 +136,8 @@ func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 // @Param offset query int false "Result offset"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /policies [get]
+// @Router /v1/pols [get]
+// @Security Bearer
 func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
 	params := &structs.CasbinRuleParams{}
 	if err := c.ShouldBindQuery(params); err != nil {

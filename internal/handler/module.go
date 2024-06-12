@@ -19,7 +19,8 @@ import (
 // @Param body body structs.CreateModuleBody true "Module data"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /modules [post]
+// @Router /v1/modules [post]
+// @Security Bearer
 func (h *Handler) CreateModuleHandler(c *gin.Context) {
 	var body *structs.CreateModuleBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -47,7 +48,8 @@ func (h *Handler) CreateModuleHandler(c *gin.Context) {
 // @Param body body object true "Module updates"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /modules/{slug} [put]
+// @Router /v1/modules/{slug} [put]
+// @Security Bearer
 func (h *Handler) UpdateModuleHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -79,7 +81,8 @@ func (h *Handler) UpdateModuleHandler(c *gin.Context) {
 // @Param slug path string true "Module slug or ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /modules/{slug} [get]
+// @Router /v1/modules/{slug} [get]
+// @Security Bearer
 func (h *Handler) GetModuleHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -105,7 +108,8 @@ func (h *Handler) GetModuleHandler(c *gin.Context) {
 // @Param slug path string true "Module slug or ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /modules/{slug} [delete]
+// @Router /v1/modules/{slug} [delete]
+// @Security Bearer
 func (h *Handler) DeleteModuleHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -133,7 +137,8 @@ func (h *Handler) DeleteModuleHandler(c *gin.Context) {
 // @Param offset query integer false "Number of modules to skip"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /modules [get]
+// @Router /v1/modules [get]
+// @Security Bearer
 func (h *Handler) ListModuleHandler(c *gin.Context) {
 	params := &structs.ListModuleParams{}
 	if err := c.ShouldBindQuery(params); err != nil {

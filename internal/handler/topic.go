@@ -19,7 +19,8 @@ import (
 // @Param body body structs.CreateTopicBody true "CreateTopicBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /topic [post]
+// @Router /v1/topic [post]
+// @Security Bearer
 func (h *Handler) CreateTopicHandler(c *gin.Context) {
 	var body *structs.CreateTopicBody
 	if err := c.ShouldBind(&body); err != nil {
@@ -47,7 +48,8 @@ func (h *Handler) CreateTopicHandler(c *gin.Context) {
 // @Param body body object true "Update data"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /topic/{slug} [put]
+// @Router /v1/topic/{slug} [put]
+// @Security Bearer
 func (h *Handler) UpdateTopicHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -79,7 +81,7 @@ func (h *Handler) UpdateTopicHandler(c *gin.Context) {
 // @Param slug path string true "Topic slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /topic/{slug} [get]
+// @Router /v1/topic/{slug} [get]
 func (h *Handler) GetTopicHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -105,7 +107,8 @@ func (h *Handler) GetTopicHandler(c *gin.Context) {
 // @Param slug path string true "Topic slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /topic/{slug} [delete]
+// @Router /v1/topic/{slug} [delete]
+// @Security Bearer
 func (h *Handler) DeleteTopicHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -133,7 +136,7 @@ func (h *Handler) DeleteTopicHandler(c *gin.Context) {
 // @Param offset query int false "Result offset"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /topic [get]
+// @Router /v1/topic [get]
 func (h *Handler) ListTopicHandler(c *gin.Context) {
 	params := &structs.ListTopicParams{}
 	if err := c.ShouldBindQuery(params); err != nil {

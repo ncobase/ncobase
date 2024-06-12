@@ -16,7 +16,7 @@ import (
 // @Param username path string true "Username"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /user/{username} [get]
+// @Router /v1/user/{username} [get]
 func (h *Handler) GetUserHandler(c *gin.Context) {
 	result, err := h.svc.GetUserService(c, c.Param("username"))
 	if err != nil {
@@ -34,7 +34,8 @@ func (h *Handler) GetUserHandler(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /account [get]
+// @Router /v1/account [get]
+// @Security Bearer
 func (h *Handler) GetMeHandler(c *gin.Context) {
 	result, err := h.svc.GetMeService(c)
 	if err != nil {
@@ -54,7 +55,8 @@ func (h *Handler) GetMeHandler(c *gin.Context) {
 // @Param body body structs.UserRequestBody true "UserRequestBody object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /account/password [put]
+// @Router /v1/account/password [put]
+// @Security Bearer
 func (h *Handler) UpdatePasswordHandler(c *gin.Context) {
 	var body *structs.UserRequestBody
 	if err := c.ShouldBind(&body); err != nil {

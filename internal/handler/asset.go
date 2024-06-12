@@ -20,6 +20,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// maxAssetSize is the maximum allowed size of an asset.
 var maxAssetSize int64 = 2048 << 20 // 2048 MB
 
 // CreateAssetsHandler handles the creation of assets, both single and multiple.
@@ -35,7 +36,8 @@ var maxAssetSize int64 = 2048 << 20 // 2048 MB
 // @Param extras formData string false "Additional properties associated with the asset (JSON format)"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /assets [post]
+// @Router /v1/assets [post]
+// @Security Bearer
 func (h *Handler) CreateAssetsHandler(c *gin.Context) {
 	if c.Request.Method != http.MethodPost {
 		resp.Fail(c.Writer, resp.NotAllowed("Method not allowed"))
@@ -228,7 +230,8 @@ func bindAssetFields(c *gin.Context, body *structs.CreateAssetBody) error {
 // @Param extras formData string false "Additional properties associated with the asset (JSON format)"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /assets/{slug} [put]
+// @Router /v1/assets/{slug} [put]
+// @Security Bearer
 func (h *Handler) UpdateAssetHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -300,7 +303,7 @@ func (h *Handler) UpdateAssetHandler(c *gin.Context) {
 // @Param type query string false "Type of retrieval ('download' or 'stream')"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /assets/{slug} [get]
+// @Router /v1/assets/{slug} [get]
 func (h *Handler) GetAssetHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -335,7 +338,8 @@ func (h *Handler) GetAssetHandler(c *gin.Context) {
 // @Param slug path string true "Slug of the asset to delete"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /assets/{slug} [delete]
+// @Router /v1/assets/{slug} [delete]
+// @Security Bearer
 func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -364,7 +368,7 @@ func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 // @Param order query string false "Sort order ('asc' or 'desc')"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /assets [get]
+// @Router /v1/assets [get]
 func (h *Handler) ListAssetHandler(c *gin.Context) {
 	params := &structs.ListAssetParams{}
 	if err := c.ShouldBindQuery(params); err != nil {
@@ -395,7 +399,7 @@ func (h *Handler) ListAssetHandler(c *gin.Context) {
 // @Param slug path string true "Slug of the asset to download"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /assets/{slug}/download [get]
+// @Router /v1/assets/{slug}/download [get]
 func (h *Handler) DownloadAssetHandler(c *gin.Context) {
 	h.downloadFile(c, "attachment")
 }
@@ -409,7 +413,7 @@ func (h *Handler) DownloadAssetHandler(c *gin.Context) {
 // @Param slug path string true "Slug of the asset to stream"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /assets/{slug}/stream [get]
+// @Router /v1/assets/{slug}/stream [get]
 func (h *Handler) AssetStreamHandler(c *gin.Context) {
 	h.downloadFile(c, "inline")
 }
