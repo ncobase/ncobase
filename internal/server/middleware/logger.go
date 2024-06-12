@@ -184,7 +184,7 @@ func Logger(c *gin.Context) {
 
 // isInWhiteList checks if the given path is in the whitelist
 func isInWhiteList(path string) bool {
-	whitelist := []string{"/resources", "/resources/*"}
+	whitelist := []string{"/assets", "/assets/*"}
 	for _, allowedPath := range whitelist {
 		if path == allowedPath || strings.Contains(path, allowedPath) {
 			return true
