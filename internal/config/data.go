@@ -15,7 +15,7 @@ type Database struct {
 	Driver          string
 	Source          string
 	Migrate         bool
-	Debug           bool
+	Logging         bool
 	MaxIdleConn     int
 	MaxOpenConn     int
 	ConnMaxLifeTime time.Duration
@@ -51,7 +51,7 @@ func getDataConfig() Data {
 			Driver:          c.GetString("data.database.driver"),
 			Source:          c.GetString("data.database.source"),
 			Migrate:         c.GetBool("data.database.migrate"),
-			Debug:           c.GetBool("data.database.debug"),
+			Logging:         c.GetBool("data.database.logging"),
 			MaxIdleConn:     c.GetInt("data.database.max_idle_conn"),
 			MaxOpenConn:     c.GetInt("data.database.max_open_conn"),
 			ConnMaxLifeTime: c.GetDuration("data.database.max_life_time"),
