@@ -79,7 +79,8 @@ type AssetMutation struct {
 	size          *int64
 	addsize       *int64
 	storage       *string
-	url           *string
+	bucket        *string
+	endpoint      *string
 	object_id     *string
 	domain_id     *string
 	extras        *map[string]interface{}
@@ -449,53 +450,102 @@ func (m *AssetMutation) ResetStorage() {
 	delete(m.clearedFields, asset.FieldStorage)
 }
 
-// SetURL sets the "url" field.
-func (m *AssetMutation) SetURL(s string) {
-	m.url = &s
+// SetBucket sets the "bucket" field.
+func (m *AssetMutation) SetBucket(s string) {
+	m.bucket = &s
 }
 
-// URL returns the value of the "url" field in the mutation.
-func (m *AssetMutation) URL() (r string, exists bool) {
-	v := m.url
+// Bucket returns the value of the "bucket" field in the mutation.
+func (m *AssetMutation) Bucket() (r string, exists bool) {
+	v := m.bucket
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldURL returns the old "url" field's value of the Asset entity.
+// OldBucket returns the old "bucket" field's value of the Asset entity.
 // If the Asset object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AssetMutation) OldURL(ctx context.Context) (v string, err error) {
+func (m *AssetMutation) OldBucket(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldURL is only allowed on UpdateOne operations")
+		return v, errors.New("OldBucket is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldURL requires an ID field in the mutation")
+		return v, errors.New("OldBucket requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldURL: %w", err)
+		return v, fmt.Errorf("querying old value for OldBucket: %w", err)
 	}
-	return oldValue.URL, nil
+	return oldValue.Bucket, nil
 }
 
-// ClearURL clears the value of the "url" field.
-func (m *AssetMutation) ClearURL() {
-	m.url = nil
-	m.clearedFields[asset.FieldURL] = struct{}{}
+// ClearBucket clears the value of the "bucket" field.
+func (m *AssetMutation) ClearBucket() {
+	m.bucket = nil
+	m.clearedFields[asset.FieldBucket] = struct{}{}
 }
 
-// URLCleared returns if the "url" field was cleared in this mutation.
-func (m *AssetMutation) URLCleared() bool {
-	_, ok := m.clearedFields[asset.FieldURL]
+// BucketCleared returns if the "bucket" field was cleared in this mutation.
+func (m *AssetMutation) BucketCleared() bool {
+	_, ok := m.clearedFields[asset.FieldBucket]
 	return ok
 }
 
-// ResetURL resets all changes to the "url" field.
-func (m *AssetMutation) ResetURL() {
-	m.url = nil
-	delete(m.clearedFields, asset.FieldURL)
+// ResetBucket resets all changes to the "bucket" field.
+func (m *AssetMutation) ResetBucket() {
+	m.bucket = nil
+	delete(m.clearedFields, asset.FieldBucket)
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (m *AssetMutation) SetEndpoint(s string) {
+	m.endpoint = &s
+}
+
+// Endpoint returns the value of the "endpoint" field in the mutation.
+func (m *AssetMutation) Endpoint() (r string, exists bool) {
+	v := m.endpoint
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEndpoint returns the old "endpoint" field's value of the Asset entity.
+// If the Asset object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AssetMutation) OldEndpoint(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEndpoint is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEndpoint requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEndpoint: %w", err)
+	}
+	return oldValue.Endpoint, nil
+}
+
+// ClearEndpoint clears the value of the "endpoint" field.
+func (m *AssetMutation) ClearEndpoint() {
+	m.endpoint = nil
+	m.clearedFields[asset.FieldEndpoint] = struct{}{}
+}
+
+// EndpointCleared returns if the "endpoint" field was cleared in this mutation.
+func (m *AssetMutation) EndpointCleared() bool {
+	_, ok := m.clearedFields[asset.FieldEndpoint]
+	return ok
+}
+
+// ResetEndpoint resets all changes to the "endpoint" field.
+func (m *AssetMutation) ResetEndpoint() {
+	m.endpoint = nil
+	delete(m.clearedFields, asset.FieldEndpoint)
 }
 
 // SetObjectID sets the "object_id" field.
@@ -875,7 +925,7 @@ func (m *AssetMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AssetMutation) Fields() []string {
-	fields := make([]string, 0, 13)
+	fields := make([]string, 0, 14)
 	if m.name != nil {
 		fields = append(fields, asset.FieldName)
 	}
@@ -891,8 +941,11 @@ func (m *AssetMutation) Fields() []string {
 	if m.storage != nil {
 		fields = append(fields, asset.FieldStorage)
 	}
-	if m.url != nil {
-		fields = append(fields, asset.FieldURL)
+	if m.bucket != nil {
+		fields = append(fields, asset.FieldBucket)
+	}
+	if m.endpoint != nil {
+		fields = append(fields, asset.FieldEndpoint)
 	}
 	if m.object_id != nil {
 		fields = append(fields, asset.FieldObjectID)
@@ -933,8 +986,10 @@ func (m *AssetMutation) Field(name string) (ent.Value, bool) {
 		return m.Size()
 	case asset.FieldStorage:
 		return m.Storage()
-	case asset.FieldURL:
-		return m.URL()
+	case asset.FieldBucket:
+		return m.Bucket()
+	case asset.FieldEndpoint:
+		return m.Endpoint()
 	case asset.FieldObjectID:
 		return m.ObjectID()
 	case asset.FieldDomainID:
@@ -968,8 +1023,10 @@ func (m *AssetMutation) OldField(ctx context.Context, name string) (ent.Value, e
 		return m.OldSize(ctx)
 	case asset.FieldStorage:
 		return m.OldStorage(ctx)
-	case asset.FieldURL:
-		return m.OldURL(ctx)
+	case asset.FieldBucket:
+		return m.OldBucket(ctx)
+	case asset.FieldEndpoint:
+		return m.OldEndpoint(ctx)
 	case asset.FieldObjectID:
 		return m.OldObjectID(ctx)
 	case asset.FieldDomainID:
@@ -1028,12 +1085,19 @@ func (m *AssetMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetStorage(v)
 		return nil
-	case asset.FieldURL:
+	case asset.FieldBucket:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetURL(v)
+		m.SetBucket(v)
+		return nil
+	case asset.FieldEndpoint:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEndpoint(v)
 		return nil
 	case asset.FieldObjectID:
 		v, ok := value.(string)
@@ -1141,8 +1205,11 @@ func (m *AssetMutation) ClearedFields() []string {
 	if m.FieldCleared(asset.FieldStorage) {
 		fields = append(fields, asset.FieldStorage)
 	}
-	if m.FieldCleared(asset.FieldURL) {
-		fields = append(fields, asset.FieldURL)
+	if m.FieldCleared(asset.FieldBucket) {
+		fields = append(fields, asset.FieldBucket)
+	}
+	if m.FieldCleared(asset.FieldEndpoint) {
+		fields = append(fields, asset.FieldEndpoint)
 	}
 	if m.FieldCleared(asset.FieldObjectID) {
 		fields = append(fields, asset.FieldObjectID)
@@ -1191,8 +1258,11 @@ func (m *AssetMutation) ClearField(name string) error {
 	case asset.FieldStorage:
 		m.ClearStorage()
 		return nil
-	case asset.FieldURL:
-		m.ClearURL()
+	case asset.FieldBucket:
+		m.ClearBucket()
+		return nil
+	case asset.FieldEndpoint:
+		m.ClearEndpoint()
 		return nil
 	case asset.FieldObjectID:
 		m.ClearObjectID()
@@ -1238,8 +1308,11 @@ func (m *AssetMutation) ResetField(name string) error {
 	case asset.FieldStorage:
 		m.ResetStorage()
 		return nil
-	case asset.FieldURL:
-		m.ResetURL()
+	case asset.FieldBucket:
+		m.ResetBucket()
+		return nil
+	case asset.FieldEndpoint:
+		m.ResetEndpoint()
 		return nil
 	case asset.FieldObjectID:
 		m.ResetObjectID()

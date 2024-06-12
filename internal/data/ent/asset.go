@@ -29,8 +29,10 @@ type Asset struct {
 	Size int64 `json:"size,omitempty"`
 	// storage type
 	Storage string `json:"storage,omitempty"`
-	// url, website / link...
-	URL string `json:"url,omitempty"`
+	// bucket
+	Bucket string `json:"bucket,omitempty"`
+	// endpoint
+	Endpoint string `json:"endpoint,omitempty"`
 	// object id
 	ObjectID string `json:"object_id,omitempty"`
 	// domain id
@@ -57,7 +59,7 @@ func (*Asset) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case asset.FieldSize:
 			values[i] = new(sql.NullInt64)
-		case asset.FieldID, asset.FieldName, asset.FieldPath, asset.FieldType, asset.FieldStorage, asset.FieldURL, asset.FieldObjectID, asset.FieldDomainID, asset.FieldCreatedBy, asset.FieldUpdatedBy:
+		case asset.FieldID, asset.FieldName, asset.FieldPath, asset.FieldType, asset.FieldStorage, asset.FieldBucket, asset.FieldEndpoint, asset.FieldObjectID, asset.FieldDomainID, asset.FieldCreatedBy, asset.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		case asset.FieldCreatedAt, asset.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -112,11 +114,17 @@ func (a *Asset) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.Storage = value.String
 			}
-		case asset.FieldURL:
+		case asset.FieldBucket:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field url", values[i])
+				return fmt.Errorf("unexpected type %T for field bucket", values[i])
 			} else if value.Valid {
-				a.URL = value.String
+				a.Bucket = value.String
+			}
+		case asset.FieldEndpoint:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field endpoint", values[i])
+			} else if value.Valid {
+				a.Endpoint = value.String
 			}
 		case asset.FieldObjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -213,8 +221,11 @@ func (a *Asset) String() string {
 	builder.WriteString("storage=")
 	builder.WriteString(a.Storage)
 	builder.WriteString(", ")
-	builder.WriteString("url=")
-	builder.WriteString(a.URL)
+	builder.WriteString("bucket=")
+	builder.WriteString(a.Bucket)
+	builder.WriteString(", ")
+	builder.WriteString("endpoint=")
+	builder.WriteString(a.Endpoint)
 	builder.WriteString(", ")
 	builder.WriteString("object_id=")
 	builder.WriteString(a.ObjectID)

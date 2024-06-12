@@ -41,8 +41,10 @@ func (svc *Service) CreateAssetService(c *gin.Context, body *structs.CreateAsset
 
 	// set storage provider
 	body.Storage = storageConfig.Provider
-	// TODO: set url
-	// body.URL = obj.StorageInterface.GetEndpoint()
+	// set bucket
+	body.Bucket = storageConfig.Bucket
+	// set endpoint
+	body.Endpoint = storageConfig.Endpoint
 	// set created by
 	userID := helper.GetUserID(c)
 	body.CreatedBy = &userID
@@ -72,7 +74,7 @@ func (svc *Service) UpdateAssetService(c *gin.Context, slug string, updates map[
 	}
 
 	// Get storage interface
-	storage, _ := helper.GetStorage(c)
+	storage, storageConfig := helper.GetStorage(c)
 
 	// Handle file update if path is included in updates
 	if path, ok := updates["path"].(string); ok {
@@ -82,10 +84,18 @@ func (svc *Service) UpdateAssetService(c *gin.Context, slug string, updates map[
 				log.Errorf(c, "Error updating file: %v\n", err)
 				return resp.InternalServer("Error updating file"), err
 			}
-			// TODO: set url
-			// updates["url"] = storage.GetEndpoint()
+			// update storage
+			updates["storage"] = storageConfig.Provider
+			// update bucket
+			updates["bucket"] = storageConfig.Bucket
+			// update endpoint
+			updates["endpoint"] = storageConfig.Endpoint
 			// Remove file from updates after storing to avoid saving the file object itself in DB
 			delete(updates, "file")
+			// set updated by
+			if _, ok := updates["updated_by"].(string); !ok {
+				updates["updated_by"] = helper.GetUserID(c)
+			}
 		} else {
 			log.Warnf(c, "File content is missing, skipping file update")
 		}

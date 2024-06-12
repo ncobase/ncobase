@@ -20,7 +20,8 @@ type AssetBody struct {
 	Type     string         `json:"type,omitempty"`
 	Size     *int64         `json:"size,omitempty"`
 	Storage  string         `json:"storage,omitempty"`
-	URL      string         `json:"url,omitempty"`
+	Bucket   string         `json:"bucket,omitempty"`
+	Endpoint string         `json:"endpoint,omitempty"`
 	ObjectID string         `json:"object_id,omitempty"`
 	DomainID string         `json:"domain_id,omitempty"`
 	Extras   *types.JSON    `json:"extras,omitempty"`
@@ -46,7 +47,8 @@ type ReadAsset struct {
 	Type     string      `json:"type"`
 	Size     *int64      `json:"size"`
 	Storage  string      `json:"storage"`
-	URL      string      `json:"url"`
+	Bucket   string      `json:"bucket"`
+	Endpoint string      `json:"endpoint"`
 	ObjectID string      `json:"object_id"`
 	DomainID string      `json:"domain_id"`
 	Extras   *types.JSON `json:"extras,omitempty"`

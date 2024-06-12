@@ -39,8 +39,6 @@ func init() {
 	_ = assetMixinFields1
 	assetMixinFields4 := assetMixin[4].Fields()
 	_ = assetMixinFields4
-	assetMixinFields7 := assetMixin[7].Fields()
-	_ = assetMixinFields7
 	assetMixinFields8 := assetMixin[8].Fields()
 	_ = assetMixinFields8
 	assetMixinFields9 := assetMixin[9].Fields()
@@ -49,6 +47,8 @@ func init() {
 	_ = assetMixinFields10
 	assetMixinFields11 := assetMixin[11].Fields()
 	_ = assetMixinFields11
+	assetMixinFields12 := assetMixin[12].Fields()
+	_ = assetMixinFields12
 	assetFields := schema.Asset{}.Fields()
 	_ = assetFields
 	// assetDescName is the schema descriptor for name field.
@@ -60,31 +60,31 @@ func init() {
 	// asset.DefaultSize holds the default value on creation for the size field.
 	asset.DefaultSize = assetDescSize.Default.(int64)
 	// assetDescObjectID is the schema descriptor for object_id field.
-	assetDescObjectID := assetMixinFields7[0].Descriptor()
+	assetDescObjectID := assetMixinFields8[0].Descriptor()
 	// asset.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
 	asset.ObjectIDValidator = assetDescObjectID.Validators[0].(func(string) error)
 	// assetDescDomainID is the schema descriptor for domain_id field.
-	assetDescDomainID := assetMixinFields8[0].Descriptor()
+	assetDescDomainID := assetMixinFields9[0].Descriptor()
 	// asset.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
 	asset.DomainIDValidator = assetDescDomainID.Validators[0].(func(string) error)
 	// assetDescExtras is the schema descriptor for extras field.
-	assetDescExtras := assetMixinFields9[0].Descriptor()
+	assetDescExtras := assetMixinFields10[0].Descriptor()
 	// asset.DefaultExtras holds the default value on creation for the extras field.
 	asset.DefaultExtras = assetDescExtras.Default.(map[string]interface{})
 	// assetDescCreatedBy is the schema descriptor for created_by field.
-	assetDescCreatedBy := assetMixinFields10[0].Descriptor()
+	assetDescCreatedBy := assetMixinFields11[0].Descriptor()
 	// asset.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	asset.CreatedByValidator = assetDescCreatedBy.Validators[0].(func(string) error)
 	// assetDescUpdatedBy is the schema descriptor for updated_by field.
-	assetDescUpdatedBy := assetMixinFields10[1].Descriptor()
+	assetDescUpdatedBy := assetMixinFields11[1].Descriptor()
 	// asset.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	asset.UpdatedByValidator = assetDescUpdatedBy.Validators[0].(func(string) error)
 	// assetDescCreatedAt is the schema descriptor for created_at field.
-	assetDescCreatedAt := assetMixinFields11[0].Descriptor()
+	assetDescCreatedAt := assetMixinFields12[0].Descriptor()
 	// asset.DefaultCreatedAt holds the default value on creation for the created_at field.
 	asset.DefaultCreatedAt = assetDescCreatedAt.Default.(func() time.Time)
 	// assetDescUpdatedAt is the schema descriptor for updated_at field.
-	assetDescUpdatedAt := assetMixinFields11[1].Descriptor()
+	assetDescUpdatedAt := assetMixinFields12[1].Descriptor()
 	// asset.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	asset.DefaultUpdatedAt = assetDescUpdatedAt.Default.(func() time.Time)
 	// asset.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.

@@ -563,6 +563,32 @@ func (Storage) Fields() []ent.Field {
 // storage type mixin must implement `Mixin` interface.
 var _ ent.Mixin = (*Storage)(nil)
 
+// Bucket adds bucket type field.
+type Bucket struct{ mixin.Schema }
+
+// Fields of the bucket type mixin.
+func (Bucket) Fields() []ent.Field {
+	return []ent.Field{
+		field.String("bucket").Comment("bucket").Optional(),
+	}
+}
+
+// bucket type mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*Bucket)(nil)
+
+// Endpoint adds endpoint type field.
+type Endpoint struct{ mixin.Schema }
+
+// Fields of the endpoint type mixin.
+func (Endpoint) Fields() []ent.Field {
+	return []ent.Field{
+		field.String("endpoint").Comment("endpoint").Optional(),
+	}
+}
+
+// endpoint type mixin must implement `Mixin` interface.
+var _ ent.Mixin = (*Endpoint)(nil)
+
 // Value adds value field.
 type Value struct{ mixin.Schema }
 

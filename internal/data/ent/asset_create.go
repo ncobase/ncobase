@@ -90,16 +90,30 @@ func (ac *AssetCreate) SetNillableStorage(s *string) *AssetCreate {
 	return ac
 }
 
-// SetURL sets the "url" field.
-func (ac *AssetCreate) SetURL(s string) *AssetCreate {
-	ac.mutation.SetURL(s)
+// SetBucket sets the "bucket" field.
+func (ac *AssetCreate) SetBucket(s string) *AssetCreate {
+	ac.mutation.SetBucket(s)
 	return ac
 }
 
-// SetNillableURL sets the "url" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableURL(s *string) *AssetCreate {
+// SetNillableBucket sets the "bucket" field if the given value is not nil.
+func (ac *AssetCreate) SetNillableBucket(s *string) *AssetCreate {
 	if s != nil {
-		ac.SetURL(*s)
+		ac.SetBucket(*s)
+	}
+	return ac
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (ac *AssetCreate) SetEndpoint(s string) *AssetCreate {
+	ac.mutation.SetEndpoint(s)
+	return ac
+}
+
+// SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
+func (ac *AssetCreate) SetNillableEndpoint(s *string) *AssetCreate {
+	if s != nil {
+		ac.SetEndpoint(*s)
 	}
 	return ac
 }
@@ -350,9 +364,13 @@ func (ac *AssetCreate) createSpec() (*Asset, *sqlgraph.CreateSpec) {
 		_spec.SetField(asset.FieldStorage, field.TypeString, value)
 		_node.Storage = value
 	}
-	if value, ok := ac.mutation.URL(); ok {
-		_spec.SetField(asset.FieldURL, field.TypeString, value)
-		_node.URL = value
+	if value, ok := ac.mutation.Bucket(); ok {
+		_spec.SetField(asset.FieldBucket, field.TypeString, value)
+		_node.Bucket = value
+	}
+	if value, ok := ac.mutation.Endpoint(); ok {
+		_spec.SetField(asset.FieldEndpoint, field.TypeString, value)
+		_node.Endpoint = value
 	}
 	if value, ok := ac.mutation.ObjectID(); ok {
 		_spec.SetField(asset.FieldObjectID, field.TypeString, value)
