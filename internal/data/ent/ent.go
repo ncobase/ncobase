@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
+	"stocms/internal/data/ent/asset"
 	"stocms/internal/data/ent/authtoken"
 	"stocms/internal/data/ent/casbinrule"
 	"stocms/internal/data/ent/codeauth"
@@ -16,7 +17,6 @@ import (
 	"stocms/internal/data/ent/module"
 	"stocms/internal/data/ent/oauthuser"
 	"stocms/internal/data/ent/permission"
-	"stocms/internal/data/ent/resource"
 	"stocms/internal/data/ent/role"
 	"stocms/internal/data/ent/rolepermission"
 	"stocms/internal/data/ent/taxonomy"
@@ -93,6 +93,7 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
+			asset.Table:            asset.ValidColumn,
 			authtoken.Table:        authtoken.ValidColumn,
 			casbinrule.Table:       casbinrule.ValidColumn,
 			codeauth.Table:         codeauth.ValidColumn,
@@ -102,7 +103,6 @@ func checkColumn(table, column string) error {
 			module.Table:           module.ValidColumn,
 			oauthuser.Table:        oauthuser.ValidColumn,
 			permission.Table:       permission.ValidColumn,
-			resource.Table:         resource.ValidColumn,
 			role.Table:             role.ValidColumn,
 			rolepermission.Table:   rolepermission.ValidColumn,
 			taxonomy.Table:         taxonomy.ValidColumn,

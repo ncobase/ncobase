@@ -12,8 +12,9 @@ type FindTopic struct {
 	DomainID   string `json:"domain_id,omitempty"`
 }
 
-// Common fields for creating and updating topics
+// TopicBody represents the common fields for creating and updating topics.
 type TopicBody struct {
+	BaseEntity
 	Name       string    `json:"name,omitempty"`
 	Title      string    `json:"title,omitempty"`
 	Slug       string    `json:"slug,omitempty"`
@@ -26,25 +27,22 @@ type TopicBody struct {
 	Released   time.Time `json:"released,omitempty"`
 	TaxonomyID string    `json:"taxonomy_id,omitempty"`
 	DomainID   string    `json:"domain_id,omitempty"`
-	CreatedBy  string    `json:"created_by,omitempty"`
-	CreatedAt  time.Time `json:"created_at,omitempty"`
-	UpdatedBy  string    `json:"updated_by,omitempty"`
-	UpdatedAt  time.Time `json:"updated_at,omitempty"`
 }
 
-// Create topic body
+// CreateTopicBody represents the body for creating a topic.
 type CreateTopicBody struct {
 	TopicBody
 }
 
-// Update topic body
+// UpdateTopicBody represents the body for updating a topic.
 type UpdateTopicBody struct {
-	TopicBody
 	ID string `json:"id"`
+	TopicBody
 }
 
-// Output topic schema
-type GetTopic struct {
+// ReadTopic represents the output schema for retrieving a topic.
+type ReadTopic struct {
+	BaseEntity
 	ID         string    `json:"id"`
 	Name       string    `json:"name"`
 	Title      string    `json:"title"`
@@ -55,19 +53,15 @@ type GetTopic struct {
 	Markdown   bool      `json:"markdown"`
 	Private    bool      `json:"private"`
 	Status     int32     `json:"status"`
-	Released   bool      `json:"released"`
+	Released   time.Time `json:"released"`
 	TaxonomyID string    `json:"taxonomy_id"`
 	DomainID   string    `json:"domain_id"`
-	CreatedBy  string    `json:"created_by,omitempty"`
-	CreatedAt  time.Time `json:"created_at,omitempty"`
-	UpdatedBy  string    `json:"updated_by,omitempty"`
-	UpdatedAt  time.Time `json:"updated_at,omitempty"`
 }
 
-// Query topic list params
+// ListTopicParams represents the parameters for listing topics.
 type ListTopicParams struct {
-	Cursor   string `form:"cursor" json:"cursor"`
-	Limit    int64  `form:"limit" json:"limit"`
-	Taxonomy string `form:"taxonomy,omitempty" json:"taxonomy,omitempty"`
-	Domain   string `form:"domain,omitempty" json:"domain,omitempty"`
+	Cursor     string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit      int64  `form:"limit,omitempty" json:"limit,omitempty"`
+	TaxonomyID string `form:"taxonomy_id,omitempty" json:"taxonomy_id,omitempty"`
+	DomainID   string `form:"domain_id,omitempty" json:"domain_id,omitempty"`
 }

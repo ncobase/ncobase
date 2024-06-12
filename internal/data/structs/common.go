@@ -1,6 +1,8 @@
 package structs
 
-import "time"
+import (
+	"time"
+)
 
 // BaseEntity contains common fields for entities.
 type BaseEntity struct {

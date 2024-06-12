@@ -100,6 +100,313 @@
                 }
             }
         },
+        "/assets": {
+            "get": {
+                "description": "List assets based on specified parameters.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "assets"
+                ],
+                "summary": "List assets",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page size",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort by field",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort order ('asc' or 'desc')",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create one or multiple assets.",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "assets"
+                ],
+                "summary": "Create assets",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Object ID associated with the asset",
+                        "name": "object_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Domain ID associated with the asset",
+                        "name": "domain_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Additional properties associated with the asset (JSON format)",
+                        "name": "extras",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/assets/{slug}": {
+            "get": {
+                "description": "Get details of a specific asset.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "assets"
+                ],
+                "summary": "Get asset",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Slug of the asset to retrieve",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Type of retrieval ('download' or 'stream')",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing asset.",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "assets"
+                ],
+                "summary": "Update asset",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Slug of the asset to update",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "File to upload (optional)",
+                        "name": "file",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Object ID associated with the asset",
+                        "name": "object_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Domain ID associated with the asset",
+                        "name": "domain_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Additional properties associated with the asset (JSON format)",
+                        "name": "extras",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a specific asset.",
+                "tags": [
+                    "assets"
+                ],
+                "summary": "Delete asset",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Slug of the asset to delete",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/assets/{slug}/download": {
+            "get": {
+                "description": "Download a specific asset.",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "assets"
+                ],
+                "summary": "Download asset",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Slug of the asset to download",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/assets/{slug}/stream": {
+            "get": {
+                "description": "Stream a specific asset.",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "assets"
+                ],
+                "summary": "Stream asset",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Slug of the asset to stream",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/authorize/send": {
             "post": {
                 "description": "Send a verification code to the specified destination.",
@@ -1023,313 +1330,6 @@
                 }
             }
         },
-        "/resources": {
-            "get": {
-                "description": "List resources based on specified parameters.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "resources"
-                ],
-                "summary": "List resources",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Page number",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Page size",
-                        "name": "page_size",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Sort by field",
-                        "name": "sort_by",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Sort order ('asc' or 'desc')",
-                        "name": "order",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create one or multiple resources.",
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "resources"
-                ],
-                "summary": "Create resources",
-                "parameters": [
-                    {
-                        "type": "file",
-                        "description": "File to upload",
-                        "name": "file",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Object ID associated with the resource",
-                        "name": "object_id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Domain ID associated with the resource",
-                        "name": "domain_id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Additional properties associated with the resource (JSON format)",
-                        "name": "extras",
-                        "in": "formData"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/resources/{slug}": {
-            "get": {
-                "description": "Get details of a specific resource.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "resources"
-                ],
-                "summary": "Get resource",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Slug of the resource to retrieve",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Type of retrieval ('download' or 'stream')",
-                        "name": "type",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update an existing resource.",
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "resources"
-                ],
-                "summary": "Update resource",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Slug of the resource to update",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "File to upload (optional)",
-                        "name": "file",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Object ID associated with the resource",
-                        "name": "object_id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Domain ID associated with the resource",
-                        "name": "domain_id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Additional properties associated with the resource (JSON format)",
-                        "name": "extras",
-                        "in": "formData"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete a specific resource.",
-                "tags": [
-                    "resources"
-                ],
-                "summary": "Delete resource",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Slug of the resource to delete",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/resources/{slug}/download": {
-            "get": {
-                "description": "Download a specific resource.",
-                "produces": [
-                    "application/octet-stream"
-                ],
-                "tags": [
-                    "resources"
-                ],
-                "summary": "Download resource",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Slug of the resource to download",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/resources/{slug}/stream": {
-            "get": {
-                "description": "Stream a specific resource.",
-                "produces": [
-                    "application/octet-stream"
-                ],
-                "tags": [
-                    "resources"
-                ],
-                "summary": "Stream resource",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Slug of the resource to stream",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
         "/taxonomy": {
             "get": {
                 "description": "Retrieve a list of taxonomies.",
@@ -1860,9 +1860,6 @@
                 "created_by": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "string"
-                },
                 "markdown": {
                     "type": "boolean"
                 },
@@ -2133,7 +2130,6 @@
                     "type": "string"
                 },
                 "order": {
-                    "description": "Use pointer for nullable int",
                     "type": "integer"
                 },
                 "title": {

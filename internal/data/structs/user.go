@@ -1,6 +1,9 @@
 package structs
 
-import "time"
+import (
+	"stocms/pkg/types"
+	"time"
+)
 
 // FindUser represents the parameters for finding a user.
 type FindUser struct {
@@ -38,4 +41,20 @@ type UserRequestBody struct {
 	OldPassword   string    `json:"old_password,omitempty" binding:"required_if=Action password"`
 	NewPassword   string    `json:"new_password,omitempty" binding:"required_if=Action password"`
 	Action        string    `json:"-"`
+}
+
+// UserProfile represents the user profile schema.
+type UserProfile struct {
+	ID          string        `json:"id,omitempty"`
+	DisplayName string        `json:"display_name,omitempty"`
+	ShortBio    string        `json:"short_bio,omitempty"`
+	About       *string       `json:"about,omitempty"`
+	Thumbnail   *string       `json:"thumbnail,omitempty"`
+	Links       *[]types.JSON `json:"links,omitempty"`
+}
+
+// UserDomain represents the user domain.
+type UserDomain struct {
+	UserID   string `json:"user_id,omitempty"`
+	DomainID string `json:"domain_id,omitempty"`
 }

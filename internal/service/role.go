@@ -99,8 +99,8 @@ func (svc *Service) GetRolePermissionsService(ctx context.Context, roleID string
 // ****** Internal methods of service
 
 // serializeRole serializes a role entity to a response format.
-func (svc *Service) serializeRole(row *ent.Role) *structs.Role {
-	return &structs.Role{
+func (svc *Service) serializeRole(row *ent.Role) *structs.ReadRole {
+	return &structs.ReadRole{
 		ID:          row.ID,
 		Name:        row.Name,
 		Slug:        row.Slug,

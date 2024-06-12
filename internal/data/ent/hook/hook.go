@@ -8,6 +8,18 @@ import (
 	"stocms/internal/data/ent"
 )
 
+// The AssetFunc type is an adapter to allow the use of ordinary
+// function as Asset mutator.
+type AssetFunc func(context.Context, *ent.AssetMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AssetFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.AssetMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AssetMutation", m)
+}
+
 // The AuthTokenFunc type is an adapter to allow the use of ordinary
 // function as AuthToken mutator.
 type AuthTokenFunc func(context.Context, *ent.AuthTokenMutation) (ent.Value, error)
@@ -114,18 +126,6 @@ func (f PermissionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, 
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PermissionMutation", m)
-}
-
-// The ResourceFunc type is an adapter to allow the use of ordinary
-// function as Resource mutator.
-type ResourceFunc func(context.Context, *ent.ResourceMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f ResourceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.ResourceMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ResourceMutation", m)
 }
 
 // The RoleFunc type is an adapter to allow the use of ordinary

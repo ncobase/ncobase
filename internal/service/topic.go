@@ -39,7 +39,6 @@ func (svc *Service) UpdateTopicService(c *gin.Context, slug string, updates type
 		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
 	}
 
-	// Call the repo Patch method
 	topic, err := svc.topic.Update(c, slug, updates)
 	if exception, err := handleError("Topic", err); exception != nil {
 		return exception, err

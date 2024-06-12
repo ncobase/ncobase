@@ -99,8 +99,8 @@ func (svc *Service) GetGroupRolesService(ctx context.Context, groupID string) (*
 // ****** Internal methods of service
 
 // serializeGroup serializes a group entity to a response format.
-func (svc *Service) serializeGroup(row *ent.Group) *structs.Group {
-	return &structs.Group{
+func (svc *Service) serializeGroup(row *ent.Group) *structs.ReadGroup {
+	return &structs.ReadGroup{
 		ID:          row.ID,
 		Name:        row.Name,
 		Slug:        row.Slug,

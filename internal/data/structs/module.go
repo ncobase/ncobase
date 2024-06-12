@@ -1,10 +1,13 @@
 package structs
 
-import "time"
+import (
+	"stocms/pkg/types"
+	"time"
+)
 
-// Module represents a module entity.
-type Module struct {
-	ID        string     `json:"id,omitempty"`
+// ModuleBody represents a module entity.
+type ModuleBody struct {
+	BaseEntity
 	Name      string     `json:"name,omitempty"`
 	Title     string     `json:"title,omitempty"`
 	Slug      string     `json:"slug,omitempty"`
@@ -15,18 +18,35 @@ type Module struct {
 	Private   *bool      `json:"private,omitempty"`
 	Status    *int32     `json:"status,omitempty"`   // Use pointer for nullable field
 	Released  *time.Time `json:"released,omitempty"` // Use pointer for nullable field
-	BaseEntity
 }
 
 // CreateModuleBody represents the body for creating or updating a module.
 type CreateModuleBody struct {
-	Module
+	ModuleBody
 }
 
 // UpdateModuleBody represents the body for updating a module.
 type UpdateModuleBody struct {
-	Module
 	ID string `json:"id,omitempty"`
+	ModuleBody
+}
+
+// ReadModule represents the output schema for retrieving a module.
+type ReadModule struct {
+	BaseEntity
+	ID          string      `json:"id"`
+	Slug        string      `json:"slug"`
+	Title       string      `json:"title"`
+	Content     string      `json:"content"`
+	Thumbnail   string      `json:"thumbnail"`
+	Temp        bool        `json:"temp"`
+	Markdown    bool        `json:"markdown"`
+	Private     bool        `json:"private"`
+	Status      int32       `json:"status"`
+	Released    time.Time   `json:"released"`
+	Keywords    []string    `json:"keywords"`
+	Description string      `json:"description"`
+	Extras      *types.JSON `json:"extras,omitempty"`
 }
 
 // FindModule represents the parameters for finding a module.

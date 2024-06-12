@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"stocms/internal/data/ent/resource"
+	"stocms/internal/data/ent/asset"
 	"strings"
 	"time"
 
@@ -13,8 +13,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Resource is the model entity for the Resource schema.
-type Resource struct {
+// Asset is the model entity for the Asset schema.
+type Asset struct {
 	config `json:"-"`
 	// ID of the ent.
 	// primary key
@@ -49,17 +49,17 @@ type Resource struct {
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*Resource) scanValues(columns []string) ([]any, error) {
+func (*Asset) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case resource.FieldExtras:
+		case asset.FieldExtras:
 			values[i] = new([]byte)
-		case resource.FieldSize:
+		case asset.FieldSize:
 			values[i] = new(sql.NullInt64)
-		case resource.FieldID, resource.FieldName, resource.FieldPath, resource.FieldType, resource.FieldStorage, resource.FieldURL, resource.FieldObjectID, resource.FieldDomainID, resource.FieldCreatedBy, resource.FieldUpdatedBy:
+		case asset.FieldID, asset.FieldName, asset.FieldPath, asset.FieldType, asset.FieldStorage, asset.FieldURL, asset.FieldObjectID, asset.FieldDomainID, asset.FieldCreatedBy, asset.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case resource.FieldCreatedAt, resource.FieldUpdatedAt:
+		case asset.FieldCreatedAt, asset.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -69,176 +69,176 @@ func (*Resource) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the Resource fields.
-func (r *Resource) assignValues(columns []string, values []any) error {
+// to the Asset fields.
+func (a *Asset) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case resource.FieldID:
+		case asset.FieldID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				r.ID = value.String
+				a.ID = value.String
 			}
-		case resource.FieldName:
+		case asset.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				r.Name = value.String
+				a.Name = value.String
 			}
-		case resource.FieldPath:
+		case asset.FieldPath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field path", values[i])
 			} else if value.Valid {
-				r.Path = value.String
+				a.Path = value.String
 			}
-		case resource.FieldType:
+		case asset.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				r.Type = value.String
+				a.Type = value.String
 			}
-		case resource.FieldSize:
+		case asset.FieldSize:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field size", values[i])
 			} else if value.Valid {
-				r.Size = value.Int64
+				a.Size = value.Int64
 			}
-		case resource.FieldStorage:
+		case asset.FieldStorage:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field storage", values[i])
 			} else if value.Valid {
-				r.Storage = value.String
+				a.Storage = value.String
 			}
-		case resource.FieldURL:
+		case asset.FieldURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field url", values[i])
 			} else if value.Valid {
-				r.URL = value.String
+				a.URL = value.String
 			}
-		case resource.FieldObjectID:
+		case asset.FieldObjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field object_id", values[i])
 			} else if value.Valid {
-				r.ObjectID = value.String
+				a.ObjectID = value.String
 			}
-		case resource.FieldDomainID:
+		case asset.FieldDomainID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field domain_id", values[i])
 			} else if value.Valid {
-				r.DomainID = value.String
+				a.DomainID = value.String
 			}
-		case resource.FieldExtras:
+		case asset.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &r.Extras); err != nil {
+				if err := json.Unmarshal(*value, &a.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case resource.FieldCreatedBy:
+		case asset.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				r.CreatedBy = value.String
+				a.CreatedBy = value.String
 			}
-		case resource.FieldUpdatedBy:
+		case asset.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				r.UpdatedBy = value.String
+				a.UpdatedBy = value.String
 			}
-		case resource.FieldCreatedAt:
+		case asset.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				r.CreatedAt = value.Time
+				a.CreatedAt = value.Time
 			}
-		case resource.FieldUpdatedAt:
+		case asset.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				r.UpdatedAt = value.Time
+				a.UpdatedAt = value.Time
 			}
 		default:
-			r.selectValues.Set(columns[i], values[i])
+			a.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the Resource.
+// Value returns the ent.Value that was dynamically selected and assigned to the Asset.
 // This includes values selected through modifiers, order, etc.
-func (r *Resource) Value(name string) (ent.Value, error) {
-	return r.selectValues.Get(name)
+func (a *Asset) Value(name string) (ent.Value, error) {
+	return a.selectValues.Get(name)
 }
 
-// Update returns a builder for updating this Resource.
-// Note that you need to call Resource.Unwrap() before calling this method if this Resource
+// Update returns a builder for updating this Asset.
+// Note that you need to call Asset.Unwrap() before calling this method if this Asset
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (r *Resource) Update() *ResourceUpdateOne {
-	return NewResourceClient(r.config).UpdateOne(r)
+func (a *Asset) Update() *AssetUpdateOne {
+	return NewAssetClient(a.config).UpdateOne(a)
 }
 
-// Unwrap unwraps the Resource entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the Asset entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (r *Resource) Unwrap() *Resource {
-	_tx, ok := r.config.driver.(*txDriver)
+func (a *Asset) Unwrap() *Asset {
+	_tx, ok := a.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: Resource is not a transactional entity")
+		panic("ent: Asset is not a transactional entity")
 	}
-	r.config.driver = _tx.drv
-	return r
+	a.config.driver = _tx.drv
+	return a
 }
 
 // String implements the fmt.Stringer.
-func (r *Resource) String() string {
+func (a *Asset) String() string {
 	var builder strings.Builder
-	builder.WriteString("Resource(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", r.ID))
+	builder.WriteString("Asset(")
+	builder.WriteString(fmt.Sprintf("id=%v, ", a.ID))
 	builder.WriteString("name=")
-	builder.WriteString(r.Name)
+	builder.WriteString(a.Name)
 	builder.WriteString(", ")
 	builder.WriteString("path=")
-	builder.WriteString(r.Path)
+	builder.WriteString(a.Path)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(r.Type)
+	builder.WriteString(a.Type)
 	builder.WriteString(", ")
 	builder.WriteString("size=")
-	builder.WriteString(fmt.Sprintf("%v", r.Size))
+	builder.WriteString(fmt.Sprintf("%v", a.Size))
 	builder.WriteString(", ")
 	builder.WriteString("storage=")
-	builder.WriteString(r.Storage)
+	builder.WriteString(a.Storage)
 	builder.WriteString(", ")
 	builder.WriteString("url=")
-	builder.WriteString(r.URL)
+	builder.WriteString(a.URL)
 	builder.WriteString(", ")
 	builder.WriteString("object_id=")
-	builder.WriteString(r.ObjectID)
+	builder.WriteString(a.ObjectID)
 	builder.WriteString(", ")
 	builder.WriteString("domain_id=")
-	builder.WriteString(r.DomainID)
+	builder.WriteString(a.DomainID)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", r.Extras))
+	builder.WriteString(fmt.Sprintf("%v", a.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(r.CreatedBy)
+	builder.WriteString(a.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(r.UpdatedBy)
+	builder.WriteString(a.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(r.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(a.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(r.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(a.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
-// Resources is a parsable slice of Resource.
-type Resources []*Resource
+// Assets is a parsable slice of Asset.
+type Assets []*Asset

@@ -15,8 +15,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateResourceService creates a new resource.
-func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateResourceBody) (*resp.Exception, error) {
+// CreateAssetService creates a new asset.
+func (svc *Service) CreateAssetService(c *gin.Context, body *structs.CreateAssetBody) (*resp.Exception, error) {
 	if validator.IsEmpty(body.ObjectID) {
 		return resp.BadRequest(ecode.FieldIsRequired("belongsTo object")), nil
 	}
@@ -47,20 +47,20 @@ func (svc *Service) CreateResourceService(c *gin.Context, body *structs.CreateRe
 	userID := helper.GetUserID(c)
 	body.CreatedBy = &userID
 
-	// Create the resource using the repository
-	resource, err := svc.resource.Create(c, body)
+	// Create the asset using the repository
+	asset, err := svc.asset.Create(c, body)
 	if err != nil {
-		log.Errorf(c, "Error creating resource: %v\n", err)
-		return resp.InternalServer("failed to create resource"), nil
+		log.Errorf(c, "Error creating asset: %v\n", err)
+		return resp.InternalServer("failed to create asset"), nil
 	}
 
 	return &resp.Exception{
-		Data: resource,
+		Data: asset,
 	}, nil
 }
 
-// UpdateResourceService updates an existing resource.
-func (svc *Service) UpdateResourceService(c *gin.Context, slug string, updates map[string]any) (*resp.Exception, error) {
+// UpdateAssetService updates an existing asset.
+func (svc *Service) UpdateAssetService(c *gin.Context, slug string, updates map[string]any) (*resp.Exception, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return resp.BadRequest(ecode.FieldIsRequired("slug")), nil
@@ -91,19 +91,18 @@ func (svc *Service) UpdateResourceService(c *gin.Context, slug string, updates m
 		}
 	}
 
-	// Call the repository's Update method
-	resource, err := svc.resource.Update(c, slug, updates)
-	if exception, err := handleError("Resource", err); exception != nil {
+	asset, err := svc.asset.Update(c, slug, updates)
+	if exception, err := handleError("Asset", err); exception != nil {
 		return exception, err
 	}
 
 	return &resp.Exception{
-		Data: resource,
+		Data: asset,
 	}, nil
 }
 
-// GetResourceService retrieves an resource by ID.
-func (svc *Service) GetResourceService(c *gin.Context, slug string) (*resp.Exception, error) {
+// GetAssetService retrieves an asset by ID.
+func (svc *Service) GetAssetService(c *gin.Context, slug string) (*resp.Exception, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return resp.BadRequest(ecode.FieldIsRequired("slug")), nil
@@ -112,18 +111,17 @@ func (svc *Service) GetResourceService(c *gin.Context, slug string) (*resp.Excep
 	// get storage interface
 	storage, _ := helper.GetStorage(c)
 
-	// Call the repository'storage GetByID method
-	resource, err := svc.resource.GetByID(c, slug)
+	asset, err := svc.asset.GetByID(c, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return resp.NotFound(ecode.NotExist(fmt.Sprintf("Resource %s", slug))), nil
+			return resp.NotFound(ecode.NotExist(fmt.Sprintf("Asset %s", slug))), nil
 		}
-		log.Errorf(c, "Error retrieving resource: %v\n", err)
-		return resp.InternalServer("Error retrieving resource"), err
+		log.Errorf(c, "Error retrieving asset: %v\n", err)
+		return resp.InternalServer("Error retrieving asset"), err
 	}
 
 	// Fetch file from storage
-	file, err := storage.Get(resource.Path)
+	file, err := storage.Get(asset.Path)
 	if err != nil {
 		log.Errorf(c, "Error retrieving file: %v\n", err)
 		return resp.InternalServer("Error retrieving file"), err
@@ -136,12 +134,12 @@ func (svc *Service) GetResourceService(c *gin.Context, slug string) (*resp.Excep
 	}(file)
 
 	return &resp.Exception{
-		Data: resource,
+		Data: asset,
 	}, nil
 }
 
-// DeleteResourceService deletes an resource by ID.
-func (svc *Service) DeleteResourceService(c *gin.Context, slug string) (*resp.Exception, error) {
+// DeleteAssetService deletes an asset by ID.
+func (svc *Service) DeleteAssetService(c *gin.Context, slug string) (*resp.Exception, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return resp.BadRequest(ecode.FieldIsRequired("slug")), nil
@@ -150,22 +148,20 @@ func (svc *Service) DeleteResourceService(c *gin.Context, slug string) (*resp.Ex
 	// get storage interface
 	storage, _ := helper.GetStorage(c)
 
-	// Call the repository'storage GetByID method to get the resource details
-	resource, err := svc.resource.GetByID(c, slug)
+	asset, err := svc.asset.GetByID(c, slug)
 	if err != nil {
-		log.Errorf(c, "Error retrieving resource: %v\n", err)
-		return resp.InternalServer("Error retrieving resource"), err
+		log.Errorf(c, "Error retrieving asset: %v\n", err)
+		return resp.InternalServer("Error retrieving asset"), err
 	}
 
-	// Call the repository'storage Delete method
-	err = svc.resource.Delete(c, slug)
+	err = svc.asset.Delete(c, slug)
 	if err != nil {
-		log.Errorf(c, "Error deleting resource: %v\n", err)
-		return resp.InternalServer("Error deleting resource"), err
+		log.Errorf(c, "Error deleting asset: %v\n", err)
+		return resp.InternalServer("Error deleting asset"), err
 	}
 
 	// Delete the file from storage
-	if err := storage.Delete(resource.Path); err != nil {
+	if err := storage.Delete(asset.Path); err != nil {
 		log.Errorf(c, "Error deleting file: %v\n", err)
 		return resp.InternalServer("Error deleting file"), err
 	}
@@ -173,8 +169,8 @@ func (svc *Service) DeleteResourceService(c *gin.Context, slug string) (*resp.Ex
 	return nil, nil
 }
 
-// ListResourcesService lists resources.
-func (svc *Service) ListResourcesService(c *gin.Context, params *structs.ListResourceParams) (*resp.Exception, error) {
+// ListAssetsService lists assets.
+func (svc *Service) ListAssetsService(c *gin.Context, params *structs.ListAssetParams) (*resp.Exception, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
@@ -183,20 +179,20 @@ func (svc *Service) ListResourcesService(c *gin.Context, params *structs.ListRes
 	if params.Limit > 100 {
 		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
 	}
-	rows, err := svc.resource.List(c, params)
+	rows, err := svc.asset.List(c, params)
 
 	if ent.IsNotFound(err) {
 		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
 	}
 	if validator.IsNotNil(err) {
-		log.Errorf(c, "Error listing resources: %v\n", err)
+		log.Errorf(c, "Error listing assets: %v\n", err)
 		return resp.InternalServer(err.Error()), nil
 	}
 
 	return &resp.Exception{Data: rows}, nil
 }
 
-// GetFileStream retrieves an resource's file stream.
+// GetFileStream retrieves an asset's file stream.
 func (svc *Service) GetFileStream(c *gin.Context, slug string) (io.ReadCloser, *resp.Exception) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
@@ -206,25 +202,25 @@ func (svc *Service) GetFileStream(c *gin.Context, slug string) (io.ReadCloser, *
 	// Get storage interface
 	storage, _ := helper.GetStorage(c)
 
-	// Retrieve resource by ID
-	resource, err := svc.resource.GetByID(c, slug)
+	// Retrieve asset by ID
+	asset, err := svc.asset.GetByID(c, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, resp.NotFound(ecode.NotExist(fmt.Sprintf("Resource %s", slug)))
+			return nil, resp.NotFound(ecode.NotExist(fmt.Sprintf("Asset %s", slug)))
 		}
-		log.Errorf(c, "Error retrieving resource: %v\n", err)
-		return nil, resp.InternalServer("Error retrieving resource")
+		log.Errorf(c, "Error retrieving asset: %v\n", err)
+		return nil, resp.InternalServer("Error retrieving asset")
 	}
 
 	// Fetch file stream from storage
-	fileStream, err := storage.GetStream(resource.Path)
+	fileStream, err := storage.GetStream(asset.Path)
 	if err != nil {
 		log.Errorf(c, "Error retrieving file stream: %v\n", err)
 		return nil, resp.InternalServer("Error retrieving file stream")
 	}
 
-	// Return file stream along with resource information
+	// Return file stream along with asset information
 	return fileStream, &resp.Exception{
-		Data: resource,
+		Data: asset,
 	}
 }

@@ -247,8 +247,8 @@ func (r *taxonomyRepo) List(ctx context.Context, p *structs.ListTaxonomyParams) 
 	builder.Limit(int(p.Limit))
 
 	// belong domain
-	if p.Domain != "" {
-		builder.Where(taxonomyEnt.DomainIDEQ(p.Domain))
+	if p.DomainID != "" {
+		builder.Where(taxonomyEnt.DomainIDEQ(p.DomainID))
 	}
 
 	// type
@@ -364,14 +364,14 @@ func (r *taxonomyRepo) ListBuilder(ctx context.Context, p *structs.ListTaxonomyP
 
 	// match parent id.
 	// default is root.
-	if validator.IsEmpty(p.Parent) {
+	if validator.IsEmpty(p.ParentID) {
 		builder.Where(taxonomyEnt.Or(
 			taxonomyEnt.ParentIDIsNil(),
 			taxonomyEnt.ParentIDEQ(""),
 			taxonomyEnt.ParentIDEQ("root"),
 		))
 	} else {
-		builder.Where(taxonomyEnt.ParentIDEQ(p.Parent))
+		builder.Where(taxonomyEnt.ParentIDEQ(p.ParentID))
 	}
 
 	return builder, nil

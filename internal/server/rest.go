@@ -58,12 +58,12 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
 	oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
 
-	// Resource endpoints
-	resource := v1.Group("/resources")
-	resource.GET("", h.ListResourceHandler)
-	resource.POST("", h.CreateResourcesHandler)
-	resource.GET("/:slug", h.GetResourceHandler)
-	resource.DELETE("/:slug", h.DeleteResourceHandler)
+	// Asset endpoints
+	asset := v1.Group("/assets")
+	asset.GET("", h.ListAssetHandler)
+	asset.POST("", h.CreateAssetsHandler)
+	asset.GET("/:slug", h.GetAssetHandler)
+	asset.DELETE("/:slug", h.DeleteAssetHandler)
 
 	// module endpoints
 	module := v1.Group("/modules")

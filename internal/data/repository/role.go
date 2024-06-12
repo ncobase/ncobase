@@ -71,7 +71,7 @@ func (r *roleRepo) Create(ctx context.Context, body *structs.CreateRoleBody) (*e
 // CreateSuperAdminRole creates a new super admin role.
 func (r *roleRepo) CreateSuperAdminRole(ctx context.Context) (*ent.Role, error) {
 	return r.Create(ctx, &structs.CreateRoleBody{
-		Role: structs.Role{
+		RoleBody: structs.RoleBody{
 			Name:        "Super Admin",
 			Slug:        "super-admin",
 			Disabled:    false,

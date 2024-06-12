@@ -4,26 +4,36 @@ import (
 	"stocms/pkg/types"
 )
 
-// Role represents a role entity.
-type Role struct {
-	ID          string      `json:"id,omitempty"`
+// RoleBody represents a role entity.
+type RoleBody struct {
+	BaseEntity
 	Name        string      `json:"name,omitempty"`
 	Slug        string      `json:"slug,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
-	BaseEntity
 }
 
 // CreateRoleBody represents the body for creating or updating a role.
 type CreateRoleBody struct {
-	Role
+	RoleBody
 }
 
 // UpdateRoleBody represents the body for updating a role.
 type UpdateRoleBody struct {
-	Role
 	ID string `json:"id,omitempty"`
+	RoleBody
+}
+
+// ReadRole represents the output schema for retrieving a role.
+type ReadRole struct {
+	BaseEntity
+	ID          string      `json:"id"`
+	Name        string      `json:"name"`
+	Slug        string      `json:"slug"`
+	Disabled    bool        `json:"disabled"`
+	Description string      `json:"description"`
+	Extras      *types.JSON `json:"extras,omitempty"`
 }
 
 // FindRole represents the parameters for finding a role.
@@ -36,4 +46,17 @@ type FindRole struct {
 type ListRoleParams struct {
 	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit  int64  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// UserRole represents the user role.
+type UserRole struct {
+	UserID string `json:"user_id,omitempty"`
+	RoleID string `json:"role_id,omitempty"`
+}
+
+// UserDomainRole represents the user domain role.
+type UserDomainRole struct {
+	UserID   string `json:"user_id,omitempty"`
+	DomainID string `json:"domain_id,omitempty"`
+	RoleID   string `json:"role_id,omitempty"`
 }

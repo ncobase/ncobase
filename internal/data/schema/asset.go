@@ -10,14 +10,14 @@ import (
 	"entgo.io/ent/schema"
 )
 
-// Resource holds the schema definition for the Resource entity.
-type Resource struct {
+// Asset holds the schema definition for the Asset entity.
+type Asset struct {
 	ent.Schema
 }
 
-// Annotations of the Resource.
-func (Resource) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"sc", "resource"}, "_")
+// Annotations of the Asset.
+func (Asset) Annotations() []schema.Annotation {
+	table := strings.Join([]string{"sc", "asset"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -25,8 +25,8 @@ func (Resource) Annotations() []schema.Annotation {
 	}
 }
 
-// Mixin of the Resource.
-func (Resource) Mixin() []ent.Mixin {
+// Mixin of the Asset.
+func (Asset) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey{},
 		mixin.NameUnique{},
@@ -43,17 +43,17 @@ func (Resource) Mixin() []ent.Mixin {
 	}
 }
 
-// Fields of the Resource.
-func (Resource) Fields() []ent.Field {
+// Fields of the Asset.
+func (Asset) Fields() []ent.Field {
 	return []ent.Field{}
 }
 
-// Edges of the Resource.
-func (Resource) Edges() []ent.Edge {
+// Edges of the Asset.
+func (Asset) Edges() []ent.Edge {
 	return []ent.Edge{}
 }
 
-// Indexes of the Resource.
-func (Resource) Indexes() []ent.Index {
+// Indexes of the Asset.
+func (Asset) Indexes() []ent.Index {
 	return []ent.Index{}
 }
