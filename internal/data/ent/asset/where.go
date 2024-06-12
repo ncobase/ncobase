@@ -89,9 +89,14 @@ func Storage(v string) predicate.Asset {
 	return predicate.Asset(sql.FieldEQ(FieldStorage, v))
 }
 
-// URL applies equality check predicate on the "url" field. It's identical to URLEQ.
-func URL(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldEQ(FieldURL, v))
+// Bucket applies equality check predicate on the "bucket" field. It's identical to BucketEQ.
+func Bucket(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldEQ(FieldBucket, v))
+}
+
+// Endpoint applies equality check predicate on the "endpoint" field. It's identical to EndpointEQ.
+func Endpoint(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldEQ(FieldEndpoint, v))
 }
 
 // ObjectID applies equality check predicate on the "object_id" field. It's identical to ObjectIDEQ.
@@ -464,79 +469,154 @@ func StorageContainsFold(v string) predicate.Asset {
 	return predicate.Asset(sql.FieldContainsFold(FieldStorage, v))
 }
 
-// URLEQ applies the EQ predicate on the "url" field.
-func URLEQ(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldEQ(FieldURL, v))
+// BucketEQ applies the EQ predicate on the "bucket" field.
+func BucketEQ(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldEQ(FieldBucket, v))
 }
 
-// URLNEQ applies the NEQ predicate on the "url" field.
-func URLNEQ(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldNEQ(FieldURL, v))
+// BucketNEQ applies the NEQ predicate on the "bucket" field.
+func BucketNEQ(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldNEQ(FieldBucket, v))
 }
 
-// URLIn applies the In predicate on the "url" field.
-func URLIn(vs ...string) predicate.Asset {
-	return predicate.Asset(sql.FieldIn(FieldURL, vs...))
+// BucketIn applies the In predicate on the "bucket" field.
+func BucketIn(vs ...string) predicate.Asset {
+	return predicate.Asset(sql.FieldIn(FieldBucket, vs...))
 }
 
-// URLNotIn applies the NotIn predicate on the "url" field.
-func URLNotIn(vs ...string) predicate.Asset {
-	return predicate.Asset(sql.FieldNotIn(FieldURL, vs...))
+// BucketNotIn applies the NotIn predicate on the "bucket" field.
+func BucketNotIn(vs ...string) predicate.Asset {
+	return predicate.Asset(sql.FieldNotIn(FieldBucket, vs...))
 }
 
-// URLGT applies the GT predicate on the "url" field.
-func URLGT(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldGT(FieldURL, v))
+// BucketGT applies the GT predicate on the "bucket" field.
+func BucketGT(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldGT(FieldBucket, v))
 }
 
-// URLGTE applies the GTE predicate on the "url" field.
-func URLGTE(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldGTE(FieldURL, v))
+// BucketGTE applies the GTE predicate on the "bucket" field.
+func BucketGTE(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldGTE(FieldBucket, v))
 }
 
-// URLLT applies the LT predicate on the "url" field.
-func URLLT(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldLT(FieldURL, v))
+// BucketLT applies the LT predicate on the "bucket" field.
+func BucketLT(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldLT(FieldBucket, v))
 }
 
-// URLLTE applies the LTE predicate on the "url" field.
-func URLLTE(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldLTE(FieldURL, v))
+// BucketLTE applies the LTE predicate on the "bucket" field.
+func BucketLTE(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldLTE(FieldBucket, v))
 }
 
-// URLContains applies the Contains predicate on the "url" field.
-func URLContains(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldContains(FieldURL, v))
+// BucketContains applies the Contains predicate on the "bucket" field.
+func BucketContains(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldContains(FieldBucket, v))
 }
 
-// URLHasPrefix applies the HasPrefix predicate on the "url" field.
-func URLHasPrefix(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldHasPrefix(FieldURL, v))
+// BucketHasPrefix applies the HasPrefix predicate on the "bucket" field.
+func BucketHasPrefix(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldHasPrefix(FieldBucket, v))
 }
 
-// URLHasSuffix applies the HasSuffix predicate on the "url" field.
-func URLHasSuffix(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldHasSuffix(FieldURL, v))
+// BucketHasSuffix applies the HasSuffix predicate on the "bucket" field.
+func BucketHasSuffix(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldHasSuffix(FieldBucket, v))
 }
 
-// URLIsNil applies the IsNil predicate on the "url" field.
-func URLIsNil() predicate.Asset {
-	return predicate.Asset(sql.FieldIsNull(FieldURL))
+// BucketIsNil applies the IsNil predicate on the "bucket" field.
+func BucketIsNil() predicate.Asset {
+	return predicate.Asset(sql.FieldIsNull(FieldBucket))
 }
 
-// URLNotNil applies the NotNil predicate on the "url" field.
-func URLNotNil() predicate.Asset {
-	return predicate.Asset(sql.FieldNotNull(FieldURL))
+// BucketNotNil applies the NotNil predicate on the "bucket" field.
+func BucketNotNil() predicate.Asset {
+	return predicate.Asset(sql.FieldNotNull(FieldBucket))
 }
 
-// URLEqualFold applies the EqualFold predicate on the "url" field.
-func URLEqualFold(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldEqualFold(FieldURL, v))
+// BucketEqualFold applies the EqualFold predicate on the "bucket" field.
+func BucketEqualFold(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldEqualFold(FieldBucket, v))
 }
 
-// URLContainsFold applies the ContainsFold predicate on the "url" field.
-func URLContainsFold(v string) predicate.Asset {
-	return predicate.Asset(sql.FieldContainsFold(FieldURL, v))
+// BucketContainsFold applies the ContainsFold predicate on the "bucket" field.
+func BucketContainsFold(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldContainsFold(FieldBucket, v))
+}
+
+// EndpointEQ applies the EQ predicate on the "endpoint" field.
+func EndpointEQ(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldEQ(FieldEndpoint, v))
+}
+
+// EndpointNEQ applies the NEQ predicate on the "endpoint" field.
+func EndpointNEQ(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldNEQ(FieldEndpoint, v))
+}
+
+// EndpointIn applies the In predicate on the "endpoint" field.
+func EndpointIn(vs ...string) predicate.Asset {
+	return predicate.Asset(sql.FieldIn(FieldEndpoint, vs...))
+}
+
+// EndpointNotIn applies the NotIn predicate on the "endpoint" field.
+func EndpointNotIn(vs ...string) predicate.Asset {
+	return predicate.Asset(sql.FieldNotIn(FieldEndpoint, vs...))
+}
+
+// EndpointGT applies the GT predicate on the "endpoint" field.
+func EndpointGT(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldGT(FieldEndpoint, v))
+}
+
+// EndpointGTE applies the GTE predicate on the "endpoint" field.
+func EndpointGTE(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldGTE(FieldEndpoint, v))
+}
+
+// EndpointLT applies the LT predicate on the "endpoint" field.
+func EndpointLT(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldLT(FieldEndpoint, v))
+}
+
+// EndpointLTE applies the LTE predicate on the "endpoint" field.
+func EndpointLTE(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldLTE(FieldEndpoint, v))
+}
+
+// EndpointContains applies the Contains predicate on the "endpoint" field.
+func EndpointContains(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldContains(FieldEndpoint, v))
+}
+
+// EndpointHasPrefix applies the HasPrefix predicate on the "endpoint" field.
+func EndpointHasPrefix(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldHasPrefix(FieldEndpoint, v))
+}
+
+// EndpointHasSuffix applies the HasSuffix predicate on the "endpoint" field.
+func EndpointHasSuffix(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldHasSuffix(FieldEndpoint, v))
+}
+
+// EndpointIsNil applies the IsNil predicate on the "endpoint" field.
+func EndpointIsNil() predicate.Asset {
+	return predicate.Asset(sql.FieldIsNull(FieldEndpoint))
+}
+
+// EndpointNotNil applies the NotNil predicate on the "endpoint" field.
+func EndpointNotNil() predicate.Asset {
+	return predicate.Asset(sql.FieldNotNull(FieldEndpoint))
+}
+
+// EndpointEqualFold applies the EqualFold predicate on the "endpoint" field.
+func EndpointEqualFold(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldEqualFold(FieldEndpoint, v))
+}
+
+// EndpointContainsFold applies the ContainsFold predicate on the "endpoint" field.
+func EndpointContainsFold(v string) predicate.Asset {
+	return predicate.Asset(sql.FieldContainsFold(FieldEndpoint, v))
 }
 
 // ObjectIDEQ applies the EQ predicate on the "object_id" field.

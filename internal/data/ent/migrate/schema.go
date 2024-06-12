@@ -17,7 +17,8 @@ var (
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "size", Type: field.TypeInt64, Comment: "size in bytes", Default: 0},
 		{Name: "storage", Type: field.TypeString, Nullable: true, Comment: "storage type"},
-		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
+		{Name: "bucket", Type: field.TypeString, Nullable: true, Comment: "bucket"},
+		{Name: "endpoint", Type: field.TypeString, Nullable: true, Comment: "endpoint"},
 		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
@@ -45,12 +46,12 @@ var (
 			{
 				Name:    "asset_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{ScAssetColumns[7]},
+				Columns: []*schema.Column{ScAssetColumns[8]},
 			},
 			{
 				Name:    "asset_domain_id",
 				Unique:  false,
-				Columns: []*schema.Column{ScAssetColumns[8]},
+				Columns: []*schema.Column{ScAssetColumns[9]},
 			},
 		},
 	}

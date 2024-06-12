@@ -53,7 +53,8 @@ func (r *assetRepo) Create(ctx context.Context, body *structs.CreateAssetBody) (
 	builder.SetNillableType(&body.Type)
 	builder.SetNillableSize(body.Size)
 	builder.SetNillableStorage(&body.Storage)
-	builder.SetNillableURL(&body.URL)
+	builder.SetNillableBucket(&body.Bucket)
+	builder.SetNillableEndpoint(&body.Endpoint)
 	builder.SetNillableObjectID(&body.ObjectID)
 	builder.SetNillableDomainID(&body.DomainID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
@@ -125,8 +126,8 @@ func (r *assetRepo) Update(ctx context.Context, slug string, updates types.JSON)
 			builder.SetNillableSize(types.ToPointer(value.(int64)))
 		case "storage":
 			builder.SetNillableStorage(types.ToPointer(value.(string)))
-		case "url":
-			builder.SetNillableURL(types.ToPointer(value.(string)))
+		case "endpoint":
+			builder.SetNillableEndpoint(types.ToPointer(value.(string)))
 		case "object_id":
 			builder.SetNillableObjectID(types.ToPointer(value.(string)))
 		case "domain_id":

@@ -23,8 +23,10 @@ const (
 	FieldSize = "size"
 	// FieldStorage holds the string denoting the storage field in the database.
 	FieldStorage = "storage"
-	// FieldURL holds the string denoting the url field in the database.
-	FieldURL = "url"
+	// FieldBucket holds the string denoting the bucket field in the database.
+	FieldBucket = "bucket"
+	// FieldEndpoint holds the string denoting the endpoint field in the database.
+	FieldEndpoint = "endpoint"
 	// FieldObjectID holds the string denoting the object_id field in the database.
 	FieldObjectID = "object_id"
 	// FieldDomainID holds the string denoting the domain_id field in the database.
@@ -51,7 +53,8 @@ var Columns = []string{
 	FieldType,
 	FieldSize,
 	FieldStorage,
-	FieldURL,
+	FieldBucket,
+	FieldEndpoint,
 	FieldObjectID,
 	FieldDomainID,
 	FieldExtras,
@@ -129,9 +132,14 @@ func ByStorage(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStorage, opts...).ToFunc()
 }
 
-// ByURL orders the results by the url field.
-func ByURL(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldURL, opts...).ToFunc()
+// ByBucket orders the results by the bucket field.
+func ByBucket(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldBucket, opts...).ToFunc()
+}
+
+// ByEndpoint orders the results by the endpoint field.
+func ByEndpoint(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldEndpoint, opts...).ToFunc()
 }
 
 // ByObjectID orders the results by the object_id field.

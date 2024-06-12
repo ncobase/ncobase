@@ -129,23 +129,43 @@ func (au *AssetUpdate) ClearStorage() *AssetUpdate {
 	return au
 }
 
-// SetURL sets the "url" field.
-func (au *AssetUpdate) SetURL(s string) *AssetUpdate {
-	au.mutation.SetURL(s)
+// SetBucket sets the "bucket" field.
+func (au *AssetUpdate) SetBucket(s string) *AssetUpdate {
+	au.mutation.SetBucket(s)
 	return au
 }
 
-// SetNillableURL sets the "url" field if the given value is not nil.
-func (au *AssetUpdate) SetNillableURL(s *string) *AssetUpdate {
+// SetNillableBucket sets the "bucket" field if the given value is not nil.
+func (au *AssetUpdate) SetNillableBucket(s *string) *AssetUpdate {
 	if s != nil {
-		au.SetURL(*s)
+		au.SetBucket(*s)
 	}
 	return au
 }
 
-// ClearURL clears the value of the "url" field.
-func (au *AssetUpdate) ClearURL() *AssetUpdate {
-	au.mutation.ClearURL()
+// ClearBucket clears the value of the "bucket" field.
+func (au *AssetUpdate) ClearBucket() *AssetUpdate {
+	au.mutation.ClearBucket()
+	return au
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (au *AssetUpdate) SetEndpoint(s string) *AssetUpdate {
+	au.mutation.SetEndpoint(s)
+	return au
+}
+
+// SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
+func (au *AssetUpdate) SetNillableEndpoint(s *string) *AssetUpdate {
+	if s != nil {
+		au.SetEndpoint(*s)
+	}
+	return au
+}
+
+// ClearEndpoint clears the value of the "endpoint" field.
+func (au *AssetUpdate) ClearEndpoint() *AssetUpdate {
+	au.mutation.ClearEndpoint()
 	return au
 }
 
@@ -366,11 +386,17 @@ func (au *AssetUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if au.mutation.StorageCleared() {
 		_spec.ClearField(asset.FieldStorage, field.TypeString)
 	}
-	if value, ok := au.mutation.URL(); ok {
-		_spec.SetField(asset.FieldURL, field.TypeString, value)
+	if value, ok := au.mutation.Bucket(); ok {
+		_spec.SetField(asset.FieldBucket, field.TypeString, value)
 	}
-	if au.mutation.URLCleared() {
-		_spec.ClearField(asset.FieldURL, field.TypeString)
+	if au.mutation.BucketCleared() {
+		_spec.ClearField(asset.FieldBucket, field.TypeString)
+	}
+	if value, ok := au.mutation.Endpoint(); ok {
+		_spec.SetField(asset.FieldEndpoint, field.TypeString, value)
+	}
+	if au.mutation.EndpointCleared() {
+		_spec.ClearField(asset.FieldEndpoint, field.TypeString)
 	}
 	if value, ok := au.mutation.ObjectID(); ok {
 		_spec.SetField(asset.FieldObjectID, field.TypeString, value)
@@ -532,23 +558,43 @@ func (auo *AssetUpdateOne) ClearStorage() *AssetUpdateOne {
 	return auo
 }
 
-// SetURL sets the "url" field.
-func (auo *AssetUpdateOne) SetURL(s string) *AssetUpdateOne {
-	auo.mutation.SetURL(s)
+// SetBucket sets the "bucket" field.
+func (auo *AssetUpdateOne) SetBucket(s string) *AssetUpdateOne {
+	auo.mutation.SetBucket(s)
 	return auo
 }
 
-// SetNillableURL sets the "url" field if the given value is not nil.
-func (auo *AssetUpdateOne) SetNillableURL(s *string) *AssetUpdateOne {
+// SetNillableBucket sets the "bucket" field if the given value is not nil.
+func (auo *AssetUpdateOne) SetNillableBucket(s *string) *AssetUpdateOne {
 	if s != nil {
-		auo.SetURL(*s)
+		auo.SetBucket(*s)
 	}
 	return auo
 }
 
-// ClearURL clears the value of the "url" field.
-func (auo *AssetUpdateOne) ClearURL() *AssetUpdateOne {
-	auo.mutation.ClearURL()
+// ClearBucket clears the value of the "bucket" field.
+func (auo *AssetUpdateOne) ClearBucket() *AssetUpdateOne {
+	auo.mutation.ClearBucket()
+	return auo
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (auo *AssetUpdateOne) SetEndpoint(s string) *AssetUpdateOne {
+	auo.mutation.SetEndpoint(s)
+	return auo
+}
+
+// SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
+func (auo *AssetUpdateOne) SetNillableEndpoint(s *string) *AssetUpdateOne {
+	if s != nil {
+		auo.SetEndpoint(*s)
+	}
+	return auo
+}
+
+// ClearEndpoint clears the value of the "endpoint" field.
+func (auo *AssetUpdateOne) ClearEndpoint() *AssetUpdateOne {
+	auo.mutation.ClearEndpoint()
 	return auo
 }
 
@@ -799,11 +845,17 @@ func (auo *AssetUpdateOne) sqlSave(ctx context.Context) (_node *Asset, err error
 	if auo.mutation.StorageCleared() {
 		_spec.ClearField(asset.FieldStorage, field.TypeString)
 	}
-	if value, ok := auo.mutation.URL(); ok {
-		_spec.SetField(asset.FieldURL, field.TypeString, value)
+	if value, ok := auo.mutation.Bucket(); ok {
+		_spec.SetField(asset.FieldBucket, field.TypeString, value)
 	}
-	if auo.mutation.URLCleared() {
-		_spec.ClearField(asset.FieldURL, field.TypeString)
+	if auo.mutation.BucketCleared() {
+		_spec.ClearField(asset.FieldBucket, field.TypeString)
+	}
+	if value, ok := auo.mutation.Endpoint(); ok {
+		_spec.SetField(asset.FieldEndpoint, field.TypeString, value)
+	}
+	if auo.mutation.EndpointCleared() {
+		_spec.ClearField(asset.FieldEndpoint, field.TypeString)
 	}
 	if value, ok := auo.mutation.ObjectID(); ok {
 		_spec.SetField(asset.FieldObjectID, field.TypeString, value)
