@@ -495,6 +495,30 @@ const docTemplate = `{
             }
         },
         "/domain": {
+            "get": {
+                "description": "Retrieve a list of domains.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain"
+                ],
+                "summary": "List domains",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
             "put": {
                 "description": "Update the domain information.",
                 "consumes": [
@@ -532,6 +556,44 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create a new domain.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain"
+                ],
+                "summary": "Create domain",
+                "parameters": [
+                    {
+                        "description": "CreateDomainBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateDomainBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
             }
         },
         "/domain/{id}": {
@@ -544,6 +606,39 @@ const docTemplate = `{
                     "domain"
                 ],
                 "summary": "Get domain",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Domain ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a specific domain.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "domain"
+                ],
+                "summary": "Delete domain",
                 "parameters": [
                     {
                         "type": "string",
@@ -1852,6 +1947,50 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "v5": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.CreateDomainBody": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "url": {
                     "type": "string"
                 }
             }

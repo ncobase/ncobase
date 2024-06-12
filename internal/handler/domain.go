@@ -25,6 +25,32 @@ func (h *Handler) AccountDomainHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
+// CreateDomainHandler handles creating a domain.
+//
+// @Summary Create domain
+// @Description Create a new domain.
+// @Tags domain
+// @Accept json
+// @Produce json
+// @Param body body structs.CreateDomainBody true "CreateDomainBody object"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /domain [post]
+func (h *Handler) CreateDomainHandler(c *gin.Context) {
+	var body *structs.CreateDomainBody
+	if err := c.ShouldBind(&body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	result, err := h.svc.CreateDomainService(c, body)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, result)
+}
+
 // UserDomainHandler handles reading a user's domain.
 //
 // @Summary Get user domain
@@ -124,5 +150,54 @@ func (h *Handler) GetDomainSettingHandler(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
+	resp.Success(c.Writer, result)
+}
+
+// DeleteDomainHandler handles deleting a domain.
+//
+// @Summary Delete domain
+// @Description Delete a specific domain.
+// @Tags domain
+// @Produce json
+// @Param id path string true "Domain ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /domain/{id} [delete]
+func (h *Handler) DeleteDomainHandler(c *gin.Context) {
+	result, err := h.svc.DeleteDomainService(c, c.Param("id"))
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, result)
+}
+
+// ListDomainHandler handles listing domains.
+//
+// @Summary List domains
+// @Description Retrieve a list of domains.
+// @Tags domain
+// @Produce json
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /domain [get]
+func (h *Handler) ListDomainHandler(c *gin.Context) {
+	params := &structs.ListDomainParams{}
+	if err := c.ShouldBindQuery(params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	if err := params.Validate(); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	result, err := h.svc.ListDomainsService(c, params)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
 	resp.Success(c.Writer, result)
 }

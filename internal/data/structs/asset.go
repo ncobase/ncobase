@@ -63,3 +63,8 @@ type ListAssetParams struct {
 	Type     string `form:"type,omitempty" json:"type,omitempty"`
 	Storage  string `form:"storage,omitempty" json:"storage,omitempty"`
 }
+
+// Validate validates ListAssetParams
+func (p *ListAssetParams) Validate() error {
+	return validate.Struct(p)
+}

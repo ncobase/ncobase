@@ -41,61 +41,122 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 
 	// Account endpoints
 	account := v1.Group("/account", middleware.Authorized)
-	account.GET("", h.GetMeHandler)
-	account.POST("/password", h.UpdatePasswordHandler)
-	account.GET("/domain", h.AccountDomainHandler)
+	{
+		account.GET("", h.GetMeHandler)
+		account.POST("/password", h.UpdatePasswordHandler)
+		account.GET("/domain", h.AccountDomainHandler)
+	}
 
 	// User endpoints
 	user := v1.Group("/users", middleware.Authorized)
-	user.GET("/:username", h.GetUserHandler)
-	user.GET("/:username/domain", h.UserDomainHandler)
+	{
+		// user.GET("", h.ListUserHandler)
+		// user.POST("", h.CreateUserHandler)
+		user.GET("/:username", h.GetUserHandler)
+		// user.PUT("/:username", h.UpdateUserHandler)
+		// user.DELETE("/:username", h.DeleteUserHandler)
+		// user.GET("/:username/roles", h.ListUserRoleHandler)
+		// user.GET("/:username/groups", h.ListUserGroupHandler)
+		// user.GET("/:username/domains", h.ListUserDomainHandler)
+		user.GET("/:username/domains/:slug", h.UserDomainHandler)
+	}
 
 	// OAuth endpoints
 	oauth := v1.Group("/oauth")
-	oauth.POST("/signup", h.OAuthRegisterHandler)
-	oauth.GET("/profile", h.GetOAuthProfileHandler)
-	oauth.GET("/redirect/:provider", h.OAuthRedirectHandler)
-	oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
-	oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
+	{
+		oauth.POST("/signup", h.OAuthRegisterHandler)
+		oauth.GET("/profile", h.GetOAuthProfileHandler)
+		oauth.GET("/redirect/:provider", h.OAuthRedirectHandler)
+		oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
+		oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
+	}
 
 	// Asset endpoints
 	asset := v1.Group("/assets")
-	asset.GET("", h.ListAssetHandler)
-	asset.POST("", h.CreateAssetsHandler)
-	asset.GET("/:slug", h.GetAssetHandler)
-	asset.DELETE("/:slug", h.DeleteAssetHandler)
+	{
+		asset.GET("", h.ListAssetHandler)
+		asset.POST("", h.CreateAssetsHandler)
+		asset.GET("/:slug", h.GetAssetHandler)
+		asset.PUT("/:slug", h.UpdateAssetHandler)
+		asset.DELETE("/:slug", h.DeleteAssetHandler)
+	}
 
-	// module endpoints
-	module := v1.Group("/modules")
-	module.GET("", h.ListModuleHandler)
-	module.POST("", h.CreateModuleHandler)
-	module.GET("/:slug", h.GetModuleHandler)
-	module.PUT("/:slug", h.UpdateModuleHandler)
-	module.DELETE("/:slug", h.DeleteModuleHandler)
+	// Domain endpoints
+	domain := v1.Group("/domains")
+	{
+		domain.GET("", h.ListDomainHandler)
+		domain.POST("", h.CreateDomainHandler)
+		domain.GET("/:slug", h.GetDomainHandler)
+		domain.PUT("/:slug", h.UpdateDomainHandler)
+		domain.DELETE("/:slug", h.DeleteDomainHandler)
+		// domain.GET("/:slug/assets", h.ListDomainAssetHandler)
+		// domain.GET("/:slug/users", h.ListDomainUserHandler)
+		// domain.GET("/:slug/groups", h.ListDomainGroupHandler)
+	}
+
+	// Group endpoints
+	// group := v1.Group("/groups")
+	// {
+	// 	group.GET("", h.ListGroupHandler)
+	// 	group.POST("", h.CreateGroupHandler)
+	// 	group.GET("/:slug", h.GetGroupHandler)
+	// 	group.PUT("/:slug", h.UpdateGroupHandler)
+	// 	group.DELETE("/:slug", h.DeleteGroupHandler)
+	// 	group.GET("/:slug/roles", h.ListGroupRoleHandler)
+	// 	group.GET("/:slug/users", h.ListGroupUserHandler)
+	// }
+
+	// Role endpoints
+	// role := v1.Group("/roles")
+	// {
+	// 	role.GET("", h.ListRoleHandler)
+	// 	role.POST("", h.CreateRoleHandler)
+	// 	role.GET("/:slug", h.GetRoleHandler)
+	// 	role.PUT("/:slug", h.UpdateRoleHandler)
+	// 	role.DELETE("/:slug", h.DeleteRoleHandler)
+	// 	role.GET("/:slug/permissions", h.ListRolePermissionHandler)
+	// 	role.GET("/:slug/users", h.ListUserRoleHandler)
+	// }
+
+	// Permission endpoints
+	// permission := v1.Group("/permissions")
+	// {
+	// 	permission.GET("", h.ListPermissionHandler)
+	// 	permission.POST("", h.CreatePermissionHandler)
+	// 	permission.GET("/:slug", h.GetPermissionHandler)
+	// 	permission.PUT("/:slug", h.UpdatePermissionHandler)
+	// 	permission.DELETE("/:slug", h.DeletePermissionHandler)
+	// }
 
 	// Taxonomy endpoints
 	taxonomy := v1.Group("/taxonomies", middleware.Authorized)
-	taxonomy.GET("", h.ListTaxonomyHandler)
-	taxonomy.POST("", h.CreateTaxonomyHandler)
-	taxonomy.GET("/:slug", h.GetTaxonomyHandler)
-	taxonomy.PUT("/:slug", h.UpdateTaxonomyHandler)
-	taxonomy.DELETE("/:slug", h.DeleteTaxonomyHandler)
+	{
+		taxonomy.GET("", h.ListTaxonomyHandler)
+		taxonomy.POST("", h.CreateTaxonomyHandler)
+		taxonomy.GET("/:slug", h.GetTaxonomyHandler)
+		taxonomy.PUT("/:slug", h.UpdateTaxonomyHandler)
+		taxonomy.DELETE("/:slug", h.DeleteTaxonomyHandler)
+	}
 
 	// Topic endpoints
 	topic := v1.Group("/topics", middleware.Authorized)
-	topic.GET("", h.ListTopicHandler)
-	topic.POST("", h.CreateTopicHandler)
-	topic.GET("/:slug", h.GetTopicHandler)
-	topic.PUT("/:slug", h.UpdateTopicHandler)
-	topic.DELETE("/:slug", h.DeleteTopicHandler)
+	{
+		topic.GET("", h.ListTopicHandler)
+		topic.POST("", h.CreateTopicHandler)
+		topic.GET("/:slug", h.GetTopicHandler)
+		topic.PUT("/:slug", h.UpdateTopicHandler)
+		topic.DELETE("/:slug", h.DeleteTopicHandler)
+	}
 
 	// Casbin Rule endpoints
 	casbin := v1.Group("/policies", middleware.Authorized)
-	casbin.GET("", h.ListCasbinRuleHandler)
-	casbin.POST("", h.CreateCasbinRuleHandler)
-	casbin.GET("/:id", h.GetCasbinRuleHandler)
-	casbin.PUT("/:id", h.UpdateCasbinRuleHandler)
-	casbin.DELETE("/:id", h.DeleteCasbinRuleHandler)
+	{
+		casbin.GET("", h.ListCasbinRuleHandler)
+		casbin.POST("", h.CreateCasbinRuleHandler)
+		casbin.GET("/:id", h.GetCasbinRuleHandler)
+		casbin.PUT("/:id", h.UpdateCasbinRuleHandler)
+		casbin.DELETE("/:id", h.DeleteCasbinRuleHandler)
+	}
 
 	// Swagger documentation endpoint
 	if conf.RunMode != gin.ReleaseMode {

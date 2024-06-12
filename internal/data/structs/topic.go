@@ -65,3 +65,8 @@ type ListTopicParams struct {
 	TaxonomyID string `form:"taxonomy_id,omitempty" json:"taxonomy_id,omitempty"`
 	DomainID   string `form:"domain_id,omitempty" json:"domain_id,omitempty"`
 }
+
+// Validate validates ListTopicParams
+func (p *ListTopicParams) Validate() error {
+	return validate.Struct(p)
+}
