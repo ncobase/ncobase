@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"io"
 	"stocms/internal/config"
 	"stocms/internal/data/ent"
@@ -30,6 +29,7 @@ var (
 	ec  *ent.Client
 	rc  *redis.Client
 	ms  *meili.Client
+	es  *elastic.Client
 )
 
 // Data .
@@ -43,8 +43,8 @@ type Data struct {
 
 // New creates a new Database Connection.
 func New(conf *config.Data) (*Data, func(), error) {
-	ec, db := newClient(&conf.Database)
-	es, _ := newElasticsearch(&conf.Elasticsearch)
+	ec, db = newClient(&conf.Database)
+	es = newElasticsearch(&conf.Elasticsearch)
 	d := &Data{
 		db: db,
 		ec: ec,
@@ -175,24 +175,24 @@ func (d *Data) GetMeilisearch() *meili.Client {
 	return d.ms
 }
 
-func newElasticsearch(conf *config.Elasticsearch) (*elastic.Client, error) {
+func newElasticsearch(conf *config.Elasticsearch) *elastic.Client {
 	if conf == nil || len(conf.Addresses) == 0 {
 		log.Printf(nil, "Elasticsearch configuration is nil or empty")
-		return nil, nil
+		return nil
 	}
 
 	// Create client
 	es, err := elastic.NewClient(conf.Addresses, conf.Username, conf.Password)
 	if err != nil {
 		log.Errorf(nil, "Elasticsearch client creation error: %v", err)
-		return nil, err
+		return nil
 	}
 
 	// Check connection
 	res, err := es.GetClient().Info()
 	if err != nil {
 		log.Errorf(nil, "Elasticsearch connect error: %v", err)
-		return nil, err
+		return nil
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -203,10 +203,10 @@ func newElasticsearch(conf *config.Elasticsearch) (*elastic.Client, error) {
 
 	if res.IsError() {
 		log.Errorf(nil, "Elasticsearch info error: %s", res.Status())
-		return nil, fmt.Errorf("elasticsearch info error: %s", res.Status())
+		return nil
 	}
 
-	return es, nil
+	return es
 }
 
 func (d *Data) GetElasticsearchClient() *elastic.Client {
