@@ -253,7 +253,7 @@ func (svc *Service) isCreateDomain(ctx context.Context, body *structs.CreateDoma
 	}
 
 	// If there are no existing users, create the initial domain
-	if countUsers < 1 {
+	if countUsers <= 1 {
 		return svc.createInitialDomain(ctx, body)
 	}
 
