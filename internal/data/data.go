@@ -126,7 +126,7 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	client := ent.NewClient(ent.Driver(entsql.OpenDB(conf.Driver, db)))
 
 	// Enable SQL logging
-	if conf.Debug {
+	if conf.Logging {
 		client = client.Debug()
 	}
 

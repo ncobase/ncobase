@@ -27,7 +27,7 @@ data:
     source: postgres://user:password@127.0.0.1:5432/db?sslmode=disable
     migrate: true
     # enable sql logging
-    debug: false
+    logging: false
     max_open_conn: 64
     max_life_time: 7200
     max_idle_conn: 16
