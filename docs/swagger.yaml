@@ -35,6 +35,35 @@ definitions:
     - v1
     - v2
     type: object
+  structs.CreateDomainBody:
+    properties:
+      copyright:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/types.JSON'
+      keywords:
+        items:
+          type: string
+        type: array
+      logo:
+        type: string
+      logo_alt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      title:
+        type: string
+      url:
+        type: string
+    type: object
   structs.CreateModuleBody:
     properties:
       content:
@@ -584,6 +613,47 @@ paths:
       tags:
       - authorization
   /domain:
+    get:
+      description: Retrieve a list of domains.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List domains
+      tags:
+      - domain
+    post:
+      consumes:
+      - application/json
+      description: Create a new domain.
+      parameters:
+      - description: CreateDomainBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateDomainBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Create domain
+      tags:
+      - domain
     put:
       consumes:
       - application/json
@@ -610,6 +680,28 @@ paths:
       tags:
       - domain
   /domain/{id}:
+    delete:
+      description: Delete a specific domain.
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Delete domain
+      tags:
+      - domain
     get:
       description: Retrieve information about a specific domain.
       parameters:

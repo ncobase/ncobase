@@ -2,6 +2,12 @@ package structs
 
 import (
 	"time"
+
+	"github.com/go-playground/validator/v10"
+)
+
+var (
+	validate = validator.New()
 )
 
 // BaseEntity contains common fields for entities.

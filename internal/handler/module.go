@@ -136,7 +136,12 @@ func (h *Handler) DeleteModuleHandler(c *gin.Context) {
 // @Router /modules [get]
 func (h *Handler) ListModuleHandler(c *gin.Context) {
 	params := &structs.ListModuleParams{}
-	if err := c.ShouldBindQuery(&params); err != nil {
+	if err := c.ShouldBindQuery(params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	if err := params.Validate(); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}

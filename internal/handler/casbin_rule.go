@@ -135,7 +135,12 @@ func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 // @Router /policies [get]
 func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
 	params := &structs.CasbinRuleParams{}
-	if err := c.ShouldBindQuery(&params); err != nil {
+	if err := c.ShouldBindQuery(params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	if err := params.Validate(); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}

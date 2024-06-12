@@ -135,8 +135,13 @@ func (h *Handler) DeleteTaxonomyHandler(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /taxonomy [get]
 func (h *Handler) ListTaxonomyHandler(c *gin.Context) {
-	var params *structs.ListTaxonomyParams
-	if err := c.ShouldBindQuery(&params); err != nil {
+	params := &structs.ListTaxonomyParams{}
+	if err := c.ShouldBindQuery(params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	if err := params.Validate(); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}

@@ -136,7 +136,12 @@ func (h *Handler) DeleteTopicHandler(c *gin.Context) {
 // @Router /topic [get]
 func (h *Handler) ListTopicHandler(c *gin.Context) {
 	params := &structs.ListTopicParams{}
-	if err := c.ShouldBindQuery(&params); err != nil {
+	if err := c.ShouldBindQuery(params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	if err := params.Validate(); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}

@@ -60,3 +60,8 @@ type ListModuleParams struct {
 	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit  int64  `form:"limit,omitempty" json:"limit,omitempty"`
 }
+
+// Validate validates ListModuleParams
+func (p *ListModuleParams) Validate() error {
+	return validate.Struct(p)
+}

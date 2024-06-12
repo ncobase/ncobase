@@ -10,6 +10,7 @@ import (
 	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 	"stocms/pkg/types"
+	"stocms/pkg/validator"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -156,6 +157,41 @@ func (svc *Service) GetDomainService(c *gin.Context, id string) (*resp.Exception
 	// Serialize domain data and return
 	return &resp.Exception{
 		Data: svc.serializeDomain(c, domain, true),
+	}, nil
+}
+
+// DeleteDomainService deletes domain service.
+func (svc *Service) DeleteDomainService(c *gin.Context, id string) (*resp.Exception, error) {
+	err := svc.domain.Delete(c, id)
+	if err != nil {
+		return resp.BadRequest(err.Error()), nil
+	}
+
+	// TODO: Freed all roles / groups / users that are associated with the domain
+
+	return &resp.Exception{
+		Message: "Domain deleted successfully",
+	}, nil
+}
+
+// ListDomainsService lists domain service.
+func (svc *Service) ListDomainsService(c *gin.Context, params *structs.ListDomainParams) (*resp.Exception, error) {
+	// limit default value
+	if validator.IsEmpty(params.Limit) {
+		params.Limit = 20
+	}
+	// limit must less than 100
+	if params.Limit > 100 {
+		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
+	}
+
+	domains, err := svc.domain.List(helper.FromGinContext(c), params)
+	if exception, err := handleError("Domain", err); exception != nil {
+		return exception, err
+	}
+
+	return &resp.Exception{
+		Data: domains,
 	}, nil
 }
 
