@@ -145,8 +145,9 @@ func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
 		return
 	}
 
-	if err := params.Validate(); err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+	validationErrors := structs.Validate(params)
+	if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 

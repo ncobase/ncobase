@@ -13,11 +13,6 @@ type CasbinRuleParams struct {
 	Offset int     `form:"offset"`
 }
 
-// Validate validates CasbinRuleParams
-func (p *CasbinRuleParams) Validate() error {
-	return validate.Struct(p)
-}
-
 // CasbinRuleBody defines the structure for request body used to create or update Casbin rules.
 type CasbinRuleBody struct {
 	PType string `json:"p_type" binding:"required"`

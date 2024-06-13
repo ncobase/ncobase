@@ -53,11 +53,6 @@ type ListPermissionParams struct {
 	Limit  int64  `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
-// Validate validates ListPermissionParams
-func (p *ListPermissionParams) Validate() error {
-	return validate.Struct(p)
-}
-
 // RolePermission represents the role permission relationship.
 type RolePermission struct {
 	RoleID       string `json:"role_id,omitempty"`

@@ -64,8 +64,3 @@ type ListDomainParams struct {
 	Limit  int32  `form:"limit,omitempty" json:"limit,omitempty"`
 	User   string `form:"user,omitempty" json:"user,omitempty"`
 }
-
-// Validate validates ListDomainParams
-func (p *ListDomainParams) Validate() error {
-	return validate.Struct(p)
-}

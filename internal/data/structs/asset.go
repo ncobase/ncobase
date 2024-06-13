@@ -58,15 +58,10 @@ type ReadAsset struct {
 // ListAssetParams represents the parameters for listing assets.
 type ListAssetParams struct {
 	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit    int64  `form:"limit,omitempty" json:"limit,omitempty"`
-	DomainID string `form:"domain_id,omitempty" json:"domain_id,omitempty"`
-	ObjectID string `form:"object_id,omitempty" json:"object_id,omitempty"`
+	Limit    int64  `form:"limit,omitempty" json:"limit,omitempty"` // validate:"gte=1,lte=100"
+	DomainID string `form:"domain_id,omitempty" json:"domain_id,omitempty" validate:"required"`
+	ObjectID string `form:"object_id,omitempty" json:"object_id,omitempty" validate:"required"`
 	UserID   string `form:"user_id,omitempty" json:"user_id,omitempty"`
 	Type     string `form:"type,omitempty" json:"type,omitempty"`
 	Storage  string `form:"storage,omitempty" json:"storage,omitempty"`
-}
-
-// Validate validates ListAssetParams
-func (p *ListAssetParams) Validate() error {
-	return validate.Struct(p)
 }
