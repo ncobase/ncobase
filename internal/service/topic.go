@@ -36,7 +36,7 @@ func (svc *Service) UpdateTopicService(c *gin.Context, slug string, updates type
 
 	// Validate the updates map
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
+		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
 	}
 
 	topic, err := svc.topic.Update(c, slug, updates)

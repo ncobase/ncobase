@@ -74,6 +74,10 @@ func handleError(k string, err error) (*resp.Exception, error) {
 		log.Errorf(nil, "Error constraint in %s: %v\n", k, err)
 		return resp.Conflict(ecode.AlreadyExist(k)), nil
 	}
+	if ent.IsNotSingular(err) {
+		log.Errorf(nil, "Error not singular in %s: %v\n", k, err)
+		return resp.BadRequest(ecode.NotSingular(k)), nil
+	}
 	if validator.IsNotNil(err) {
 		log.Errorf(nil, "Error internal in %s: %v\n", k, err)
 		return resp.InternalServer(err.Error()), nil

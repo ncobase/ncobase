@@ -10,13 +10,13 @@ type SendCodeBody struct {
 
 // CodeParams Verify code param
 type CodeParams struct {
-	Code string `json:"code" binding:"required"`
+	Code string `json:"code" validate:"required"`
 }
 
 // CommonRegisterBody Common fields for register body
 type CommonRegisterBody struct {
-	DisplayName string `json:"display_name" binding:"required"`
-	Username    string `json:"username" binding:"required"`
+	DisplayName string `json:"display_name" validate:"required"`
+	Username    string `json:"username" validate:"required"`
 	Phone       string `json:"phone,omitempty"`
 	ShortBio    string `json:"short_bio,omitempty"`
 	Domain      string `json:"domain,omitempty"`
@@ -25,7 +25,7 @@ type CommonRegisterBody struct {
 // RegisterBody Register body
 type RegisterBody struct {
 	CommonRegisterBody
-	RegisterToken string `json:"register_token" binding:"required"`
+	RegisterToken string `json:"register_token" validate:"required"`
 }
 
 // OAuthRegisterBody OAuth register body
@@ -43,6 +43,6 @@ type RegisterTokenBody struct {
 
 // LoginBody Login body
 type LoginBody struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
 }

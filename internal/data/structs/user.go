@@ -28,7 +28,7 @@ type User struct {
 
 // UserRequestBody is a unified structure for user-related request bodies.
 type UserRequestBody struct {
-	RegisterToken string    `json:"register_token,omitempty" binding:"required_if=Action create"`
+	RegisterToken string    `json:"register_token,omitempty" validate:"required_if=Action create"`
 	DisplayName   string    `json:"display_name,omitempty"`
 	Username      string    `json:"username,omitempty"`
 	Email         string    `json:"email,omitempty"`
@@ -37,9 +37,9 @@ type UserRequestBody struct {
 	About         *string   `json:"about,omitempty"`
 	Thumbnail     *string   `json:"thumbnail,omitempty"`
 	ProfileLinks  *[]string `json:"profile_links,omitempty"`
-	UserID        string    `json:"user_id,omitempty" binding:"required_if=Action profile"`
-	OldPassword   string    `json:"old_password,omitempty" binding:"required_if=Action password"`
-	NewPassword   string    `json:"new_password,omitempty" binding:"required_if=Action password"`
+	UserID        string    `json:"user_id,omitempty" validate:"required_if=Action profile"`
+	OldPassword   string    `json:"old_password,omitempty" validate:"required_if=Action password"`
+	NewPassword   string    `json:"new_password,omitempty" validate:"required_if=Action password"`
 	Action        string    `json:"-"`
 }
 

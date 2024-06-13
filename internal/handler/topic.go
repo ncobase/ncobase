@@ -2,6 +2,7 @@ package handler
 
 import (
 	"stocms/internal/data/structs"
+	"stocms/internal/helper"
 	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 	"stocms/pkg/types"
@@ -19,12 +20,15 @@ import (
 // @Param body body structs.CreateTopicBody true "CreateTopicBody object"
 // @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topic [post]
+// @Router /v1/topics [post]
 // @Security Bearer
 func (h *Handler) CreateTopicHandler(c *gin.Context) {
-	var body *structs.CreateTopicBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.CreateTopicBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
@@ -48,7 +52,7 @@ func (h *Handler) CreateTopicHandler(c *gin.Context) {
 // @Param body body structs.UpdateTopicBody true "UpdateTopicBody object"
 // @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topic/{slug} [put]
+// @Router /v1/topics/{slug} [put]
 // @Security Bearer
 func (h *Handler) UpdateTopicHandler(c *gin.Context) {
 	slug := c.Param("slug")
@@ -57,13 +61,16 @@ func (h *Handler) UpdateTopicHandler(c *gin.Context) {
 		return
 	}
 
-	var updates types.JSON
-	if err := c.ShouldBind(&updates); err != nil {
+	updates := &types.JSON{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
-	result, err := h.svc.UpdateTopicService(c, slug, updates)
+	result, err := h.svc.UpdateTopicService(c, slug, *updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -81,7 +88,7 @@ func (h *Handler) UpdateTopicHandler(c *gin.Context) {
 // @Param slug path string true "Topic slug"
 // @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topic/{slug} [get]
+// @Router /v1/topics/{slug} [get]
 func (h *Handler) GetTopicHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -107,7 +114,7 @@ func (h *Handler) GetTopicHandler(c *gin.Context) {
 // @Param slug path string true "Topic slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topic/{slug} [delete]
+// @Router /v1/topics/{slug} [delete]
 // @Security Bearer
 func (h *Handler) DeleteTopicHandler(c *gin.Context) {
 	slug := c.Param("slug")
@@ -134,11 +141,14 @@ func (h *Handler) DeleteTopicHandler(c *gin.Context) {
 // @Param params query structs.ListTopicParams true "List topics parameters"
 // @Success 200 {array} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topic [get]
+// @Router /v1/topics [get]
 func (h *Handler) ListTopicHandler(c *gin.Context) {
 	params := &structs.ListTopicParams{}
-	if err := c.ShouldBind(params); err != nil {
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 

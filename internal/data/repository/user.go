@@ -191,12 +191,6 @@ func (r *userRepo) FindUser(ctx context.Context, p *structs.FindUser) (*ent.User
 			userEnt.PhoneEQ(p.Username),
 		))
 	}
-	if validator.IsNotEmpty(p.Email) {
-		builder = builder.Where(userEnt.EmailEQ(p.Email))
-	}
-	if validator.IsNotEmpty(p.Phone) {
-		builder = builder.Where(userEnt.PhoneEQ(p.Phone))
-	}
 
 	// execute the builder.
 	row, err := builder.Only(ctx)

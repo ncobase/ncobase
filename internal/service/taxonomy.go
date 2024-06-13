@@ -42,7 +42,7 @@ func (svc *Service) UpdateTaxonomyService(c *gin.Context, slug string, updates t
 
 	// Validate the updates map
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
+		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
 	}
 
 	taxonomy, err := svc.taxonomy.Update(c, slug, updates)

@@ -396,70 +396,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/assets/{slug}/download": {
-            "get": {
-                "description": "Download a specific asset.",
-                "produces": [
-                    "application/octet-stream"
-                ],
-                "tags": [
-                    "assets"
-                ],
-                "summary": "Download asset",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Slug of the asset to download",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/assets/{slug}/stream": {
-            "get": {
-                "description": "Stream a specific asset.",
-                "produces": [
-                    "application/octet-stream"
-                ],
-                "tags": [
-                    "assets"
-                ],
-                "summary": "Stream asset",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Slug of the asset to stream",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/authorize/send": {
             "post": {
                 "description": "Send a verification code to the specified destination.",
@@ -2012,7 +1948,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/topic": {
+        "/v1/topics": {
             "get": {
                 "description": "Retrieve a list of topics.",
                 "produces": [
@@ -2106,7 +2042,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/topic/{slug}": {
+        "/v1/topics/{slug}": {
             "get": {
                 "description": "Retrieve details of a topic.",
                 "produces": [

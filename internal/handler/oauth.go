@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"stocms/internal/data/structs"
+	"stocms/internal/helper"
 	"stocms/pkg/oauth"
 	"stocms/pkg/resp"
 	"stocms/pkg/types"
@@ -22,9 +23,12 @@ import (
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/oauth/register [post]
 func (h *Handler) OAuthRegisterHandler(c *gin.Context) {
-	var body *structs.OAuthRegisterBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.OAuthRegisterBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 

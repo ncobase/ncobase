@@ -2,6 +2,7 @@ package handler
 
 import (
 	"stocms/internal/data/structs"
+	"stocms/internal/helper"
 	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 	"stocms/pkg/types"
@@ -22,9 +23,12 @@ import (
 // @Router /v1/pols [post]
 // @Security Bearer
 func (h *Handler) CreateCasbinRuleHandler(c *gin.Context) {
-	var body *structs.CasbinRuleBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.CasbinRuleBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
@@ -57,13 +61,16 @@ func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
 		return
 	}
 
-	var updates types.JSON
-	if err := c.ShouldBind(&updates); err != nil {
+	updates := &types.JSON{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
-	result, err := h.svc.UpdateCasbinRuleService(c, id, updates)
+	result, err := h.svc.UpdateCasbinRuleService(c, id, *updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -139,8 +146,11 @@ func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 // @Security Bearer
 func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
 	params := &structs.CasbinRuleParams{}
-	if err := c.ShouldBind(params); err != nil {
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
