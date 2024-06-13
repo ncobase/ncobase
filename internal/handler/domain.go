@@ -2,6 +2,7 @@ package handler
 
 import (
 	"stocms/internal/data/structs"
+	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 
 	"github.com/gin-gonic/gin"
@@ -13,7 +14,7 @@ import (
 // @Description Retrieve the domain associated with the current user.
 // @Tags account
 // @Produce json
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/account/dom [get]
 // @Security Bearer
@@ -34,7 +35,7 @@ func (h *Handler) AccountDomainHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateDomainBody true "CreateDomainBody object"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/dom [post]
 // @Security Bearer
@@ -60,7 +61,7 @@ func (h *Handler) CreateDomainHandler(c *gin.Context) {
 // @Tags user
 // @Produce json
 // @Param username path string true "Username"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/user/{username}/dom [get]
 // @Security Bearer
@@ -80,12 +81,18 @@ func (h *Handler) UserDomainHandler(c *gin.Context) {
 // @Tags domain
 // @Accept json
 // @Produce json
+// @Param slug path string true "Domain ID"
 // @Param body body structs.UpdateDomainBody true "UpdateDomainBody object"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/dom [put]
 // @Security Bearer
 func (h *Handler) UpdateDomainHandler(c *gin.Context) {
+	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
+		return
+	}
 	var body *structs.UpdateDomainBody
 	if err := c.ShouldBind(&body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -107,7 +114,7 @@ func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 // @Tags domain
 // @Produce json
 // @Param slug path string true "Domain ID"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/dom/{slug} [get]
 // @Security Bearer
@@ -186,13 +193,14 @@ func (h *Handler) DeleteDomainHandler(c *gin.Context) {
 // @Description Retrieve a list of domains.
 // @Tags domain
 // @Produce json
-// @Success 200 {object} resp.Exception "success"
+// @Param params query structs.ListDomainParams true "List domain parameters"
+// @Success 200 {array} structs.ReadDomain"success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/dom [get]
 // @Security Bearer
 func (h *Handler) ListDomainHandler(c *gin.Context) {
 	params := &structs.ListDomainParams{}
-	if err := c.ShouldBindQuery(params); err != nil {
+	if err := c.ShouldBind(params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}

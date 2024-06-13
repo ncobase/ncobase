@@ -17,7 +17,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateModuleBody true "Module data"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadModule "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/modules [post]
 // @Security Bearer
@@ -45,8 +45,8 @@ func (h *Handler) CreateModuleHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param slug path string true "Module slug or ID"
-// @Param body body object true "Module updates"
-// @Success 200 {object} resp.Exception "success"
+// @Param body body structs.UpdateModuleBody true "Module data"
+// @Success 200 {object} structs.ReadModule "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/modules/{slug} [put]
 // @Security Bearer
@@ -58,7 +58,7 @@ func (h *Handler) UpdateModuleHandler(c *gin.Context) {
 	}
 
 	var updates types.JSON
-	if err := c.ShouldBindJSON(&updates); err != nil {
+	if err := c.ShouldBind(&updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
@@ -79,7 +79,7 @@ func (h *Handler) UpdateModuleHandler(c *gin.Context) {
 // @Tags modules
 // @Produce json
 // @Param slug path string true "Module slug or ID"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadModule "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/modules/{slug} [get]
 // @Security Bearer
@@ -106,7 +106,7 @@ func (h *Handler) GetModuleHandler(c *gin.Context) {
 // @Tags modules
 // @Produce json
 // @Param slug path string true "Module slug or ID"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadModule "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/modules/{slug} [delete]
 // @Security Bearer
@@ -132,16 +132,14 @@ func (h *Handler) DeleteModuleHandler(c *gin.Context) {
 // @Description Retrieve a list of modules based on the provided query parameters
 // @Tags modules
 // @Produce json
-// @Param name query string false "Module name"
-// @Param limit query integer false "Maximum number of modules to retrieve"
-// @Param offset query integer false "Number of modules to skip"
-// @Success 200 {object} resp.Exception "success"
+// @Param params query structs.ListModuleParams true "List modules parameters"
+// @Success 200 {array} structs.ReadModule "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/modules [get]
 // @Security Bearer
 func (h *Handler) ListModuleHandler(c *gin.Context) {
 	params := &structs.ListModuleParams{}
-	if err := c.ShouldBindQuery(params); err != nil {
+	if err := c.ShouldBind(params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}

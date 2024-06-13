@@ -203,6 +203,195 @@ definitions:
     - display_name
     - username
     type: object
+  structs.ReadAsset:
+    properties:
+      bucket:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      domain_id:
+        type: string
+      endpoint:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      object_id:
+        type: string
+      path:
+        type: string
+      size:
+        type: integer
+      storage:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.ReadDomain:
+    properties:
+      copyright:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/types.JSON'
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      logo:
+        type: string
+      logo_alt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+      url:
+        type: string
+      user:
+        $ref: '#/definitions/structs.User'
+    type: object
+  structs.ReadModule:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      markdown:
+        type: boolean
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.ReadTaxonomy:
+    properties:
+      color:
+        type: string
+      cover:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      domain_id:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      icon:
+        type: string
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      thumbnail:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      url:
+        type: string
+    type: object
+  structs.ReadTopic:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      domain_id:
+        type: string
+      id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      taxonomy_id:
+        type: string
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.RegisterBody:
     properties:
       display_name:
@@ -227,6 +416,39 @@ definitions:
       email:
         type: string
       phone:
+        type: string
+    type: object
+  structs.UpdateAssetBody:
+    properties:
+      bucket:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      domain_id:
+        type: string
+      endpoint:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      object_id:
+        type: string
+      path:
+        type: string
+      size:
+        type: integer
+      storage:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
         type: string
     type: object
   structs.UpdateDomainBody:
@@ -258,6 +480,159 @@ definitions:
       title:
         type: string
       url:
+        type: string
+    type: object
+  structs.UpdateModuleBody:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        description: Use pointer for nullable field
+        type: string
+      slug:
+        type: string
+      status:
+        description: Use pointer for nullable field
+        type: integer
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.UpdateTaxonomyBody:
+    properties:
+      color:
+        type: string
+      cover:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      domain_id:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      icon:
+        type: string
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      thumbnail:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      url:
+        type: string
+    type: object
+  structs.UpdateTopicBody:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      domain_id:
+        type: string
+      id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      taxonomy_id:
+        type: string
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      is_admin:
+        type: boolean
+      is_certified:
+        type: boolean
+      phone:
+        type: string
+      profile:
+        $ref: '#/definitions/structs.UserProfile'
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  structs.UserProfile:
+    properties:
+      about:
+        type: string
+      display_name:
+        type: string
+      id:
+        type: string
+      links:
+        items:
+          $ref: '#/definitions/types.JSON'
+        type: array
+      short_bio:
+        type: string
+      thumbnail:
         type: string
     type: object
   structs.UserRequestBody:
@@ -320,7 +695,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.User'
         "400":
           description: bad request
           schema:
@@ -339,7 +714,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadDomain'
         "400":
           description: bad request
           schema:
@@ -381,21 +756,29 @@ paths:
     get:
       description: List assets based on specified parameters.
       parameters:
-      - description: Page number
-        in: query
-        name: page
-        type: integer
-      - description: Page size
-        in: query
-        name: page_size
-        type: integer
-      - description: Sort by field
-        in: query
-        name: sort_by
+      - in: query
+        name: cursor
         type: string
-      - description: Sort order ('asc' or 'desc')
+      - in: query
+        name: domain_id
+        required: true
+        type: string
+      - description: validate:"gte=1,lte=100"
         in: query
-        name: order
+        name: limit
+        type: integer
+      - in: query
+        name: object_id
+        required: true
+        type: string
+      - in: query
+        name: storage
+        type: string
+      - in: query
+        name: type
+        type: string
+      - in: query
+        name: user_id
         type: string
       produces:
       - application/json
@@ -403,7 +786,9 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            items:
+              $ref: '#/definitions/structs.ReadAsset'
+            type: array
         "400":
           description: bad request
           schema:
@@ -439,7 +824,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadAsset'
         "400":
           description: bad request
           schema:
@@ -462,7 +847,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadAsset'
         "400":
           description: bad request
           schema:
@@ -490,7 +875,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadAsset'
         "400":
           description: bad request
           schema:
@@ -508,29 +893,19 @@ paths:
         name: slug
         required: true
         type: string
-      - description: File to upload (optional)
-        in: formData
-        name: file
-        type: file
-      - description: Object ID associated with the asset
-        in: formData
-        name: object_id
-        type: string
-      - description: Domain ID associated with the asset
-        in: formData
-        name: domain_id
-        type: string
-      - description: Additional properties associated with the asset (JSON format)
-        in: formData
-        name: extras
-        type: string
+      - description: Asset details
+        in: body
+        name: asset
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateAssetBody'
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadAsset'
         "400":
           description: bad request
           schema:
@@ -554,8 +929,6 @@ paths:
       responses:
         "200":
           description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
         "400":
           description: bad request
           schema:
@@ -577,8 +950,6 @@ paths:
       responses:
         "200":
           description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
         "400":
           description: bad request
           schema:
@@ -603,7 +974,18 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            allOf:
+            - $ref: '#/definitions/types.JSON'
+            - properties:
+                access_token:
+                  type: string
+                email:
+                  type: string
+                id:
+                  type: string
+                register_token:
+                  type: string
+              type: object
         "400":
           description: bad request
           schema:
@@ -630,7 +1012,12 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            allOf:
+            - $ref: '#/definitions/types.JSON'
+            - properties:
+                registered:
+                  type: boolean
+              type: object
         "400":
           description: bad request
           schema:
@@ -641,13 +1028,25 @@ paths:
   /v1/dom:
     get:
       description: Retrieve a list of domains.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: user
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            items:
+              $ref: '#/definitions/structs.ReadDomain'
+            type: array
         "400":
           description: bad request
           schema:
@@ -674,7 +1073,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadDomain'
         "400":
           description: bad request
           schema:
@@ -689,6 +1088,11 @@ paths:
       - application/json
       description: Update the domain information.
       parameters:
+      - description: Domain ID
+        in: path
+        name: slug
+        required: true
+        type: string
       - description: UpdateDomainBody object
         in: body
         name: body
@@ -701,7 +1105,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadDomain'
         "400":
           description: bad request
           schema:
@@ -750,7 +1154,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadDomain'
         "400":
           description: bad request
           schema:
@@ -903,7 +1307,14 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            allOf:
+            - $ref: '#/definitions/types.JSON'
+            - properties:
+                access_token:
+                  type: string
+                id:
+                  type: string
+              type: object
         "400":
           description: bad request
           schema:
@@ -930,17 +1341,11 @@ paths:
     get:
       description: Retrieve a list of modules based on the provided query parameters
       parameters:
-      - description: Module name
-        in: query
-        name: name
+      - in: query
+        name: cursor
         type: string
-      - description: Maximum number of modules to retrieve
-        in: query
+      - in: query
         name: limit
-        type: integer
-      - description: Number of modules to skip
-        in: query
-        name: offset
         type: integer
       produces:
       - application/json
@@ -948,7 +1353,9 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            items:
+              $ref: '#/definitions/structs.ReadModule'
+            type: array
         "400":
           description: bad request
           schema:
@@ -975,7 +1382,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadModule'
         "400":
           description: bad request
           schema:
@@ -1000,7 +1407,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadModule'
         "400":
           description: bad request
           schema:
@@ -1024,7 +1431,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadModule'
         "400":
           description: bad request
           schema:
@@ -1044,19 +1451,19 @@ paths:
         name: slug
         required: true
         type: string
-      - description: Module updates
+      - description: Module data
         in: body
         name: body
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/structs.UpdateModuleBody'
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadModule'
         "400":
           description: bad request
           schema:
@@ -1195,21 +1602,42 @@ paths:
     get:
       description: Retrieve a list of Casbin rules.
       parameters:
-      - description: Result limit
-        in: query
+      - in: query
         name: limit
         type: integer
-      - description: Result offset
-        in: query
+      - in: query
         name: offset
         type: integer
+      - in: query
+        name: p_type
+        type: string
+      - in: query
+        name: v0
+        type: string
+      - in: query
+        name: v1
+        type: string
+      - in: query
+        name: v2
+        type: string
+      - in: query
+        name: v3
+        type: string
+      - in: query
+        name: v4
+        type: string
+      - in: query
+        name: v5
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            items:
+              $ref: '#/definitions/structs.CasbinRuleBody'
+            type: array
         "400":
           description: bad request
           schema:
@@ -1236,7 +1664,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.CasbinRuleBody'
         "400":
           description: bad request
           schema:
@@ -1285,7 +1713,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.CasbinRuleBody'
         "400":
           description: bad request
           schema:
@@ -1305,19 +1733,19 @@ paths:
         name: id
         required: true
         type: string
-      - description: Update data
+      - description: CasbinRuleBody object
         in: body
         name: body
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/structs.CasbinRuleBody'
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.CasbinRuleBody'
         "400":
           description: bad request
           schema:
@@ -1345,7 +1773,14 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            allOf:
+            - $ref: '#/definitions/types.JSON'
+            - properties:
+                access_token:
+                  type: string
+                id:
+                  type: string
+              type: object
         "400":
           description: bad request
           schema:
@@ -1357,25 +1792,31 @@ paths:
     get:
       description: Retrieve a list of taxonomies.
       parameters:
-      - description: Category filter
-        in: query
-        name: category
+      - in: query
+        name: cursor
         type: string
-      - description: Result limit
-        in: query
+      - in: query
+        name: domain_id
+        type: string
+      - in: query
         name: limit
         type: integer
-      - description: Result offset
-        in: query
-        name: offset
-        type: integer
+      - in: query
+        name: parent_id
+        type: string
+      - in: query
+        name: type
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            items:
+              $ref: '#/definitions/structs.ReadTaxonomy'
+            type: array
         "400":
           description: bad request
           schema:
@@ -1400,7 +1841,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadTaxonomy'
         "400":
           description: bad request
           schema:
@@ -1449,7 +1890,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadTaxonomy'
         "400":
           description: bad request
           schema:
@@ -1467,19 +1908,19 @@ paths:
         name: slug
         required: true
         type: string
-      - description: Update data
+      - description: UpdateTaxonomyBody object
         in: body
         name: body
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/structs.UpdateTaxonomyBody'
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadTaxonomy'
         "400":
           description: bad request
           schema:
@@ -1493,25 +1934,27 @@ paths:
     get:
       description: Retrieve a list of topics.
       parameters:
-      - description: Category filter
-        in: query
-        name: category
+      - in: query
+        name: cursor
         type: string
-      - description: Result limit
-        in: query
+      - in: query
+        name: domain_id
+        type: string
+      - in: query
         name: limit
         type: integer
-      - description: Result offset
-        in: query
-        name: offset
-        type: integer
+      - in: query
+        name: taxonomy_id
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            items:
+              $ref: '#/definitions/structs.ReadTopic'
+            type: array
         "400":
           description: bad request
           schema:
@@ -1536,7 +1979,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadTopic'
         "400":
           description: bad request
           schema:
@@ -1585,7 +2028,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadTopic'
         "400":
           description: bad request
           schema:
@@ -1603,19 +2046,19 @@ paths:
         name: slug
         required: true
         type: string
-      - description: Update data
+      - description: UpdateTopicBody object
         in: body
         name: body
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/structs.UpdateTopicBody'
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadTopic'
         "400":
           description: bad request
           schema:
@@ -1640,7 +2083,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.User'
         "400":
           description: bad request
           schema:
@@ -1663,7 +2106,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/structs.ReadDomain'
         "400":
           description: bad request
           schema:

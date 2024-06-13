@@ -17,7 +17,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTopicBody true "CreateTopicBody object"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/topic [post]
 // @Security Bearer
@@ -45,8 +45,8 @@ func (h *Handler) CreateTopicHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param slug path string true "Topic slug"
-// @Param body body object true "Update data"
-// @Success 200 {object} resp.Exception "success"
+// @Param body body structs.UpdateTopicBody true "UpdateTopicBody object"
+// @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/topic/{slug} [put]
 // @Security Bearer
@@ -58,7 +58,7 @@ func (h *Handler) UpdateTopicHandler(c *gin.Context) {
 	}
 
 	var updates types.JSON
-	if err := c.ShouldBindJSON(&updates); err != nil {
+	if err := c.ShouldBind(&updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
@@ -79,7 +79,7 @@ func (h *Handler) UpdateTopicHandler(c *gin.Context) {
 // @Tags topic
 // @Produce json
 // @Param slug path string true "Topic slug"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/topic/{slug} [get]
 func (h *Handler) GetTopicHandler(c *gin.Context) {
@@ -131,15 +131,13 @@ func (h *Handler) DeleteTopicHandler(c *gin.Context) {
 // @Description Retrieve a list of topics.
 // @Tags topic
 // @Produce json
-// @Param category query string false "Category filter"
-// @Param limit query int false "Result limit"
-// @Param offset query int false "Result offset"
-// @Success 200 {object} resp.Exception "success"
+// @Param params query structs.ListTopicParams true "List topics parameters"
+// @Success 200 {array} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/topic [get]
 func (h *Handler) ListTopicHandler(c *gin.Context) {
 	params := &structs.ListTopicParams{}
-	if err := c.ShouldBindQuery(params); err != nil {
+	if err := c.ShouldBind(params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
