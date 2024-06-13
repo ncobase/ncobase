@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"stocms/pkg/ecode"
-	"stocms/pkg/types"
 )
 
 // Exception represents the response structure.
@@ -12,15 +11,17 @@ type Exception struct {
 	Status  int    `json:"status,omitempty"`  // HTTP status
 	Code    int    `json:"code,omitempty"`    // Business code
 	Message string `json:"message,omitempty"` // Message
+	Errors  any    `json:"errors,omitempty"`  // Validation errors
 	Data    any    `json:"data,omitempty"`    // Response data
 }
 
 // response builds the response structure.
-func response(code int, message string, data any) *Exception {
+func response(code int, message string, data any, errors any) *Exception {
 	return &Exception{
 		Code:    code,
 		Message: message,
 		Data:    data,
+		Errors:  errors,
 	}
 }
 
@@ -40,7 +41,7 @@ func fail(r *Exception) (int, any) {
 		message = r.Message
 	}
 
-	return status, response(code, message, nil)
+	return status, response(status, message, nil, r.Errors)
 }
 
 // success builds the success response.
@@ -59,7 +60,7 @@ func success(r *Exception) (int, any) {
 		return status, r.Data
 	}
 
-	return status, types.JSON{"message": "ok"}
+	return status, map[string]any{"message": "ok"}
 }
 
 // write writes the response based on the specified type and status code.
