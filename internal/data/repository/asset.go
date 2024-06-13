@@ -189,7 +189,7 @@ func (r *assetRepo) Delete(ctx context.Context, slug string) error {
 		// return nil, err
 	}
 
-	return err
+	return nil
 }
 
 // FindAsset finds an asset.
@@ -241,7 +241,7 @@ func (r *assetRepo) List(ctx context.Context, p *structs.ListAssetParams) ([]*en
 
 	// asset type
 	if p.Type != "" {
-		builder.Where(assetEnt.TypeEQ(p.Type))
+		builder.Where(assetEnt.TypeContains(p.Type))
 	}
 
 	// storage provider

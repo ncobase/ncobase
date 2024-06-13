@@ -52,11 +52,6 @@ type ListGroupParams struct {
 	Limit  int64  `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
-// Validate validates ListGroupParams
-func (p *ListGroupParams) Validate() error {
-	return validate.Struct(p)
-}
-
 // GroupRole represents the group role.
 type GroupRole struct {
 	GroupID string `json:"group_id,omitempty"`

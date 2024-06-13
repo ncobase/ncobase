@@ -1,14 +1,12 @@
 package structs
 
 import (
+	"stocms/pkg/validator"
 	"time"
-
-	"github.com/go-playground/validator/v10"
 )
 
-var (
-	validate = validator.New()
-)
+// Validate is a wrapper around validator.Validate that returns a map of JSON field names to friendly error messages.
+var Validate = validator.ValidateStruct
 
 // BaseEntity contains common fields for entities.
 type BaseEntity struct {

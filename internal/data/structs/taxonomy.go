@@ -72,11 +72,6 @@ type ListTaxonomyParams struct {
 	Type     string `form:"type,omitempty" json:"type,omitempty" binding:"required"`
 }
 
-// Validate validates ListTaxonomyParams
-func (p *ListTaxonomyParams) Validate() error {
-	return validate.Struct(p)
-}
-
 // TaxonomyRelationBody represents the common fields for creating and updating a taxonomy relation.
 type TaxonomyRelationBody struct {
 	TaxonomyID string     `json:"taxonomy_id,omitempty"`

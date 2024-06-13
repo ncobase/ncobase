@@ -2183,6 +2183,9 @@ const docTemplate = `{
                 "data": {
                     "description": "Response data"
                 },
+                "errors": {
+                    "description": "Validation errors"
+                },
                 "message": {
                     "description": "Message",
                     "type": "string"
