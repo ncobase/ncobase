@@ -67,9 +67,19 @@ func newResponse(status, code int, message string, data ...any) *Exception {
 		responseData = data[0]
 	}
 
-	if status < 200 || status >= 400 || code == 0 {
-		return response(code, message, nil, responseData)
+	if status < 200 || status >= 400 || code != 0 {
+		return &Exception{
+			Status:  status,
+			Code:    code,
+			Message: message,
+			Errors:  responseData,
+		}
 	}
 
-	return response(code, message, responseData, nil)
+	return &Exception{
+		Status:  status,
+		Code:    code,
+		Message: message,
+		Data:    responseData,
+	}
 }

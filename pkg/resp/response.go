@@ -15,33 +15,11 @@ type Exception struct {
 	Data    any    `json:"data,omitempty"`    // Response data
 }
 
-// response builds the response structure.
-func response(code int, message string, data any, errors any) *Exception {
-	return &Exception{
-		Code:    code,
-		Message: message,
-		Data:    data,
-		Errors:  errors,
-	}
-}
-
-// fail builds the failure response.
-func fail(r *Exception) (int, any) {
-	status := http.StatusBadRequest
-	code := ecode.RequestErr
-	message := ecode.Text(code)
-
-	if r.Status != 0 {
-		status = r.Status
-	}
-	if r.Code != 0 {
-		code = r.Code
-	}
-	if r.Message != "" {
-		message = r.Message
-	}
-
-	return status, response(status, message, nil, r.Errors)
+// Success handles success responses.
+func Success(w http.ResponseWriter, r *Exception) {
+	contextType := "JSON"
+	statusCode, result := success(r)
+	write(w, contextType, statusCode, result)
 }
 
 // success builds the success response.
@@ -61,6 +39,36 @@ func success(r *Exception) (int, any) {
 	}
 
 	return status, map[string]any{"message": "ok"}
+}
+
+// Fail handles failure responses.
+func Fail(w http.ResponseWriter, r *Exception) {
+	contextType := "JSON"
+	statusCode, result := fail(r)
+	write(w, contextType, statusCode, result)
+}
+
+// fail builds the failure response.
+func fail(r *Exception) (int, any) {
+	status := http.StatusBadRequest
+	code := ecode.RequestErr
+	message := ecode.Text(code)
+
+	if r.Status != 0 {
+		status = r.Status
+	}
+	if r.Code != 0 {
+		code = r.Code
+	}
+	if r.Message != "" {
+		message = r.Message
+	}
+
+	return status, &Exception{
+		Code:    code,
+		Message: message,
+		Errors:  r.Errors,
+	}
 }
 
 // write writes the response based on the specified type and status code.
@@ -87,18 +95,4 @@ func write(w http.ResponseWriter, contextType string, code int, res any) {
 			return
 		}
 	}
-}
-
-// Fail handles failure responses.
-func Fail(w http.ResponseWriter, r *Exception) {
-	contextType := "JSON"
-	statusCode, result := fail(r)
-	write(w, contextType, statusCode, result)
-}
-
-// Success handles success responses.
-func Success(w http.ResponseWriter, r *Exception) {
-	contextType := "JSON"
-	statusCode, result := success(r)
-	write(w, contextType, statusCode, result)
 }
