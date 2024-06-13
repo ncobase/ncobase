@@ -5,14 +5,15 @@ import (
 )
 
 const (
-	emptyMsg    = "empty"
-	requiredMsg = "required"
-	invalidMsg  = "invalid"
-	successMsg  = "success"
-	failedMsg   = "failed"
-	existMsg    = "already exist"
-	notExistMsg = "not exist"
-	expiredMsg  = "expired"
+	emptyMsg       = "empty"
+	requiredMsg    = "required"
+	invalidMsg     = "invalid"
+	successMsg     = "success"
+	failedMsg      = "failed"
+	existMsg       = "already exist"
+	notExistMsg    = "not exist"
+	notSingularMsg = "not singular"
+	expiredMsg     = "expired"
 )
 
 // FieldIsBlank returns field blank message
@@ -85,6 +86,14 @@ func NotExist(k ...string) string {
 		return fmt.Sprintf("%s %s", k[0], notExistMsg)
 	}
 	return notExistMsg
+}
+
+// NotSingular returns not singular message
+func NotSingular(k ...string) string {
+	if len(k) > 0 {
+		return fmt.Sprintf("%s %s", k[0], notSingularMsg)
+	}
+	return notSingularMsg
 }
 
 // Expired returns expired message
