@@ -14,6 +14,7 @@ import (
 // Service represents a service definition.
 type Service struct {
 	d                 *data.Data
+	captcha           repo.Captcha
 	domain            repo.Domain
 	user              repo.User
 	userProfile       repo.UserProfile
@@ -38,6 +39,7 @@ type Service struct {
 func New(d *data.Data) *Service {
 	return &Service{
 		d:                 d,
+		captcha:           repo.NewCaptcha(d),
 		domain:            repo.NewDomain(d),
 		user:              repo.NewUser(d),
 		userProfile:       repo.NewUserProfile(d),

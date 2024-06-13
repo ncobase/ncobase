@@ -215,12 +215,6 @@ func (h *Handler) ListDomainHandler(c *gin.Context) {
 		return
 	}
 
-	validationErrors := structs.Validate(params)
-	if len(validationErrors) > 0 {
-		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
-		return
-	}
-
 	result, err := h.svc.ListDomainsService(c, params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))

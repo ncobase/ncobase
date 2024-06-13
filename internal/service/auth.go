@@ -19,6 +19,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
 )
 
@@ -302,4 +303,47 @@ func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp
 	}
 
 	return generateTokensForUser(c, client, user, conf.Domain)
+}
+
+// GenerateCaptchaService generates a new captcha ID and image URL.
+func (svc *Service) GenerateCaptchaService(_ *gin.Context, ext string) (*resp.Exception, error) {
+	captchaID := captcha.New()
+	captchaURL := "/v1/captcha/" + captchaID + ext
+	result := &types.JSON{
+		"url": captchaURL,
+	}
+
+	// Set captcha ID in cache
+	if err := svc.captcha.Set(context.Background(), captchaID, nil); err != nil {
+		return resp.InternalServer(err.Error()), nil
+	}
+
+	return &resp.Exception{
+		Data: result,
+	}, nil
+}
+
+// GetCaptchaService gets the captcha from the cache.
+func (svc *Service) GetCaptchaService(_ *gin.Context, id string) *resp.Exception {
+	captchaID, err := svc.captcha.Get(context.Background(), id)
+	if err != nil {
+		return resp.NotFound(err.Error())
+	}
+	return &resp.Exception{
+		Data: captchaID,
+	}
+}
+
+// ValidateCaptchaService validates the captcha code.
+func (svc *Service) ValidateCaptchaService(_ *gin.Context, body *structs.Captcha) *resp.Exception {
+	if !captcha.VerifyString(body.ID, body.Solution) {
+		return resp.BadRequest("Invalid captcha")
+	}
+
+	// Delete captcha after verification
+	if err := svc.captcha.Delete(context.Background(), body.ID); err != nil {
+		return resp.InternalServer(err.Error())
+	}
+
+	return nil
 }

@@ -152,12 +152,6 @@ func (h *Handler) ListTaxonomyHandler(c *gin.Context) {
 		return
 	}
 
-	validationErrors := structs.Validate(params)
-	if len(validationErrors) > 0 {
-		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
-		return
-	}
-
 	taxonomies, err := h.svc.ListTaxonomiesService(c, params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))

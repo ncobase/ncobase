@@ -32,3 +32,8 @@ func GetStorage(c *gin.Context) (oss.StorageInterface, *storage.Config) {
 	// SetStorage(c, s)
 	return s, &storageConfig
 }
+
+// // GetCaptchaImage get captcha image
+// func GetCaptchaImage(c *gin.Context) (string, error) {
+// 	return
+// }

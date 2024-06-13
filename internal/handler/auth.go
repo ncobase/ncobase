@@ -1,11 +1,17 @@
 package handler
 
 import (
+	"bytes"
+	"fmt"
+	"io"
+	"path/filepath"
 	"stocms/internal/data/structs"
 	"stocms/internal/helper"
 	"stocms/pkg/cookie"
 	"stocms/pkg/resp"
+	"strings"
 
+	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
 )
 
@@ -114,6 +120,13 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
+
+	// Validate captcha
+	if result := h.svc.ValidateCaptchaService(c, body.Captcha); result.Code != 0 {
+		resp.Fail(c.Writer, result)
+		return
+	}
+
 	result, err := h.svc.LoginService(c, body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -140,3 +153,111 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 // 	}
 // 	resp.Success(c.Writer, result)
 // }
+
+// GenerateCaptchaHandler handles generating a captcha image.
+//
+// @Summary Generate captcha
+// @Description Generate a captcha image.
+// @Tags authentication
+// @Produce json
+// @Param type query string false "Captcha type" Enums(png, wav)
+// @Success 200 {object} types.JSON{id=string,url=string} "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/captcha/generate [get]
+func (h *Handler) GenerateCaptchaHandler(c *gin.Context) {
+	ext := c.Query("type")
+	switch ext {
+	case "png":
+		ext = ".png"
+	case "wav":
+		ext = ".wav"
+	default:
+		ext = ".png"
+	}
+	result, err := h.svc.GenerateCaptchaService(c, ext)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, result)
+}
+
+// ValidateCaptchaHandler handles validating a captcha code.
+//
+// @Summary Validate captcha
+// @Description Validate a captcha code.
+// @Tags authentication
+// @Accept json
+// @Produce json
+// @Param body body structs.Captcha true "Captcha object"
+// @Success 200 {object} types.JSON{message=string} "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/captcha/validate [post]
+func (h *Handler) ValidateCaptchaHandler(c *gin.Context) {
+	body := &structs.Captcha{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
+		return
+	}
+	result := h.svc.ValidateCaptchaService(c, body)
+	resp.Success(c.Writer, result)
+}
+
+// CaptchaStreamHandler handles streaming a captcha image.
+//
+// @Summary Stream captcha
+// @Description Stream a captcha image.
+// @Tags authentication
+// @Produce json
+// @Param captcha_id path string true "Captcha ID"
+// @Success 200 {object} types.JSON{message=string} "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/captcha/{captcha_id} [get]
+// CaptchaStreamHandler handles streaming a captcha image or audio.
+func (h *Handler) CaptchaStreamHandler(c *gin.Context) {
+	captchaID := c.Param("captcha")
+	ext := filepath.Ext(captchaID)
+
+	id := strings.TrimSuffix(captchaID, ext)
+	if id == "" || (ext != ".png" && ext != ".wav") {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid captcha"))
+		return
+	}
+
+	result := h.svc.GetCaptchaService(c, id)
+	if result.Code != 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Captcha not found"))
+		return
+	}
+
+	var contentType string
+	var content bytes.Buffer
+
+	switch ext {
+	case ".png":
+		contentType = "image/png"
+		_ = captcha.WriteImage(&content, id, captcha.StdWidth, captcha.StdHeight)
+	case ".wav":
+		contentType = "audio/x-wav"
+		lang := c.Query("lang")
+		_ = captcha.WriteAudio(&content, id, lang)
+	default:
+		resp.Fail(c.Writer, resp.BadRequest("Invalid captcha"))
+		return
+	}
+
+	c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", "inline", captchaID))
+	c.Header("Content-Type", contentType)
+	c.Header("Cache-Control", "no-cache, no-store, must-revalidate")
+	c.Header("Pragma", "no-cache")
+	c.Header("Expires", "0")
+
+	_, err := io.Copy(c.Writer, &content)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+}

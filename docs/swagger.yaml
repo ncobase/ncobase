@@ -15,6 +15,16 @@ definitions:
         description: HTTP status
         type: integer
     type: object
+  structs.Captcha:
+    properties:
+      id:
+        type: string
+      solution:
+        type: string
+    required:
+    - id
+    - solution
+    type: object
   structs.CasbinRuleBody:
     properties:
       p_type:
@@ -177,11 +187,14 @@ definitions:
     type: object
   structs.LoginBody:
     properties:
+      captcha:
+        $ref: '#/definitions/structs.Captcha'
       password:
         type: string
       username:
         type: string
     required:
+    - captcha
     - password
     - username
     type: object
@@ -983,6 +996,97 @@ paths:
       summary: Send verification code
       tags:
       - authorization
+  /v1/captcha/{captcha_id}:
+    get:
+      description: Stream a captcha image.
+      parameters:
+      - description: Captcha ID
+        in: path
+        name: captcha_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/types.JSON'
+            - properties:
+                message:
+                  type: string
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Stream captcha
+      tags:
+      - authentication
+  /v1/captcha/generate:
+    get:
+      description: Generate a captcha image.
+      parameters:
+      - description: Captcha type
+        enum:
+        - png
+        - wav
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/types.JSON'
+            - properties:
+                id:
+                  type: string
+                url:
+                  type: string
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Generate captcha
+      tags:
+      - authentication
+  /v1/captcha/validate:
+    post:
+      consumes:
+      - application/json
+      description: Validate a captcha code.
+      parameters:
+      - description: Captcha object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.Captcha'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/types.JSON'
+            - properties:
+                message:
+                  type: string
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Validate captcha
+      tags:
+      - authentication
   /v1/dom:
     get:
       description: Retrieve a list of domains.
