@@ -42,10 +42,20 @@ func success(r *Exception) (int, any) {
 }
 
 // Fail handles failure responses.
-func Fail(w http.ResponseWriter, r *Exception) {
+func Fail(w http.ResponseWriter, r *Exception, abort ...bool) {
 	contextType := "JSON"
 	statusCode, result := fail(r)
 	write(w, contextType, statusCode, result)
+
+	shouldAbort := true
+	if len(abort) > 0 {
+		shouldAbort = abort[0]
+	}
+
+	if shouldAbort {
+		http.Error(w, "", statusCode)
+		return
+	}
 }
 
 // fail builds the failure response.

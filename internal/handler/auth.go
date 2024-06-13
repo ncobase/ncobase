@@ -2,6 +2,7 @@ package handler
 
 import (
 	"stocms/internal/data/structs"
+	"stocms/internal/helper"
 	"stocms/pkg/cookie"
 	"stocms/pkg/resp"
 
@@ -20,9 +21,13 @@ import (
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/authorize/send [post]
 func (h *Handler) SendCodeHandler(c *gin.Context) {
-	var body *structs.SendCodeBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.SendCodeBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
+		return
 	}
 
 	result, _ := h.svc.SendCodeService(c, body)
@@ -62,9 +67,12 @@ func (h *Handler) CodeAuthHandler(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/register [post]
 func (h *Handler) RegisterHandler(c *gin.Context) {
-	var body *structs.RegisterBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.RegisterBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
@@ -98,11 +106,37 @@ func (h *Handler) LogoutHandler(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/login [post]
 func (h *Handler) LoginHandler(c *gin.Context) {
-	var body *structs.LoginBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.LoginBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
+		return
+	}
+	result, err := h.svc.LoginService(c, body)
+	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
-	result, _ := h.svc.LoginService(c, body)
 	resp.Success(c.Writer, result)
 }
+
+// // RefreshHandler handles user token refresh.
+// //
+// // @Summary Refresh
+// // @Description Refresh the current user's access token.
+// // @Tags authentication
+// // @Produce json
+// // @Success 200 {object} types.JSON{id=string,access_token=string} "success"
+// // @Failure 400 {object} resp.Exception "bad request"
+// // @Router /v1/refresh [post]
+// // @Security Bearer
+// func (h *Handler) RefreshHandler(c *gin.Context) {
+// 	result, err := h.svc.RefreshService(c)
+// 	if err != nil {
+// 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+// 		return
+// 	}
+// 	resp.Success(c.Writer, result)
+// }

@@ -36,7 +36,7 @@ func (svc *Service) UpdateModuleService(c *gin.Context, slug string, updates typ
 
 	// Validate the updates map
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
+		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
 	}
 
 	module, err := svc.module.Update(c, slug, updates)

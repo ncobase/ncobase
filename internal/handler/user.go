@@ -2,6 +2,7 @@ package handler
 
 import (
 	"stocms/internal/data/structs"
+	"stocms/internal/helper"
 	"stocms/pkg/resp"
 
 	"github.com/gin-gonic/gin"
@@ -58,9 +59,12 @@ func (h *Handler) GetMeHandler(c *gin.Context) {
 // @Router /v1/account/password [put]
 // @Security Bearer
 func (h *Handler) UpdatePasswordHandler(c *gin.Context) {
-	var body *structs.UserRequestBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.UserRequestBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 

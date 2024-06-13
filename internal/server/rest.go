@@ -43,7 +43,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	account := v1.Group("/account", middleware.Authorized)
 	{
 		account.GET("", h.GetMeHandler)
-		account.POST("/password", h.UpdatePasswordHandler)
+		account.PUT("/password", h.UpdatePasswordHandler)
 		account.GET("/dom", h.AccountDomainHandler)
 	}
 
@@ -70,6 +70,16 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		oauth.GET("/redirect/:provider", h.OAuthRedirectHandler)
 		oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
 		oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
+	}
+
+	// Module endpoints
+	module := v1.Group("/modules")
+	{
+		module.GET("", h.ListModuleHandler)
+		module.POST("", middleware.Authorized, h.CreateModuleHandler)
+		module.GET("/:slug", h.GetModuleHandler)
+		module.PUT("/:slug", middleware.Authorized, h.UpdateModuleHandler)
+		module.DELETE("/:slug", middleware.Authorized, h.DeleteModuleHandler)
 	}
 
 	// Asset endpoints

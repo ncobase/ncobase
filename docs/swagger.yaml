@@ -915,48 +915,6 @@ paths:
       summary: Update asset
       tags:
       - assets
-  /v1/assets/{slug}/download:
-    get:
-      description: Download a specific asset.
-      parameters:
-      - description: Slug of the asset to download
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/octet-stream
-      responses:
-        "200":
-          description: success
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: Download asset
-      tags:
-      - assets
-  /v1/assets/{slug}/stream:
-    get:
-      description: Stream a specific asset.
-      parameters:
-      - description: Slug of the asset to stream
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/octet-stream
-      responses:
-        "200":
-          description: success
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      summary: Stream asset
-      tags:
-      - assets
   /v1/authorize/{code}:
     get:
       consumes:
@@ -1930,7 +1888,7 @@ paths:
       summary: Update taxonomy
       tags:
       - taxonomy
-  /v1/topic:
+  /v1/topics:
     get:
       description: Retrieve a list of topics.
       parameters:
@@ -1989,7 +1947,7 @@ paths:
       summary: Create topic
       tags:
       - topic
-  /v1/topic/{slug}:
+  /v1/topics/{slug}:
     delete:
       description: Delete an existing topic.
       parameters:

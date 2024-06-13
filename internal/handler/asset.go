@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"stocms/internal/data/ent"
 	"stocms/internal/data/structs"
+	"stocms/internal/helper"
 	"stocms/pkg/ecode"
 	"stocms/pkg/log"
 	"stocms/pkg/resp"
@@ -51,6 +52,7 @@ func (h *Handler) CreateAssetsHandler(c *gin.Context) {
 	// 	h.handleBlobUpload(c)
 	default:
 		resp.Fail(c.Writer, resp.BadRequest("Unsupported content type"))
+		return
 	}
 }
 
@@ -309,12 +311,12 @@ func (h *Handler) GetAssetHandler(c *gin.Context) {
 	}
 
 	if c.Query("type") == "download" {
-		h.DownloadAssetHandler(c)
+		h.downloadAssetHandler(c)
 		return
 	}
 
 	if c.Query("type") == "stream" {
-		h.AssetStreamHandler(c)
+		h.assetStreamHandler(c)
 		return
 	}
 
@@ -365,8 +367,11 @@ func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 // @Router /v1/assets [get]
 func (h *Handler) ListAssetHandler(c *gin.Context) {
 	params := &structs.ListAssetParams{}
-	if err := c.ShouldBind(params); err != nil {
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
@@ -385,31 +390,13 @@ func (h *Handler) ListAssetHandler(c *gin.Context) {
 	resp.Success(c.Writer, assets)
 }
 
-// DownloadAssetHandler handles the direct download of a asset.
-//
-// @Summary Download asset
-// @Description Download a specific asset.
-// @Tags assets
-// @Produce octet-stream
-// @Param slug path string true "Slug of the asset to download"
-// @Success 200 "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/assets/{slug}/download [get]
-func (h *Handler) DownloadAssetHandler(c *gin.Context) {
+// downloadAssetHandler handles the direct download of a asset.
+func (h *Handler) downloadAssetHandler(c *gin.Context) {
 	h.downloadFile(c, "attachment")
 }
 
-// AssetStreamHandler handles the streaming of a asset.
-//
-// @Summary Stream asset
-// @Description Stream a specific asset.
-// @Tags assets
-// @Produce octet-stream
-// @Param slug path string true "Slug of the asset to stream"
-// @Success 200 "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/assets/{slug}/stream [get]
-func (h *Handler) AssetStreamHandler(c *gin.Context) {
+// assetStreamHandler handles the streaming of a asset.
+func (h *Handler) assetStreamHandler(c *gin.Context) {
 	h.downloadFile(c, "inline")
 }
 

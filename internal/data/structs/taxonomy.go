@@ -69,7 +69,7 @@ type ListTaxonomyParams struct {
 	Limit    int64  `form:"limit,omitempty" json:"limit,omitempty"`
 	ParentID string `form:"parent_id,omitempty" json:"parent_id,omitempty"`
 	DomainID string `form:"domain_id,omitempty" json:"domain_id,omitempty"`
-	Type     string `form:"type,omitempty" json:"type,omitempty" binding:"required"`
+	Type     string `form:"type,omitempty" json:"type,omitempty" validate:"required"`
 }
 
 // TaxonomyRelationBody represents the common fields for creating and updating a taxonomy relation.

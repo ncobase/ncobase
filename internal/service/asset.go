@@ -70,7 +70,7 @@ func (svc *Service) UpdateAssetService(c *gin.Context, slug string, updates map[
 
 	// Check if updates map is empty
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
+		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
 	}
 
 	// Get storage interface

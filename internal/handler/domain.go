@@ -2,6 +2,7 @@ package handler
 
 import (
 	"stocms/internal/data/structs"
+	"stocms/internal/helper"
 	"stocms/pkg/ecode"
 	"stocms/pkg/resp"
 
@@ -40,9 +41,12 @@ func (h *Handler) AccountDomainHandler(c *gin.Context) {
 // @Router /v1/dom [post]
 // @Security Bearer
 func (h *Handler) CreateDomainHandler(c *gin.Context) {
-	var body *structs.CreateDomainBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.CreateDomainBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
@@ -93,9 +97,12 @@ func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
 		return
 	}
-	var body *structs.UpdateDomainBody
-	if err := c.ShouldBind(&body); err != nil {
+	body := &structs.UpdateDomainBody{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 
@@ -200,8 +207,11 @@ func (h *Handler) DeleteDomainHandler(c *gin.Context) {
 // @Security Bearer
 func (h *Handler) ListDomainHandler(c *gin.Context) {
 	params := &structs.ListDomainParams{}
-	if err := c.ShouldBind(params); err != nil {
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
 

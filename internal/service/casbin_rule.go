@@ -31,7 +31,7 @@ func (svc *Service) UpdateCasbinRuleService(c *gin.Context, id string, updates t
 
 	// Validate the updates map
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsRequired("updates")), nil
+		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
 	}
 
 	casbinRule, err := svc.casbinRule.Update(c, id, updates)
