@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -69,7 +70,7 @@ func (c *Cache[T]) Get(ctx context.Context, field string) (*T, error) {
 }
 
 // Set saves data into cache
-func (c *Cache[T]) Set(ctx context.Context, field string, data *T) error {
+func (c *Cache[T]) Set(ctx context.Context, field string, data *T, expire ...time.Duration) error {
 	if c.rc == nil {
 		log.Printf("redis client is nil, skipping Set operation")
 		return nil
@@ -84,7 +85,11 @@ func (c *Cache[T]) Set(ctx context.Context, field string, data *T) error {
 	if c.useHash {
 		err = c.rc.HSet(ctx, c.key, field, bytes).Err()
 	} else {
-		err = c.rc.Set(ctx, field, bytes, 0).Err()
+		if len(expire) > 0 {
+			err = c.rc.Set(ctx, field, bytes, expire[0]).Err()
+		} else {
+			err = c.rc.Set(ctx, field, bytes, 0).Err()
+		}
 	}
 
 	if err != nil {
