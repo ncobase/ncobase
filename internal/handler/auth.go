@@ -16,7 +16,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param body body structs.SendCodeBody true "SendCodeBody object"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} types.JSON{registered=bool} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/authorize/send [post]
 func (h *Handler) SendCodeHandler(c *gin.Context) {
@@ -38,7 +38,7 @@ func (h *Handler) SendCodeHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param code path string true "Verification code"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} types.JSON{id=string,access_token=string,email=string,register_token=string}  "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/authorize/{code} [get]
 func (h *Handler) CodeAuthHandler(c *gin.Context) {
@@ -58,7 +58,7 @@ func (h *Handler) CodeAuthHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param body body structs.RegisterBody true "RegisterBody object"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} types.JSON{id=string,access_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/register [post]
 func (h *Handler) RegisterHandler(c *gin.Context) {
@@ -94,7 +94,7 @@ func (h *Handler) LogoutHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param body body structs.LoginBody true "LoginBody object"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} types.JSON{id=string,access_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/login [post]
 func (h *Handler) LoginHandler(c *gin.Context) {

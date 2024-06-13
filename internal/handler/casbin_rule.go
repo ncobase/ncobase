@@ -17,7 +17,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/pols [post]
 // @Security Bearer
@@ -45,8 +45,8 @@ func (h *Handler) CreateCasbinRuleHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Casbin rule ID"
-// @Param body body object true "Update data"
-// @Success 200 {object} resp.Exception "success"
+// @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
+// @Success 200 {object} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/pols/{id} [put]
 // @Security Bearer
@@ -58,7 +58,7 @@ func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
 	}
 
 	var updates types.JSON
-	if err := c.ShouldBindJSON(&updates); err != nil {
+	if err := c.ShouldBind(&updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
@@ -79,7 +79,7 @@ func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
 // @Tags casbin
 // @Produce json
 // @Param id path string true "Casbin rule ID"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/pols/{id} [get]
 // @Security Bearer
@@ -132,15 +132,14 @@ func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 // @Description Retrieve a list of Casbin rules.
 // @Tags casbin
 // @Produce json
-// @Param limit query int false "Result limit"
-// @Param offset query int false "Result offset"
-// @Success 200 {object} resp.Exception "success"
+// @Param params query structs.CasbinRuleParams true "CasbinRuleParams object"
+// @Success 200 {array} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/pols [get]
 // @Security Bearer
 func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
 	params := &structs.CasbinRuleParams{}
-	if err := c.ShouldBindQuery(params); err != nil {
+	if err := c.ShouldBind(params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}

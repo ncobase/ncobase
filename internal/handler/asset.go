@@ -34,7 +34,7 @@ var maxAssetSize int64 = 2048 << 20 // 2048 MB
 // @Param object_id formData string false "Object ID associated with the asset"
 // @Param domain_id formData string false "Domain ID associated with the asset"
 // @Param extras formData string false "Additional properties associated with the asset (JSON format)"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets [post]
 // @Security Bearer
@@ -224,11 +224,8 @@ func bindAssetFields(c *gin.Context, body *structs.CreateAssetBody) error {
 // @Accept multipart/form-data
 // @Produce json
 // @Param slug path string true "Slug of the asset to update"
-// @Param file formData file false "File to upload (optional)"
-// @Param object_id formData string false "Object ID associated with the asset"
-// @Param domain_id formData string false "Domain ID associated with the asset"
-// @Param extras formData string false "Additional properties associated with the asset (JSON format)"
-// @Success 200 {object} resp.Exception "success"
+// @Param asset body structs.UpdateAssetBody true "Asset details"
+// @Success 200 {object} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets/{slug} [put]
 // @Security Bearer
@@ -301,7 +298,7 @@ func (h *Handler) UpdateAssetHandler(c *gin.Context) {
 // @Produce json
 // @Param slug path string true "Slug of the asset to retrieve"
 // @Param type query string false "Type of retrieval ('download' or 'stream')"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets/{slug} [get]
 func (h *Handler) GetAssetHandler(c *gin.Context) {
@@ -336,7 +333,7 @@ func (h *Handler) GetAssetHandler(c *gin.Context) {
 // @Description Delete a specific asset.
 // @Tags assets
 // @Param slug path string true "Slug of the asset to delete"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets/{slug} [delete]
 // @Security Bearer
@@ -362,16 +359,13 @@ func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 // @Description List assets based on specified parameters.
 // @Tags assets
 // @Produce json
-// @Param page query integer false "Page number"
-// @Param page_size query integer false "Page size"
-// @Param sort_by query string false "Sort by field"
-// @Param order query string false "Sort order ('asc' or 'desc')"
-// @Success 200 {object} resp.Exception "success"
+// @Param params query structs.ListAssetParams true "List assets parameters"
+// @Success 200 {array} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets [get]
 func (h *Handler) ListAssetHandler(c *gin.Context) {
 	params := &structs.ListAssetParams{}
-	if err := c.ShouldBindQuery(params); err != nil {
+	if err := c.ShouldBind(params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
@@ -398,7 +392,7 @@ func (h *Handler) ListAssetHandler(c *gin.Context) {
 // @Tags assets
 // @Produce octet-stream
 // @Param slug path string true "Slug of the asset to download"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets/{slug}/download [get]
 func (h *Handler) DownloadAssetHandler(c *gin.Context) {
@@ -412,7 +406,7 @@ func (h *Handler) DownloadAssetHandler(c *gin.Context) {
 // @Tags assets
 // @Produce octet-stream
 // @Param slug path string true "Slug of the asset to stream"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets/{slug}/stream [get]
 func (h *Handler) AssetStreamHandler(c *gin.Context) {

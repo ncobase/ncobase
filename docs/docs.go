@@ -54,7 +54,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.User"
                         }
                     },
                     "400": {
@@ -85,7 +85,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadDomain"
                         }
                     },
                     "400": {
@@ -154,27 +154,41 @@ const docTemplate = `{
                 "summary": "List assets",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Page number",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Page size",
-                        "name": "page_size",
+                        "type": "string",
+                        "name": "cursor",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Sort by field",
-                        "name": "sort_by",
+                        "name": "domain_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "validate:\"gte=1,lte=100\"",
+                        "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Sort order ('asc' or 'desc')",
-                        "name": "order",
+                        "name": "object_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "storage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "user_id",
                         "in": "query"
                     }
                 ],
@@ -182,7 +196,10 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadAsset"
+                            }
                         }
                     },
                     "400": {
@@ -241,7 +258,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadAsset"
                         }
                     },
                     "400": {
@@ -282,7 +299,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadAsset"
                         }
                     },
                     "400": {
@@ -319,35 +336,20 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "file",
-                        "description": "File to upload (optional)",
-                        "name": "file",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Object ID associated with the asset",
-                        "name": "object_id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Domain ID associated with the asset",
-                        "name": "domain_id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Additional properties associated with the asset (JSON format)",
-                        "name": "extras",
-                        "in": "formData"
+                        "description": "Asset details",
+                        "name": "asset",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateAssetBody"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadAsset"
                         }
                     },
                     "400": {
@@ -382,7 +384,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadAsset"
                         }
                     },
                     "400": {
@@ -415,10 +417,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
+                        "description": "success"
                     },
                     "400": {
                         "description": "bad request",
@@ -450,10 +449,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
+                        "description": "success"
                     },
                     "400": {
                         "description": "bad request",
@@ -492,7 +488,19 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/types.JSON"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "registered": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -531,7 +539,28 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/types.JSON"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "register_token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -558,11 +587,31 @@ const docTemplate = `{
                     "domain"
                 ],
                 "summary": "List domains",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "user",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadDomain"
+                            }
                         }
                     },
                     "400": {
@@ -592,6 +641,13 @@ const docTemplate = `{
                 "summary": "Update domain",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Domain ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "UpdateDomainBody object",
                         "name": "body",
                         "in": "body",
@@ -605,7 +661,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadDomain"
                         }
                     },
                     "400": {
@@ -648,7 +704,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadDomain"
                         }
                     },
                     "400": {
@@ -688,7 +744,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadDomain"
                         }
                     },
                     "400": {
@@ -966,7 +1022,22 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/types.JSON"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -1021,20 +1092,12 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Module name",
-                        "name": "name",
+                        "name": "cursor",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "Maximum number of modules to retrieve",
                         "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Number of modules to skip",
-                        "name": "offset",
                         "in": "query"
                     }
                 ],
@@ -1042,7 +1105,10 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadModule"
+                            }
                         }
                     },
                     "400": {
@@ -1085,7 +1151,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadModule"
                         }
                     },
                     "400": {
@@ -1125,7 +1191,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadModule"
                         }
                     },
                     "400": {
@@ -1162,12 +1228,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Module updates",
+                        "description": "Module data",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/structs.UpdateModuleBody"
                         }
                     }
                 ],
@@ -1175,7 +1241,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadModule"
                         }
                     },
                     "400": {
@@ -1213,7 +1279,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadModule"
                         }
                     },
                     "400": {
@@ -1434,14 +1500,47 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Result limit",
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "Result offset",
                         "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "p_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v0",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v1",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v2",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v3",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v4",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v5",
                         "in": "query"
                     }
                 ],
@@ -1449,7 +1548,10 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.CasbinRuleBody"
+                            }
                         }
                     },
                     "400": {
@@ -1492,7 +1594,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.CasbinRuleBody"
                         }
                     },
                     "400": {
@@ -1532,7 +1634,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.CasbinRuleBody"
                         }
                     },
                     "400": {
@@ -1569,12 +1671,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Update data",
+                        "description": "CasbinRuleBody object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/structs.CasbinRuleBody"
                         }
                     }
                 ],
@@ -1582,7 +1684,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.CasbinRuleBody"
                         }
                     },
                     "400": {
@@ -1660,7 +1762,22 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/types.JSON"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -1685,28 +1802,39 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Category filter",
-                        "name": "category",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "domain_id",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "Result limit",
                         "name": "limit",
                         "in": "query"
                     },
                     {
-                        "type": "integer",
-                        "description": "Result offset",
-                        "name": "offset",
+                        "type": "string",
+                        "name": "parent_id",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadTaxonomy"
+                            }
                         }
                     },
                     "400": {
@@ -1749,7 +1877,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadTaxonomy"
                         }
                     },
                     "400": {
@@ -1784,7 +1912,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadTaxonomy"
                         }
                     },
                     "400": {
@@ -1821,12 +1949,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Update data",
+                        "description": "UpdateTaxonomyBody object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/structs.UpdateTaxonomyBody"
                         }
                     }
                 ],
@@ -1834,7 +1962,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadTaxonomy"
                         }
                     },
                     "400": {
@@ -1897,20 +2025,22 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Category filter",
-                        "name": "category",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "domain_id",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "Result limit",
                         "name": "limit",
                         "in": "query"
                     },
                     {
-                        "type": "integer",
-                        "description": "Result offset",
-                        "name": "offset",
+                        "type": "string",
+                        "name": "taxonomy_id",
                         "in": "query"
                     }
                 ],
@@ -1918,7 +2048,10 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadTopic"
+                            }
                         }
                     },
                     "400": {
@@ -1961,7 +2094,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadTopic"
                         }
                     },
                     "400": {
@@ -1996,7 +2129,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadTopic"
                         }
                     },
                     "400": {
@@ -2033,12 +2166,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Update data",
+                        "description": "UpdateTopicBody object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/structs.UpdateTopicBody"
                         }
                     }
                 ],
@@ -2046,7 +2179,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadTopic"
                         }
                     },
                     "400": {
@@ -2119,7 +2252,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.User"
                         }
                     },
                     "400": {
@@ -2159,7 +2292,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/structs.ReadDomain"
                         }
                     },
                     "400": {
@@ -2478,6 +2611,292 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadAsset": {
+            "type": "object",
+            "properties": {
+                "bucket": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "domain_id": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "object_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "storage": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadDomain": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/structs.User"
+                }
+            }
+        },
+        "structs.ReadModule": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadTaxonomy": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain_id": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadTopic": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "domain_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "taxonomy_id": {
+                    "type": "string"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.RegisterBody": {
             "type": "object",
             "required": [
@@ -2513,6 +2932,56 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateAssetBody": {
+            "type": "object",
+            "properties": {
+                "bucket": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "domain_id": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "object_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "storage": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
                     "type": "string"
                 }
             }
@@ -2560,6 +3029,237 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateModuleBody": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "description": "Use pointer for nullable field",
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Use pointer for nullable field",
+                    "type": "integer"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateTaxonomyBody": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain_id": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateTopicBody": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "domain_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "taxonomy_id": {
+                    "type": "string"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.User": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_admin": {
+                    "type": "boolean"
+                },
+                "is_certified": {
+                    "type": "boolean"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/structs.UserProfile"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UserProfile": {
+            "type": "object",
+            "properties": {
+                "about": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.JSON"
+                    }
+                },
+                "short_bio": {
+                    "type": "string"
+                },
+                "thumbnail": {
                     "type": "string"
                 }
             }

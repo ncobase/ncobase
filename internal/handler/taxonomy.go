@@ -17,7 +17,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTaxonomyBody true "CreateTaxonomyBody object"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadTaxonomy "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/taxa [post]
 // @Security Bearer
@@ -45,8 +45,8 @@ func (h *Handler) CreateTaxonomyHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param slug path string true "Taxonomy slug"
-// @Param body body object true "Update data"
-// @Success 200 {object} resp.Exception "success"
+// @Param body body structs.UpdateTaxonomyBody true "UpdateTaxonomyBody object"
+// @Success 200 {object} structs.ReadTaxonomy "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/taxa/{slug} [put]
 // @Security Bearer
@@ -79,7 +79,7 @@ func (h *Handler) UpdateTaxonomyHandler(c *gin.Context) {
 // @Tags taxonomy
 // @Produce json
 // @Param slug path string true "Taxonomy slug"
-// @Success 200 {object} resp.Exception "success"
+// @Success 200 {object} structs.ReadTaxonomy "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/taxa/{slug} [get]
 func (h *Handler) GetTaxonomyHandler(c *gin.Context) {
@@ -131,15 +131,13 @@ func (h *Handler) DeleteTaxonomyHandler(c *gin.Context) {
 // @Description Retrieve a list of taxonomies.
 // @Tags taxonomy
 // @Produce json
-// @Param category query string false "Category filter"
-// @Param limit query int false "Result limit"
-// @Param offset query int false "Result offset"
-// @Success 200 {object} resp.Exception "success"
+// @Param params query structs.ListTaxonomyParams true "ListTaxonomyParams object"
+// @Success 200 {array} structs.ReadTaxonomy "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/taxa [get]
 func (h *Handler) ListTaxonomyHandler(c *gin.Context) {
 	params := &structs.ListTaxonomyParams{}
-	if err := c.ShouldBindQuery(params); err != nil {
+	if err := c.ShouldBind(params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
