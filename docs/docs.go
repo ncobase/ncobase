@@ -508,6 +508,158 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/captcha/generate": {
+            "get": {
+                "description": "Generate a captcha image.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Generate captcha",
+                "parameters": [
+                    {
+                        "enum": [
+                            "png",
+                            "wav"
+                        ],
+                        "type": "string",
+                        "description": "Captcha type",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/types.JSON"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/captcha/validate": {
+            "post": {
+                "description": "Validate a captcha code.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Validate captcha",
+                "parameters": [
+                    {
+                        "description": "Captcha object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.Captcha"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/types.JSON"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/captcha/{captcha_id}": {
+            "get": {
+                "description": "Stream a captcha image.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Stream captcha",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Captcha ID",
+                        "name": "captcha_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/types.JSON"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/dom": {
             "get": {
                 "security": [
@@ -2265,6 +2417,21 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.Captcha": {
+            "type": "object",
+            "required": [
+                "id",
+                "solution"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "solution": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.CasbinRuleBody": {
             "type": "object",
             "required": [
@@ -2508,10 +2675,14 @@ const docTemplate = `{
         "structs.LoginBody": {
             "type": "object",
             "required": [
+                "captcha",
                 "password",
                 "username"
             ],
             "properties": {
+                "captcha": {
+                    "$ref": "#/definitions/structs.Captcha"
+                },
                 "password": {
                     "type": "string"
                 },

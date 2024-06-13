@@ -152,12 +152,6 @@ func (h *Handler) ListTopicHandler(c *gin.Context) {
 		return
 	}
 
-	validationErrors := structs.Validate(params)
-	if len(validationErrors) > 0 {
-		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
-		return
-	}
-
 	topics, err := h.svc.ListTopicsService(c, params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))

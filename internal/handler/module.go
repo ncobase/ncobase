@@ -154,12 +154,6 @@ func (h *Handler) ListModuleHandler(c *gin.Context) {
 		return
 	}
 
-	validationErrors := structs.Validate(params)
-	if len(validationErrors) > 0 {
-		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
-		return
-	}
-
 	modules, err := h.svc.ListModulesService(c, params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))

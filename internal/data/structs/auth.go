@@ -41,8 +41,15 @@ type RegisterTokenBody struct {
 	Provider string        `json:"provider"`
 }
 
+// Captcha contains the fields for captcha validation.
+type Captcha struct {
+	ID       string `json:"id" validate:"required"`
+	Solution string `json:"solution" validate:"required"`
+}
+
 // LoginBody Login body
 type LoginBody struct {
-	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Username string   `json:"username" validate:"required"`
+	Password string   `json:"password" validate:"required"`
+	Captcha  *Captcha `json:"captcha,omitempty" validate:"required"`
 }

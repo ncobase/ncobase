@@ -34,6 +34,14 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	v1.POST("/register", h.RegisterHandler)
 	v1.POST("/logout", h.LogoutHandler)
 
+	// Captcha endpoints
+	captcha := v1.Group("/captcha")
+	{
+		captcha.GET("/generate", h.GenerateCaptchaHandler)
+		captcha.GET("/:captcha", h.CaptchaStreamHandler)
+		captcha.POST("/validate", h.ValidateCaptchaHandler)
+	}
+
 	// Authorization endpoints
 	authorize := v1.Group("/authorize")
 	authorize.POST("/send", h.SendCodeHandler)

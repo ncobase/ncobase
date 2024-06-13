@@ -9,6 +9,7 @@ require (
 	github.com/alexpantyukhin/go-pattern-match v0.0.0-20230301210247-d84479c117d7
 	github.com/aws/aws-sdk-go v1.53.21
 	github.com/casdoor/oss v1.6.1
+	github.com/dchest/captcha v1.0.0
 	github.com/elastic/go-elasticsearch/v8 v8.14.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-playground/validator/v10 v10.21.0
