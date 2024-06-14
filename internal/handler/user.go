@@ -17,7 +17,7 @@ import (
 // @Param username path string true "Username"
 // @Success 200 {object} structs.User "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/user/{username} [get]
+// @Router /v1/users/{username} [get]
 func (h *Handler) GetUserHandler(c *gin.Context) {
 	result, err := h.svc.GetUserService(c, c.Param("username"))
 	if err != nil {

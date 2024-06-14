@@ -213,7 +213,7 @@ func (h *Handler) ValidateCaptchaHandler(c *gin.Context) {
 // @Tags authentication
 // @Produce json
 // @Param captcha_id path string true "Captcha ID"
-// @Success 200 {object} types.JSON{message=string} "success"
+// @Success 200 {file} octet-stream
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/captcha/{captcha_id} [get]
 // CaptchaStreamHandler handles streaming a captcha image or audio.
@@ -235,27 +235,33 @@ func (h *Handler) CaptchaStreamHandler(c *gin.Context) {
 
 	var contentType string
 	var content bytes.Buffer
+	var err error
 
 	switch ext {
 	case ".png":
 		contentType = "image/png"
-		_ = captcha.WriteImage(&content, id, captcha.StdWidth, captcha.StdHeight)
+		err = captcha.WriteImage(&content, id, captcha.StdWidth, captcha.StdHeight)
 	case ".wav":
 		contentType = "audio/x-wav"
 		lang := c.Query("lang")
-		_ = captcha.WriteAudio(&content, id, lang)
+		err = captcha.WriteAudio(&content, id, lang)
 	default:
 		resp.Fail(c.Writer, resp.BadRequest("Invalid captcha"))
 		return
 	}
 
-	c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", "inline", captchaID))
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer("Failed to generate captcha"))
+		return
+	}
+
+	c.Header("Content-Disposition", fmt.Sprintf("inline; filename=%s", captchaID))
 	c.Header("Content-Type", contentType)
 	c.Header("Cache-Control", "no-cache, no-store, must-revalidate")
 	c.Header("Pragma", "no-cache")
 	c.Header("Expires", "0")
 
-	_, err := io.Copy(c.Writer, &content)
+	_, err = io.Copy(c.Writer, &content)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

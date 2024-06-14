@@ -1009,14 +1009,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: success
+          description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/types.JSON'
-            - properties:
-                message:
-                  type: string
-              type: object
+            type: file
         "400":
           description: bad request
           schema:
@@ -2130,7 +2125,7 @@ paths:
       summary: Update topic
       tags:
       - topic
-  /v1/user/{username}:
+  /v1/users/{username}:
     get:
       description: Retrieve information about a specific user.
       parameters:
@@ -2153,7 +2148,7 @@ paths:
       summary: Get user
       tags:
       - user
-  /v1/user/{username}/dom:
+  /v1/users/{username}/dom:
     get:
       description: Retrieve the domain associated with the specified user.
       parameters:
