@@ -83,20 +83,27 @@ var (
 	}
 	// ScCasbinRuleColumns holds the columns for the "sc_casbin_rule" table.
 	ScCasbinRuleColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString},
-		{Name: "p_type", Type: field.TypeString, Nullable: true, Size: 255},
-		{Name: "v0", Type: field.TypeString, Nullable: true, Size: 255},
-		{Name: "v1", Type: field.TypeString, Nullable: true, Size: 255},
-		{Name: "v2", Type: field.TypeString, Nullable: true, Size: 255},
-		{Name: "v3", Type: field.TypeString, Nullable: true, Size: 255},
-		{Name: "v4", Type: field.TypeString, Nullable: true, Size: 255},
-		{Name: "v5", Type: field.TypeString, Nullable: true, Size: 255},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
+		{Name: "p_type", Type: field.TypeString, Nullable: true, Comment: "permission type"},
+		{Name: "v0", Type: field.TypeString, Nullable: true, Comment: "version 0"},
+		{Name: "v1", Type: field.TypeString, Nullable: true, Comment: "version 1"},
+		{Name: "v2", Type: field.TypeString, Nullable: true, Comment: "version 2"},
+		{Name: "v3", Type: field.TypeString, Nullable: true, Comment: "version 3"},
+		{Name: "v4", Type: field.TypeString, Nullable: true, Comment: "version 4"},
+		{Name: "v5", Type: field.TypeString, Nullable: true, Comment: "version 5"},
 	}
 	// ScCasbinRuleTable holds the schema information for the "sc_casbin_rule" table.
 	ScCasbinRuleTable = &schema.Table{
 		Name:       "sc_casbin_rule",
 		Columns:    ScCasbinRuleColumns,
 		PrimaryKey: []*schema.Column{ScCasbinRuleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "casbinrule_id",
+				Unique:  true,
+				Columns: []*schema.Column{ScCasbinRuleColumns[0]},
+			},
+		},
 	}
 	// ScCodeAuthColumns holds the columns for the "sc_code_auth" table.
 	ScCodeAuthColumns = []*schema.Column{

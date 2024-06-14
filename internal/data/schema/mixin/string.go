@@ -15,6 +15,8 @@ type StringMixin struct {
 	mixin.Schema
 	Field       string
 	Comment     string
+	StorageKey  string
+	Nillable    bool
 	Optional    bool
 	Unique      bool
 	NotEmpty    bool
@@ -28,6 +30,12 @@ type StringMixin struct {
 // Fields of the StringMixin.
 func (m StringMixin) Fields() []ent.Field {
 	f := field.String(m.Field).Comment(m.Comment)
+	if m.StorageKey != "" {
+		f = f.StorageKey(m.StorageKey)
+	}
+	if m.Nillable {
+		f = f.Nillable()
+	}
 	if m.Optional {
 		f = f.Optional()
 	}
@@ -129,6 +137,13 @@ var (
 	ExtensionName  = StringMixin{Field: "ext", Comment: "extension name", Optional: true}
 	Memo           = StringMixin{Field: "memo", Comment: "Memo, big text", Optional: true}
 	Remark         = StringMixin{Field: "remark", Comment: "Remark, big text", Optional: true}
+	PType          = StringMixin{Field: "p_type", Comment: "permission type", Optional: true}
+	V0             = StringMixin{Field: "v0", Comment: "version 0", Optional: true}
+	V1             = StringMixin{Field: "v1", Comment: "version 1", Optional: true}
+	V2             = StringMixin{Field: "v2", Comment: "version 2", Optional: true}
+	V3             = StringMixin{Field: "v3", Comment: "version 3", Optional: true}
+	V4             = StringMixin{Field: "v4", Comment: "version 4", Optional: true}
+	V5             = StringMixin{Field: "v5", Comment: "version 5", Optional: true}
 	CreatedBy      = StringMixin{Field: "created_by", Comment: "id of the creator", Optional: true, MaxLen: nanoid.PrimaryKeySize}
 	UpdatedBy      = StringMixin{Field: "updated_by", Comment: "id of the last updater", Optional: true, MaxLen: nanoid.PrimaryKeySize}
 	DeletedBy      = StringMixin{Field: "deleted_by", Comment: "id of the deleter", Optional: true, MaxLen: nanoid.PrimaryKeySize}
@@ -147,3 +162,8 @@ func (OperatorBy) Fields() []ent.Field {
 
 // Ensure OperatorBy implements the Mixin interface.
 var _ ent.Mixin = (*OperatorBy)(nil)
+
+// Specific mixins can be created using the generic OperatorBy.
+var (
+	Operator = OperatorBy{}
+)

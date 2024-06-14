@@ -199,50 +199,7 @@ func (cru *CasbinRuleUpdate) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (cru *CasbinRuleUpdate) check() error {
-	if v, ok := cru.mutation.PType(); ok {
-		if err := casbinrule.PTypeValidator(v); err != nil {
-			return &ValidationError{Name: "p_type", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.p_type": %w`, err)}
-		}
-	}
-	if v, ok := cru.mutation.V0(); ok {
-		if err := casbinrule.V0Validator(v); err != nil {
-			return &ValidationError{Name: "v0", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v0": %w`, err)}
-		}
-	}
-	if v, ok := cru.mutation.V1(); ok {
-		if err := casbinrule.V1Validator(v); err != nil {
-			return &ValidationError{Name: "v1", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v1": %w`, err)}
-		}
-	}
-	if v, ok := cru.mutation.V2(); ok {
-		if err := casbinrule.V2Validator(v); err != nil {
-			return &ValidationError{Name: "v2", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v2": %w`, err)}
-		}
-	}
-	if v, ok := cru.mutation.V3(); ok {
-		if err := casbinrule.V3Validator(v); err != nil {
-			return &ValidationError{Name: "v3", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v3": %w`, err)}
-		}
-	}
-	if v, ok := cru.mutation.V4(); ok {
-		if err := casbinrule.V4Validator(v); err != nil {
-			return &ValidationError{Name: "v4", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v4": %w`, err)}
-		}
-	}
-	if v, ok := cru.mutation.V5(); ok {
-		if err := casbinrule.V5Validator(v); err != nil {
-			return &ValidationError{Name: "v5", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v5": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (cru *CasbinRuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := cru.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(casbinrule.Table, casbinrule.Columns, sqlgraph.NewFieldSpec(casbinrule.FieldID, field.TypeString))
 	if ps := cru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -498,50 +455,7 @@ func (cruo *CasbinRuleUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (cruo *CasbinRuleUpdateOne) check() error {
-	if v, ok := cruo.mutation.PType(); ok {
-		if err := casbinrule.PTypeValidator(v); err != nil {
-			return &ValidationError{Name: "p_type", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.p_type": %w`, err)}
-		}
-	}
-	if v, ok := cruo.mutation.V0(); ok {
-		if err := casbinrule.V0Validator(v); err != nil {
-			return &ValidationError{Name: "v0", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v0": %w`, err)}
-		}
-	}
-	if v, ok := cruo.mutation.V1(); ok {
-		if err := casbinrule.V1Validator(v); err != nil {
-			return &ValidationError{Name: "v1", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v1": %w`, err)}
-		}
-	}
-	if v, ok := cruo.mutation.V2(); ok {
-		if err := casbinrule.V2Validator(v); err != nil {
-			return &ValidationError{Name: "v2", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v2": %w`, err)}
-		}
-	}
-	if v, ok := cruo.mutation.V3(); ok {
-		if err := casbinrule.V3Validator(v); err != nil {
-			return &ValidationError{Name: "v3", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v3": %w`, err)}
-		}
-	}
-	if v, ok := cruo.mutation.V4(); ok {
-		if err := casbinrule.V4Validator(v); err != nil {
-			return &ValidationError{Name: "v4", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v4": %w`, err)}
-		}
-	}
-	if v, ok := cruo.mutation.V5(); ok {
-		if err := casbinrule.V5Validator(v); err != nil {
-			return &ValidationError{Name: "v5", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v5": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (cruo *CasbinRuleUpdateOne) sqlSave(ctx context.Context) (_node *CasbinRule, err error) {
-	if err := cruo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(casbinrule.Table, casbinrule.Columns, sqlgraph.NewFieldSpec(casbinrule.FieldID, field.TypeString))
 	id, ok := cruo.mutation.ID()
 	if !ok {

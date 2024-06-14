@@ -15,21 +15,22 @@ import (
 type CasbinRule struct {
 	config `json:"-"`
 	// ID of the ent.
+	// primary key
 	ID string `json:"id,omitempty"`
-	// PType holds the value of the "p_type" field.
-	PType *string `json:"p_type,omitempty"`
-	// V0 holds the value of the "v0" field.
-	V0 *string `json:"v0,omitempty"`
-	// V1 holds the value of the "v1" field.
-	V1 *string `json:"v1,omitempty"`
-	// V2 holds the value of the "v2" field.
-	V2 *string `json:"v2,omitempty"`
-	// V3 holds the value of the "v3" field.
-	V3 *string `json:"v3,omitempty"`
-	// V4 holds the value of the "v4" field.
-	V4 *string `json:"v4,omitempty"`
-	// V5 holds the value of the "v5" field.
-	V5           *string `json:"v5,omitempty"`
+	// permission type
+	PType string `json:"p_type,omitempty"`
+	// version 0
+	V0 string `json:"v0,omitempty"`
+	// version 1
+	V1 string `json:"v1,omitempty"`
+	// version 2
+	V2 string `json:"v2,omitempty"`
+	// version 3
+	V3 string `json:"v3,omitempty"`
+	// version 4
+	V4 string `json:"v4,omitempty"`
+	// version 5
+	V5           string `json:"v5,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -65,50 +66,43 @@ func (cr *CasbinRule) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field p_type", values[i])
 			} else if value.Valid {
-				cr.PType = new(string)
-				*cr.PType = value.String
+				cr.PType = value.String
 			}
 		case casbinrule.FieldV0:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v0", values[i])
 			} else if value.Valid {
-				cr.V0 = new(string)
-				*cr.V0 = value.String
+				cr.V0 = value.String
 			}
 		case casbinrule.FieldV1:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v1", values[i])
 			} else if value.Valid {
-				cr.V1 = new(string)
-				*cr.V1 = value.String
+				cr.V1 = value.String
 			}
 		case casbinrule.FieldV2:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v2", values[i])
 			} else if value.Valid {
-				cr.V2 = new(string)
-				*cr.V2 = value.String
+				cr.V2 = value.String
 			}
 		case casbinrule.FieldV3:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v3", values[i])
 			} else if value.Valid {
-				cr.V3 = new(string)
-				*cr.V3 = value.String
+				cr.V3 = value.String
 			}
 		case casbinrule.FieldV4:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v4", values[i])
 			} else if value.Valid {
-				cr.V4 = new(string)
-				*cr.V4 = value.String
+				cr.V4 = value.String
 			}
 		case casbinrule.FieldV5:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v5", values[i])
 			} else if value.Valid {
-				cr.V5 = new(string)
-				*cr.V5 = value.String
+				cr.V5 = value.String
 			}
 		default:
 			cr.selectValues.Set(columns[i], values[i])
@@ -146,40 +140,26 @@ func (cr *CasbinRule) String() string {
 	var builder strings.Builder
 	builder.WriteString("CasbinRule(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", cr.ID))
-	if v := cr.PType; v != nil {
-		builder.WriteString("p_type=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("p_type=")
+	builder.WriteString(cr.PType)
 	builder.WriteString(", ")
-	if v := cr.V0; v != nil {
-		builder.WriteString("v0=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("v0=")
+	builder.WriteString(cr.V0)
 	builder.WriteString(", ")
-	if v := cr.V1; v != nil {
-		builder.WriteString("v1=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("v1=")
+	builder.WriteString(cr.V1)
 	builder.WriteString(", ")
-	if v := cr.V2; v != nil {
-		builder.WriteString("v2=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("v2=")
+	builder.WriteString(cr.V2)
 	builder.WriteString(", ")
-	if v := cr.V3; v != nil {
-		builder.WriteString("v3=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("v3=")
+	builder.WriteString(cr.V3)
 	builder.WriteString(", ")
-	if v := cr.V4; v != nil {
-		builder.WriteString("v4=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("v4=")
+	builder.WriteString(cr.V4)
 	builder.WriteString(", ")
-	if v := cr.V5; v != nil {
-		builder.WriteString("v5=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("v5=")
+	builder.WriteString(cr.V5)
 	builder.WriteByte(')')
 	return builder.String()
 }

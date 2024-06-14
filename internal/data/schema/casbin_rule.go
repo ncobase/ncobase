@@ -1,14 +1,13 @@
 package schema
 
 import (
-	"stocms/pkg/nanoid"
+	"stocms/internal/data/schema/mixin"
 	"strings"
 
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/field"
 )
 
 // CasbinRule holds the schema definition for the CasbinRule entity.
@@ -26,18 +25,23 @@ func (CasbinRule) Annotations() []schema.Annotation {
 	}
 }
 
+// Mixin of the CasbinRule.
+func (CasbinRule) Mixin() []ent.Mixin {
+	return []ent.Mixin{
+		mixin.PrimaryKey,
+		mixin.PType,
+		mixin.V0,
+		mixin.V1,
+		mixin.V2,
+		mixin.V3,
+		mixin.V4,
+		mixin.V5,
+	}
+}
+
 // Fields of the CasbinRule.
 func (CasbinRule) Fields() []ent.Field {
-	return []ent.Field{
-		field.String("id").DefaultFunc(nanoid.PrimaryKey()),      // primary key
-		field.String("p_type").Nillable().Optional().MaxLen(255), // p_type, ref: https://casbin.org/docs/zh-CN/policy-storage
-		field.String("v0").Nillable().Optional().MaxLen(255),     // v0
-		field.String("v1").Nillable().Optional().MaxLen(255),     // v1
-		field.String("v2").Nillable().Optional().MaxLen(255),     // v2
-		field.String("v3").Nillable().Optional().MaxLen(255),     // v3
-		field.String("v4").Nillable().Optional().MaxLen(255),     // v4
-		field.String("v5").Nillable().Optional().MaxLen(255),     // v5
-	}
+	return []ent.Field{}
 }
 
 // Edges of the CasbinRule.

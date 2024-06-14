@@ -17,16 +17,16 @@ type BoolMixin struct {
 }
 
 // Fields implements the ent.Mixin interface for BoolMixin.
-func (b BoolMixin) Fields() []ent.Field {
-	f := field.Bool(b.Field).Comment(b.Comment)
-	if b.Default == true || b.Default == false {
-		f = f.Default(b.Default)
+func (m BoolMixin) Fields() []ent.Field {
+	f := field.Bool(m.Field).Comment(m.Comment)
+	if m.Default == true || m.Default == false {
+		f = f.Default(m.Default)
 	}
 
-	if b.Immutable {
+	if m.Immutable {
 		f = f.Immutable()
 	}
-	if b.Optional {
+	if m.Optional {
 		f = f.Optional()
 	}
 	return []ent.Field{f}
