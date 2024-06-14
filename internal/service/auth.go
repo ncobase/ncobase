@@ -10,6 +10,7 @@ import (
 	"stocms/internal/helper"
 	"stocms/internal/server/middleware"
 	"stocms/pkg/cookie"
+	"stocms/pkg/ecode"
 	"stocms/pkg/email"
 	"stocms/pkg/jwt"
 	"stocms/pkg/nanoid"
@@ -324,7 +325,7 @@ func (svc *Service) GenerateCaptchaService(_ *gin.Context, ext string) (*resp.Ex
 func (svc *Service) GetCaptchaService(_ *gin.Context, id string) *resp.Exception {
 	cached, err := svc.captcha.Get(context.Background(), id)
 	if err != nil {
-		return resp.NotFound(err.Error())
+		return resp.NotFound(ecode.NotExist("captcha"))
 	}
 	return &resp.Exception{
 		Data: cached,
@@ -334,7 +335,7 @@ func (svc *Service) GetCaptchaService(_ *gin.Context, id string) *resp.Exception
 // ValidateCaptchaService validates the captcha code.
 func (svc *Service) ValidateCaptchaService(_ *gin.Context, body *structs.Captcha) *resp.Exception {
 	if !captcha.VerifyString(body.ID, body.Solution) {
-		return resp.BadRequest("Invalid captcha")
+		return resp.BadRequest(ecode.FieldIsInvalid("captcha"))
 	}
 
 	// Delete captcha after verification
