@@ -75,7 +75,7 @@ func Type(v string) predicate.TaxonomyRelation {
 }
 
 // Order applies equality check predicate on the "order" field. It's identical to OrderEQ.
-func Order(v int32) predicate.TaxonomyRelation {
+func Order(v int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldEQ(FieldOrder, v))
 }
 
@@ -240,42 +240,42 @@ func TypeContainsFold(v string) predicate.TaxonomyRelation {
 }
 
 // OrderEQ applies the EQ predicate on the "order" field.
-func OrderEQ(v int32) predicate.TaxonomyRelation {
+func OrderEQ(v int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldEQ(FieldOrder, v))
 }
 
 // OrderNEQ applies the NEQ predicate on the "order" field.
-func OrderNEQ(v int32) predicate.TaxonomyRelation {
+func OrderNEQ(v int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldNEQ(FieldOrder, v))
 }
 
 // OrderIn applies the In predicate on the "order" field.
-func OrderIn(vs ...int32) predicate.TaxonomyRelation {
+func OrderIn(vs ...int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldIn(FieldOrder, vs...))
 }
 
 // OrderNotIn applies the NotIn predicate on the "order" field.
-func OrderNotIn(vs ...int32) predicate.TaxonomyRelation {
+func OrderNotIn(vs ...int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldNotIn(FieldOrder, vs...))
 }
 
 // OrderGT applies the GT predicate on the "order" field.
-func OrderGT(v int32) predicate.TaxonomyRelation {
+func OrderGT(v int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldGT(FieldOrder, v))
 }
 
 // OrderGTE applies the GTE predicate on the "order" field.
-func OrderGTE(v int32) predicate.TaxonomyRelation {
+func OrderGTE(v int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldGTE(FieldOrder, v))
 }
 
 // OrderLT applies the LT predicate on the "order" field.
-func OrderLT(v int32) predicate.TaxonomyRelation {
+func OrderLT(v int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldLT(FieldOrder, v))
 }
 
 // OrderLTE applies the LTE predicate on the "order" field.
-func OrderLTE(v int32) predicate.TaxonomyRelation {
+func OrderLTE(v int) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldLTE(FieldOrder, v))
 }
 

@@ -29,10 +29,10 @@ type User struct {
 	Phone string `json:"phone,omitempty"`
 	// is certified
 	IsCertified bool `json:"is_certified,omitempty"`
-	// is a superuser
+	// is admin
 	IsAdmin bool `json:"is_admin,omitempty"`
 	// status: 0 activated, 1 unactivated, 2 disabled
-	Status int32 `json:"status,omitempty"`
+	Status int `json:"status,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// created at
@@ -118,7 +118,7 @@ func (u *User) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				u.Status = int32(value.Int64)
+				u.Status = int(value.Int64)
 			}
 		case user.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {

@@ -105,13 +105,13 @@ func (uc *UserCreate) SetNillableIsAdmin(b *bool) *UserCreate {
 }
 
 // SetStatus sets the "status" field.
-func (uc *UserCreate) SetStatus(i int32) *UserCreate {
+func (uc *UserCreate) SetStatus(i int) *UserCreate {
 	uc.mutation.SetStatus(i)
 	return uc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (uc *UserCreate) SetNillableStatus(i *int32) *UserCreate {
+func (uc *UserCreate) SetNillableStatus(i *int) *UserCreate {
 	if i != nil {
 		uc.SetStatus(*i)
 	}
@@ -201,6 +201,14 @@ func (uc *UserCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (uc *UserCreate) defaults() {
+	if _, ok := uc.mutation.IsCertified(); !ok {
+		v := user.DefaultIsCertified
+		uc.mutation.SetIsCertified(v)
+	}
+	if _, ok := uc.mutation.IsAdmin(); !ok {
+		v := user.DefaultIsAdmin
+		uc.mutation.SetIsAdmin(v)
+	}
 	if _, ok := uc.mutation.Status(); !ok {
 		v := user.DefaultStatus
 		uc.mutation.SetStatus(v)
@@ -232,6 +240,11 @@ func (uc *UserCreate) check() error {
 	}
 	if _, ok := uc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "User.status"`)}
+	}
+	if v, ok := uc.mutation.ID(); ok {
+		if err := user.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "User.id": %w`, err)}
+		}
 	}
 	return nil
 }
@@ -293,7 +306,7 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_node.IsAdmin = value
 	}
 	if value, ok := uc.mutation.Status(); ok {
-		_spec.SetField(user.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(user.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
 	if value, ok := uc.mutation.Extras(); ok {

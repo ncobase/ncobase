@@ -28,13 +28,13 @@ func (OAuthUser) Annotations() []schema.Annotation {
 // Mixin of the OAuthUser.
 func (OAuthUser) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
+		mixin.PrimaryKey,
 		mixin.OAuthID,
-		mixin.AccessToken{},
-		mixin.Provider{},
+		mixin.AccessToken,
+		mixin.Provider,
 		mixin.UserID,
-		mixin.CreatedAt{},
-		mixin.UpdatedAt{},
+		mixin.CreatedAt,
+		mixin.UpdatedAt,
 	}
 }
 

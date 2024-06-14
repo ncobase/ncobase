@@ -35,12 +35,12 @@ type Module struct {
 	// is private
 	Private bool `json:"private,omitempty"`
 	// status: 0 activated, 1 unactivated, 2 disabled
-	Status int32 `json:"status,omitempty"`
+	Status int `json:"status,omitempty"`
 	// released
 	Released time.Time `json:"released,omitempty"`
-	// ID of the creator
+	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
-	// ID of the person who last updated the entity
+	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
@@ -135,7 +135,7 @@ func (m *Module) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				m.Status = int32(value.Int64)
+				m.Status = int(value.Int64)
 			}
 		case module.FieldReleased:
 			if value, ok := values[i].(*sql.NullTime); !ok {

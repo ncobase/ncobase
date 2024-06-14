@@ -115,7 +115,7 @@ func Description(v string) predicate.Taxonomy {
 }
 
 // Status applies equality check predicate on the "status" field. It's identical to StatusEQ.
-func Status(v int32) predicate.Taxonomy {
+func Status(v int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldEQ(FieldStatus, v))
 }
 
@@ -900,42 +900,42 @@ func DescriptionContainsFold(v string) predicate.Taxonomy {
 }
 
 // StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v int32) predicate.Taxonomy {
+func StatusEQ(v int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldEQ(FieldStatus, v))
 }
 
 // StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v int32) predicate.Taxonomy {
+func StatusNEQ(v int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldNEQ(FieldStatus, v))
 }
 
 // StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...int32) predicate.Taxonomy {
+func StatusIn(vs ...int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldIn(FieldStatus, vs...))
 }
 
 // StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...int32) predicate.Taxonomy {
+func StatusNotIn(vs ...int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldNotIn(FieldStatus, vs...))
 }
 
 // StatusGT applies the GT predicate on the "status" field.
-func StatusGT(v int32) predicate.Taxonomy {
+func StatusGT(v int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldGT(FieldStatus, v))
 }
 
 // StatusGTE applies the GTE predicate on the "status" field.
-func StatusGTE(v int32) predicate.Taxonomy {
+func StatusGTE(v int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldGTE(FieldStatus, v))
 }
 
 // StatusLT applies the LT predicate on the "status" field.
-func StatusLT(v int32) predicate.Taxonomy {
+func StatusLT(v int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldLT(FieldStatus, v))
 }
 
 // StatusLTE applies the LTE predicate on the "status" field.
-func StatusLTE(v int32) predicate.Taxonomy {
+func StatusLTE(v int) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldLTE(FieldStatus, v))
 }
 

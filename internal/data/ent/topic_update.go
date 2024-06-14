@@ -189,14 +189,14 @@ func (tu *TopicUpdate) ClearPrivate() *TopicUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (tu *TopicUpdate) SetStatus(i int32) *TopicUpdate {
+func (tu *TopicUpdate) SetStatus(i int) *TopicUpdate {
 	tu.mutation.ResetStatus()
 	tu.mutation.SetStatus(i)
 	return tu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableStatus(i *int32) *TopicUpdate {
+func (tu *TopicUpdate) SetNillableStatus(i *int) *TopicUpdate {
 	if i != nil {
 		tu.SetStatus(*i)
 	}
@@ -204,7 +204,7 @@ func (tu *TopicUpdate) SetNillableStatus(i *int32) *TopicUpdate {
 }
 
 // AddStatus adds i to the "status" field.
-func (tu *TopicUpdate) AddStatus(i int32) *TopicUpdate {
+func (tu *TopicUpdate) AddStatus(i int) *TopicUpdate {
 	tu.mutation.AddStatus(i)
 	return tu
 }
@@ -448,10 +448,10 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(topic.FieldPrivate, field.TypeBool)
 	}
 	if value, ok := tu.mutation.Status(); ok {
-		_spec.SetField(topic.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(topic.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tu.mutation.AddedStatus(); ok {
-		_spec.AddField(topic.FieldStatus, field.TypeInt32, value)
+		_spec.AddField(topic.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tu.mutation.Released(); ok {
 		_spec.SetField(topic.FieldReleased, field.TypeTime, value)
@@ -673,14 +673,14 @@ func (tuo *TopicUpdateOne) ClearPrivate() *TopicUpdateOne {
 }
 
 // SetStatus sets the "status" field.
-func (tuo *TopicUpdateOne) SetStatus(i int32) *TopicUpdateOne {
+func (tuo *TopicUpdateOne) SetStatus(i int) *TopicUpdateOne {
 	tuo.mutation.ResetStatus()
 	tuo.mutation.SetStatus(i)
 	return tuo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableStatus(i *int32) *TopicUpdateOne {
+func (tuo *TopicUpdateOne) SetNillableStatus(i *int) *TopicUpdateOne {
 	if i != nil {
 		tuo.SetStatus(*i)
 	}
@@ -688,7 +688,7 @@ func (tuo *TopicUpdateOne) SetNillableStatus(i *int32) *TopicUpdateOne {
 }
 
 // AddStatus adds i to the "status" field.
-func (tuo *TopicUpdateOne) AddStatus(i int32) *TopicUpdateOne {
+func (tuo *TopicUpdateOne) AddStatus(i int) *TopicUpdateOne {
 	tuo.mutation.AddStatus(i)
 	return tuo
 }
@@ -962,10 +962,10 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 		_spec.ClearField(topic.FieldPrivate, field.TypeBool)
 	}
 	if value, ok := tuo.mutation.Status(); ok {
-		_spec.SetField(topic.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(topic.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tuo.mutation.AddedStatus(); ok {
-		_spec.AddField(topic.FieldStatus, field.TypeInt32, value)
+		_spec.AddField(topic.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tuo.mutation.Released(); ok {
 		_spec.SetField(topic.FieldReleased, field.TypeTime, value)

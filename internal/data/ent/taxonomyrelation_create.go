@@ -49,13 +49,13 @@ func (trc *TaxonomyRelationCreate) SetNillableType(s *string) *TaxonomyRelationC
 }
 
 // SetOrder sets the "order" field.
-func (trc *TaxonomyRelationCreate) SetOrder(i int32) *TaxonomyRelationCreate {
+func (trc *TaxonomyRelationCreate) SetOrder(i int) *TaxonomyRelationCreate {
 	trc.mutation.SetOrder(i)
 	return trc
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (trc *TaxonomyRelationCreate) SetNillableOrder(i *int32) *TaxonomyRelationCreate {
+func (trc *TaxonomyRelationCreate) SetNillableOrder(i *int) *TaxonomyRelationCreate {
 	if i != nil {
 		trc.SetOrder(*i)
 	}
@@ -163,11 +163,6 @@ func (trc *TaxonomyRelationCreate) check() error {
 	if _, ok := trc.mutation.Order(); !ok {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "TaxonomyRelation.order"`)}
 	}
-	if v, ok := trc.mutation.Order(); ok {
-		if err := taxonomyrelation.OrderValidator(v); err != nil {
-			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.order": %w`, err)}
-		}
-	}
 	if v, ok := trc.mutation.CreatedBy(); ok {
 		if err := taxonomyrelation.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.created_by": %w`, err)}
@@ -217,7 +212,7 @@ func (trc *TaxonomyRelationCreate) createSpec() (*TaxonomyRelation, *sqlgraph.Cr
 		_node.Type = value
 	}
 	if value, ok := trc.mutation.Order(); ok {
-		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt32, value)
+		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 		_node.Order = value
 	}
 	if value, ok := trc.mutation.CreatedBy(); ok {

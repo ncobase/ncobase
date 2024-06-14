@@ -16,7 +16,7 @@ type ModuleBody struct {
 	Temp      *bool      `json:"temp,omitempty"`
 	Markdown  *bool      `json:"markdown,omitempty"`
 	Private   *bool      `json:"private,omitempty"`
-	Status    *int32     `json:"status,omitempty"`   // Use pointer for nullable field
+	Status    *int       `json:"status,omitempty"`   // Use pointer for nullable field
 	Released  *time.Time `json:"released,omitempty"` // Use pointer for nullable field
 }
 
@@ -42,7 +42,7 @@ type ReadModule struct {
 	Temp        bool        `json:"temp"`
 	Markdown    bool        `json:"markdown"`
 	Private     bool        `json:"private"`
-	Status      int32       `json:"status"`
+	Status      int         `json:"status"`
 	Released    time.Time   `json:"released"`
 	Keywords    []string    `json:"keywords"`
 	Description string      `json:"description"`
@@ -58,5 +58,5 @@ type FindModule struct {
 // ListModuleParams represents the query parameters for listing modules.
 type ListModuleParams struct {
 	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int64  `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }

@@ -28,13 +28,13 @@ func (Group) Annotations() []schema.Annotation {
 // Mixin of the Group.
 func (Group) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Name{},
-		mixin.SlugUnique{},
-		mixin.Disabled{},
-		mixin.Description{},
-		mixin.Leader{},
-		mixin.ExtraProps{},
+		mixin.PrimaryKey,
+		mixin.Name,
+		mixin.SlugUnique,
+		mixin.Disabled,
+		mixin.Description,
+		mixin.Leader,
+		mixin.ExtraProps,
 		mixin.ParentID,
 		mixin.DomainID,
 		mixin.OperatorBy{},

@@ -133,13 +133,13 @@ func (dc *DomainCreate) SetNillableDescription(s *string) *DomainCreate {
 }
 
 // SetOrder sets the "order" field.
-func (dc *DomainCreate) SetOrder(i int32) *DomainCreate {
+func (dc *DomainCreate) SetOrder(i int) *DomainCreate {
 	dc.mutation.SetOrder(i)
 	return dc
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (dc *DomainCreate) SetNillableOrder(i *int32) *DomainCreate {
+func (dc *DomainCreate) SetNillableOrder(i *int) *DomainCreate {
 	if i != nil {
 		dc.SetOrder(*i)
 	}
@@ -261,6 +261,10 @@ func (dc *DomainCreate) defaults() {
 		v := domain.DefaultOrder
 		dc.mutation.SetOrder(v)
 	}
+	if _, ok := dc.mutation.Disabled(); !ok {
+		v := domain.DefaultDisabled
+		dc.mutation.SetDisabled(v)
+	}
 	if _, ok := dc.mutation.Extras(); !ok {
 		v := domain.DefaultExtras
 		dc.mutation.SetExtras(v)
@@ -284,14 +288,14 @@ func (dc *DomainCreate) check() error {
 	if _, ok := dc.mutation.Order(); !ok {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "Domain.order"`)}
 	}
-	if v, ok := dc.mutation.Order(); ok {
-		if err := domain.OrderValidator(v); err != nil {
-			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "Domain.order": %w`, err)}
-		}
-	}
 	if v, ok := dc.mutation.CreatedBy(); ok {
 		if err := domain.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Domain.created_by": %w`, err)}
+		}
+	}
+	if v, ok := dc.mutation.ID(); ok {
+		if err := domain.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Domain.id": %w`, err)}
 		}
 	}
 	return nil
@@ -362,7 +366,7 @@ func (dc *DomainCreate) createSpec() (*Domain, *sqlgraph.CreateSpec) {
 		_node.Description = value
 	}
 	if value, ok := dc.mutation.Order(); ok {
-		_spec.SetField(domain.FieldOrder, field.TypeInt32, value)
+		_spec.SetField(domain.FieldOrder, field.TypeInt, value)
 		_node.Order = value
 	}
 	if value, ok := dc.mutation.Disabled(); ok {

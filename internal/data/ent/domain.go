@@ -36,12 +36,12 @@ type Domain struct {
 	// description
 	Description string `json:"description,omitempty"`
 	// display order
-	Order int32 `json:"order,omitempty"`
+	Order int `json:"order,omitempty"`
 	// is disabled
 	Disabled bool `json:"disabled,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// ID of the creator
+	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
@@ -138,7 +138,7 @@ func (d *Domain) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field order", values[i])
 			} else if value.Valid {
-				d.Order = int32(value.Int64)
+				d.Order = int(value.Int64)
 			}
 		case domain.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {

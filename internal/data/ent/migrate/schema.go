@@ -11,19 +11,19 @@ import (
 var (
 	// ScAssetColumns holds the columns for the "sc_asset" table.
 	ScAssetColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "size", Type: field.TypeInt64, Comment: "size in bytes", Default: 0},
+		{Name: "size", Type: field.TypeInt, Comment: "size in bytes", Default: 0},
 		{Name: "storage", Type: field.TypeString, Nullable: true, Comment: "storage type"},
 		{Name: "bucket", Type: field.TypeString, Nullable: true, Comment: "bucket"},
 		{Name: "endpoint", Type: field.TypeString, Nullable: true, Comment: "endpoint"},
 		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -35,7 +35,7 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "asset_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScAssetColumns[0]},
 			},
 			{
@@ -57,8 +57,8 @@ var (
 	}
 	// ScAuthTokenColumns holds the columns for the "sc_auth_token" table.
 	ScAuthTokenColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
-		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "user id"},
@@ -71,7 +71,7 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "authtoken_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScAuthTokenColumns[0]},
 			},
 			{
@@ -100,10 +100,10 @@ var (
 	}
 	// ScCodeAuthColumns holds the columns for the "sc_code_auth" table.
 	ScCodeAuthColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "code"},
 		{Name: "email", Type: field.TypeString, Nullable: true, Comment: "email"},
-		{Name: "logged", Type: field.TypeBool, Nullable: true, Comment: "is logged"},
+		{Name: "logged", Type: field.TypeBool, Nullable: true, Comment: "is logged", Default: false},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -115,7 +115,7 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "codeauth_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScCodeAuthColumns[0]},
 			},
 			{
@@ -127,7 +127,7 @@ var (
 	}
 	// ScDomainColumns holds the columns for the "sc_domain" table.
 	ScDomainColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
 		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
@@ -135,11 +135,11 @@ var (
 		{Name: "logo_alt", Type: field.TypeString, Nullable: true, Comment: "logo alt"},
 		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
 		{Name: "copyright", Type: field.TypeString, Nullable: true, Comment: "copyright"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "order", Type: field.TypeInt32, Comment: "display order", Default: 99},
-		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
+		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -151,24 +151,24 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "domain_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScDomainColumns[0]},
 			},
 		},
 	}
 	// ScGroupColumns holds the columns for the "sc_group" table.
 	ScGroupColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
-		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
 		{Name: "leader", Type: field.TypeJSON, Nullable: true, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "parent id"},
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -180,12 +180,12 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "group_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScGroupColumns[0]},
 			},
 			{
 				Name:    "group_slug",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScGroupColumns[2]},
 			},
 			{
@@ -230,19 +230,19 @@ var (
 	}
 	// ScModuleColumns holds the columns for the "sc_module" table.
 	ScModuleColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
-		{Name: "content", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "content, big text"},
+		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "content, big text"},
 		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
-		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp"},
-		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown"},
-		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private"},
-		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp", Default: false},
+		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown", Default: false},
+		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private", Default: false},
+		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -254,19 +254,19 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "module_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScModuleColumns[0]},
 			},
 			{
 				Name:    "module_slug",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScModuleColumns[3]},
 			},
 		},
 	}
 	// ScOauthUserColumns holds the columns for the "sc_oauth_user" table.
 	ScOauthUserColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "oauth_id", Type: field.TypeString, Nullable: true, Comment: "oauth id"},
 		{Name: "access_token", Type: field.TypeString, Comment: "access token"},
 		{Name: "provider", Type: field.TypeString, Nullable: true, Comment: "provider"},
@@ -282,7 +282,7 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "oauthuser_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScOauthUserColumns[0]},
 			},
 			{
@@ -299,16 +299,16 @@ var (
 	}
 	// ScPermissionColumns holds the columns for the "sc_permission" table.
 	ScPermissionColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "action", Type: field.TypeString, Nullable: true, Comment: "action"},
 		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "subject"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "default", Type: field.TypeBool, Nullable: true, Comment: "is default"},
-		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
+		{Name: "default", Type: field.TypeBool, Nullable: true, Comment: "is default", Default: false},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -320,7 +320,7 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "permission_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScPermissionColumns[0]},
 			},
 			{
@@ -332,14 +332,14 @@ var (
 	}
 	// ScRoleColumns holds the columns for the "sc_role" table.
 	ScRoleColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
-		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -351,12 +351,12 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "role_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScRoleColumns[0]},
 			},
 			{
 				Name:    "role_slug",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScRoleColumns[2]},
 			},
 		},
@@ -391,7 +391,7 @@ var (
 	}
 	// ScTaxonomyColumns holds the columns for the "sc_taxonomy" table.
 	ScTaxonomyColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
@@ -401,13 +401,13 @@ var (
 		{Name: "icon", Type: field.TypeString, Nullable: true, Comment: "icon"},
 		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
 		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
+		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "parent id"},
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -419,12 +419,12 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "taxonomy_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScTaxonomyColumns[0]},
 			},
 			{
 				Name:    "taxonomy_slug",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScTaxonomyColumns[3]},
 			},
 			{
@@ -444,8 +444,8 @@ var (
 		{Name: "object_id", Type: field.TypeString, Unique: true, Comment: "object primary key alias"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "taxonomy id"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "order", Type: field.TypeInt32, Comment: "display order", Default: 99},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
+		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 	}
 	// ScTaxonomyRelationTable holds the schema information for the "sc_taxonomy_relation" table.
@@ -468,21 +468,21 @@ var (
 	}
 	// ScTopicColumns holds the columns for the "sc_topic" table.
 	ScTopicColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
-		{Name: "content", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "content, big text"},
+		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "content, big text"},
 		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
-		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp"},
-		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown"},
-		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private"},
-		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp", Default: false},
+		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown", Default: false},
+		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private", Default: false},
+		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "taxonomy id"},
 		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "ID of the person who last updated the entity"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}
@@ -494,12 +494,12 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "topic_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScTopicColumns[0]},
 			},
 			{
 				Name:    "topic_slug",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScTopicColumns[3]},
 			},
 			{
@@ -516,14 +516,14 @@ var (
 	}
 	// ScUserColumns holds the columns for the "sc_user" table.
 	ScUserColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Comment: "primary key"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "username", Type: field.TypeString, Unique: true, Nullable: true, Size: 50, Comment: "username"},
 		{Name: "password", Type: field.TypeString, Nullable: true, Comment: "password"},
 		{Name: "email", Type: field.TypeString, Nullable: true, Comment: "email"},
 		{Name: "phone", Type: field.TypeString, Nullable: true, Comment: "phone"},
-		{Name: "is_certified", Type: field.TypeBool, Nullable: true, Comment: "is certified"},
-		{Name: "is_admin", Type: field.TypeBool, Nullable: true, Comment: "is a superuser"},
-		{Name: "status", Type: field.TypeInt32, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "is_certified", Type: field.TypeBool, Nullable: true, Comment: "is certified", Default: false},
+		{Name: "is_admin", Type: field.TypeBool, Nullable: true, Comment: "is admin", Default: false},
+		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
@@ -536,7 +536,7 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "user_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{ScUserColumns[0]},
 			},
 			{

@@ -48,6 +48,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultLogged holds the default value on creation for the "logged" field.
+	DefaultLogged bool
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
@@ -56,6 +58,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the CodeAuth queries.

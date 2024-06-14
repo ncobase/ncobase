@@ -23,8 +23,8 @@ type TaxonomyRelation struct {
 	// type
 	Type string `json:"type,omitempty"`
 	// display order
-	Order int32 `json:"order,omitempty"`
-	// ID of the creator
+	Order int `json:"order,omitempty"`
+	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// created at
 	CreatedAt    time.Time `json:"created_at,omitempty"`
@@ -79,7 +79,7 @@ func (tr *TaxonomyRelation) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field order", values[i])
 			} else if value.Valid {
-				tr.Order = int32(value.Int64)
+				tr.Order = int(value.Int64)
 			}
 		case taxonomyrelation.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {

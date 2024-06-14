@@ -76,8 +76,8 @@ type AssetMutation struct {
 	name          *string
 	_path         *string
 	_type         *string
-	size          *int64
-	addsize       *int64
+	size          *int
+	addsize       *int
 	storage       *string
 	bucket        *string
 	endpoint      *string
@@ -346,13 +346,13 @@ func (m *AssetMutation) ResetType() {
 }
 
 // SetSize sets the "size" field.
-func (m *AssetMutation) SetSize(i int64) {
+func (m *AssetMutation) SetSize(i int) {
 	m.size = &i
 	m.addsize = nil
 }
 
 // Size returns the value of the "size" field in the mutation.
-func (m *AssetMutation) Size() (r int64, exists bool) {
+func (m *AssetMutation) Size() (r int, exists bool) {
 	v := m.size
 	if v == nil {
 		return
@@ -363,7 +363,7 @@ func (m *AssetMutation) Size() (r int64, exists bool) {
 // OldSize returns the old "size" field's value of the Asset entity.
 // If the Asset object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AssetMutation) OldSize(ctx context.Context) (v int64, err error) {
+func (m *AssetMutation) OldSize(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldSize is only allowed on UpdateOne operations")
 	}
@@ -378,7 +378,7 @@ func (m *AssetMutation) OldSize(ctx context.Context) (v int64, err error) {
 }
 
 // AddSize adds i to the "size" field.
-func (m *AssetMutation) AddSize(i int64) {
+func (m *AssetMutation) AddSize(i int) {
 	if m.addsize != nil {
 		*m.addsize += i
 	} else {
@@ -387,7 +387,7 @@ func (m *AssetMutation) AddSize(i int64) {
 }
 
 // AddedSize returns the value that was added to the "size" field in this mutation.
-func (m *AssetMutation) AddedSize() (r int64, exists bool) {
+func (m *AssetMutation) AddedSize() (r int, exists bool) {
 	v := m.addsize
 	if v == nil {
 		return
@@ -1072,7 +1072,7 @@ func (m *AssetMutation) SetField(name string, value ent.Value) error {
 		m.SetType(v)
 		return nil
 	case asset.FieldSize:
-		v, ok := value.(int64)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1179,7 +1179,7 @@ func (m *AssetMutation) AddedField(name string) (ent.Value, bool) {
 func (m *AssetMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case asset.FieldSize:
-		v, ok := value.(int64)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3412,8 +3412,8 @@ type DomainMutation struct {
 	keywords      *string
 	copyright     *string
 	description   *string
-	_order        *int32
-	add_order     *int32
+	_order        *int
+	add_order     *int
 	disabled      *bool
 	extras        *map[string]interface{}
 	created_by    *string
@@ -3922,13 +3922,13 @@ func (m *DomainMutation) ResetDescription() {
 }
 
 // SetOrder sets the "order" field.
-func (m *DomainMutation) SetOrder(i int32) {
+func (m *DomainMutation) SetOrder(i int) {
 	m._order = &i
 	m.add_order = nil
 }
 
 // Order returns the value of the "order" field in the mutation.
-func (m *DomainMutation) Order() (r int32, exists bool) {
+func (m *DomainMutation) Order() (r int, exists bool) {
 	v := m._order
 	if v == nil {
 		return
@@ -3939,7 +3939,7 @@ func (m *DomainMutation) Order() (r int32, exists bool) {
 // OldOrder returns the old "order" field's value of the Domain entity.
 // If the Domain object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DomainMutation) OldOrder(ctx context.Context) (v int32, err error) {
+func (m *DomainMutation) OldOrder(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOrder is only allowed on UpdateOne operations")
 	}
@@ -3954,7 +3954,7 @@ func (m *DomainMutation) OldOrder(ctx context.Context) (v int32, err error) {
 }
 
 // AddOrder adds i to the "order" field.
-func (m *DomainMutation) AddOrder(i int32) {
+func (m *DomainMutation) AddOrder(i int) {
 	if m.add_order != nil {
 		*m.add_order += i
 	} else {
@@ -3963,7 +3963,7 @@ func (m *DomainMutation) AddOrder(i int32) {
 }
 
 // AddedOrder returns the value that was added to the "order" field in this mutation.
-func (m *DomainMutation) AddedOrder() (r int32, exists bool) {
+func (m *DomainMutation) AddedOrder() (r int, exists bool) {
 	v := m.add_order
 	if v == nil {
 		return
@@ -4438,7 +4438,7 @@ func (m *DomainMutation) SetField(name string, value ent.Value) error {
 		m.SetDescription(v)
 		return nil
 	case domain.FieldOrder:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -4510,7 +4510,7 @@ func (m *DomainMutation) AddedField(name string) (ent.Value, bool) {
 func (m *DomainMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case domain.FieldOrder:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -6243,8 +6243,8 @@ type ModuleMutation struct {
 	temp          *bool
 	markdown      *bool
 	private       *bool
-	status        *int32
-	addstatus     *int32
+	status        *int
+	addstatus     *int
 	released      *time.Time
 	created_by    *string
 	updated_by    *string
@@ -6753,13 +6753,13 @@ func (m *ModuleMutation) ResetPrivate() {
 }
 
 // SetStatus sets the "status" field.
-func (m *ModuleMutation) SetStatus(i int32) {
+func (m *ModuleMutation) SetStatus(i int) {
 	m.status = &i
 	m.addstatus = nil
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *ModuleMutation) Status() (r int32, exists bool) {
+func (m *ModuleMutation) Status() (r int, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -6770,7 +6770,7 @@ func (m *ModuleMutation) Status() (r int32, exists bool) {
 // OldStatus returns the old "status" field's value of the Module entity.
 // If the Module object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ModuleMutation) OldStatus(ctx context.Context) (v int32, err error) {
+func (m *ModuleMutation) OldStatus(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -6785,7 +6785,7 @@ func (m *ModuleMutation) OldStatus(ctx context.Context) (v int32, err error) {
 }
 
 // AddStatus adds i to the "status" field.
-func (m *ModuleMutation) AddStatus(i int32) {
+func (m *ModuleMutation) AddStatus(i int) {
 	if m.addstatus != nil {
 		*m.addstatus += i
 	} else {
@@ -6794,7 +6794,7 @@ func (m *ModuleMutation) AddStatus(i int32) {
 }
 
 // AddedStatus returns the value that was added to the "status" field in this mutation.
-func (m *ModuleMutation) AddedStatus() (r int32, exists bool) {
+func (m *ModuleMutation) AddedStatus() (r int, exists bool) {
 	v := m.addstatus
 	if v == nil {
 		return
@@ -7269,7 +7269,7 @@ func (m *ModuleMutation) SetField(name string, value ent.Value) error {
 		m.SetPrivate(v)
 		return nil
 	case module.FieldStatus:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -7341,7 +7341,7 @@ func (m *ModuleMutation) AddedField(name string) (ent.Value, bool) {
 func (m *ModuleMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case module.FieldStatus:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -10641,8 +10641,8 @@ type TaxonomyMutation struct {
 	url           *string
 	keywords      *string
 	description   *string
-	status        *int32
-	addstatus     *int32
+	status        *int
+	addstatus     *int
 	extras        *map[string]interface{}
 	parent_id     *string
 	domain_id     *string
@@ -11251,13 +11251,13 @@ func (m *TaxonomyMutation) ResetDescription() {
 }
 
 // SetStatus sets the "status" field.
-func (m *TaxonomyMutation) SetStatus(i int32) {
+func (m *TaxonomyMutation) SetStatus(i int) {
 	m.status = &i
 	m.addstatus = nil
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *TaxonomyMutation) Status() (r int32, exists bool) {
+func (m *TaxonomyMutation) Status() (r int, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -11268,7 +11268,7 @@ func (m *TaxonomyMutation) Status() (r int32, exists bool) {
 // OldStatus returns the old "status" field's value of the Taxonomy entity.
 // If the Taxonomy object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaxonomyMutation) OldStatus(ctx context.Context) (v int32, err error) {
+func (m *TaxonomyMutation) OldStatus(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -11283,7 +11283,7 @@ func (m *TaxonomyMutation) OldStatus(ctx context.Context) (v int32, err error) {
 }
 
 // AddStatus adds i to the "status" field.
-func (m *TaxonomyMutation) AddStatus(i int32) {
+func (m *TaxonomyMutation) AddStatus(i int) {
 	if m.addstatus != nil {
 		*m.addstatus += i
 	} else {
@@ -11292,7 +11292,7 @@ func (m *TaxonomyMutation) AddStatus(i int32) {
 }
 
 // AddedStatus returns the value that was added to the "status" field in this mutation.
-func (m *TaxonomyMutation) AddedStatus() (r int32, exists bool) {
+func (m *TaxonomyMutation) AddedStatus() (r int, exists bool) {
 	v := m.addstatus
 	if v == nil {
 		return
@@ -11907,7 +11907,7 @@ func (m *TaxonomyMutation) SetField(name string, value ent.Value) error {
 		m.SetDescription(v)
 		return nil
 	case taxonomy.FieldStatus:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -11993,7 +11993,7 @@ func (m *TaxonomyMutation) AddedField(name string) (ent.Value, bool) {
 func (m *TaxonomyMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case taxonomy.FieldStatus:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -12245,8 +12245,8 @@ type TaxonomyRelationMutation struct {
 	id            *string
 	taxonomy_id   *string
 	_type         *string
-	_order        *int32
-	add_order     *int32
+	_order        *int
+	add_order     *int
 	created_by    *string
 	created_at    *time.Time
 	clearedFields map[string]struct{}
@@ -12458,13 +12458,13 @@ func (m *TaxonomyRelationMutation) ResetType() {
 }
 
 // SetOrder sets the "order" field.
-func (m *TaxonomyRelationMutation) SetOrder(i int32) {
+func (m *TaxonomyRelationMutation) SetOrder(i int) {
 	m._order = &i
 	m.add_order = nil
 }
 
 // Order returns the value of the "order" field in the mutation.
-func (m *TaxonomyRelationMutation) Order() (r int32, exists bool) {
+func (m *TaxonomyRelationMutation) Order() (r int, exists bool) {
 	v := m._order
 	if v == nil {
 		return
@@ -12475,7 +12475,7 @@ func (m *TaxonomyRelationMutation) Order() (r int32, exists bool) {
 // OldOrder returns the old "order" field's value of the TaxonomyRelation entity.
 // If the TaxonomyRelation object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaxonomyRelationMutation) OldOrder(ctx context.Context) (v int32, err error) {
+func (m *TaxonomyRelationMutation) OldOrder(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOrder is only allowed on UpdateOne operations")
 	}
@@ -12490,7 +12490,7 @@ func (m *TaxonomyRelationMutation) OldOrder(ctx context.Context) (v int32, err e
 }
 
 // AddOrder adds i to the "order" field.
-func (m *TaxonomyRelationMutation) AddOrder(i int32) {
+func (m *TaxonomyRelationMutation) AddOrder(i int) {
 	if m.add_order != nil {
 		*m.add_order += i
 	} else {
@@ -12499,7 +12499,7 @@ func (m *TaxonomyRelationMutation) AddOrder(i int32) {
 }
 
 // AddedOrder returns the value that was added to the "order" field in this mutation.
-func (m *TaxonomyRelationMutation) AddedOrder() (r int32, exists bool) {
+func (m *TaxonomyRelationMutation) AddedOrder() (r int, exists bool) {
 	v := m.add_order
 	if v == nil {
 		return
@@ -12722,7 +12722,7 @@ func (m *TaxonomyRelationMutation) SetField(name string, value ent.Value) error 
 		m.SetType(v)
 		return nil
 	case taxonomyrelation.FieldOrder:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -12773,7 +12773,7 @@ func (m *TaxonomyRelationMutation) AddedField(name string) (ent.Value, bool) {
 func (m *TaxonomyRelationMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case taxonomyrelation.FieldOrder:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -12914,8 +12914,8 @@ type TopicMutation struct {
 	temp          *bool
 	markdown      *bool
 	private       *bool
-	status        *int32
-	addstatus     *int32
+	status        *int
+	addstatus     *int
 	released      *time.Time
 	taxonomy_id   *string
 	domain_id     *string
@@ -13426,13 +13426,13 @@ func (m *TopicMutation) ResetPrivate() {
 }
 
 // SetStatus sets the "status" field.
-func (m *TopicMutation) SetStatus(i int32) {
+func (m *TopicMutation) SetStatus(i int) {
 	m.status = &i
 	m.addstatus = nil
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *TopicMutation) Status() (r int32, exists bool) {
+func (m *TopicMutation) Status() (r int, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -13443,7 +13443,7 @@ func (m *TopicMutation) Status() (r int32, exists bool) {
 // OldStatus returns the old "status" field's value of the Topic entity.
 // If the Topic object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TopicMutation) OldStatus(ctx context.Context) (v int32, err error) {
+func (m *TopicMutation) OldStatus(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -13458,7 +13458,7 @@ func (m *TopicMutation) OldStatus(ctx context.Context) (v int32, err error) {
 }
 
 // AddStatus adds i to the "status" field.
-func (m *TopicMutation) AddStatus(i int32) {
+func (m *TopicMutation) AddStatus(i int) {
 	if m.addstatus != nil {
 		*m.addstatus += i
 	} else {
@@ -13467,7 +13467,7 @@ func (m *TopicMutation) AddStatus(i int32) {
 }
 
 // AddedStatus returns the value that was added to the "status" field in this mutation.
-func (m *TopicMutation) AddedStatus() (r int32, exists bool) {
+func (m *TopicMutation) AddedStatus() (r int, exists bool) {
 	v := m.addstatus
 	if v == nil {
 		return
@@ -14054,7 +14054,7 @@ func (m *TopicMutation) SetField(name string, value ent.Value) error {
 		m.SetPrivate(v)
 		return nil
 	case topic.FieldStatus:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -14140,7 +14140,7 @@ func (m *TopicMutation) AddedField(name string) (ent.Value, bool) {
 func (m *TopicMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case topic.FieldStatus:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -14378,8 +14378,8 @@ type UserMutation struct {
 	phone         *string
 	is_certified  *bool
 	is_admin      *bool
-	status        *int32
-	addstatus     *int32
+	status        *int
+	addstatus     *int
 	extras        *map[string]interface{}
 	created_at    *time.Time
 	updated_at    *time.Time
@@ -14788,13 +14788,13 @@ func (m *UserMutation) ResetIsAdmin() {
 }
 
 // SetStatus sets the "status" field.
-func (m *UserMutation) SetStatus(i int32) {
+func (m *UserMutation) SetStatus(i int) {
 	m.status = &i
 	m.addstatus = nil
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *UserMutation) Status() (r int32, exists bool) {
+func (m *UserMutation) Status() (r int, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -14805,7 +14805,7 @@ func (m *UserMutation) Status() (r int32, exists bool) {
 // OldStatus returns the old "status" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldStatus(ctx context.Context) (v int32, err error) {
+func (m *UserMutation) OldStatus(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -14820,7 +14820,7 @@ func (m *UserMutation) OldStatus(ctx context.Context) (v int32, err error) {
 }
 
 // AddStatus adds i to the "status" field.
-func (m *UserMutation) AddStatus(i int32) {
+func (m *UserMutation) AddStatus(i int) {
 	if m.addstatus != nil {
 		*m.addstatus += i
 	} else {
@@ -14829,7 +14829,7 @@ func (m *UserMutation) AddStatus(i int32) {
 }
 
 // AddedStatus returns the value that was added to the "status" field in this mutation.
-func (m *UserMutation) AddedStatus() (r int32, exists bool) {
+func (m *UserMutation) AddedStatus() (r int, exists bool) {
 	v := m.addstatus
 	if v == nil {
 		return
@@ -15164,7 +15164,7 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		m.SetIsAdmin(v)
 		return nil
 	case user.FieldStatus:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -15222,7 +15222,7 @@ func (m *UserMutation) AddedField(name string) (ent.Value, bool) {
 func (m *UserMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case user.FieldStatus:
-		v, ok := value.(int32)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

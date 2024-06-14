@@ -49,7 +49,7 @@ type FindGroup struct {
 // ListGroupParams represents the query parameters for listing groups.
 type ListGroupParams struct {
 	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int64  `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // GroupRole represents the group role.

@@ -8,108 +8,56 @@ import (
 	"entgo.io/ent/schema/mixin"
 )
 
-// CreatedAt adds a created_at time field to the schema.
-type CreatedAt struct{ mixin.Schema }
-
-// Fields of the CreatedAt mixin.
-func (CreatedAt) Fields() []ent.Field {
-	return []ent.Field{
-		field.Time("created_at").
-			Immutable().
-			Optional().
-			Default(time.Now).
-			Comment("created at"),
-	}
+// TimeMixin defines a generic time field mixin.
+type TimeMixin struct {
+	mixin.Schema
+	Field         string
+	Comment       string
+	Default       func() time.Time
+	UpdateDefault func() time.Time
+	Optional      bool
+	Immutable     bool
 }
 
-// Ensure CreatedAt implements the Mixin interface.
-var _ ent.Mixin = (*CreatedAt)(nil)
-
-// UpdatedAt adds an updated_at time field to the schema.
-type UpdatedAt struct{ mixin.Schema }
-
-// Fields of the UpdatedAt mixin.
-func (UpdatedAt) Fields() []ent.Field {
-	return []ent.Field{
-		field.Time("updated_at").
-			Optional().
-			Default(time.Now).
-			UpdateDefault(time.Now).
-			Comment("updated at"),
+// Fields implements the ent.Mixin interface for TimeMixin.
+func (t TimeMixin) Fields() []ent.Field {
+	f := field.Time(t.Field).Comment(t.Comment)
+	if t.Default != nil {
+		f = f.Default(t.Default)
 	}
+	if t.UpdateDefault != nil {
+		f = f.UpdateDefault(t.UpdateDefault)
+	}
+	if t.Optional {
+		f = f.Optional()
+	}
+	if t.Immutable {
+		f = f.Immutable()
+	}
+	return []ent.Field{f}
 }
 
-// Ensure UpdatedAt implements the Mixin interface.
-var _ ent.Mixin = (*UpdatedAt)(nil)
+// Implement the Mixin interface.
+var _ ent.Mixin = (*TimeMixin)(nil)
 
-// DeletedAt adds a deleted_at time field to the schema.
-type DeletedAt struct{ mixin.Schema }
+// Specific mixins can be created using the generic TimeMixin.
+var (
+	CreatedAt = TimeMixin{Field: "created_at", Comment: "created at", Default: time.Now, Immutable: true, Optional: true}
+	UpdatedAt = TimeMixin{Field: "updated_at", Comment: "updated at", Default: time.Now, UpdateDefault: time.Now, Optional: true}
+	DeletedAt = TimeMixin{Field: "deleted_at", Comment: "deleted at", Optional: true}
+	ExpiredAt = TimeMixin{Field: "expired_at", Comment: "expired at", Optional: true}
+	Expires   = TimeMixin{Field: "expires", Comment: "expires", Optional: true}
+	Released  = TimeMixin{Field: "released", Comment: "released", Optional: true}
+)
 
-// Fields of the DeletedAt mixin.
-func (DeletedAt) Fields() []ent.Field {
-	return []ent.Field{
-		field.Time("deleted_at").
-			Optional().
-			Comment("deleted at"),
-	}
-}
-
-// Ensure DeletedAt implements the Mixin interface.
-var _ ent.Mixin = (*DeletedAt)(nil)
-
-// ExpiredAt adds an expired_at time field to the schema.
-type ExpiredAt struct{ mixin.Schema }
-
-// Fields of the ExpiredAt mixin.
-func (ExpiredAt) Fields() []ent.Field {
-	return []ent.Field{
-		field.Time("expired_at").
-			Optional().
-			Comment("expired at"),
-	}
-}
-
-// Ensure ExpiredAt implements the Mixin interface.
-var _ ent.Mixin = (*ExpiredAt)(nil)
-
-// Expires adds an expires time field to the schema.
-type Expires struct{ mixin.Schema }
-
-// Fields of the Expires mixin.
-func (Expires) Fields() []ent.Field {
-	return []ent.Field{
-		field.Time("expires").
-			Optional().
-			Comment("expires"),
-	}
-}
-
-// Ensure Expires implements the Mixin interface.
-var _ ent.Mixin = (*Expires)(nil)
-
-// Released adds a released time field to the schema.
-type Released struct{ mixin.Schema }
-
-// Fields of the Released mixin.
-func (Released) Fields() []ent.Field {
-	return []ent.Field{
-		field.Time("released").
-			Optional().
-			Comment("released"),
-	}
-}
-
-// Ensure Released implements the Mixin interface.
-var _ ent.Mixin = (*Released)(nil)
-
-// TimeAt composes created at and updated at time fields.
+// TimeAt composes created_at and updated_at time fields.
 type TimeAt struct{ mixin.Schema }
 
 // Fields of the TimeAt mixin.
 func (TimeAt) Fields() []ent.Field {
 	return append(
-		CreatedAt{}.Fields(),
-		UpdatedAt{}.Fields()...,
+		CreatedAt.Fields(),
+		UpdatedAt.Fields()...,
 	)
 }
 

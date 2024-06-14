@@ -28,19 +28,19 @@ func (Domain) Annotations() []schema.Annotation {
 // Mixin of the Domain.
 func (Domain) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Name{},
-		mixin.Title{},
-		mixin.URL{},
-		mixin.Logo{},
-		mixin.LogoAlt{},
-		mixin.Keywords{},
-		mixin.Copyright{},
-		mixin.Description{},
-		mixin.Order{},
-		mixin.Disabled{},
-		mixin.ExtraProps{},
-		mixin.CreatedBy{},
+		mixin.PrimaryKey,
+		mixin.Name,
+		mixin.Title,
+		mixin.URL,
+		mixin.Logo,
+		mixin.LogoAlt,
+		mixin.Keywords,
+		mixin.Copyright,
+		mixin.Description,
+		mixin.Order,
+		mixin.Disabled,
+		mixin.ExtraProps,
+		mixin.CreatedBy,
 		mixin.TimeAt{},
 	}
 }

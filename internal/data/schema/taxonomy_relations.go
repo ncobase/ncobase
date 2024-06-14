@@ -31,10 +31,10 @@ func (TaxonomyRelation) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.NewPrimaryKeyAlias("object", "object_id"),
 		mixin.TaxonomyID,
-		mixin.Type{}, // type, topic, comment, other, ...
-		mixin.Order{},
-		mixin.CreatedBy{},
-		mixin.CreatedAt{},
+		mixin.Type, // type, topic, comment, other, ...
+		mixin.Order,
+		mixin.CreatedBy,
+		mixin.CreatedAt,
 	}
 }
 

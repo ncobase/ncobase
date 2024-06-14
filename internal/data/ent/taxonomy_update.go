@@ -229,14 +229,14 @@ func (tu *TaxonomyUpdate) ClearDescription() *TaxonomyUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (tu *TaxonomyUpdate) SetStatus(i int32) *TaxonomyUpdate {
+func (tu *TaxonomyUpdate) SetStatus(i int) *TaxonomyUpdate {
 	tu.mutation.ResetStatus()
 	tu.mutation.SetStatus(i)
 	return tu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableStatus(i *int32) *TaxonomyUpdate {
+func (tu *TaxonomyUpdate) SetNillableStatus(i *int) *TaxonomyUpdate {
 	if i != nil {
 		tu.SetStatus(*i)
 	}
@@ -244,7 +244,7 @@ func (tu *TaxonomyUpdate) SetNillableStatus(i *int32) *TaxonomyUpdate {
 }
 
 // AddStatus adds i to the "status" field.
-func (tu *TaxonomyUpdate) AddStatus(i int32) *TaxonomyUpdate {
+func (tu *TaxonomyUpdate) AddStatus(i int) *TaxonomyUpdate {
 	tu.mutation.AddStatus(i)
 	return tu
 }
@@ -492,10 +492,10 @@ func (tu *TaxonomyUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(taxonomy.FieldDescription, field.TypeString)
 	}
 	if value, ok := tu.mutation.Status(); ok {
-		_spec.SetField(taxonomy.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(taxonomy.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tu.mutation.AddedStatus(); ok {
-		_spec.AddField(taxonomy.FieldStatus, field.TypeInt32, value)
+		_spec.AddField(taxonomy.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tu.mutation.Extras(); ok {
 		_spec.SetField(taxonomy.FieldExtras, field.TypeJSON, value)
@@ -757,14 +757,14 @@ func (tuo *TaxonomyUpdateOne) ClearDescription() *TaxonomyUpdateOne {
 }
 
 // SetStatus sets the "status" field.
-func (tuo *TaxonomyUpdateOne) SetStatus(i int32) *TaxonomyUpdateOne {
+func (tuo *TaxonomyUpdateOne) SetStatus(i int) *TaxonomyUpdateOne {
 	tuo.mutation.ResetStatus()
 	tuo.mutation.SetStatus(i)
 	return tuo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableStatus(i *int32) *TaxonomyUpdateOne {
+func (tuo *TaxonomyUpdateOne) SetNillableStatus(i *int) *TaxonomyUpdateOne {
 	if i != nil {
 		tuo.SetStatus(*i)
 	}
@@ -772,7 +772,7 @@ func (tuo *TaxonomyUpdateOne) SetNillableStatus(i *int32) *TaxonomyUpdateOne {
 }
 
 // AddStatus adds i to the "status" field.
-func (tuo *TaxonomyUpdateOne) AddStatus(i int32) *TaxonomyUpdateOne {
+func (tuo *TaxonomyUpdateOne) AddStatus(i int) *TaxonomyUpdateOne {
 	tuo.mutation.AddStatus(i)
 	return tuo
 }
@@ -1050,10 +1050,10 @@ func (tuo *TaxonomyUpdateOne) sqlSave(ctx context.Context) (_node *Taxonomy, err
 		_spec.ClearField(taxonomy.FieldDescription, field.TypeString)
 	}
 	if value, ok := tuo.mutation.Status(); ok {
-		_spec.SetField(taxonomy.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(taxonomy.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tuo.mutation.AddedStatus(); ok {
-		_spec.AddField(taxonomy.FieldStatus, field.TypeInt32, value)
+		_spec.AddField(taxonomy.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tuo.mutation.Extras(); ok {
 		_spec.SetField(taxonomy.FieldExtras, field.TypeJSON, value)

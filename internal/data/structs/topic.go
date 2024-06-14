@@ -23,7 +23,7 @@ type TopicBody struct {
 	Temp       bool      `json:"temp,omitempty"`
 	Markdown   bool      `json:"markdown,omitempty"`
 	Private    bool      `json:"private,omitempty"`
-	Status     int32     `json:"status,omitempty"`
+	Status     int       `json:"status,omitempty"`
 	Released   time.Time `json:"released,omitempty"`
 	TaxonomyID string    `json:"taxonomy_id,omitempty"`
 	DomainID   string    `json:"domain_id,omitempty"`
@@ -52,7 +52,7 @@ type ReadTopic struct {
 	Temp       bool      `json:"temp"`
 	Markdown   bool      `json:"markdown"`
 	Private    bool      `json:"private"`
-	Status     int32     `json:"status"`
+	Status     int       `json:"status"`
 	Released   time.Time `json:"released"`
 	TaxonomyID string    `json:"taxonomy_id"`
 	DomainID   string    `json:"domain_id"`
@@ -61,7 +61,7 @@ type ReadTopic struct {
 // ListTopicParams represents the parameters for listing topics.
 type ListTopicParams struct {
 	Cursor     string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit      int64  `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit      int    `form:"limit,omitempty" json:"limit,omitempty"`
 	TaxonomyID string `form:"taxonomy_id,omitempty" json:"taxonomy_id,omitempty"`
 	DomainID   string `form:"domain_id,omitempty" json:"domain_id,omitempty"`
 }

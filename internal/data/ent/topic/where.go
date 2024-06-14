@@ -105,7 +105,7 @@ func Private(v bool) predicate.Topic {
 }
 
 // Status applies equality check predicate on the "status" field. It's identical to StatusEQ.
-func Status(v int32) predicate.Topic {
+func Status(v int) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldStatus, v))
 }
 
@@ -580,42 +580,42 @@ func PrivateNotNil() predicate.Topic {
 }
 
 // StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v int32) predicate.Topic {
+func StatusEQ(v int) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldStatus, v))
 }
 
 // StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v int32) predicate.Topic {
+func StatusNEQ(v int) predicate.Topic {
 	return predicate.Topic(sql.FieldNEQ(FieldStatus, v))
 }
 
 // StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...int32) predicate.Topic {
+func StatusIn(vs ...int) predicate.Topic {
 	return predicate.Topic(sql.FieldIn(FieldStatus, vs...))
 }
 
 // StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...int32) predicate.Topic {
+func StatusNotIn(vs ...int) predicate.Topic {
 	return predicate.Topic(sql.FieldNotIn(FieldStatus, vs...))
 }
 
 // StatusGT applies the GT predicate on the "status" field.
-func StatusGT(v int32) predicate.Topic {
+func StatusGT(v int) predicate.Topic {
 	return predicate.Topic(sql.FieldGT(FieldStatus, v))
 }
 
 // StatusGTE applies the GTE predicate on the "status" field.
-func StatusGTE(v int32) predicate.Topic {
+func StatusGTE(v int) predicate.Topic {
 	return predicate.Topic(sql.FieldGTE(FieldStatus, v))
 }
 
 // StatusLT applies the LT predicate on the "status" field.
-func StatusLT(v int32) predicate.Topic {
+func StatusLT(v int) predicate.Topic {
 	return predicate.Topic(sql.FieldLT(FieldStatus, v))
 }
 
 // StatusLTE applies the LTE predicate on the "status" field.
-func StatusLTE(v int32) predicate.Topic {
+func StatusLTE(v int) predicate.Topic {
 	return predicate.Topic(sql.FieldLTE(FieldStatus, v))
 }
 

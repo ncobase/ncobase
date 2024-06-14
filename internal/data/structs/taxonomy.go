@@ -26,7 +26,7 @@ type TaxonomyBody struct {
 	URL         string      `json:"url,omitempty"`
 	Keywords    []string    `json:"keywords,omitempty"`
 	Description string      `json:"description,omitempty"`
-	Status      int32       `json:"status,omitempty"`
+	Status      int         `json:"status,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id,omitempty"`
 	DomainID    string      `json:"domain_id,omitempty"`
@@ -57,7 +57,7 @@ type ReadTaxonomy struct {
 	URL         string      `json:"url"`
 	Keywords    []string    `json:"keywords"`
 	Description string      `json:"description"`
-	Status      int32       `json:"status"`
+	Status      int         `json:"status"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id"`
 	DomainID    string      `json:"domain_id"`
@@ -66,7 +66,7 @@ type ReadTaxonomy struct {
 // ListTaxonomyParams represents the query parameters for listing taxonomies.
 type ListTaxonomyParams struct {
 	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit    int64  `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"`
 	ParentID string `form:"parent_id,omitempty" json:"parent_id,omitempty"`
 	DomainID string `form:"domain_id,omitempty" json:"domain_id,omitempty"`
 	Type     string `form:"type,omitempty" json:"type,omitempty" validate:"required"`
@@ -77,7 +77,7 @@ type TaxonomyRelationBody struct {
 	TaxonomyID string     `json:"taxonomy_id,omitempty"`
 	Type       string     `json:"type,omitempty"`
 	ObjectID   string     `json:"object_id,omitempty"`
-	Order      *int32     `json:"order,omitempty"`
+	Order      *int       `json:"order,omitempty"`
 	CreatedBy  *string    `json:"created_by,omitempty"`
 	CreatedAt  *time.Time `json:"created_at,omitempty"`
 }

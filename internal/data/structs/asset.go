@@ -18,7 +18,7 @@ type AssetBody struct {
 	Name     string         `json:"name,omitempty"`
 	Path     string         `json:"path,omitempty"`
 	Type     string         `json:"type,omitempty"`
-	Size     *int64         `json:"size,omitempty"`
+	Size     *int           `json:"size,omitempty"`
 	Storage  string         `json:"storage,omitempty"`
 	Bucket   string         `json:"bucket,omitempty"`
 	Endpoint string         `json:"endpoint,omitempty"`
@@ -45,7 +45,7 @@ type ReadAsset struct {
 	Name     string      `json:"name"`
 	Path     string      `json:"path"`
 	Type     string      `json:"type"`
-	Size     *int64      `json:"size"`
+	Size     *int        `json:"size"`
 	Storage  string      `json:"storage"`
 	Bucket   string      `json:"bucket"`
 	Endpoint string      `json:"endpoint"`
@@ -58,7 +58,7 @@ type ReadAsset struct {
 // ListAssetParams represents the parameters for listing assets.
 type ListAssetParams struct {
 	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit    int64  `form:"limit,omitempty" json:"limit,omitempty"` // validate:"gte=1,lte=100"
+	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"` // validate:"gte=1,lte=100"
 	DomainID string `form:"domain_id,omitempty" json:"domain_id,omitempty" validate:"required"`
 	ObjectID string `form:"object_id,omitempty" json:"object_id,omitempty" validate:"required"`
 	UserID   string `form:"user_id,omitempty" json:"user_id,omitempty"`

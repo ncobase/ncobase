@@ -78,7 +78,7 @@ var (
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
 	// DefaultSize holds the default value on creation for the "size" field.
-	DefaultSize int64
+	DefaultSize int
 	// ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
 	ObjectIDValidator func(string) error
 	// DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
@@ -97,6 +97,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the Asset queries.

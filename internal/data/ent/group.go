@@ -35,9 +35,9 @@ type Group struct {
 	ParentID string `json:"parent_id,omitempty"`
 	// domain id
 	DomainID string `json:"domain_id,omitempty"`
-	// ID of the creator
+	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
-	// ID of the person who last updated the entity
+	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`

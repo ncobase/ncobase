@@ -105,7 +105,7 @@ func Description(v string) predicate.Domain {
 }
 
 // Order applies equality check predicate on the "order" field. It's identical to OrderEQ.
-func Order(v int32) predicate.Domain {
+func Order(v int) predicate.Domain {
 	return predicate.Domain(sql.FieldEQ(FieldOrder, v))
 }
 
@@ -730,42 +730,42 @@ func DescriptionContainsFold(v string) predicate.Domain {
 }
 
 // OrderEQ applies the EQ predicate on the "order" field.
-func OrderEQ(v int32) predicate.Domain {
+func OrderEQ(v int) predicate.Domain {
 	return predicate.Domain(sql.FieldEQ(FieldOrder, v))
 }
 
 // OrderNEQ applies the NEQ predicate on the "order" field.
-func OrderNEQ(v int32) predicate.Domain {
+func OrderNEQ(v int) predicate.Domain {
 	return predicate.Domain(sql.FieldNEQ(FieldOrder, v))
 }
 
 // OrderIn applies the In predicate on the "order" field.
-func OrderIn(vs ...int32) predicate.Domain {
+func OrderIn(vs ...int) predicate.Domain {
 	return predicate.Domain(sql.FieldIn(FieldOrder, vs...))
 }
 
 // OrderNotIn applies the NotIn predicate on the "order" field.
-func OrderNotIn(vs ...int32) predicate.Domain {
+func OrderNotIn(vs ...int) predicate.Domain {
 	return predicate.Domain(sql.FieldNotIn(FieldOrder, vs...))
 }
 
 // OrderGT applies the GT predicate on the "order" field.
-func OrderGT(v int32) predicate.Domain {
+func OrderGT(v int) predicate.Domain {
 	return predicate.Domain(sql.FieldGT(FieldOrder, v))
 }
 
 // OrderGTE applies the GTE predicate on the "order" field.
-func OrderGTE(v int32) predicate.Domain {
+func OrderGTE(v int) predicate.Domain {
 	return predicate.Domain(sql.FieldGTE(FieldOrder, v))
 }
 
 // OrderLT applies the LT predicate on the "order" field.
-func OrderLT(v int32) predicate.Domain {
+func OrderLT(v int) predicate.Domain {
 	return predicate.Domain(sql.FieldLT(FieldOrder, v))
 }
 
 // OrderLTE applies the LTE predicate on the "order" field.
-func OrderLTE(v int32) predicate.Domain {
+func OrderLTE(v int) predicate.Domain {
 	return predicate.Domain(sql.FieldLTE(FieldOrder, v))
 }
 

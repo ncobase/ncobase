@@ -149,14 +149,14 @@ func (uu *UserUpdate) ClearIsAdmin() *UserUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (uu *UserUpdate) SetStatus(i int32) *UserUpdate {
+func (uu *UserUpdate) SetStatus(i int) *UserUpdate {
 	uu.mutation.ResetStatus()
 	uu.mutation.SetStatus(i)
 	return uu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableStatus(i *int32) *UserUpdate {
+func (uu *UserUpdate) SetNillableStatus(i *int) *UserUpdate {
 	if i != nil {
 		uu.SetStatus(*i)
 	}
@@ -164,7 +164,7 @@ func (uu *UserUpdate) SetNillableStatus(i *int32) *UserUpdate {
 }
 
 // AddStatus adds i to the "status" field.
-func (uu *UserUpdate) AddStatus(i int32) *UserUpdate {
+func (uu *UserUpdate) AddStatus(i int) *UserUpdate {
 	uu.mutation.AddStatus(i)
 	return uu
 }
@@ -293,10 +293,10 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(user.FieldIsAdmin, field.TypeBool)
 	}
 	if value, ok := uu.mutation.Status(); ok {
-		_spec.SetField(user.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(user.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := uu.mutation.AddedStatus(); ok {
-		_spec.AddField(user.FieldStatus, field.TypeInt32, value)
+		_spec.AddField(user.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := uu.mutation.Extras(); ok {
 		_spec.SetField(user.FieldExtras, field.TypeJSON, value)
@@ -454,14 +454,14 @@ func (uuo *UserUpdateOne) ClearIsAdmin() *UserUpdateOne {
 }
 
 // SetStatus sets the "status" field.
-func (uuo *UserUpdateOne) SetStatus(i int32) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetStatus(i int) *UserUpdateOne {
 	uuo.mutation.ResetStatus()
 	uuo.mutation.SetStatus(i)
 	return uuo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableStatus(i *int32) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetNillableStatus(i *int) *UserUpdateOne {
 	if i != nil {
 		uuo.SetStatus(*i)
 	}
@@ -469,7 +469,7 @@ func (uuo *UserUpdateOne) SetNillableStatus(i *int32) *UserUpdateOne {
 }
 
 // AddStatus adds i to the "status" field.
-func (uuo *UserUpdateOne) AddStatus(i int32) *UserUpdateOne {
+func (uuo *UserUpdateOne) AddStatus(i int) *UserUpdateOne {
 	uuo.mutation.AddStatus(i)
 	return uuo
 }
@@ -628,10 +628,10 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 		_spec.ClearField(user.FieldIsAdmin, field.TypeBool)
 	}
 	if value, ok := uuo.mutation.Status(); ok {
-		_spec.SetField(user.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(user.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := uuo.mutation.AddedStatus(); ok {
-		_spec.AddField(user.FieldStatus, field.TypeInt32, value)
+		_spec.AddField(user.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := uuo.mutation.Extras(); ok {
 		_spec.SetField(user.FieldExtras, field.TypeJSON, value)

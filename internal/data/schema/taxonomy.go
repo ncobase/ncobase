@@ -30,19 +30,19 @@ func (Taxonomy) Annotations() []schema.Annotation {
 // Mixin of the Taxonomy.
 func (Taxonomy) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Name{},
-		mixin.Type{}, // type, default 'node', options: 'node', 'plane', 'event', 'page', 'tag', 'link'
-		mixin.SlugUnique{},
-		mixin.Cover{},
-		mixin.Thumbnail{},
-		mixin.Color{},
-		mixin.Icon{},
-		mixin.URL{},
-		mixin.Keywords{},
-		mixin.Description{},
-		mixin.Status{}, // status, 0: enabled, 1: disabled, ...
-		mixin.ExtraProps{},
+		mixin.PrimaryKey,
+		mixin.Name,
+		mixin.Type, // type, default 'node', options: 'node', 'plane', 'event', 'page', 'tag', 'link'
+		mixin.SlugUnique,
+		mixin.Cover,
+		mixin.Thumbnail,
+		mixin.Color,
+		mixin.Icon,
+		mixin.URL,
+		mixin.Keywords,
+		mixin.Description,
+		mixin.Status, // status, 0: enabled, 1: disabled, ...
+		mixin.ExtraProps,
 		mixin.ParentID,
 		mixin.DomainID,
 		mixin.OperatorBy{},

@@ -51,9 +51,7 @@ var (
 	// TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
 	TaxonomyIDValidator func(string) error
 	// DefaultOrder holds the default value on creation for the "order" field.
-	DefaultOrder int32
-	// OrderValidator is a validator for the "order" field. It is called by the builders before save.
-	OrderValidator func(int32) error
+	DefaultOrder int
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	CreatedByValidator func(string) error
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.

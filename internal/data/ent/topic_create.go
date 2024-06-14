@@ -133,13 +133,13 @@ func (tc *TopicCreate) SetNillablePrivate(b *bool) *TopicCreate {
 }
 
 // SetStatus sets the "status" field.
-func (tc *TopicCreate) SetStatus(i int32) *TopicCreate {
+func (tc *TopicCreate) SetStatus(i int) *TopicCreate {
 	tc.mutation.SetStatus(i)
 	return tc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableStatus(i *int32) *TopicCreate {
+func (tc *TopicCreate) SetNillableStatus(i *int) *TopicCreate {
 	if i != nil {
 		tc.SetStatus(*i)
 	}
@@ -293,6 +293,18 @@ func (tc *TopicCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (tc *TopicCreate) defaults() {
+	if _, ok := tc.mutation.Temp(); !ok {
+		v := topic.DefaultTemp
+		tc.mutation.SetTemp(v)
+	}
+	if _, ok := tc.mutation.Markdown(); !ok {
+		v := topic.DefaultMarkdown
+		tc.mutation.SetMarkdown(v)
+	}
+	if _, ok := tc.mutation.Private(); !ok {
+		v := topic.DefaultPrivate
+		tc.mutation.SetPrivate(v)
+	}
 	if _, ok := tc.mutation.Status(); !ok {
 		v := topic.DefaultStatus
 		tc.mutation.SetStatus(v)
@@ -334,6 +346,11 @@ func (tc *TopicCreate) check() error {
 	if v, ok := tc.mutation.UpdatedBy(); ok {
 		if err := topic.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Topic.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := tc.mutation.ID(); ok {
+		if err := topic.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Topic.id": %w`, err)}
 		}
 	}
 	return nil
@@ -404,7 +421,7 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_node.Private = value
 	}
 	if value, ok := tc.mutation.Status(); ok {
-		_spec.SetField(topic.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(topic.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
 	if value, ok := tc.mutation.Released(); ok {

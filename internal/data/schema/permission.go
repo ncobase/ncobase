@@ -29,14 +29,14 @@ func (Permission) Annotations() []schema.Annotation {
 // Mixin of the Permission.
 func (Permission) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Name{},
-		mixin.Action{},
-		mixin.Subject{},
-		mixin.Description{},
-		mixin.Default{},
-		mixin.Disabled{},
-		mixin.ExtraProps{},
+		mixin.PrimaryKey,
+		mixin.Name,
+		mixin.Action,
+		mixin.Subject,
+		mixin.Description,
+		mixin.Default,
+		mixin.Disabled,
+		mixin.ExtraProps,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

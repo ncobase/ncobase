@@ -76,9 +76,9 @@ func ValidColumn(column string) bool {
 
 var (
 	// DefaultOrder holds the default value on creation for the "order" field.
-	DefaultOrder int32
-	// OrderValidator is a validator for the "order" field. It is called by the builders before save.
-	OrderValidator func(int32) error
+	DefaultOrder int
+	// DefaultDisabled holds the default value on creation for the "disabled" field.
+	DefaultDisabled bool
 	// DefaultExtras holds the default value on creation for the "extras" field.
 	DefaultExtras map[string]interface{}
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
@@ -91,6 +91,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the Domain queries.

@@ -161,13 +161,13 @@ func (tc *TaxonomyCreate) SetNillableDescription(s *string) *TaxonomyCreate {
 }
 
 // SetStatus sets the "status" field.
-func (tc *TaxonomyCreate) SetStatus(i int32) *TaxonomyCreate {
+func (tc *TaxonomyCreate) SetStatus(i int) *TaxonomyCreate {
 	tc.mutation.SetStatus(i)
 	return tc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableStatus(i *int32) *TaxonomyCreate {
+func (tc *TaxonomyCreate) SetNillableStatus(i *int) *TaxonomyCreate {
 	if i != nil {
 		tc.SetStatus(*i)
 	}
@@ -360,6 +360,11 @@ func (tc *TaxonomyCreate) check() error {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.updated_by": %w`, err)}
 		}
 	}
+	if v, ok := tc.mutation.ID(); ok {
+		if err := taxonomy.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.id": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -436,7 +441,7 @@ func (tc *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
 		_node.Description = value
 	}
 	if value, ok := tc.mutation.Status(); ok {
-		_spec.SetField(taxonomy.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(taxonomy.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
 	if value, ok := tc.mutation.Extras(); ok {

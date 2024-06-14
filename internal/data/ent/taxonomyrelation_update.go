@@ -68,14 +68,14 @@ func (tru *TaxonomyRelationUpdate) ClearType() *TaxonomyRelationUpdate {
 }
 
 // SetOrder sets the "order" field.
-func (tru *TaxonomyRelationUpdate) SetOrder(i int32) *TaxonomyRelationUpdate {
+func (tru *TaxonomyRelationUpdate) SetOrder(i int) *TaxonomyRelationUpdate {
 	tru.mutation.ResetOrder()
 	tru.mutation.SetOrder(i)
 	return tru
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (tru *TaxonomyRelationUpdate) SetNillableOrder(i *int32) *TaxonomyRelationUpdate {
+func (tru *TaxonomyRelationUpdate) SetNillableOrder(i *int) *TaxonomyRelationUpdate {
 	if i != nil {
 		tru.SetOrder(*i)
 	}
@@ -83,7 +83,7 @@ func (tru *TaxonomyRelationUpdate) SetNillableOrder(i *int32) *TaxonomyRelationU
 }
 
 // AddOrder adds i to the "order" field.
-func (tru *TaxonomyRelationUpdate) AddOrder(i int32) *TaxonomyRelationUpdate {
+func (tru *TaxonomyRelationUpdate) AddOrder(i int) *TaxonomyRelationUpdate {
 	tru.mutation.AddOrder(i)
 	return tru
 }
@@ -147,11 +147,6 @@ func (tru *TaxonomyRelationUpdate) check() error {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
 		}
 	}
-	if v, ok := tru.mutation.Order(); ok {
-		if err := taxonomyrelation.OrderValidator(v); err != nil {
-			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.order": %w`, err)}
-		}
-	}
 	if v, ok := tru.mutation.CreatedBy(); ok {
 		if err := taxonomyrelation.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.created_by": %w`, err)}
@@ -185,10 +180,10 @@ func (tru *TaxonomyRelationUpdate) sqlSave(ctx context.Context) (n int, err erro
 		_spec.ClearField(taxonomyrelation.FieldType, field.TypeString)
 	}
 	if value, ok := tru.mutation.Order(); ok {
-		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt32, value)
+		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 	}
 	if value, ok := tru.mutation.AddedOrder(); ok {
-		_spec.AddField(taxonomyrelation.FieldOrder, field.TypeInt32, value)
+		_spec.AddField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 	}
 	if value, ok := tru.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomyrelation.FieldCreatedBy, field.TypeString, value)
@@ -260,14 +255,14 @@ func (truo *TaxonomyRelationUpdateOne) ClearType() *TaxonomyRelationUpdateOne {
 }
 
 // SetOrder sets the "order" field.
-func (truo *TaxonomyRelationUpdateOne) SetOrder(i int32) *TaxonomyRelationUpdateOne {
+func (truo *TaxonomyRelationUpdateOne) SetOrder(i int) *TaxonomyRelationUpdateOne {
 	truo.mutation.ResetOrder()
 	truo.mutation.SetOrder(i)
 	return truo
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (truo *TaxonomyRelationUpdateOne) SetNillableOrder(i *int32) *TaxonomyRelationUpdateOne {
+func (truo *TaxonomyRelationUpdateOne) SetNillableOrder(i *int) *TaxonomyRelationUpdateOne {
 	if i != nil {
 		truo.SetOrder(*i)
 	}
@@ -275,7 +270,7 @@ func (truo *TaxonomyRelationUpdateOne) SetNillableOrder(i *int32) *TaxonomyRelat
 }
 
 // AddOrder adds i to the "order" field.
-func (truo *TaxonomyRelationUpdateOne) AddOrder(i int32) *TaxonomyRelationUpdateOne {
+func (truo *TaxonomyRelationUpdateOne) AddOrder(i int) *TaxonomyRelationUpdateOne {
 	truo.mutation.AddOrder(i)
 	return truo
 }
@@ -352,11 +347,6 @@ func (truo *TaxonomyRelationUpdateOne) check() error {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
 		}
 	}
-	if v, ok := truo.mutation.Order(); ok {
-		if err := taxonomyrelation.OrderValidator(v); err != nil {
-			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.order": %w`, err)}
-		}
-	}
 	if v, ok := truo.mutation.CreatedBy(); ok {
 		if err := taxonomyrelation.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.created_by": %w`, err)}
@@ -407,10 +397,10 @@ func (truo *TaxonomyRelationUpdateOne) sqlSave(ctx context.Context) (_node *Taxo
 		_spec.ClearField(taxonomyrelation.FieldType, field.TypeString)
 	}
 	if value, ok := truo.mutation.Order(); ok {
-		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt32, value)
+		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 	}
 	if value, ok := truo.mutation.AddedOrder(); ok {
-		_spec.AddField(taxonomyrelation.FieldOrder, field.TypeInt32, value)
+		_spec.AddField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 	}
 	if value, ok := truo.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomyrelation.FieldCreatedBy, field.TypeString, value)

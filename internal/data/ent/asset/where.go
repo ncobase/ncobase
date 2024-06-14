@@ -80,7 +80,7 @@ func Type(v string) predicate.Asset {
 }
 
 // Size applies equality check predicate on the "size" field. It's identical to SizeEQ.
-func Size(v int64) predicate.Asset {
+func Size(v int) predicate.Asset {
 	return predicate.Asset(sql.FieldEQ(FieldSize, v))
 }
 
@@ -355,42 +355,42 @@ func TypeContainsFold(v string) predicate.Asset {
 }
 
 // SizeEQ applies the EQ predicate on the "size" field.
-func SizeEQ(v int64) predicate.Asset {
+func SizeEQ(v int) predicate.Asset {
 	return predicate.Asset(sql.FieldEQ(FieldSize, v))
 }
 
 // SizeNEQ applies the NEQ predicate on the "size" field.
-func SizeNEQ(v int64) predicate.Asset {
+func SizeNEQ(v int) predicate.Asset {
 	return predicate.Asset(sql.FieldNEQ(FieldSize, v))
 }
 
 // SizeIn applies the In predicate on the "size" field.
-func SizeIn(vs ...int64) predicate.Asset {
+func SizeIn(vs ...int) predicate.Asset {
 	return predicate.Asset(sql.FieldIn(FieldSize, vs...))
 }
 
 // SizeNotIn applies the NotIn predicate on the "size" field.
-func SizeNotIn(vs ...int64) predicate.Asset {
+func SizeNotIn(vs ...int) predicate.Asset {
 	return predicate.Asset(sql.FieldNotIn(FieldSize, vs...))
 }
 
 // SizeGT applies the GT predicate on the "size" field.
-func SizeGT(v int64) predicate.Asset {
+func SizeGT(v int) predicate.Asset {
 	return predicate.Asset(sql.FieldGT(FieldSize, v))
 }
 
 // SizeGTE applies the GTE predicate on the "size" field.
-func SizeGTE(v int64) predicate.Asset {
+func SizeGTE(v int) predicate.Asset {
 	return predicate.Asset(sql.FieldGTE(FieldSize, v))
 }
 
 // SizeLT applies the LT predicate on the "size" field.
-func SizeLT(v int64) predicate.Asset {
+func SizeLT(v int) predicate.Asset {
 	return predicate.Asset(sql.FieldLT(FieldSize, v))
 }
 
 // SizeLTE applies the LTE predicate on the "size" field.
-func SizeLTE(v int64) predicate.Asset {
+func SizeLTE(v int) predicate.Asset {
 	return predicate.Asset(sql.FieldLTE(FieldSize, v))
 }
 

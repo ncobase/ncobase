@@ -58,7 +58,7 @@ func init() {
 	// assetDescSize is the schema descriptor for size field.
 	assetDescSize := assetMixinFields4[0].Descriptor()
 	// asset.DefaultSize holds the default value on creation for the size field.
-	asset.DefaultSize = assetDescSize.Default.(int64)
+	asset.DefaultSize = assetDescSize.Default.(int)
 	// assetDescObjectID is the schema descriptor for object_id field.
 	assetDescObjectID := assetMixinFields8[0].Descriptor()
 	// asset.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
@@ -93,15 +93,23 @@ func init() {
 	assetDescID := assetMixinFields0[0].Descriptor()
 	// asset.DefaultID holds the default value on creation for the id field.
 	asset.DefaultID = assetDescID.Default.(func() string)
+	// asset.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	asset.IDValidator = assetDescID.Validators[0].(func(string) error)
 	authtokenMixin := schema.AuthToken{}.Mixin()
 	authtokenMixinFields0 := authtokenMixin[0].Fields()
 	_ = authtokenMixinFields0
+	authtokenMixinFields1 := authtokenMixin[1].Fields()
+	_ = authtokenMixinFields1
 	authtokenMixinFields2 := authtokenMixin[2].Fields()
 	_ = authtokenMixinFields2
 	authtokenMixinFields3 := authtokenMixin[3].Fields()
 	_ = authtokenMixinFields3
 	authtokenFields := schema.AuthToken{}.Fields()
 	_ = authtokenFields
+	// authtokenDescDisabled is the schema descriptor for disabled field.
+	authtokenDescDisabled := authtokenMixinFields1[0].Descriptor()
+	// authtoken.DefaultDisabled holds the default value on creation for the disabled field.
+	authtoken.DefaultDisabled = authtokenDescDisabled.Default.(bool)
 	// authtokenDescCreatedAt is the schema descriptor for created_at field.
 	authtokenDescCreatedAt := authtokenMixinFields2[0].Descriptor()
 	// authtoken.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -120,6 +128,8 @@ func init() {
 	authtokenDescID := authtokenMixinFields0[0].Descriptor()
 	// authtoken.DefaultID holds the default value on creation for the id field.
 	authtoken.DefaultID = authtokenDescID.Default.(func() string)
+	// authtoken.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	authtoken.IDValidator = authtokenDescID.Validators[0].(func(string) error)
 	casbinruleFields := schema.CasbinRule{}.Fields()
 	_ = casbinruleFields
 	// casbinruleDescPType is the schema descriptor for p_type field.
@@ -157,10 +167,16 @@ func init() {
 	codeauthMixin := schema.CodeAuth{}.Mixin()
 	codeauthMixinFields0 := codeauthMixin[0].Fields()
 	_ = codeauthMixinFields0
+	codeauthMixinFields3 := codeauthMixin[3].Fields()
+	_ = codeauthMixinFields3
 	codeauthMixinFields4 := codeauthMixin[4].Fields()
 	_ = codeauthMixinFields4
 	codeauthFields := schema.CodeAuth{}.Fields()
 	_ = codeauthFields
+	// codeauthDescLogged is the schema descriptor for logged field.
+	codeauthDescLogged := codeauthMixinFields3[0].Descriptor()
+	// codeauth.DefaultLogged holds the default value on creation for the logged field.
+	codeauth.DefaultLogged = codeauthDescLogged.Default.(bool)
 	// codeauthDescCreatedAt is the schema descriptor for created_at field.
 	codeauthDescCreatedAt := codeauthMixinFields4[0].Descriptor()
 	// codeauth.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -175,11 +191,15 @@ func init() {
 	codeauthDescID := codeauthMixinFields0[0].Descriptor()
 	// codeauth.DefaultID holds the default value on creation for the id field.
 	codeauth.DefaultID = codeauthDescID.Default.(func() string)
+	// codeauth.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	codeauth.IDValidator = codeauthDescID.Validators[0].(func(string) error)
 	domainMixin := schema.Domain{}.Mixin()
 	domainMixinFields0 := domainMixin[0].Fields()
 	_ = domainMixinFields0
 	domainMixinFields9 := domainMixin[9].Fields()
 	_ = domainMixinFields9
+	domainMixinFields10 := domainMixin[10].Fields()
+	_ = domainMixinFields10
 	domainMixinFields11 := domainMixin[11].Fields()
 	_ = domainMixinFields11
 	domainMixinFields12 := domainMixin[12].Fields()
@@ -191,9 +211,11 @@ func init() {
 	// domainDescOrder is the schema descriptor for order field.
 	domainDescOrder := domainMixinFields9[0].Descriptor()
 	// domain.DefaultOrder holds the default value on creation for the order field.
-	domain.DefaultOrder = domainDescOrder.Default.(int32)
-	// domain.OrderValidator is a validator for the "order" field. It is called by the builders before save.
-	domain.OrderValidator = domainDescOrder.Validators[0].(func(int32) error)
+	domain.DefaultOrder = domainDescOrder.Default.(int)
+	// domainDescDisabled is the schema descriptor for disabled field.
+	domainDescDisabled := domainMixinFields10[0].Descriptor()
+	// domain.DefaultDisabled holds the default value on creation for the disabled field.
+	domain.DefaultDisabled = domainDescDisabled.Default.(bool)
 	// domainDescExtras is the schema descriptor for extras field.
 	domainDescExtras := domainMixinFields11[0].Descriptor()
 	// domain.DefaultExtras holds the default value on creation for the extras field.
@@ -216,9 +238,13 @@ func init() {
 	domainDescID := domainMixinFields0[0].Descriptor()
 	// domain.DefaultID holds the default value on creation for the id field.
 	domain.DefaultID = domainDescID.Default.(func() string)
+	// domain.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	domain.IDValidator = domainDescID.Validators[0].(func(string) error)
 	groupMixin := schema.Group{}.Mixin()
 	groupMixinFields0 := groupMixin[0].Fields()
 	_ = groupMixinFields0
+	groupMixinFields3 := groupMixin[3].Fields()
+	_ = groupMixinFields3
 	groupMixinFields5 := groupMixin[5].Fields()
 	_ = groupMixinFields5
 	groupMixinFields6 := groupMixin[6].Fields()
@@ -233,6 +259,10 @@ func init() {
 	_ = groupMixinFields10
 	groupFields := schema.Group{}.Fields()
 	_ = groupFields
+	// groupDescDisabled is the schema descriptor for disabled field.
+	groupDescDisabled := groupMixinFields3[0].Descriptor()
+	// group.DefaultDisabled holds the default value on creation for the disabled field.
+	group.DefaultDisabled = groupDescDisabled.Default.(bool)
 	// groupDescLeader is the schema descriptor for leader field.
 	groupDescLeader := groupMixinFields5[0].Descriptor()
 	// group.DefaultLeader holds the default value on creation for the leader field.
@@ -271,6 +301,8 @@ func init() {
 	groupDescID := groupMixinFields0[0].Descriptor()
 	// group.DefaultID holds the default value on creation for the id field.
 	group.DefaultID = groupDescID.Default.(func() string)
+	// group.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	group.IDValidator = groupDescID.Validators[0].(func(string) error)
 	grouproleMixin := schema.GroupRole{}.Mixin()
 	grouproleMixinFields0 := grouproleMixin[0].Fields()
 	_ = grouproleMixinFields0
@@ -289,6 +321,12 @@ func init() {
 	moduleMixin := schema.Module{}.Mixin()
 	moduleMixinFields0 := moduleMixin[0].Fields()
 	_ = moduleMixinFields0
+	moduleMixinFields6 := moduleMixin[6].Fields()
+	_ = moduleMixinFields6
+	moduleMixinFields7 := moduleMixin[7].Fields()
+	_ = moduleMixinFields7
+	moduleMixinFields8 := moduleMixin[8].Fields()
+	_ = moduleMixinFields8
 	moduleMixinFields9 := moduleMixin[9].Fields()
 	_ = moduleMixinFields9
 	moduleMixinFields11 := moduleMixin[11].Fields()
@@ -297,10 +335,22 @@ func init() {
 	_ = moduleMixinFields12
 	moduleFields := schema.Module{}.Fields()
 	_ = moduleFields
+	// moduleDescTemp is the schema descriptor for temp field.
+	moduleDescTemp := moduleMixinFields6[0].Descriptor()
+	// module.DefaultTemp holds the default value on creation for the temp field.
+	module.DefaultTemp = moduleDescTemp.Default.(bool)
+	// moduleDescMarkdown is the schema descriptor for markdown field.
+	moduleDescMarkdown := moduleMixinFields7[0].Descriptor()
+	// module.DefaultMarkdown holds the default value on creation for the markdown field.
+	module.DefaultMarkdown = moduleDescMarkdown.Default.(bool)
+	// moduleDescPrivate is the schema descriptor for private field.
+	moduleDescPrivate := moduleMixinFields8[0].Descriptor()
+	// module.DefaultPrivate holds the default value on creation for the private field.
+	module.DefaultPrivate = moduleDescPrivate.Default.(bool)
 	// moduleDescStatus is the schema descriptor for status field.
 	moduleDescStatus := moduleMixinFields9[0].Descriptor()
 	// module.DefaultStatus holds the default value on creation for the status field.
-	module.DefaultStatus = moduleDescStatus.Default.(int32)
+	module.DefaultStatus = moduleDescStatus.Default.(int)
 	// moduleDescCreatedBy is the schema descriptor for created_by field.
 	moduleDescCreatedBy := moduleMixinFields11[0].Descriptor()
 	// module.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
@@ -323,6 +373,8 @@ func init() {
 	moduleDescID := moduleMixinFields0[0].Descriptor()
 	// module.DefaultID holds the default value on creation for the id field.
 	module.DefaultID = moduleDescID.Default.(func() string)
+	// module.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	module.IDValidator = moduleDescID.Validators[0].(func(string) error)
 	oauthuserMixin := schema.OAuthUser{}.Mixin()
 	oauthuserMixinFields0 := oauthuserMixin[0].Fields()
 	_ = oauthuserMixinFields0
@@ -358,9 +410,15 @@ func init() {
 	oauthuserDescID := oauthuserMixinFields0[0].Descriptor()
 	// oauthuser.DefaultID holds the default value on creation for the id field.
 	oauthuser.DefaultID = oauthuserDescID.Default.(func() string)
+	// oauthuser.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	oauthuser.IDValidator = oauthuserDescID.Validators[0].(func(string) error)
 	permissionMixin := schema.Permission{}.Mixin()
 	permissionMixinFields0 := permissionMixin[0].Fields()
 	_ = permissionMixinFields0
+	permissionMixinFields5 := permissionMixin[5].Fields()
+	_ = permissionMixinFields5
+	permissionMixinFields6 := permissionMixin[6].Fields()
+	_ = permissionMixinFields6
 	permissionMixinFields7 := permissionMixin[7].Fields()
 	_ = permissionMixinFields7
 	permissionMixinFields8 := permissionMixin[8].Fields()
@@ -369,6 +427,14 @@ func init() {
 	_ = permissionMixinFields9
 	permissionFields := schema.Permission{}.Fields()
 	_ = permissionFields
+	// permissionDescDefault is the schema descriptor for default field.
+	permissionDescDefault := permissionMixinFields5[0].Descriptor()
+	// permission.DefaultDefault holds the default value on creation for the default field.
+	permission.DefaultDefault = permissionDescDefault.Default.(bool)
+	// permissionDescDisabled is the schema descriptor for disabled field.
+	permissionDescDisabled := permissionMixinFields6[0].Descriptor()
+	// permission.DefaultDisabled holds the default value on creation for the disabled field.
+	permission.DefaultDisabled = permissionDescDisabled.Default.(bool)
 	// permissionDescExtras is the schema descriptor for extras field.
 	permissionDescExtras := permissionMixinFields7[0].Descriptor()
 	// permission.DefaultExtras holds the default value on creation for the extras field.
@@ -395,9 +461,13 @@ func init() {
 	permissionDescID := permissionMixinFields0[0].Descriptor()
 	// permission.DefaultID holds the default value on creation for the id field.
 	permission.DefaultID = permissionDescID.Default.(func() string)
+	// permission.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	permission.IDValidator = permissionDescID.Validators[0].(func(string) error)
 	roleMixin := schema.Role{}.Mixin()
 	roleMixinFields0 := roleMixin[0].Fields()
 	_ = roleMixinFields0
+	roleMixinFields3 := roleMixin[3].Fields()
+	_ = roleMixinFields3
 	roleMixinFields5 := roleMixin[5].Fields()
 	_ = roleMixinFields5
 	roleMixinFields6 := roleMixin[6].Fields()
@@ -406,6 +476,10 @@ func init() {
 	_ = roleMixinFields7
 	roleFields := schema.Role{}.Fields()
 	_ = roleFields
+	// roleDescDisabled is the schema descriptor for disabled field.
+	roleDescDisabled := roleMixinFields3[0].Descriptor()
+	// role.DefaultDisabled holds the default value on creation for the disabled field.
+	role.DefaultDisabled = roleDescDisabled.Default.(bool)
 	// roleDescExtras is the schema descriptor for extras field.
 	roleDescExtras := roleMixinFields5[0].Descriptor()
 	// role.DefaultExtras holds the default value on creation for the extras field.
@@ -432,6 +506,8 @@ func init() {
 	roleDescID := roleMixinFields0[0].Descriptor()
 	// role.DefaultID holds the default value on creation for the id field.
 	role.DefaultID = roleDescID.Default.(func() string)
+	// role.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	role.IDValidator = roleDescID.Validators[0].(func(string) error)
 	rolepermissionMixin := schema.RolePermission{}.Mixin()
 	rolepermissionMixinFields0 := rolepermissionMixin[0].Fields()
 	_ = rolepermissionMixinFields0
@@ -467,7 +543,7 @@ func init() {
 	// taxonomyDescStatus is the schema descriptor for status field.
 	taxonomyDescStatus := taxonomyMixinFields11[0].Descriptor()
 	// taxonomy.DefaultStatus holds the default value on creation for the status field.
-	taxonomy.DefaultStatus = taxonomyDescStatus.Default.(int32)
+	taxonomy.DefaultStatus = taxonomyDescStatus.Default.(int)
 	// taxonomyDescExtras is the schema descriptor for extras field.
 	taxonomyDescExtras := taxonomyMixinFields12[0].Descriptor()
 	// taxonomy.DefaultExtras holds the default value on creation for the extras field.
@@ -502,6 +578,8 @@ func init() {
 	taxonomyDescID := taxonomyMixinFields0[0].Descriptor()
 	// taxonomy.DefaultID holds the default value on creation for the id field.
 	taxonomy.DefaultID = taxonomyDescID.Default.(func() string)
+	// taxonomy.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	taxonomy.IDValidator = taxonomyDescID.Validators[0].(func(string) error)
 	taxonomyrelationMixin := schema.TaxonomyRelation{}.Mixin()
 	taxonomyrelationMixinFields0 := taxonomyrelationMixin[0].Fields()
 	_ = taxonomyrelationMixinFields0
@@ -522,9 +600,7 @@ func init() {
 	// taxonomyrelationDescOrder is the schema descriptor for order field.
 	taxonomyrelationDescOrder := taxonomyrelationMixinFields3[0].Descriptor()
 	// taxonomyrelation.DefaultOrder holds the default value on creation for the order field.
-	taxonomyrelation.DefaultOrder = taxonomyrelationDescOrder.Default.(int32)
-	// taxonomyrelation.OrderValidator is a validator for the "order" field. It is called by the builders before save.
-	taxonomyrelation.OrderValidator = taxonomyrelationDescOrder.Validators[0].(func(int32) error)
+	taxonomyrelation.DefaultOrder = taxonomyrelationDescOrder.Default.(int)
 	// taxonomyrelationDescCreatedBy is the schema descriptor for created_by field.
 	taxonomyrelationDescCreatedBy := taxonomyrelationMixinFields4[0].Descriptor()
 	// taxonomyrelation.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
@@ -540,6 +616,12 @@ func init() {
 	topicMixin := schema.Topic{}.Mixin()
 	topicMixinFields0 := topicMixin[0].Fields()
 	_ = topicMixinFields0
+	topicMixinFields6 := topicMixin[6].Fields()
+	_ = topicMixinFields6
+	topicMixinFields7 := topicMixin[7].Fields()
+	_ = topicMixinFields7
+	topicMixinFields8 := topicMixin[8].Fields()
+	_ = topicMixinFields8
 	topicMixinFields9 := topicMixin[9].Fields()
 	_ = topicMixinFields9
 	topicMixinFields11 := topicMixin[11].Fields()
@@ -552,10 +634,22 @@ func init() {
 	_ = topicMixinFields14
 	topicFields := schema.Topic{}.Fields()
 	_ = topicFields
+	// topicDescTemp is the schema descriptor for temp field.
+	topicDescTemp := topicMixinFields6[0].Descriptor()
+	// topic.DefaultTemp holds the default value on creation for the temp field.
+	topic.DefaultTemp = topicDescTemp.Default.(bool)
+	// topicDescMarkdown is the schema descriptor for markdown field.
+	topicDescMarkdown := topicMixinFields7[0].Descriptor()
+	// topic.DefaultMarkdown holds the default value on creation for the markdown field.
+	topic.DefaultMarkdown = topicDescMarkdown.Default.(bool)
+	// topicDescPrivate is the schema descriptor for private field.
+	topicDescPrivate := topicMixinFields8[0].Descriptor()
+	// topic.DefaultPrivate holds the default value on creation for the private field.
+	topic.DefaultPrivate = topicDescPrivate.Default.(bool)
 	// topicDescStatus is the schema descriptor for status field.
 	topicDescStatus := topicMixinFields9[0].Descriptor()
 	// topic.DefaultStatus holds the default value on creation for the status field.
-	topic.DefaultStatus = topicDescStatus.Default.(int32)
+	topic.DefaultStatus = topicDescStatus.Default.(int)
 	// topicDescTaxonomyID is the schema descriptor for taxonomy_id field.
 	topicDescTaxonomyID := topicMixinFields11[0].Descriptor()
 	// topic.TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
@@ -586,11 +680,17 @@ func init() {
 	topicDescID := topicMixinFields0[0].Descriptor()
 	// topic.DefaultID holds the default value on creation for the id field.
 	topic.DefaultID = topicDescID.Default.(func() string)
+	// topic.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	topic.IDValidator = topicDescID.Validators[0].(func(string) error)
 	userMixin := schema.User{}.Mixin()
 	userMixinFields0 := userMixin[0].Fields()
 	_ = userMixinFields0
 	userMixinFields1 := userMixin[1].Fields()
 	_ = userMixinFields1
+	userMixinFields5 := userMixin[5].Fields()
+	_ = userMixinFields5
+	userMixinFields6 := userMixin[6].Fields()
+	_ = userMixinFields6
 	userMixinFields7 := userMixin[7].Fields()
 	_ = userMixinFields7
 	userMixinFields8 := userMixin[8].Fields()
@@ -620,10 +720,18 @@ func init() {
 			return nil
 		}
 	}()
+	// userDescIsCertified is the schema descriptor for is_certified field.
+	userDescIsCertified := userMixinFields5[0].Descriptor()
+	// user.DefaultIsCertified holds the default value on creation for the is_certified field.
+	user.DefaultIsCertified = userDescIsCertified.Default.(bool)
+	// userDescIsAdmin is the schema descriptor for is_admin field.
+	userDescIsAdmin := userMixinFields6[0].Descriptor()
+	// user.DefaultIsAdmin holds the default value on creation for the is_admin field.
+	user.DefaultIsAdmin = userDescIsAdmin.Default.(bool)
 	// userDescStatus is the schema descriptor for status field.
 	userDescStatus := userMixinFields7[0].Descriptor()
 	// user.DefaultStatus holds the default value on creation for the status field.
-	user.DefaultStatus = userDescStatus.Default.(int32)
+	user.DefaultStatus = userDescStatus.Default.(int)
 	// userDescExtras is the schema descriptor for extras field.
 	userDescExtras := userMixinFields8[0].Descriptor()
 	// user.DefaultExtras holds the default value on creation for the extras field.
@@ -642,6 +750,8 @@ func init() {
 	userDescID := userMixinFields0[0].Descriptor()
 	// user.DefaultID holds the default value on creation for the id field.
 	user.DefaultID = userDescID.Default.(func() string)
+	// user.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	user.IDValidator = userDescID.Validators[0].(func(string) error)
 	userdomainMixin := schema.UserDomain{}.Mixin()
 	userdomainMixinFields0 := userdomainMixin[0].Fields()
 	_ = userdomainMixinFields0

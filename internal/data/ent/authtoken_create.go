@@ -124,6 +124,10 @@ func (atc *AuthTokenCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (atc *AuthTokenCreate) defaults() {
+	if _, ok := atc.mutation.Disabled(); !ok {
+		v := authtoken.DefaultDisabled
+		atc.mutation.SetDisabled(v)
+	}
 	if _, ok := atc.mutation.CreatedAt(); !ok {
 		v := authtoken.DefaultCreatedAt()
 		atc.mutation.SetCreatedAt(v)
@@ -143,6 +147,11 @@ func (atc *AuthTokenCreate) check() error {
 	if v, ok := atc.mutation.UserID(); ok {
 		if err := authtoken.UserIDValidator(v); err != nil {
 			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "AuthToken.user_id": %w`, err)}
+		}
+	}
+	if v, ok := atc.mutation.ID(); ok {
+		if err := authtoken.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "AuthToken.id": %w`, err)}
 		}
 	}
 	return nil

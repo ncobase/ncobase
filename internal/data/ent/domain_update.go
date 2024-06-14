@@ -189,14 +189,14 @@ func (du *DomainUpdate) ClearDescription() *DomainUpdate {
 }
 
 // SetOrder sets the "order" field.
-func (du *DomainUpdate) SetOrder(i int32) *DomainUpdate {
+func (du *DomainUpdate) SetOrder(i int) *DomainUpdate {
 	du.mutation.ResetOrder()
 	du.mutation.SetOrder(i)
 	return du
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (du *DomainUpdate) SetNillableOrder(i *int32) *DomainUpdate {
+func (du *DomainUpdate) SetNillableOrder(i *int) *DomainUpdate {
 	if i != nil {
 		du.SetOrder(*i)
 	}
@@ -204,7 +204,7 @@ func (du *DomainUpdate) SetNillableOrder(i *int32) *DomainUpdate {
 }
 
 // AddOrder adds i to the "order" field.
-func (du *DomainUpdate) AddOrder(i int32) *DomainUpdate {
+func (du *DomainUpdate) AddOrder(i int) *DomainUpdate {
 	du.mutation.AddOrder(i)
 	return du
 }
@@ -316,11 +316,6 @@ func (du *DomainUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (du *DomainUpdate) check() error {
-	if v, ok := du.mutation.Order(); ok {
-		if err := domain.OrderValidator(v); err != nil {
-			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "Domain.order": %w`, err)}
-		}
-	}
 	if v, ok := du.mutation.CreatedBy(); ok {
 		if err := domain.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Domain.created_by": %w`, err)}
@@ -390,10 +385,10 @@ func (du *DomainUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(domain.FieldDescription, field.TypeString)
 	}
 	if value, ok := du.mutation.Order(); ok {
-		_spec.SetField(domain.FieldOrder, field.TypeInt32, value)
+		_spec.SetField(domain.FieldOrder, field.TypeInt, value)
 	}
 	if value, ok := du.mutation.AddedOrder(); ok {
-		_spec.AddField(domain.FieldOrder, field.TypeInt32, value)
+		_spec.AddField(domain.FieldOrder, field.TypeInt, value)
 	}
 	if value, ok := du.mutation.Disabled(); ok {
 		_spec.SetField(domain.FieldDisabled, field.TypeBool, value)
@@ -603,14 +598,14 @@ func (duo *DomainUpdateOne) ClearDescription() *DomainUpdateOne {
 }
 
 // SetOrder sets the "order" field.
-func (duo *DomainUpdateOne) SetOrder(i int32) *DomainUpdateOne {
+func (duo *DomainUpdateOne) SetOrder(i int) *DomainUpdateOne {
 	duo.mutation.ResetOrder()
 	duo.mutation.SetOrder(i)
 	return duo
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (duo *DomainUpdateOne) SetNillableOrder(i *int32) *DomainUpdateOne {
+func (duo *DomainUpdateOne) SetNillableOrder(i *int) *DomainUpdateOne {
 	if i != nil {
 		duo.SetOrder(*i)
 	}
@@ -618,7 +613,7 @@ func (duo *DomainUpdateOne) SetNillableOrder(i *int32) *DomainUpdateOne {
 }
 
 // AddOrder adds i to the "order" field.
-func (duo *DomainUpdateOne) AddOrder(i int32) *DomainUpdateOne {
+func (duo *DomainUpdateOne) AddOrder(i int) *DomainUpdateOne {
 	duo.mutation.AddOrder(i)
 	return duo
 }
@@ -743,11 +738,6 @@ func (duo *DomainUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (duo *DomainUpdateOne) check() error {
-	if v, ok := duo.mutation.Order(); ok {
-		if err := domain.OrderValidator(v); err != nil {
-			return &ValidationError{Name: "order", err: fmt.Errorf(`ent: validator failed for field "Domain.order": %w`, err)}
-		}
-	}
 	if v, ok := duo.mutation.CreatedBy(); ok {
 		if err := domain.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Domain.created_by": %w`, err)}
@@ -834,10 +824,10 @@ func (duo *DomainUpdateOne) sqlSave(ctx context.Context) (_node *Domain, err err
 		_spec.ClearField(domain.FieldDescription, field.TypeString)
 	}
 	if value, ok := duo.mutation.Order(); ok {
-		_spec.SetField(domain.FieldOrder, field.TypeInt32, value)
+		_spec.SetField(domain.FieldOrder, field.TypeInt, value)
 	}
 	if value, ok := duo.mutation.AddedOrder(); ok {
-		_spec.AddField(domain.FieldOrder, field.TypeInt32, value)
+		_spec.AddField(domain.FieldOrder, field.TypeInt, value)
 	}
 	if value, ok := duo.mutation.Disabled(); ok {
 		_spec.SetField(domain.FieldDisabled, field.TypeBool, value)
