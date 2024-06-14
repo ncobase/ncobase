@@ -309,28 +309,25 @@ func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp
 func (svc *Service) GenerateCaptchaService(_ *gin.Context, ext string) (*resp.Exception, error) {
 	captchaID := captcha.New()
 	captchaURL := "/v1/captcha/" + captchaID + ext
-	result := &types.JSON{
-		"url": captchaURL,
-	}
 
 	// Set captcha ID in cache
-	if err := svc.captcha.Set(context.Background(), captchaID, nil); err != nil {
+	if err := svc.captcha.Set(context.Background(), captchaID, &types.JSON{"id": captchaID, "url": captchaURL}); err != nil {
 		return resp.InternalServer(err.Error()), nil
 	}
 
 	return &resp.Exception{
-		Data: result,
+		Data: &types.JSON{"url": captchaURL},
 	}, nil
 }
 
 // GetCaptchaService gets the captcha from the cache.
 func (svc *Service) GetCaptchaService(_ *gin.Context, id string) *resp.Exception {
-	captchaID, err := svc.captcha.Get(context.Background(), id)
+	cached, err := svc.captcha.Get(context.Background(), id)
 	if err != nil {
 		return resp.NotFound(err.Error())
 	}
 	return &resp.Exception{
-		Data: captchaID,
+		Data: cached,
 	}
 }
 

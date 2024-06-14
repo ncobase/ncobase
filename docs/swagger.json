@@ -618,7 +618,7 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Captcha ID",
+                        "description": "Captcha ID With Extension (png, wav)",
                         "name": "captcha_id",
                         "in": "path",
                         "required": true
