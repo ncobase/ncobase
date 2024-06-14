@@ -9,6 +9,7 @@ import (
 	"stocms/internal/helper"
 	"stocms/pkg/cookie"
 	"stocms/pkg/resp"
+	"stocms/pkg/types"
 	"strings"
 
 	"github.com/dchest/captcha"
@@ -221,33 +222,50 @@ func (h *Handler) CaptchaStreamHandler(c *gin.Context) {
 	captchaID := c.Param("captcha")
 	ext := filepath.Ext(captchaID)
 
+	// Set default extension if not provided
+	if ext == "" {
+		ext = ".png"
+	}
+
 	id := strings.TrimSuffix(captchaID, ext)
-	if id == "" || (ext != ".png" && ext != ".wav") {
+	validExts := map[string]string{
+		".png": "image/png",
+		".wav": "audio/x-wav",
+	}
+
+	// Validate captcha ID and extension
+	if id == "" || validExts[ext] == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Invalid captcha"))
 		return
 	}
 
 	result := h.svc.GetCaptchaService(c, id)
 	if result.Code != 0 {
-		resp.Fail(c.Writer, resp.BadRequest("Captcha not found"))
+		resp.Fail(c.Writer, result)
 		return
 	}
 
-	var contentType string
+	data, ok := result.Data.(*types.JSON)
+	if !ok {
+		resp.Fail(c.Writer, resp.InternalServer("Invalid data type in response"))
+		return
+	}
+
+	cachedCaptchaID, ok := (*data)["id"].(string)
+	if !ok {
+		resp.Fail(c.Writer, resp.InternalServer("Invalid captcha ID type"))
+		return
+	}
+
 	var content bytes.Buffer
 	var err error
 
 	switch ext {
 	case ".png":
-		contentType = "image/png"
-		err = captcha.WriteImage(&content, id, captcha.StdWidth, captcha.StdHeight)
+		err = captcha.WriteImage(&content, cachedCaptchaID, captcha.StdWidth, captcha.StdHeight)
 	case ".wav":
-		contentType = "audio/x-wav"
 		lang := c.Query("lang")
-		err = captcha.WriteAudio(&content, id, lang)
-	default:
-		resp.Fail(c.Writer, resp.BadRequest("Invalid captcha"))
-		return
+		err = captcha.WriteAudio(&content, cachedCaptchaID, lang)
 	}
 
 	if err != nil {
@@ -255,15 +273,16 @@ func (h *Handler) CaptchaStreamHandler(c *gin.Context) {
 		return
 	}
 
-	c.Header("Content-Disposition", fmt.Sprintf("inline; filename=%s", captchaID))
+	// Set response headers
+	contentType := validExts[ext]
+	c.Header("Content-Disposition", fmt.Sprintf("inline; filename=%s%s", cachedCaptchaID, ext))
 	c.Header("Content-Type", contentType)
 	c.Header("Cache-Control", "no-cache, no-store, must-revalidate")
 	c.Header("Pragma", "no-cache")
 	c.Header("Expires", "0")
 
-	_, err = io.Copy(c.Writer, &content)
-	if err != nil {
+	// Write content to response
+	if _, err := io.Copy(c.Writer, &content); err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
-		return
 	}
 }

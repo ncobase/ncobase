@@ -1000,7 +1000,7 @@ paths:
     get:
       description: Stream a captcha image.
       parameters:
-      - description: Captcha ID
+      - description: Captcha ID With Extension (png, wav)
         in: path
         name: captcha_id
         required: true
