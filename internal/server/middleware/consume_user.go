@@ -2,8 +2,10 @@ package middleware
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"stocms/internal/helper"
+	"stocms/pkg/consts"
 	"stocms/pkg/ecode"
 	"stocms/pkg/jwt"
 	"stocms/pkg/resp"
@@ -31,21 +33,21 @@ func isTokenExpiring(tokenData map[string]any) bool {
 // ConsumeUser consumes user authentication information.
 func ConsumeUser(c *gin.Context) {
 	// Retrieve token from request header
-	token := c.Request.Header.Get("Authorization")
+	token := c.GetHeader(consts.AuthorizationKey)
 
 	// Check if token is in the correct format (Bearer token)
-	if !strings.HasPrefix(token, "Bearer ") {
+	if !strings.HasPrefix(token, consts.BearerKey) {
 		c.Next()
 		return
 	}
 
 	// Extract token value after "Bearer "
-	token = strings.TrimPrefix(token, "Bearer ")
+	token = strings.TrimPrefix(token, consts.BearerKey)
 
 	// Decode token
 	tokenData, err := jwt.DecodeToken(signingKey, token)
 	if err != nil {
-		handleTokenError(c, err)
+		handleTokenError(c, fmt.Errorf("failed to decode token: %v", err))
 		return
 	}
 
@@ -57,15 +59,18 @@ func ConsumeUser(c *gin.Context) {
 	}
 
 	// Set user ID to context
-	if userID, ok := payload["user_id"].(string); ok {
-		helper.SetUserID(c, userID)
+	userID, ok := payload["user_id"].(string)
+	if !ok || userID == "" {
+		handleTokenError(c, errors.New("user_id not found in token payload"))
+		return
 	}
+	helper.SetUserID(c, userID)
 
 	// Check if token is expiring soon, and refresh if necessary
 	if isTokenExpiring(tokenData) {
 		newToken, err := refreshToken(token)
 		if err != nil {
-			handleTokenError(c, err)
+			handleTokenError(c, fmt.Errorf("failed to refresh token: %v", err))
 			return
 		}
 		c.Header("Authorization", "Bearer "+newToken)

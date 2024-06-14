@@ -15,6 +15,19 @@ func GetUserID(c *gin.Context) string {
 	return ""
 }
 
+// SetDomainID sets domain id to gin.Context
+func SetDomainID(c *gin.Context, uid string) {
+	SetValue(c, "domain_id", uid)
+}
+
+// GetDomainID gets domain id from gin.Context
+func GetDomainID(c *gin.Context) string {
+	if uid, ok := GetValue(c, "domain_id").(string); ok {
+		return uid
+	}
+	return ""
+}
+
 // GetToken gets token from gin.Context
 func GetToken(c *gin.Context) string {
 	if token, ok := GetValue(c, "token").(string); ok {

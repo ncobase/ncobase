@@ -345,5 +345,5 @@ func (svc *Service) ValidateCaptchaService(_ *gin.Context, body *structs.Captcha
 		return resp.InternalServer(err.Error())
 	}
 
-	return nil
+	return &resp.Exception{}
 }

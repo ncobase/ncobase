@@ -5,14 +5,14 @@ go 1.22.3
 require (
 	entgo.io/contrib v0.5.0
 	entgo.io/ent v0.13.1
-	github.com/99designs/gqlgen v0.17.48
+	github.com/99designs/gqlgen v0.17.49
 	github.com/alexpantyukhin/go-pattern-match v0.0.0-20230301210247-d84479c117d7
-	github.com/aws/aws-sdk-go v1.53.21
+	github.com/aws/aws-sdk-go v1.54.1
 	github.com/casdoor/oss v1.6.1
 	github.com/dchest/captcha v1.0.0
 	github.com/elastic/go-elasticsearch/v8 v8.14.0
 	github.com/gin-gonic/gin v1.10.0
-	github.com/go-playground/validator/v10 v10.21.0
+	github.com/go-playground/validator/v10 v10.22.0
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/go-github v17.0.0+incompatible
@@ -34,7 +34,7 @@ require (
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
-	github.com/vektah/gqlparser/v2 v2.5.13
+	github.com/vektah/gqlparser/v2 v2.5.16
 	golang.org/x/crypto v0.24.0
 	golang.org/x/oauth2 v0.21.0
 	google.golang.org/protobuf v1.34.2
@@ -84,7 +84,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.17.8 // indirect
+	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.8 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
@@ -117,7 +117,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.27.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
-	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8 // indirect
+	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
 	golang.org/x/mod v0.18.0 // indirect
 	golang.org/x/net v0.26.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
