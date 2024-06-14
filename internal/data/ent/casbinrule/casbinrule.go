@@ -52,22 +52,10 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// PTypeValidator is a validator for the "p_type" field. It is called by the builders before save.
-	PTypeValidator func(string) error
-	// V0Validator is a validator for the "v0" field. It is called by the builders before save.
-	V0Validator func(string) error
-	// V1Validator is a validator for the "v1" field. It is called by the builders before save.
-	V1Validator func(string) error
-	// V2Validator is a validator for the "v2" field. It is called by the builders before save.
-	V2Validator func(string) error
-	// V3Validator is a validator for the "v3" field. It is called by the builders before save.
-	V3Validator func(string) error
-	// V4Validator is a validator for the "v4" field. It is called by the builders before save.
-	V4Validator func(string) error
-	// V5Validator is a validator for the "v5" field. It is called by the builders before save.
-	V5Validator func(string) error
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the CasbinRule queries.

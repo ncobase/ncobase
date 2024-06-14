@@ -17,9 +17,9 @@ type JSONMixin struct {
 }
 
 // Fields implements the ent.Mixin interface for JSONMixin.
-func (j JSONMixin) Fields() []ent.Field {
-	f := field.JSON(j.Field, j.Default).Default(j.Default).Comment(j.Comment)
-	if j.Optional {
+func (m JSONMixin) Fields() []ent.Field {
+	f := field.JSON(m.Field, m.Default).Default(m.Default).Comment(m.Comment)
+	if m.Optional {
 		f = f.Optional()
 	}
 	return []ent.Field{f}

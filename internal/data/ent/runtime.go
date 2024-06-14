@@ -130,40 +130,17 @@ func init() {
 	authtoken.DefaultID = authtokenDescID.Default.(func() string)
 	// authtoken.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	authtoken.IDValidator = authtokenDescID.Validators[0].(func(string) error)
+	casbinruleMixin := schema.CasbinRule{}.Mixin()
+	casbinruleMixinFields0 := casbinruleMixin[0].Fields()
+	_ = casbinruleMixinFields0
 	casbinruleFields := schema.CasbinRule{}.Fields()
 	_ = casbinruleFields
-	// casbinruleDescPType is the schema descriptor for p_type field.
-	casbinruleDescPType := casbinruleFields[1].Descriptor()
-	// casbinrule.PTypeValidator is a validator for the "p_type" field. It is called by the builders before save.
-	casbinrule.PTypeValidator = casbinruleDescPType.Validators[0].(func(string) error)
-	// casbinruleDescV0 is the schema descriptor for v0 field.
-	casbinruleDescV0 := casbinruleFields[2].Descriptor()
-	// casbinrule.V0Validator is a validator for the "v0" field. It is called by the builders before save.
-	casbinrule.V0Validator = casbinruleDescV0.Validators[0].(func(string) error)
-	// casbinruleDescV1 is the schema descriptor for v1 field.
-	casbinruleDescV1 := casbinruleFields[3].Descriptor()
-	// casbinrule.V1Validator is a validator for the "v1" field. It is called by the builders before save.
-	casbinrule.V1Validator = casbinruleDescV1.Validators[0].(func(string) error)
-	// casbinruleDescV2 is the schema descriptor for v2 field.
-	casbinruleDescV2 := casbinruleFields[4].Descriptor()
-	// casbinrule.V2Validator is a validator for the "v2" field. It is called by the builders before save.
-	casbinrule.V2Validator = casbinruleDescV2.Validators[0].(func(string) error)
-	// casbinruleDescV3 is the schema descriptor for v3 field.
-	casbinruleDescV3 := casbinruleFields[5].Descriptor()
-	// casbinrule.V3Validator is a validator for the "v3" field. It is called by the builders before save.
-	casbinrule.V3Validator = casbinruleDescV3.Validators[0].(func(string) error)
-	// casbinruleDescV4 is the schema descriptor for v4 field.
-	casbinruleDescV4 := casbinruleFields[6].Descriptor()
-	// casbinrule.V4Validator is a validator for the "v4" field. It is called by the builders before save.
-	casbinrule.V4Validator = casbinruleDescV4.Validators[0].(func(string) error)
-	// casbinruleDescV5 is the schema descriptor for v5 field.
-	casbinruleDescV5 := casbinruleFields[7].Descriptor()
-	// casbinrule.V5Validator is a validator for the "v5" field. It is called by the builders before save.
-	casbinrule.V5Validator = casbinruleDescV5.Validators[0].(func(string) error)
 	// casbinruleDescID is the schema descriptor for id field.
-	casbinruleDescID := casbinruleFields[0].Descriptor()
+	casbinruleDescID := casbinruleMixinFields0[0].Descriptor()
 	// casbinrule.DefaultID holds the default value on creation for the id field.
 	casbinrule.DefaultID = casbinruleDescID.Default.(func() string)
+	// casbinrule.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	casbinrule.IDValidator = casbinruleDescID.Validators[0].(func(string) error)
 	codeauthMixin := schema.CodeAuth{}.Mixin()
 	codeauthMixinFields0 := codeauthMixin[0].Fields()
 	_ = codeauthMixinFields0

@@ -16,12 +16,12 @@ type IntField struct {
 }
 
 // Fields implements the ent.Mixin interface for IntField.
-func (i IntField) Fields() []ent.Field {
-	f := field.Int(i.Field).
-		Default(i.Default).
-		Comment(i.Comment)
+func (m IntField) Fields() []ent.Field {
+	f := field.Int(m.Field).
+		Default(m.Default).
+		Comment(m.Comment)
 
-	if i.Positive {
+	if m.Positive {
 		f = f.Positive()
 	}
 	return []ent.Field{f}

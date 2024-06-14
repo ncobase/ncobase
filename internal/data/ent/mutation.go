@@ -2100,7 +2100,7 @@ func (m *CasbinRuleMutation) PType() (r string, exists bool) {
 // OldPType returns the old "p_type" field's value of the CasbinRule entity.
 // If the CasbinRule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CasbinRuleMutation) OldPType(ctx context.Context) (v *string, err error) {
+func (m *CasbinRuleMutation) OldPType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldPType is only allowed on UpdateOne operations")
 	}
@@ -2149,7 +2149,7 @@ func (m *CasbinRuleMutation) V0() (r string, exists bool) {
 // OldV0 returns the old "v0" field's value of the CasbinRule entity.
 // If the CasbinRule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CasbinRuleMutation) OldV0(ctx context.Context) (v *string, err error) {
+func (m *CasbinRuleMutation) OldV0(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldV0 is only allowed on UpdateOne operations")
 	}
@@ -2198,7 +2198,7 @@ func (m *CasbinRuleMutation) V1() (r string, exists bool) {
 // OldV1 returns the old "v1" field's value of the CasbinRule entity.
 // If the CasbinRule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CasbinRuleMutation) OldV1(ctx context.Context) (v *string, err error) {
+func (m *CasbinRuleMutation) OldV1(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldV1 is only allowed on UpdateOne operations")
 	}
@@ -2247,7 +2247,7 @@ func (m *CasbinRuleMutation) V2() (r string, exists bool) {
 // OldV2 returns the old "v2" field's value of the CasbinRule entity.
 // If the CasbinRule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CasbinRuleMutation) OldV2(ctx context.Context) (v *string, err error) {
+func (m *CasbinRuleMutation) OldV2(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldV2 is only allowed on UpdateOne operations")
 	}
@@ -2296,7 +2296,7 @@ func (m *CasbinRuleMutation) V3() (r string, exists bool) {
 // OldV3 returns the old "v3" field's value of the CasbinRule entity.
 // If the CasbinRule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CasbinRuleMutation) OldV3(ctx context.Context) (v *string, err error) {
+func (m *CasbinRuleMutation) OldV3(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldV3 is only allowed on UpdateOne operations")
 	}
@@ -2345,7 +2345,7 @@ func (m *CasbinRuleMutation) V4() (r string, exists bool) {
 // OldV4 returns the old "v4" field's value of the CasbinRule entity.
 // If the CasbinRule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CasbinRuleMutation) OldV4(ctx context.Context) (v *string, err error) {
+func (m *CasbinRuleMutation) OldV4(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldV4 is only allowed on UpdateOne operations")
 	}
@@ -2394,7 +2394,7 @@ func (m *CasbinRuleMutation) V5() (r string, exists bool) {
 // OldV5 returns the old "v5" field's value of the CasbinRule entity.
 // If the CasbinRule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CasbinRuleMutation) OldV5(ctx context.Context) (v *string, err error) {
+func (m *CasbinRuleMutation) OldV5(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldV5 is only allowed on UpdateOne operations")
 	}

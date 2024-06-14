@@ -173,39 +173,9 @@ func (crc *CasbinRuleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (crc *CasbinRuleCreate) check() error {
-	if v, ok := crc.mutation.PType(); ok {
-		if err := casbinrule.PTypeValidator(v); err != nil {
-			return &ValidationError{Name: "p_type", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.p_type": %w`, err)}
-		}
-	}
-	if v, ok := crc.mutation.V0(); ok {
-		if err := casbinrule.V0Validator(v); err != nil {
-			return &ValidationError{Name: "v0", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v0": %w`, err)}
-		}
-	}
-	if v, ok := crc.mutation.V1(); ok {
-		if err := casbinrule.V1Validator(v); err != nil {
-			return &ValidationError{Name: "v1", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v1": %w`, err)}
-		}
-	}
-	if v, ok := crc.mutation.V2(); ok {
-		if err := casbinrule.V2Validator(v); err != nil {
-			return &ValidationError{Name: "v2", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v2": %w`, err)}
-		}
-	}
-	if v, ok := crc.mutation.V3(); ok {
-		if err := casbinrule.V3Validator(v); err != nil {
-			return &ValidationError{Name: "v3", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v3": %w`, err)}
-		}
-	}
-	if v, ok := crc.mutation.V4(); ok {
-		if err := casbinrule.V4Validator(v); err != nil {
-			return &ValidationError{Name: "v4", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v4": %w`, err)}
-		}
-	}
-	if v, ok := crc.mutation.V5(); ok {
-		if err := casbinrule.V5Validator(v); err != nil {
-			return &ValidationError{Name: "v5", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.v5": %w`, err)}
+	if v, ok := crc.mutation.ID(); ok {
+		if err := casbinrule.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.id": %w`, err)}
 		}
 	}
 	return nil
@@ -245,31 +215,31 @@ func (crc *CasbinRuleCreate) createSpec() (*CasbinRule, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := crc.mutation.PType(); ok {
 		_spec.SetField(casbinrule.FieldPType, field.TypeString, value)
-		_node.PType = &value
+		_node.PType = value
 	}
 	if value, ok := crc.mutation.V0(); ok {
 		_spec.SetField(casbinrule.FieldV0, field.TypeString, value)
-		_node.V0 = &value
+		_node.V0 = value
 	}
 	if value, ok := crc.mutation.V1(); ok {
 		_spec.SetField(casbinrule.FieldV1, field.TypeString, value)
-		_node.V1 = &value
+		_node.V1 = value
 	}
 	if value, ok := crc.mutation.V2(); ok {
 		_spec.SetField(casbinrule.FieldV2, field.TypeString, value)
-		_node.V2 = &value
+		_node.V2 = value
 	}
 	if value, ok := crc.mutation.V3(); ok {
 		_spec.SetField(casbinrule.FieldV3, field.TypeString, value)
-		_node.V3 = &value
+		_node.V3 = value
 	}
 	if value, ok := crc.mutation.V4(); ok {
 		_spec.SetField(casbinrule.FieldV4, field.TypeString, value)
-		_node.V4 = &value
+		_node.V4 = value
 	}
 	if value, ok := crc.mutation.V5(); ok {
 		_spec.SetField(casbinrule.FieldV5, field.TypeString, value)
-		_node.V5 = &value
+		_node.V5 = value
 	}
 	return _node, _spec
 }

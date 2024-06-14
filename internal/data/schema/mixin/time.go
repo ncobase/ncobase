@@ -20,18 +20,18 @@ type TimeMixin struct {
 }
 
 // Fields implements the ent.Mixin interface for TimeMixin.
-func (t TimeMixin) Fields() []ent.Field {
-	f := field.Time(t.Field).Comment(t.Comment)
-	if t.Default != nil {
-		f = f.Default(t.Default)
+func (m TimeMixin) Fields() []ent.Field {
+	f := field.Time(m.Field).Comment(m.Comment)
+	if m.Default != nil {
+		f = f.Default(m.Default)
 	}
-	if t.UpdateDefault != nil {
-		f = f.UpdateDefault(t.UpdateDefault)
+	if m.UpdateDefault != nil {
+		f = f.UpdateDefault(m.UpdateDefault)
 	}
-	if t.Optional {
+	if m.Optional {
 		f = f.Optional()
 	}
-	if t.Immutable {
+	if m.Immutable {
 		f = f.Immutable()
 	}
 	return []ent.Field{f}
