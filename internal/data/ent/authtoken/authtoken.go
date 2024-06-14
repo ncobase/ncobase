@@ -45,6 +45,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultDisabled holds the default value on creation for the "disabled" field.
+	DefaultDisabled bool
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
@@ -55,6 +57,8 @@ var (
 	UserIDValidator func(string) error
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the AuthToken queries.

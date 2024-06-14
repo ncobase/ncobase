@@ -123,7 +123,7 @@ func (r *assetRepo) Update(ctx context.Context, slug string, updates types.JSON)
 		case "type":
 			builder.SetNillableType(types.ToPointer(value.(string)))
 		case "size":
-			builder.SetNillableSize(types.ToPointer(value.(int64)))
+			builder.SetNillableSize(types.ToPointer(value.(int)))
 		case "storage":
 			builder.SetNillableStorage(types.ToPointer(value.(string)))
 		case "endpoint":

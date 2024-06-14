@@ -186,6 +186,10 @@ func (rc *RoleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (rc *RoleCreate) defaults() {
+	if _, ok := rc.mutation.Disabled(); !ok {
+		v := role.DefaultDisabled
+		rc.mutation.SetDisabled(v)
+	}
 	if _, ok := rc.mutation.Extras(); !ok {
 		v := role.DefaultExtras
 		rc.mutation.SetExtras(v)
@@ -214,6 +218,11 @@ func (rc *RoleCreate) check() error {
 	if v, ok := rc.mutation.UpdatedBy(); ok {
 		if err := role.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Role.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := rc.mutation.ID(); ok {
+		if err := role.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Role.id": %w`, err)}
 		}
 	}
 	return nil

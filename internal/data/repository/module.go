@@ -123,7 +123,7 @@ func (r *moduleRepo) Update(ctx context.Context, slug string, updates types.JSON
 		case "private":
 			builder.SetPrivate(value.(bool))
 		case "status":
-			builder.SetStatus(value.(int32))
+			builder.SetStatus(value.(int))
 		case "released":
 			builder.SetNillableReleased(types.ToPointer(value.(time.Time)))
 		case "updated_by":

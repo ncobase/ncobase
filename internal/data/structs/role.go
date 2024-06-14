@@ -45,7 +45,7 @@ type FindRole struct {
 // ListRoleParams represents the query parameters for listing roles.
 type ListRoleParams struct {
 	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int64  `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // UserRole represents the user role.

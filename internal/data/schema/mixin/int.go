@@ -6,48 +6,33 @@ import (
 	"entgo.io/ent/schema/mixin"
 )
 
-// Status adds a status field to the schema.
-type Status struct{ mixin.Schema }
-
-// Fields of the Status mixin.
-func (Status) Fields() []ent.Field {
-	return []ent.Field{
-		field.Int32("status").
-			Default(0).
-			Comment("status: 0 activated, 1 unactivated, 2 disabled"),
-	}
+// IntField defines a generic boolean field mixin.
+type IntField struct {
+	mixin.Schema
+	Field    string
+	Comment  string
+	Default  int
+	Positive bool
 }
 
-// Ensure Status implements the Mixin interface.
-var _ ent.Mixin = (*Status)(nil)
+// Fields implements the ent.Mixin interface for IntField.
+func (i IntField) Fields() []ent.Field {
+	f := field.Int(i.Field).
+		Default(i.Default).
+		Comment(i.Comment)
 
-// Order adds an order field to the schema.
-type Order struct{ mixin.Schema }
-
-// Fields of the Order mixin.
-func (Order) Fields() []ent.Field {
-	return []ent.Field{
-		field.Int32("order").
-			Default(99).
-			Positive().
-			Comment("display order"),
+	if i.Positive {
+		f = f.Positive()
 	}
+	return []ent.Field{f}
 }
 
-// Ensure Order implements the Mixin interface.
-var _ ent.Mixin = (*Order)(nil)
+// Implement the Mixin interface.
+var _ ent.Mixin = (*IntField)(nil)
 
-// Size adds a size field to the schema.
-type Size struct{ mixin.Schema }
-
-// Fields of the Size mixin.
-func (Size) Fields() []ent.Field {
-	return []ent.Field{
-		field.Int64("size").
-			Default(0).
-			Comment("size in bytes"),
-	}
-}
-
-// Ensure Size implements the Mixin interface.
-var _ ent.Mixin = (*Size)(nil)
+// Specific mixins can be created using the generic BoolMixin.
+var (
+	Status = IntField{Field: "status", Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0}
+	Order  = IntField{Field: "order", Comment: "display order", Default: 0}
+	Size   = IntField{Field: "size", Comment: "size in bytes", Default: 0}
+)

@@ -40,16 +40,16 @@ type Taxonomy struct {
 	// description
 	Description string `json:"description,omitempty"`
 	// status: 0 activated, 1 unactivated, 2 disabled
-	Status int32 `json:"status,omitempty"`
+	Status int `json:"status,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// parent id
 	ParentID string `json:"parent_id,omitempty"`
 	// domain id
 	DomainID string `json:"domain_id,omitempty"`
-	// ID of the creator
+	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
-	// ID of the person who last updated the entity
+	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
@@ -156,7 +156,7 @@ func (t *Taxonomy) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				t.Status = int32(value.Int64)
+				t.Status = int(value.Int64)
 			}
 		case taxonomy.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {

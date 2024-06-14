@@ -29,12 +29,12 @@ func (UserProfile) Annotations() []schema.Annotation {
 func (UserProfile) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.NewPrimaryKeyAlias("user", "user_id"),
-		mixin.DisplayName{},
-		mixin.ShortBio{},
-		mixin.About{},
-		mixin.Links{},
-		mixin.Thumbnail{},
-		mixin.ExtraProps{},
+		mixin.DisplayName,
+		mixin.ShortBio,
+		mixin.About,
+		mixin.Links,
+		mixin.Thumbnail,
+		mixin.ExtraProps,
 	}
 }
 

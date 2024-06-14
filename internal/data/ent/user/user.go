@@ -65,8 +65,12 @@ func ValidColumn(column string) bool {
 var (
 	// UsernameValidator is a validator for the "username" field. It is called by the builders before save.
 	UsernameValidator func(string) error
+	// DefaultIsCertified holds the default value on creation for the "is_certified" field.
+	DefaultIsCertified bool
+	// DefaultIsAdmin holds the default value on creation for the "is_admin" field.
+	DefaultIsAdmin bool
 	// DefaultStatus holds the default value on creation for the "status" field.
-	DefaultStatus int32
+	DefaultStatus int
 	// DefaultExtras holds the default value on creation for the "extras" field.
 	DefaultExtras map[string]interface{}
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
@@ -77,6 +81,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the User queries.

@@ -29,10 +29,10 @@ func (CodeAuth) Annotations() []schema.Annotation {
 // Mixin of the CodeAuth.
 func (CodeAuth) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Code{},
-		mixin.Email{},
-		mixin.Logged{},
+		mixin.PrimaryKey,
+		mixin.Code,
+		mixin.Email,
+		mixin.Logged,
 		mixin.TimeAt{},
 	}
 }

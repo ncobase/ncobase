@@ -7,87 +7,32 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// ExtraProps adds extend properties field.
-// This mixin adds an `extras` field to store additional JSON properties.
-type ExtraProps struct{ ent.Schema }
-
-// Fields of the ExtraProps mixin.
-func (ExtraProps) Fields() []ent.Field {
-	return []ent.Field{
-		field.JSON("extras", types.JSON{}).
-			Default(types.JSON{}).
-			Optional().
-			Comment("Extend properties"),
-	}
+// JSONMixin defines a generic JSON field mixin.
+type JSONMixin struct {
+	ent.Schema
+	Field    string
+	Default  any
+	Comment  string
+	Optional bool
 }
 
-// Ensure ExtraProps implements the Mixin interface.
-var _ ent.Mixin = (*ExtraProps)(nil)
-
-// Author adds an author field.
-// This mixin adds an `author` field to store author information as JSON.
-type Author struct{ ent.Schema }
-
-// Fields of the Author mixin.
-func (Author) Fields() []ent.Field {
-	return []ent.Field{
-		field.JSON("author", types.JSON{}).
-			Default(types.JSON{}).
-			Optional().
-			Comment("Author information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"),
+// Fields implements the ent.Mixin interface for JSONMixin.
+func (j JSONMixin) Fields() []ent.Field {
+	f := field.JSON(j.Field, j.Default).Default(j.Default).Comment(j.Comment)
+	if j.Optional {
+		f = f.Optional()
 	}
+	return []ent.Field{f}
 }
 
-// Ensure Author implements the Mixin interface.
-var _ ent.Mixin = (*Author)(nil)
+// Implement the Mixin interface.
+var _ ent.Mixin = (*JSONMixin)(nil)
 
-// Related adds a related field.
-// This mixin adds a `related` field to store related entity information as JSON.
-type Related struct{ ent.Schema }
-
-// Fields of the Related mixin.
-func (Related) Fields() []ent.Field {
-	return []ent.Field{
-		field.JSON("related", types.JSON{}).
-			Default(types.JSON{}).
-			Optional().
-			Comment("Related entity information, e.g., {id: '', name: '', type: 'user / topic /...'}"),
-	}
-}
-
-// Ensure Related implements the Mixin interface.
-var _ ent.Mixin = (*Related)(nil)
-
-// Leader adds a leader field.
-// This mixin adds a `leader` field to store leader information as JSON.
-type Leader struct{ ent.Schema }
-
-// Fields of the Leader mixin.
-func (Leader) Fields() []ent.Field {
-	return []ent.Field{
-		field.JSON("leader", types.JSON{}).
-			Default(types.JSON{}).
-			Optional().
-			Comment("Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"),
-	}
-}
-
-// Ensure Leader implements the Mixin interface.
-var _ ent.Mixin = (*Leader)(nil)
-
-// Links adds links field.
-// This mixin adds a `links` field to store a list of links as a JSON array.
-type Links struct{ ent.Schema }
-
-// Fields of the Links mixin.
-func (Links) Fields() []ent.Field {
-	return []ent.Field{
-		field.JSON("links", types.JSONArray{}).
-			Default(types.JSONArray{}).
-			Optional().
-			Comment("List of social links or profile links"),
-	}
-}
-
-// Ensure Links implements the Mixin interface.
-var _ ent.Mixin = (*Links)(nil)
+// Specific mixins can be created using the generic JSONMixin.
+var (
+	ExtraProps = JSONMixin{Field: "extras", Default: types.JSON{}, Comment: "Extend properties", Optional: true}
+	Author     = JSONMixin{Field: "author", Default: types.JSON{}, Comment: "Author information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}", Optional: true}
+	Related    = JSONMixin{Field: "related", Default: types.JSON{}, Comment: "Related entity information, e.g., {id: '', name: '', type: 'user / topic /...'}", Optional: true}
+	Leader     = JSONMixin{Field: "leader", Default: types.JSON{}, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}", Optional: true}
+	Links      = JSONMixin{Field: "links", Default: types.JSONArray{}, Comment: "List of social links or profile links", Optional: true}
+)

@@ -29,17 +29,17 @@ func (Module) Annotations() []schema.Annotation {
 // Mixin of the Module.
 func (Module) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Name{},
-		mixin.Title{},
-		mixin.SlugUnique{},
-		mixin.Content{},
-		mixin.Thumbnail{},
-		mixin.Temp{},
-		mixin.Markdown{},
-		mixin.Private{},
-		mixin.Status{},
-		mixin.Released{},
+		mixin.PrimaryKey,
+		mixin.Name,
+		mixin.Title,
+		mixin.SlugUnique,
+		mixin.Content,
+		mixin.Thumbnail,
+		mixin.Temp,
+		mixin.Markdown,
+		mixin.Private,
+		mixin.Status,
+		mixin.Released,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

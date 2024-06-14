@@ -26,7 +26,7 @@ const (
 // FileHeader file header
 type FileHeader struct {
 	Name     string                `json:"name"`
-	Size     int64                 `json:"size"`
+	Size     int                   `json:"size"`
 	Path     string                `json:"path"`
 	Type     string                `json:"type"`
 	Ext      string                `json:"ext"`
@@ -41,7 +41,7 @@ func GetFileHeader(f *multipart.FileHeader, prefix ...string) *FileHeader {
 	fullName := path.Base(f.Filename)
 	file.Ext = strings.ToLower(path.Ext(fullName))
 
-	file.Size = f.Size
+	file.Size = int(f.Size)
 	file.Type = f.Header.Get("Content-Type")
 	file.Raw = f
 

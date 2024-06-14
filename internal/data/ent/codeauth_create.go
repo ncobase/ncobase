@@ -138,6 +138,10 @@ func (cac *CodeAuthCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (cac *CodeAuthCreate) defaults() {
+	if _, ok := cac.mutation.Logged(); !ok {
+		v := codeauth.DefaultLogged
+		cac.mutation.SetLogged(v)
+	}
 	if _, ok := cac.mutation.CreatedAt(); !ok {
 		v := codeauth.DefaultCreatedAt()
 		cac.mutation.SetCreatedAt(v)
@@ -154,6 +158,11 @@ func (cac *CodeAuthCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (cac *CodeAuthCreate) check() error {
+	if v, ok := cac.mutation.ID(); ok {
+		if err := codeauth.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "CodeAuth.id": %w`, err)}
+		}
+	}
 	return nil
 }
 

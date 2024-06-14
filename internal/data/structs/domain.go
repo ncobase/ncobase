@@ -15,7 +15,7 @@ type DomainBody struct {
 	Keywords    []string    `json:"keywords,omitempty"`
 	Copyright   string      `json:"copyright,omitempty"`
 	Description string      `json:"description,omitempty"`
-	Order       *int32      `json:"order,omitempty"`
+	Order       *int        `json:"order,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	CreatedBy   string      `json:"created_by,omitempty"`
@@ -43,7 +43,7 @@ type ReadDomain struct {
 	Keywords    []string    `json:"keywords"`
 	Copyright   string      `json:"copyright"`
 	Description string      `json:"description"`
-	Order       *int32      `json:"order"`
+	Order       *int        `json:"order"`
 	Disabled    bool        `json:"disabled"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	User        *User       `json:"user,omitempty"`
@@ -61,6 +61,6 @@ type FindDomain struct {
 // ListDomainParams represents the query parameters for listing domains.
 type ListDomainParams struct {
 	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int32  `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 	User   string `form:"user,omitempty" json:"user,omitempty"`
 }

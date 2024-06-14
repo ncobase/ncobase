@@ -28,12 +28,12 @@ func (Role) Annotations() []schema.Annotation {
 // Mixin of the Role.
 func (Role) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Name{},
-		mixin.SlugUnique{},
-		mixin.Disabled{},
-		mixin.Description{},
-		mixin.ExtraProps{},
+		mixin.PrimaryKey,
+		mixin.Name,
+		mixin.SlugUnique,
+		mixin.Disabled,
+		mixin.Description,
+		mixin.ExtraProps,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

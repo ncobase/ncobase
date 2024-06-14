@@ -50,7 +50,7 @@ type FindPermission struct {
 // ListPermissionParams represents the query parameters for listing permissions.
 type ListPermissionParams struct {
 	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int64  `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // RolePermission represents the role permission relationship.

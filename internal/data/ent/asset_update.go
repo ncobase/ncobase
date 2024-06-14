@@ -89,14 +89,14 @@ func (au *AssetUpdate) ClearType() *AssetUpdate {
 }
 
 // SetSize sets the "size" field.
-func (au *AssetUpdate) SetSize(i int64) *AssetUpdate {
+func (au *AssetUpdate) SetSize(i int) *AssetUpdate {
 	au.mutation.ResetSize()
 	au.mutation.SetSize(i)
 	return au
 }
 
 // SetNillableSize sets the "size" field if the given value is not nil.
-func (au *AssetUpdate) SetNillableSize(i *int64) *AssetUpdate {
+func (au *AssetUpdate) SetNillableSize(i *int) *AssetUpdate {
 	if i != nil {
 		au.SetSize(*i)
 	}
@@ -104,7 +104,7 @@ func (au *AssetUpdate) SetNillableSize(i *int64) *AssetUpdate {
 }
 
 // AddSize adds i to the "size" field.
-func (au *AssetUpdate) AddSize(i int64) *AssetUpdate {
+func (au *AssetUpdate) AddSize(i int) *AssetUpdate {
 	au.mutation.AddSize(i)
 	return au
 }
@@ -375,10 +375,10 @@ func (au *AssetUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(asset.FieldType, field.TypeString)
 	}
 	if value, ok := au.mutation.Size(); ok {
-		_spec.SetField(asset.FieldSize, field.TypeInt64, value)
+		_spec.SetField(asset.FieldSize, field.TypeInt, value)
 	}
 	if value, ok := au.mutation.AddedSize(); ok {
-		_spec.AddField(asset.FieldSize, field.TypeInt64, value)
+		_spec.AddField(asset.FieldSize, field.TypeInt, value)
 	}
 	if value, ok := au.mutation.Storage(); ok {
 		_spec.SetField(asset.FieldStorage, field.TypeString, value)
@@ -518,14 +518,14 @@ func (auo *AssetUpdateOne) ClearType() *AssetUpdateOne {
 }
 
 // SetSize sets the "size" field.
-func (auo *AssetUpdateOne) SetSize(i int64) *AssetUpdateOne {
+func (auo *AssetUpdateOne) SetSize(i int) *AssetUpdateOne {
 	auo.mutation.ResetSize()
 	auo.mutation.SetSize(i)
 	return auo
 }
 
 // SetNillableSize sets the "size" field if the given value is not nil.
-func (auo *AssetUpdateOne) SetNillableSize(i *int64) *AssetUpdateOne {
+func (auo *AssetUpdateOne) SetNillableSize(i *int) *AssetUpdateOne {
 	if i != nil {
 		auo.SetSize(*i)
 	}
@@ -533,7 +533,7 @@ func (auo *AssetUpdateOne) SetNillableSize(i *int64) *AssetUpdateOne {
 }
 
 // AddSize adds i to the "size" field.
-func (auo *AssetUpdateOne) AddSize(i int64) *AssetUpdateOne {
+func (auo *AssetUpdateOne) AddSize(i int) *AssetUpdateOne {
 	auo.mutation.AddSize(i)
 	return auo
 }
@@ -834,10 +834,10 @@ func (auo *AssetUpdateOne) sqlSave(ctx context.Context) (_node *Asset, err error
 		_spec.ClearField(asset.FieldType, field.TypeString)
 	}
 	if value, ok := auo.mutation.Size(); ok {
-		_spec.SetField(asset.FieldSize, field.TypeInt64, value)
+		_spec.SetField(asset.FieldSize, field.TypeInt, value)
 	}
 	if value, ok := auo.mutation.AddedSize(); ok {
-		_spec.AddField(asset.FieldSize, field.TypeInt64, value)
+		_spec.AddField(asset.FieldSize, field.TypeInt, value)
 	}
 	if value, ok := auo.mutation.Storage(); ok {
 		_spec.SetField(asset.FieldStorage, field.TypeString, value)

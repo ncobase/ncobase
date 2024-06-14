@@ -88,7 +88,7 @@ func ValidColumn(column string) bool {
 
 var (
 	// DefaultStatus holds the default value on creation for the "status" field.
-	DefaultStatus int32
+	DefaultStatus int
 	// DefaultExtras holds the default value on creation for the "extras" field.
 	DefaultExtras map[string]interface{}
 	// ParentIDValidator is a validator for the "parent_id" field. It is called by the builders before save.
@@ -107,6 +107,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the Taxonomy queries.

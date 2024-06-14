@@ -220,6 +220,10 @@ func (gc *GroupCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (gc *GroupCreate) defaults() {
+	if _, ok := gc.mutation.Disabled(); !ok {
+		v := group.DefaultDisabled
+		gc.mutation.SetDisabled(v)
+	}
 	if _, ok := gc.mutation.Leader(); !ok {
 		v := group.DefaultLeader
 		gc.mutation.SetLeader(v)
@@ -262,6 +266,11 @@ func (gc *GroupCreate) check() error {
 	if v, ok := gc.mutation.UpdatedBy(); ok {
 		if err := group.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Group.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := gc.mutation.ID(); ok {
+		if err := group.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Group.id": %w`, err)}
 		}
 	}
 	return nil

@@ -28,8 +28,8 @@ func (AuthToken) Annotations() []schema.Annotation {
 // Mixin of the AuthToken.
 func (AuthToken) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Disabled{},
+		mixin.PrimaryKey,
+		mixin.Disabled,
 		mixin.TimeAt{},
 		mixin.UserID,
 	}

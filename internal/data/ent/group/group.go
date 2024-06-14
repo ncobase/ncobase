@@ -69,6 +69,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultDisabled holds the default value on creation for the "disabled" field.
+	DefaultDisabled bool
 	// DefaultLeader holds the default value on creation for the "leader" field.
 	DefaultLeader map[string]interface{}
 	// DefaultExtras holds the default value on creation for the "extras" field.
@@ -89,6 +91,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the Group queries.

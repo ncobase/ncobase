@@ -28,17 +28,17 @@ func (User) Annotations() []schema.Annotation {
 // Mixin of the User.
 func (User) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.UsernameUnique{},
-		mixin.Password{},
-		mixin.Email{},
-		mixin.Phone{},
-		mixin.IsCertified{},
-		mixin.IsAdmin{},
-		mixin.Status{}, // status, 0: activated, 1: unactivated, 2: disabled
-		mixin.ExtraProps{},
-		mixin.CreatedAt{},
-		mixin.UpdatedAt{},
+		mixin.PrimaryKey,
+		mixin.UsernameUnique,
+		mixin.Password,
+		mixin.Email,
+		mixin.Phone,
+		mixin.IsCertified,
+		mixin.IsAdmin,
+		mixin.Status, // status, 0: activated, 1: unactivated, 2: disabled
+		mixin.ExtraProps,
+		mixin.CreatedAt,
+		mixin.UpdatedAt,
 	}
 }
 

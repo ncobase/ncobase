@@ -63,13 +63,13 @@ func (ac *AssetCreate) SetNillableType(s *string) *AssetCreate {
 }
 
 // SetSize sets the "size" field.
-func (ac *AssetCreate) SetSize(i int64) *AssetCreate {
+func (ac *AssetCreate) SetSize(i int) *AssetCreate {
 	ac.mutation.SetSize(i)
 	return ac
 }
 
 // SetNillableSize sets the "size" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableSize(i *int64) *AssetCreate {
+func (ac *AssetCreate) SetNillableSize(i *int) *AssetCreate {
 	if i != nil {
 		ac.SetSize(*i)
 	}
@@ -309,6 +309,11 @@ func (ac *AssetCreate) check() error {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Asset.updated_by": %w`, err)}
 		}
 	}
+	if v, ok := ac.mutation.ID(); ok {
+		if err := asset.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Asset.id": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -357,7 +362,7 @@ func (ac *AssetCreate) createSpec() (*Asset, *sqlgraph.CreateSpec) {
 		_node.Type = value
 	}
 	if value, ok := ac.mutation.Size(); ok {
-		_spec.SetField(asset.FieldSize, field.TypeInt64, value)
+		_spec.SetField(asset.FieldSize, field.TypeInt, value)
 		_node.Size = value
 	}
 	if value, ok := ac.mutation.Storage(); ok {

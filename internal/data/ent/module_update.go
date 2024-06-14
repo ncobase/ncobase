@@ -189,14 +189,14 @@ func (mu *ModuleUpdate) ClearPrivate() *ModuleUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (mu *ModuleUpdate) SetStatus(i int32) *ModuleUpdate {
+func (mu *ModuleUpdate) SetStatus(i int) *ModuleUpdate {
 	mu.mutation.ResetStatus()
 	mu.mutation.SetStatus(i)
 	return mu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (mu *ModuleUpdate) SetNillableStatus(i *int32) *ModuleUpdate {
+func (mu *ModuleUpdate) SetNillableStatus(i *int) *ModuleUpdate {
 	if i != nil {
 		mu.SetStatus(*i)
 	}
@@ -204,7 +204,7 @@ func (mu *ModuleUpdate) SetNillableStatus(i *int32) *ModuleUpdate {
 }
 
 // AddStatus adds i to the "status" field.
-func (mu *ModuleUpdate) AddStatus(i int32) *ModuleUpdate {
+func (mu *ModuleUpdate) AddStatus(i int) *ModuleUpdate {
 	mu.mutation.AddStatus(i)
 	return mu
 }
@@ -398,10 +398,10 @@ func (mu *ModuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(module.FieldPrivate, field.TypeBool)
 	}
 	if value, ok := mu.mutation.Status(); ok {
-		_spec.SetField(module.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(module.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := mu.mutation.AddedStatus(); ok {
-		_spec.AddField(module.FieldStatus, field.TypeInt32, value)
+		_spec.AddField(module.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := mu.mutation.Released(); ok {
 		_spec.SetField(module.FieldReleased, field.TypeTime, value)
@@ -611,14 +611,14 @@ func (muo *ModuleUpdateOne) ClearPrivate() *ModuleUpdateOne {
 }
 
 // SetStatus sets the "status" field.
-func (muo *ModuleUpdateOne) SetStatus(i int32) *ModuleUpdateOne {
+func (muo *ModuleUpdateOne) SetStatus(i int) *ModuleUpdateOne {
 	muo.mutation.ResetStatus()
 	muo.mutation.SetStatus(i)
 	return muo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (muo *ModuleUpdateOne) SetNillableStatus(i *int32) *ModuleUpdateOne {
+func (muo *ModuleUpdateOne) SetNillableStatus(i *int) *ModuleUpdateOne {
 	if i != nil {
 		muo.SetStatus(*i)
 	}
@@ -626,7 +626,7 @@ func (muo *ModuleUpdateOne) SetNillableStatus(i *int32) *ModuleUpdateOne {
 }
 
 // AddStatus adds i to the "status" field.
-func (muo *ModuleUpdateOne) AddStatus(i int32) *ModuleUpdateOne {
+func (muo *ModuleUpdateOne) AddStatus(i int) *ModuleUpdateOne {
 	muo.mutation.AddStatus(i)
 	return muo
 }
@@ -850,10 +850,10 @@ func (muo *ModuleUpdateOne) sqlSave(ctx context.Context) (_node *Module, err err
 		_spec.ClearField(module.FieldPrivate, field.TypeBool)
 	}
 	if value, ok := muo.mutation.Status(); ok {
-		_spec.SetField(module.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(module.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := muo.mutation.AddedStatus(); ok {
-		_spec.AddField(module.FieldStatus, field.TypeInt32, value)
+		_spec.AddField(module.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := muo.mutation.Released(); ok {
 		_spec.SetField(module.FieldReleased, field.TypeTime, value)

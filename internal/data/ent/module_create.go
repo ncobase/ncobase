@@ -133,13 +133,13 @@ func (mc *ModuleCreate) SetNillablePrivate(b *bool) *ModuleCreate {
 }
 
 // SetStatus sets the "status" field.
-func (mc *ModuleCreate) SetStatus(i int32) *ModuleCreate {
+func (mc *ModuleCreate) SetStatus(i int) *ModuleCreate {
 	mc.mutation.SetStatus(i)
 	return mc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (mc *ModuleCreate) SetNillableStatus(i *int32) *ModuleCreate {
+func (mc *ModuleCreate) SetNillableStatus(i *int) *ModuleCreate {
 	if i != nil {
 		mc.SetStatus(*i)
 	}
@@ -265,6 +265,18 @@ func (mc *ModuleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (mc *ModuleCreate) defaults() {
+	if _, ok := mc.mutation.Temp(); !ok {
+		v := module.DefaultTemp
+		mc.mutation.SetTemp(v)
+	}
+	if _, ok := mc.mutation.Markdown(); !ok {
+		v := module.DefaultMarkdown
+		mc.mutation.SetMarkdown(v)
+	}
+	if _, ok := mc.mutation.Private(); !ok {
+		v := module.DefaultPrivate
+		mc.mutation.SetPrivate(v)
+	}
 	if _, ok := mc.mutation.Status(); !ok {
 		v := module.DefaultStatus
 		mc.mutation.SetStatus(v)
@@ -296,6 +308,11 @@ func (mc *ModuleCreate) check() error {
 	if v, ok := mc.mutation.UpdatedBy(); ok {
 		if err := module.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Module.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := mc.mutation.ID(); ok {
+		if err := module.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Module.id": %w`, err)}
 		}
 	}
 	return nil
@@ -366,7 +383,7 @@ func (mc *ModuleCreate) createSpec() (*Module, *sqlgraph.CreateSpec) {
 		_node.Private = value
 	}
 	if value, ok := mc.mutation.Status(); ok {
-		_spec.SetField(module.FieldStatus, field.TypeInt32, value)
+		_spec.SetField(module.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
 	if value, ok := mc.mutation.Released(); ok {

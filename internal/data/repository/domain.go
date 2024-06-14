@@ -198,7 +198,7 @@ func (r *domainRepo) Update(ctx context.Context, id string, updates types.JSON) 
 		case "disabled":
 			builder.SetDisabled(value.(bool))
 		case "order":
-			builder.SetOrder(int32(value.(float64)))
+			builder.SetOrder(int(value.(float64)))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "user_id":

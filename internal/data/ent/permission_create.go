@@ -214,6 +214,14 @@ func (pc *PermissionCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (pc *PermissionCreate) defaults() {
+	if _, ok := pc.mutation.Default(); !ok {
+		v := permission.DefaultDefault
+		pc.mutation.SetDefault(v)
+	}
+	if _, ok := pc.mutation.Disabled(); !ok {
+		v := permission.DefaultDisabled
+		pc.mutation.SetDisabled(v)
+	}
 	if _, ok := pc.mutation.Extras(); !ok {
 		v := permission.DefaultExtras
 		pc.mutation.SetExtras(v)
@@ -242,6 +250,11 @@ func (pc *PermissionCreate) check() error {
 	if v, ok := pc.mutation.UpdatedBy(); ok {
 		if err := permission.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Permission.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := pc.mutation.ID(); ok {
+		if err := permission.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Permission.id": %w`, err)}
 		}
 	}
 	return nil

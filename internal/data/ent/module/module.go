@@ -75,8 +75,14 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultTemp holds the default value on creation for the "temp" field.
+	DefaultTemp bool
+	// DefaultMarkdown holds the default value on creation for the "markdown" field.
+	DefaultMarkdown bool
+	// DefaultPrivate holds the default value on creation for the "private" field.
+	DefaultPrivate bool
 	// DefaultStatus holds the default value on creation for the "status" field.
-	DefaultStatus int32
+	DefaultStatus int
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	CreatedByValidator func(string) error
 	// UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
@@ -89,6 +95,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the Module queries.

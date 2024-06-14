@@ -28,17 +28,17 @@ func (Asset) Annotations() []schema.Annotation {
 // Mixin of the Asset.
 func (Asset) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.NameUnique{},
-		mixin.Path{},
-		mixin.Type{},
-		mixin.Size{},
-		mixin.Storage{},
-		mixin.Bucket{},
-		mixin.Endpoint{},
+		mixin.PrimaryKey,
+		mixin.NameUnique,
+		mixin.Path,
+		mixin.Type,
+		mixin.Size,
+		mixin.Storage,
+		mixin.Bucket,
+		mixin.Endpoint,
 		mixin.ObjectID,
 		mixin.DomainID,
-		mixin.ExtraProps{},
+		mixin.ExtraProps,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

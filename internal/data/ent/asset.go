@@ -26,7 +26,7 @@ type Asset struct {
 	// type
 	Type string `json:"type,omitempty"`
 	// size in bytes
-	Size int64 `json:"size,omitempty"`
+	Size int `json:"size,omitempty"`
 	// storage type
 	Storage string `json:"storage,omitempty"`
 	// bucket
@@ -39,9 +39,9 @@ type Asset struct {
 	DomainID string `json:"domain_id,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// ID of the creator
+	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
-	// ID of the person who last updated the entity
+	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
@@ -106,7 +106,7 @@ func (a *Asset) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field size", values[i])
 			} else if value.Valid {
-				a.Size = value.Int64
+				a.Size = int(value.Int64)
 			}
 		case asset.FieldStorage:
 			if value, ok := values[i].(*sql.NullString); !ok {

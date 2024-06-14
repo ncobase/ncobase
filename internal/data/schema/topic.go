@@ -29,17 +29,17 @@ func (Topic) Annotations() []schema.Annotation {
 // Mixin of the Topic.
 func (Topic) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey{},
-		mixin.Name{},
-		mixin.Title{},
-		mixin.SlugUnique{},
-		mixin.Content{},
-		mixin.Thumbnail{},
-		mixin.Temp{},
-		mixin.Markdown{},
-		mixin.Private{},
-		mixin.Status{}, // status, 0: draft, 1: published, 2: trashed, 3: temp, ...
-		mixin.Released{},
+		mixin.PrimaryKey,
+		mixin.Name,
+		mixin.Title,
+		mixin.SlugUnique,
+		mixin.Content,
+		mixin.Thumbnail,
+		mixin.Temp,
+		mixin.Markdown,
+		mixin.Private,
+		mixin.Status, // status, 0: draft, 1: published, 2: trashed, 3: temp, ...
+		mixin.Released,
 		mixin.TaxonomyID,
 		mixin.DomainID,
 		mixin.OperatorBy{},

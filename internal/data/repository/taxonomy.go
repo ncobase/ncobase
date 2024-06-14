@@ -181,7 +181,7 @@ func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JS
 		case "description":
 			builder.SetNillableDescription(types.ToPointer(value.(string)))
 		case "status":
-			builder.SetStatus(value.(int32))
+			builder.SetStatus(value.(int))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "parent_id":
