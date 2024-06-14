@@ -52,7 +52,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	{
 		account.GET("", h.GetMeHandler)
 		account.PUT("/password", h.UpdatePasswordHandler)
-		account.GET("/dom", h.AccountDomainHandler)
+		account.GET("/domain", h.AccountDomainHandler)
 	}
 
 	// User endpoints
@@ -65,9 +65,9 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		// user.DELETE("/:username", h.DeleteUserHandler)
 		// user.GET("/:username/roles", h.ListUserRoleHandler)
 		// user.GET("/:username/groups", h.ListUserGroupHandler)
-		// user.GET("/:username/dom", h.ListUserDomainHandler)
-		user.GET("/:username/dom", middleware.Authorized, h.UserDomainHandler)
-		// user.GET("/:username/dom/belongs", middleware.Authorized, h.ListUserBelongHandler)
+		// user.GET("/:username/domain", h.ListUserDomainHandler)
+		user.GET("/:username/domain", middleware.Authorized, h.UserDomainHandler)
+		// user.GET("/:username/domain/belongs", middleware.Authorized, h.ListUserBelongHandler)
 	}
 
 	// OAuth endpoints
@@ -101,7 +101,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// Domain endpoints
-	domain := v1.Group("/dom", middleware.Authorized)
+	domain := v1.Group("/domains", middleware.Authorized)
 	{
 		domain.GET("", h.ListDomainHandler)
 		domain.POST("", h.CreateDomainHandler)
