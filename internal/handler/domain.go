@@ -67,7 +67,7 @@ func (h *Handler) CreateDomainHandler(c *gin.Context) {
 // @Param username path string true "Username"
 // @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/user/{username}/dom [get]
+// @Router /v1/users/{username}/dom [get]
 // @Security Bearer
 func (h *Handler) UserDomainHandler(c *gin.Context) {
 	result, err := h.svc.UserDomainService(c, c.Param("username"))

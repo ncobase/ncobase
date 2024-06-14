@@ -634,21 +634,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "success",
+                        "description": "OK",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/types.JSON"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
+                            "type": "file"
                         }
                     },
                     "400": {
@@ -2317,7 +2305,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/user/{username}": {
+        "/v1/users/{username}": {
             "get": {
                 "description": "Retrieve information about a specific user.",
                 "produces": [
@@ -2352,7 +2340,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/user/{username}/dom": {
+        "/v1/users/{username}/dom": {
             "get": {
                 "security": [
                     {
