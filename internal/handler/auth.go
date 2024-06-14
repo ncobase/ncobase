@@ -212,7 +212,7 @@ func (h *Handler) ValidateCaptchaHandler(c *gin.Context) {
 // @Description Stream a captcha image.
 // @Tags authentication
 // @Produce json
-// @Param captcha_id path string true "Captcha ID"
+// @Param captcha_id path string true "Captcha ID With Extension (png, wav)"
 // @Success 200 {file} octet-stream
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/captcha/{captcha_id} [get]
