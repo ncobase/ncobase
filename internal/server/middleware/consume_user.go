@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"stocms/internal/helper"
 	"stocms/pkg/consts"
+	"stocms/pkg/cookie"
 	"stocms/pkg/ecode"
 	"stocms/pkg/jwt"
 	"stocms/pkg/resp"
@@ -20,29 +21,39 @@ func refreshToken(oldToken string) (string, error) {
 	return oldToken, nil
 }
 
-// isTokenExpiring token is expiring
+// isTokenExpiring checks if the token is expiring soon.
 func isTokenExpiring(tokenData map[string]any) bool {
 	exp, ok := tokenData["exp"].(int64)
 	if !ok {
 		return false
 	}
 	expirationTime := time.Unix(exp, 0)
-	return time.Until(expirationTime) < 10*time.Minute // 假设如果令牌在 10 分钟内过期，则刷新
+	return time.Until(expirationTime) < 10*time.Minute // Assumes token should be refreshed if expiring within 10 minutes
 }
 
 // ConsumeUser consumes user authentication information.
 func ConsumeUser(c *gin.Context) {
-	// Retrieve token from request header
-	token := c.GetHeader(consts.AuthorizationKey)
+	var token string
 
-	// Check if token is in the correct format (Bearer token)
-	if !strings.HasPrefix(token, consts.BearerKey) {
+	// Retrieve token from request header, query, or cookie
+	if authHeader := c.GetHeader("Authorization"); authHeader != "" {
+		// Token from header
+		if strings.HasPrefix(authHeader, consts.BearerKey) {
+			token = strings.TrimPrefix(authHeader, consts.BearerKey)
+		}
+	} else if queryToken := c.Query("ak"); queryToken != "" {
+		// Token from query
+		token = queryToken
+	} else if cookieToken, err := c.Cookie("access_token"); err == nil {
+		// Token from cookie
+		token = cookieToken
+	}
+
+	// If token is still empty, proceed to the next middleware
+	if token == "" {
 		c.Next()
 		return
 	}
-
-	// Extract token value after "Bearer "
-	token = strings.TrimPrefix(token, consts.BearerKey)
 
 	// Decode token
 	tokenData, err := jwt.DecodeToken(signingKey, token)
@@ -73,7 +84,8 @@ func ConsumeUser(c *gin.Context) {
 			handleTokenError(c, fmt.Errorf("failed to refresh token: %v", err))
 			return
 		}
-		c.Header("Authorization", "Bearer "+newToken)
+		c.Header("Authorization", consts.BearerKey+newToken)
+		cookie.SetAccessToken(c.Writer, newToken, "")
 	}
 
 	// Continue to next middleware or handler
@@ -88,4 +100,5 @@ func handleTokenError(c *gin.Context, err error) {
 		Message: err.Error(),
 	}
 	resp.Fail(c.Writer, exception)
+	c.Abort()
 }

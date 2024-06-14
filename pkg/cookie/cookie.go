@@ -15,6 +15,16 @@ func formatDomain(domain string) string {
 
 // Set sets cookies.
 func Set(w http.ResponseWriter, accessToken, refreshToken, domain string) {
+	if accessToken != "" {
+		SetAccessToken(w, accessToken, domain)
+	}
+	if refreshToken != "" {
+		SetRefreshToken(w, refreshToken, domain)
+	}
+}
+
+// SetAccessToken sets access token cookies.
+func SetAccessToken(w http.ResponseWriter, accessToken, domain string) {
 	formattedDomain := formatDomain(domain)
 	http.SetCookie(w, &http.Cookie{
 		Name:     "access_token",
@@ -25,6 +35,11 @@ func Set(w http.ResponseWriter, accessToken, refreshToken, domain string) {
 		Secure:   true,
 		HttpOnly: true,
 	})
+}
+
+// SetRefreshToken sets refresh token cookies.
+func SetRefreshToken(w http.ResponseWriter, refreshToken, domain string) {
+	formattedDomain := formatDomain(domain)
 	http.SetCookie(w, &http.Cookie{
 		Name:     "refresh_token",
 		Value:    refreshToken,
