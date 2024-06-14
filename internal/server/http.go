@@ -26,6 +26,7 @@ func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service) (*gi
 	engine.Use(middleware.BindConfig)
 	engine.Use(middleware.BindGinContext)
 	engine.Use(middleware.Trace)
+	engine.Use(middleware.ConsumeDomain(svc))
 
 	// Register REST
 	registerRest(engine, h, conf)
