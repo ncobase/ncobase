@@ -5,22 +5,15 @@ import (
 )
 
 const (
-	emptyMsg           = "empty"
-	requiredMsg        = "required"
-	invalidMsg         = "invalid"
-	successMsg         = "success"
-	failedMsg          = "failed"
-	existMsg           = "already exists"
-	notExistMsg        = "does not exist"
-	notSingularMsg     = "not singular"
-	expiredMsg         = "expired"
-	forbiddenMsg       = "forbidden"
-	unauthorizedMsg    = "unauthorized"
-	notFoundMsg        = "not found"
-	internalErrorMsg   = "internal server error"
-	timeoutMsg         = "request timeout"
-	tooManyRequestsMsg = "too many requests"
-	offlineMsg         = "offline"
+	emptyMsg       = "empty"
+	requiredMsg    = "required"
+	invalidMsg     = "invalid"
+	successMsg     = "success"
+	failedMsg      = "failed"
+	existMsg       = "already exists"
+	notExistMsg    = "does not exist"
+	notSingularMsg = "not singular"
+	expiredMsg     = "expired"
 )
 
 // FieldIsBlank returns field blank message
