@@ -17,7 +17,7 @@ import (
 // @Produce json
 // @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/account/dom [get]
+// @Router /v1/account/domain [get]
 // @Security Bearer
 func (h *Handler) AccountDomainHandler(c *gin.Context) {
 	result, err := h.svc.AccountDomainService(c)
@@ -38,7 +38,7 @@ func (h *Handler) AccountDomainHandler(c *gin.Context) {
 // @Param body body structs.CreateDomainBody true "CreateDomainBody object"
 // @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom [post]
+// @Router /v1/domains [post]
 // @Security Bearer
 func (h *Handler) CreateDomainHandler(c *gin.Context) {
 	body := &structs.CreateDomainBody{}
@@ -67,7 +67,7 @@ func (h *Handler) CreateDomainHandler(c *gin.Context) {
 // @Param username path string true "Username"
 // @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/users/{username}/dom [get]
+// @Router /v1/users/{username}/domain [get]
 // @Security Bearer
 func (h *Handler) UserDomainHandler(c *gin.Context) {
 	result, err := h.svc.UserDomainService(c, c.Param("username"))
@@ -89,7 +89,7 @@ func (h *Handler) UserDomainHandler(c *gin.Context) {
 // @Param body body structs.UpdateDomainBody true "UpdateDomainBody object"
 // @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom [put]
+// @Router /v1/domains [put]
 // @Security Bearer
 func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 	slug := c.Param("slug")
@@ -123,7 +123,7 @@ func (h *Handler) UpdateDomainHandler(c *gin.Context) {
 // @Param slug path string true "Domain ID"
 // @Success 200 {object} structs.ReadDomain "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom/{slug} [get]
+// @Router /v1/domains/{slug} [get]
 // @Security Bearer
 func (h *Handler) GetDomainHandler(c *gin.Context) {
 	result, err := h.svc.GetDomainService(c, c.Param("slug"))
@@ -143,7 +143,7 @@ func (h *Handler) GetDomainHandler(c *gin.Context) {
 // @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom/{slug}/menu [get]
+// @Router /v1/domains/{slug}/menu [get]
 // @Security Bearer
 func (h *Handler) GetDomainMenuHandler(c *gin.Context) {
 	result, err := h.svc.GetDomainService(c, c.Param("slug"))
@@ -163,7 +163,7 @@ func (h *Handler) GetDomainMenuHandler(c *gin.Context) {
 // @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom/{slug}/setting [get]
+// @Router /v1/domains/{slug}/setting [get]
 // @Security Bearer
 func (h *Handler) GetDomainSettingHandler(c *gin.Context) {
 	result, err := h.svc.GetDomainService(c, c.Param("slug"))
@@ -183,7 +183,7 @@ func (h *Handler) GetDomainSettingHandler(c *gin.Context) {
 // @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom/{slug} [delete]
+// @Router /v1/domains/{slug} [delete]
 // @Security Bearer
 func (h *Handler) DeleteDomainHandler(c *gin.Context) {
 	result, err := h.svc.DeleteDomainService(c, c.Param("slug"))
@@ -203,7 +203,7 @@ func (h *Handler) DeleteDomainHandler(c *gin.Context) {
 // @Param params query structs.ListDomainParams true "List domain parameters"
 // @Success 200 {array} structs.ReadDomain"success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom [get]
+// @Router /v1/domains [get]
 // @Security Bearer
 func (h *Handler) ListDomainHandler(c *gin.Context) {
 	params := &structs.ListDomainParams{}
@@ -233,7 +233,7 @@ func (h *Handler) ListDomainHandler(c *gin.Context) {
 // @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom/{slug}/assets [get]
+// @Router /v1/domains/{slug}/assets [get]
 // @Security Bearer
 func (h *Handler) ListDomainAssetHandler(c *gin.Context) {
 	// result, err := h.svc.ListDomainAssetsService(c, c.Param("slug"))
@@ -253,7 +253,7 @@ func (h *Handler) ListDomainAssetHandler(c *gin.Context) {
 // @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom/{slug}/users [get]
+// @Router /v1/domains/{slug}/users [get]
 // @Security Bearer
 func (h *Handler) ListDomainUserHandler(c *gin.Context) {
 	// result, err := h.svc.ListDomainUsersService(c, c.Param("slug"))
@@ -273,7 +273,7 @@ func (h *Handler) ListDomainUserHandler(c *gin.Context) {
 // @Param slug path string true "Domain ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/dom/{slug}/groups [get]
+// @Router /v1/domains/{slug}/groups [get]
 // @Security Bearer
 func (h *Handler) ListDomainGroupHandler(c *gin.Context) {
 	// result, err := h.svc.ListDomainGroupsService(c, c.Param("slug"))

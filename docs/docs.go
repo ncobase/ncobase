@@ -66,7 +66,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/account/dom": {
+        "/v1/account/domain": {
             "get": {
                 "security": [
                     {
@@ -648,7 +648,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/dom": {
+        "/v1/domains": {
             "get": {
                 "security": [
                     {
@@ -792,7 +792,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/dom/{slug}": {
+        "/v1/domains/{slug}": {
             "get": {
                 "security": [
                     {
@@ -870,7 +870,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/dom/{slug}/assets": {
+        "/v1/domains/{slug}/assets": {
             "get": {
                 "security": [
                     {
@@ -910,7 +910,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/dom/{slug}/groups": {
+        "/v1/domains/{slug}/groups": {
             "get": {
                 "security": [
                     {
@@ -950,7 +950,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/dom/{slug}/menu": {
+        "/v1/domains/{slug}/menu": {
             "get": {
                 "security": [
                     {
@@ -990,7 +990,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/dom/{slug}/setting": {
+        "/v1/domains/{slug}/setting": {
             "get": {
                 "security": [
                     {
@@ -1030,7 +1030,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/dom/{slug}/users": {
+        "/v1/domains/{slug}/users": {
             "get": {
                 "security": [
                     {
@@ -2340,7 +2340,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/users/{username}/dom": {
+        "/v1/users/{username}/domain": {
             "get": {
                 "security": [
                     {

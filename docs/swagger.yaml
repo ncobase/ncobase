@@ -718,7 +718,7 @@ paths:
       summary: Get current user
       tags:
       - account
-  /v1/account/dom:
+  /v1/account/domain:
     get:
       description: Retrieve the domain associated with the current user.
       produces:
@@ -1082,7 +1082,7 @@ paths:
       summary: Validate captcha
       tags:
       - authentication
-  /v1/dom:
+  /v1/domains:
     get:
       description: Retrieve a list of domains.
       parameters:
@@ -1172,7 +1172,7 @@ paths:
       summary: Update domain
       tags:
       - domain
-  /v1/dom/{slug}:
+  /v1/domains/{slug}:
     delete:
       description: Delete a specific domain.
       parameters:
@@ -1221,7 +1221,7 @@ paths:
       summary: Get domain
       tags:
       - domain
-  /v1/dom/{slug}/assets:
+  /v1/domains/{slug}/assets:
     get:
       description: Retrieve a list of assets associated with a specific domain.
       parameters:
@@ -1246,7 +1246,7 @@ paths:
       summary: List domain assets
       tags:
       - domain
-  /v1/dom/{slug}/groups:
+  /v1/domains/{slug}/groups:
     get:
       description: Retrieve a list of groups associated with a specific domain.
       parameters:
@@ -1271,7 +1271,7 @@ paths:
       summary: List domain groups
       tags:
       - domain
-  /v1/dom/{slug}/menu:
+  /v1/domains/{slug}/menu:
     get:
       description: Retrieve the menu associated with a specific domain.
       parameters:
@@ -1296,7 +1296,7 @@ paths:
       summary: Get domain menu
       tags:
       - domain
-  /v1/dom/{slug}/setting:
+  /v1/domains/{slug}/setting:
     get:
       description: Retrieve the settings associated with a specific domain.
       parameters:
@@ -1321,7 +1321,7 @@ paths:
       summary: Get domain setting
       tags:
       - domain
-  /v1/dom/{slug}/users:
+  /v1/domains/{slug}/users:
     get:
       description: Retrieve a list of users associated with a specific domain.
       parameters:
@@ -2148,7 +2148,7 @@ paths:
       summary: Get user
       tags:
       - user
-  /v1/users/{username}/dom:
+  /v1/users/{username}/domain:
     get:
       description: Retrieve the domain associated with the specified user.
       parameters:
