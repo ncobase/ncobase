@@ -42,7 +42,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the domain in the database.
-	Table = "sc_domain"
+	Table = "nb_domain"
 )
 
 // Columns holds all SQL columns for domain fields.

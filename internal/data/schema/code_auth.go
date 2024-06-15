@@ -18,7 +18,7 @@ type CodeAuth struct {
 
 // Annotations of the CodeAuth.
 func (CodeAuth) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"sc", "code_auth"}, "_")
+	table := strings.Join([]string{"nb", "code_auth"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

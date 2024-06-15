@@ -1,11 +1,11 @@
 package server
 
 import (
-	"net/http"
 	"ncobase/internal/config"
 	"ncobase/internal/handler"
 	"ncobase/internal/helper"
 	"ncobase/internal/server/middleware"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -80,16 +80,6 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
 	}
 
-	// Module endpoints
-	module := v1.Group("/modules")
-	{
-		module.GET("", h.ListModuleHandler)
-		module.POST("", middleware.Authorized, h.CreateModuleHandler)
-		module.GET("/:slug", h.GetModuleHandler)
-		module.PUT("/:slug", middleware.Authorized, h.UpdateModuleHandler)
-		module.DELETE("/:slug", middleware.Authorized, h.DeleteModuleHandler)
-	}
-
 	// Asset endpoints
 	asset := v1.Group("/assets")
 	{
@@ -146,26 +136,6 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// 	permission.PUT("/:slug", h.UpdatePermissionHandler)
 	// 	permission.DELETE("/:slug", h.DeletePermissionHandler)
 	// }
-
-	// Taxonomy endpoints
-	taxonomy := v1.Group("/taxa")
-	{
-		taxonomy.GET("", h.ListTaxonomyHandler)
-		taxonomy.POST("", middleware.Authorized, h.CreateTaxonomyHandler)
-		taxonomy.GET("/:slug", h.GetTaxonomyHandler)
-		taxonomy.PUT("/:slug", middleware.Authorized, h.UpdateTaxonomyHandler)
-		taxonomy.DELETE("/:slug", middleware.Authorized, h.DeleteTaxonomyHandler)
-	}
-
-	// Topic endpoints
-	topic := v1.Group("/topics")
-	{
-		topic.GET("", h.ListTopicHandler)
-		topic.POST("", middleware.Authorized, h.CreateTopicHandler)
-		topic.GET("/:slug", h.GetTopicHandler)
-		topic.PUT("/:slug", middleware.Authorized, h.UpdateTopicHandler)
-		topic.DELETE("/:slug", middleware.Authorized, h.DeleteTopicHandler)
-	}
 
 	// Casbin Rule endpoints
 	casbin := v1.Group("/pols", middleware.Authorized)

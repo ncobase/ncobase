@@ -22,7 +22,7 @@ const (
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
 	// Table holds the table name of the authtoken in the database.
-	Table = "sc_auth_token"
+	Table = "nb_auth_token"
 )
 
 // Columns holds all SQL columns for authtoken fields.

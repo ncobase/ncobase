@@ -26,7 +26,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the oauthuser in the database.
-	Table = "sc_oauth_user"
+	Table = "nb_oauth_user"
 )
 
 // Columns holds all SQL columns for oauthuser fields.
