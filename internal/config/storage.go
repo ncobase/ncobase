@@ -1,6 +1,6 @@
 package config
 
-import "stocms/pkg/storage"
+import "ncobase/pkg/storage"
 
 // getStorageConfig get storage config
 func getStorageConfig() storage.Config {

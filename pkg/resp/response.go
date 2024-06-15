@@ -3,7 +3,7 @@ package resp
 import (
 	"encoding/json"
 	"net/http"
-	"stocms/pkg/ecode"
+	"ncobase/pkg/ecode"
 )
 
 // Exception represents the response structure.

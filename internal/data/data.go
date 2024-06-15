@@ -4,12 +4,12 @@ import (
 	"context"
 	"database/sql"
 	"io"
-	"stocms/internal/config"
-	"stocms/internal/data/ent"
-	"stocms/internal/data/ent/migrate"
-	"stocms/pkg/elastic"
-	"stocms/pkg/log"
-	"stocms/pkg/meili"
+	"ncobase/internal/config"
+	"ncobase/internal/data/ent"
+	"ncobase/internal/data/ent/migrate"
+	"ncobase/pkg/elastic"
+	"ncobase/pkg/log"
+	"ncobase/pkg/meili"
 
 	"github.com/redis/go-redis/v9"
 
@@ -54,9 +54,9 @@ func New(conf *config.Data) (*Data, func(), error) {
 	}
 
 	cleanup := func() {
-		log.Printf(nil, "execute data cleanup.")
+		log.Printf(context.Background(), "execute data cleanup.")
 		if errs := d.Close(); errs != nil {
-			log.Fatalf(nil, "cleanup errors: %v", errs)
+			log.Fatalf(context.Background(), "cleanup errors: %v", errs)
 		}
 	}
 
@@ -66,7 +66,7 @@ func New(conf *config.Data) (*Data, func(), error) {
 // newRedis creates a new Redis datastore.
 func newRedis(conf *config.Redis) *redis.Client {
 	if conf == nil || conf.Addr == "" {
-		log.Printf(nil, "redis configuration is nil or empty")
+		log.Printf(context.Background(), "redis configuration is nil or empty")
 		return nil
 	}
 
@@ -85,7 +85,7 @@ func newRedis(conf *config.Redis) *redis.Client {
 	timeout, cancelFunc := context.WithTimeout(context.Background(), conf.DialTimeout)
 	defer cancelFunc()
 	if err := rc.Ping(timeout).Err(); err != nil {
-		log.Errorf(nil, "redis connect error: %v", err)
+		log.Errorf(context.Background(), "redis connect error: %v", err)
 	}
 
 	return rc
@@ -107,11 +107,11 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	case "sqlite3":
 		db, err = sql.Open("sqlite3", conf.Source)
 	default:
-		log.Fatalf(nil, "Dialect %v not supported.", conf.Driver)
+		log.Fatalf(context.Background(), "Dialect %v not supported.", conf.Driver)
 	}
 
 	if err != nil {
-		log.Fatalf(nil, "Failed to connect to database %v", err)
+		log.Fatalf(context.Background(), "Failed to connect to database %v", err)
 		return nil, nil
 	}
 
@@ -133,7 +133,7 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	// Auto migrate
 	if conf.Migrate {
 		if err = client.Schema.Create(context.Background(), migrate.WithForeignKeys(false), migrate.WithDropIndex(true), migrate.WithDropColumn(true)); err != nil {
-			log.Fatalf(nil, "data.client.Schema.Create error: %v", err)
+			log.Fatalf(context.Background(), "data.client.Schema.Create error: %v", err)
 		}
 	}
 
@@ -153,7 +153,7 @@ func (d *Data) GetDB() *sql.DB {
 // newMeilisearch creates a new Meilisearch client.
 func newMeilisearch(conf *config.Meilisearch) *meili.Client {
 	if conf == nil || conf.Host == "" {
-		log.Printf(nil, "Meilisearch configuration is nil or empty")
+		log.Printf(context.Background(), "Meilisearch configuration is nil or empty")
 		return nil
 	}
 
@@ -163,7 +163,7 @@ func newMeilisearch(conf *config.Meilisearch) *meili.Client {
 	// Check connection
 	_, err := ms.GetClient().Health()
 	if err != nil {
-		log.Errorf(nil, "Meilisearch connect error: %v", err)
+		log.Errorf(context.Background(), "Meilisearch connect error: %v", err)
 		return nil
 	}
 
@@ -177,32 +177,32 @@ func (d *Data) GetMeilisearch() *meili.Client {
 
 func newElasticsearch(conf *config.Elasticsearch) *elastic.Client {
 	if conf == nil || len(conf.Addresses) == 0 {
-		log.Printf(nil, "Elasticsearch configuration is nil or empty")
+		log.Printf(context.Background(), "Elasticsearch configuration is nil or empty")
 		return nil
 	}
 
 	// Create client
 	es, err := elastic.NewClient(conf.Addresses, conf.Username, conf.Password)
 	if err != nil {
-		log.Errorf(nil, "Elasticsearch client creation error: %v", err)
+		log.Errorf(context.Background(), "Elasticsearch client creation error: %v", err)
 		return nil
 	}
 
 	// Check connection
 	res, err := es.GetClient().Info()
 	if err != nil {
-		log.Errorf(nil, "Elasticsearch connect error: %v", err)
+		log.Errorf(context.Background(), "Elasticsearch connect error: %v", err)
 		return nil
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			log.Errorf(nil, "Elasticsearch response body close error: %v", err)
+			log.Errorf(context.Background(), "Elasticsearch response body close error: %v", err)
 		}
 	}(res.Body)
 
 	if res.IsError() {
-		log.Errorf(nil, "Elasticsearch info error: %s", res.Status())
+		log.Errorf(context.Background(), "Elasticsearch info error: %s", res.Status())
 		return nil
 	}
 

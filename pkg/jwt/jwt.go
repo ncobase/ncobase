@@ -1,7 +1,7 @@
 package jwt
 
 import (
-	"stocms/pkg/validator"
+	"ncobase/pkg/validator"
 	"time"
 
 	jwtstd "github.com/golang-jwt/jwt/v5"

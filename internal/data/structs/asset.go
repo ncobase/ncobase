@@ -2,7 +2,7 @@ package structs
 
 import (
 	"mime/multipart"
-	"stocms/pkg/types"
+	"ncobase/pkg/types"
 )
 
 // FindAsset represents the parameters for finding an asset.

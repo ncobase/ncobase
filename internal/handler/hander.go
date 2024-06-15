@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"stocms/internal/service"
-	"stocms/pkg/log"
-	"stocms/pkg/oauth"
-	"stocms/pkg/resp"
+	"context"
+	"ncobase/internal/service"
+	"ncobase/pkg/log"
+	"ncobase/pkg/oauth"
+	"ncobase/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,7 +31,7 @@ func New(svc *service.Service) *Handler {
 // @Router /health [get]
 func (h *Handler) HealthHandler(c *gin.Context) {
 	if err := h.svc.Ping(c); err != nil {
-		log.Fatalf(nil, "ping error: %+v", err)
+		log.Fatalf(context.Background(), "ping error: %+v", err)
 	}
 	resp.Success(c.Writer, nil)
 }

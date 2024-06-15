@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"stocms/pkg/types"
+	"ncobase/pkg/types"
 )
 
 // PermissionBody represents a permission entity.

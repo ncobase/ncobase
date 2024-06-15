@@ -1,7 +1,7 @@
 #!/usr/bin/make
 GO111MODULE = on
-APP_NAME = stocms
-CMD_PATH = ./cmd/stocms
+APP_NAME = ncobase
+CMD_PATH = ./cmd/ncobase
 OUT = ./bin
 
 VERSION := $(shell git describe --tags --match "v*" --always | sed 's/-g[a-z0-9]\{7\}//')
@@ -9,7 +9,7 @@ BRANCH := $(shell git symbolic-ref -q --short HEAD)
 REVISION := $(shell git rev-parse --short HEAD)
 BUILT_AT := $(shell date +%FT%T%z)
 
-BUILD_VARS := stocms/internal/helper
+BUILD_VARS := ncobase/internal/helper
 LDFLAGS := -ldflags "-X ${BUILD_VARS}.Version=${VERSION} -X ${BUILD_VARS}.Branch=${BRANCH} -X ${BUILD_VARS}.Revision=${REVISION} -X ${BUILD_VARS}.BuiltAt=${BUILT_AT} -s -w"
 
 

@@ -2,8 +2,8 @@ package helper
 
 import (
 	"errors"
-	"stocms/pkg/email"
-	"stocms/pkg/log"
+	"ncobase/pkg/email"
+	"ncobase/pkg/log"
 
 	"github.com/gin-gonic/gin"
 )

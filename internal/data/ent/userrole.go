@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"stocms/internal/data/ent/userrole"
+	"ncobase/internal/data/ent/userrole"
 	"strings"
 
 	"entgo.io/ent"

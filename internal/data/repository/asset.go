@@ -3,15 +3,15 @@ package repo
 import (
 	"context"
 	"fmt"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	assetEnt "stocms/internal/data/ent/asset"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/log"
-	"stocms/pkg/meili"
-	"stocms/pkg/types"
-	"stocms/pkg/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	assetEnt "ncobase/internal/data/ent/asset"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/log"
+	"ncobase/pkg/meili"
+	"ncobase/pkg/types"
+	"ncobase/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -154,7 +154,7 @@ func (r *assetRepo) Update(ctx context.Context, slug string, updates types.JSON)
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("assets", asset.ID); err != nil {
-		log.Errorf(nil, "assetRepo.Update index error: %v\n", err)
+		log.Errorf(context.Background(), "assetRepo.Update index error: %v\n", err)
 		// return nil, err
 	}
 
@@ -173,7 +173,7 @@ func (r *assetRepo) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(assetEnt.IDEQ(slug)).Exec(ctx); err != nil {
-		log.Errorf(nil, "assetRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "assetRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -185,7 +185,7 @@ func (r *assetRepo) Delete(ctx context.Context, slug string) error {
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("assets", asset.ID); err != nil {
-		log.Errorf(nil, "assetRepo.Delete index error: %v\n", err)
+		log.Errorf(context.Background(), "assetRepo.Delete index error: %v\n", err)
 		// return nil, err
 	}
 
@@ -255,7 +255,7 @@ func (r *assetRepo) List(ctx context.Context, p *structs.ListAssetParams) ([]*en
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if validator.IsNotNil(err) {
-		log.Errorf(nil, "assetRepo.List error: %v\n", err)
+		log.Errorf(context.Background(), "assetRepo.List error: %v\n", err)
 		return nil, err
 	}
 

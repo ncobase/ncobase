@@ -3,15 +3,15 @@ package repo
 import (
 	"context"
 	"fmt"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	userEnt "ncobase/internal/data/ent/user"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/crypto"
+	"ncobase/pkg/log"
+	"ncobase/pkg/validator"
 	"net/url"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	userEnt "stocms/internal/data/ent/user"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/crypto"
-	"stocms/pkg/log"
-	"stocms/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -57,7 +57,7 @@ func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "userRepo.Create error: %v\n", err)
+		log.Errorf(context.Background(), "userRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
@@ -77,14 +77,14 @@ func (r *userRepo) GetByID(ctx context.Context, id string) (*ent.User, error) {
 	row, err := r.FindUser(ctx, &structs.FindUser{ID: id})
 
 	if err != nil {
-		log.Errorf(nil, "userRepo.GetByID error: %v\n", err)
+		log.Errorf(context.Background(), "userRepo.GetByID error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(nil, "userRepo.GetByID cache error: %v\n", err)
+		log.Errorf(context.Background(), "userRepo.GetByID cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -113,14 +113,14 @@ func (r *userRepo) Find(ctx context.Context, m *structs.FindUser) (*ent.User, er
 	row, err := r.FindUser(ctx, m)
 
 	if err != nil {
-		log.Errorf(nil, "userRepo.Find error: %v\n", err)
+		log.Errorf(context.Background(), "userRepo.Find error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(nil, "userRepo.Find cache error: %v\n", err)
+		log.Errorf(context.Background(), "userRepo.Find cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -134,7 +134,7 @@ func (r *userRepo) Existed(ctx context.Context, m *structs.FindUser) bool {
 // Delete delete user
 func (r *userRepo) Delete(ctx context.Context, id string) error {
 	if err := r.ec.User.DeleteOneID(id).Exec(ctx); err != nil {
-		log.Errorf(nil, "userRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "userRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -142,7 +142,7 @@ func (r *userRepo) Delete(ctx context.Context, id string) error {
 	cacheKey := fmt.Sprintf("%s", id)
 	err := r.c.Delete(ctx, cacheKey)
 	if err != nil {
-		log.Errorf(nil, "userRepo.Delete cache error: %v\n", err)
+		log.Errorf(context.Background(), "userRepo.Delete cache error: %v\n", err)
 	}
 
 	return nil

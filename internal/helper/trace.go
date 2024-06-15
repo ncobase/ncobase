@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"stocms/pkg/nanoid"
+	"ncobase/pkg/nanoid"
 
 	"github.com/gin-gonic/gin"
 )

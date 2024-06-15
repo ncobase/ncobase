@@ -36,8 +36,8 @@ resolver:
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
 # autobind:
-#   - "stocms/generated/ent"
-#   - "stocms/generated/graphql/model"
+#   - "ncobase/generated/ent"
+#   - "ncobase/generated/graphql/model"
 
 # This section declares type mapping between the GraphQL and go type systems
 #

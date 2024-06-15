@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"stocms/internal/data/ent/domain"
-	"stocms/internal/data/ent/predicate"
+	"ncobase/internal/data/ent/domain"
+	"ncobase/internal/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

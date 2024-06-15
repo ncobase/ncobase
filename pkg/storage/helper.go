@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"path"
-	"stocms/pkg/nanoid"
+	"ncobase/pkg/nanoid"
 	"strings"
 	"time"
 )

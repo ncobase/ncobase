@@ -3,7 +3,7 @@
 package codeauth
 
 import (
-	"stocms/internal/data/ent/predicate"
+	"ncobase/internal/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

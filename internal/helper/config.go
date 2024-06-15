@@ -2,7 +2,7 @@ package helper
 
 import (
 	"context"
-	"stocms/internal/config"
+	"ncobase/internal/config"
 
 	"github.com/gin-gonic/gin"
 )

@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"stocms/internal/data/ent/casbinrule"
+	"ncobase/internal/data/ent/casbinrule"
 	"strings"
 
 	"entgo.io/ent"

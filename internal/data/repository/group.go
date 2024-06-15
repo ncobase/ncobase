@@ -3,14 +3,14 @@ package repo
 import (
 	"context"
 	"fmt"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	groupEnt "stocms/internal/data/ent/group"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/log"
-	"stocms/pkg/types"
-	"stocms/pkg/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	groupEnt "ncobase/internal/data/ent/group"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/log"
+	"ncobase/pkg/types"
+	"ncobase/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -69,7 +69,7 @@ func (r *groupRepo) Create(ctx context.Context, body *structs.CreateGroupBody) (
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "groupRepo.Create error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
@@ -87,14 +87,14 @@ func (r *groupRepo) GetByID(ctx context.Context, id string) (*ent.Group, error) 
 	// If not found in cache, query the database
 	row, err := r.FindGroup(ctx, &structs.FindGroup{ID: id})
 	if err != nil {
-		log.Errorf(nil, "groupRepo.GetByID error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.GetByID error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(nil, "groupRepo.GetByID cache error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.GetByID cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -111,14 +111,14 @@ func (r *groupRepo) GetBySlug(ctx context.Context, slug string) (*ent.Group, err
 	// If not found in cache, query the database
 	row, err := r.FindGroup(ctx, &structs.FindGroup{Slug: slug})
 	if err != nil {
-		log.Errorf(nil, "groupRepo.GetBySlug error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.GetBySlug error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(nil, "groupRepo.GetBySlug cache error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.GetBySlug cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -159,7 +159,7 @@ func (r *groupRepo) Update(ctx context.Context, slug string, updates types.JSON)
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "groupRepo.Update error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.Update error: %v\n", err)
 		return nil, err
 	}
 
@@ -168,7 +168,7 @@ func (r *groupRepo) Update(ctx context.Context, slug string, updates types.JSON)
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("group:slug:%s", group.Slug))
 	if err != nil {
-		log.Errorf(nil, "groupRepo.Update cache error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.Update cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -187,7 +187,7 @@ func (r *groupRepo) List(ctx context.Context, p *structs.ListGroupParams) ([]*en
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(nil, "groupRepo.List error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.List error: %v\n", err)
 		return nil, err
 	}
 
@@ -206,7 +206,7 @@ func (r *groupRepo) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(groupEnt.IDEQ(group.ID)).Exec(ctx); err != nil {
-		log.Errorf(nil, "groupRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -215,7 +215,7 @@ func (r *groupRepo) Delete(ctx context.Context, slug string) error {
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("group:slug:%s", group.Slug))
 	if err != nil {
-		log.Errorf(nil, "groupRepo.Delete cache error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.Delete cache error: %v\n", err)
 	}
 
 	return nil
@@ -264,7 +264,7 @@ func (r *groupRepo) CountX(ctx context.Context, p *structs.ListGroupParams) int 
 func (r *groupRepo) GetGroupsByDomainID(ctx context.Context, domainID string) ([]*ent.Group, error) {
 	groups, err := r.ec.Group.Query().Where(groupEnt.DomainIDEQ(domainID)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "groupRepo.GetGroupsByDomainID error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.GetGroupsByDomainID error: %v\n", err)
 		return nil, err
 	}
 	return groups, nil
@@ -274,7 +274,7 @@ func (r *groupRepo) GetGroupsByDomainID(ctx context.Context, domainID string) ([
 func (r *groupRepo) IsGroupInDomain(ctx context.Context, domainID string, groupID string) (bool, error) {
 	count, err := r.ec.Group.Query().Where(groupEnt.DomainIDEQ(domainID), groupEnt.IDEQ(groupID)).Count(ctx)
 	if err != nil {
-		log.Errorf(nil, "groupRepo.IsGroupInDomain error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.IsGroupInDomain error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil

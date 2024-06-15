@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"stocms/internal/data/structs"
+	"ncobase/internal/data/structs"
 
 	"github.com/gin-gonic/gin"
 )

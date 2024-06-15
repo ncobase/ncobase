@@ -3,15 +3,15 @@ package repo
 import (
 	"context"
 	"fmt"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	moduleEnt "stocms/internal/data/ent/module"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/log"
-	"stocms/pkg/meili"
-	"stocms/pkg/types"
-	"stocms/pkg/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	moduleEnt "ncobase/internal/data/ent/module"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/log"
+	"ncobase/pkg/meili"
+	"ncobase/pkg/types"
+	"ncobase/pkg/validator"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -62,13 +62,13 @@ func (r *moduleRepo) Create(ctx context.Context, body *structs.CreateModuleBody)
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "moduleRepo.Create error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
 	// Create the module in Meilisearch index
 	if err = r.ms.IndexDocuments("modules", row); err != nil {
-		log.Errorf(nil, "moduleRepo.Create error creating Meilisearch index: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Create error creating Meilisearch index: %v\n", err)
 	}
 
 	return row, nil
@@ -83,13 +83,13 @@ func (r *moduleRepo) GetBySlug(ctx context.Context, slug string) (*ent.Module, e
 
 	row, err := r.FindModule(ctx, &structs.FindModule{Slug: slug})
 	if err != nil {
-		log.Errorf(nil, "moduleRepo.GetBySlug error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.GetBySlug error: %v\n", err)
 		return nil, err
 	}
 
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(nil, "moduleRepo.GetBySlug cache error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.GetBySlug cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -133,7 +133,7 @@ func (r *moduleRepo) Update(ctx context.Context, slug string, updates types.JSON
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "moduleRepo.Update error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Update error: %v\n", err)
 		return nil, err
 	}
 
@@ -141,15 +141,15 @@ func (r *moduleRepo) Update(ctx context.Context, slug string, updates types.JSON
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, module.Slug)
 	if err != nil {
-		log.Errorf(nil, "moduleRepo.Update cache error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Update cache error: %v\n", err)
 	}
 
 	if err = r.ms.DeleteDocuments("modules", slug); err != nil {
-		log.Errorf(nil, "moduleRepo.Update error deleting Meilisearch index: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Update error deleting Meilisearch index: %v\n", err)
 	}
 
 	if err = r.ms.IndexDocuments("modules", row); err != nil {
-		log.Errorf(nil, "moduleRepo.Update error updating Meilisearch index: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Update error updating Meilisearch index: %v\n", err)
 	}
 
 	return row, nil
@@ -168,7 +168,7 @@ func (r *moduleRepo) List(ctx context.Context, p *structs.ListModuleParams) ([]*
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(nil, "moduleRepo.List error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.List error: %v\n", err)
 		return nil, err
 	}
 
@@ -185,7 +185,7 @@ func (r *moduleRepo) Delete(ctx context.Context, slug string) error {
 	builder := r.ec.Module.Delete()
 
 	if _, err = builder.Where(moduleEnt.IDEQ(module.ID)).Exec(ctx); err != nil {
-		log.Errorf(nil, "moduleRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -193,11 +193,11 @@ func (r *moduleRepo) Delete(ctx context.Context, slug string) error {
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("module:slug:%s", module.Slug))
 	if err != nil {
-		log.Errorf(nil, "moduleRepo.Delete cache error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Delete cache error: %v\n", err)
 	}
 
 	if err = r.ms.DeleteDocuments("modules", module.ID); err != nil {
-		log.Errorf(nil, "moduleRepo.Delete index error: %v\n", err)
+		log.Errorf(context.Background(), "moduleRepo.Delete index error: %v\n", err)
 	}
 
 	return nil

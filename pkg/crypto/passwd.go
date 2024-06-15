@@ -2,7 +2,7 @@ package crypto
 
 import (
 	"context"
-	"stocms/pkg/log"
+	"ncobase/pkg/log"
 
 	"golang.org/x/crypto/bcrypt"
 )

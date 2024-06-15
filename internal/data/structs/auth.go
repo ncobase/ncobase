@@ -1,6 +1,6 @@
 package structs
 
-import "stocms/pkg/oauth"
+import "ncobase/pkg/oauth"
 
 // SendCodeBody Send verify code body
 type SendCodeBody struct {

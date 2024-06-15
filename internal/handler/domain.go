@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"stocms/internal/data/structs"
-	"stocms/internal/helper"
-	"stocms/pkg/ecode"
-	"stocms/pkg/resp"
+	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
+	"ncobase/pkg/ecode"
+	"ncobase/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )

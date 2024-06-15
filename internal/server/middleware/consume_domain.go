@@ -1,11 +1,12 @@
 package middleware
 
 import (
-	"stocms/internal/data/structs"
-	"stocms/internal/helper"
-	"stocms/pkg/consts"
-	"stocms/pkg/log"
-	"stocms/pkg/resp"
+	"context"
+	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
+	"ncobase/pkg/consts"
+	"ncobase/pkg/log"
+	"ncobase/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,11 +30,11 @@ func ConsumeDomain(svc DomainFetcher) gin.HandlerFunc {
 				// Fetch user domains
 				result, _ := svc.UserDomainService(c, userID)
 				if result.Code != 0 {
-					log.Errorf(nil, "Failed to fetch user domains: %v", result)
+					log.Errorf(context.Background(), "Failed to fetch user domains: %v", result)
 				} else if readDomain, ok := result.Data.(*structs.ReadDomain); ok {
 					domainID = readDomain.ID
 				} else {
-					log.Errorf(nil, "Failed to fetch user domains: %v", result)
+					log.Errorf(context.Background(), "Failed to fetch user domains: %v", result)
 				}
 			}
 		}

@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"context"
-	"stocms/internal/config"
-	"stocms/internal/helper"
+	"ncobase/internal/config"
+	"ncobase/internal/helper"
 
 	"github.com/gin-gonic/gin"
 )

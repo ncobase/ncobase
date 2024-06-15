@@ -2,13 +2,13 @@ package repo
 
 import (
 	"context"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	domainEnt "stocms/internal/data/ent/domain"
-	userDomainEnt "stocms/internal/data/ent/userdomain"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/log"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	domainEnt "ncobase/internal/data/ent/domain"
+	userDomainEnt "ncobase/internal/data/ent/userdomain"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/log"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -54,7 +54,7 @@ func (r *userDomainRepo) Create(ctx context.Context, body *structs.UserDomain) (
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.Create error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
@@ -69,7 +69,7 @@ func (r *userDomainRepo) GetByUserID(ctx context.Context, id string) (*ent.UserD
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.GetProfile error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -83,7 +83,7 @@ func (r *userDomainRepo) GetByUserIDs(ctx context.Context, ids []string) ([]*ent
 		All(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.GetByUserIDs error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.GetByUserIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -97,7 +97,7 @@ func (r *userDomainRepo) GetByDomainID(ctx context.Context, id string) (*ent.Use
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.GetProfile error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -111,7 +111,7 @@ func (r *userDomainRepo) GetByDomainIDs(ctx context.Context, ids []string) ([]*e
 		All(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.GetByDomainIDs error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.GetByDomainIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -120,7 +120,7 @@ func (r *userDomainRepo) GetByDomainIDs(ctx context.Context, ids []string) ([]*e
 // Delete delete user domain
 func (r *userDomainRepo) Delete(ctx context.Context, uid, did string) error {
 	if _, err := r.ec.UserDomain.Delete().Where(userDomainEnt.IDEQ(uid), userDomainEnt.DomainIDEQ(did)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userDomainRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.Delete error: %v\n", err)
 		return err
 	}
 	return nil
@@ -129,7 +129,7 @@ func (r *userDomainRepo) Delete(ctx context.Context, uid, did string) error {
 // DeleteAllByUserID delete all user domain
 func (r *userDomainRepo) DeleteAllByUserID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserDomain.Delete().Where(userDomainEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userDomainRepo.DeleteAllByUserID error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.DeleteAllByUserID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -138,7 +138,7 @@ func (r *userDomainRepo) DeleteAllByUserID(ctx context.Context, id string) error
 // DeleteAllByDomainID delete all user domain
 func (r *userDomainRepo) DeleteAllByDomainID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserDomain.Delete().Where(userDomainEnt.DomainIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userDomainRepo.DeleteAllByDomainID error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.DeleteAllByDomainID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -148,7 +148,7 @@ func (r *userDomainRepo) DeleteAllByDomainID(ctx context.Context, id string) err
 func (r *userDomainRepo) GetDomainsByUserID(ctx context.Context, userID string) ([]*ent.Domain, error) {
 	userDomains, err := r.ec.UserDomain.Query().Where(userDomainEnt.IDEQ(userID)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.GetDomainsByUserID error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.GetDomainsByUserID error: %v\n", err)
 		return nil, err
 	}
 
@@ -159,7 +159,7 @@ func (r *userDomainRepo) GetDomainsByUserID(ctx context.Context, userID string) 
 
 	domains, err := r.ec.Domain.Query().Where(domainEnt.IDIn(domainIDs...)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.GetDomainsByUserID error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.GetDomainsByUserID error: %v\n", err)
 		return nil, err
 	}
 
@@ -170,7 +170,7 @@ func (r *userDomainRepo) GetDomainsByUserID(ctx context.Context, userID string) 
 func (r *userDomainRepo) IsUserInDomain(ctx context.Context, userID string, domainID string) (bool, error) {
 	count, err := r.ec.UserDomain.Query().Where(userDomainEnt.IDEQ(userID), userDomainEnt.DomainIDEQ(domainID)).Count(ctx)
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.IsUserInDomain error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.IsUserInDomain error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil
@@ -180,7 +180,7 @@ func (r *userDomainRepo) IsUserInDomain(ctx context.Context, userID string, doma
 func (r *userDomainRepo) IsDomainInUser(ctx context.Context, domainID string, userID string) (bool, error) {
 	count, err := r.ec.UserDomain.Query().Where(userDomainEnt.DomainIDEQ(domainID), userDomainEnt.IDEQ(userID)).Count(ctx)
 	if err != nil {
-		log.Errorf(nil, "userDomainRepo.IsDomainInUser error: %v\n", err)
+		log.Errorf(context.Background(), "userDomainRepo.IsDomainInUser error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil

@@ -2,13 +2,13 @@ package service
 
 import (
 	"context"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	repo "stocms/internal/data/repository"
-	"stocms/pkg/ecode"
-	"stocms/pkg/log"
-	"stocms/pkg/resp"
-	"stocms/pkg/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	repo "ncobase/internal/data/repository"
+	"ncobase/pkg/ecode"
+	"ncobase/pkg/log"
+	"ncobase/pkg/resp"
+	"ncobase/pkg/validator"
 )
 
 // Service represents a service definition.
@@ -69,19 +69,19 @@ func (svc *Service) Ping(ctx context.Context) error {
 // handleError is a helper function to handle errors in a consistent manner.
 func handleError(k string, err error) (*resp.Exception, error) {
 	if ent.IsNotFound(err) {
-		log.Errorf(nil, "Error not found in %s: %v\n", k, err)
+		log.Errorf(context.Background(), "Error not found in %s: %v\n", k, err)
 		return resp.NotFound(ecode.NotExist(k)), nil
 	}
 	if ent.IsConstraintError(err) {
-		log.Errorf(nil, "Error constraint in %s: %v\n", k, err)
+		log.Errorf(context.Background(), "Error constraint in %s: %v\n", k, err)
 		return resp.Conflict(ecode.AlreadyExist(k)), nil
 	}
 	if ent.IsNotSingular(err) {
-		log.Errorf(nil, "Error not singular in %s: %v\n", k, err)
+		log.Errorf(context.Background(), "Error not singular in %s: %v\n", k, err)
 		return resp.BadRequest(ecode.NotSingular(k)), nil
 	}
 	if validator.IsNotNil(err) {
-		log.Errorf(nil, "Error internal in %s: %v\n", k, err)
+		log.Errorf(context.Background(), "Error internal in %s: %v\n", k, err)
 		return resp.InternalServer(err.Error()), nil
 	}
 	return nil, err

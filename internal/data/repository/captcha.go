@@ -2,9 +2,9 @@ package repo
 
 import (
 	"context"
-	"stocms/internal/data"
-	"stocms/pkg/cache"
-	"stocms/pkg/types"
+	"ncobase/internal/data"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/types"
 	"time"
 
 	"github.com/redis/go-redis/v9"

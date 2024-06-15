@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"stocms/pkg/log"
-	"stocms/pkg/storage"
+	"ncobase/pkg/log"
+	"ncobase/pkg/storage"
 
 	"github.com/casdoor/oss"
 	"github.com/gin-gonic/gin"

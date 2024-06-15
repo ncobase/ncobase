@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"net/http"
-	"stocms/internal/helper"
-	"stocms/pkg/ecode"
-	"stocms/pkg/validator"
+	"ncobase/internal/helper"
+	"ncobase/pkg/ecode"
+	"ncobase/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )

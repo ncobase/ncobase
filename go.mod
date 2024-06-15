@@ -1,4 +1,4 @@
-module stocms
+module ncobase
 
 go 1.22.3
 

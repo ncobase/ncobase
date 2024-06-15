@@ -2,7 +2,7 @@ package helper
 
 import (
 	"fmt"
-	"stocms/internal/config"
+	"ncobase/internal/config"
 	"strconv"
 )
 

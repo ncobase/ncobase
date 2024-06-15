@@ -2,14 +2,14 @@ package repo
 
 import (
 	"context"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	groupEnt "stocms/internal/data/ent/group"
-	userEnt "stocms/internal/data/ent/user"
-	userGroupEnt "stocms/internal/data/ent/usergroup"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/log"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	groupEnt "ncobase/internal/data/ent/group"
+	userEnt "ncobase/internal/data/ent/user"
+	userGroupEnt "ncobase/internal/data/ent/usergroup"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/log"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -55,7 +55,7 @@ func (r *userGroupRepo) Create(ctx context.Context, body *structs.UserGroup) (*e
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.Create error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
@@ -70,7 +70,7 @@ func (r *userGroupRepo) GetByUserID(ctx context.Context, id string) (*ent.UserGr
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.GetProfile error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -84,7 +84,7 @@ func (r *userGroupRepo) GetByUserIDs(ctx context.Context, ids []string) ([]*ent.
 		All(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.GetByUserIDs error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.GetByUserIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -98,7 +98,7 @@ func (r *userGroupRepo) GetByGroupID(ctx context.Context, id string) (*ent.UserG
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.GetProfile error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -112,7 +112,7 @@ func (r *userGroupRepo) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent
 		All(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.GetByGroupIDs error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.GetByGroupIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -121,7 +121,7 @@ func (r *userGroupRepo) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent
 // Delete delete user group
 func (r *userGroupRepo) Delete(ctx context.Context, uid, gid string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.IDEQ(uid), userGroupEnt.GroupIDEQ(gid)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userGroupRepo.DeleteByUserID error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.DeleteByUserID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -130,7 +130,7 @@ func (r *userGroupRepo) Delete(ctx context.Context, uid, gid string) error {
 // DeleteAllByUserID delete all user group
 func (r *userGroupRepo) DeleteAllByUserID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userGroupRepo.DeleteAllByUserID error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.DeleteAllByUserID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -139,7 +139,7 @@ func (r *userGroupRepo) DeleteAllByUserID(ctx context.Context, id string) error 
 // DeleteAllByGroupID delete all user group
 func (r *userGroupRepo) DeleteAllByGroupID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.GroupIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userGroupRepo.DeleteAllByGroupID error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.DeleteAllByGroupID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -149,7 +149,7 @@ func (r *userGroupRepo) DeleteAllByGroupID(ctx context.Context, id string) error
 func (r *userGroupRepo) GetGroupsByUserID(ctx context.Context, userID string) ([]*ent.Group, error) {
 	userGroups, err := r.ec.UserGroup.Query().Where(userGroupEnt.IDEQ(userID)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.GetGroupsByUserID error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.GetGroupsByUserID error: %v\n", err)
 		return nil, err
 	}
 	var groupIDs []string
@@ -159,7 +159,7 @@ func (r *userGroupRepo) GetGroupsByUserID(ctx context.Context, userID string) ([
 
 	groups, err := r.ec.Group.Query().Where(groupEnt.IDIn(groupIDs...)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.GetGroupsByUserID error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.GetGroupsByUserID error: %v\n", err)
 		return nil, err
 	}
 
@@ -170,7 +170,7 @@ func (r *userGroupRepo) GetGroupsByUserID(ctx context.Context, userID string) ([
 func (r *userGroupRepo) GetUsersByGroupID(ctx context.Context, groupID string) ([]*ent.User, error) {
 	userGroups, err := r.ec.UserGroup.Query().Where(userGroupEnt.GroupIDEQ(groupID)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.GetUsersByGroupID error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.GetUsersByGroupID error: %v\n", err)
 		return nil, err
 	}
 	var userIDs []string
@@ -180,7 +180,7 @@ func (r *userGroupRepo) GetUsersByGroupID(ctx context.Context, groupID string) (
 
 	users, err := r.ec.User.Query().Where(userEnt.IDIn(userIDs...)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.GetUsersByGroupID error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.GetUsersByGroupID error: %v\n", err)
 		return nil, err
 	}
 	return users, nil
@@ -190,7 +190,7 @@ func (r *userGroupRepo) GetUsersByGroupID(ctx context.Context, groupID string) (
 func (r *userGroupRepo) IsUserInGroup(ctx context.Context, userID string, groupID string) (bool, error) {
 	count, err := r.ec.UserGroup.Query().Where(userGroupEnt.IDEQ(userID), userGroupEnt.GroupIDEQ(groupID)).Count(ctx)
 	if err != nil {
-		log.Errorf(nil, "userGroupRepo.IsUserInGroup error: %v\n", err)
+		log.Errorf(context.Background(), "userGroupRepo.IsUserInGroup error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil

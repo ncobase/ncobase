@@ -2,7 +2,7 @@ package types
 
 import (
 	"errors"
-	"stocms/pkg/validator"
+	"ncobase/pkg/validator"
 	"strings"
 	"time"
 

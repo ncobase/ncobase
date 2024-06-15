@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"stocms/internal/data/ent"
-	"stocms/internal/data/structs"
-	"stocms/pkg/resp"
-	"stocms/pkg/types"
+	"ncobase/internal/data/ent"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/resp"
+	"ncobase/pkg/types"
 )
 
 // CreatePermissionService creates a new permission.

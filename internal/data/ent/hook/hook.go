@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"stocms/internal/data/ent"
+	"ncobase/internal/data/ent"
 )
 
 // The AssetFunc type is an adapter to allow the use of ordinary

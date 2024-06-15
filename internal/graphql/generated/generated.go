@@ -7,7 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"stocms/internal/graphql/types"
+	"ncobase/internal/graphql/types"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -783,7 +783,7 @@ func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawAr
 	var arg0 types.LoginInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNLoginInput2stocmsᚋinternalᚋgraphqlᚋtypesᚐLoginInput(ctx, tmp)
+		arg0, err = ec.unmarshalNLoginInput2ncobaseᚋinternalᚋgraphqlᚋtypesᚐLoginInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -798,7 +798,7 @@ func (ec *executionContext) field_Mutation_register_args(ctx context.Context, ra
 	var arg0 types.RegisterInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNRegisterInput2stocmsᚋinternalᚋgraphqlᚋtypesᚐRegisterInput(ctx, tmp)
+		arg0, err = ec.unmarshalNRegisterInput2ncobaseᚋinternalᚋgraphqlᚋtypesᚐRegisterInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -813,7 +813,7 @@ func (ec *executionContext) field_Mutation_sendAuthorizeCode_args(ctx context.Co
 	var arg0 types.SendCodeInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNSendCodeInput2stocmsᚋinternalᚋgraphqlᚋtypesᚐSendCodeInput(ctx, tmp)
+		arg0, err = ec.unmarshalNSendCodeInput2ncobaseᚋinternalᚋgraphqlᚋtypesᚐSendCodeInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -828,7 +828,7 @@ func (ec *executionContext) field_Mutation_updatePassword_args(ctx context.Conte
 	var arg0 *types.UpdatePassword
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalOUpdatePassword2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐUpdatePassword(ctx, tmp)
+		arg0, err = ec.unmarshalOUpdatePassword2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUpdatePassword(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1563,7 +1563,7 @@ func (ec *executionContext) _Domain_user(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.(*types.User)
 	fc.Result = res
-	return ec.marshalOUser2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐUser(ctx, field.Selections, res)
+	return ec.marshalOUser2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Domain_user(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1665,7 +1665,7 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 	}
 	res := resTmp.(*types.AuthPayload)
 	fc.Result = res
-	return ec.marshalOAuthPayload2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐAuthPayload(ctx, field.Selections, res)
+	return ec.marshalOAuthPayload2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐAuthPayload(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1725,7 +1725,7 @@ func (ec *executionContext) _Mutation_register(ctx context.Context, field graphq
 	}
 	res := resTmp.(*types.AuthPayload)
 	fc.Result = res
-	return ec.marshalOAuthPayload2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐAuthPayload(ctx, field.Selections, res)
+	return ec.marshalOAuthPayload2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐAuthPayload(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_register(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1837,7 +1837,7 @@ func (ec *executionContext) _Mutation_authorize(ctx context.Context, field graph
 	}
 	res := resTmp.(*types.AuthPayload)
 	fc.Result = res
-	return ec.marshalOAuthPayload2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐAuthPayload(ctx, field.Selections, res)
+	return ec.marshalOAuthPayload2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐAuthPayload(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_authorize(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1897,7 +1897,7 @@ func (ec *executionContext) _Mutation_updatePassword(ctx context.Context, field 
 	}
 	res := resTmp.(*types.RStruct)
 	fc.Result = res
-	return ec.marshalORStruct2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐRStruct(ctx, field.Selections, res)
+	return ec.marshalORStruct2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐRStruct(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updatePassword(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2000,7 +2000,7 @@ func (ec *executionContext) _Query_accountDomain(ctx context.Context, field grap
 	}
 	res := resTmp.(*types.Domain)
 	fc.Result = res
-	return ec.marshalODomain2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐDomain(ctx, field.Selections, res)
+	return ec.marshalODomain2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐDomain(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_accountDomain(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2080,7 +2080,7 @@ func (ec *executionContext) _Query_account(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*types.User)
 	fc.Result = res
-	return ec.marshalOUser2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐUser(ctx, field.Selections, res)
+	return ec.marshalOUser2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_account(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2141,7 +2141,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.(*types.User)
 	fc.Result = res
-	return ec.marshalOUser2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐUser(ctx, field.Selections, res)
+	return ec.marshalOUser2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2758,7 +2758,7 @@ func (ec *executionContext) _User_profile(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*types.UserProfile)
 	fc.Result = res
-	return ec.marshalOUserProfile2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐUserProfile(ctx, field.Selections, res)
+	return ec.marshalOUserProfile2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUserProfile(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_User_profile(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5177,7 +5177,7 @@ func (ec *executionContext) unmarshalInputSort(ctx context.Context, obj interfac
 			it.SortBy = data
 		case "order":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
-			data, err := ec.unmarshalNSortOrder2stocmsᚋinternalᚋgraphqlᚋtypesᚐSortOrder(ctx, v)
+			data, err := ec.unmarshalNSortOrder2ncobaseᚋinternalᚋgraphqlᚋtypesᚐSortOrder(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6034,28 +6034,28 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) unmarshalNLoginInput2stocmsᚋinternalᚋgraphqlᚋtypesᚐLoginInput(ctx context.Context, v interface{}) (types.LoginInput, error) {
+func (ec *executionContext) unmarshalNLoginInput2ncobaseᚋinternalᚋgraphqlᚋtypesᚐLoginInput(ctx context.Context, v interface{}) (types.LoginInput, error) {
 	res, err := ec.unmarshalInputLoginInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNRegisterInput2stocmsᚋinternalᚋgraphqlᚋtypesᚐRegisterInput(ctx context.Context, v interface{}) (types.RegisterInput, error) {
+func (ec *executionContext) unmarshalNRegisterInput2ncobaseᚋinternalᚋgraphqlᚋtypesᚐRegisterInput(ctx context.Context, v interface{}) (types.RegisterInput, error) {
 	res, err := ec.unmarshalInputRegisterInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNSendCodeInput2stocmsᚋinternalᚋgraphqlᚋtypesᚐSendCodeInput(ctx context.Context, v interface{}) (types.SendCodeInput, error) {
+func (ec *executionContext) unmarshalNSendCodeInput2ncobaseᚋinternalᚋgraphqlᚋtypesᚐSendCodeInput(ctx context.Context, v interface{}) (types.SendCodeInput, error) {
 	res, err := ec.unmarshalInputSendCodeInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNSortOrder2stocmsᚋinternalᚋgraphqlᚋtypesᚐSortOrder(ctx context.Context, v interface{}) (types.SortOrder, error) {
+func (ec *executionContext) unmarshalNSortOrder2ncobaseᚋinternalᚋgraphqlᚋtypesᚐSortOrder(ctx context.Context, v interface{}) (types.SortOrder, error) {
 	var res types.SortOrder
 	err := res.UnmarshalGQL(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNSortOrder2stocmsᚋinternalᚋgraphqlᚋtypesᚐSortOrder(ctx context.Context, sel ast.SelectionSet, v types.SortOrder) graphql.Marshaler {
+func (ec *executionContext) marshalNSortOrder2ncobaseᚋinternalᚋgraphqlᚋtypesᚐSortOrder(ctx context.Context, sel ast.SelectionSet, v types.SortOrder) graphql.Marshaler {
 	return v
 }
 
@@ -6327,7 +6327,7 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
-func (ec *executionContext) marshalOAuthPayload2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐAuthPayload(ctx context.Context, sel ast.SelectionSet, v *types.AuthPayload) graphql.Marshaler {
+func (ec *executionContext) marshalOAuthPayload2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐAuthPayload(ctx context.Context, sel ast.SelectionSet, v *types.AuthPayload) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6360,7 +6360,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalODomain2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐDomain(ctx context.Context, sel ast.SelectionSet, v *types.Domain) graphql.Marshaler {
+func (ec *executionContext) marshalODomain2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐDomain(ctx context.Context, sel ast.SelectionSet, v *types.Domain) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6399,7 +6399,7 @@ func (ec *executionContext) marshalOJSON2map(ctx context.Context, sel ast.Select
 	return res
 }
 
-func (ec *executionContext) marshalORStruct2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐRStruct(ctx context.Context, sel ast.SelectionSet, v *types.RStruct) graphql.Marshaler {
+func (ec *executionContext) marshalORStruct2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐRStruct(ctx context.Context, sel ast.SelectionSet, v *types.RStruct) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -6454,7 +6454,7 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	return res
 }
 
-func (ec *executionContext) unmarshalOUpdatePassword2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐUpdatePassword(ctx context.Context, v interface{}) (*types.UpdatePassword, error) {
+func (ec *executionContext) unmarshalOUpdatePassword2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUpdatePassword(ctx context.Context, v interface{}) (*types.UpdatePassword, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6462,14 +6462,14 @@ func (ec *executionContext) unmarshalOUpdatePassword2ᚖstocmsᚋinternalᚋgrap
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOUser2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐUser(ctx context.Context, sel ast.SelectionSet, v *types.User) graphql.Marshaler {
+func (ec *executionContext) marshalOUser2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUser(ctx context.Context, sel ast.SelectionSet, v *types.User) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._User(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOUserProfile2ᚖstocmsᚋinternalᚋgraphqlᚋtypesᚐUserProfile(ctx context.Context, sel ast.SelectionSet, v *types.UserProfile) graphql.Marshaler {
+func (ec *executionContext) marshalOUserProfile2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUserProfile(ctx context.Context, sel ast.SelectionSet, v *types.UserProfile) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

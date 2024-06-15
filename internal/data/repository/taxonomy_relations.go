@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	taxonomyRelationEnt "stocms/internal/data/ent/taxonomyrelation"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/log"
-	"stocms/pkg/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	taxonomyRelationEnt "ncobase/internal/data/ent/taxonomyrelation"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/log"
+	"ncobase/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -52,7 +52,7 @@ func (r *taxonomyRelationsRepo) Create(ctx context.Context, body *structs.Create
 
 	row, err := query.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.Create error: %v\n", err)
+		log.Errorf(context.Background(), "taxonomyRelationsRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
@@ -72,14 +72,14 @@ func (r *taxonomyRelationsRepo) GetByObject(ctx context.Context, object string) 
 	row, err := r.FindTaxonomyRelation(ctx, &structs.FindTaxonomyRelation{ObjectID: object})
 
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.GetByObject error: %v\n", err)
+		log.Errorf(context.Background(), "taxonomyRelationsRepo.GetByObject error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.GetByObject cache error: %v\n", err)
+		log.Errorf(context.Background(), "taxonomyRelationsRepo.GetByObject cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -100,7 +100,7 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 
 	row, err := query.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.Update error: %v\n", err)
+		log.Errorf(context.Background(), "taxonomyRelationsRepo.Update error: %v\n", err)
 		return nil, err
 	}
 
@@ -108,7 +108,7 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 	cacheKey := fmt.Sprintf("%s", body.ObjectID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.Update cache error: %v\n", err)
+		log.Errorf(context.Background(), "taxonomyRelationsRepo.Update cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -144,7 +144,7 @@ func (r *taxonomyRelationsRepo) List(ctx context.Context, p *structs.ListTaxonom
 
 	rows, err := query.All(ctx)
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.List error: %v\n", err)
+		log.Errorf(context.Background(), "taxonomyRelationsRepo.List error: %v\n", err)
 		return nil, err
 	}
 
@@ -163,7 +163,7 @@ func (r *taxonomyRelationsRepo) Delete(ctx context.Context, object string) error
 		cacheKey := fmt.Sprintf("%s", object)
 		err := r.c.Delete(ctx, cacheKey)
 		if err != nil {
-			log.Errorf(nil, "taxonomyRelationsRepo.Delete cache error: %v\n", err)
+			log.Errorf(context.Background(), "taxonomyRelationsRepo.Delete cache error: %v\n", err)
 		}
 	}
 
@@ -184,7 +184,7 @@ func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*struc
 	}
 	rows, err := r.ec.TaxonomyRelation.CreateBulk(bulk...).Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.BatchCreate error: %v\n", err)
+		log.Errorf(context.Background(), "taxonomyRelationsRepo.BatchCreate error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -208,7 +208,7 @@ func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.Fi
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(nil, "taxonomyRelationsRepo.FindRelations error: %v\n", err)
+		log.Errorf(context.Background(), "taxonomyRelationsRepo.FindRelations error: %v\n", err)
 		return nil, err
 	}
 

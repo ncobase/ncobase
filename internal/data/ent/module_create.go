@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"stocms/internal/data/ent/module"
+	"ncobase/internal/data/ent/module"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"

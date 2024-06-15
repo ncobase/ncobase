@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"stocms/pkg/jwt"
-	"stocms/pkg/types"
+	"ncobase/pkg/jwt"
+	"ncobase/pkg/types"
 	"time"
 )
 

@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "a modern content management system",
-        "title": "stocms",
+        "description": "Next-Gen Modular Framework",
+        "title": "Ncobase",
         "contact": {},
         "version": "0.1.0"
     },

@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"stocms/internal/data/ent/user"
+	"ncobase/internal/data/ent/user"
 	"strings"
 	"time"
 

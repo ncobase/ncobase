@@ -2,14 +2,14 @@ package repo
 
 import (
 	"context"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	permissionEnt "stocms/internal/data/ent/permission"
-	roleEnt "stocms/internal/data/ent/role"
-	rolePermissionEnt "stocms/internal/data/ent/rolepermission"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/log"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	permissionEnt "ncobase/internal/data/ent/permission"
+	roleEnt "ncobase/internal/data/ent/role"
+	rolePermissionEnt "ncobase/internal/data/ent/rolepermission"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/log"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -56,7 +56,7 @@ func (r *rolePermissionRepo) Create(ctx context.Context, body *structs.RolePermi
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.Create error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
@@ -71,7 +71,7 @@ func (r *rolePermissionRepo) GetByPermissionID(ctx context.Context, id string) (
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.GetProfile error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -85,7 +85,7 @@ func (r *rolePermissionRepo) GetByPermissionIDs(ctx context.Context, ids []strin
 		All(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.GetByPermissionIDs error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.GetByPermissionIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -99,7 +99,7 @@ func (r *rolePermissionRepo) GetByRoleID(ctx context.Context, id string) (*ent.R
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.GetProfile error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -113,7 +113,7 @@ func (r *rolePermissionRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]
 		All(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.GetByRoleIDs error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.GetByRoleIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -122,7 +122,7 @@ func (r *rolePermissionRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]
 // Delete role permission
 func (r *rolePermissionRepo) Delete(ctx context.Context, rid, pid string) error {
 	if _, err := r.ec.RolePermission.Delete().Where(rolePermissionEnt.IDEQ(rid), rolePermissionEnt.PermissionIDEQ(pid)).Exec(ctx); err != nil {
-		log.Errorf(nil, "rolePermissionRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.Delete error: %v\n", err)
 		return err
 	}
 	return nil
@@ -131,7 +131,7 @@ func (r *rolePermissionRepo) Delete(ctx context.Context, rid, pid string) error 
 // DeleteAllByPermissionID Delete all role permission
 func (r *rolePermissionRepo) DeleteAllByPermissionID(ctx context.Context, id string) error {
 	if _, err := r.ec.RolePermission.Delete().Where(rolePermissionEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "rolePermissionRepo.DeleteAllByPermissionID error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.DeleteAllByPermissionID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -140,7 +140,7 @@ func (r *rolePermissionRepo) DeleteAllByPermissionID(ctx context.Context, id str
 // DeleteAllByRoleID Delete all role permission
 func (r *rolePermissionRepo) DeleteAllByRoleID(ctx context.Context, id string) error {
 	if _, err := r.ec.RolePermission.Delete().Where(rolePermissionEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "rolePermissionRepo.DeleteAllByRoleID error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.DeleteAllByRoleID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -150,7 +150,7 @@ func (r *rolePermissionRepo) DeleteAllByRoleID(ctx context.Context, id string) e
 func (r *rolePermissionRepo) GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*ent.Permission, error) {
 	rolePermissions, err := r.ec.RolePermission.Query().Where(rolePermissionEnt.IDEQ(roleID)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.GetPermissionsByRoleID error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.GetPermissionsByRoleID error: %v\n", err)
 		return nil, err
 	}
 
@@ -163,7 +163,7 @@ func (r *rolePermissionRepo) GetPermissionsByRoleID(ctx context.Context, roleID 
 	// query permissions based on extracted permission ids
 	permissions, err := r.ec.Permission.Query().Where(permissionEnt.IDIn(permissionIDs...)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.GetPermissionsByRoleID error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.GetPermissionsByRoleID error: %v\n", err)
 		return nil, err
 	}
 
@@ -174,7 +174,7 @@ func (r *rolePermissionRepo) GetPermissionsByRoleID(ctx context.Context, roleID 
 func (r *rolePermissionRepo) GetRolesByPermissionID(ctx context.Context, permissionID string) ([]*ent.Role, error) {
 	rolePermissions, err := r.ec.RolePermission.Query().Where(rolePermissionEnt.PermissionIDEQ(permissionID)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.GetRolesByPermissionID error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.GetRolesByPermissionID error: %v\n", err)
 		return nil, err
 	}
 
@@ -185,7 +185,7 @@ func (r *rolePermissionRepo) GetRolesByPermissionID(ctx context.Context, permiss
 
 	roles, err := r.ec.Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.GetRolesByPermissionID error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.GetRolesByPermissionID error: %v\n", err)
 		return nil, err
 	}
 	return roles, nil
@@ -195,7 +195,7 @@ func (r *rolePermissionRepo) GetRolesByPermissionID(ctx context.Context, permiss
 func (r *rolePermissionRepo) IsPermissionInRole(ctx context.Context, roleID string, permissionID string) (bool, error) {
 	count, err := r.ec.RolePermission.Query().Where(rolePermissionEnt.IDEQ(roleID), rolePermissionEnt.PermissionIDEQ(permissionID)).Count(ctx)
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.IsPermissionInRole error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.IsPermissionInRole error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil
@@ -205,7 +205,7 @@ func (r *rolePermissionRepo) IsPermissionInRole(ctx context.Context, roleID stri
 func (r *rolePermissionRepo) IsRoleInPermission(ctx context.Context, roleID string, permissionID string) (bool, error) {
 	count, err := r.ec.RolePermission.Query().Where(rolePermissionEnt.IDEQ(roleID), rolePermissionEnt.PermissionIDEQ(permissionID)).Count(ctx)
 	if err != nil {
-		log.Errorf(nil, "rolePermissionRepo.IsRoleInPermission error: %v\n", err)
+		log.Errorf(context.Background(), "rolePermissionRepo.IsRoleInPermission error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil

@@ -1,8 +1,8 @@
 package nanoid
 
 import (
-	"stocms/pkg/consts"
-	"stocms/pkg/validator"
+	"ncobase/pkg/consts"
+	"ncobase/pkg/validator"
 	"strings"
 
 	gonanoid "github.com/matoous/go-nanoid/v2"

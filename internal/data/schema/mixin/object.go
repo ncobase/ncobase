@@ -1,7 +1,7 @@
 package mixin
 
 import (
-	"stocms/pkg/types"
+	"ncobase/pkg/types"
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
