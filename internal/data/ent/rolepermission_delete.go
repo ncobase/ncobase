@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"stocms/internal/data/ent/predicate"
-	"stocms/internal/data/ent/rolepermission"
+	"ncobase/internal/data/ent/predicate"
+	"ncobase/internal/data/ent/rolepermission"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

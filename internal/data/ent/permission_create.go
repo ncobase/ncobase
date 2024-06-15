@@ -5,7 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
-	"stocms/internal/data/ent/permission"
+	"ncobase/internal/data/ent/permission"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"

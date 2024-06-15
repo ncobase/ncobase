@@ -2,10 +2,10 @@ package server
 
 import (
 	"net/http"
-	"stocms/internal/config"
-	"stocms/internal/handler"
-	"stocms/internal/helper"
-	"stocms/internal/server/middleware"
+	"ncobase/internal/config"
+	"ncobase/internal/handler"
+	"ncobase/internal/helper"
+	"ncobase/internal/server/middleware"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

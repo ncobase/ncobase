@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"stocms/internal/data/schema/mixin"
+	"ncobase/internal/data/schema/mixin"
 	"strings"
 
 	"entgo.io/contrib/entgql"

@@ -7,9 +7,9 @@ package graph
 import (
 	"context"
 	"errors"
-	"stocms/internal/data/structs"
-	"stocms/internal/graphql/types"
-	"stocms/internal/helper"
+	"ncobase/internal/data/structs"
+	"ncobase/internal/graphql/types"
+	"ncobase/internal/helper"
 )
 
 // Login is the resolver for the login field.

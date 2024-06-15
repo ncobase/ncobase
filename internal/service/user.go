@@ -5,13 +5,13 @@ package service
 import (
 	"context"
 	"fmt"
-	"stocms/internal/data/ent"
-	"stocms/internal/data/structs"
-	"stocms/internal/helper"
-	"stocms/pkg/crypto"
-	"stocms/pkg/ecode"
-	"stocms/pkg/log"
-	"stocms/pkg/resp"
+	"ncobase/internal/data/ent"
+	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
+	"ncobase/pkg/crypto"
+	"ncobase/pkg/ecode"
+	"ncobase/pkg/log"
+	"ncobase/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,7 +43,7 @@ func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserRequ
 		if v.Valid == false {
 			return resp.BadRequest(v.Error), nil
 		} else if v.Valid && v.NeedsPasswordSet == true { // 记录第一次设置密码的日志
-			log.Printf(nil, "User %s is setting password for the first time", helper.GetUserID(c))
+			log.Printf(context.Background(), "User %s is setting password for the first time", helper.GetUserID(c))
 		}
 	case error:
 		return resp.InternalServer(v.Error()), nil
@@ -339,7 +339,7 @@ func (svc *Service) updateUserPassword(ctx context.Context, userID string, passw
 		NewPassword: password,
 	})
 	if err != nil {
-		log.Printf(nil, "Error updating password for user %s: %v", userID, err)
+		log.Printf(context.Background(), "Error updating password for user %s: %v", userID, err)
 	}
 
 	return err

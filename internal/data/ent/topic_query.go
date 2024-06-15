@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"stocms/internal/data/ent/predicate"
-	"stocms/internal/data/ent/topic"
+	"ncobase/internal/data/ent/predicate"
+	"ncobase/internal/data/ent/topic"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

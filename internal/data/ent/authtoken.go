@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"stocms/internal/data/ent/authtoken"
+	"ncobase/internal/data/ent/authtoken"
 	"strings"
 	"time"
 

@@ -2,9 +2,9 @@ package server
 
 import (
 	"net/http"
-	"stocms/internal/graphql/generated"
-	graph "stocms/internal/graphql/resolvers"
-	"stocms/internal/service"
+	"ncobase/internal/graphql/generated"
+	graph "ncobase/internal/graphql/resolvers"
+	"ncobase/internal/service"
 
 	"strings"
 	"time"

@@ -1,6 +1,6 @@
 package graph
 
-import "stocms/internal/service"
+import "ncobase/internal/service"
 
 // This file will not be regenerated automatically.
 //

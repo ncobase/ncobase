@@ -1,4 +1,4 @@
-# stocms backend
+# Ncobase backend
 
 ## Start
 
@@ -20,41 +20,65 @@ make run
 ## Project structure
 
 ```plaintext
+├── bin                     # Compiled executable files
 ├── cmd
-│   └── stocms             # Main program entry
-├── docs                   # Documentation
-├── infra                  # Infrastructure configurations
-├── internal               # Internal application logic
-│   ├── config             # Configuration files
-│   ├── data               # Data handling
-│   │   ├── ent            # ent ORM related
-│   │   ├── graphql        # GraphQL schemas
-│   │   ├── repository     # Repositories for data access
-│   │   ├── schema         # Database schemas
-│   │   └── structs        # Data structures
-│   ├── graphql            # GraphQL resolvers and types
-│   ├── handler            # Request handlers
-│   ├── helper             # Helper utilities and functions
-│   ├── server             # Server-related code
-│   │   └── middleware     # Middleware
-│   └── service            # Business logic
-└── pkg                    # Public packages
-    ├── consts             # Constants
-    ├── cookie             # Cookie handling
-    ├── ecode              # Error codes
-    ├── email              # Email related logic
-    ├── encrypt            # Encryption
-    ├── jwt                # JWT handling
-    ├── log                # Logging
-    ├── nanoid             # NanoID generation
-    ├── oauth              # OAuth related logic
-    ├── resp               # Response handling
-    ├── slug               # Slug generation
-    ├── time               # Time utilities
-    ├── types              # Type definitions
-    ├── util               # Utility functions
-    ├── uuid               # UUID generation
-    └── validator          # Validators
+│   └── ncobase             # Main program entry
+├── docs                    # Documentation
+├── infra                   # Infrastructure configurations
+│   ├── docker              # Docker configuration files
+│   ├── kubernetes          # Kubernetes configuration files
+│   └── systemd             # Systemd service files
+├── internal                # Internal application logic
+│   ├── app                 # Application layer containing business logic
+│   │   ├── auth            # Authentication and authorization logic
+│   │   ├── user            # User-related business logic
+│   │   ├── file            # File management business logic
+│   │   └── ...             # Other business modules
+│   ├── config              # Configuration files
+│   ├── data                # Data handling
+│   │   ├── ent             # ent ORM related
+│   │   ├── repository      # Repositories for data access
+│   │   ├── schema          # Database schemas
+│   │   └── structs         # Data structures
+│   ├── graphql             # GraphQL resolvers and types
+│   │   ├── generated       # Auto-generated GraphQL code
+│   │   ├── resolvers       # GraphQL resolvers
+│   │   └── types           # GraphQL type definitions
+│   ├── handler             # Request handlers
+│   ├── helper              # Helper utilities and functions
+│   ├── middleware          # Middleware
+│   ├── plugin              # Plugin management
+│   │   ├── example         # Example plugin
+│   │   │   ├── main.go     # Plugin main entry
+│   │   │   ├── README.md   # Plugin documentation
+│   │   │   └── plugin.json # Plugin configuration file
+│   │   └── ...             # Other plugins
+│   └── server              # Server-related code
+│       └── middleware      # Middleware
+│   └── service             # Business logic
+└── logs                    # Log files
+└── pkg                     # Public packages
+    ├── cache               # Cache management
+    ├── consts              # Constants
+    ├── cookie              # Cookie handling
+    ├── crypto              # Encryption utilities
+    ├── ecode               # Error codes
+    ├── elastic             # Elasticsearch support
+    ├── email               # Email related logic
+    ├── jwt                 # JWT handling
+    ├── log                 # Logging
+    ├── meili               # Meilisearch support
+    ├── nanoid              # NanoID generation
+    ├── oauth               # OAuth related logic
+    ├── resp                # Response handling
+    ├── slug                # Slug generation
+    ├── storage             # Storage management
+    ├── time                # Time utilities
+    ├── types               # Type definitions
+    ├── util                # Utility functions
+    ├── uuid                # UUID generation
+    └── validator           # Validators
+└── scripts                 # Operational and management scripts
 ```
 
 ## Documentation

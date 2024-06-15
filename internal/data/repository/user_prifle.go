@@ -2,12 +2,12 @@ package repo
 
 import (
 	"context"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	userProfileEnt "stocms/internal/data/ent/userprofile"
-	"stocms/internal/data/structs"
-	"stocms/pkg/cache"
-	"stocms/pkg/log"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	userProfileEnt "ncobase/internal/data/ent/userprofile"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/cache"
+	"ncobase/pkg/log"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -46,7 +46,7 @@ func (r *userProfileRepo) Create(ctx context.Context, body *structs.UserRequestB
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(nil, "userProfileRepo.CreateProfile error: %v\n", err)
+		log.Errorf(context.Background(), "userProfileRepo.CreateProfile error: %v\n", err)
 		return nil, err
 	}
 
@@ -61,7 +61,7 @@ func (r *userProfileRepo) Get(ctx context.Context, id string) (*ent.UserProfile,
 		Only(ctx)
 
 	if err != nil {
-		log.Errorf(nil, "userProfileRepo.GetProfile error: %v\n", err)
+		log.Errorf(context.Background(), "userProfileRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -70,7 +70,7 @@ func (r *userProfileRepo) Get(ctx context.Context, id string) (*ent.UserProfile,
 // Delete delete user profile
 func (r *userProfileRepo) Delete(ctx context.Context, id string) error {
 	if _, err := r.ec.UserProfile.Delete().Where(userProfileEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(nil, "userProfileRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "userProfileRepo.Delete error: %v\n", err)
 		return err
 	}
 	return nil

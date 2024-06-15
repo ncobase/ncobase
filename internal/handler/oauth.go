@@ -2,11 +2,11 @@ package handler
 
 import (
 	"net/http"
-	"stocms/internal/data/structs"
-	"stocms/internal/helper"
-	"stocms/pkg/oauth"
-	"stocms/pkg/resp"
-	"stocms/pkg/types"
+	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
+	"ncobase/pkg/oauth"
+	"ncobase/pkg/resp"
+	"ncobase/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )

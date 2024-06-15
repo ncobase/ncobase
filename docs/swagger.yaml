@@ -682,8 +682,8 @@ definitions:
     type: object
 info:
   contact: {}
-  description: a modern content management system
-  title: stocms
+  description: Next-Gen Modular Framework
+  title: Ncobase
   version: 0.1.0
 paths:
   /health:

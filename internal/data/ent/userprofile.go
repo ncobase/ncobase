@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"stocms/internal/data/ent/userprofile"
+	"ncobase/internal/data/ent/userprofile"
 	"strings"
 
 	"entgo.io/ent"

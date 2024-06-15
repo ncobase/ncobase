@@ -2,12 +2,12 @@ package server
 
 import (
 	"net/http"
-	"stocms/internal/config"
-	"stocms/internal/handler"
-	"stocms/internal/server/middleware"
-	"stocms/internal/service"
-	"stocms/pkg/ecode"
-	"stocms/pkg/types"
+	"ncobase/internal/config"
+	"ncobase/internal/handler"
+	"ncobase/internal/server/middleware"
+	"ncobase/internal/service"
+	"ncobase/pkg/ecode"
+	"ncobase/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )

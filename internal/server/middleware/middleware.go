@@ -1,6 +1,6 @@
 package middleware
 
-import "stocms/internal/config"
+import "ncobase/internal/config"
 
 var signingKey string
 

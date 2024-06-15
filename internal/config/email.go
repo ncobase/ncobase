@@ -1,6 +1,6 @@
 package config
 
-import "stocms/pkg/email"
+import "ncobase/pkg/email"
 
 // getEmailConfig returns the email configuration
 func getEmailConfig() email.Email {

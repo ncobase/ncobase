@@ -3,7 +3,7 @@
 package userprofile
 
 import (
-	"stocms/internal/data/ent/predicate"
+	"ncobase/internal/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

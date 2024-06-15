@@ -5,7 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
-	"stocms/internal/data/ent/codeauth"
+	"ncobase/internal/data/ent/codeauth"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"

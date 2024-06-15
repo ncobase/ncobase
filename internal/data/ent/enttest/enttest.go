@@ -4,11 +4,11 @@ package enttest
 
 import (
 	"context"
-	"stocms/internal/data/ent"
+	"ncobase/internal/data/ent"
 	// required by schema hooks.
-	_ "stocms/internal/data/ent/runtime"
+	_ "ncobase/internal/data/ent/runtime"
 
-	"stocms/internal/data/ent/migrate"
+	"ncobase/internal/data/ent/migrate"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"stocms/internal/data/ent/group"
-	"stocms/internal/data/ent/predicate"
+	"ncobase/internal/data/ent/group"
+	"ncobase/internal/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

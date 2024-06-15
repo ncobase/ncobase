@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"stocms/internal/data/ent/module"
+	"ncobase/internal/data/ent/module"
 	"strings"
 	"time"
 

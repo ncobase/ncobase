@@ -5,8 +5,8 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
-	"stocms/pkg/email"
-	"stocms/pkg/storage"
+	"ncobase/pkg/email"
+	"ncobase/pkg/storage"
 
 	"github.com/spf13/viper"
 )
@@ -72,8 +72,8 @@ func load(in string) (*Config, error) {
 	c.SetConfigFile(in)
 	// By default, read from config.{yaml,toml, yml,json}, etc. files
 	c.AddConfigPath(in)
-	c.AddConfigPath("/etc/stocms")
-	c.AddConfigPath("$HOME/.stocms")
+	c.AddConfigPath("/etc/ncobase")
+	c.AddConfigPath("$HOME/.ncobase")
 	c.AddConfigPath(".")
 	c.AddConfigPath(filepath.Dir(ex))
 

@@ -1,13 +1,13 @@
 package service
 
 import (
-	"stocms/internal/data/ent"
-	"stocms/internal/data/structs"
-	"stocms/pkg/ecode"
-	"stocms/pkg/resp"
-	"stocms/pkg/slug"
-	"stocms/pkg/types"
-	"stocms/pkg/validator"
+	"ncobase/internal/data/ent"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/ecode"
+	"ncobase/pkg/resp"
+	"ncobase/pkg/slug"
+	"ncobase/pkg/types"
+	"ncobase/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )

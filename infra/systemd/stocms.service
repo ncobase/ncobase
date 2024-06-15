@@ -1,13 +1,13 @@
 [Unit]
-Description=stocms backend service
+Description=ncobase backend service
 After=network.target
 
 [Service]
 ExecStartPre=/bin/sleep 5
 User=www-data
-SyslogIdentifier=stocms
+SyslogIdentifier=ncobase
 ExecReload=/bin/kill -s -HUP $MAINPID
-ExecStart=/data/stocms/stocms -conf /etc/stocms/config.yaml
+ExecStart=/data/ncobase/ncobase -conf /etc/ncobase/config.yaml
 ExecStop=/bin/sleep 5; /bin/kill -s QUIT $MAINPID
 Restart=always
 PrivateTmp=true

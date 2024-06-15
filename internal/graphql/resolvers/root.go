@@ -7,7 +7,7 @@ package graph
 import (
 	"context"
 	"fmt"
-	"stocms/internal/graphql/generated"
+	"ncobase/internal/graphql/generated"
 )
 
 // DummyMutationField is the resolver for the dummyMutationField field.

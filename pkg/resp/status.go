@@ -2,7 +2,7 @@ package resp
 
 import (
 	"net/http"
-	"stocms/pkg/ecode"
+	"ncobase/pkg/ecode"
 )
 
 // AlreadyExists indicates that the resource already exists.

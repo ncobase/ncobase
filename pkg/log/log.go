@@ -7,9 +7,9 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"stocms/internal/config"
-	"stocms/pkg/elastic"
-	"stocms/pkg/meili"
+	"ncobase/internal/config"
+	"ncobase/pkg/elastic"
+	"ncobase/pkg/meili"
 	"strings"
 	"time"
 

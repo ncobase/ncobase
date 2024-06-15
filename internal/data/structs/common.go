@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"stocms/pkg/validator"
+	"ncobase/pkg/validator"
 	"time"
 )
 

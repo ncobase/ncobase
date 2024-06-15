@@ -2,13 +2,13 @@ package repo
 
 import (
 	"context"
-	"stocms/internal/data"
-	"stocms/internal/data/ent"
-	casbinRuleEnt "stocms/internal/data/ent/casbinrule"
-	"stocms/internal/data/structs"
-	"stocms/pkg/log"
-	"stocms/pkg/types"
-	"stocms/pkg/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	casbinRuleEnt "ncobase/internal/data/ent/casbinrule"
+	"ncobase/internal/data/structs"
+	"ncobase/pkg/log"
+	"ncobase/pkg/types"
+	"ncobase/pkg/validator"
 )
 
 // CasbinRule represents the Casbin rule repository interface.
@@ -111,7 +111,7 @@ func (r *casbinRuleRepo) Delete(ctx context.Context, id string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(casbinRuleEnt.IDEQ(row.ID)).Exec(ctx); err != nil {
-		log.Errorf(nil, "topicRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "topicRepo.Delete error: %v\n", err)
 		return err
 	}
 

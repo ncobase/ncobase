@@ -6,8 +6,8 @@ package graph
 
 import (
 	"context"
-	"stocms/internal/graphql/types"
-	"stocms/internal/helper"
+	"ncobase/internal/graphql/types"
+	"ncobase/internal/helper"
 
 	"github.com/jinzhu/copier"
 )

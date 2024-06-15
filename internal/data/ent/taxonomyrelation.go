@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"stocms/internal/data/ent/taxonomyrelation"
+	"ncobase/internal/data/ent/taxonomyrelation"
 	"strings"
 	"time"
 
