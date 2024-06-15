@@ -46,7 +46,7 @@ func NewDomain(d *data.Data) Domain {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &domainRepo{ec, rc, ms, cache.NewCache[ent.Domain](rc, cache.Key("sc_domain"), true)}
+	return &domainRepo{ec, rc, ms, cache.NewCache[ent.Domain](rc, cache.Key("nb_domain"), true)}
 }
 
 // Create create domain

@@ -27,9 +27,6 @@ type Group func(*sql.Selector)
 // GroupRole is the predicate function for grouprole builders.
 type GroupRole func(*sql.Selector)
 
-// Module is the predicate function for module builders.
-type Module func(*sql.Selector)
-
 // OAuthUser is the predicate function for oauthuser builders.
 type OAuthUser func(*sql.Selector)
 
@@ -41,15 +38,6 @@ type Role func(*sql.Selector)
 
 // RolePermission is the predicate function for rolepermission builders.
 type RolePermission func(*sql.Selector)
-
-// Taxonomy is the predicate function for taxonomy builders.
-type Taxonomy func(*sql.Selector)
-
-// TaxonomyRelation is the predicate function for taxonomyrelation builders.
-type TaxonomyRelation func(*sql.Selector)
-
-// Topic is the predicate function for topic builders.
-type Topic func(*sql.Selector)
 
 // User is the predicate function for user builders.
 type User func(*sql.Selector)
