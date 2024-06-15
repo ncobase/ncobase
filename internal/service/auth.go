@@ -334,7 +334,7 @@ func (svc *Service) GetCaptchaService(_ *gin.Context, id string) *resp.Exception
 
 // ValidateCaptchaService validates the captcha code.
 func (svc *Service) ValidateCaptchaService(_ *gin.Context, body *structs.Captcha) *resp.Exception {
-	if !captcha.VerifyString(body.ID, body.Solution) {
+	if body == nil || !captcha.VerifyString(body.ID, body.Solution) {
 		return resp.BadRequest(ecode.FieldIsInvalid("captcha"))
 	}
 

@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"path/filepath"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
 	"ncobase/pkg/cookie"
 	"ncobase/pkg/resp"
 	"ncobase/pkg/types"
+	"path/filepath"
 	"strings"
 
 	"github.com/dchest/captcha"
@@ -123,9 +123,11 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 	}
 
 	// Validate captcha
-	if result := h.svc.ValidateCaptchaService(c, body.Captcha); result.Code != 0 {
-		resp.Fail(c.Writer, result)
-		return
+	if body.Captcha != nil && body.Captcha.ID != "" && body.Captcha.Solution != "" {
+		if result := h.svc.ValidateCaptchaService(c, body.Captcha); result.Code != 0 {
+			resp.Fail(c.Writer, result)
+			return
+		}
 	}
 
 	result, err := h.svc.LoginService(c, body)
