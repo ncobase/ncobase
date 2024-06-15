@@ -1842,7 +1842,6 @@ const docTemplate = `{
         "structs.LoginBody": {
             "type": "object",
             "required": [
-                "captcha",
                 "password",
                 "username"
             ],

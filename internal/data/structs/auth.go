@@ -51,5 +51,5 @@ type Captcha struct {
 type LoginBody struct {
 	Username string   `json:"username" validate:"required"`
 	Password string   `json:"password" validate:"required"`
-	Captcha  *Captcha `json:"captcha,omitempty" validate:"required"`
+	Captcha  *Captcha `json:"captcha,omitempty"`
 }
