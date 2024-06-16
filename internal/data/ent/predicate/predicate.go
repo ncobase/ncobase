@@ -24,6 +24,9 @@ type Group func(*sql.Selector)
 // GroupRole is the predicate function for grouprole builders.
 type GroupRole func(*sql.Selector)
 
+// Menu is the predicate function for menu builders.
+type Menu func(*sql.Selector)
+
 // Module is the predicate function for module builders.
 type Module func(*sql.Selector)
 

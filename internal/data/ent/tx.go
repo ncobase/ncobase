@@ -24,6 +24,8 @@ type Tx struct {
 	Group *GroupClient
 	// GroupRole is the client for interacting with the GroupRole builders.
 	GroupRole *GroupRoleClient
+	// Menu is the client for interacting with the Menu builders.
+	Menu *MenuClient
 	// Module is the client for interacting with the Module builders.
 	Module *ModuleClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
@@ -191,6 +193,7 @@ func (tx *Tx) init() {
 	tx.CodeAuth = NewCodeAuthClient(tx.config)
 	tx.Group = NewGroupClient(tx.config)
 	tx.GroupRole = NewGroupRoleClient(tx.config)
+	tx.Menu = NewMenuClient(tx.config)
 	tx.Module = NewModuleClient(tx.config)
 	tx.OAuthUser = NewOAuthUserClient(tx.config)
 	tx.Permission = NewPermissionClient(tx.config)

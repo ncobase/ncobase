@@ -12,6 +12,7 @@ import (
 	"ncobase/internal/data/ent/codeauth"
 	"ncobase/internal/data/ent/group"
 	"ncobase/internal/data/ent/grouprole"
+	"ncobase/internal/data/ent/menu"
 	"ncobase/internal/data/ent/module"
 	"ncobase/internal/data/ent/oauthuser"
 	"ncobase/internal/data/ent/permission"
@@ -99,6 +100,7 @@ func checkColumn(table, column string) error {
 			codeauth.Table:         codeauth.ValidColumn,
 			group.Table:            group.ValidColumn,
 			grouprole.Table:        grouprole.ValidColumn,
+			menu.Table:             menu.ValidColumn,
 			module.Table:           module.ValidColumn,
 			oauthuser.Table:        oauthuser.ValidColumn,
 			permission.Table:       permission.ValidColumn,

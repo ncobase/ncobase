@@ -16,6 +16,7 @@ type Service struct {
 	d                 *data.Data
 	captcha           repo.Captcha
 	tenant            repo.Tenant
+	menu              repo.Menu
 	user              repo.User
 	userProfile       repo.UserProfile
 	userRole          repo.UserRole
@@ -41,6 +42,7 @@ func New(d *data.Data) *Service {
 		d:                 d,
 		captcha:           repo.NewCaptcha(d),
 		tenant:            repo.NewTenant(d),
+		menu:              repo.NewMenu(d),
 		user:              repo.NewUser(d),
 		userProfile:       repo.NewUserProfile(d),
 		userRole:          repo.NewUserRole(d),
