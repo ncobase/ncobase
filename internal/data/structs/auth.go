@@ -4,8 +4,8 @@ import "ncobase/pkg/oauth"
 
 // SendCodeBody Send verify code body
 type SendCodeBody struct {
-	Email string `json:"email,omitempty"`
-	Phone string `json:"phone,omitempty"`
+	Email string `json:"email,omitempty" validate:"required_if=Phone empty"`
+	Phone string `json:"phone,omitempty" validate:"required_if=Email empty"`
 }
 
 // CodeParams Verify code param
@@ -19,7 +19,7 @@ type CommonRegisterBody struct {
 	Username    string `json:"username" validate:"required"`
 	Phone       string `json:"phone,omitempty"`
 	ShortBio    string `json:"short_bio,omitempty"`
-	Domain      string `json:"domain,omitempty"`
+	Tenant      string `json:"tenant,omitempty"`
 }
 
 // RegisterBody Register body

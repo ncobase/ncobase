@@ -3,7 +3,6 @@ package service
 import (
 	"fmt"
 	"io"
-	"os"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
@@ -11,6 +10,7 @@ import (
 	"ncobase/pkg/log"
 	"ncobase/pkg/resp"
 	"ncobase/pkg/validator"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,8 +21,8 @@ func (svc *Service) CreateAssetService(c *gin.Context, body *structs.CreateAsset
 		return resp.BadRequest(ecode.FieldIsRequired("belongsTo object")), nil
 	}
 
-	if validator.IsEmpty(body.DomainID) {
-		return resp.BadRequest(ecode.FieldIsRequired("belongsTo domain")), nil
+	if validator.IsEmpty(body.TenantID) {
+		return resp.BadRequest(ecode.FieldIsRequired("belongsTo tenant")), nil
 	}
 	// get storage interface
 	storage, storageConfig := helper.GetStorage(c)

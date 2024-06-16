@@ -20,7 +20,7 @@ var (
 		{Name: "bucket", Type: field.TypeString, Nullable: true, Comment: "bucket"},
 		{Name: "endpoint", Type: field.TypeString, Nullable: true, Comment: "endpoint"},
 		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "object id"},
-		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "tenant id"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
@@ -49,7 +49,7 @@ var (
 				Columns: []*schema.Column{NbAssetColumns[8]},
 			},
 			{
-				Name:    "asset_domain_id",
+				Name:    "asset_tenant_id",
 				Unique:  false,
 				Columns: []*schema.Column{NbAssetColumns[9]},
 			},
@@ -132,37 +132,6 @@ var (
 			},
 		},
 	}
-	// NbDomainColumns holds the columns for the "nb_domain" table.
-	NbDomainColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
-		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
-		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
-		{Name: "logo", Type: field.TypeString, Nullable: true, Comment: "logo"},
-		{Name: "logo_alt", Type: field.TypeString, Nullable: true, Comment: "logo alt"},
-		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
-		{Name: "copyright", Type: field.TypeString, Nullable: true, Comment: "copyright"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
-		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
-		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
-		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
-	}
-	// NbDomainTable holds the schema information for the "nb_domain" table.
-	NbDomainTable = &schema.Table{
-		Name:       "nb_domain",
-		Columns:    NbDomainColumns,
-		PrimaryKey: []*schema.Column{NbDomainColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "domain_id",
-				Unique:  true,
-				Columns: []*schema.Column{NbDomainColumns[0]},
-			},
-		},
-	}
 	// NbGroupColumns holds the columns for the "nb_group" table.
 	NbGroupColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
@@ -173,7 +142,7 @@ var (
 		{Name: "leader", Type: field.TypeJSON, Nullable: true, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "parent id"},
-		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
@@ -201,7 +170,7 @@ var (
 				Columns: []*schema.Column{NbGroupColumns[7]},
 			},
 			{
-				Name:    "group_domain_id",
+				Name:    "group_tenant_id",
 				Unique:  false,
 				Columns: []*schema.Column{NbGroupColumns[8]},
 			},
@@ -412,7 +381,7 @@ var (
 		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "parent id"},
-		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
@@ -440,7 +409,7 @@ var (
 				Columns: []*schema.Column{NbTaxonomyColumns[13]},
 			},
 			{
-				Name:    "taxonomy_domain_id",
+				Name:    "taxonomy_tenant_id",
 				Unique:  false,
 				Columns: []*schema.Column{NbTaxonomyColumns[14]},
 			},
@@ -473,6 +442,37 @@ var (
 			},
 		},
 	}
+	// NbTenantColumns holds the columns for the "nb_tenant" table.
+	NbTenantColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
+		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
+		{Name: "logo", Type: field.TypeString, Nullable: true, Comment: "logo"},
+		{Name: "logo_alt", Type: field.TypeString, Nullable: true, Comment: "logo alt"},
+		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
+		{Name: "copyright", Type: field.TypeString, Nullable: true, Comment: "copyright"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
+		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// NbTenantTable holds the schema information for the "nb_tenant" table.
+	NbTenantTable = &schema.Table{
+		Name:       "nb_tenant",
+		Columns:    NbTenantColumns,
+		PrimaryKey: []*schema.Column{NbTenantColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "tenant_id",
+				Unique:  true,
+				Columns: []*schema.Column{NbTenantColumns[0]},
+			},
+		},
+	}
 	// NbTopicColumns holds the columns for the "nb_topic" table.
 	NbTopicColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
@@ -487,7 +487,7 @@ var (
 		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "taxonomy id"},
-		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
@@ -515,7 +515,7 @@ var (
 				Columns: []*schema.Column{NbTopicColumns[11]},
 			},
 			{
-				Name:    "topic_domain_id",
+				Name:    "topic_tenant_id",
 				Unique:  false,
 				Columns: []*schema.Column{NbTopicColumns[12]},
 			},
@@ -550,68 +550,6 @@ var (
 				Name:    "user_username",
 				Unique:  true,
 				Columns: []*schema.Column{NbUserColumns[1]},
-			},
-		},
-	}
-	// NbUserDomainColumns holds the columns for the "nb_user_domain" table.
-	NbUserDomainColumns = []*schema.Column{
-		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
-		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
-	}
-	// NbUserDomainTable holds the schema information for the "nb_user_domain" table.
-	NbUserDomainTable = &schema.Table{
-		Name:       "nb_user_domain",
-		Columns:    NbUserDomainColumns,
-		PrimaryKey: []*schema.Column{NbUserDomainColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "userdomain_user_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbUserDomainColumns[0]},
-			},
-			{
-				Name:    "userdomain_domain_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbUserDomainColumns[1]},
-			},
-			{
-				Name:    "userdomain_user_id_domain_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbUserDomainColumns[0], NbUserDomainColumns[1]},
-			},
-		},
-	}
-	// NbUserDomainRoleColumns holds the columns for the "nb_user_domain_role" table.
-	NbUserDomainRoleColumns = []*schema.Column{
-		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
-		{Name: "domain_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "domain id"},
-		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "role id"},
-	}
-	// NbUserDomainRoleTable holds the schema information for the "nb_user_domain_role" table.
-	NbUserDomainRoleTable = &schema.Table{
-		Name:       "nb_user_domain_role",
-		Columns:    NbUserDomainRoleColumns,
-		PrimaryKey: []*schema.Column{NbUserDomainRoleColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "userdomainrole_user_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbUserDomainRoleColumns[0]},
-			},
-			{
-				Name:    "userdomainrole_domain_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbUserDomainRoleColumns[1]},
-			},
-			{
-				Name:    "userdomainrole_role_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbUserDomainRoleColumns[2]},
-			},
-			{
-				Name:    "userdomainrole_user_id_domain_id_role_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbUserDomainRoleColumns[0], NbUserDomainRoleColumns[1], NbUserDomainRoleColumns[2]},
 			},
 		},
 	}
@@ -694,13 +632,74 @@ var (
 			},
 		},
 	}
+	// NbUserTenantColumns holds the columns for the "nb_user_tenant" table.
+	NbUserTenantColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "tenant id"},
+	}
+	// NbUserTenantTable holds the schema information for the "nb_user_tenant" table.
+	NbUserTenantTable = &schema.Table{
+		Name:       "nb_user_tenant",
+		Columns:    NbUserTenantColumns,
+		PrimaryKey: []*schema.Column{NbUserTenantColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "usertenant_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantColumns[0]},
+			},
+			{
+				Name:    "usertenant_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantColumns[1]},
+			},
+			{
+				Name:    "usertenant_user_id_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantColumns[0], NbUserTenantColumns[1]},
+			},
+		},
+	}
+	// NbUserTenantRoleColumns holds the columns for the "nb_user_tenant_role" table.
+	NbUserTenantRoleColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "tenant id"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "role id"},
+	}
+	// NbUserTenantRoleTable holds the schema information for the "nb_user_tenant_role" table.
+	NbUserTenantRoleTable = &schema.Table{
+		Name:       "nb_user_tenant_role",
+		Columns:    NbUserTenantRoleColumns,
+		PrimaryKey: []*schema.Column{NbUserTenantRoleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "usertenantrole_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[0]},
+			},
+			{
+				Name:    "usertenantrole_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[1]},
+			},
+			{
+				Name:    "usertenantrole_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[2]},
+			},
+			{
+				Name:    "usertenantrole_user_id_tenant_id_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[0], NbUserTenantRoleColumns[1], NbUserTenantRoleColumns[2]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		NbAssetTable,
 		NbAuthTokenTable,
 		NbCasbinRuleTable,
 		NbCodeAuthTable,
-		NbDomainTable,
 		NbGroupTable,
 		NbGroupRoleTable,
 		NbModuleTable,
@@ -710,13 +709,14 @@ var (
 		NbRolePermissionTable,
 		NbTaxonomyTable,
 		NbTaxonomyRelationTable,
+		NbTenantTable,
 		NbTopicTable,
 		NbUserTable,
-		NbUserDomainTable,
-		NbUserDomainRoleTable,
 		NbUserGroupTable,
 		NbUserProfileTable,
 		NbUserRoleTable,
+		NbUserTenantTable,
+		NbUserTenantRoleTable,
 	}
 )
 
@@ -732,9 +732,6 @@ func init() {
 	}
 	NbCodeAuthTable.Annotation = &entsql.Annotation{
 		Table: "nb_code_auth",
-	}
-	NbDomainTable.Annotation = &entsql.Annotation{
-		Table: "nb_domain",
 	}
 	NbGroupTable.Annotation = &entsql.Annotation{
 		Table: "nb_group",
@@ -763,17 +760,14 @@ func init() {
 	NbTaxonomyRelationTable.Annotation = &entsql.Annotation{
 		Table: "nb_taxonomy_relation",
 	}
+	NbTenantTable.Annotation = &entsql.Annotation{
+		Table: "nb_tenant",
+	}
 	NbTopicTable.Annotation = &entsql.Annotation{
 		Table: "nb_topic",
 	}
 	NbUserTable.Annotation = &entsql.Annotation{
 		Table: "nb_user",
-	}
-	NbUserDomainTable.Annotation = &entsql.Annotation{
-		Table: "nb_user_domain",
-	}
-	NbUserDomainRoleTable.Annotation = &entsql.Annotation{
-		Table: "nb_user_domain_role",
 	}
 	NbUserGroupTable.Annotation = &entsql.Annotation{
 		Table: "nb_user_group",
@@ -783,5 +777,11 @@ func init() {
 	}
 	NbUserRoleTable.Annotation = &entsql.Annotation{
 		Table: "nb_user_role",
+	}
+	NbUserTenantTable.Annotation = &entsql.Annotation{
+		Table: "nb_user_tenant",
+	}
+	NbUserTenantRoleTable.Annotation = &entsql.Annotation{
+		Table: "nb_user_tenant_role",
 	}
 }

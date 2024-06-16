@@ -52,7 +52,30 @@ type ComplexityRoot struct {
 		RefreshToken func(childComplexity int) int
 	}
 
-	Domain struct {
+	Mutation struct {
+		Authorize          func(childComplexity int, code string) int
+		DummyMutationField func(childComplexity int) int
+		Login              func(childComplexity int, input types.LoginInput) int
+		Register           func(childComplexity int, input types.RegisterInput) int
+		SendAuthorizeCode  func(childComplexity int, input types.SendCodeInput) int
+		UpdatePassword     func(childComplexity int, input *types.UpdatePassword) int
+	}
+
+	Query struct {
+		Account         func(childComplexity int) int
+		AccountTenant   func(childComplexity int, id string) int
+		DummyQueryField func(childComplexity int) int
+		User            func(childComplexity int, id string) int
+	}
+
+	RStruct struct {
+		Code    func(childComplexity int) int
+		Data    func(childComplexity int) int
+		Message func(childComplexity int) int
+		Status  func(childComplexity int) int
+	}
+
+	Tenant struct {
 		Copyright   func(childComplexity int) int
 		Description func(childComplexity int) int
 		Disabled    func(childComplexity int) int
@@ -66,29 +89,6 @@ type ComplexityRoot struct {
 		Title       func(childComplexity int) int
 		URL         func(childComplexity int) int
 		User        func(childComplexity int) int
-	}
-
-	Mutation struct {
-		Authorize          func(childComplexity int, code string) int
-		DummyMutationField func(childComplexity int) int
-		Login              func(childComplexity int, input types.LoginInput) int
-		Register           func(childComplexity int, input types.RegisterInput) int
-		SendAuthorizeCode  func(childComplexity int, input types.SendCodeInput) int
-		UpdatePassword     func(childComplexity int, input *types.UpdatePassword) int
-	}
-
-	Query struct {
-		Account         func(childComplexity int) int
-		AccountDomain   func(childComplexity int, id string) int
-		DummyQueryField func(childComplexity int) int
-		User            func(childComplexity int, id string) int
-	}
-
-	RStruct struct {
-		Code    func(childComplexity int) int
-		Data    func(childComplexity int) int
-		Message func(childComplexity int) int
-		Status  func(childComplexity int) int
 	}
 
 	User struct {
@@ -123,7 +123,7 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	DummyQueryField(ctx context.Context) (*bool, error)
-	AccountDomain(ctx context.Context, id string) (*types.Domain, error)
+	AccountTenant(ctx context.Context, id string) (*types.Tenant, error)
 	Account(ctx context.Context) (*types.User, error)
 	User(ctx context.Context, id string) (*types.User, error)
 }
@@ -167,97 +167,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.AuthPayload.RefreshToken(childComplexity), true
-
-	case "Domain.copyright":
-		if e.complexity.Domain.Copyright == nil {
-			break
-		}
-
-		return e.complexity.Domain.Copyright(childComplexity), true
-
-	case "Domain.description":
-		if e.complexity.Domain.Description == nil {
-			break
-		}
-
-		return e.complexity.Domain.Description(childComplexity), true
-
-	case "Domain.disabled":
-		if e.complexity.Domain.Disabled == nil {
-			break
-		}
-
-		return e.complexity.Domain.Disabled(childComplexity), true
-
-	case "Domain.extras":
-		if e.complexity.Domain.Extras == nil {
-			break
-		}
-
-		return e.complexity.Domain.Extras(childComplexity), true
-
-	case "Domain.id":
-		if e.complexity.Domain.ID == nil {
-			break
-		}
-
-		return e.complexity.Domain.ID(childComplexity), true
-
-	case "Domain.keywords":
-		if e.complexity.Domain.Keywords == nil {
-			break
-		}
-
-		return e.complexity.Domain.Keywords(childComplexity), true
-
-	case "Domain.logo":
-		if e.complexity.Domain.Logo == nil {
-			break
-		}
-
-		return e.complexity.Domain.Logo(childComplexity), true
-
-	case "Domain.logoAlt":
-		if e.complexity.Domain.LogoAlt == nil {
-			break
-		}
-
-		return e.complexity.Domain.LogoAlt(childComplexity), true
-
-	case "Domain.name":
-		if e.complexity.Domain.Name == nil {
-			break
-		}
-
-		return e.complexity.Domain.Name(childComplexity), true
-
-	case "Domain.order":
-		if e.complexity.Domain.Order == nil {
-			break
-		}
-
-		return e.complexity.Domain.Order(childComplexity), true
-
-	case "Domain.title":
-		if e.complexity.Domain.Title == nil {
-			break
-		}
-
-		return e.complexity.Domain.Title(childComplexity), true
-
-	case "Domain.url":
-		if e.complexity.Domain.URL == nil {
-			break
-		}
-
-		return e.complexity.Domain.URL(childComplexity), true
-
-	case "Domain.user":
-		if e.complexity.Domain.User == nil {
-			break
-		}
-
-		return e.complexity.Domain.User(childComplexity), true
 
 	case "Mutation.authorize":
 		if e.complexity.Mutation.Authorize == nil {
@@ -333,17 +242,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Account(childComplexity), true
 
-	case "Query.accountDomain":
-		if e.complexity.Query.AccountDomain == nil {
+	case "Query.accountTenant":
+		if e.complexity.Query.AccountTenant == nil {
 			break
 		}
 
-		args, err := ec.field_Query_accountDomain_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_accountTenant_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Query.AccountDomain(childComplexity, args["id"].(string)), true
+		return e.complexity.Query.AccountTenant(childComplexity, args["id"].(string)), true
 
 	case "Query.dummyQueryField":
 		if e.complexity.Query.DummyQueryField == nil {
@@ -391,6 +300,97 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.RStruct.Status(childComplexity), true
+
+	case "Tenant.copyright":
+		if e.complexity.Tenant.Copyright == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Copyright(childComplexity), true
+
+	case "Tenant.description":
+		if e.complexity.Tenant.Description == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Description(childComplexity), true
+
+	case "Tenant.disabled":
+		if e.complexity.Tenant.Disabled == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Disabled(childComplexity), true
+
+	case "Tenant.extras":
+		if e.complexity.Tenant.Extras == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Extras(childComplexity), true
+
+	case "Tenant.id":
+		if e.complexity.Tenant.ID == nil {
+			break
+		}
+
+		return e.complexity.Tenant.ID(childComplexity), true
+
+	case "Tenant.keywords":
+		if e.complexity.Tenant.Keywords == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Keywords(childComplexity), true
+
+	case "Tenant.logo":
+		if e.complexity.Tenant.Logo == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Logo(childComplexity), true
+
+	case "Tenant.logoAlt":
+		if e.complexity.Tenant.LogoAlt == nil {
+			break
+		}
+
+		return e.complexity.Tenant.LogoAlt(childComplexity), true
+
+	case "Tenant.name":
+		if e.complexity.Tenant.Name == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Name(childComplexity), true
+
+	case "Tenant.order":
+		if e.complexity.Tenant.Order == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Order(childComplexity), true
+
+	case "Tenant.title":
+		if e.complexity.Tenant.Title == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Title(childComplexity), true
+
+	case "Tenant.url":
+		if e.complexity.Tenant.URL == nil {
+			break
+		}
+
+		return e.complexity.Tenant.URL(childComplexity), true
+
+	case "Tenant.user":
+		if e.complexity.Tenant.User == nil {
+			break
+		}
+
+		return e.complexity.Tenant.User(childComplexity), true
 
 	case "User.createdAt":
 		if e.complexity.User.CreatedAt == nil {
@@ -505,12 +505,12 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
-		ec.unmarshalInputDomainInput,
 		ec.unmarshalInputLoginInput,
 		ec.unmarshalInputPagination,
 		ec.unmarshalInputRegisterInput,
 		ec.unmarshalInputSendCodeInput,
 		ec.unmarshalInputSort,
+		ec.unmarshalInputTenantInput,
 		ec.unmarshalInputUpdatePassword,
 	)
 	first := true
@@ -640,40 +640,6 @@ type AuthPayload {
   refresh_token: String
 }
 `, BuiltIn: false},
-	{Name: "../../data/graphql/domain.gql", Input: `extend type Query {
-  accountDomain(id: String!): Domain
-}
-
-type Domain {
-  id: String!
-  name: String
-  title: String
-  url: String
-  logo: String
-  logoAlt: String
-  keywords: [String]
-  copyright: String
-  description: String
-  order: Int
-  disabled: Boolean
-  extras: JSON
-  user: User
-}
-
-input DomainInput {
-  name: String
-  title: String
-  url: String
-  logo: String
-  logoAlt: String
-  keywords: [String]
-  copyright: String
-  description: String
-  order: Int
-  disabled: Boolean
-  extras: JSON
-}
-`, BuiltIn: false},
 	{Name: "../../data/graphql/root.gql", Input: `# GraphQL schema
 # https://gqlgen.com/getting-started/
 scalar Time
@@ -716,6 +682,40 @@ type RStruct {
   code: Int
   message: String
   Data: JSON
+}
+`, BuiltIn: false},
+	{Name: "../../data/graphql/tenant.gql", Input: `extend type Query {
+  accountTenant(id: String!): Tenant
+}
+
+type Tenant {
+  id: String!
+  name: String
+  title: String
+  url: String
+  logo: String
+  logoAlt: String
+  keywords: [String]
+  copyright: String
+  description: String
+  order: Int
+  disabled: Boolean
+  extras: JSON
+  user: User
+}
+
+input TenantInput {
+  name: String
+  title: String
+  url: String
+  logo: String
+  logoAlt: String
+  keywords: [String]
+  copyright: String
+  description: String
+  order: Int
+  disabled: Boolean
+  extras: JSON
 }
 `, BuiltIn: false},
 	{Name: "../../data/graphql/user.gql", Input: `extend type Query {
@@ -852,7 +852,7 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_accountDomain_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_accountTenant_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 string
@@ -1038,562 +1038,6 @@ func (ec *executionContext) fieldContext_AuthPayload_refresh_token(_ context.Con
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_id(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_name(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_title(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_title(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Title, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_title(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_url(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_url(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.URL, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_url(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_logo(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_logo(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Logo, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_logo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_logoAlt(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_logoAlt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.LogoAlt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_logoAlt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_keywords(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_keywords(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Keywords, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*string)
-	fc.Result = res
-	return ec.marshalOString2ᚕᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_keywords(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_copyright(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_copyright(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Copyright, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_copyright(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_description(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_order(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_order(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Order, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_disabled(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_disabled(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Disabled, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*bool)
-	fc.Result = res
-	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_disabled(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_extras(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_extras(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Extras, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(map[string]interface{})
-	fc.Result = res
-	return ec.marshalOJSON2map(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_extras(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type JSON does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Domain_user(ctx context.Context, field graphql.CollectedField, obj *types.Domain) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Domain_user(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.User, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*types.User)
-	fc.Result = res
-	return ec.marshalOUser2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUser(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Domain_user(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Domain",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_User_id(ctx, field)
-			case "username":
-				return ec.fieldContext_User_username(ctx, field)
-			case "email":
-				return ec.fieldContext_User_email(ctx, field)
-			case "phone":
-				return ec.fieldContext_User_phone(ctx, field)
-			case "isCertified":
-				return ec.fieldContext_User_isCertified(ctx, field)
-			case "isAdmin":
-				return ec.fieldContext_User_isAdmin(ctx, field)
-			case "profile":
-				return ec.fieldContext_User_profile(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_User_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_User_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
 	}
 	return fc, nil
@@ -1975,8 +1419,8 @@ func (ec *executionContext) fieldContext_Query_dummyQueryField(_ context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_accountDomain(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_accountDomain(ctx, field)
+func (ec *executionContext) _Query_accountTenant(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_accountTenant(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1989,7 +1433,7 @@ func (ec *executionContext) _Query_accountDomain(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().AccountDomain(rctx, fc.Args["id"].(string))
+		return ec.resolvers.Query().AccountTenant(rctx, fc.Args["id"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1998,12 +1442,12 @@ func (ec *executionContext) _Query_accountDomain(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*types.Domain)
+	res := resTmp.(*types.Tenant)
 	fc.Result = res
-	return ec.marshalODomain2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐDomain(ctx, field.Selections, res)
+	return ec.marshalOTenant2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐTenant(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_accountDomain(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_accountTenant(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -2012,33 +1456,33 @@ func (ec *executionContext) fieldContext_Query_accountDomain(ctx context.Context
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_Domain_id(ctx, field)
+				return ec.fieldContext_Tenant_id(ctx, field)
 			case "name":
-				return ec.fieldContext_Domain_name(ctx, field)
+				return ec.fieldContext_Tenant_name(ctx, field)
 			case "title":
-				return ec.fieldContext_Domain_title(ctx, field)
+				return ec.fieldContext_Tenant_title(ctx, field)
 			case "url":
-				return ec.fieldContext_Domain_url(ctx, field)
+				return ec.fieldContext_Tenant_url(ctx, field)
 			case "logo":
-				return ec.fieldContext_Domain_logo(ctx, field)
+				return ec.fieldContext_Tenant_logo(ctx, field)
 			case "logoAlt":
-				return ec.fieldContext_Domain_logoAlt(ctx, field)
+				return ec.fieldContext_Tenant_logoAlt(ctx, field)
 			case "keywords":
-				return ec.fieldContext_Domain_keywords(ctx, field)
+				return ec.fieldContext_Tenant_keywords(ctx, field)
 			case "copyright":
-				return ec.fieldContext_Domain_copyright(ctx, field)
+				return ec.fieldContext_Tenant_copyright(ctx, field)
 			case "description":
-				return ec.fieldContext_Domain_description(ctx, field)
+				return ec.fieldContext_Tenant_description(ctx, field)
 			case "order":
-				return ec.fieldContext_Domain_order(ctx, field)
+				return ec.fieldContext_Tenant_order(ctx, field)
 			case "disabled":
-				return ec.fieldContext_Domain_disabled(ctx, field)
+				return ec.fieldContext_Tenant_disabled(ctx, field)
 			case "extras":
-				return ec.fieldContext_Domain_extras(ctx, field)
+				return ec.fieldContext_Tenant_extras(ctx, field)
 			case "user":
-				return ec.fieldContext_Domain_user(ctx, field)
+				return ec.fieldContext_Tenant_user(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Domain", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Tenant", field.Name)
 		},
 	}
 	defer func() {
@@ -2048,7 +1492,7 @@ func (ec *executionContext) fieldContext_Query_accountDomain(ctx context.Context
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_accountDomain_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_accountTenant_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -2476,6 +1920,562 @@ func (ec *executionContext) fieldContext_RStruct_Data(_ context.Context, field g
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type JSON does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_id(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_name(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_title(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_title(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Title, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_title(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_url(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_url(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.URL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_url(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_logo(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_logo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Logo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_logo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_logoAlt(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_logoAlt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LogoAlt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_logoAlt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_keywords(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_keywords(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Keywords, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*string)
+	fc.Result = res
+	return ec.marshalOString2ᚕᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_keywords(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_copyright(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_copyright(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Copyright, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_copyright(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_description(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_order(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_order(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Order, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_disabled(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_disabled(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Disabled, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_disabled(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_extras(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_extras(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Extras, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(map[string]interface{})
+	fc.Result = res
+	return ec.marshalOJSON2map(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_extras(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type JSON does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_user(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_user(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.User, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*types.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_user(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_User_id(ctx, field)
+			case "username":
+				return ec.fieldContext_User_username(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
+			case "phone":
+				return ec.fieldContext_User_phone(ctx, field)
+			case "isCertified":
+				return ec.fieldContext_User_isCertified(ctx, field)
+			case "isAdmin":
+				return ec.fieldContext_User_isAdmin(ctx, field)
+			case "profile":
+				return ec.fieldContext_User_profile(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_User_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_User_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
 	}
 	return fc, nil
@@ -4889,103 +4889,6 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputDomainInput(ctx context.Context, obj interface{}) (types.DomainInput, error) {
-	var it types.DomainInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"name", "title", "url", "logo", "logoAlt", "keywords", "copyright", "description", "order", "disabled", "extras"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "name":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Name = data
-		case "title":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Title = data
-		case "url":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("url"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.URL = data
-		case "logo":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logo"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Logo = data
-		case "logoAlt":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logoAlt"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.LogoAlt = data
-		case "keywords":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("keywords"))
-			data, err := ec.unmarshalOString2ᚕᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Keywords = data
-		case "copyright":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("copyright"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Copyright = data
-		case "description":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Description = data
-		case "order":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Order = data
-		case "disabled":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disabled"))
-			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Disabled = data
-		case "extras":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("extras"))
-			data, err := ec.unmarshalOJSON2map(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Extras = data
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputLoginInput(ctx context.Context, obj interface{}) (types.LoginInput, error) {
 	var it types.LoginInput
 	asMap := map[string]interface{}{}
@@ -5188,6 +5091,103 @@ func (ec *executionContext) unmarshalInputSort(ctx context.Context, obj interfac
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputTenantInput(ctx context.Context, obj interface{}) (types.TenantInput, error) {
+	var it types.TenantInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "title", "url", "logo", "logoAlt", "keywords", "copyright", "description", "order", "disabled", "extras"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "title":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Title = data
+		case "url":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("url"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.URL = data
+		case "logo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logo"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Logo = data
+		case "logoAlt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logoAlt"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LogoAlt = data
+		case "keywords":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("keywords"))
+			data, err := ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Keywords = data
+		case "copyright":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("copyright"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Copyright = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "order":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Order = data
+		case "disabled":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disabled"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Disabled = data
+		case "extras":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("extras"))
+			data, err := ec.unmarshalOJSON2map(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Extras = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdatePassword(ctx context.Context, obj interface{}) (types.UpdatePassword, error) {
 	var it types.UpdatePassword
 	asMap := map[string]interface{}{}
@@ -5254,69 +5254,6 @@ func (ec *executionContext) _AuthPayload(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._AuthPayload_access_token(ctx, field, obj)
 		case "refresh_token":
 			out.Values[i] = ec._AuthPayload_refresh_token(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var domainImplementors = []string{"Domain"}
-
-func (ec *executionContext) _Domain(ctx context.Context, sel ast.SelectionSet, obj *types.Domain) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, domainImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Domain")
-		case "id":
-			out.Values[i] = ec._Domain_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "name":
-			out.Values[i] = ec._Domain_name(ctx, field, obj)
-		case "title":
-			out.Values[i] = ec._Domain_title(ctx, field, obj)
-		case "url":
-			out.Values[i] = ec._Domain_url(ctx, field, obj)
-		case "logo":
-			out.Values[i] = ec._Domain_logo(ctx, field, obj)
-		case "logoAlt":
-			out.Values[i] = ec._Domain_logoAlt(ctx, field, obj)
-		case "keywords":
-			out.Values[i] = ec._Domain_keywords(ctx, field, obj)
-		case "copyright":
-			out.Values[i] = ec._Domain_copyright(ctx, field, obj)
-		case "description":
-			out.Values[i] = ec._Domain_description(ctx, field, obj)
-		case "order":
-			out.Values[i] = ec._Domain_order(ctx, field, obj)
-		case "disabled":
-			out.Values[i] = ec._Domain_disabled(ctx, field, obj)
-		case "extras":
-			out.Values[i] = ec._Domain_extras(ctx, field, obj)
-		case "user":
-			out.Values[i] = ec._Domain_user(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -5444,7 +5381,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "accountDomain":
+		case "accountTenant":
 			field := field
 
 			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
@@ -5453,7 +5390,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_accountDomain(ctx, field)
+				res = ec._Query_accountTenant(ctx, field)
 				return res
 			}
 
@@ -5551,6 +5488,69 @@ func (ec *executionContext) _RStruct(ctx context.Context, sel ast.SelectionSet, 
 			out.Values[i] = ec._RStruct_message(ctx, field, obj)
 		case "Data":
 			out.Values[i] = ec._RStruct_Data(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var tenantImplementors = []string{"Tenant"}
+
+func (ec *executionContext) _Tenant(ctx context.Context, sel ast.SelectionSet, obj *types.Tenant) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, tenantImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Tenant")
+		case "id":
+			out.Values[i] = ec._Tenant_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._Tenant_name(ctx, field, obj)
+		case "title":
+			out.Values[i] = ec._Tenant_title(ctx, field, obj)
+		case "url":
+			out.Values[i] = ec._Tenant_url(ctx, field, obj)
+		case "logo":
+			out.Values[i] = ec._Tenant_logo(ctx, field, obj)
+		case "logoAlt":
+			out.Values[i] = ec._Tenant_logoAlt(ctx, field, obj)
+		case "keywords":
+			out.Values[i] = ec._Tenant_keywords(ctx, field, obj)
+		case "copyright":
+			out.Values[i] = ec._Tenant_copyright(ctx, field, obj)
+		case "description":
+			out.Values[i] = ec._Tenant_description(ctx, field, obj)
+		case "order":
+			out.Values[i] = ec._Tenant_order(ctx, field, obj)
+		case "disabled":
+			out.Values[i] = ec._Tenant_disabled(ctx, field, obj)
+		case "extras":
+			out.Values[i] = ec._Tenant_extras(ctx, field, obj)
+		case "user":
+			out.Values[i] = ec._Tenant_user(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6360,13 +6360,6 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalODomain2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐDomain(ctx context.Context, sel ast.SelectionSet, v *types.Domain) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._Domain(ctx, sel, v)
-}
-
 func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v interface{}) (*int, error) {
 	if v == nil {
 		return nil, nil
@@ -6452,6 +6445,13 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	}
 	res := graphql.MarshalString(*v)
 	return res
+}
+
+func (ec *executionContext) marshalOTenant2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐTenant(ctx context.Context, sel ast.SelectionSet, v *types.Tenant) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Tenant(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOUpdatePassword2ᚖncobaseᚋinternalᚋgraphqlᚋtypesᚐUpdatePassword(ctx context.Context, v interface{}) (*types.UpdatePassword, error) {

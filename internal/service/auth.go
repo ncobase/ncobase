@@ -55,7 +55,7 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 		return resp.DBQuery(err.Error()), nil
 	}
 
-	// Create user, profile, domain and tokens in a transaction
+	// Create user, profile, tenant and tokens in a transaction
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return resp.Transactions(err.Error()), nil
@@ -69,8 +69,8 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 		return resp.InternalServer(err.Error()), nil
 	}
 
-	if _, err := svc.isCreateDomain(ctx, &structs.CreateDomainBody{
-		DomainBody: structs.DomainBody{Name: body.Domain, CreatedBy: user.ID},
+	if _, err := svc.isCreateTenant(ctx, &structs.CreateTenantBody{
+		TenantBody: structs.TenantBody{Name: body.Tenant, CreatedBy: user.ID},
 	}); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil
@@ -195,7 +195,7 @@ func sendRegisterMail(c *gin.Context, conf *config.Config, codeAuth *ent.CodeAut
 	return &resp.Exception{Data: types.JSON{"email": codeAuth.Email, "register_token": registerToken}}, nil
 }
 
-func generateTokensForUser(c *gin.Context, client *ent.Client, user *ent.User, domain string) (*resp.Exception, error) {
+func generateTokensForUser(c *gin.Context, client *ent.Client, user *ent.User, tenant string) (*resp.Exception, error) {
 	ctx := helper.FromGinContext(c)
 	tx, err := client.Tx(ctx)
 	if err != nil {
@@ -215,7 +215,7 @@ func generateTokensForUser(c *gin.Context, client *ent.Client, user *ent.User, d
 		}
 		return resp.InternalServer("Authorize is not created"), nil
 	}
-	cookie.Set(c.Writer, accessToken, refreshToken, domain)
+	cookie.Set(c.Writer, accessToken, refreshToken, tenant)
 	return &resp.Exception{
 		Data: types.JSON{
 			"id":           user.ID,

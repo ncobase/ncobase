@@ -9,7 +9,7 @@ type FindTopic struct {
 	ID         string `json:"id,omitempty"`
 	Slug       string `json:"slug,omitempty"`
 	TaxonomyID string `json:"taxonomy_id,omitempty"`
-	DomainID   string `json:"domain_id,omitempty"`
+	TenantID   string `json:"tenant_id,omitempty"`
 }
 
 // TopicBody represents the common fields for creating and updating topics.
@@ -26,7 +26,7 @@ type TopicBody struct {
 	Status     int       `json:"status,omitempty"`
 	Released   time.Time `json:"released,omitempty"`
 	TaxonomyID string    `json:"taxonomy_id,omitempty"`
-	DomainID   string    `json:"domain_id,omitempty"`
+	TenantID   string    `json:"tenant_id,omitempty"`
 }
 
 // CreateTopicBody represents the body for creating a topic.
@@ -55,7 +55,7 @@ type ReadTopic struct {
 	Status     int       `json:"status"`
 	Released   time.Time `json:"released"`
 	TaxonomyID string    `json:"taxonomy_id"`
-	DomainID   string    `json:"domain_id"`
+	TenantID   string    `json:"tenant_id"`
 }
 
 // ListTopicParams represents the parameters for listing topics.
@@ -63,5 +63,5 @@ type ListTopicParams struct {
 	Cursor     string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit      int    `form:"limit,omitempty" json:"limit,omitempty"`
 	TaxonomyID string `form:"taxonomy_id,omitempty" json:"taxonomy_id,omitempty"`
-	DomainID   string `form:"domain_id,omitempty" json:"domain_id,omitempty"`
+	TenantID   string `form:"tenant_id,omitempty" json:"tenant_id,omitempty"`
 }

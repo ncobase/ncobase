@@ -174,16 +174,16 @@ func (tc *TopicCreate) SetNillableTaxonomyID(s *string) *TopicCreate {
 	return tc
 }
 
-// SetDomainID sets the "domain_id" field.
-func (tc *TopicCreate) SetDomainID(s string) *TopicCreate {
-	tc.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (tc *TopicCreate) SetTenantID(s string) *TopicCreate {
+	tc.mutation.SetTenantID(s)
 	return tc
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableDomainID(s *string) *TopicCreate {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableTenantID(s *string) *TopicCreate {
 	if s != nil {
-		tc.SetDomainID(*s)
+		tc.SetTenantID(*s)
 	}
 	return tc
 }
@@ -333,9 +333,9 @@ func (tc *TopicCreate) check() error {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}
 		}
 	}
-	if v, ok := tc.mutation.DomainID(); ok {
-		if err := topic.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Topic.domain_id": %w`, err)}
+	if v, ok := tc.mutation.TenantID(); ok {
+		if err := topic.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Topic.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := tc.mutation.CreatedBy(); ok {
@@ -432,9 +432,9 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_spec.SetField(topic.FieldTaxonomyID, field.TypeString, value)
 		_node.TaxonomyID = value
 	}
-	if value, ok := tc.mutation.DomainID(); ok {
-		_spec.SetField(topic.FieldDomainID, field.TypeString, value)
-		_node.DomainID = value
+	if value, ok := tc.mutation.TenantID(); ok {
+		_spec.SetField(topic.FieldTenantID, field.TypeString, value)
+		_node.TenantID = value
 	}
 	if value, ok := tc.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)

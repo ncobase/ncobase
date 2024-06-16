@@ -66,37 +66,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/account/domain": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the domain associated with the current user.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "summary": "Get current user domain",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadDomain"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/account/password": {
             "put": {
                 "security": [
@@ -142,6 +111,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/account/tenant": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the tenant associated with the current user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "summary": "Get current user tenant",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/assets": {
             "get": {
                 "description": "List assets based on specified parameters.",
@@ -159,12 +159,6 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "domain_id",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "validate:\"gte=1,lte=100\"",
                         "name": "limit",
@@ -180,6 +174,12 @@ const docTemplate = `{
                         "type": "string",
                         "name": "storage",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant_id",
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
@@ -243,8 +243,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Domain ID associated with the asset",
-                        "name": "domain_id",
+                        "description": "Tenant ID associated with the asset",
+                        "name": "tenant_id",
                         "in": "formData"
                     },
                     {
@@ -637,428 +637,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "type": "file"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/domains": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of domains.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "List domains",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "cursor",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "user",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/structs.ReadDomain"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update the domain information.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "Update domain",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Domain ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "UpdateDomainBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.UpdateDomainBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadDomain"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Create a new domain.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "Create domain",
-                "parameters": [
-                    {
-                        "description": "CreateDomainBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.CreateDomainBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadDomain"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/domains/{slug}": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve information about a specific domain.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "Get domain",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Domain ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadDomain"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Delete a specific domain.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "Delete domain",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Domain ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/domains/{slug}/assets": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of assets associated with a specific domain.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "List domain assets",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Domain ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/domains/{slug}/groups": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of groups associated with a specific domain.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "List domain groups",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Domain ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/domains/{slug}/menu": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the menu associated with a specific domain.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "Get domain menu",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Domain ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/domains/{slug}/setting": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the settings associated with a specific domain.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "Get domain setting",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Domain ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/domains/{slug}/users": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of users associated with a specific domain.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "domain"
-                ],
-                "summary": "List domain users",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Domain ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/resp.Exception"
                         }
                     },
                     "400": {
@@ -1882,11 +1460,6 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "domain_id",
-                        "in": "query"
-                    },
-                    {
                         "type": "integer",
                         "name": "limit",
                         "in": "query"
@@ -1894,6 +1467,11 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "parent_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant_id",
                         "in": "query"
                     },
                     {
@@ -2088,6 +1666,428 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/tenants": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of tenants.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "List tenants",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "user",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadTenant"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update the tenant information.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "Update tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "UpdateTenantBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateTenantBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new tenant.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "Create tenant",
+                "parameters": [
+                    {
+                        "description": "CreateTenantBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateTenantBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tenants/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve information about a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "Get tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "Delete tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tenants/{slug}/assets": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of assets associated with a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "List tenant assets",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tenants/{slug}/groups": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of groups associated with a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "List tenant groups",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tenants/{slug}/menu": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the menu associated with a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "Get tenant menu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tenants/{slug}/setting": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the settings associated with a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "Get tenant setting",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tenants/{slug}/users": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of users associated with a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "List tenant users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/topics": {
             "get": {
                 "description": "Retrieve a list of topics.",
@@ -2105,11 +2105,6 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "domain_id",
-                        "in": "query"
-                    },
-                    {
                         "type": "integer",
                         "name": "limit",
                         "in": "query"
@@ -2117,6 +2112,11 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "taxonomy_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant_id",
                         "in": "query"
                     }
                 ],
@@ -2340,21 +2340,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/users/{username}/domain": {
+        "/v1/users/{username}/tenant": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve the domain associated with the specified user.",
+                "description": "Retrieve the tenant associated with the specified user.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "user"
                 ],
-                "summary": "Get user owned domain",
+                "summary": "Get user owned tenant",
                 "parameters": [
                     {
                         "type": "string",
@@ -2368,7 +2368,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDomain"
+                            "$ref": "#/definitions/structs.ReadTenant"
                         }
                     },
                     "400": {
@@ -2452,50 +2452,6 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.CreateDomainBody": {
-            "type": "object",
-            "properties": {
-                "copyright": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/types.JSON"
-                },
-                "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "logo_alt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
         "structs.CreateModuleBody": {
             "type": "object",
             "properties": {
@@ -2563,9 +2519,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "domain_id": {
-                    "type": "string"
-                },
                 "extras": {
                     "$ref": "#/definitions/types.JSON"
                 },
@@ -2590,6 +2543,9 @@ const docTemplate = `{
                 "status": {
                     "type": "integer"
                 },
+                "tenant_id": {
+                    "type": "string"
+                },
                 "thumbnail": {
                     "type": "string"
                 },
@@ -2607,6 +2563,50 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.CreateTenantBody": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.CreateTopicBody": {
             "type": "object",
             "properties": {
@@ -2617,9 +2617,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_by": {
-                    "type": "string"
-                },
-                "domain_id": {
                     "type": "string"
                 },
                 "markdown": {
@@ -2645,6 +2642,9 @@ const docTemplate = `{
                 },
                 "temp": {
                     "type": "boolean"
+                },
+                "tenant_id": {
+                    "type": "string"
                 },
                 "thumbnail": {
                     "type": "string"
@@ -2688,9 +2688,6 @@ const docTemplate = `{
                 "display_name": {
                     "type": "string"
                 },
-                "domain": {
-                    "type": "string"
-                },
                 "phone": {
                     "type": "string"
                 },
@@ -2698,6 +2695,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "short_bio": {
+                    "type": "string"
+                },
+                "tenant": {
                     "type": "string"
                 },
                 "username": {
@@ -2715,9 +2715,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_by": {
-                    "type": "string"
-                },
-                "domain_id": {
                     "type": "string"
                 },
                 "endpoint": {
@@ -2744,6 +2741,9 @@ const docTemplate = `{
                 "storage": {
                     "type": "string"
                 },
+                "tenant_id": {
+                    "type": "string"
+                },
                 "type": {
                     "type": "string"
                 },
@@ -2752,62 +2752,6 @@ const docTemplate = `{
                 },
                 "updated_by": {
                     "type": "string"
-                }
-            }
-        },
-        "structs.ReadDomain": {
-            "type": "object",
-            "properties": {
-                "copyright": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "logo_alt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/structs.User"
                 }
             }
         },
@@ -2888,9 +2832,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "domain_id": {
-                    "type": "string"
-                },
                 "extras": {
                     "$ref": "#/definitions/types.JSON"
                 },
@@ -2918,6 +2859,9 @@ const docTemplate = `{
                 "status": {
                     "type": "integer"
                 },
+                "tenant_id": {
+                    "type": "string"
+                },
                 "thumbnail": {
                     "type": "string"
                 },
@@ -2935,155 +2879,13 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadTopic": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "domain_id": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "markdown": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "private": {
-                    "type": "boolean"
-                },
-                "released": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "taxonomy_id": {
-                    "type": "string"
-                },
-                "temp": {
-                    "type": "boolean"
-                },
-                "thumbnail": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.RegisterBody": {
-            "type": "object",
-            "required": [
-                "display_name",
-                "register_token",
-                "username"
-            ],
-            "properties": {
-                "display_name": {
-                    "type": "string"
-                },
-                "domain": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "register_token": {
-                    "type": "string"
-                },
-                "short_bio": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.SendCodeBody": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateAssetBody": {
-            "type": "object",
-            "properties": {
-                "bucket": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "domain_id": {
-                    "type": "string"
-                },
-                "endpoint": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "object_id": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "storage": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateDomainBody": {
+        "structs.ReadTenant": {
             "type": "object",
             "properties": {
                 "copyright": {
+                    "type": "string"
+                },
+                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3122,7 +2924,158 @@ const docTemplate = `{
                 "title": {
                     "type": "string"
                 },
+                "updated_at": {
+                    "type": "string"
+                },
                 "url": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/structs.User"
+                }
+            }
+        },
+        "structs.ReadTopic": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "taxonomy_id": {
+                    "type": "string"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.RegisterBody": {
+            "type": "object",
+            "required": [
+                "display_name",
+                "register_token",
+                "username"
+            ],
+            "properties": {
+                "display_name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "register_token": {
+                    "type": "string"
+                },
+                "short_bio": {
+                    "type": "string"
+                },
+                "tenant": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.SendCodeBody": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateAssetBody": {
+            "type": "object",
+            "properties": {
+                "bucket": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "object_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "storage": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
                     "type": "string"
                 }
             }
@@ -3197,9 +3150,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "domain_id": {
-                    "type": "string"
-                },
                 "extras": {
                     "$ref": "#/definitions/types.JSON"
                 },
@@ -3227,6 +3177,9 @@ const docTemplate = `{
                 "status": {
                     "type": "integer"
                 },
+                "tenant_id": {
+                    "type": "string"
+                },
                 "thumbnail": {
                     "type": "string"
                 },
@@ -3244,6 +3197,53 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.UpdateTenantBody": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.UpdateTopicBody": {
             "type": "object",
             "properties": {
@@ -3254,9 +3254,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_by": {
-                    "type": "string"
-                },
-                "domain_id": {
                     "type": "string"
                 },
                 "id": {
@@ -3285,6 +3282,9 @@ const docTemplate = `{
                 },
                 "temp": {
                     "type": "boolean"
+                },
+                "tenant_id": {
+                    "type": "string"
                 },
                 "thumbnail": {
                     "type": "string"

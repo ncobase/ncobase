@@ -7,7 +7,6 @@ import (
 	"ncobase/internal/data/ent/authtoken"
 	"ncobase/internal/data/ent/casbinrule"
 	"ncobase/internal/data/ent/codeauth"
-	"ncobase/internal/data/ent/domain"
 	"ncobase/internal/data/ent/group"
 	"ncobase/internal/data/ent/grouprole"
 	"ncobase/internal/data/ent/module"
@@ -17,13 +16,14 @@ import (
 	"ncobase/internal/data/ent/rolepermission"
 	"ncobase/internal/data/ent/taxonomy"
 	"ncobase/internal/data/ent/taxonomyrelation"
+	"ncobase/internal/data/ent/tenant"
 	"ncobase/internal/data/ent/topic"
 	"ncobase/internal/data/ent/user"
-	"ncobase/internal/data/ent/userdomain"
-	"ncobase/internal/data/ent/userdomainrole"
 	"ncobase/internal/data/ent/usergroup"
 	"ncobase/internal/data/ent/userprofile"
 	"ncobase/internal/data/ent/userrole"
+	"ncobase/internal/data/ent/usertenant"
+	"ncobase/internal/data/ent/usertenantrole"
 	"ncobase/internal/data/schema"
 	"time"
 )
@@ -63,10 +63,10 @@ func init() {
 	assetDescObjectID := assetMixinFields8[0].Descriptor()
 	// asset.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
 	asset.ObjectIDValidator = assetDescObjectID.Validators[0].(func(string) error)
-	// assetDescDomainID is the schema descriptor for domain_id field.
-	assetDescDomainID := assetMixinFields9[0].Descriptor()
-	// asset.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
-	asset.DomainIDValidator = assetDescDomainID.Validators[0].(func(string) error)
+	// assetDescTenantID is the schema descriptor for tenant_id field.
+	assetDescTenantID := assetMixinFields9[0].Descriptor()
+	// asset.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	asset.TenantIDValidator = assetDescTenantID.Validators[0].(func(string) error)
 	// assetDescExtras is the schema descriptor for extras field.
 	assetDescExtras := assetMixinFields10[0].Descriptor()
 	// asset.DefaultExtras holds the default value on creation for the extras field.
@@ -170,53 +170,6 @@ func init() {
 	codeauth.DefaultID = codeauthDescID.Default.(func() string)
 	// codeauth.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	codeauth.IDValidator = codeauthDescID.Validators[0].(func(string) error)
-	domainMixin := schema.Domain{}.Mixin()
-	domainMixinFields0 := domainMixin[0].Fields()
-	_ = domainMixinFields0
-	domainMixinFields9 := domainMixin[9].Fields()
-	_ = domainMixinFields9
-	domainMixinFields10 := domainMixin[10].Fields()
-	_ = domainMixinFields10
-	domainMixinFields11 := domainMixin[11].Fields()
-	_ = domainMixinFields11
-	domainMixinFields12 := domainMixin[12].Fields()
-	_ = domainMixinFields12
-	domainMixinFields13 := domainMixin[13].Fields()
-	_ = domainMixinFields13
-	domainFields := schema.Domain{}.Fields()
-	_ = domainFields
-	// domainDescOrder is the schema descriptor for order field.
-	domainDescOrder := domainMixinFields9[0].Descriptor()
-	// domain.DefaultOrder holds the default value on creation for the order field.
-	domain.DefaultOrder = domainDescOrder.Default.(int)
-	// domainDescDisabled is the schema descriptor for disabled field.
-	domainDescDisabled := domainMixinFields10[0].Descriptor()
-	// domain.DefaultDisabled holds the default value on creation for the disabled field.
-	domain.DefaultDisabled = domainDescDisabled.Default.(bool)
-	// domainDescExtras is the schema descriptor for extras field.
-	domainDescExtras := domainMixinFields11[0].Descriptor()
-	// domain.DefaultExtras holds the default value on creation for the extras field.
-	domain.DefaultExtras = domainDescExtras.Default.(map[string]interface{})
-	// domainDescCreatedBy is the schema descriptor for created_by field.
-	domainDescCreatedBy := domainMixinFields12[0].Descriptor()
-	// domain.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	domain.CreatedByValidator = domainDescCreatedBy.Validators[0].(func(string) error)
-	// domainDescCreatedAt is the schema descriptor for created_at field.
-	domainDescCreatedAt := domainMixinFields13[0].Descriptor()
-	// domain.DefaultCreatedAt holds the default value on creation for the created_at field.
-	domain.DefaultCreatedAt = domainDescCreatedAt.Default.(func() time.Time)
-	// domainDescUpdatedAt is the schema descriptor for updated_at field.
-	domainDescUpdatedAt := domainMixinFields13[1].Descriptor()
-	// domain.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	domain.DefaultUpdatedAt = domainDescUpdatedAt.Default.(func() time.Time)
-	// domain.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	domain.UpdateDefaultUpdatedAt = domainDescUpdatedAt.UpdateDefault.(func() time.Time)
-	// domainDescID is the schema descriptor for id field.
-	domainDescID := domainMixinFields0[0].Descriptor()
-	// domain.DefaultID holds the default value on creation for the id field.
-	domain.DefaultID = domainDescID.Default.(func() string)
-	// domain.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	domain.IDValidator = domainDescID.Validators[0].(func(string) error)
 	groupMixin := schema.Group{}.Mixin()
 	groupMixinFields0 := groupMixin[0].Fields()
 	_ = groupMixinFields0
@@ -252,10 +205,10 @@ func init() {
 	groupDescParentID := groupMixinFields7[0].Descriptor()
 	// group.ParentIDValidator is a validator for the "parent_id" field. It is called by the builders before save.
 	group.ParentIDValidator = groupDescParentID.Validators[0].(func(string) error)
-	// groupDescDomainID is the schema descriptor for domain_id field.
-	groupDescDomainID := groupMixinFields8[0].Descriptor()
-	// group.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
-	group.DomainIDValidator = groupDescDomainID.Validators[0].(func(string) error)
+	// groupDescTenantID is the schema descriptor for tenant_id field.
+	groupDescTenantID := groupMixinFields8[0].Descriptor()
+	// group.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	group.TenantIDValidator = groupDescTenantID.Validators[0].(func(string) error)
 	// groupDescCreatedBy is the schema descriptor for created_by field.
 	groupDescCreatedBy := groupMixinFields9[0].Descriptor()
 	// group.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
@@ -529,10 +482,10 @@ func init() {
 	taxonomyDescParentID := taxonomyMixinFields13[0].Descriptor()
 	// taxonomy.ParentIDValidator is a validator for the "parent_id" field. It is called by the builders before save.
 	taxonomy.ParentIDValidator = taxonomyDescParentID.Validators[0].(func(string) error)
-	// taxonomyDescDomainID is the schema descriptor for domain_id field.
-	taxonomyDescDomainID := taxonomyMixinFields14[0].Descriptor()
-	// taxonomy.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
-	taxonomy.DomainIDValidator = taxonomyDescDomainID.Validators[0].(func(string) error)
+	// taxonomyDescTenantID is the schema descriptor for tenant_id field.
+	taxonomyDescTenantID := taxonomyMixinFields14[0].Descriptor()
+	// taxonomy.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	taxonomy.TenantIDValidator = taxonomyDescTenantID.Validators[0].(func(string) error)
 	// taxonomyDescCreatedBy is the schema descriptor for created_by field.
 	taxonomyDescCreatedBy := taxonomyMixinFields15[0].Descriptor()
 	// taxonomy.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
@@ -590,6 +543,53 @@ func init() {
 	taxonomyrelationDescID := taxonomyrelationMixinFields0[0].Descriptor()
 	// taxonomyrelation.DefaultID holds the default value on creation for the id field.
 	taxonomyrelation.DefaultID = taxonomyrelationDescID.Default.(func() string)
+	tenantMixin := schema.Tenant{}.Mixin()
+	tenantMixinFields0 := tenantMixin[0].Fields()
+	_ = tenantMixinFields0
+	tenantMixinFields9 := tenantMixin[9].Fields()
+	_ = tenantMixinFields9
+	tenantMixinFields10 := tenantMixin[10].Fields()
+	_ = tenantMixinFields10
+	tenantMixinFields11 := tenantMixin[11].Fields()
+	_ = tenantMixinFields11
+	tenantMixinFields12 := tenantMixin[12].Fields()
+	_ = tenantMixinFields12
+	tenantMixinFields13 := tenantMixin[13].Fields()
+	_ = tenantMixinFields13
+	tenantFields := schema.Tenant{}.Fields()
+	_ = tenantFields
+	// tenantDescOrder is the schema descriptor for order field.
+	tenantDescOrder := tenantMixinFields9[0].Descriptor()
+	// tenant.DefaultOrder holds the default value on creation for the order field.
+	tenant.DefaultOrder = tenantDescOrder.Default.(int)
+	// tenantDescDisabled is the schema descriptor for disabled field.
+	tenantDescDisabled := tenantMixinFields10[0].Descriptor()
+	// tenant.DefaultDisabled holds the default value on creation for the disabled field.
+	tenant.DefaultDisabled = tenantDescDisabled.Default.(bool)
+	// tenantDescExtras is the schema descriptor for extras field.
+	tenantDescExtras := tenantMixinFields11[0].Descriptor()
+	// tenant.DefaultExtras holds the default value on creation for the extras field.
+	tenant.DefaultExtras = tenantDescExtras.Default.(map[string]interface{})
+	// tenantDescCreatedBy is the schema descriptor for created_by field.
+	tenantDescCreatedBy := tenantMixinFields12[0].Descriptor()
+	// tenant.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	tenant.CreatedByValidator = tenantDescCreatedBy.Validators[0].(func(string) error)
+	// tenantDescCreatedAt is the schema descriptor for created_at field.
+	tenantDescCreatedAt := tenantMixinFields13[0].Descriptor()
+	// tenant.DefaultCreatedAt holds the default value on creation for the created_at field.
+	tenant.DefaultCreatedAt = tenantDescCreatedAt.Default.(func() time.Time)
+	// tenantDescUpdatedAt is the schema descriptor for updated_at field.
+	tenantDescUpdatedAt := tenantMixinFields13[1].Descriptor()
+	// tenant.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	tenant.DefaultUpdatedAt = tenantDescUpdatedAt.Default.(func() time.Time)
+	// tenant.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	tenant.UpdateDefaultUpdatedAt = tenantDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// tenantDescID is the schema descriptor for id field.
+	tenantDescID := tenantMixinFields0[0].Descriptor()
+	// tenant.DefaultID holds the default value on creation for the id field.
+	tenant.DefaultID = tenantDescID.Default.(func() string)
+	// tenant.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	tenant.IDValidator = tenantDescID.Validators[0].(func(string) error)
 	topicMixin := schema.Topic{}.Mixin()
 	topicMixinFields0 := topicMixin[0].Fields()
 	_ = topicMixinFields0
@@ -631,10 +631,10 @@ func init() {
 	topicDescTaxonomyID := topicMixinFields11[0].Descriptor()
 	// topic.TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
 	topic.TaxonomyIDValidator = topicDescTaxonomyID.Validators[0].(func(string) error)
-	// topicDescDomainID is the schema descriptor for domain_id field.
-	topicDescDomainID := topicMixinFields12[0].Descriptor()
-	// topic.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
-	topic.DomainIDValidator = topicDescDomainID.Validators[0].(func(string) error)
+	// topicDescTenantID is the schema descriptor for tenant_id field.
+	topicDescTenantID := topicMixinFields12[0].Descriptor()
+	// topic.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	topic.TenantIDValidator = topicDescTenantID.Validators[0].(func(string) error)
 	// topicDescCreatedBy is the schema descriptor for created_by field.
 	topicDescCreatedBy := topicMixinFields13[0].Descriptor()
 	// topic.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
@@ -729,42 +729,6 @@ func init() {
 	user.DefaultID = userDescID.Default.(func() string)
 	// user.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	user.IDValidator = userDescID.Validators[0].(func(string) error)
-	userdomainMixin := schema.UserDomain{}.Mixin()
-	userdomainMixinFields0 := userdomainMixin[0].Fields()
-	_ = userdomainMixinFields0
-	userdomainMixinFields1 := userdomainMixin[1].Fields()
-	_ = userdomainMixinFields1
-	userdomainFields := schema.UserDomain{}.Fields()
-	_ = userdomainFields
-	// userdomainDescDomainID is the schema descriptor for domain_id field.
-	userdomainDescDomainID := userdomainMixinFields1[0].Descriptor()
-	// userdomain.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
-	userdomain.DomainIDValidator = userdomainDescDomainID.Validators[0].(func(string) error)
-	// userdomainDescID is the schema descriptor for id field.
-	userdomainDescID := userdomainMixinFields0[0].Descriptor()
-	// userdomain.DefaultID holds the default value on creation for the id field.
-	userdomain.DefaultID = userdomainDescID.Default.(func() string)
-	userdomainroleMixin := schema.UserDomainRole{}.Mixin()
-	userdomainroleMixinFields0 := userdomainroleMixin[0].Fields()
-	_ = userdomainroleMixinFields0
-	userdomainroleMixinFields1 := userdomainroleMixin[1].Fields()
-	_ = userdomainroleMixinFields1
-	userdomainroleMixinFields2 := userdomainroleMixin[2].Fields()
-	_ = userdomainroleMixinFields2
-	userdomainroleFields := schema.UserDomainRole{}.Fields()
-	_ = userdomainroleFields
-	// userdomainroleDescDomainID is the schema descriptor for domain_id field.
-	userdomainroleDescDomainID := userdomainroleMixinFields1[0].Descriptor()
-	// userdomainrole.DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
-	userdomainrole.DomainIDValidator = userdomainroleDescDomainID.Validators[0].(func(string) error)
-	// userdomainroleDescRoleID is the schema descriptor for role_id field.
-	userdomainroleDescRoleID := userdomainroleMixinFields2[0].Descriptor()
-	// userdomainrole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
-	userdomainrole.RoleIDValidator = userdomainroleDescRoleID.Validators[0].(func(string) error)
-	// userdomainroleDescID is the schema descriptor for id field.
-	userdomainroleDescID := userdomainroleMixinFields0[0].Descriptor()
-	// userdomainrole.DefaultID holds the default value on creation for the id field.
-	userdomainrole.DefaultID = userdomainroleDescID.Default.(func() string)
 	usergroupMixin := schema.UserGroup{}.Mixin()
 	usergroupMixinFields0 := usergroupMixin[0].Fields()
 	_ = usergroupMixinFields0
@@ -816,4 +780,40 @@ func init() {
 	userroleDescID := userroleMixinFields0[0].Descriptor()
 	// userrole.DefaultID holds the default value on creation for the id field.
 	userrole.DefaultID = userroleDescID.Default.(func() string)
+	usertenantMixin := schema.UserTenant{}.Mixin()
+	usertenantMixinFields0 := usertenantMixin[0].Fields()
+	_ = usertenantMixinFields0
+	usertenantMixinFields1 := usertenantMixin[1].Fields()
+	_ = usertenantMixinFields1
+	usertenantFields := schema.UserTenant{}.Fields()
+	_ = usertenantFields
+	// usertenantDescTenantID is the schema descriptor for tenant_id field.
+	usertenantDescTenantID := usertenantMixinFields1[0].Descriptor()
+	// usertenant.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	usertenant.TenantIDValidator = usertenantDescTenantID.Validators[0].(func(string) error)
+	// usertenantDescID is the schema descriptor for id field.
+	usertenantDescID := usertenantMixinFields0[0].Descriptor()
+	// usertenant.DefaultID holds the default value on creation for the id field.
+	usertenant.DefaultID = usertenantDescID.Default.(func() string)
+	usertenantroleMixin := schema.UserTenantRole{}.Mixin()
+	usertenantroleMixinFields0 := usertenantroleMixin[0].Fields()
+	_ = usertenantroleMixinFields0
+	usertenantroleMixinFields1 := usertenantroleMixin[1].Fields()
+	_ = usertenantroleMixinFields1
+	usertenantroleMixinFields2 := usertenantroleMixin[2].Fields()
+	_ = usertenantroleMixinFields2
+	usertenantroleFields := schema.UserTenantRole{}.Fields()
+	_ = usertenantroleFields
+	// usertenantroleDescTenantID is the schema descriptor for tenant_id field.
+	usertenantroleDescTenantID := usertenantroleMixinFields1[0].Descriptor()
+	// usertenantrole.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	usertenantrole.TenantIDValidator = usertenantroleDescTenantID.Validators[0].(func(string) error)
+	// usertenantroleDescRoleID is the schema descriptor for role_id field.
+	usertenantroleDescRoleID := usertenantroleMixinFields2[0].Descriptor()
+	// usertenantrole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
+	usertenantrole.RoleIDValidator = usertenantroleDescRoleID.Validators[0].(func(string) error)
+	// usertenantroleDescID is the schema descriptor for id field.
+	usertenantroleDescID := usertenantroleMixinFields0[0].Descriptor()
+	// usertenantrole.DefaultID holds the default value on creation for the id field.
+	usertenantrole.DefaultID = usertenantroleDescID.Default.(func() string)
 }

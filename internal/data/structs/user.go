@@ -53,8 +53,8 @@ type UserProfile struct {
 	Links       *[]types.JSON `json:"links,omitempty"`
 }
 
-// UserDomain represents the user domain.
-type UserDomain struct {
+// UserTenant represents the user tenant.
+type UserTenant struct {
 	UserID   string `json:"user_id,omitempty"`
-	DomainID string `json:"domain_id,omitempty"`
+	TenantID string `json:"tenant_id,omitempty"`
 }

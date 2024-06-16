@@ -45,8 +45,8 @@ type Taxonomy struct {
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// parent id
 	ParentID string `json:"parent_id,omitempty"`
-	// domain id
-	DomainID string `json:"domain_id,omitempty"`
+	// tenant id
+	TenantID string `json:"tenant_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -67,7 +67,7 @@ func (*Taxonomy) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case taxonomy.FieldStatus:
 			values[i] = new(sql.NullInt64)
-		case taxonomy.FieldID, taxonomy.FieldName, taxonomy.FieldType, taxonomy.FieldSlug, taxonomy.FieldCover, taxonomy.FieldThumbnail, taxonomy.FieldColor, taxonomy.FieldIcon, taxonomy.FieldURL, taxonomy.FieldKeywords, taxonomy.FieldDescription, taxonomy.FieldParentID, taxonomy.FieldDomainID, taxonomy.FieldCreatedBy, taxonomy.FieldUpdatedBy:
+		case taxonomy.FieldID, taxonomy.FieldName, taxonomy.FieldType, taxonomy.FieldSlug, taxonomy.FieldCover, taxonomy.FieldThumbnail, taxonomy.FieldColor, taxonomy.FieldIcon, taxonomy.FieldURL, taxonomy.FieldKeywords, taxonomy.FieldDescription, taxonomy.FieldParentID, taxonomy.FieldTenantID, taxonomy.FieldCreatedBy, taxonomy.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		case taxonomy.FieldCreatedAt, taxonomy.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -172,11 +172,11 @@ func (t *Taxonomy) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.ParentID = value.String
 			}
-		case taxonomy.FieldDomainID:
+		case taxonomy.FieldTenantID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field domain_id", values[i])
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				t.DomainID = value.String
+				t.TenantID = value.String
 			}
 		case taxonomy.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -277,8 +277,8 @@ func (t *Taxonomy) String() string {
 	builder.WriteString("parent_id=")
 	builder.WriteString(t.ParentID)
 	builder.WriteString(", ")
-	builder.WriteString("domain_id=")
-	builder.WriteString(t.DomainID)
+	builder.WriteString("tenant_id=")
+	builder.WriteString(t.TenantID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(t.CreatedBy)

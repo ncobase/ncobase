@@ -15,12 +15,12 @@ import (
 type Service struct {
 	d                 *data.Data
 	captcha           repo.Captcha
-	domain            repo.Domain
+	tenant            repo.Tenant
 	user              repo.User
 	userProfile       repo.UserProfile
 	userRole          repo.UserRole
-	userDomain        repo.UserDomain
-	userDomainRole    repo.UserDomainRole
+	userTenant        repo.UserTenant
+	userTenantRole    repo.UserTenantRole
 	userGroup         repo.UserGroup
 	group             repo.Group
 	groupRole         repo.GroupRole
@@ -40,12 +40,12 @@ func New(d *data.Data) *Service {
 	return &Service{
 		d:                 d,
 		captcha:           repo.NewCaptcha(d),
-		domain:            repo.NewDomain(d),
+		tenant:            repo.NewTenant(d),
 		user:              repo.NewUser(d),
 		userProfile:       repo.NewUserProfile(d),
 		userRole:          repo.NewUserRole(d),
-		userDomain:        repo.NewUserDomain(d),
-		userDomainRole:    repo.NewUserDomainRole(d),
+		userTenant:        repo.NewUserTenant(d),
+		userTenantRole:    repo.NewUserTenantRole(d),
 		userGroup:         repo.NewUserGroup(d),
 		group:             repo.NewGroup(d),
 		groupRole:         repo.NewGroupRole(d),

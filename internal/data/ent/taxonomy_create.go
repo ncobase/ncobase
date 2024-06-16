@@ -194,16 +194,16 @@ func (tc *TaxonomyCreate) SetNillableParentID(s *string) *TaxonomyCreate {
 	return tc
 }
 
-// SetDomainID sets the "domain_id" field.
-func (tc *TaxonomyCreate) SetDomainID(s string) *TaxonomyCreate {
-	tc.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (tc *TaxonomyCreate) SetTenantID(s string) *TaxonomyCreate {
+	tc.mutation.SetTenantID(s)
 	return tc
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableDomainID(s *string) *TaxonomyCreate {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (tc *TaxonomyCreate) SetNillableTenantID(s *string) *TaxonomyCreate {
 	if s != nil {
-		tc.SetDomainID(*s)
+		tc.SetTenantID(*s)
 	}
 	return tc
 }
@@ -345,9 +345,9 @@ func (tc *TaxonomyCreate) check() error {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.parent_id": %w`, err)}
 		}
 	}
-	if v, ok := tc.mutation.DomainID(); ok {
-		if err := taxonomy.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.domain_id": %w`, err)}
+	if v, ok := tc.mutation.TenantID(); ok {
+		if err := taxonomy.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := tc.mutation.CreatedBy(); ok {
@@ -452,9 +452,9 @@ func (tc *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
 		_spec.SetField(taxonomy.FieldParentID, field.TypeString, value)
 		_node.ParentID = value
 	}
-	if value, ok := tc.mutation.DomainID(); ok {
-		_spec.SetField(taxonomy.FieldDomainID, field.TypeString, value)
-		_node.DomainID = value
+	if value, ok := tc.mutation.TenantID(); ok {
+		_spec.SetField(taxonomy.FieldTenantID, field.TypeString, value)
+		_node.TenantID = value
 	}
 	if value, ok := tc.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomy.FieldCreatedBy, field.TypeString, value)

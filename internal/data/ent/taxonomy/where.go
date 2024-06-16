@@ -124,9 +124,9 @@ func ParentID(v string) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldEQ(FieldParentID, v))
 }
 
-// DomainID applies equality check predicate on the "domain_id" field. It's identical to DomainIDEQ.
-func DomainID(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldEQ(FieldDomainID, v))
+// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
+func TenantID(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldEQ(FieldTenantID, v))
 }
 
 // CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
@@ -1024,79 +1024,79 @@ func ParentIDContainsFold(v string) predicate.Taxonomy {
 	return predicate.Taxonomy(sql.FieldContainsFold(FieldParentID, v))
 }
 
-// DomainIDEQ applies the EQ predicate on the "domain_id" field.
-func DomainIDEQ(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldEQ(FieldDomainID, v))
+// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
+func TenantIDEQ(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldEQ(FieldTenantID, v))
 }
 
-// DomainIDNEQ applies the NEQ predicate on the "domain_id" field.
-func DomainIDNEQ(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldNEQ(FieldDomainID, v))
+// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
+func TenantIDNEQ(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldNEQ(FieldTenantID, v))
 }
 
-// DomainIDIn applies the In predicate on the "domain_id" field.
-func DomainIDIn(vs ...string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldIn(FieldDomainID, vs...))
+// TenantIDIn applies the In predicate on the "tenant_id" field.
+func TenantIDIn(vs ...string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldIn(FieldTenantID, vs...))
 }
 
-// DomainIDNotIn applies the NotIn predicate on the "domain_id" field.
-func DomainIDNotIn(vs ...string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldNotIn(FieldDomainID, vs...))
+// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
+func TenantIDNotIn(vs ...string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldNotIn(FieldTenantID, vs...))
 }
 
-// DomainIDGT applies the GT predicate on the "domain_id" field.
-func DomainIDGT(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldGT(FieldDomainID, v))
+// TenantIDGT applies the GT predicate on the "tenant_id" field.
+func TenantIDGT(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldGT(FieldTenantID, v))
 }
 
-// DomainIDGTE applies the GTE predicate on the "domain_id" field.
-func DomainIDGTE(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldGTE(FieldDomainID, v))
+// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
+func TenantIDGTE(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldGTE(FieldTenantID, v))
 }
 
-// DomainIDLT applies the LT predicate on the "domain_id" field.
-func DomainIDLT(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldLT(FieldDomainID, v))
+// TenantIDLT applies the LT predicate on the "tenant_id" field.
+func TenantIDLT(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldLT(FieldTenantID, v))
 }
 
-// DomainIDLTE applies the LTE predicate on the "domain_id" field.
-func DomainIDLTE(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldLTE(FieldDomainID, v))
+// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
+func TenantIDLTE(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldLTE(FieldTenantID, v))
 }
 
-// DomainIDContains applies the Contains predicate on the "domain_id" field.
-func DomainIDContains(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldContains(FieldDomainID, v))
+// TenantIDContains applies the Contains predicate on the "tenant_id" field.
+func TenantIDContains(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldContains(FieldTenantID, v))
 }
 
-// DomainIDHasPrefix applies the HasPrefix predicate on the "domain_id" field.
-func DomainIDHasPrefix(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldHasPrefix(FieldDomainID, v))
+// TenantIDHasPrefix applies the HasPrefix predicate on the "tenant_id" field.
+func TenantIDHasPrefix(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldHasPrefix(FieldTenantID, v))
 }
 
-// DomainIDHasSuffix applies the HasSuffix predicate on the "domain_id" field.
-func DomainIDHasSuffix(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldHasSuffix(FieldDomainID, v))
+// TenantIDHasSuffix applies the HasSuffix predicate on the "tenant_id" field.
+func TenantIDHasSuffix(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldHasSuffix(FieldTenantID, v))
 }
 
-// DomainIDIsNil applies the IsNil predicate on the "domain_id" field.
-func DomainIDIsNil() predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldIsNull(FieldDomainID))
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldIsNull(FieldTenantID))
 }
 
-// DomainIDNotNil applies the NotNil predicate on the "domain_id" field.
-func DomainIDNotNil() predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldNotNull(FieldDomainID))
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldNotNull(FieldTenantID))
 }
 
-// DomainIDEqualFold applies the EqualFold predicate on the "domain_id" field.
-func DomainIDEqualFold(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldEqualFold(FieldDomainID, v))
+// TenantIDEqualFold applies the EqualFold predicate on the "tenant_id" field.
+func TenantIDEqualFold(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldEqualFold(FieldTenantID, v))
 }
 
-// DomainIDContainsFold applies the ContainsFold predicate on the "domain_id" field.
-func DomainIDContainsFold(v string) predicate.Taxonomy {
-	return predicate.Taxonomy(sql.FieldContainsFold(FieldDomainID, v))
+// TenantIDContainsFold applies the ContainsFold predicate on the "tenant_id" field.
+func TenantIDContainsFold(v string) predicate.Taxonomy {
+	return predicate.Taxonomy(sql.FieldContainsFold(FieldTenantID, v))
 }
 
 // CreatedByEQ applies the EQ predicate on the "created_by" field.

@@ -37,6 +37,9 @@ func (svc *Service) GetUserService(c *gin.Context, username string) (*resp.Excep
 
 // UpdatePasswordService update user password service
 func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserRequestBody) (*resp.Exception, error) {
+	if body.NewPassword == "" {
+		return resp.BadRequest(ecode.FieldIsEmpty("new password")), nil
+	}
 	verifyResult := svc.verifyUserPassword(c, helper.GetUserID(c), body.OldPassword)
 	switch v := verifyResult.(type) {
 	case VerifyPasswordResult:
@@ -98,27 +101,27 @@ func (svc *Service) DeleteUserService(ctx context.Context, userID string) (*resp
 	}, nil
 }
 
-// AddUserToDomainService adds a user to a domain.
-func (svc *Service) AddUserToDomainService(ctx context.Context, userID string, domainID string) (*resp.Exception, error) {
-	_, err := svc.userDomain.Create(ctx, &structs.UserDomain{UserID: userID, DomainID: domainID})
-	if exception, err := handleError("UserDomain", err); exception != nil {
+// AddUserToTenantService adds a user to a tenant.
+func (svc *Service) AddUserToTenantService(ctx context.Context, userID string, tenantID string) (*resp.Exception, error) {
+	_, err := svc.userTenant.Create(ctx, &structs.UserTenant{UserID: userID, TenantID: tenantID})
+	if exception, err := handleError("UserTenant", err); exception != nil {
 		return exception, err
 	}
 
 	return &resp.Exception{
-		Data: "User added to domain successfully",
+		Data: "User added to tenant successfully",
 	}, nil
 }
 
-// RemoveUserFromDomainService removes a user from a domain.
-func (svc *Service) RemoveUserFromDomainService(ctx context.Context, userID string, domainID string) (*resp.Exception, error) {
-	err := svc.userDomain.Delete(ctx, userID, domainID)
-	if exception, err := handleError("UserDomain", err); exception != nil {
+// RemoveUserFromTenantService removes a user from a tenant.
+func (svc *Service) RemoveUserFromTenantService(ctx context.Context, userID string, tenantID string) (*resp.Exception, error) {
+	err := svc.userTenant.Delete(ctx, userID, tenantID)
+	if exception, err := handleError("UserTenant", err); exception != nil {
 		return exception, err
 	}
 
 	return &resp.Exception{
-		Data: "User removed from domain successfully",
+		Data: "User removed from tenant successfully",
 	}, nil
 }
 
@@ -167,25 +170,25 @@ func (svc *Service) RemoveUserFromGroupService(ctx context.Context, userID strin
 	}, nil
 }
 
-// AddRoleToUserInDomainService adds a role to a user in a domain.
-func (svc *Service) AddRoleToUserInDomainService(ctx context.Context, userID string, domainID string, roleID string) (*resp.Exception, error) {
-	_, err := svc.userDomainRole.Create(ctx, &structs.UserDomainRole{UserID: userID, DomainID: domainID, RoleID: roleID})
-	if exception, err := handleError("UserDomainRole", err); exception != nil {
+// AddRoleToUserInTenantService adds a role to a user in a tenant.
+func (svc *Service) AddRoleToUserInTenantService(ctx context.Context, userID string, tenantID string, roleID string) (*resp.Exception, error) {
+	_, err := svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: userID, TenantID: tenantID, RoleID: roleID})
+	if exception, err := handleError("UserTenantRole", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
-		Data: "Role added to user in domain successfully",
+		Data: "Role added to user in tenant successfully",
 	}, nil
 }
 
-// RemoveRoleFromUserInDomainService removes a role from a user in a domain.
-func (svc *Service) RemoveRoleFromUserInDomainService(ctx context.Context, userID string, domainID string, roleID string) (*resp.Exception, error) {
-	err := svc.userDomainRole.DeleteByUserIDAndDomainIDAndRoleID(ctx, userID, domainID, roleID)
-	if exception, err := handleError("UserDomainRole", err); exception != nil {
+// RemoveRoleFromUserInTenantService removes a role from a user in a tenant.
+func (svc *Service) RemoveRoleFromUserInTenantService(ctx context.Context, userID string, tenantID string, roleID string) (*resp.Exception, error) {
+	err := svc.userTenantRole.DeleteByUserIDAndTenantIDAndRoleID(ctx, userID, tenantID, roleID)
+	if exception, err := handleError("UserTenantRole", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
-		Data: "Role removed from user in domain successfully",
+		Data: "Role removed from user in tenant successfully",
 	}, nil
 }
 

@@ -37,7 +37,7 @@ func (Asset) Mixin() []ent.Mixin {
 		mixin.Bucket,
 		mixin.Endpoint,
 		mixin.ObjectID,
-		mixin.DomainID,
+		mixin.TenantID,
 		mixin.ExtraProps,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},

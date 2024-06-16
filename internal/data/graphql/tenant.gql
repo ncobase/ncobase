@@ -1,0 +1,33 @@
+extend type Query {
+  accountTenant(id: String!): Tenant
+}
+
+type Tenant {
+  id: String!
+  name: String
+  title: String
+  url: String
+  logo: String
+  logoAlt: String
+  keywords: [String]
+  copyright: String
+  description: String
+  order: Int
+  disabled: Boolean
+  extras: JSON
+  user: User
+}
+
+input TenantInput {
+  name: String
+  title: String
+  url: String
+  logo: String
+  logoAlt: String
+  keywords: [String]
+  copyright: String
+  description: String
+  order: Int
+  disabled: Boolean
+  extras: JSON
+}

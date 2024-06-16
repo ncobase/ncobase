@@ -132,16 +132,16 @@ func (ac *AssetCreate) SetNillableObjectID(s *string) *AssetCreate {
 	return ac
 }
 
-// SetDomainID sets the "domain_id" field.
-func (ac *AssetCreate) SetDomainID(s string) *AssetCreate {
-	ac.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (ac *AssetCreate) SetTenantID(s string) *AssetCreate {
+	ac.mutation.SetTenantID(s)
 	return ac
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableDomainID(s *string) *AssetCreate {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (ac *AssetCreate) SetNillableTenantID(s *string) *AssetCreate {
 	if s != nil {
-		ac.SetDomainID(*s)
+		ac.SetTenantID(*s)
 	}
 	return ac
 }
@@ -294,9 +294,9 @@ func (ac *AssetCreate) check() error {
 			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "Asset.object_id": %w`, err)}
 		}
 	}
-	if v, ok := ac.mutation.DomainID(); ok {
-		if err := asset.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Asset.domain_id": %w`, err)}
+	if v, ok := ac.mutation.TenantID(); ok {
+		if err := asset.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Asset.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := ac.mutation.CreatedBy(); ok {
@@ -381,9 +381,9 @@ func (ac *AssetCreate) createSpec() (*Asset, *sqlgraph.CreateSpec) {
 		_spec.SetField(asset.FieldObjectID, field.TypeString, value)
 		_node.ObjectID = value
 	}
-	if value, ok := ac.mutation.DomainID(); ok {
-		_spec.SetField(asset.FieldDomainID, field.TypeString, value)
-		_node.DomainID = value
+	if value, ok := ac.mutation.TenantID(); ok {
+		_spec.SetField(asset.FieldTenantID, field.TypeString, value)
+		_node.TenantID = value
 	}
 	if value, ok := ac.mutation.Extras(); ok {
 		_spec.SetField(asset.FieldExtras, field.TypeJSON, value)

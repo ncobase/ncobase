@@ -35,8 +35,8 @@ const (
 	FieldReleased = "released"
 	// FieldTaxonomyID holds the string denoting the taxonomy_id field in the database.
 	FieldTaxonomyID = "taxonomy_id"
-	// FieldDomainID holds the string denoting the domain_id field in the database.
-	FieldDomainID = "domain_id"
+	// FieldTenantID holds the string denoting the tenant_id field in the database.
+	FieldTenantID = "tenant_id"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
 	FieldCreatedBy = "created_by"
 	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
@@ -63,7 +63,7 @@ var Columns = []string{
 	FieldStatus,
 	FieldReleased,
 	FieldTaxonomyID,
-	FieldDomainID,
+	FieldTenantID,
 	FieldCreatedBy,
 	FieldUpdatedBy,
 	FieldCreatedAt,
@@ -91,8 +91,8 @@ var (
 	DefaultStatus int
 	// TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
 	TaxonomyIDValidator func(string) error
-	// DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
-	DomainIDValidator func(string) error
+	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	TenantIDValidator func(string) error
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	CreatedByValidator func(string) error
 	// UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
@@ -172,9 +172,9 @@ func ByTaxonomyID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTaxonomyID, opts...).ToFunc()
 }
 
-// ByDomainID orders the results by the domain_id field.
-func ByDomainID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDomainID, opts...).ToFunc()
+// ByTenantID orders the results by the tenant_id field.
+func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }
 
 // ByCreatedBy orders the results by the created_by field.

@@ -249,23 +249,23 @@ func (tu *TopicUpdate) ClearTaxonomyID() *TopicUpdate {
 	return tu
 }
 
-// SetDomainID sets the "domain_id" field.
-func (tu *TopicUpdate) SetDomainID(s string) *TopicUpdate {
-	tu.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (tu *TopicUpdate) SetTenantID(s string) *TopicUpdate {
+	tu.mutation.SetTenantID(s)
 	return tu
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableDomainID(s *string) *TopicUpdate {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableTenantID(s *string) *TopicUpdate {
 	if s != nil {
-		tu.SetDomainID(*s)
+		tu.SetTenantID(*s)
 	}
 	return tu
 }
 
-// ClearDomainID clears the value of the "domain_id" field.
-func (tu *TopicUpdate) ClearDomainID() *TopicUpdate {
-	tu.mutation.ClearDomainID()
+// ClearTenantID clears the value of the "tenant_id" field.
+func (tu *TopicUpdate) ClearTenantID() *TopicUpdate {
+	tu.mutation.ClearTenantID()
 	return tu
 }
 
@@ -369,9 +369,9 @@ func (tu *TopicUpdate) check() error {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}
 		}
 	}
-	if v, ok := tu.mutation.DomainID(); ok {
-		if err := topic.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Topic.domain_id": %w`, err)}
+	if v, ok := tu.mutation.TenantID(); ok {
+		if err := topic.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Topic.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := tu.mutation.CreatedBy(); ok {
@@ -465,11 +465,11 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if tu.mutation.TaxonomyIDCleared() {
 		_spec.ClearField(topic.FieldTaxonomyID, field.TypeString)
 	}
-	if value, ok := tu.mutation.DomainID(); ok {
-		_spec.SetField(topic.FieldDomainID, field.TypeString, value)
+	if value, ok := tu.mutation.TenantID(); ok {
+		_spec.SetField(topic.FieldTenantID, field.TypeString, value)
 	}
-	if tu.mutation.DomainIDCleared() {
-		_spec.ClearField(topic.FieldDomainID, field.TypeString)
+	if tu.mutation.TenantIDCleared() {
+		_spec.ClearField(topic.FieldTenantID, field.TypeString)
 	}
 	if value, ok := tu.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)
@@ -733,23 +733,23 @@ func (tuo *TopicUpdateOne) ClearTaxonomyID() *TopicUpdateOne {
 	return tuo
 }
 
-// SetDomainID sets the "domain_id" field.
-func (tuo *TopicUpdateOne) SetDomainID(s string) *TopicUpdateOne {
-	tuo.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (tuo *TopicUpdateOne) SetTenantID(s string) *TopicUpdateOne {
+	tuo.mutation.SetTenantID(s)
 	return tuo
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableDomainID(s *string) *TopicUpdateOne {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableTenantID(s *string) *TopicUpdateOne {
 	if s != nil {
-		tuo.SetDomainID(*s)
+		tuo.SetTenantID(*s)
 	}
 	return tuo
 }
 
-// ClearDomainID clears the value of the "domain_id" field.
-func (tuo *TopicUpdateOne) ClearDomainID() *TopicUpdateOne {
-	tuo.mutation.ClearDomainID()
+// ClearTenantID clears the value of the "tenant_id" field.
+func (tuo *TopicUpdateOne) ClearTenantID() *TopicUpdateOne {
+	tuo.mutation.ClearTenantID()
 	return tuo
 }
 
@@ -866,9 +866,9 @@ func (tuo *TopicUpdateOne) check() error {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}
 		}
 	}
-	if v, ok := tuo.mutation.DomainID(); ok {
-		if err := topic.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Topic.domain_id": %w`, err)}
+	if v, ok := tuo.mutation.TenantID(); ok {
+		if err := topic.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Topic.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := tuo.mutation.CreatedBy(); ok {
@@ -979,11 +979,11 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 	if tuo.mutation.TaxonomyIDCleared() {
 		_spec.ClearField(topic.FieldTaxonomyID, field.TypeString)
 	}
-	if value, ok := tuo.mutation.DomainID(); ok {
-		_spec.SetField(topic.FieldDomainID, field.TypeString, value)
+	if value, ok := tuo.mutation.TenantID(); ok {
+		_spec.SetField(topic.FieldTenantID, field.TypeString, value)
 	}
-	if tuo.mutation.DomainIDCleared() {
-		_spec.ClearField(topic.FieldDomainID, field.TypeString)
+	if tuo.mutation.TenantIDCleared() {
+		_spec.ClearField(topic.FieldTenantID, field.TypeString)
 	}
 	if value, ok := tuo.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)

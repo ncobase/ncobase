@@ -18,9 +18,6 @@ type CasbinRule func(*sql.Selector)
 // CodeAuth is the predicate function for codeauth builders.
 type CodeAuth func(*sql.Selector)
 
-// Domain is the predicate function for domain builders.
-type Domain func(*sql.Selector)
-
 // Group is the predicate function for group builders.
 type Group func(*sql.Selector)
 
@@ -48,17 +45,14 @@ type Taxonomy func(*sql.Selector)
 // TaxonomyRelation is the predicate function for taxonomyrelation builders.
 type TaxonomyRelation func(*sql.Selector)
 
+// Tenant is the predicate function for tenant builders.
+type Tenant func(*sql.Selector)
+
 // Topic is the predicate function for topic builders.
 type Topic func(*sql.Selector)
 
 // User is the predicate function for user builders.
 type User func(*sql.Selector)
-
-// UserDomain is the predicate function for userdomain builders.
-type UserDomain func(*sql.Selector)
-
-// UserDomainRole is the predicate function for userdomainrole builders.
-type UserDomainRole func(*sql.Selector)
 
 // UserGroup is the predicate function for usergroup builders.
 type UserGroup func(*sql.Selector)
@@ -68,3 +62,9 @@ type UserProfile func(*sql.Selector)
 
 // UserRole is the predicate function for userrole builders.
 type UserRole func(*sql.Selector)
+
+// UserTenant is the predicate function for usertenant builders.
+type UserTenant func(*sql.Selector)
+
+// UserTenantRole is the predicate function for usertenantrole builders.
+type UserTenantRole func(*sql.Selector)

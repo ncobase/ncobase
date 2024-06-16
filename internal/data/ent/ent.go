@@ -10,7 +10,6 @@ import (
 	"ncobase/internal/data/ent/authtoken"
 	"ncobase/internal/data/ent/casbinrule"
 	"ncobase/internal/data/ent/codeauth"
-	"ncobase/internal/data/ent/domain"
 	"ncobase/internal/data/ent/group"
 	"ncobase/internal/data/ent/grouprole"
 	"ncobase/internal/data/ent/module"
@@ -20,13 +19,14 @@ import (
 	"ncobase/internal/data/ent/rolepermission"
 	"ncobase/internal/data/ent/taxonomy"
 	"ncobase/internal/data/ent/taxonomyrelation"
+	"ncobase/internal/data/ent/tenant"
 	"ncobase/internal/data/ent/topic"
 	"ncobase/internal/data/ent/user"
-	"ncobase/internal/data/ent/userdomain"
-	"ncobase/internal/data/ent/userdomainrole"
 	"ncobase/internal/data/ent/usergroup"
 	"ncobase/internal/data/ent/userprofile"
 	"ncobase/internal/data/ent/userrole"
+	"ncobase/internal/data/ent/usertenant"
+	"ncobase/internal/data/ent/usertenantrole"
 	"reflect"
 	"sync"
 
@@ -97,7 +97,6 @@ func checkColumn(table, column string) error {
 			authtoken.Table:        authtoken.ValidColumn,
 			casbinrule.Table:       casbinrule.ValidColumn,
 			codeauth.Table:         codeauth.ValidColumn,
-			domain.Table:           domain.ValidColumn,
 			group.Table:            group.ValidColumn,
 			grouprole.Table:        grouprole.ValidColumn,
 			module.Table:           module.ValidColumn,
@@ -107,13 +106,14 @@ func checkColumn(table, column string) error {
 			rolepermission.Table:   rolepermission.ValidColumn,
 			taxonomy.Table:         taxonomy.ValidColumn,
 			taxonomyrelation.Table: taxonomyrelation.ValidColumn,
+			tenant.Table:           tenant.ValidColumn,
 			topic.Table:            topic.ValidColumn,
 			user.Table:             user.ValidColumn,
-			userdomain.Table:       userdomain.ValidColumn,
-			userdomainrole.Table:   userdomainrole.ValidColumn,
 			usergroup.Table:        usergroup.ValidColumn,
 			userprofile.Table:      userprofile.ValidColumn,
 			userrole.Table:         userrole.ValidColumn,
+			usertenant.Table:       usertenant.ValidColumn,
+			usertenantrole.Table:   usertenantrole.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

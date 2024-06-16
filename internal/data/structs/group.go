@@ -12,7 +12,7 @@ type GroupBody struct {
 	Leader      *types.JSON `json:"leader,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    *string     `json:"parent_id,omitempty"`
-	DomainID    *string     `json:"domain_id,omitempty"`
+	TenantID    *string     `json:"tenant_id,omitempty"`
 }
 
 // CreateGroupBody represents the body for creating or updating a group.
@@ -37,7 +37,7 @@ type ReadGroup struct {
 	Leader      *types.JSON `json:"leader,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    *string     `json:"parent_id,omitempty"`
-	DomainID    *string     `json:"domain_id,omitempty"`
+	TenantID    *string     `json:"tenant_id,omitempty"`
 }
 
 // FindGroup represents the parameters for finding a group.

@@ -152,23 +152,23 @@ func (gu *GroupUpdate) ClearParentID() *GroupUpdate {
 	return gu
 }
 
-// SetDomainID sets the "domain_id" field.
-func (gu *GroupUpdate) SetDomainID(s string) *GroupUpdate {
-	gu.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (gu *GroupUpdate) SetTenantID(s string) *GroupUpdate {
+	gu.mutation.SetTenantID(s)
 	return gu
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (gu *GroupUpdate) SetNillableDomainID(s *string) *GroupUpdate {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (gu *GroupUpdate) SetNillableTenantID(s *string) *GroupUpdate {
 	if s != nil {
-		gu.SetDomainID(*s)
+		gu.SetTenantID(*s)
 	}
 	return gu
 }
 
-// ClearDomainID clears the value of the "domain_id" field.
-func (gu *GroupUpdate) ClearDomainID() *GroupUpdate {
-	gu.mutation.ClearDomainID()
+// ClearTenantID clears the value of the "tenant_id" field.
+func (gu *GroupUpdate) ClearTenantID() *GroupUpdate {
+	gu.mutation.ClearTenantID()
 	return gu
 }
 
@@ -272,9 +272,9 @@ func (gu *GroupUpdate) check() error {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Group.parent_id": %w`, err)}
 		}
 	}
-	if v, ok := gu.mutation.DomainID(); ok {
-		if err := group.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Group.domain_id": %w`, err)}
+	if v, ok := gu.mutation.TenantID(); ok {
+		if err := group.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Group.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := gu.mutation.CreatedBy(); ok {
@@ -344,11 +344,11 @@ func (gu *GroupUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if gu.mutation.ParentIDCleared() {
 		_spec.ClearField(group.FieldParentID, field.TypeString)
 	}
-	if value, ok := gu.mutation.DomainID(); ok {
-		_spec.SetField(group.FieldDomainID, field.TypeString, value)
+	if value, ok := gu.mutation.TenantID(); ok {
+		_spec.SetField(group.FieldTenantID, field.TypeString, value)
 	}
-	if gu.mutation.DomainIDCleared() {
-		_spec.ClearField(group.FieldDomainID, field.TypeString)
+	if gu.mutation.TenantIDCleared() {
+		_spec.ClearField(group.FieldTenantID, field.TypeString)
 	}
 	if value, ok := gu.mutation.CreatedBy(); ok {
 		_spec.SetField(group.FieldCreatedBy, field.TypeString, value)
@@ -515,23 +515,23 @@ func (guo *GroupUpdateOne) ClearParentID() *GroupUpdateOne {
 	return guo
 }
 
-// SetDomainID sets the "domain_id" field.
-func (guo *GroupUpdateOne) SetDomainID(s string) *GroupUpdateOne {
-	guo.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (guo *GroupUpdateOne) SetTenantID(s string) *GroupUpdateOne {
+	guo.mutation.SetTenantID(s)
 	return guo
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (guo *GroupUpdateOne) SetNillableDomainID(s *string) *GroupUpdateOne {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (guo *GroupUpdateOne) SetNillableTenantID(s *string) *GroupUpdateOne {
 	if s != nil {
-		guo.SetDomainID(*s)
+		guo.SetTenantID(*s)
 	}
 	return guo
 }
 
-// ClearDomainID clears the value of the "domain_id" field.
-func (guo *GroupUpdateOne) ClearDomainID() *GroupUpdateOne {
-	guo.mutation.ClearDomainID()
+// ClearTenantID clears the value of the "tenant_id" field.
+func (guo *GroupUpdateOne) ClearTenantID() *GroupUpdateOne {
+	guo.mutation.ClearTenantID()
 	return guo
 }
 
@@ -648,9 +648,9 @@ func (guo *GroupUpdateOne) check() error {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Group.parent_id": %w`, err)}
 		}
 	}
-	if v, ok := guo.mutation.DomainID(); ok {
-		if err := group.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Group.domain_id": %w`, err)}
+	if v, ok := guo.mutation.TenantID(); ok {
+		if err := group.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Group.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := guo.mutation.CreatedBy(); ok {
@@ -737,11 +737,11 @@ func (guo *GroupUpdateOne) sqlSave(ctx context.Context) (_node *Group, err error
 	if guo.mutation.ParentIDCleared() {
 		_spec.ClearField(group.FieldParentID, field.TypeString)
 	}
-	if value, ok := guo.mutation.DomainID(); ok {
-		_spec.SetField(group.FieldDomainID, field.TypeString, value)
+	if value, ok := guo.mutation.TenantID(); ok {
+		_spec.SetField(group.FieldTenantID, field.TypeString, value)
 	}
-	if guo.mutation.DomainIDCleared() {
-		_spec.ClearField(group.FieldDomainID, field.TypeString)
+	if guo.mutation.TenantIDCleared() {
+		_spec.ClearField(group.FieldTenantID, field.TypeString)
 	}
 	if value, ok := guo.mutation.CreatedBy(); ok {
 		_spec.SetField(group.FieldCreatedBy, field.TypeString, value)

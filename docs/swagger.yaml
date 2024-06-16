@@ -47,35 +47,6 @@ definitions:
     - v1
     - v2
     type: object
-  structs.CreateDomainBody:
-    properties:
-      copyright:
-        type: string
-      created_by:
-        type: string
-      description:
-        type: string
-      disabled:
-        type: boolean
-      extras:
-        $ref: '#/definitions/types.JSON'
-      keywords:
-        items:
-          type: string
-        type: array
-      logo:
-        type: string
-      logo_alt:
-        type: string
-      name:
-        type: string
-      order:
-        type: integer
-      title:
-        type: string
-      url:
-        type: string
-    type: object
   structs.CreateModuleBody:
     properties:
       content:
@@ -121,8 +92,6 @@ definitions:
         type: string
       description:
         type: string
-      domain_id:
-        type: string
       extras:
         $ref: '#/definitions/types.JSON'
       icon:
@@ -139,6 +108,8 @@ definitions:
         type: string
       status:
         type: integer
+      tenant_id:
+        type: string
       thumbnail:
         type: string
       type:
@@ -150,6 +121,35 @@ definitions:
       url:
         type: string
     type: object
+  structs.CreateTenantBody:
+    properties:
+      copyright:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/types.JSON'
+      keywords:
+        items:
+          type: string
+        type: array
+      logo:
+        type: string
+      logo_alt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      title:
+        type: string
+      url:
+        type: string
+    type: object
   structs.CreateTopicBody:
     properties:
       content:
@@ -157,8 +157,6 @@ definitions:
       created_at:
         type: string
       created_by:
-        type: string
-      domain_id:
         type: string
       markdown:
         type: boolean
@@ -176,6 +174,8 @@ definitions:
         type: string
       temp:
         type: boolean
+      tenant_id:
+        type: string
       thumbnail:
         type: string
       title:
@@ -201,13 +201,13 @@ definitions:
     properties:
       display_name:
         type: string
-      domain:
-        type: string
       phone:
         type: string
       register_token:
         type: string
       short_bio:
+        type: string
+      tenant:
         type: string
       username:
         type: string
@@ -222,8 +222,6 @@ definitions:
       created_at:
         type: string
       created_by:
-        type: string
-      domain_id:
         type: string
       endpoint:
         type: string
@@ -241,49 +239,14 @@ definitions:
         type: integer
       storage:
         type: string
+      tenant_id:
+        type: string
       type:
         type: string
       updated_at:
         type: string
       updated_by:
         type: string
-    type: object
-  structs.ReadDomain:
-    properties:
-      copyright:
-        type: string
-      created_at:
-        type: string
-      created_by:
-        type: string
-      description:
-        type: string
-      disabled:
-        type: boolean
-      extras:
-        $ref: '#/definitions/types.JSON'
-      id:
-        type: string
-      keywords:
-        items:
-          type: string
-        type: array
-      logo:
-        type: string
-      logo_alt:
-        type: string
-      name:
-        type: string
-      order:
-        type: integer
-      title:
-        type: string
-      updated_at:
-        type: string
-      url:
-        type: string
-      user:
-        $ref: '#/definitions/structs.User'
     type: object
   structs.ReadModule:
     properties:
@@ -336,8 +299,6 @@ definitions:
         type: string
       description:
         type: string
-      domain_id:
-        type: string
       extras:
         $ref: '#/definitions/types.JSON'
       icon:
@@ -356,6 +317,8 @@ definitions:
         type: string
       status:
         type: integer
+      tenant_id:
+        type: string
       thumbnail:
         type: string
       type:
@@ -367,105 +330,11 @@ definitions:
       url:
         type: string
     type: object
-  structs.ReadTopic:
-    properties:
-      content:
-        type: string
-      created_at:
-        type: string
-      created_by:
-        type: string
-      domain_id:
-        type: string
-      id:
-        type: string
-      markdown:
-        type: boolean
-      name:
-        type: string
-      private:
-        type: boolean
-      released:
-        type: string
-      slug:
-        type: string
-      status:
-        type: integer
-      taxonomy_id:
-        type: string
-      temp:
-        type: boolean
-      thumbnail:
-        type: string
-      title:
-        type: string
-      updated_at:
-        type: string
-      updated_by:
-        type: string
-    type: object
-  structs.RegisterBody:
-    properties:
-      display_name:
-        type: string
-      domain:
-        type: string
-      phone:
-        type: string
-      register_token:
-        type: string
-      short_bio:
-        type: string
-      username:
-        type: string
-    required:
-    - display_name
-    - register_token
-    - username
-    type: object
-  structs.SendCodeBody:
-    properties:
-      email:
-        type: string
-      phone:
-        type: string
-    type: object
-  structs.UpdateAssetBody:
-    properties:
-      bucket:
-        type: string
-      created_at:
-        type: string
-      created_by:
-        type: string
-      domain_id:
-        type: string
-      endpoint:
-        type: string
-      extras:
-        $ref: '#/definitions/types.JSON'
-      id:
-        type: string
-      name:
-        type: string
-      object_id:
-        type: string
-      path:
-        type: string
-      size:
-        type: integer
-      storage:
-        type: string
-      type:
-        type: string
-      updated_at:
-        type: string
-      updated_by:
-        type: string
-    type: object
-  structs.UpdateDomainBody:
+  structs.ReadTenant:
     properties:
       copyright:
+        type: string
+      created_at:
         type: string
       created_by:
         type: string
@@ -491,7 +360,107 @@ definitions:
         type: integer
       title:
         type: string
+      updated_at:
+        type: string
       url:
+        type: string
+      user:
+        $ref: '#/definitions/structs.User'
+    type: object
+  structs.ReadTopic:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      taxonomy_id:
+        type: string
+      temp:
+        type: boolean
+      tenant_id:
+        type: string
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.RegisterBody:
+    properties:
+      display_name:
+        type: string
+      phone:
+        type: string
+      register_token:
+        type: string
+      short_bio:
+        type: string
+      tenant:
+        type: string
+      username:
+        type: string
+    required:
+    - display_name
+    - register_token
+    - username
+    type: object
+  structs.SendCodeBody:
+    properties:
+      email:
+        type: string
+      phone:
+        type: string
+    type: object
+  structs.UpdateAssetBody:
+    properties:
+      bucket:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      endpoint:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      object_id:
+        type: string
+      path:
+        type: string
+      size:
+        type: integer
+      storage:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
         type: string
     type: object
   structs.UpdateModuleBody:
@@ -541,8 +510,6 @@ definitions:
         type: string
       description:
         type: string
-      domain_id:
-        type: string
       extras:
         $ref: '#/definitions/types.JSON'
       icon:
@@ -561,6 +528,8 @@ definitions:
         type: string
       status:
         type: integer
+      tenant_id:
+        type: string
       thumbnail:
         type: string
       type:
@@ -572,6 +541,37 @@ definitions:
       url:
         type: string
     type: object
+  structs.UpdateTenantBody:
+    properties:
+      copyright:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/types.JSON'
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      logo:
+        type: string
+      logo_alt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      title:
+        type: string
+      url:
+        type: string
+    type: object
   structs.UpdateTopicBody:
     properties:
       content:
@@ -579,8 +579,6 @@ definitions:
       created_at:
         type: string
       created_by:
-        type: string
-      domain_id:
         type: string
       id:
         type: string
@@ -600,6 +598,8 @@ definitions:
         type: string
       temp:
         type: boolean
+      tenant_id:
+        type: string
       thumbnail:
         type: string
       title:
@@ -717,25 +717,6 @@ paths:
       summary: Get current user
       tags:
       - account
-  /v1/account/domain:
-    get:
-      description: Retrieve the domain associated with the current user.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadDomain'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get current user domain
-      tags:
-      - account
   /v1/account/password:
     put:
       consumes:
@@ -764,16 +745,31 @@ paths:
       summary: Update user password
       tags:
       - account
+  /v1/account/tenant:
+    get:
+      description: Retrieve the tenant associated with the current user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTenant'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get current user tenant
+      tags:
+      - account
   /v1/assets:
     get:
       description: List assets based on specified parameters.
       parameters:
       - in: query
         name: cursor
-        type: string
-      - in: query
-        name: domain_id
-        required: true
         type: string
       - description: validate:"gte=1,lte=100"
         in: query
@@ -785,6 +781,10 @@ paths:
         type: string
       - in: query
         name: storage
+        type: string
+      - in: query
+        name: tenant_id
+        required: true
         type: string
       - in: query
         name: type
@@ -822,9 +822,9 @@ paths:
         in: formData
         name: object_id
         type: string
-      - description: Domain ID associated with the asset
+      - description: Tenant ID associated with the asset
         in: formData
-        name: domain_id
+        name: tenant_id
         type: string
       - description: Additional properties associated with the asset (JSON format)
         in: formData
@@ -1081,270 +1081,6 @@ paths:
       summary: Validate captcha
       tags:
       - authentication
-  /v1/domains:
-    get:
-      description: Retrieve a list of domains.
-      parameters:
-      - in: query
-        name: cursor
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: user
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.ReadDomain'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: List domains
-      tags:
-      - domain
-    post:
-      consumes:
-      - application/json
-      description: Create a new domain.
-      parameters:
-      - description: CreateDomainBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.CreateDomainBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadDomain'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: Create domain
-      tags:
-      - domain
-    put:
-      consumes:
-      - application/json
-      description: Update the domain information.
-      parameters:
-      - description: Domain ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: UpdateDomainBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.UpdateDomainBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadDomain'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: Update domain
-      tags:
-      - domain
-  /v1/domains/{slug}:
-    delete:
-      description: Delete a specific domain.
-      parameters:
-      - description: Domain ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: Delete domain
-      tags:
-      - domain
-    get:
-      description: Retrieve information about a specific domain.
-      parameters:
-      - description: Domain ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadDomain'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get domain
-      tags:
-      - domain
-  /v1/domains/{slug}/assets:
-    get:
-      description: Retrieve a list of assets associated with a specific domain.
-      parameters:
-      - description: Domain ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: List domain assets
-      tags:
-      - domain
-  /v1/domains/{slug}/groups:
-    get:
-      description: Retrieve a list of groups associated with a specific domain.
-      parameters:
-      - description: Domain ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: List domain groups
-      tags:
-      - domain
-  /v1/domains/{slug}/menu:
-    get:
-      description: Retrieve the menu associated with a specific domain.
-      parameters:
-      - description: Domain ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get domain menu
-      tags:
-      - domain
-  /v1/domains/{slug}/setting:
-    get:
-      description: Retrieve the settings associated with a specific domain.
-      parameters:
-      - description: Domain ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get domain setting
-      tags:
-      - domain
-  /v1/domains/{slug}/users:
-    get:
-      description: Retrieve a list of users associated with a specific domain.
-      parameters:
-      - description: Domain ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/resp.Exception'
-      security:
-      - Bearer: []
-      summary: List domain users
-      tags:
-      - domain
   /v1/login:
     post:
       consumes:
@@ -1852,13 +1588,13 @@ paths:
         name: cursor
         type: string
       - in: query
-        name: domain_id
-        type: string
-      - in: query
         name: limit
         type: integer
       - in: query
         name: parent_id
+        type: string
+      - in: query
+        name: tenant_id
         type: string
       - in: query
         name: type
@@ -1986,6 +1722,270 @@ paths:
       summary: Update taxonomy
       tags:
       - taxonomy
+  /v1/tenants:
+    get:
+      description: Retrieve a list of tenants.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: user
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadTenant'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: List tenants
+      tags:
+      - tenant
+    post:
+      consumes:
+      - application/json
+      description: Create a new tenant.
+      parameters:
+      - description: CreateTenantBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTenantBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTenant'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create tenant
+      tags:
+      - tenant
+    put:
+      consumes:
+      - application/json
+      description: Update the tenant information.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: UpdateTenantBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateTenantBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTenant'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update tenant
+      tags:
+      - tenant
+  /v1/tenants/{slug}:
+    delete:
+      description: Delete a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete tenant
+      tags:
+      - tenant
+    get:
+      description: Retrieve information about a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTenant'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get tenant
+      tags:
+      - tenant
+  /v1/tenants/{slug}/assets:
+    get:
+      description: Retrieve a list of assets associated with a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: List tenant assets
+      tags:
+      - tenant
+  /v1/tenants/{slug}/groups:
+    get:
+      description: Retrieve a list of groups associated with a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: List tenant groups
+      tags:
+      - tenant
+  /v1/tenants/{slug}/menu:
+    get:
+      description: Retrieve the menu associated with a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get tenant menu
+      tags:
+      - tenant
+  /v1/tenants/{slug}/setting:
+    get:
+      description: Retrieve the settings associated with a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get tenant setting
+      tags:
+      - tenant
+  /v1/tenants/{slug}/users:
+    get:
+      description: Retrieve a list of users associated with a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: List tenant users
+      tags:
+      - tenant
   /v1/topics:
     get:
       description: Retrieve a list of topics.
@@ -1994,13 +1994,13 @@ paths:
         name: cursor
         type: string
       - in: query
-        name: domain_id
-        type: string
-      - in: query
         name: limit
         type: integer
       - in: query
         name: taxonomy_id
+        type: string
+      - in: query
+        name: tenant_id
         type: string
       produces:
       - application/json
@@ -2147,9 +2147,9 @@ paths:
       summary: Get user
       tags:
       - user
-  /v1/users/{username}/domain:
+  /v1/users/{username}/tenant:
     get:
-      description: Retrieve the domain associated with the specified user.
+      description: Retrieve the tenant associated with the specified user.
       parameters:
       - description: Username
         in: path
@@ -2162,14 +2162,14 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadDomain'
+            $ref: '#/definitions/structs.ReadTenant'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/resp.Exception'
       security:
       - Bearer: []
-      summary: Get user owned domain
+      summary: Get user owned tenant
       tags:
       - user
 securityDefinitions:
