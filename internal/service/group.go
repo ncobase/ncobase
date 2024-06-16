@@ -109,7 +109,7 @@ func (svc *Service) serializeGroup(row *ent.Group) *structs.ReadGroup {
 		Leader:      &row.Leader,
 		Extras:      &row.Extras,
 		ParentID:    &row.ParentID,
-		DomainID:    &row.DomainID,
+		TenantID:    &row.TenantID,
 		BaseEntity: structs.BaseEntity{
 			CreatedBy: &row.CreatedBy,
 			CreatedAt: &row.CreatedAt,

@@ -1,0 +1,50 @@
+package schema
+
+import (
+	"ncobase/internal/data/schema/mixin"
+	"strings"
+
+	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
+)
+
+// UserTenant holds the schema definition for the UserTenant entity.
+type UserTenant struct {
+	ent.Schema
+}
+
+// Annotations of the UserTenant.
+func (UserTenant) Annotations() []schema.Annotation {
+	table := strings.Join([]string{"nb", "user_tenant"}, "_")
+	return []schema.Annotation{
+		entsql.Annotation{Table: table},
+		entsql.WithComments(true),
+	}
+}
+
+// Mixin of the UserTenant.
+func (UserTenant) Mixin() []ent.Mixin {
+	return []ent.Mixin{
+		mixin.NewPrimaryKeyAlias("user", "user_id"),
+		mixin.TenantID,
+	}
+}
+
+// Fields of the UserTenant.
+func (UserTenant) Fields() []ent.Field {
+	return nil
+}
+
+// Edges of the UserTenant.
+func (UserTenant) Edges() []ent.Edge {
+	return nil
+}
+
+// Indexes of the UserTenant.
+func (UserTenant) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("id", "tenant_id"),
+	}
+}

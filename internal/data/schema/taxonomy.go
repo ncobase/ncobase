@@ -44,7 +44,7 @@ func (Taxonomy) Mixin() []ent.Mixin {
 		mixin.Status, // status, 0: enabled, 1: disabled, ...
 		mixin.ExtraProps,
 		mixin.ParentID,
-		mixin.DomainID,
+		mixin.TenantID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"mime/multipart"
-	"net/http"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
@@ -16,6 +15,7 @@ import (
 	"ncobase/pkg/storage"
 	"ncobase/pkg/types"
 	"ncobase/pkg/validator"
+	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -33,7 +33,7 @@ var maxAssetSize int64 = 2048 << 20 // 2048 MB
 // @Produce json
 // @Param file formData file true "File to upload"
 // @Param object_id formData string false "Object ID associated with the asset"
-// @Param domain_id formData string false "Domain ID associated with the asset"
+// @Param tenant_id formData string false "Tenant ID associated with the asset"
 // @Param extras formData string false "Additional properties associated with the asset (JSON format)"
 // @Success 200 {object} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
@@ -132,8 +132,8 @@ func (h *Handler) validateAssetBody(body *structs.CreateAssetBody) error {
 	if validator.IsEmpty(body.ObjectID) {
 		return errors.New("belongsTo object is required")
 	}
-	if validator.IsEmpty(body.DomainID) {
-		return errors.New("belongsTo domain is required")
+	if validator.IsEmpty(body.TenantID) {
+		return errors.New("belongsTo tenant is required")
 	}
 	return nil
 }
@@ -205,8 +205,8 @@ func bindAssetFields(c *gin.Context, body *structs.CreateAssetBody) error {
 		switch key {
 		case "object_id":
 			body.ObjectID = values[0]
-		case "domain_id":
-			body.DomainID = values[0]
+		case "tenant_id":
+			body.TenantID = values[0]
 		case "extras":
 			var extras types.JSON
 			if err := json.Unmarshal([]byte(values[0]), &extras); err != nil {

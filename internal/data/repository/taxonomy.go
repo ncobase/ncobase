@@ -222,7 +222,7 @@ func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JS
 // List get taxonomy list
 func (r *taxonomyRepo) List(ctx context.Context, p *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error) {
 	// Generate cache key based on query parameters
-	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", p.Cursor, p.Limit, p.DomainID, p.Type)
+	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", p.Cursor, p.Limit, p.TenantID, p.Type)
 
 	// // check cache first
 	// cachedResult, err := r.c.Get(ctx, cacheKey)
@@ -246,9 +246,9 @@ func (r *taxonomyRepo) List(ctx context.Context, p *structs.ListTaxonomyParams) 
 	// limit the result
 	builder.Limit(int(p.Limit))
 
-	// belong domain
-	if p.DomainID != "" {
-		builder.Where(taxonomyEnt.DomainIDEQ(p.DomainID))
+	// belong tenant
+	if p.TenantID != "" {
+		builder.Where(taxonomyEnt.TenantIDEQ(p.TenantID))
 	}
 
 	// type
@@ -326,8 +326,8 @@ func (r *taxonomyRepo) FindTaxonomy(ctx context.Context, p *structs.FindTaxonomy
 			taxonomyEnt.SlugEQ(p.Slug),
 		))
 	}
-	if validator.IsNotEmpty(p.DomainID) {
-		builder = builder.Where(taxonomyEnt.DomainIDEQ(p.DomainID))
+	if validator.IsNotEmpty(p.TenantID) {
+		builder = builder.Where(taxonomyEnt.TenantIDEQ(p.TenantID))
 	}
 
 	// execute the builder.

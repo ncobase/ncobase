@@ -14,36 +14,6 @@ type AuthPayload struct {
 	RefreshToken *string `json:"refresh_token,omitempty"`
 }
 
-type Domain struct {
-	ID          string                 `json:"id"`
-	Name        *string                `json:"name,omitempty"`
-	Title       *string                `json:"title,omitempty"`
-	URL         *string                `json:"url,omitempty"`
-	Logo        *string                `json:"logo,omitempty"`
-	LogoAlt     *string                `json:"logoAlt,omitempty"`
-	Keywords    []*string              `json:"keywords,omitempty"`
-	Copyright   *string                `json:"copyright,omitempty"`
-	Description *string                `json:"description,omitempty"`
-	Order       *int                   `json:"order,omitempty"`
-	Disabled    *bool                  `json:"disabled,omitempty"`
-	Extras      map[string]interface{} `json:"extras,omitempty"`
-	User        *User                  `json:"user,omitempty"`
-}
-
-type DomainInput struct {
-	Name        *string                `json:"name,omitempty"`
-	Title       *string                `json:"title,omitempty"`
-	URL         *string                `json:"url,omitempty"`
-	Logo        *string                `json:"logo,omitempty"`
-	LogoAlt     *string                `json:"logoAlt,omitempty"`
-	Keywords    []*string              `json:"keywords,omitempty"`
-	Copyright   *string                `json:"copyright,omitempty"`
-	Description *string                `json:"description,omitempty"`
-	Order       *int                   `json:"order,omitempty"`
-	Disabled    *bool                  `json:"disabled,omitempty"`
-	Extras      map[string]interface{} `json:"extras,omitempty"`
-}
-
 type LoginInput struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -84,6 +54,36 @@ type SendCodeInput struct {
 type Sort struct {
 	SortBy string    `json:"sort_by"`
 	Order  SortOrder `json:"order"`
+}
+
+type Tenant struct {
+	ID          string                 `json:"id"`
+	Name        *string                `json:"name,omitempty"`
+	Title       *string                `json:"title,omitempty"`
+	URL         *string                `json:"url,omitempty"`
+	Logo        *string                `json:"logo,omitempty"`
+	LogoAlt     *string                `json:"logoAlt,omitempty"`
+	Keywords    []*string              `json:"keywords,omitempty"`
+	Copyright   *string                `json:"copyright,omitempty"`
+	Description *string                `json:"description,omitempty"`
+	Order       *int                   `json:"order,omitempty"`
+	Disabled    *bool                  `json:"disabled,omitempty"`
+	Extras      map[string]interface{} `json:"extras,omitempty"`
+	User        *User                  `json:"user,omitempty"`
+}
+
+type TenantInput struct {
+	Name        *string                `json:"name,omitempty"`
+	Title       *string                `json:"title,omitempty"`
+	URL         *string                `json:"url,omitempty"`
+	Logo        *string                `json:"logo,omitempty"`
+	LogoAlt     *string                `json:"logoAlt,omitempty"`
+	Keywords    []*string              `json:"keywords,omitempty"`
+	Copyright   *string                `json:"copyright,omitempty"`
+	Description *string                `json:"description,omitempty"`
+	Order       *int                   `json:"order,omitempty"`
+	Disabled    *bool                  `json:"disabled,omitempty"`
+	Extras      map[string]interface{} `json:"extras,omitempty"`
 }
 
 type UpdatePassword struct {

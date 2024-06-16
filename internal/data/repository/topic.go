@@ -63,7 +63,7 @@ func (r *topicRepo) Create(ctx context.Context, body *structs.CreateTopicBody) (
 	builder.SetStatus(body.Status)
 	builder.SetNillableReleased(&body.Released)
 	builder.SetTaxonomyID(body.TaxonomyID)
-	builder.SetDomainID(body.DomainID)
+	builder.SetTenantID(body.TenantID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	// execute the builder.
@@ -175,8 +175,8 @@ func (r *topicRepo) Update(ctx context.Context, slug string, updates types.JSON)
 			builder.SetNillableReleased(types.ToPointer(value.(time.Time)))
 		case "taxonomy_id":
 			builder.SetNillableTaxonomyID(types.ToPointer(value.(string)))
-		case "domain_id":
-			builder.SetNillableDomainID(types.ToPointer(value.(string)))
+		case "tenant_id":
+			builder.SetNillableTenantID(types.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
 		}
@@ -221,9 +221,9 @@ func (r *topicRepo) List(ctx context.Context, p *structs.ListTopicParams) ([]*en
 	// limit the result
 	builder.Limit(int(p.Limit))
 
-	// belong domain
-	if p.DomainID != "" {
-		builder.Where(topicEnt.DomainIDEQ(p.DomainID))
+	// belong tenant
+	if p.TenantID != "" {
+		builder.Where(topicEnt.TenantIDEQ(p.TenantID))
 	}
 
 	// sort
@@ -287,8 +287,8 @@ func (r *topicRepo) FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.T
 			topicEnt.SlugEQ(p.Slug),
 		))
 	}
-	if validator.IsNotEmpty(p.DomainID) {
-		builder = builder.Where(topicEnt.DomainIDEQ(p.DomainID))
+	if validator.IsNotEmpty(p.TenantID) {
+		builder = builder.Where(topicEnt.TenantIDEQ(p.TenantID))
 	}
 
 	// execute the builder.

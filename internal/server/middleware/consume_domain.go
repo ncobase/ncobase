@@ -11,36 +11,36 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type DomainFetcher interface {
-	UserDomainService(c *gin.Context, username string) (*resp.Exception, error)
+type TenantFetcher interface {
+	UserTenantService(c *gin.Context, username string) (*resp.Exception, error)
 }
 
-// ConsumeDomain consumes domain information from the request header or user domains.
-func ConsumeDomain(svc DomainFetcher) gin.HandlerFunc {
+// ConsumeTenant consumes tenant information from the request header or user tenants.
+func ConsumeTenant(svc TenantFetcher) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Retrieve domain ID from request header
-		domainID := c.GetHeader(consts.XMdDomainKey)
-		// If domain ID is not provided in the header, try to fetch from other sources
-		if domainID == "" {
-			// Get domain ID
-			domainID = helper.GetDomainID(c)
-			if domainID == "" {
+		// Retrieve tenant ID from request header
+		tenantID := c.GetHeader(consts.XMdTenantKey)
+		// If tenant ID is not provided in the header, try to fetch from other sources
+		if tenantID == "" {
+			// Get tenant ID
+			tenantID = helper.GetTenantID(c)
+			if tenantID == "" {
 				// Get user ID
 				userID := helper.GetUserID(c)
-				// Fetch user domains
-				result, _ := svc.UserDomainService(c, userID)
+				// Fetch user tenants
+				result, _ := svc.UserTenantService(c, userID)
 				if result.Code != 0 {
-					log.Errorf(context.Background(), "Failed to fetch user domains: %v", result)
-				} else if readDomain, ok := result.Data.(*structs.ReadDomain); ok {
-					domainID = readDomain.ID
+					log.Errorf(context.Background(), "Failed to fetch user tenants: %v", result)
+				} else if readTenant, ok := result.Data.(*structs.ReadTenant); ok {
+					tenantID = readTenant.ID
 				} else {
-					log.Errorf(context.Background(), "Failed to fetch user domains: %v", result)
+					log.Errorf(context.Background(), "Failed to fetch user tenants: %v", result)
 				}
 			}
 		}
 
-		// Set domain ID to context
-		helper.SetDomainID(c, domainID)
+		// Set tenant ID to context
+		helper.SetTenantID(c, tenantID)
 
 		// Continue to next middleware or handler
 		c.Next()

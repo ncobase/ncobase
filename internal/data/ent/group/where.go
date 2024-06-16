@@ -89,9 +89,9 @@ func ParentID(v string) predicate.Group {
 	return predicate.Group(sql.FieldEQ(FieldParentID, v))
 }
 
-// DomainID applies equality check predicate on the "domain_id" field. It's identical to DomainIDEQ.
-func DomainID(v string) predicate.Group {
-	return predicate.Group(sql.FieldEQ(FieldDomainID, v))
+// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
+func TenantID(v string) predicate.Group {
+	return predicate.Group(sql.FieldEQ(FieldTenantID, v))
 }
 
 // CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
@@ -454,79 +454,79 @@ func ParentIDContainsFold(v string) predicate.Group {
 	return predicate.Group(sql.FieldContainsFold(FieldParentID, v))
 }
 
-// DomainIDEQ applies the EQ predicate on the "domain_id" field.
-func DomainIDEQ(v string) predicate.Group {
-	return predicate.Group(sql.FieldEQ(FieldDomainID, v))
+// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
+func TenantIDEQ(v string) predicate.Group {
+	return predicate.Group(sql.FieldEQ(FieldTenantID, v))
 }
 
-// DomainIDNEQ applies the NEQ predicate on the "domain_id" field.
-func DomainIDNEQ(v string) predicate.Group {
-	return predicate.Group(sql.FieldNEQ(FieldDomainID, v))
+// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
+func TenantIDNEQ(v string) predicate.Group {
+	return predicate.Group(sql.FieldNEQ(FieldTenantID, v))
 }
 
-// DomainIDIn applies the In predicate on the "domain_id" field.
-func DomainIDIn(vs ...string) predicate.Group {
-	return predicate.Group(sql.FieldIn(FieldDomainID, vs...))
+// TenantIDIn applies the In predicate on the "tenant_id" field.
+func TenantIDIn(vs ...string) predicate.Group {
+	return predicate.Group(sql.FieldIn(FieldTenantID, vs...))
 }
 
-// DomainIDNotIn applies the NotIn predicate on the "domain_id" field.
-func DomainIDNotIn(vs ...string) predicate.Group {
-	return predicate.Group(sql.FieldNotIn(FieldDomainID, vs...))
+// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
+func TenantIDNotIn(vs ...string) predicate.Group {
+	return predicate.Group(sql.FieldNotIn(FieldTenantID, vs...))
 }
 
-// DomainIDGT applies the GT predicate on the "domain_id" field.
-func DomainIDGT(v string) predicate.Group {
-	return predicate.Group(sql.FieldGT(FieldDomainID, v))
+// TenantIDGT applies the GT predicate on the "tenant_id" field.
+func TenantIDGT(v string) predicate.Group {
+	return predicate.Group(sql.FieldGT(FieldTenantID, v))
 }
 
-// DomainIDGTE applies the GTE predicate on the "domain_id" field.
-func DomainIDGTE(v string) predicate.Group {
-	return predicate.Group(sql.FieldGTE(FieldDomainID, v))
+// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
+func TenantIDGTE(v string) predicate.Group {
+	return predicate.Group(sql.FieldGTE(FieldTenantID, v))
 }
 
-// DomainIDLT applies the LT predicate on the "domain_id" field.
-func DomainIDLT(v string) predicate.Group {
-	return predicate.Group(sql.FieldLT(FieldDomainID, v))
+// TenantIDLT applies the LT predicate on the "tenant_id" field.
+func TenantIDLT(v string) predicate.Group {
+	return predicate.Group(sql.FieldLT(FieldTenantID, v))
 }
 
-// DomainIDLTE applies the LTE predicate on the "domain_id" field.
-func DomainIDLTE(v string) predicate.Group {
-	return predicate.Group(sql.FieldLTE(FieldDomainID, v))
+// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
+func TenantIDLTE(v string) predicate.Group {
+	return predicate.Group(sql.FieldLTE(FieldTenantID, v))
 }
 
-// DomainIDContains applies the Contains predicate on the "domain_id" field.
-func DomainIDContains(v string) predicate.Group {
-	return predicate.Group(sql.FieldContains(FieldDomainID, v))
+// TenantIDContains applies the Contains predicate on the "tenant_id" field.
+func TenantIDContains(v string) predicate.Group {
+	return predicate.Group(sql.FieldContains(FieldTenantID, v))
 }
 
-// DomainIDHasPrefix applies the HasPrefix predicate on the "domain_id" field.
-func DomainIDHasPrefix(v string) predicate.Group {
-	return predicate.Group(sql.FieldHasPrefix(FieldDomainID, v))
+// TenantIDHasPrefix applies the HasPrefix predicate on the "tenant_id" field.
+func TenantIDHasPrefix(v string) predicate.Group {
+	return predicate.Group(sql.FieldHasPrefix(FieldTenantID, v))
 }
 
-// DomainIDHasSuffix applies the HasSuffix predicate on the "domain_id" field.
-func DomainIDHasSuffix(v string) predicate.Group {
-	return predicate.Group(sql.FieldHasSuffix(FieldDomainID, v))
+// TenantIDHasSuffix applies the HasSuffix predicate on the "tenant_id" field.
+func TenantIDHasSuffix(v string) predicate.Group {
+	return predicate.Group(sql.FieldHasSuffix(FieldTenantID, v))
 }
 
-// DomainIDIsNil applies the IsNil predicate on the "domain_id" field.
-func DomainIDIsNil() predicate.Group {
-	return predicate.Group(sql.FieldIsNull(FieldDomainID))
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.Group {
+	return predicate.Group(sql.FieldIsNull(FieldTenantID))
 }
 
-// DomainIDNotNil applies the NotNil predicate on the "domain_id" field.
-func DomainIDNotNil() predicate.Group {
-	return predicate.Group(sql.FieldNotNull(FieldDomainID))
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.Group {
+	return predicate.Group(sql.FieldNotNull(FieldTenantID))
 }
 
-// DomainIDEqualFold applies the EqualFold predicate on the "domain_id" field.
-func DomainIDEqualFold(v string) predicate.Group {
-	return predicate.Group(sql.FieldEqualFold(FieldDomainID, v))
+// TenantIDEqualFold applies the EqualFold predicate on the "tenant_id" field.
+func TenantIDEqualFold(v string) predicate.Group {
+	return predicate.Group(sql.FieldEqualFold(FieldTenantID, v))
 }
 
-// DomainIDContainsFold applies the ContainsFold predicate on the "domain_id" field.
-func DomainIDContainsFold(v string) predicate.Group {
-	return predicate.Group(sql.FieldContainsFold(FieldDomainID, v))
+// TenantIDContainsFold applies the ContainsFold predicate on the "tenant_id" field.
+func TenantIDContainsFold(v string) predicate.Group {
+	return predicate.Group(sql.FieldContainsFold(FieldTenantID, v))
 }
 
 // CreatedByEQ applies the EQ predicate on the "created_by" field.

@@ -101,16 +101,16 @@ func (gc *GroupCreate) SetNillableParentID(s *string) *GroupCreate {
 	return gc
 }
 
-// SetDomainID sets the "domain_id" field.
-func (gc *GroupCreate) SetDomainID(s string) *GroupCreate {
-	gc.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (gc *GroupCreate) SetTenantID(s string) *GroupCreate {
+	gc.mutation.SetTenantID(s)
 	return gc
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (gc *GroupCreate) SetNillableDomainID(s *string) *GroupCreate {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (gc *GroupCreate) SetNillableTenantID(s *string) *GroupCreate {
 	if s != nil {
-		gc.SetDomainID(*s)
+		gc.SetTenantID(*s)
 	}
 	return gc
 }
@@ -253,9 +253,9 @@ func (gc *GroupCreate) check() error {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Group.parent_id": %w`, err)}
 		}
 	}
-	if v, ok := gc.mutation.DomainID(); ok {
-		if err := group.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Group.domain_id": %w`, err)}
+	if v, ok := gc.mutation.TenantID(); ok {
+		if err := group.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Group.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := gc.mutation.CreatedBy(); ok {
@@ -336,9 +336,9 @@ func (gc *GroupCreate) createSpec() (*Group, *sqlgraph.CreateSpec) {
 		_spec.SetField(group.FieldParentID, field.TypeString, value)
 		_node.ParentID = value
 	}
-	if value, ok := gc.mutation.DomainID(); ok {
-		_spec.SetField(group.FieldDomainID, field.TypeString, value)
-		_node.DomainID = value
+	if value, ok := gc.mutation.TenantID(); ok {
+		_spec.SetField(group.FieldTenantID, field.TypeString, value)
+		_node.TenantID = value
 	}
 	if value, ok := gc.mutation.CreatedBy(); ok {
 		_spec.SetField(group.FieldCreatedBy, field.TypeString, value)

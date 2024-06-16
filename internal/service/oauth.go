@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"net/http"
 	"ncobase/internal/data/ent"
 	oauthUserEnt "ncobase/internal/data/ent/oauthuser"
 	userEnt "ncobase/internal/data/ent/user"
@@ -17,6 +16,7 @@ import (
 	"ncobase/pkg/resp"
 	"ncobase/pkg/types"
 	"ncobase/pkg/validator"
+	"net/http"
 
 	match "github.com/alexpantyukhin/go-pattern-match"
 	"github.com/gin-gonic/gin"
@@ -109,8 +109,8 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 		return nil, err
 	}
 
-	if _, err := svc.isCreateDomain(ctx, &structs.CreateDomainBody{
-		DomainBody: structs.DomainBody{Name: body.Domain, CreatedBy: user.ID},
+	if _, err := svc.isCreateTenant(ctx, &structs.CreateTenantBody{
+		TenantBody: structs.TenantBody{Name: body.Tenant, CreatedBy: user.ID},
 	}); err != nil {
 		return nil, resp.InternalServer(err.Error())
 	}

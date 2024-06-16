@@ -36,7 +36,7 @@ func (Group) Mixin() []ent.Mixin {
 		mixin.Leader,
 		mixin.ExtraProps,
 		mixin.ParentID,
-		mixin.DomainID,
+		mixin.TenantID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

@@ -15,14 +15,14 @@ func GetUserID(c *gin.Context) string {
 	return ""
 }
 
-// SetDomainID sets domain id to gin.Context
-func SetDomainID(c *gin.Context, uid string) {
-	SetValue(c, "domain_id", uid)
+// SetTenantID sets tenant id to gin.Context
+func SetTenantID(c *gin.Context, uid string) {
+	SetValue(c, "tenant_id", uid)
 }
 
-// GetDomainID gets domain id from gin.Context
-func GetDomainID(c *gin.Context) string {
-	if uid, ok := GetValue(c, "domain_id").(string); ok {
+// GetTenantID gets tenant id from gin.Context
+func GetTenantID(c *gin.Context) string {
+	if uid, ok := GetValue(c, "tenant_id").(string); ok {
 		return uid
 	}
 	return ""

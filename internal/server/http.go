@@ -1,13 +1,13 @@
 package server
 
 import (
-	"net/http"
 	"ncobase/internal/config"
 	"ncobase/internal/handler"
 	"ncobase/internal/server/middleware"
 	"ncobase/internal/service"
 	"ncobase/pkg/ecode"
 	"ncobase/pkg/types"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,7 +26,7 @@ func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service) (*gi
 	engine.Use(middleware.BindConfig)
 	engine.Use(middleware.BindGinContext)
 	engine.Use(middleware.Trace)
-	engine.Use(middleware.ConsumeDomain(svc))
+	engine.Use(middleware.ConsumeTenant(svc))
 
 	// Register REST
 	registerRest(engine, h, conf)

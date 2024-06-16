@@ -20,8 +20,6 @@ type Tx struct {
 	CasbinRule *CasbinRuleClient
 	// CodeAuth is the client for interacting with the CodeAuth builders.
 	CodeAuth *CodeAuthClient
-	// Domain is the client for interacting with the Domain builders.
-	Domain *DomainClient
 	// Group is the client for interacting with the Group builders.
 	Group *GroupClient
 	// GroupRole is the client for interacting with the GroupRole builders.
@@ -40,20 +38,22 @@ type Tx struct {
 	Taxonomy *TaxonomyClient
 	// TaxonomyRelation is the client for interacting with the TaxonomyRelation builders.
 	TaxonomyRelation *TaxonomyRelationClient
+	// Tenant is the client for interacting with the Tenant builders.
+	Tenant *TenantClient
 	// Topic is the client for interacting with the Topic builders.
 	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
-	// UserDomain is the client for interacting with the UserDomain builders.
-	UserDomain *UserDomainClient
-	// UserDomainRole is the client for interacting with the UserDomainRole builders.
-	UserDomainRole *UserDomainRoleClient
 	// UserGroup is the client for interacting with the UserGroup builders.
 	UserGroup *UserGroupClient
 	// UserProfile is the client for interacting with the UserProfile builders.
 	UserProfile *UserProfileClient
 	// UserRole is the client for interacting with the UserRole builders.
 	UserRole *UserRoleClient
+	// UserTenant is the client for interacting with the UserTenant builders.
+	UserTenant *UserTenantClient
+	// UserTenantRole is the client for interacting with the UserTenantRole builders.
+	UserTenantRole *UserTenantRoleClient
 
 	// lazily loaded.
 	client     *Client
@@ -189,7 +189,6 @@ func (tx *Tx) init() {
 	tx.AuthToken = NewAuthTokenClient(tx.config)
 	tx.CasbinRule = NewCasbinRuleClient(tx.config)
 	tx.CodeAuth = NewCodeAuthClient(tx.config)
-	tx.Domain = NewDomainClient(tx.config)
 	tx.Group = NewGroupClient(tx.config)
 	tx.GroupRole = NewGroupRoleClient(tx.config)
 	tx.Module = NewModuleClient(tx.config)
@@ -199,13 +198,14 @@ func (tx *Tx) init() {
 	tx.RolePermission = NewRolePermissionClient(tx.config)
 	tx.Taxonomy = NewTaxonomyClient(tx.config)
 	tx.TaxonomyRelation = NewTaxonomyRelationClient(tx.config)
+	tx.Tenant = NewTenantClient(tx.config)
 	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)
-	tx.UserDomain = NewUserDomainClient(tx.config)
-	tx.UserDomainRole = NewUserDomainRoleClient(tx.config)
 	tx.UserGroup = NewUserGroupClient(tx.config)
 	tx.UserProfile = NewUserProfileClient(tx.config)
 	tx.UserRole = NewUserRoleClient(tx.config)
+	tx.UserTenant = NewUserTenantClient(tx.config)
+	tx.UserTenantRole = NewUserTenantRoleClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

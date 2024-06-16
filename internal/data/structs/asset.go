@@ -8,7 +8,7 @@ import (
 // FindAsset represents the parameters for finding an asset.
 type FindAsset struct {
 	ID       string `json:"id,omitempty"`
-	DomainID string `json:"domain_id,omitempty"`
+	TenantID string `json:"tenant_id,omitempty"`
 	UserID   string `json:"user_id,omitempty"`
 }
 
@@ -23,7 +23,7 @@ type AssetBody struct {
 	Bucket   string         `json:"bucket,omitempty"`
 	Endpoint string         `json:"endpoint,omitempty"`
 	ObjectID string         `json:"object_id,omitempty"`
-	DomainID string         `json:"domain_id,omitempty"`
+	TenantID string         `json:"tenant_id,omitempty"`
 	Extras   *types.JSON    `json:"extras,omitempty"`
 	BaseEntity
 }
@@ -50,7 +50,7 @@ type ReadAsset struct {
 	Bucket   string      `json:"bucket"`
 	Endpoint string      `json:"endpoint"`
 	ObjectID string      `json:"object_id"`
-	DomainID string      `json:"domain_id"`
+	TenantID string      `json:"tenant_id"`
 	Extras   *types.JSON `json:"extras,omitempty"`
 	BaseEntity
 }
@@ -59,7 +59,7 @@ type ReadAsset struct {
 type ListAssetParams struct {
 	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"` // validate:"gte=1,lte=100"
-	DomainID string `form:"domain_id,omitempty" json:"domain_id,omitempty" validate:"required"`
+	TenantID string `form:"tenant_id,omitempty" json:"tenant_id,omitempty" validate:"required"`
 	ObjectID string `form:"object_id,omitempty" json:"object_id,omitempty" validate:"required"`
 	UserID   string `form:"user_id,omitempty" json:"user_id,omitempty"`
 	Type     string `form:"type,omitempty" json:"type,omitempty"`

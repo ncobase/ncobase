@@ -47,7 +47,7 @@ var (
 	RoleID         = IDMixin{Field: "role_id", Comment: "role id", MaxLen: nanoid.PrimaryKeySize}
 	PermissionID   = IDMixin{Field: "permission_id", Comment: "permission id", MaxLen: nanoid.PrimaryKeySize}
 	GroupID        = IDMixin{Field: "group_id", Comment: "group id", MaxLen: nanoid.PrimaryKeySize}
-	DomainID       = IDMixin{Field: "domain_id", Comment: "domain id", MaxLen: nanoid.PrimaryKeySize}
+	TenantID       = IDMixin{Field: "tenant_id", Comment: "tenant id", MaxLen: nanoid.PrimaryKeySize}
 	OrganizationID = IDMixin{Field: "organization_id", Comment: "organization id", MaxLen: nanoid.PrimaryKeySize}
 	ParentID       = IDMixin{Field: "parent_id", Comment: "parent id", MaxLen: nanoid.PrimaryKeySize}
 	TopicID        = IDMixin{Field: "topic_id", Comment: "topic id", MaxLen: nanoid.PrimaryKeySize}

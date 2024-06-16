@@ -26,8 +26,8 @@ type Group interface {
 	FindGroup(ctx context.Context, p *structs.FindGroup) (*ent.Group, error)
 	ListBuilder(ctx context.Context, p *structs.ListGroupParams) (*ent.GroupQuery, error)
 	CountX(ctx context.Context, p *structs.ListGroupParams) int
-	GetGroupsByDomainID(ctx context.Context, domainID string) ([]*ent.Group, error)
-	IsGroupInDomain(ctx context.Context, groupID string, domainID string) (bool, error)
+	GetGroupsByTenantID(ctx context.Context, tenantID string) ([]*ent.Group, error)
+	IsGroupInTenant(ctx context.Context, groupID string, tenantID string) (bool, error)
 }
 
 // groupRepo implements the Group interface.
@@ -55,7 +55,7 @@ func (r *groupRepo) Create(ctx context.Context, body *structs.CreateGroupBody) (
 	builder.SetNillableDescription(&body.Description)
 	builder.SetDisabled(body.Disabled)
 	builder.SetNillableParentID(body.ParentID)
-	builder.SetNillableDomainID(body.DomainID)
+	builder.SetNillableTenantID(body.TenantID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	if !validator.IsNil(body.Leader) && !validator.IsEmpty(body.Leader) {
@@ -149,8 +149,8 @@ func (r *groupRepo) Update(ctx context.Context, slug string, updates types.JSON)
 			builder.SetExtras(value.(types.JSON))
 		case "parent_id":
 			builder.SetParentID(value.(string))
-		case "domain_id":
-			builder.SetDomainID(value.(string))
+		case "tenant_id":
+			builder.SetTenantID(value.(string))
 		case "updated_by":
 			builder.SetUpdatedBy(value.(string))
 		}
@@ -260,21 +260,21 @@ func (r *groupRepo) CountX(ctx context.Context, p *structs.ListGroupParams) int 
 	return 0
 }
 
-// GetGroupsByDomainID retrieves all groups under a domain.
-func (r *groupRepo) GetGroupsByDomainID(ctx context.Context, domainID string) ([]*ent.Group, error) {
-	groups, err := r.ec.Group.Query().Where(groupEnt.DomainIDEQ(domainID)).All(ctx)
+// GetGroupsByTenantID retrieves all groups under a tenant.
+func (r *groupRepo) GetGroupsByTenantID(ctx context.Context, tenantID string) ([]*ent.Group, error) {
+	groups, err := r.ec.Group.Query().Where(groupEnt.TenantIDEQ(tenantID)).All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.GetGroupsByDomainID error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.GetGroupsByTenantID error: %v\n", err)
 		return nil, err
 	}
 	return groups, nil
 }
 
-// IsGroupInDomain verifies if a group belongs to a specific domain.
-func (r *groupRepo) IsGroupInDomain(ctx context.Context, domainID string, groupID string) (bool, error) {
-	count, err := r.ec.Group.Query().Where(groupEnt.DomainIDEQ(domainID), groupEnt.IDEQ(groupID)).Count(ctx)
+// IsGroupInTenant verifies if a group belongs to a specific tenant.
+func (r *groupRepo) IsGroupInTenant(ctx context.Context, tenantID string, groupID string) (bool, error) {
+	count, err := r.ec.Group.Query().Where(groupEnt.TenantIDEQ(tenantID), groupEnt.IDEQ(groupID)).Count(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.IsGroupInDomain error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.IsGroupInTenant error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil

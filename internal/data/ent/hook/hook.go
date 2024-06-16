@@ -56,18 +56,6 @@ func (f CodeAuthFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, er
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CodeAuthMutation", m)
 }
 
-// The DomainFunc type is an adapter to allow the use of ordinary
-// function as Domain mutator.
-type DomainFunc func(context.Context, *ent.DomainMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f DomainFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.DomainMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DomainMutation", m)
-}
-
 // The GroupFunc type is an adapter to allow the use of ordinary
 // function as Group mutator.
 type GroupFunc func(context.Context, *ent.GroupMutation) (ent.Value, error)
@@ -176,6 +164,18 @@ func (f TaxonomyRelationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.V
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TaxonomyRelationMutation", m)
 }
 
+// The TenantFunc type is an adapter to allow the use of ordinary
+// function as Tenant mutator.
+type TenantFunc func(context.Context, *ent.TenantMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TenantFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TenantMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantMutation", m)
+}
+
 // The TopicFunc type is an adapter to allow the use of ordinary
 // function as Topic mutator.
 type TopicFunc func(context.Context, *ent.TopicMutation) (ent.Value, error)
@@ -198,30 +198,6 @@ func (f UserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserMutation", m)
-}
-
-// The UserDomainFunc type is an adapter to allow the use of ordinary
-// function as UserDomain mutator.
-type UserDomainFunc func(context.Context, *ent.UserDomainMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f UserDomainFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.UserDomainMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserDomainMutation", m)
-}
-
-// The UserDomainRoleFunc type is an adapter to allow the use of ordinary
-// function as UserDomainRole mutator.
-type UserDomainRoleFunc func(context.Context, *ent.UserDomainRoleMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f UserDomainRoleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.UserDomainRoleMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserDomainRoleMutation", m)
 }
 
 // The UserGroupFunc type is an adapter to allow the use of ordinary
@@ -258,6 +234,30 @@ func (f UserRoleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, er
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserRoleMutation", m)
+}
+
+// The UserTenantFunc type is an adapter to allow the use of ordinary
+// function as UserTenant mutator.
+type UserTenantFunc func(context.Context, *ent.UserTenantMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserTenantFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.UserTenantMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserTenantMutation", m)
+}
+
+// The UserTenantRoleFunc type is an adapter to allow the use of ordinary
+// function as UserTenantRole mutator.
+type UserTenantRoleFunc func(context.Context, *ent.UserTenantRoleMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserTenantRoleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.UserTenantRoleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserTenantRoleMutation", m)
 }
 
 // Condition is a hook condition function.

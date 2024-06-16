@@ -15,7 +15,6 @@ import (
 	"ncobase/internal/data/ent/authtoken"
 	"ncobase/internal/data/ent/casbinrule"
 	"ncobase/internal/data/ent/codeauth"
-	"ncobase/internal/data/ent/domain"
 	"ncobase/internal/data/ent/group"
 	"ncobase/internal/data/ent/grouprole"
 	"ncobase/internal/data/ent/module"
@@ -25,13 +24,14 @@ import (
 	"ncobase/internal/data/ent/rolepermission"
 	"ncobase/internal/data/ent/taxonomy"
 	"ncobase/internal/data/ent/taxonomyrelation"
+	"ncobase/internal/data/ent/tenant"
 	"ncobase/internal/data/ent/topic"
 	"ncobase/internal/data/ent/user"
-	"ncobase/internal/data/ent/userdomain"
-	"ncobase/internal/data/ent/userdomainrole"
 	"ncobase/internal/data/ent/usergroup"
 	"ncobase/internal/data/ent/userprofile"
 	"ncobase/internal/data/ent/userrole"
+	"ncobase/internal/data/ent/usertenant"
+	"ncobase/internal/data/ent/usertenantrole"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -51,8 +51,6 @@ type Client struct {
 	CasbinRule *CasbinRuleClient
 	// CodeAuth is the client for interacting with the CodeAuth builders.
 	CodeAuth *CodeAuthClient
-	// Domain is the client for interacting with the Domain builders.
-	Domain *DomainClient
 	// Group is the client for interacting with the Group builders.
 	Group *GroupClient
 	// GroupRole is the client for interacting with the GroupRole builders.
@@ -71,20 +69,22 @@ type Client struct {
 	Taxonomy *TaxonomyClient
 	// TaxonomyRelation is the client for interacting with the TaxonomyRelation builders.
 	TaxonomyRelation *TaxonomyRelationClient
+	// Tenant is the client for interacting with the Tenant builders.
+	Tenant *TenantClient
 	// Topic is the client for interacting with the Topic builders.
 	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
-	// UserDomain is the client for interacting with the UserDomain builders.
-	UserDomain *UserDomainClient
-	// UserDomainRole is the client for interacting with the UserDomainRole builders.
-	UserDomainRole *UserDomainRoleClient
 	// UserGroup is the client for interacting with the UserGroup builders.
 	UserGroup *UserGroupClient
 	// UserProfile is the client for interacting with the UserProfile builders.
 	UserProfile *UserProfileClient
 	// UserRole is the client for interacting with the UserRole builders.
 	UserRole *UserRoleClient
+	// UserTenant is the client for interacting with the UserTenant builders.
+	UserTenant *UserTenantClient
+	// UserTenantRole is the client for interacting with the UserTenantRole builders.
+	UserTenantRole *UserTenantRoleClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -100,7 +100,6 @@ func (c *Client) init() {
 	c.AuthToken = NewAuthTokenClient(c.config)
 	c.CasbinRule = NewCasbinRuleClient(c.config)
 	c.CodeAuth = NewCodeAuthClient(c.config)
-	c.Domain = NewDomainClient(c.config)
 	c.Group = NewGroupClient(c.config)
 	c.GroupRole = NewGroupRoleClient(c.config)
 	c.Module = NewModuleClient(c.config)
@@ -110,13 +109,14 @@ func (c *Client) init() {
 	c.RolePermission = NewRolePermissionClient(c.config)
 	c.Taxonomy = NewTaxonomyClient(c.config)
 	c.TaxonomyRelation = NewTaxonomyRelationClient(c.config)
+	c.Tenant = NewTenantClient(c.config)
 	c.Topic = NewTopicClient(c.config)
 	c.User = NewUserClient(c.config)
-	c.UserDomain = NewUserDomainClient(c.config)
-	c.UserDomainRole = NewUserDomainRoleClient(c.config)
 	c.UserGroup = NewUserGroupClient(c.config)
 	c.UserProfile = NewUserProfileClient(c.config)
 	c.UserRole = NewUserRoleClient(c.config)
+	c.UserTenant = NewUserTenantClient(c.config)
+	c.UserTenantRole = NewUserTenantRoleClient(c.config)
 }
 
 type (
@@ -213,7 +213,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		AuthToken:        NewAuthTokenClient(cfg),
 		CasbinRule:       NewCasbinRuleClient(cfg),
 		CodeAuth:         NewCodeAuthClient(cfg),
-		Domain:           NewDomainClient(cfg),
 		Group:            NewGroupClient(cfg),
 		GroupRole:        NewGroupRoleClient(cfg),
 		Module:           NewModuleClient(cfg),
@@ -223,13 +222,14 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		RolePermission:   NewRolePermissionClient(cfg),
 		Taxonomy:         NewTaxonomyClient(cfg),
 		TaxonomyRelation: NewTaxonomyRelationClient(cfg),
+		Tenant:           NewTenantClient(cfg),
 		Topic:            NewTopicClient(cfg),
 		User:             NewUserClient(cfg),
-		UserDomain:       NewUserDomainClient(cfg),
-		UserDomainRole:   NewUserDomainRoleClient(cfg),
 		UserGroup:        NewUserGroupClient(cfg),
 		UserProfile:      NewUserProfileClient(cfg),
 		UserRole:         NewUserRoleClient(cfg),
+		UserTenant:       NewUserTenantClient(cfg),
+		UserTenantRole:   NewUserTenantRoleClient(cfg),
 	}, nil
 }
 
@@ -253,7 +253,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		AuthToken:        NewAuthTokenClient(cfg),
 		CasbinRule:       NewCasbinRuleClient(cfg),
 		CodeAuth:         NewCodeAuthClient(cfg),
-		Domain:           NewDomainClient(cfg),
 		Group:            NewGroupClient(cfg),
 		GroupRole:        NewGroupRoleClient(cfg),
 		Module:           NewModuleClient(cfg),
@@ -263,13 +262,14 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		RolePermission:   NewRolePermissionClient(cfg),
 		Taxonomy:         NewTaxonomyClient(cfg),
 		TaxonomyRelation: NewTaxonomyRelationClient(cfg),
+		Tenant:           NewTenantClient(cfg),
 		Topic:            NewTopicClient(cfg),
 		User:             NewUserClient(cfg),
-		UserDomain:       NewUserDomainClient(cfg),
-		UserDomainRole:   NewUserDomainRoleClient(cfg),
 		UserGroup:        NewUserGroupClient(cfg),
 		UserProfile:      NewUserProfileClient(cfg),
 		UserRole:         NewUserRoleClient(cfg),
+		UserTenant:       NewUserTenantClient(cfg),
+		UserTenantRole:   NewUserTenantRoleClient(cfg),
 	}, nil
 }
 
@@ -299,10 +299,10 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.Asset, c.AuthToken, c.CasbinRule, c.CodeAuth, c.Domain, c.Group, c.GroupRole,
-		c.Module, c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Taxonomy,
-		c.TaxonomyRelation, c.Topic, c.User, c.UserDomain, c.UserDomainRole,
-		c.UserGroup, c.UserProfile, c.UserRole,
+		c.Asset, c.AuthToken, c.CasbinRule, c.CodeAuth, c.Group, c.GroupRole, c.Module,
+		c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Taxonomy,
+		c.TaxonomyRelation, c.Tenant, c.Topic, c.User, c.UserGroup, c.UserProfile,
+		c.UserRole, c.UserTenant, c.UserTenantRole,
 	} {
 		n.Use(hooks...)
 	}
@@ -312,10 +312,10 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.Asset, c.AuthToken, c.CasbinRule, c.CodeAuth, c.Domain, c.Group, c.GroupRole,
-		c.Module, c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Taxonomy,
-		c.TaxonomyRelation, c.Topic, c.User, c.UserDomain, c.UserDomainRole,
-		c.UserGroup, c.UserProfile, c.UserRole,
+		c.Asset, c.AuthToken, c.CasbinRule, c.CodeAuth, c.Group, c.GroupRole, c.Module,
+		c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Taxonomy,
+		c.TaxonomyRelation, c.Tenant, c.Topic, c.User, c.UserGroup, c.UserProfile,
+		c.UserRole, c.UserTenant, c.UserTenantRole,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -332,8 +332,6 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.CasbinRule.mutate(ctx, m)
 	case *CodeAuthMutation:
 		return c.CodeAuth.mutate(ctx, m)
-	case *DomainMutation:
-		return c.Domain.mutate(ctx, m)
 	case *GroupMutation:
 		return c.Group.mutate(ctx, m)
 	case *GroupRoleMutation:
@@ -352,20 +350,22 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Taxonomy.mutate(ctx, m)
 	case *TaxonomyRelationMutation:
 		return c.TaxonomyRelation.mutate(ctx, m)
+	case *TenantMutation:
+		return c.Tenant.mutate(ctx, m)
 	case *TopicMutation:
 		return c.Topic.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
-	case *UserDomainMutation:
-		return c.UserDomain.mutate(ctx, m)
-	case *UserDomainRoleMutation:
-		return c.UserDomainRole.mutate(ctx, m)
 	case *UserGroupMutation:
 		return c.UserGroup.mutate(ctx, m)
 	case *UserProfileMutation:
 		return c.UserProfile.mutate(ctx, m)
 	case *UserRoleMutation:
 		return c.UserRole.mutate(ctx, m)
+	case *UserTenantMutation:
+		return c.UserTenant.mutate(ctx, m)
+	case *UserTenantRoleMutation:
+		return c.UserTenantRole.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -900,139 +900,6 @@ func (c *CodeAuthClient) mutate(ctx context.Context, m *CodeAuthMutation) (Value
 		return (&CodeAuthDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown CodeAuth mutation op: %q", m.Op())
-	}
-}
-
-// DomainClient is a client for the Domain schema.
-type DomainClient struct {
-	config
-}
-
-// NewDomainClient returns a client for the Domain from the given config.
-func NewDomainClient(c config) *DomainClient {
-	return &DomainClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `domain.Hooks(f(g(h())))`.
-func (c *DomainClient) Use(hooks ...Hook) {
-	c.hooks.Domain = append(c.hooks.Domain, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `domain.Intercept(f(g(h())))`.
-func (c *DomainClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Domain = append(c.inters.Domain, interceptors...)
-}
-
-// Create returns a builder for creating a Domain entity.
-func (c *DomainClient) Create() *DomainCreate {
-	mutation := newDomainMutation(c.config, OpCreate)
-	return &DomainCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of Domain entities.
-func (c *DomainClient) CreateBulk(builders ...*DomainCreate) *DomainCreateBulk {
-	return &DomainCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *DomainClient) MapCreateBulk(slice any, setFunc func(*DomainCreate, int)) *DomainCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &DomainCreateBulk{err: fmt.Errorf("calling to DomainClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*DomainCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &DomainCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for Domain.
-func (c *DomainClient) Update() *DomainUpdate {
-	mutation := newDomainMutation(c.config, OpUpdate)
-	return &DomainUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *DomainClient) UpdateOne(d *Domain) *DomainUpdateOne {
-	mutation := newDomainMutation(c.config, OpUpdateOne, withDomain(d))
-	return &DomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *DomainClient) UpdateOneID(id string) *DomainUpdateOne {
-	mutation := newDomainMutation(c.config, OpUpdateOne, withDomainID(id))
-	return &DomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for Domain.
-func (c *DomainClient) Delete() *DomainDelete {
-	mutation := newDomainMutation(c.config, OpDelete)
-	return &DomainDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *DomainClient) DeleteOne(d *Domain) *DomainDeleteOne {
-	return c.DeleteOneID(d.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *DomainClient) DeleteOneID(id string) *DomainDeleteOne {
-	builder := c.Delete().Where(domain.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &DomainDeleteOne{builder}
-}
-
-// Query returns a query builder for Domain.
-func (c *DomainClient) Query() *DomainQuery {
-	return &DomainQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeDomain},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a Domain entity by its id.
-func (c *DomainClient) Get(ctx context.Context, id string) (*Domain, error) {
-	return c.Query().Where(domain.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *DomainClient) GetX(ctx context.Context, id string) *Domain {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *DomainClient) Hooks() []Hook {
-	return c.hooks.Domain
-}
-
-// Interceptors returns the client interceptors.
-func (c *DomainClient) Interceptors() []Interceptor {
-	return c.inters.Domain
-}
-
-func (c *DomainClient) mutate(ctx context.Context, m *DomainMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&DomainCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&DomainUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&DomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&DomainDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown Domain mutation op: %q", m.Op())
 	}
 }
 
@@ -2233,6 +2100,139 @@ func (c *TaxonomyRelationClient) mutate(ctx context.Context, m *TaxonomyRelation
 	}
 }
 
+// TenantClient is a client for the Tenant schema.
+type TenantClient struct {
+	config
+}
+
+// NewTenantClient returns a client for the Tenant from the given config.
+func NewTenantClient(c config) *TenantClient {
+	return &TenantClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `tenant.Hooks(f(g(h())))`.
+func (c *TenantClient) Use(hooks ...Hook) {
+	c.hooks.Tenant = append(c.hooks.Tenant, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `tenant.Intercept(f(g(h())))`.
+func (c *TenantClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Tenant = append(c.inters.Tenant, interceptors...)
+}
+
+// Create returns a builder for creating a Tenant entity.
+func (c *TenantClient) Create() *TenantCreate {
+	mutation := newTenantMutation(c.config, OpCreate)
+	return &TenantCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Tenant entities.
+func (c *TenantClient) CreateBulk(builders ...*TenantCreate) *TenantCreateBulk {
+	return &TenantCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *TenantClient) MapCreateBulk(slice any, setFunc func(*TenantCreate, int)) *TenantCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &TenantCreateBulk{err: fmt.Errorf("calling to TenantClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*TenantCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &TenantCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Tenant.
+func (c *TenantClient) Update() *TenantUpdate {
+	mutation := newTenantMutation(c.config, OpUpdate)
+	return &TenantUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *TenantClient) UpdateOne(t *Tenant) *TenantUpdateOne {
+	mutation := newTenantMutation(c.config, OpUpdateOne, withTenant(t))
+	return &TenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *TenantClient) UpdateOneID(id string) *TenantUpdateOne {
+	mutation := newTenantMutation(c.config, OpUpdateOne, withTenantID(id))
+	return &TenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Tenant.
+func (c *TenantClient) Delete() *TenantDelete {
+	mutation := newTenantMutation(c.config, OpDelete)
+	return &TenantDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *TenantClient) DeleteOne(t *Tenant) *TenantDeleteOne {
+	return c.DeleteOneID(t.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *TenantClient) DeleteOneID(id string) *TenantDeleteOne {
+	builder := c.Delete().Where(tenant.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &TenantDeleteOne{builder}
+}
+
+// Query returns a query builder for Tenant.
+func (c *TenantClient) Query() *TenantQuery {
+	return &TenantQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeTenant},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Tenant entity by its id.
+func (c *TenantClient) Get(ctx context.Context, id string) (*Tenant, error) {
+	return c.Query().Where(tenant.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *TenantClient) GetX(ctx context.Context, id string) *Tenant {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *TenantClient) Hooks() []Hook {
+	return c.hooks.Tenant
+}
+
+// Interceptors returns the client interceptors.
+func (c *TenantClient) Interceptors() []Interceptor {
+	return c.inters.Tenant
+}
+
+func (c *TenantClient) mutate(ctx context.Context, m *TenantMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&TenantCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&TenantUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&TenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&TenantDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Tenant mutation op: %q", m.Op())
+	}
+}
+
 // TopicClient is a client for the Topic schema.
 type TopicClient struct {
 	config
@@ -2496,272 +2496,6 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 		return (&UserDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown User mutation op: %q", m.Op())
-	}
-}
-
-// UserDomainClient is a client for the UserDomain schema.
-type UserDomainClient struct {
-	config
-}
-
-// NewUserDomainClient returns a client for the UserDomain from the given config.
-func NewUserDomainClient(c config) *UserDomainClient {
-	return &UserDomainClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `userdomain.Hooks(f(g(h())))`.
-func (c *UserDomainClient) Use(hooks ...Hook) {
-	c.hooks.UserDomain = append(c.hooks.UserDomain, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `userdomain.Intercept(f(g(h())))`.
-func (c *UserDomainClient) Intercept(interceptors ...Interceptor) {
-	c.inters.UserDomain = append(c.inters.UserDomain, interceptors...)
-}
-
-// Create returns a builder for creating a UserDomain entity.
-func (c *UserDomainClient) Create() *UserDomainCreate {
-	mutation := newUserDomainMutation(c.config, OpCreate)
-	return &UserDomainCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of UserDomain entities.
-func (c *UserDomainClient) CreateBulk(builders ...*UserDomainCreate) *UserDomainCreateBulk {
-	return &UserDomainCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *UserDomainClient) MapCreateBulk(slice any, setFunc func(*UserDomainCreate, int)) *UserDomainCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &UserDomainCreateBulk{err: fmt.Errorf("calling to UserDomainClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*UserDomainCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &UserDomainCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for UserDomain.
-func (c *UserDomainClient) Update() *UserDomainUpdate {
-	mutation := newUserDomainMutation(c.config, OpUpdate)
-	return &UserDomainUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *UserDomainClient) UpdateOne(ud *UserDomain) *UserDomainUpdateOne {
-	mutation := newUserDomainMutation(c.config, OpUpdateOne, withUserDomain(ud))
-	return &UserDomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *UserDomainClient) UpdateOneID(id string) *UserDomainUpdateOne {
-	mutation := newUserDomainMutation(c.config, OpUpdateOne, withUserDomainID(id))
-	return &UserDomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for UserDomain.
-func (c *UserDomainClient) Delete() *UserDomainDelete {
-	mutation := newUserDomainMutation(c.config, OpDelete)
-	return &UserDomainDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *UserDomainClient) DeleteOne(ud *UserDomain) *UserDomainDeleteOne {
-	return c.DeleteOneID(ud.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *UserDomainClient) DeleteOneID(id string) *UserDomainDeleteOne {
-	builder := c.Delete().Where(userdomain.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &UserDomainDeleteOne{builder}
-}
-
-// Query returns a query builder for UserDomain.
-func (c *UserDomainClient) Query() *UserDomainQuery {
-	return &UserDomainQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeUserDomain},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a UserDomain entity by its id.
-func (c *UserDomainClient) Get(ctx context.Context, id string) (*UserDomain, error) {
-	return c.Query().Where(userdomain.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *UserDomainClient) GetX(ctx context.Context, id string) *UserDomain {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *UserDomainClient) Hooks() []Hook {
-	return c.hooks.UserDomain
-}
-
-// Interceptors returns the client interceptors.
-func (c *UserDomainClient) Interceptors() []Interceptor {
-	return c.inters.UserDomain
-}
-
-func (c *UserDomainClient) mutate(ctx context.Context, m *UserDomainMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&UserDomainCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&UserDomainUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&UserDomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&UserDomainDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown UserDomain mutation op: %q", m.Op())
-	}
-}
-
-// UserDomainRoleClient is a client for the UserDomainRole schema.
-type UserDomainRoleClient struct {
-	config
-}
-
-// NewUserDomainRoleClient returns a client for the UserDomainRole from the given config.
-func NewUserDomainRoleClient(c config) *UserDomainRoleClient {
-	return &UserDomainRoleClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `userdomainrole.Hooks(f(g(h())))`.
-func (c *UserDomainRoleClient) Use(hooks ...Hook) {
-	c.hooks.UserDomainRole = append(c.hooks.UserDomainRole, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `userdomainrole.Intercept(f(g(h())))`.
-func (c *UserDomainRoleClient) Intercept(interceptors ...Interceptor) {
-	c.inters.UserDomainRole = append(c.inters.UserDomainRole, interceptors...)
-}
-
-// Create returns a builder for creating a UserDomainRole entity.
-func (c *UserDomainRoleClient) Create() *UserDomainRoleCreate {
-	mutation := newUserDomainRoleMutation(c.config, OpCreate)
-	return &UserDomainRoleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of UserDomainRole entities.
-func (c *UserDomainRoleClient) CreateBulk(builders ...*UserDomainRoleCreate) *UserDomainRoleCreateBulk {
-	return &UserDomainRoleCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *UserDomainRoleClient) MapCreateBulk(slice any, setFunc func(*UserDomainRoleCreate, int)) *UserDomainRoleCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &UserDomainRoleCreateBulk{err: fmt.Errorf("calling to UserDomainRoleClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*UserDomainRoleCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &UserDomainRoleCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for UserDomainRole.
-func (c *UserDomainRoleClient) Update() *UserDomainRoleUpdate {
-	mutation := newUserDomainRoleMutation(c.config, OpUpdate)
-	return &UserDomainRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *UserDomainRoleClient) UpdateOne(udr *UserDomainRole) *UserDomainRoleUpdateOne {
-	mutation := newUserDomainRoleMutation(c.config, OpUpdateOne, withUserDomainRole(udr))
-	return &UserDomainRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *UserDomainRoleClient) UpdateOneID(id string) *UserDomainRoleUpdateOne {
-	mutation := newUserDomainRoleMutation(c.config, OpUpdateOne, withUserDomainRoleID(id))
-	return &UserDomainRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for UserDomainRole.
-func (c *UserDomainRoleClient) Delete() *UserDomainRoleDelete {
-	mutation := newUserDomainRoleMutation(c.config, OpDelete)
-	return &UserDomainRoleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *UserDomainRoleClient) DeleteOne(udr *UserDomainRole) *UserDomainRoleDeleteOne {
-	return c.DeleteOneID(udr.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *UserDomainRoleClient) DeleteOneID(id string) *UserDomainRoleDeleteOne {
-	builder := c.Delete().Where(userdomainrole.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &UserDomainRoleDeleteOne{builder}
-}
-
-// Query returns a query builder for UserDomainRole.
-func (c *UserDomainRoleClient) Query() *UserDomainRoleQuery {
-	return &UserDomainRoleQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeUserDomainRole},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a UserDomainRole entity by its id.
-func (c *UserDomainRoleClient) Get(ctx context.Context, id string) (*UserDomainRole, error) {
-	return c.Query().Where(userdomainrole.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *UserDomainRoleClient) GetX(ctx context.Context, id string) *UserDomainRole {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *UserDomainRoleClient) Hooks() []Hook {
-	return c.hooks.UserDomainRole
-}
-
-// Interceptors returns the client interceptors.
-func (c *UserDomainRoleClient) Interceptors() []Interceptor {
-	return c.inters.UserDomainRole
-}
-
-func (c *UserDomainRoleClient) mutate(ctx context.Context, m *UserDomainRoleMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&UserDomainRoleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&UserDomainRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&UserDomainRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&UserDomainRoleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown UserDomainRole mutation op: %q", m.Op())
 	}
 }
 
@@ -3164,17 +2898,283 @@ func (c *UserRoleClient) mutate(ctx context.Context, m *UserRoleMutation) (Value
 	}
 }
 
+// UserTenantClient is a client for the UserTenant schema.
+type UserTenantClient struct {
+	config
+}
+
+// NewUserTenantClient returns a client for the UserTenant from the given config.
+func NewUserTenantClient(c config) *UserTenantClient {
+	return &UserTenantClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `usertenant.Hooks(f(g(h())))`.
+func (c *UserTenantClient) Use(hooks ...Hook) {
+	c.hooks.UserTenant = append(c.hooks.UserTenant, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `usertenant.Intercept(f(g(h())))`.
+func (c *UserTenantClient) Intercept(interceptors ...Interceptor) {
+	c.inters.UserTenant = append(c.inters.UserTenant, interceptors...)
+}
+
+// Create returns a builder for creating a UserTenant entity.
+func (c *UserTenantClient) Create() *UserTenantCreate {
+	mutation := newUserTenantMutation(c.config, OpCreate)
+	return &UserTenantCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserTenant entities.
+func (c *UserTenantClient) CreateBulk(builders ...*UserTenantCreate) *UserTenantCreateBulk {
+	return &UserTenantCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *UserTenantClient) MapCreateBulk(slice any, setFunc func(*UserTenantCreate, int)) *UserTenantCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &UserTenantCreateBulk{err: fmt.Errorf("calling to UserTenantClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*UserTenantCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &UserTenantCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserTenant.
+func (c *UserTenantClient) Update() *UserTenantUpdate {
+	mutation := newUserTenantMutation(c.config, OpUpdate)
+	return &UserTenantUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserTenantClient) UpdateOne(ut *UserTenant) *UserTenantUpdateOne {
+	mutation := newUserTenantMutation(c.config, OpUpdateOne, withUserTenant(ut))
+	return &UserTenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserTenantClient) UpdateOneID(id string) *UserTenantUpdateOne {
+	mutation := newUserTenantMutation(c.config, OpUpdateOne, withUserTenantID(id))
+	return &UserTenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserTenant.
+func (c *UserTenantClient) Delete() *UserTenantDelete {
+	mutation := newUserTenantMutation(c.config, OpDelete)
+	return &UserTenantDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *UserTenantClient) DeleteOne(ut *UserTenant) *UserTenantDeleteOne {
+	return c.DeleteOneID(ut.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *UserTenantClient) DeleteOneID(id string) *UserTenantDeleteOne {
+	builder := c.Delete().Where(usertenant.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserTenantDeleteOne{builder}
+}
+
+// Query returns a query builder for UserTenant.
+func (c *UserTenantClient) Query() *UserTenantQuery {
+	return &UserTenantQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeUserTenant},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a UserTenant entity by its id.
+func (c *UserTenantClient) Get(ctx context.Context, id string) (*UserTenant, error) {
+	return c.Query().Where(usertenant.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserTenantClient) GetX(ctx context.Context, id string) *UserTenant {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserTenantClient) Hooks() []Hook {
+	return c.hooks.UserTenant
+}
+
+// Interceptors returns the client interceptors.
+func (c *UserTenantClient) Interceptors() []Interceptor {
+	return c.inters.UserTenant
+}
+
+func (c *UserTenantClient) mutate(ctx context.Context, m *UserTenantMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&UserTenantCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&UserTenantUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&UserTenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&UserTenantDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown UserTenant mutation op: %q", m.Op())
+	}
+}
+
+// UserTenantRoleClient is a client for the UserTenantRole schema.
+type UserTenantRoleClient struct {
+	config
+}
+
+// NewUserTenantRoleClient returns a client for the UserTenantRole from the given config.
+func NewUserTenantRoleClient(c config) *UserTenantRoleClient {
+	return &UserTenantRoleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `usertenantrole.Hooks(f(g(h())))`.
+func (c *UserTenantRoleClient) Use(hooks ...Hook) {
+	c.hooks.UserTenantRole = append(c.hooks.UserTenantRole, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `usertenantrole.Intercept(f(g(h())))`.
+func (c *UserTenantRoleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.UserTenantRole = append(c.inters.UserTenantRole, interceptors...)
+}
+
+// Create returns a builder for creating a UserTenantRole entity.
+func (c *UserTenantRoleClient) Create() *UserTenantRoleCreate {
+	mutation := newUserTenantRoleMutation(c.config, OpCreate)
+	return &UserTenantRoleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserTenantRole entities.
+func (c *UserTenantRoleClient) CreateBulk(builders ...*UserTenantRoleCreate) *UserTenantRoleCreateBulk {
+	return &UserTenantRoleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *UserTenantRoleClient) MapCreateBulk(slice any, setFunc func(*UserTenantRoleCreate, int)) *UserTenantRoleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &UserTenantRoleCreateBulk{err: fmt.Errorf("calling to UserTenantRoleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*UserTenantRoleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &UserTenantRoleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserTenantRole.
+func (c *UserTenantRoleClient) Update() *UserTenantRoleUpdate {
+	mutation := newUserTenantRoleMutation(c.config, OpUpdate)
+	return &UserTenantRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserTenantRoleClient) UpdateOne(utr *UserTenantRole) *UserTenantRoleUpdateOne {
+	mutation := newUserTenantRoleMutation(c.config, OpUpdateOne, withUserTenantRole(utr))
+	return &UserTenantRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserTenantRoleClient) UpdateOneID(id string) *UserTenantRoleUpdateOne {
+	mutation := newUserTenantRoleMutation(c.config, OpUpdateOne, withUserTenantRoleID(id))
+	return &UserTenantRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserTenantRole.
+func (c *UserTenantRoleClient) Delete() *UserTenantRoleDelete {
+	mutation := newUserTenantRoleMutation(c.config, OpDelete)
+	return &UserTenantRoleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *UserTenantRoleClient) DeleteOne(utr *UserTenantRole) *UserTenantRoleDeleteOne {
+	return c.DeleteOneID(utr.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *UserTenantRoleClient) DeleteOneID(id string) *UserTenantRoleDeleteOne {
+	builder := c.Delete().Where(usertenantrole.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserTenantRoleDeleteOne{builder}
+}
+
+// Query returns a query builder for UserTenantRole.
+func (c *UserTenantRoleClient) Query() *UserTenantRoleQuery {
+	return &UserTenantRoleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeUserTenantRole},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a UserTenantRole entity by its id.
+func (c *UserTenantRoleClient) Get(ctx context.Context, id string) (*UserTenantRole, error) {
+	return c.Query().Where(usertenantrole.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserTenantRoleClient) GetX(ctx context.Context, id string) *UserTenantRole {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserTenantRoleClient) Hooks() []Hook {
+	return c.hooks.UserTenantRole
+}
+
+// Interceptors returns the client interceptors.
+func (c *UserTenantRoleClient) Interceptors() []Interceptor {
+	return c.inters.UserTenantRole
+}
+
+func (c *UserTenantRoleClient) mutate(ctx context.Context, m *UserTenantRoleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&UserTenantRoleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&UserTenantRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&UserTenantRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&UserTenantRoleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown UserTenantRole mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Asset, AuthToken, CasbinRule, CodeAuth, Domain, Group, GroupRole, Module,
-		OAuthUser, Permission, Role, RolePermission, Taxonomy, TaxonomyRelation, Topic,
-		User, UserDomain, UserDomainRole, UserGroup, UserProfile, UserRole []ent.Hook
+		Asset, AuthToken, CasbinRule, CodeAuth, Group, GroupRole, Module, OAuthUser,
+		Permission, Role, RolePermission, Taxonomy, TaxonomyRelation, Tenant, Topic,
+		User, UserGroup, UserProfile, UserRole, UserTenant, UserTenantRole []ent.Hook
 	}
 	inters struct {
-		Asset, AuthToken, CasbinRule, CodeAuth, Domain, Group, GroupRole, Module,
-		OAuthUser, Permission, Role, RolePermission, Taxonomy, TaxonomyRelation, Topic,
-		User, UserDomain, UserDomainRole, UserGroup, UserProfile,
-		UserRole []ent.Interceptor
+		Asset, AuthToken, CasbinRule, CodeAuth, Group, GroupRole, Module, OAuthUser,
+		Permission, Role, RolePermission, Taxonomy, TaxonomyRelation, Tenant, Topic,
+		User, UserGroup, UserProfile, UserRole, UserTenant,
+		UserTenantRole []ent.Interceptor
 	}
 )

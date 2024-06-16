@@ -56,7 +56,7 @@ func (r *assetRepo) Create(ctx context.Context, body *structs.CreateAssetBody) (
 	builder.SetNillableBucket(&body.Bucket)
 	builder.SetNillableEndpoint(&body.Endpoint)
 	builder.SetNillableObjectID(&body.ObjectID)
-	builder.SetNillableDomainID(&body.DomainID)
+	builder.SetNillableTenantID(&body.TenantID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
@@ -130,8 +130,8 @@ func (r *assetRepo) Update(ctx context.Context, slug string, updates types.JSON)
 			builder.SetNillableEndpoint(types.ToPointer(value.(string)))
 		case "object_id":
 			builder.SetNillableObjectID(types.ToPointer(value.(string)))
-		case "domain_id":
-			builder.SetNillableDomainID(types.ToPointer(value.(string)))
+		case "tenant_id":
+			builder.SetNillableTenantID(types.ToPointer(value.(string)))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "updated_by":
@@ -224,9 +224,9 @@ func (r *assetRepo) List(ctx context.Context, p *structs.ListAssetParams) ([]*en
 	// limit the result
 	builder.Limit(int(p.Limit))
 
-	// belong domain
-	if p.DomainID != "" {
-		builder.Where(assetEnt.DomainIDEQ(p.DomainID))
+	// belong tenant
+	if p.TenantID != "" {
+		builder.Where(assetEnt.TenantIDEQ(p.TenantID))
 	}
 
 	// belong user

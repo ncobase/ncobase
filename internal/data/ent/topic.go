@@ -40,8 +40,8 @@ type Topic struct {
 	Released time.Time `json:"released,omitempty"`
 	// taxonomy id
 	TaxonomyID string `json:"taxonomy_id,omitempty"`
-	// domain id
-	DomainID string `json:"domain_id,omitempty"`
+	// tenant id
+	TenantID string `json:"tenant_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -62,7 +62,7 @@ func (*Topic) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case topic.FieldStatus:
 			values[i] = new(sql.NullInt64)
-		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldDomainID, topic.FieldCreatedBy, topic.FieldUpdatedBy:
+		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldTenantID, topic.FieldCreatedBy, topic.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		case topic.FieldReleased, topic.FieldCreatedAt, topic.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -153,11 +153,11 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.TaxonomyID = value.String
 			}
-		case topic.FieldDomainID:
+		case topic.FieldTenantID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field domain_id", values[i])
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				t.DomainID = value.String
+				t.TenantID = value.String
 			}
 		case topic.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -252,8 +252,8 @@ func (t *Topic) String() string {
 	builder.WriteString("taxonomy_id=")
 	builder.WriteString(t.TaxonomyID)
 	builder.WriteString(", ")
-	builder.WriteString("domain_id=")
-	builder.WriteString(t.DomainID)
+	builder.WriteString("tenant_id=")
+	builder.WriteString(t.TenantID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(t.CreatedBy)

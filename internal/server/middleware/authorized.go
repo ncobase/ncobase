@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"net/http"
 	"ncobase/internal/helper"
 	"ncobase/pkg/ecode"
 	"ncobase/pkg/validator"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,11 +13,11 @@ import (
 func Authorized(c *gin.Context) {
 	// Retrieve user ID from the context
 	userID := helper.GetUserID(c)
-	// Retrieve domain from the context
-	domainID := helper.GetDomainID(c)
+	// Retrieve tenant from the context
+	tenantID := helper.GetTenantID(c)
 
-	// Check if user ID or domain ID is empty
-	if validator.IsEmpty(userID) || validator.IsEmpty(domainID) {
+	// Check if user ID or tenant ID is empty
+	if validator.IsEmpty(userID) || validator.IsEmpty(tenantID) {
 		// Respond with unauthorized error
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 			"code":    ecode.Unauthorized,

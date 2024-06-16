@@ -29,8 +29,8 @@ const (
 	FieldEndpoint = "endpoint"
 	// FieldObjectID holds the string denoting the object_id field in the database.
 	FieldObjectID = "object_id"
-	// FieldDomainID holds the string denoting the domain_id field in the database.
-	FieldDomainID = "domain_id"
+	// FieldTenantID holds the string denoting the tenant_id field in the database.
+	FieldTenantID = "tenant_id"
 	// FieldExtras holds the string denoting the extras field in the database.
 	FieldExtras = "extras"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
@@ -56,7 +56,7 @@ var Columns = []string{
 	FieldBucket,
 	FieldEndpoint,
 	FieldObjectID,
-	FieldDomainID,
+	FieldTenantID,
 	FieldExtras,
 	FieldCreatedBy,
 	FieldUpdatedBy,
@@ -81,8 +81,8 @@ var (
 	DefaultSize int
 	// ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
 	ObjectIDValidator func(string) error
-	// DomainIDValidator is a validator for the "domain_id" field. It is called by the builders before save.
-	DomainIDValidator func(string) error
+	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	TenantIDValidator func(string) error
 	// DefaultExtras holds the default value on creation for the "extras" field.
 	DefaultExtras map[string]interface{}
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
@@ -149,9 +149,9 @@ func ByObjectID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldObjectID, opts...).ToFunc()
 }
 
-// ByDomainID orders the results by the domain_id field.
-func ByDomainID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDomainID, opts...).ToFunc()
+// ByTenantID orders the results by the tenant_id field.
+func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }
 
 // ByCreatedBy orders the results by the created_by field.

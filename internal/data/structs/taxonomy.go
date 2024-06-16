@@ -9,7 +9,7 @@ import (
 type FindTaxonomy struct {
 	ID       string `json:"id,omitempty"`
 	Slug     string `json:"slug,omitempty"`
-	DomainID string `json:"domain_id,omitempty"`
+	TenantID string `json:"tenant_id,omitempty"`
 	Type     string `json:"type,omitempty"`
 }
 
@@ -29,7 +29,7 @@ type TaxonomyBody struct {
 	Status      int         `json:"status,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id,omitempty"`
-	DomainID    string      `json:"domain_id,omitempty"`
+	TenantID    string      `json:"tenant_id,omitempty"`
 }
 
 // CreateTaxonomyBody represents the body for creating a taxonomy.
@@ -60,7 +60,7 @@ type ReadTaxonomy struct {
 	Status      int         `json:"status"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id"`
-	DomainID    string      `json:"domain_id"`
+	TenantID    string      `json:"tenant_id"`
 }
 
 // ListTaxonomyParams represents the query parameters for listing taxonomies.
@@ -68,7 +68,7 @@ type ListTaxonomyParams struct {
 	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"`
 	ParentID string `form:"parent_id,omitempty" json:"parent_id,omitempty"`
-	DomainID string `form:"domain_id,omitempty" json:"domain_id,omitempty"`
+	TenantID string `form:"tenant_id,omitempty" json:"tenant_id,omitempty"`
 	Type     string `form:"type,omitempty" json:"type,omitempty" validate:"required"`
 }
 
@@ -97,7 +97,7 @@ type UpdateTaxonomyRelationBody struct {
 type ListTaxonomyRelationParams struct {
 	Cursor   string `json:"cursor,omitempty"`
 	Limit    int    `json:"limit,omitempty"`
-	DomainID string `json:"domain_id,omitempty"`
+	TenantID string `json:"tenant_id,omitempty"`
 }
 
 // FindTaxonomyRelation represents the parameters for finding a single taxonomy relation.

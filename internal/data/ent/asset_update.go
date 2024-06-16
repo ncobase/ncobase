@@ -189,23 +189,23 @@ func (au *AssetUpdate) ClearObjectID() *AssetUpdate {
 	return au
 }
 
-// SetDomainID sets the "domain_id" field.
-func (au *AssetUpdate) SetDomainID(s string) *AssetUpdate {
-	au.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (au *AssetUpdate) SetTenantID(s string) *AssetUpdate {
+	au.mutation.SetTenantID(s)
 	return au
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (au *AssetUpdate) SetNillableDomainID(s *string) *AssetUpdate {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (au *AssetUpdate) SetNillableTenantID(s *string) *AssetUpdate {
 	if s != nil {
-		au.SetDomainID(*s)
+		au.SetTenantID(*s)
 	}
 	return au
 }
 
-// ClearDomainID clears the value of the "domain_id" field.
-func (au *AssetUpdate) ClearDomainID() *AssetUpdate {
-	au.mutation.ClearDomainID()
+// ClearTenantID clears the value of the "tenant_id" field.
+func (au *AssetUpdate) ClearTenantID() *AssetUpdate {
+	au.mutation.ClearTenantID()
 	return au
 }
 
@@ -326,9 +326,9 @@ func (au *AssetUpdate) check() error {
 			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "Asset.object_id": %w`, err)}
 		}
 	}
-	if v, ok := au.mutation.DomainID(); ok {
-		if err := asset.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Asset.domain_id": %w`, err)}
+	if v, ok := au.mutation.TenantID(); ok {
+		if err := asset.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Asset.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := au.mutation.CreatedBy(); ok {
@@ -404,11 +404,11 @@ func (au *AssetUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if au.mutation.ObjectIDCleared() {
 		_spec.ClearField(asset.FieldObjectID, field.TypeString)
 	}
-	if value, ok := au.mutation.DomainID(); ok {
-		_spec.SetField(asset.FieldDomainID, field.TypeString, value)
+	if value, ok := au.mutation.TenantID(); ok {
+		_spec.SetField(asset.FieldTenantID, field.TypeString, value)
 	}
-	if au.mutation.DomainIDCleared() {
-		_spec.ClearField(asset.FieldDomainID, field.TypeString)
+	if au.mutation.TenantIDCleared() {
+		_spec.ClearField(asset.FieldTenantID, field.TypeString)
 	}
 	if value, ok := au.mutation.Extras(); ok {
 		_spec.SetField(asset.FieldExtras, field.TypeJSON, value)
@@ -618,23 +618,23 @@ func (auo *AssetUpdateOne) ClearObjectID() *AssetUpdateOne {
 	return auo
 }
 
-// SetDomainID sets the "domain_id" field.
-func (auo *AssetUpdateOne) SetDomainID(s string) *AssetUpdateOne {
-	auo.mutation.SetDomainID(s)
+// SetTenantID sets the "tenant_id" field.
+func (auo *AssetUpdateOne) SetTenantID(s string) *AssetUpdateOne {
+	auo.mutation.SetTenantID(s)
 	return auo
 }
 
-// SetNillableDomainID sets the "domain_id" field if the given value is not nil.
-func (auo *AssetUpdateOne) SetNillableDomainID(s *string) *AssetUpdateOne {
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (auo *AssetUpdateOne) SetNillableTenantID(s *string) *AssetUpdateOne {
 	if s != nil {
-		auo.SetDomainID(*s)
+		auo.SetTenantID(*s)
 	}
 	return auo
 }
 
-// ClearDomainID clears the value of the "domain_id" field.
-func (auo *AssetUpdateOne) ClearDomainID() *AssetUpdateOne {
-	auo.mutation.ClearDomainID()
+// ClearTenantID clears the value of the "tenant_id" field.
+func (auo *AssetUpdateOne) ClearTenantID() *AssetUpdateOne {
+	auo.mutation.ClearTenantID()
 	return auo
 }
 
@@ -768,9 +768,9 @@ func (auo *AssetUpdateOne) check() error {
 			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "Asset.object_id": %w`, err)}
 		}
 	}
-	if v, ok := auo.mutation.DomainID(); ok {
-		if err := asset.DomainIDValidator(v); err != nil {
-			return &ValidationError{Name: "domain_id", err: fmt.Errorf(`ent: validator failed for field "Asset.domain_id": %w`, err)}
+	if v, ok := auo.mutation.TenantID(); ok {
+		if err := asset.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Asset.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := auo.mutation.CreatedBy(); ok {
@@ -863,11 +863,11 @@ func (auo *AssetUpdateOne) sqlSave(ctx context.Context) (_node *Asset, err error
 	if auo.mutation.ObjectIDCleared() {
 		_spec.ClearField(asset.FieldObjectID, field.TypeString)
 	}
-	if value, ok := auo.mutation.DomainID(); ok {
-		_spec.SetField(asset.FieldDomainID, field.TypeString, value)
+	if value, ok := auo.mutation.TenantID(); ok {
+		_spec.SetField(asset.FieldTenantID, field.TypeString, value)
 	}
-	if auo.mutation.DomainIDCleared() {
-		_spec.ClearField(asset.FieldDomainID, field.TypeString)
+	if auo.mutation.TenantIDCleared() {
+		_spec.ClearField(asset.FieldTenantID, field.TypeString)
 	}
 	if value, ok := auo.mutation.Extras(); ok {
 		_spec.SetField(asset.FieldExtras, field.TypeJSON, value)

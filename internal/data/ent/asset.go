@@ -35,8 +35,8 @@ type Asset struct {
 	Endpoint string `json:"endpoint,omitempty"`
 	// object id
 	ObjectID string `json:"object_id,omitempty"`
-	// domain id
-	DomainID string `json:"domain_id,omitempty"`
+	// tenant id
+	TenantID string `json:"tenant_id,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// id of the creator
@@ -59,7 +59,7 @@ func (*Asset) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case asset.FieldSize:
 			values[i] = new(sql.NullInt64)
-		case asset.FieldID, asset.FieldName, asset.FieldPath, asset.FieldType, asset.FieldStorage, asset.FieldBucket, asset.FieldEndpoint, asset.FieldObjectID, asset.FieldDomainID, asset.FieldCreatedBy, asset.FieldUpdatedBy:
+		case asset.FieldID, asset.FieldName, asset.FieldPath, asset.FieldType, asset.FieldStorage, asset.FieldBucket, asset.FieldEndpoint, asset.FieldObjectID, asset.FieldTenantID, asset.FieldCreatedBy, asset.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		case asset.FieldCreatedAt, asset.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -132,11 +132,11 @@ func (a *Asset) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.ObjectID = value.String
 			}
-		case asset.FieldDomainID:
+		case asset.FieldTenantID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field domain_id", values[i])
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				a.DomainID = value.String
+				a.TenantID = value.String
 			}
 		case asset.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -230,8 +230,8 @@ func (a *Asset) String() string {
 	builder.WriteString("object_id=")
 	builder.WriteString(a.ObjectID)
 	builder.WriteString(", ")
-	builder.WriteString("domain_id=")
-	builder.WriteString(a.DomainID)
+	builder.WriteString("tenant_id=")
+	builder.WriteString(a.TenantID)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", a.Extras))

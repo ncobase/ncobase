@@ -1,11 +1,11 @@
 package server
 
 import (
-	"net/http"
 	"ncobase/internal/config"
 	"ncobase/internal/handler"
 	"ncobase/internal/helper"
 	"ncobase/internal/server/middleware"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -13,7 +13,7 @@ import (
 )
 
 func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
-	// Root Jump when domain is configured and it is not localhost
+	// Root Jump when tenant is configured and it is not localhost
 	e.GET("/", func(c *gin.Context) {
 		if domain := conf.Domain; domain != "localhost" {
 			url := helper.GetHost(conf, domain)
@@ -52,7 +52,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	{
 		account.GET("", h.GetMeHandler)
 		account.PUT("/password", h.UpdatePasswordHandler)
-		account.GET("/domain", h.AccountDomainHandler)
+		account.GET("/tenant", h.AccountTenantHandler)
 	}
 
 	// User endpoints
@@ -65,9 +65,9 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		// user.DELETE("/:username", h.DeleteUserHandler)
 		// user.GET("/:username/roles", h.ListUserRoleHandler)
 		// user.GET("/:username/groups", h.ListUserGroupHandler)
-		// user.GET("/:username/domain", h.ListUserDomainHandler)
-		user.GET("/:username/domain", middleware.Authorized, h.UserDomainHandler)
-		// user.GET("/:username/domain/belongs", middleware.Authorized, h.ListUserBelongHandler)
+		// user.GET("/:username/tenant", h.ListUserTenantHandler)
+		user.GET("/:username/tenant", middleware.Authorized, h.UserTenantHandler)
+		// user.GET("/:username/tenant/belongs", middleware.Authorized, h.ListUserBelongHandler)
 	}
 
 	// OAuth endpoints
@@ -100,17 +100,17 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		asset.DELETE("/:slug", middleware.Authorized, h.DeleteAssetHandler)
 	}
 
-	// Domain endpoints
-	domain := v1.Group("/domains", middleware.Authorized)
+	// Tenant endpoints
+	tenant := v1.Group("/tenants", middleware.Authorized)
 	{
-		domain.GET("", h.ListDomainHandler)
-		domain.POST("", h.CreateDomainHandler)
-		domain.GET("/:slug", h.GetDomainHandler)
-		domain.PUT("/:slug", h.UpdateDomainHandler)
-		domain.DELETE("/:slug", h.DeleteDomainHandler)
-		domain.GET("/:slug/assets", h.ListDomainAssetHandler)
-		domain.GET("/:slug/users", h.ListDomainUserHandler)
-		domain.GET("/:slug/groups", h.ListDomainGroupHandler)
+		tenant.GET("", h.ListTenantHandler)
+		tenant.POST("", h.CreateTenantHandler)
+		tenant.GET("/:slug", h.GetTenantHandler)
+		tenant.PUT("/:slug", h.UpdateTenantHandler)
+		tenant.DELETE("/:slug", h.DeleteTenantHandler)
+		tenant.GET("/:slug/assets", h.ListTenantAssetHandler)
+		tenant.GET("/:slug/users", h.ListTenantUserHandler)
+		tenant.GET("/:slug/groups", h.ListTenantGroupHandler)
 	}
 
 	// Group endpoints
