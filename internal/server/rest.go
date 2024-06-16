@@ -1,7 +1,7 @@
 package server
 
 import (
-	"ncobase/internal/config"
+	"ncobase/common/config"
 	"ncobase/internal/handler"
 	"ncobase/internal/helper"
 	"ncobase/internal/server/middleware"

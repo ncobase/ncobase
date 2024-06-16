@@ -1,7 +1,7 @@
 package mixin
 
 import (
-	"ncobase/pkg/nanoid"
+	"ncobase/common/nanoid"
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"

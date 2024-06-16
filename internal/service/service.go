@@ -2,13 +2,13 @@ package service
 
 import (
 	"context"
+	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/resp"
+	"ncobase/common/validator"
 	"ncobase/internal/data"
 	"ncobase/internal/data/ent"
 	repo "ncobase/internal/data/repository"
-	"ncobase/pkg/ecode"
-	"ncobase/pkg/log"
-	"ncobase/pkg/resp"
-	"ncobase/pkg/validator"
 )
 
 // Service represents a service definition.

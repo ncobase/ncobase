@@ -2,7 +2,7 @@ package helper
 
 import (
 	"fmt"
-	"ncobase/internal/config"
+	"ncobase/common/config"
 	"strconv"
 )
 

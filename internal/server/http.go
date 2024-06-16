@@ -1,12 +1,12 @@
 package server
 
 import (
-	"ncobase/internal/config"
+	"ncobase/common/config"
+	"ncobase/common/ecode"
+	"ncobase/common/types"
 	"ncobase/internal/handler"
 	"ncobase/internal/server/middleware"
 	"ncobase/internal/service"
-	"ncobase/pkg/ecode"
-	"ncobase/pkg/types"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

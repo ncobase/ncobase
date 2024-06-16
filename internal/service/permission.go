@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
+	"ncobase/common/resp"
+	"ncobase/common/types"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
-	"ncobase/pkg/resp"
-	"ncobase/pkg/types"
 )
 
 // CreatePermissionService creates a new permission.

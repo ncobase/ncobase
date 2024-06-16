@@ -2,11 +2,11 @@ package server
 
 import (
 	"context"
-	"ncobase/internal/config"
+	"ncobase/common/config"
+	"ncobase/common/log"
 	"ncobase/internal/data"
 	"ncobase/internal/handler"
 	"ncobase/internal/service"
-	"ncobase/pkg/log"
 	"net/http"
 )
 

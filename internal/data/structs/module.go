@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"ncobase/pkg/types"
+	"ncobase/common/types"
 	"time"
 )
 

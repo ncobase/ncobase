@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"ncobase/pkg/jwt"
-	"ncobase/pkg/types"
+	"ncobase/common/jwt"
+	"ncobase/common/types"
 	"time"
 )
 

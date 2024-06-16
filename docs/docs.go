@@ -29,7 +29,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -60,7 +60,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -99,13 +99,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -136,7 +136,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -205,7 +205,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -264,7 +264,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -305,7 +305,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -355,7 +355,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -390,7 +390,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -426,7 +426,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -442,7 +442,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -477,7 +477,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -502,7 +502,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -536,7 +536,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -555,7 +555,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -591,7 +591,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -607,7 +607,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -642,7 +642,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -678,7 +678,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -697,7 +697,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -722,7 +722,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -768,7 +768,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -811,7 +811,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -851,7 +851,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -901,7 +901,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -939,7 +939,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -956,13 +956,13 @@ const docTemplate = `{
                     "302": {
                         "description": "redirect",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -988,13 +988,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "401": {
                         "description": "unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1020,13 +1020,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "401": {
                         "description": "unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1046,13 +1046,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1086,13 +1086,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1124,13 +1124,13 @@ const docTemplate = `{
                     "302": {
                         "description": "redirect",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1211,7 +1211,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1254,7 +1254,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1294,7 +1294,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1344,7 +1344,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1376,13 +1376,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1418,7 +1418,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -1437,7 +1437,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1494,7 +1494,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1537,7 +1537,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1572,7 +1572,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1622,7 +1622,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1654,13 +1654,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1711,7 +1711,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1761,7 +1761,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1804,7 +1804,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1844,7 +1844,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1876,13 +1876,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1916,13 +1916,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1956,13 +1956,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1996,13 +1996,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2036,13 +2036,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2076,13 +2076,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2133,7 +2133,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2176,7 +2176,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2211,7 +2211,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2261,7 +2261,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2293,13 +2293,13 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2334,7 +2334,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2374,7 +2374,7 @@ const docTemplate = `{
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2382,7 +2382,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "resp.Exception": {
+        "ncobase_common_resp.Exception": {
             "type": "object",
             "properties": {
                 "code": {
@@ -2404,6 +2404,10 @@ const docTemplate = `{
                     "type": "integer"
                 }
             }
+        },
+        "ncobase_common_types.JSON": {
+            "type": "object",
+            "additionalProperties": {}
         },
         "structs.Captcha": {
             "type": "object",
@@ -2520,7 +2524,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -2579,7 +2583,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "keywords": {
                     "type": "array",
@@ -2721,7 +2725,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -2771,7 +2775,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -2833,7 +2837,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -2898,7 +2902,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -3046,7 +3050,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -3151,7 +3155,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -3213,7 +3217,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -3347,7 +3351,7 @@ const docTemplate = `{
                 "links": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/types.JSON"
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
                     }
                 },
                 "short_bio": {
@@ -3401,10 +3405,6 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "types.JSON": {
-            "type": "object",
-            "additionalProperties": {}
         }
     },
     "securityDefinitions": {

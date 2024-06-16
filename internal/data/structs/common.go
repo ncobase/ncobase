@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"ncobase/pkg/validator"
+	"ncobase/common/validator"
 	"time"
 )
 
