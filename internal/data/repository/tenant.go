@@ -22,7 +22,7 @@ import (
 // Tenant represents the tenant repository interface.
 type Tenant interface {
 	Create(ctx context.Context, body *structs.CreateTenantBody) (*ent.Tenant, error)
-	GetByID(ctx context.Context, id string) (*ent.Tenant, error)
+	GetBySlug(ctx context.Context, slug string) (*ent.Tenant, error)
 	GetByUser(ctx context.Context, user string) (*ent.Tenant, error)
 	GetIDByUser(ctx context.Context, user string) (string, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Tenant, error)
@@ -55,6 +55,7 @@ func (r *tenantRepo) Create(ctx context.Context, body *structs.CreateTenantBody)
 	builder := r.ec.Tenant.Create()
 	// set values.
 	builder.SetNillableName(&body.Name)
+	builder.SetNillableSlug(&body.Slug)
 	builder.SetNillableTitle(&body.Title)
 	builder.SetNillableURL(&body.URL)
 	builder.SetNillableLogo(&body.Logo)
@@ -89,8 +90,8 @@ func (r *tenantRepo) Create(ctx context.Context, body *structs.CreateTenantBody)
 	return row, nil
 }
 
-// GetByID get tenant by id
-func (r *tenantRepo) GetByID(ctx context.Context, id string) (*ent.Tenant, error) {
+// GetBySlug get tenant by slug or id
+func (r *tenantRepo) GetBySlug(ctx context.Context, id string) (*ent.Tenant, error) {
 	// // Search in Meilisearch index
 	// if res, _ := r.ms.Search(ctx, "taxonomies", id, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
 	// 	if hit, ok := res.Hits[0].(*ent.Tenant); ok {
@@ -104,7 +105,7 @@ func (r *tenantRepo) GetByID(ctx context.Context, id string) (*ent.Tenant, error
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindTenant(ctx, &structs.FindTenant{ID: id})
+	row, err := r.FindTenant(ctx, &structs.FindTenant{Slug: id})
 
 	if err != nil {
 		log.Errorf(context.Background(), " tenantRepo.GetByID error: %v\n", err)
@@ -167,8 +168,8 @@ func (r *tenantRepo) GetIDByUser(ctx context.Context, userID string) (string, er
 }
 
 // Update update tenant
-func (r *tenantRepo) Update(ctx context.Context, id string, updates types.JSON) (*ent.Tenant, error) {
-	tenant, err := r.FindTenant(ctx, &structs.FindTenant{ID: id})
+func (r *tenantRepo) Update(ctx context.Context, slug string, updates types.JSON) (*ent.Tenant, error) {
+	tenant, err := r.FindTenant(ctx, &structs.FindTenant{Slug: slug})
 	if err != nil {
 		return nil, err
 	}
@@ -181,6 +182,8 @@ func (r *tenantRepo) Update(ctx context.Context, id string, updates types.JSON) 
 		switch field {
 		case "name":
 			builder.SetNillableName(types.ToPointer(value.(string)))
+		case "slug":
+			builder.SetNillableSlug(types.ToPointer(value.(string)))
 		case "title":
 			builder.SetNillableTitle(types.ToPointer(value.(string)))
 		case "url":
@@ -255,7 +258,7 @@ func (r *tenantRepo) List(ctx context.Context, p *structs.ListTenantParams) ([]*
 
 	query := r.ec.Tenant.
 		Query().
-		Limit(int(p.Limit))
+		Limit(p.Limit)
 
 	// is disabled
 	query.Where(tenantEnt.DisabledEQ(false))
@@ -284,7 +287,7 @@ func (r *tenantRepo) List(ctx context.Context, p *structs.ListTenantParams) ([]*
 
 // Delete delete tenant
 func (r *tenantRepo) Delete(ctx context.Context, id string) error {
-	tenant, err := r.FindTenant(ctx, &structs.FindTenant{ID: id})
+	tenant, err := r.FindTenant(ctx, &structs.FindTenant{Slug: id})
 	if err != nil {
 		return err
 	}
@@ -347,8 +350,11 @@ func (r *tenantRepo) FindTenant(ctx context.Context, p *structs.FindTenant) (*en
 	// create builder.
 	builder := r.ec.Tenant.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(tenantEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(p.Slug) {
+		builder = builder.Where(tenantEnt.Or(
+			tenantEnt.IDEQ(p.Slug),
+			tenantEnt.SlugEQ(p.Slug),
+		))
 	}
 	if validator.IsNotEmpty(p.User) {
 		builder = builder.Where(tenantEnt.CreatedByEQ(p.User))

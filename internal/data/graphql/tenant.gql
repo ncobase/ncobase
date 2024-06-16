@@ -5,6 +5,7 @@ extend type Query {
 type Tenant {
   id: String!
   name: String
+  slug: String
   title: String
   url: String
   logo: String
@@ -20,6 +21,7 @@ type Tenant {
 
 input TenantInput {
   name: String
+  slug: String
   title: String
   url: String
   logo: String

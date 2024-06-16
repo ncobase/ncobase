@@ -86,6 +86,7 @@ type ComplexityRoot struct {
 		LogoAlt     func(childComplexity int) int
 		Name        func(childComplexity int) int
 		Order       func(childComplexity int) int
+		Slug        func(childComplexity int) int
 		Title       func(childComplexity int) int
 		URL         func(childComplexity int) int
 		User        func(childComplexity int) int
@@ -370,6 +371,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Tenant.Order(childComplexity), true
+
+	case "Tenant.slug":
+		if e.complexity.Tenant.Slug == nil {
+			break
+		}
+
+		return e.complexity.Tenant.Slug(childComplexity), true
 
 	case "Tenant.title":
 		if e.complexity.Tenant.Title == nil {
@@ -691,6 +699,7 @@ type RStruct {
 type Tenant {
   id: String!
   name: String
+  slug: String
   title: String
   url: String
   logo: String
@@ -706,6 +715,7 @@ type Tenant {
 
 input TenantInput {
   name: String
+  slug: String
   title: String
   url: String
   logo: String
@@ -1459,6 +1469,8 @@ func (ec *executionContext) fieldContext_Query_accountTenant(ctx context.Context
 				return ec.fieldContext_Tenant_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Tenant_name(ctx, field)
+			case "slug":
+				return ec.fieldContext_Tenant_slug(ctx, field)
 			case "title":
 				return ec.fieldContext_Tenant_title(ctx, field)
 			case "url":
@@ -1998,6 +2010,47 @@ func (ec *executionContext) _Tenant_name(ctx context.Context, field graphql.Coll
 }
 
 func (ec *executionContext) fieldContext_Tenant_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Tenant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Tenant_slug(ctx context.Context, field graphql.CollectedField, obj *types.Tenant) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Tenant_slug(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Slug, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Tenant_slug(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Tenant",
 		Field:      field,
@@ -5098,7 +5151,7 @@ func (ec *executionContext) unmarshalInputTenantInput(ctx context.Context, obj i
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "title", "url", "logo", "logoAlt", "keywords", "copyright", "description", "order", "disabled", "extras"}
+	fieldsInOrder := [...]string{"name", "slug", "title", "url", "logo", "logoAlt", "keywords", "copyright", "description", "order", "disabled", "extras"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -5112,6 +5165,13 @@ func (ec *executionContext) unmarshalInputTenantInput(ctx context.Context, obj i
 				return it, err
 			}
 			it.Name = data
+		case "slug":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("slug"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Slug = data
 		case "title":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -5529,6 +5589,8 @@ func (ec *executionContext) _Tenant(ctx context.Context, sel ast.SelectionSet, o
 			}
 		case "name":
 			out.Values[i] = ec._Tenant_name(ctx, field, obj)
+		case "slug":
+			out.Values[i] = ec._Tenant_slug(ctx, field, obj)
 		case "title":
 			out.Values[i] = ec._Tenant_title(ctx, field, obj)
 		case "url":

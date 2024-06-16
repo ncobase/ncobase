@@ -11587,6 +11587,7 @@ type TenantMutation struct {
 	typ           string
 	id            *string
 	name          *string
+	slug          *string
 	title         *string
 	url           *string
 	logo          *string
@@ -11758,6 +11759,55 @@ func (m *TenantMutation) NameCleared() bool {
 func (m *TenantMutation) ResetName() {
 	m.name = nil
 	delete(m.clearedFields, tenant.FieldName)
+}
+
+// SetSlug sets the "slug" field.
+func (m *TenantMutation) SetSlug(s string) {
+	m.slug = &s
+}
+
+// Slug returns the value of the "slug" field in the mutation.
+func (m *TenantMutation) Slug() (r string, exists bool) {
+	v := m.slug
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSlug returns the old "slug" field's value of the Tenant entity.
+// If the Tenant object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantMutation) OldSlug(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSlug is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSlug requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSlug: %w", err)
+	}
+	return oldValue.Slug, nil
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (m *TenantMutation) ClearSlug() {
+	m.slug = nil
+	m.clearedFields[tenant.FieldSlug] = struct{}{}
+}
+
+// SlugCleared returns if the "slug" field was cleared in this mutation.
+func (m *TenantMutation) SlugCleared() bool {
+	_, ok := m.clearedFields[tenant.FieldSlug]
+	return ok
+}
+
+// ResetSlug resets all changes to the "slug" field.
+func (m *TenantMutation) ResetSlug() {
+	m.slug = nil
+	delete(m.clearedFields, tenant.FieldSlug)
 }
 
 // SetTitle sets the "title" field.
@@ -12438,9 +12488,12 @@ func (m *TenantMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TenantMutation) Fields() []string {
-	fields := make([]string, 0, 14)
+	fields := make([]string, 0, 15)
 	if m.name != nil {
 		fields = append(fields, tenant.FieldName)
+	}
+	if m.slug != nil {
+		fields = append(fields, tenant.FieldSlug)
 	}
 	if m.title != nil {
 		fields = append(fields, tenant.FieldTitle)
@@ -12491,6 +12544,8 @@ func (m *TenantMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case tenant.FieldName:
 		return m.Name()
+	case tenant.FieldSlug:
+		return m.Slug()
 	case tenant.FieldTitle:
 		return m.Title()
 	case tenant.FieldURL:
@@ -12528,6 +12583,8 @@ func (m *TenantMutation) OldField(ctx context.Context, name string) (ent.Value, 
 	switch name {
 	case tenant.FieldName:
 		return m.OldName(ctx)
+	case tenant.FieldSlug:
+		return m.OldSlug(ctx)
 	case tenant.FieldTitle:
 		return m.OldTitle(ctx)
 	case tenant.FieldURL:
@@ -12569,6 +12626,13 @@ func (m *TenantMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetName(v)
+		return nil
+	case tenant.FieldSlug:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSlug(v)
 		return nil
 	case tenant.FieldTitle:
 		v, ok := value.(string)
@@ -12709,6 +12773,9 @@ func (m *TenantMutation) ClearedFields() []string {
 	if m.FieldCleared(tenant.FieldName) {
 		fields = append(fields, tenant.FieldName)
 	}
+	if m.FieldCleared(tenant.FieldSlug) {
+		fields = append(fields, tenant.FieldSlug)
+	}
 	if m.FieldCleared(tenant.FieldTitle) {
 		fields = append(fields, tenant.FieldTitle)
 	}
@@ -12762,6 +12829,9 @@ func (m *TenantMutation) ClearField(name string) error {
 	case tenant.FieldName:
 		m.ClearName()
 		return nil
+	case tenant.FieldSlug:
+		m.ClearSlug()
+		return nil
 	case tenant.FieldTitle:
 		m.ClearTitle()
 		return nil
@@ -12808,6 +12878,9 @@ func (m *TenantMutation) ResetField(name string) error {
 	switch name {
 	case tenant.FieldName:
 		m.ResetName()
+		return nil
+	case tenant.FieldSlug:
+		m.ResetSlug()
 		return nil
 	case tenant.FieldTitle:
 		m.ResetTitle()

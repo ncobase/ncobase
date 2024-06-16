@@ -6,6 +6,7 @@ import (
 	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/resp"
+	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/internal/data/ent"
@@ -112,7 +113,7 @@ func (svc *Service) UpdateTenantService(c *gin.Context, body *structs.UpdateTena
 	}
 
 	// Retrieve the tenant by ID
-	tenant, err := svc.tenant.GetByID(helper.FromGinContext(c), body.ID)
+	tenant, err := svc.tenant.GetBySlug(helper.FromGinContext(c), body.ID)
 	if exception, err := handleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -161,7 +162,7 @@ func (svc *Service) GetTenantService(c *gin.Context, id string) (*resp.Exception
 	}
 
 	// Retrieve the tenant by ID
-	tenant, err := svc.tenant.GetByID(helper.FromGinContext(c), id)
+	tenant, err := svc.tenant.GetBySlug(helper.FromGinContext(c), id)
 	if exception, err := handleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -259,6 +260,11 @@ func (svc *Service) createInitialTenant(ctx context.Context, body *structs.Creat
 func (svc *Service) isCreateTenant(ctx context.Context, body *structs.CreateTenantBody) (*ent.Tenant, error) {
 	if body.CreatedBy == "" {
 		return nil, errors.New("invalid user ID")
+	}
+
+	// If slug is not provided, generate it
+	if body.Slug == "" && body.Name != "" {
+		body.Slug = slug.Unicode(body.Name)
 	}
 
 	client := svc.d.GetEntClient()

@@ -446,6 +446,7 @@ var (
 	NbTenantColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
 		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
 		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
 		{Name: "logo", Type: field.TypeString, Nullable: true, Comment: "logo"},
@@ -470,6 +471,11 @@ var (
 				Name:    "tenant_id",
 				Unique:  true,
 				Columns: []*schema.Column{NbTenantColumns[0]},
+			},
+			{
+				Name:    "tenant_slug",
+				Unique:  true,
+				Columns: []*schema.Column{NbTenantColumns[2]},
 			},
 		},
 	}
