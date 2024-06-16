@@ -59,6 +59,7 @@ type Sort struct {
 type Tenant struct {
 	ID          string                 `json:"id"`
 	Name        *string                `json:"name,omitempty"`
+	Slug        *string                `json:"slug,omitempty"`
 	Title       *string                `json:"title,omitempty"`
 	URL         *string                `json:"url,omitempty"`
 	Logo        *string                `json:"logo,omitempty"`
@@ -74,6 +75,7 @@ type Tenant struct {
 
 type TenantInput struct {
 	Name        *string                `json:"name,omitempty"`
+	Slug        *string                `json:"slug,omitempty"`
 	Title       *string                `json:"title,omitempty"`
 	URL         *string                `json:"url,omitempty"`
 	Logo        *string                `json:"logo,omitempty"`

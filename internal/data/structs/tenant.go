@@ -8,6 +8,7 @@ import (
 // TenantBody represents common fields for a tenant.
 type TenantBody struct {
 	Name        string      `json:"name,omitempty"`
+	Slug        string      `json:"slug,omitempty"`
 	Title       string      `json:"title,omitempty"`
 	URL         string      `json:"url,omitempty"`
 	Logo        string      `json:"logo,omitempty"`
@@ -36,6 +37,7 @@ type UpdateTenantBody struct {
 type ReadTenant struct {
 	ID          string      `json:"id"`
 	Name        string      `json:"name"`
+	Slug        string      `json:"slug"`
 	Title       string      `json:"title"`
 	URL         string      `json:"url"`
 	Logo        string      `json:"logo"`
@@ -54,7 +56,7 @@ type ReadTenant struct {
 
 // FindTenant represents the parameters for finding a tenant.
 type FindTenant struct {
-	ID   string `json:"id,omitempty"`
+	Slug string `json:"slug,omitempty"`
 	User string `json:"user,omitempty"`
 }
 

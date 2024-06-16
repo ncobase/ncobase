@@ -2754,6 +2754,9 @@ const docTemplate = `{
                 "order": {
                     "type": "integer"
                 },
+                "slug": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 },
@@ -3076,6 +3079,9 @@ const docTemplate = `{
                 "order": {
                     "type": "integer"
                 },
+                "slug": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 },
@@ -3390,6 +3396,9 @@ const docTemplate = `{
                 },
                 "order": {
                     "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"

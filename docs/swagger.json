@@ -2746,6 +2746,9 @@
                 "order": {
                     "type": "integer"
                 },
+                "slug": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 },
@@ -3068,6 +3071,9 @@
                 "order": {
                     "type": "integer"
                 },
+                "slug": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 },
@@ -3382,6 +3388,9 @@
                 },
                 "order": {
                     "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"

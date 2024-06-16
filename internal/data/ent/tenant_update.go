@@ -48,6 +48,26 @@ func (tu *TenantUpdate) ClearName() *TenantUpdate {
 	return tu
 }
 
+// SetSlug sets the "slug" field.
+func (tu *TenantUpdate) SetSlug(s string) *TenantUpdate {
+	tu.mutation.SetSlug(s)
+	return tu
+}
+
+// SetNillableSlug sets the "slug" field if the given value is not nil.
+func (tu *TenantUpdate) SetNillableSlug(s *string) *TenantUpdate {
+	if s != nil {
+		tu.SetSlug(*s)
+	}
+	return tu
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (tu *TenantUpdate) ClearSlug() *TenantUpdate {
+	tu.mutation.ClearSlug()
+	return tu
+}
+
 // SetTitle sets the "title" field.
 func (tu *TenantUpdate) SetTitle(s string) *TenantUpdate {
 	tu.mutation.SetTitle(s)
@@ -342,6 +362,12 @@ func (tu *TenantUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if tu.mutation.NameCleared() {
 		_spec.ClearField(tenant.FieldName, field.TypeString)
 	}
+	if value, ok := tu.mutation.Slug(); ok {
+		_spec.SetField(tenant.FieldSlug, field.TypeString, value)
+	}
+	if tu.mutation.SlugCleared() {
+		_spec.ClearField(tenant.FieldSlug, field.TypeString)
+	}
 	if value, ok := tu.mutation.Title(); ok {
 		_spec.SetField(tenant.FieldTitle, field.TypeString, value)
 	}
@@ -454,6 +480,26 @@ func (tuo *TenantUpdateOne) SetNillableName(s *string) *TenantUpdateOne {
 // ClearName clears the value of the "name" field.
 func (tuo *TenantUpdateOne) ClearName() *TenantUpdateOne {
 	tuo.mutation.ClearName()
+	return tuo
+}
+
+// SetSlug sets the "slug" field.
+func (tuo *TenantUpdateOne) SetSlug(s string) *TenantUpdateOne {
+	tuo.mutation.SetSlug(s)
+	return tuo
+}
+
+// SetNillableSlug sets the "slug" field if the given value is not nil.
+func (tuo *TenantUpdateOne) SetNillableSlug(s *string) *TenantUpdateOne {
+	if s != nil {
+		tuo.SetSlug(*s)
+	}
+	return tuo
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (tuo *TenantUpdateOne) ClearSlug() *TenantUpdateOne {
+	tuo.mutation.ClearSlug()
 	return tuo
 }
 
@@ -780,6 +826,12 @@ func (tuo *TenantUpdateOne) sqlSave(ctx context.Context) (_node *Tenant, err err
 	}
 	if tuo.mutation.NameCleared() {
 		_spec.ClearField(tenant.FieldName, field.TypeString)
+	}
+	if value, ok := tuo.mutation.Slug(); ok {
+		_spec.SetField(tenant.FieldSlug, field.TypeString, value)
+	}
+	if tuo.mutation.SlugCleared() {
+		_spec.ClearField(tenant.FieldSlug, field.TypeString)
 	}
 	if value, ok := tuo.mutation.Title(); ok {
 		_spec.SetField(tenant.FieldTitle, field.TypeString, value)

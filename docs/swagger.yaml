@@ -148,6 +148,8 @@ definitions:
         type: string
       order:
         type: integer
+      slug:
+        type: string
       title:
         type: string
       url:
@@ -361,6 +363,8 @@ definitions:
         type: string
       order:
         type: integer
+      slug:
+        type: string
       title:
         type: string
       updated_at:
@@ -570,6 +574,8 @@ definitions:
         type: string
       order:
         type: integer
+      slug:
+        type: string
       title:
         type: string
       url:
