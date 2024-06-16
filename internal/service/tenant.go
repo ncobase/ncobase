@@ -36,6 +36,23 @@ func (svc *Service) AccountTenantService(c *gin.Context) (*resp.Exception, error
 	}, nil
 }
 
+// AccountTenantsService retrieves the tenant associated with the user's account.
+func (svc *Service) AccountTenantsService(c *gin.Context) (*resp.Exception, error) {
+	userID := helper.GetUserID(c)
+	if userID == "" {
+		return nil, errors.New("invalid user ID")
+	}
+
+	tenants, err := svc.ListTenantsService(c, &structs.ListTenantParams{
+		User: userID,
+	})
+	if exception, err := handleError("Tenants", err); exception != nil {
+		return exception, err
+	}
+
+	return tenants, nil
+}
+
 // UserTenantService user tenant service
 func (svc *Service) UserTenantService(c *gin.Context, username string) (*resp.Exception, error) {
 	if username == "" {

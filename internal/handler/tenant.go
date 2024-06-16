@@ -28,6 +28,25 @@ func (h *Handler) AccountTenantHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
+// AccountTenantsHandler handles reading the current user's tenants.
+//
+// @Summary Get current user tenants
+// @Description Retrieve the tenant associated with the current user.
+// @Tags account
+// @Produce json
+// @Success 200 {object} structs.ReadTenant "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/account/tenants [get]
+// @Security Bearer
+func (h *Handler) AccountTenantsHandler(c *gin.Context) {
+	result, err := h.svc.AccountTenantsService(c)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, result)
+}
+
 // CreateTenantHandler handles creating a tenant.
 //
 // @Summary Create tenant
@@ -237,6 +256,66 @@ func (h *Handler) ListTenantHandler(c *gin.Context) {
 // @Security Bearer
 func (h *Handler) ListTenantAssetHandler(c *gin.Context) {
 	// result, err := h.svc.ListTenantAssetsService(c, c.Param("slug"))
+	// if err != nil {
+	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+	// 	return
+	// }
+	resp.Success(c.Writer, nil)
+}
+
+// ListTenantRoleHandler handles listing tenant roles.
+// TODO: implement this
+// @Summary List tenant roles
+// @Description Retrieve a list of roles associated with a specific tenant.
+// @Tags tenant
+// @Produce json
+// @Param slug path string true "Tenant ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/tenants/{slug}/roles [get]
+// @Security Bearer
+func (h *Handler) ListTenantRoleHandler(c *gin.Context) {
+	// result, err := h.svc.ListTenantRolesService(c, c.Param("slug"))
+	// if err != nil {
+	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+	// 	return
+	// }
+	resp.Success(c.Writer, nil)
+}
+
+// ListTenantModuleHandler handles listing tenant modules.
+// TODO: implement this
+// @Summary List tenant modules
+// @Description Retrieve a list of modules associated with a specific tenant.
+// @Tags tenant
+// @Produce json
+// @Param slug path string true "Tenant ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/tenants/{slug}/modules [get]
+// @Security Bearer
+func (h *Handler) ListTenantModuleHandler(c *gin.Context) {
+	// result, err := h.svc.ListTenantModulesService(c, c.Param("slug"))
+	// if err != nil {
+	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+	// 	return
+	// }
+	resp.Success(c.Writer, nil)
+}
+
+// ListTenantSettingHandler handles listing tenant settings.
+// TODO: implement this
+// @Summary List tenant settings
+// @Description Retrieve a list of settings associated with a specific tenant.
+// @Tags tenant
+// @Produce json
+// @Param slug path string true "Tenant ID"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/tenants/{slug}/settings [get]
+// @Security Bearer
+func (h *Handler) ListTenantSettingHandler(c *gin.Context) {
+	// result, err := h.svc.ListTenantSettingsService(c, c.Param("slug"))
 	// if err != nil {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return

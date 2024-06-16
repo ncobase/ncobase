@@ -142,6 +142,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/account/tenants": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the tenant associated with the current user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "summary": "Get current user tenants",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/assets": {
             "get": {
                 "description": "List assets based on specified parameters.",
@@ -2008,6 +2039,86 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/tenants/{slug}/modules": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of modules associated with a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "List tenant modules",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tenants/{slug}/roles": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of roles associated with a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "List tenant roles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/tenants/{slug}/setting": {
             "get": {
                 "security": [
@@ -2023,6 +2134,46 @@ const docTemplate = `{
                     "tenant"
                 ],
                 "summary": "Get tenant setting",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tenants/{slug}/settings": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of settings associated with a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tenant"
+                ],
+                "summary": "List tenant settings",
                 "parameters": [
                     {
                         "type": "string",

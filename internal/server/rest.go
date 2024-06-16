@@ -53,6 +53,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		account.GET("", h.GetMeHandler)
 		account.PUT("/password", h.UpdatePasswordHandler)
 		account.GET("/tenant", h.AccountTenantHandler)
+		account.GET("/tenants", h.AccountTenantsHandler)
 	}
 
 	// User endpoints
@@ -108,7 +109,11 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		tenant.GET("/:slug", h.GetTenantHandler)
 		tenant.PUT("/:slug", h.UpdateTenantHandler)
 		tenant.DELETE("/:slug", h.DeleteTenantHandler)
+		// TODO: implement these
 		tenant.GET("/:slug/assets", h.ListTenantAssetHandler)
+		tenant.GET("/:slug/roles", h.ListTenantRoleHandler)
+		tenant.GET("/:slug/modules", h.ListTenantModuleHandler)
+		tenant.GET("/:slug/settings", h.ListTenantSettingHandler)
 		tenant.GET("/:slug/users", h.ListTenantUserHandler)
 		tenant.GET("/:slug/groups", h.ListTenantGroupHandler)
 	}
