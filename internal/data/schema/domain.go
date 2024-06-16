@@ -17,7 +17,7 @@ type Domain struct {
 
 // Annotations of the Domain.
 func (Domain) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "domain"}, "_")
+	table := strings.Join([]string{"sc", "domain"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

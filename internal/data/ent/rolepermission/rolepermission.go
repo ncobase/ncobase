@@ -14,7 +14,7 @@ const (
 	// FieldPermissionID holds the string denoting the permission_id field in the database.
 	FieldPermissionID = "permission_id"
 	// Table holds the table name of the rolepermission in the database.
-	Table = "nb_role_permission"
+	Table = "sc_role_permission"
 )
 
 // Columns holds all SQL columns for rolepermission fields.

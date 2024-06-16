@@ -39,7 +39,7 @@ type userDomainRepo struct {
 func NewUserDomain(d *data.Data) UserDomain {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userDomainRepo{ec, rc, cache.NewCache[ent.UserDomain](rc, cache.Key("nb_user_domain"), true)}
+	return &userDomainRepo{ec, rc, cache.NewCache[ent.UserDomain](rc, cache.Key("sc_user_domain"), true)}
 }
 
 // Create  creates a new user domain

@@ -17,7 +17,7 @@ type Asset struct {
 
 // Annotations of the Asset.
 func (Asset) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "asset"}, "_")
+	table := strings.Join([]string{"sc", "asset"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

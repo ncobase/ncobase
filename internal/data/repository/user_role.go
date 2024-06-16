@@ -41,7 +41,7 @@ type userRoleRepo struct {
 func NewUserRole(d *data.Data) UserRole {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userRoleRepo{ec, rc, cache.NewCache[ent.UserRole](rc, cache.Key("nb_user_role"), true)}
+	return &userRoleRepo{ec, rc, cache.NewCache[ent.UserRole](rc, cache.Key("sc_user_role"), true)}
 }
 
 // VerifyUserRole verifies if a user has a specific role.

@@ -17,7 +17,7 @@ type User struct {
 
 // Annotations of the User.
 func (User) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "user"}, "_")
+	table := strings.Join([]string{"sc", "user"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

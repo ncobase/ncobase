@@ -32,7 +32,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the role in the database.
-	Table = "nb_role"
+	Table = "sc_role"
 )
 
 // Columns holds all SQL columns for role fields.

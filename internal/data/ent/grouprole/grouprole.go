@@ -14,7 +14,7 @@ const (
 	// FieldRoleID holds the string denoting the role_id field in the database.
 	FieldRoleID = "role_id"
 	// Table holds the table name of the grouprole in the database.
-	Table = "nb_group_role"
+	Table = "sc_group_role"
 )
 
 // Columns holds all SQL columns for grouprole fields.

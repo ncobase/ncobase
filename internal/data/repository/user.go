@@ -38,7 +38,7 @@ type userRepo struct {
 func NewUser(d *data.Data) User {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userRepo{ec, rc, cache.NewCache[ent.User](rc, cache.Key("nb_user"), true)}
+	return &userRepo{ec, rc, cache.NewCache[ent.User](rc, cache.Key("sc_user"), true)}
 }
 
 // Create create user
