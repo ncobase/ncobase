@@ -16,8 +16,8 @@ type ModuleBody struct {
 	Temp      *bool      `json:"temp,omitempty"`
 	Markdown  *bool      `json:"markdown,omitempty"`
 	Private   *bool      `json:"private,omitempty"`
-	Status    *int       `json:"status,omitempty"`   // Use pointer for nullable field
-	Released  *time.Time `json:"released,omitempty"` // Use pointer for nullable field
+	Status    *int       `json:"status,omitempty"`
+	Released  *time.Time `json:"released,omitempty"`
 }
 
 // CreateModuleBody represents the body for creating or updating a module.

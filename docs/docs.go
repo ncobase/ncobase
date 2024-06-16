@@ -759,6 +759,266 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/menus": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list or tree structure of menus.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "List menus",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "perms",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadMenu"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing menu.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Update menu",
+                "parameters": [
+                    {
+                        "description": "UpdateMenuBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateMenuBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadMenu"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new menu.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Create menu",
+                "parameters": [
+                    {
+                        "description": "MenuBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.MenuBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadMenu"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/menus/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a menu by ID or slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Get menu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Menu ID or slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "menu",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadMenu"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a menu by ID or slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Delete menu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Menu ID or slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/modules": {
             "get": {
                 "security": [
@@ -2629,14 +2889,12 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "released": {
-                    "description": "Use pointer for nullable field",
                     "type": "string"
                 },
                 "slug": {
                     "type": "string"
                 },
                 "status": {
-                    "description": "Use pointer for nullable field",
                     "type": "integer"
                 },
                 "temp": {
@@ -2836,6 +3094,65 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.MenuBody": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "hidden": {
+                    "type": "boolean"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "perms": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.OAuthRegisterBody": {
             "type": "object",
             "required": [
@@ -2897,6 +3214,72 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "storage": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadMenu": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {}
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "hidden": {
+                    "type": "boolean"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "perms": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "target": {
                     "type": "string"
                 },
                 "tenant_id": {
@@ -3241,6 +3624,68 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.UpdateMenuBody": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "hidden": {
+                    "type": "boolean"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "perms": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.UpdateModuleBody": {
             "type": "object",
             "properties": {
@@ -3266,14 +3711,12 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "released": {
-                    "description": "Use pointer for nullable field",
                     "type": "string"
                 },
                 "slug": {
                     "type": "string"
                 },
                 "status": {
-                    "description": "Use pointer for nullable field",
                     "type": "integer"
                 },
                 "temp": {

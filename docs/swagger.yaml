@@ -65,12 +65,10 @@ definitions:
       private:
         type: boolean
       released:
-        description: Use pointer for nullable field
         type: string
       slug:
         type: string
       status:
-        description: Use pointer for nullable field
         type: integer
       temp:
         type: boolean
@@ -202,6 +200,45 @@ definitions:
     - password
     - username
     type: object
+  structs.MenuBody:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      hidden:
+        type: boolean
+      icon:
+        type: string
+      label:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      parent_id:
+        type: string
+      path:
+        type: string
+      perms:
+        type: string
+      slug:
+        type: string
+      target:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.OAuthRegisterBody:
     properties:
       display_name:
@@ -243,6 +280,50 @@ definitions:
       size:
         type: integer
       storage:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.ReadMenu:
+    properties:
+      children:
+        items: {}
+        type: array
+      created_at:
+        type: string
+      created_by:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      hidden:
+        type: boolean
+      icon:
+        type: string
+      id:
+        type: string
+      label:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      parent_id:
+        type: string
+      path:
+        type: string
+      perms:
+        type: string
+      slug:
+        type: string
+      target:
         type: string
       tenant_id:
         type: string
@@ -470,6 +551,47 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.UpdateMenuBody:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      hidden:
+        type: boolean
+      icon:
+        type: string
+      id:
+        type: string
+      label:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      parent_id:
+        type: string
+      path:
+        type: string
+      perms:
+        type: string
+      slug:
+        type: string
+      target:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.UpdateModuleBody:
     properties:
       content:
@@ -487,12 +609,10 @@ definitions:
       private:
         type: boolean
       released:
-        description: Use pointer for nullable field
         type: string
       slug:
         type: string
       status:
-        description: Use pointer for nullable field
         type: integer
       temp:
         type: boolean
@@ -1154,6 +1274,167 @@ paths:
       summary: Logout
       tags:
       - authentication
+  /v1/menus:
+    get:
+      description: Retrieve a list or tree structure of menus.
+      parameters:
+      - in: query
+        name: children
+        type: boolean
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: parent
+        type: string
+      - in: query
+        name: perms
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadMenu'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List menus
+      tags:
+      - menu
+    post:
+      consumes:
+      - application/json
+      description: Create a new menu.
+      parameters:
+      - description: MenuBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.MenuBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadMenu'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create menu
+      tags:
+      - menu
+    put:
+      consumes:
+      - application/json
+      description: Update an existing menu.
+      parameters:
+      - description: UpdateMenuBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateMenuBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadMenu'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update menu
+      tags:
+      - menu
+  /v1/menus/{slug}:
+    delete:
+      description: Delete a menu by ID or slug.
+      parameters:
+      - description: Menu ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete menu
+      tags:
+      - menu
+    get:
+      description: Retrieve a menu by ID or slug.
+      parameters:
+      - description: Menu ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - in: query
+        name: children
+        type: boolean
+      - in: query
+        name: menu
+        type: string
+      - in: query
+        name: parent
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadMenu'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get menu
+      tags:
+      - menu
   /v1/modules:
     get:
       description: Retrieve a list of modules based on the provided query parameters

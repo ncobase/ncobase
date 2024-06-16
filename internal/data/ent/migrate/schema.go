@@ -204,6 +204,56 @@ var (
 			},
 		},
 	}
+	// NbMenuColumns holds the columns for the "nb_menu" table.
+	NbMenuColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "label", Type: field.TypeString, Nullable: true, Comment: "label"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
+		{Name: "target", Type: field.TypeString, Nullable: true, Comment: "target"},
+		{Name: "icon", Type: field.TypeString, Nullable: true, Comment: "icon"},
+		{Name: "perms", Type: field.TypeString, Nullable: true, Comment: "perms"},
+		{Name: "hidden", Type: field.TypeBool, Nullable: true, Comment: "is hidden", Default: false},
+		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "parent id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 11, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// NbMenuTable holds the schema information for the "nb_menu" table.
+	NbMenuTable = &schema.Table{
+		Name:       "nb_menu",
+		Columns:    NbMenuColumns,
+		PrimaryKey: []*schema.Column{NbMenuColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "menu_id",
+				Unique:  true,
+				Columns: []*schema.Column{NbMenuColumns[0]},
+			},
+			{
+				Name:    "menu_slug",
+				Unique:  true,
+				Columns: []*schema.Column{NbMenuColumns[3]},
+			},
+			{
+				Name:    "menu_parent_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbMenuColumns[13]},
+			},
+			{
+				Name:    "menu_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbMenuColumns[14]},
+			},
+		},
+	}
 	// NbModuleColumns holds the columns for the "nb_module" table.
 	NbModuleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
@@ -708,6 +758,7 @@ var (
 		NbCodeAuthTable,
 		NbGroupTable,
 		NbGroupRoleTable,
+		NbMenuTable,
 		NbModuleTable,
 		NbOauthUserTable,
 		NbPermissionTable,
@@ -744,6 +795,9 @@ func init() {
 	}
 	NbGroupRoleTable.Annotation = &entsql.Annotation{
 		Table: "nb_group_role",
+	}
+	NbMenuTable.Annotation = &entsql.Annotation{
+		Table: "nb_menu",
 	}
 	NbModuleTable.Annotation = &entsql.Annotation{
 		Table: "nb_module",
