@@ -17,7 +17,7 @@ type Group struct {
 
 // Annotations of the Group.
 func (Group) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"sc", "group"}, "_")
+	table := strings.Join([]string{"nb", "group"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

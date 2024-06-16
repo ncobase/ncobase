@@ -39,7 +39,7 @@ func NewModule(d *data.Data) Module {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &moduleRepo{ec, rc, ms, cache.NewCache[ent.Module](rc, cache.Key("sc_module"), true)}
+	return &moduleRepo{ec, rc, ms, cache.NewCache[ent.Module](rc, cache.Key("nb_module"), true)}
 }
 
 // Create creates a new module.

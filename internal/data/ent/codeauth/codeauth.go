@@ -24,7 +24,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the codeauth in the database.
-	Table = "sc_code_auth"
+	Table = "nb_code_auth"
 )
 
 // Columns holds all SQL columns for codeauth fields.
