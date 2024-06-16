@@ -14,7 +14,7 @@ const (
 	// FieldGroupID holds the string denoting the group_id field in the database.
 	FieldGroupID = "group_id"
 	// Table holds the table name of the usergroup in the database.
-	Table = "sc_user_group"
+	Table = "nb_user_group"
 )
 
 // Columns holds all SQL columns for usergroup fields.

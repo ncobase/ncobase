@@ -43,7 +43,7 @@ func NewTopic(d *data.Data) Topic {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &topicRepo{ec, rc, ms, cache.NewCache[ent.Topic](rc, cache.Key("sc_topic"), true)}
+	return &topicRepo{ec, rc, ms, cache.NewCache[ent.Topic](rc, cache.Key("nb_topic"), true)}
 }
 
 // Create creates a new topic.

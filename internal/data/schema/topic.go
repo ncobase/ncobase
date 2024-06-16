@@ -18,7 +18,7 @@ type Topic struct {
 
 // Annotations of the Topic.
 func (Topic) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"sc", "topic"}, "_")
+	table := strings.Join([]string{"nb", "topic"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

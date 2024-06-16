@@ -18,7 +18,7 @@ type Module struct {
 
 // Annotations of the Module.
 func (Module) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"sc", "module"}, "_")
+	table := strings.Join([]string{"nb", "module"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

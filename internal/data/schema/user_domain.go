@@ -17,7 +17,7 @@ type UserDomain struct {
 
 // Annotations of the UserDomain.
 func (UserDomain) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"sc", "user_domain"}, "_")
+	table := strings.Join([]string{"nb", "user_domain"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

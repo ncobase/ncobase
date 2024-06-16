@@ -41,7 +41,7 @@ type userDomainRoleRepo struct {
 func NewUserDomainRole(d *data.Data) UserDomainRole {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userDomainRoleRepo{ec, rc, cache.NewCache[ent.UserDomainRole](rc, cache.Key("sc_user_domain_role"), true)}
+	return &userDomainRoleRepo{ec, rc, cache.NewCache[ent.UserDomainRole](rc, cache.Key("nb_user_domain_role"), true)}
 }
 
 // Create creates a new user domain role.
