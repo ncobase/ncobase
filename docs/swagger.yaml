@@ -764,6 +764,25 @@ paths:
       summary: Get current user tenant
       tags:
       - account
+  /v1/account/tenants:
+    get:
+      description: Retrieve the tenant associated with the current user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTenant'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get current user tenants
+      tags:
+      - account
   /v1/assets:
     get:
       description: List assets based on specified parameters.
@@ -1936,6 +1955,56 @@ paths:
       summary: Get tenant menu
       tags:
       - tenant
+  /v1/tenants/{slug}/modules:
+    get:
+      description: Retrieve a list of modules associated with a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List tenant modules
+      tags:
+      - tenant
+  /v1/tenants/{slug}/roles:
+    get:
+      description: Retrieve a list of roles associated with a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List tenant roles
+      tags:
+      - tenant
   /v1/tenants/{slug}/setting:
     get:
       description: Retrieve the settings associated with a specific tenant.
@@ -1959,6 +2028,31 @@ paths:
       security:
       - Bearer: []
       summary: Get tenant setting
+      tags:
+      - tenant
+  /v1/tenants/{slug}/settings:
+    get:
+      description: Retrieve a list of settings associated with a specific tenant.
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List tenant settings
       tags:
       - tenant
   /v1/tenants/{slug}/users:
