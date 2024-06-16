@@ -2,13 +2,13 @@ package repo
 
 import (
 	"context"
+	"ncobase/common/log"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/internal/data"
 	"ncobase/internal/data/ent"
 	casbinRuleEnt "ncobase/internal/data/ent/casbinrule"
 	"ncobase/internal/data/structs"
-	"ncobase/pkg/log"
-	"ncobase/pkg/types"
-	"ncobase/pkg/validator"
 )
 
 // CasbinRule represents the Casbin rule repository interface.

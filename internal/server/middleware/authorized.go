@@ -1,9 +1,9 @@
 package middleware
 
 import (
+	"ncobase/common/ecode"
+	"ncobase/common/validator"
 	"ncobase/internal/helper"
-	"ncobase/pkg/ecode"
-	"ncobase/pkg/validator"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

@@ -1,6 +1,6 @@
 package structs
 
-import "ncobase/pkg/types"
+import "ncobase/common/types"
 
 // GroupBody represents a group entity.
 type GroupBody struct {

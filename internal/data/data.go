@@ -4,12 +4,12 @@ import (
 	"context"
 	"database/sql"
 	"io"
-	"ncobase/internal/config"
+	"ncobase/common/config"
+	"ncobase/common/elastic"
+	"ncobase/common/log"
+	"ncobase/common/meili"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/ent/migrate"
-	"ncobase/pkg/elastic"
-	"ncobase/pkg/log"
-	"ncobase/pkg/meili"
 
 	"github.com/redis/go-redis/v9"
 

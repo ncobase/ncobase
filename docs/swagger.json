@@ -21,7 +21,7 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -52,7 +52,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -91,13 +91,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -128,7 +128,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -197,7 +197,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -256,7 +256,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -297,7 +297,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -347,7 +347,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -382,7 +382,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -418,7 +418,7 @@
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -434,7 +434,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -469,7 +469,7 @@
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -494,7 +494,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -528,7 +528,7 @@
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -547,7 +547,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -583,7 +583,7 @@
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -599,7 +599,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -634,7 +634,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -670,7 +670,7 @@
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -689,7 +689,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -714,7 +714,7 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -760,7 +760,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -803,7 +803,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -843,7 +843,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -893,7 +893,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -931,7 +931,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -948,13 +948,13 @@
                     "302": {
                         "description": "redirect",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -980,13 +980,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "401": {
                         "description": "unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1012,13 +1012,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "401": {
                         "description": "unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1038,13 +1038,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1078,13 +1078,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1116,13 +1116,13 @@
                     "302": {
                         "description": "redirect",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1203,7 +1203,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1246,7 +1246,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1286,7 +1286,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1336,7 +1336,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1368,13 +1368,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1410,7 +1410,7 @@
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/types.JSON"
+                                    "$ref": "#/definitions/ncobase_common_types.JSON"
                                 },
                                 {
                                     "type": "object",
@@ -1429,7 +1429,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1486,7 +1486,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1529,7 +1529,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1564,7 +1564,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1614,7 +1614,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1646,13 +1646,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1703,7 +1703,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1753,7 +1753,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1796,7 +1796,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1836,7 +1836,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1868,13 +1868,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1908,13 +1908,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1948,13 +1948,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -1988,13 +1988,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2028,13 +2028,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2068,13 +2068,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2125,7 +2125,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2168,7 +2168,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2203,7 +2203,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2253,7 +2253,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2285,13 +2285,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2326,7 +2326,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2366,7 +2366,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/resp.Exception"
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
                     }
                 }
@@ -2374,7 +2374,7 @@
         }
     },
     "definitions": {
-        "resp.Exception": {
+        "ncobase_common_resp.Exception": {
             "type": "object",
             "properties": {
                 "code": {
@@ -2396,6 +2396,10 @@
                     "type": "integer"
                 }
             }
+        },
+        "ncobase_common_types.JSON": {
+            "type": "object",
+            "additionalProperties": {}
         },
         "structs.Captcha": {
             "type": "object",
@@ -2512,7 +2516,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -2571,7 +2575,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "keywords": {
                     "type": "array",
@@ -2713,7 +2717,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -2763,7 +2767,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -2825,7 +2829,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -2890,7 +2894,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -3038,7 +3042,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -3143,7 +3147,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -3205,7 +3209,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/types.JSON"
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -3339,7 +3343,7 @@
                 "links": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/types.JSON"
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
                     }
                 },
                 "short_bio": {
@@ -3393,10 +3397,6 @@
                     "type": "string"
                 }
             }
-        },
-        "types.JSON": {
-            "type": "object",
-            "additionalProperties": {}
         }
     },
     "securityDefinitions": {

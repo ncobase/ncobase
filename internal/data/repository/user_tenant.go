@@ -2,13 +2,13 @@ package repo
 
 import (
 	"context"
+	"ncobase/common/cache"
+	"ncobase/common/log"
 	"ncobase/internal/data"
 	"ncobase/internal/data/ent"
 	tenantEnt "ncobase/internal/data/ent/tenant"
 	userTenantEnt "ncobase/internal/data/ent/usertenant"
 	"ncobase/internal/data/structs"
-	"ncobase/pkg/cache"
-	"ncobase/pkg/log"
 
 	"github.com/redis/go-redis/v9"
 )

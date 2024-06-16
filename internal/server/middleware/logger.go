@@ -3,7 +3,7 @@ package middleware
 import (
 	"bytes"
 	"io"
-	"ncobase/pkg/log"
+	"ncobase/common/log"
 	"strings"
 	"time"
 

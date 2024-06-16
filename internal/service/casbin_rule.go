@@ -1,11 +1,11 @@
 package service
 
 import (
+	"ncobase/common/ecode"
+	"ncobase/common/resp"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/internal/data/structs"
-	"ncobase/pkg/ecode"
-	"ncobase/pkg/resp"
-	"ncobase/pkg/types"
-	"ncobase/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"net/http"
+	"ncobase/common/oauth"
+	"ncobase/common/resp"
+	"ncobase/common/types"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
-	"ncobase/pkg/oauth"
-	"ncobase/pkg/resp"
-	"ncobase/pkg/types"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
