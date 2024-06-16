@@ -17,7 +17,7 @@ type CasbinRule struct {
 
 // Annotations of the CasbinRule.
 func (CasbinRule) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "casbin_rule"}, "_")
+	table := strings.Join([]string{"sc", "casbin_rule"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

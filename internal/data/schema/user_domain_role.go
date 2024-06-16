@@ -17,7 +17,7 @@ type UserDomainRole struct {
 
 // Annotations of the UserDomainRole.
 func (UserDomainRole) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "user_domain_role"}, "_")
+	table := strings.Join([]string{"sc", "user_domain_role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

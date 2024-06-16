@@ -38,7 +38,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the group in the database.
-	Table = "nb_group"
+	Table = "sc_group"
 )
 
 // Columns holds all SQL columns for group fields.

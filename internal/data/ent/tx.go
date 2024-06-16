@@ -26,6 +26,8 @@ type Tx struct {
 	Group *GroupClient
 	// GroupRole is the client for interacting with the GroupRole builders.
 	GroupRole *GroupRoleClient
+	// Module is the client for interacting with the Module builders.
+	Module *ModuleClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
 	OAuthUser *OAuthUserClient
 	// Permission is the client for interacting with the Permission builders.
@@ -34,6 +36,12 @@ type Tx struct {
 	Role *RoleClient
 	// RolePermission is the client for interacting with the RolePermission builders.
 	RolePermission *RolePermissionClient
+	// Taxonomy is the client for interacting with the Taxonomy builders.
+	Taxonomy *TaxonomyClient
+	// TaxonomyRelation is the client for interacting with the TaxonomyRelation builders.
+	TaxonomyRelation *TaxonomyRelationClient
+	// Topic is the client for interacting with the Topic builders.
+	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 	// UserDomain is the client for interacting with the UserDomain builders.
@@ -184,10 +192,14 @@ func (tx *Tx) init() {
 	tx.Domain = NewDomainClient(tx.config)
 	tx.Group = NewGroupClient(tx.config)
 	tx.GroupRole = NewGroupRoleClient(tx.config)
+	tx.Module = NewModuleClient(tx.config)
 	tx.OAuthUser = NewOAuthUserClient(tx.config)
 	tx.Permission = NewPermissionClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
 	tx.RolePermission = NewRolePermissionClient(tx.config)
+	tx.Taxonomy = NewTaxonomyClient(tx.config)
+	tx.TaxonomyRelation = NewTaxonomyRelationClient(tx.config)
+	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 	tx.UserDomain = NewUserDomainClient(tx.config)
 	tx.UserDomainRole = NewUserDomainRoleClient(tx.config)

@@ -76,6 +76,115 @@ definitions:
       url:
         type: string
     type: object
+  structs.CreateModuleBody:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        description: Use pointer for nullable field
+        type: string
+      slug:
+        type: string
+      status:
+        description: Use pointer for nullable field
+        type: integer
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.CreateTaxonomyBody:
+    properties:
+      color:
+        type: string
+      cover:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      domain_id:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      icon:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      thumbnail:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      url:
+        type: string
+    type: object
+  structs.CreateTopicBody:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      domain_id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      taxonomy_id:
+        type: string
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.LoginBody:
     properties:
       captcha:
@@ -176,6 +285,125 @@ definitions:
       user:
         $ref: '#/definitions/structs.User'
     type: object
+  structs.ReadModule:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      markdown:
+        type: boolean
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.ReadTaxonomy:
+    properties:
+      color:
+        type: string
+      cover:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      domain_id:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      icon:
+        type: string
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      thumbnail:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      url:
+        type: string
+    type: object
+  structs.ReadTopic:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      domain_id:
+        type: string
+      id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      taxonomy_id:
+        type: string
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.RegisterBody:
     properties:
       display_name:
@@ -264,6 +492,121 @@ definitions:
       title:
         type: string
       url:
+        type: string
+    type: object
+  structs.UpdateModuleBody:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        description: Use pointer for nullable field
+        type: string
+      slug:
+        type: string
+      status:
+        description: Use pointer for nullable field
+        type: integer
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.UpdateTaxonomyBody:
+    properties:
+      color:
+        type: string
+      cover:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      domain_id:
+        type: string
+      extras:
+        $ref: '#/definitions/types.JSON'
+      icon:
+        type: string
+      id:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      thumbnail:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      url:
+        type: string
+    type: object
+  structs.UpdateTopicBody:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      domain_id:
+        type: string
+      id:
+        type: string
+      markdown:
+        type: boolean
+      name:
+        type: string
+      private:
+        type: boolean
+      released:
+        type: string
+      slug:
+        type: string
+      status:
+        type: integer
+      taxonomy_id:
+        type: string
+      temp:
+        type: boolean
+      thumbnail:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
         type: string
     type: object
   structs.User:
@@ -1050,6 +1393,142 @@ paths:
       summary: Logout
       tags:
       - authentication
+  /v1/modules:
+    get:
+      description: Retrieve a list of modules based on the provided query parameters
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadModule'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all modules
+      tags:
+      - modules
+    post:
+      consumes:
+      - application/json
+      description: Create a new module with the provided data
+      parameters:
+      - description: Module data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateModuleBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadModule'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create a new module
+      tags:
+      - modules
+  /v1/modules/{slug}:
+    delete:
+      description: Delete a module by its slug or ID
+      parameters:
+      - description: Module slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadModule'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a module by slug or ID
+      tags:
+      - modules
+    get:
+      description: Retrieve a module by its slug or ID
+      parameters:
+      - description: Module slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadModule'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a module by slug or ID
+      tags:
+      - modules
+    put:
+      consumes:
+      - application/json
+      description: Update an existing module with the provided data
+      parameters:
+      - description: Module slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Module data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateModuleBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadModule'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update an existing module
+      tags:
+      - modules
   /v1/oauth/{provider}/redirect:
     get:
       description: Redirect to OAuth provider for authentication.
@@ -1365,6 +1844,286 @@ paths:
       summary: Register
       tags:
       - authentication
+  /v1/taxa:
+    get:
+      description: Retrieve a list of taxonomies.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: domain_id
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: parent_id
+        type: string
+      - in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadTaxonomy'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List taxonomies
+      tags:
+      - taxonomy
+    post:
+      consumes:
+      - application/json
+      description: Create a new taxonomy.
+      parameters:
+      - description: CreateTaxonomyBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTaxonomyBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTaxonomy'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create taxonomy
+      tags:
+      - taxonomy
+  /v1/taxa/{slug}:
+    delete:
+      description: Delete an existing taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete taxonomy
+      tags:
+      - taxonomy
+    get:
+      description: Retrieve details of a taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTaxonomy'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get taxonomy
+      tags:
+      - taxonomy
+    put:
+      consumes:
+      - application/json
+      description: Update an existing taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: UpdateTaxonomyBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateTaxonomyBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTaxonomy'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update taxonomy
+      tags:
+      - taxonomy
+  /v1/topics:
+    get:
+      description: Retrieve a list of topics.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: domain_id
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: taxonomy_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadTopic'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: List topics
+      tags:
+      - topic
+    post:
+      consumes:
+      - application/json
+      description: Create a new topic.
+      parameters:
+      - description: CreateTopicBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTopicBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopic'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create topic
+      tags:
+      - topic
+  /v1/topics/{slug}:
+    delete:
+      description: Delete an existing topic.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete topic
+      tags:
+      - topic
+    get:
+      description: Retrieve details of a topic.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopic'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get topic
+      tags:
+      - topic
+    put:
+      consumes:
+      - application/json
+      description: Update an existing topic, either fully or partially.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: UpdateTopicBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateTopicBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopic'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update topic
+      tags:
+      - topic
   /v1/users/{username}:
     get:
       description: Retrieve information about a specific user.

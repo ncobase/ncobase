@@ -14,7 +14,7 @@ const (
 	// FieldDomainID holds the string denoting the domain_id field in the database.
 	FieldDomainID = "domain_id"
 	// Table holds the table name of the userdomain in the database.
-	Table = "nb_user_domain"
+	Table = "sc_user_domain"
 )
 
 // Columns holds all SQL columns for userdomain fields.

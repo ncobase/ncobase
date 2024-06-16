@@ -39,7 +39,7 @@ type permissionRepo struct {
 func NewPermission(d *data.Data) Permission {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &permissionRepo{ec, rc, cache.NewCache[ent.Permission](rc, cache.Key("nb_permission"), true)}
+	return &permissionRepo{ec, rc, cache.NewCache[ent.Permission](rc, cache.Key("sc_permission"), true)}
 }
 
 // Create creates a new permission.

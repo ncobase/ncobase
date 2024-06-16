@@ -40,7 +40,7 @@ type userGroupRepo struct {
 func NewUserGroup(d *data.Data) UserGroup {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userGroupRepo{ec, rc, cache.NewCache[ent.UserGroup](rc, cache.Key("nb_user_group"), true)}
+	return &userGroupRepo{ec, rc, cache.NewCache[ent.UserGroup](rc, cache.Key("sc_user_group"), true)}
 }
 
 // Create create user group
