@@ -197,7 +197,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "object_id",
+                        "name": "object",
                         "in": "query",
                         "required": true
                     },
@@ -208,7 +208,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant_id",
+                        "name": "tenant",
                         "in": "query",
                         "required": true
                     },
@@ -219,7 +219,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "user_id",
+                        "name": "user",
                         "in": "query"
                     }
                 ],
@@ -2522,12 +2522,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "taxonomy_id",
+                        "name": "taxonomy",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "tenant_id",
+                        "name": "tenant",
                         "in": "query"
                     }
                 ],

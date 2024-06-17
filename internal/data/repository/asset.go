@@ -23,6 +23,7 @@ type Asset interface {
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Asset, error)
 	Delete(ctx context.Context, slug string) error
 	List(ctx context.Context, p *structs.ListAssetParams) ([]*ent.Asset, error)
+	CountX(ctx context.Context, p *structs.ListAssetParams) int
 }
 
 // assetRepo implements the Asset interface.
@@ -88,7 +89,7 @@ func (r *assetRepo) GetByID(ctx context.Context, slug string) (*ent.Asset, error
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindAsset(ctx, &structs.FindAsset{ID: slug})
+	row, err := r.FindAsset(ctx, &structs.FindAsset{Asset: slug})
 	if err != nil {
 		log.Errorf(ctx, "assetRepo.GetByID error: %v\n", err)
 		return nil, err
@@ -105,7 +106,7 @@ func (r *assetRepo) GetByID(ctx context.Context, slug string) (*ent.Asset, error
 
 // Update updates an asset by ID.
 func (r *assetRepo) Update(ctx context.Context, slug string, updates types.JSON) (*ent.Asset, error) {
-	asset, err := r.FindAsset(ctx, &structs.FindAsset{ID: slug})
+	asset, err := r.FindAsset(ctx, &structs.FindAsset{Asset: slug})
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +164,7 @@ func (r *assetRepo) Update(ctx context.Context, slug string, updates types.JSON)
 
 // Delete deletes an asset by ID.
 func (r *assetRepo) Delete(ctx context.Context, slug string) error {
-	asset, err := r.FindAsset(ctx, &structs.FindAsset{ID: slug})
+	asset, err := r.FindAsset(ctx, &structs.FindAsset{Asset: slug})
 	if err != nil {
 		return err
 	}
@@ -197,10 +198,10 @@ func (r *assetRepo) FindAsset(ctx context.Context, p *structs.FindAsset) (*ent.A
 	// create builder.
 	builder := r.ec.Asset.Query()
 
-	if validator.IsNotEmpty(p.ID) {
+	if validator.IsNotEmpty(p.Asset) {
 		builder = builder.Where(assetEnt.Or(
-			assetEnt.IDEQ(p.ID),
-			assetEnt.NameEQ(p.ID),
+			assetEnt.IDEQ(p.Asset),
+			assetEnt.NameEQ(p.Asset),
 		))
 	}
 
@@ -224,31 +225,6 @@ func (r *assetRepo) List(ctx context.Context, p *structs.ListAssetParams) ([]*en
 	// limit the result
 	builder.Limit(int(p.Limit))
 
-	// belong tenant
-	if p.TenantID != "" {
-		builder.Where(assetEnt.TenantIDEQ(p.TenantID))
-	}
-
-	// belong user
-	if p.UserID != "" {
-		builder.Where(assetEnt.CreatedByEQ(p.UserID))
-	}
-
-	// object id
-	if p.ObjectID != "" {
-		builder.Where(assetEnt.ObjectIDEQ(p.ObjectID))
-	}
-
-	// asset type
-	if p.Type != "" {
-		builder.Where(assetEnt.TypeContains(p.Type))
-	}
-
-	// storage provider
-	if p.Storage != "" {
-		builder.Where(assetEnt.StorageEQ(p.Storage))
-	}
-
 	// sort
 	builder.Order(ent.Desc(assetEnt.FieldCreatedAt))
 
@@ -266,7 +242,7 @@ func (r *assetRepo) List(ctx context.Context, p *structs.ListAssetParams) ([]*en
 func (r *assetRepo) ListBuilder(ctx context.Context, p *structs.ListAssetParams) (*ent.AssetQuery, error) {
 	var next *ent.Asset
 	if validator.IsNotEmpty(p.Cursor) {
-		row, err := r.FindAsset(ctx, &structs.FindAsset{ID: p.Cursor})
+		row, err := r.FindAsset(ctx, &structs.FindAsset{Asset: p.Cursor})
 		if validator.IsNotNil(err) || validator.IsNil(row) {
 			return nil, err
 		}
@@ -281,5 +257,40 @@ func (r *assetRepo) ListBuilder(ctx context.Context, p *structs.ListAssetParams)
 		builder.Where(assetEnt.CreatedAtLT(next.CreatedAt))
 	}
 
+	// belong tenant
+	if p.Tenant != "" {
+		builder = builder.Where(assetEnt.TenantIDEQ(p.Tenant))
+	}
+
+	// belong user
+	if p.User != "" {
+		builder = builder.Where(assetEnt.CreatedByEQ(p.User))
+	}
+
+	// object id
+	if p.Object != "" {
+		builder = builder.Where(assetEnt.ObjectIDEQ(p.Object))
+	}
+
+	// asset type
+	if p.Type != "" {
+		builder = builder.Where(assetEnt.TypeContains(p.Type))
+	}
+
+	// storage provider
+	if p.Storage != "" {
+		builder = builder.Where(assetEnt.StorageEQ(p.Storage))
+	}
+
 	return builder, nil
+}
+
+// CountX counts assets based on given parameters.
+func (r *assetRepo) CountX(ctx context.Context, p *structs.ListAssetParams) int {
+	// create list builder
+	builder, err := r.ListBuilder(ctx, p)
+	if validator.IsNotNil(err) {
+		return 0
+	}
+	return builder.CountX(ctx)
 }
