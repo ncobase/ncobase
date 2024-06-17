@@ -921,21 +921,21 @@ paths:
         name: limit
         type: integer
       - in: query
-        name: object_id
+        name: object
         required: true
         type: string
       - in: query
         name: storage
         type: string
       - in: query
-        name: tenant_id
+        name: tenant
         required: true
         type: string
       - in: query
         name: type
         type: string
       - in: query
-        name: user_id
+        name: user
         type: string
       produces:
       - application/json
@@ -2378,10 +2378,10 @@ paths:
         name: limit
         type: integer
       - in: query
-        name: taxonomy_id
+        name: taxonomy
         type: string
       - in: query
-        name: tenant_id
+        name: tenant
         type: string
       produces:
       - application/json

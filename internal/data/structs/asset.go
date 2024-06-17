@@ -7,9 +7,9 @@ import (
 
 // FindAsset represents the parameters for finding an asset.
 type FindAsset struct {
-	ID       string `json:"id,omitempty"`
-	TenantID string `json:"tenant_id,omitempty"`
-	UserID   string `json:"user_id,omitempty"`
+	Asset  string `json:"asset,omitempty"`
+	Tenant string `json:"tenant,omitempty"`
+	User   string `json:"user,omitempty"`
 }
 
 // AssetBody represents the common fields for creating and updating an asset.
@@ -57,11 +57,11 @@ type ReadAsset struct {
 
 // ListAssetParams represents the parameters for listing assets.
 type ListAssetParams struct {
-	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"` // validate:"gte=1,lte=100"
-	TenantID string `form:"tenant_id,omitempty" json:"tenant_id,omitempty" validate:"required"`
-	ObjectID string `form:"object_id,omitempty" json:"object_id,omitempty" validate:"required"`
-	UserID   string `form:"user_id,omitempty" json:"user_id,omitempty"`
-	Type     string `form:"type,omitempty" json:"type,omitempty"`
-	Storage  string `form:"storage,omitempty" json:"storage,omitempty"`
+	Cursor  string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit   int    `form:"limit,omitempty" json:"limit,omitempty"` // validate:"gte=1,lte=100"
+	Tenant  string `form:"tenant,omitempty" json:"tenant,omitempty" validate:"required"`
+	Object  string `form:"object,omitempty" json:"object,omitempty" validate:"required"`
+	User    string `form:"user,omitempty" json:"user,omitempty"`
+	Type    string `form:"type,omitempty" json:"type,omitempty"`
+	Storage string `form:"storage,omitempty" json:"storage,omitempty"`
 }

@@ -6,10 +6,9 @@ import (
 
 // FindTopic represents the parameters for finding a topic.
 type FindTopic struct {
-	ID         string `json:"id,omitempty"`
-	Slug       string `json:"slug,omitempty"`
-	TaxonomyID string `json:"taxonomy_id,omitempty"`
-	TenantID   string `json:"tenant_id,omitempty"`
+	Topic    string `json:"topic,omitempty"`
+	Taxonomy string `json:"taxonomy,omitempty"`
+	Tenant   string `json:"tenant,omitempty"`
 }
 
 // TopicBody represents the common fields for creating and updating topics.
@@ -60,8 +59,8 @@ type ReadTopic struct {
 
 // ListTopicParams represents the parameters for listing topics.
 type ListTopicParams struct {
-	Cursor     string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit      int    `form:"limit,omitempty" json:"limit,omitempty"`
-	TaxonomyID string `form:"taxonomy_id,omitempty" json:"taxonomy_id,omitempty"`
-	TenantID   string `form:"tenant_id,omitempty" json:"tenant_id,omitempty"`
+	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Taxonomy string `form:"taxonomy,omitempty" json:"taxonomy,omitempty"`
+	Tenant   string `form:"tenant,omitempty" json:"tenant,omitempty"`
 }

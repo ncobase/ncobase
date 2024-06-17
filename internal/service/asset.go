@@ -6,6 +6,7 @@ import (
 	"ncobase/common/ecode"
 	"ncobase/common/log"
 	"ncobase/common/resp"
+	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
@@ -199,7 +200,14 @@ func (svc *Service) ListAssetsService(c *gin.Context, params *structs.ListAssetP
 		return resp.InternalServer(err.Error()), nil
 	}
 
-	return &resp.Exception{Data: rows}, nil
+	total := svc.asset.CountX(c, params)
+
+	return &resp.Exception{
+		Data: types.JSON{
+			"content": rows,
+			"total":   total,
+		},
+	}, nil
 }
 
 // GetFileStream retrieves an asset's file stream.

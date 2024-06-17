@@ -25,6 +25,7 @@ type User interface {
 	Delete(ctx context.Context, id string) error
 	UpdatePassword(ctx context.Context, p *structs.UserRequestBody) error
 	FindUser(ctx context.Context, p *structs.FindUser) (*ent.User, error) // not use cache
+	// CountX(ctx context.Context, p *structs.ListUserParams) (int, error)
 }
 
 // userRepo implements the User interface.

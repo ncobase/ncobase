@@ -97,7 +97,7 @@ func (r *topicRepo) GetByID(ctx context.Context, id string) (*ent.Topic, error) 
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindTopic(ctx, &structs.FindTopic{ID: id})
+	row, err := r.FindTopic(ctx, &structs.FindTopic{Topic: id})
 	if err != nil {
 		log.Errorf(context.Background(), "topicRepo.GetByID error: %v\n", err)
 		return nil, err
@@ -127,7 +127,7 @@ func (r *topicRepo) GetBySlug(ctx context.Context, slug string) (*ent.Topic, err
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindTopic(ctx, &structs.FindTopic{Slug: slug})
+	row, err := r.FindTopic(ctx, &structs.FindTopic{Topic: slug})
 	if err != nil {
 		log.Errorf(context.Background(), "topicRepo.GetBySlug error: %v\n", err)
 		return nil, err
@@ -144,7 +144,7 @@ func (r *topicRepo) GetBySlug(ctx context.Context, slug string) (*ent.Topic, err
 
 // Update updates a topic (full or partial).
 func (r *topicRepo) Update(ctx context.Context, slug string, updates types.JSON) (*ent.Topic, error) {
-	topic, err := r.FindTopic(ctx, &structs.FindTopic{Slug: slug})
+	topic, err := r.FindTopic(ctx, &structs.FindTopic{Topic: slug})
 	if err != nil {
 		return nil, err
 	}
@@ -222,8 +222,8 @@ func (r *topicRepo) List(ctx context.Context, p *structs.ListTopicParams) ([]*en
 	builder.Limit(int(p.Limit))
 
 	// belong tenant
-	if p.TenantID != "" {
-		builder.Where(topicEnt.TenantIDEQ(p.TenantID))
+	if p.Tenant != "" {
+		builder.Where(topicEnt.TenantIDEQ(p.Tenant))
 	}
 
 	// sort
@@ -240,7 +240,7 @@ func (r *topicRepo) List(ctx context.Context, p *structs.ListTopicParams) ([]*en
 
 // Delete deletes a topic.
 func (r *topicRepo) Delete(ctx context.Context, slug string) error {
-	topic, err := r.FindTopic(ctx, &structs.FindTopic{Slug: slug})
+	topic, err := r.FindTopic(ctx, &structs.FindTopic{Topic: slug})
 	if err != nil {
 		return err
 	}
@@ -277,18 +277,14 @@ func (r *topicRepo) FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.T
 	// create builder.
 	builder := r.ec.Topic.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(topicEnt.IDEQ(p.ID))
-	}
-	// support slug or ID
-	if validator.IsNotEmpty(p.Slug) {
+	if validator.IsNotEmpty(p.Topic) {
 		builder = builder.Where(topicEnt.Or(
-			topicEnt.ID(p.Slug),
-			topicEnt.SlugEQ(p.Slug),
+			topicEnt.ID(p.Topic),
+			topicEnt.SlugEQ(p.Topic),
 		))
 	}
-	if validator.IsNotEmpty(p.TenantID) {
-		builder = builder.Where(topicEnt.TenantIDEQ(p.TenantID))
+	if validator.IsNotEmpty(p.Tenant) {
+		builder = builder.Where(topicEnt.TenantIDEQ(p.Tenant))
 	}
 
 	// execute the builder.
@@ -304,7 +300,7 @@ func (r *topicRepo) FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.T
 func (r *topicRepo) ListBuilder(ctx context.Context, p *structs.ListTopicParams) (*ent.TopicQuery, error) {
 	var next *ent.Topic
 	if validator.IsNotEmpty(p.Cursor) {
-		row, err := r.FindTopic(ctx, &structs.FindTopic{ID: p.Cursor})
+		row, err := r.FindTopic(ctx, &structs.FindTopic{Topic: p.Cursor})
 		if validator.IsNotNil(err) || validator.IsNil(row) {
 			return nil, err
 		}
