@@ -409,7 +409,7 @@ func (h *Handler) downloadFile(c *gin.Context, dispositionType string) {
 			return
 		}
 		asset := exception.Data.(*ent.Asset)
-		filename := storage.RestoreOriginalFileName(asset.Name, true)
+		filename := storage.RestoreOriginalFileName(asset.Path, true)
 		c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", dispositionType, filename))
 
 		// Set the Content-Type header based on the original content t
