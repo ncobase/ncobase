@@ -452,8 +452,6 @@ definitions:
         type: string
       url:
         type: string
-      user:
-        $ref: '#/definitions/structs.User'
     type: object
   structs.ReadTopic:
     properties:
@@ -491,6 +489,13 @@ definitions:
         type: string
       updated_by:
         type: string
+    type: object
+  structs.ReadUser:
+    properties:
+      profile:
+        $ref: '#/definitions/structs.UserProfileBody'
+      user:
+        $ref: '#/definitions/structs.UserBody'
     type: object
   structs.RegisterBody:
     properties:
@@ -738,7 +743,7 @@ definitions:
       updated_by:
         type: string
     type: object
-  structs.User:
+  structs.UserBody:
     properties:
       created_at:
         type: string
@@ -752,14 +757,27 @@ definitions:
         type: boolean
       phone:
         type: string
-      profile:
-        $ref: '#/definitions/structs.UserProfile'
       updated_at:
         type: string
       username:
         type: string
     type: object
-  structs.UserProfile:
+  structs.UserPassword:
+    properties:
+      confirm:
+        type: string
+      new_password:
+        type: string
+      old_password:
+        type: string
+      user:
+        type: string
+    required:
+    - confirm
+    - new_password
+    - user
+    type: object
+  structs.UserProfileBody:
     properties:
       about:
         type: string
@@ -774,35 +792,6 @@ definitions:
       short_bio:
         type: string
       thumbnail:
-        type: string
-    type: object
-  structs.UserRequestBody:
-    properties:
-      about:
-        type: string
-      display_name:
-        type: string
-      email:
-        type: string
-      new_password:
-        type: string
-      old_password:
-        type: string
-      phone:
-        type: string
-      profile_links:
-        items:
-          type: string
-        type: array
-      register_token:
-        type: string
-      short_bio:
-        type: string
-      thumbnail:
-        type: string
-      user_id:
-        type: string
-      username:
         type: string
     type: object
 info:
@@ -833,7 +822,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.User'
+            $ref: '#/definitions/structs.ReadUser'
         "400":
           description: bad request
           schema:
@@ -849,12 +838,12 @@ paths:
       - application/json
       description: Update the password of the current user.
       parameters:
-      - description: UserRequestBody object
+      - description: UserPassword object
         in: body
         name: body
         required: true
         schema:
-          $ref: '#/definitions/structs.UserRequestBody'
+          $ref: '#/definitions/structs.UserPassword'
       produces:
       - application/json
       responses:
@@ -2520,7 +2509,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.User'
+            $ref: '#/definitions/structs.ReadUser'
         "400":
           description: bad request
           schema:

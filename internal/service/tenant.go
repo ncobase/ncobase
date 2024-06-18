@@ -15,7 +15,6 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/copier"
 )
 
 // AccountTenantService retrieves the tenant associated with the user's account.
@@ -33,7 +32,7 @@ func (svc *Service) AccountTenantService(c *gin.Context) (*resp.Exception, error
 
 	// Serialize tenant data and return
 	return &resp.Exception{
-		Data: svc.serializeTenant(c, tenant, false),
+		Data: svc.serializeTenant(c, tenant),
 	}, nil
 }
 
@@ -71,7 +70,7 @@ func (svc *Service) UserTenantService(c *gin.Context, username string) (*resp.Ex
 	}
 
 	return &resp.Exception{
-		Data: svc.serializeTenant(c, tenant, false),
+		Data: svc.serializeTenant(c, tenant),
 	}, nil
 }
 
@@ -88,7 +87,7 @@ func (svc *Service) CreateTenantService(c *gin.Context, body *structs.CreateTena
 	}
 
 	return &resp.Exception{
-		Data: svc.serializeTenant(c, tenant, true),
+		Data: svc.serializeTenant(c, tenant),
 	}, nil
 }
 
@@ -174,7 +173,7 @@ func (svc *Service) GetTenantService(c *gin.Context, id string) (*resp.Exception
 
 	// Serialize tenant data and return
 	return &resp.Exception{
-		Data: svc.serializeTenant(c, tenant, true),
+		Data: svc.serializeTenant(c, tenant),
 	}, nil
 }
 
@@ -306,8 +305,8 @@ func (svc *Service) isCreateTenant(ctx context.Context, body *structs.CreateTena
 }
 
 // serializeTenant serialize tenant
-func (svc *Service) serializeTenant(c *gin.Context, row *ent.Tenant, withUser bool) *structs.ReadTenant {
-	readTenant := &structs.ReadTenant{
+func (svc *Service) serializeTenant(_ *gin.Context, row *ent.Tenant) *structs.ReadTenant {
+	return &structs.ReadTenant{
 		ID:          row.ID,
 		Name:        row.Name,
 		Title:       row.Title,
@@ -324,14 +323,4 @@ func (svc *Service) serializeTenant(c *gin.Context, row *ent.Tenant, withUser bo
 		CreatedAt:   row.CreatedAt,
 		UpdatedAt:   row.UpdatedAt,
 	}
-
-	if withUser {
-		user, err := svc.findUserByID(c, row.CreatedBy)
-		if err == nil {
-			readTenant.User = new(structs.ReadUser)
-			_ = copier.Copy(&readTenant.User, user)
-		}
-	}
-
-	return readTenant
 }
