@@ -62,7 +62,7 @@ func (svc *Service) OAuthRegisterService(c *gin.Context, body *structs.OAuthRegi
 	if user, err := svc.createUserEntities(ctx, tx, body, payload); err != nil {
 		return err, nil
 	} else {
-		return svc.generateAndSetTokens(c, tx, &structs.User{ID: user.ID}), tx.Commit()
+		return svc.generateAndSetTokens(c, tx, &structs.UserBody{ID: user.ID}), tx.Commit()
 	}
 }
 
@@ -91,11 +91,10 @@ func (svc *Service) checkUserExistence(tx *ent.Tx, username, email string) (stri
 
 // createUserEntities Create user and related entities
 func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *structs.OAuthRegisterBody, payload structs.RegisterTokenBody) (*ent.User, *resp.Exception) {
-	user, err := svc.user.Create(ctx, &structs.UserRequestBody{
+	user, err := svc.user.Create(ctx, &structs.UserBody{
 		Username: body.Username,
 		Email:    payload.Profile.Email,
 		Phone:    body.Phone,
-		Action:   "create",
 	})
 	if exception, _ := handleError("User", err); exception != nil {
 		return nil, exception
@@ -105,7 +104,11 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 		return nil, err
 	}
 
-	if err := svc.createUserProfile(ctx, user.ID, body.DisplayName, body.ShortBio); err != nil {
+	if err := svc.createUserProfile(ctx, &structs.UserProfileBody{
+		ID:          user.ID,
+		DisplayName: body.DisplayName,
+		ShortBio:    body.ShortBio,
+	}); err != nil {
 		return nil, err
 	}
 
@@ -137,13 +140,8 @@ func (svc *Service) createOAuthUser(ctx context.Context, tx *ent.Tx, payload str
 }
 
 // createUserProfile Create user profile
-func (svc *Service) createUserProfile(ctx context.Context, userID, displayName, shortBio string) *resp.Exception {
-	_, err := svc.userProfile.Create(ctx, &structs.UserRequestBody{
-		UserID:      userID,
-		DisplayName: displayName,
-		ShortBio:    shortBio,
-		Action:      "profile",
-	})
+func (svc *Service) createUserProfile(ctx context.Context, body *structs.UserProfileBody) *resp.Exception {
+	_, err := svc.userProfile.Create(ctx, body)
 	if exception, _ := handleError("User", err); exception != nil {
 		return exception
 	}
@@ -152,7 +150,7 @@ func (svc *Service) createUserProfile(ctx context.Context, userID, displayName, 
 }
 
 // generateAndSetTokens Generate and set tokens
-func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *structs.User) *resp.Exception {
+func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *structs.UserBody) *resp.Exception {
 	conf := helper.GetConfig(c)
 	authToken, err := tx.AuthToken.Create().SetUserID(user.ID).Save(context.Background())
 	if err != nil {
@@ -292,7 +290,7 @@ func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oaut
 	}
 
 	if validator.IsNil(user) {
-		return svc.generateAndSetTokens(c, tx, &structs.User{ID: user.ID}), tx.Commit()
+		return svc.generateAndSetTokens(c, tx, &structs.UserBody{ID: user.ID}), tx.Commit()
 	}
 
 	subject := "email-register"

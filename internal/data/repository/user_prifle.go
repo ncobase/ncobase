@@ -14,7 +14,7 @@ import (
 
 // UserProfile represents the user profile repository interface.
 type UserProfile interface {
-	Create(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error)
+	Create(ctx context.Context, body *structs.UserProfileBody) (*ent.UserProfile, error)
 	Get(ctx context.Context, id string) (*ent.UserProfile, error)
 	Delete(ctx context.Context, id string) error
 }
@@ -34,12 +34,12 @@ func NewUserProfile(d *data.Data) UserProfile {
 }
 
 // Create create user profile
-func (r *userProfileRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*ent.UserProfile, error) {
+func (r *userProfileRepo) Create(ctx context.Context, body *structs.UserProfileBody) (*ent.UserProfile, error) {
 
 	// create builder.
 	builder := r.ec.UserProfile.Create()
 	// set values.
-	builder.SetID(body.UserID)
+	builder.SetID(body.ID)
 	builder.SetDisplayName(body.DisplayName)
 	builder.SetShortBio(body.ShortBio)
 

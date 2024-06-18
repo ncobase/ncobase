@@ -59,7 +59,7 @@ func (h *Handler) GetMeHandler(c *gin.Context) {
 // @Router /v1/account/password [put]
 // @Security Bearer
 func (h *Handler) UpdatePasswordHandler(c *gin.Context) {
-	body := &structs.UserRequestBody{}
+	body := &structs.UserPassword{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

@@ -742,6 +742,7 @@ input UpdatePassword {
   user_id: String
   old_password: String
   new_password: String
+  confirm: String
 }
 
 type User {
@@ -5255,7 +5256,7 @@ func (ec *executionContext) unmarshalInputUpdatePassword(ctx context.Context, ob
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"user_id", "old_password", "new_password"}
+	fieldsInOrder := [...]string{"user_id", "old_password", "new_password", "confirm"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -5283,6 +5284,13 @@ func (ec *executionContext) unmarshalInputUpdatePassword(ctx context.Context, ob
 				return it, err
 			}
 			it.NewPassword = data
+		case "confirm":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("confirm"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Confirm = data
 		}
 	}
 

@@ -12,6 +12,7 @@ input UpdatePassword {
   user_id: String
   old_password: String
   new_password: String
+  confirm: String
 }
 
 type User {

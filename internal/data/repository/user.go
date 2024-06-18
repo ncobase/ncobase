@@ -18,12 +18,12 @@ import (
 
 // User represents the user repository interface.
 type User interface {
-	Create(ctx context.Context, body *structs.UserRequestBody) (*ent.User, error)
+	Create(ctx context.Context, body *structs.UserBody) (*ent.User, error)
 	GetByID(ctx context.Context, id string) (*ent.User, error)
 	Find(ctx context.Context, m *structs.FindUser) (*ent.User, error)
 	Existed(ctx context.Context, m *structs.FindUser) bool
 	Delete(ctx context.Context, id string) error
-	UpdatePassword(ctx context.Context, params *structs.UserRequestBody) error
+	UpdatePassword(ctx context.Context, params *structs.UserPassword) error
 	FindUser(ctx context.Context, params *structs.FindUser) (*ent.User, error) // not use cache
 	// CountX(ctx context.Context, params *structs.ListUserParams) (int, error)
 }
@@ -43,7 +43,7 @@ func NewUser(d *data.Data) User {
 }
 
 // Create create user
-func (r *userRepo) Create(ctx context.Context, body *structs.UserRequestBody) (*ent.User, error) {
+func (r *userRepo) Create(ctx context.Context, body *structs.UserBody) (*ent.User, error) {
 	countUser := r.ec.User.Query().CountX(ctx)
 
 	// create builder.
@@ -150,8 +150,8 @@ func (r *userRepo) Delete(ctx context.Context, id string) error {
 }
 
 // UpdatePassword  update user password.
-func (r *userRepo) UpdatePassword(ctx context.Context, params *structs.UserRequestBody) error {
-	row, err := r.FindUser(ctx, &structs.FindUser{ID: params.UserID})
+func (r *userRepo) UpdatePassword(ctx context.Context, params *structs.UserPassword) error {
+	row, err := r.FindUser(ctx, &structs.FindUser{ID: params.User})
 	if validator.IsNotNil(err) {
 		return err
 	}

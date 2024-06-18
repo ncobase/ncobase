@@ -132,20 +132,18 @@ func disableCodeAuth(ctx context.Context, client *ent.Client, id string) error {
 }
 
 func createUserAndProfile(ctx context.Context, svc *Service, body *structs.RegisterBody, payload types.JSON) (*ent.User, error) {
-	user, err := svc.user.Create(ctx, &structs.UserRequestBody{
+	user, err := svc.user.Create(ctx, &structs.UserBody{
 		Username: body.Username,
 		Email:    payload["email"].(string),
 		Phone:    body.Phone,
-		Action:   "create",
 	})
 	if err != nil {
 		return nil, err
 	}
-	_, err = svc.userProfile.Create(ctx, &structs.UserRequestBody{
-		UserID:      user.ID,
+	_, err = svc.userProfile.Create(ctx, &structs.UserProfileBody{
+		ID:          user.ID,
 		DisplayName: body.DisplayName,
 		ShortBio:    body.ShortBio,
-		Action:      "profile",
 	})
 	if err != nil {
 		return nil, err
