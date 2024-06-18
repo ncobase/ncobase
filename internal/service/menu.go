@@ -7,6 +7,7 @@ import (
 	"ncobase/common/validator"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
+	"sort"
 
 	"github.com/gin-gonic/gin"
 )
@@ -147,18 +148,20 @@ func (svc *Service) serializeMenuReply(row *ent.Menu) *structs.ReadMenu {
 
 // buildMenuTree builds a menu tree structure.
 func (svc *Service) buildMenuTree(menus []*ent.Menu) []*structs.ReadMenu {
-	// // sort menus
-	// sort.Slice(menus, func(i, j int) bool {
-	// 	if menus[i].Order == menus[j].Order {
-	// 		return menus[i].CreatedAt.Before(menus[j].CreatedAt)
-	// 	}
-	// 	return menus[i].Order < menus[j].Order
-	// })
-
+	// Convert menus to ReadMenu objects
 	menuNodes := make([]*structs.ReadMenu, len(menus))
 	for i, menu := range menus {
 		menuNodes[i] = svc.serializeMenuReply(menu)
 	}
+
+	// Sort menuNodes by Order field and fallback to CreatedAt
+	sort.Slice(menuNodes, func(i, j int) bool {
+		if menuNodes[i].Order == menuNodes[j].Order {
+			// If Order is the same, compare by CreatedAt
+			return menuNodes[i].CreatedAt.Before(types.ToValue(menuNodes[j].CreatedAt))
+		}
+		return menuNodes[i].Order < menuNodes[j].Order
+	})
 
 	tree := types.BuildTree(menuNodes)
 
@@ -166,14 +169,6 @@ func (svc *Service) buildMenuTree(menus []*ent.Menu) []*structs.ReadMenu {
 	for i, node := range tree {
 		result[i] = node
 	}
-
-	// // sort result
-	// sort.Slice(result, func(i, j int) bool {
-	// 	if result[i].Order == result[j].Order {
-	// 		return result[i].CreatedAt.Before(types.ToValue(result[j].CreatedAt))
-	// 	}
-	// 	return result[i].Order < result[j].Order
-	// })
 
 	return result
 }

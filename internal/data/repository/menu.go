@@ -115,11 +115,20 @@ func (r *menuRepo) GetTree(ctx context.Context, p *structs.FindMenu) ([]*ent.Men
 	builder := r.ec.Menu.Query()
 	builder.Where(menuEnt.IDIn(subMenuIds...))
 
-	// order by order field
-	builder.Order(ent.Desc(menuEnt.FieldOrder))
+	// order by order field (ascending)
+	builder.Order(ent.Asc(menuEnt.FieldOrder))
 
-	// execute the builder and returns.
-	return builder.All(ctx)
+	// If multiple menus have the same Order, add secondary sort by CreatedAt.
+	builder.Order(ent.Asc(menuEnt.FieldCreatedAt))
+
+	// execute the builder.
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(ctx, "menuRepo.GetTree error: %v", err)
+		return nil, err
+	}
+
+	return rows, nil
 }
 
 // Get retrieves a specific menu.
@@ -359,7 +368,7 @@ func (r *menuRepo) getMenu(ctx context.Context, p *structs.FindMenu) (*ent.Menu,
 	return row, nil
 }
 
-// getSubMenuIDs recursively retrieves sub-menu IDs.
+// getSubMenuIds recursively retrieves sub-menu IDs.
 // Internal method.
 func (r *menuRepo) getSubMenuIds(ctx context.Context, p *structs.FindMenu) []string {
 	var subMenuIds []string
@@ -387,11 +396,12 @@ func (r *menuRepo) getSubMenuIds(ctx context.Context, p *structs.FindMenu) []str
 
 	// Iterate through each menu ID to get its sub-menu IDs recursively.
 	for _, id := range menuIDs {
-		fmt.Printf("---- %s\n", id)
-		subIds := r.getSubMenuIds(ctx, &structs.FindMenu{Menu: id})
+		subIds := r.getSubMenuIds(ctx, &structs.FindMenu{Menu: id, Tenant: p.Tenant})
 		subMenuIds = append(subMenuIds, subIds...)
 	}
 
 	// Include the current menu ID itself in the result.
-	return append([]string{p.Menu}, subMenuIds...)
+	subMenuIds = append(subMenuIds, menuIDs...)
+
+	return subMenuIds
 }
