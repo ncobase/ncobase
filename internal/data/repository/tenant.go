@@ -2,7 +2,6 @@ package repo
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"ncobase/common/cache"
 	"ncobase/common/log"
@@ -31,6 +30,7 @@ type Tenant interface {
 	DeleteByUser(ctx context.Context, id string) error
 	GetGroupsByTenantID(ctx context.Context, tenantID string) ([]*ent.Group, error)
 	IsGroupInTenant(ctx context.Context, groupID string, tenantID string) (bool, error)
+	CountX(ctx context.Context, params *structs.ListTenantParams) int
 }
 
 // tenantRepo implements the Tenant interface.
@@ -241,42 +241,22 @@ func (r *tenantRepo) Update(ctx context.Context, slug string, updates types.JSON
 }
 
 // List get
-func (r *tenantRepo) List(ctx context.Context, p *structs.ListTenantParams) ([]*ent.Tenant, error) {
-	var nextTenant *ent.Tenant
-	if p.Cursor != "" {
-		tenant, err := r.ec.Tenant.
-			Query().
-			Where(
-				tenantEnt.IDEQ(p.Cursor),
-			).
-			First(ctx)
-		if err != nil || tenant == nil {
-			return nil, errors.New("invalid cursor")
-		}
-		nextTenant = tenant
+func (r *tenantRepo) List(ctx context.Context, params *structs.ListTenantParams) ([]*ent.Tenant, error) {
+	// create list builder
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return nil, err
 	}
-
-	query := r.ec.Tenant.
-		Query().
-		Limit(p.Limit)
+	// limit the result
+	builder.Limit(params.Limit)
 
 	// is disabled
-	query.Where(tenantEnt.DisabledEQ(false))
-
-	// lt the cursor create time
-	if nextTenant != nil {
-		query.Where(tenantEnt.CreatedAtLT(nextTenant.CreatedAt))
-	}
-
-	// belong tenant
-	if p.User != "" {
-		query.Where(tenantEnt.CreatedByEQ(p.User))
-	}
+	builder.Where(tenantEnt.DisabledEQ(false))
 
 	// sort
-	query.Order(ent.Desc(tenantEnt.FieldCreatedAt))
+	builder.Order(ent.Desc(tenantEnt.FieldCreatedAt))
 
-	rows, err := query.All(ctx)
+	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), " tenantRepo.GetTenantList error: %v\n", err)
 		return nil, err
@@ -344,20 +324,30 @@ func (r *tenantRepo) DeleteByUser(ctx context.Context, userID string) error {
 	return err
 }
 
+// CountX gets a count of tenants.
+func (r *tenantRepo) CountX(ctx context.Context, params *structs.ListTenantParams) int {
+	// create list builder
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return 0
+	}
+	return builder.CountX(ctx)
+}
+
 // FindTenant retrieves a tenant.
-func (r *tenantRepo) FindTenant(ctx context.Context, p *structs.FindTenant) (*ent.Tenant, error) {
+func (r *tenantRepo) FindTenant(ctx context.Context, params *structs.FindTenant) (*ent.Tenant, error) {
 
 	// create builder.
 	builder := r.ec.Tenant.Query()
 
-	if validator.IsNotEmpty(p.Slug) {
+	if validator.IsNotEmpty(params.Slug) {
 		builder = builder.Where(tenantEnt.Or(
-			tenantEnt.IDEQ(p.Slug),
-			tenantEnt.SlugEQ(p.Slug),
+			tenantEnt.IDEQ(params.Slug),
+			tenantEnt.SlugEQ(params.Slug),
 		))
 	}
-	if validator.IsNotEmpty(p.User) {
-		builder = builder.Where(tenantEnt.CreatedByEQ(p.User))
+	if validator.IsNotEmpty(params.User) {
+		builder = builder.Where(tenantEnt.CreatedByEQ(params.User))
 	}
 
 	// execute the builder.
@@ -387,4 +377,39 @@ func (r *tenantRepo) IsGroupInTenant(ctx context.Context, tenantID string, group
 		return false, err
 	}
 	return count > 0, nil
+}
+
+// listBuilder - create list builder.
+// internal method.
+func (r *tenantRepo) listBuilder(ctx context.Context, params *structs.ListTenantParams) (*ent.TenantQuery, error) {
+	// verify query params.
+	var next *ent.Tenant
+	if validator.IsNotEmpty(params.Cursor) {
+		// query the menu.
+		// use internal get method.
+		row, err := r.FindTenant(ctx, &structs.FindTenant{
+			Slug: params.Cursor,
+			User: params.User,
+		})
+		if validator.IsNotNil(err) || validator.IsNil(row) {
+			return nil, err
+		}
+		next = row
+	}
+
+	// create builder.
+	builder := r.ec.Tenant.Query()
+
+	// match belong user
+	if validator.IsNotEmpty(params.User) {
+		builder.Where(tenantEnt.CreatedByEQ(params.User))
+	}
+
+	// lt the cursor create time
+	if next != nil {
+		builder.Where(tenantEnt.CreatedAtLT(next.CreatedAt))
+	}
+
+	return builder, nil
+
 }

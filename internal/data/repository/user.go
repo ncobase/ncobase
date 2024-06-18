@@ -23,9 +23,9 @@ type User interface {
 	Find(ctx context.Context, m *structs.FindUser) (*ent.User, error)
 	Existed(ctx context.Context, m *structs.FindUser) bool
 	Delete(ctx context.Context, id string) error
-	UpdatePassword(ctx context.Context, p *structs.UserRequestBody) error
-	FindUser(ctx context.Context, p *structs.FindUser) (*ent.User, error) // not use cache
-	// CountX(ctx context.Context, p *structs.ListUserParams) (int, error)
+	UpdatePassword(ctx context.Context, params *structs.UserRequestBody) error
+	FindUser(ctx context.Context, params *structs.FindUser) (*ent.User, error) // not use cache
+	// CountX(ctx context.Context, params *structs.ListUserParams) (int, error)
 }
 
 // userRepo implements the User interface.
@@ -150,15 +150,15 @@ func (r *userRepo) Delete(ctx context.Context, id string) error {
 }
 
 // UpdatePassword  update user password.
-func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBody) error {
-	row, err := r.FindUser(ctx, &structs.FindUser{ID: p.UserID})
+func (r *userRepo) UpdatePassword(ctx context.Context, params *structs.UserRequestBody) error {
+	row, err := r.FindUser(ctx, &structs.FindUser{ID: params.UserID})
 	if validator.IsNotNil(err) {
 		return err
 	}
 
 	builder := row.Update()
 
-	ph, err := crypto.HashPassword(ctx, p.NewPassword)
+	ph, err := crypto.HashPassword(ctx, params.NewPassword)
 	if validator.IsNotNil(err) {
 		return err
 	}
@@ -174,22 +174,22 @@ func (r *userRepo) UpdatePassword(ctx context.Context, p *structs.UserRequestBod
 }
 
 // FindUser find user by id, username, email, or phone
-func (r *userRepo) FindUser(ctx context.Context, p *structs.FindUser) (*ent.User, error) {
+func (r *userRepo) FindUser(ctx context.Context, params *structs.FindUser) (*ent.User, error) {
 
 	// create builder.
 	builder := r.ec.User.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(userEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(params.ID) {
+		builder = builder.Where(userEnt.IDEQ(params.ID))
 	}
 
-	if validator.IsNotEmpty(p.Username) {
+	if validator.IsNotEmpty(params.Username) {
 		// username value could be id, username, email, or phone
 		builder = builder.Where(userEnt.Or(
-			userEnt.IDEQ(p.Username),
-			userEnt.UsernameEQ(p.Username),
-			userEnt.EmailEQ(p.Username),
-			userEnt.PhoneEQ(p.Username),
+			userEnt.IDEQ(params.Username),
+			userEnt.UsernameEQ(params.Username),
+			userEnt.EmailEQ(params.Username),
+			userEnt.PhoneEQ(params.Username),
 		))
 	}
 

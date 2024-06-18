@@ -156,13 +156,13 @@ func (r *moduleRepo) Update(ctx context.Context, slug string, updates types.JSON
 }
 
 // List gets a list of modules.
-func (r *moduleRepo) List(ctx context.Context, p *structs.ListModuleParams) ([]*ent.Module, error) {
-	builder, err := r.ListBuilder(ctx, p)
+func (r *moduleRepo) List(ctx context.Context, params *structs.ListModuleParams) ([]*ent.Module, error) {
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
-	builder.Limit(int(p.Limit))
+	builder.Limit(int(params.Limit))
 
 	builder.Order(ent.Desc(moduleEnt.FieldCreatedAt))
 
@@ -204,16 +204,16 @@ func (r *moduleRepo) Delete(ctx context.Context, slug string) error {
 }
 
 // FindModule finds a module.
-func (r *moduleRepo) FindModule(ctx context.Context, p *structs.FindModule) (*ent.Module, error) {
+func (r *moduleRepo) FindModule(ctx context.Context, params *structs.FindModule) (*ent.Module, error) {
 	builder := r.ec.Module.Query()
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(moduleEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(params.ID) {
+		builder = builder.Where(moduleEnt.IDEQ(params.ID))
 	}
 
-	if validator.IsNotEmpty(p.Slug) {
+	if validator.IsNotEmpty(params.Slug) {
 		builder = builder.Where(moduleEnt.Or(
-			moduleEnt.ID(p.Slug),
-			moduleEnt.SlugEQ(p.Slug),
+			moduleEnt.ID(params.Slug),
+			moduleEnt.SlugEQ(params.Slug),
 		))
 	}
 
@@ -226,10 +226,10 @@ func (r *moduleRepo) FindModule(ctx context.Context, p *structs.FindModule) (*en
 }
 
 // ListBuilder creates list builder.
-func (r *moduleRepo) ListBuilder(ctx context.Context, p *structs.ListModuleParams) (*ent.ModuleQuery, error) {
+func (r *moduleRepo) ListBuilder(ctx context.Context, params *structs.ListModuleParams) (*ent.ModuleQuery, error) {
 	var next *ent.Module
-	if validator.IsNotEmpty(p.Cursor) {
-		row, err := r.FindModule(ctx, &structs.FindModule{ID: p.Cursor})
+	if validator.IsNotEmpty(params.Cursor) {
+		row, err := r.FindModule(ctx, &structs.FindModule{ID: params.Cursor})
 		if validator.IsNotNil(err) || validator.IsNil(row) {
 			return nil, err
 		}
@@ -245,8 +245,8 @@ func (r *moduleRepo) ListBuilder(ctx context.Context, p *structs.ListModuleParam
 }
 
 // CountX gets a count of modules.
-func (r *moduleRepo) CountX(ctx context.Context, p *structs.ListModuleParams) int {
-	builder, err := r.ListBuilder(ctx, p)
+func (r *moduleRepo) CountX(ctx context.Context, params *structs.ListModuleParams) int {
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
 	}
@@ -254,8 +254,8 @@ func (r *moduleRepo) CountX(ctx context.Context, p *structs.ListModuleParams) in
 }
 
 // Count gets a count of modules.
-func (r *moduleRepo) Count(ctx context.Context, p *structs.ListModuleParams) (int, error) {
-	builder, err := r.ListBuilder(ctx, p)
+func (r *moduleRepo) Count(ctx context.Context, params *structs.ListModuleParams) (int, error) {
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0, err
 	}

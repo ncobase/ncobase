@@ -25,9 +25,9 @@ type Taxonomy interface {
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Taxonomy, error)
 	List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error)
 	Delete(ctx context.Context, slug string) error
-	FindTaxonomy(ctx context.Context, p *structs.FindTaxonomy) (*ent.Taxonomy, error)
-	ListBuilder(ctx context.Context, p *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error)
-	CountX(ctx context.Context, p *structs.ListTaxonomyParams) int
+	FindTaxonomy(ctx context.Context, params *structs.FindTaxonomy) (*ent.Taxonomy, error)
+	ListBuilder(ctx context.Context, params *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error)
+	CountX(ctx context.Context, params *structs.ListTaxonomyParams) int
 }
 
 // taxonomyRepo implements the Taxonomy interface.
@@ -220,9 +220,9 @@ func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JS
 }
 
 // List get taxonomy list
-func (r *taxonomyRepo) List(ctx context.Context, p *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error) {
+func (r *taxonomyRepo) List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error) {
 	// Generate cache key based on query parameters
-	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", p.Cursor, p.Limit, p.TenantID, p.Type)
+	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", params.Cursor, params.Limit, params.TenantID, params.Type)
 
 	// // check cache first
 	// cachedResult, err := r.c.Get(ctx, cacheKey)
@@ -238,22 +238,22 @@ func (r *taxonomyRepo) List(ctx context.Context, p *structs.ListTaxonomyParams) 
 	// }
 
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
 	// limit the result
-	builder.Limit(int(p.Limit))
+	builder.Limit(int(params.Limit))
 
 	// belong tenant
-	if p.TenantID != "" {
-		builder.Where(taxonomyEnt.TenantIDEQ(p.TenantID))
+	if params.TenantID != "" {
+		builder.Where(taxonomyEnt.TenantIDEQ(params.TenantID))
 	}
 
 	// type
-	if p.Type != "" {
-		builder.Where(taxonomyEnt.TypeEQ(p.Type))
+	if params.Type != "" {
+		builder.Where(taxonomyEnt.TypeEQ(params.Type))
 	}
 
 	// sort
@@ -312,22 +312,22 @@ func (r *taxonomyRepo) Delete(ctx context.Context, slug string) error {
 }
 
 // FindTaxonomy find taxonomy
-func (r *taxonomyRepo) FindTaxonomy(ctx context.Context, p *structs.FindTaxonomy) (*ent.Taxonomy, error) {
+func (r *taxonomyRepo) FindTaxonomy(ctx context.Context, params *structs.FindTaxonomy) (*ent.Taxonomy, error) {
 	// create builder.
 	builder := r.ec.Taxonomy.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(taxonomyEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(params.ID) {
+		builder = builder.Where(taxonomyEnt.IDEQ(params.ID))
 	}
 	// support slug or ID
-	if validator.IsNotEmpty(p.Slug) {
+	if validator.IsNotEmpty(params.Slug) {
 		builder = builder.Where(taxonomyEnt.Or(
-			taxonomyEnt.ID(p.Slug),
-			taxonomyEnt.SlugEQ(p.Slug),
+			taxonomyEnt.ID(params.Slug),
+			taxonomyEnt.SlugEQ(params.Slug),
 		))
 	}
-	if validator.IsNotEmpty(p.TenantID) {
-		builder = builder.Where(taxonomyEnt.TenantIDEQ(p.TenantID))
+	if validator.IsNotEmpty(params.TenantID) {
+		builder = builder.Where(taxonomyEnt.TenantIDEQ(params.TenantID))
 	}
 
 	// execute the builder.
@@ -340,13 +340,13 @@ func (r *taxonomyRepo) FindTaxonomy(ctx context.Context, p *structs.FindTaxonomy
 }
 
 // ListBuilder create list builder
-func (r *taxonomyRepo) ListBuilder(ctx context.Context, p *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error) {
+func (r *taxonomyRepo) ListBuilder(ctx context.Context, params *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error) {
 	// verify query params.
 	var next *ent.Taxonomy
-	if validator.IsNotEmpty(p.Cursor) {
+	if validator.IsNotEmpty(params.Cursor) {
 		// query the address.
 		row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{
-			ID: p.Cursor,
+			ID: params.Cursor,
 		})
 		if validator.IsNotNil(err) || validator.IsNil(row) {
 			return nil, err
@@ -364,23 +364,23 @@ func (r *taxonomyRepo) ListBuilder(ctx context.Context, p *structs.ListTaxonomyP
 
 	// match parent id.
 	// default is root.
-	if validator.IsEmpty(p.ParentID) {
+	if validator.IsEmpty(params.ParentID) {
 		builder.Where(taxonomyEnt.Or(
 			taxonomyEnt.ParentIDIsNil(),
 			taxonomyEnt.ParentIDEQ(""),
 			taxonomyEnt.ParentIDEQ("root"),
 		))
 	} else {
-		builder.Where(taxonomyEnt.ParentIDEQ(p.ParentID))
+		builder.Where(taxonomyEnt.ParentIDEQ(params.ParentID))
 	}
 
 	return builder, nil
 }
 
 // CountX gets a count of taxonomies.
-func (r *taxonomyRepo) CountX(ctx context.Context, p *structs.ListTaxonomyParams) int {
+func (r *taxonomyRepo) CountX(ctx context.Context, params *structs.ListTaxonomyParams) int {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
 	}

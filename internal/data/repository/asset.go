@@ -22,8 +22,8 @@ type Asset interface {
 	GetByID(ctx context.Context, slug string) (*ent.Asset, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Asset, error)
 	Delete(ctx context.Context, slug string) error
-	List(ctx context.Context, p *structs.ListAssetParams) ([]*ent.Asset, error)
-	CountX(ctx context.Context, p *structs.ListAssetParams) int
+	List(ctx context.Context, params *structs.ListAssetParams) ([]*ent.Asset, error)
+	CountX(ctx context.Context, params *structs.ListAssetParams) int
 }
 
 // assetRepo implements the Asset interface.
@@ -194,14 +194,14 @@ func (r *assetRepo) Delete(ctx context.Context, slug string) error {
 }
 
 // FindAsset finds an asset.
-func (r *assetRepo) FindAsset(ctx context.Context, p *structs.FindAsset) (*ent.Asset, error) {
+func (r *assetRepo) FindAsset(ctx context.Context, params *structs.FindAsset) (*ent.Asset, error) {
 	// create builder.
 	builder := r.ec.Asset.Query()
 
-	if validator.IsNotEmpty(p.Asset) {
+	if validator.IsNotEmpty(params.Asset) {
 		builder = builder.Where(assetEnt.Or(
-			assetEnt.IDEQ(p.Asset),
-			assetEnt.NameEQ(p.Asset),
+			assetEnt.IDEQ(params.Asset),
+			assetEnt.NameEQ(params.Asset),
 		))
 	}
 
@@ -215,15 +215,15 @@ func (r *assetRepo) FindAsset(ctx context.Context, p *structs.FindAsset) (*ent.A
 }
 
 // List gets a list of assets.
-func (r *assetRepo) List(ctx context.Context, p *structs.ListAssetParams) ([]*ent.Asset, error) {
+func (r *assetRepo) List(ctx context.Context, params *structs.ListAssetParams) ([]*ent.Asset, error) {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
 	// limit the result
-	builder.Limit(int(p.Limit))
+	builder.Limit(int(params.Limit))
 
 	// sort
 	builder.Order(ent.Desc(assetEnt.FieldCreatedAt))
@@ -239,10 +239,10 @@ func (r *assetRepo) List(ctx context.Context, p *structs.ListAssetParams) ([]*en
 }
 
 // ListBuilder creates list builder.
-func (r *assetRepo) ListBuilder(ctx context.Context, p *structs.ListAssetParams) (*ent.AssetQuery, error) {
+func (r *assetRepo) ListBuilder(ctx context.Context, params *structs.ListAssetParams) (*ent.AssetQuery, error) {
 	var next *ent.Asset
-	if validator.IsNotEmpty(p.Cursor) {
-		row, err := r.FindAsset(ctx, &structs.FindAsset{Asset: p.Cursor})
+	if validator.IsNotEmpty(params.Cursor) {
+		row, err := r.FindAsset(ctx, &structs.FindAsset{Asset: params.Cursor})
 		if validator.IsNotNil(err) || validator.IsNil(row) {
 			return nil, err
 		}
@@ -258,37 +258,37 @@ func (r *assetRepo) ListBuilder(ctx context.Context, p *structs.ListAssetParams)
 	}
 
 	// belong tenant
-	if p.Tenant != "" {
-		builder = builder.Where(assetEnt.TenantIDEQ(p.Tenant))
+	if params.Tenant != "" {
+		builder = builder.Where(assetEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// belong user
-	if p.User != "" {
-		builder = builder.Where(assetEnt.CreatedByEQ(p.User))
+	if params.User != "" {
+		builder = builder.Where(assetEnt.CreatedByEQ(params.User))
 	}
 
 	// object id
-	if p.Object != "" {
-		builder = builder.Where(assetEnt.ObjectIDEQ(p.Object))
+	if params.Object != "" {
+		builder = builder.Where(assetEnt.ObjectIDEQ(params.Object))
 	}
 
 	// asset type
-	if p.Type != "" {
-		builder = builder.Where(assetEnt.TypeContains(p.Type))
+	if params.Type != "" {
+		builder = builder.Where(assetEnt.TypeContains(params.Type))
 	}
 
 	// storage provider
-	if p.Storage != "" {
-		builder = builder.Where(assetEnt.StorageEQ(p.Storage))
+	if params.Storage != "" {
+		builder = builder.Where(assetEnt.StorageEQ(params.Storage))
 	}
 
 	return builder, nil
 }
 
 // CountX counts assets based on given parameters.
-func (r *assetRepo) CountX(ctx context.Context, p *structs.ListAssetParams) int {
+func (r *assetRepo) CountX(ctx context.Context, params *structs.ListAssetParams) int {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
 	}

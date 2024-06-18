@@ -23,9 +23,9 @@ type Permission interface {
 	Update(ctx context.Context, id string, updates types.JSON) (*ent.Permission, error)
 	List(ctx context.Context, params *structs.ListPermissionParams) ([]*ent.Permission, error)
 	Delete(ctx context.Context, id string) error
-	FindPermission(ctx context.Context, p *structs.FindPermission) (*ent.Permission, error)
-	ListBuilder(ctx context.Context, p *structs.ListPermissionParams) (*ent.PermissionQuery, error)
-	CountX(ctx context.Context, p *structs.ListPermissionParams) int
+	FindPermission(ctx context.Context, params *structs.FindPermission) (*ent.Permission, error)
+	ListBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error)
+	CountX(ctx context.Context, params *structs.ListPermissionParams) int
 }
 
 // permissionRepo implements the Permission interface.
@@ -166,9 +166,9 @@ func (r *permissionRepo) Update(ctx context.Context, id string, updates types.JS
 }
 
 // List gets a list of permissions.
-func (r *permissionRepo) List(ctx context.Context, p *structs.ListPermissionParams) ([]*ent.Permission, error) {
+func (r *permissionRepo) List(ctx context.Context, params *structs.ListPermissionParams) ([]*ent.Permission, error) {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
@@ -209,18 +209,18 @@ func (r *permissionRepo) Delete(ctx context.Context, id string) error {
 }
 
 // FindPermission finds a permission.
-func (r *permissionRepo) FindPermission(ctx context.Context, p *structs.FindPermission) (*ent.Permission, error) {
+func (r *permissionRepo) FindPermission(ctx context.Context, params *structs.FindPermission) (*ent.Permission, error) {
 
 	// create builder.
 	builder := r.ec.Permission.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(permissionEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(params.ID) {
+		builder = builder.Where(permissionEnt.IDEQ(params.ID))
 	}
-	if validator.IsNotEmpty(p.Action) && validator.IsNotEmpty(p.Subject) {
+	if validator.IsNotEmpty(params.Action) && validator.IsNotEmpty(params.Subject) {
 		builder = builder.Where(permissionEnt.And(
-			permissionEnt.ActionEQ(p.Action),
-			permissionEnt.SubjectEQ(p.Subject),
+			permissionEnt.ActionEQ(params.Action),
+			permissionEnt.SubjectEQ(params.Subject),
 		))
 	}
 
@@ -234,13 +234,13 @@ func (r *permissionRepo) FindPermission(ctx context.Context, p *structs.FindPerm
 }
 
 // ListBuilder creates list builder.
-func (r *permissionRepo) ListBuilder(ctx context.Context, p *structs.ListPermissionParams) (*ent.PermissionQuery, error) {
+func (r *permissionRepo) ListBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error) {
 	// Here you can construct and return a builder for listing permissions based on the provided parameters.
 	return nil, nil
 }
 
 // CountX gets a count of permissions.
-func (r *permissionRepo) CountX(ctx context.Context, p *structs.ListPermissionParams) int {
+func (r *permissionRepo) CountX(ctx context.Context, params *structs.ListPermissionParams) int {
 	// Here you can implement the logic to count the number of permissions based on the provided parameters.
 	return 0
 }

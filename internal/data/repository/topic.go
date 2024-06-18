@@ -25,9 +25,9 @@ type Topic interface {
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Topic, error)
 	List(ctx context.Context, params *structs.ListTopicParams) ([]*ent.Topic, error)
 	Delete(ctx context.Context, slug string) error
-	FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.Topic, error)
-	ListBuilder(ctx context.Context, p *structs.ListTopicParams) (*ent.TopicQuery, error)
-	CountX(ctx context.Context, p *structs.ListTopicParams) int
+	FindTopic(ctx context.Context, params *structs.FindTopic) (*ent.Topic, error)
+	ListBuilder(ctx context.Context, params *structs.ListTopicParams) (*ent.TopicQuery, error)
+	CountX(ctx context.Context, params *structs.ListTopicParams) int
 }
 
 // topicRepo implements the Topic interface.
@@ -211,19 +211,19 @@ func (r *topicRepo) Update(ctx context.Context, slug string, updates types.JSON)
 }
 
 // List gets a list of topics.
-func (r *topicRepo) List(ctx context.Context, p *structs.ListTopicParams) ([]*ent.Topic, error) {
+func (r *topicRepo) List(ctx context.Context, params *structs.ListTopicParams) ([]*ent.Topic, error) {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
 	// limit the result
-	builder.Limit(int(p.Limit))
+	builder.Limit(int(params.Limit))
 
 	// belong tenant
-	if p.Tenant != "" {
-		builder.Where(topicEnt.TenantIDEQ(p.Tenant))
+	if params.Tenant != "" {
+		builder.Where(topicEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// sort
@@ -272,19 +272,19 @@ func (r *topicRepo) Delete(ctx context.Context, slug string) error {
 }
 
 // FindTopic finds a topic.
-func (r *topicRepo) FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.Topic, error) {
+func (r *topicRepo) FindTopic(ctx context.Context, params *structs.FindTopic) (*ent.Topic, error) {
 
 	// create builder.
 	builder := r.ec.Topic.Query()
 
-	if validator.IsNotEmpty(p.Topic) {
+	if validator.IsNotEmpty(params.Topic) {
 		builder = builder.Where(topicEnt.Or(
-			topicEnt.ID(p.Topic),
-			topicEnt.SlugEQ(p.Topic),
+			topicEnt.ID(params.Topic),
+			topicEnt.SlugEQ(params.Topic),
 		))
 	}
-	if validator.IsNotEmpty(p.Tenant) {
-		builder = builder.Where(topicEnt.TenantIDEQ(p.Tenant))
+	if validator.IsNotEmpty(params.Tenant) {
+		builder = builder.Where(topicEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// execute the builder.
@@ -297,10 +297,10 @@ func (r *topicRepo) FindTopic(ctx context.Context, p *structs.FindTopic) (*ent.T
 }
 
 // ListBuilder creates list builder.
-func (r *topicRepo) ListBuilder(ctx context.Context, p *structs.ListTopicParams) (*ent.TopicQuery, error) {
+func (r *topicRepo) ListBuilder(ctx context.Context, params *structs.ListTopicParams) (*ent.TopicQuery, error) {
 	var next *ent.Topic
-	if validator.IsNotEmpty(p.Cursor) {
-		row, err := r.FindTopic(ctx, &structs.FindTopic{Topic: p.Cursor})
+	if validator.IsNotEmpty(params.Cursor) {
+		row, err := r.FindTopic(ctx, &structs.FindTopic{Topic: params.Cursor})
 		if validator.IsNotNil(err) || validator.IsNil(row) {
 			return nil, err
 		}
@@ -319,9 +319,9 @@ func (r *topicRepo) ListBuilder(ctx context.Context, p *structs.ListTopicParams)
 }
 
 // CountX gets a count of topics.
-func (r *topicRepo) CountX(ctx context.Context, p *structs.ListTopicParams) int {
+func (r *topicRepo) CountX(ctx context.Context, params *structs.ListTopicParams) int {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
 	}
@@ -329,9 +329,9 @@ func (r *topicRepo) CountX(ctx context.Context, p *structs.ListTopicParams) int 
 }
 
 // Count gets a count of topics.
-func (r *topicRepo) Count(ctx context.Context, p *structs.ListTopicParams) (int, error) {
+func (r *topicRepo) Count(ctx context.Context, params *structs.ListTopicParams) (int, error) {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0, err
 	}
