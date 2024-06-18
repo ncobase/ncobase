@@ -1685,7 +1685,7 @@ paths:
       summary: OAuth register
       tags:
       - oauth
-  /v1/pols:
+  /v1/policies:
     get:
       description: Retrieve a list of Casbin rules.
       parameters:
@@ -1761,7 +1761,7 @@ paths:
       summary: Create Casbin rule
       tags:
       - casbin
-  /v1/pols/{id}:
+  /v1/policies/{id}:
     delete:
       description: Delete an existing Casbin rule.
       parameters:
@@ -1875,7 +1875,7 @@ paths:
       summary: Register
       tags:
       - authentication
-  /v1/taxa:
+  /v1/taxonomies:
     get:
       description: Retrieve a list of taxonomies.
       parameters:
@@ -1938,7 +1938,7 @@ paths:
       summary: Create taxonomy
       tags:
       - taxonomy
-  /v1/taxa/{slug}:
+  /v1/taxonomies/{slug}:
     delete:
       description: Delete an existing taxonomy.
       parameters:

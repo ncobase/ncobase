@@ -1427,7 +1427,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/pols": {
+        "/v1/policies": {
             "get": {
                 "security": [
                     {
@@ -1551,7 +1551,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/pols/{id}": {
+        "/v1/policies/{id}": {
             "get": {
                 "security": [
                     {
@@ -1734,7 +1734,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/taxa": {
+        "/v1/taxonomies": {
             "get": {
                 "description": "Retrieve a list of taxonomies.",
                 "produces": [
@@ -1834,7 +1834,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/taxa/{slug}": {
+        "/v1/taxonomies/{slug}": {
             "get": {
                 "description": "Retrieve details of a taxonomy.",
                 "produces": [
