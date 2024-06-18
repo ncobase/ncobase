@@ -92,6 +92,7 @@ type UpdatePassword struct {
 	UserID      *string `json:"user_id,omitempty"`
 	OldPassword *string `json:"old_password,omitempty"`
 	NewPassword *string `json:"new_password,omitempty"`
+	Confirm     *string `json:"confirm,omitempty"`
 }
 
 type User struct {

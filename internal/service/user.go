@@ -36,9 +36,12 @@ func (svc *Service) GetUserService(c *gin.Context, username string) (*resp.Excep
 }
 
 // UpdatePasswordService update user password service
-func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserRequestBody) (*resp.Exception, error) {
+func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserPassword) (*resp.Exception, error) {
 	if body.NewPassword == "" {
 		return resp.BadRequest(ecode.FieldIsEmpty("new password")), nil
+	}
+	if body.Confirm != body.NewPassword {
+		return resp.BadRequest(ecode.FieldIsInvalid("confirm password")), nil
 	}
 	verifyResult := svc.verifyUserPassword(c, helper.GetUserID(c), body.OldPassword)
 	switch v := verifyResult.(type) {
@@ -52,7 +55,12 @@ func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserRequ
 		return resp.InternalServer(v.Error()), nil
 	}
 
-	err := svc.updateUserPassword(c, helper.GetUserID(c), body.NewPassword)
+	err := svc.updateUserPassword(c, &structs.UserPassword{
+		User:        helper.GetUserID(c),
+		OldPassword: body.OldPassword,
+		NewPassword: body.NewPassword,
+		Confirm:     body.Confirm,
+	})
 
 	if exception, err := handleError("User", err); exception != nil {
 		return exception, err
@@ -62,7 +70,7 @@ func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserRequ
 }
 
 // CreateUserService creates a new user.
-func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserRequestBody) (*resp.Exception, error) {
+func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserBody) (*resp.Exception, error) {
 	if body.Username == "" {
 		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
 	}
@@ -336,29 +344,26 @@ func (svc *Service) verifyUserPassword(c *gin.Context, userID string, password s
 }
 
 // updateUserPassword update user password
-func (svc *Service) updateUserPassword(ctx context.Context, userID string, password string) error {
-	err := svc.user.UpdatePassword(ctx, &structs.UserRequestBody{
-		UserID:      userID,
-		NewPassword: password,
-	})
+func (svc *Service) updateUserPassword(ctx context.Context, body *structs.UserPassword) error {
+	err := svc.user.UpdatePassword(ctx, body)
 	if err != nil {
-		log.Printf(context.Background(), "Error updating password for user %s: %v", userID, err)
+		log.Printf(context.Background(), "Error updating password for user %s: %v", body.User, err)
 	}
 
 	return err
 }
 
 // findUserByID find user by ID
-func (svc *Service) findUserByID(ctx context.Context, id string) (structs.User, error) {
+func (svc *Service) findUserByID(ctx context.Context, id string) (structs.ReadUser, error) {
 	user, err := svc.user.GetByID(ctx, id)
 	if err != nil {
-		return structs.User{}, err
+		return structs.ReadUser{}, err
 	}
 	return svc.serializeUser(user, true), nil
 }
 
 // findUser find user by username, email, or phone
-func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.User, error) {
+func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.ReadUser, error) {
 	ctx := helper.FromGinContext(c)
 	user, err := svc.user.Find(ctx, &structs.FindUser{
 		Username: m.Username,
@@ -366,26 +371,28 @@ func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.User,
 		Phone:    m.Phone,
 	})
 	if err != nil {
-		return structs.User{}, err
+		return structs.ReadUser{}, err
 	}
 	return svc.serializeUser(user, true), nil
 }
 
 // serializeUser serialize user
-func (svc *Service) serializeUser(user *ent.User, withProfile ...bool) structs.User {
-	readUser := structs.User{
-		ID:          user.ID,
-		Username:    user.Username,
-		Email:       user.Email,
-		Phone:       user.Phone,
-		IsCertified: user.IsCertified,
-		IsAdmin:     user.IsAdmin,
-		CreatedAt:   user.CreatedAt,
-		UpdatedAt:   user.UpdatedAt,
+func (svc *Service) serializeUser(user *ent.User, withProfile ...bool) structs.ReadUser {
+	readUser := structs.ReadUser{
+		User: &structs.UserBody{
+			ID:          user.ID,
+			Username:    user.Username,
+			Email:       user.Email,
+			Phone:       user.Phone,
+			IsCertified: user.IsCertified,
+			IsAdmin:     user.IsAdmin,
+			CreatedAt:   user.CreatedAt,
+			UpdatedAt:   user.UpdatedAt,
+		},
 	}
 	if len(withProfile) > 0 && withProfile[0] {
 		profile, _ := svc.userProfile.Get(context.Background(), user.ID)
-		readUser.Profile = &structs.UserProfile{
+		readUser.Profile = &structs.UserProfileBody{
 			DisplayName: profile.DisplayName,
 			ShortBio:    profile.ShortBio,
 			About:       &profile.About,

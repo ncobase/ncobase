@@ -65,7 +65,7 @@ func (svc *Service) UserTenantService(c *gin.Context, username string) (*resp.Ex
 		return exception, err
 	}
 
-	tenant, err := svc.tenant.GetByUser(c, user.ID)
+	tenant, err := svc.tenant.GetByUser(c, user.User.ID)
 	if exception, err := handleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -326,9 +326,9 @@ func (svc *Service) serializeTenant(c *gin.Context, row *ent.Tenant, withUser bo
 	}
 
 	if withUser {
-		user, err := svc.user.GetByID(c, row.CreatedBy)
+		user, err := svc.findUserByID(c, row.CreatedBy)
 		if err == nil {
-			readTenant.User = new(structs.User)
+			readTenant.User = new(structs.ReadUser)
 			_ = copier.Copy(&readTenant.User, user)
 		}
 	}

@@ -16,7 +16,7 @@ import (
 // UpdatePassword is the resolver for the update_password field.
 func (r *mutationResolver) UpdatePassword(ctx context.Context, input *types.UpdatePassword) (*types.RStruct, error) {
 	c, _ := helper.GetGinContext(ctx)
-	resp, err := r.Svc.UpdatePasswordService(c, &structs.UserRequestBody{OldPassword: *input.OldPassword, NewPassword: *input.NewPassword})
+	resp, err := r.Svc.UpdatePasswordService(c, &structs.UserPassword{OldPassword: *input.OldPassword, NewPassword: *input.NewPassword, Confirm: *input.Confirm})
 	if err != nil {
 		return nil, err
 	}
