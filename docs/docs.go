@@ -54,7 +54,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.User"
+                            "$ref": "#/definitions/structs.ReadUser"
                         }
                     },
                     "400": {
@@ -86,12 +86,12 @@ const docTemplate = `{
                 "summary": "Update user password",
                 "parameters": [
                     {
-                        "description": "UserRequestBody object",
+                        "description": "UserPassword object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UserRequestBody"
+                            "$ref": "#/definitions/structs.UserPassword"
                         }
                     }
                 ],
@@ -2739,7 +2739,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.User"
+                            "$ref": "#/definitions/structs.ReadUser"
                         }
                     },
                     "400": {
@@ -3473,9 +3473,6 @@ const docTemplate = `{
                 },
                 "url": {
                     "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/structs.User"
                 }
             }
         },
@@ -3532,6 +3529,17 @@ const docTemplate = `{
                 },
                 "updated_by": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.ReadUser": {
+            "type": "object",
+            "properties": {
+                "profile": {
+                    "$ref": "#/definitions/structs.UserProfileBody"
+                },
+                "user": {
+                    "$ref": "#/definitions/structs.UserBody"
                 }
             }
         },
@@ -3907,7 +3915,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.User": {
+        "structs.UserBody": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -3928,9 +3936,6 @@ const docTemplate = `{
                 "phone": {
                     "type": "string"
                 },
-                "profile": {
-                    "$ref": "#/definitions/structs.UserProfile"
-                },
                 "updated_at": {
                     "type": "string"
                 },
@@ -3939,7 +3944,29 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UserProfile": {
+        "structs.UserPassword": {
+            "type": "object",
+            "required": [
+                "confirm",
+                "new_password",
+                "user"
+            ],
+            "properties": {
+                "confirm": {
+                    "type": "string"
+                },
+                "new_password": {
+                    "type": "string"
+                },
+                "old_password": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UserProfileBody": {
             "type": "object",
             "properties": {
                 "about": {
@@ -3961,50 +3988,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "thumbnail": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UserRequestBody": {
-            "type": "object",
-            "properties": {
-                "about": {
-                    "type": "string"
-                },
-                "display_name": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "new_password": {
-                    "type": "string"
-                },
-                "old_password": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "profile_links": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "register_token": {
-                    "type": "string"
-                },
-                "short_bio": {
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                },
-                "username": {
                     "type": "string"
                 }
             }

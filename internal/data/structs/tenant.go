@@ -48,7 +48,6 @@ type ReadTenant struct {
 	Order       *int        `json:"order"`
 	Disabled    bool        `json:"disabled"`
 	Extras      *types.JSON `json:"extras,omitempty"`
-	User        *ReadUser   `json:"user,omitempty"`
 	CreatedBy   string      `json:"created_by"`
 	CreatedAt   time.Time   `json:"created_at"`
 	UpdatedAt   time.Time   `json:"updated_at"`
