@@ -152,26 +152,53 @@ func (svc *Service) serializeMenuReply(row *ent.Menu) *structs.ReadMenu {
 // buildMenuTree builds a menu tree structure.
 func (svc *Service) buildMenuTree(menus []*ent.Menu) []*structs.ReadMenu {
 	// Convert menus to ReadMenu objects
-	menuNodes := make([]*structs.ReadMenu, len(menus))
+	menuNodes := make([]types.TreeNode, len(menus))
 	for i, menu := range menus {
 		menuNodes[i] = svc.serializeMenuReply(menu)
 	}
 
-	// Sort menuNodes by Order field and fallback to CreatedAt
-	sort.Slice(menuNodes, func(i, j int) bool {
-		if menuNodes[i].Order == menuNodes[j].Order {
-			// If Order is the same, compare by CreatedAt
-			return menuNodes[i].CreatedAt.Before(types.ToValue(menuNodes[j].CreatedAt))
-		}
-		return menuNodes[i].Order < menuNodes[j].Order
-	})
+	// Sort menu nodes
+	sortMenuNodes(menuNodes)
 
+	// Build tree structure
 	tree := types.BuildTree(menuNodes)
 
 	result := make([]*structs.ReadMenu, len(tree))
 	for i, node := range tree {
-		result[i] = node
+		result[i] = node.(*structs.ReadMenu)
 	}
 
 	return result
+}
+
+// sortMenuNodes sorts menu nodes.
+func sortMenuNodes(menuNodes []types.TreeNode) {
+	// Recursively sort children nodes first
+	for _, node := range menuNodes {
+		children := node.GetChildren()
+		sortMenuNodes(children)
+
+		// Sort children and set back to node
+		sort.SliceStable(children, func(i, j int) bool {
+			nodeI := children[i].(*structs.ReadMenu)
+			nodeJ := children[j].(*structs.ReadMenu)
+
+			if nodeI.Order == nodeJ.Order {
+				return nodeI.CreatedAt.Before(types.ToValue(nodeJ.CreatedAt))
+			}
+			return nodeI.Order < nodeJ.Order
+		})
+		node.SetChildren(children)
+	}
+
+	// Sort the immediate children of the current level
+	sort.SliceStable(menuNodes, func(i, j int) bool {
+		nodeI := menuNodes[i].(*structs.ReadMenu)
+		nodeJ := menuNodes[j].(*structs.ReadMenu)
+
+		if nodeI.Order == nodeJ.Order {
+			return nodeI.CreatedAt.Before(types.ToValue(nodeJ.CreatedAt))
+		}
+		return nodeI.Order < nodeJ.Order
+	})
 }
