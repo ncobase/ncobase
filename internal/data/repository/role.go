@@ -24,9 +24,9 @@ type Role interface {
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Role, error)
 	List(ctx context.Context, params *structs.ListRoleParams) ([]*ent.Role, error)
 	Delete(ctx context.Context, slug string) error
-	FindRole(ctx context.Context, p *structs.FindRole) (*ent.Role, error)
-	ListBuilder(ctx context.Context, p *structs.ListRoleParams) (*ent.RoleQuery, error)
-	CountX(ctx context.Context, p *structs.ListRoleParams) int
+	FindRole(ctx context.Context, params *structs.FindRole) (*ent.Role, error)
+	ListBuilder(ctx context.Context, params *structs.ListRoleParams) (*ent.RoleQuery, error)
+	CountX(ctx context.Context, params *structs.ListRoleParams) int
 }
 
 // roleRepo implements the Role interface.
@@ -174,15 +174,15 @@ func (r *roleRepo) Update(ctx context.Context, slug string, updates types.JSON) 
 }
 
 // List gets a list of roles.
-func (r *roleRepo) List(ctx context.Context, p *structs.ListRoleParams) ([]*ent.Role, error) {
+func (r *roleRepo) List(ctx context.Context, params *structs.ListRoleParams) ([]*ent.Role, error) {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
 	// limit the result
-	builder.Limit(int(p.Limit))
+	builder.Limit(int(params.Limit))
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -221,18 +221,18 @@ func (r *roleRepo) Delete(ctx context.Context, slug string) error {
 }
 
 // FindRole finds a role.
-func (r *roleRepo) FindRole(ctx context.Context, p *structs.FindRole) (*ent.Role, error) {
+func (r *roleRepo) FindRole(ctx context.Context, params *structs.FindRole) (*ent.Role, error) {
 	// create builder.
 	builder := r.ec.Role.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(roleEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(params.ID) {
+		builder = builder.Where(roleEnt.IDEQ(params.ID))
 	}
 	// support slug or ID
-	if validator.IsNotEmpty(p.Slug) {
+	if validator.IsNotEmpty(params.Slug) {
 		builder = builder.Where(roleEnt.Or(
-			roleEnt.ID(p.Slug),
-			roleEnt.SlugEQ(p.Slug),
+			roleEnt.ID(params.Slug),
+			roleEnt.SlugEQ(params.Slug),
 		))
 	}
 
@@ -246,14 +246,14 @@ func (r *roleRepo) FindRole(ctx context.Context, p *structs.FindRole) (*ent.Role
 }
 
 // ListBuilder creates list builder.
-func (r *roleRepo) ListBuilder(ctx context.Context, p *structs.ListRoleParams) (*ent.RoleQuery, error) {
+func (r *roleRepo) ListBuilder(ctx context.Context, params *structs.ListRoleParams) (*ent.RoleQuery, error) {
 	// Here you can construct and return a builder for listing roles based on the provided parameters.
 	// Similar to the ListBuilder method in the groupRepo.
 	return nil, nil
 }
 
 // CountX gets a count of roles.
-func (r *roleRepo) CountX(ctx context.Context, p *structs.ListRoleParams) int {
+func (r *roleRepo) CountX(ctx context.Context, params *structs.ListRoleParams) int {
 	// Here you can implement the logic to count the number of roles based on the provided parameters.
 	return 0
 }

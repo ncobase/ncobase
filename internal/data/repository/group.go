@@ -23,9 +23,9 @@ type Group interface {
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Group, error)
 	List(ctx context.Context, params *structs.ListGroupParams) ([]*ent.Group, error)
 	Delete(ctx context.Context, slug string) error
-	FindGroup(ctx context.Context, p *structs.FindGroup) (*ent.Group, error)
-	ListBuilder(ctx context.Context, p *structs.ListGroupParams) (*ent.GroupQuery, error)
-	CountX(ctx context.Context, p *structs.ListGroupParams) int
+	FindGroup(ctx context.Context, params *structs.FindGroup) (*ent.Group, error)
+	ListBuilder(ctx context.Context, params *structs.ListGroupParams) (*ent.GroupQuery, error)
+	CountX(ctx context.Context, params *structs.ListGroupParams) int
 	GetGroupsByTenantID(ctx context.Context, tenantID string) ([]*ent.Group, error)
 	IsGroupInTenant(ctx context.Context, groupID string, tenantID string) (bool, error)
 }
@@ -175,15 +175,15 @@ func (r *groupRepo) Update(ctx context.Context, slug string, updates types.JSON)
 }
 
 // List gets a list of groups.
-func (r *groupRepo) List(ctx context.Context, p *structs.ListGroupParams) ([]*ent.Group, error) {
+func (r *groupRepo) List(ctx context.Context, params *structs.ListGroupParams) ([]*ent.Group, error) {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, p)
+	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
 	// limit the result
-	builder.Limit(int(p.Limit))
+	builder.Limit(int(params.Limit))
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -222,19 +222,19 @@ func (r *groupRepo) Delete(ctx context.Context, slug string) error {
 }
 
 // FindGroup finds a group.
-func (r *groupRepo) FindGroup(ctx context.Context, p *structs.FindGroup) (*ent.Group, error) {
+func (r *groupRepo) FindGroup(ctx context.Context, params *structs.FindGroup) (*ent.Group, error) {
 
 	// create builder.
 	builder := r.ec.Group.Query()
 
-	if validator.IsNotEmpty(p.ID) {
-		builder = builder.Where(groupEnt.IDEQ(p.ID))
+	if validator.IsNotEmpty(params.ID) {
+		builder = builder.Where(groupEnt.IDEQ(params.ID))
 	}
 	// support slug or ID
-	if validator.IsNotEmpty(p.Slug) {
+	if validator.IsNotEmpty(params.Slug) {
 		builder = builder.Where(groupEnt.Or(
-			groupEnt.ID(p.Slug),
-			groupEnt.SlugEQ(p.Slug),
+			groupEnt.ID(params.Slug),
+			groupEnt.SlugEQ(params.Slug),
 		))
 	}
 
@@ -248,14 +248,14 @@ func (r *groupRepo) FindGroup(ctx context.Context, p *structs.FindGroup) (*ent.G
 }
 
 // ListBuilder creates list builder.
-func (r *groupRepo) ListBuilder(ctx context.Context, p *structs.ListGroupParams) (*ent.GroupQuery, error) {
+func (r *groupRepo) ListBuilder(ctx context.Context, params *structs.ListGroupParams) (*ent.GroupQuery, error) {
 	// Here you can construct and return a builder for listing groups based on the provided parameters.
 	// Similar to the ListBuilder method in the topicRepo.
 	return nil, nil
 }
 
 // CountX gets a count of groups.
-func (r *groupRepo) CountX(ctx context.Context, p *structs.ListGroupParams) int {
+func (r *groupRepo) CountX(ctx context.Context, params *structs.ListGroupParams) int {
 	// Here you can implement the logic to count the number of groups based on the provided parameters.
 	return 0
 }

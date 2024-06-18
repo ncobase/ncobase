@@ -208,8 +208,13 @@ func (svc *Service) ListTenantsService(c *gin.Context, params *structs.ListTenan
 		return exception, err
 	}
 
+	total := svc.tenant.CountX(helper.FromGinContext(c), params)
+
 	return &resp.Exception{
-		Data: tenants,
+		Data: types.JSON{
+			"content": tenants,
+			"total":   total,
+		},
 	}, nil
 }
 

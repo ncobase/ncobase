@@ -107,9 +107,9 @@ func (r *menuRepo) Create(ctx context.Context, body *structs.MenuBody) (*ent.Men
 }
 
 // GetTree retrieves the menu tree.
-func (r *menuRepo) GetTree(ctx context.Context, p *structs.FindMenu) ([]*ent.Menu, error) {
+func (r *menuRepo) GetTree(ctx context.Context, params *structs.FindMenu) ([]*ent.Menu, error) {
 	// use internal get method.
-	subMenuIds := r.getSubMenuIds(ctx, p)
+	subMenuIds := r.getSubMenuIds(ctx, params)
 
 	// create builder.
 	builder := r.ec.Menu.Query()
@@ -132,13 +132,13 @@ func (r *menuRepo) GetTree(ctx context.Context, p *structs.FindMenu) ([]*ent.Men
 }
 
 // Get retrieves a specific menu.
-func (r *menuRepo) Get(ctx context.Context, p *structs.FindMenu) (*ent.Menu, error) {
-	cacheKey := fmt.Sprintf("%s", p.Menu)
+func (r *menuRepo) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu, error) {
+	cacheKey := fmt.Sprintf("%s", params.Menu)
 	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
-	row, err := r.getMenu(ctx, p)
+	row, err := r.getMenu(ctx, params)
 	if err != nil {
 		log.Errorf(ctx, "menuRepo.Get error: %v", err)
 		return nil, err
@@ -224,20 +224,20 @@ func (r *menuRepo) Update(ctx context.Context, body *structs.UpdateMenuBody) (*e
 }
 
 // Delete deletes a menu.
-func (r *menuRepo) Delete(ctx context.Context, p *structs.FindMenu) error {
+func (r *menuRepo) Delete(ctx context.Context, params *structs.FindMenu) error {
 
 	// create builder.
 	builder := r.ec.Menu.Delete()
 
 	// set where conditions.
 	builder.Where(menuEnt.Or(
-		menuEnt.IDEQ(p.Menu),
-		menuEnt.SlugEQ(p.Menu),
+		menuEnt.IDEQ(params.Menu),
+		menuEnt.SlugEQ(params.Menu),
 	))
 
 	// match tenant id.
-	if validator.IsNotEmpty(p.Tenant) {
-		builder.Where(menuEnt.TenantIDEQ(p.Tenant))
+	if validator.IsNotEmpty(params.Tenant) {
+		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// execute the builder.
@@ -246,7 +246,7 @@ func (r *menuRepo) Delete(ctx context.Context, p *structs.FindMenu) error {
 		return err
 	}
 
-	cacheKey := fmt.Sprintf("%s", p.Menu)
+	cacheKey := fmt.Sprintf("%s", params.Menu)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
 		log.Errorf(ctx, "menuRepo.Delete cache error: %v", err)
 	}
@@ -255,15 +255,15 @@ func (r *menuRepo) Delete(ctx context.Context, p *structs.FindMenu) error {
 }
 
 // List lists menus based on given parameters.
-func (r *menuRepo) List(ctx context.Context, p *structs.ListMenuParams) ([]*ent.Menu, error) {
+func (r *menuRepo) List(ctx context.Context, params *structs.ListMenuParams) ([]*ent.Menu, error) {
 	// create list builder
-	builder, err := r.listBuilder(ctx, p)
+	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
 	// limit the result
-	builder.Limit(p.Limit)
+	builder.Limit(params.Limit)
 
 	// order by order field
 	builder.Order(ent.Desc(menuEnt.FieldOrder))
@@ -278,9 +278,9 @@ func (r *menuRepo) List(ctx context.Context, p *structs.ListMenuParams) ([]*ent.
 }
 
 // CountX counts menus based on given parameters.
-func (r *menuRepo) CountX(ctx context.Context, p *structs.ListMenuParams) int {
+func (r *menuRepo) CountX(ctx context.Context, params *structs.ListMenuParams) int {
 	// create list builder
-	builder, err := r.listBuilder(ctx, p)
+	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
 	}
@@ -289,74 +289,74 @@ func (r *menuRepo) CountX(ctx context.Context, p *structs.ListMenuParams) int {
 
 // listBuilder - create list builder.
 // internal method.
-func (r *menuRepo) listBuilder(ctx context.Context, p *structs.ListMenuParams) (*ent.MenuQuery, error) {
-	// verify query p.
-	var nextMenu *ent.Menu
-	if validator.IsNotEmpty(p.Cursor) {
+func (r *menuRepo) listBuilder(ctx context.Context, params *structs.ListMenuParams) (*ent.MenuQuery, error) {
+	// verify query params.
+	var next *ent.Menu
+	if validator.IsNotEmpty(params.Cursor) {
 		// query the menu.
 		// use internal get method.
 		row, err := r.getMenu(ctx, &structs.FindMenu{
-			Menu:   p.Cursor,
-			Tenant: p.Tenant,
-			Type:   p.Type,
+			Menu:   params.Cursor,
+			Tenant: params.Tenant,
+			Type:   params.Type,
 		})
 		if validator.IsNotNil(err) || validator.IsNil(row) {
 			return nil, err
 		}
-		nextMenu = row
+		next = row
 	}
 
 	// create builder.
 	builder := r.ec.Menu.Query()
 
 	// lt the cursor create time
-	if nextMenu != nil {
-		builder.Where(menuEnt.CreatedAtLT(nextMenu.CreatedAt))
+	if next != nil {
+		builder.Where(menuEnt.CreatedAtLT(next.CreatedAt))
 	}
 
 	// match tenant id.
-	if validator.IsNotEmpty(p.Tenant) {
-		builder.Where(menuEnt.TenantIDEQ(p.Tenant))
+	if validator.IsNotEmpty(params.Tenant) {
+		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// match type.
-	if validator.IsNotEmpty(p.Type) {
-		builder.Where(menuEnt.TypeEQ(p.Type))
+	if validator.IsNotEmpty(params.Type) {
+		builder.Where(menuEnt.TypeEQ(params.Type))
 	}
 	// match permission.
-	if validator.IsNotEmpty(p.Perms) {
-		builder.Where(menuEnt.PermsContains(p.Perms))
+	if validator.IsNotEmpty(params.Perms) {
+		builder.Where(menuEnt.PermsContains(params.Perms))
 	}
 	// match parent id.
 	// default is root.
-	if validator.IsEmpty(p.Parent) {
+	if validator.IsEmpty(params.Parent) {
 		builder.Where(menuEnt.Or(
 			menuEnt.ParentIDIsNil(),
 			menuEnt.ParentIDEQ(""),
 			menuEnt.ParentIDEQ("root"),
 		))
 	} else {
-		builder.Where(menuEnt.ParentIDEQ(p.Parent))
+		builder.Where(menuEnt.ParentIDEQ(params.Parent))
 	}
 	return builder, nil
 }
 
 // getMenu - get menu.
 // internal method.
-func (r *menuRepo) getMenu(ctx context.Context, p *structs.FindMenu) (*ent.Menu, error) {
+func (r *menuRepo) getMenu(ctx context.Context, params *structs.FindMenu) (*ent.Menu, error) {
 	// create builder.
 	builder := r.ec.Menu.Query()
 
 	// set where conditions.
-	if validator.IsNotEmpty(p.Menu) {
+	if validator.IsNotEmpty(params.Menu) {
 		builder.Where(menuEnt.Or(
-			menuEnt.IDEQ(p.Menu),
-			menuEnt.SlugEQ(p.Menu),
+			menuEnt.IDEQ(params.Menu),
+			menuEnt.SlugEQ(params.Menu),
 		))
 	}
 	// match tenant id.
-	if validator.IsNotEmpty(p.Tenant) {
-		builder.Where(menuEnt.TenantIDEQ(p.Tenant))
+	if validator.IsNotEmpty(params.Tenant) {
+		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// execute the builder.
@@ -370,25 +370,25 @@ func (r *menuRepo) getMenu(ctx context.Context, p *structs.FindMenu) (*ent.Menu,
 
 // getSubMenuIds recursively retrieves sub-menu IDs.
 // Internal method.
-func (r *menuRepo) getSubMenuIds(ctx context.Context, p *structs.FindMenu) []string {
+func (r *menuRepo) getSubMenuIds(ctx context.Context, params *structs.FindMenu) []string {
 	var subMenuIds []string
 
 	// Create a builder to query menu IDs.
 	builder := r.ec.Menu.Query()
 
 	// Build the query based on the parameters.
-	if validator.IsEmpty(p.Menu) || p.Menu == "root" {
+	if validator.IsEmpty(params.Menu) || params.Menu == "root" {
 		builder.Where(menuEnt.Or(menuEnt.ParentIDIsNil(), menuEnt.ParentIDEQ("")))
 	} else {
-		builder.Where(menuEnt.ParentIDEQ(p.Menu))
+		builder.Where(menuEnt.ParentIDEQ(params.Menu))
 	}
 
-	if validator.IsNotEmpty(p.Type) {
-		builder.Where(menuEnt.TypeEQ(p.Type))
+	if validator.IsNotEmpty(params.Type) {
+		builder.Where(menuEnt.TypeEQ(params.Type))
 	}
 
-	if validator.IsNotEmpty(p.Tenant) {
-		builder.Where(menuEnt.TenantIDEQ(p.Tenant))
+	if validator.IsNotEmpty(params.Tenant) {
+		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// Retrieve menu IDs.
@@ -396,7 +396,7 @@ func (r *menuRepo) getSubMenuIds(ctx context.Context, p *structs.FindMenu) []str
 
 	// Iterate through each menu ID to get its sub-menu IDs recursively.
 	for _, id := range menuIDs {
-		subIds := r.getSubMenuIds(ctx, &structs.FindMenu{Menu: id, Tenant: p.Tenant})
+		subIds := r.getSubMenuIds(ctx, &structs.FindMenu{Menu: id, Tenant: params.Tenant})
 		subMenuIds = append(subMenuIds, subIds...)
 	}
 

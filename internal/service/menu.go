@@ -45,13 +45,13 @@ func (svc *Service) UpdateMenuService(c *gin.Context, updates *structs.UpdateMen
 }
 
 // GetMenuService retrieves a menu by ID.
-func (svc *Service) GetMenuService(c *gin.Context, p *structs.FindMenu) (*resp.Exception, error) {
+func (svc *Service) GetMenuService(c *gin.Context, params *structs.FindMenu) (*resp.Exception, error) {
 
-	if p.Children {
-		return svc.GetMenuTreeService(c, p)
+	if params.Children {
+		return svc.GetMenuTreeService(c, params)
 	}
 
-	menu, err := svc.menu.Get(c, p)
+	menu, err := svc.menu.Get(c, params)
 	if exception, err := handleError("Menu", err); exception != nil {
 		return exception, err
 	}
@@ -62,8 +62,8 @@ func (svc *Service) GetMenuService(c *gin.Context, p *structs.FindMenu) (*resp.E
 }
 
 // DeleteMenuService deletes a menu by ID.
-func (svc *Service) DeleteMenuService(c *gin.Context, p *structs.FindMenu) (*resp.Exception, error) {
-	err := svc.menu.Delete(c, p)
+func (svc *Service) DeleteMenuService(c *gin.Context, params *structs.FindMenu) (*resp.Exception, error) {
+	err := svc.menu.Delete(c, params)
 	if exception, err := handleError("Menu", err); exception != nil {
 		return exception, err
 	}
@@ -72,32 +72,32 @@ func (svc *Service) DeleteMenuService(c *gin.Context, p *structs.FindMenu) (*res
 }
 
 // ListMenusService lists all menus.
-func (svc *Service) ListMenusService(c *gin.Context, p *structs.ListMenuParams) (*resp.Exception, error) {
+func (svc *Service) ListMenusService(c *gin.Context, params *structs.ListMenuParams) (*resp.Exception, error) {
 	// with children menu
-	if validator.IsTrue(p.Children) {
+	if validator.IsTrue(params.Children) {
 		return svc.GetMenuTreeService(c, &structs.FindMenu{
 			Children: true,
-			Tenant:   p.Tenant,
-			Menu:     p.Parent,
-			Type:     p.Type,
+			Tenant:   params.Tenant,
+			Menu:     params.Parent,
+			Type:     params.Type,
 		})
 	}
 
 	// limit default value
-	if validator.IsEmpty(p.Limit) {
-		p.Limit = 20
+	if validator.IsEmpty(params.Limit) {
+		params.Limit = 20
 	}
 	// limit must be less than 100
-	if p.Limit > 100 {
+	if params.Limit > 100 {
 		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
 	}
 
-	menus, err := svc.menu.List(c, p)
+	menus, err := svc.menu.List(c, params)
 	if exception, err := handleError("Menu", err); exception != nil {
 		return exception, err
 	}
 
-	total := svc.menu.CountX(c, p)
+	total := svc.menu.CountX(c, params)
 
 	return &resp.Exception{
 		Data: types.JSON{
@@ -108,14 +108,17 @@ func (svc *Service) ListMenusService(c *gin.Context, p *structs.ListMenuParams) 
 }
 
 // GetMenuTreeService retrieves the menu tree.
-func (svc *Service) GetMenuTreeService(c *gin.Context, p *structs.FindMenu) (*resp.Exception, error) {
-	menus, err := svc.menu.GetTree(c, p)
+func (svc *Service) GetMenuTreeService(c *gin.Context, params *structs.FindMenu) (*resp.Exception, error) {
+	menus, err := svc.menu.GetTree(c, params)
 	if exception, err := handleError("MenuTree", err); exception != nil {
 		return exception, err
 	}
 
 	return &resp.Exception{
-		Data: svc.buildMenuTree(menus),
+		Data: &types.JSON{
+			"content": svc.buildMenuTree(menus),
+			"total":   len(menus),
+		},
 	}, nil
 }
 

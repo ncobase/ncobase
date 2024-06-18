@@ -115,13 +115,13 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 }
 
 // List gets a list of taxonomy relations.
-func (r *taxonomyRelationsRepo) List(ctx context.Context, p *structs.ListTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
+func (r *taxonomyRelationsRepo) List(ctx context.Context, params *structs.ListTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
 	var nextTaxonomyRelation *ent.TaxonomyRelation
-	if p.Cursor != "" {
+	if params.Cursor != "" {
 		taxonomyRelations, err := r.ec.TaxonomyRelation.
 			Query().
 			Where(
-				taxonomyRelationEnt.IDEQ(p.Cursor),
+				taxonomyRelationEnt.IDEQ(params.Cursor),
 			).
 			First(ctx)
 		if err != nil || taxonomyRelations == nil {
@@ -132,7 +132,7 @@ func (r *taxonomyRelationsRepo) List(ctx context.Context, p *structs.ListTaxonom
 
 	query := r.ec.TaxonomyRelation.
 		Query().
-		Limit(p.Limit)
+		Limit(params.Limit)
 
 	// lt the cursor create time
 	if nextTaxonomyRelation != nil {
@@ -191,19 +191,19 @@ func (r *taxonomyRelationsRepo) BatchCreate(ctx context.Context, bodies []*struc
 }
 
 // FindRelations finds taxonomy relations by various criteria.
-func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.FindTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
+func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, params *structs.FindTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
 
 	// create builder.
 	builder := r.ec.TaxonomyRelation.Query()
 
-	if validator.IsNotEmpty(p.ObjectID) {
-		builder = builder.Where(taxonomyRelationEnt.IDEQ(p.ObjectID))
+	if validator.IsNotEmpty(params.ObjectID) {
+		builder = builder.Where(taxonomyRelationEnt.IDEQ(params.ObjectID))
 	}
-	if validator.IsNotEmpty(p.TaxonomyID) {
-		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(p.TaxonomyID))
+	if validator.IsNotEmpty(params.TaxonomyID) {
+		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(params.TaxonomyID))
 	}
-	if validator.IsNotEmpty(p.Type) {
-		builder = builder.Where(taxonomyRelationEnt.TypeEQ(p.Type))
+	if validator.IsNotEmpty(params.Type) {
+		builder = builder.Where(taxonomyRelationEnt.TypeEQ(params.Type))
 	}
 
 	rows, err := builder.All(ctx)
@@ -216,19 +216,19 @@ func (r *taxonomyRelationsRepo) FindRelations(ctx context.Context, p *structs.Fi
 }
 
 // FindTaxonomyRelation gets a single taxonomy relation by criteria.
-func (r *taxonomyRelationsRepo) FindTaxonomyRelation(ctx context.Context, p *structs.FindTaxonomyRelation) (*ent.TaxonomyRelation, error) {
+func (r *taxonomyRelationsRepo) FindTaxonomyRelation(ctx context.Context, params *structs.FindTaxonomyRelation) (*ent.TaxonomyRelation, error) {
 
 	// create builder.
 	builder := r.ec.TaxonomyRelation.Query()
 
-	if validator.IsNotEmpty(p.ObjectID) {
-		builder = builder.Where(taxonomyRelationEnt.IDEQ(p.ObjectID))
+	if validator.IsNotEmpty(params.ObjectID) {
+		builder = builder.Where(taxonomyRelationEnt.IDEQ(params.ObjectID))
 	}
-	if validator.IsNotEmpty(p.TaxonomyID) {
-		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(p.TaxonomyID))
+	if validator.IsNotEmpty(params.TaxonomyID) {
+		builder = builder.Where(taxonomyRelationEnt.TaxonomyIDEQ(params.TaxonomyID))
 	}
-	if validator.IsNotEmpty(p.Type) {
-		builder = builder.Where(taxonomyRelationEnt.TypeEQ(p.Type))
+	if validator.IsNotEmpty(params.Type) {
+		builder = builder.Where(taxonomyRelationEnt.TypeEQ(params.Type))
 	}
 
 	// execute the builder.
