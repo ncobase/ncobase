@@ -13,7 +13,7 @@ import (
 )
 
 func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
-	// Root Jump when tenant is configured and it is not localhost
+	// Root endpoint, redirect when domain is configured and not localhost
 	e.GET("/", func(c *gin.Context) {
 		if domain := conf.Domain; domain != "localhost" {
 			url := helper.GetHost(conf, domain)
@@ -26,7 +26,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// Health check endpoint
 	e.GET("/health", h.HealthHandler)
 
-	// API prefix for v1 version
+	// API v1 endpoints
 	v1 := e.Group("/v1")
 
 	// Authentication endpoints
@@ -44,8 +44,10 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 
 	// Authorization endpoints
 	authorize := v1.Group("/authorize")
-	authorize.POST("/send", h.SendCodeHandler)
-	authorize.GET("/:code", h.CodeAuthHandler)
+	{
+		authorize.POST("/send", h.SendCodeHandler)
+		authorize.GET("/:code", h.CodeAuthHandler)
+	}
 
 	// Account endpoints
 	account := v1.Group("/account", middleware.Authorized)
@@ -57,144 +59,129 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// User endpoints
-	user := v1.Group("/users")
+	users := v1.Group("/users")
 	{
-		// user.GET("", h.ListUserHandler)
-		// user.POST("", h.CreateUserHandler)
-		user.GET("/:username", h.GetUserHandler)
-		// user.PUT("/:username", h.UpdateUserHandler)
-		// user.DELETE("/:username", h.DeleteUserHandler)
-		// user.GET("/:username/roles", h.ListUserRoleHandler)
-		// user.GET("/:username/groups", h.ListUserGroupHandler)
-		// user.GET("/:username/tenant", h.ListUserTenantHandler)
-		user.GET("/:username/tenant", middleware.Authorized, h.UserTenantHandler)
-		// user.GET("/:username/tenant/belongs", middleware.Authorized, h.ListUserBelongHandler)
-	}
-
-	// OAuth endpoints
-	oauth := v1.Group("/oauth")
-	{
-		oauth.POST("/signup", h.OAuthRegisterHandler)
-		oauth.GET("/profile", h.GetOAuthProfileHandler)
-		oauth.GET("/redirect/:provider", h.OAuthRedirectHandler)
-		oauth.GET("/callback/github", h.OAuthGithubCallbackHandler, h.OAuthCallbackHandler)
-		oauth.GET("/callback/facebook", h.OAuthFacebookCallbackHandler, h.OAuthCallbackHandler)
+		// users.GET("", h.ListUserHandler)
+		// users.POST("", h.CreateUserHandler)
+		users.GET("/:username", h.GetUserHandler)
+		// users.PUT("/:username", h.UpdateUserHandler)
+		// users.DELETE("/:username", h.DeleteUserHandler)
+		// users.GET("/:username/roles", h.ListUserRoleHandler)
+		// users.GET("/:username/groups", h.ListUserGroupHandler)
+		// users.GET("/:username/tenants", h.UserTenantHandler)
+		// users.GET("/:username/tenants/:slug", h.UserTenantHandler)
+		// users.GET("/:username/tenant/belongs", middleware.Authorized, h.ListUserBelongHandler)
 	}
 
 	// Module endpoints
-	module := v1.Group("/modules")
+	modules := v1.Group("/modules", middleware.Authorized)
 	{
-		module.GET("", h.ListModuleHandler)
-		module.POST("", middleware.Authorized, h.CreateModuleHandler)
-		module.GET("/:slug", h.GetModuleHandler)
-		module.PUT("/:slug", middleware.Authorized, h.UpdateModuleHandler)
-		module.DELETE("/:slug", middleware.Authorized, h.DeleteModuleHandler)
+		modules.GET("", h.ListModuleHandler)
+		modules.POST("", h.CreateModuleHandler)
+		modules.GET("/:slug", h.GetModuleHandler)
+		modules.PUT("/:slug", h.UpdateModuleHandler)
+		modules.DELETE("/:slug", h.DeleteModuleHandler)
 	}
 
 	// Asset endpoints
-	asset := v1.Group("/assets")
+	assets := v1.Group("/assets", middleware.Authorized)
 	{
-		asset.GET("", h.ListAssetHandler)
-		asset.POST("", middleware.Authorized, h.CreateAssetsHandler)
-		asset.GET("/:slug", h.GetAssetHandler)
-		asset.PUT("/:slug", middleware.Authorized, h.UpdateAssetHandler)
-		asset.DELETE("/:slug", middleware.Authorized, h.DeleteAssetHandler)
+		assets.GET("", h.ListAssetHandler)
+		assets.POST("", h.CreateAssetsHandler)
+		assets.GET("/:slug", h.GetAssetHandler)
+		assets.PUT("/:slug", h.UpdateAssetHandler)
+		assets.DELETE("/:slug", h.DeleteAssetHandler)
 	}
 
 	// Tenant endpoints
-	tenant := v1.Group("/tenants", middleware.Authorized)
+	tenants := v1.Group("/tenants", middleware.Authorized)
 	{
-		tenant.GET("", h.ListTenantHandler)
-		tenant.POST("", h.CreateTenantHandler)
-		tenant.GET("/:slug", h.GetTenantHandler)
-		tenant.PUT("/:slug", h.UpdateTenantHandler)
-		tenant.DELETE("/:slug", h.DeleteTenantHandler)
-		// TODO: implement these
-		tenant.GET("/:slug/assets", h.ListTenantAssetHandler)
-		tenant.GET("/:slug/roles", h.ListTenantRoleHandler)
-		tenant.GET("/:slug/modules", h.ListTenantModuleHandler)
-		tenant.GET("/:slug/settings", h.ListTenantSettingHandler)
-		tenant.GET("/:slug/users", h.ListTenantUserHandler)
-		tenant.GET("/:slug/groups", h.ListTenantGroupHandler)
+		tenants.GET("", h.ListTenantHandler)
+		tenants.POST("", h.CreateTenantHandler)
+		tenants.GET("/:slug", h.GetTenantHandler)
+		tenants.PUT("/:slug", h.UpdateTenantHandler)
+		tenants.DELETE("/:slug", h.DeleteTenantHandler)
+		tenants.GET("/:slug/assets", h.ListTenantAssetHandler)
+		tenants.GET("/:slug/roles", h.ListTenantRoleHandler)
+		tenants.GET("/:slug/modules", h.ListTenantModuleHandler)
+		tenants.GET("/:slug/settings", h.ListTenantSettingHandler)
+		tenants.GET("/:slug/users", h.ListTenantUserHandler)
+		tenants.GET("/:slug/groups", h.ListTenantGroupHandler)
 	}
 
 	// Menu endpoints
-	menu := v1.Group("/menus", middleware.Authorized)
+	menus := v1.Group("/menus", middleware.Authorized)
 	{
-		menu.GET("", h.ListMenusHandler)
-		menu.POST("", h.CreateMenuHandler)
-		menu.GET("/:slug", h.GetMenuHandler)
-		menu.PUT("/:slug", h.UpdateMenuHandler)
-		menu.DELETE("/:slug", h.DeleteMenuHandler)
+		menus.GET("", h.ListMenusHandler)
+		menus.POST("", h.CreateMenuHandler)
+		menus.GET("/:slug", h.GetMenuHandler)
+		menus.PUT("/:slug", h.UpdateMenuHandler)
+		menus.DELETE("/:slug", h.DeleteMenuHandler)
 	}
 
 	// Group endpoints
-	// group := v1.Group("/groups", middleware.Authorized)
+	// groups := v1.Group("/groups", middleware.Authorized)
 	// {
-	// 	group.GET("", h.ListGroupHandler)
-	// 	group.POST("", h.CreateGroupHandler)
-	// 	group.GET("/:slug", h.GetGroupHandler)
-	// 	group.PUT("/:slug", h.UpdateGroupHandler)
-	// 	group.DELETE("/:slug", h.DeleteGroupHandler)
-	// 	group.GET("/:slug/roles", h.ListGroupRoleHandler)
-	// 	group.GET("/:slug/users", h.ListGroupUserHandler)
+	// 	groups.GET("", h.ListGroupHandler)
+	// 	groups.POST("", h.CreateGroupHandler)
+	// 	groups.GET("/:slug", h.GetGroupHandler)
+	// 	groups.PUT("/:slug", h.UpdateGroupHandler)
+	// 	groups.DELETE("/:slug", h.DeleteGroupHandler)
+	// 	groups.GET("/:slug/roles", h.ListGroupRoleHandler)
+	// 	groups.GET("/:slug/users", h.ListGroupUserHandler)
 	// }
 
 	// Role endpoints
-	// role := v1.Group("/roles", middleware.Authorized)
+	// roles := v1.Group("/roles", middleware.Authorized)
 	// {
-	// 	role.GET("", h.ListRoleHandler)
-	// 	role.POST("", h.CreateRoleHandler)
-	// 	role.GET("/:slug", h.GetRoleHandler)
-	// 	role.PUT("/:slug", h.UpdateRoleHandler)
-	// 	role.DELETE("/:slug", h.DeleteRoleHandler)
-	// 	role.GET("/:slug/permissions", h.ListRolePermissionHandler)
-	// 	role.GET("/:slug/users", h.ListUserRoleHandler)
+	// 	roles.GET("", h.ListRoleHandler)
+	// 	roles.POST("", h.CreateRoleHandler)
+	// 	roles.GET("/:slug", h.GetRoleHandler)
+	// 	roles.PUT("/:slug", h.UpdateRoleHandler)
+	// 	roles.DELETE("/:slug", h.DeleteRoleHandler)
+	// 	roles.GET("/:slug/permissions", h.ListRolePermissionHandler)
+	// 	roles.GET("/:slug/users", h.ListUserRoleHandler)
 	// }
 
 	// Permission endpoints
-	// permission := v1.Group("/permissions", middleware.Authorized)
+	// permissions := v1.Group("/permissions", middleware.Authorized)
 	// {
-	// 	permission.GET("", h.ListPermissionHandler)
-	// 	permission.POST("", h.CreatePermissionHandler)
-	// 	permission.GET("/:slug", h.GetPermissionHandler)
-	// 	permission.PUT("/:slug", h.UpdatePermissionHandler)
-	// 	permission.DELETE("/:slug", h.DeletePermissionHandler)
+	// 	permissions.GET("", h.ListPermissionHandler)
+	// 	permissions.POST("", h.CreatePermissionHandler)
+	// 	permissions.GET("/:slug", h.GetPermissionHandler)
+	// 	permissions.PUT("/:slug", h.UpdatePermissionHandler)
+	// 	permissions.DELETE("/:slug", h.DeletePermissionHandler)
 	// }
 
-	// Taxonomy endpoints
-	taxonomy := v1.Group("/taxa")
+	// Casbin Rule endpoints
+	policies := v1.Group("/policies", middleware.Authorized)
 	{
-		taxonomy.GET("", h.ListTaxonomyHandler)
-		taxonomy.POST("", middleware.Authorized, h.CreateTaxonomyHandler)
-		taxonomy.GET("/:slug", h.GetTaxonomyHandler)
-		taxonomy.PUT("/:slug", middleware.Authorized, h.UpdateTaxonomyHandler)
-		taxonomy.DELETE("/:slug", middleware.Authorized, h.DeleteTaxonomyHandler)
+		policies.GET("", h.ListCasbinRuleHandler)
+		policies.POST("", h.CreateCasbinRuleHandler)
+		policies.GET("/:id", h.GetCasbinRuleHandler)
+		policies.PUT("/:id", h.UpdateCasbinRuleHandler)
+		policies.DELETE("/:id", h.DeleteCasbinRuleHandler)
+	}
+
+	// Taxonomy endpoints
+	taxonomies := v1.Group("/taxonomies", middleware.Authorized)
+	{
+		taxonomies.GET("", h.ListTaxonomyHandler)
+		taxonomies.POST("", h.CreateTaxonomyHandler)
+		taxonomies.GET("/:slug", h.GetTaxonomyHandler)
+		taxonomies.PUT("/:slug", h.UpdateTaxonomyHandler)
+		taxonomies.DELETE("/:slug", h.DeleteTaxonomyHandler)
 	}
 
 	// Topic endpoints
-	topic := v1.Group("/topics")
+	topics := v1.Group("/topics", middleware.Authorized)
 	{
-		topic.GET("", h.ListTopicHandler)
-		topic.POST("", middleware.Authorized, h.CreateTopicHandler)
-		topic.GET("/:slug", h.GetTopicHandler)
-		topic.PUT("/:slug", middleware.Authorized, h.UpdateTopicHandler)
-		topic.DELETE("/:slug", middleware.Authorized, h.DeleteTopicHandler)
+		topics.GET("", h.ListTopicHandler)
+		topics.POST("", h.CreateTopicHandler)
+		topics.GET("/:slug", h.GetTopicHandler)
+		topics.PUT("/:slug", h.UpdateTopicHandler)
+		topics.DELETE("/:slug", h.DeleteTopicHandler)
 	}
-
-	// Casbin Rule endpoints
-	casbin := v1.Group("/pols", middleware.Authorized)
-	{
-		casbin.GET("", h.ListCasbinRuleHandler)
-		casbin.POST("", h.CreateCasbinRuleHandler)
-		casbin.GET("/:id", h.GetCasbinRuleHandler)
-		casbin.PUT("/:id", h.UpdateCasbinRuleHandler)
-		casbin.DELETE("/:id", h.DeleteCasbinRuleHandler)
-	}
-
-	// ******************************
-	// Admin endpoints
-	// ******************************
 
 	// Swagger documentation endpoint
 	if conf.RunMode != gin.ReleaseMode {

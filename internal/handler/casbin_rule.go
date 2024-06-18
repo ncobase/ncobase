@@ -20,7 +20,7 @@ import (
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
 // @Success 200 {object} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/pols [post]
+// @Router /v1/policies [post]
 // @Security Bearer
 func (h *Handler) CreateCasbinRuleHandler(c *gin.Context) {
 	body := &structs.CasbinRuleBody{}
@@ -52,7 +52,7 @@ func (h *Handler) CreateCasbinRuleHandler(c *gin.Context) {
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
 // @Success 200 {object} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/pols/{id} [put]
+// @Router /v1/policies/{id} [put]
 // @Security Bearer
 func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
 	id := c.Param("id")
@@ -88,7 +88,7 @@ func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/pols/{id} [get]
+// @Router /v1/policies/{id} [get]
 // @Security Bearer
 func (h *Handler) GetCasbinRuleHandler(c *gin.Context) {
 	id := c.Param("id")
@@ -115,7 +115,7 @@ func (h *Handler) GetCasbinRuleHandler(c *gin.Context) {
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/pols/{id} [delete]
+// @Router /v1/policies/{id} [delete]
 // @Security Bearer
 func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 	id := c.Param("id")
@@ -142,7 +142,7 @@ func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 // @Param params query structs.CasbinRuleParams true "CasbinRuleParams object"
 // @Success 200 {array} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/pols [get]
+// @Router /v1/policies [get]
 // @Security Bearer
 func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
 	params := &structs.CasbinRuleParams{}

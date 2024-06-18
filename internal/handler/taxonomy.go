@@ -20,7 +20,7 @@ import (
 // @Param body body structs.CreateTaxonomyBody true "CreateTaxonomyBody object"
 // @Success 200 {object} structs.ReadTaxonomy "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/taxa [post]
+// @Router /v1/taxonomies [post]
 // @Security Bearer
 func (h *Handler) CreateTaxonomyHandler(c *gin.Context) {
 	body := &structs.CreateTaxonomyBody{}
@@ -52,7 +52,7 @@ func (h *Handler) CreateTaxonomyHandler(c *gin.Context) {
 // @Param body body structs.UpdateTaxonomyBody true "UpdateTaxonomyBody object"
 // @Success 200 {object} structs.ReadTaxonomy "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/taxa/{slug} [put]
+// @Router /v1/taxonomies/{slug} [put]
 // @Security Bearer
 func (h *Handler) UpdateTaxonomyHandler(c *gin.Context) {
 	slug := c.Param("slug")
@@ -88,7 +88,7 @@ func (h *Handler) UpdateTaxonomyHandler(c *gin.Context) {
 // @Param slug path string true "Taxonomy slug"
 // @Success 200 {object} structs.ReadTaxonomy "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/taxa/{slug} [get]
+// @Router /v1/taxonomies/{slug} [get]
 func (h *Handler) GetTaxonomyHandler(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -114,7 +114,7 @@ func (h *Handler) GetTaxonomyHandler(c *gin.Context) {
 // @Param slug path string true "Taxonomy slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/taxa/{slug} [delete]
+// @Router /v1/taxonomies/{slug} [delete]
 // @Security Bearer
 func (h *Handler) DeleteTaxonomyHandler(c *gin.Context) {
 	slug := c.Param("slug")
@@ -141,7 +141,7 @@ func (h *Handler) DeleteTaxonomyHandler(c *gin.Context) {
 // @Param params query structs.ListTaxonomyParams true "ListTaxonomyParams object"
 // @Success 200 {array} structs.ReadTaxonomy "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/taxa [get]
+// @Router /v1/taxonomies [get]
 func (h *Handler) ListTaxonomyHandler(c *gin.Context) {
 	params := &structs.ListTaxonomyParams{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
