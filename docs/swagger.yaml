@@ -544,25 +544,6 @@ definitions:
       updated_by:
         type: string
     type: object
-  structs.ReadUser:
-    properties:
-      groups:
-        items:
-          $ref: '#/definitions/structs.ReadGroup'
-        type: array
-      profile:
-        $ref: '#/definitions/structs.UserProfileBody'
-      roles:
-        items:
-          $ref: '#/definitions/structs.ReadRole'
-        type: array
-      tenants:
-        items:
-          $ref: '#/definitions/structs.ReadTenant'
-        type: array
-      user:
-        $ref: '#/definitions/structs.UserBody'
-    type: object
   structs.RegisterBody:
     properties:
       display_name:
@@ -828,6 +809,25 @@ definitions:
       username:
         type: string
     type: object
+  structs.UserMeshes:
+    properties:
+      groups:
+        items:
+          $ref: '#/definitions/structs.ReadGroup'
+        type: array
+      profile:
+        $ref: '#/definitions/structs.UserProfileBody'
+      roles:
+        items:
+          $ref: '#/definitions/structs.ReadRole'
+        type: array
+      tenants:
+        items:
+          $ref: '#/definitions/structs.ReadTenant'
+        type: array
+      user:
+        $ref: '#/definitions/structs.UserBody'
+    type: object
   structs.UserPassword:
     properties:
       confirm:
@@ -888,7 +888,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadUser'
+            $ref: '#/definitions/structs.UserMeshes'
         "400":
           description: bad request
           schema:
@@ -2575,7 +2575,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadUser'
+            $ref: '#/definitions/structs.UserMeshes'
         "400":
           description: bad request
           schema:

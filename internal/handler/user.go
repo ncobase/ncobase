@@ -15,7 +15,7 @@ import (
 // @Tags user
 // @Produce json
 // @Param username path string true "Username"
-// @Success 200 {object} structs.ReadUser "success"
+// @Success 200 {object} structs.UserMeshes "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/users/{username} [get]
 func (h *Handler) GetUserHandler(c *gin.Context) {
@@ -33,7 +33,7 @@ func (h *Handler) GetUserHandler(c *gin.Context) {
 // @Description Retrieve information about the current user.
 // @Tags account
 // @Produce json
-// @Success 200 {object} structs.ReadUser "success"
+// @Success 200 {object} structs.UserMeshes "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/account [get]
 // @Security Bearer

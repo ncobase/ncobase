@@ -54,7 +54,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadUser"
+                            "$ref": "#/definitions/structs.UserMeshes"
                         }
                     },
                     "400": {
@@ -2739,7 +2739,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadUser"
+                            "$ref": "#/definitions/structs.UserMeshes"
                         }
                     },
                     "400": {
@@ -3614,35 +3614,6 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadUser": {
-            "type": "object",
-            "properties": {
-                "groups": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadGroup"
-                    }
-                },
-                "profile": {
-                    "$ref": "#/definitions/structs.UserProfileBody"
-                },
-                "roles": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadRole"
-                    }
-                },
-                "tenants": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadTenant"
-                    }
-                },
-                "user": {
-                    "$ref": "#/definitions/structs.UserBody"
-                }
-            }
-        },
         "structs.RegisterBody": {
             "type": "object",
             "required": [
@@ -4041,6 +4012,35 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.UserMeshes": {
+            "type": "object",
+            "properties": {
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadGroup"
+                    }
+                },
+                "profile": {
+                    "$ref": "#/definitions/structs.UserProfileBody"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadRole"
+                    }
+                },
+                "tenants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadTenant"
+                    }
+                },
+                "user": {
+                    "$ref": "#/definitions/structs.UserBody"
                 }
             }
         },
