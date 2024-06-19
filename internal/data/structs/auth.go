@@ -1,6 +1,6 @@
 package structs
 
-import "ncobase/common/oauth"
+import "github.com/ncobase/common/oauth"
 
 // SendCodeBody Send verify code body
 type SendCodeBody struct {

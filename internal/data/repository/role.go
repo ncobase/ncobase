@@ -3,14 +3,15 @@ package repo
 import (
 	"context"
 	"fmt"
-	"ncobase/common/cache"
-	"ncobase/common/log"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/internal/data"
 	"ncobase/internal/data/ent"
 	roleEnt "ncobase/internal/data/ent/role"
 	"ncobase/internal/data/structs"
+
+	"github.com/ncobase/common/cache"
+	"github.com/ncobase/common/log"
+	"github.com/ncobase/common/types"
+	"github.com/ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )

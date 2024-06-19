@@ -2,8 +2,9 @@ package helper
 
 import (
 	"fmt"
-	"ncobase/common/config"
 	"strconv"
+
+	"github.com/ncobase/common/config"
 )
 
 // GetHost constructs the URL based on the given tenant and config, with an optional port.

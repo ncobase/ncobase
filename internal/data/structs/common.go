@@ -1,8 +1,9 @@
 package structs
 
 import (
-	"ncobase/common/validator"
 	"time"
+
+	"github.com/ncobase/common/validator"
 )
 
 // Validate is a wrapper around validator.Validate that returns a map of JSON field names to friendly error messages.

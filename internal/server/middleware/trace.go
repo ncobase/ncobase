@@ -1,8 +1,9 @@
 package middleware
 
 import (
-	"ncobase/common/log"
 	"ncobase/internal/helper"
+
+	"github.com/ncobase/common/log"
 
 	"github.com/gin-gonic/gin"
 )

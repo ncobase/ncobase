@@ -2,12 +2,13 @@ package server
 
 import (
 	"context"
-	"ncobase/common/config"
-	"ncobase/common/log"
 	"ncobase/internal/data"
 	"ncobase/internal/handler"
 	"ncobase/internal/service"
 	"net/http"
+
+	"github.com/ncobase/common/config"
+	"github.com/ncobase/common/log"
 )
 
 // New creates a new server.

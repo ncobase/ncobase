@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"ncobase/common/types"
+	"github.com/ncobase/common/types"
 )
 
 // PermissionBody represents a permission entity.

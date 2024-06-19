@@ -1,8 +1,9 @@
 package structs
 
 import (
-	"ncobase/common/types"
 	"time"
+
+	"github.com/ncobase/common/types"
 )
 
 // ModuleBody represents a module entity.

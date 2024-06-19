@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/common/cache"
-	"ncobase/common/log"
-	"ncobase/common/validator"
 	"ncobase/internal/data"
 	"ncobase/internal/data/ent"
 	taxonomyRelationEnt "ncobase/internal/data/ent/taxonomyrelation"
 	"ncobase/internal/data/structs"
+
+	"github.com/ncobase/common/cache"
+	"github.com/ncobase/common/log"
+	"github.com/ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -2,10 +2,11 @@ package handler
 
 import (
 	"context"
-	"ncobase/common/log"
-	"ncobase/common/oauth"
-	"ncobase/common/resp"
 	"ncobase/internal/service"
+
+	"github.com/ncobase/common/log"
+	"github.com/ncobase/common/oauth"
+	"github.com/ncobase/common/resp"
 
 	"github.com/gin-gonic/gin"
 )

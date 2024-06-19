@@ -2,8 +2,9 @@ package helper
 
 import (
 	"errors"
-	"ncobase/common/email"
-	"ncobase/common/log"
+
+	"github.com/ncobase/common/email"
+	"github.com/ncobase/common/log"
 
 	"github.com/gin-gonic/gin"
 )

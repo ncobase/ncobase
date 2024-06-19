@@ -3,9 +3,10 @@ package middleware
 import (
 	"bytes"
 	"io"
-	"ncobase/common/log"
 	"strings"
 	"time"
+
+	"github.com/ncobase/common/log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
