@@ -49,8 +49,8 @@ type UserTenant struct {
 	TenantID string `json:"tenant_id,omitempty"`
 }
 
-// ReadUser represents the output schema for retrieving a user.
-type ReadUser struct {
+// UserMeshes represents the user meshes.
+type UserMeshes struct {
 	User    *UserBody        `json:"user"`
 	Profile *UserProfileBody `json:"profile,omitempty"`
 	Roles   []*ReadRole      `json:"roles,omitempty"`

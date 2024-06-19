@@ -54,7 +54,7 @@ func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserPass
 	case VerifyPasswordResult:
 		if v.Valid == false {
 			return resp.BadRequest(v.Error), nil
-		} else if v.Valid && v.NeedsPasswordSet == true { // 记录第一次设置密码的日志
+		} else if v.Valid && v.NeedsPasswordSet == true { // print a log for user's first password setting
 			log.Printf(context.Background(), "User %s is setting password for the first time", helper.GetUserID(c))
 		}
 	case error:
@@ -76,14 +76,28 @@ func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserPass
 }
 
 // CreateUserService creates a new user.
-func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserBody) (*resp.Exception, error) {
-	if body.Username == "" {
+func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserMeshes) (*resp.Exception, error) {
+	if body.User != nil && body.User.Username == "" {
 		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
 	}
 
-	user, err := svc.user.Create(ctx, body)
+	user, err := svc.user.Create(ctx, body.User)
 	if exception, err := handleError("User", err); exception != nil {
 		return exception, err
+	}
+
+	if body.Profile != nil {
+		_, err := svc.userProfile.Create(ctx, &structs.UserProfileBody{
+			ID:          user.ID,
+			DisplayName: body.Profile.DisplayName,
+			ShortBio:    body.Profile.ShortBio,
+			About:       body.Profile.About,
+			Thumbnail:   body.Profile.Thumbnail,
+			Links:       body.Profile.Links,
+		})
+		if exception, err := handleError("UserProfile", err); exception != nil {
+			return exception, err
+		}
 	}
 
 	return &resp.Exception{
@@ -360,16 +374,16 @@ func (svc *Service) updateUserPassword(ctx context.Context, body *structs.UserPa
 }
 
 // findUserByID find user by ID
-func (svc *Service) findUserByID(ctx context.Context, id string) (structs.ReadUser, error) {
+func (svc *Service) findUserByID(ctx context.Context, id string) (structs.UserMeshes, error) {
 	user, err := svc.user.GetByID(ctx, id)
 	if err != nil {
-		return structs.ReadUser{}, err
+		return structs.UserMeshes{}, err
 	}
 	return svc.serializeUser(user, &serializeUserParams{WithProfile: true}), nil
 }
 
 // findUser find user by username, email, or phone
-func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.ReadUser, error) {
+func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.UserMeshes, error) {
 	ctx := helper.FromGinContext(c)
 	user, err := svc.user.Find(ctx, &structs.FindUser{
 		Username: m.Username,
@@ -377,7 +391,7 @@ func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.ReadU
 		Phone:    m.Phone,
 	})
 	if err != nil {
-		return structs.ReadUser{}, err
+		return structs.UserMeshes{}, err
 	}
 	return svc.serializeUser(user, &serializeUserParams{WithProfile: true}), nil
 }
@@ -390,9 +404,9 @@ type serializeUserParams struct {
 	WithGroups  bool
 }
 
-func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) structs.ReadUser {
+func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) structs.UserMeshes {
 	ctx := context.Background()
-	readUser := structs.ReadUser{
+	um := structs.UserMeshes{
 		User: &structs.UserBody{
 			ID:          user.ID,
 			Username:    user.Username,
@@ -412,7 +426,7 @@ func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) st
 
 	if params.WithProfile {
 		profile, _ := svc.userProfile.Get(ctx, user.ID)
-		readUser.Profile = &structs.UserProfileBody{
+		um.Profile = &structs.UserProfileBody{
 			DisplayName: profile.DisplayName,
 			ShortBio:    profile.ShortBio,
 			About:       &profile.About,
@@ -424,26 +438,26 @@ func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) st
 	if params.WithTenants {
 		tenants, _ := svc.userTenant.GetTenantsByUserID(ctx, user.ID)
 		for _, tenant := range tenants {
-			readUser.Tenants = append(readUser.Tenants, svc.serializeTenant(tenant))
+			um.Tenants = append(um.Tenants, svc.serializeTenant(tenant))
 		}
 	}
 
 	if params.WithRoles {
-		if len(readUser.Tenants) > 0 {
-			for _, tenant := range readUser.Tenants {
+		if len(um.Tenants) > 0 {
+			for _, tenant := range um.Tenants {
 				roles, _ := svc.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
 				for _, role := range roles {
-					readUser.Roles = append(readUser.Roles, svc.serializeRole(role))
+					um.Roles = append(um.Roles, svc.serializeRole(role))
 				}
 			}
 			// TODO: remove duplicate roles if needed
 			// seenRoles := make(map[string]struct{})
-			// for _, tenant := range readUser.Tenants {
+			// for _, tenant := range um.Tenants {
 			// 	roles, _ := svc.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
 			// 	for _, role := range roles {
 			// 		roleID := role.ID
 			// 		if _, found := seenRoles[roleID]; !found {
-			// 			readUser.Roles = append(readUser.Roles, svc.serializeRole(role))
+			// 			um.Roles = append(um.Roles, svc.serializeRole(role))
 			// 			seenRoles[roleID] = struct{}{}
 			// 		}
 			// 	}
@@ -451,18 +465,18 @@ func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) st
 		} else {
 			roles, _ := svc.userRole.GetRolesByUserID(ctx, user.ID)
 			for _, role := range roles {
-				readUser.Roles = append(readUser.Roles, svc.serializeRole(role))
+				um.Roles = append(um.Roles, svc.serializeRole(role))
 			}
 		}
 	}
 
 	// TODO: group belongs to tenant
-	// if params.WithGroups && len(readUser.Tenants) > 0 {
+	// if params.WithGroups && len(um.Tenants) > 0 {
 	// 	groups, _ := svc.userGroup.GetGroupsByUserID(ctx, user.ID)
 	// 	for _, group := range groups {
-	// 		readUser.Groups = append(readUser.Groups, svc.serializeGroup(group))
+	// 		um.Groups = append(um.Groups, svc.serializeGroup(group))
 	// 	}
 	// }
 
-	return readUser
+	return um
 }
