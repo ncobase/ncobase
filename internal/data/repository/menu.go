@@ -11,6 +11,7 @@ import (
 	"ncobase/internal/data/ent"
 	menuEnt "ncobase/internal/data/ent/menu"
 	"ncobase/internal/data/structs"
+	"net/url"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -28,10 +29,11 @@ type Menu interface {
 
 // menuRepo implements the Menu interface.
 type menuRepo struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Menu]
+	ec          *ent.Client
+	rc          *redis.Client
+	ms          *meili.Client
+	singleCache *cache.Cache[ent.Menu]
+	listCache   *cache.Cache[[]*ent.Menu]
 }
 
 // NewMenu creates a new menu repository.
@@ -39,7 +41,13 @@ func NewMenu(d *data.Data) Menu {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &menuRepo{ec, rc, ms, cache.NewCache[ent.Menu](rc, cache.Key("nb_menu"), true)}
+	return &menuRepo{
+		ec:          ec,
+		rc:          rc,
+		ms:          ms,
+		singleCache: cache.NewCache[ent.Menu](rc, cache.Key("nb_menu_single")),
+		listCache:   cache.NewCache[[]*ent.Menu](rc, cache.Key("nb_menu_list")),
+	}
 }
 
 // Create creates a new menu.
@@ -100,7 +108,6 @@ func (r *menuRepo) Create(ctx context.Context, body *structs.MenuBody) (*ent.Men
 	// Create the menu in Meilisearch index
 	if err = r.ms.IndexDocuments("menus", row); err != nil {
 		log.Errorf(context.Background(), "menuRepo.Create error creating Meilisearch index: %v\n", err)
-		// return nil, err
 	}
 
 	return row, nil
@@ -108,10 +115,9 @@ func (r *menuRepo) Create(ctx context.Context, body *structs.MenuBody) (*ent.Men
 
 // GetTree retrieves the menu tree.
 func (r *menuRepo) GetTree(ctx context.Context, params *structs.FindMenu) ([]*ent.Menu, error) {
-	// use internal get method.
 	subMenuIds := r.getSubMenuIds(ctx, params)
 
-	// create builder.
+	// create builder
 	builder := r.ec.Menu.Query()
 	builder.Where(menuEnt.IDIn(subMenuIds...))
 
@@ -121,7 +127,7 @@ func (r *menuRepo) GetTree(ctx context.Context, params *structs.FindMenu) ([]*en
 	// If multiple menus have the same Order, add secondary sort by CreatedAt.
 	builder.Order(ent.Asc(menuEnt.FieldCreatedAt))
 
-	// execute the builder.
+	// execute the builder
 	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(ctx, "menuRepo.GetTree error: %v", err)
@@ -133,8 +139,13 @@ func (r *menuRepo) GetTree(ctx context.Context, params *structs.FindMenu) ([]*en
 
 // Get retrieves a specific menu.
 func (r *menuRepo) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu, error) {
-	cacheKey := fmt.Sprintf("%s", params.Menu)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
+	cacheParams := url.Values{}
+	if validator.IsNotEmpty(params.Menu) {
+		cacheParams.Set("menu", params.Menu)
+	}
+	cacheKey := cacheParams.Encode()
+
+	if cached, err := r.singleCache.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
@@ -144,7 +155,7 @@ func (r *menuRepo) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu
 		return nil, err
 	}
 
-	if err := r.c.Set(ctx, cacheKey, row); err != nil {
+	if err := r.singleCache.Set(ctx, cacheKey, row); err != nil {
 		log.Errorf(ctx, "menuRepo.Get cache error: %v", err)
 	}
 
@@ -154,7 +165,6 @@ func (r *menuRepo) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu
 // Update updates an existing menu.
 func (r *menuRepo) Update(ctx context.Context, body *structs.UpdateMenuBody) (*ent.Menu, error) {
 	// query the menu.
-	// use internal get method.
 	row, err := r.getMenu(ctx, &structs.FindMenu{
 		Menu: body.ID,
 	})
@@ -216,7 +226,7 @@ func (r *menuRepo) Update(ctx context.Context, body *structs.UpdateMenuBody) (*e
 	}
 
 	cacheKey := fmt.Sprintf("%s", row.ID)
-	if err := r.c.Reset(ctx, cacheKey, row); err != nil {
+	if err := r.singleCache.Reset(ctx, cacheKey, row); err != nil {
 		log.Errorf(ctx, "menuRepo.Update cache error: %v", err)
 	}
 
@@ -225,7 +235,6 @@ func (r *menuRepo) Update(ctx context.Context, body *structs.UpdateMenuBody) (*e
 
 // Delete deletes a menu.
 func (r *menuRepo) Delete(ctx context.Context, params *structs.FindMenu) error {
-
 	// create builder.
 	builder := r.ec.Menu.Delete()
 
@@ -247,7 +256,7 @@ func (r *menuRepo) Delete(ctx context.Context, params *structs.FindMenu) error {
 	}
 
 	cacheKey := fmt.Sprintf("%s", params.Menu)
-	if err := r.c.Delete(ctx, cacheKey); err != nil {
+	if err := r.singleCache.Delete(ctx, cacheKey); err != nil {
 		log.Errorf(ctx, "menuRepo.Delete cache error: %v", err)
 	}
 
@@ -294,7 +303,6 @@ func (r *menuRepo) listBuilder(ctx context.Context, params *structs.ListMenuPara
 	var next *ent.Menu
 	if validator.IsNotEmpty(params.Cursor) {
 		// query the menu.
-		// use internal get method.
 		row, err := r.getMenu(ctx, &structs.FindMenu{
 			Menu:   params.Cursor,
 			Tenant: params.Tenant,
