@@ -7,7 +7,6 @@ import (
 
 // ModuleBody represents a module entity.
 type ModuleBody struct {
-	BaseEntity
 	Name      string     `json:"name,omitempty"`
 	Title     string     `json:"title,omitempty"`
 	Slug      string     `json:"slug,omitempty"`
@@ -18,6 +17,7 @@ type ModuleBody struct {
 	Private   *bool      `json:"private,omitempty"`
 	Status    *int       `json:"status,omitempty"`
 	Released  *time.Time `json:"released,omitempty"`
+	BaseEntity
 }
 
 // CreateModuleBody represents the body for creating or updating a module.
@@ -33,7 +33,6 @@ type UpdateModuleBody struct {
 
 // ReadModule represents the output schema for retrieving a module.
 type ReadModule struct {
-	BaseEntity
 	ID          string      `json:"id"`
 	Slug        string      `json:"slug"`
 	Title       string      `json:"title"`
@@ -47,6 +46,7 @@ type ReadModule struct {
 	Keywords    []string    `json:"keywords"`
 	Description string      `json:"description"`
 	Extras      *types.JSON `json:"extras,omitempty"`
+	BaseEntity
 }
 
 // FindModule represents the parameters for finding a module.

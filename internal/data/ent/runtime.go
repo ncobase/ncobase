@@ -644,6 +644,10 @@ func init() {
 	tenantDescCreatedBy := tenantMixinFields13[0].Descriptor()
 	// tenant.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	tenant.CreatedByValidator = tenantDescCreatedBy.Validators[0].(func(string) error)
+	// tenantDescUpdatedBy is the schema descriptor for updated_by field.
+	tenantDescUpdatedBy := tenantMixinFields13[1].Descriptor()
+	// tenant.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	tenant.UpdatedByValidator = tenantDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantDescCreatedAt is the schema descriptor for created_at field.
 	tenantDescCreatedAt := tenantMixinFields14[0].Descriptor()
 	// tenant.DefaultCreatedAt holds the default value on creation for the created_at field.

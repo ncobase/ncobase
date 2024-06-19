@@ -53,4 +53,7 @@ type UserTenant struct {
 type ReadUser struct {
 	User    *UserBody        `json:"user"`
 	Profile *UserProfileBody `json:"profile,omitempty"`
+	Roles   []*ReadRole      `json:"roles,omitempty"`
+	Tenants []*ReadTenant    `json:"tenants,omitempty"`
+	Groups  []*ReadGroup     `json:"groups,omitempty"`
 }

@@ -13214,6 +13214,7 @@ type TenantMutation struct {
 	disabled      *bool
 	extras        *map[string]interface{}
 	created_by    *string
+	updated_by    *string
 	created_at    *time.Time
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
@@ -13970,6 +13971,55 @@ func (m *TenantMutation) ResetCreatedBy() {
 	delete(m.clearedFields, tenant.FieldCreatedBy)
 }
 
+// SetUpdatedBy sets the "updated_by" field.
+func (m *TenantMutation) SetUpdatedBy(s string) {
+	m.updated_by = &s
+}
+
+// UpdatedBy returns the value of the "updated_by" field in the mutation.
+func (m *TenantMutation) UpdatedBy() (r string, exists bool) {
+	v := m.updated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedBy returns the old "updated_by" field's value of the Tenant entity.
+// If the Tenant object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantMutation) OldUpdatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedBy: %w", err)
+	}
+	return oldValue.UpdatedBy, nil
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (m *TenantMutation) ClearUpdatedBy() {
+	m.updated_by = nil
+	m.clearedFields[tenant.FieldUpdatedBy] = struct{}{}
+}
+
+// UpdatedByCleared returns if the "updated_by" field was cleared in this mutation.
+func (m *TenantMutation) UpdatedByCleared() bool {
+	_, ok := m.clearedFields[tenant.FieldUpdatedBy]
+	return ok
+}
+
+// ResetUpdatedBy resets all changes to the "updated_by" field.
+func (m *TenantMutation) ResetUpdatedBy() {
+	m.updated_by = nil
+	delete(m.clearedFields, tenant.FieldUpdatedBy)
+}
+
 // SetCreatedAt sets the "created_at" field.
 func (m *TenantMutation) SetCreatedAt(t time.Time) {
 	m.created_at = &t
@@ -14102,7 +14152,7 @@ func (m *TenantMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TenantMutation) Fields() []string {
-	fields := make([]string, 0, 15)
+	fields := make([]string, 0, 16)
 	if m.name != nil {
 		fields = append(fields, tenant.FieldName)
 	}
@@ -14141,6 +14191,9 @@ func (m *TenantMutation) Fields() []string {
 	}
 	if m.created_by != nil {
 		fields = append(fields, tenant.FieldCreatedBy)
+	}
+	if m.updated_by != nil {
+		fields = append(fields, tenant.FieldUpdatedBy)
 	}
 	if m.created_at != nil {
 		fields = append(fields, tenant.FieldCreatedAt)
@@ -14182,6 +14235,8 @@ func (m *TenantMutation) Field(name string) (ent.Value, bool) {
 		return m.Extras()
 	case tenant.FieldCreatedBy:
 		return m.CreatedBy()
+	case tenant.FieldUpdatedBy:
+		return m.UpdatedBy()
 	case tenant.FieldCreatedAt:
 		return m.CreatedAt()
 	case tenant.FieldUpdatedAt:
@@ -14221,6 +14276,8 @@ func (m *TenantMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldExtras(ctx)
 	case tenant.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
+	case tenant.FieldUpdatedBy:
+		return m.OldUpdatedBy(ctx)
 	case tenant.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case tenant.FieldUpdatedAt:
@@ -14325,6 +14382,13 @@ func (m *TenantMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCreatedBy(v)
 		return nil
+	case tenant.FieldUpdatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedBy(v)
+		return nil
 	case tenant.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -14420,6 +14484,9 @@ func (m *TenantMutation) ClearedFields() []string {
 	if m.FieldCleared(tenant.FieldCreatedBy) {
 		fields = append(fields, tenant.FieldCreatedBy)
 	}
+	if m.FieldCleared(tenant.FieldUpdatedBy) {
+		fields = append(fields, tenant.FieldUpdatedBy)
+	}
 	if m.FieldCleared(tenant.FieldCreatedAt) {
 		fields = append(fields, tenant.FieldCreatedAt)
 	}
@@ -14476,6 +14543,9 @@ func (m *TenantMutation) ClearField(name string) error {
 	case tenant.FieldCreatedBy:
 		m.ClearCreatedBy()
 		return nil
+	case tenant.FieldUpdatedBy:
+		m.ClearUpdatedBy()
+		return nil
 	case tenant.FieldCreatedAt:
 		m.ClearCreatedAt()
 		return nil
@@ -14528,6 +14598,9 @@ func (m *TenantMutation) ResetField(name string) error {
 		return nil
 	case tenant.FieldCreatedBy:
 		m.ResetCreatedBy()
+		return nil
+	case tenant.FieldUpdatedBy:
+		m.ResetUpdatedBy()
 		return nil
 	case tenant.FieldCreatedAt:
 		m.ResetCreatedAt()

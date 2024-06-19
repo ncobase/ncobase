@@ -6,7 +6,6 @@ import (
 
 // MenuBody represents a menu entity.
 type MenuBody struct {
-	BaseEntity
 	Name     string      `json:"name,omitempty"`
 	Label    string      `json:"label,omitempty"`
 	Slug     string      `json:"slug,omitempty"`
@@ -21,6 +20,7 @@ type MenuBody struct {
 	Extras   *types.JSON `json:"extras,omitempty"`
 	ParentID string      `json:"parent_id,omitempty"`
 	TenantID string      `json:"tenant_id,omitempty"`
+	BaseEntity
 }
 
 // CreateMenuBody represents the body for creating or updating a menu.
@@ -36,7 +36,6 @@ type UpdateMenuBody struct {
 
 // ReadMenu represents the output schema for retrieving a menu.
 type ReadMenu struct {
-	BaseEntity
 	ID       string           `json:"id"`
 	Name     string           `json:"name"`
 	Label    string           `json:"label"`
@@ -53,6 +52,7 @@ type ReadMenu struct {
 	ParentID string           `json:"parent_id,omitempty"`
 	TenantID string           `json:"tenant_id,omitempty"`
 	Children []types.TreeNode `json:"children,omitempty"`
+	BaseEntity
 }
 
 // GetID returns the ID of the menu.

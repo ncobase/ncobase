@@ -15,7 +15,6 @@ type FindTaxonomy struct {
 
 // TaxonomyBody represents the common fields for creating and updating a taxonomy.
 type TaxonomyBody struct {
-	BaseEntity
 	Name        string      `json:"name,omitempty"`
 	Type        string      `json:"type,omitempty"`
 	Slug        string      `json:"slug,omitempty"`
@@ -30,6 +29,7 @@ type TaxonomyBody struct {
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id,omitempty"`
 	TenantID    string      `json:"tenant_id,omitempty"`
+	BaseEntity
 }
 
 // CreateTaxonomyBody represents the body for creating a taxonomy.
@@ -45,7 +45,6 @@ type UpdateTaxonomyBody struct {
 
 // ReadTaxonomy represents the output schema for retrieving a taxonomy.
 type ReadTaxonomy struct {
-	BaseEntity
 	ID          string      `json:"id"`
 	Name        string      `json:"name"`
 	Type        string      `json:"type"`
@@ -61,6 +60,7 @@ type ReadTaxonomy struct {
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id"`
 	TenantID    string      `json:"tenant_id"`
+	BaseEntity
 }
 
 // ListTaxonomyParams represents the query parameters for listing taxonomies.

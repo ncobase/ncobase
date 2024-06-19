@@ -4,7 +4,6 @@ import "ncobase/common/types"
 
 // GroupBody represents a group entity.
 type GroupBody struct {
-	BaseEntity
 	Name        string      `json:"name,omitempty"`
 	Slug        string      `json:"slug,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
@@ -13,6 +12,7 @@ type GroupBody struct {
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    *string     `json:"parent_id,omitempty"`
 	TenantID    *string     `json:"tenant_id,omitempty"`
+	BaseEntity
 }
 
 // CreateGroupBody represents the body for creating or updating a group.
@@ -28,7 +28,6 @@ type UpdateGroupBody struct {
 
 // ReadGroup represents the output schema for retrieving a group.
 type ReadGroup struct {
-	BaseEntity
 	ID          string      `json:"id"`
 	Name        string      `json:"name"`
 	Slug        string      `json:"slug"`
@@ -38,6 +37,7 @@ type ReadGroup struct {
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    *string     `json:"parent_id,omitempty"`
 	TenantID    *string     `json:"tenant_id,omitempty"`
+	BaseEntity
 }
 
 // FindGroup represents the parameters for finding a group.

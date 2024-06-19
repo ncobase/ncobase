@@ -281,6 +281,26 @@ func (tu *TenantUpdate) ClearCreatedBy() *TenantUpdate {
 	return tu
 }
 
+// SetUpdatedBy sets the "updated_by" field.
+func (tu *TenantUpdate) SetUpdatedBy(s string) *TenantUpdate {
+	tu.mutation.SetUpdatedBy(s)
+	return tu
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (tu *TenantUpdate) SetNillableUpdatedBy(s *string) *TenantUpdate {
+	if s != nil {
+		tu.SetUpdatedBy(*s)
+	}
+	return tu
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (tu *TenantUpdate) ClearUpdatedBy() *TenantUpdate {
+	tu.mutation.ClearUpdatedBy()
+	return tu
+}
+
 // SetUpdatedAt sets the "updated_at" field.
 func (tu *TenantUpdate) SetUpdatedAt(t time.Time) *TenantUpdate {
 	tu.mutation.SetUpdatedAt(t)
@@ -339,6 +359,11 @@ func (tu *TenantUpdate) check() error {
 	if v, ok := tu.mutation.CreatedBy(); ok {
 		if err := tenant.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Tenant.created_by": %w`, err)}
+		}
+	}
+	if v, ok := tu.mutation.UpdatedBy(); ok {
+		if err := tenant.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Tenant.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -433,6 +458,12 @@ func (tu *TenantUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if tu.mutation.CreatedByCleared() {
 		_spec.ClearField(tenant.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := tu.mutation.UpdatedBy(); ok {
+		_spec.SetField(tenant.FieldUpdatedBy, field.TypeString, value)
+	}
+	if tu.mutation.UpdatedByCleared() {
+		_spec.ClearField(tenant.FieldUpdatedBy, field.TypeString)
 	}
 	if tu.mutation.CreatedAtCleared() {
 		_spec.ClearField(tenant.FieldCreatedAt, field.TypeTime)
@@ -716,6 +747,26 @@ func (tuo *TenantUpdateOne) ClearCreatedBy() *TenantUpdateOne {
 	return tuo
 }
 
+// SetUpdatedBy sets the "updated_by" field.
+func (tuo *TenantUpdateOne) SetUpdatedBy(s string) *TenantUpdateOne {
+	tuo.mutation.SetUpdatedBy(s)
+	return tuo
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (tuo *TenantUpdateOne) SetNillableUpdatedBy(s *string) *TenantUpdateOne {
+	if s != nil {
+		tuo.SetUpdatedBy(*s)
+	}
+	return tuo
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (tuo *TenantUpdateOne) ClearUpdatedBy() *TenantUpdateOne {
+	tuo.mutation.ClearUpdatedBy()
+	return tuo
+}
+
 // SetUpdatedAt sets the "updated_at" field.
 func (tuo *TenantUpdateOne) SetUpdatedAt(t time.Time) *TenantUpdateOne {
 	tuo.mutation.SetUpdatedAt(t)
@@ -787,6 +838,11 @@ func (tuo *TenantUpdateOne) check() error {
 	if v, ok := tuo.mutation.CreatedBy(); ok {
 		if err := tenant.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Tenant.created_by": %w`, err)}
+		}
+	}
+	if v, ok := tuo.mutation.UpdatedBy(); ok {
+		if err := tenant.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Tenant.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -898,6 +954,12 @@ func (tuo *TenantUpdateOne) sqlSave(ctx context.Context) (_node *Tenant, err err
 	}
 	if tuo.mutation.CreatedByCleared() {
 		_spec.ClearField(tenant.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := tuo.mutation.UpdatedBy(); ok {
+		_spec.SetField(tenant.FieldUpdatedBy, field.TypeString, value)
+	}
+	if tuo.mutation.UpdatedByCleared() {
+		_spec.ClearField(tenant.FieldUpdatedBy, field.TypeString)
 	}
 	if tuo.mutation.CreatedAtCleared() {
 		_spec.ClearField(tenant.FieldCreatedAt, field.TypeTime)
