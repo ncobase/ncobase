@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"ncobase/common/jwt"
-	"ncobase/common/types"
 	"time"
+
+	"github.com/ncobase/common/jwt"
+	"github.com/ncobase/common/types"
 )
 
 // GenerateUserToken generates user access and refresh tokens.

@@ -1,11 +1,12 @@
 package server
 
 import (
-	"ncobase/common/config"
 	"ncobase/internal/handler"
 	"ncobase/internal/helper"
 	"ncobase/internal/server/middleware"
 	"net/http"
+
+	"github.com/ncobase/common/config"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

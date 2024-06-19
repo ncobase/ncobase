@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"ncobase/common/oauth"
-	"ncobase/common/resp"
-	"ncobase/common/types"
+	"github.com/ncobase/common/oauth"
+	"github.com/ncobase/common/resp"
+	"github.com/ncobase/common/types"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
 	"net/http"

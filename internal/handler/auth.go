@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"ncobase/common/cookie"
-	"ncobase/common/resp"
-	"ncobase/common/types"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
 	"path/filepath"
 	"strings"
+
+	"github.com/ncobase/common/cookie"
+	"github.com/ncobase/common/resp"
+	"github.com/ncobase/common/types"
 
 	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"

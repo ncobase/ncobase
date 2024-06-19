@@ -2,7 +2,8 @@ package helper
 
 import (
 	"context"
-	"ncobase/common/config"
+
+	"github.com/ncobase/common/config"
 
 	"github.com/gin-gonic/gin"
 )

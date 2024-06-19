@@ -3,13 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/common/cookie"
-	"ncobase/common/ecode"
-	"ncobase/common/jwt"
-	"ncobase/common/oauth"
-	"ncobase/common/resp"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/internal/data/ent"
 	oauthUserEnt "ncobase/internal/data/ent/oauthuser"
 	userEnt "ncobase/internal/data/ent/user"
@@ -17,6 +10,14 @@ import (
 	"ncobase/internal/helper"
 	"ncobase/internal/server/middleware"
 	"net/http"
+
+	"github.com/ncobase/common/cookie"
+	"github.com/ncobase/common/ecode"
+	"github.com/ncobase/common/jwt"
+	"github.com/ncobase/common/oauth"
+	"github.com/ncobase/common/resp"
+	"github.com/ncobase/common/types"
+	"github.com/ncobase/common/validator"
 
 	match "github.com/alexpantyukhin/go-pattern-match"
 	"github.com/gin-gonic/gin"
