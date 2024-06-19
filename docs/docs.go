@@ -3230,6 +3230,50 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadGroup": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "leader": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.ReadMenu": {
             "type": "object",
             "properties": {
@@ -3345,6 +3389,41 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadRole": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -3471,6 +3550,9 @@ const docTemplate = `{
                 "updated_at": {
                     "type": "string"
                 },
+                "updated_by": {
+                    "type": "string"
+                },
                 "url": {
                     "type": "string"
                 }
@@ -3535,8 +3617,26 @@ const docTemplate = `{
         "structs.ReadUser": {
             "type": "object",
             "properties": {
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadGroup"
+                    }
+                },
                 "profile": {
                     "$ref": "#/definitions/structs.UserProfileBody"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadRole"
+                    }
+                },
+                "tenants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadTenant"
+                    }
                 },
                 "user": {
                     "$ref": "#/definitions/structs.UserBody"

@@ -6,12 +6,12 @@ import (
 
 // RoleBody represents a role entity.
 type RoleBody struct {
-	BaseEntity
 	Name        string      `json:"name,omitempty"`
 	Slug        string      `json:"slug,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
+	BaseEntity
 }
 
 // CreateRoleBody represents the body for creating or updating a role.
@@ -27,13 +27,13 @@ type UpdateRoleBody struct {
 
 // ReadRole represents the output schema for retrieving a role.
 type ReadRole struct {
-	BaseEntity
 	ID          string      `json:"id"`
 	Name        string      `json:"name"`
 	Slug        string      `json:"slug"`
 	Disabled    bool        `json:"disabled"`
 	Description string      `json:"description"`
 	Extras      *types.JSON `json:"extras,omitempty"`
+	BaseEntity
 }
 
 // FindRole represents the parameters for finding a role.

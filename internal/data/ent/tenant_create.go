@@ -194,6 +194,20 @@ func (tc *TenantCreate) SetNillableCreatedBy(s *string) *TenantCreate {
 	return tc
 }
 
+// SetUpdatedBy sets the "updated_by" field.
+func (tc *TenantCreate) SetUpdatedBy(s string) *TenantCreate {
+	tc.mutation.SetUpdatedBy(s)
+	return tc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (tc *TenantCreate) SetNillableUpdatedBy(s *string) *TenantCreate {
+	if s != nil {
+		tc.SetUpdatedBy(*s)
+	}
+	return tc
+}
+
 // SetCreatedAt sets the "created_at" field.
 func (tc *TenantCreate) SetCreatedAt(t time.Time) *TenantCreate {
 	tc.mutation.SetCreatedAt(t)
@@ -307,6 +321,11 @@ func (tc *TenantCreate) check() error {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Tenant.created_by": %w`, err)}
 		}
 	}
+	if v, ok := tc.mutation.UpdatedBy(); ok {
+		if err := tenant.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Tenant.updated_by": %w`, err)}
+		}
+	}
 	if v, ok := tc.mutation.ID(); ok {
 		if err := tenant.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Tenant.id": %w`, err)}
@@ -398,6 +417,10 @@ func (tc *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.CreatedBy(); ok {
 		_spec.SetField(tenant.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
+	}
+	if value, ok := tc.mutation.UpdatedBy(); ok {
+		_spec.SetField(tenant.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
 	}
 	if value, ok := tc.mutation.CreatedAt(); ok {
 		_spec.SetField(tenant.FieldCreatedAt, field.TypeTime, value)

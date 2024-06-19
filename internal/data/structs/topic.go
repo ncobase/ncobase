@@ -13,7 +13,6 @@ type FindTopic struct {
 
 // TopicBody represents the common fields for creating and updating topics.
 type TopicBody struct {
-	BaseEntity
 	Name       string    `json:"name,omitempty"`
 	Title      string    `json:"title,omitempty"`
 	Slug       string    `json:"slug,omitempty"`
@@ -26,6 +25,7 @@ type TopicBody struct {
 	Released   time.Time `json:"released,omitempty"`
 	TaxonomyID string    `json:"taxonomy_id,omitempty"`
 	TenantID   string    `json:"tenant_id,omitempty"`
+	BaseEntity
 }
 
 // CreateTopicBody represents the body for creating a topic.
@@ -41,7 +41,6 @@ type UpdateTopicBody struct {
 
 // ReadTopic represents the output schema for retrieving a topic.
 type ReadTopic struct {
-	BaseEntity
 	ID         string    `json:"id"`
 	Name       string    `json:"name"`
 	Title      string    `json:"title"`
@@ -55,6 +54,7 @@ type ReadTopic struct {
 	Released   time.Time `json:"released"`
 	TaxonomyID string    `json:"taxonomy_id"`
 	TenantID   string    `json:"tenant_id"`
+	BaseEntity
 }
 
 // ListTopicParams represents the parameters for listing topics.

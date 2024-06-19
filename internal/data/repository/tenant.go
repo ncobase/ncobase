@@ -204,8 +204,6 @@ func (r *tenantRepo) Update(ctx context.Context, slug string, updates types.JSON
 			builder.SetOrder(int(value.(float64)))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
-		case "user_id":
-			builder.SetNillableCreatedBy(types.ToPointer(value.(string)))
 		}
 	}
 

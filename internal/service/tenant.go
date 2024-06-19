@@ -32,7 +32,7 @@ func (svc *Service) AccountTenantService(c *gin.Context) (*resp.Exception, error
 
 	// Serialize tenant data and return
 	return &resp.Exception{
-		Data: svc.serializeTenant(c, tenant),
+		Data: svc.serializeTenant(tenant),
 	}, nil
 }
 
@@ -70,7 +70,7 @@ func (svc *Service) UserTenantService(c *gin.Context, username string) (*resp.Ex
 	}
 
 	return &resp.Exception{
-		Data: svc.serializeTenant(c, tenant),
+		Data: svc.serializeTenant(tenant),
 	}, nil
 }
 
@@ -87,7 +87,7 @@ func (svc *Service) CreateTenantService(c *gin.Context, body *structs.CreateTena
 	}
 
 	return &resp.Exception{
-		Data: svc.serializeTenant(c, tenant),
+		Data: svc.serializeTenant(tenant),
 	}, nil
 }
 
@@ -173,7 +173,7 @@ func (svc *Service) GetTenantService(c *gin.Context, id string) (*resp.Exception
 
 	// Serialize tenant data and return
 	return &resp.Exception{
-		Data: svc.serializeTenant(c, tenant),
+		Data: svc.serializeTenant(tenant),
 	}, nil
 }
 
@@ -305,10 +305,11 @@ func (svc *Service) isCreateTenant(ctx context.Context, body *structs.CreateTena
 }
 
 // serializeTenant serialize tenant
-func (svc *Service) serializeTenant(_ *gin.Context, row *ent.Tenant) *structs.ReadTenant {
+func (svc *Service) serializeTenant(row *ent.Tenant) *structs.ReadTenant {
 	return &structs.ReadTenant{
 		ID:          row.ID,
 		Name:        row.Name,
+		Slug:        row.Slug,
 		Title:       row.Title,
 		URL:         row.URL,
 		Logo:        row.Logo,
@@ -319,8 +320,10 @@ func (svc *Service) serializeTenant(_ *gin.Context, row *ent.Tenant) *structs.Re
 		Order:       &row.Order,
 		Disabled:    row.Disabled,
 		Extras:      &row.Extras,
-		CreatedBy:   row.CreatedBy,
-		CreatedAt:   row.CreatedAt,
-		UpdatedAt:   row.UpdatedAt,
+		BaseEntity: structs.BaseEntity{
+			CreatedBy: &row.CreatedBy,
+			CreatedAt: &row.CreatedAt,
+			UpdatedAt: &row.UpdatedAt,
+		},
 	}
 }

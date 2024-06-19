@@ -18,7 +18,13 @@ import (
 
 // GetMeService get current user service
 func (svc *Service) GetMeService(c *gin.Context) (*resp.Exception, error) {
-	return svc.readUser(c, helper.GetUserID(c))
+	user, err := svc.user.GetByID(c, helper.GetUserID(c))
+	if err != nil {
+		return resp.BadRequest(err.Error()), err
+	}
+	return &resp.Exception{
+		Data: svc.serializeUser(user, &serializeUserParams{WithProfile: true, WithRoles: true, WithTenants: true, WithGroups: true}),
+	}, nil
 }
 
 // GetUserService get user service
@@ -93,7 +99,7 @@ func (svc *Service) GetUserByIDService(ctx context.Context, userID string) (*res
 	}
 
 	return &resp.Exception{
-		Data: svc.serializeUser(user),
+		Data: svc.serializeUser(user, &serializeUserParams{WithProfile: true}),
 	}, nil
 }
 
@@ -359,7 +365,7 @@ func (svc *Service) findUserByID(ctx context.Context, id string) (structs.ReadUs
 	if err != nil {
 		return structs.ReadUser{}, err
 	}
-	return svc.serializeUser(user, true), nil
+	return svc.serializeUser(user, &serializeUserParams{WithProfile: true}), nil
 }
 
 // findUser find user by username, email, or phone
@@ -373,11 +379,19 @@ func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.ReadU
 	if err != nil {
 		return structs.ReadUser{}, err
 	}
-	return svc.serializeUser(user, true), nil
+	return svc.serializeUser(user, &serializeUserParams{WithProfile: true}), nil
 }
 
-// serializeUser serialize user
-func (svc *Service) serializeUser(user *ent.User, withProfile ...bool) structs.ReadUser {
+// SerializeParams serialize params
+type serializeUserParams struct {
+	WithProfile bool
+	WithRoles   bool
+	WithTenants bool
+	WithGroups  bool
+}
+
+func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) structs.ReadUser {
+	ctx := context.Background()
 	readUser := structs.ReadUser{
 		User: &structs.UserBody{
 			ID:          user.ID,
@@ -390,8 +404,14 @@ func (svc *Service) serializeUser(user *ent.User, withProfile ...bool) structs.R
 			UpdatedAt:   user.UpdatedAt,
 		},
 	}
-	if len(withProfile) > 0 && withProfile[0] {
-		profile, _ := svc.userProfile.Get(context.Background(), user.ID)
+
+	params := &serializeUserParams{}
+	if len(sp) > 0 {
+		params = sp[0]
+	}
+
+	if params.WithProfile {
+		profile, _ := svc.userProfile.Get(ctx, user.ID)
 		readUser.Profile = &structs.UserProfileBody{
 			DisplayName: profile.DisplayName,
 			ShortBio:    profile.ShortBio,
@@ -400,6 +420,49 @@ func (svc *Service) serializeUser(user *ent.User, withProfile ...bool) structs.R
 			Links:       &profile.Links,
 		}
 	}
+
+	if params.WithTenants {
+		tenants, _ := svc.userTenant.GetTenantsByUserID(ctx, user.ID)
+		for _, tenant := range tenants {
+			readUser.Tenants = append(readUser.Tenants, svc.serializeTenant(tenant))
+		}
+	}
+
+	if params.WithRoles {
+		if len(readUser.Tenants) > 0 {
+			for _, tenant := range readUser.Tenants {
+				roles, _ := svc.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
+				for _, role := range roles {
+					readUser.Roles = append(readUser.Roles, svc.serializeRole(role))
+				}
+			}
+			// TODO: remove duplicate roles if needed
+			// seenRoles := make(map[string]struct{})
+			// for _, tenant := range readUser.Tenants {
+			// 	roles, _ := svc.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
+			// 	for _, role := range roles {
+			// 		roleID := role.ID
+			// 		if _, found := seenRoles[roleID]; !found {
+			// 			readUser.Roles = append(readUser.Roles, svc.serializeRole(role))
+			// 			seenRoles[roleID] = struct{}{}
+			// 		}
+			// 	}
+			// }
+		} else {
+			roles, _ := svc.userRole.GetRolesByUserID(ctx, user.ID)
+			for _, role := range roles {
+				readUser.Roles = append(readUser.Roles, svc.serializeRole(role))
+			}
+		}
+	}
+
+	// TODO: group belongs to tenant
+	// if params.WithGroups && len(readUser.Tenants) > 0 {
+	// 	groups, _ := svc.userGroup.GetGroupsByUserID(ctx, user.ID)
+	// 	for _, group := range groups {
+	// 		readUser.Groups = append(readUser.Groups, svc.serializeGroup(group))
+	// 	}
+	// }
 
 	return readUser
 }

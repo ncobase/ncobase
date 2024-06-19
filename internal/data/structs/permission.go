@@ -6,7 +6,6 @@ import (
 
 // PermissionBody represents a permission entity.
 type PermissionBody struct {
-	BaseEntity
 	Name        string      `json:"name,omitempty"`
 	Action      string      `json:"action,omitempty"`
 	Subject     string      `json:"subject,omitempty"`
@@ -14,6 +13,7 @@ type PermissionBody struct {
 	Default     *bool       `json:"default,omitempty"`
 	Disabled    *bool       `json:"disabled,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
+	BaseEntity
 }
 
 // CreatePermissionBody represents the body for creating a permission.
@@ -29,7 +29,6 @@ type UpdatePermissionBody struct {
 
 // ReadPermission represents the output schema for retrieving a permission.
 type ReadPermission struct {
-	BaseEntity
 	ID          string      `json:"id"`
 	Name        string      `json:"name"`
 	Action      string      `json:"action"`
@@ -38,6 +37,7 @@ type ReadPermission struct {
 	Default     *bool       `json:"default"`
 	Disabled    *bool       `json:"disabled"`
 	Extras      *types.JSON `json:"extras,omitempty"`
+	BaseEntity
 }
 
 // FindPermission represents the parameters for finding a permission.

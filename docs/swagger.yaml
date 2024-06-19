@@ -290,6 +290,35 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.ReadGroup:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      id:
+        type: string
+      leader:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      tenant_id:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.ReadMenu:
     properties:
       children:
@@ -373,6 +402,29 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.ReadRole:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.ReadTaxonomy:
     properties:
       color:
@@ -450,6 +502,8 @@ definitions:
         type: string
       updated_at:
         type: string
+      updated_by:
+        type: string
       url:
         type: string
     type: object
@@ -492,8 +546,20 @@ definitions:
     type: object
   structs.ReadUser:
     properties:
+      groups:
+        items:
+          $ref: '#/definitions/structs.ReadGroup'
+        type: array
       profile:
         $ref: '#/definitions/structs.UserProfileBody'
+      roles:
+        items:
+          $ref: '#/definitions/structs.ReadRole'
+        type: array
+      tenants:
+        items:
+          $ref: '#/definitions/structs.ReadTenant'
+        type: array
       user:
         $ref: '#/definitions/structs.UserBody'
     type: object
