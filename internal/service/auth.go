@@ -16,6 +16,7 @@ import (
 	"github.com/ncobase/common/ecode"
 	"github.com/ncobase/common/email"
 	"github.com/ncobase/common/jwt"
+	"github.com/ncobase/common/log"
 	"github.com/ncobase/common/nanoid"
 	"github.com/ncobase/common/resp"
 	"github.com/ncobase/common/types"
@@ -247,6 +248,7 @@ func (svc *Service) SendCodeService(c *gin.Context, body *structs.SendCodeBody) 
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil
 		}
+		log.Errorf(context.Background(), "send mail error: %v", err)
 		return resp.BadRequest("send mail failed, please try again or contact support"), nil
 	}
 
