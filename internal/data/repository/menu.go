@@ -30,11 +30,10 @@ type Menu interface {
 
 // menuRepo implements the Menu interface.
 type menuRepo struct {
-	ec          *ent.Client
-	rc          *redis.Client
-	ms          *meili.Client
-	singleCache *cache.Cache[ent.Menu]
-	listCache   *cache.Cache[[]*ent.Menu]
+	ec *ent.Client
+	rc *redis.Client
+	ms *meili.Client
+	c  *cache.Cache[ent.Menu]
 }
 
 // NewMenu creates a new menu repository.
@@ -43,11 +42,10 @@ func NewMenu(d *data.Data) Menu {
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &menuRepo{
-		ec:          ec,
-		rc:          rc,
-		ms:          ms,
-		singleCache: cache.NewCache[ent.Menu](rc, cache.Key("nb_menu_single")),
-		listCache:   cache.NewCache[[]*ent.Menu](rc, cache.Key("nb_menu_list")),
+		ec: ec,
+		rc: rc,
+		ms: ms,
+		c:  cache.NewCache[ent.Menu](rc, cache.Key("nb_menu"), false),
 	}
 }
 
@@ -116,17 +114,43 @@ func (r *menuRepo) Create(ctx context.Context, body *structs.MenuBody) (*ent.Men
 
 // GetTree retrieves the menu tree.
 func (r *menuRepo) GetTree(ctx context.Context, params *structs.FindMenu) ([]*ent.Menu, error) {
-	subMenuIds := r.getSubMenuIds(ctx, params)
+	cacheParams := url.Values{}
+	if validator.IsNotEmpty(params.Menu) {
+		cacheParams.Set("menu", params.Menu)
+	}
+	if validator.IsNotEmpty(params.Type) {
+		cacheParams.Set("type", params.Type)
+	}
+	if validator.IsNotEmpty(params.Tenant) {
+		cacheParams.Set("tenant", params.Tenant)
+	}
+	if validator.IsNotEmpty(params.Parent) {
+		cacheParams.Set("parent", params.Parent)
+	}
+	if len(cacheParams) == 0 {
+		cacheParams.Set("menu", "tree")
+	}
+	cacheKey := cacheParams.Encode()
 
-	// create builder
+	// Attempt to retrieve the menu tree from cache
+	var rows []*ent.Menu
+	if err := r.c.GetArray(ctx, cacheKey, &rows); err == nil && len(rows) > 0 {
+		return rows, nil
+	}
+
+	// If not cached, fetch the menu tree from the database
+	subMenuIds := r.getSubMenuIds(ctx, params)
 	builder := r.ec.Menu.Query()
 	builder.Where(menuEnt.IDIn(subMenuIds...))
-
-	// execute query
 	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(ctx, "menuRepo.GetTree error: %v", err)
 		return nil, err
+	}
+
+	// Cache the fetched menu tree
+	if err := r.c.SetArray(ctx, cacheKey, rows, 0); err != nil {
+		log.Errorf(ctx, "menuRepo.GetTree cache error: %v", err)
 	}
 
 	return rows, nil
@@ -140,7 +164,7 @@ func (r *menuRepo) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu
 	}
 	cacheKey := cacheParams.Encode()
 
-	if cached, err := r.singleCache.Get(ctx, cacheKey); err == nil && cached != nil {
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
@@ -150,7 +174,7 @@ func (r *menuRepo) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu
 		return nil, err
 	}
 
-	if err := r.singleCache.Set(ctx, cacheKey, row); err != nil {
+	if err := r.c.Set(ctx, cacheKey, row); err != nil {
 		log.Errorf(ctx, "menuRepo.Get cache error: %v", err)
 	}
 
@@ -221,7 +245,7 @@ func (r *menuRepo) Update(ctx context.Context, body *structs.UpdateMenuBody) (*e
 	}
 
 	cacheKey := fmt.Sprintf("%s", row.ID)
-	if err := r.singleCache.Reset(ctx, cacheKey, row); err != nil {
+	if err := r.c.Set(ctx, cacheKey, row); err != nil {
 		log.Errorf(ctx, "menuRepo.Update cache error: %v", err)
 	}
 
@@ -251,7 +275,7 @@ func (r *menuRepo) Delete(ctx context.Context, params *structs.FindMenu) error {
 	}
 
 	cacheKey := fmt.Sprintf("%s", params.Menu)
-	if err := r.singleCache.Delete(ctx, cacheKey); err != nil {
+	if err := r.c.Delete(ctx, cacheKey); err != nil {
 		log.Errorf(ctx, "menuRepo.Delete cache error: %v", err)
 	}
 
@@ -260,6 +284,27 @@ func (r *menuRepo) Delete(ctx context.Context, params *structs.FindMenu) error {
 
 // List lists menus based on given parameters.
 func (r *menuRepo) List(ctx context.Context, params *structs.ListMenuParams) ([]*ent.Menu, error) {
+	// cacheParams := url.Values{}
+	// if validator.IsNotEmpty(params.Cursor) {
+	// 	cacheParams.Set("cursor", params.Cursor)
+	// }
+	// if validator.IsNotEmpty(params.Tenant) {
+	// 	cacheParams.Set("tenant", params.Tenant)
+	// }
+	// if validator.IsNotEmpty(params.Parent) {
+	// 	cacheParams.Set("parent", params.Parent)
+	// }
+	// if len(cacheParams) == 0 {
+	// 	cacheParams.Set("menu", "list")
+	// }
+	// cacheKey := cacheParams.Encode()
+
+	// // Attempt to retrieve the menu list from cache
+	// var rows []*ent.Menu
+	// if err := r.c.GetArray(ctx, cacheKey, &rows); err == nil && len(rows) > 0 {
+	// 	return rows, nil
+	// }
+
 	// create list builder
 	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
@@ -277,6 +322,11 @@ func (r *menuRepo) List(ctx context.Context, params *structs.ListMenuParams) ([]
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
+
+	// // cache the result
+	// if err := r.c.SetArray(ctx, cacheKey, rows); err != nil {
+	// 	log.Errorf(ctx, "menuRepo.List cache error: %v", err)
+	// }
 
 	return rows, nil
 }

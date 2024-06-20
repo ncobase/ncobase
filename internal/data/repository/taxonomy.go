@@ -44,7 +44,7 @@ func NewTaxonomy(d *data.Data) Taxonomy {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &taxonomyRepo{ec, rc, ms, cache.NewCache[ent.Taxonomy](rc, cache.Key("nb_taxonomy"), true)}
+	return &taxonomyRepo{ec, rc, ms, cache.NewCache[ent.Taxonomy](rc, cache.Key("nb_taxonomy"))}
 }
 
 // Create create taxonomy

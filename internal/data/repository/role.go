@@ -41,7 +41,7 @@ type roleRepo struct {
 func NewRole(d *data.Data) Role {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &roleRepo{ec, rc, cache.NewCache[ent.Role](rc, cache.Key("nb_role"), true)}
+	return &roleRepo{ec, rc, cache.NewCache[ent.Role](rc, cache.Key("nb_role"))}
 }
 
 // Create creates a new role.

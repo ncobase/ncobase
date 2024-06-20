@@ -1,12 +1,13 @@
 package handler
 
 import (
-	"github.com/ncobase/common/oauth"
-	"github.com/ncobase/common/resp"
-	"github.com/ncobase/common/types"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
 	"net/http"
+
+	"github.com/ncobase/common/oauth"
+	"github.com/ncobase/common/resp"
+	"github.com/ncobase/common/types"
 
 	"github.com/gin-gonic/gin"
 )

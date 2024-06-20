@@ -42,7 +42,7 @@ type groupRoleRepo struct {
 func NewGroupRole(d *data.Data) GroupRole {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &groupRoleRepo{ec, rc, cache.NewCache[ent.GroupRole](rc, cache.Key("nb_group_role"), true)}
+	return &groupRoleRepo{ec, rc, cache.NewCache[ent.GroupRole](rc, cache.Key("nb_group_role"))}
 }
 
 // Create group role

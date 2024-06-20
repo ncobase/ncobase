@@ -38,7 +38,7 @@ type taxonomyRelationsRepo struct {
 func NewTaxonomyRelation(d *data.Data) TaxonomyRelation {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &taxonomyRelationsRepo{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, cache.Key("nb_taxonomy_relations"), true)}
+	return &taxonomyRelationsRepo{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, cache.Key("nb_taxonomy_relations"))}
 }
 
 // Create creates a new taxonomy relation.

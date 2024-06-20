@@ -42,7 +42,7 @@ type rolePermissionRepo struct {
 func NewRolePermission(d *data.Data) RolePermission {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &rolePermissionRepo{ec, rc, cache.NewCache[ent.RolePermission](rc, cache.Key("nb_group_role"), true)}
+	return &rolePermissionRepo{ec, rc, cache.NewCache[ent.RolePermission](rc, cache.Key("nb_group_role"))}
 }
 
 // Create role permission

@@ -40,7 +40,7 @@ func NewAsset(d *data.Data) Asset {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &assetRepo{ec, rc, ms, cache.NewCache[ent.Asset](rc, cache.Key("nb_asset"), true)}
+	return &assetRepo{ec, rc, ms, cache.NewCache[ent.Asset](rc, cache.Key("nb_asset"))}
 }
 
 // Create creates an asset.
