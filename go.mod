@@ -2,9 +2,7 @@ module ncobase
 
 go 1.22.3
 
-replace (
-	github.com/ncobase/common => ../common
-)
+replace github.com/ncobase/common => ../common
 
 require (
 	entgo.io/contrib v0.5.0
@@ -19,7 +17,7 @@ require (
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/jinzhu/copier v0.4.0
 	github.com/mattn/go-sqlite3 v1.14.22
-	github.com/ncobase/common v0.0.0-20240619115038-3c959b23e4b2
+	github.com/ncobase/common v0.0.0-20240620021937-2110a886cfca
 	github.com/redis/go-redis/v9 v9.5.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/files v1.0.1
