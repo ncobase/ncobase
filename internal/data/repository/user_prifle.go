@@ -31,7 +31,7 @@ type userProfileRepo struct {
 func NewUserProfile(d *data.Data) UserProfile {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userProfileRepo{ec, rc, cache.NewCache[ent.UserProfile](rc, cache.Key("nb_user_profile"), true)}
+	return &userProfileRepo{ec, rc, cache.NewCache[ent.UserProfile](rc, cache.Key("nb_user_profile"))}
 }
 
 // Create create user profile

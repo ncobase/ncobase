@@ -42,7 +42,7 @@ type userTenantRoleRepo struct {
 func NewUserTenantRole(d *data.Data) UserTenantRole {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userTenantRoleRepo{ec, rc, cache.NewCache[ent.UserTenantRole](rc, cache.Key("nb_user_tenant_role"), true)}
+	return &userTenantRoleRepo{ec, rc, cache.NewCache[ent.UserTenantRole](rc, cache.Key("nb_user_tenant_role"))}
 }
 
 // Create creates a new user tenant role.
