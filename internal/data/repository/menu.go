@@ -122,13 +122,7 @@ func (r *menuRepo) GetTree(ctx context.Context, params *structs.FindMenu) ([]*en
 	builder := r.ec.Menu.Query()
 	builder.Where(menuEnt.IDIn(subMenuIds...))
 
-	// order by order field (ascending)
-	builder.Order(ent.Asc(menuEnt.FieldOrder))
-
-	// If multiple menus have the same Order, add secondary sort by CreatedAt.
-	builder.Order(ent.Asc(menuEnt.FieldCreatedAt))
-
-	// execute the builder
+	// execute query
 	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(ctx, "menuRepo.GetTree error: %v", err)
@@ -400,6 +394,9 @@ func (r *menuRepo) getSubMenuIds(ctx context.Context, params *structs.FindMenu) 
 		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
+	// order by order field(desc)
+	builder.Order(ent.Desc(menuEnt.FieldOrder))
+
 	// Retrieve menu IDs.
 	menuIDs := builder.IDsX(ctx)
 
@@ -413,4 +410,10 @@ func (r *menuRepo) getSubMenuIds(ctx context.Context, params *structs.FindMenu) 
 	subMenuIds = append(subMenuIds, menuIDs...)
 
 	return subMenuIds
+}
+
+// getSubMenuIds - get sub menu ids.
+// internal method.
+func (r *menuRepo) getSubMenuIdsX(ctx context.Context, params *structs.FindMenu) []string {
+	return r.getSubMenuIds(ctx, params)
 }
