@@ -4,7 +4,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
-	"github.com/ncobase/common/nanoid"
+	"ncobase/common/nanoid"
 )
 
 // // PrimaryKey adds primary key field.

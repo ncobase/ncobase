@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ncobase/common/consts"
-	"github.com/ncobase/common/cookie"
-	"github.com/ncobase/common/ecode"
-	"github.com/ncobase/common/jwt"
-	"github.com/ncobase/common/resp"
+	"ncobase/common/consts"
+	"ncobase/common/cookie"
+	"ncobase/common/ecode"
+	"ncobase/common/jwt"
+	"ncobase/common/resp"
 
 	"github.com/gin-gonic/gin"
 )

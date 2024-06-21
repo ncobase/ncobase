@@ -8,11 +8,11 @@ import (
 	assetEnt "ncobase/internal/data/ent/asset"
 	"ncobase/internal/data/structs"
 
-	"github.com/ncobase/common/cache"
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/meili"
-	"github.com/ncobase/common/types"
-	"github.com/ncobase/common/validator"
+	"ncobase/common/cache"
+	"ncobase/common/log"
+	"ncobase/common/meili"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )

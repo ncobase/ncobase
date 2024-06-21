@@ -4,7 +4,7 @@ import (
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
 
-	"github.com/ncobase/common/resp"
+	"ncobase/common/resp"
 
 	"github.com/gin-gonic/gin"
 )

@@ -3,8 +3,8 @@ package helper
 import (
 	"errors"
 
-	"github.com/ncobase/common/email"
-	"github.com/ncobase/common/log"
+	"ncobase/common/email"
+	"ncobase/common/log"
 
 	"github.com/gin-gonic/gin"
 )

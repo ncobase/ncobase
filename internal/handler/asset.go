@@ -12,12 +12,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ncobase/common/ecode"
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/resp"
-	"github.com/ncobase/common/storage"
-	"github.com/ncobase/common/types"
-	"github.com/ncobase/common/validator"
+	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/resp"
+	"ncobase/common/storage"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 
 	"github.com/gin-gonic/gin"
 )

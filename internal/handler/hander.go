@@ -4,9 +4,9 @@ import (
 	"context"
 	"ncobase/internal/service"
 
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/oauth"
-	"github.com/ncobase/common/resp"
+	"ncobase/common/log"
+	"ncobase/common/oauth"
+	"ncobase/common/resp"
 
 	"github.com/gin-gonic/gin"
 )

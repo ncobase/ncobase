@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"github.com/ncobase/common/types"
+	"ncobase/common/types"
 )
 
 // MenuBody represents a menu entity.

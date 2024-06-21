@@ -3,7 +3,7 @@ package structs
 import (
 	"time"
 
-	"github.com/ncobase/common/types"
+	"ncobase/common/types"
 )
 
 // ModuleBody represents a module entity.

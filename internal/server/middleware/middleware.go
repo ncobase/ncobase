@@ -1,6 +1,6 @@
 package middleware
 
-import "github.com/ncobase/common/config"
+import "ncobase/common/config"
 
 var signingKey string
 

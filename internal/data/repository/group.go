@@ -8,10 +8,10 @@ import (
 	groupEnt "ncobase/internal/data/ent/group"
 	"ncobase/internal/data/structs"
 
-	"github.com/ncobase/common/cache"
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/types"
-	"github.com/ncobase/common/validator"
+	"ncobase/common/cache"
+	"ncobase/common/log"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )

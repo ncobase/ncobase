@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ncobase/common/cookie"
-	"github.com/ncobase/common/resp"
-	"github.com/ncobase/common/types"
+	"ncobase/common/cookie"
+	"ncobase/common/resp"
+	"ncobase/common/types"
 
 	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"

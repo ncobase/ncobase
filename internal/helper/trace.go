@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"github.com/ncobase/common/nanoid"
+	"ncobase/common/nanoid"
 
 	"github.com/gin-gonic/gin"
 )

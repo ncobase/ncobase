@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/storage"
+	"ncobase/common/log"
+	"ncobase/common/storage"
 
 	"github.com/casdoor/oss"
 	"github.com/gin-gonic/gin"

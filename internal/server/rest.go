@@ -6,7 +6,7 @@ import (
 	"ncobase/internal/server/middleware"
 	"net/http"
 
-	"github.com/ncobase/common/config"
+	"ncobase/common/config"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

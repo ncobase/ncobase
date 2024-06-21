@@ -9,11 +9,11 @@ import (
 	"ncobase/internal/helper"
 	"strings"
 
-	"github.com/ncobase/common/ecode"
-	"github.com/ncobase/common/resp"
-	"github.com/ncobase/common/slug"
-	"github.com/ncobase/common/types"
-	"github.com/ncobase/common/validator"
+	"ncobase/common/ecode"
+	"ncobase/common/resp"
+	"ncobase/common/slug"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 
 	"github.com/gin-gonic/gin"
 )

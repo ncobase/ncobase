@@ -4,9 +4,9 @@ import (
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
 
-	"github.com/ncobase/common/ecode"
-	"github.com/ncobase/common/resp"
-	"github.com/ncobase/common/types"
+	"ncobase/common/ecode"
+	"ncobase/common/resp"
+	"ncobase/common/types"
 
 	"github.com/gin-gonic/gin"
 )

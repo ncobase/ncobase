@@ -9,10 +9,10 @@ import (
 	"ncobase/internal/data/structs"
 	"net/url"
 
-	"github.com/ncobase/common/cache"
-	"github.com/ncobase/common/crypto"
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/validator"
+	"ncobase/common/cache"
+	"ncobase/common/crypto"
+	"ncobase/common/log"
+	"ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )

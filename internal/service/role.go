@@ -5,8 +5,8 @@ import (
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
 
-	"github.com/ncobase/common/resp"
-	"github.com/ncobase/common/types"
+	"ncobase/common/resp"
+	"ncobase/common/types"
 )
 
 // CreateRoleService creates a new role.

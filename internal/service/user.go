@@ -9,10 +9,10 @@ import (
 	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
 
-	"github.com/ncobase/common/crypto"
-	"github.com/ncobase/common/ecode"
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/resp"
+	"ncobase/common/crypto"
+	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/resp"
 
 	"github.com/gin-gonic/gin"
 )
