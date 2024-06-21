@@ -3,16 +3,15 @@ package repo
 import (
 	"context"
 	"fmt"
+	"ncobase/common/cache"
+	"ncobase/common/log"
+	"ncobase/common/meili"
+	"ncobase/common/validator"
 	"ncobase/internal/data"
 	"ncobase/internal/data/ent"
 	menuEnt "ncobase/internal/data/ent/menu"
 	"ncobase/internal/data/structs"
 	"net/url"
-
-	"ncobase/common/cache"
-	"ncobase/common/log"
-	"ncobase/common/meili"
-	"ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -109,51 +108,32 @@ func (r *menuRepo) Create(ctx context.Context, body *structs.MenuBody) (*ent.Men
 		log.Errorf(context.Background(), "menuRepo.Create error creating Meilisearch index: %v\n", err)
 	}
 
+	// delete cached menu tree
+	// _ = r.c.Delete(ctx, cache.Key("menu=tree"))
+
 	return row, nil
 }
 
 // GetTree retrieves the menu tree.
 func (r *menuRepo) GetTree(ctx context.Context, params *structs.FindMenu) ([]*ent.Menu, error) {
-	cacheParams := url.Values{}
-	if validator.IsNotEmpty(params.Menu) {
-		cacheParams.Set("menu", params.Menu)
-	}
-	if validator.IsNotEmpty(params.Type) {
-		cacheParams.Set("type", params.Type)
-	}
-	if validator.IsNotEmpty(params.Tenant) {
-		cacheParams.Set("tenant", params.Tenant)
-	}
-	if validator.IsNotEmpty(params.Parent) {
-		cacheParams.Set("parent", params.Parent)
-	}
-	if len(cacheParams) == 0 {
-		cacheParams.Set("menu", "tree")
-	}
-	cacheKey := cacheParams.Encode()
-
-	// Attempt to retrieve the menu tree from cache
-	var rows []*ent.Menu
-	if err := r.c.GetArray(ctx, cacheKey, &rows); err == nil && len(rows) > 0 {
-		return rows, nil
-	}
-
-	// If not cached, fetch the menu tree from the database
-	subMenuIds := r.getSubMenuIds(ctx, params)
+	// create builder
 	builder := r.ec.Menu.Query()
-	builder.Where(menuEnt.IDIn(subMenuIds...))
-	rows, err := builder.All(ctx)
-	if err != nil {
-		log.Errorf(ctx, "menuRepo.GetTree error: %v", err)
-		return nil, err
+
+	// set where conditions
+	// if validator.IsNotEmpty(params.Type) {
+	// 	builder.Where(menuEnt.TypeEQ(params.Type))
+	// }
+	if validator.IsNotEmpty(params.Tenant) {
+		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
-	// Cache the fetched menu tree
-	if err := r.c.SetArray(ctx, cacheKey, rows, 0); err != nil {
-		log.Errorf(ctx, "menuRepo.GetTree cache error: %v", err)
+	// handle sub menus
+	if validator.IsNotEmpty(params.Menu) && params.Menu != "root" {
+		return r.getSubMenu(ctx, params.Menu, builder)
 	}
 
-	return rows, nil
+	// execute the builder
+	return r.executeArrayQuery(ctx, builder)
 }
 
 // Get retrieves a specific menu.
@@ -244,10 +224,16 @@ func (r *menuRepo) Update(ctx context.Context, body *structs.UpdateMenuBody) (*e
 		return nil, err
 	}
 
+	// update cache
 	cacheKey := fmt.Sprintf("%s", row.ID)
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
 		log.Errorf(ctx, "menuRepo.Update cache error: %v", err)
 	}
+
+	// delete menu tree cache
+	// if err := r.c.Delete(ctx, "menu=tree"); err != nil {
+	// 	log.Errorf(ctx, "menuRepo.Update cache error: %v", err)
+	// }
 
 	return row, nil
 }
@@ -318,17 +304,7 @@ func (r *menuRepo) List(ctx context.Context, params *structs.ListMenuParams) ([]
 	builder.Order(ent.Desc(menuEnt.FieldOrder))
 
 	// execute the builder.
-	rows, err := builder.All(ctx)
-	if validator.IsNotNil(err) {
-		return nil, err
-	}
-
-	// // cache the result
-	// if err := r.c.SetArray(ctx, cacheKey, rows); err != nil {
-	// 	log.Errorf(ctx, "menuRepo.List cache error: %v", err)
-	// }
-
-	return rows, nil
+	return r.executeArrayQuery(ctx, builder)
 }
 
 // CountX counts menus based on given parameters.
@@ -421,49 +397,26 @@ func (r *menuRepo) getMenu(ctx context.Context, params *structs.FindMenu) (*ent.
 	return row, nil
 }
 
-// getSubMenuIds recursively retrieves sub-menu IDs.
-// Internal method.
-func (r *menuRepo) getSubMenuIds(ctx context.Context, params *structs.FindMenu) []string {
-	var subMenuIds []string
+// getSubMenu - get sub menus.
+func (r *menuRepo) getSubMenu(ctx context.Context, rootID string, builder *ent.MenuQuery) ([]*ent.Menu, error) {
+	// set where conditions
+	builder.Where(
+		menuEnt.Or(
+			menuEnt.ID(rootID),
+			menuEnt.ParentIDHasPrefix(rootID),
+		),
+	)
 
-	// Create a builder to query menu IDs.
-	builder := r.ec.Menu.Query()
-
-	// Build the query based on the parameters.
-	if validator.IsEmpty(params.Menu) || params.Menu == "root" {
-		builder.Where(menuEnt.Or(menuEnt.ParentIDIsNil(), menuEnt.ParentIDEQ("")))
-	} else {
-		builder.Where(menuEnt.ParentIDEQ(params.Menu))
-	}
-
-	if validator.IsNotEmpty(params.Type) {
-		builder.Where(menuEnt.TypeEQ(params.Type))
-	}
-
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
-	}
-
-	// order by order field(desc)
-	builder.Order(ent.Desc(menuEnt.FieldOrder))
-
-	// Retrieve menu IDs.
-	menuIDs := builder.IDsX(ctx)
-
-	// Iterate through each menu ID to get its sub-menu IDs recursively.
-	for _, id := range menuIDs {
-		subIds := r.getSubMenuIds(ctx, &structs.FindMenu{Menu: id, Tenant: params.Tenant})
-		subMenuIds = append(subMenuIds, subIds...)
-	}
-
-	// Include the current menu ID itself in the result.
-	subMenuIds = append(subMenuIds, menuIDs...)
-
-	return subMenuIds
+	// execute the builder
+	return r.executeArrayQuery(ctx, builder)
 }
 
-// getSubMenuIds - get sub menu ids.
-// internal method.
-func (r *menuRepo) getSubMenuIdsX(ctx context.Context, params *structs.FindMenu) []string {
-	return r.getSubMenuIds(ctx, params)
+// executeArrayQuery - execute the builder query and return results.
+func (r *menuRepo) executeArrayQuery(ctx context.Context, builder *ent.MenuQuery) ([]*ent.Menu, error) {
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(ctx, "menuRepo.executeArrayQuery error: %v", err)
+		return nil, err
+	}
+	return rows, nil
 }

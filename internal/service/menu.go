@@ -3,6 +3,7 @@ package service
 import (
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
+	"sort"
 
 	"ncobase/common/ecode"
 	"ncobase/common/resp"
@@ -158,7 +159,7 @@ func (svc *Service) buildMenuTree(menus []*ent.Menu) []*structs.ReadMenu {
 	}
 
 	// Sort menu nodes
-	// sortMenuNodes(menuNodes)
+	sortMenuNodes(menuNodes)
 
 	// Build tree structure
 	tree := types.BuildTree(menuNodes)
@@ -171,32 +172,32 @@ func (svc *Service) buildMenuTree(menus []*ent.Menu) []*structs.ReadMenu {
 	return result
 }
 
-// // sortMenuNodes sorts menu nodes.
-// func sortMenuNodes(menuNodes []types.TreeNode) {
-// 	// Recursively sort children nodes first
-// 	for _, node := range menuNodes {
-// 		children := node.GetChildren()
-// 		sortMenuNodes(children)
-//
-// 		// Sort children and set back to node
-// 		sort.SliceStable(children, func(i, j int) bool {
-// 			nodeI := children[i].(*structs.ReadMenu)
-// 			nodeJ := children[j].(*structs.ReadMenu)
-// 			// if nodeI.Order == nodeJ.Order {
-// 			// 	return nodeI.CreatedAt.Before(types.ToValue(nodeJ.CreatedAt))
-// 			// }
-// 			return nodeI.Order < nodeJ.Order
-// 		})
-// 		node.SetChildren(children)
-// 	}
-//
-// 	// Sort the immediate children of the current level
-// 	sort.SliceStable(menuNodes, func(i, j int) bool {
-// 		nodeI := menuNodes[i].(*structs.ReadMenu)
-// 		nodeJ := menuNodes[j].(*structs.ReadMenu)
-// 		// if nodeI.Order == nodeJ.Order {
-// 		// 	return nodeI.CreatedAt.Before(types.ToValue(nodeJ.CreatedAt))
-// 		// }
-// 		return nodeI.Order < nodeJ.Order
-// 	})
-// }
+// sortMenuNodes sorts menu nodes.
+func sortMenuNodes(menuNodes []types.TreeNode) {
+	// Recursively sort children nodes first
+	for _, node := range menuNodes {
+		children := node.GetChildren()
+		sortMenuNodes(children)
+
+		// Sort children and set back to node
+		sort.SliceStable(children, func(i, j int) bool {
+			nodeI := children[i].(*structs.ReadMenu)
+			nodeJ := children[j].(*structs.ReadMenu)
+			// if nodeI.Order == nodeJ.Order {
+			// 	return nodeI.CreatedAt.Before(types.ToValue(nodeJ.CreatedAt))
+			// }
+			return nodeI.Order < nodeJ.Order
+		})
+		node.SetChildren(children)
+	}
+
+	// Sort the immediate children of the current level
+	sort.SliceStable(menuNodes, func(i, j int) bool {
+		nodeI := menuNodes[i].(*structs.ReadMenu)
+		nodeJ := menuNodes[j].(*structs.ReadMenu)
+		// if nodeI.Order == nodeJ.Order {
+		// 	return nodeI.CreatedAt.Before(types.ToValue(nodeJ.CreatedAt))
+		// }
+		return nodeI.Order < nodeJ.Order
+	})
+}
