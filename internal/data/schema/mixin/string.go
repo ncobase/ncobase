@@ -3,7 +3,7 @@ package mixin
 import (
 	"regexp"
 
-	"github.com/ncobase/common/nanoid"
+	"ncobase/common/nanoid"
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"

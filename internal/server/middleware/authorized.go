@@ -4,8 +4,8 @@ import (
 	"ncobase/internal/helper"
 	"net/http"
 
-	"github.com/ncobase/common/ecode"
-	"github.com/ncobase/common/validator"
+	"ncobase/common/ecode"
+	"ncobase/common/validator"
 
 	"github.com/gin-gonic/gin"
 )

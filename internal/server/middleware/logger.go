@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ncobase/common/log"
+	"ncobase/common/log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"

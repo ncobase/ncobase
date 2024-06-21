@@ -2,7 +2,7 @@ module ncobase
 
 go 1.22.3
 
-replace github.com/ncobase/common => ../common
+replace ncobase/common => ./pkg
 
 require (
 	entgo.io/contrib v0.5.0
@@ -17,13 +17,13 @@ require (
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/jinzhu/copier v0.4.0
 	github.com/mattn/go-sqlite3 v1.14.22
-	github.com/ncobase/common v0.0.0-20240620021937-2110a886cfca
 	github.com/redis/go-redis/v9 v9.5.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
 	github.com/vektah/gqlparser/v2 v2.5.16
+	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
 )
 
 require (
@@ -38,7 +38,7 @@ require (
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
-	github.com/aws/aws-sdk-go v1.54.5 // indirect
+	github.com/aws/aws-sdk-go v1.54.6 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect

@@ -7,9 +7,9 @@ import (
 	casbinRuleEnt "ncobase/internal/data/ent/casbinrule"
 	"ncobase/internal/data/structs"
 
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/types"
-	"github.com/ncobase/common/validator"
+	"ncobase/common/log"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 )
 
 // CasbinRule represents the Casbin rule repository interface.

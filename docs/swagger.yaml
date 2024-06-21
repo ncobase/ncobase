@@ -1,5 +1,5 @@
 definitions:
-  resp.Exception:
+  ncobase_common_resp.Exception:
     properties:
       code:
         description: Business code
@@ -14,6 +14,9 @@ definitions:
       status:
         description: HTTP status
         type: integer
+    type: object
+  ncobase_common_types.JSON:
+    additionalProperties: {}
     type: object
   structs.Captcha:
     properties:
@@ -91,7 +94,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       icon:
         type: string
       keywords:
@@ -130,7 +133,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       keywords:
         items:
           type: string
@@ -206,7 +209,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       hidden:
         type: boolean
       icon:
@@ -265,7 +268,7 @@ definitions:
       endpoint:
         type: string
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       id:
         type: string
       name:
@@ -298,11 +301,11 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       id:
         type: string
       leader:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       name:
         type: string
       parent_id:
@@ -328,7 +331,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       hidden:
         type: boolean
       icon:
@@ -371,7 +374,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       id:
         type: string
       keywords:
@@ -410,7 +413,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       id:
         type: string
       name:
@@ -435,7 +438,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       icon:
         type: string
       id:
@@ -478,7 +481,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       id:
         type: string
       keywords:
@@ -578,7 +581,7 @@ definitions:
       endpoint:
         type: string
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       id:
         type: string
       name:
@@ -609,7 +612,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       hidden:
         type: boolean
       icon:
@@ -687,7 +690,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       icon:
         type: string
       id:
@@ -728,7 +731,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/types.JSON'
+        $ref: '#/definitions/ncobase_common_types.JSON'
       id:
         type: string
       keywords:
@@ -850,15 +853,12 @@ definitions:
         type: string
       links:
         items:
-          $ref: '#/definitions/types.JSON'
+          $ref: '#/definitions/ncobase_common_types.JSON'
         type: array
       short_bio:
         type: string
       thumbnail:
         type: string
-    type: object
-  types.JSON:
-    additionalProperties: {}
     type: object
 info:
   contact: {}
@@ -875,7 +875,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Health status
       tags:
       - root
@@ -892,7 +892,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get current user
@@ -916,11 +916,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Update user password
@@ -939,7 +939,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get current user tenant
@@ -958,7 +958,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get current user tenants
@@ -1004,7 +1004,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: List assets
       tags:
       - assets
@@ -1040,7 +1040,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Create assets
@@ -1063,7 +1063,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Delete asset
@@ -1091,7 +1091,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Get asset
       tags:
       - assets
@@ -1121,7 +1121,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Update asset
@@ -1145,7 +1145,7 @@ paths:
           description: success
           schema:
             allOf:
-            - $ref: '#/definitions/types.JSON'
+            - $ref: '#/definitions/ncobase_common_types.JSON'
             - properties:
                 access_token:
                   type: string
@@ -1159,7 +1159,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Verify code
       tags:
       - authorization
@@ -1183,7 +1183,7 @@ paths:
           description: success
           schema:
             allOf:
-            - $ref: '#/definitions/types.JSON'
+            - $ref: '#/definitions/ncobase_common_types.JSON'
             - properties:
                 registered:
                   type: boolean
@@ -1191,7 +1191,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Send verification code
       tags:
       - authorization
@@ -1214,7 +1214,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Stream captcha
       tags:
       - authentication
@@ -1236,7 +1236,7 @@ paths:
           description: success
           schema:
             allOf:
-            - $ref: '#/definitions/types.JSON'
+            - $ref: '#/definitions/ncobase_common_types.JSON'
             - properties:
                 id:
                   type: string
@@ -1246,7 +1246,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Generate captcha
       tags:
       - authentication
@@ -1269,7 +1269,7 @@ paths:
           description: success
           schema:
             allOf:
-            - $ref: '#/definitions/types.JSON'
+            - $ref: '#/definitions/ncobase_common_types.JSON'
             - properties:
                 message:
                   type: string
@@ -1277,7 +1277,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Validate captcha
       tags:
       - authentication
@@ -1300,7 +1300,7 @@ paths:
           description: success
           schema:
             allOf:
-            - $ref: '#/definitions/types.JSON'
+            - $ref: '#/definitions/ncobase_common_types.JSON'
             - properties:
                 access_token:
                   type: string
@@ -1310,7 +1310,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Login
       tags:
       - authentication
@@ -1323,7 +1323,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Logout
@@ -1366,7 +1366,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List menus
@@ -1393,7 +1393,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Create menu
@@ -1420,7 +1420,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Update menu
@@ -1441,11 +1441,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Delete menu
@@ -1484,7 +1484,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get menu
@@ -1512,7 +1512,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List all modules
@@ -1539,7 +1539,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Create a new module
@@ -1564,7 +1564,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Delete a module by slug or ID
@@ -1588,7 +1588,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get a module by slug or ID
@@ -1620,7 +1620,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Update an existing module
@@ -1643,11 +1643,11 @@ paths:
         "302":
           description: redirect
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: OAuth redirect
       tags:
       - oauth
@@ -1658,11 +1658,11 @@ paths:
         "302":
           description: redirect
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: OAuth callback
       tags:
       - oauth
@@ -1679,11 +1679,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "401":
           description: unauthorized
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Facebook OAuth callback
       tags:
       - oauth
@@ -1700,11 +1700,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "401":
           description: unauthorized
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: GitHub OAuth callback
       tags:
       - oauth
@@ -1717,11 +1717,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Get OAuth profile
       tags:
       - oauth
@@ -1743,11 +1743,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: OAuth register
       tags:
       - oauth
@@ -1794,7 +1794,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List Casbin rules
@@ -1821,7 +1821,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Create Casbin rule
@@ -1842,11 +1842,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Delete Casbin rule
@@ -1870,7 +1870,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get Casbin rule
@@ -1902,7 +1902,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Update Casbin rule
@@ -1927,7 +1927,7 @@ paths:
           description: success
           schema:
             allOf:
-            - $ref: '#/definitions/types.JSON'
+            - $ref: '#/definitions/ncobase_common_types.JSON'
             - properties:
                 access_token:
                   type: string
@@ -1937,7 +1937,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Register
       tags:
       - authentication
@@ -1973,7 +1973,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: List taxonomies
       tags:
       - taxonomy
@@ -1998,7 +1998,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Create taxonomy
@@ -2019,11 +2019,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Delete taxonomy
@@ -2047,7 +2047,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Get taxonomy
       tags:
       - taxonomy
@@ -2077,7 +2077,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Update taxonomy
@@ -2108,7 +2108,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List tenants
@@ -2135,7 +2135,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Create tenant
@@ -2167,7 +2167,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Update tenant
@@ -2188,11 +2188,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Delete tenant
@@ -2216,7 +2216,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get tenant
@@ -2237,11 +2237,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant assets
@@ -2262,11 +2262,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant groups
@@ -2287,11 +2287,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get tenant menu
@@ -2312,11 +2312,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant modules
@@ -2337,11 +2337,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant roles
@@ -2362,11 +2362,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get tenant setting
@@ -2387,11 +2387,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant settings
@@ -2412,11 +2412,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant users
@@ -2450,7 +2450,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: List topics
       tags:
       - topic
@@ -2475,7 +2475,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Create topic
@@ -2496,11 +2496,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Delete topic
@@ -2524,7 +2524,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Get topic
       tags:
       - topic
@@ -2554,7 +2554,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Update topic
@@ -2579,7 +2579,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Get user
       tags:
       - user
@@ -2602,7 +2602,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/resp.Exception'
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
       summary: Get user owned tenant

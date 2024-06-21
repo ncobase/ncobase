@@ -5,9 +5,9 @@ import (
 	"ncobase/internal/helper"
 	"net/http"
 
-	"github.com/ncobase/common/oauth"
-	"github.com/ncobase/common/resp"
-	"github.com/ncobase/common/types"
+	"ncobase/common/oauth"
+	"ncobase/common/resp"
+	"ncobase/common/types"
 
 	"github.com/gin-gonic/gin"
 )

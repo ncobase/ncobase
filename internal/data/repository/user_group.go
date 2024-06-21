@@ -9,8 +9,8 @@ import (
 	userGroupEnt "ncobase/internal/data/ent/usergroup"
 	"ncobase/internal/data/structs"
 
-	"github.com/ncobase/common/cache"
-	"github.com/ncobase/common/log"
+	"ncobase/common/cache"
+	"ncobase/common/log"
 
 	"github.com/redis/go-redis/v9"
 )

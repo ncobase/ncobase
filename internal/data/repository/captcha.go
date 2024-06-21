@@ -5,8 +5,8 @@ import (
 	"ncobase/internal/data"
 	"time"
 
-	"github.com/ncobase/common/cache"
-	"github.com/ncobase/common/types"
+	"ncobase/common/cache"
+	"ncobase/common/types"
 
 	"github.com/redis/go-redis/v9"
 )

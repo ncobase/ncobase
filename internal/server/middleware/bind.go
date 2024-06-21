@@ -4,7 +4,7 @@ import (
 	"context"
 	"ncobase/internal/helper"
 
-	"github.com/ncobase/common/config"
+	"ncobase/common/config"
 
 	"github.com/gin-gonic/gin"
 )

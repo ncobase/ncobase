@@ -6,10 +6,10 @@ import (
 	"ncobase/internal/data/ent"
 	repo "ncobase/internal/data/repository"
 
-	"github.com/ncobase/common/ecode"
-	"github.com/ncobase/common/log"
-	"github.com/ncobase/common/resp"
-	"github.com/ncobase/common/validator"
+	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/resp"
+	"ncobase/common/validator"
 )
 
 // Service represents a service definition.

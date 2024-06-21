@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"github.com/ncobase/common/types"
+	"ncobase/common/types"
 )
 
 // TenantBody represents common fields for a tenant.

@@ -1,7 +1,7 @@
 package mixin
 
 import (
-	"github.com/ncobase/common/types"
+	"ncobase/common/types"
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
