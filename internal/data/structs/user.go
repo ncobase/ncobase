@@ -42,6 +42,7 @@ type UserProfileBody struct {
 	About       *string       `json:"about,omitempty"`
 	Thumbnail   *string       `json:"thumbnail,omitempty"`
 	Links       *[]types.JSON `json:"links,omitempty"`
+	Extras      *types.JSON   `json:"extras,omitempty"`
 }
 
 // UserTenant represents the user tenant.

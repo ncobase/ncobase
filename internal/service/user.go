@@ -95,6 +95,7 @@ func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserMes
 			About:       body.Profile.About,
 			Thumbnail:   body.Profile.Thumbnail,
 			Links:       body.Profile.Links,
+			Extras:      body.Profile.Extras,
 		})
 		if exception, err := handleError("UserProfile", err); exception != nil {
 			return exception, err
@@ -433,6 +434,7 @@ func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) st
 			About:       &profile.About,
 			Thumbnail:   &profile.Thumbnail,
 			Links:       &profile.Links,
+			Extras:      &profile.Extras,
 		}
 	}
 
