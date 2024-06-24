@@ -2976,6 +2976,9 @@ const docTemplate = `{
                 "disabled": {
                     "type": "boolean"
                 },
+                "expired_at": {
+                    "type": "string"
+                },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
@@ -3484,6 +3487,9 @@ const docTemplate = `{
                 "disabled": {
                     "type": "boolean"
                 },
+                "expired_at": {
+                    "type": "string"
+                },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
@@ -3831,6 +3837,9 @@ const docTemplate = `{
                 },
                 "disabled": {
                     "type": "boolean"
+                },
+                "expired_at": {
+                    "type": "string"
                 },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"

@@ -42,6 +42,7 @@ func (Tenant) Mixin() []ent.Mixin {
 		mixin.Disabled,
 		mixin.ExtraProps,
 		mixin.OperatorBy{},
+		mixin.ExpiredAt,
 		mixin.TimeAt{},
 	}
 }

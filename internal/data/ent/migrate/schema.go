@@ -509,6 +509,7 @@ var (
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 11, Comment: "id of the last updater"},
+		{Name: "expired_at", Type: field.TypeTime, Nullable: true, Comment: "expired at"},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
 	}

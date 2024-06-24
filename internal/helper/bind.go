@@ -7,7 +7,7 @@ import (
 )
 
 // ShouldBindAndValidateStruct binds and validates struct
-func ShouldBindAndValidateStruct(c *gin.Context, obj interface{}, lang ...string) (map[string]string, error) {
+func ShouldBindAndValidateStruct(c *gin.Context, obj any, lang ...string) (map[string]string, error) {
 	contentType := c.GetHeader("Content-Type")
 	if contentType == "" {
 		contentType = "application/json;charset=utf-8"

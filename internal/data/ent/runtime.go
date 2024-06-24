@@ -624,8 +624,8 @@ func init() {
 	_ = tenantMixinFields12
 	tenantMixinFields13 := tenantMixin[13].Fields()
 	_ = tenantMixinFields13
-	tenantMixinFields14 := tenantMixin[14].Fields()
-	_ = tenantMixinFields14
+	tenantMixinFields15 := tenantMixin[15].Fields()
+	_ = tenantMixinFields15
 	tenantFields := schema.Tenant{}.Fields()
 	_ = tenantFields
 	// tenantDescOrder is the schema descriptor for order field.
@@ -649,11 +649,11 @@ func init() {
 	// tenant.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	tenant.UpdatedByValidator = tenantDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantDescCreatedAt is the schema descriptor for created_at field.
-	tenantDescCreatedAt := tenantMixinFields14[0].Descriptor()
+	tenantDescCreatedAt := tenantMixinFields15[0].Descriptor()
 	// tenant.DefaultCreatedAt holds the default value on creation for the created_at field.
 	tenant.DefaultCreatedAt = tenantDescCreatedAt.Default.(func() time.Time)
 	// tenantDescUpdatedAt is the schema descriptor for updated_at field.
-	tenantDescUpdatedAt := tenantMixinFields14[1].Descriptor()
+	tenantDescUpdatedAt := tenantMixinFields15[1].Descriptor()
 	// tenant.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	tenant.DefaultUpdatedAt = tenantDescUpdatedAt.Default.(func() time.Time)
 	// tenant.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.

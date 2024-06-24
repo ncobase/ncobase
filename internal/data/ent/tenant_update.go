@@ -301,6 +301,26 @@ func (tu *TenantUpdate) ClearUpdatedBy() *TenantUpdate {
 	return tu
 }
 
+// SetExpiredAt sets the "expired_at" field.
+func (tu *TenantUpdate) SetExpiredAt(t time.Time) *TenantUpdate {
+	tu.mutation.SetExpiredAt(t)
+	return tu
+}
+
+// SetNillableExpiredAt sets the "expired_at" field if the given value is not nil.
+func (tu *TenantUpdate) SetNillableExpiredAt(t *time.Time) *TenantUpdate {
+	if t != nil {
+		tu.SetExpiredAt(*t)
+	}
+	return tu
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (tu *TenantUpdate) ClearExpiredAt() *TenantUpdate {
+	tu.mutation.ClearExpiredAt()
+	return tu
+}
+
 // SetUpdatedAt sets the "updated_at" field.
 func (tu *TenantUpdate) SetUpdatedAt(t time.Time) *TenantUpdate {
 	tu.mutation.SetUpdatedAt(t)
@@ -464,6 +484,12 @@ func (tu *TenantUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if tu.mutation.UpdatedByCleared() {
 		_spec.ClearField(tenant.FieldUpdatedBy, field.TypeString)
+	}
+	if value, ok := tu.mutation.ExpiredAt(); ok {
+		_spec.SetField(tenant.FieldExpiredAt, field.TypeTime, value)
+	}
+	if tu.mutation.ExpiredAtCleared() {
+		_spec.ClearField(tenant.FieldExpiredAt, field.TypeTime)
 	}
 	if tu.mutation.CreatedAtCleared() {
 		_spec.ClearField(tenant.FieldCreatedAt, field.TypeTime)
@@ -767,6 +793,26 @@ func (tuo *TenantUpdateOne) ClearUpdatedBy() *TenantUpdateOne {
 	return tuo
 }
 
+// SetExpiredAt sets the "expired_at" field.
+func (tuo *TenantUpdateOne) SetExpiredAt(t time.Time) *TenantUpdateOne {
+	tuo.mutation.SetExpiredAt(t)
+	return tuo
+}
+
+// SetNillableExpiredAt sets the "expired_at" field if the given value is not nil.
+func (tuo *TenantUpdateOne) SetNillableExpiredAt(t *time.Time) *TenantUpdateOne {
+	if t != nil {
+		tuo.SetExpiredAt(*t)
+	}
+	return tuo
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (tuo *TenantUpdateOne) ClearExpiredAt() *TenantUpdateOne {
+	tuo.mutation.ClearExpiredAt()
+	return tuo
+}
+
 // SetUpdatedAt sets the "updated_at" field.
 func (tuo *TenantUpdateOne) SetUpdatedAt(t time.Time) *TenantUpdateOne {
 	tuo.mutation.SetUpdatedAt(t)
@@ -960,6 +1006,12 @@ func (tuo *TenantUpdateOne) sqlSave(ctx context.Context) (_node *Tenant, err err
 	}
 	if tuo.mutation.UpdatedByCleared() {
 		_spec.ClearField(tenant.FieldUpdatedBy, field.TypeString)
+	}
+	if value, ok := tuo.mutation.ExpiredAt(); ok {
+		_spec.SetField(tenant.FieldExpiredAt, field.TypeTime, value)
+	}
+	if tuo.mutation.ExpiredAtCleared() {
+		_spec.ClearField(tenant.FieldExpiredAt, field.TypeTime)
 	}
 	if tuo.mutation.CreatedAtCleared() {
 		_spec.ClearField(tenant.FieldCreatedAt, field.TypeTime)

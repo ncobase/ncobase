@@ -13215,6 +13215,7 @@ type TenantMutation struct {
 	extras        *map[string]interface{}
 	created_by    *string
 	updated_by    *string
+	expired_at    *time.Time
 	created_at    *time.Time
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
@@ -14020,6 +14021,55 @@ func (m *TenantMutation) ResetUpdatedBy() {
 	delete(m.clearedFields, tenant.FieldUpdatedBy)
 }
 
+// SetExpiredAt sets the "expired_at" field.
+func (m *TenantMutation) SetExpiredAt(t time.Time) {
+	m.expired_at = &t
+}
+
+// ExpiredAt returns the value of the "expired_at" field in the mutation.
+func (m *TenantMutation) ExpiredAt() (r time.Time, exists bool) {
+	v := m.expired_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExpiredAt returns the old "expired_at" field's value of the Tenant entity.
+// If the Tenant object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantMutation) OldExpiredAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExpiredAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExpiredAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExpiredAt: %w", err)
+	}
+	return oldValue.ExpiredAt, nil
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (m *TenantMutation) ClearExpiredAt() {
+	m.expired_at = nil
+	m.clearedFields[tenant.FieldExpiredAt] = struct{}{}
+}
+
+// ExpiredAtCleared returns if the "expired_at" field was cleared in this mutation.
+func (m *TenantMutation) ExpiredAtCleared() bool {
+	_, ok := m.clearedFields[tenant.FieldExpiredAt]
+	return ok
+}
+
+// ResetExpiredAt resets all changes to the "expired_at" field.
+func (m *TenantMutation) ResetExpiredAt() {
+	m.expired_at = nil
+	delete(m.clearedFields, tenant.FieldExpiredAt)
+}
+
 // SetCreatedAt sets the "created_at" field.
 func (m *TenantMutation) SetCreatedAt(t time.Time) {
 	m.created_at = &t
@@ -14152,7 +14202,7 @@ func (m *TenantMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TenantMutation) Fields() []string {
-	fields := make([]string, 0, 16)
+	fields := make([]string, 0, 17)
 	if m.name != nil {
 		fields = append(fields, tenant.FieldName)
 	}
@@ -14194,6 +14244,9 @@ func (m *TenantMutation) Fields() []string {
 	}
 	if m.updated_by != nil {
 		fields = append(fields, tenant.FieldUpdatedBy)
+	}
+	if m.expired_at != nil {
+		fields = append(fields, tenant.FieldExpiredAt)
 	}
 	if m.created_at != nil {
 		fields = append(fields, tenant.FieldCreatedAt)
@@ -14237,6 +14290,8 @@ func (m *TenantMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedBy()
 	case tenant.FieldUpdatedBy:
 		return m.UpdatedBy()
+	case tenant.FieldExpiredAt:
+		return m.ExpiredAt()
 	case tenant.FieldCreatedAt:
 		return m.CreatedAt()
 	case tenant.FieldUpdatedAt:
@@ -14278,6 +14333,8 @@ func (m *TenantMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldCreatedBy(ctx)
 	case tenant.FieldUpdatedBy:
 		return m.OldUpdatedBy(ctx)
+	case tenant.FieldExpiredAt:
+		return m.OldExpiredAt(ctx)
 	case tenant.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case tenant.FieldUpdatedAt:
@@ -14389,6 +14446,13 @@ func (m *TenantMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUpdatedBy(v)
 		return nil
+	case tenant.FieldExpiredAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExpiredAt(v)
+		return nil
 	case tenant.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -14487,6 +14551,9 @@ func (m *TenantMutation) ClearedFields() []string {
 	if m.FieldCleared(tenant.FieldUpdatedBy) {
 		fields = append(fields, tenant.FieldUpdatedBy)
 	}
+	if m.FieldCleared(tenant.FieldExpiredAt) {
+		fields = append(fields, tenant.FieldExpiredAt)
+	}
 	if m.FieldCleared(tenant.FieldCreatedAt) {
 		fields = append(fields, tenant.FieldCreatedAt)
 	}
@@ -14546,6 +14613,9 @@ func (m *TenantMutation) ClearField(name string) error {
 	case tenant.FieldUpdatedBy:
 		m.ClearUpdatedBy()
 		return nil
+	case tenant.FieldExpiredAt:
+		m.ClearExpiredAt()
+		return nil
 	case tenant.FieldCreatedAt:
 		m.ClearCreatedAt()
 		return nil
@@ -14601,6 +14671,9 @@ func (m *TenantMutation) ResetField(name string) error {
 		return nil
 	case tenant.FieldUpdatedBy:
 		m.ResetUpdatedBy()
+		return nil
+	case tenant.FieldExpiredAt:
+		m.ResetExpiredAt()
 		return nil
 	case tenant.FieldCreatedAt:
 		m.ResetCreatedAt()

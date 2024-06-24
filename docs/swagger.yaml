@@ -122,6 +122,8 @@ definitions:
         type: string
       disabled:
         type: boolean
+      expired_at:
+        type: string
       extras:
         $ref: '#/definitions/ncobase_common_types.JSON'
       keywords:
@@ -458,6 +460,8 @@ definitions:
         type: string
       disabled:
         type: boolean
+      expired_at:
+        type: string
       extras:
         $ref: '#/definitions/ncobase_common_types.JSON'
       id:
@@ -688,6 +692,8 @@ definitions:
         type: string
       disabled:
         type: boolean
+      expired_at:
+        type: string
       extras:
         $ref: '#/definitions/ncobase_common_types.JSON'
       id:

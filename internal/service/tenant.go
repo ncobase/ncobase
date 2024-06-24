@@ -319,9 +319,11 @@ func (svc *Service) serializeTenant(row *ent.Tenant) *structs.ReadTenant {
 		Order:       &row.Order,
 		Disabled:    row.Disabled,
 		Extras:      &row.Extras,
+		ExpiredAt:   &row.ExpiredAt,
 		BaseEntity: structs.BaseEntity{
 			CreatedBy: &row.CreatedBy,
 			CreatedAt: &row.CreatedAt,
+			UpdatedBy: &row.UpdatedBy,
 			UpdatedAt: &row.UpdatedAt,
 		},
 	}
