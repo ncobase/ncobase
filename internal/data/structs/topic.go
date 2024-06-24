@@ -25,7 +25,7 @@ type TopicBody struct {
 	Released   time.Time `json:"released,omitempty"`
 	TaxonomyID string    `json:"taxonomy_id,omitempty"`
 	TenantID   string    `json:"tenant_id,omitempty"`
-	BaseEntity
+	OperatorBy
 }
 
 // CreateTopicBody represents the body for creating a topic.

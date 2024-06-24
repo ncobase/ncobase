@@ -72,7 +72,10 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 	}
 
 	if _, err := svc.isCreateTenant(ctx, &structs.CreateTenantBody{
-		TenantBody: structs.TenantBody{Name: body.Tenant, CreatedBy: user.ID},
+		TenantBody: structs.TenantBody{Name: body.Tenant, OperatorBy: structs.OperatorBy{
+			CreatedBy: &user.ID,
+			UpdatedBy: &user.ID,
+		}},
 	}); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil

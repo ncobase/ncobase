@@ -11,7 +11,7 @@ type RoleBody struct {
 	Disabled    bool        `json:"disabled,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
-	BaseEntity
+	OperatorBy
 }
 
 // CreateRoleBody represents the body for creating or updating a role.

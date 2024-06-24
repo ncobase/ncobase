@@ -12,13 +12,13 @@ type TenantBody struct {
 	URL         string      `json:"url,omitempty"`
 	Logo        string      `json:"logo,omitempty"`
 	LogoAlt     string      `json:"logo_alt,omitempty"`
-	Keywords    []string    `json:"keywords,omitempty"`
+	Keywords    string      `json:"keywords,omitempty"`
 	Copyright   string      `json:"copyright,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Order       *int        `json:"order,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
-	CreatedBy   string      `json:"created_by,omitempty"`
+	OperatorBy
 }
 
 // CreateTenantBody represents the body for creating a tenant.
@@ -41,7 +41,7 @@ type ReadTenant struct {
 	URL         string      `json:"url"`
 	Logo        string      `json:"logo"`
 	LogoAlt     string      `json:"logo_alt"`
-	Keywords    []string    `json:"keywords"`
+	Keywords    string      `json:"keywords"`
 	Copyright   string      `json:"copyright"`
 	Description string      `json:"description"`
 	Order       *int        `json:"order"`

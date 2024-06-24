@@ -2873,9 +2873,6 @@ const docTemplate = `{
                 "content": {
                     "type": "string"
                 },
-                "created_at": {
-                    "type": "string"
-                },
                 "created_by": {
                     "type": "string"
                 },
@@ -2906,9 +2903,6 @@ const docTemplate = `{
                 "title": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -2921,9 +2915,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "cover": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -2939,10 +2930,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -2963,9 +2951,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -2995,10 +2980,7 @@ const docTemplate = `{
                     "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "logo": {
                     "type": "string"
@@ -3018,6 +3000,9 @@ const docTemplate = `{
                 "title": {
                     "type": "string"
                 },
+                "updated_by": {
+                    "type": "string"
+                },
                 "url": {
                     "type": "string"
                 }
@@ -3027,9 +3012,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3068,9 +3050,6 @@ const docTemplate = `{
                 "title": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -3097,9 +3076,6 @@ const docTemplate = `{
         "structs.MenuBody": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "type": "string"
-                },
                 "created_by": {
                     "type": "string"
                 },
@@ -3143,9 +3119,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -3362,10 +3335,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "markdown": {
                     "type": "boolean"
@@ -3462,10 +3432,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -3524,10 +3491,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "logo": {
                     "type": "string"
@@ -3659,9 +3623,6 @@ const docTemplate = `{
                 "bucket": {
                     "type": "string"
                 },
-                "created_at": {
-                    "type": "string"
-                },
                 "created_by": {
                     "type": "string"
                 },
@@ -3695,9 +3656,6 @@ const docTemplate = `{
                 "type": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -3706,9 +3664,6 @@ const docTemplate = `{
         "structs.UpdateMenuBody": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "type": "string"
-                },
                 "created_by": {
                     "type": "string"
                 },
@@ -3757,9 +3712,6 @@ const docTemplate = `{
                 "type": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -3769,9 +3721,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3807,9 +3756,6 @@ const docTemplate = `{
                 "title": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -3822,9 +3768,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "cover": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3843,10 +3786,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -3867,9 +3807,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -3902,10 +3839,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "logo": {
                     "type": "string"
@@ -3925,6 +3859,9 @@ const docTemplate = `{
                 "title": {
                     "type": "string"
                 },
+                "updated_by": {
+                    "type": "string"
+                },
                 "url": {
                     "type": "string"
                 }
@@ -3934,9 +3871,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3976,9 +3910,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -4074,6 +4005,9 @@ const docTemplate = `{
                 },
                 "display_name": {
                     "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"

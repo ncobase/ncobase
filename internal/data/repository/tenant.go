@@ -3,18 +3,16 @@ package repo
 import (
 	"context"
 	"fmt"
-	"ncobase/internal/data"
-	"ncobase/internal/data/ent"
-	groupEnt "ncobase/internal/data/ent/group"
-	tenantEnt "ncobase/internal/data/ent/tenant"
-	"ncobase/internal/data/structs"
-	"strings"
-
 	"ncobase/common/cache"
 	"ncobase/common/log"
 	"ncobase/common/meili"
 	"ncobase/common/types"
 	"ncobase/common/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	groupEnt "ncobase/internal/data/ent/group"
+	tenantEnt "ncobase/internal/data/ent/tenant"
+	"ncobase/internal/data/structs"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -61,11 +59,11 @@ func (r *tenantRepo) Create(ctx context.Context, body *structs.CreateTenantBody)
 	builder.SetNillableURL(&body.URL)
 	builder.SetNillableLogo(&body.Logo)
 	builder.SetNillableLogoAlt(&body.LogoAlt)
-	builder.SetKeywords(strings.Join(body.Keywords, ","))
+	builder.SetNillableKeywords(&body.Keywords)
 	builder.SetNillableCopyright(&body.Copyright)
 	builder.SetNillableDescription(&body.Description)
 	builder.SetDisabled(body.Disabled)
-	builder.SetNillableCreatedBy(&body.CreatedBy)
+	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	if !validator.IsNil(body.Order) {
 		builder.SetNillableOrder(body.Order)
@@ -194,7 +192,7 @@ func (r *tenantRepo) Update(ctx context.Context, slug string, updates types.JSON
 		case "logo_alt":
 			builder.SetNillableLogoAlt(types.ToPointer(value.(string)))
 		case "keywords":
-			builder.SetKeywords(strings.Join(value.([]string), ","))
+			builder.SetNillableKeywords(types.ToPointer(value.(string)))
 		case "copyright":
 			builder.SetNillableCopyright(types.ToPointer(value.(string)))
 		case "description":

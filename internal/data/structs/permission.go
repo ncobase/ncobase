@@ -13,7 +13,7 @@ type PermissionBody struct {
 	Default     *bool       `json:"default,omitempty"`
 	Disabled    *bool       `json:"disabled,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
-	BaseEntity
+	OperatorBy
 }
 
 // CreatePermissionBody represents the body for creating a permission.
