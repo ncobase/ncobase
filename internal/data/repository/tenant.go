@@ -64,6 +64,7 @@ func (r *tenantRepo) Create(ctx context.Context, body *structs.CreateTenantBody)
 	builder.SetNillableDescription(&body.Description)
 	builder.SetDisabled(body.Disabled)
 	builder.SetNillableCreatedBy(body.CreatedBy)
+	builder.SetNillableExpiredAt(body.ExpiredAt)
 
 	if !validator.IsNil(body.Order) {
 		builder.SetNillableOrder(body.Order)
@@ -203,6 +204,11 @@ func (r *tenantRepo) Update(ctx context.Context, slug string, updates types.JSON
 			builder.SetOrder(int(value.(float64)))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
+		case "updated_by":
+			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+		case "expired_at":
+			adjustedTime, _ := types.AdjustToEndOfDay(value)
+			builder.SetNillableExpiredAt(adjustedTime)
 		}
 	}
 
@@ -225,11 +231,7 @@ func (r *tenantRepo) Update(ctx context.Context, slug string, updates types.JSON
 		log.Errorf(context.Background(), "tenantRepo.Update cache error: %v\n", err)
 	}
 
-	// doc := types.JSON{}
-	// if err = copier.Copy(doc, row); err != nil {
-	// 	log.Errorf(context.Background(), "tenantRepo.Update error copying data: %v\n", err)
-	// 	// return nil, err
-	// }
+	// Update Meilisearch index
 	if err = r.ms.UpdateDocuments("topics", row, row.ID); err != nil {
 		log.Errorf(context.Background(), "tenantRepo.Update error updating Meilisearch index: %v\n", err)
 	}

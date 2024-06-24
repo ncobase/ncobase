@@ -208,6 +208,20 @@ func (tc *TenantCreate) SetNillableUpdatedBy(s *string) *TenantCreate {
 	return tc
 }
 
+// SetExpiredAt sets the "expired_at" field.
+func (tc *TenantCreate) SetExpiredAt(t time.Time) *TenantCreate {
+	tc.mutation.SetExpiredAt(t)
+	return tc
+}
+
+// SetNillableExpiredAt sets the "expired_at" field if the given value is not nil.
+func (tc *TenantCreate) SetNillableExpiredAt(t *time.Time) *TenantCreate {
+	if t != nil {
+		tc.SetExpiredAt(*t)
+	}
+	return tc
+}
+
 // SetCreatedAt sets the "created_at" field.
 func (tc *TenantCreate) SetCreatedAt(t time.Time) *TenantCreate {
 	tc.mutation.SetCreatedAt(t)
@@ -421,6 +435,10 @@ func (tc *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.UpdatedBy(); ok {
 		_spec.SetField(tenant.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
+	}
+	if value, ok := tc.mutation.ExpiredAt(); ok {
+		_spec.SetField(tenant.FieldExpiredAt, field.TypeTime, value)
+		_node.ExpiredAt = value
 	}
 	if value, ok := tc.mutation.CreatedAt(); ok {
 		_spec.SetField(tenant.FieldCreatedAt, field.TypeTime, value)

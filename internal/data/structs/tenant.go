@@ -2,6 +2,7 @@ package structs
 
 import (
 	"ncobase/common/types"
+	"time"
 )
 
 // TenantBody represents common fields for a tenant.
@@ -18,6 +19,7 @@ type TenantBody struct {
 	Order       *int        `json:"order,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
+	ExpiredAt   *time.Time  `json:"expired_at,omitempty"`
 	OperatorBy
 }
 
@@ -47,6 +49,7 @@ type ReadTenant struct {
 	Order       *int        `json:"order"`
 	Disabled    bool        `json:"disabled"`
 	Extras      *types.JSON `json:"extras,omitempty"`
+	ExpiredAt   *time.Time  `json:"expired_at"`
 	BaseEntity
 }
 

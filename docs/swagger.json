@@ -2968,6 +2968,9 @@
                 "disabled": {
                     "type": "boolean"
                 },
+                "expired_at": {
+                    "type": "string"
+                },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
@@ -3476,6 +3479,9 @@
                 "disabled": {
                     "type": "boolean"
                 },
+                "expired_at": {
+                    "type": "string"
+                },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
@@ -3823,6 +3829,9 @@
                 },
                 "disabled": {
                     "type": "boolean"
+                },
+                "expired_at": {
+                    "type": "string"
                 },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"

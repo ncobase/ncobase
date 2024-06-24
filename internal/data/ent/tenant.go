@@ -47,6 +47,8 @@ type Tenant struct {
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
+	// expired at
+	ExpiredAt time.Time `json:"expired_at,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// updated at
@@ -67,7 +69,7 @@ func (*Tenant) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case tenant.FieldID, tenant.FieldName, tenant.FieldSlug, tenant.FieldTitle, tenant.FieldURL, tenant.FieldLogo, tenant.FieldLogoAlt, tenant.FieldKeywords, tenant.FieldCopyright, tenant.FieldDescription, tenant.FieldCreatedBy, tenant.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case tenant.FieldCreatedAt, tenant.FieldUpdatedAt:
+		case tenant.FieldExpiredAt, tenant.FieldCreatedAt, tenant.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -176,6 +178,12 @@ func (t *Tenant) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.UpdatedBy = value.String
 			}
+		case tenant.FieldExpiredAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field expired_at", values[i])
+			} else if value.Valid {
+				t.ExpiredAt = value.Time
+			}
 		case tenant.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
@@ -265,6 +273,9 @@ func (t *Tenant) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
 	builder.WriteString(t.UpdatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("expired_at=")
+	builder.WriteString(t.ExpiredAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
 	builder.WriteString(t.CreatedAt.Format(time.ANSIC))
