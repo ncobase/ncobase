@@ -25,6 +25,7 @@ type Module interface {
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Module, error)
 	List(ctx context.Context, params *structs.ListModuleParams) ([]*ent.Module, error)
 	Delete(ctx context.Context, slug string) error
+	CountX(ctx context.Context, params *structs.ListModuleParams) int
 }
 
 // moduleRepo implements the Module interface.

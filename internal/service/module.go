@@ -83,7 +83,7 @@ func (svc *Service) ListModulesService(c *gin.Context, params *structs.ListModul
 		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
 	}
 
-	modules, err := svc.module.List(c, params)
+	rows, err := svc.module.List(c, params)
 
 	if ent.IsNotFound(err) {
 		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
@@ -92,7 +92,12 @@ func (svc *Service) ListModulesService(c *gin.Context, params *structs.ListModul
 		return resp.InternalServer(err.Error()), nil
 	}
 
+	total := svc.module.CountX(c, params)
+
 	return &resp.Exception{
-		Data: modules,
+		Data: &types.JSON{
+			"content": rows,
+			"total":   total,
+		},
 	}, nil
 }

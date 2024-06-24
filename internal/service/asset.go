@@ -191,6 +191,7 @@ func (svc *Service) ListAssetsService(c *gin.Context, params *structs.ListAssetP
 	if params.Limit > 100 {
 		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
 	}
+
 	rows, err := svc.asset.List(c, params)
 
 	if ent.IsNotFound(err) {
