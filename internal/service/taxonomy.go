@@ -89,7 +89,7 @@ func (svc *Service) ListTaxonomiesService(c *gin.Context, params *structs.ListTa
 		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
 	}
 
-	taxonomies, err := svc.taxonomy.List(c, params)
+	rows, err := svc.taxonomy.List(c, params)
 
 	if ent.IsNotFound(err) {
 		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
@@ -98,8 +98,13 @@ func (svc *Service) ListTaxonomiesService(c *gin.Context, params *structs.ListTa
 		return resp.InternalServer(err.Error()), nil
 	}
 
+	total := svc.taxonomy.CountX(c, params)
+
 	return &resp.Exception{
-		Data: taxonomies,
+		Data: &types.JSON{
+			"content": rows,
+			"total":   total,
+		},
 	}, nil
 }
 

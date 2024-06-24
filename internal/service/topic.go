@@ -83,7 +83,7 @@ func (svc *Service) ListTopicsService(c *gin.Context, params *structs.ListTopicP
 		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
 	}
 
-	topics, err := svc.topic.List(c, params)
+	rows, err := svc.topic.List(c, params)
 
 	if ent.IsNotFound(err) {
 		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
@@ -92,7 +92,12 @@ func (svc *Service) ListTopicsService(c *gin.Context, params *structs.ListTopicP
 		return resp.InternalServer(err.Error()), nil
 	}
 
+	total := svc.topic.CountX(c, params)
+
 	return &resp.Exception{
-		Data: topics,
+		Data: &types.JSON{
+			"content": rows,
+			"total":   total,
+		},
 	}, nil
 }
