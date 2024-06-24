@@ -4,16 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"ncobase/internal/data/ent"
-	"ncobase/internal/data/structs"
-	"ncobase/internal/helper"
-	"strings"
-
 	"ncobase/common/ecode"
 	"ncobase/common/resp"
 	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
+	"ncobase/internal/data/ent"
+	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
 
 	"github.com/gin-gonic/gin"
 )
@@ -77,8 +75,8 @@ func (svc *Service) UserTenantService(c *gin.Context, username string) (*resp.Ex
 
 // CreateTenantService creates a tenant service.
 func (svc *Service) CreateTenantService(c *gin.Context, body *structs.CreateTenantBody) (*resp.Exception, error) {
-	if body.CreatedBy == "" {
-		body.CreatedBy = helper.GetUserID(c)
+	if body.CreatedBy == nil {
+		body.CreatedBy = types.ToPointer(helper.GetUserID(c))
 	}
 
 	// Create the tenant
@@ -100,8 +98,8 @@ func (svc *Service) UpdateTenantService(c *gin.Context, body *structs.UpdateTena
 	}
 
 	// Check if CreatedBy field is provided and validate user's access to the tenant
-	if body.CreatedBy != "" {
-		_, err := svc.tenant.GetByUser(helper.FromGinContext(c), body.CreatedBy)
+	if body.CreatedBy != nil {
+		_, err := svc.tenant.GetByUser(helper.FromGinContext(c), *body.CreatedBy)
 		if exception, err := handleError("Tenant", err); exception != nil {
 			return exception, err
 		}
@@ -241,19 +239,19 @@ func (svc *Service) createInitialTenant(ctx context.Context, body *structs.Creat
 	}
 
 	// Assign the user to the default tenant with the super admin role
-	_, err = svc.userTenant.Create(ctx, &structs.UserTenant{UserID: body.CreatedBy, TenantID: defaultTenant.ID})
+	_, err = svc.userTenant.Create(ctx, &structs.UserTenant{UserID: *body.CreatedBy, TenantID: defaultTenant.ID})
 	if err != nil {
 		return nil, err
 	}
 
 	// Assign the tenant to the super admin role
-	_, err = svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: body.CreatedBy, RoleID: superAdminRole.ID, TenantID: defaultTenant.ID})
+	_, err = svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: *body.CreatedBy, RoleID: superAdminRole.ID, TenantID: defaultTenant.ID})
 	if err != nil {
 		return nil, err
 	}
 
 	// Assign the super admin role to the user
-	_, err = svc.userRole.Create(ctx, &structs.UserRole{UserID: body.CreatedBy, RoleID: superAdminRole.ID})
+	_, err = svc.userRole.Create(ctx, &structs.UserRole{UserID: *body.CreatedBy, RoleID: superAdminRole.ID})
 	if err != nil {
 		return nil, err
 	}
@@ -263,7 +261,7 @@ func (svc *Service) createInitialTenant(ctx context.Context, body *structs.Creat
 
 // isCreateTenant checks if a tenant needs to be created and initializes tenant, roles, and user relationships if necessary.
 func (svc *Service) isCreateTenant(ctx context.Context, body *structs.CreateTenantBody) (*ent.Tenant, error) {
-	if body.CreatedBy == "" {
+	if body.CreatedBy == nil {
 		return nil, errors.New("invalid user ID")
 	}
 
@@ -286,7 +284,7 @@ func (svc *Service) isCreateTenant(ctx context.Context, body *structs.CreateTena
 	}
 
 	// If there are existing users, check if the user already has a tenant
-	existingTenant, err := svc.tenant.GetByUser(ctx, body.CreatedBy)
+	existingTenant, err := svc.tenant.GetByUser(ctx, *body.CreatedBy)
 	if ent.IsNotFound(err) {
 		// No existing tenant found for the user, proceed with tenant creation
 	} else if err != nil {
@@ -315,7 +313,7 @@ func (svc *Service) serializeTenant(row *ent.Tenant) *structs.ReadTenant {
 		URL:         row.URL,
 		Logo:        row.Logo,
 		LogoAlt:     row.LogoAlt,
-		Keywords:    strings.Split(row.Keywords, ","),
+		Keywords:    row.Keywords,
 		Copyright:   row.Copyright,
 		Description: row.Description,
 		Order:       &row.Order,

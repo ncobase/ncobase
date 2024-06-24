@@ -114,7 +114,10 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 	}
 
 	if _, err := svc.isCreateTenant(ctx, &structs.CreateTenantBody{
-		TenantBody: structs.TenantBody{Name: body.Tenant, CreatedBy: user.ID},
+		TenantBody: structs.TenantBody{Name: body.Tenant, OperatorBy: structs.OperatorBy{
+			CreatedBy: &user.ID,
+			UpdatedBy: &user.ID,
+		}},
 	}); err != nil {
 		return nil, resp.InternalServer(err.Error())
 	}

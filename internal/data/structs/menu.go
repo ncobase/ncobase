@@ -20,7 +20,7 @@ type MenuBody struct {
 	Extras   *types.JSON `json:"extras,omitempty"`
 	ParentID string      `json:"parent_id,omitempty"`
 	TenantID string      `json:"tenant_id,omitempty"`
-	BaseEntity
+	OperatorBy
 }
 
 // CreateMenuBody represents the body for creating or updating a menu.

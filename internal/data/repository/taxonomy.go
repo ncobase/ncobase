@@ -3,17 +3,15 @@ package repo
 import (
 	"context"
 	"fmt"
-	"ncobase/internal/data"
-	"ncobase/internal/data/ent"
-	taxonomyEnt "ncobase/internal/data/ent/taxonomy"
-	"ncobase/internal/data/structs"
-	"strings"
-
 	"ncobase/common/cache"
 	"ncobase/common/log"
 	"ncobase/common/meili"
 	"ncobase/common/types"
 	"ncobase/common/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	taxonomyEnt "ncobase/internal/data/ent/taxonomy"
+	"ncobase/internal/data/structs"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -61,7 +59,7 @@ func (r *taxonomyRepo) Create(ctx context.Context, body *structs.CreateTaxonomyB
 	builder.SetNillableColor(&body.Color)
 	builder.SetNillableIcon(&body.Icon)
 	builder.SetNillableURL(&body.URL)
-	builder.SetKeywords(strings.Join(body.Keywords, ","))
+	builder.SetNillableKeywords(&body.Keywords)
 	builder.SetNillableDescription(&body.Description)
 	builder.SetStatus(body.Status)
 	builder.SetNillableParentID(&body.ParentID)
@@ -178,7 +176,7 @@ func (r *taxonomyRepo) Update(ctx context.Context, slug string, updates types.JS
 		case "url":
 			builder.SetNillableURL(types.ToPointer(value.(string)))
 		case "keywords":
-			builder.SetKeywords(strings.Join(value.([]string), ","))
+			builder.SetNillableKeywords(types.ToPointer(value.(string)))
 		case "description":
 			builder.SetNillableDescription(types.ToPointer(value.(string)))
 		case "status":

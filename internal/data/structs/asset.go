@@ -26,7 +26,7 @@ type AssetBody struct {
 	ObjectID string         `json:"object_id,omitempty"`
 	TenantID string         `json:"tenant_id,omitempty"`
 	Extras   *types.JSON    `json:"extras,omitempty"`
-	BaseEntity
+	OperatorBy
 }
 
 // CreateAssetBody represents the body for creating an asset.

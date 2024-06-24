@@ -54,8 +54,6 @@ definitions:
     properties:
       content:
         type: string
-      created_at:
-        type: string
       created_by:
         type: string
       markdown:
@@ -76,8 +74,6 @@ definitions:
         type: string
       title:
         type: string
-      updated_at:
-        type: string
       updated_by:
         type: string
     type: object
@@ -86,8 +82,6 @@ definitions:
       color:
         type: string
       cover:
-        type: string
-      created_at:
         type: string
       created_by:
         type: string
@@ -98,9 +92,7 @@ definitions:
       icon:
         type: string
       keywords:
-        items:
-          type: string
-        type: array
+        type: string
       name:
         type: string
       parent_id:
@@ -114,8 +106,6 @@ definitions:
       thumbnail:
         type: string
       type:
-        type: string
-      updated_at:
         type: string
       updated_by:
         type: string
@@ -135,9 +125,7 @@ definitions:
       extras:
         $ref: '#/definitions/ncobase_common_types.JSON'
       keywords:
-        items:
-          type: string
-        type: array
+        type: string
       logo:
         type: string
       logo_alt:
@@ -150,14 +138,14 @@ definitions:
         type: string
       title:
         type: string
+      updated_by:
+        type: string
       url:
         type: string
     type: object
   structs.CreateTopicBody:
     properties:
       content:
-        type: string
-      created_at:
         type: string
       created_by:
         type: string
@@ -183,8 +171,6 @@ definitions:
         type: string
       title:
         type: string
-      updated_at:
-        type: string
       updated_by:
         type: string
     type: object
@@ -202,8 +188,6 @@ definitions:
     type: object
   structs.MenuBody:
     properties:
-      created_at:
-        type: string
       created_by:
         type: string
       disabled:
@@ -233,8 +217,6 @@ definitions:
       tenant_id:
         type: string
       type:
-        type: string
-      updated_at:
         type: string
       updated_by:
         type: string
@@ -378,9 +360,7 @@ definitions:
       id:
         type: string
       keywords:
-        items:
-          type: string
-        type: array
+        type: string
       markdown:
         type: boolean
       private:
@@ -444,9 +424,7 @@ definitions:
       id:
         type: string
       keywords:
-        items:
-          type: string
-        type: array
+        type: string
       name:
         type: string
       parent_id:
@@ -485,9 +463,7 @@ definitions:
       id:
         type: string
       keywords:
-        items:
-          type: string
-        type: array
+        type: string
       logo:
         type: string
       logo_alt:
@@ -574,8 +550,6 @@ definitions:
     properties:
       bucket:
         type: string
-      created_at:
-        type: string
       created_by:
         type: string
       endpoint:
@@ -598,15 +572,11 @@ definitions:
         type: string
       type:
         type: string
-      updated_at:
-        type: string
       updated_by:
         type: string
     type: object
   structs.UpdateMenuBody:
     properties:
-      created_at:
-        type: string
       created_by:
         type: string
       disabled:
@@ -639,16 +609,12 @@ definitions:
         type: string
       type:
         type: string
-      updated_at:
-        type: string
       updated_by:
         type: string
     type: object
   structs.UpdateModuleBody:
     properties:
       content:
-        type: string
-      created_at:
         type: string
       created_by:
         type: string
@@ -672,8 +638,6 @@ definitions:
         type: string
       title:
         type: string
-      updated_at:
-        type: string
       updated_by:
         type: string
     type: object
@@ -682,8 +646,6 @@ definitions:
       color:
         type: string
       cover:
-        type: string
-      created_at:
         type: string
       created_by:
         type: string
@@ -696,9 +658,7 @@ definitions:
       id:
         type: string
       keywords:
-        items:
-          type: string
-        type: array
+        type: string
       name:
         type: string
       parent_id:
@@ -712,8 +672,6 @@ definitions:
       thumbnail:
         type: string
       type:
-        type: string
-      updated_at:
         type: string
       updated_by:
         type: string
@@ -735,9 +693,7 @@ definitions:
       id:
         type: string
       keywords:
-        items:
-          type: string
-        type: array
+        type: string
       logo:
         type: string
       logo_alt:
@@ -750,14 +706,14 @@ definitions:
         type: string
       title:
         type: string
+      updated_by:
+        type: string
       url:
         type: string
     type: object
   structs.UpdateTopicBody:
     properties:
       content:
-        type: string
-      created_at:
         type: string
       created_by:
         type: string
@@ -784,8 +740,6 @@ definitions:
       thumbnail:
         type: string
       title:
-        type: string
-      updated_at:
         type: string
       updated_by:
         type: string
@@ -849,6 +803,8 @@ definitions:
         type: string
       display_name:
         type: string
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
       id:
         type: string
       links:

@@ -2865,9 +2865,6 @@
                 "content": {
                     "type": "string"
                 },
-                "created_at": {
-                    "type": "string"
-                },
                 "created_by": {
                     "type": "string"
                 },
@@ -2898,9 +2895,6 @@
                 "title": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -2913,9 +2907,6 @@
                     "type": "string"
                 },
                 "cover": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -2931,10 +2922,7 @@
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -2955,9 +2943,6 @@
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -2987,10 +2972,7 @@
                     "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "logo": {
                     "type": "string"
@@ -3010,6 +2992,9 @@
                 "title": {
                     "type": "string"
                 },
+                "updated_by": {
+                    "type": "string"
+                },
                 "url": {
                     "type": "string"
                 }
@@ -3019,9 +3004,6 @@
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3060,9 +3042,6 @@
                 "title": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -3089,9 +3068,6 @@
         "structs.MenuBody": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "type": "string"
-                },
                 "created_by": {
                     "type": "string"
                 },
@@ -3135,9 +3111,6 @@
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -3354,10 +3327,7 @@
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "markdown": {
                     "type": "boolean"
@@ -3454,10 +3424,7 @@
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -3516,10 +3483,7 @@
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "logo": {
                     "type": "string"
@@ -3651,9 +3615,6 @@
                 "bucket": {
                     "type": "string"
                 },
-                "created_at": {
-                    "type": "string"
-                },
                 "created_by": {
                     "type": "string"
                 },
@@ -3687,9 +3648,6 @@
                 "type": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -3698,9 +3656,6 @@
         "structs.UpdateMenuBody": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "type": "string"
-                },
                 "created_by": {
                     "type": "string"
                 },
@@ -3749,9 +3704,6 @@
                 "type": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -3761,9 +3713,6 @@
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3799,9 +3748,6 @@
                 "title": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "string"
-                },
                 "updated_by": {
                     "type": "string"
                 }
@@ -3814,9 +3760,6 @@
                     "type": "string"
                 },
                 "cover": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3835,10 +3778,7 @@
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -3859,9 +3799,6 @@
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -3894,10 +3831,7 @@
                     "type": "string"
                 },
                 "keywords": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "logo": {
                     "type": "string"
@@ -3917,6 +3851,9 @@
                 "title": {
                     "type": "string"
                 },
+                "updated_by": {
+                    "type": "string"
+                },
                 "url": {
                     "type": "string"
                 }
@@ -3926,9 +3863,6 @@
             "type": "object",
             "properties": {
                 "content": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "created_by": {
@@ -3968,9 +3902,6 @@
                     "type": "string"
                 },
                 "title": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -4066,6 +3997,9 @@
                 },
                 "display_name": {
                     "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"

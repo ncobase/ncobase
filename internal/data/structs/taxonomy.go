@@ -24,13 +24,13 @@ type TaxonomyBody struct {
 	Color       string      `json:"color,omitempty"`
 	Icon        string      `json:"icon,omitempty"`
 	URL         string      `json:"url,omitempty"`
-	Keywords    []string    `json:"keywords,omitempty"`
+	Keywords    string      `json:"keywords,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Status      int         `json:"status,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    string      `json:"parent_id,omitempty"`
 	TenantID    string      `json:"tenant_id,omitempty"`
-	BaseEntity
+	OperatorBy
 }
 
 // CreateTaxonomyBody represents the body for creating a taxonomy.
@@ -55,7 +55,7 @@ type ReadTaxonomy struct {
 	Color       string      `json:"color"`
 	Icon        string      `json:"icon"`
 	URL         string      `json:"url"`
-	Keywords    []string    `json:"keywords"`
+	Keywords    string      `json:"keywords"`
 	Description string      `json:"description"`
 	Status      int         `json:"status"`
 	Extras      *types.JSON `json:"extras,omitempty"`

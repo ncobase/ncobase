@@ -18,7 +18,7 @@ type ModuleBody struct {
 	Private   *bool      `json:"private,omitempty"`
 	Status    *int       `json:"status,omitempty"`
 	Released  *time.Time `json:"released,omitempty"`
-	BaseEntity
+	OperatorBy
 }
 
 // CreateModuleBody represents the body for creating or updating a module.
@@ -44,7 +44,7 @@ type ReadModule struct {
 	Private     bool        `json:"private"`
 	Status      int         `json:"status"`
 	Released    time.Time   `json:"released"`
-	Keywords    []string    `json:"keywords"`
+	Keywords    string      `json:"keywords"`
 	Description string      `json:"description"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	BaseEntity
