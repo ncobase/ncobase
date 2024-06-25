@@ -121,6 +121,9 @@ func (svc *Service) UpdateTenantService(c *gin.Context, body *structs.UpdateTena
 		return resp.Forbidden("This tenant is not yours"), nil
 	}
 
+	// set updated by
+	body.UpdatedBy = &userID
+
 	// Serialize request body
 	bodyData, err := json.Marshal(body)
 	if err != nil {
