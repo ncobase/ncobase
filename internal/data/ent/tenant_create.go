@@ -48,6 +48,20 @@ func (tc *TenantCreate) SetNillableSlug(s *string) *TenantCreate {
 	return tc
 }
 
+// SetType sets the "type" field.
+func (tc *TenantCreate) SetType(s string) *TenantCreate {
+	tc.mutation.SetType(s)
+	return tc
+}
+
+// SetNillableType sets the "type" field if the given value is not nil.
+func (tc *TenantCreate) SetNillableType(s *string) *TenantCreate {
+	if s != nil {
+		tc.SetType(*s)
+	}
+	return tc
+}
+
 // SetTitle sets the "title" field.
 func (tc *TenantCreate) SetTitle(s string) *TenantCreate {
 	tc.mutation.SetTitle(s)
@@ -387,6 +401,10 @@ func (tc *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.Slug(); ok {
 		_spec.SetField(tenant.FieldSlug, field.TypeString, value)
 		_node.Slug = value
+	}
+	if value, ok := tc.mutation.GetType(); ok {
+		_spec.SetField(tenant.FieldType, field.TypeString, value)
+		_node.Type = value
 	}
 	if value, ok := tc.mutation.Title(); ok {
 		_spec.SetField(tenant.FieldTitle, field.TypeString, value)

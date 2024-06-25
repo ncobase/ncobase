@@ -31,6 +31,7 @@ func (Tenant) Mixin() []ent.Mixin {
 		mixin.PrimaryKey,
 		mixin.Name,
 		mixin.SlugUnique,
+		mixin.Type,
 		mixin.Title,
 		mixin.URL,
 		mixin.Logo,

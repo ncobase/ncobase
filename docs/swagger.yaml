@@ -140,6 +140,8 @@ definitions:
         type: string
       title:
         type: string
+      type:
+        type: string
       updated_by:
         type: string
       url:
@@ -480,6 +482,8 @@ definitions:
         type: string
       title:
         type: string
+      type:
+        type: string
       updated_at:
         type: string
       updated_by:
@@ -711,6 +715,8 @@ definitions:
       slug:
         type: string
       title:
+        type: string
+      type:
         type: string
       updated_by:
         type: string

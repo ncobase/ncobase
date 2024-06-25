@@ -17,6 +17,8 @@ const (
 	FieldName = "name"
 	// FieldSlug holds the string denoting the slug field in the database.
 	FieldSlug = "slug"
+	// FieldType holds the string denoting the type field in the database.
+	FieldType = "type"
 	// FieldTitle holds the string denoting the title field in the database.
 	FieldTitle = "title"
 	// FieldURL holds the string denoting the url field in the database.
@@ -56,6 +58,7 @@ var Columns = []string{
 	FieldID,
 	FieldName,
 	FieldSlug,
+	FieldType,
 	FieldTitle,
 	FieldURL,
 	FieldLogo,
@@ -122,6 +125,11 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 // BySlug orders the results by the slug field.
 func BySlug(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSlug, opts...).ToFunc()
+}
+
+// ByType orders the results by the type field.
+func ByType(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldType, opts...).ToFunc()
 }
 
 // ByTitle orders the results by the title field.

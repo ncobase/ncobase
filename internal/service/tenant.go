@@ -309,6 +309,7 @@ func (svc *Service) serializeTenant(row *ent.Tenant) *structs.ReadTenant {
 		ID:          row.ID,
 		Name:        row.Name,
 		Slug:        row.Slug,
+		Type:        row.Type,
 		Title:       row.Title,
 		URL:         row.URL,
 		Logo:        row.Logo,

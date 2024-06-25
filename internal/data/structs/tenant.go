@@ -9,6 +9,7 @@ import (
 type TenantBody struct {
 	Name        string      `json:"name,omitempty"`
 	Slug        string      `json:"slug,omitempty"`
+	Type        string      `json:"type,omitempty"`
 	Title       string      `json:"title,omitempty"`
 	URL         string      `json:"url,omitempty"`
 	Logo        string      `json:"logo,omitempty"`
@@ -39,6 +40,7 @@ type ReadTenant struct {
 	ID          string      `json:"id"`
 	Name        string      `json:"name"`
 	Slug        string      `json:"slug"`
+	Type        string      `json:"type"`
 	Title       string      `json:"title"`
 	URL         string      `json:"url"`
 	Logo        string      `json:"logo"`
