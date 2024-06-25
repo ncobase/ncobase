@@ -55,6 +55,7 @@ func (r *tenantRepo) Create(ctx context.Context, body *structs.CreateTenantBody)
 	// set values.
 	builder.SetNillableName(&body.Name)
 	builder.SetNillableSlug(&body.Slug)
+	builder.SetNillableType(&body.Type)
 	builder.SetNillableTitle(&body.Title)
 	builder.SetNillableURL(&body.URL)
 	builder.SetNillableLogo(&body.Logo)
@@ -184,6 +185,8 @@ func (r *tenantRepo) Update(ctx context.Context, slug string, updates types.JSON
 			builder.SetNillableName(types.ToPointer(value.(string)))
 		case "slug":
 			builder.SetNillableSlug(types.ToPointer(value.(string)))
+		case "type":
+			builder.SetNillableType(types.ToPointer(value.(string)))
 		case "title":
 			builder.SetNillableTitle(types.ToPointer(value.(string)))
 		case "url":

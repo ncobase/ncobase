@@ -497,6 +497,7 @@ var (
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 11, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
 		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
 		{Name: "logo", Type: field.TypeString, Nullable: true, Comment: "logo"},

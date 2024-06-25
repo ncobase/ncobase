@@ -23,6 +23,8 @@ type Tenant struct {
 	Name string `json:"name,omitempty"`
 	// slug / alias
 	Slug string `json:"slug,omitempty"`
+	// type
+	Type string `json:"type,omitempty"`
 	// title
 	Title string `json:"title,omitempty"`
 	// url, website / link...
@@ -67,7 +69,7 @@ func (*Tenant) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case tenant.FieldOrder:
 			values[i] = new(sql.NullInt64)
-		case tenant.FieldID, tenant.FieldName, tenant.FieldSlug, tenant.FieldTitle, tenant.FieldURL, tenant.FieldLogo, tenant.FieldLogoAlt, tenant.FieldKeywords, tenant.FieldCopyright, tenant.FieldDescription, tenant.FieldCreatedBy, tenant.FieldUpdatedBy:
+		case tenant.FieldID, tenant.FieldName, tenant.FieldSlug, tenant.FieldType, tenant.FieldTitle, tenant.FieldURL, tenant.FieldLogo, tenant.FieldLogoAlt, tenant.FieldKeywords, tenant.FieldCopyright, tenant.FieldDescription, tenant.FieldCreatedBy, tenant.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		case tenant.FieldExpiredAt, tenant.FieldCreatedAt, tenant.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -103,6 +105,12 @@ func (t *Tenant) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field slug", values[i])
 			} else if value.Valid {
 				t.Slug = value.String
+			}
+		case tenant.FieldType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field type", values[i])
+			} else if value.Valid {
+				t.Type = value.String
 			}
 		case tenant.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -237,6 +245,9 @@ func (t *Tenant) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("slug=")
 	builder.WriteString(t.Slug)
+	builder.WriteString(", ")
+	builder.WriteString("type=")
+	builder.WriteString(t.Type)
 	builder.WriteString(", ")
 	builder.WriteString("title=")
 	builder.WriteString(t.Title)

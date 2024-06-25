@@ -13202,6 +13202,7 @@ type TenantMutation struct {
 	id            *string
 	name          *string
 	slug          *string
+	_type         *string
 	title         *string
 	url           *string
 	logo          *string
@@ -13424,6 +13425,55 @@ func (m *TenantMutation) SlugCleared() bool {
 func (m *TenantMutation) ResetSlug() {
 	m.slug = nil
 	delete(m.clearedFields, tenant.FieldSlug)
+}
+
+// SetType sets the "type" field.
+func (m *TenantMutation) SetType(s string) {
+	m._type = &s
+}
+
+// GetType returns the value of the "type" field in the mutation.
+func (m *TenantMutation) GetType() (r string, exists bool) {
+	v := m._type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldType returns the old "type" field's value of the Tenant entity.
+// If the Tenant object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantMutation) OldType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldType: %w", err)
+	}
+	return oldValue.Type, nil
+}
+
+// ClearType clears the value of the "type" field.
+func (m *TenantMutation) ClearType() {
+	m._type = nil
+	m.clearedFields[tenant.FieldType] = struct{}{}
+}
+
+// TypeCleared returns if the "type" field was cleared in this mutation.
+func (m *TenantMutation) TypeCleared() bool {
+	_, ok := m.clearedFields[tenant.FieldType]
+	return ok
+}
+
+// ResetType resets all changes to the "type" field.
+func (m *TenantMutation) ResetType() {
+	m._type = nil
+	delete(m.clearedFields, tenant.FieldType)
 }
 
 // SetTitle sets the "title" field.
@@ -14202,12 +14252,15 @@ func (m *TenantMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TenantMutation) Fields() []string {
-	fields := make([]string, 0, 17)
+	fields := make([]string, 0, 18)
 	if m.name != nil {
 		fields = append(fields, tenant.FieldName)
 	}
 	if m.slug != nil {
 		fields = append(fields, tenant.FieldSlug)
+	}
+	if m._type != nil {
+		fields = append(fields, tenant.FieldType)
 	}
 	if m.title != nil {
 		fields = append(fields, tenant.FieldTitle)
@@ -14266,6 +14319,8 @@ func (m *TenantMutation) Field(name string) (ent.Value, bool) {
 		return m.Name()
 	case tenant.FieldSlug:
 		return m.Slug()
+	case tenant.FieldType:
+		return m.GetType()
 	case tenant.FieldTitle:
 		return m.Title()
 	case tenant.FieldURL:
@@ -14309,6 +14364,8 @@ func (m *TenantMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldName(ctx)
 	case tenant.FieldSlug:
 		return m.OldSlug(ctx)
+	case tenant.FieldType:
+		return m.OldType(ctx)
 	case tenant.FieldTitle:
 		return m.OldTitle(ctx)
 	case tenant.FieldURL:
@@ -14361,6 +14418,13 @@ func (m *TenantMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSlug(v)
+		return nil
+	case tenant.FieldType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetType(v)
 		return nil
 	case tenant.FieldTitle:
 		v, ok := value.(string)
@@ -14518,6 +14582,9 @@ func (m *TenantMutation) ClearedFields() []string {
 	if m.FieldCleared(tenant.FieldSlug) {
 		fields = append(fields, tenant.FieldSlug)
 	}
+	if m.FieldCleared(tenant.FieldType) {
+		fields = append(fields, tenant.FieldType)
+	}
 	if m.FieldCleared(tenant.FieldTitle) {
 		fields = append(fields, tenant.FieldTitle)
 	}
@@ -14580,6 +14647,9 @@ func (m *TenantMutation) ClearField(name string) error {
 	case tenant.FieldSlug:
 		m.ClearSlug()
 		return nil
+	case tenant.FieldType:
+		m.ClearType()
+		return nil
 	case tenant.FieldTitle:
 		m.ClearTitle()
 		return nil
@@ -14635,6 +14705,9 @@ func (m *TenantMutation) ResetField(name string) error {
 		return nil
 	case tenant.FieldSlug:
 		m.ResetSlug()
+		return nil
+	case tenant.FieldType:
+		m.ResetType()
 		return nil
 	case tenant.FieldTitle:
 		m.ResetTitle()
