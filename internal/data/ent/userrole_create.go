@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/internal/data/ent/userrole"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -18,6 +19,20 @@ type UserRoleCreate struct {
 	hooks    []Hook
 }
 
+// SetUserID sets the "user_id" field.
+func (urc *UserRoleCreate) SetUserID(s string) *UserRoleCreate {
+	urc.mutation.SetUserID(s)
+	return urc
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (urc *UserRoleCreate) SetNillableUserID(s *string) *UserRoleCreate {
+	if s != nil {
+		urc.SetUserID(*s)
+	}
+	return urc
+}
+
 // SetRoleID sets the "role_id" field.
 func (urc *UserRoleCreate) SetRoleID(s string) *UserRoleCreate {
 	urc.mutation.SetRoleID(s)
@@ -28,6 +43,62 @@ func (urc *UserRoleCreate) SetRoleID(s string) *UserRoleCreate {
 func (urc *UserRoleCreate) SetNillableRoleID(s *string) *UserRoleCreate {
 	if s != nil {
 		urc.SetRoleID(*s)
+	}
+	return urc
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (urc *UserRoleCreate) SetCreatedBy(s string) *UserRoleCreate {
+	urc.mutation.SetCreatedBy(s)
+	return urc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (urc *UserRoleCreate) SetNillableCreatedBy(s *string) *UserRoleCreate {
+	if s != nil {
+		urc.SetCreatedBy(*s)
+	}
+	return urc
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (urc *UserRoleCreate) SetUpdatedBy(s string) *UserRoleCreate {
+	urc.mutation.SetUpdatedBy(s)
+	return urc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (urc *UserRoleCreate) SetNillableUpdatedBy(s *string) *UserRoleCreate {
+	if s != nil {
+		urc.SetUpdatedBy(*s)
+	}
+	return urc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (urc *UserRoleCreate) SetCreatedAt(t time.Time) *UserRoleCreate {
+	urc.mutation.SetCreatedAt(t)
+	return urc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (urc *UserRoleCreate) SetNillableCreatedAt(t *time.Time) *UserRoleCreate {
+	if t != nil {
+		urc.SetCreatedAt(*t)
+	}
+	return urc
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (urc *UserRoleCreate) SetUpdatedAt(t time.Time) *UserRoleCreate {
+	urc.mutation.SetUpdatedAt(t)
+	return urc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (urc *UserRoleCreate) SetNillableUpdatedAt(t *time.Time) *UserRoleCreate {
+	if t != nil {
+		urc.SetUpdatedAt(*t)
 	}
 	return urc
 }
@@ -81,6 +152,14 @@ func (urc *UserRoleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (urc *UserRoleCreate) defaults() {
+	if _, ok := urc.mutation.CreatedAt(); !ok {
+		v := userrole.DefaultCreatedAt()
+		urc.mutation.SetCreatedAt(v)
+	}
+	if _, ok := urc.mutation.UpdatedAt(); !ok {
+		v := userrole.DefaultUpdatedAt()
+		urc.mutation.SetUpdatedAt(v)
+	}
 	if _, ok := urc.mutation.ID(); !ok {
 		v := userrole.DefaultID()
 		urc.mutation.SetID(v)
@@ -89,9 +168,29 @@ func (urc *UserRoleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (urc *UserRoleCreate) check() error {
+	if v, ok := urc.mutation.UserID(); ok {
+		if err := userrole.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserRole.user_id": %w`, err)}
+		}
+	}
 	if v, ok := urc.mutation.RoleID(); ok {
 		if err := userrole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := urc.mutation.CreatedBy(); ok {
+		if err := userrole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := urc.mutation.UpdatedBy(); ok {
+		if err := userrole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserRole.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := urc.mutation.ID(); ok {
+		if err := userrole.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserRole.id": %w`, err)}
 		}
 	}
 	return nil
@@ -129,9 +228,29 @@ func (urc *UserRoleCreate) createSpec() (*UserRole, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
+	if value, ok := urc.mutation.UserID(); ok {
+		_spec.SetField(userrole.FieldUserID, field.TypeString, value)
+		_node.UserID = value
+	}
 	if value, ok := urc.mutation.RoleID(); ok {
 		_spec.SetField(userrole.FieldRoleID, field.TypeString, value)
 		_node.RoleID = value
+	}
+	if value, ok := urc.mutation.CreatedBy(); ok {
+		_spec.SetField(userrole.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
+	if value, ok := urc.mutation.UpdatedBy(); ok {
+		_spec.SetField(userrole.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
+	}
+	if value, ok := urc.mutation.CreatedAt(); ok {
+		_spec.SetField(userrole.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := urc.mutation.UpdatedAt(); ok {
+		_spec.SetField(userrole.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }

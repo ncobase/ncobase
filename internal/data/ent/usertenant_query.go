@@ -261,12 +261,12 @@ func (utq *UserTenantQuery) Clone() *UserTenantQuery {
 // Example:
 //
 //	var v []struct {
-//		TenantID string `json:"tenant_id,omitempty"`
+//		UserID string `json:"user_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.UserTenant.Query().
-//		GroupBy(usertenant.FieldTenantID).
+//		GroupBy(usertenant.FieldUserID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (utq *UserTenantQuery) GroupBy(field string, fields ...string) *UserTenantGroupBy {
@@ -284,11 +284,11 @@ func (utq *UserTenantQuery) GroupBy(field string, fields ...string) *UserTenantG
 // Example:
 //
 //	var v []struct {
-//		TenantID string `json:"tenant_id,omitempty"`
+//		UserID string `json:"user_id,omitempty"`
 //	}
 //
 //	client.UserTenant.Query().
-//		Select(usertenant.FieldTenantID).
+//		Select(usertenant.FieldUserID).
 //		Scan(ctx, &v)
 func (utq *UserTenantQuery) Select(fields ...string) *UserTenantSelect {
 	utq.ctx.Fields = append(utq.ctx.Fields, fields...)

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/casbinrule"
 	"ncobase/internal/data/ent/predicate"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -167,6 +168,58 @@ func (cru *CasbinRuleUpdate) ClearV5() *CasbinRuleUpdate {
 	return cru
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (cru *CasbinRuleUpdate) SetCreatedBy(s string) *CasbinRuleUpdate {
+	cru.mutation.SetCreatedBy(s)
+	return cru
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (cru *CasbinRuleUpdate) SetNillableCreatedBy(s *string) *CasbinRuleUpdate {
+	if s != nil {
+		cru.SetCreatedBy(*s)
+	}
+	return cru
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (cru *CasbinRuleUpdate) ClearCreatedBy() *CasbinRuleUpdate {
+	cru.mutation.ClearCreatedBy()
+	return cru
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (cru *CasbinRuleUpdate) SetUpdatedBy(s string) *CasbinRuleUpdate {
+	cru.mutation.SetUpdatedBy(s)
+	return cru
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (cru *CasbinRuleUpdate) SetNillableUpdatedBy(s *string) *CasbinRuleUpdate {
+	if s != nil {
+		cru.SetUpdatedBy(*s)
+	}
+	return cru
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (cru *CasbinRuleUpdate) ClearUpdatedBy() *CasbinRuleUpdate {
+	cru.mutation.ClearUpdatedBy()
+	return cru
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (cru *CasbinRuleUpdate) SetUpdatedAt(t time.Time) *CasbinRuleUpdate {
+	cru.mutation.SetUpdatedAt(t)
+	return cru
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (cru *CasbinRuleUpdate) ClearUpdatedAt() *CasbinRuleUpdate {
+	cru.mutation.ClearUpdatedAt()
+	return cru
+}
+
 // Mutation returns the CasbinRuleMutation object of the builder.
 func (cru *CasbinRuleUpdate) Mutation() *CasbinRuleMutation {
 	return cru.mutation
@@ -174,6 +227,7 @@ func (cru *CasbinRuleUpdate) Mutation() *CasbinRuleMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (cru *CasbinRuleUpdate) Save(ctx context.Context) (int, error) {
+	cru.defaults()
 	return withHooks(ctx, cru.sqlSave, cru.mutation, cru.hooks)
 }
 
@@ -199,7 +253,33 @@ func (cru *CasbinRuleUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (cru *CasbinRuleUpdate) defaults() {
+	if _, ok := cru.mutation.UpdatedAt(); !ok && !cru.mutation.UpdatedAtCleared() {
+		v := casbinrule.UpdateDefaultUpdatedAt()
+		cru.mutation.SetUpdatedAt(v)
+	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (cru *CasbinRuleUpdate) check() error {
+	if v, ok := cru.mutation.CreatedBy(); ok {
+		if err := casbinrule.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.created_by": %w`, err)}
+		}
+	}
+	if v, ok := cru.mutation.UpdatedBy(); ok {
+		if err := casbinrule.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.updated_by": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (cru *CasbinRuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
+	if err := cru.check(); err != nil {
+		return n, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(casbinrule.Table, casbinrule.Columns, sqlgraph.NewFieldSpec(casbinrule.FieldID, field.TypeString))
 	if ps := cru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -249,6 +329,27 @@ func (cru *CasbinRuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if cru.mutation.V5Cleared() {
 		_spec.ClearField(casbinrule.FieldV5, field.TypeString)
+	}
+	if value, ok := cru.mutation.CreatedBy(); ok {
+		_spec.SetField(casbinrule.FieldCreatedBy, field.TypeString, value)
+	}
+	if cru.mutation.CreatedByCleared() {
+		_spec.ClearField(casbinrule.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := cru.mutation.UpdatedBy(); ok {
+		_spec.SetField(casbinrule.FieldUpdatedBy, field.TypeString, value)
+	}
+	if cru.mutation.UpdatedByCleared() {
+		_spec.ClearField(casbinrule.FieldUpdatedBy, field.TypeString)
+	}
+	if cru.mutation.CreatedAtCleared() {
+		_spec.ClearField(casbinrule.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := cru.mutation.UpdatedAt(); ok {
+		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if cru.mutation.UpdatedAtCleared() {
+		_spec.ClearField(casbinrule.FieldUpdatedAt, field.TypeTime)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -410,6 +511,58 @@ func (cruo *CasbinRuleUpdateOne) ClearV5() *CasbinRuleUpdateOne {
 	return cruo
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (cruo *CasbinRuleUpdateOne) SetCreatedBy(s string) *CasbinRuleUpdateOne {
+	cruo.mutation.SetCreatedBy(s)
+	return cruo
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (cruo *CasbinRuleUpdateOne) SetNillableCreatedBy(s *string) *CasbinRuleUpdateOne {
+	if s != nil {
+		cruo.SetCreatedBy(*s)
+	}
+	return cruo
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (cruo *CasbinRuleUpdateOne) ClearCreatedBy() *CasbinRuleUpdateOne {
+	cruo.mutation.ClearCreatedBy()
+	return cruo
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (cruo *CasbinRuleUpdateOne) SetUpdatedBy(s string) *CasbinRuleUpdateOne {
+	cruo.mutation.SetUpdatedBy(s)
+	return cruo
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (cruo *CasbinRuleUpdateOne) SetNillableUpdatedBy(s *string) *CasbinRuleUpdateOne {
+	if s != nil {
+		cruo.SetUpdatedBy(*s)
+	}
+	return cruo
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (cruo *CasbinRuleUpdateOne) ClearUpdatedBy() *CasbinRuleUpdateOne {
+	cruo.mutation.ClearUpdatedBy()
+	return cruo
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (cruo *CasbinRuleUpdateOne) SetUpdatedAt(t time.Time) *CasbinRuleUpdateOne {
+	cruo.mutation.SetUpdatedAt(t)
+	return cruo
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (cruo *CasbinRuleUpdateOne) ClearUpdatedAt() *CasbinRuleUpdateOne {
+	cruo.mutation.ClearUpdatedAt()
+	return cruo
+}
+
 // Mutation returns the CasbinRuleMutation object of the builder.
 func (cruo *CasbinRuleUpdateOne) Mutation() *CasbinRuleMutation {
 	return cruo.mutation
@@ -430,6 +583,7 @@ func (cruo *CasbinRuleUpdateOne) Select(field string, fields ...string) *CasbinR
 
 // Save executes the query and returns the updated CasbinRule entity.
 func (cruo *CasbinRuleUpdateOne) Save(ctx context.Context) (*CasbinRule, error) {
+	cruo.defaults()
 	return withHooks(ctx, cruo.sqlSave, cruo.mutation, cruo.hooks)
 }
 
@@ -455,7 +609,33 @@ func (cruo *CasbinRuleUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (cruo *CasbinRuleUpdateOne) defaults() {
+	if _, ok := cruo.mutation.UpdatedAt(); !ok && !cruo.mutation.UpdatedAtCleared() {
+		v := casbinrule.UpdateDefaultUpdatedAt()
+		cruo.mutation.SetUpdatedAt(v)
+	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (cruo *CasbinRuleUpdateOne) check() error {
+	if v, ok := cruo.mutation.CreatedBy(); ok {
+		if err := casbinrule.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.created_by": %w`, err)}
+		}
+	}
+	if v, ok := cruo.mutation.UpdatedBy(); ok {
+		if err := casbinrule.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.updated_by": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (cruo *CasbinRuleUpdateOne) sqlSave(ctx context.Context) (_node *CasbinRule, err error) {
+	if err := cruo.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(casbinrule.Table, casbinrule.Columns, sqlgraph.NewFieldSpec(casbinrule.FieldID, field.TypeString))
 	id, ok := cruo.mutation.ID()
 	if !ok {
@@ -522,6 +702,27 @@ func (cruo *CasbinRuleUpdateOne) sqlSave(ctx context.Context) (_node *CasbinRule
 	}
 	if cruo.mutation.V5Cleared() {
 		_spec.ClearField(casbinrule.FieldV5, field.TypeString)
+	}
+	if value, ok := cruo.mutation.CreatedBy(); ok {
+		_spec.SetField(casbinrule.FieldCreatedBy, field.TypeString, value)
+	}
+	if cruo.mutation.CreatedByCleared() {
+		_spec.ClearField(casbinrule.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := cruo.mutation.UpdatedBy(); ok {
+		_spec.SetField(casbinrule.FieldUpdatedBy, field.TypeString, value)
+	}
+	if cruo.mutation.UpdatedByCleared() {
+		_spec.ClearField(casbinrule.FieldUpdatedBy, field.TypeString)
+	}
+	if cruo.mutation.CreatedAtCleared() {
+		_spec.ClearField(casbinrule.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := cruo.mutation.UpdatedAt(); ok {
+		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if cruo.mutation.UpdatedAtCleared() {
+		_spec.ClearField(casbinrule.FieldUpdatedAt, field.TypeTime)
 	}
 	_node = &CasbinRule{config: cruo.config}
 	_spec.Assign = _node.assignValues

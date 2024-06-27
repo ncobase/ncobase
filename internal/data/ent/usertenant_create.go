@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/internal/data/ent/usertenant"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -18,6 +19,20 @@ type UserTenantCreate struct {
 	hooks    []Hook
 }
 
+// SetUserID sets the "user_id" field.
+func (utc *UserTenantCreate) SetUserID(s string) *UserTenantCreate {
+	utc.mutation.SetUserID(s)
+	return utc
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (utc *UserTenantCreate) SetNillableUserID(s *string) *UserTenantCreate {
+	if s != nil {
+		utc.SetUserID(*s)
+	}
+	return utc
+}
+
 // SetTenantID sets the "tenant_id" field.
 func (utc *UserTenantCreate) SetTenantID(s string) *UserTenantCreate {
 	utc.mutation.SetTenantID(s)
@@ -28,6 +43,62 @@ func (utc *UserTenantCreate) SetTenantID(s string) *UserTenantCreate {
 func (utc *UserTenantCreate) SetNillableTenantID(s *string) *UserTenantCreate {
 	if s != nil {
 		utc.SetTenantID(*s)
+	}
+	return utc
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (utc *UserTenantCreate) SetCreatedBy(s string) *UserTenantCreate {
+	utc.mutation.SetCreatedBy(s)
+	return utc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (utc *UserTenantCreate) SetNillableCreatedBy(s *string) *UserTenantCreate {
+	if s != nil {
+		utc.SetCreatedBy(*s)
+	}
+	return utc
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (utc *UserTenantCreate) SetUpdatedBy(s string) *UserTenantCreate {
+	utc.mutation.SetUpdatedBy(s)
+	return utc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (utc *UserTenantCreate) SetNillableUpdatedBy(s *string) *UserTenantCreate {
+	if s != nil {
+		utc.SetUpdatedBy(*s)
+	}
+	return utc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (utc *UserTenantCreate) SetCreatedAt(t time.Time) *UserTenantCreate {
+	utc.mutation.SetCreatedAt(t)
+	return utc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (utc *UserTenantCreate) SetNillableCreatedAt(t *time.Time) *UserTenantCreate {
+	if t != nil {
+		utc.SetCreatedAt(*t)
+	}
+	return utc
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (utc *UserTenantCreate) SetUpdatedAt(t time.Time) *UserTenantCreate {
+	utc.mutation.SetUpdatedAt(t)
+	return utc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (utc *UserTenantCreate) SetNillableUpdatedAt(t *time.Time) *UserTenantCreate {
+	if t != nil {
+		utc.SetUpdatedAt(*t)
 	}
 	return utc
 }
@@ -81,6 +152,14 @@ func (utc *UserTenantCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (utc *UserTenantCreate) defaults() {
+	if _, ok := utc.mutation.CreatedAt(); !ok {
+		v := usertenant.DefaultCreatedAt()
+		utc.mutation.SetCreatedAt(v)
+	}
+	if _, ok := utc.mutation.UpdatedAt(); !ok {
+		v := usertenant.DefaultUpdatedAt()
+		utc.mutation.SetUpdatedAt(v)
+	}
 	if _, ok := utc.mutation.ID(); !ok {
 		v := usertenant.DefaultID()
 		utc.mutation.SetID(v)
@@ -89,9 +168,29 @@ func (utc *UserTenantCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (utc *UserTenantCreate) check() error {
+	if v, ok := utc.mutation.UserID(); ok {
+		if err := usertenant.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.user_id": %w`, err)}
+		}
+	}
 	if v, ok := utc.mutation.TenantID(); ok {
 		if err := usertenant.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.tenant_id": %w`, err)}
+		}
+	}
+	if v, ok := utc.mutation.CreatedBy(); ok {
+		if err := usertenant.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.created_by": %w`, err)}
+		}
+	}
+	if v, ok := utc.mutation.UpdatedBy(); ok {
+		if err := usertenant.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := utc.mutation.ID(); ok {
+		if err := usertenant.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.id": %w`, err)}
 		}
 	}
 	return nil
@@ -129,9 +228,29 @@ func (utc *UserTenantCreate) createSpec() (*UserTenant, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
+	if value, ok := utc.mutation.UserID(); ok {
+		_spec.SetField(usertenant.FieldUserID, field.TypeString, value)
+		_node.UserID = value
+	}
 	if value, ok := utc.mutation.TenantID(); ok {
 		_spec.SetField(usertenant.FieldTenantID, field.TypeString, value)
 		_node.TenantID = value
+	}
+	if value, ok := utc.mutation.CreatedBy(); ok {
+		_spec.SetField(usertenant.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
+	if value, ok := utc.mutation.UpdatedBy(); ok {
+		_spec.SetField(usertenant.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
+	}
+	if value, ok := utc.mutation.CreatedAt(); ok {
+		_spec.SetField(usertenant.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := utc.mutation.UpdatedAt(); ok {
+		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }

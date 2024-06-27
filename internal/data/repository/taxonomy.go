@@ -25,7 +25,6 @@ type Taxonomy interface {
 	List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error)
 	Delete(ctx context.Context, slug string) error
 	FindTaxonomy(ctx context.Context, params *structs.FindTaxonomy) (*ent.Taxonomy, error)
-	ListBuilder(ctx context.Context, params *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error)
 	CountX(ctx context.Context, params *structs.ListTaxonomyParams) int
 }
 
@@ -42,7 +41,7 @@ func NewTaxonomy(d *data.Data) Taxonomy {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &taxonomyRepo{ec, rc, ms, cache.NewCache[ent.Taxonomy](rc, cache.Key("nb_taxonomy"))}
+	return &taxonomyRepo{ec, rc, ms, cache.NewCache[ent.Taxonomy](rc, "nb_taxonomy")}
 }
 
 // Create create taxonomy
@@ -237,7 +236,7 @@ func (r *taxonomyRepo) List(ctx context.Context, params *structs.ListTaxonomyPar
 	// }
 
 	// create list builder
-	builder, err := r.ListBuilder(ctx, params)
+	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
@@ -251,6 +250,9 @@ func (r *taxonomyRepo) List(ctx context.Context, params *structs.ListTaxonomyPar
 	}
 
 	// type
+	if params.Type == "all" {
+		params.Type = ""
+	}
 	if params.Type != "" {
 		builder.Where(taxonomyEnt.TypeEQ(params.Type))
 	}
@@ -338,8 +340,8 @@ func (r *taxonomyRepo) FindTaxonomy(ctx context.Context, params *structs.FindTax
 	return row, nil
 }
 
-// ListBuilder create list builder
-func (r *taxonomyRepo) ListBuilder(ctx context.Context, params *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error) {
+// listBuilder create list builder
+func (r *taxonomyRepo) listBuilder(ctx context.Context, params *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error) {
 	// verify query params.
 	var next *ent.Taxonomy
 	if validator.IsNotEmpty(params.Cursor) {
@@ -379,7 +381,7 @@ func (r *taxonomyRepo) ListBuilder(ctx context.Context, params *structs.ListTaxo
 // CountX gets a count of taxonomies.
 func (r *taxonomyRepo) CountX(ctx context.Context, params *structs.ListTaxonomyParams) int {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, params)
+	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
 	}

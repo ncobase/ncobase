@@ -27,8 +27,11 @@ func (UserTenant) Annotations() []schema.Annotation {
 // Mixin of the UserTenant.
 func (UserTenant) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.NewPrimaryKeyAlias("user", "user_id"),
+		mixin.PrimaryKey,
+		mixin.UserID,
 		mixin.TenantID,
+		mixin.OperatorBy{},
+		mixin.TimeAt{},
 	}
 }
 
@@ -45,6 +48,6 @@ func (UserTenant) Edges() []ent.Edge {
 // Indexes of the UserTenant.
 func (UserTenant) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "tenant_id"),
+		index.Fields("user_id", "tenant_id"),
 	}
 }

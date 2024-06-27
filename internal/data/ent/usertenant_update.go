@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/predicate"
 	"ncobase/internal/data/ent/usertenant"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -24,6 +25,26 @@ type UserTenantUpdate struct {
 // Where appends a list predicates to the UserTenantUpdate builder.
 func (utu *UserTenantUpdate) Where(ps ...predicate.UserTenant) *UserTenantUpdate {
 	utu.mutation.Where(ps...)
+	return utu
+}
+
+// SetUserID sets the "user_id" field.
+func (utu *UserTenantUpdate) SetUserID(s string) *UserTenantUpdate {
+	utu.mutation.SetUserID(s)
+	return utu
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (utu *UserTenantUpdate) SetNillableUserID(s *string) *UserTenantUpdate {
+	if s != nil {
+		utu.SetUserID(*s)
+	}
+	return utu
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (utu *UserTenantUpdate) ClearUserID() *UserTenantUpdate {
+	utu.mutation.ClearUserID()
 	return utu
 }
 
@@ -47,6 +68,58 @@ func (utu *UserTenantUpdate) ClearTenantID() *UserTenantUpdate {
 	return utu
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (utu *UserTenantUpdate) SetCreatedBy(s string) *UserTenantUpdate {
+	utu.mutation.SetCreatedBy(s)
+	return utu
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (utu *UserTenantUpdate) SetNillableCreatedBy(s *string) *UserTenantUpdate {
+	if s != nil {
+		utu.SetCreatedBy(*s)
+	}
+	return utu
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (utu *UserTenantUpdate) ClearCreatedBy() *UserTenantUpdate {
+	utu.mutation.ClearCreatedBy()
+	return utu
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (utu *UserTenantUpdate) SetUpdatedBy(s string) *UserTenantUpdate {
+	utu.mutation.SetUpdatedBy(s)
+	return utu
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (utu *UserTenantUpdate) SetNillableUpdatedBy(s *string) *UserTenantUpdate {
+	if s != nil {
+		utu.SetUpdatedBy(*s)
+	}
+	return utu
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (utu *UserTenantUpdate) ClearUpdatedBy() *UserTenantUpdate {
+	utu.mutation.ClearUpdatedBy()
+	return utu
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (utu *UserTenantUpdate) SetUpdatedAt(t time.Time) *UserTenantUpdate {
+	utu.mutation.SetUpdatedAt(t)
+	return utu
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (utu *UserTenantUpdate) ClearUpdatedAt() *UserTenantUpdate {
+	utu.mutation.ClearUpdatedAt()
+	return utu
+}
+
 // Mutation returns the UserTenantMutation object of the builder.
 func (utu *UserTenantUpdate) Mutation() *UserTenantMutation {
 	return utu.mutation
@@ -54,6 +127,7 @@ func (utu *UserTenantUpdate) Mutation() *UserTenantMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (utu *UserTenantUpdate) Save(ctx context.Context) (int, error) {
+	utu.defaults()
 	return withHooks(ctx, utu.sqlSave, utu.mutation, utu.hooks)
 }
 
@@ -79,11 +153,34 @@ func (utu *UserTenantUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (utu *UserTenantUpdate) defaults() {
+	if _, ok := utu.mutation.UpdatedAt(); !ok && !utu.mutation.UpdatedAtCleared() {
+		v := usertenant.UpdateDefaultUpdatedAt()
+		utu.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (utu *UserTenantUpdate) check() error {
+	if v, ok := utu.mutation.UserID(); ok {
+		if err := usertenant.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.user_id": %w`, err)}
+		}
+	}
 	if v, ok := utu.mutation.TenantID(); ok {
 		if err := usertenant.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.tenant_id": %w`, err)}
+		}
+	}
+	if v, ok := utu.mutation.CreatedBy(); ok {
+		if err := usertenant.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.created_by": %w`, err)}
+		}
+	}
+	if v, ok := utu.mutation.UpdatedBy(); ok {
+		if err := usertenant.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -101,11 +198,38 @@ func (utu *UserTenantUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := utu.mutation.UserID(); ok {
+		_spec.SetField(usertenant.FieldUserID, field.TypeString, value)
+	}
+	if utu.mutation.UserIDCleared() {
+		_spec.ClearField(usertenant.FieldUserID, field.TypeString)
+	}
 	if value, ok := utu.mutation.TenantID(); ok {
 		_spec.SetField(usertenant.FieldTenantID, field.TypeString, value)
 	}
 	if utu.mutation.TenantIDCleared() {
 		_spec.ClearField(usertenant.FieldTenantID, field.TypeString)
+	}
+	if value, ok := utu.mutation.CreatedBy(); ok {
+		_spec.SetField(usertenant.FieldCreatedBy, field.TypeString, value)
+	}
+	if utu.mutation.CreatedByCleared() {
+		_spec.ClearField(usertenant.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := utu.mutation.UpdatedBy(); ok {
+		_spec.SetField(usertenant.FieldUpdatedBy, field.TypeString, value)
+	}
+	if utu.mutation.UpdatedByCleared() {
+		_spec.ClearField(usertenant.FieldUpdatedBy, field.TypeString)
+	}
+	if utu.mutation.CreatedAtCleared() {
+		_spec.ClearField(usertenant.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := utu.mutation.UpdatedAt(); ok {
+		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if utu.mutation.UpdatedAtCleared() {
+		_spec.ClearField(usertenant.FieldUpdatedAt, field.TypeTime)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, utu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -127,6 +251,26 @@ type UserTenantUpdateOne struct {
 	mutation *UserTenantMutation
 }
 
+// SetUserID sets the "user_id" field.
+func (utuo *UserTenantUpdateOne) SetUserID(s string) *UserTenantUpdateOne {
+	utuo.mutation.SetUserID(s)
+	return utuo
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (utuo *UserTenantUpdateOne) SetNillableUserID(s *string) *UserTenantUpdateOne {
+	if s != nil {
+		utuo.SetUserID(*s)
+	}
+	return utuo
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (utuo *UserTenantUpdateOne) ClearUserID() *UserTenantUpdateOne {
+	utuo.mutation.ClearUserID()
+	return utuo
+}
+
 // SetTenantID sets the "tenant_id" field.
 func (utuo *UserTenantUpdateOne) SetTenantID(s string) *UserTenantUpdateOne {
 	utuo.mutation.SetTenantID(s)
@@ -144,6 +288,58 @@ func (utuo *UserTenantUpdateOne) SetNillableTenantID(s *string) *UserTenantUpdat
 // ClearTenantID clears the value of the "tenant_id" field.
 func (utuo *UserTenantUpdateOne) ClearTenantID() *UserTenantUpdateOne {
 	utuo.mutation.ClearTenantID()
+	return utuo
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (utuo *UserTenantUpdateOne) SetCreatedBy(s string) *UserTenantUpdateOne {
+	utuo.mutation.SetCreatedBy(s)
+	return utuo
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (utuo *UserTenantUpdateOne) SetNillableCreatedBy(s *string) *UserTenantUpdateOne {
+	if s != nil {
+		utuo.SetCreatedBy(*s)
+	}
+	return utuo
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (utuo *UserTenantUpdateOne) ClearCreatedBy() *UserTenantUpdateOne {
+	utuo.mutation.ClearCreatedBy()
+	return utuo
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (utuo *UserTenantUpdateOne) SetUpdatedBy(s string) *UserTenantUpdateOne {
+	utuo.mutation.SetUpdatedBy(s)
+	return utuo
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (utuo *UserTenantUpdateOne) SetNillableUpdatedBy(s *string) *UserTenantUpdateOne {
+	if s != nil {
+		utuo.SetUpdatedBy(*s)
+	}
+	return utuo
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (utuo *UserTenantUpdateOne) ClearUpdatedBy() *UserTenantUpdateOne {
+	utuo.mutation.ClearUpdatedBy()
+	return utuo
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (utuo *UserTenantUpdateOne) SetUpdatedAt(t time.Time) *UserTenantUpdateOne {
+	utuo.mutation.SetUpdatedAt(t)
+	return utuo
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (utuo *UserTenantUpdateOne) ClearUpdatedAt() *UserTenantUpdateOne {
+	utuo.mutation.ClearUpdatedAt()
 	return utuo
 }
 
@@ -167,6 +363,7 @@ func (utuo *UserTenantUpdateOne) Select(field string, fields ...string) *UserTen
 
 // Save executes the query and returns the updated UserTenant entity.
 func (utuo *UserTenantUpdateOne) Save(ctx context.Context) (*UserTenant, error) {
+	utuo.defaults()
 	return withHooks(ctx, utuo.sqlSave, utuo.mutation, utuo.hooks)
 }
 
@@ -192,11 +389,34 @@ func (utuo *UserTenantUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (utuo *UserTenantUpdateOne) defaults() {
+	if _, ok := utuo.mutation.UpdatedAt(); !ok && !utuo.mutation.UpdatedAtCleared() {
+		v := usertenant.UpdateDefaultUpdatedAt()
+		utuo.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (utuo *UserTenantUpdateOne) check() error {
+	if v, ok := utuo.mutation.UserID(); ok {
+		if err := usertenant.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.user_id": %w`, err)}
+		}
+	}
 	if v, ok := utuo.mutation.TenantID(); ok {
 		if err := usertenant.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.tenant_id": %w`, err)}
+		}
+	}
+	if v, ok := utuo.mutation.CreatedBy(); ok {
+		if err := usertenant.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.created_by": %w`, err)}
+		}
+	}
+	if v, ok := utuo.mutation.UpdatedBy(); ok {
+		if err := usertenant.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -231,11 +451,38 @@ func (utuo *UserTenantUpdateOne) sqlSave(ctx context.Context) (_node *UserTenant
 			}
 		}
 	}
+	if value, ok := utuo.mutation.UserID(); ok {
+		_spec.SetField(usertenant.FieldUserID, field.TypeString, value)
+	}
+	if utuo.mutation.UserIDCleared() {
+		_spec.ClearField(usertenant.FieldUserID, field.TypeString)
+	}
 	if value, ok := utuo.mutation.TenantID(); ok {
 		_spec.SetField(usertenant.FieldTenantID, field.TypeString, value)
 	}
 	if utuo.mutation.TenantIDCleared() {
 		_spec.ClearField(usertenant.FieldTenantID, field.TypeString)
+	}
+	if value, ok := utuo.mutation.CreatedBy(); ok {
+		_spec.SetField(usertenant.FieldCreatedBy, field.TypeString, value)
+	}
+	if utuo.mutation.CreatedByCleared() {
+		_spec.ClearField(usertenant.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := utuo.mutation.UpdatedBy(); ok {
+		_spec.SetField(usertenant.FieldUpdatedBy, field.TypeString, value)
+	}
+	if utuo.mutation.UpdatedByCleared() {
+		_spec.ClearField(usertenant.FieldUpdatedBy, field.TypeString)
+	}
+	if utuo.mutation.CreatedAtCleared() {
+		_spec.ClearField(usertenant.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := utuo.mutation.UpdatedAt(); ok {
+		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if utuo.mutation.UpdatedAtCleared() {
+		_spec.ClearField(usertenant.FieldUpdatedAt, field.TypeTime)
 	}
 	_node = &UserTenant{config: utuo.config}
 	_spec.Assign = _node.assignValues

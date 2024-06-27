@@ -261,12 +261,12 @@ func (urq *UserRoleQuery) Clone() *UserRoleQuery {
 // Example:
 //
 //	var v []struct {
-//		RoleID string `json:"role_id,omitempty"`
+//		UserID string `json:"user_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.UserRole.Query().
-//		GroupBy(userrole.FieldRoleID).
+//		GroupBy(userrole.FieldUserID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (urq *UserRoleQuery) GroupBy(field string, fields ...string) *UserRoleGroupBy {
@@ -284,11 +284,11 @@ func (urq *UserRoleQuery) GroupBy(field string, fields ...string) *UserRoleGroup
 // Example:
 //
 //	var v []struct {
-//		RoleID string `json:"role_id,omitempty"`
+//		UserID string `json:"user_id,omitempty"`
 //	}
 //
 //	client.UserRole.Query().
-//		Select(userrole.FieldRoleID).
+//		Select(userrole.FieldUserID).
 //		Scan(ctx, &v)
 func (urq *UserRoleQuery) Select(fields ...string) *UserRoleSelect {
 	urq.ctx.Fields = append(urq.ctx.Fields, fields...)

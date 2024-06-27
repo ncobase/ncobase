@@ -108,8 +108,8 @@ func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserMes
 }
 
 // GetUserByIDService retrieves a user by their ID.
-func (svc *Service) GetUserByIDService(ctx context.Context, userID string) (*resp.Exception, error) {
-	user, err := svc.user.GetByID(ctx, userID)
+func (svc *Service) GetUserByIDService(ctx context.Context, u string) (*resp.Exception, error) {
+	user, err := svc.user.GetByID(ctx, u)
 	if exception, err := handleError("User", err); exception != nil {
 		return exception, err
 	}
@@ -120,8 +120,8 @@ func (svc *Service) GetUserByIDService(ctx context.Context, userID string) (*res
 }
 
 // DeleteUserService deletes a user by their ID.
-func (svc *Service) DeleteUserService(ctx context.Context, userID string) (*resp.Exception, error) {
-	err := svc.user.Delete(ctx, userID)
+func (svc *Service) DeleteUserService(ctx context.Context, u string) (*resp.Exception, error) {
+	err := svc.user.Delete(ctx, u)
 	if exception, err := handleError("User", err); exception != nil {
 		return exception, err
 	}
@@ -132,8 +132,8 @@ func (svc *Service) DeleteUserService(ctx context.Context, userID string) (*resp
 }
 
 // AddUserToTenantService adds a user to a tenant.
-func (svc *Service) AddUserToTenantService(ctx context.Context, userID string, tenantID string) (*resp.Exception, error) {
-	_, err := svc.userTenant.Create(ctx, &structs.UserTenant{UserID: userID, TenantID: tenantID})
+func (svc *Service) AddUserToTenantService(ctx context.Context, u string, t string) (*resp.Exception, error) {
+	_, err := svc.userTenant.Create(ctx, &structs.UserTenant{UserID: u, TenantID: t})
 	if exception, err := handleError("UserTenant", err); exception != nil {
 		return exception, err
 	}
@@ -144,8 +144,8 @@ func (svc *Service) AddUserToTenantService(ctx context.Context, userID string, t
 }
 
 // RemoveUserFromTenantService removes a user from a tenant.
-func (svc *Service) RemoveUserFromTenantService(ctx context.Context, userID string, tenantID string) (*resp.Exception, error) {
-	err := svc.userTenant.Delete(ctx, userID, tenantID)
+func (svc *Service) RemoveUserFromTenantService(ctx context.Context, u string, t string) (*resp.Exception, error) {
+	err := svc.userTenant.Delete(ctx, u, t)
 	if exception, err := handleError("UserTenant", err); exception != nil {
 		return exception, err
 	}
@@ -156,8 +156,8 @@ func (svc *Service) RemoveUserFromTenantService(ctx context.Context, userID stri
 }
 
 // AddRoleToUserService adds a role to a user.
-func (svc *Service) AddRoleToUserService(ctx context.Context, userID string, roleID string) (*resp.Exception, error) {
-	_, err := svc.userRole.Create(ctx, &structs.UserRole{UserID: userID, RoleID: roleID})
+func (svc *Service) AddRoleToUserService(ctx context.Context, u string, r string) (*resp.Exception, error) {
+	_, err := svc.userRole.Create(ctx, &structs.UserRole{UserID: u, RoleID: r})
 	if exception, err := handleError("UserRole", err); exception != nil {
 		return exception, err
 	}
@@ -168,8 +168,8 @@ func (svc *Service) AddRoleToUserService(ctx context.Context, userID string, rol
 }
 
 // RemoveRoleFromUserService removes a role from a user.
-func (svc *Service) RemoveRoleFromUserService(ctx context.Context, userID string, roleID string) (*resp.Exception, error) {
-	err := svc.userRole.Delete(ctx, userID, roleID)
+func (svc *Service) RemoveRoleFromUserService(ctx context.Context, u string, r string) (*resp.Exception, error) {
+	err := svc.userRole.Delete(ctx, u, r)
 	if exception, err := handleError("UserRole", err); exception != nil {
 		return exception, err
 	}
@@ -179,8 +179,8 @@ func (svc *Service) RemoveRoleFromUserService(ctx context.Context, userID string
 }
 
 // AddUserToGroupService adds a user to a group.
-func (svc *Service) AddUserToGroupService(ctx context.Context, userID string, groupID string) (*resp.Exception, error) {
-	_, err := svc.userGroup.Create(ctx, &structs.UserGroup{UserID: userID, GroupID: groupID})
+func (svc *Service) AddUserToGroupService(ctx context.Context, u string, g string) (*resp.Exception, error) {
+	_, err := svc.userGroup.Create(ctx, &structs.UserGroup{UserID: u, GroupID: g})
 	if exception, err := handleError("UserGroup", err); exception != nil {
 		return exception, err
 	}
@@ -190,8 +190,8 @@ func (svc *Service) AddUserToGroupService(ctx context.Context, userID string, gr
 }
 
 // RemoveUserFromGroupService removes a user from a group.
-func (svc *Service) RemoveUserFromGroupService(ctx context.Context, userID string, groupID string) (*resp.Exception, error) {
-	err := svc.userGroup.Delete(ctx, userID, groupID)
+func (svc *Service) RemoveUserFromGroupService(ctx context.Context, u string, g string) (*resp.Exception, error) {
+	err := svc.userGroup.Delete(ctx, u, g)
 	if exception, err := handleError("UserGroup", err); exception != nil {
 		return exception, err
 	}
@@ -201,8 +201,8 @@ func (svc *Service) RemoveUserFromGroupService(ctx context.Context, userID strin
 }
 
 // AddRoleToUserInTenantService adds a role to a user in a tenant.
-func (svc *Service) AddRoleToUserInTenantService(ctx context.Context, userID string, tenantID string, roleID string) (*resp.Exception, error) {
-	_, err := svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: userID, TenantID: tenantID, RoleID: roleID})
+func (svc *Service) AddRoleToUserInTenantService(ctx context.Context, u string, t string, r string) (*resp.Exception, error) {
+	_, err := svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: u, TenantID: t, RoleID: r})
 	if exception, err := handleError("UserTenantRole", err); exception != nil {
 		return exception, err
 	}
@@ -211,9 +211,20 @@ func (svc *Service) AddRoleToUserInTenantService(ctx context.Context, userID str
 	}, nil
 }
 
+// GetUserRolesInTenantService retrieves all roles associated with a user in a tenant.
+func (svc *Service) GetUserRolesInTenantService(ctx context.Context, u string, t string) (*resp.Exception, error) {
+	roles, err := svc.userTenantRole.GetRolesByUserAndTenant(ctx, u, t)
+	if exception, err := handleError("UserTenantRole", err); exception != nil {
+		return exception, err
+	}
+	return &resp.Exception{
+		Data: svc.serializeRoles(roles),
+	}, nil
+}
+
 // RemoveRoleFromUserInTenantService removes a role from a user in a tenant.
-func (svc *Service) RemoveRoleFromUserInTenantService(ctx context.Context, userID string, tenantID string, roleID string) (*resp.Exception, error) {
-	err := svc.userTenantRole.DeleteByUserIDAndTenantIDAndRoleID(ctx, userID, tenantID, roleID)
+func (svc *Service) RemoveRoleFromUserInTenantService(ctx context.Context, u string, t string, r string) (*resp.Exception, error) {
+	err := svc.userTenantRole.DeleteByUserIDAndTenantIDAndRoleID(ctx, u, t, r)
 	if exception, err := handleError("UserTenantRole", err); exception != nil {
 		return exception, err
 	}
@@ -223,8 +234,8 @@ func (svc *Service) RemoveRoleFromUserInTenantService(ctx context.Context, userI
 }
 
 // GetUserRolesService retrieves all roles associated with a user.
-func (svc *Service) GetUserRolesService(ctx context.Context, userID string) (*resp.Exception, error) {
-	roles, err := svc.userRole.GetRolesByUserID(ctx, userID)
+func (svc *Service) GetUserRolesService(ctx context.Context, u string) (*resp.Exception, error) {
+	roles, err := svc.userRole.GetRolesByUserID(ctx, u)
 	if exception, err := handleError("UserRole", err); exception != nil {
 		return exception, err
 	}
@@ -235,8 +246,8 @@ func (svc *Service) GetUserRolesService(ctx context.Context, userID string) (*re
 }
 
 // GetUserGroupsService retrieves all groups associated with a user.
-func (svc *Service) GetUserGroupsService(ctx context.Context, userID string) (*resp.Exception, error) {
-	groups, err := svc.userGroup.GetByUserID(ctx, userID)
+func (svc *Service) GetUserGroupsService(ctx context.Context, u string) (*resp.Exception, error) {
+	groups, err := svc.userGroup.GetByUserID(ctx, u)
 	if exception, err := handleError("UserGroup", err); exception != nil {
 		return exception, err
 	}
@@ -261,17 +272,17 @@ func (svc *Service) CreateUserRoleService(ctx context.Context, body *structs.Use
 }
 
 // GetUserRoleByUserIDService retrieves user roles by user ID.
-func (svc *Service) GetUserRoleByUserIDService(ctx context.Context, userID string) (*resp.Exception, error) {
-	if userID == "" {
+func (svc *Service) GetUserRoleByUserIDService(ctx context.Context, u string) (*resp.Exception, error) {
+	if u == "" {
 		return resp.BadRequest("UserID is required"), nil
 	}
-	userRoles, err := svc.userRole.GetRolesByUserID(ctx, userID)
+	userRoles, err := svc.userRole.GetRolesByUserID(ctx, u)
 	if exception, err := handleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 
 	return &resp.Exception{
-		Data: userRoles,
+		Data: svc.serializeRoles(userRoles),
 	}, nil
 }
 
@@ -291,11 +302,11 @@ func (svc *Service) GetUsersByRoleIDService(ctx context.Context, roleID string) 
 }
 
 // DeleteUserRoleByUserIDService deletes user roles by user ID.
-func (svc *Service) DeleteUserRoleByUserIDService(ctx context.Context, userID string) (*resp.Exception, error) {
-	if userID == "" {
+func (svc *Service) DeleteUserRoleByUserIDService(ctx context.Context, u string) (*resp.Exception, error) {
+	if u == "" {
 		return resp.BadRequest("UserID is required"), nil
 	}
-	err := svc.userRole.DeleteAllByID(ctx, userID)
+	err := svc.userRole.DeleteAllByUserID(ctx, u)
 	if exception, err := handleError("UserRole", err); exception != nil {
 		return exception, err
 	}
@@ -323,12 +334,12 @@ func (svc *Service) DeleteUserRoleByRoleIDService(ctx context.Context, roleID st
 // ****** Internal methods of service
 
 // readUser read user by ID
-func (svc *Service) readUser(c *gin.Context, userID string) (*resp.Exception, error) {
-	if userID == "" {
-		return resp.BadRequest(ecode.FieldIsInvalid("userID")), nil
+func (svc *Service) readUser(c *gin.Context, u string) (*resp.Exception, error) {
+	if u == "" {
+		return resp.BadRequest(ecode.FieldIsInvalid("user")), nil
 	}
 
-	user, err := svc.findUserByID(c, userID)
+	user, err := svc.findUserByID(c, u)
 
 	if exception, err := handleError("User", err); exception != nil {
 		return exception, err
@@ -347,8 +358,8 @@ type VerifyPasswordResult struct {
 }
 
 // verifyUserPassword verify user password
-func (svc *Service) verifyUserPassword(c *gin.Context, userID string, password string) any {
-	user, err := svc.user.FindUser(c, &structs.FindUser{ID: userID})
+func (svc *Service) verifyUserPassword(c *gin.Context, u string, password string) any {
+	user, err := svc.user.FindUser(c, &structs.FindUser{Username: u})
 	if ent.IsNotFound(err) {
 		return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: "user not found"}
 	} else if err != nil {
@@ -427,21 +438,23 @@ func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) st
 	}
 
 	if params.WithProfile {
-		profile, _ := svc.userProfile.Get(ctx, user.ID)
-		um.Profile = &structs.UserProfileBody{
-			DisplayName: profile.DisplayName,
-			ShortBio:    profile.ShortBio,
-			About:       &profile.About,
-			Thumbnail:   &profile.Thumbnail,
-			Links:       &profile.Links,
-			Extras:      &profile.Extras,
+		if profile, _ := svc.userProfile.Get(ctx, user.ID); profile != nil {
+			um.Profile = &structs.UserProfileBody{
+				DisplayName: profile.DisplayName,
+				ShortBio:    profile.ShortBio,
+				About:       &profile.About,
+				Thumbnail:   &profile.Thumbnail,
+				Links:       &profile.Links,
+				Extras:      &profile.Extras,
+			}
 		}
 	}
 
 	if params.WithTenants {
-		tenants, _ := svc.userTenant.GetTenantsByUserID(ctx, user.ID)
-		for _, tenant := range tenants {
-			um.Tenants = append(um.Tenants, svc.serializeTenant(tenant))
+		if tenants, _ := svc.userTenant.GetTenantsByUserID(ctx, user.ID); len(tenants) > 0 {
+			for _, tenant := range tenants {
+				um.Tenants = append(um.Tenants, svc.serializeTenant(tenant))
+			}
 		}
 	}
 
@@ -483,3 +496,20 @@ func (svc *Service) serializeUser(user *ent.User, sp ...*serializeUserParams) st
 
 	return um
 }
+
+// // serializeUserRoles serialize user roles
+// func (svc *Service) serializeUserRoles(rows []*ent.UserRole) []*structs.UserRole {
+// 	var userRoles []*structs.UserRole
+// 	for _, row := range rows {
+// 		userRoles = append(userRoles, svc.serializeUserRole(row))
+// 	}
+// 	return userRoles
+// }
+//
+// // serializeUserRole serialize user role
+// func (svc *Service) serializeUserRole(row *ent.UserRole) *structs.UserRole {
+// 	return &structs.UserRole{
+// 		UserID: row.UserID,
+// 		RoleID: row.RoleID,
+// 	}
+// }

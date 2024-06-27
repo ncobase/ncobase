@@ -44,7 +44,7 @@ func NewMenu(d *data.Data) Menu {
 		ec: ec,
 		rc: rc,
 		ms: ms,
-		c:  cache.NewCache[ent.Menu](rc, cache.Key("nb_menu"), false),
+		c:  cache.NewCache[ent.Menu](rc, "nb_menu", false),
 	}
 }
 

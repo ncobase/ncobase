@@ -26,7 +26,6 @@ type Role interface {
 	List(ctx context.Context, params *structs.ListRoleParams) ([]*ent.Role, error)
 	Delete(ctx context.Context, slug string) error
 	FindRole(ctx context.Context, params *structs.FindRole) (*ent.Role, error)
-	ListBuilder(ctx context.Context, params *structs.ListRoleParams) (*ent.RoleQuery, error)
 	CountX(ctx context.Context, params *structs.ListRoleParams) int
 }
 
@@ -41,7 +40,7 @@ type roleRepo struct {
 func NewRole(d *data.Data) Role {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &roleRepo{ec, rc, cache.NewCache[ent.Role](rc, cache.Key("nb_role"))}
+	return &roleRepo{ec, rc, cache.NewCache[ent.Role](rc, "nb_role")}
 }
 
 // Create creates a new role.
@@ -76,8 +75,8 @@ func (r *roleRepo) CreateSuperAdminRole(ctx context.Context) (*ent.Role, error) 
 			Name:        "Super Admin",
 			Slug:        "super-admin",
 			Disabled:    false,
-			Description: "Super Admin Role",
-			Extras:      &types.JSON{},
+			Description: "Super Administrator role with all permissions",
+			Extras:      nil,
 		},
 	})
 }
@@ -177,7 +176,7 @@ func (r *roleRepo) Update(ctx context.Context, slug string, updates types.JSON) 
 // List gets a list of roles.
 func (r *roleRepo) List(ctx context.Context, params *structs.ListRoleParams) ([]*ent.Role, error) {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, params)
+	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
@@ -246,15 +245,36 @@ func (r *roleRepo) FindRole(ctx context.Context, params *structs.FindRole) (*ent
 	return row, nil
 }
 
-// ListBuilder creates list builder.
-func (r *roleRepo) ListBuilder(ctx context.Context, params *structs.ListRoleParams) (*ent.RoleQuery, error) {
-	// Here you can construct and return a builder for listing roles based on the provided parameters.
-	// Similar to the ListBuilder method in the groupRepo.
-	return nil, nil
+// listBuilder creates list builder.
+func (r *roleRepo) listBuilder(ctx context.Context, params *structs.ListRoleParams) (*ent.RoleQuery, error) {
+	// verify query params.
+	var next *ent.Role
+	if validator.IsNotEmpty(params.Cursor) {
+		// query the role.
+		row, err := r.GetByID(ctx, params.Cursor)
+		if validator.IsNotNil(err) || validator.IsNil(row) {
+			return nil, err
+		}
+		next = row
+	}
+
+	// create builder.
+	builder := r.ec.Role.Query()
+
+	// lt the cursor create time
+	if next != nil {
+		builder.Where(roleEnt.CreatedAtLT(next.CreatedAt))
+	}
+
+	return builder, nil
 }
 
 // CountX gets a count of roles.
 func (r *roleRepo) CountX(ctx context.Context, params *structs.ListRoleParams) int {
-	// Here you can implement the logic to count the number of roles based on the provided parameters.
-	return 0
+	// create list builder
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return 0
+	}
+	return builder.CountX(ctx)
 }

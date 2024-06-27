@@ -29,8 +29,11 @@ func (UserRole) Annotations() []schema.Annotation {
 // Mixin of the UserRole.
 func (UserRole) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.NewPrimaryKeyAlias("user", "user_id"),
+		mixin.PrimaryKey,
+		mixin.UserID,
 		mixin.RoleID,
+		mixin.OperatorBy{},
+		mixin.TimeAt{},
 	}
 }
 
@@ -47,6 +50,6 @@ func (UserRole) Edges() []ent.Edge {
 // Indexes of the UserRole.
 func (UserRole) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "role_id"),
+		index.Fields("user_id", "role_id"),
 	}
 }

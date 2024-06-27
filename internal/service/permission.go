@@ -75,6 +75,15 @@ func (svc *Service) GetPermissionsByRoleIDService(ctx context.Context, roleID st
 
 // ****** Internal methods of service
 
+// serializePermissions serializes a list of permission entities to a response format.
+func (svc *Service) serializePermissions(permissions []*ent.Permission) []*structs.ReadPermission {
+	serializedPermissions := make([]*structs.ReadPermission, len(permissions))
+	for i, permission := range permissions {
+		serializedPermissions[i] = svc.serializePermission(permission)
+	}
+	return serializedPermissions
+}
+
 // serializePermission serializes a permission entity to a response format.
 func (svc *Service) serializePermission(row *ent.Permission) *structs.ReadPermission {
 	return &structs.ReadPermission{

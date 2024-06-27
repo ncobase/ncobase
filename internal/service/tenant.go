@@ -52,8 +52,8 @@ func (svc *Service) AccountTenantsService(c *gin.Context) (*resp.Exception, erro
 	return tenants, nil
 }
 
-// UserTenantService user tenant service
-func (svc *Service) UserTenantService(c *gin.Context, username string) (*resp.Exception, error) {
+// UserOwnTenantService user own tenant service
+func (svc *Service) UserOwnTenantService(c *gin.Context, username string) (*resp.Exception, error) {
 	if username == "" {
 		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
 	}
@@ -70,6 +70,62 @@ func (svc *Service) UserTenantService(c *gin.Context, username string) (*resp.Ex
 
 	return &resp.Exception{
 		Data: svc.serializeTenant(tenant),
+	}, nil
+}
+
+// UserBelongTenantService user belong tenant service
+func (svc *Service) UserBelongTenantService(c *gin.Context, username string) (*resp.Exception, error) {
+	if username == "" {
+		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
+	}
+
+	user, err := svc.findUser(c, &structs.FindUser{Username: username})
+	if exception, err := handleError("User", err); exception != nil {
+		return exception, err
+	}
+
+	userTenant, err := svc.userTenant.GetByUserID(c, user.User.ID)
+	if exception, err := handleError("UserTenant", err); exception != nil {
+		return exception, err
+	}
+
+	tenant, err := svc.tenant.GetBySlug(c, userTenant.TenantID)
+	if exception, err := handleError("Tenant", err); exception != nil {
+		return exception, err
+	}
+
+	return &resp.Exception{
+		Data: svc.serializeTenant(tenant),
+	}, nil
+}
+
+// UserBelongTenantsService user belong tenants service
+func (svc *Service) UserBelongTenantsService(c *gin.Context, username string) (*resp.Exception, error) {
+	if username == "" {
+		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
+	}
+
+	user, err := svc.findUser(c, &structs.FindUser{Username: username})
+	if exception, err := handleError("User", err); exception != nil {
+		return exception, err
+	}
+
+	userTenants, err := svc.userTenant.GetTenantsByUserID(c, user.User.ID)
+	if exception, err := handleError("UserTenants", err); exception != nil {
+		return exception, err
+	}
+
+	var tenants []*ent.Tenant
+	for _, userTenant := range userTenants {
+		tenant, err := svc.tenant.GetBySlug(c, userTenant.ID)
+		if exception, err := handleError("Tenant", err); exception != nil {
+			return exception, err
+		}
+		tenants = append(tenants, tenant)
+	}
+
+	return &resp.Exception{
+		Data: svc.serializeTenants(tenants),
 	}, nil
 }
 
@@ -242,21 +298,23 @@ func (svc *Service) createInitialTenant(ctx context.Context, body *structs.Creat
 	}
 
 	// Assign the user to the default tenant with the super admin role
-	_, err = svc.userTenant.Create(ctx, &structs.UserTenant{UserID: *body.CreatedBy, TenantID: defaultTenant.ID})
-	if err != nil {
-		return nil, err
-	}
+	if body.CreatedBy != nil {
+		_, err = svc.userTenant.Create(ctx, &structs.UserTenant{UserID: *body.CreatedBy, TenantID: defaultTenant.ID})
+		if err != nil {
+			return nil, err
+		}
 
-	// Assign the tenant to the super admin role
-	_, err = svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: *body.CreatedBy, RoleID: superAdminRole.ID, TenantID: defaultTenant.ID})
-	if err != nil {
-		return nil, err
-	}
+		// Assign the tenant to the super admin role
+		_, err = svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: *body.CreatedBy, RoleID: superAdminRole.ID, TenantID: defaultTenant.ID})
+		if err != nil {
+			return nil, err
+		}
 
-	// Assign the super admin role to the user
-	_, err = svc.userRole.Create(ctx, &structs.UserRole{UserID: *body.CreatedBy, RoleID: superAdminRole.ID})
-	if err != nil {
-		return nil, err
+		// Assign the super admin role to the user
+		_, err = svc.userRole.Create(ctx, &structs.UserRole{UserID: *body.CreatedBy, RoleID: superAdminRole.ID})
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return defaultTenant, nil
@@ -273,13 +331,8 @@ func (svc *Service) isCreateTenant(ctx context.Context, body *structs.CreateTena
 		body.Slug = slug.Unicode(body.Name)
 	}
 
-	client := svc.d.GetEntClient()
-
 	// Check the number of existing users
-	countUsers, err := client.User.Query().Count(ctx)
-	if err != nil {
-		return nil, err
-	}
+	countUsers := svc.user.CountX(ctx, &structs.ListUserParams{})
 
 	// If there are no existing users, create the initial tenant
 	if countUsers <= 1 {
@@ -304,6 +357,15 @@ func (svc *Service) isCreateTenant(ctx context.Context, body *structs.CreateTena
 
 	return nil, nil
 
+}
+
+// serializeTenants serialize tenants
+func (svc *Service) serializeTenants(rows []*ent.Tenant) []*structs.ReadTenant {
+	tenants := make([]*structs.ReadTenant, 0, len(rows))
+	for _, row := range rows {
+		tenants = append(tenants, svc.serializeTenant(row))
+	}
+	return tenants
 }
 
 // serializeTenant serialize tenant

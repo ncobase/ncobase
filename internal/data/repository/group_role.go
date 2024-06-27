@@ -42,35 +42,33 @@ type groupRoleRepo struct {
 func NewGroupRole(d *data.Data) GroupRole {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &groupRoleRepo{ec, rc, cache.NewCache[ent.GroupRole](rc, cache.Key("nb_group_role"))}
+	return &groupRoleRepo{ec, rc, cache.NewCache[ent.GroupRole](rc, "nb_group_role")}
 }
 
 // Create group role
 func (r *groupRoleRepo) Create(ctx context.Context, body *structs.GroupRole) (*ent.GroupRole, error) {
-
 	// create builder.
 	builder := r.ec.GroupRole.Create()
 	// set values.
-	builder.SetNillableID(&body.GroupID)
+	builder.SetNillableGroupID(&body.GroupID)
 	builder.SetNillableRoleID(&body.RoleID)
-
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.Create error: %v\n", err)
 		return nil, err
 	}
-
 	return row, nil
 }
 
 // GetByGroupID Find role by group id
 func (r *groupRoleRepo) GetByGroupID(ctx context.Context, id string) (*ent.GroupRole, error) {
-	row, err := r.ec.GroupRole.
-		Query().
-		Where(groupRoleEnt.IDEQ(id)).
-		Only(ctx)
-
+	// create builder.
+	builder := r.ec.GroupRole.Query()
+	// set conditions.
+	builder.Where(groupRoleEnt.GroupIDEQ(id))
+	// execute the builder.
+	row, err := builder.Only(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.GetProfile error: %v\n", err)
 		return nil, err
@@ -80,11 +78,12 @@ func (r *groupRoleRepo) GetByGroupID(ctx context.Context, id string) (*ent.Group
 
 // GetByGroupIDs Find roles by group ids
 func (r *groupRoleRepo) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent.GroupRole, error) {
-	rows, err := r.ec.GroupRole.
-		Query().
-		Where(groupRoleEnt.IDIn(ids...)).
-		All(ctx)
-
+	// create builder.
+	builder := r.ec.GroupRole.Query()
+	// set conditions.
+	builder.Where(groupRoleEnt.GroupIDIn(ids...))
+	// execute the builder.
+	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.GetByGroupIDs error: %v\n", err)
 		return nil, err
@@ -94,11 +93,12 @@ func (r *groupRoleRepo) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent
 
 // GetByRoleID Find role by role id
 func (r *groupRoleRepo) GetByRoleID(ctx context.Context, id string) (*ent.GroupRole, error) {
-	row, err := r.ec.GroupRole.
-		Query().
-		Where(groupRoleEnt.RoleIDEQ(id)).
-		Only(ctx)
-
+	// create builder.
+	builder := r.ec.GroupRole.Query()
+	// set conditions.
+	builder.Where(groupRoleEnt.RoleIDEQ(id))
+	// execute the builder.
+	row, err := builder.Only(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.GetProfile error: %v\n", err)
 		return nil, err
@@ -108,11 +108,12 @@ func (r *groupRoleRepo) GetByRoleID(ctx context.Context, id string) (*ent.GroupR
 
 // GetByRoleIDs Find roles by role ids
 func (r *groupRoleRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.GroupRole, error) {
-	rows, err := r.ec.GroupRole.
-		Query().
-		Where(groupRoleEnt.RoleIDIn(ids...)).
-		All(ctx)
-
+	// create builder.
+	builder := r.ec.GroupRole.Query()
+	// set conditions.
+	builder.Where(groupRoleEnt.RoleIDIn(ids...))
+	// execute the builder.
+	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.GetByRoleIDs error: %v\n", err)
 		return nil, err
@@ -122,7 +123,7 @@ func (r *groupRoleRepo) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.
 
 // Delete group role
 func (r *groupRoleRepo) Delete(ctx context.Context, gid, rid string) error {
-	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.IDEQ(gid), groupRoleEnt.RoleIDEQ(rid)).Exec(ctx); err != nil {
+	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.GroupIDEQ(gid), groupRoleEnt.RoleIDEQ(rid)).Exec(ctx); err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.Delete error: %v\n", err)
 		return err
 	}
@@ -131,7 +132,7 @@ func (r *groupRoleRepo) Delete(ctx context.Context, gid, rid string) error {
 
 // DeleteAllByGroupID Delete all group role
 func (r *groupRoleRepo) DeleteAllByGroupID(ctx context.Context, id string) error {
-	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.IDEQ(id)).Exec(ctx); err != nil {
+	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.GroupIDEQ(id)).Exec(ctx); err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.DeleteAllByGroupID error: %v\n", err)
 		return err
 	}
@@ -149,7 +150,7 @@ func (r *groupRoleRepo) DeleteAllByRoleID(ctx context.Context, id string) error 
 
 // GetRolesByGroupID retrieves all roles under a group.
 func (r *groupRoleRepo) GetRolesByGroupID(ctx context.Context, groupID string) ([]*ent.Role, error) {
-	groupRoles, err := r.ec.GroupRole.Query().Where(groupRoleEnt.IDEQ(groupID)).All(ctx)
+	groupRoles, err := r.ec.GroupRole.Query().Where(groupRoleEnt.GroupIDEQ(groupID)).All(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.GetRolesByGroupID error: %v\n", err)
 		return nil, err
@@ -193,7 +194,7 @@ func (r *groupRoleRepo) GetGroupsByRoleID(ctx context.Context, roleID string) ([
 
 // IsRoleInGroup verifies if a role belongs to a specific group.
 func (r *groupRoleRepo) IsRoleInGroup(ctx context.Context, groupID string, roleID string) (bool, error) {
-	count, err := r.ec.GroupRole.Query().Where(groupRoleEnt.IDEQ(groupID), groupRoleEnt.RoleIDEQ(roleID)).Count(ctx)
+	count, err := r.ec.GroupRole.Query().Where(groupRoleEnt.GroupIDEQ(groupID), groupRoleEnt.RoleIDEQ(roleID)).Count(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.IsRoleInGroup error: %v\n", err)
 		return false, err
@@ -203,7 +204,7 @@ func (r *groupRoleRepo) IsRoleInGroup(ctx context.Context, groupID string, roleI
 
 // IsGroupInRole verifies if a group belongs to a specific role.
 func (r *groupRoleRepo) IsGroupInRole(ctx context.Context, groupID string, roleID string) (bool, error) {
-	count, err := r.ec.GroupRole.Query().Where(groupRoleEnt.IDEQ(groupID), groupRoleEnt.RoleIDEQ(roleID)).Count(ctx)
+	count, err := r.ec.GroupRole.Query().Where(groupRoleEnt.GroupIDEQ(groupID), groupRoleEnt.RoleIDEQ(roleID)).Count(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "groupRoleRepo.IsGroupInRole error: %v\n", err)
 		return false, err

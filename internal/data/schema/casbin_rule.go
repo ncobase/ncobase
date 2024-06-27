@@ -36,6 +36,8 @@ func (CasbinRule) Mixin() []ent.Mixin {
 		mixin.V3,
 		mixin.V4,
 		mixin.V5,
+		mixin.OperatorBy{},
+		mixin.TimeAt{},
 	}
 }
 

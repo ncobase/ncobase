@@ -27,8 +27,11 @@ func (UserGroup) Annotations() []schema.Annotation {
 // Mixin of the UserGroup.
 func (UserGroup) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.NewPrimaryKeyAlias("user", "user_id"),
+		mixin.PrimaryKey,
+		mixin.UserID,
 		mixin.GroupID,
+		mixin.OperatorBy{},
+		mixin.TimeAt{},
 	}
 }
 
@@ -45,6 +48,6 @@ func (UserGroup) Edges() []ent.Edge {
 // Indexes of the UserGroup.
 func (UserGroup) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "group_id"),
+		index.Fields("user_id", "group_id"),
 	}
 }

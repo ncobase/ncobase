@@ -3,6 +3,8 @@
 package userrole
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -10,9 +12,19 @@ const (
 	// Label holds the string label denoting the userrole type in the database.
 	Label = "user_role"
 	// FieldID holds the string denoting the id field in the database.
-	FieldID = "user_id"
+	FieldID = "id"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
 	// FieldRoleID holds the string denoting the role_id field in the database.
 	FieldRoleID = "role_id"
+	// FieldCreatedBy holds the string denoting the created_by field in the database.
+	FieldCreatedBy = "created_by"
+	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
+	FieldUpdatedBy = "updated_by"
+	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	FieldCreatedAt = "created_at"
+	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
+	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the userrole in the database.
 	Table = "nb_user_role"
 )
@@ -20,7 +32,12 @@ const (
 // Columns holds all SQL columns for userrole fields.
 var Columns = []string{
 	FieldID,
+	FieldUserID,
 	FieldRoleID,
+	FieldCreatedBy,
+	FieldUpdatedBy,
+	FieldCreatedAt,
+	FieldUpdatedAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -34,10 +51,24 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	UserIDValidator func(string) error
 	// RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
 	RoleIDValidator func(string) error
+	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	CreatedByValidator func(string) error
+	// UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	UpdatedByValidator func(string) error
+	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
+	DefaultCreatedAt func() time.Time
+	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
+	DefaultUpdatedAt func() time.Time
+	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
+	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
+	// IDValidator is a validator for the "id" field. It is called by the builders before save.
+	IDValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the UserRole queries.
@@ -48,7 +79,32 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
+// ByUserID orders the results by the user_id field.
+func ByUserID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUserID, opts...).ToFunc()
+}
+
 // ByRoleID orders the results by the role_id field.
 func ByRoleID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRoleID, opts...).ToFunc()
+}
+
+// ByCreatedBy orders the results by the created_by field.
+func ByCreatedBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedBy, opts...).ToFunc()
+}
+
+// ByUpdatedBy orders the results by the updated_by field.
+func ByUpdatedBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedBy, opts...).ToFunc()
+}
+
+// ByCreatedAt orders the results by the created_at field.
+func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
+}
+
+// ByUpdatedAt orders the results by the updated_at field.
+func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }

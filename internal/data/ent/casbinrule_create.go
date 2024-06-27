@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/internal/data/ent/casbinrule"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -116,6 +117,62 @@ func (crc *CasbinRuleCreate) SetNillableV5(s *string) *CasbinRuleCreate {
 	return crc
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (crc *CasbinRuleCreate) SetCreatedBy(s string) *CasbinRuleCreate {
+	crc.mutation.SetCreatedBy(s)
+	return crc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (crc *CasbinRuleCreate) SetNillableCreatedBy(s *string) *CasbinRuleCreate {
+	if s != nil {
+		crc.SetCreatedBy(*s)
+	}
+	return crc
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (crc *CasbinRuleCreate) SetUpdatedBy(s string) *CasbinRuleCreate {
+	crc.mutation.SetUpdatedBy(s)
+	return crc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (crc *CasbinRuleCreate) SetNillableUpdatedBy(s *string) *CasbinRuleCreate {
+	if s != nil {
+		crc.SetUpdatedBy(*s)
+	}
+	return crc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (crc *CasbinRuleCreate) SetCreatedAt(t time.Time) *CasbinRuleCreate {
+	crc.mutation.SetCreatedAt(t)
+	return crc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (crc *CasbinRuleCreate) SetNillableCreatedAt(t *time.Time) *CasbinRuleCreate {
+	if t != nil {
+		crc.SetCreatedAt(*t)
+	}
+	return crc
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (crc *CasbinRuleCreate) SetUpdatedAt(t time.Time) *CasbinRuleCreate {
+	crc.mutation.SetUpdatedAt(t)
+	return crc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (crc *CasbinRuleCreate) SetNillableUpdatedAt(t *time.Time) *CasbinRuleCreate {
+	if t != nil {
+		crc.SetUpdatedAt(*t)
+	}
+	return crc
+}
+
 // SetID sets the "id" field.
 func (crc *CasbinRuleCreate) SetID(s string) *CasbinRuleCreate {
 	crc.mutation.SetID(s)
@@ -165,6 +222,14 @@ func (crc *CasbinRuleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (crc *CasbinRuleCreate) defaults() {
+	if _, ok := crc.mutation.CreatedAt(); !ok {
+		v := casbinrule.DefaultCreatedAt()
+		crc.mutation.SetCreatedAt(v)
+	}
+	if _, ok := crc.mutation.UpdatedAt(); !ok {
+		v := casbinrule.DefaultUpdatedAt()
+		crc.mutation.SetUpdatedAt(v)
+	}
 	if _, ok := crc.mutation.ID(); !ok {
 		v := casbinrule.DefaultID()
 		crc.mutation.SetID(v)
@@ -173,6 +238,16 @@ func (crc *CasbinRuleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (crc *CasbinRuleCreate) check() error {
+	if v, ok := crc.mutation.CreatedBy(); ok {
+		if err := casbinrule.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.created_by": %w`, err)}
+		}
+	}
+	if v, ok := crc.mutation.UpdatedBy(); ok {
+		if err := casbinrule.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.updated_by": %w`, err)}
+		}
+	}
 	if v, ok := crc.mutation.ID(); ok {
 		if err := casbinrule.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.id": %w`, err)}
@@ -240,6 +315,22 @@ func (crc *CasbinRuleCreate) createSpec() (*CasbinRule, *sqlgraph.CreateSpec) {
 	if value, ok := crc.mutation.V5(); ok {
 		_spec.SetField(casbinrule.FieldV5, field.TypeString, value)
 		_node.V5 = value
+	}
+	if value, ok := crc.mutation.CreatedBy(); ok {
+		_spec.SetField(casbinrule.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
+	if value, ok := crc.mutation.UpdatedBy(); ok {
+		_spec.SetField(casbinrule.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
+	}
+	if value, ok := crc.mutation.CreatedAt(); ok {
+		_spec.SetField(casbinrule.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := crc.mutation.UpdatedAt(); ok {
+		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/predicate"
 	"ncobase/internal/data/ent/userrole"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -24,6 +25,26 @@ type UserRoleUpdate struct {
 // Where appends a list predicates to the UserRoleUpdate builder.
 func (uru *UserRoleUpdate) Where(ps ...predicate.UserRole) *UserRoleUpdate {
 	uru.mutation.Where(ps...)
+	return uru
+}
+
+// SetUserID sets the "user_id" field.
+func (uru *UserRoleUpdate) SetUserID(s string) *UserRoleUpdate {
+	uru.mutation.SetUserID(s)
+	return uru
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (uru *UserRoleUpdate) SetNillableUserID(s *string) *UserRoleUpdate {
+	if s != nil {
+		uru.SetUserID(*s)
+	}
+	return uru
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (uru *UserRoleUpdate) ClearUserID() *UserRoleUpdate {
+	uru.mutation.ClearUserID()
 	return uru
 }
 
@@ -47,6 +68,58 @@ func (uru *UserRoleUpdate) ClearRoleID() *UserRoleUpdate {
 	return uru
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (uru *UserRoleUpdate) SetCreatedBy(s string) *UserRoleUpdate {
+	uru.mutation.SetCreatedBy(s)
+	return uru
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (uru *UserRoleUpdate) SetNillableCreatedBy(s *string) *UserRoleUpdate {
+	if s != nil {
+		uru.SetCreatedBy(*s)
+	}
+	return uru
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (uru *UserRoleUpdate) ClearCreatedBy() *UserRoleUpdate {
+	uru.mutation.ClearCreatedBy()
+	return uru
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (uru *UserRoleUpdate) SetUpdatedBy(s string) *UserRoleUpdate {
+	uru.mutation.SetUpdatedBy(s)
+	return uru
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (uru *UserRoleUpdate) SetNillableUpdatedBy(s *string) *UserRoleUpdate {
+	if s != nil {
+		uru.SetUpdatedBy(*s)
+	}
+	return uru
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (uru *UserRoleUpdate) ClearUpdatedBy() *UserRoleUpdate {
+	uru.mutation.ClearUpdatedBy()
+	return uru
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (uru *UserRoleUpdate) SetUpdatedAt(t time.Time) *UserRoleUpdate {
+	uru.mutation.SetUpdatedAt(t)
+	return uru
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (uru *UserRoleUpdate) ClearUpdatedAt() *UserRoleUpdate {
+	uru.mutation.ClearUpdatedAt()
+	return uru
+}
+
 // Mutation returns the UserRoleMutation object of the builder.
 func (uru *UserRoleUpdate) Mutation() *UserRoleMutation {
 	return uru.mutation
@@ -54,6 +127,7 @@ func (uru *UserRoleUpdate) Mutation() *UserRoleMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (uru *UserRoleUpdate) Save(ctx context.Context) (int, error) {
+	uru.defaults()
 	return withHooks(ctx, uru.sqlSave, uru.mutation, uru.hooks)
 }
 
@@ -79,11 +153,34 @@ func (uru *UserRoleUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (uru *UserRoleUpdate) defaults() {
+	if _, ok := uru.mutation.UpdatedAt(); !ok && !uru.mutation.UpdatedAtCleared() {
+		v := userrole.UpdateDefaultUpdatedAt()
+		uru.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (uru *UserRoleUpdate) check() error {
+	if v, ok := uru.mutation.UserID(); ok {
+		if err := userrole.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserRole.user_id": %w`, err)}
+		}
+	}
 	if v, ok := uru.mutation.RoleID(); ok {
 		if err := userrole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := uru.mutation.CreatedBy(); ok {
+		if err := userrole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := uru.mutation.UpdatedBy(); ok {
+		if err := userrole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserRole.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -101,11 +198,38 @@ func (uru *UserRoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := uru.mutation.UserID(); ok {
+		_spec.SetField(userrole.FieldUserID, field.TypeString, value)
+	}
+	if uru.mutation.UserIDCleared() {
+		_spec.ClearField(userrole.FieldUserID, field.TypeString)
+	}
 	if value, ok := uru.mutation.RoleID(); ok {
 		_spec.SetField(userrole.FieldRoleID, field.TypeString, value)
 	}
 	if uru.mutation.RoleIDCleared() {
 		_spec.ClearField(userrole.FieldRoleID, field.TypeString)
+	}
+	if value, ok := uru.mutation.CreatedBy(); ok {
+		_spec.SetField(userrole.FieldCreatedBy, field.TypeString, value)
+	}
+	if uru.mutation.CreatedByCleared() {
+		_spec.ClearField(userrole.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := uru.mutation.UpdatedBy(); ok {
+		_spec.SetField(userrole.FieldUpdatedBy, field.TypeString, value)
+	}
+	if uru.mutation.UpdatedByCleared() {
+		_spec.ClearField(userrole.FieldUpdatedBy, field.TypeString)
+	}
+	if uru.mutation.CreatedAtCleared() {
+		_spec.ClearField(userrole.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := uru.mutation.UpdatedAt(); ok {
+		_spec.SetField(userrole.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if uru.mutation.UpdatedAtCleared() {
+		_spec.ClearField(userrole.FieldUpdatedAt, field.TypeTime)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -127,6 +251,26 @@ type UserRoleUpdateOne struct {
 	mutation *UserRoleMutation
 }
 
+// SetUserID sets the "user_id" field.
+func (uruo *UserRoleUpdateOne) SetUserID(s string) *UserRoleUpdateOne {
+	uruo.mutation.SetUserID(s)
+	return uruo
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (uruo *UserRoleUpdateOne) SetNillableUserID(s *string) *UserRoleUpdateOne {
+	if s != nil {
+		uruo.SetUserID(*s)
+	}
+	return uruo
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (uruo *UserRoleUpdateOne) ClearUserID() *UserRoleUpdateOne {
+	uruo.mutation.ClearUserID()
+	return uruo
+}
+
 // SetRoleID sets the "role_id" field.
 func (uruo *UserRoleUpdateOne) SetRoleID(s string) *UserRoleUpdateOne {
 	uruo.mutation.SetRoleID(s)
@@ -144,6 +288,58 @@ func (uruo *UserRoleUpdateOne) SetNillableRoleID(s *string) *UserRoleUpdateOne {
 // ClearRoleID clears the value of the "role_id" field.
 func (uruo *UserRoleUpdateOne) ClearRoleID() *UserRoleUpdateOne {
 	uruo.mutation.ClearRoleID()
+	return uruo
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (uruo *UserRoleUpdateOne) SetCreatedBy(s string) *UserRoleUpdateOne {
+	uruo.mutation.SetCreatedBy(s)
+	return uruo
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (uruo *UserRoleUpdateOne) SetNillableCreatedBy(s *string) *UserRoleUpdateOne {
+	if s != nil {
+		uruo.SetCreatedBy(*s)
+	}
+	return uruo
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (uruo *UserRoleUpdateOne) ClearCreatedBy() *UserRoleUpdateOne {
+	uruo.mutation.ClearCreatedBy()
+	return uruo
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (uruo *UserRoleUpdateOne) SetUpdatedBy(s string) *UserRoleUpdateOne {
+	uruo.mutation.SetUpdatedBy(s)
+	return uruo
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (uruo *UserRoleUpdateOne) SetNillableUpdatedBy(s *string) *UserRoleUpdateOne {
+	if s != nil {
+		uruo.SetUpdatedBy(*s)
+	}
+	return uruo
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (uruo *UserRoleUpdateOne) ClearUpdatedBy() *UserRoleUpdateOne {
+	uruo.mutation.ClearUpdatedBy()
+	return uruo
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (uruo *UserRoleUpdateOne) SetUpdatedAt(t time.Time) *UserRoleUpdateOne {
+	uruo.mutation.SetUpdatedAt(t)
+	return uruo
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (uruo *UserRoleUpdateOne) ClearUpdatedAt() *UserRoleUpdateOne {
+	uruo.mutation.ClearUpdatedAt()
 	return uruo
 }
 
@@ -167,6 +363,7 @@ func (uruo *UserRoleUpdateOne) Select(field string, fields ...string) *UserRoleU
 
 // Save executes the query and returns the updated UserRole entity.
 func (uruo *UserRoleUpdateOne) Save(ctx context.Context) (*UserRole, error) {
+	uruo.defaults()
 	return withHooks(ctx, uruo.sqlSave, uruo.mutation, uruo.hooks)
 }
 
@@ -192,11 +389,34 @@ func (uruo *UserRoleUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (uruo *UserRoleUpdateOne) defaults() {
+	if _, ok := uruo.mutation.UpdatedAt(); !ok && !uruo.mutation.UpdatedAtCleared() {
+		v := userrole.UpdateDefaultUpdatedAt()
+		uruo.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (uruo *UserRoleUpdateOne) check() error {
+	if v, ok := uruo.mutation.UserID(); ok {
+		if err := userrole.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserRole.user_id": %w`, err)}
+		}
+	}
 	if v, ok := uruo.mutation.RoleID(); ok {
 		if err := userrole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := uruo.mutation.CreatedBy(); ok {
+		if err := userrole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := uruo.mutation.UpdatedBy(); ok {
+		if err := userrole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserRole.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -231,11 +451,38 @@ func (uruo *UserRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserRole, er
 			}
 		}
 	}
+	if value, ok := uruo.mutation.UserID(); ok {
+		_spec.SetField(userrole.FieldUserID, field.TypeString, value)
+	}
+	if uruo.mutation.UserIDCleared() {
+		_spec.ClearField(userrole.FieldUserID, field.TypeString)
+	}
 	if value, ok := uruo.mutation.RoleID(); ok {
 		_spec.SetField(userrole.FieldRoleID, field.TypeString, value)
 	}
 	if uruo.mutation.RoleIDCleared() {
 		_spec.ClearField(userrole.FieldRoleID, field.TypeString)
+	}
+	if value, ok := uruo.mutation.CreatedBy(); ok {
+		_spec.SetField(userrole.FieldCreatedBy, field.TypeString, value)
+	}
+	if uruo.mutation.CreatedByCleared() {
+		_spec.ClearField(userrole.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := uruo.mutation.UpdatedBy(); ok {
+		_spec.SetField(userrole.FieldUpdatedBy, field.TypeString, value)
+	}
+	if uruo.mutation.UpdatedByCleared() {
+		_spec.ClearField(userrole.FieldUpdatedBy, field.TypeString)
+	}
+	if uruo.mutation.CreatedAtCleared() {
+		_spec.ClearField(userrole.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := uruo.mutation.UpdatedAt(); ok {
+		_spec.SetField(userrole.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if uruo.mutation.UpdatedAtCleared() {
+		_spec.ClearField(userrole.FieldUpdatedAt, field.TypeTime)
 	}
 	_node = &UserRole{config: uruo.config}
 	_spec.Assign = _node.assignValues

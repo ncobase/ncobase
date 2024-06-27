@@ -12,6 +12,7 @@ import (
 	"ncobase/common/log"
 	"ncobase/common/meili"
 
+	"entgo.io/ent/dialect"
 	"github.com/redis/go-redis/v9"
 
 	entsql "entgo.io/ent/dialect/sql"
@@ -99,7 +100,7 @@ func (d *Data) GetRedis() *redis.Client {
 
 // newClient creates a new ent client.
 func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
-	// Open database
+
 	switch conf.Driver {
 	case "postgres":
 		db, err = sql.Open("pgx", conf.Source)
@@ -108,23 +109,27 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 	case "sqlite3":
 		db, err = sql.Open("sqlite3", conf.Source)
 	default:
-		log.Fatalf(context.Background(), "Dialect %v not supported.", conf.Driver)
-	}
-
-	if err != nil {
-		log.Fatalf(context.Background(), "Failed to connect to database %v", err)
+		log.Fatalf(context.Background(), "dialect %v not supported", conf.Driver)
 		return nil, nil
 	}
 
-	// Idle Connection
+	if err != nil {
+		log.Fatalf(context.Background(), "failed to open database: %v", err)
+		return nil, nil
+	}
+
+	// Configure database connection pool
 	db.SetMaxIdleConns(conf.MaxIdleConn)
-	// Max Open Connection
 	db.SetMaxOpenConns(conf.MaxOpenConn)
-	// Max Connect Lifetime
 	db.SetConnMaxLifetime(conf.ConnMaxLifeTime)
 
 	// Create ent client
-	client := ent.NewClient(ent.Driver(entsql.OpenDB(conf.Driver, db)))
+	client := ent.NewClient(ent.Driver(dialect.DebugWithContext(
+		entsql.OpenDB(conf.Driver, db),
+		func(ctx context.Context, i ...interface{}) {
+			log.Infof(ctx, "%v", i)
+		},
+	)))
 
 	// Enable SQL logging
 	if conf.Logging {
@@ -133,8 +138,13 @@ func newClient(conf *config.Database) (*ent.Client, *sql.DB) {
 
 	// Auto migrate
 	if conf.Migrate {
-		if err = client.Schema.Create(context.Background(), migrate.WithForeignKeys(false), migrate.WithDropIndex(true), migrate.WithDropColumn(true)); err != nil {
-			log.Fatalf(context.Background(), "data.client.Schema.Create error: %v", err)
+		if err := client.Schema.Create(context.Background(),
+			migrate.WithForeignKeys(false),
+			migrate.WithDropIndex(true),
+			migrate.WithDropColumn(true),
+		); err != nil {
+			log.Fatalf(context.Background(), "failed to auto migrate schema: %v", err)
+			return nil, nil
 		}
 	}
 

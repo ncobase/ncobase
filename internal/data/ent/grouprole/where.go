@@ -4,6 +4,7 @@ package grouprole
 
 import (
 	"ncobase/internal/data/ent/predicate"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -63,9 +64,109 @@ func IDContainsFold(id string) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldContainsFold(FieldID, id))
 }
 
+// GroupID applies equality check predicate on the "group_id" field. It's identical to GroupIDEQ.
+func GroupID(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldGroupID, v))
+}
+
 // RoleID applies equality check predicate on the "role_id" field. It's identical to RoleIDEQ.
 func RoleID(v string) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldEQ(FieldRoleID, v))
+}
+
+// CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
+func CreatedBy(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldCreatedBy, v))
+}
+
+// UpdatedBy applies equality check predicate on the "updated_by" field. It's identical to UpdatedByEQ.
+func UpdatedBy(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldUpdatedBy, v))
+}
+
+// CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
+func CreatedAt(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldCreatedAt, v))
+}
+
+// UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
+func UpdatedAt(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// GroupIDEQ applies the EQ predicate on the "group_id" field.
+func GroupIDEQ(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldGroupID, v))
+}
+
+// GroupIDNEQ applies the NEQ predicate on the "group_id" field.
+func GroupIDNEQ(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNEQ(FieldGroupID, v))
+}
+
+// GroupIDIn applies the In predicate on the "group_id" field.
+func GroupIDIn(vs ...string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIn(FieldGroupID, vs...))
+}
+
+// GroupIDNotIn applies the NotIn predicate on the "group_id" field.
+func GroupIDNotIn(vs ...string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotIn(FieldGroupID, vs...))
+}
+
+// GroupIDGT applies the GT predicate on the "group_id" field.
+func GroupIDGT(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGT(FieldGroupID, v))
+}
+
+// GroupIDGTE applies the GTE predicate on the "group_id" field.
+func GroupIDGTE(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGTE(FieldGroupID, v))
+}
+
+// GroupIDLT applies the LT predicate on the "group_id" field.
+func GroupIDLT(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLT(FieldGroupID, v))
+}
+
+// GroupIDLTE applies the LTE predicate on the "group_id" field.
+func GroupIDLTE(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLTE(FieldGroupID, v))
+}
+
+// GroupIDContains applies the Contains predicate on the "group_id" field.
+func GroupIDContains(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldContains(FieldGroupID, v))
+}
+
+// GroupIDHasPrefix applies the HasPrefix predicate on the "group_id" field.
+func GroupIDHasPrefix(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldHasPrefix(FieldGroupID, v))
+}
+
+// GroupIDHasSuffix applies the HasSuffix predicate on the "group_id" field.
+func GroupIDHasSuffix(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldHasSuffix(FieldGroupID, v))
+}
+
+// GroupIDIsNil applies the IsNil predicate on the "group_id" field.
+func GroupIDIsNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIsNull(FieldGroupID))
+}
+
+// GroupIDNotNil applies the NotNil predicate on the "group_id" field.
+func GroupIDNotNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotNull(FieldGroupID))
+}
+
+// GroupIDEqualFold applies the EqualFold predicate on the "group_id" field.
+func GroupIDEqualFold(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEqualFold(FieldGroupID, v))
+}
+
+// GroupIDContainsFold applies the ContainsFold predicate on the "group_id" field.
+func GroupIDContainsFold(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldContainsFold(FieldGroupID, v))
 }
 
 // RoleIDEQ applies the EQ predicate on the "role_id" field.
@@ -141,6 +242,256 @@ func RoleIDEqualFold(v string) predicate.GroupRole {
 // RoleIDContainsFold applies the ContainsFold predicate on the "role_id" field.
 func RoleIDContainsFold(v string) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldContainsFold(FieldRoleID, v))
+}
+
+// CreatedByEQ applies the EQ predicate on the "created_by" field.
+func CreatedByEQ(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldCreatedBy, v))
+}
+
+// CreatedByNEQ applies the NEQ predicate on the "created_by" field.
+func CreatedByNEQ(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNEQ(FieldCreatedBy, v))
+}
+
+// CreatedByIn applies the In predicate on the "created_by" field.
+func CreatedByIn(vs ...string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIn(FieldCreatedBy, vs...))
+}
+
+// CreatedByNotIn applies the NotIn predicate on the "created_by" field.
+func CreatedByNotIn(vs ...string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotIn(FieldCreatedBy, vs...))
+}
+
+// CreatedByGT applies the GT predicate on the "created_by" field.
+func CreatedByGT(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGT(FieldCreatedBy, v))
+}
+
+// CreatedByGTE applies the GTE predicate on the "created_by" field.
+func CreatedByGTE(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGTE(FieldCreatedBy, v))
+}
+
+// CreatedByLT applies the LT predicate on the "created_by" field.
+func CreatedByLT(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLT(FieldCreatedBy, v))
+}
+
+// CreatedByLTE applies the LTE predicate on the "created_by" field.
+func CreatedByLTE(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLTE(FieldCreatedBy, v))
+}
+
+// CreatedByContains applies the Contains predicate on the "created_by" field.
+func CreatedByContains(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldContains(FieldCreatedBy, v))
+}
+
+// CreatedByHasPrefix applies the HasPrefix predicate on the "created_by" field.
+func CreatedByHasPrefix(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldHasPrefix(FieldCreatedBy, v))
+}
+
+// CreatedByHasSuffix applies the HasSuffix predicate on the "created_by" field.
+func CreatedByHasSuffix(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldHasSuffix(FieldCreatedBy, v))
+}
+
+// CreatedByIsNil applies the IsNil predicate on the "created_by" field.
+func CreatedByIsNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIsNull(FieldCreatedBy))
+}
+
+// CreatedByNotNil applies the NotNil predicate on the "created_by" field.
+func CreatedByNotNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotNull(FieldCreatedBy))
+}
+
+// CreatedByEqualFold applies the EqualFold predicate on the "created_by" field.
+func CreatedByEqualFold(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEqualFold(FieldCreatedBy, v))
+}
+
+// CreatedByContainsFold applies the ContainsFold predicate on the "created_by" field.
+func CreatedByContainsFold(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldContainsFold(FieldCreatedBy, v))
+}
+
+// UpdatedByEQ applies the EQ predicate on the "updated_by" field.
+func UpdatedByEQ(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldUpdatedBy, v))
+}
+
+// UpdatedByNEQ applies the NEQ predicate on the "updated_by" field.
+func UpdatedByNEQ(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNEQ(FieldUpdatedBy, v))
+}
+
+// UpdatedByIn applies the In predicate on the "updated_by" field.
+func UpdatedByIn(vs ...string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIn(FieldUpdatedBy, vs...))
+}
+
+// UpdatedByNotIn applies the NotIn predicate on the "updated_by" field.
+func UpdatedByNotIn(vs ...string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotIn(FieldUpdatedBy, vs...))
+}
+
+// UpdatedByGT applies the GT predicate on the "updated_by" field.
+func UpdatedByGT(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGT(FieldUpdatedBy, v))
+}
+
+// UpdatedByGTE applies the GTE predicate on the "updated_by" field.
+func UpdatedByGTE(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGTE(FieldUpdatedBy, v))
+}
+
+// UpdatedByLT applies the LT predicate on the "updated_by" field.
+func UpdatedByLT(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLT(FieldUpdatedBy, v))
+}
+
+// UpdatedByLTE applies the LTE predicate on the "updated_by" field.
+func UpdatedByLTE(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLTE(FieldUpdatedBy, v))
+}
+
+// UpdatedByContains applies the Contains predicate on the "updated_by" field.
+func UpdatedByContains(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldContains(FieldUpdatedBy, v))
+}
+
+// UpdatedByHasPrefix applies the HasPrefix predicate on the "updated_by" field.
+func UpdatedByHasPrefix(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldHasPrefix(FieldUpdatedBy, v))
+}
+
+// UpdatedByHasSuffix applies the HasSuffix predicate on the "updated_by" field.
+func UpdatedByHasSuffix(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldHasSuffix(FieldUpdatedBy, v))
+}
+
+// UpdatedByIsNil applies the IsNil predicate on the "updated_by" field.
+func UpdatedByIsNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIsNull(FieldUpdatedBy))
+}
+
+// UpdatedByNotNil applies the NotNil predicate on the "updated_by" field.
+func UpdatedByNotNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotNull(FieldUpdatedBy))
+}
+
+// UpdatedByEqualFold applies the EqualFold predicate on the "updated_by" field.
+func UpdatedByEqualFold(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEqualFold(FieldUpdatedBy, v))
+}
+
+// UpdatedByContainsFold applies the ContainsFold predicate on the "updated_by" field.
+func UpdatedByContainsFold(v string) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldContainsFold(FieldUpdatedBy, v))
+}
+
+// CreatedAtEQ applies the EQ predicate on the "created_at" field.
+func CreatedAtEQ(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldCreatedAt, v))
+}
+
+// CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
+func CreatedAtNEQ(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNEQ(FieldCreatedAt, v))
+}
+
+// CreatedAtIn applies the In predicate on the "created_at" field.
+func CreatedAtIn(vs ...time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIn(FieldCreatedAt, vs...))
+}
+
+// CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
+func CreatedAtNotIn(vs ...time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotIn(FieldCreatedAt, vs...))
+}
+
+// CreatedAtGT applies the GT predicate on the "created_at" field.
+func CreatedAtGT(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGT(FieldCreatedAt, v))
+}
+
+// CreatedAtGTE applies the GTE predicate on the "created_at" field.
+func CreatedAtGTE(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGTE(FieldCreatedAt, v))
+}
+
+// CreatedAtLT applies the LT predicate on the "created_at" field.
+func CreatedAtLT(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLT(FieldCreatedAt, v))
+}
+
+// CreatedAtLTE applies the LTE predicate on the "created_at" field.
+func CreatedAtLTE(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLTE(FieldCreatedAt, v))
+}
+
+// CreatedAtIsNil applies the IsNil predicate on the "created_at" field.
+func CreatedAtIsNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIsNull(FieldCreatedAt))
+}
+
+// CreatedAtNotNil applies the NotNil predicate on the "created_at" field.
+func CreatedAtNotNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotNull(FieldCreatedAt))
+}
+
+// UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
+func UpdatedAtEQ(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
+func UpdatedAtNEQ(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNEQ(FieldUpdatedAt, v))
+}
+
+// UpdatedAtIn applies the In predicate on the "updated_at" field.
+func UpdatedAtIn(vs ...time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIn(FieldUpdatedAt, vs...))
+}
+
+// UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
+func UpdatedAtNotIn(vs ...time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotIn(FieldUpdatedAt, vs...))
+}
+
+// UpdatedAtGT applies the GT predicate on the "updated_at" field.
+func UpdatedAtGT(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGT(FieldUpdatedAt, v))
+}
+
+// UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
+func UpdatedAtGTE(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldGTE(FieldUpdatedAt, v))
+}
+
+// UpdatedAtLT applies the LT predicate on the "updated_at" field.
+func UpdatedAtLT(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLT(FieldUpdatedAt, v))
+}
+
+// UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
+func UpdatedAtLTE(v time.Time) predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldLTE(FieldUpdatedAt, v))
+}
+
+// UpdatedAtIsNil applies the IsNil predicate on the "updated_at" field.
+func UpdatedAtIsNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldIsNull(FieldUpdatedAt))
+}
+
+// UpdatedAtNotNil applies the NotNil predicate on the "updated_at" field.
+func UpdatedAtNotNil() predicate.GroupRole {
+	return predicate.GroupRole(sql.FieldNotNull(FieldUpdatedAt))
 }
 
 // And groups predicates with the AND operator between them.

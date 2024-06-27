@@ -29,8 +29,11 @@ func (GroupRole) Annotations() []schema.Annotation {
 // Mixin of the GroupRole.
 func (GroupRole) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.NewPrimaryKeyAlias("group", "group_id"),
+		mixin.PrimaryKey,
+		mixin.GroupID,
 		mixin.RoleID,
+		mixin.OperatorBy{},
+		mixin.TimeAt{},
 	}
 }
 
@@ -47,6 +50,6 @@ func (GroupRole) Edges() []ent.Edge {
 // Indexes of the GroupRole.
 func (GroupRole) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "role_id"),
+		index.Fields("group_id", "role_id"),
 	}
 }

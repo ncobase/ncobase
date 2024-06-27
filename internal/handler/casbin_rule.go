@@ -140,13 +140,13 @@ func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 // @Description Retrieve a list of Casbin rules.
 // @Tags casbin
 // @Produce json
-// @Param params query structs.CasbinRuleParams true "CasbinRuleParams object"
+// @Param params query structs.ListCasbinRuleParams true "ListCasbinRuleParams object"
 // @Success 200 {array} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/policies [get]
 // @Security Bearer
 func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
-	params := &structs.CasbinRuleParams{}
+	params := &structs.ListCasbinRuleParams{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

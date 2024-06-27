@@ -59,3 +59,9 @@ type UserMeshes struct {
 	Tenants []*ReadTenant    `json:"tenants,omitempty"`
 	Groups  []*ReadGroup     `json:"groups,omitempty"`
 }
+
+// ListUserParams represents the query parameters for listing users.
+type ListUserParams struct {
+	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+}

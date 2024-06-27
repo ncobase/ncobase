@@ -30,7 +30,11 @@ definitions:
     type: object
   structs.CasbinRuleBody:
     properties:
+      created_by:
+        type: string
       p_type:
+        type: string
+      updated_by:
         type: string
       v0:
         type: string
@@ -1724,10 +1728,10 @@ paths:
       description: Retrieve a list of Casbin rules.
       parameters:
       - in: query
-        name: limit
-        type: integer
+        name: cursor
+        type: string
       - in: query
-        name: offset
+        name: limit
         type: integer
       - in: query
         name: p_type

@@ -42,74 +42,74 @@ type userTenantRoleRepo struct {
 func NewUserTenantRole(d *data.Data) UserTenantRole {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userTenantRoleRepo{ec, rc, cache.NewCache[ent.UserTenantRole](rc, cache.Key("nb_user_tenant_role"))}
+	return &userTenantRoleRepo{ec, rc, cache.NewCache[ent.UserTenantRole](rc, "nb_user_tenant_role")}
 }
 
 // Create creates a new user tenant role.
 func (r *userTenantRoleRepo) Create(ctx context.Context, body *structs.UserTenantRole) (*ent.UserTenantRole, error) {
-
+	// create builder.
 	builder := r.ec.UserTenantRole.Create()
-	builder.SetID(body.UserID)
-	builder.SetTenantID(body.TenantID)
-	builder.SetRoleID(body.RoleID)
-
+	// set values.
+	builder.SetNillableUserID(&body.UserID)
+	builder.SetNillableTenantID(&body.TenantID)
+	builder.SetNillableRoleID(&body.RoleID)
+	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.Create error: %v\n", err)
 		return nil, err
 	}
-
 	return row, nil
 }
 
 // GetByUserID retrieves user tenant role by user ID.
 func (r *userTenantRoleRepo) GetByUserID(ctx context.Context, userID string) (*ent.UserTenantRole, error) {
-	row, err := r.ec.UserTenantRole.
-		Query().
-		Where(userTenantRoleEnt.IDEQ(userID)).
-		Only(ctx)
-
+	// create builder.
+	builder := r.ec.UserTenantRole.Query()
+	// set conditions.
+	builder.Where(userTenantRoleEnt.UserIDEQ(userID))
+	// execute the builder.
+	row, err := builder.Only(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.GetByUserID error: %v\n", err)
 		return nil, err
 	}
-
 	return row, nil
 }
 
 // GetByTenantID retrieves user tenant roles by tenant ID.
 func (r *userTenantRoleRepo) GetByTenantID(ctx context.Context, tenantID string) ([]*ent.UserTenantRole, error) {
-	rows, err := r.ec.UserTenantRole.
-		Query().
-		Where(userTenantRoleEnt.TenantID(tenantID)).
-		All(ctx)
-
+	// create builder.
+	builder := r.ec.UserTenantRole.Query()
+	// set conditions.
+	builder.Where(userTenantRoleEnt.TenantID(tenantID))
+	// execute the builder.
+	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.GetByTenantID error: %v\n", err)
 		return nil, err
 	}
-
 	return rows, nil
 }
 
 // GetByRoleID retrieves user tenant roles by role ID.
 func (r *userTenantRoleRepo) GetByRoleID(ctx context.Context, roleID string) ([]*ent.UserTenantRole, error) {
-	rows, err := r.ec.UserTenantRole.
-		Query().
-		Where(userTenantRoleEnt.RoleID(roleID)).
-		All(ctx)
-
+	// create builder.
+	builder := r.ec.UserTenantRole.Query()
+	// set conditions.
+	builder.Where(userTenantRoleEnt.RoleID(roleID))
+	// execute the builder.
+	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.GetByRoleID error: %v\n", err)
 		return nil, err
 	}
-
 	return rows, nil
 }
 
 // DeleteByUserIDAndTenantID deletes user tenant role by user ID and tenant ID.
 func (r *userTenantRoleRepo) DeleteByUserIDAndTenantID(ctx context.Context, userID, tenantID string) error {
-	if _, err := r.ec.UserTenantRole.Delete().Where(userTenantRoleEnt.IDEQ(userID), userTenantRoleEnt.TenantID(tenantID)).Exec(ctx); err != nil {
+	if _, err := r.ec.UserTenantRole.Delete().Where(userTenantRoleEnt.UserIDEQ(userID), userTenantRoleEnt.TenantID(tenantID)).Exec(ctx); err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.DeleteByUserIDAndTenantID error: %v\n", err)
 		return err
 	}
@@ -119,7 +119,7 @@ func (r *userTenantRoleRepo) DeleteByUserIDAndTenantID(ctx context.Context, user
 
 // DeleteByUserIDAndRoleID deletes user tenant role by user ID and role ID.
 func (r *userTenantRoleRepo) DeleteByUserIDAndRoleID(ctx context.Context, userID, roleID string) error {
-	if _, err := r.ec.UserTenantRole.Delete().Where(userTenantRoleEnt.IDEQ(userID), userTenantRoleEnt.RoleID(roleID)).Exec(ctx); err != nil {
+	if _, err := r.ec.UserTenantRole.Delete().Where(userTenantRoleEnt.UserIDEQ(userID), userTenantRoleEnt.RoleID(roleID)).Exec(ctx); err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.DeleteByUserIDAndRoleID error: %v\n", err)
 		return err
 	}
@@ -138,7 +138,7 @@ func (r *userTenantRoleRepo) DeleteByTenantIDAndRoleID(ctx context.Context, tena
 
 // DeleteByUserIDAndTenantIDAndRoleID deletes user tenant role by user ID, tenant ID and role ID.
 func (r *userTenantRoleRepo) DeleteByUserIDAndTenantIDAndRoleID(ctx context.Context, userID, tenantID, roleID string) error {
-	if _, err := r.ec.UserTenantRole.Delete().Where(userTenantRoleEnt.IDEQ(userID), userTenantRoleEnt.TenantID(tenantID), userTenantRoleEnt.RoleID(roleID)).Exec(ctx); err != nil {
+	if _, err := r.ec.UserTenantRole.Delete().Where(userTenantRoleEnt.UserIDEQ(userID), userTenantRoleEnt.TenantID(tenantID), userTenantRoleEnt.RoleID(roleID)).Exec(ctx); err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.DeleteByUserIDAndTenantIDAndRoleID error: %v\n", err)
 		return err
 	}
@@ -148,7 +148,7 @@ func (r *userTenantRoleRepo) DeleteByUserIDAndTenantIDAndRoleID(ctx context.Cont
 
 // DeleteAllByUserID deletes all user tenant roles by user ID.
 func (r *userTenantRoleRepo) DeleteAllByUserID(ctx context.Context, userID string) error {
-	if _, err := r.ec.UserTenantRole.Delete().Where(userTenantRoleEnt.IDEQ(userID)).Exec(ctx); err != nil {
+	if _, err := r.ec.UserTenantRole.Delete().Where(userTenantRoleEnt.UserIDEQ(userID)).Exec(ctx); err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.DeleteAllByUserID error: %v\n", err)
 		return err
 	}
@@ -178,7 +178,7 @@ func (r *userTenantRoleRepo) DeleteAllByRoleID(ctx context.Context, roleID strin
 
 // GetRolesByUserAndTenant retrieves all roles a user has in a tenant.
 func (r *userTenantRoleRepo) GetRolesByUserAndTenant(ctx context.Context, userID string, tenantID string) ([]*ent.Role, error) {
-	userTenantRoles, err := r.ec.UserTenantRole.Query().Where(userTenantRoleEnt.IDEQ(userID), userTenantRoleEnt.TenantIDEQ(tenantID)).All(ctx)
+	userTenantRoles, err := r.ec.UserTenantRole.Query().Where(userTenantRoleEnt.UserIDEQ(userID), userTenantRoleEnt.TenantIDEQ(tenantID)).All(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.GetRolesByUserAndTenant error: %v\n", err)
 		return nil, err
@@ -200,7 +200,7 @@ func (r *userTenantRoleRepo) GetRolesByUserAndTenant(ctx context.Context, userID
 
 // IsUserInRoleInTenant verifies if a user has a specific role in a tenant.
 func (r *userTenantRoleRepo) IsUserInRoleInTenant(ctx context.Context, userID string, tenantID string, roleID string) (bool, error) {
-	count, err := r.ec.UserTenantRole.Query().Where(userTenantRoleEnt.IDEQ(userID), userTenantRoleEnt.TenantIDEQ(tenantID), userTenantRoleEnt.RoleIDEQ(roleID)).Count(ctx)
+	count, err := r.ec.UserTenantRole.Query().Where(userTenantRoleEnt.UserIDEQ(userID), userTenantRoleEnt.TenantIDEQ(tenantID), userTenantRoleEnt.RoleIDEQ(roleID)).Count(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "userTenantRoleRepo.IsUserInRoleInTenant error: %v\n", err)
 		return false, err

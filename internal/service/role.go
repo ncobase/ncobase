@@ -86,18 +86,27 @@ func (svc *Service) RemovePermissionFromRoleService(ctx context.Context, roleID 
 }
 
 // GetRolePermissionsService retrieves permissions associated with a role.
-func (svc *Service) GetRolePermissionsService(ctx context.Context, roleID string) (*resp.Exception, error) {
-	permissions, err := svc.rolePermission.GetPermissionsByRoleID(ctx, roleID)
+func (svc *Service) GetRolePermissionsService(ctx context.Context, r string) (*resp.Exception, error) {
+	permissions, err := svc.rolePermission.GetPermissionsByRoleID(ctx, r)
 	if exception, err := handleError("RolePermission", err); exception != nil {
 		return exception, err
 	}
 
 	return &resp.Exception{
-		Data: permissions,
+		Data: svc.serializePermissions(permissions),
 	}, nil
 }
 
 // ****** Internal methods of service
+
+// seializeRoles serializes a list of role entities to a response format.
+func (svc *Service) serializeRoles(rows []*ent.Role) []*structs.ReadRole {
+	roles := make([]*structs.ReadRole, len(rows))
+	for i, row := range rows {
+		roles[i] = svc.serializeRole(row)
+	}
+	return roles
+}
 
 // serializeRole serializes a role entity to a response format.
 func (svc *Service) serializeRole(row *ent.Role) *structs.ReadRole {

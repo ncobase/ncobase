@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/grouprole"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -15,10 +16,20 @@ import (
 type GroupRole struct {
 	config `json:"-"`
 	// ID of the ent.
-	// group primary key alias
+	// primary key
 	ID string `json:"id,omitempty"`
+	// group id
+	GroupID string `json:"group_id,omitempty"`
 	// role id
-	RoleID       string `json:"role_id,omitempty"`
+	RoleID string `json:"role_id,omitempty"`
+	// id of the creator
+	CreatedBy string `json:"created_by,omitempty"`
+	// id of the last updater
+	UpdatedBy string `json:"updated_by,omitempty"`
+	// created at
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	// updated at
+	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -27,8 +38,10 @@ func (*GroupRole) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case grouprole.FieldID, grouprole.FieldRoleID:
+		case grouprole.FieldID, grouprole.FieldGroupID, grouprole.FieldRoleID, grouprole.FieldCreatedBy, grouprole.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
+		case grouprole.FieldCreatedAt, grouprole.FieldUpdatedAt:
+			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -50,11 +63,41 @@ func (gr *GroupRole) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				gr.ID = value.String
 			}
+		case grouprole.FieldGroupID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field group_id", values[i])
+			} else if value.Valid {
+				gr.GroupID = value.String
+			}
 		case grouprole.FieldRoleID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field role_id", values[i])
 			} else if value.Valid {
 				gr.RoleID = value.String
+			}
+		case grouprole.FieldCreatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
+			} else if value.Valid {
+				gr.CreatedBy = value.String
+			}
+		case grouprole.FieldUpdatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
+			} else if value.Valid {
+				gr.UpdatedBy = value.String
+			}
+		case grouprole.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+			} else if value.Valid {
+				gr.CreatedAt = value.Time
+			}
+		case grouprole.FieldUpdatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+			} else if value.Valid {
+				gr.UpdatedAt = value.Time
 			}
 		default:
 			gr.selectValues.Set(columns[i], values[i])
@@ -92,8 +135,23 @@ func (gr *GroupRole) String() string {
 	var builder strings.Builder
 	builder.WriteString("GroupRole(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", gr.ID))
+	builder.WriteString("group_id=")
+	builder.WriteString(gr.GroupID)
+	builder.WriteString(", ")
 	builder.WriteString("role_id=")
 	builder.WriteString(gr.RoleID)
+	builder.WriteString(", ")
+	builder.WriteString("created_by=")
+	builder.WriteString(gr.CreatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("updated_by=")
+	builder.WriteString(gr.UpdatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("created_at=")
+	builder.WriteString(gr.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("updated_at=")
+	builder.WriteString(gr.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

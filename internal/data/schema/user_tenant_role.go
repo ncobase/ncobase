@@ -27,9 +27,12 @@ func (UserTenantRole) Annotations() []schema.Annotation {
 // Mixin of the UserTenantRole.
 func (UserTenantRole) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.NewPrimaryKeyAlias("user", "user_id"),
+		mixin.PrimaryKey,
+		mixin.UserID,
 		mixin.TenantID,
 		mixin.RoleID,
+		mixin.OperatorBy{},
+		mixin.TimeAt{},
 	}
 }
 
@@ -46,6 +49,6 @@ func (UserTenantRole) Edges() []ent.Edge {
 // Indexes of the UserTenantRole.
 func (UserTenantRole) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "tenant_id", "role_id"),
+		index.Fields("user_id", "tenant_id", "role_id"),
 	}
 }

@@ -25,7 +25,6 @@ type Permission interface {
 	List(ctx context.Context, params *structs.ListPermissionParams) ([]*ent.Permission, error)
 	Delete(ctx context.Context, id string) error
 	FindPermission(ctx context.Context, params *structs.FindPermission) (*ent.Permission, error)
-	ListBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error)
 	CountX(ctx context.Context, params *structs.ListPermissionParams) int
 }
 
@@ -40,7 +39,7 @@ type permissionRepo struct {
 func NewPermission(d *data.Data) Permission {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &permissionRepo{ec, rc, cache.NewCache[ent.Permission](rc, cache.Key("nb_permission"))}
+	return &permissionRepo{ec, rc, cache.NewCache[ent.Permission](rc, "nb_permission")}
 }
 
 // Create creates a new permission.
@@ -169,10 +168,13 @@ func (r *permissionRepo) Update(ctx context.Context, id string, updates types.JS
 // List gets a list of permissions.
 func (r *permissionRepo) List(ctx context.Context, params *structs.ListPermissionParams) ([]*ent.Permission, error) {
 	// create list builder
-	builder, err := r.ListBuilder(ctx, params)
+	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
+
+	// limit the result
+	builder.Limit(int(params.Limit))
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -234,14 +236,36 @@ func (r *permissionRepo) FindPermission(ctx context.Context, params *structs.Fin
 	return row, nil
 }
 
-// ListBuilder creates list builder.
-func (r *permissionRepo) ListBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error) {
-	// Here you can construct and return a builder for listing permissions based on the provided parameters.
-	return nil, nil
+// listBuilder creates list builder.
+func (r *permissionRepo) listBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error) {
+	// verify query params.
+	var next *ent.Permission
+	if validator.IsNotEmpty(params.Cursor) {
+		// query the menu.
+		row, err := r.GetByID(ctx, params.Cursor)
+		if validator.IsNotNil(err) || validator.IsNil(row) {
+			return nil, err
+		}
+		next = row
+	}
+
+	// create builder.
+	builder := r.ec.Permission.Query()
+
+	// lt the cursor create time
+	if next != nil {
+		builder.Where(permissionEnt.CreatedAtLT(next.CreatedAt))
+	}
+
+	return builder, nil
 }
 
 // CountX gets a count of permissions.
 func (r *permissionRepo) CountX(ctx context.Context, params *structs.ListPermissionParams) int {
-	// Here you can implement the logic to count the number of permissions based on the provided parameters.
-	return 0
+	// create list builder
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return 0
+	}
+	return builder.CountX(ctx)
 }

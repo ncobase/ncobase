@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/internal/data/ent/grouprole"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -18,6 +19,20 @@ type GroupRoleCreate struct {
 	hooks    []Hook
 }
 
+// SetGroupID sets the "group_id" field.
+func (grc *GroupRoleCreate) SetGroupID(s string) *GroupRoleCreate {
+	grc.mutation.SetGroupID(s)
+	return grc
+}
+
+// SetNillableGroupID sets the "group_id" field if the given value is not nil.
+func (grc *GroupRoleCreate) SetNillableGroupID(s *string) *GroupRoleCreate {
+	if s != nil {
+		grc.SetGroupID(*s)
+	}
+	return grc
+}
+
 // SetRoleID sets the "role_id" field.
 func (grc *GroupRoleCreate) SetRoleID(s string) *GroupRoleCreate {
 	grc.mutation.SetRoleID(s)
@@ -28,6 +43,62 @@ func (grc *GroupRoleCreate) SetRoleID(s string) *GroupRoleCreate {
 func (grc *GroupRoleCreate) SetNillableRoleID(s *string) *GroupRoleCreate {
 	if s != nil {
 		grc.SetRoleID(*s)
+	}
+	return grc
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (grc *GroupRoleCreate) SetCreatedBy(s string) *GroupRoleCreate {
+	grc.mutation.SetCreatedBy(s)
+	return grc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (grc *GroupRoleCreate) SetNillableCreatedBy(s *string) *GroupRoleCreate {
+	if s != nil {
+		grc.SetCreatedBy(*s)
+	}
+	return grc
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (grc *GroupRoleCreate) SetUpdatedBy(s string) *GroupRoleCreate {
+	grc.mutation.SetUpdatedBy(s)
+	return grc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (grc *GroupRoleCreate) SetNillableUpdatedBy(s *string) *GroupRoleCreate {
+	if s != nil {
+		grc.SetUpdatedBy(*s)
+	}
+	return grc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (grc *GroupRoleCreate) SetCreatedAt(t time.Time) *GroupRoleCreate {
+	grc.mutation.SetCreatedAt(t)
+	return grc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (grc *GroupRoleCreate) SetNillableCreatedAt(t *time.Time) *GroupRoleCreate {
+	if t != nil {
+		grc.SetCreatedAt(*t)
+	}
+	return grc
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (grc *GroupRoleCreate) SetUpdatedAt(t time.Time) *GroupRoleCreate {
+	grc.mutation.SetUpdatedAt(t)
+	return grc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (grc *GroupRoleCreate) SetNillableUpdatedAt(t *time.Time) *GroupRoleCreate {
+	if t != nil {
+		grc.SetUpdatedAt(*t)
 	}
 	return grc
 }
@@ -81,6 +152,14 @@ func (grc *GroupRoleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (grc *GroupRoleCreate) defaults() {
+	if _, ok := grc.mutation.CreatedAt(); !ok {
+		v := grouprole.DefaultCreatedAt()
+		grc.mutation.SetCreatedAt(v)
+	}
+	if _, ok := grc.mutation.UpdatedAt(); !ok {
+		v := grouprole.DefaultUpdatedAt()
+		grc.mutation.SetUpdatedAt(v)
+	}
 	if _, ok := grc.mutation.ID(); !ok {
 		v := grouprole.DefaultID()
 		grc.mutation.SetID(v)
@@ -89,9 +168,29 @@ func (grc *GroupRoleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (grc *GroupRoleCreate) check() error {
+	if v, ok := grc.mutation.GroupID(); ok {
+		if err := grouprole.GroupIDValidator(v); err != nil {
+			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.group_id": %w`, err)}
+		}
+	}
 	if v, ok := grc.mutation.RoleID(); ok {
 		if err := grouprole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := grc.mutation.CreatedBy(); ok {
+		if err := grouprole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := grc.mutation.UpdatedBy(); ok {
+		if err := grouprole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := grc.mutation.ID(); ok {
+		if err := grouprole.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.id": %w`, err)}
 		}
 	}
 	return nil
@@ -129,9 +228,29 @@ func (grc *GroupRoleCreate) createSpec() (*GroupRole, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
+	if value, ok := grc.mutation.GroupID(); ok {
+		_spec.SetField(grouprole.FieldGroupID, field.TypeString, value)
+		_node.GroupID = value
+	}
 	if value, ok := grc.mutation.RoleID(); ok {
 		_spec.SetField(grouprole.FieldRoleID, field.TypeString, value)
 		_node.RoleID = value
+	}
+	if value, ok := grc.mutation.CreatedBy(); ok {
+		_spec.SetField(grouprole.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
+	if value, ok := grc.mutation.UpdatedBy(); ok {
+		_spec.SetField(grouprole.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
+	}
+	if value, ok := grc.mutation.CreatedAt(); ok {
+		_spec.SetField(grouprole.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := grc.mutation.UpdatedAt(); ok {
+		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }
