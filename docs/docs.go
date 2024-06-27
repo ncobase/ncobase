@@ -1444,13 +1444,13 @@ const docTemplate = `{
                 "summary": "List Casbin rules",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "name": "limit",
+                        "type": "string",
+                        "name": "cursor",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "name": "offset",
+                        "name": "limit",
                         "in": "query"
                     },
                     {
@@ -2844,7 +2844,13 @@ const docTemplate = `{
                 "v2"
             ],
             "properties": {
+                "created_by": {
+                    "type": "string"
+                },
                 "p_type": {
+                    "type": "string"
+                },
+                "updated_by": {
                     "type": "string"
                 },
                 "v0": {

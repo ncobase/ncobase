@@ -2,14 +2,13 @@ package service
 
 import (
 	"context"
-	"ncobase/internal/data"
-	"ncobase/internal/data/ent"
-	repo "ncobase/internal/data/repository"
-
 	"ncobase/common/ecode"
 	"ncobase/common/log"
 	"ncobase/common/resp"
 	"ncobase/common/validator"
+	"ncobase/internal/data"
+	"ncobase/internal/data/ent"
+	repo "ncobase/internal/data/repository"
 )
 
 // Service represents a service definition.
@@ -39,7 +38,7 @@ type Service struct {
 
 // New creates a Service instance and returns it.
 func New(d *data.Data) *Service {
-	return &Service{
+	svc := &Service{
 		d:                 d,
 		captcha:           repo.NewCaptcha(d),
 		tenant:            repo.NewTenant(d),
@@ -62,6 +61,22 @@ func New(d *data.Data) *Service {
 		taxonomyRelations: repo.NewTaxonomyRelation(d),
 		topic:             repo.NewTopic(d),
 	}
+
+	if err := svc.initData(); err != nil {
+		log.Fatalf(context.Background(), "❌ Failed initializing data: %+v", err)
+	}
+
+	return svc
+}
+
+// GetData returns the data.
+func (svc *Service) GetData() *data.Data {
+	return svc.d
+}
+
+// GetCasbinRuleRepo returns the casbin rule repository.
+func (svc *Service) GetCasbinRuleRepo() repo.CasbinRule {
+	return svc.casbinRule
 }
 
 // Ping check server

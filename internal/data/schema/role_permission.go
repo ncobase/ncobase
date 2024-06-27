@@ -29,8 +29,11 @@ func (RolePermission) Annotations() []schema.Annotation {
 // Mixin of the RolePermission.
 func (RolePermission) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.NewPrimaryKeyAlias("role", "role_id"),
+		mixin.PrimaryKey,
+		mixin.RoleID,
 		mixin.PermissionID,
+		mixin.OperatorBy{},
+		mixin.TimeAt{},
 	}
 }
 
@@ -47,6 +50,6 @@ func (RolePermission) Edges() []ent.Edge {
 // Indexes of the RolePermission.
 func (RolePermission) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "permission_id"),
+		index.Fields("role_id", "permission_id"),
 	}
 }

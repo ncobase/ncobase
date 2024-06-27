@@ -6,7 +6,7 @@ var signingKey string
 
 // Init initializes the middleware with the given signing key.
 func Init(conf *config.Config) {
-	signingKey = conf.JWTSecret
+	signingKey = conf.Auth.JWT.Secret
 }
 
 // GetSigningKey returns the signing key.

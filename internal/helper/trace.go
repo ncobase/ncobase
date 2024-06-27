@@ -34,10 +34,10 @@ func GetTraceID(c *gin.Context) string {
 
 // NewTraceID creates a new trace ID.
 func NewTraceID() string {
-	return nanoid.Must(16)
+	return nanoid.Must(32)
 }
 
 // NewRequestID creates a new request ID.
 func NewRequestID() string {
-	return nanoid.Must(16)
+	return nanoid.Must(32)
 }

@@ -51,7 +51,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// Account endpoints
-	account := v1.Group("/account", middleware.Authorized)
+	account := v1.Group("/account", middleware.Authenticated)
 	{
 		account.GET("", h.GetMeHandler)
 		account.PUT("/password", h.UpdatePasswordHandler)
@@ -71,11 +71,11 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		// users.GET("/:username/groups", h.ListUserGroupHandler)
 		// users.GET("/:username/tenants", h.UserTenantHandler)
 		// users.GET("/:username/tenants/:slug", h.UserTenantHandler)
-		// users.GET("/:username/tenant/belongs", middleware.Authorized, h.ListUserBelongHandler)
+		// users.GET("/:username/tenant/belongs", middleware.Authenticated, h.ListUserBelongHandler)
 	}
 
 	// Module endpoints
-	modules := v1.Group("/modules", middleware.Authorized)
+	modules := v1.Group("/modules", middleware.Authenticated)
 	{
 		modules.GET("", h.ListModuleHandler)
 		modules.POST("", h.CreateModuleHandler)
@@ -85,7 +85,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// Asset endpoints
-	assets := v1.Group("/assets", middleware.Authorized)
+	assets := v1.Group("/assets", middleware.Authenticated)
 	{
 		assets.GET("", h.ListAssetHandler)
 		assets.POST("", h.CreateAssetsHandler)
@@ -95,7 +95,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// Tenant endpoints
-	tenants := v1.Group("/tenants", middleware.Authorized)
+	tenants := v1.Group("/tenants", middleware.Authenticated)
 	{
 		tenants.GET("", h.ListTenantHandler)
 		tenants.POST("", h.CreateTenantHandler)
@@ -111,7 +111,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// Menu endpoints
-	menus := v1.Group("/menus", middleware.Authorized)
+	menus := v1.Group("/menus", middleware.Authenticated)
 	{
 		menus.GET("", h.ListMenusHandler)
 		menus.POST("", h.CreateMenuHandler)
@@ -121,7 +121,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// Group endpoints
-	// groups := v1.Group("/groups", middleware.Authorized)
+	// groups := v1.Group("/groups", middleware.Authenticated)
 	// {
 	// 	groups.GET("", h.ListGroupHandler)
 	// 	groups.POST("", h.CreateGroupHandler)
@@ -133,7 +133,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// }
 
 	// Role endpoints
-	// roles := v1.Group("/roles", middleware.Authorized)
+	// roles := v1.Group("/roles", middleware.Authenticated)
 	// {
 	// 	roles.GET("", h.ListRoleHandler)
 	// 	roles.POST("", h.CreateRoleHandler)
@@ -145,7 +145,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// }
 
 	// Permission endpoints
-	// permissions := v1.Group("/permissions", middleware.Authorized)
+	// permissions := v1.Group("/permissions", middleware.Authenticated)
 	// {
 	// 	permissions.GET("", h.ListPermissionHandler)
 	// 	permissions.POST("", h.CreatePermissionHandler)
@@ -155,7 +155,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// }
 
 	// Casbin Rule endpoints
-	policies := v1.Group("/policies", middleware.Authorized)
+	policies := v1.Group("/policies", middleware.Authenticated)
 	{
 		policies.GET("", h.ListCasbinRuleHandler)
 		policies.POST("", h.CreateCasbinRuleHandler)
@@ -165,7 +165,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// Taxonomy endpoints
-	taxonomies := v1.Group("/taxonomies", middleware.Authorized)
+	taxonomies := v1.Group("/taxonomies", middleware.Authenticated)
 	{
 		taxonomies.GET("", h.ListTaxonomyHandler)
 		taxonomies.POST("", h.CreateTaxonomyHandler)
@@ -175,7 +175,7 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	}
 
 	// Topic endpoints
-	topics := v1.Group("/topics", middleware.Authorized)
+	topics := v1.Group("/topics", middleware.Authenticated)
 	{
 		topics.GET("", h.ListTopicHandler)
 		topics.POST("", h.CreateTopicHandler)

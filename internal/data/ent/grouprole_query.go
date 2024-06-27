@@ -261,12 +261,12 @@ func (grq *GroupRoleQuery) Clone() *GroupRoleQuery {
 // Example:
 //
 //	var v []struct {
-//		RoleID string `json:"role_id,omitempty"`
+//		GroupID string `json:"group_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.GroupRole.Query().
-//		GroupBy(grouprole.FieldRoleID).
+//		GroupBy(grouprole.FieldGroupID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (grq *GroupRoleQuery) GroupBy(field string, fields ...string) *GroupRoleGroupBy {
@@ -284,11 +284,11 @@ func (grq *GroupRoleQuery) GroupBy(field string, fields ...string) *GroupRoleGro
 // Example:
 //
 //	var v []struct {
-//		RoleID string `json:"role_id,omitempty"`
+//		GroupID string `json:"group_id,omitempty"`
 //	}
 //
 //	client.GroupRole.Query().
-//		Select(grouprole.FieldRoleID).
+//		Select(grouprole.FieldGroupID).
 //		Scan(ctx, &v)
 func (grq *GroupRoleQuery) Select(fields ...string) *GroupRoleSelect {
 	grq.ctx.Fields = append(grq.ctx.Fields, fields...)

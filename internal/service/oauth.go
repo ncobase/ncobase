@@ -32,7 +32,7 @@ func (svc *Service) OAuthRegisterService(c *gin.Context, body *structs.OAuthRegi
 		return resp.Forbidden("register authorize is empty or invalid", nil), nil
 	}
 
-	decoded, err := jwt.DecodeToken(conf.JWTSecret, registerToken)
+	decoded, err := jwt.DecodeToken(conf.Auth.JWT.Secret, registerToken)
 	if err != nil {
 		return resp.NotFound("decoded parsing is missing", nil), nil
 	}
@@ -190,7 +190,7 @@ func (svc *Service) GetOAuthProfileInfoService(c *gin.Context) (*resp.Exception,
 		return resp.Forbidden("register authorize is empty or invalid"), nil
 	}
 
-	decoded, err := jwt.DecodeToken(conf.JWTSecret, registerToken)
+	decoded, err := jwt.DecodeToken(conf.Auth.JWT.Secret, registerToken)
 	if err != nil {
 		return resp.NotFound("decoded parsing is missing", nil), nil
 	}
@@ -304,7 +304,7 @@ func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oaut
 		"accessToken": token,
 	}
 
-	registerToken, err := jwt.GenerateRegisterToken(conf.JWTSecret, user.ID, payload, subject)
+	registerToken, err := jwt.GenerateRegisterToken(conf.Auth.JWT.Secret, user.ID, payload, subject)
 	if registerToken == "" || err != nil {
 		return resp.Forbidden("authorize is not created"), nil
 	}

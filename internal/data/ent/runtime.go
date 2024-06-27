@@ -134,8 +134,30 @@ func init() {
 	casbinruleMixin := schema.CasbinRule{}.Mixin()
 	casbinruleMixinFields0 := casbinruleMixin[0].Fields()
 	_ = casbinruleMixinFields0
+	casbinruleMixinFields8 := casbinruleMixin[8].Fields()
+	_ = casbinruleMixinFields8
+	casbinruleMixinFields9 := casbinruleMixin[9].Fields()
+	_ = casbinruleMixinFields9
 	casbinruleFields := schema.CasbinRule{}.Fields()
 	_ = casbinruleFields
+	// casbinruleDescCreatedBy is the schema descriptor for created_by field.
+	casbinruleDescCreatedBy := casbinruleMixinFields8[0].Descriptor()
+	// casbinrule.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	casbinrule.CreatedByValidator = casbinruleDescCreatedBy.Validators[0].(func(string) error)
+	// casbinruleDescUpdatedBy is the schema descriptor for updated_by field.
+	casbinruleDescUpdatedBy := casbinruleMixinFields8[1].Descriptor()
+	// casbinrule.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	casbinrule.UpdatedByValidator = casbinruleDescUpdatedBy.Validators[0].(func(string) error)
+	// casbinruleDescCreatedAt is the schema descriptor for created_at field.
+	casbinruleDescCreatedAt := casbinruleMixinFields9[0].Descriptor()
+	// casbinrule.DefaultCreatedAt holds the default value on creation for the created_at field.
+	casbinrule.DefaultCreatedAt = casbinruleDescCreatedAt.Default.(func() time.Time)
+	// casbinruleDescUpdatedAt is the schema descriptor for updated_at field.
+	casbinruleDescUpdatedAt := casbinruleMixinFields9[1].Descriptor()
+	// casbinrule.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	casbinrule.DefaultUpdatedAt = casbinruleDescUpdatedAt.Default.(func() time.Time)
+	// casbinrule.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	casbinrule.UpdateDefaultUpdatedAt = casbinruleDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// casbinruleDescID is the schema descriptor for id field.
 	casbinruleDescID := casbinruleMixinFields0[0].Descriptor()
 	// casbinrule.DefaultID holds the default value on creation for the id field.
@@ -239,16 +261,46 @@ func init() {
 	_ = grouproleMixinFields0
 	grouproleMixinFields1 := grouproleMixin[1].Fields()
 	_ = grouproleMixinFields1
+	grouproleMixinFields2 := grouproleMixin[2].Fields()
+	_ = grouproleMixinFields2
+	grouproleMixinFields3 := grouproleMixin[3].Fields()
+	_ = grouproleMixinFields3
+	grouproleMixinFields4 := grouproleMixin[4].Fields()
+	_ = grouproleMixinFields4
 	grouproleFields := schema.GroupRole{}.Fields()
 	_ = grouproleFields
+	// grouproleDescGroupID is the schema descriptor for group_id field.
+	grouproleDescGroupID := grouproleMixinFields1[0].Descriptor()
+	// grouprole.GroupIDValidator is a validator for the "group_id" field. It is called by the builders before save.
+	grouprole.GroupIDValidator = grouproleDescGroupID.Validators[0].(func(string) error)
 	// grouproleDescRoleID is the schema descriptor for role_id field.
-	grouproleDescRoleID := grouproleMixinFields1[0].Descriptor()
+	grouproleDescRoleID := grouproleMixinFields2[0].Descriptor()
 	// grouprole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
 	grouprole.RoleIDValidator = grouproleDescRoleID.Validators[0].(func(string) error)
+	// grouproleDescCreatedBy is the schema descriptor for created_by field.
+	grouproleDescCreatedBy := grouproleMixinFields3[0].Descriptor()
+	// grouprole.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	grouprole.CreatedByValidator = grouproleDescCreatedBy.Validators[0].(func(string) error)
+	// grouproleDescUpdatedBy is the schema descriptor for updated_by field.
+	grouproleDescUpdatedBy := grouproleMixinFields3[1].Descriptor()
+	// grouprole.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	grouprole.UpdatedByValidator = grouproleDescUpdatedBy.Validators[0].(func(string) error)
+	// grouproleDescCreatedAt is the schema descriptor for created_at field.
+	grouproleDescCreatedAt := grouproleMixinFields4[0].Descriptor()
+	// grouprole.DefaultCreatedAt holds the default value on creation for the created_at field.
+	grouprole.DefaultCreatedAt = grouproleDescCreatedAt.Default.(func() time.Time)
+	// grouproleDescUpdatedAt is the schema descriptor for updated_at field.
+	grouproleDescUpdatedAt := grouproleMixinFields4[1].Descriptor()
+	// grouprole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	grouprole.DefaultUpdatedAt = grouproleDescUpdatedAt.Default.(func() time.Time)
+	// grouprole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	grouprole.UpdateDefaultUpdatedAt = grouproleDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// grouproleDescID is the schema descriptor for id field.
 	grouproleDescID := grouproleMixinFields0[0].Descriptor()
 	// grouprole.DefaultID holds the default value on creation for the id field.
 	grouprole.DefaultID = grouproleDescID.Default.(func() string)
+	// grouprole.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	grouprole.IDValidator = grouproleDescID.Validators[0].(func(string) error)
 	menuMixin := schema.Menu{}.Mixin()
 	menuMixinFields0 := menuMixin[0].Fields()
 	_ = menuMixinFields0
@@ -513,16 +565,46 @@ func init() {
 	_ = rolepermissionMixinFields0
 	rolepermissionMixinFields1 := rolepermissionMixin[1].Fields()
 	_ = rolepermissionMixinFields1
+	rolepermissionMixinFields2 := rolepermissionMixin[2].Fields()
+	_ = rolepermissionMixinFields2
+	rolepermissionMixinFields3 := rolepermissionMixin[3].Fields()
+	_ = rolepermissionMixinFields3
+	rolepermissionMixinFields4 := rolepermissionMixin[4].Fields()
+	_ = rolepermissionMixinFields4
 	rolepermissionFields := schema.RolePermission{}.Fields()
 	_ = rolepermissionFields
+	// rolepermissionDescRoleID is the schema descriptor for role_id field.
+	rolepermissionDescRoleID := rolepermissionMixinFields1[0].Descriptor()
+	// rolepermission.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
+	rolepermission.RoleIDValidator = rolepermissionDescRoleID.Validators[0].(func(string) error)
 	// rolepermissionDescPermissionID is the schema descriptor for permission_id field.
-	rolepermissionDescPermissionID := rolepermissionMixinFields1[0].Descriptor()
+	rolepermissionDescPermissionID := rolepermissionMixinFields2[0].Descriptor()
 	// rolepermission.PermissionIDValidator is a validator for the "permission_id" field. It is called by the builders before save.
 	rolepermission.PermissionIDValidator = rolepermissionDescPermissionID.Validators[0].(func(string) error)
+	// rolepermissionDescCreatedBy is the schema descriptor for created_by field.
+	rolepermissionDescCreatedBy := rolepermissionMixinFields3[0].Descriptor()
+	// rolepermission.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	rolepermission.CreatedByValidator = rolepermissionDescCreatedBy.Validators[0].(func(string) error)
+	// rolepermissionDescUpdatedBy is the schema descriptor for updated_by field.
+	rolepermissionDescUpdatedBy := rolepermissionMixinFields3[1].Descriptor()
+	// rolepermission.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	rolepermission.UpdatedByValidator = rolepermissionDescUpdatedBy.Validators[0].(func(string) error)
+	// rolepermissionDescCreatedAt is the schema descriptor for created_at field.
+	rolepermissionDescCreatedAt := rolepermissionMixinFields4[0].Descriptor()
+	// rolepermission.DefaultCreatedAt holds the default value on creation for the created_at field.
+	rolepermission.DefaultCreatedAt = rolepermissionDescCreatedAt.Default.(func() time.Time)
+	// rolepermissionDescUpdatedAt is the schema descriptor for updated_at field.
+	rolepermissionDescUpdatedAt := rolepermissionMixinFields4[1].Descriptor()
+	// rolepermission.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	rolepermission.DefaultUpdatedAt = rolepermissionDescUpdatedAt.Default.(func() time.Time)
+	// rolepermission.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	rolepermission.UpdateDefaultUpdatedAt = rolepermissionDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// rolepermissionDescID is the schema descriptor for id field.
 	rolepermissionDescID := rolepermissionMixinFields0[0].Descriptor()
 	// rolepermission.DefaultID holds the default value on creation for the id field.
 	rolepermission.DefaultID = rolepermissionDescID.Default.(func() string)
+	// rolepermission.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	rolepermission.IDValidator = rolepermissionDescID.Validators[0].(func(string) error)
 	taxonomyMixin := schema.Taxonomy{}.Mixin()
 	taxonomyMixinFields0 := taxonomyMixin[0].Fields()
 	_ = taxonomyMixinFields0
@@ -808,16 +890,46 @@ func init() {
 	_ = usergroupMixinFields0
 	usergroupMixinFields1 := usergroupMixin[1].Fields()
 	_ = usergroupMixinFields1
+	usergroupMixinFields2 := usergroupMixin[2].Fields()
+	_ = usergroupMixinFields2
+	usergroupMixinFields3 := usergroupMixin[3].Fields()
+	_ = usergroupMixinFields3
+	usergroupMixinFields4 := usergroupMixin[4].Fields()
+	_ = usergroupMixinFields4
 	usergroupFields := schema.UserGroup{}.Fields()
 	_ = usergroupFields
+	// usergroupDescUserID is the schema descriptor for user_id field.
+	usergroupDescUserID := usergroupMixinFields1[0].Descriptor()
+	// usergroup.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	usergroup.UserIDValidator = usergroupDescUserID.Validators[0].(func(string) error)
 	// usergroupDescGroupID is the schema descriptor for group_id field.
-	usergroupDescGroupID := usergroupMixinFields1[0].Descriptor()
+	usergroupDescGroupID := usergroupMixinFields2[0].Descriptor()
 	// usergroup.GroupIDValidator is a validator for the "group_id" field. It is called by the builders before save.
 	usergroup.GroupIDValidator = usergroupDescGroupID.Validators[0].(func(string) error)
+	// usergroupDescCreatedBy is the schema descriptor for created_by field.
+	usergroupDescCreatedBy := usergroupMixinFields3[0].Descriptor()
+	// usergroup.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	usergroup.CreatedByValidator = usergroupDescCreatedBy.Validators[0].(func(string) error)
+	// usergroupDescUpdatedBy is the schema descriptor for updated_by field.
+	usergroupDescUpdatedBy := usergroupMixinFields3[1].Descriptor()
+	// usergroup.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	usergroup.UpdatedByValidator = usergroupDescUpdatedBy.Validators[0].(func(string) error)
+	// usergroupDescCreatedAt is the schema descriptor for created_at field.
+	usergroupDescCreatedAt := usergroupMixinFields4[0].Descriptor()
+	// usergroup.DefaultCreatedAt holds the default value on creation for the created_at field.
+	usergroup.DefaultCreatedAt = usergroupDescCreatedAt.Default.(func() time.Time)
+	// usergroupDescUpdatedAt is the schema descriptor for updated_at field.
+	usergroupDescUpdatedAt := usergroupMixinFields4[1].Descriptor()
+	// usergroup.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	usergroup.DefaultUpdatedAt = usergroupDescUpdatedAt.Default.(func() time.Time)
+	// usergroup.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	usergroup.UpdateDefaultUpdatedAt = usergroupDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// usergroupDescID is the schema descriptor for id field.
 	usergroupDescID := usergroupMixinFields0[0].Descriptor()
 	// usergroup.DefaultID holds the default value on creation for the id field.
 	usergroup.DefaultID = usergroupDescID.Default.(func() string)
+	// usergroup.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	usergroup.IDValidator = usergroupDescID.Validators[0].(func(string) error)
 	userprofileMixin := schema.UserProfile{}.Mixin()
 	userprofileMixinFields0 := userprofileMixin[0].Fields()
 	_ = userprofileMixinFields0
@@ -844,31 +956,91 @@ func init() {
 	_ = userroleMixinFields0
 	userroleMixinFields1 := userroleMixin[1].Fields()
 	_ = userroleMixinFields1
+	userroleMixinFields2 := userroleMixin[2].Fields()
+	_ = userroleMixinFields2
+	userroleMixinFields3 := userroleMixin[3].Fields()
+	_ = userroleMixinFields3
+	userroleMixinFields4 := userroleMixin[4].Fields()
+	_ = userroleMixinFields4
 	userroleFields := schema.UserRole{}.Fields()
 	_ = userroleFields
+	// userroleDescUserID is the schema descriptor for user_id field.
+	userroleDescUserID := userroleMixinFields1[0].Descriptor()
+	// userrole.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	userrole.UserIDValidator = userroleDescUserID.Validators[0].(func(string) error)
 	// userroleDescRoleID is the schema descriptor for role_id field.
-	userroleDescRoleID := userroleMixinFields1[0].Descriptor()
+	userroleDescRoleID := userroleMixinFields2[0].Descriptor()
 	// userrole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
 	userrole.RoleIDValidator = userroleDescRoleID.Validators[0].(func(string) error)
+	// userroleDescCreatedBy is the schema descriptor for created_by field.
+	userroleDescCreatedBy := userroleMixinFields3[0].Descriptor()
+	// userrole.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	userrole.CreatedByValidator = userroleDescCreatedBy.Validators[0].(func(string) error)
+	// userroleDescUpdatedBy is the schema descriptor for updated_by field.
+	userroleDescUpdatedBy := userroleMixinFields3[1].Descriptor()
+	// userrole.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	userrole.UpdatedByValidator = userroleDescUpdatedBy.Validators[0].(func(string) error)
+	// userroleDescCreatedAt is the schema descriptor for created_at field.
+	userroleDescCreatedAt := userroleMixinFields4[0].Descriptor()
+	// userrole.DefaultCreatedAt holds the default value on creation for the created_at field.
+	userrole.DefaultCreatedAt = userroleDescCreatedAt.Default.(func() time.Time)
+	// userroleDescUpdatedAt is the schema descriptor for updated_at field.
+	userroleDescUpdatedAt := userroleMixinFields4[1].Descriptor()
+	// userrole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	userrole.DefaultUpdatedAt = userroleDescUpdatedAt.Default.(func() time.Time)
+	// userrole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	userrole.UpdateDefaultUpdatedAt = userroleDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// userroleDescID is the schema descriptor for id field.
 	userroleDescID := userroleMixinFields0[0].Descriptor()
 	// userrole.DefaultID holds the default value on creation for the id field.
 	userrole.DefaultID = userroleDescID.Default.(func() string)
+	// userrole.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	userrole.IDValidator = userroleDescID.Validators[0].(func(string) error)
 	usertenantMixin := schema.UserTenant{}.Mixin()
 	usertenantMixinFields0 := usertenantMixin[0].Fields()
 	_ = usertenantMixinFields0
 	usertenantMixinFields1 := usertenantMixin[1].Fields()
 	_ = usertenantMixinFields1
+	usertenantMixinFields2 := usertenantMixin[2].Fields()
+	_ = usertenantMixinFields2
+	usertenantMixinFields3 := usertenantMixin[3].Fields()
+	_ = usertenantMixinFields3
+	usertenantMixinFields4 := usertenantMixin[4].Fields()
+	_ = usertenantMixinFields4
 	usertenantFields := schema.UserTenant{}.Fields()
 	_ = usertenantFields
+	// usertenantDescUserID is the schema descriptor for user_id field.
+	usertenantDescUserID := usertenantMixinFields1[0].Descriptor()
+	// usertenant.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	usertenant.UserIDValidator = usertenantDescUserID.Validators[0].(func(string) error)
 	// usertenantDescTenantID is the schema descriptor for tenant_id field.
-	usertenantDescTenantID := usertenantMixinFields1[0].Descriptor()
+	usertenantDescTenantID := usertenantMixinFields2[0].Descriptor()
 	// usertenant.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	usertenant.TenantIDValidator = usertenantDescTenantID.Validators[0].(func(string) error)
+	// usertenantDescCreatedBy is the schema descriptor for created_by field.
+	usertenantDescCreatedBy := usertenantMixinFields3[0].Descriptor()
+	// usertenant.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	usertenant.CreatedByValidator = usertenantDescCreatedBy.Validators[0].(func(string) error)
+	// usertenantDescUpdatedBy is the schema descriptor for updated_by field.
+	usertenantDescUpdatedBy := usertenantMixinFields3[1].Descriptor()
+	// usertenant.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	usertenant.UpdatedByValidator = usertenantDescUpdatedBy.Validators[0].(func(string) error)
+	// usertenantDescCreatedAt is the schema descriptor for created_at field.
+	usertenantDescCreatedAt := usertenantMixinFields4[0].Descriptor()
+	// usertenant.DefaultCreatedAt holds the default value on creation for the created_at field.
+	usertenant.DefaultCreatedAt = usertenantDescCreatedAt.Default.(func() time.Time)
+	// usertenantDescUpdatedAt is the schema descriptor for updated_at field.
+	usertenantDescUpdatedAt := usertenantMixinFields4[1].Descriptor()
+	// usertenant.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	usertenant.DefaultUpdatedAt = usertenantDescUpdatedAt.Default.(func() time.Time)
+	// usertenant.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	usertenant.UpdateDefaultUpdatedAt = usertenantDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// usertenantDescID is the schema descriptor for id field.
 	usertenantDescID := usertenantMixinFields0[0].Descriptor()
 	// usertenant.DefaultID holds the default value on creation for the id field.
 	usertenant.DefaultID = usertenantDescID.Default.(func() string)
+	// usertenant.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	usertenant.IDValidator = usertenantDescID.Validators[0].(func(string) error)
 	usertenantroleMixin := schema.UserTenantRole{}.Mixin()
 	usertenantroleMixinFields0 := usertenantroleMixin[0].Fields()
 	_ = usertenantroleMixinFields0
@@ -876,18 +1048,48 @@ func init() {
 	_ = usertenantroleMixinFields1
 	usertenantroleMixinFields2 := usertenantroleMixin[2].Fields()
 	_ = usertenantroleMixinFields2
+	usertenantroleMixinFields3 := usertenantroleMixin[3].Fields()
+	_ = usertenantroleMixinFields3
+	usertenantroleMixinFields4 := usertenantroleMixin[4].Fields()
+	_ = usertenantroleMixinFields4
+	usertenantroleMixinFields5 := usertenantroleMixin[5].Fields()
+	_ = usertenantroleMixinFields5
 	usertenantroleFields := schema.UserTenantRole{}.Fields()
 	_ = usertenantroleFields
+	// usertenantroleDescUserID is the schema descriptor for user_id field.
+	usertenantroleDescUserID := usertenantroleMixinFields1[0].Descriptor()
+	// usertenantrole.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	usertenantrole.UserIDValidator = usertenantroleDescUserID.Validators[0].(func(string) error)
 	// usertenantroleDescTenantID is the schema descriptor for tenant_id field.
-	usertenantroleDescTenantID := usertenantroleMixinFields1[0].Descriptor()
+	usertenantroleDescTenantID := usertenantroleMixinFields2[0].Descriptor()
 	// usertenantrole.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	usertenantrole.TenantIDValidator = usertenantroleDescTenantID.Validators[0].(func(string) error)
 	// usertenantroleDescRoleID is the schema descriptor for role_id field.
-	usertenantroleDescRoleID := usertenantroleMixinFields2[0].Descriptor()
+	usertenantroleDescRoleID := usertenantroleMixinFields3[0].Descriptor()
 	// usertenantrole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
 	usertenantrole.RoleIDValidator = usertenantroleDescRoleID.Validators[0].(func(string) error)
+	// usertenantroleDescCreatedBy is the schema descriptor for created_by field.
+	usertenantroleDescCreatedBy := usertenantroleMixinFields4[0].Descriptor()
+	// usertenantrole.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	usertenantrole.CreatedByValidator = usertenantroleDescCreatedBy.Validators[0].(func(string) error)
+	// usertenantroleDescUpdatedBy is the schema descriptor for updated_by field.
+	usertenantroleDescUpdatedBy := usertenantroleMixinFields4[1].Descriptor()
+	// usertenantrole.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	usertenantrole.UpdatedByValidator = usertenantroleDescUpdatedBy.Validators[0].(func(string) error)
+	// usertenantroleDescCreatedAt is the schema descriptor for created_at field.
+	usertenantroleDescCreatedAt := usertenantroleMixinFields5[0].Descriptor()
+	// usertenantrole.DefaultCreatedAt holds the default value on creation for the created_at field.
+	usertenantrole.DefaultCreatedAt = usertenantroleDescCreatedAt.Default.(func() time.Time)
+	// usertenantroleDescUpdatedAt is the schema descriptor for updated_at field.
+	usertenantroleDescUpdatedAt := usertenantroleMixinFields5[1].Descriptor()
+	// usertenantrole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	usertenantrole.DefaultUpdatedAt = usertenantroleDescUpdatedAt.Default.(func() time.Time)
+	// usertenantrole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	usertenantrole.UpdateDefaultUpdatedAt = usertenantroleDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// usertenantroleDescID is the schema descriptor for id field.
 	usertenantroleDescID := usertenantroleMixinFields0[0].Descriptor()
 	// usertenantrole.DefaultID holds the default value on creation for the id field.
 	usertenantrole.DefaultID = usertenantroleDescID.Default.(func() string)
+	// usertenantrole.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	usertenantrole.IDValidator = usertenantroleDescID.Validators[0].(func(string) error)
 }

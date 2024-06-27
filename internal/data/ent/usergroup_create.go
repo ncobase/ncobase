@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/internal/data/ent/usergroup"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -18,6 +19,20 @@ type UserGroupCreate struct {
 	hooks    []Hook
 }
 
+// SetUserID sets the "user_id" field.
+func (ugc *UserGroupCreate) SetUserID(s string) *UserGroupCreate {
+	ugc.mutation.SetUserID(s)
+	return ugc
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (ugc *UserGroupCreate) SetNillableUserID(s *string) *UserGroupCreate {
+	if s != nil {
+		ugc.SetUserID(*s)
+	}
+	return ugc
+}
+
 // SetGroupID sets the "group_id" field.
 func (ugc *UserGroupCreate) SetGroupID(s string) *UserGroupCreate {
 	ugc.mutation.SetGroupID(s)
@@ -28,6 +43,62 @@ func (ugc *UserGroupCreate) SetGroupID(s string) *UserGroupCreate {
 func (ugc *UserGroupCreate) SetNillableGroupID(s *string) *UserGroupCreate {
 	if s != nil {
 		ugc.SetGroupID(*s)
+	}
+	return ugc
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (ugc *UserGroupCreate) SetCreatedBy(s string) *UserGroupCreate {
+	ugc.mutation.SetCreatedBy(s)
+	return ugc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (ugc *UserGroupCreate) SetNillableCreatedBy(s *string) *UserGroupCreate {
+	if s != nil {
+		ugc.SetCreatedBy(*s)
+	}
+	return ugc
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (ugc *UserGroupCreate) SetUpdatedBy(s string) *UserGroupCreate {
+	ugc.mutation.SetUpdatedBy(s)
+	return ugc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (ugc *UserGroupCreate) SetNillableUpdatedBy(s *string) *UserGroupCreate {
+	if s != nil {
+		ugc.SetUpdatedBy(*s)
+	}
+	return ugc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (ugc *UserGroupCreate) SetCreatedAt(t time.Time) *UserGroupCreate {
+	ugc.mutation.SetCreatedAt(t)
+	return ugc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (ugc *UserGroupCreate) SetNillableCreatedAt(t *time.Time) *UserGroupCreate {
+	if t != nil {
+		ugc.SetCreatedAt(*t)
+	}
+	return ugc
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (ugc *UserGroupCreate) SetUpdatedAt(t time.Time) *UserGroupCreate {
+	ugc.mutation.SetUpdatedAt(t)
+	return ugc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (ugc *UserGroupCreate) SetNillableUpdatedAt(t *time.Time) *UserGroupCreate {
+	if t != nil {
+		ugc.SetUpdatedAt(*t)
 	}
 	return ugc
 }
@@ -81,6 +152,14 @@ func (ugc *UserGroupCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (ugc *UserGroupCreate) defaults() {
+	if _, ok := ugc.mutation.CreatedAt(); !ok {
+		v := usergroup.DefaultCreatedAt()
+		ugc.mutation.SetCreatedAt(v)
+	}
+	if _, ok := ugc.mutation.UpdatedAt(); !ok {
+		v := usergroup.DefaultUpdatedAt()
+		ugc.mutation.SetUpdatedAt(v)
+	}
 	if _, ok := ugc.mutation.ID(); !ok {
 		v := usergroup.DefaultID()
 		ugc.mutation.SetID(v)
@@ -89,9 +168,29 @@ func (ugc *UserGroupCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ugc *UserGroupCreate) check() error {
+	if v, ok := ugc.mutation.UserID(); ok {
+		if err := usergroup.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.user_id": %w`, err)}
+		}
+	}
 	if v, ok := ugc.mutation.GroupID(); ok {
 		if err := usergroup.GroupIDValidator(v); err != nil {
 			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.group_id": %w`, err)}
+		}
+	}
+	if v, ok := ugc.mutation.CreatedBy(); ok {
+		if err := usergroup.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.created_by": %w`, err)}
+		}
+	}
+	if v, ok := ugc.mutation.UpdatedBy(); ok {
+		if err := usergroup.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := ugc.mutation.ID(); ok {
+		if err := usergroup.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.id": %w`, err)}
 		}
 	}
 	return nil
@@ -129,9 +228,29 @@ func (ugc *UserGroupCreate) createSpec() (*UserGroup, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
+	if value, ok := ugc.mutation.UserID(); ok {
+		_spec.SetField(usergroup.FieldUserID, field.TypeString, value)
+		_node.UserID = value
+	}
 	if value, ok := ugc.mutation.GroupID(); ok {
 		_spec.SetField(usergroup.FieldGroupID, field.TypeString, value)
 		_node.GroupID = value
+	}
+	if value, ok := ugc.mutation.CreatedBy(); ok {
+		_spec.SetField(usergroup.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
+	if value, ok := ugc.mutation.UpdatedBy(); ok {
+		_spec.SetField(usergroup.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
+	}
+	if value, ok := ugc.mutation.CreatedAt(); ok {
+		_spec.SetField(usergroup.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := ugc.mutation.UpdatedAt(); ok {
+		_spec.SetField(usergroup.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }

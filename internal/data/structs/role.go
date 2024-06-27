@@ -40,6 +40,7 @@ type ReadRole struct {
 type FindRole struct {
 	ID   string `form:"id,omitempty" json:"id,omitempty"`
 	Slug string `form:"slug,omitempty" json:"slug,omitempty"`
+	Name string `form:"name,omitempty" json:"name,omitempty"`
 }
 
 // ListRoleParams represents the query parameters for listing roles.

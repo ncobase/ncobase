@@ -26,7 +26,7 @@ type User interface {
 	Delete(ctx context.Context, id string) error
 	UpdatePassword(ctx context.Context, params *structs.UserPassword) error
 	FindUser(ctx context.Context, params *structs.FindUser) (*ent.User, error) // not use cache
-	// CountX(ctx context.Context, params *structs.ListUserParams) (int, error)
+	CountX(ctx context.Context, params *structs.ListUserParams) int
 }
 
 // userRepo implements the User interface.
@@ -40,7 +40,7 @@ type userRepo struct {
 func NewUser(d *data.Data) User {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userRepo{ec, rc, cache.NewCache[ent.User](rc, cache.Key("nb_user"))}
+	return &userRepo{ec, rc, cache.NewCache[ent.User](rc, "nb_user")}
 }
 
 // Create create user
@@ -152,7 +152,7 @@ func (r *userRepo) Delete(ctx context.Context, id string) error {
 
 // UpdatePassword  update user password.
 func (r *userRepo) UpdatePassword(ctx context.Context, params *structs.UserPassword) error {
-	row, err := r.FindUser(ctx, &structs.FindUser{ID: params.User})
+	row, err := r.FindUser(ctx, &structs.FindUser{Username: params.User})
 	if validator.IsNotNil(err) {
 		return err
 	}
@@ -203,4 +203,38 @@ func (r *userRepo) FindUser(ctx context.Context, params *structs.FindUser) (*ent
 	return row, nil
 }
 
+// CountX gets a count of users.
+func (r *userRepo) CountX(ctx context.Context, params *structs.ListUserParams) int {
+	// create list builder
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return 0
+	}
+	return builder.CountX(ctx)
+}
+
 // ****** Internal methods of repository
+
+// listBuilder creates list builder.
+func (r *userRepo) listBuilder(ctx context.Context, params *structs.ListUserParams) (*ent.UserQuery, error) {
+	// verify query params.
+	var next *ent.User
+	if validator.IsNotEmpty(params.Cursor) {
+		// query the user.
+		row, err := r.GetByID(ctx, params.Cursor)
+		if validator.IsNotNil(err) || validator.IsNil(row) {
+			return nil, err
+		}
+		next = row
+	}
+
+	// create builder.
+	builder := r.ec.User.Query()
+
+	// lt the cursor create time
+	if next != nil {
+		builder.Where(userEnt.CreatedAtLT(next.CreatedAt))
+	}
+
+	return builder, nil
+}

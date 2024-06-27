@@ -2,14 +2,13 @@ package repo
 
 import (
 	"context"
+	"ncobase/common/log"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/internal/data"
 	"ncobase/internal/data/ent"
 	casbinRuleEnt "ncobase/internal/data/ent/casbinrule"
 	"ncobase/internal/data/structs"
-
-	"ncobase/common/log"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 )
 
 // CasbinRule represents the Casbin rule repository interface.
@@ -19,7 +18,9 @@ type CasbinRule interface {
 	Update(ctx context.Context, id string, updates types.JSON) (*ent.CasbinRule, error)
 	Delete(ctx context.Context, id string) error
 	FindByID(ctx context.Context, id string) (*ent.CasbinRule, error)
-	Find(ctx context.Context, params *structs.CasbinRuleParams) ([]*ent.CasbinRule, error)
+	Find(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*ent.CasbinRule, error)
+	List(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*ent.CasbinRule, error)
+	CountX(ctx context.Context, params *structs.ListCasbinRuleParams) int
 }
 
 // casbinRuleRepo implements the Casbin rule interface.
@@ -34,16 +35,21 @@ func NewCasbinRule(d *data.Data) CasbinRule {
 
 // Create creates a new Casbin rule.
 func (r *casbinRuleRepo) Create(ctx context.Context, body *structs.CasbinRuleBody) (*ent.CasbinRule, error) {
-	// Create a new CasbinRule entity
-	row, err := r.ec.CasbinRule.Create().
-		SetPType(body.PType).
-		SetV0(body.V0).
-		SetV1(body.V1).
-		SetV2(body.V2).
-		SetV3(body.V3).
-		SetV4(body.V4).
-		SetV5(body.V5).
-		Save(ctx)
+	// create builder.
+	builder := r.ec.CasbinRule.Create()
+
+	// set values.
+	builder.SetNillablePType(&body.PType)
+	builder.SetNillableV0(&body.V0)
+	builder.SetNillableV1(&body.V1)
+	builder.SetNillableV2(&body.V2)
+	builder.SetNillableV3(body.V3)
+	builder.SetNillableV4(body.V4)
+	builder.SetNillableV5(body.V5)
+	builder.SetNillableCreatedBy(body.CreatedBy)
+
+	// execute the builder.
+	row, err := builder.Save(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -88,16 +94,18 @@ func (r *casbinRuleRepo) Update(ctx context.Context, id string, updates types.JS
 			builder = builder.SetNillableV4(types.ToPointer(value.(string)))
 		case "v5":
 			builder = builder.SetNillableV5(types.ToPointer(value.(string)))
+		case "updated_by":
+			builder = builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
 		}
 	}
 
 	// Save the updated Casbin rule
-	updatedCasbinRule, err := row.Update().Save(ctx)
+	updatedRow, err := builder.Save(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	return updatedCasbinRule, nil
+	return updatedRow, nil
 }
 
 // Delete deletes a Casbin rule by ID.
@@ -112,7 +120,7 @@ func (r *casbinRuleRepo) Delete(ctx context.Context, id string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(casbinRuleEnt.IDEQ(row.ID)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "topicRepo.Delete error: %v\n", err)
+		log.Errorf(context.Background(), "casbinRuleRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -137,9 +145,75 @@ func (r *casbinRuleRepo) FindByID(ctx context.Context, id string) (*ent.CasbinRu
 }
 
 // Find finds Casbin rules based on query parameters.
-func (r *casbinRuleRepo) Find(ctx context.Context, params *structs.CasbinRuleParams) ([]*ent.CasbinRule, error) {
-	// create builder.
+func (r *casbinRuleRepo) Find(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*ent.CasbinRule, error) {
+	// create list builder
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return nil, err
+	}
+
+	// limit the result
+	builder.Limit(int(params.Limit))
+
+	// Execute the query
+	rows, err := builder.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return rows, nil
+}
+
+// List gets a list of Casbin rules.
+func (r *casbinRuleRepo) List(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*ent.CasbinRule, error) {
+	// create list builder
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return nil, err
+	}
+
+	// limit the result
+	builder.Limit(int(params.Limit))
+
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(context.Background(), "casbinRuleRepo.List error: %v\n", err)
+		return nil, err
+	}
+
+	return rows, nil
+}
+
+// CountX gets a count of Casbin rules.
+func (r *casbinRuleRepo) CountX(ctx context.Context, params *structs.ListCasbinRuleParams) int {
+	// create list builder
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return 0
+	}
+	return builder.CountX(ctx)
+}
+
+// listBuilder builds the list query.
+func (r *casbinRuleRepo) listBuilder(ctx context.Context, params *structs.ListCasbinRuleParams) (*ent.CasbinRuleQuery, error) {
+
+	var next *ent.CasbinRule
+	if validator.IsNotEmpty(params.Cursor) {
+		// query the role.
+		row, err := r.FindByID(ctx, params.Cursor)
+		if validator.IsNotNil(err) || validator.IsNil(row) {
+			return nil, err
+		}
+		next = row
+	}
+
+	// create list builder
 	builder := r.ec.CasbinRule.Query()
+
+	// lt the cursor create time
+	if next != nil {
+		builder.Where(casbinRuleEnt.CreatedAtLT(next.CreatedAt))
+	}
 
 	// Add conditions to the query based on parameters
 	if params.PType != nil && *params.PType != "" {
@@ -164,11 +238,5 @@ func (r *casbinRuleRepo) Find(ctx context.Context, params *structs.CasbinRulePar
 		builder = builder.Where(casbinRuleEnt.V5EQ(*params.V5))
 	}
 
-	// Execute the query
-	rows, err := builder.All(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return rows, nil
+	return builder, nil
 }

@@ -33,7 +33,7 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 	client := svc.d.GetEntClient()
 
 	// Decode register token
-	payload, err := decodeRegisterToken(conf.JWTSecret, body.RegisterToken)
+	payload, err := decodeRegisterToken(conf.Auth.JWT.Secret, body.RegisterToken)
 	if err != nil {
 		return resp.Forbidden("Register token decode failed"), nil
 	}
@@ -190,7 +190,7 @@ func isCodeExpired(createdAt time.Time) bool {
 func sendRegisterMail(c *gin.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*resp.Exception, error) {
 	subject := "email-register"
 	payload := types.JSON{"email": codeAuth.Email, "id": codeAuth.ID}
-	registerToken, err := jwt.GenerateRegisterToken(conf.JWTSecret, codeAuth.ID, payload, subject)
+	registerToken, err := jwt.GenerateRegisterToken(conf.Auth.JWT.Secret, codeAuth.ID, payload, subject)
 	if err != nil {
 		return resp.InternalServer(err.Error()), nil
 	}

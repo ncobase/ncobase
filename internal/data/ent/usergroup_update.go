@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/predicate"
 	"ncobase/internal/data/ent/usergroup"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -24,6 +25,26 @@ type UserGroupUpdate struct {
 // Where appends a list predicates to the UserGroupUpdate builder.
 func (ugu *UserGroupUpdate) Where(ps ...predicate.UserGroup) *UserGroupUpdate {
 	ugu.mutation.Where(ps...)
+	return ugu
+}
+
+// SetUserID sets the "user_id" field.
+func (ugu *UserGroupUpdate) SetUserID(s string) *UserGroupUpdate {
+	ugu.mutation.SetUserID(s)
+	return ugu
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (ugu *UserGroupUpdate) SetNillableUserID(s *string) *UserGroupUpdate {
+	if s != nil {
+		ugu.SetUserID(*s)
+	}
+	return ugu
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (ugu *UserGroupUpdate) ClearUserID() *UserGroupUpdate {
+	ugu.mutation.ClearUserID()
 	return ugu
 }
 
@@ -47,6 +68,58 @@ func (ugu *UserGroupUpdate) ClearGroupID() *UserGroupUpdate {
 	return ugu
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (ugu *UserGroupUpdate) SetCreatedBy(s string) *UserGroupUpdate {
+	ugu.mutation.SetCreatedBy(s)
+	return ugu
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (ugu *UserGroupUpdate) SetNillableCreatedBy(s *string) *UserGroupUpdate {
+	if s != nil {
+		ugu.SetCreatedBy(*s)
+	}
+	return ugu
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (ugu *UserGroupUpdate) ClearCreatedBy() *UserGroupUpdate {
+	ugu.mutation.ClearCreatedBy()
+	return ugu
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (ugu *UserGroupUpdate) SetUpdatedBy(s string) *UserGroupUpdate {
+	ugu.mutation.SetUpdatedBy(s)
+	return ugu
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (ugu *UserGroupUpdate) SetNillableUpdatedBy(s *string) *UserGroupUpdate {
+	if s != nil {
+		ugu.SetUpdatedBy(*s)
+	}
+	return ugu
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (ugu *UserGroupUpdate) ClearUpdatedBy() *UserGroupUpdate {
+	ugu.mutation.ClearUpdatedBy()
+	return ugu
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (ugu *UserGroupUpdate) SetUpdatedAt(t time.Time) *UserGroupUpdate {
+	ugu.mutation.SetUpdatedAt(t)
+	return ugu
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (ugu *UserGroupUpdate) ClearUpdatedAt() *UserGroupUpdate {
+	ugu.mutation.ClearUpdatedAt()
+	return ugu
+}
+
 // Mutation returns the UserGroupMutation object of the builder.
 func (ugu *UserGroupUpdate) Mutation() *UserGroupMutation {
 	return ugu.mutation
@@ -54,6 +127,7 @@ func (ugu *UserGroupUpdate) Mutation() *UserGroupMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (ugu *UserGroupUpdate) Save(ctx context.Context) (int, error) {
+	ugu.defaults()
 	return withHooks(ctx, ugu.sqlSave, ugu.mutation, ugu.hooks)
 }
 
@@ -79,11 +153,34 @@ func (ugu *UserGroupUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (ugu *UserGroupUpdate) defaults() {
+	if _, ok := ugu.mutation.UpdatedAt(); !ok && !ugu.mutation.UpdatedAtCleared() {
+		v := usergroup.UpdateDefaultUpdatedAt()
+		ugu.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (ugu *UserGroupUpdate) check() error {
+	if v, ok := ugu.mutation.UserID(); ok {
+		if err := usergroup.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.user_id": %w`, err)}
+		}
+	}
 	if v, ok := ugu.mutation.GroupID(); ok {
 		if err := usergroup.GroupIDValidator(v); err != nil {
 			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.group_id": %w`, err)}
+		}
+	}
+	if v, ok := ugu.mutation.CreatedBy(); ok {
+		if err := usergroup.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.created_by": %w`, err)}
+		}
+	}
+	if v, ok := ugu.mutation.UpdatedBy(); ok {
+		if err := usergroup.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -101,11 +198,38 @@ func (ugu *UserGroupUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := ugu.mutation.UserID(); ok {
+		_spec.SetField(usergroup.FieldUserID, field.TypeString, value)
+	}
+	if ugu.mutation.UserIDCleared() {
+		_spec.ClearField(usergroup.FieldUserID, field.TypeString)
+	}
 	if value, ok := ugu.mutation.GroupID(); ok {
 		_spec.SetField(usergroup.FieldGroupID, field.TypeString, value)
 	}
 	if ugu.mutation.GroupIDCleared() {
 		_spec.ClearField(usergroup.FieldGroupID, field.TypeString)
+	}
+	if value, ok := ugu.mutation.CreatedBy(); ok {
+		_spec.SetField(usergroup.FieldCreatedBy, field.TypeString, value)
+	}
+	if ugu.mutation.CreatedByCleared() {
+		_spec.ClearField(usergroup.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := ugu.mutation.UpdatedBy(); ok {
+		_spec.SetField(usergroup.FieldUpdatedBy, field.TypeString, value)
+	}
+	if ugu.mutation.UpdatedByCleared() {
+		_spec.ClearField(usergroup.FieldUpdatedBy, field.TypeString)
+	}
+	if ugu.mutation.CreatedAtCleared() {
+		_spec.ClearField(usergroup.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := ugu.mutation.UpdatedAt(); ok {
+		_spec.SetField(usergroup.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if ugu.mutation.UpdatedAtCleared() {
+		_spec.ClearField(usergroup.FieldUpdatedAt, field.TypeTime)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ugu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -127,6 +251,26 @@ type UserGroupUpdateOne struct {
 	mutation *UserGroupMutation
 }
 
+// SetUserID sets the "user_id" field.
+func (uguo *UserGroupUpdateOne) SetUserID(s string) *UserGroupUpdateOne {
+	uguo.mutation.SetUserID(s)
+	return uguo
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (uguo *UserGroupUpdateOne) SetNillableUserID(s *string) *UserGroupUpdateOne {
+	if s != nil {
+		uguo.SetUserID(*s)
+	}
+	return uguo
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (uguo *UserGroupUpdateOne) ClearUserID() *UserGroupUpdateOne {
+	uguo.mutation.ClearUserID()
+	return uguo
+}
+
 // SetGroupID sets the "group_id" field.
 func (uguo *UserGroupUpdateOne) SetGroupID(s string) *UserGroupUpdateOne {
 	uguo.mutation.SetGroupID(s)
@@ -144,6 +288,58 @@ func (uguo *UserGroupUpdateOne) SetNillableGroupID(s *string) *UserGroupUpdateOn
 // ClearGroupID clears the value of the "group_id" field.
 func (uguo *UserGroupUpdateOne) ClearGroupID() *UserGroupUpdateOne {
 	uguo.mutation.ClearGroupID()
+	return uguo
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (uguo *UserGroupUpdateOne) SetCreatedBy(s string) *UserGroupUpdateOne {
+	uguo.mutation.SetCreatedBy(s)
+	return uguo
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (uguo *UserGroupUpdateOne) SetNillableCreatedBy(s *string) *UserGroupUpdateOne {
+	if s != nil {
+		uguo.SetCreatedBy(*s)
+	}
+	return uguo
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (uguo *UserGroupUpdateOne) ClearCreatedBy() *UserGroupUpdateOne {
+	uguo.mutation.ClearCreatedBy()
+	return uguo
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (uguo *UserGroupUpdateOne) SetUpdatedBy(s string) *UserGroupUpdateOne {
+	uguo.mutation.SetUpdatedBy(s)
+	return uguo
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (uguo *UserGroupUpdateOne) SetNillableUpdatedBy(s *string) *UserGroupUpdateOne {
+	if s != nil {
+		uguo.SetUpdatedBy(*s)
+	}
+	return uguo
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (uguo *UserGroupUpdateOne) ClearUpdatedBy() *UserGroupUpdateOne {
+	uguo.mutation.ClearUpdatedBy()
+	return uguo
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (uguo *UserGroupUpdateOne) SetUpdatedAt(t time.Time) *UserGroupUpdateOne {
+	uguo.mutation.SetUpdatedAt(t)
+	return uguo
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (uguo *UserGroupUpdateOne) ClearUpdatedAt() *UserGroupUpdateOne {
+	uguo.mutation.ClearUpdatedAt()
 	return uguo
 }
 
@@ -167,6 +363,7 @@ func (uguo *UserGroupUpdateOne) Select(field string, fields ...string) *UserGrou
 
 // Save executes the query and returns the updated UserGroup entity.
 func (uguo *UserGroupUpdateOne) Save(ctx context.Context) (*UserGroup, error) {
+	uguo.defaults()
 	return withHooks(ctx, uguo.sqlSave, uguo.mutation, uguo.hooks)
 }
 
@@ -192,11 +389,34 @@ func (uguo *UserGroupUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (uguo *UserGroupUpdateOne) defaults() {
+	if _, ok := uguo.mutation.UpdatedAt(); !ok && !uguo.mutation.UpdatedAtCleared() {
+		v := usergroup.UpdateDefaultUpdatedAt()
+		uguo.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (uguo *UserGroupUpdateOne) check() error {
+	if v, ok := uguo.mutation.UserID(); ok {
+		if err := usergroup.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.user_id": %w`, err)}
+		}
+	}
 	if v, ok := uguo.mutation.GroupID(); ok {
 		if err := usergroup.GroupIDValidator(v); err != nil {
 			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.group_id": %w`, err)}
+		}
+	}
+	if v, ok := uguo.mutation.CreatedBy(); ok {
+		if err := usergroup.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.created_by": %w`, err)}
+		}
+	}
+	if v, ok := uguo.mutation.UpdatedBy(); ok {
+		if err := usergroup.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -231,11 +451,38 @@ func (uguo *UserGroupUpdateOne) sqlSave(ctx context.Context) (_node *UserGroup, 
 			}
 		}
 	}
+	if value, ok := uguo.mutation.UserID(); ok {
+		_spec.SetField(usergroup.FieldUserID, field.TypeString, value)
+	}
+	if uguo.mutation.UserIDCleared() {
+		_spec.ClearField(usergroup.FieldUserID, field.TypeString)
+	}
 	if value, ok := uguo.mutation.GroupID(); ok {
 		_spec.SetField(usergroup.FieldGroupID, field.TypeString, value)
 	}
 	if uguo.mutation.GroupIDCleared() {
 		_spec.ClearField(usergroup.FieldGroupID, field.TypeString)
+	}
+	if value, ok := uguo.mutation.CreatedBy(); ok {
+		_spec.SetField(usergroup.FieldCreatedBy, field.TypeString, value)
+	}
+	if uguo.mutation.CreatedByCleared() {
+		_spec.ClearField(usergroup.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := uguo.mutation.UpdatedBy(); ok {
+		_spec.SetField(usergroup.FieldUpdatedBy, field.TypeString, value)
+	}
+	if uguo.mutation.UpdatedByCleared() {
+		_spec.ClearField(usergroup.FieldUpdatedBy, field.TypeString)
+	}
+	if uguo.mutation.CreatedAtCleared() {
+		_spec.ClearField(usergroup.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := uguo.mutation.UpdatedAt(); ok {
+		_spec.SetField(usergroup.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if uguo.mutation.UpdatedAtCleared() {
+		_spec.ClearField(usergroup.FieldUpdatedAt, field.TypeTime)
 	}
 	_node = &UserGroup{config: uguo.config}
 	_spec.Assign = _node.assignValues

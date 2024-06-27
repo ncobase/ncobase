@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/internal/data/ent/rolepermission"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -18,6 +19,20 @@ type RolePermissionCreate struct {
 	hooks    []Hook
 }
 
+// SetRoleID sets the "role_id" field.
+func (rpc *RolePermissionCreate) SetRoleID(s string) *RolePermissionCreate {
+	rpc.mutation.SetRoleID(s)
+	return rpc
+}
+
+// SetNillableRoleID sets the "role_id" field if the given value is not nil.
+func (rpc *RolePermissionCreate) SetNillableRoleID(s *string) *RolePermissionCreate {
+	if s != nil {
+		rpc.SetRoleID(*s)
+	}
+	return rpc
+}
+
 // SetPermissionID sets the "permission_id" field.
 func (rpc *RolePermissionCreate) SetPermissionID(s string) *RolePermissionCreate {
 	rpc.mutation.SetPermissionID(s)
@@ -28,6 +43,62 @@ func (rpc *RolePermissionCreate) SetPermissionID(s string) *RolePermissionCreate
 func (rpc *RolePermissionCreate) SetNillablePermissionID(s *string) *RolePermissionCreate {
 	if s != nil {
 		rpc.SetPermissionID(*s)
+	}
+	return rpc
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (rpc *RolePermissionCreate) SetCreatedBy(s string) *RolePermissionCreate {
+	rpc.mutation.SetCreatedBy(s)
+	return rpc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (rpc *RolePermissionCreate) SetNillableCreatedBy(s *string) *RolePermissionCreate {
+	if s != nil {
+		rpc.SetCreatedBy(*s)
+	}
+	return rpc
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (rpc *RolePermissionCreate) SetUpdatedBy(s string) *RolePermissionCreate {
+	rpc.mutation.SetUpdatedBy(s)
+	return rpc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (rpc *RolePermissionCreate) SetNillableUpdatedBy(s *string) *RolePermissionCreate {
+	if s != nil {
+		rpc.SetUpdatedBy(*s)
+	}
+	return rpc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (rpc *RolePermissionCreate) SetCreatedAt(t time.Time) *RolePermissionCreate {
+	rpc.mutation.SetCreatedAt(t)
+	return rpc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (rpc *RolePermissionCreate) SetNillableCreatedAt(t *time.Time) *RolePermissionCreate {
+	if t != nil {
+		rpc.SetCreatedAt(*t)
+	}
+	return rpc
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (rpc *RolePermissionCreate) SetUpdatedAt(t time.Time) *RolePermissionCreate {
+	rpc.mutation.SetUpdatedAt(t)
+	return rpc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (rpc *RolePermissionCreate) SetNillableUpdatedAt(t *time.Time) *RolePermissionCreate {
+	if t != nil {
+		rpc.SetUpdatedAt(*t)
 	}
 	return rpc
 }
@@ -81,6 +152,14 @@ func (rpc *RolePermissionCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (rpc *RolePermissionCreate) defaults() {
+	if _, ok := rpc.mutation.CreatedAt(); !ok {
+		v := rolepermission.DefaultCreatedAt()
+		rpc.mutation.SetCreatedAt(v)
+	}
+	if _, ok := rpc.mutation.UpdatedAt(); !ok {
+		v := rolepermission.DefaultUpdatedAt()
+		rpc.mutation.SetUpdatedAt(v)
+	}
 	if _, ok := rpc.mutation.ID(); !ok {
 		v := rolepermission.DefaultID()
 		rpc.mutation.SetID(v)
@@ -89,9 +168,29 @@ func (rpc *RolePermissionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (rpc *RolePermissionCreate) check() error {
+	if v, ok := rpc.mutation.RoleID(); ok {
+		if err := rolepermission.RoleIDValidator(v); err != nil {
+			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.role_id": %w`, err)}
+		}
+	}
 	if v, ok := rpc.mutation.PermissionID(); ok {
 		if err := rolepermission.PermissionIDValidator(v); err != nil {
 			return &ValidationError{Name: "permission_id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.permission_id": %w`, err)}
+		}
+	}
+	if v, ok := rpc.mutation.CreatedBy(); ok {
+		if err := rolepermission.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "RolePermission.created_by": %w`, err)}
+		}
+	}
+	if v, ok := rpc.mutation.UpdatedBy(); ok {
+		if err := rolepermission.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "RolePermission.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := rpc.mutation.ID(); ok {
+		if err := rolepermission.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.id": %w`, err)}
 		}
 	}
 	return nil
@@ -129,9 +228,29 @@ func (rpc *RolePermissionCreate) createSpec() (*RolePermission, *sqlgraph.Create
 		_node.ID = id
 		_spec.ID.Value = id
 	}
+	if value, ok := rpc.mutation.RoleID(); ok {
+		_spec.SetField(rolepermission.FieldRoleID, field.TypeString, value)
+		_node.RoleID = value
+	}
 	if value, ok := rpc.mutation.PermissionID(); ok {
 		_spec.SetField(rolepermission.FieldPermissionID, field.TypeString, value)
 		_node.PermissionID = value
+	}
+	if value, ok := rpc.mutation.CreatedBy(); ok {
+		_spec.SetField(rolepermission.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
+	if value, ok := rpc.mutation.UpdatedBy(); ok {
+		_spec.SetField(rolepermission.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
+	}
+	if value, ok := rpc.mutation.CreatedAt(); ok {
+		_spec.SetField(rolepermission.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := rpc.mutation.UpdatedAt(); ok {
+		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }

@@ -45,7 +45,7 @@ func NewTenant(d *data.Data) Tenant {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &tenantRepo{ec, rc, ms, cache.NewCache[ent.Tenant](rc, cache.Key("nb_tenant"))}
+	return &tenantRepo{ec, rc, ms, cache.NewCache[ent.Tenant](rc, "nb_tenant")}
 }
 
 // Create create tenant

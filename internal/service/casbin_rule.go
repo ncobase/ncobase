@@ -68,7 +68,7 @@ func (svc *Service) DeleteCasbinRuleService(c *gin.Context, id string) (*resp.Ex
 }
 
 // ListCasbinRulesService lists all Casbin rules based on query parameters.
-func (svc *Service) ListCasbinRulesService(c *gin.Context, params *structs.CasbinRuleParams) (*resp.Exception, error) {
+func (svc *Service) ListCasbinRulesService(c *gin.Context, params *structs.ListCasbinRuleParams) (*resp.Exception, error) {
 	casbinRules, err := svc.casbinRule.Find(c, params)
 	if exception, err := handleError("CasbinRule", err); exception != nil {
 		return exception, err

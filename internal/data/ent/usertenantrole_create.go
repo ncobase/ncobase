@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/internal/data/ent/usertenantrole"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -16,6 +17,20 @@ type UserTenantRoleCreate struct {
 	config
 	mutation *UserTenantRoleMutation
 	hooks    []Hook
+}
+
+// SetUserID sets the "user_id" field.
+func (utrc *UserTenantRoleCreate) SetUserID(s string) *UserTenantRoleCreate {
+	utrc.mutation.SetUserID(s)
+	return utrc
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (utrc *UserTenantRoleCreate) SetNillableUserID(s *string) *UserTenantRoleCreate {
+	if s != nil {
+		utrc.SetUserID(*s)
+	}
+	return utrc
 }
 
 // SetTenantID sets the "tenant_id" field.
@@ -42,6 +57,62 @@ func (utrc *UserTenantRoleCreate) SetRoleID(s string) *UserTenantRoleCreate {
 func (utrc *UserTenantRoleCreate) SetNillableRoleID(s *string) *UserTenantRoleCreate {
 	if s != nil {
 		utrc.SetRoleID(*s)
+	}
+	return utrc
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (utrc *UserTenantRoleCreate) SetCreatedBy(s string) *UserTenantRoleCreate {
+	utrc.mutation.SetCreatedBy(s)
+	return utrc
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (utrc *UserTenantRoleCreate) SetNillableCreatedBy(s *string) *UserTenantRoleCreate {
+	if s != nil {
+		utrc.SetCreatedBy(*s)
+	}
+	return utrc
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (utrc *UserTenantRoleCreate) SetUpdatedBy(s string) *UserTenantRoleCreate {
+	utrc.mutation.SetUpdatedBy(s)
+	return utrc
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (utrc *UserTenantRoleCreate) SetNillableUpdatedBy(s *string) *UserTenantRoleCreate {
+	if s != nil {
+		utrc.SetUpdatedBy(*s)
+	}
+	return utrc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (utrc *UserTenantRoleCreate) SetCreatedAt(t time.Time) *UserTenantRoleCreate {
+	utrc.mutation.SetCreatedAt(t)
+	return utrc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (utrc *UserTenantRoleCreate) SetNillableCreatedAt(t *time.Time) *UserTenantRoleCreate {
+	if t != nil {
+		utrc.SetCreatedAt(*t)
+	}
+	return utrc
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (utrc *UserTenantRoleCreate) SetUpdatedAt(t time.Time) *UserTenantRoleCreate {
+	utrc.mutation.SetUpdatedAt(t)
+	return utrc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (utrc *UserTenantRoleCreate) SetNillableUpdatedAt(t *time.Time) *UserTenantRoleCreate {
+	if t != nil {
+		utrc.SetUpdatedAt(*t)
 	}
 	return utrc
 }
@@ -95,6 +166,14 @@ func (utrc *UserTenantRoleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (utrc *UserTenantRoleCreate) defaults() {
+	if _, ok := utrc.mutation.CreatedAt(); !ok {
+		v := usertenantrole.DefaultCreatedAt()
+		utrc.mutation.SetCreatedAt(v)
+	}
+	if _, ok := utrc.mutation.UpdatedAt(); !ok {
+		v := usertenantrole.DefaultUpdatedAt()
+		utrc.mutation.SetUpdatedAt(v)
+	}
 	if _, ok := utrc.mutation.ID(); !ok {
 		v := usertenantrole.DefaultID()
 		utrc.mutation.SetID(v)
@@ -103,6 +182,11 @@ func (utrc *UserTenantRoleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (utrc *UserTenantRoleCreate) check() error {
+	if v, ok := utrc.mutation.UserID(); ok {
+		if err := usertenantrole.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.user_id": %w`, err)}
+		}
+	}
 	if v, ok := utrc.mutation.TenantID(); ok {
 		if err := usertenantrole.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.tenant_id": %w`, err)}
@@ -111,6 +195,21 @@ func (utrc *UserTenantRoleCreate) check() error {
 	if v, ok := utrc.mutation.RoleID(); ok {
 		if err := usertenantrole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := utrc.mutation.CreatedBy(); ok {
+		if err := usertenantrole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := utrc.mutation.UpdatedBy(); ok {
+		if err := usertenantrole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.updated_by": %w`, err)}
+		}
+	}
+	if v, ok := utrc.mutation.ID(); ok {
+		if err := usertenantrole.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.id": %w`, err)}
 		}
 	}
 	return nil
@@ -148,6 +247,10 @@ func (utrc *UserTenantRoleCreate) createSpec() (*UserTenantRole, *sqlgraph.Creat
 		_node.ID = id
 		_spec.ID.Value = id
 	}
+	if value, ok := utrc.mutation.UserID(); ok {
+		_spec.SetField(usertenantrole.FieldUserID, field.TypeString, value)
+		_node.UserID = value
+	}
 	if value, ok := utrc.mutation.TenantID(); ok {
 		_spec.SetField(usertenantrole.FieldTenantID, field.TypeString, value)
 		_node.TenantID = value
@@ -155,6 +258,22 @@ func (utrc *UserTenantRoleCreate) createSpec() (*UserTenantRole, *sqlgraph.Creat
 	if value, ok := utrc.mutation.RoleID(); ok {
 		_spec.SetField(usertenantrole.FieldRoleID, field.TypeString, value)
 		_node.RoleID = value
+	}
+	if value, ok := utrc.mutation.CreatedBy(); ok {
+		_spec.SetField(usertenantrole.FieldCreatedBy, field.TypeString, value)
+		_node.CreatedBy = value
+	}
+	if value, ok := utrc.mutation.UpdatedBy(); ok {
+		_spec.SetField(usertenantrole.FieldUpdatedBy, field.TypeString, value)
+		_node.UpdatedBy = value
+	}
+	if value, ok := utrc.mutation.CreatedAt(); ok {
+		_spec.SetField(usertenantrole.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
+	}
+	if value, ok := utrc.mutation.UpdatedAt(); ok {
+		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }

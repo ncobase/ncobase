@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/userrole"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -15,10 +16,20 @@ import (
 type UserRole struct {
 	config `json:"-"`
 	// ID of the ent.
-	// user primary key alias
+	// primary key
 	ID string `json:"id,omitempty"`
+	// user id
+	UserID string `json:"user_id,omitempty"`
 	// role id
-	RoleID       string `json:"role_id,omitempty"`
+	RoleID string `json:"role_id,omitempty"`
+	// id of the creator
+	CreatedBy string `json:"created_by,omitempty"`
+	// id of the last updater
+	UpdatedBy string `json:"updated_by,omitempty"`
+	// created at
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	// updated at
+	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -27,8 +38,10 @@ func (*UserRole) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case userrole.FieldID, userrole.FieldRoleID:
+		case userrole.FieldID, userrole.FieldUserID, userrole.FieldRoleID, userrole.FieldCreatedBy, userrole.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
+		case userrole.FieldCreatedAt, userrole.FieldUpdatedAt:
+			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -50,11 +63,41 @@ func (ur *UserRole) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				ur.ID = value.String
 			}
+		case userrole.FieldUserID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
+			} else if value.Valid {
+				ur.UserID = value.String
+			}
 		case userrole.FieldRoleID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field role_id", values[i])
 			} else if value.Valid {
 				ur.RoleID = value.String
+			}
+		case userrole.FieldCreatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
+			} else if value.Valid {
+				ur.CreatedBy = value.String
+			}
+		case userrole.FieldUpdatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
+			} else if value.Valid {
+				ur.UpdatedBy = value.String
+			}
+		case userrole.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+			} else if value.Valid {
+				ur.CreatedAt = value.Time
+			}
+		case userrole.FieldUpdatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+			} else if value.Valid {
+				ur.UpdatedAt = value.Time
 			}
 		default:
 			ur.selectValues.Set(columns[i], values[i])
@@ -92,8 +135,23 @@ func (ur *UserRole) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserRole(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", ur.ID))
+	builder.WriteString("user_id=")
+	builder.WriteString(ur.UserID)
+	builder.WriteString(", ")
 	builder.WriteString("role_id=")
 	builder.WriteString(ur.RoleID)
+	builder.WriteString(", ")
+	builder.WriteString("created_by=")
+	builder.WriteString(ur.CreatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("updated_by=")
+	builder.WriteString(ur.UpdatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("created_at=")
+	builder.WriteString(ur.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("updated_at=")
+	builder.WriteString(ur.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

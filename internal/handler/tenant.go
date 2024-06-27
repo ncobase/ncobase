@@ -90,7 +90,7 @@ func (h *Handler) CreateTenantHandler(c *gin.Context) {
 // @Router /v1/users/{username}/tenant [get]
 // @Security Bearer
 func (h *Handler) UserTenantHandler(c *gin.Context) {
-	result, err := h.svc.UserTenantService(c, c.Param("username"))
+	result, err := h.svc.UserOwnTenantService(c, c.Param("username"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

@@ -34,7 +34,7 @@ type userProfileRepo struct {
 func NewUserProfile(d *data.Data) UserProfile {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userProfileRepo{ec, rc, cache.NewCache[ent.UserProfile](rc, cache.Key("nb_user_profile"))}
+	return &userProfileRepo{ec, rc, cache.NewCache[ent.UserProfile](rc, "nb_user_profile")}
 }
 
 // Create create user profile
@@ -65,7 +65,7 @@ func (r *userProfileRepo) Create(ctx context.Context, body *structs.UserProfileB
 	}
 
 	// cache the result
-	err = r.c.Set(ctx, fmt.Sprintf("user_profile=%s", body.ID), row)
+	err = r.c.Set(ctx, fmt.Sprintf("%s", body.ID), row)
 	if err != nil {
 		log.Errorf(context.Background(), "userProfileRepo.CreateProfile cache error: %v\n", err)
 	}
@@ -109,16 +109,17 @@ func (r *userProfileRepo) Update(ctx context.Context, id string, updates types.J
 // Get find profile by user id
 func (r *userProfileRepo) Get(ctx context.Context, id string) (*ent.UserProfile, error) {
 	// try get from cache
-	cacheKey := fmt.Sprintf("user_profile=%s", id)
+	cacheKey := fmt.Sprintf("%s", id)
 	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
-	row, err := r.ec.UserProfile.
-		Query().
-		Where(userProfileEnt.IDEQ(id)).
-		Only(ctx)
-
+	// create builder.
+	builder := r.ec.UserProfile.Query()
+	// set conditions.
+	builder.Where(userProfileEnt.IDEQ(id))
+	// execute the builder.
+	row, err := builder.Only(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "userProfileRepo.GetProfile error: %v\n", err)
 		return nil, err
@@ -141,7 +142,7 @@ func (r *userProfileRepo) Delete(ctx context.Context, id string) error {
 	}
 
 	// remove from cache
-	cacheKey := fmt.Sprintf("user_profile=%s", id)
+	cacheKey := fmt.Sprintf("%s", id)
 	err := r.c.Delete(ctx, cacheKey)
 	if err != nil {
 		log.Errorf(context.Background(), "userProfileRepo.Delete cache error: %v\n", err)

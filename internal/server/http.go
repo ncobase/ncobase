@@ -10,16 +10,16 @@ import (
 	"ncobase/common/ecode"
 	"ncobase/common/types"
 
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )
 
 // newHTTP creates an HTTP server.
-func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service) (*gin.Engine, error) {
-
+func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service, enforcer *casbin.Enforcer) (*gin.Engine, error) {
 	gin.SetMode(conf.RunMode)
 	engine := gin.New()
 
-	// Middleware
+	// Initialize middleware
 	middleware.Init(conf)
 	engine.Use(middleware.Logger)
 	engine.Use(middleware.CORSHandler)
@@ -28,6 +28,10 @@ func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service) (*gi
 	engine.Use(middleware.BindGinContext)
 	engine.Use(middleware.Trace)
 	engine.Use(middleware.ConsumeTenant(svc))
+
+	// Authorization middleware
+	authzMiddleware := middleware.Authorized(enforcer, conf.Auth.Whitelist, svc)
+	engine.Use(authzMiddleware)
 
 	// Register REST
 	registerRest(engine, h, conf)

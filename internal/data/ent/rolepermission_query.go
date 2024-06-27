@@ -261,12 +261,12 @@ func (rpq *RolePermissionQuery) Clone() *RolePermissionQuery {
 // Example:
 //
 //	var v []struct {
-//		PermissionID string `json:"permission_id,omitempty"`
+//		RoleID string `json:"role_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.RolePermission.Query().
-//		GroupBy(rolepermission.FieldPermissionID).
+//		GroupBy(rolepermission.FieldRoleID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (rpq *RolePermissionQuery) GroupBy(field string, fields ...string) *RolePermissionGroupBy {
@@ -284,11 +284,11 @@ func (rpq *RolePermissionQuery) GroupBy(field string, fields ...string) *RolePer
 // Example:
 //
 //	var v []struct {
-//		PermissionID string `json:"permission_id,omitempty"`
+//		RoleID string `json:"role_id,omitempty"`
 //	}
 //
 //	client.RolePermission.Query().
-//		Select(rolepermission.FieldPermissionID).
+//		Select(rolepermission.FieldRoleID).
 //		Scan(ctx, &v)
 func (rpq *RolePermissionQuery) Select(fields ...string) *RolePermissionSelect {
 	rpq.ctx.Fields = append(rpq.ctx.Fields, fields...)

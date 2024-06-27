@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/predicate"
 	"ncobase/internal/data/ent/usertenantrole"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -24,6 +25,26 @@ type UserTenantRoleUpdate struct {
 // Where appends a list predicates to the UserTenantRoleUpdate builder.
 func (utru *UserTenantRoleUpdate) Where(ps ...predicate.UserTenantRole) *UserTenantRoleUpdate {
 	utru.mutation.Where(ps...)
+	return utru
+}
+
+// SetUserID sets the "user_id" field.
+func (utru *UserTenantRoleUpdate) SetUserID(s string) *UserTenantRoleUpdate {
+	utru.mutation.SetUserID(s)
+	return utru
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (utru *UserTenantRoleUpdate) SetNillableUserID(s *string) *UserTenantRoleUpdate {
+	if s != nil {
+		utru.SetUserID(*s)
+	}
+	return utru
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (utru *UserTenantRoleUpdate) ClearUserID() *UserTenantRoleUpdate {
+	utru.mutation.ClearUserID()
 	return utru
 }
 
@@ -67,6 +88,58 @@ func (utru *UserTenantRoleUpdate) ClearRoleID() *UserTenantRoleUpdate {
 	return utru
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (utru *UserTenantRoleUpdate) SetCreatedBy(s string) *UserTenantRoleUpdate {
+	utru.mutation.SetCreatedBy(s)
+	return utru
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (utru *UserTenantRoleUpdate) SetNillableCreatedBy(s *string) *UserTenantRoleUpdate {
+	if s != nil {
+		utru.SetCreatedBy(*s)
+	}
+	return utru
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (utru *UserTenantRoleUpdate) ClearCreatedBy() *UserTenantRoleUpdate {
+	utru.mutation.ClearCreatedBy()
+	return utru
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (utru *UserTenantRoleUpdate) SetUpdatedBy(s string) *UserTenantRoleUpdate {
+	utru.mutation.SetUpdatedBy(s)
+	return utru
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (utru *UserTenantRoleUpdate) SetNillableUpdatedBy(s *string) *UserTenantRoleUpdate {
+	if s != nil {
+		utru.SetUpdatedBy(*s)
+	}
+	return utru
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (utru *UserTenantRoleUpdate) ClearUpdatedBy() *UserTenantRoleUpdate {
+	utru.mutation.ClearUpdatedBy()
+	return utru
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (utru *UserTenantRoleUpdate) SetUpdatedAt(t time.Time) *UserTenantRoleUpdate {
+	utru.mutation.SetUpdatedAt(t)
+	return utru
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (utru *UserTenantRoleUpdate) ClearUpdatedAt() *UserTenantRoleUpdate {
+	utru.mutation.ClearUpdatedAt()
+	return utru
+}
+
 // Mutation returns the UserTenantRoleMutation object of the builder.
 func (utru *UserTenantRoleUpdate) Mutation() *UserTenantRoleMutation {
 	return utru.mutation
@@ -74,6 +147,7 @@ func (utru *UserTenantRoleUpdate) Mutation() *UserTenantRoleMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (utru *UserTenantRoleUpdate) Save(ctx context.Context) (int, error) {
+	utru.defaults()
 	return withHooks(ctx, utru.sqlSave, utru.mutation, utru.hooks)
 }
 
@@ -99,8 +173,21 @@ func (utru *UserTenantRoleUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (utru *UserTenantRoleUpdate) defaults() {
+	if _, ok := utru.mutation.UpdatedAt(); !ok && !utru.mutation.UpdatedAtCleared() {
+		v := usertenantrole.UpdateDefaultUpdatedAt()
+		utru.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (utru *UserTenantRoleUpdate) check() error {
+	if v, ok := utru.mutation.UserID(); ok {
+		if err := usertenantrole.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.user_id": %w`, err)}
+		}
+	}
 	if v, ok := utru.mutation.TenantID(); ok {
 		if err := usertenantrole.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.tenant_id": %w`, err)}
@@ -109,6 +196,16 @@ func (utru *UserTenantRoleUpdate) check() error {
 	if v, ok := utru.mutation.RoleID(); ok {
 		if err := usertenantrole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := utru.mutation.CreatedBy(); ok {
+		if err := usertenantrole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := utru.mutation.UpdatedBy(); ok {
+		if err := usertenantrole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -126,6 +223,12 @@ func (utru *UserTenantRoleUpdate) sqlSave(ctx context.Context) (n int, err error
 			}
 		}
 	}
+	if value, ok := utru.mutation.UserID(); ok {
+		_spec.SetField(usertenantrole.FieldUserID, field.TypeString, value)
+	}
+	if utru.mutation.UserIDCleared() {
+		_spec.ClearField(usertenantrole.FieldUserID, field.TypeString)
+	}
 	if value, ok := utru.mutation.TenantID(); ok {
 		_spec.SetField(usertenantrole.FieldTenantID, field.TypeString, value)
 	}
@@ -137,6 +240,27 @@ func (utru *UserTenantRoleUpdate) sqlSave(ctx context.Context) (n int, err error
 	}
 	if utru.mutation.RoleIDCleared() {
 		_spec.ClearField(usertenantrole.FieldRoleID, field.TypeString)
+	}
+	if value, ok := utru.mutation.CreatedBy(); ok {
+		_spec.SetField(usertenantrole.FieldCreatedBy, field.TypeString, value)
+	}
+	if utru.mutation.CreatedByCleared() {
+		_spec.ClearField(usertenantrole.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := utru.mutation.UpdatedBy(); ok {
+		_spec.SetField(usertenantrole.FieldUpdatedBy, field.TypeString, value)
+	}
+	if utru.mutation.UpdatedByCleared() {
+		_spec.ClearField(usertenantrole.FieldUpdatedBy, field.TypeString)
+	}
+	if utru.mutation.CreatedAtCleared() {
+		_spec.ClearField(usertenantrole.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := utru.mutation.UpdatedAt(); ok {
+		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if utru.mutation.UpdatedAtCleared() {
+		_spec.ClearField(usertenantrole.FieldUpdatedAt, field.TypeTime)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, utru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -156,6 +280,26 @@ type UserTenantRoleUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *UserTenantRoleMutation
+}
+
+// SetUserID sets the "user_id" field.
+func (utruo *UserTenantRoleUpdateOne) SetUserID(s string) *UserTenantRoleUpdateOne {
+	utruo.mutation.SetUserID(s)
+	return utruo
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (utruo *UserTenantRoleUpdateOne) SetNillableUserID(s *string) *UserTenantRoleUpdateOne {
+	if s != nil {
+		utruo.SetUserID(*s)
+	}
+	return utruo
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (utruo *UserTenantRoleUpdateOne) ClearUserID() *UserTenantRoleUpdateOne {
+	utruo.mutation.ClearUserID()
+	return utruo
 }
 
 // SetTenantID sets the "tenant_id" field.
@@ -198,6 +342,58 @@ func (utruo *UserTenantRoleUpdateOne) ClearRoleID() *UserTenantRoleUpdateOne {
 	return utruo
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (utruo *UserTenantRoleUpdateOne) SetCreatedBy(s string) *UserTenantRoleUpdateOne {
+	utruo.mutation.SetCreatedBy(s)
+	return utruo
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (utruo *UserTenantRoleUpdateOne) SetNillableCreatedBy(s *string) *UserTenantRoleUpdateOne {
+	if s != nil {
+		utruo.SetCreatedBy(*s)
+	}
+	return utruo
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (utruo *UserTenantRoleUpdateOne) ClearCreatedBy() *UserTenantRoleUpdateOne {
+	utruo.mutation.ClearCreatedBy()
+	return utruo
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (utruo *UserTenantRoleUpdateOne) SetUpdatedBy(s string) *UserTenantRoleUpdateOne {
+	utruo.mutation.SetUpdatedBy(s)
+	return utruo
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (utruo *UserTenantRoleUpdateOne) SetNillableUpdatedBy(s *string) *UserTenantRoleUpdateOne {
+	if s != nil {
+		utruo.SetUpdatedBy(*s)
+	}
+	return utruo
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (utruo *UserTenantRoleUpdateOne) ClearUpdatedBy() *UserTenantRoleUpdateOne {
+	utruo.mutation.ClearUpdatedBy()
+	return utruo
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (utruo *UserTenantRoleUpdateOne) SetUpdatedAt(t time.Time) *UserTenantRoleUpdateOne {
+	utruo.mutation.SetUpdatedAt(t)
+	return utruo
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (utruo *UserTenantRoleUpdateOne) ClearUpdatedAt() *UserTenantRoleUpdateOne {
+	utruo.mutation.ClearUpdatedAt()
+	return utruo
+}
+
 // Mutation returns the UserTenantRoleMutation object of the builder.
 func (utruo *UserTenantRoleUpdateOne) Mutation() *UserTenantRoleMutation {
 	return utruo.mutation
@@ -218,6 +414,7 @@ func (utruo *UserTenantRoleUpdateOne) Select(field string, fields ...string) *Us
 
 // Save executes the query and returns the updated UserTenantRole entity.
 func (utruo *UserTenantRoleUpdateOne) Save(ctx context.Context) (*UserTenantRole, error) {
+	utruo.defaults()
 	return withHooks(ctx, utruo.sqlSave, utruo.mutation, utruo.hooks)
 }
 
@@ -243,8 +440,21 @@ func (utruo *UserTenantRoleUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (utruo *UserTenantRoleUpdateOne) defaults() {
+	if _, ok := utruo.mutation.UpdatedAt(); !ok && !utruo.mutation.UpdatedAtCleared() {
+		v := usertenantrole.UpdateDefaultUpdatedAt()
+		utruo.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (utruo *UserTenantRoleUpdateOne) check() error {
+	if v, ok := utruo.mutation.UserID(); ok {
+		if err := usertenantrole.UserIDValidator(v); err != nil {
+			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.user_id": %w`, err)}
+		}
+	}
 	if v, ok := utruo.mutation.TenantID(); ok {
 		if err := usertenantrole.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.tenant_id": %w`, err)}
@@ -253,6 +463,16 @@ func (utruo *UserTenantRoleUpdateOne) check() error {
 	if v, ok := utruo.mutation.RoleID(); ok {
 		if err := usertenantrole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := utruo.mutation.CreatedBy(); ok {
+		if err := usertenantrole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := utruo.mutation.UpdatedBy(); ok {
+		if err := usertenantrole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -287,6 +507,12 @@ func (utruo *UserTenantRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserT
 			}
 		}
 	}
+	if value, ok := utruo.mutation.UserID(); ok {
+		_spec.SetField(usertenantrole.FieldUserID, field.TypeString, value)
+	}
+	if utruo.mutation.UserIDCleared() {
+		_spec.ClearField(usertenantrole.FieldUserID, field.TypeString)
+	}
 	if value, ok := utruo.mutation.TenantID(); ok {
 		_spec.SetField(usertenantrole.FieldTenantID, field.TypeString, value)
 	}
@@ -298,6 +524,27 @@ func (utruo *UserTenantRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserT
 	}
 	if utruo.mutation.RoleIDCleared() {
 		_spec.ClearField(usertenantrole.FieldRoleID, field.TypeString)
+	}
+	if value, ok := utruo.mutation.CreatedBy(); ok {
+		_spec.SetField(usertenantrole.FieldCreatedBy, field.TypeString, value)
+	}
+	if utruo.mutation.CreatedByCleared() {
+		_spec.ClearField(usertenantrole.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := utruo.mutation.UpdatedBy(); ok {
+		_spec.SetField(usertenantrole.FieldUpdatedBy, field.TypeString, value)
+	}
+	if utruo.mutation.UpdatedByCleared() {
+		_spec.ClearField(usertenantrole.FieldUpdatedBy, field.TypeString)
+	}
+	if utruo.mutation.CreatedAtCleared() {
+		_spec.ClearField(usertenantrole.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := utruo.mutation.UpdatedAt(); ok {
+		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if utruo.mutation.UpdatedAtCleared() {
+		_spec.ClearField(usertenantrole.FieldUpdatedAt, field.TypeTime)
 	}
 	_node = &UserTenantRole{config: utruo.config}
 	_spec.Assign = _node.assignValues

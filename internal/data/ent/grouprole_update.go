@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/grouprole"
 	"ncobase/internal/data/ent/predicate"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -24,6 +25,26 @@ type GroupRoleUpdate struct {
 // Where appends a list predicates to the GroupRoleUpdate builder.
 func (gru *GroupRoleUpdate) Where(ps ...predicate.GroupRole) *GroupRoleUpdate {
 	gru.mutation.Where(ps...)
+	return gru
+}
+
+// SetGroupID sets the "group_id" field.
+func (gru *GroupRoleUpdate) SetGroupID(s string) *GroupRoleUpdate {
+	gru.mutation.SetGroupID(s)
+	return gru
+}
+
+// SetNillableGroupID sets the "group_id" field if the given value is not nil.
+func (gru *GroupRoleUpdate) SetNillableGroupID(s *string) *GroupRoleUpdate {
+	if s != nil {
+		gru.SetGroupID(*s)
+	}
+	return gru
+}
+
+// ClearGroupID clears the value of the "group_id" field.
+func (gru *GroupRoleUpdate) ClearGroupID() *GroupRoleUpdate {
+	gru.mutation.ClearGroupID()
 	return gru
 }
 
@@ -47,6 +68,58 @@ func (gru *GroupRoleUpdate) ClearRoleID() *GroupRoleUpdate {
 	return gru
 }
 
+// SetCreatedBy sets the "created_by" field.
+func (gru *GroupRoleUpdate) SetCreatedBy(s string) *GroupRoleUpdate {
+	gru.mutation.SetCreatedBy(s)
+	return gru
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (gru *GroupRoleUpdate) SetNillableCreatedBy(s *string) *GroupRoleUpdate {
+	if s != nil {
+		gru.SetCreatedBy(*s)
+	}
+	return gru
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (gru *GroupRoleUpdate) ClearCreatedBy() *GroupRoleUpdate {
+	gru.mutation.ClearCreatedBy()
+	return gru
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (gru *GroupRoleUpdate) SetUpdatedBy(s string) *GroupRoleUpdate {
+	gru.mutation.SetUpdatedBy(s)
+	return gru
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (gru *GroupRoleUpdate) SetNillableUpdatedBy(s *string) *GroupRoleUpdate {
+	if s != nil {
+		gru.SetUpdatedBy(*s)
+	}
+	return gru
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (gru *GroupRoleUpdate) ClearUpdatedBy() *GroupRoleUpdate {
+	gru.mutation.ClearUpdatedBy()
+	return gru
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (gru *GroupRoleUpdate) SetUpdatedAt(t time.Time) *GroupRoleUpdate {
+	gru.mutation.SetUpdatedAt(t)
+	return gru
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (gru *GroupRoleUpdate) ClearUpdatedAt() *GroupRoleUpdate {
+	gru.mutation.ClearUpdatedAt()
+	return gru
+}
+
 // Mutation returns the GroupRoleMutation object of the builder.
 func (gru *GroupRoleUpdate) Mutation() *GroupRoleMutation {
 	return gru.mutation
@@ -54,6 +127,7 @@ func (gru *GroupRoleUpdate) Mutation() *GroupRoleMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (gru *GroupRoleUpdate) Save(ctx context.Context) (int, error) {
+	gru.defaults()
 	return withHooks(ctx, gru.sqlSave, gru.mutation, gru.hooks)
 }
 
@@ -79,11 +153,34 @@ func (gru *GroupRoleUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (gru *GroupRoleUpdate) defaults() {
+	if _, ok := gru.mutation.UpdatedAt(); !ok && !gru.mutation.UpdatedAtCleared() {
+		v := grouprole.UpdateDefaultUpdatedAt()
+		gru.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (gru *GroupRoleUpdate) check() error {
+	if v, ok := gru.mutation.GroupID(); ok {
+		if err := grouprole.GroupIDValidator(v); err != nil {
+			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.group_id": %w`, err)}
+		}
+	}
 	if v, ok := gru.mutation.RoleID(); ok {
 		if err := grouprole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := gru.mutation.CreatedBy(); ok {
+		if err := grouprole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := gru.mutation.UpdatedBy(); ok {
+		if err := grouprole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -101,11 +198,38 @@ func (gru *GroupRoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := gru.mutation.GroupID(); ok {
+		_spec.SetField(grouprole.FieldGroupID, field.TypeString, value)
+	}
+	if gru.mutation.GroupIDCleared() {
+		_spec.ClearField(grouprole.FieldGroupID, field.TypeString)
+	}
 	if value, ok := gru.mutation.RoleID(); ok {
 		_spec.SetField(grouprole.FieldRoleID, field.TypeString, value)
 	}
 	if gru.mutation.RoleIDCleared() {
 		_spec.ClearField(grouprole.FieldRoleID, field.TypeString)
+	}
+	if value, ok := gru.mutation.CreatedBy(); ok {
+		_spec.SetField(grouprole.FieldCreatedBy, field.TypeString, value)
+	}
+	if gru.mutation.CreatedByCleared() {
+		_spec.ClearField(grouprole.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := gru.mutation.UpdatedBy(); ok {
+		_spec.SetField(grouprole.FieldUpdatedBy, field.TypeString, value)
+	}
+	if gru.mutation.UpdatedByCleared() {
+		_spec.ClearField(grouprole.FieldUpdatedBy, field.TypeString)
+	}
+	if gru.mutation.CreatedAtCleared() {
+		_spec.ClearField(grouprole.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := gru.mutation.UpdatedAt(); ok {
+		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if gru.mutation.UpdatedAtCleared() {
+		_spec.ClearField(grouprole.FieldUpdatedAt, field.TypeTime)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, gru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -127,6 +251,26 @@ type GroupRoleUpdateOne struct {
 	mutation *GroupRoleMutation
 }
 
+// SetGroupID sets the "group_id" field.
+func (gruo *GroupRoleUpdateOne) SetGroupID(s string) *GroupRoleUpdateOne {
+	gruo.mutation.SetGroupID(s)
+	return gruo
+}
+
+// SetNillableGroupID sets the "group_id" field if the given value is not nil.
+func (gruo *GroupRoleUpdateOne) SetNillableGroupID(s *string) *GroupRoleUpdateOne {
+	if s != nil {
+		gruo.SetGroupID(*s)
+	}
+	return gruo
+}
+
+// ClearGroupID clears the value of the "group_id" field.
+func (gruo *GroupRoleUpdateOne) ClearGroupID() *GroupRoleUpdateOne {
+	gruo.mutation.ClearGroupID()
+	return gruo
+}
+
 // SetRoleID sets the "role_id" field.
 func (gruo *GroupRoleUpdateOne) SetRoleID(s string) *GroupRoleUpdateOne {
 	gruo.mutation.SetRoleID(s)
@@ -144,6 +288,58 @@ func (gruo *GroupRoleUpdateOne) SetNillableRoleID(s *string) *GroupRoleUpdateOne
 // ClearRoleID clears the value of the "role_id" field.
 func (gruo *GroupRoleUpdateOne) ClearRoleID() *GroupRoleUpdateOne {
 	gruo.mutation.ClearRoleID()
+	return gruo
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (gruo *GroupRoleUpdateOne) SetCreatedBy(s string) *GroupRoleUpdateOne {
+	gruo.mutation.SetCreatedBy(s)
+	return gruo
+}
+
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (gruo *GroupRoleUpdateOne) SetNillableCreatedBy(s *string) *GroupRoleUpdateOne {
+	if s != nil {
+		gruo.SetCreatedBy(*s)
+	}
+	return gruo
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (gruo *GroupRoleUpdateOne) ClearCreatedBy() *GroupRoleUpdateOne {
+	gruo.mutation.ClearCreatedBy()
+	return gruo
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (gruo *GroupRoleUpdateOne) SetUpdatedBy(s string) *GroupRoleUpdateOne {
+	gruo.mutation.SetUpdatedBy(s)
+	return gruo
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (gruo *GroupRoleUpdateOne) SetNillableUpdatedBy(s *string) *GroupRoleUpdateOne {
+	if s != nil {
+		gruo.SetUpdatedBy(*s)
+	}
+	return gruo
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (gruo *GroupRoleUpdateOne) ClearUpdatedBy() *GroupRoleUpdateOne {
+	gruo.mutation.ClearUpdatedBy()
+	return gruo
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (gruo *GroupRoleUpdateOne) SetUpdatedAt(t time.Time) *GroupRoleUpdateOne {
+	gruo.mutation.SetUpdatedAt(t)
+	return gruo
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (gruo *GroupRoleUpdateOne) ClearUpdatedAt() *GroupRoleUpdateOne {
+	gruo.mutation.ClearUpdatedAt()
 	return gruo
 }
 
@@ -167,6 +363,7 @@ func (gruo *GroupRoleUpdateOne) Select(field string, fields ...string) *GroupRol
 
 // Save executes the query and returns the updated GroupRole entity.
 func (gruo *GroupRoleUpdateOne) Save(ctx context.Context) (*GroupRole, error) {
+	gruo.defaults()
 	return withHooks(ctx, gruo.sqlSave, gruo.mutation, gruo.hooks)
 }
 
@@ -192,11 +389,34 @@ func (gruo *GroupRoleUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (gruo *GroupRoleUpdateOne) defaults() {
+	if _, ok := gruo.mutation.UpdatedAt(); !ok && !gruo.mutation.UpdatedAtCleared() {
+		v := grouprole.UpdateDefaultUpdatedAt()
+		gruo.mutation.SetUpdatedAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (gruo *GroupRoleUpdateOne) check() error {
+	if v, ok := gruo.mutation.GroupID(); ok {
+		if err := grouprole.GroupIDValidator(v); err != nil {
+			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.group_id": %w`, err)}
+		}
+	}
 	if v, ok := gruo.mutation.RoleID(); ok {
 		if err := grouprole.RoleIDValidator(v); err != nil {
 			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.role_id": %w`, err)}
+		}
+	}
+	if v, ok := gruo.mutation.CreatedBy(); ok {
+		if err := grouprole.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.created_by": %w`, err)}
+		}
+	}
+	if v, ok := gruo.mutation.UpdatedBy(); ok {
+		if err := grouprole.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.updated_by": %w`, err)}
 		}
 	}
 	return nil
@@ -231,11 +451,38 @@ func (gruo *GroupRoleUpdateOne) sqlSave(ctx context.Context) (_node *GroupRole, 
 			}
 		}
 	}
+	if value, ok := gruo.mutation.GroupID(); ok {
+		_spec.SetField(grouprole.FieldGroupID, field.TypeString, value)
+	}
+	if gruo.mutation.GroupIDCleared() {
+		_spec.ClearField(grouprole.FieldGroupID, field.TypeString)
+	}
 	if value, ok := gruo.mutation.RoleID(); ok {
 		_spec.SetField(grouprole.FieldRoleID, field.TypeString, value)
 	}
 	if gruo.mutation.RoleIDCleared() {
 		_spec.ClearField(grouprole.FieldRoleID, field.TypeString)
+	}
+	if value, ok := gruo.mutation.CreatedBy(); ok {
+		_spec.SetField(grouprole.FieldCreatedBy, field.TypeString, value)
+	}
+	if gruo.mutation.CreatedByCleared() {
+		_spec.ClearField(grouprole.FieldCreatedBy, field.TypeString)
+	}
+	if value, ok := gruo.mutation.UpdatedBy(); ok {
+		_spec.SetField(grouprole.FieldUpdatedBy, field.TypeString, value)
+	}
+	if gruo.mutation.UpdatedByCleared() {
+		_spec.ClearField(grouprole.FieldUpdatedBy, field.TypeString)
+	}
+	if gruo.mutation.CreatedAtCleared() {
+		_spec.ClearField(grouprole.FieldCreatedAt, field.TypeTime)
+	}
+	if value, ok := gruo.mutation.UpdatedAt(); ok {
+		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if gruo.mutation.UpdatedAtCleared() {
+		_spec.ClearField(grouprole.FieldUpdatedAt, field.TypeTime)
 	}
 	_node = &GroupRole{config: gruo.config}
 	_spec.Assign = _node.assignValues

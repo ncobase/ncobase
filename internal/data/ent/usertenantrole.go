@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/usertenantrole"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -15,12 +16,22 @@ import (
 type UserTenantRole struct {
 	config `json:"-"`
 	// ID of the ent.
-	// user primary key alias
+	// primary key
 	ID string `json:"id,omitempty"`
+	// user id
+	UserID string `json:"user_id,omitempty"`
 	// tenant id
 	TenantID string `json:"tenant_id,omitempty"`
 	// role id
-	RoleID       string `json:"role_id,omitempty"`
+	RoleID string `json:"role_id,omitempty"`
+	// id of the creator
+	CreatedBy string `json:"created_by,omitempty"`
+	// id of the last updater
+	UpdatedBy string `json:"updated_by,omitempty"`
+	// created at
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	// updated at
+	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -29,8 +40,10 @@ func (*UserTenantRole) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case usertenantrole.FieldID, usertenantrole.FieldTenantID, usertenantrole.FieldRoleID:
+		case usertenantrole.FieldID, usertenantrole.FieldUserID, usertenantrole.FieldTenantID, usertenantrole.FieldRoleID, usertenantrole.FieldCreatedBy, usertenantrole.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
+		case usertenantrole.FieldCreatedAt, usertenantrole.FieldUpdatedAt:
+			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -52,6 +65,12 @@ func (utr *UserTenantRole) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				utr.ID = value.String
 			}
+		case usertenantrole.FieldUserID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
+			} else if value.Valid {
+				utr.UserID = value.String
+			}
 		case usertenantrole.FieldTenantID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
@@ -63,6 +82,30 @@ func (utr *UserTenantRole) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field role_id", values[i])
 			} else if value.Valid {
 				utr.RoleID = value.String
+			}
+		case usertenantrole.FieldCreatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
+			} else if value.Valid {
+				utr.CreatedBy = value.String
+			}
+		case usertenantrole.FieldUpdatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
+			} else if value.Valid {
+				utr.UpdatedBy = value.String
+			}
+		case usertenantrole.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+			} else if value.Valid {
+				utr.CreatedAt = value.Time
+			}
+		case usertenantrole.FieldUpdatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+			} else if value.Valid {
+				utr.UpdatedAt = value.Time
 			}
 		default:
 			utr.selectValues.Set(columns[i], values[i])
@@ -100,11 +143,26 @@ func (utr *UserTenantRole) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserTenantRole(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", utr.ID))
+	builder.WriteString("user_id=")
+	builder.WriteString(utr.UserID)
+	builder.WriteString(", ")
 	builder.WriteString("tenant_id=")
 	builder.WriteString(utr.TenantID)
 	builder.WriteString(", ")
 	builder.WriteString("role_id=")
 	builder.WriteString(utr.RoleID)
+	builder.WriteString(", ")
+	builder.WriteString("created_by=")
+	builder.WriteString(utr.CreatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("updated_by=")
+	builder.WriteString(utr.UpdatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("created_at=")
+	builder.WriteString(utr.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("updated_at=")
+	builder.WriteString(utr.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -38,7 +38,7 @@ type taxonomyRelationsRepo struct {
 func NewTaxonomyRelation(d *data.Data) TaxonomyRelation {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &taxonomyRelationsRepo{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, cache.Key("nb_taxonomy_relations"))}
+	return &taxonomyRelationsRepo{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, "nb_taxonomy_relations")}
 }
 
 // Create creates a new taxonomy relation.
@@ -117,7 +117,7 @@ func (r *taxonomyRelationsRepo) Update(ctx context.Context, body *structs.Update
 
 // List gets a list of taxonomy relations.
 func (r *taxonomyRelationsRepo) List(ctx context.Context, params *structs.ListTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
-	var nextTaxonomyRelation *ent.TaxonomyRelation
+	var next *ent.TaxonomyRelation
 	if params.Cursor != "" {
 		taxonomyRelations, err := r.ec.TaxonomyRelation.
 			Query().
@@ -128,7 +128,7 @@ func (r *taxonomyRelationsRepo) List(ctx context.Context, params *structs.ListTa
 		if err != nil || taxonomyRelations == nil {
 			return nil, errors.New("invalid cursor")
 		}
-		nextTaxonomyRelation = taxonomyRelations
+		next = taxonomyRelations
 	}
 
 	query := r.ec.TaxonomyRelation.
@@ -136,8 +136,8 @@ func (r *taxonomyRelationsRepo) List(ctx context.Context, params *structs.ListTa
 		Limit(params.Limit)
 
 	// lt the cursor create time
-	if nextTaxonomyRelation != nil {
-		query.Where(taxonomyRelationEnt.CreatedAtLT(nextTaxonomyRelation.CreatedAt))
+	if next != nil {
+		query.Where(taxonomyRelationEnt.CreatedAtLT(next.CreatedAt))
 	}
 
 	// sort

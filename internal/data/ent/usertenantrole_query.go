@@ -261,12 +261,12 @@ func (utrq *UserTenantRoleQuery) Clone() *UserTenantRoleQuery {
 // Example:
 //
 //	var v []struct {
-//		TenantID string `json:"tenant_id,omitempty"`
+//		UserID string `json:"user_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.UserTenantRole.Query().
-//		GroupBy(usertenantrole.FieldTenantID).
+//		GroupBy(usertenantrole.FieldUserID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (utrq *UserTenantRoleQuery) GroupBy(field string, fields ...string) *UserTenantRoleGroupBy {
@@ -284,11 +284,11 @@ func (utrq *UserTenantRoleQuery) GroupBy(field string, fields ...string) *UserTe
 // Example:
 //
 //	var v []struct {
-//		TenantID string `json:"tenant_id,omitempty"`
+//		UserID string `json:"user_id,omitempty"`
 //	}
 //
 //	client.UserTenantRole.Query().
-//		Select(usertenantrole.FieldTenantID).
+//		Select(usertenantrole.FieldUserID).
 //		Scan(ctx, &v)
 func (utrq *UserTenantRoleQuery) Select(fields ...string) *UserTenantRoleSelect {
 	utrq.ctx.Fields = append(utrq.ctx.Fields, fields...)

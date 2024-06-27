@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"ncobase/internal/data/ent/rolepermission"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -15,10 +16,20 @@ import (
 type RolePermission struct {
 	config `json:"-"`
 	// ID of the ent.
-	// role primary key alias
+	// primary key
 	ID string `json:"id,omitempty"`
+	// role id
+	RoleID string `json:"role_id,omitempty"`
 	// permission id
 	PermissionID string `json:"permission_id,omitempty"`
+	// id of the creator
+	CreatedBy string `json:"created_by,omitempty"`
+	// id of the last updater
+	UpdatedBy string `json:"updated_by,omitempty"`
+	// created at
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	// updated at
+	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -27,8 +38,10 @@ func (*RolePermission) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case rolepermission.FieldID, rolepermission.FieldPermissionID:
+		case rolepermission.FieldID, rolepermission.FieldRoleID, rolepermission.FieldPermissionID, rolepermission.FieldCreatedBy, rolepermission.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
+		case rolepermission.FieldCreatedAt, rolepermission.FieldUpdatedAt:
+			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -50,11 +63,41 @@ func (rp *RolePermission) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				rp.ID = value.String
 			}
+		case rolepermission.FieldRoleID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field role_id", values[i])
+			} else if value.Valid {
+				rp.RoleID = value.String
+			}
 		case rolepermission.FieldPermissionID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field permission_id", values[i])
 			} else if value.Valid {
 				rp.PermissionID = value.String
+			}
+		case rolepermission.FieldCreatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
+			} else if value.Valid {
+				rp.CreatedBy = value.String
+			}
+		case rolepermission.FieldUpdatedBy:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
+			} else if value.Valid {
+				rp.UpdatedBy = value.String
+			}
+		case rolepermission.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+			} else if value.Valid {
+				rp.CreatedAt = value.Time
+			}
+		case rolepermission.FieldUpdatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+			} else if value.Valid {
+				rp.UpdatedAt = value.Time
 			}
 		default:
 			rp.selectValues.Set(columns[i], values[i])
@@ -92,8 +135,23 @@ func (rp *RolePermission) String() string {
 	var builder strings.Builder
 	builder.WriteString("RolePermission(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", rp.ID))
+	builder.WriteString("role_id=")
+	builder.WriteString(rp.RoleID)
+	builder.WriteString(", ")
 	builder.WriteString("permission_id=")
 	builder.WriteString(rp.PermissionID)
+	builder.WriteString(", ")
+	builder.WriteString("created_by=")
+	builder.WriteString(rp.CreatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("updated_by=")
+	builder.WriteString(rp.UpdatedBy)
+	builder.WriteString(", ")
+	builder.WriteString("created_at=")
+	builder.WriteString(rp.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("updated_at=")
+	builder.WriteString(rp.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -9,6 +9,7 @@ require (
 	entgo.io/ent v0.13.1
 	github.com/99designs/gqlgen v0.17.49
 	github.com/alexpantyukhin/go-pattern-match v0.0.0-20230301210247-d84479c117d7
+	github.com/casbin/casbin/v2 v2.97.0
 	github.com/casdoor/oss v1.6.1
 	github.com/dchest/captcha v1.0.0
 	github.com/gin-gonic/gin v1.10.0
@@ -41,6 +42,7 @@ require (
 	github.com/aws/aws-sdk-go v1.54.6 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
+	github.com/casbin/govaluate v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
