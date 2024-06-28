@@ -45,6 +45,30 @@ data:
     username:
     password:
 
+auth:
+  jwt:
+    secret:  # openssl passwd -stdin < <(echo) | base64 | shasum / nanoid(35)
+    expire:  # expiration time in hours
+  casbin:
+    model: |
+      [request_definition]
+      r = sub, dom, obj, act, v4, v5
+
+      [policy_definition]
+      p = sub, dom, obj, act, v4, v5
+
+      [role_definition]
+      g = _, _, _
+
+      [policy_effect]
+      e = some(where (p.eft == allow))
+
+      [matchers]
+      m = (g(r.sub, p.sub, r.dom) && r.dom == p.dom && keyMatch(r.obj, p.obj) && keyMatch(r.act, p.act)) || (r.sub == "super-admin" && r.dom == p.dom && keyMatch(r.obj, p.obj) && keyMatch(r.act, p.act))
+  whitelist:
+    - /v1/login
+    - /v1/register
+
 logger:
   # Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug)
   level: 4
@@ -54,13 +78,6 @@ logger:
   output: stdout
   # Specify the file path for log output
   output_file: logs/access.log
-
-casbin:
-  path:
-
-jwt:
-  secret: # openssl passwd -stdin < <(echo) | base64 | shasum / nanoid.String(35)
-  exp_time: 48 # hours
 
 
 storage:
