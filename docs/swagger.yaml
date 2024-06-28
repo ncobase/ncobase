@@ -81,6 +81,44 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.CreatePermissionBody:
+    properties:
+      action:
+        type: string
+      created_by:
+        type: string
+      default:
+        type: boolean
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      name:
+        type: string
+      subject:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.CreateRoleBody:
+    properties:
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      name:
+        type: string
+      slug:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.CreateTaxonomyBody:
     properties:
       color:
@@ -384,6 +422,33 @@ definitions:
       thumbnail:
         type: string
       title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.ReadPermission:
+    properties:
+      action:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      default:
+        type: boolean
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      subject:
         type: string
       updated_at:
         type: string
@@ -830,6 +895,13 @@ definitions:
       short_bio:
         type: string
       thumbnail:
+        type: string
+    type: object
+  structs.UserRole:
+    properties:
+      role_id:
+        type: string
+      user_id:
         type: string
     type: object
 info:
@@ -1723,6 +1795,142 @@ paths:
       summary: OAuth register
       tags:
       - oauth
+  /v1/permissions:
+    get:
+      description: Retrieve a list of permissions based on the provided query parameters
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadPermission'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all permissions
+      tags:
+      - permissions
+    post:
+      consumes:
+      - application/json
+      description: Create a new permission with the provided data
+      parameters:
+      - description: Permission data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreatePermissionBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadPermission'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create a new permission
+      tags:
+      - permissions
+  /v1/permissions/{slug}:
+    delete:
+      description: Delete a permission by its slug or ID
+      parameters:
+      - description: Permission slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadPermission'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a permission by slug or ID
+      tags:
+      - permissions
+    get:
+      description: Retrieve a permission by its slug or ID
+      parameters:
+      - description: Permission slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadPermission'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a permission by slug or ID
+      tags:
+      - permissions
+    put:
+      consumes:
+      - application/json
+      description: Update an existing permission with the provided data
+      parameters:
+      - description: Permission slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Permission data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ncobase_common_types.JSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadPermission'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update an existing permission
+      tags:
+      - permissions
   /v1/policies:
     get:
       description: Retrieve a list of Casbin rules.
@@ -1913,6 +2121,196 @@ paths:
       summary: Register
       tags:
       - authentication
+  /v1/roles:
+    get:
+      description: Retrieve a list of roles based on the provided query parameters
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadRole'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all roles
+      tags:
+      - roles
+    post:
+      consumes:
+      - application/json
+      description: Create a new role with the provided data
+      parameters:
+      - description: Role data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateRoleBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRole'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create a new role
+      tags:
+      - roles
+  /v1/roles/{slug}:
+    delete:
+      description: Delete a role by its slug or ID
+      parameters:
+      - description: Role slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRole'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a role by slug or ID
+      tags:
+      - roles
+    get:
+      description: Retrieve a role by its slug or ID
+      parameters:
+      - description: Role slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRole'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a role by slug or ID
+      tags:
+      - roles
+    put:
+      consumes:
+      - application/json
+      description: Update an existing role with the provided data
+      parameters:
+      - description: Role slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Role data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ncobase_common_types.JSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRole'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update an existing role
+      tags:
+      - roles
+  /v1/roles/{slug}/permissions:
+    get:
+      description: Retrieve a list of permissions associated with a role by its ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadPermission'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List permissions for a role
+      tags:
+      - roles
+  /v1/roles/{slug}/users:
+    get:
+      description: Retrieve a list of users associated with a role by its ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.UserRole'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List users for a role
+      tags:
+      - roles
   /v1/taxonomies:
     get:
       description: Retrieve a list of taxonomies.

@@ -133,26 +133,26 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// }
 
 	// Role endpoints
-	// roles := v1.Group("/roles", middleware.Authenticated)
-	// {
-	// 	roles.GET("", h.ListRoleHandler)
-	// 	roles.POST("", h.CreateRoleHandler)
-	// 	roles.GET("/:slug", h.GetRoleHandler)
-	// 	roles.PUT("/:slug", h.UpdateRoleHandler)
-	// 	roles.DELETE("/:slug", h.DeleteRoleHandler)
-	// 	roles.GET("/:slug/permissions", h.ListRolePermissionHandler)
-	// 	roles.GET("/:slug/users", h.ListUserRoleHandler)
-	// }
+	roles := v1.Group("/roles", middleware.Authenticated)
+	{
+		roles.GET("", h.ListRoleHandler)
+		roles.POST("", h.CreateRoleHandler)
+		roles.GET("/:slug", h.GetRoleHandler)
+		roles.PUT("/:slug", h.UpdateRoleHandler)
+		roles.DELETE("/:slug", h.DeleteRoleHandler)
+		roles.GET("/:slug/permissions", h.ListRolePermissionHandler)
+		roles.GET("/:slug/users", h.ListUserRoleHandler)
+	}
 
 	// Permission endpoints
-	// permissions := v1.Group("/permissions", middleware.Authenticated)
-	// {
-	// 	permissions.GET("", h.ListPermissionHandler)
-	// 	permissions.POST("", h.CreatePermissionHandler)
-	// 	permissions.GET("/:slug", h.GetPermissionHandler)
-	// 	permissions.PUT("/:slug", h.UpdatePermissionHandler)
-	// 	permissions.DELETE("/:slug", h.DeletePermissionHandler)
-	// }
+	permissions := v1.Group("/permissions", middleware.Authenticated)
+	{
+		permissions.GET("", h.ListPermissionHandler)
+		permissions.POST("", h.CreatePermissionHandler)
+		permissions.GET("/:slug", h.GetPermissionHandler)
+		permissions.PUT("/:slug", h.UpdatePermissionHandler)
+		permissions.DELETE("/:slug", h.DeletePermissionHandler)
+	}
 
 	// Casbin Rule endpoints
 	policies := v1.Group("/policies", middleware.Authenticated)

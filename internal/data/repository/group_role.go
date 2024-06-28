@@ -180,7 +180,7 @@ func (r *groupRoleRepo) GetGroupsByRoleID(ctx context.Context, roleID string) ([
 
 	var groupIDs []string
 	for _, groupRole := range groupRoles {
-		groupIDs = append(groupIDs, groupRole.ID)
+		groupIDs = append(groupIDs, groupRole.GroupID)
 	}
 
 	groups, err := r.ec.Group.Query().Where(groupEnt.IDIn(groupIDs...)).All(ctx)
