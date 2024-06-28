@@ -207,7 +207,7 @@ func (r *userRoleRepo) GetUsersByRoleID(ctx context.Context, roleID string) ([]*
 
 	var userIDs []string
 	for _, userRole := range userRoles {
-		userIDs = append(userIDs, userRole.ID)
+		userIDs = append(userIDs, userRole.UserID)
 	}
 
 	users, err := r.ec.User.Query().Where(userEnt.IDIn(userIDs...)).All(ctx)

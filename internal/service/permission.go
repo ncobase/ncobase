@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"ncobase/common/ecode"
+	"ncobase/common/validator"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
 
@@ -70,6 +72,32 @@ func (svc *Service) GetPermissionsByRoleIDService(ctx context.Context, roleID st
 
 	return &resp.Exception{
 		Data: permissions,
+	}, nil
+}
+
+// ListPermissionsService lists all permissions.
+func (svc *Service) ListPermissionsService(ctx context.Context, params *structs.ListPermissionParams) (*resp.Exception, error) {
+	// limit default value
+	if validator.IsEmpty(params.Limit) {
+		params.Limit = 20
+	}
+	// limit must be less than 100
+	if params.Limit > 100 {
+		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
+	}
+
+	permissions, err := svc.permission.List(ctx, params)
+	if exception, err := handleError("Permission", err); exception != nil {
+		return exception, err
+	}
+
+	total := svc.permission.CountX(ctx, params)
+
+	return &resp.Exception{
+		Data: types.JSON{
+			"content": permissions,
+			"total":   total,
+		},
 	}, nil
 }
 

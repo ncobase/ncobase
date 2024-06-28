@@ -180,7 +180,7 @@ func (r *userGroupRepo) GetUsersByGroupID(ctx context.Context, groupID string) (
 	}
 	var userIDs []string
 	for _, userGroup := range userGroups {
-		userIDs = append(userIDs, userGroup.ID)
+		userIDs = append(userIDs, userGroup.UserID)
 	}
 
 	users, err := r.ec.User.Query().Where(userEnt.IDIn(userIDs...)).All(ctx)

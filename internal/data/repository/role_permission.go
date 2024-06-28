@@ -185,7 +185,7 @@ func (r *rolePermissionRepo) GetRolesByPermissionID(ctx context.Context, pid str
 
 	var roleIDs []string
 	for _, rolePermission := range rolePermissions {
-		roleIDs = append(roleIDs, rolePermission.ID)
+		roleIDs = append(roleIDs, rolePermission.RoleID)
 	}
 
 	roles, err := r.ec.Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
