@@ -21,6 +21,7 @@ plugin:
     - c
   excludes:
     - d
+  hot_reload: true
 
 frontend:
   sign_in_url: http://localhost:3000/login
