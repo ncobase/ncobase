@@ -1,3 +1,6 @@
+//go:build !plugin
+// +build !plugin
+
 package cmd
 
 import (

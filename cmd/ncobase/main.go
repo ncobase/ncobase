@@ -4,13 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/internal/server"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-
-	"ncobase/internal/server"
 
 	"ncobase/common/config"
 	"ncobase/common/log"

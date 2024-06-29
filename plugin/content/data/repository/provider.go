@@ -2,8 +2,8 @@ package repository
 
 import (
 	"ncobase/plugin/content/data"
-	"ncobase/plugin/content/repository/taxonomy"
-	"ncobase/plugin/content/repository/topic"
+	"ncobase/plugin/content/data/repository/taxonomy"
+	"ncobase/plugin/content/data/repository/topic"
 )
 
 type Repository struct {

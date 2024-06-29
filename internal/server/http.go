@@ -4,6 +4,7 @@ import (
 	"ncobase/common/config"
 	"ncobase/common/ecode"
 	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/internal/handler"
 	"ncobase/internal/server/middleware"
 	"ncobase/internal/service"
@@ -15,7 +16,11 @@ import (
 
 // newHTTP creates an HTTP server.
 func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service, enforcer *casbin.Enforcer, pm *PluginManager) (*gin.Engine, error) {
-	gin.SetMode(conf.RunMode)
+	runMode := conf.RunMode
+	if validator.IsNotIn(runMode, []any{"release", "debug"}) {
+		runMode = "debug"
+	}
+	gin.SetMode(runMode)
 	engine := gin.New()
 
 	// Initialize middleware
@@ -25,7 +30,7 @@ func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service, enfo
 	registerRest(engine, h, conf)
 
 	// Register GraphQL
-	registerGraphql(engine, svc, conf.RunMode)
+	registerGraphql(engine, svc, runMode)
 
 	// Register plugin routes
 	pm.RegisterPluginRoutes(engine)

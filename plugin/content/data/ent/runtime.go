@@ -6,7 +6,7 @@ import (
 	"ncobase/plugin/content/data/ent/taxonomy"
 	"ncobase/plugin/content/data/ent/taxonomyrelation"
 	"ncobase/plugin/content/data/ent/topic"
-	"ncobase/plugin/content/schema"
+	"ncobase/plugin/content/data/schema"
 	"time"
 )
 

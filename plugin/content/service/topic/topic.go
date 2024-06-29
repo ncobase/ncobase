@@ -9,7 +9,7 @@ import (
 	"ncobase/internal/helper"
 	"ncobase/plugin/content/data"
 	"ncobase/plugin/content/data/ent"
-	"ncobase/plugin/content/repository/topic"
+	"ncobase/plugin/content/data/repository/topic"
 	"ncobase/plugin/content/structs"
 
 	"github.com/gin-gonic/gin"
