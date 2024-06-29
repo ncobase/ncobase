@@ -29,7 +29,7 @@ func NewPluginManager(conf *config.Config) *PluginManager {
 
 // LoadPlugins loads plugins
 func (pm *PluginManager) LoadPlugins() error {
-	if pm.conf.RunMode == "debug" {
+	if pm.conf.RunMode == "c2hlbgo" {
 		return pm.loadPluginsInDevMode()
 	}
 	return pm.loadPluginsInProdMode()

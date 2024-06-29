@@ -9,7 +9,7 @@ import (
 	"ncobase/internal/helper"
 	"ncobase/plugin/content/data"
 	"ncobase/plugin/content/data/ent"
-	"ncobase/plugin/content/repository/taxonomy"
+	taxonomy2 "ncobase/plugin/content/data/repository/taxonomy"
 	"ncobase/plugin/content/structs"
 
 	"github.com/gin-gonic/gin"
@@ -30,14 +30,14 @@ type Interface interface {
 }
 
 type Service struct {
-	taxonomy          taxonomy.ITaxonomy
-	taxonomyRelations taxonomy.ITaxonomyRelation
+	taxonomy          taxonomy2.ITaxonomy
+	taxonomyRelations taxonomy2.ITaxonomyRelation
 }
 
 func New(d *data.Data) Interface {
 	return &Service{
-		taxonomy:          taxonomy.NewTaxonomyRepo(d),
-		taxonomyRelations: taxonomy.NewTaxonomyRelationRepo(d),
+		taxonomy:          taxonomy2.NewTaxonomyRepo(d),
+		taxonomyRelations: taxonomy2.NewTaxonomyRelationRepo(d),
 	}
 }
 
