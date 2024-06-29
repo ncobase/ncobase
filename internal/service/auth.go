@@ -167,7 +167,7 @@ func (svc *Service) CodeAuthService(c *gin.Context, code string) (*resp.Exceptio
 	client := svc.d.GetEntClient()
 
 	codeAuth, err := client.CodeAuth.Query().Where(codeAuthEnt.CodeEQ(code)).Only(ctx)
-	if exception, err := handleError("Code", err); exception != nil {
+	if exception, err := helper.HandleError("Code", err); exception != nil {
 		return exception, err
 	}
 	if codeAuth.Logged || isCodeExpired(codeAuth.CreatedAt) {
@@ -283,7 +283,7 @@ func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp
 	client := svc.d.GetEntClient()
 
 	user, err := svc.user.FindUser(ctx, &structs.FindUser{Username: body.Username})
-	if exception, err := handleError("User", err); exception != nil {
+	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 

@@ -439,83 +439,6 @@ var (
 			},
 		},
 	}
-	// NbTaxonomyColumns holds the columns for the "nb_taxonomy" table.
-	NbTaxonomyColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
-		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
-		{Name: "cover", Type: field.TypeString, Nullable: true, Comment: "cover"},
-		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
-		{Name: "color", Type: field.TypeString, Nullable: true, Comment: "color"},
-		{Name: "icon", Type: field.TypeString, Nullable: true, Comment: "icon"},
-		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
-		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
-		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "parent id"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
-	}
-	// NbTaxonomyTable holds the schema information for the "nb_taxonomy" table.
-	NbTaxonomyTable = &schema.Table{
-		Name:       "nb_taxonomy",
-		Columns:    NbTaxonomyColumns,
-		PrimaryKey: []*schema.Column{NbTaxonomyColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "taxonomy_id",
-				Unique:  true,
-				Columns: []*schema.Column{NbTaxonomyColumns[0]},
-			},
-			{
-				Name:    "taxonomy_slug",
-				Unique:  true,
-				Columns: []*schema.Column{NbTaxonomyColumns[3]},
-			},
-			{
-				Name:    "taxonomy_parent_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyColumns[13]},
-			},
-			{
-				Name:    "taxonomy_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyColumns[14]},
-			},
-		},
-	}
-	// NbTaxonomyRelationColumns holds the columns for the "nb_taxonomy_relation" table.
-	NbTaxonomyRelationColumns = []*schema.Column{
-		{Name: "object_id", Type: field.TypeString, Unique: true, Comment: "object primary key alias"},
-		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "taxonomy id"},
-		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-	}
-	// NbTaxonomyRelationTable holds the schema information for the "nb_taxonomy_relation" table.
-	NbTaxonomyRelationTable = &schema.Table{
-		Name:       "nb_taxonomy_relation",
-		Columns:    NbTaxonomyRelationColumns,
-		PrimaryKey: []*schema.Column{NbTaxonomyRelationColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "taxonomyrelation_object_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyRelationColumns[0]},
-			},
-			{
-				Name:    "taxonomyrelation_taxonomy_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyRelationColumns[1]},
-			},
-		},
-	}
 	// NbTenantColumns holds the columns for the "nb_tenant" table.
 	NbTenantColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -553,54 +476,6 @@ var (
 				Name:    "tenant_slug",
 				Unique:  true,
 				Columns: []*schema.Column{NbTenantColumns[2]},
-			},
-		},
-	}
-	// NbTopicColumns holds the columns for the "nb_topic" table.
-	NbTopicColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
-		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
-		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
-		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "content, big text"},
-		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
-		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp", Default: false},
-		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown", Default: false},
-		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private", Default: false},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
-		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
-		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "taxonomy id"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
-	}
-	// NbTopicTable holds the schema information for the "nb_topic" table.
-	NbTopicTable = &schema.Table{
-		Name:       "nb_topic",
-		Columns:    NbTopicColumns,
-		PrimaryKey: []*schema.Column{NbTopicColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "topic_id",
-				Unique:  true,
-				Columns: []*schema.Column{NbTopicColumns[0]},
-			},
-			{
-				Name:    "topic_slug",
-				Unique:  true,
-				Columns: []*schema.Column{NbTopicColumns[3]},
-			},
-			{
-				Name:    "topic_taxonomy_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbTopicColumns[11]},
-			},
-			{
-				Name:    "topic_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{NbTopicColumns[12]},
 			},
 		},
 	}
@@ -831,10 +706,7 @@ var (
 		NbPermissionTable,
 		NbRoleTable,
 		NbRolePermissionTable,
-		NbTaxonomyTable,
-		NbTaxonomyRelationTable,
 		NbTenantTable,
-		NbTopicTable,
 		NbUserTable,
 		NbUserGroupTable,
 		NbUserProfileTable,
@@ -881,17 +753,8 @@ func init() {
 	NbRolePermissionTable.Annotation = &entsql.Annotation{
 		Table: "nb_role_permission",
 	}
-	NbTaxonomyTable.Annotation = &entsql.Annotation{
-		Table: "nb_taxonomy",
-	}
-	NbTaxonomyRelationTable.Annotation = &entsql.Annotation{
-		Table: "nb_taxonomy_relation",
-	}
 	NbTenantTable.Annotation = &entsql.Annotation{
 		Table: "nb_tenant",
-	}
-	NbTopicTable.Annotation = &entsql.Annotation{
-		Table: "nb_topic",
 	}
 	NbUserTable.Annotation = &entsql.Annotation{
 		Table: "nb_user",

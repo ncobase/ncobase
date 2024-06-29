@@ -3,6 +3,7 @@ GO111MODULE = on
 APP_NAME = ncobase
 CMD_PATH = ./cmd/ncobase
 OUT = ./bin
+PLUGIN_DIR = ./plugin
 
 VERSION := $(shell git describe --tags --match "v*" --always | sed 's/-g[a-z0-9]\{7\}//')
 BRANCH := $(shell git symbolic-ref -q --short HEAD)
@@ -41,6 +42,17 @@ build-macos-arm64:
 build-arm:
 	@CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -trimpath $(LDFLAGS) -o ${OUT}/${APP_NAME}-linux-arm ${CMD_PATH}
 
+build-plugin:
+	@mkdir -p ${OUT}/plugins
+	@for d in $(shell find ${PLUGIN_DIR} -maxdepth 1 -type d); do \
+		[ "$$d" != "${PLUGIN_DIR}" ] || continue; \
+		echo "Building plugin in $$d"; \
+		PLUGIN_OUT=${OUT}/plugins/$$(basename $$d).so; \
+		go build -buildmode=plugin -trimpath $(LDFLAGS) -o $$PLUGIN_OUT $$d/cmd/plugin/*.go; \
+	done
+
+build-all: build build-plugin
+
 swagger:
 	@swag init --parseDependency --parseInternal --parseDepth 1 -g ${CMD_PATH}/main.go -o ./docs
 
@@ -58,4 +70,4 @@ optimize: build-multi
 	upx -9 ${OUT}/${APP_NAME}-darwin-arm64
 	upx -9 ${OUT}/${APP_NAME}-linux-arm
 
-.PHONY: generate copy-config build-multi build-linux build-windows build-macos-amd64 build-macos-arm64 build-arm swagger run optimize
+.PHONY: generate copy-config build-multi build-linux build-windows build-macos-amd64 build-macos-arm64 build-arm build-plugin build-all swagger run optimize

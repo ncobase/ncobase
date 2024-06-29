@@ -13,6 +13,15 @@ server:
   # Application running port
   port: 3000
 
+plugin:
+  path: ./plugins
+  includes:
+    - a
+    - b
+    - c
+  excludes:
+    - d
+
 frontend:
   sign_in_url: http://localhost:3000/login
   sign_up_url: http://localhost:3000/register

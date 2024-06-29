@@ -34,7 +34,7 @@ func (svc *Service) GetUserService(c *gin.Context, username string) (*resp.Excep
 		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
 	}
 	user, err := svc.findUser(c, &structs.FindUser{Username: username})
-	if exception, err := handleError("User", err); exception != nil {
+	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
@@ -69,7 +69,7 @@ func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserPass
 		Confirm:     body.Confirm,
 	})
 
-	if exception, err := handleError("User", err); exception != nil {
+	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 
@@ -83,7 +83,7 @@ func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserMes
 	}
 
 	user, err := svc.user.Create(ctx, body.User)
-	if exception, err := handleError("User", err); exception != nil {
+	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 
@@ -97,7 +97,7 @@ func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserMes
 			Links:       body.Profile.Links,
 			Extras:      body.Profile.Extras,
 		})
-		if exception, err := handleError("UserProfile", err); exception != nil {
+		if exception, err := helper.HandleError("UserProfile", err); exception != nil {
 			return exception, err
 		}
 	}
@@ -110,7 +110,7 @@ func (svc *Service) CreateUserService(ctx context.Context, body *structs.UserMes
 // GetUserByIDService retrieves a user by their ID.
 func (svc *Service) GetUserByIDService(ctx context.Context, u string) (*resp.Exception, error) {
 	user, err := svc.user.GetByID(ctx, u)
-	if exception, err := handleError("User", err); exception != nil {
+	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 
@@ -122,7 +122,7 @@ func (svc *Service) GetUserByIDService(ctx context.Context, u string) (*resp.Exc
 // DeleteUserService deletes a user by their ID.
 func (svc *Service) DeleteUserService(ctx context.Context, u string) (*resp.Exception, error) {
 	err := svc.user.Delete(ctx, u)
-	if exception, err := handleError("User", err); exception != nil {
+	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 
@@ -134,7 +134,7 @@ func (svc *Service) DeleteUserService(ctx context.Context, u string) (*resp.Exce
 // AddUserToTenantService adds a user to a tenant.
 func (svc *Service) AddUserToTenantService(ctx context.Context, u string, t string) (*resp.Exception, error) {
 	_, err := svc.userTenant.Create(ctx, &structs.UserTenant{UserID: u, TenantID: t})
-	if exception, err := handleError("UserTenant", err); exception != nil {
+	if exception, err := helper.HandleError("UserTenant", err); exception != nil {
 		return exception, err
 	}
 
@@ -146,7 +146,7 @@ func (svc *Service) AddUserToTenantService(ctx context.Context, u string, t stri
 // RemoveUserFromTenantService removes a user from a tenant.
 func (svc *Service) RemoveUserFromTenantService(ctx context.Context, u string, t string) (*resp.Exception, error) {
 	err := svc.userTenant.Delete(ctx, u, t)
-	if exception, err := handleError("UserTenant", err); exception != nil {
+	if exception, err := helper.HandleError("UserTenant", err); exception != nil {
 		return exception, err
 	}
 
@@ -158,7 +158,7 @@ func (svc *Service) RemoveUserFromTenantService(ctx context.Context, u string, t
 // AddRoleToUserService adds a role to a user.
 func (svc *Service) AddRoleToUserService(ctx context.Context, u string, r string) (*resp.Exception, error) {
 	_, err := svc.userRole.Create(ctx, &structs.UserRole{UserID: u, RoleID: r})
-	if exception, err := handleError("UserRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -170,7 +170,7 @@ func (svc *Service) AddRoleToUserService(ctx context.Context, u string, r string
 // RemoveRoleFromUserService removes a role from a user.
 func (svc *Service) RemoveRoleFromUserService(ctx context.Context, u string, r string) (*resp.Exception, error) {
 	err := svc.userRole.Delete(ctx, u, r)
-	if exception, err := handleError("UserRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
@@ -181,7 +181,7 @@ func (svc *Service) RemoveRoleFromUserService(ctx context.Context, u string, r s
 // AddUserToGroupService adds a user to a group.
 func (svc *Service) AddUserToGroupService(ctx context.Context, u string, g string) (*resp.Exception, error) {
 	_, err := svc.userGroup.Create(ctx, &structs.UserGroup{UserID: u, GroupID: g})
-	if exception, err := handleError("UserGroup", err); exception != nil {
+	if exception, err := helper.HandleError("UserGroup", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
@@ -192,7 +192,7 @@ func (svc *Service) AddUserToGroupService(ctx context.Context, u string, g strin
 // RemoveUserFromGroupService removes a user from a group.
 func (svc *Service) RemoveUserFromGroupService(ctx context.Context, u string, g string) (*resp.Exception, error) {
 	err := svc.userGroup.Delete(ctx, u, g)
-	if exception, err := handleError("UserGroup", err); exception != nil {
+	if exception, err := helper.HandleError("UserGroup", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
@@ -203,7 +203,7 @@ func (svc *Service) RemoveUserFromGroupService(ctx context.Context, u string, g 
 // AddRoleToUserInTenantService adds a role to a user in a tenant.
 func (svc *Service) AddRoleToUserInTenantService(ctx context.Context, u string, t string, r string) (*resp.Exception, error) {
 	_, err := svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: u, TenantID: t, RoleID: r})
-	if exception, err := handleError("UserTenantRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserTenantRole", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
@@ -214,7 +214,7 @@ func (svc *Service) AddRoleToUserInTenantService(ctx context.Context, u string, 
 // GetUserRolesInTenantService retrieves all roles associated with a user in a tenant.
 func (svc *Service) GetUserRolesInTenantService(ctx context.Context, u string, t string) (*resp.Exception, error) {
 	roles, err := svc.userTenantRole.GetRolesByUserAndTenant(ctx, u, t)
-	if exception, err := handleError("UserTenantRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserTenantRole", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
@@ -225,7 +225,7 @@ func (svc *Service) GetUserRolesInTenantService(ctx context.Context, u string, t
 // RemoveRoleFromUserInTenantService removes a role from a user in a tenant.
 func (svc *Service) RemoveRoleFromUserInTenantService(ctx context.Context, u string, t string, r string) (*resp.Exception, error) {
 	err := svc.userTenantRole.DeleteByUserIDAndTenantIDAndRoleID(ctx, u, t, r)
-	if exception, err := handleError("UserTenantRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserTenantRole", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
@@ -236,7 +236,7 @@ func (svc *Service) RemoveRoleFromUserInTenantService(ctx context.Context, u str
 // GetUserRolesService retrieves all roles associated with a user.
 func (svc *Service) GetUserRolesService(ctx context.Context, u string) (*resp.Exception, error) {
 	roles, err := svc.userRole.GetRolesByUserID(ctx, u)
-	if exception, err := handleError("UserRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -248,7 +248,7 @@ func (svc *Service) GetUserRolesService(ctx context.Context, u string) (*resp.Ex
 // GetUserGroupsService retrieves all groups associated with a user.
 func (svc *Service) GetUserGroupsService(ctx context.Context, u string) (*resp.Exception, error) {
 	groups, err := svc.userGroup.GetByUserID(ctx, u)
-	if exception, err := handleError("UserGroup", err); exception != nil {
+	if exception, err := helper.HandleError("UserGroup", err); exception != nil {
 		return exception, err
 	}
 	return &resp.Exception{
@@ -262,7 +262,7 @@ func (svc *Service) CreateUserRoleService(ctx context.Context, body *structs.Use
 		return resp.BadRequest("UserID and RoleID are required"), nil
 	}
 	userRole, err := svc.userRole.Create(ctx, body)
-	if exception, err := handleError("UserRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -277,7 +277,7 @@ func (svc *Service) GetUserRoleByUserIDService(ctx context.Context, u string) (*
 		return resp.BadRequest("UserID is required"), nil
 	}
 	userRoles, err := svc.userRole.GetRolesByUserID(ctx, u)
-	if exception, err := handleError("UserRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -292,7 +292,7 @@ func (svc *Service) GetUsersByRoleIDService(ctx context.Context, roleID string) 
 		return resp.BadRequest("RoleID is required"), nil
 	}
 	users, err := svc.userRole.GetUsersByRoleID(ctx, roleID)
-	if exception, err := handleError("UserRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -307,7 +307,7 @@ func (svc *Service) DeleteUserRoleByUserIDService(ctx context.Context, u string)
 		return resp.BadRequest("UserID is required"), nil
 	}
 	err := svc.userRole.DeleteAllByUserID(ctx, u)
-	if exception, err := handleError("UserRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -322,7 +322,7 @@ func (svc *Service) DeleteUserRoleByRoleIDService(ctx context.Context, roleID st
 		return resp.BadRequest("RoleID is required"), nil
 	}
 	err := svc.userRole.DeleteAllByRoleID(ctx, roleID)
-	if exception, err := handleError("UserRole", err); exception != nil {
+	if exception, err := helper.HandleError("UserRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -341,7 +341,7 @@ func (svc *Service) readUser(c *gin.Context, u string) (*resp.Exception, error) 
 
 	user, err := svc.findUserByID(c, u)
 
-	if exception, err := handleError("User", err); exception != nil {
+	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 

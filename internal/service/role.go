@@ -6,6 +6,7 @@ import (
 	"ncobase/common/validator"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
 
 	"ncobase/common/resp"
 	"ncobase/common/types"
@@ -18,7 +19,7 @@ func (svc *Service) CreateRoleService(ctx context.Context, body *structs.CreateR
 	}
 
 	role, err := svc.role.Create(ctx, body)
-	if exception, err := handleError("Role", err); exception != nil {
+	if exception, err := helper.HandleError("Role", err); exception != nil {
 		return exception, err
 	}
 
@@ -30,7 +31,7 @@ func (svc *Service) CreateRoleService(ctx context.Context, body *structs.CreateR
 // UpdateRoleService updates an existing role.
 func (svc *Service) UpdateRoleService(ctx context.Context, roleID string, updates types.JSON) (*resp.Exception, error) {
 	role, err := svc.role.Update(ctx, roleID, updates)
-	if exception, err := handleError("Role", err); exception != nil {
+	if exception, err := helper.HandleError("Role", err); exception != nil {
 		return exception, err
 	}
 
@@ -42,7 +43,7 @@ func (svc *Service) UpdateRoleService(ctx context.Context, roleID string, update
 // GetRoleByIDService retrieves a role by its ID.
 func (svc *Service) GetRoleByIDService(ctx context.Context, roleID string) (*resp.Exception, error) {
 	role, err := svc.role.GetByID(ctx, roleID)
-	if exception, err := handleError("Role", err); exception != nil {
+	if exception, err := helper.HandleError("Role", err); exception != nil {
 		return exception, err
 	}
 
@@ -54,7 +55,7 @@ func (svc *Service) GetRoleByIDService(ctx context.Context, roleID string) (*res
 // DeleteRoleService deletes a role by its ID.
 func (svc *Service) DeleteRoleService(ctx context.Context, roleID string) (*resp.Exception, error) {
 	err := svc.role.Delete(ctx, roleID)
-	if exception, err := handleError("Role", err); exception != nil {
+	if exception, err := helper.HandleError("Role", err); exception != nil {
 		return exception, err
 	}
 
@@ -66,7 +67,7 @@ func (svc *Service) DeleteRoleService(ctx context.Context, roleID string) (*resp
 // AddPermissionToRoleService adds a permission to a role.
 func (svc *Service) AddPermissionToRoleService(ctx context.Context, roleID string, permissionID string) (*resp.Exception, error) {
 	_, err := svc.rolePermission.Create(ctx, &structs.RolePermission{RoleID: roleID, PermissionID: permissionID})
-	if exception, err := handleError("RolePermission", err); exception != nil {
+	if exception, err := helper.HandleError("RolePermission", err); exception != nil {
 		return exception, err
 	}
 
@@ -78,7 +79,7 @@ func (svc *Service) AddPermissionToRoleService(ctx context.Context, roleID strin
 // RemovePermissionFromRoleService removes a permission from a role.
 func (svc *Service) RemovePermissionFromRoleService(ctx context.Context, roleID string, permissionID string) (*resp.Exception, error) {
 	err := svc.rolePermission.Delete(ctx, roleID, permissionID)
-	if exception, err := handleError("RolePermission", err); exception != nil {
+	if exception, err := helper.HandleError("RolePermission", err); exception != nil {
 		return exception, err
 	}
 
@@ -90,7 +91,7 @@ func (svc *Service) RemovePermissionFromRoleService(ctx context.Context, roleID 
 // GetRolePermissionsService retrieves permissions associated with a role.
 func (svc *Service) GetRolePermissionsService(ctx context.Context, r string) (*resp.Exception, error) {
 	permissions, err := svc.rolePermission.GetPermissionsByRoleID(ctx, r)
-	if exception, err := handleError("RolePermission", err); exception != nil {
+	if exception, err := helper.HandleError("RolePermission", err); exception != nil {
 		return exception, err
 	}
 
@@ -111,7 +112,7 @@ func (svc *Service) ListRolesService(ctx context.Context, params *structs.ListRo
 	}
 
 	roles, err := svc.role.List(ctx, params)
-	if exception, err := handleError("Role", err); exception != nil {
+	if exception, err := helper.HandleError("Role", err); exception != nil {
 		return exception, err
 	}
 

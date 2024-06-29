@@ -23,10 +23,7 @@ import (
 	"ncobase/internal/data/ent/permission"
 	"ncobase/internal/data/ent/role"
 	"ncobase/internal/data/ent/rolepermission"
-	"ncobase/internal/data/ent/taxonomy"
-	"ncobase/internal/data/ent/taxonomyrelation"
 	"ncobase/internal/data/ent/tenant"
-	"ncobase/internal/data/ent/topic"
 	"ncobase/internal/data/ent/user"
 	"ncobase/internal/data/ent/usergroup"
 	"ncobase/internal/data/ent/userprofile"
@@ -68,14 +65,8 @@ type Client struct {
 	Role *RoleClient
 	// RolePermission is the client for interacting with the RolePermission builders.
 	RolePermission *RolePermissionClient
-	// Taxonomy is the client for interacting with the Taxonomy builders.
-	Taxonomy *TaxonomyClient
-	// TaxonomyRelation is the client for interacting with the TaxonomyRelation builders.
-	TaxonomyRelation *TaxonomyRelationClient
 	// Tenant is the client for interacting with the Tenant builders.
 	Tenant *TenantClient
-	// Topic is the client for interacting with the Topic builders.
-	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 	// UserGroup is the client for interacting with the UserGroup builders.
@@ -111,10 +102,7 @@ func (c *Client) init() {
 	c.Permission = NewPermissionClient(c.config)
 	c.Role = NewRoleClient(c.config)
 	c.RolePermission = NewRolePermissionClient(c.config)
-	c.Taxonomy = NewTaxonomyClient(c.config)
-	c.TaxonomyRelation = NewTaxonomyRelationClient(c.config)
 	c.Tenant = NewTenantClient(c.config)
-	c.Topic = NewTopicClient(c.config)
 	c.User = NewUserClient(c.config)
 	c.UserGroup = NewUserGroupClient(c.config)
 	c.UserProfile = NewUserProfileClient(c.config)
@@ -211,30 +199,27 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:              ctx,
-		config:           cfg,
-		Asset:            NewAssetClient(cfg),
-		AuthToken:        NewAuthTokenClient(cfg),
-		CasbinRule:       NewCasbinRuleClient(cfg),
-		CodeAuth:         NewCodeAuthClient(cfg),
-		Group:            NewGroupClient(cfg),
-		GroupRole:        NewGroupRoleClient(cfg),
-		Menu:             NewMenuClient(cfg),
-		Module:           NewModuleClient(cfg),
-		OAuthUser:        NewOAuthUserClient(cfg),
-		Permission:       NewPermissionClient(cfg),
-		Role:             NewRoleClient(cfg),
-		RolePermission:   NewRolePermissionClient(cfg),
-		Taxonomy:         NewTaxonomyClient(cfg),
-		TaxonomyRelation: NewTaxonomyRelationClient(cfg),
-		Tenant:           NewTenantClient(cfg),
-		Topic:            NewTopicClient(cfg),
-		User:             NewUserClient(cfg),
-		UserGroup:        NewUserGroupClient(cfg),
-		UserProfile:      NewUserProfileClient(cfg),
-		UserRole:         NewUserRoleClient(cfg),
-		UserTenant:       NewUserTenantClient(cfg),
-		UserTenantRole:   NewUserTenantRoleClient(cfg),
+		ctx:            ctx,
+		config:         cfg,
+		Asset:          NewAssetClient(cfg),
+		AuthToken:      NewAuthTokenClient(cfg),
+		CasbinRule:     NewCasbinRuleClient(cfg),
+		CodeAuth:       NewCodeAuthClient(cfg),
+		Group:          NewGroupClient(cfg),
+		GroupRole:      NewGroupRoleClient(cfg),
+		Menu:           NewMenuClient(cfg),
+		Module:         NewModuleClient(cfg),
+		OAuthUser:      NewOAuthUserClient(cfg),
+		Permission:     NewPermissionClient(cfg),
+		Role:           NewRoleClient(cfg),
+		RolePermission: NewRolePermissionClient(cfg),
+		Tenant:         NewTenantClient(cfg),
+		User:           NewUserClient(cfg),
+		UserGroup:      NewUserGroupClient(cfg),
+		UserProfile:    NewUserProfileClient(cfg),
+		UserRole:       NewUserRoleClient(cfg),
+		UserTenant:     NewUserTenantClient(cfg),
+		UserTenantRole: NewUserTenantRoleClient(cfg),
 	}, nil
 }
 
@@ -252,30 +237,27 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:              ctx,
-		config:           cfg,
-		Asset:            NewAssetClient(cfg),
-		AuthToken:        NewAuthTokenClient(cfg),
-		CasbinRule:       NewCasbinRuleClient(cfg),
-		CodeAuth:         NewCodeAuthClient(cfg),
-		Group:            NewGroupClient(cfg),
-		GroupRole:        NewGroupRoleClient(cfg),
-		Menu:             NewMenuClient(cfg),
-		Module:           NewModuleClient(cfg),
-		OAuthUser:        NewOAuthUserClient(cfg),
-		Permission:       NewPermissionClient(cfg),
-		Role:             NewRoleClient(cfg),
-		RolePermission:   NewRolePermissionClient(cfg),
-		Taxonomy:         NewTaxonomyClient(cfg),
-		TaxonomyRelation: NewTaxonomyRelationClient(cfg),
-		Tenant:           NewTenantClient(cfg),
-		Topic:            NewTopicClient(cfg),
-		User:             NewUserClient(cfg),
-		UserGroup:        NewUserGroupClient(cfg),
-		UserProfile:      NewUserProfileClient(cfg),
-		UserRole:         NewUserRoleClient(cfg),
-		UserTenant:       NewUserTenantClient(cfg),
-		UserTenantRole:   NewUserTenantRoleClient(cfg),
+		ctx:            ctx,
+		config:         cfg,
+		Asset:          NewAssetClient(cfg),
+		AuthToken:      NewAuthTokenClient(cfg),
+		CasbinRule:     NewCasbinRuleClient(cfg),
+		CodeAuth:       NewCodeAuthClient(cfg),
+		Group:          NewGroupClient(cfg),
+		GroupRole:      NewGroupRoleClient(cfg),
+		Menu:           NewMenuClient(cfg),
+		Module:         NewModuleClient(cfg),
+		OAuthUser:      NewOAuthUserClient(cfg),
+		Permission:     NewPermissionClient(cfg),
+		Role:           NewRoleClient(cfg),
+		RolePermission: NewRolePermissionClient(cfg),
+		Tenant:         NewTenantClient(cfg),
+		User:           NewUserClient(cfg),
+		UserGroup:      NewUserGroupClient(cfg),
+		UserProfile:    NewUserProfileClient(cfg),
+		UserRole:       NewUserRoleClient(cfg),
+		UserTenant:     NewUserTenantClient(cfg),
+		UserTenantRole: NewUserTenantRoleClient(cfg),
 	}, nil
 }
 
@@ -306,9 +288,8 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.Asset, c.AuthToken, c.CasbinRule, c.CodeAuth, c.Group, c.GroupRole, c.Menu,
-		c.Module, c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Taxonomy,
-		c.TaxonomyRelation, c.Tenant, c.Topic, c.User, c.UserGroup, c.UserProfile,
-		c.UserRole, c.UserTenant, c.UserTenantRole,
+		c.Module, c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Tenant,
+		c.User, c.UserGroup, c.UserProfile, c.UserRole, c.UserTenant, c.UserTenantRole,
 	} {
 		n.Use(hooks...)
 	}
@@ -319,9 +300,8 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.Asset, c.AuthToken, c.CasbinRule, c.CodeAuth, c.Group, c.GroupRole, c.Menu,
-		c.Module, c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Taxonomy,
-		c.TaxonomyRelation, c.Tenant, c.Topic, c.User, c.UserGroup, c.UserProfile,
-		c.UserRole, c.UserTenant, c.UserTenantRole,
+		c.Module, c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Tenant,
+		c.User, c.UserGroup, c.UserProfile, c.UserRole, c.UserTenant, c.UserTenantRole,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -354,14 +334,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Role.mutate(ctx, m)
 	case *RolePermissionMutation:
 		return c.RolePermission.mutate(ctx, m)
-	case *TaxonomyMutation:
-		return c.Taxonomy.mutate(ctx, m)
-	case *TaxonomyRelationMutation:
-		return c.TaxonomyRelation.mutate(ctx, m)
 	case *TenantMutation:
 		return c.Tenant.mutate(ctx, m)
-	case *TopicMutation:
-		return c.Topic.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
 	case *UserGroupMutation:
@@ -1975,272 +1949,6 @@ func (c *RolePermissionClient) mutate(ctx context.Context, m *RolePermissionMuta
 	}
 }
 
-// TaxonomyClient is a client for the Taxonomy schema.
-type TaxonomyClient struct {
-	config
-}
-
-// NewTaxonomyClient returns a client for the Taxonomy from the given config.
-func NewTaxonomyClient(c config) *TaxonomyClient {
-	return &TaxonomyClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `taxonomy.Hooks(f(g(h())))`.
-func (c *TaxonomyClient) Use(hooks ...Hook) {
-	c.hooks.Taxonomy = append(c.hooks.Taxonomy, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `taxonomy.Intercept(f(g(h())))`.
-func (c *TaxonomyClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Taxonomy = append(c.inters.Taxonomy, interceptors...)
-}
-
-// Create returns a builder for creating a Taxonomy entity.
-func (c *TaxonomyClient) Create() *TaxonomyCreate {
-	mutation := newTaxonomyMutation(c.config, OpCreate)
-	return &TaxonomyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of Taxonomy entities.
-func (c *TaxonomyClient) CreateBulk(builders ...*TaxonomyCreate) *TaxonomyCreateBulk {
-	return &TaxonomyCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *TaxonomyClient) MapCreateBulk(slice any, setFunc func(*TaxonomyCreate, int)) *TaxonomyCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &TaxonomyCreateBulk{err: fmt.Errorf("calling to TaxonomyClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*TaxonomyCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &TaxonomyCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for Taxonomy.
-func (c *TaxonomyClient) Update() *TaxonomyUpdate {
-	mutation := newTaxonomyMutation(c.config, OpUpdate)
-	return &TaxonomyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *TaxonomyClient) UpdateOne(t *Taxonomy) *TaxonomyUpdateOne {
-	mutation := newTaxonomyMutation(c.config, OpUpdateOne, withTaxonomy(t))
-	return &TaxonomyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *TaxonomyClient) UpdateOneID(id string) *TaxonomyUpdateOne {
-	mutation := newTaxonomyMutation(c.config, OpUpdateOne, withTaxonomyID(id))
-	return &TaxonomyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for Taxonomy.
-func (c *TaxonomyClient) Delete() *TaxonomyDelete {
-	mutation := newTaxonomyMutation(c.config, OpDelete)
-	return &TaxonomyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *TaxonomyClient) DeleteOne(t *Taxonomy) *TaxonomyDeleteOne {
-	return c.DeleteOneID(t.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *TaxonomyClient) DeleteOneID(id string) *TaxonomyDeleteOne {
-	builder := c.Delete().Where(taxonomy.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &TaxonomyDeleteOne{builder}
-}
-
-// Query returns a query builder for Taxonomy.
-func (c *TaxonomyClient) Query() *TaxonomyQuery {
-	return &TaxonomyQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeTaxonomy},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a Taxonomy entity by its id.
-func (c *TaxonomyClient) Get(ctx context.Context, id string) (*Taxonomy, error) {
-	return c.Query().Where(taxonomy.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *TaxonomyClient) GetX(ctx context.Context, id string) *Taxonomy {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *TaxonomyClient) Hooks() []Hook {
-	return c.hooks.Taxonomy
-}
-
-// Interceptors returns the client interceptors.
-func (c *TaxonomyClient) Interceptors() []Interceptor {
-	return c.inters.Taxonomy
-}
-
-func (c *TaxonomyClient) mutate(ctx context.Context, m *TaxonomyMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&TaxonomyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&TaxonomyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&TaxonomyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&TaxonomyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown Taxonomy mutation op: %q", m.Op())
-	}
-}
-
-// TaxonomyRelationClient is a client for the TaxonomyRelation schema.
-type TaxonomyRelationClient struct {
-	config
-}
-
-// NewTaxonomyRelationClient returns a client for the TaxonomyRelation from the given config.
-func NewTaxonomyRelationClient(c config) *TaxonomyRelationClient {
-	return &TaxonomyRelationClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `taxonomyrelation.Hooks(f(g(h())))`.
-func (c *TaxonomyRelationClient) Use(hooks ...Hook) {
-	c.hooks.TaxonomyRelation = append(c.hooks.TaxonomyRelation, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `taxonomyrelation.Intercept(f(g(h())))`.
-func (c *TaxonomyRelationClient) Intercept(interceptors ...Interceptor) {
-	c.inters.TaxonomyRelation = append(c.inters.TaxonomyRelation, interceptors...)
-}
-
-// Create returns a builder for creating a TaxonomyRelation entity.
-func (c *TaxonomyRelationClient) Create() *TaxonomyRelationCreate {
-	mutation := newTaxonomyRelationMutation(c.config, OpCreate)
-	return &TaxonomyRelationCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of TaxonomyRelation entities.
-func (c *TaxonomyRelationClient) CreateBulk(builders ...*TaxonomyRelationCreate) *TaxonomyRelationCreateBulk {
-	return &TaxonomyRelationCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *TaxonomyRelationClient) MapCreateBulk(slice any, setFunc func(*TaxonomyRelationCreate, int)) *TaxonomyRelationCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &TaxonomyRelationCreateBulk{err: fmt.Errorf("calling to TaxonomyRelationClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*TaxonomyRelationCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &TaxonomyRelationCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for TaxonomyRelation.
-func (c *TaxonomyRelationClient) Update() *TaxonomyRelationUpdate {
-	mutation := newTaxonomyRelationMutation(c.config, OpUpdate)
-	return &TaxonomyRelationUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *TaxonomyRelationClient) UpdateOne(tr *TaxonomyRelation) *TaxonomyRelationUpdateOne {
-	mutation := newTaxonomyRelationMutation(c.config, OpUpdateOne, withTaxonomyRelation(tr))
-	return &TaxonomyRelationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *TaxonomyRelationClient) UpdateOneID(id string) *TaxonomyRelationUpdateOne {
-	mutation := newTaxonomyRelationMutation(c.config, OpUpdateOne, withTaxonomyRelationID(id))
-	return &TaxonomyRelationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for TaxonomyRelation.
-func (c *TaxonomyRelationClient) Delete() *TaxonomyRelationDelete {
-	mutation := newTaxonomyRelationMutation(c.config, OpDelete)
-	return &TaxonomyRelationDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *TaxonomyRelationClient) DeleteOne(tr *TaxonomyRelation) *TaxonomyRelationDeleteOne {
-	return c.DeleteOneID(tr.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *TaxonomyRelationClient) DeleteOneID(id string) *TaxonomyRelationDeleteOne {
-	builder := c.Delete().Where(taxonomyrelation.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &TaxonomyRelationDeleteOne{builder}
-}
-
-// Query returns a query builder for TaxonomyRelation.
-func (c *TaxonomyRelationClient) Query() *TaxonomyRelationQuery {
-	return &TaxonomyRelationQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeTaxonomyRelation},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a TaxonomyRelation entity by its id.
-func (c *TaxonomyRelationClient) Get(ctx context.Context, id string) (*TaxonomyRelation, error) {
-	return c.Query().Where(taxonomyrelation.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *TaxonomyRelationClient) GetX(ctx context.Context, id string) *TaxonomyRelation {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *TaxonomyRelationClient) Hooks() []Hook {
-	return c.hooks.TaxonomyRelation
-}
-
-// Interceptors returns the client interceptors.
-func (c *TaxonomyRelationClient) Interceptors() []Interceptor {
-	return c.inters.TaxonomyRelation
-}
-
-func (c *TaxonomyRelationClient) mutate(ctx context.Context, m *TaxonomyRelationMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&TaxonomyRelationCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&TaxonomyRelationUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&TaxonomyRelationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&TaxonomyRelationDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown TaxonomyRelation mutation op: %q", m.Op())
-	}
-}
-
 // TenantClient is a client for the Tenant schema.
 type TenantClient struct {
 	config
@@ -2371,139 +2079,6 @@ func (c *TenantClient) mutate(ctx context.Context, m *TenantMutation) (Value, er
 		return (&TenantDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Tenant mutation op: %q", m.Op())
-	}
-}
-
-// TopicClient is a client for the Topic schema.
-type TopicClient struct {
-	config
-}
-
-// NewTopicClient returns a client for the Topic from the given config.
-func NewTopicClient(c config) *TopicClient {
-	return &TopicClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `topic.Hooks(f(g(h())))`.
-func (c *TopicClient) Use(hooks ...Hook) {
-	c.hooks.Topic = append(c.hooks.Topic, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `topic.Intercept(f(g(h())))`.
-func (c *TopicClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Topic = append(c.inters.Topic, interceptors...)
-}
-
-// Create returns a builder for creating a Topic entity.
-func (c *TopicClient) Create() *TopicCreate {
-	mutation := newTopicMutation(c.config, OpCreate)
-	return &TopicCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of Topic entities.
-func (c *TopicClient) CreateBulk(builders ...*TopicCreate) *TopicCreateBulk {
-	return &TopicCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *TopicClient) MapCreateBulk(slice any, setFunc func(*TopicCreate, int)) *TopicCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &TopicCreateBulk{err: fmt.Errorf("calling to TopicClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*TopicCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &TopicCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for Topic.
-func (c *TopicClient) Update() *TopicUpdate {
-	mutation := newTopicMutation(c.config, OpUpdate)
-	return &TopicUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *TopicClient) UpdateOne(t *Topic) *TopicUpdateOne {
-	mutation := newTopicMutation(c.config, OpUpdateOne, withTopic(t))
-	return &TopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *TopicClient) UpdateOneID(id string) *TopicUpdateOne {
-	mutation := newTopicMutation(c.config, OpUpdateOne, withTopicID(id))
-	return &TopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for Topic.
-func (c *TopicClient) Delete() *TopicDelete {
-	mutation := newTopicMutation(c.config, OpDelete)
-	return &TopicDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *TopicClient) DeleteOne(t *Topic) *TopicDeleteOne {
-	return c.DeleteOneID(t.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *TopicClient) DeleteOneID(id string) *TopicDeleteOne {
-	builder := c.Delete().Where(topic.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &TopicDeleteOne{builder}
-}
-
-// Query returns a query builder for Topic.
-func (c *TopicClient) Query() *TopicQuery {
-	return &TopicQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeTopic},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a Topic entity by its id.
-func (c *TopicClient) Get(ctx context.Context, id string) (*Topic, error) {
-	return c.Query().Where(topic.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *TopicClient) GetX(ctx context.Context, id string) *Topic {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *TopicClient) Hooks() []Hook {
-	return c.hooks.Topic
-}
-
-// Interceptors returns the client interceptors.
-func (c *TopicClient) Interceptors() []Interceptor {
-	return c.inters.Topic
-}
-
-func (c *TopicClient) mutate(ctx context.Context, m *TopicMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&TopicCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&TopicUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&TopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&TopicDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown Topic mutation op: %q", m.Op())
 	}
 }
 
@@ -3309,14 +2884,12 @@ func (c *UserTenantRoleClient) mutate(ctx context.Context, m *UserTenantRoleMuta
 type (
 	hooks struct {
 		Asset, AuthToken, CasbinRule, CodeAuth, Group, GroupRole, Menu, Module,
-		OAuthUser, Permission, Role, RolePermission, Taxonomy, TaxonomyRelation,
-		Tenant, Topic, User, UserGroup, UserProfile, UserRole, UserTenant,
-		UserTenantRole []ent.Hook
+		OAuthUser, Permission, Role, RolePermission, Tenant, User, UserGroup,
+		UserProfile, UserRole, UserTenant, UserTenantRole []ent.Hook
 	}
 	inters struct {
 		Asset, AuthToken, CasbinRule, CodeAuth, Group, GroupRole, Menu, Module,
-		OAuthUser, Permission, Role, RolePermission, Taxonomy, TaxonomyRelation,
-		Tenant, Topic, User, UserGroup, UserProfile, UserRole, UserTenant,
-		UserTenantRole []ent.Interceptor
+		OAuthUser, Permission, Role, RolePermission, Tenant, User, UserGroup,
+		UserProfile, UserRole, UserTenant, UserTenantRole []ent.Interceptor
 	}
 )

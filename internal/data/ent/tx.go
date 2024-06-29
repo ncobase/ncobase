@@ -36,14 +36,8 @@ type Tx struct {
 	Role *RoleClient
 	// RolePermission is the client for interacting with the RolePermission builders.
 	RolePermission *RolePermissionClient
-	// Taxonomy is the client for interacting with the Taxonomy builders.
-	Taxonomy *TaxonomyClient
-	// TaxonomyRelation is the client for interacting with the TaxonomyRelation builders.
-	TaxonomyRelation *TaxonomyRelationClient
 	// Tenant is the client for interacting with the Tenant builders.
 	Tenant *TenantClient
-	// Topic is the client for interacting with the Topic builders.
-	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 	// UserGroup is the client for interacting with the UserGroup builders.
@@ -199,10 +193,7 @@ func (tx *Tx) init() {
 	tx.Permission = NewPermissionClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
 	tx.RolePermission = NewRolePermissionClient(tx.config)
-	tx.Taxonomy = NewTaxonomyClient(tx.config)
-	tx.TaxonomyRelation = NewTaxonomyRelationClient(tx.config)
 	tx.Tenant = NewTenantClient(tx.config)
-	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 	tx.UserGroup = NewUserGroupClient(tx.config)
 	tx.UserProfile = NewUserProfileClient(tx.config)
