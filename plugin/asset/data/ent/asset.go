@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/internal/data/ent/asset"
+	"ncobase/plugin/asset/data/ent/asset"
 	"strings"
 	"time"
 

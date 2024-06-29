@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	_ "ncobase/plugin/asset/cmd"
 	_ "ncobase/plugin/content/cmd"
 )
 

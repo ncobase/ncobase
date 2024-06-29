@@ -1,12 +1,12 @@
-package repo
+package asset
 
 import (
 	"context"
 	"fmt"
-	"ncobase/internal/data"
-	"ncobase/internal/data/ent"
-	assetEnt "ncobase/internal/data/ent/asset"
-	"ncobase/internal/data/structs"
+	"ncobase/plugin/asset/data"
+	"ncobase/plugin/asset/data/ent"
+	assetEnt "ncobase/plugin/asset/data/ent/asset"
+	"ncobase/plugin/asset/structs"
 
 	"ncobase/common/cache"
 	"ncobase/common/log"
@@ -17,8 +17,8 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// Asset represents the asset repository interface.
-type Asset interface {
+// RepositoryInterface represents the asset repository interface.
+type RepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateAssetBody) (*ent.Asset, error)
 	GetByID(ctx context.Context, slug string) (*ent.Asset, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Asset, error)
@@ -36,7 +36,7 @@ type assetRepo struct {
 }
 
 // NewAsset creates a new asset repository.
-func NewAsset(d *data.Data) Asset {
+func NewAsset(d *data.Data) RepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()

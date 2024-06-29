@@ -85,16 +85,6 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		modules.DELETE("/:slug", h.DeleteModuleHandler)
 	}
 
-	// Asset endpoints
-	assets := v1.Group("/assets", middleware.Authenticated)
-	{
-		assets.GET("", h.ListAssetHandler)
-		assets.POST("", h.CreateAssetsHandler)
-		assets.GET("/:slug", h.GetAssetHandler)
-		assets.PUT("/:slug", h.UpdateAssetHandler)
-		assets.DELETE("/:slug", h.DeleteAssetHandler)
-	}
-
 	// Tenant endpoints
 	tenants := v1.Group("/tenants", middleware.Authenticated)
 	{

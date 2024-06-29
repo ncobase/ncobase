@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/internal/data/ent/asset"
-	"ncobase/internal/data/ent/predicate"
+	"ncobase/plugin/asset/data/ent/asset"
+	"ncobase/plugin/asset/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

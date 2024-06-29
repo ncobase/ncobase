@@ -1,11 +1,13 @@
-package service
+package asset
 
 import (
 	"fmt"
 	"io"
-	"ncobase/internal/data/ent"
-	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
+	"ncobase/plugin/asset/data"
+	"ncobase/plugin/asset/data/ent"
+	"ncobase/plugin/asset/data/repository/asset"
+	"ncobase/plugin/asset/structs"
 	"os"
 
 	"ncobase/common/ecode"
@@ -16,6 +18,26 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
+// ServiceInterface represents the asset service interface.
+type ServiceInterface interface {
+	CreateAssetService(c *gin.Context, body *structs.CreateAssetBody) (*resp.Exception, error)
+	UpdateAssetService(c *gin.Context, slug string, updates map[string]any) (*resp.Exception, error)
+	GetAssetService(c *gin.Context, slug string) (*resp.Exception, error)
+	DeleteAssetService(c *gin.Context, slug string) (*resp.Exception, error)
+	ListAssetsService(c *gin.Context, params *structs.ListAssetParams) (*resp.Exception, error)
+	GetFileStream(c *gin.Context, slug string) (io.ReadCloser, *resp.Exception)
+}
+
+type Service struct {
+	asset asset.RepositoryInterface
+}
+
+func New(d *data.Data) ServiceInterface {
+	return &Service{
+		asset: asset.NewAsset(d),
+	}
+}
 
 // CreateAssetService creates a new asset.
 func (svc *Service) CreateAssetService(c *gin.Context, body *structs.CreateAssetBody) (*resp.Exception, error) {
@@ -52,14 +74,14 @@ func (svc *Service) CreateAssetService(c *gin.Context, body *structs.CreateAsset
 	body.CreatedBy = &userID
 
 	// Create the asset using the repository
-	asset, err := svc.asset.Create(c, body)
+	row, err := svc.asset.Create(c, body)
 	if err != nil {
 		log.Errorf(c, "Error creating asset: %v\n", err)
 		return resp.InternalServer("failed to create asset"), nil
 	}
 
 	return &resp.Exception{
-		Data: asset,
+		Data: row,
 	}, nil
 }
 
@@ -103,13 +125,13 @@ func (svc *Service) UpdateAssetService(c *gin.Context, slug string, updates map[
 		}
 	}
 
-	asset, err := svc.asset.Update(c, slug, updates)
+	row, err := svc.asset.Update(c, slug, updates)
 	if exception, err := helper.HandleError("Asset", err); exception != nil {
 		return exception, err
 	}
 
 	return &resp.Exception{
-		Data: asset,
+		Data: row,
 	}, nil
 }
 
@@ -123,7 +145,7 @@ func (svc *Service) GetAssetService(c *gin.Context, slug string) (*resp.Exceptio
 	// get storage interface
 	storage, _ := helper.GetStorage(c)
 
-	asset, err := svc.asset.GetByID(c, slug)
+	row, err := svc.asset.GetByID(c, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return resp.NotFound(ecode.NotExist(fmt.Sprintf("Asset %s", slug))), nil
@@ -133,7 +155,7 @@ func (svc *Service) GetAssetService(c *gin.Context, slug string) (*resp.Exceptio
 	}
 
 	// Fetch file from storage
-	file, err := storage.Get(asset.Path)
+	file, err := storage.Get(row.Path)
 	if err != nil {
 		log.Errorf(c, "Error retrieving file: %v\n", err)
 		return resp.InternalServer("Error retrieving file"), err
@@ -146,7 +168,7 @@ func (svc *Service) GetAssetService(c *gin.Context, slug string) (*resp.Exceptio
 	}(file)
 
 	return &resp.Exception{
-		Data: asset,
+		Data: row,
 	}, nil
 }
 
@@ -160,7 +182,7 @@ func (svc *Service) DeleteAssetService(c *gin.Context, slug string) (*resp.Excep
 	// get storage interface
 	storage, _ := helper.GetStorage(c)
 
-	asset, err := svc.asset.GetByID(c, slug)
+	row, err := svc.asset.GetByID(c, slug)
 	if err != nil {
 		log.Errorf(c, "Error retrieving asset: %v\n", err)
 		return resp.InternalServer("Error retrieving asset"), err
@@ -173,7 +195,7 @@ func (svc *Service) DeleteAssetService(c *gin.Context, slug string) (*resp.Excep
 	}
 
 	// Delete the file from storage
-	if err := storage.Delete(asset.Path); err != nil {
+	if err := storage.Delete(row.Path); err != nil {
 		log.Errorf(c, "Error deleting file: %v\n", err)
 		return resp.InternalServer("Error deleting file"), err
 	}
@@ -223,7 +245,7 @@ func (svc *Service) GetFileStream(c *gin.Context, slug string) (io.ReadCloser, *
 	storage, _ := helper.GetStorage(c)
 
 	// Retrieve asset by ID
-	asset, err := svc.asset.GetByID(c, slug)
+	row, err := svc.asset.GetByID(c, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, resp.NotFound(ecode.NotExist(fmt.Sprintf("Asset %s", slug)))
@@ -233,7 +255,7 @@ func (svc *Service) GetFileStream(c *gin.Context, slug string) (io.ReadCloser, *
 	}
 
 	// Fetch file stream from storage
-	fileStream, err := storage.GetStream(asset.Path)
+	fileStream, err := storage.GetStream(row.Path)
 	if err != nil {
 		log.Errorf(c, "Error retrieving file stream: %v\n", err)
 		return nil, resp.InternalServer("Error retrieving file stream")
@@ -241,6 +263,6 @@ func (svc *Service) GetFileStream(c *gin.Context, slug string) (io.ReadCloser, *
 
 	// Return file stream along with asset information
 	return fileStream, &resp.Exception{
-		Data: asset,
+		Data: row,
 	}
 }

@@ -3,7 +3,7 @@
 package asset
 
 import (
-	"ncobase/internal/data/ent/predicate"
+	"ncobase/plugin/asset/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
