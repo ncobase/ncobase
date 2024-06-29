@@ -2,6 +2,7 @@ package service
 
 import (
 	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
 
 	"ncobase/common/ecode"
 	"ncobase/common/resp"
@@ -15,7 +16,7 @@ import (
 func (svc *Service) CreateCasbinRuleService(c *gin.Context, body *structs.CasbinRuleBody) (*resp.Exception, error) {
 	// Create a new CasbinRule entity
 	casbinRule, err := svc.casbinRule.Create(c, body)
-	if exception, err := handleError("CasbinRule", err); exception != nil {
+	if exception, err := helper.HandleError("CasbinRule", err); exception != nil {
 		return exception, err
 	}
 
@@ -36,7 +37,7 @@ func (svc *Service) UpdateCasbinRuleService(c *gin.Context, id string, updates t
 	}
 
 	casbinRule, err := svc.casbinRule.Update(c, id, updates)
-	if exception, err := handleError("CasbinRule", err); exception != nil {
+	if exception, err := helper.HandleError("CasbinRule", err); exception != nil {
 		return exception, err
 	}
 
@@ -48,7 +49,7 @@ func (svc *Service) UpdateCasbinRuleService(c *gin.Context, id string, updates t
 // GetCasbinRuleService retrieves a Casbin rule by ID.
 func (svc *Service) GetCasbinRuleService(c *gin.Context, id string) (*resp.Exception, error) {
 	casbinRule, err := svc.casbinRule.GetByID(c, id)
-	if exception, err := handleError("CasbinRule", err); exception != nil {
+	if exception, err := helper.HandleError("CasbinRule", err); exception != nil {
 		return exception, err
 	}
 
@@ -60,7 +61,7 @@ func (svc *Service) GetCasbinRuleService(c *gin.Context, id string) (*resp.Excep
 // DeleteCasbinRuleService deletes a Casbin rule by ID.
 func (svc *Service) DeleteCasbinRuleService(c *gin.Context, id string) (*resp.Exception, error) {
 	err := svc.casbinRule.Delete(c, id)
-	if exception, err := handleError("CasbinRule", err); exception != nil {
+	if exception, err := helper.HandleError("CasbinRule", err); exception != nil {
 		return exception, err
 	}
 
@@ -70,7 +71,7 @@ func (svc *Service) DeleteCasbinRuleService(c *gin.Context, id string) (*resp.Ex
 // ListCasbinRulesService lists all Casbin rules based on query parameters.
 func (svc *Service) ListCasbinRulesService(c *gin.Context, params *structs.ListCasbinRuleParams) (*resp.Exception, error) {
 	casbinRules, err := svc.casbinRule.Find(c, params)
-	if exception, err := handleError("CasbinRule", err); exception != nil {
+	if exception, err := helper.HandleError("CasbinRule", err); exception != nil {
 		return exception, err
 	}
 

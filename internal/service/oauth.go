@@ -97,7 +97,7 @@ func (svc *Service) createUserEntities(ctx context.Context, tx *ent.Tx, body *st
 		Email:    payload.Profile.Email,
 		Phone:    body.Phone,
 	})
-	if exception, _ := handleError("User", err); exception != nil {
+	if exception, _ := helper.HandleError("User", err); exception != nil {
 		return nil, exception
 	}
 
@@ -146,7 +146,7 @@ func (svc *Service) createOAuthUser(ctx context.Context, tx *ent.Tx, payload str
 // createUserProfile Create user profile
 func (svc *Service) createUserProfile(ctx context.Context, body *structs.UserProfileBody) *resp.Exception {
 	_, err := svc.userProfile.Create(ctx, body)
-	if exception, _ := handleError("User", err); exception != nil {
+	if exception, _ := helper.HandleError("User", err); exception != nil {
 		return exception
 	}
 

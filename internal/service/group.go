@@ -4,6 +4,7 @@ import (
 	"context"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
 
 	"ncobase/common/resp"
 	"ncobase/common/types"
@@ -16,7 +17,7 @@ func (svc *Service) CreateGroupService(ctx context.Context, body *structs.Create
 	}
 
 	group, err := svc.group.Create(ctx, body)
-	if exception, err := handleError("Group", err); exception != nil {
+	if exception, err := helper.HandleError("Group", err); exception != nil {
 		return exception, err
 	}
 
@@ -28,7 +29,7 @@ func (svc *Service) CreateGroupService(ctx context.Context, body *structs.Create
 // UpdateGroupService updates an existing group.
 func (svc *Service) UpdateGroupService(ctx context.Context, groupID string, updates types.JSON) (*resp.Exception, error) {
 	group, err := svc.group.Update(ctx, groupID, updates)
-	if exception, err := handleError("Group", err); exception != nil {
+	if exception, err := helper.HandleError("Group", err); exception != nil {
 		return exception, err
 	}
 
@@ -40,7 +41,7 @@ func (svc *Service) UpdateGroupService(ctx context.Context, groupID string, upda
 // GetGroupByIDService retrieves a group by its ID.
 func (svc *Service) GetGroupByIDService(ctx context.Context, groupID string) (*resp.Exception, error) {
 	group, err := svc.group.GetByID(ctx, groupID)
-	if exception, err := handleError("Group", err); exception != nil {
+	if exception, err := helper.HandleError("Group", err); exception != nil {
 		return exception, err
 	}
 
@@ -52,7 +53,7 @@ func (svc *Service) GetGroupByIDService(ctx context.Context, groupID string) (*r
 // DeleteGroupService deletes a group by its ID.
 func (svc *Service) DeleteGroupService(ctx context.Context, groupID string) (*resp.Exception, error) {
 	err := svc.group.Delete(ctx, groupID)
-	if exception, err := handleError("Group", err); exception != nil {
+	if exception, err := helper.HandleError("Group", err); exception != nil {
 		return exception, err
 	}
 
@@ -64,7 +65,7 @@ func (svc *Service) DeleteGroupService(ctx context.Context, groupID string) (*re
 // AddRoleToGroupService adds a role to a group.
 func (svc *Service) AddRoleToGroupService(ctx context.Context, groupID string, roleID string) (*resp.Exception, error) {
 	_, err := svc.groupRole.Create(ctx, &structs.GroupRole{GroupID: groupID, RoleID: roleID})
-	if exception, err := handleError("GroupRole", err); exception != nil {
+	if exception, err := helper.HandleError("GroupRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -76,7 +77,7 @@ func (svc *Service) AddRoleToGroupService(ctx context.Context, groupID string, r
 // RemoveRoleFromGroupService removes a role from a group.
 func (svc *Service) RemoveRoleFromGroupService(ctx context.Context, groupID string, roleID string) (*resp.Exception, error) {
 	err := svc.groupRole.Delete(ctx, groupID, roleID)
-	if exception, err := handleError("GroupRole", err); exception != nil {
+	if exception, err := helper.HandleError("GroupRole", err); exception != nil {
 		return exception, err
 	}
 
@@ -88,7 +89,7 @@ func (svc *Service) RemoveRoleFromGroupService(ctx context.Context, groupID stri
 // GetGroupRolesService retrieves roles associated with a group.
 func (svc *Service) GetGroupRolesService(ctx context.Context, groupID string) (*resp.Exception, error) {
 	roles, err := svc.groupRole.GetRolesByGroupID(ctx, groupID)
-	if exception, err := handleError("GroupRole", err); exception != nil {
+	if exception, err := helper.HandleError("GroupRole", err); exception != nil {
 		return exception, err
 	}
 

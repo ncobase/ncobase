@@ -104,7 +104,7 @@ func (svc *Service) UpdateAssetService(c *gin.Context, slug string, updates map[
 	}
 
 	asset, err := svc.asset.Update(c, slug, updates)
-	if exception, err := handleError("Asset", err); exception != nil {
+	if exception, err := helper.HandleError("Asset", err); exception != nil {
 		return exception, err
 	}
 

@@ -3,6 +3,7 @@ package service
 import (
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
 
 	"ncobase/common/ecode"
 	"ncobase/common/resp"
@@ -20,7 +21,7 @@ func (svc *Service) CreateModuleService(c *gin.Context, body *structs.CreateModu
 		body.Slug = slug.Unicode(body.Name)
 	}
 	module, err := svc.module.Create(c, body)
-	if exception, err := handleError("Module", err); exception != nil {
+	if exception, err := helper.HandleError("Module", err); exception != nil {
 		return exception, err
 	}
 
@@ -41,7 +42,7 @@ func (svc *Service) UpdateModuleService(c *gin.Context, slug string, updates typ
 	}
 
 	module, err := svc.module.Update(c, slug, updates)
-	if exception, err := handleError("Module", err); exception != nil {
+	if exception, err := helper.HandleError("Module", err); exception != nil {
 		return exception, err
 	}
 
@@ -53,7 +54,7 @@ func (svc *Service) UpdateModuleService(c *gin.Context, slug string, updates typ
 // GetModuleService retrieves a module by slug.
 func (svc *Service) GetModuleService(c *gin.Context, slug string) (*resp.Exception, error) {
 	module, err := svc.module.GetBySlug(c, slug)
-	if exception, err := handleError("Module", err); exception != nil {
+	if exception, err := helper.HandleError("Module", err); exception != nil {
 		return exception, err
 	}
 
@@ -65,7 +66,7 @@ func (svc *Service) GetModuleService(c *gin.Context, slug string) (*resp.Excepti
 // DeleteModuleService deletes a module by slug.
 func (svc *Service) DeleteModuleService(c *gin.Context, slug string) (*resp.Exception, error) {
 	err := svc.module.Delete(c, slug)
-	if exception, err := handleError("Module", err); exception != nil {
+	if exception, err := helper.HandleError("Module", err); exception != nil {
 		return exception, err
 	}
 

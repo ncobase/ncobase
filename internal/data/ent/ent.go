@@ -18,10 +18,7 @@ import (
 	"ncobase/internal/data/ent/permission"
 	"ncobase/internal/data/ent/role"
 	"ncobase/internal/data/ent/rolepermission"
-	"ncobase/internal/data/ent/taxonomy"
-	"ncobase/internal/data/ent/taxonomyrelation"
 	"ncobase/internal/data/ent/tenant"
-	"ncobase/internal/data/ent/topic"
 	"ncobase/internal/data/ent/user"
 	"ncobase/internal/data/ent/usergroup"
 	"ncobase/internal/data/ent/userprofile"
@@ -94,28 +91,25 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			asset.Table:            asset.ValidColumn,
-			authtoken.Table:        authtoken.ValidColumn,
-			casbinrule.Table:       casbinrule.ValidColumn,
-			codeauth.Table:         codeauth.ValidColumn,
-			group.Table:            group.ValidColumn,
-			grouprole.Table:        grouprole.ValidColumn,
-			menu.Table:             menu.ValidColumn,
-			module.Table:           module.ValidColumn,
-			oauthuser.Table:        oauthuser.ValidColumn,
-			permission.Table:       permission.ValidColumn,
-			role.Table:             role.ValidColumn,
-			rolepermission.Table:   rolepermission.ValidColumn,
-			taxonomy.Table:         taxonomy.ValidColumn,
-			taxonomyrelation.Table: taxonomyrelation.ValidColumn,
-			tenant.Table:           tenant.ValidColumn,
-			topic.Table:            topic.ValidColumn,
-			user.Table:             user.ValidColumn,
-			usergroup.Table:        usergroup.ValidColumn,
-			userprofile.Table:      userprofile.ValidColumn,
-			userrole.Table:         userrole.ValidColumn,
-			usertenant.Table:       usertenant.ValidColumn,
-			usertenantrole.Table:   usertenantrole.ValidColumn,
+			asset.Table:          asset.ValidColumn,
+			authtoken.Table:      authtoken.ValidColumn,
+			casbinrule.Table:     casbinrule.ValidColumn,
+			codeauth.Table:       codeauth.ValidColumn,
+			group.Table:          group.ValidColumn,
+			grouprole.Table:      grouprole.ValidColumn,
+			menu.Table:           menu.ValidColumn,
+			module.Table:         module.ValidColumn,
+			oauthuser.Table:      oauthuser.ValidColumn,
+			permission.Table:     permission.ValidColumn,
+			role.Table:           role.ValidColumn,
+			rolepermission.Table: rolepermission.ValidColumn,
+			tenant.Table:         tenant.ValidColumn,
+			user.Table:           user.ValidColumn,
+			usergroup.Table:      usergroup.ValidColumn,
+			userprofile.Table:    userprofile.ValidColumn,
+			userrole.Table:       userrole.ValidColumn,
+			usertenant.Table:     usertenant.ValidColumn,
+			usertenantrole.Table: usertenantrole.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

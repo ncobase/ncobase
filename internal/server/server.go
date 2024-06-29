@@ -2,15 +2,14 @@ package server
 
 import (
 	"context"
+	"ncobase/common/config"
+	"ncobase/common/log"
 	"ncobase/internal/data"
 	"ncobase/internal/handler"
 	"ncobase/internal/helper"
 	"ncobase/internal/service"
 	"net/http"
 	"os"
-
-	"ncobase/common/config"
-	"ncobase/common/log"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
@@ -28,6 +27,38 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 	svc := service.New(d)
 
 	// Initialize Casbin model
+	m, err := initializeCasbinModel(conf)
+	if err != nil {
+		return nil, cleanup, err
+	}
+
+	// Initialize Casbin enforcer
+	e, err := initializeCasbinEnforcer(m, svc)
+	if err != nil {
+		return nil, cleanup, err
+	}
+
+	// Initialize Plugin Manager
+	pm := NewPluginManager(conf)
+	if err := pm.LoadPlugins(); err != nil {
+		log.Fatalf(context.Background(), "❌ Failed loading plugins: %+v", err)
+	}
+
+	// New HTTP server
+	h, err := newHTTP(conf, handler.New(svc), svc, e, pm)
+	if err != nil {
+		log.Fatalf(context.Background(), "❌ Failed initializing http: %+v", err)
+		// panic(err)
+	}
+
+	return h, func() {
+		cleanup()
+		pm.CleanupPlugins()
+	}, nil
+}
+
+// Initialize Casbin model
+func initializeCasbinModel(conf *config.Config) (model.Model, error) {
 	var modelSource string
 	// Define the default model source
 	defaultModelSource := `
@@ -47,7 +78,7 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 		// Load model from file
 		fileContent, err := os.ReadFile(conf.Auth.Casbin.Path)
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 		modelSource = string(fileContent)
 	} else if conf.Auth.Casbin.Model != "" {
@@ -61,88 +92,24 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 	// Load the Casbin model from the chosen model source
 	m, err := model.NewModelFromString(modelSource)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	// Initialize Casbin enforcer
+	return m, nil
+}
+
+// Initialize Casbin enforcer
+func initializeCasbinEnforcer(m model.Model, svc *service.Service) (*casbin.Enforcer, error) {
 	casbinRepo := svc.GetCasbinRuleRepo()
 	adapter := helper.NewCasbinAdapter(casbinRepo)
 	e, err := casbin.NewEnforcer(m, adapter)
 	if err != nil {
-		return nil, cleanup, err
+		return nil, err
 	}
-
 	// Load policies from db
 	err = e.LoadPolicy()
 	if err != nil {
-		return nil, cleanup, err
+		return nil, err
 	}
-
-	// New HTTP server
-	h, err := newHTTP(conf, handler.New(svc), svc, e)
-	if err != nil {
-		log.Fatalf(context.Background(), "❌ Failed initializing http: %+v", err)
-		// panic(err)
-	}
-
-	return h, cleanup, nil
+	return e, nil
 }
-
-// func initializeRolesAndPermissions(roleRepo repo.Role, permissionRepo repo.Permission, casbinRuleRepo repo.CasbinRule) error {
-// 	ctx := context.Background()
-//
-// 	// Define roles
-// 	roles := []string{"admin", "user"}
-//
-// 	for _, roleName := range roles {
-// 		role, err := roleRepo.FindRole(ctx, &structs.FindRole{Name: roleName})
-// 		if err != nil {
-// 			return err
-// 		}
-// 		if role == nil {
-// 			role = &role.na
-// 			if err := roleRepo.Create(ctx, role); err != nil {
-// 				return err
-// 			}
-// 		}
-// 	}
-//
-// 	// Define permissions
-// 	permissions := []string{"read", "write", "delete"}
-//
-// 	for _, permissionName := range permissions {
-// 		permission, err := permissionRepo.FindPermission(ctx, &structs.FindPermission{Action: permissionName})
-// 		if err != nil {
-// 			return err
-// 		}
-// 		if permission == nil {
-// 			permission = &data.Permission{Name: permissionName}
-// 			if err := permissionRepo.Create(ctx, permission); err != nil {
-// 				return err
-// 			}
-// 		}
-// 	}
-//
-// 	// Define Casbin rules
-// 	rules := []struct {
-// 		PType string
-// 		V0    string
-// 		V1    string
-// 		V2    string
-// 	}{
-// 		{"p", "admin", "/v1/*", "GET"},
-// 		{"p", "admin", "/v1/*", "POST"},
-// 		{"p", "admin", "/v1/*", "PUT"},
-// 		{"p", "admin", "/v1/*", "DELETE"},
-// 		{"p", "user", "/v1/*", "GET"},
-// 	}
-//
-// 	for _, rule := range rules {
-// 		casbinRule := &data.CasbinRule{PType: rule.PType, V0: rule.V0, V1: rule.V1, V2: rule.V2}
-// 		if err := casbinRuleRepo.Create(ctx, casbinRule); err != nil {
-// 			return err
-// 		}
-// 	}
-//
-// 	return nil
-// }

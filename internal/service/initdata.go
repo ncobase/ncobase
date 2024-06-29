@@ -383,7 +383,7 @@ func (svc *Service) initCasbinPolicies(ctx context.Context) error {
 		for _, rp := range rolePermissions {
 			permission, err := svc.permission.GetByID(ctx, rp.ID)
 			if err != nil {
-				log.Errorf(ctx, "initCasbinPolicies error on get permission %d: %v\n", rp.ID, err)
+				log.Errorf(ctx, "initCasbinPolicies error on get permission %s: %v\n", rp.ID, err)
 				return err
 			}
 

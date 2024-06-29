@@ -6,6 +6,7 @@ import (
 	"ncobase/common/validator"
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
 
 	"ncobase/common/resp"
 	"ncobase/common/types"
@@ -18,7 +19,7 @@ func (svc *Service) CreatePermissionService(ctx context.Context, permissionData 
 	}
 
 	permission, err := svc.permission.Create(ctx, permissionData)
-	if exception, err := handleError("Permission", err); exception != nil {
+	if exception, err := helper.HandleError("Permission", err); exception != nil {
 		return exception, err
 	}
 
@@ -30,7 +31,7 @@ func (svc *Service) CreatePermissionService(ctx context.Context, permissionData 
 // UpdatePermissionService updates an existing permission.
 func (svc *Service) UpdatePermissionService(ctx context.Context, permissionID string, updates types.JSON) (*resp.Exception, error) {
 	permission, err := svc.permission.Update(ctx, permissionID, updates)
-	if exception, err := handleError("Permission", err); exception != nil {
+	if exception, err := helper.HandleError("Permission", err); exception != nil {
 		return exception, err
 	}
 
@@ -42,7 +43,7 @@ func (svc *Service) UpdatePermissionService(ctx context.Context, permissionID st
 // GetPermissionByIDService retrieves a permission by its ID.
 func (svc *Service) GetPermissionByIDService(ctx context.Context, permissionID string) (*resp.Exception, error) {
 	permission, err := svc.permission.GetByID(ctx, permissionID)
-	if exception, err := handleError("Permission", err); exception != nil {
+	if exception, err := helper.HandleError("Permission", err); exception != nil {
 		return exception, err
 	}
 
@@ -54,7 +55,7 @@ func (svc *Service) GetPermissionByIDService(ctx context.Context, permissionID s
 // DeletePermissionService deletes a permission by its ID.
 func (svc *Service) DeletePermissionService(ctx context.Context, permissionID string) (*resp.Exception, error) {
 	err := svc.permission.Delete(ctx, permissionID)
-	if exception, err := handleError("Permission", err); exception != nil {
+	if exception, err := helper.HandleError("Permission", err); exception != nil {
 		return exception, err
 	}
 
@@ -66,7 +67,7 @@ func (svc *Service) DeletePermissionService(ctx context.Context, permissionID st
 // GetPermissionsByRoleIDService retrieves all permissions associated with a role.
 func (svc *Service) GetPermissionsByRoleIDService(ctx context.Context, roleID string) (*resp.Exception, error) {
 	permissions, err := svc.rolePermission.GetPermissionsByRoleID(ctx, roleID)
-	if exception, err := handleError("Permission", err); exception != nil {
+	if exception, err := helper.HandleError("Permission", err); exception != nil {
 		return exception, err
 	}
 
@@ -87,7 +88,7 @@ func (svc *Service) ListPermissionsService(ctx context.Context, params *structs.
 	}
 
 	permissions, err := svc.permission.List(ctx, params)
-	if exception, err := handleError("Permission", err); exception != nil {
+	if exception, err := helper.HandleError("Permission", err); exception != nil {
 		return exception, err
 	}
 

@@ -13,6 +13,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// registerRest registers the REST routes.
 func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 	// Root endpoint, redirect when domain is configured and not localhost
 	e.GET("/", func(c *gin.Context) {
@@ -102,12 +103,64 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		tenants.GET("/:slug", h.GetTenantHandler)
 		tenants.PUT("/:slug", h.UpdateTenantHandler)
 		tenants.DELETE("/:slug", h.DeleteTenantHandler)
-		tenants.GET("/:slug/assets", h.ListTenantAssetHandler)
-		tenants.GET("/:slug/roles", h.ListTenantRoleHandler)
-		tenants.GET("/:slug/modules", h.ListTenantModuleHandler)
-		tenants.GET("/:slug/settings", h.ListTenantSettingHandler)
-		tenants.GET("/:slug/users", h.ListTenantUserHandler)
-		tenants.GET("/:slug/groups", h.ListTenantGroupHandler)
+
+		// // Tenant asset endpoints
+		// tenants.GET("/:tenant/assets", h.ListTenantAssetHandler)
+		// tenants.POST("/:tenant/assets", h.CreateTenantAssetsHandler)
+		// tenants.GET("/:tenant/assets/:asset", h.GetTenantAssetHandler)
+		// tenants.PUT("/:tenant/assets/:asset", h.UpdateTenantAssetHandler)
+		// tenants.DELETE("/:tenant/assets/:asset", h.DeleteTenantAssetHandler)
+		//
+		// // // Tenant role endpoints
+		// // tenants.GET("/:tenant/roles", h.ListTenantRoleHandler)
+		// // tenants.POST("/:tenant/roles", h.CreateTenantRoleHandler)
+		// // tenants.GET("/:tenant/roles/:role", h.GetTenantRoleHandler)
+		// // tenants.PUT("/:tenant/roles/:role", h.UpdateTenantRoleHandler)
+		// // tenants.DELETE("/:tenant/roles/:role", h.DeleteTenantRoleHandler)
+		// // tenants.GET("/:tenant/roles/:roleSlug/permissions", h.ListTenantRolePermissionHandler)
+		// // tenants.GET("/:tenant/roles/:roleSlug/users", h.ListTenantRoleUserHandler)
+		// //
+		// // // Tenant permission endpoints
+		// // tenants.GET("/:tenant/permissions", h.ListTenantPermissionHandler)
+		// // tenants.POST("/:tenant/permissions", h.CreateTenantPermissionHandler)
+		// // tenants.GET("/:tenant/permissions/:permission", h.GetTenantPermissionHandler)
+		// // tenants.PUT("/:tenant/permissions/:permission", h.UpdateTenantPermissionHandler)
+		// // tenants.DELETE("/:tenant/permissions/:permission", h.DeleteTenantPermissionHandler)
+		// //
+		// // // Tenant module endpoints
+		// // tenants.GET("/:tenant/modules", h.ListTenantModuleHandler)
+		// // tenants.POST("/:tenant/modules", h.CreateTenantModuleHandler)
+		// // tenants.GET("/:tenant/modules/:module", h.GetTenantModuleHandler)
+		// // tenants.PUT("/:tenant/modules/:module", h.UpdateTenantModuleHandler)
+		// // tenants.DELETE("/:tenant/modules/:module", h.DeleteTenantModuleHandler)
+		// //
+		// // Tenant menu endpoints
+		// tenants.GET("/:tenant/menus", h.ListTenantMenusHandler)
+		// tenants.POST("/:tenant/menus", h.CreateTenantMenuHandler)
+		// tenants.GET("/:tenant/menus/:menu", h.GetTenantMenuHandler)
+		// tenants.PUT("/:tenant/menus/:menu", h.UpdateTenantMenuHandler)
+		// tenants.DELETE("/:tenant/menus/:menu", h.DeleteTenantMenuHandler)
+		// //
+		// // // Tenant policy endpoints
+		// // tenants.GET("/:tenant/policies", h.ListTenantPolicyHandler)
+		// // tenants.POST("/:tenant/policies", h.CreateTenantPolicyHandler)
+		// // tenants.GET("/:tenant/policies/:policyId", h.GetTenantPolicyHandler)
+		// // tenants.PUT("/:tenant/policies/:policyId", h.UpdateTenantPolicyHandler)
+		// // tenants.DELETE("/:tenant/policies/:policyId", h.DeleteTenantPolicyHandler)
+		// //
+		// // // Tenant taxonomy endpoints
+		// // tenants.GET("/:tenant/taxonomies", h.ListTenantTaxonomyHandler)
+		// // tenants.POST("/:tenant/taxonomies", h.CreateTenantTaxonomyHandler)
+		// // tenants.GET("/:tenant/taxonomies/:taxonomy", h.GetTenantTaxonomyHandler)
+		// // tenants.PUT("/:tenant/taxonomies/:taxonomy", h.UpdateTenantTaxonomyHandler)
+		// // tenants.DELETE("/:tenant/taxonomies/:taxonomy", h.DeleteTenantTaxonomyHandler)
+		// //
+		// // // Tenant topic endpoints
+		// // tenants.GET("/:tenant/topics", h.ListTenantTopicHandler)
+		// // tenants.POST("/:tenant/topics", h.CreateTenantTopicHandler)
+		// // tenants.GET("/:tenant/topics/:topic", h.GetTenantTopicHandler)
+		// // tenants.PUT("/:tenant/topics/:topic", h.UpdateTenantTopicHandler)
+		// // tenants.DELETE("/:tenant/topics/:topic", h.DeleteTenantTopicHandler)
 	}
 
 	// Menu endpoints
@@ -162,26 +215,6 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		policies.GET("/:id", h.GetCasbinRuleHandler)
 		policies.PUT("/:id", h.UpdateCasbinRuleHandler)
 		policies.DELETE("/:id", h.DeleteCasbinRuleHandler)
-	}
-
-	// Taxonomy endpoints
-	taxonomies := v1.Group("/taxonomies", middleware.Authenticated)
-	{
-		taxonomies.GET("", h.ListTaxonomyHandler)
-		taxonomies.POST("", h.CreateTaxonomyHandler)
-		taxonomies.GET("/:slug", h.GetTaxonomyHandler)
-		taxonomies.PUT("/:slug", h.UpdateTaxonomyHandler)
-		taxonomies.DELETE("/:slug", h.DeleteTaxonomyHandler)
-	}
-
-	// Topic endpoints
-	topics := v1.Group("/topics", middleware.Authenticated)
-	{
-		topics.GET("", h.ListTopicHandler)
-		topics.POST("", h.CreateTopicHandler)
-		topics.GET("/:slug", h.GetTopicHandler)
-		topics.PUT("/:slug", h.UpdateTopicHandler)
-		topics.DELETE("/:slug", h.DeleteTopicHandler)
 	}
 
 	// Swagger documentation endpoint

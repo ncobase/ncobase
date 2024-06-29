@@ -3,6 +3,7 @@ package service
 import (
 	"ncobase/internal/data/ent"
 	"ncobase/internal/data/structs"
+	"ncobase/internal/helper"
 	"sort"
 
 	"ncobase/common/ecode"
@@ -20,7 +21,7 @@ func (svc *Service) CreateMenuService(c *gin.Context, body *structs.MenuBody) (*
 	}
 
 	menu, err := svc.menu.Create(c, body)
-	if exception, err := handleError("Menu", err); exception != nil {
+	if exception, err := helper.HandleError("Menu", err); exception != nil {
 		return exception, err
 	}
 
@@ -36,7 +37,7 @@ func (svc *Service) UpdateMenuService(c *gin.Context, updates *structs.UpdateMen
 	}
 
 	menu, err := svc.menu.Update(c, updates)
-	if exception, err := handleError("Menu", err); exception != nil {
+	if exception, err := helper.HandleError("Menu", err); exception != nil {
 		return exception, err
 	}
 
@@ -53,7 +54,7 @@ func (svc *Service) GetMenuService(c *gin.Context, params *structs.FindMenu) (*r
 	}
 
 	menu, err := svc.menu.Get(c, params)
-	if exception, err := handleError("Menu", err); exception != nil {
+	if exception, err := helper.HandleError("Menu", err); exception != nil {
 		return exception, err
 	}
 
@@ -65,7 +66,7 @@ func (svc *Service) GetMenuService(c *gin.Context, params *structs.FindMenu) (*r
 // DeleteMenuService deletes a menu by ID.
 func (svc *Service) DeleteMenuService(c *gin.Context, params *structs.FindMenu) (*resp.Exception, error) {
 	err := svc.menu.Delete(c, params)
-	if exception, err := handleError("Menu", err); exception != nil {
+	if exception, err := helper.HandleError("Menu", err); exception != nil {
 		return exception, err
 	}
 
@@ -94,7 +95,7 @@ func (svc *Service) ListMenusService(c *gin.Context, params *structs.ListMenuPar
 	}
 
 	menus, err := svc.menu.List(c, params)
-	if exception, err := handleError("Menu", err); exception != nil {
+	if exception, err := helper.HandleError("Menu", err); exception != nil {
 		return exception, err
 	}
 
@@ -111,7 +112,7 @@ func (svc *Service) ListMenusService(c *gin.Context, params *structs.ListMenuPar
 // GetMenuTreeService retrieves the menu tree.
 func (svc *Service) GetMenuTreeService(c *gin.Context, params *structs.FindMenu) (*resp.Exception, error) {
 	menus, err := svc.menu.GetTree(c, params)
-	if exception, err := handleError("MenuTree", err); exception != nil {
+	if exception, err := helper.HandleError("MenuTree", err); exception != nil {
 		return exception, err
 	}
 

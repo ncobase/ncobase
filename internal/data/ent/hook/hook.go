@@ -152,30 +152,6 @@ func (f RolePermissionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Val
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.RolePermissionMutation", m)
 }
 
-// The TaxonomyFunc type is an adapter to allow the use of ordinary
-// function as Taxonomy mutator.
-type TaxonomyFunc func(context.Context, *ent.TaxonomyMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f TaxonomyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.TaxonomyMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TaxonomyMutation", m)
-}
-
-// The TaxonomyRelationFunc type is an adapter to allow the use of ordinary
-// function as TaxonomyRelation mutator.
-type TaxonomyRelationFunc func(context.Context, *ent.TaxonomyRelationMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f TaxonomyRelationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.TaxonomyRelationMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TaxonomyRelationMutation", m)
-}
-
 // The TenantFunc type is an adapter to allow the use of ordinary
 // function as Tenant mutator.
 type TenantFunc func(context.Context, *ent.TenantMutation) (ent.Value, error)
@@ -186,18 +162,6 @@ func (f TenantFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, erro
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantMutation", m)
-}
-
-// The TopicFunc type is an adapter to allow the use of ordinary
-// function as Topic mutator.
-type TopicFunc func(context.Context, *ent.TopicMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f TopicFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.TopicMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TopicMutation", m)
 }
 
 // The UserFunc type is an adapter to allow the use of ordinary
