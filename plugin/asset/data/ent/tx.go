@@ -12,42 +12,8 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
-	// AuthToken is the client for interacting with the AuthToken builders.
-	AuthToken *AuthTokenClient
-	// CasbinRule is the client for interacting with the CasbinRule builders.
-	CasbinRule *CasbinRuleClient
-	// CodeAuth is the client for interacting with the CodeAuth builders.
-	CodeAuth *CodeAuthClient
-	// Group is the client for interacting with the Group builders.
-	Group *GroupClient
-	// GroupRole is the client for interacting with the GroupRole builders.
-	GroupRole *GroupRoleClient
-	// Menu is the client for interacting with the Menu builders.
-	Menu *MenuClient
-	// Module is the client for interacting with the Module builders.
-	Module *ModuleClient
-	// OAuthUser is the client for interacting with the OAuthUser builders.
-	OAuthUser *OAuthUserClient
-	// Permission is the client for interacting with the Permission builders.
-	Permission *PermissionClient
-	// Role is the client for interacting with the Role builders.
-	Role *RoleClient
-	// RolePermission is the client for interacting with the RolePermission builders.
-	RolePermission *RolePermissionClient
-	// Tenant is the client for interacting with the Tenant builders.
-	Tenant *TenantClient
-	// User is the client for interacting with the User builders.
-	User *UserClient
-	// UserGroup is the client for interacting with the UserGroup builders.
-	UserGroup *UserGroupClient
-	// UserProfile is the client for interacting with the UserProfile builders.
-	UserProfile *UserProfileClient
-	// UserRole is the client for interacting with the UserRole builders.
-	UserRole *UserRoleClient
-	// UserTenant is the client for interacting with the UserTenant builders.
-	UserTenant *UserTenantClient
-	// UserTenantRole is the client for interacting with the UserTenantRole builders.
-	UserTenantRole *UserTenantRoleClient
+	// Asset is the client for interacting with the Asset builders.
+	Asset *AssetClient
 
 	// lazily loaded.
 	client     *Client
@@ -179,24 +145,7 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
-	tx.AuthToken = NewAuthTokenClient(tx.config)
-	tx.CasbinRule = NewCasbinRuleClient(tx.config)
-	tx.CodeAuth = NewCodeAuthClient(tx.config)
-	tx.Group = NewGroupClient(tx.config)
-	tx.GroupRole = NewGroupRoleClient(tx.config)
-	tx.Menu = NewMenuClient(tx.config)
-	tx.Module = NewModuleClient(tx.config)
-	tx.OAuthUser = NewOAuthUserClient(tx.config)
-	tx.Permission = NewPermissionClient(tx.config)
-	tx.Role = NewRoleClient(tx.config)
-	tx.RolePermission = NewRolePermissionClient(tx.config)
-	tx.Tenant = NewTenantClient(tx.config)
-	tx.User = NewUserClient(tx.config)
-	tx.UserGroup = NewUserGroupClient(tx.config)
-	tx.UserProfile = NewUserProfileClient(tx.config)
-	tx.UserRole = NewUserRoleClient(tx.config)
-	tx.UserTenant = NewUserTenantClient(tx.config)
-	tx.UserTenantRole = NewUserTenantRoleClient(tx.config)
+	tx.Asset = NewAssetClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -206,7 +155,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: AuthToken.QueryXXX(), the query will be executed
+// applies a query, for example: Asset.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

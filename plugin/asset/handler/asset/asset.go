@@ -1,4 +1,4 @@
-package handler
+package asset
 
 import (
 	"encoding/json"
@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"io"
 	"mime/multipart"
-	"ncobase/internal/data/ent"
-	"ncobase/internal/data/structs"
 	"ncobase/internal/helper"
+	"ncobase/plugin/asset/service"
+	"ncobase/plugin/asset/structs"
 	"net/http"
 	"strings"
 
@@ -21,6 +21,24 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
+type HandlerInterface interface {
+	CreateAssetsHandler(c *gin.Context)
+	UpdateAssetHandler(c *gin.Context)
+	GetAssetHandler(c *gin.Context)
+	ListAssetsHandler(c *gin.Context)
+	DeleteAssetHandler(c *gin.Context)
+}
+
+type Handler struct {
+	s *service.Service
+}
+
+func New(s *service.Service) HandlerInterface {
+	return &Handler{
+		s: s,
+	}
+}
 
 // maxAssetSize is the maximum allowed size of an asset.
 var maxAssetSize int64 = 2048 << 20 // 2048 MB
@@ -76,7 +94,7 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.svc.CreateAssetService(c, body)
+		result, err := h.s.Asset.CreateAssetService(c, body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -119,7 +137,7 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.svc.CreateAssetService(c, body)
+		result, err := h.s.Asset.CreateAssetService(c, body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -284,7 +302,7 @@ func (h *Handler) UpdateAssetHandler(c *gin.Context) {
 		updates["file"] = file
 	}
 
-	result, err := h.svc.UpdateAssetService(c, slug, updates)
+	result, err := h.s.Asset.UpdateAssetService(c, slug, updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -321,7 +339,7 @@ func (h *Handler) GetAssetHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.GetAssetService(c, slug)
+	result, err := h.s.Asset.GetAssetService(c, slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -347,7 +365,7 @@ func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.DeleteAssetService(c, slug)
+	result, err := h.s.Asset.DeleteAssetService(c, slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -356,7 +374,7 @@ func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// ListAssetHandler handles listing assets.
+// ListAssetsHandler handles listing assets.
 //
 // @Summary List assets
 // @Description List assets based on specified parameters.
@@ -366,7 +384,7 @@ func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 // @Success 200 {array} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets [get]
-func (h *Handler) ListAssetHandler(c *gin.Context) {
+func (h *Handler) ListAssetsHandler(c *gin.Context) {
 	params := &structs.ListAssetParams{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -376,7 +394,7 @@ func (h *Handler) ListAssetHandler(c *gin.Context) {
 		return
 	}
 
-	assets, err := h.svc.ListAssetsService(c, params)
+	assets, err := h.s.Asset.ListAssetsService(c, params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -403,21 +421,21 @@ func (h *Handler) downloadFile(c *gin.Context, dispositionType string) {
 		return
 	}
 
-	fileStream, exception := h.svc.GetFileStream(c, slug)
+	fileStream, exception := h.s.Asset.GetFileStream(c, slug)
 	if exception != nil {
 		if exception.Code != 0 {
 			resp.Fail(c.Writer, exception)
 			return
 		}
-		asset := exception.Data.(*ent.Asset)
-		filename := storage.RestoreOriginalFileName(asset.Path, true)
+		row := exception.Data.(*structs.ReadAsset)
+		filename := storage.RestoreOriginalFileName(row.Path, true)
 		c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", dispositionType, filename))
 
 		// Set the Content-Type header based on the original content t
-		if asset.Type == "" {
+		if row.Type == "" {
 			c.Header("Content-Type", "application/octet-stream")
 		}
-		c.Header("Content-Type", asset.Type)
+		c.Header("Content-Type", row.Type)
 
 		_, err := io.Copy(c.Writer, fileStream)
 		if err != nil {
