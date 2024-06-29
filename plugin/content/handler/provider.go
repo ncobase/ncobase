@@ -7,8 +7,8 @@ import (
 )
 
 type Handler struct {
-	Taxonomy taxonomy.Interface
-	Topic    topic.Interface
+	Taxonomy taxonomy.HandlerInterface
+	Topic    topic.HandlerInterface
 }
 
 func New(svc *service.Service) *Handler {

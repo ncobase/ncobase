@@ -12,8 +12,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Interface is the interface for the topic handler.
-type Interface interface {
+// HandlerInterface is the interface for the topic handler.
+type HandlerInterface interface {
 	Create(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
@@ -25,7 +25,7 @@ type Handler struct {
 	s *service.Service
 }
 
-func New(s *service.Service) *Handler {
+func New(s *service.Service) HandlerInterface {
 	return &Handler{
 		s: s,
 	}

@@ -1,5 +1,4 @@
 //go:build plugin
-// +build plugin
 
 package main
 
@@ -13,7 +12,7 @@ import (
 var Plugin cmd.Plugin
 
 func init() {
-	log.Infof(context.Background(), "Content plugin initialized")
+	log.Infof(context.Background(), "%s plugin initialized", Plugin.Name())
 }
 
 // This main function is required for the Go compiler,

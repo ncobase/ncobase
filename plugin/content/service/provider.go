@@ -7,8 +7,8 @@ import (
 )
 
 type Service struct {
-	Taxonomy taxonomy.Interface
-	Topic    topic.Interface
+	Taxonomy taxonomy.ServiceInterface
+	Topic    topic.ServiceInterface
 }
 
 func New(d *data.Data) *Service {
