@@ -3,10 +3,14 @@ package server
 import (
 	"context"
 	"ncobase/common/config"
+	"ncobase/common/ecode"
 	"ncobase/common/log"
+	"ncobase/common/resp"
 	"ncobase/plugin"
+	"net/http"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 
@@ -16,6 +20,7 @@ import (
 
 // PluginManager represents a plugin manager
 type PluginManager struct {
+	mu      sync.Mutex
 	plugins map[string]plugin.Plugin
 	conf    *config.Config
 }
@@ -28,8 +33,11 @@ func NewPluginManager(conf *config.Config) *PluginManager {
 	}
 }
 
-// LoadPlugins loads plugins
+// LoadPlugins loads all plugins based on the current configuration
 func (pm *PluginManager) LoadPlugins() error {
+	pm.mu.Lock()
+	defer pm.mu.Unlock()
+
 	if pm.conf.RunMode == "c2hlbgo" {
 		return pm.loadPluginsInDevMode()
 	}
@@ -41,7 +49,6 @@ func (pm *PluginManager) loadPluginsInProdMode() error {
 	pluginConfig := pm.conf.Plugin
 	pluginDir := pluginConfig.Path
 
-	// Get all .so files in the plugin directory
 	pluginPaths, err := filepath.Glob(filepath.Join(pluginDir, "*.so"))
 	if err != nil {
 		return err
@@ -49,24 +56,20 @@ func (pm *PluginManager) loadPluginsInProdMode() error {
 
 	for _, path := range pluginPaths {
 		pluginName := strings.TrimSuffix(filepath.Base(path), ".so")
-
-		// Check if the plugin should be included or excluded
 		if !pm.shouldLoadPlugin(pluginName) {
 			log.Infof(context.Background(), "Skipping plugin %s based on configuration", pluginName)
 			continue
 		}
-
-		if err := plugin.LoadPlugin(path, pm.conf); err != nil {
+		if err := pm.loadPlugin(path); err != nil {
 			log.Errorf(context.Background(), "Failed to load plugin %s: %v", path, err)
 			continue
 		}
 	}
 
-	pm.plugins = plugin.GetPlugins()
 	return nil
 }
 
-// LoadPluginsInDevMode loads plugins in development mode
+// loadPluginsInDevMode loads plugins in development mode
 func (pm *PluginManager) loadPluginsInDevMode() error {
 	devPlugins := plugin.GetRegisteredPlugins()
 
@@ -86,7 +89,6 @@ func (pm *PluginManager) loadPluginsInDevMode() error {
 func (pm *PluginManager) shouldLoadPlugin(pluginName string) bool {
 	pluginConfig := pm.conf.Plugin
 
-	// If includes is not empty, only load plugins in the includes list
 	if len(pluginConfig.Includes) > 0 {
 		for _, include := range pluginConfig.Includes {
 			if include == pluginName {
@@ -96,7 +98,6 @@ func (pm *PluginManager) shouldLoadPlugin(pluginName string) bool {
 		return false
 	}
 
-	// If excludes is not empty, do not load plugins in the excludes list
 	if len(pluginConfig.Excludes) > 0 {
 		for _, exclude := range pluginConfig.Excludes {
 			if exclude == pluginName {
@@ -105,12 +106,69 @@ func (pm *PluginManager) shouldLoadPlugin(pluginName string) bool {
 		}
 	}
 
-	// If neither includes nor excludes are specified, load all plugins
 	return true
+}
+
+// loadPlugin loads a single plugin
+func (pm *PluginManager) loadPlugin(path string) error {
+	pm.mu.Lock()
+	defer pm.mu.Unlock()
+
+	pluginName := strings.TrimSuffix(filepath.Base(path), ".so")
+	if _, exists := pm.plugins[pluginName]; exists {
+		return nil // Plugin already loaded
+	}
+
+	if err := plugin.LoadPlugin(path, pm.conf); err != nil {
+		return err
+	}
+
+	loadedPlugin := plugin.GetPlugin(pluginName)
+	if loadedPlugin != nil {
+		pm.plugins[pluginName] = loadedPlugin
+		log.Infof(context.Background(), "Plugin %s loaded successfully", pluginName)
+	}
+
+	return nil
+}
+
+// UnloadPlugin unloads a single plugin
+func (pm *PluginManager) UnloadPlugin(pluginName string) error {
+	pm.mu.Lock()
+	defer pm.mu.Unlock()
+
+	p, exists := pm.plugins[pluginName]
+	if !exists {
+		return nil // Plugin not loaded
+	}
+
+	if err := p.Cleanup(); err != nil {
+		return err
+	}
+
+	delete(pm.plugins, pluginName)
+	log.Infof(context.Background(), "Plugin %s unloaded successfully", pluginName)
+	return nil
+}
+
+// ReloadPlugin reloads a single plugin
+func (pm *PluginManager) ReloadPlugin(pluginName string) error {
+	pluginConfig := pm.conf.Plugin
+	pluginDir := pluginConfig.Path
+	pluginPath := filepath.Join(pluginDir, pluginName+".so")
+
+	if err := pm.UnloadPlugin(pluginName); err != nil {
+		return err
+	}
+
+	return pm.loadPlugin(pluginPath)
 }
 
 // RegisterPluginRoutes registers routes for all plugins
 func (pm *PluginManager) RegisterPluginRoutes(e *gin.Engine) {
+	pm.mu.Lock()
+	defer pm.mu.Unlock()
+
 	for name, p := range pm.plugins {
 		p.RegisterRoutes(e)
 		log.Infof(context.Background(), "Routes for plugin %s registered", name)
@@ -119,9 +177,67 @@ func (pm *PluginManager) RegisterPluginRoutes(e *gin.Engine) {
 
 // CleanupPlugins cleans up all plugins
 func (pm *PluginManager) CleanupPlugins() {
+	pm.mu.Lock()
+	defer pm.mu.Unlock()
+
 	for name, p := range pm.plugins {
 		if err := p.Cleanup(); err != nil {
 			log.Errorf(context.Background(), "Error cleaning up plugin %s: %v", name, err)
 		}
 	}
+}
+
+// AddPluginRoutes new handler functions for dynamic plugin management
+//
+// GET /plugins
+// POST /plugins/load/:name
+// POST /plugins/unload/:name
+// POST /plugins/reload/:name
+func (pm *PluginManager) AddPluginRoutes(e *gin.Engine) {
+	e.GET("/plugins", func(c *gin.Context) {
+		resp.Success(c.Writer, &resp.Exception{Data: pm.plugins})
+	})
+	e.POST("/plugins/load/:name", func(c *gin.Context) {
+		pluginName := c.Param("name")
+		pluginConfig := pm.conf.Plugin
+		pluginDir := pluginConfig.Path
+		pluginPath := filepath.Join(pluginDir, pluginName+".so")
+		if err := pm.loadPlugin(pluginPath); err != nil {
+			resp.Fail(c.Writer, &resp.Exception{
+				Status:  http.StatusInternalServerError,
+				Code:    ecode.ServerErr,
+				Message: err.Error(),
+			})
+			return
+		}
+		resp.Success(c.Writer, &resp.Exception{Message: "Plugin loaded successfully"})
+	})
+
+	e.POST("/plugins/unload/:name", func(c *gin.Context) {
+		pluginName := c.Param("name")
+
+		if err := pm.UnloadPlugin(pluginName); err != nil {
+			resp.Fail(c.Writer, &resp.Exception{
+				Status:  http.StatusInternalServerError,
+				Code:    ecode.ServerErr,
+				Message: err.Error(),
+			})
+			return
+		}
+		resp.Success(c.Writer, &resp.Exception{Message: "Plugin unloaded successfully"})
+	})
+
+	e.POST("/plugins/reload/:name", func(c *gin.Context) {
+		pluginName := c.Param("name")
+
+		if err := pm.ReloadPlugin(pluginName); err != nil {
+			resp.Fail(c.Writer, &resp.Exception{
+				Status:  http.StatusInternalServerError,
+				Code:    ecode.ServerErr,
+				Message: err.Error(),
+			})
+			return
+		}
+		resp.Success(c.Writer, &resp.Exception{Message: "Plugin reloaded successfully"})
+	})
 }

@@ -35,6 +35,11 @@ func newHTTP(conf *config.Config, h *handler.Handler, svc *service.Service, enfo
 	// Register plugin routes
 	pm.RegisterPluginRoutes(engine)
 
+	// Register plugin management routes
+	if conf.Plugin.HotReload {
+		pm.AddPluginRoutes(engine)
+	}
+
 	engine.NoRoute(notFound)
 	engine.NoMethod()
 

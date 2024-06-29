@@ -74,6 +74,33 @@ func LoadPlugin(path string, conf *config.Config) error {
 	return nil
 }
 
+// UnloadPlugin unloads a plugin and cleans it up
+func UnloadPlugin(pluginName string) error {
+	registry.mu.Lock()
+	defer registry.mu.Unlock()
+
+	p, exists := registry.plugins[pluginName]
+	if !exists {
+		return fmt.Errorf("plugin %s not found", pluginName)
+	}
+
+	if err := p.Cleanup(); err != nil {
+		return fmt.Errorf("failed to cleanup plugin %s: %v", pluginName, err)
+	}
+
+	delete(registry.plugins, pluginName)
+	log.Printf("Plugin %s unloaded successfully", pluginName)
+	return nil
+}
+
+// GetPlugin returns a specific plugin by name
+func GetPlugin(name string) Plugin {
+	registry.mu.RLock()
+	defer registry.mu.RUnlock()
+
+	return registry.plugins[name]
+}
+
 // GetPlugins returns a map of all plugins
 func GetPlugins() map[string]Plugin {
 	registry.mu.RLock()
