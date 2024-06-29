@@ -1,5 +1,4 @@
 //go:build !plugin
-// +build !plugin
 
 package cmd
 
@@ -72,5 +71,5 @@ var PluginInstance Plugin
 
 func init() {
 	plugin.RegisterPlugin(&PluginInstance)
-	log.Infof(context.Background(), "Content plugin initialized")
+	log.Infof(context.Background(), "%s plugin initialized", PluginInstance.Name())
 }

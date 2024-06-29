@@ -16,8 +16,8 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// ITaxonomy represents the taxonomy repository interface.
-type ITaxonomy interface {
+// RepositoryInterface represents the taxonomy repository interface.
+type RepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*ent.Taxonomy, error)
 	GetByID(ctx context.Context, id string) (*ent.Taxonomy, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Taxonomy, error)
@@ -37,7 +37,7 @@ type taxonomyRepo struct {
 }
 
 // NewTaxonomyRepo creates a new taxonomy repository.
-func NewTaxonomyRepo(d *data.Data) ITaxonomy {
+func NewTaxonomyRepo(d *data.Data) RepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()

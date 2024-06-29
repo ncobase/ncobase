@@ -7,9 +7,9 @@ import (
 )
 
 type Repository struct {
-	Taxonomy          taxonomy.ITaxonomy
-	TaxonomyRelations taxonomy.ITaxonomyRelation
-	Topic             topic.ITopic
+	Taxonomy          taxonomy.RepositoryInterface
+	TaxonomyRelations taxonomy.RelationRepositoryInterface
+	Topic             topic.RepositoryInterface
 }
 
 func New(d *data.Data) *Repository {

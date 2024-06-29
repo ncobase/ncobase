@@ -16,8 +16,8 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// ITaxonomyRelation represents the taxonomy relations repository interface.
-type ITaxonomyRelation interface {
+// RelationRepositoryInterface represents the taxonomy relations repository interface.
+type RelationRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyRelationBody) (*ent.TaxonomyRelation, error)
 	GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelation, error)
 	Update(ctx context.Context, body *structs.UpdateTaxonomyRelationBody) (*ent.TaxonomyRelation, error)
@@ -35,7 +35,7 @@ type taxonomyRelationsRepo struct {
 }
 
 // NewTaxonomyRelationRepo creates a new taxonomy relations repository.
-func NewTaxonomyRelationRepo(d *data.Data) ITaxonomyRelation {
+func NewTaxonomyRelationRepo(d *data.Data) RelationRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	return &taxonomyRelationsRepo{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, "nb_taxonomy_relations")}

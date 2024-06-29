@@ -18,8 +18,8 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// ITopic represents the topic repository interface.
-type ITopic interface {
+// RepositoryInterface represents the topic repository interface.
+type RepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateTopicBody) (*ent.Topic, error)
 	GetByID(ctx context.Context, id string) (*ent.Topic, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Topic, error)
@@ -40,7 +40,7 @@ type topicRepo struct {
 }
 
 // NewTopicRepo creates a new topic repository.
-func NewTopicRepo(d *data.Data) ITopic {
+func NewTopicRepo(d *data.Data) RepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()

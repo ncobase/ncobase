@@ -9,14 +9,14 @@ import (
 	"ncobase/internal/helper"
 	"ncobase/plugin/content/data"
 	"ncobase/plugin/content/data/ent"
-	taxonomy2 "ncobase/plugin/content/data/repository/taxonomy"
+	"ncobase/plugin/content/data/repository/taxonomy"
 	"ncobase/plugin/content/structs"
 
 	"github.com/gin-gonic/gin"
 )
 
-// Interface is the interface for the taxonomy service.
-type Interface interface {
+// ServiceInterface is the interface for the taxonomy service.
+type ServiceInterface interface {
 	Create(c *gin.Context, body *structs.CreateTaxonomyBody) (*resp.Exception, error)
 	Update(c *gin.Context, slug string, updates types.JSON) (*resp.Exception, error)
 	Get(c *gin.Context, slug string) (*resp.Exception, error)
@@ -30,14 +30,14 @@ type Interface interface {
 }
 
 type Service struct {
-	taxonomy          taxonomy2.ITaxonomy
-	taxonomyRelations taxonomy2.ITaxonomyRelation
+	taxonomy          taxonomy.RepositoryInterface
+	taxonomyRelations taxonomy.RelationRepositoryInterface
 }
 
-func New(d *data.Data) Interface {
+func New(d *data.Data) ServiceInterface {
 	return &Service{
-		taxonomy:          taxonomy2.NewTaxonomyRepo(d),
-		taxonomyRelations: taxonomy2.NewTaxonomyRelationRepo(d),
+		taxonomy:          taxonomy.NewTaxonomyRepo(d),
+		taxonomyRelations: taxonomy.NewTaxonomyRelationRepo(d),
 	}
 }
 

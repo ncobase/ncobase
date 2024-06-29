@@ -15,8 +15,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Interface is the interface for the topic service.
-type Interface interface {
+// ServiceInterface is the interface for the topic service.
+type ServiceInterface interface {
 	Create(c *gin.Context, body *structs.CreateTopicBody) (*resp.Exception, error)
 	Update(c *gin.Context, slug string, updates types.JSON) (*resp.Exception, error)
 	Get(c *gin.Context, slug string) (*resp.Exception, error)
@@ -25,10 +25,10 @@ type Interface interface {
 }
 
 type Service struct {
-	topic topic.ITopic
+	topic topic.RepositoryInterface
 }
 
-func New(d *data.Data) Interface {
+func New(d *data.Data) ServiceInterface {
 	return &Service{
 		topic: topic.NewTopicRepo(d),
 	}
