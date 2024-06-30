@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Plugin interface defines the structure for a plugin
 type Plugin interface {
 	Name() string
 	Init(conf *config.Config) error
@@ -18,6 +19,7 @@ type Plugin interface {
 	Cleanup() error
 }
 
+// Registry manages the loaded plugins
 type Registry struct {
 	mu      sync.RWMutex
 	plugins map[string]Plugin
@@ -47,9 +49,9 @@ func LoadPlugin(path string, conf *config.Config) error {
 		return fmt.Errorf("failed to open plugin %s: %v", path, err)
 	}
 
-	symPlugin, err := p.Lookup("Plugin")
+	symPlugin, err := p.Lookup("PluginInstance")
 	if err != nil {
-		return fmt.Errorf("plugin %s does not export 'Plugin' symbol: %v", path, err)
+		return fmt.Errorf("plugin %s does not export 'PluginInstance' symbol: %v", path, err)
 	}
 
 	sp, ok := symPlugin.(Plugin)
