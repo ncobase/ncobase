@@ -16,21 +16,21 @@ func SetStorage(c *gin.Context, s oss.StorageInterface) {
 // GetStorage gets storage from gin.Context
 func GetStorage(c *gin.Context) (oss.StorageInterface, *storage.Config) {
 	if s, ok := GetValue(c, "storage").(oss.StorageInterface); ok {
-		return s, &GetConfig(c).Storage
+		return s, GetConfig(c).Storage
 	}
 
 	// Get config
 	storageConfig := GetConfig(c).Storage
 
 	// Initialize storage
-	s, err := storage.NewStorage(&storageConfig)
+	s, err := storage.NewStorage(storageConfig)
 	if err != nil {
 		log.Errorf(c, "Error creating storage: %v\n", err)
 		return nil, nil
 	}
 	// Set storage to gin.Context
 	// SetStorage(c, s)
-	return s, &storageConfig
+	return s, storageConfig
 }
 
 // // GetCaptchaImage get captcha image

@@ -54,7 +54,7 @@ func LoadPlugin(path string, conf *config.Config) error {
 
 	sp, ok := symPlugin.(Plugin)
 	if !ok {
-		return fmt.Errorf("plugin %s does not implement Plugin interface, got %T", path, err)
+		return fmt.Errorf("plugin %s does not implement Plugin interface, got %T", path, sp)
 	}
 
 	if err := sp.Init(conf); err != nil {
