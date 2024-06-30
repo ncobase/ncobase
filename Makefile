@@ -48,7 +48,7 @@ build-plugin:
 		[ "$$d" != "${PLUGIN_DIR}" ] || continue; \
 		echo "Building plugin in $$d"; \
 		PLUGIN_OUT=${OUT}/plugins/$$(basename $$d).so; \
-		go build -buildmode=plugin -trimpath $(LDFLAGS) -o $$PLUGIN_OUT $$d/cmd/plugin/*.go; \
+		go build -buildmode=plugin -trimpath $(LDFLAGS) -o $$PLUGIN_OUT $$d/cmd/plugin.go; \
 	done
 
 build-all: build build-plugin
@@ -59,8 +59,11 @@ swagger:
 build: generate
 	@go build -trimpath $(LDFLAGS) -o ${OUT}/${APP_NAME} ${CMD_PATH}
 
+build-dev:
+	@go build -tags development -trimpath $(LDFLAGS) -o ${OUT}/${APP_NAME} ${CMD_PATH}
+
 run:
-	@go run ${CMD_PATH}
+	@go run -tags development ${CMD_PATH}
 
 optimize: build-multi
 	@command -v upx >/dev/null 2>&1 || { echo >&2 "upx is required but not installed. Aborting."; exit 1; }

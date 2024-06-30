@@ -1,11 +1,7 @@
-//go:build !plugin
-
-package cmd
+package content
 
 import (
-	"context"
 	"ncobase/common/config"
-	"ncobase/common/log"
 	"ncobase/internal/server/middleware"
 	"ncobase/plugin"
 	"ncobase/plugin/content/data"
@@ -15,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Plugin represents the content plugin
 type Plugin struct {
 	s       *service.Service
 	h       *handler.Handler
@@ -22,12 +19,14 @@ type Plugin struct {
 	cleanup func()
 }
 
+// Name returns the name of the plugin
 func (p *Plugin) Name() string {
 	return "content"
 }
 
+// Init initializes the plugin
 func (p *Plugin) Init(conf *config.Config) (err error) {
-	p.d, p.cleanup, err = data.New(&conf.Data)
+	p.d, p.cleanup, err = data.New(conf.Data)
 	if err != nil {
 		return err
 	}
@@ -37,6 +36,7 @@ func (p *Plugin) Init(conf *config.Config) (err error) {
 	return nil
 }
 
+// RegisterRoutes registers routes for the plugin
 func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 	// Taxonomy endpoints
 	taxonomies := e.Group("/taxonomies", middleware.Authenticated)
@@ -59,6 +59,7 @@ func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 	}
 }
 
+// Cleanup cleans up the plugin
 func (p *Plugin) Cleanup() error {
 	if p.cleanup != nil {
 		p.cleanup()
@@ -71,5 +72,4 @@ var PluginInstance Plugin
 
 func init() {
 	plugin.RegisterPlugin(&PluginInstance)
-	log.Infof(context.Background(), "%s plugin initialized", PluginInstance.Name())
 }

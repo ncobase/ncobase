@@ -6,21 +6,20 @@ import (
 	"ncobase/common/ecode"
 	"ncobase/common/log"
 	"ncobase/common/resp"
+	"ncobase/internal/helper"
 	"ncobase/plugin"
 	"net/http"
 	"path/filepath"
 	"strings"
-	"sync"
+
+	_ "ncobase/plugin/asset"
+	_ "ncobase/plugin/content"
 
 	"github.com/gin-gonic/gin"
-
-	_ "ncobase/plugin/asset/cmd"
-	_ "ncobase/plugin/content/cmd"
 )
 
 // PluginManager represents a plugin manager
 type PluginManager struct {
-	mu      sync.Mutex
 	plugins map[string]plugin.Plugin
 	conf    *config.Config
 }
@@ -35,10 +34,7 @@ func NewPluginManager(conf *config.Config) *PluginManager {
 
 // LoadPlugins loads all plugins based on the current configuration
 func (pm *PluginManager) LoadPlugins() error {
-	pm.mu.Lock()
-	defer pm.mu.Unlock()
-
-	if pm.conf.RunMode == "c2hlbgo" {
+	if helper.IsPluginDevMode(pm.conf) {
 		return pm.loadPluginsInDevMode()
 	}
 	return pm.loadPluginsInProdMode()
@@ -51,6 +47,7 @@ func (pm *PluginManager) loadPluginsInProdMode() error {
 
 	pluginPaths, err := filepath.Glob(filepath.Join(pluginDir, "*.so"))
 	if err != nil {
+		log.Errorf(context.Background(), "failed to list plugin files: %v", err)
 		return err
 	}
 
@@ -61,8 +58,7 @@ func (pm *PluginManager) loadPluginsInProdMode() error {
 			continue
 		}
 		if err := pm.loadPlugin(path); err != nil {
-			log.Errorf(context.Background(), "Failed to load plugin %s: %v", path, err)
-			continue
+			log.Errorf(context.Background(), "Failed to load plugin %s: %v", pluginName, err)
 		}
 	}
 
@@ -111,15 +107,13 @@ func (pm *PluginManager) shouldLoadPlugin(pluginName string) bool {
 
 // loadPlugin loads a single plugin
 func (pm *PluginManager) loadPlugin(path string) error {
-	pm.mu.Lock()
-	defer pm.mu.Unlock()
-
 	pluginName := strings.TrimSuffix(filepath.Base(path), ".so")
 	if _, exists := pm.plugins[pluginName]; exists {
 		return nil // Plugin already loaded
 	}
 
 	if err := plugin.LoadPlugin(path, pm.conf); err != nil {
+		log.Errorf(context.Background(), "failed to load plugin %s: %v", pluginName, err)
 		return err
 	}
 
@@ -134,9 +128,6 @@ func (pm *PluginManager) loadPlugin(path string) error {
 
 // UnloadPlugin unloads a single plugin
 func (pm *PluginManager) UnloadPlugin(pluginName string) error {
-	pm.mu.Lock()
-	defer pm.mu.Unlock()
-
 	p, exists := pm.plugins[pluginName]
 	if !exists {
 		return nil // Plugin not loaded
@@ -166,9 +157,6 @@ func (pm *PluginManager) ReloadPlugin(pluginName string) error {
 
 // RegisterPluginRoutes registers routes for all plugins
 func (pm *PluginManager) RegisterPluginRoutes(e *gin.Engine) {
-	pm.mu.Lock()
-	defer pm.mu.Unlock()
-
 	for name, p := range pm.plugins {
 		p.RegisterRoutes(e)
 		log.Infof(context.Background(), "Routes for plugin %s registered", name)
@@ -177,9 +165,6 @@ func (pm *PluginManager) RegisterPluginRoutes(e *gin.Engine) {
 
 // CleanupPlugins cleans up all plugins
 func (pm *PluginManager) CleanupPlugins() {
-	pm.mu.Lock()
-	defer pm.mu.Unlock()
-
 	for name, p := range pm.plugins {
 		if err := p.Cleanup(); err != nil {
 			log.Errorf(context.Background(), "Error cleaning up plugin %s: %v", name, err)
@@ -187,12 +172,7 @@ func (pm *PluginManager) CleanupPlugins() {
 	}
 }
 
-// AddPluginRoutes new handler functions for dynamic plugin management
-//
-// GET /plugins
-// POST /plugins/load/:name
-// POST /plugins/unload/:name
-// POST /plugins/reload/:name
+// AddPluginRoutes adds new handler functions for dynamic plugin management
 func (pm *PluginManager) AddPluginRoutes(e *gin.Engine) {
 	e.GET("/plugins", func(c *gin.Context) {
 		resp.Success(c.Writer, &resp.Exception{Data: pm.plugins})

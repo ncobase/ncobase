@@ -21,3 +21,8 @@ func GetConfig(c *gin.Context) *config.Config {
 	// Context does not contain config, load it from config.
 	return config.GetConfig()
 }
+
+// IsPluginDevMode returns true if the plugin is in development mode.
+func IsPluginDevMode(conf *config.Config) bool {
+	return conf.Plugin.Mode == "c2hlbgo"
+}
