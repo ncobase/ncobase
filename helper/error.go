@@ -2,11 +2,11 @@ package helper
 
 import (
 	"context"
+	"ncobase/app/data/ent"
 	"ncobase/common/ecode"
 	"ncobase/common/log"
 	"ncobase/common/resp"
 	"ncobase/common/validator"
-	"ncobase/internal/data/ent"
 )
 
 // HandleError is a helper function to handle errors in a consistent manner.

@@ -3,9 +3,9 @@ package helper
 import (
 	"context"
 	"fmt"
+	repo "ncobase/app/data/repository"
+	"ncobase/app/data/structs"
 	"ncobase/common/log"
-	repo "ncobase/internal/data/repository"
-	"ncobase/internal/data/structs"
 	"strings"
 
 	"github.com/casbin/casbin/v2/model"
