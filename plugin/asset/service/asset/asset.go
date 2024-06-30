@@ -3,7 +3,7 @@ package asset
 import (
 	"fmt"
 	"io"
-	"ncobase/internal/helper"
+	"ncobase/helper"
 	"ncobase/plugin/asset/data"
 	"ncobase/plugin/asset/data/ent"
 	"ncobase/plugin/asset/data/repository/asset"

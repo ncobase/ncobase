@@ -1,7 +1,7 @@
 package taxonomy
 
 import (
-	"ncobase/internal/helper"
+	"ncobase/helper"
 	"ncobase/plugin/content/service"
 	"ncobase/plugin/content/structs"
 

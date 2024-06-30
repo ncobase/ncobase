@@ -6,7 +6,7 @@ import (
 	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
-	"ncobase/internal/helper"
+	"ncobase/helper"
 	"ncobase/plugin/content/data"
 	"ncobase/plugin/content/data/ent"
 	"ncobase/plugin/content/data/repository/topic"

@@ -2,9 +2,8 @@ package middleware
 
 import (
 	"context"
-	"ncobase/internal/helper"
-
 	"ncobase/common/config"
+	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
 )

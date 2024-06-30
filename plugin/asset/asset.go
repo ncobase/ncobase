@@ -2,7 +2,7 @@ package asset
 
 import (
 	"ncobase/common/config"
-	"ncobase/internal/server/middleware"
+	"ncobase/middleware"
 	"ncobase/plugin"
 	"ncobase/plugin/asset/data"
 	"ncobase/plugin/asset/handler"

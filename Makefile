@@ -10,7 +10,7 @@ BRANCH := $(shell git symbolic-ref -q --short HEAD)
 REVISION := $(shell git rev-parse --short HEAD)
 BUILT_AT := $(shell date +%FT%T%z)
 
-BUILD_VARS := ncobase/internal/helper
+BUILD_VARS := ncobase/helper
 LDFLAGS := -ldflags "-X ${BUILD_VARS}.Version=${VERSION} -X ${BUILD_VARS}.Branch=${BRANCH} -X ${BUILD_VARS}.Revision=${REVISION} -X ${BUILD_VARS}.BuiltAt=${BUILT_AT} -s -w"
 
 ifeq ($(debug), 1)

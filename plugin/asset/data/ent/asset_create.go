@@ -147,7 +147,7 @@ func (ac *AssetCreate) SetNillableTenantID(s *string) *AssetCreate {
 }
 
 // SetExtras sets the "extras" field.
-func (ac *AssetCreate) SetExtras(m map[string]interface{}) *AssetCreate {
+func (ac *AssetCreate) SetExtras(m map[string]any) *AssetCreate {
 	ac.mutation.SetExtras(m)
 	return ac
 }

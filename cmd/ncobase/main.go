@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/internal/server"
+	"ncobase/cmd/bootstrap"
 	"net/http"
 	"os"
 	"os/signal"
@@ -83,7 +83,7 @@ func initializeLogger(conf *config.Config) func() {
 
 // createServer creates and initializes the server.
 func createServer(conf *config.Config) (http.Handler, func(), error) {
-	handler, cleanup, err := server.New(conf)
+	handler, cleanup, err := bootstrap.New(conf)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 	"mime/multipart"
-	"ncobase/internal/helper"
+	"ncobase/helper"
 	"ncobase/plugin/asset/service"
 	"ncobase/plugin/asset/structs"
 	"net/http"

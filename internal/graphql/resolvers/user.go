@@ -6,9 +6,9 @@ package graph
 
 import (
 	"context"
+	"ncobase/helper"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/graphql/types"
-	"ncobase/internal/helper"
 
 	"github.com/jinzhu/copier"
 )
