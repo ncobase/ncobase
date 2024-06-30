@@ -1,9 +1,9 @@
-package server
+package bootstrap
 
 import (
+	"ncobase/helper"
 	"ncobase/internal/handler"
-	"ncobase/internal/helper"
-	"ncobase/internal/server/middleware"
+	"ncobase/middleware"
 	"net/http"
 
 	"ncobase/common/config"

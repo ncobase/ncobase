@@ -3,7 +3,7 @@ package middleware
 import (
 	"errors"
 	"fmt"
-	"ncobase/internal/helper"
+	"ncobase/helper"
 	"net/http"
 	"strings"
 	"time"

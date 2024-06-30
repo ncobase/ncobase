@@ -7,9 +7,9 @@ package graph
 import (
 	"context"
 	"errors"
+	"ncobase/helper"
 	"ncobase/internal/data/structs"
 	"ncobase/internal/graphql/types"
-	"ncobase/internal/helper"
 )
 
 // Login is the resolver for the login field.

@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"fmt"
+	"ncobase/helper"
 	"ncobase/internal/data/ent"
 	oauthUserEnt "ncobase/internal/data/ent/oauthuser"
 	userEnt "ncobase/internal/data/ent/user"
 	"ncobase/internal/data/structs"
-	"ncobase/internal/helper"
-	"ncobase/internal/server/middleware"
+	"ncobase/middleware"
 	"net/http"
 
 	"ncobase/common/cookie"

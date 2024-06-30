@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"fmt"
+	"ncobase/helper"
 	"ncobase/internal/data/ent"
 	codeAuthEnt "ncobase/internal/data/ent/codeauth"
 	"ncobase/internal/data/structs"
-	"ncobase/internal/helper"
-	"ncobase/internal/server/middleware"
+	"ncobase/middleware"
 	"strings"
 	"time"
 

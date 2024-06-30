@@ -1,4 +1,4 @@
-package server
+package bootstrap
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"ncobase/common/ecode"
 	"ncobase/common/log"
 	"ncobase/common/resp"
-	"ncobase/internal/helper"
+	"ncobase/helper"
 	"ncobase/plugin"
 	"net/http"
 	"path/filepath"

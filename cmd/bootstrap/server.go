@@ -1,12 +1,12 @@
-package server
+package bootstrap
 
 import (
 	"context"
 	"ncobase/common/config"
 	"ncobase/common/log"
+	"ncobase/helper"
 	"ncobase/internal/data"
 	"ncobase/internal/handler"
-	"ncobase/internal/helper"
 	"ncobase/internal/service"
 	"net/http"
 	"os"

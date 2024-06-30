@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"ncobase/common/validator"
-	"ncobase/internal/helper"
+	"ncobase/helper"
 	"net/http"
 
 	"ncobase/common/ecode"

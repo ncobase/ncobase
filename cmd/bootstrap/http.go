@@ -1,12 +1,12 @@
-package server
+package bootstrap
 
 import (
 	"ncobase/common/config"
 	"ncobase/common/ecode"
 	"ncobase/common/types"
 	"ncobase/internal/handler"
-	"ncobase/internal/server/middleware"
 	"ncobase/internal/service"
+	"ncobase/middleware"
 	"net/http"
 
 	"github.com/casbin/casbin/v2"

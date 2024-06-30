@@ -38,7 +38,7 @@ func init() {
 	// taxonomyDescExtras is the schema descriptor for extras field.
 	taxonomyDescExtras := taxonomyMixinFields12[0].Descriptor()
 	// taxonomy.DefaultExtras holds the default value on creation for the extras field.
-	taxonomy.DefaultExtras = taxonomyDescExtras.Default.(map[string]interface{})
+	taxonomy.DefaultExtras = taxonomyDescExtras.Default.(map[string]any)
 	// taxonomyDescParentID is the schema descriptor for parent_id field.
 	taxonomyDescParentID := taxonomyMixinFields13[0].Descriptor()
 	// taxonomy.ParentIDValidator is a validator for the "parent_id" field. It is called by the builders before save.

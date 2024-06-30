@@ -1,8 +1,8 @@
 package handler
 
 import (
+	"ncobase/helper"
 	"ncobase/internal/data/structs"
-	"ncobase/internal/helper"
 	"net/http"
 
 	"ncobase/common/oauth"

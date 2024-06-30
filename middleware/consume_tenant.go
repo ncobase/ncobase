@@ -2,12 +2,11 @@ package middleware
 
 import (
 	"context"
-	"ncobase/internal/data/structs"
-	"ncobase/internal/helper"
-
 	"ncobase/common/consts"
 	"ncobase/common/log"
 	"ncobase/common/resp"
+	"ncobase/helper"
+	"ncobase/internal/data/structs"
 
 	"github.com/gin-gonic/gin"
 )

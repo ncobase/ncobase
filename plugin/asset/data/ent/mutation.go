@@ -43,7 +43,7 @@ type AssetMutation struct {
 	endpoint      *string
 	object_id     *string
 	tenant_id     *string
-	extras        *map[string]interface{}
+	extras        *map[string]any
 	created_by    *string
 	updated_by    *string
 	created_at    *time.Time
@@ -607,12 +607,12 @@ func (m *AssetMutation) ResetTenantID() {
 }
 
 // SetExtras sets the "extras" field.
-func (m *AssetMutation) SetExtras(value map[string]interface{}) {
+func (m *AssetMutation) SetExtras(value map[string]any) {
 	m.extras = &value
 }
 
 // Extras returns the value of the "extras" field in the mutation.
-func (m *AssetMutation) Extras() (r map[string]interface{}, exists bool) {
+func (m *AssetMutation) Extras() (r map[string]any, exists bool) {
 	v := m.extras
 	if v == nil {
 		return
@@ -623,7 +623,7 @@ func (m *AssetMutation) Extras() (r map[string]interface{}, exists bool) {
 // OldExtras returns the old "extras" field's value of the Asset entity.
 // If the Asset object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AssetMutation) OldExtras(ctx context.Context) (v map[string]interface{}, err error) {
+func (m *AssetMutation) OldExtras(ctx context.Context) (v map[string]any, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldExtras is only allowed on UpdateOne operations")
 	}
@@ -1074,7 +1074,7 @@ func (m *AssetMutation) SetField(name string, value ent.Value) error {
 		m.SetTenantID(v)
 		return nil
 	case asset.FieldExtras:
-		v, ok := value.(map[string]interface{})
+		v, ok := value.(map[string]any)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

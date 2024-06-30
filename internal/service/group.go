@@ -2,12 +2,11 @@ package service
 
 import (
 	"context"
-	"ncobase/internal/data/ent"
-	"ncobase/internal/data/structs"
-	"ncobase/internal/helper"
-
 	"ncobase/common/resp"
 	"ncobase/common/types"
+	"ncobase/helper"
+	"ncobase/internal/data/ent"
+	"ncobase/internal/data/structs"
 )
 
 // CreateGroupService creates a new group.

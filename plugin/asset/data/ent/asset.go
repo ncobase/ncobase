@@ -38,7 +38,7 @@ type Asset struct {
 	// tenant id
 	TenantID string `json:"tenant_id,omitempty"`
 	// Extend properties
-	Extras map[string]interface{} `json:"extras,omitempty"`
+	Extras map[string]any `json:"extras,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater

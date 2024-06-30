@@ -3,6 +3,7 @@ package middleware
 import (
 	"context"
 	"ncobase/common/log"
+	"ncobase/helper"
 	"net/http"
 	"strings"
 
@@ -10,7 +11,6 @@ import (
 	"ncobase/common/resp"
 	"ncobase/common/util"
 	"ncobase/internal/data/structs"
-	"ncobase/internal/helper"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
