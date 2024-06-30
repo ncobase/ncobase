@@ -67,9 +67,21 @@ func (p *Plugin) Cleanup() error {
 	return nil
 }
 
+// Status returns the status of the plugin
+func (p *Plugin) Status() string {
+	// Implement your own logic to check the plugin status
+	return "active"
+}
+
 // PluginInstance is the exported symbol that will be looked up by the plugin loader
-var PluginInstance Plugin
+var PluginInstance = &Plugin{}
 
 func init() {
-	plugin.RegisterPlugin(&PluginInstance)
+	metadata := plugin.Metadata{
+		Name:         "content",
+		Version:      "1.0.0",
+		Dependencies: []string{},
+		Description:  "Content management plugin",
+	}
+	plugin.RegisterPlugin(PluginInstance, metadata)
 }
