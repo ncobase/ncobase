@@ -1,9 +1,9 @@
 package bootstrap
 
 import (
-	"ncobase/internal/graphql/generated"
-	graph "ncobase/internal/graphql/resolvers"
-	"ncobase/internal/service"
+	"ncobase/app/graphql/generated"
+	graph "ncobase/app/graphql/resolvers"
+	"ncobase/app/service"
 	"net/http"
 
 	"strings"
