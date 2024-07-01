@@ -59,11 +59,8 @@ swagger:
 build: generate
 	@go build -trimpath $(LDFLAGS) -o ${OUT}/${APP_NAME} ${CMD_PATH}
 
-build-dev:
-	@go build -tags development -trimpath $(LDFLAGS) -o ${OUT}/${APP_NAME} ${CMD_PATH}
-
 run:
-	@go run -tags development ${CMD_PATH}
+	@go run ${CMD_PATH}
 
 optimize: build-multi
 	@command -v upx >/dev/null 2>&1 || { echo >&2 "upx is required but not installed. Aborting."; exit 1; }
