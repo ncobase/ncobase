@@ -57,6 +57,16 @@ func (p *Plugin) Cleanup() error {
 	return nil
 }
 
+// GetMetadata returns the metadata of the plugin
+func (p *Plugin) GetMetadata() plugin.Metadata {
+	return plugin.Metadata{
+		Name:         "asset",
+		Version:      "1.0.0",
+		Dependencies: []string{},
+		Description:  "Asset management plugin",
+	}
+}
+
 // Status returns the status of the plugin
 func (p *Plugin) Status() string {
 	// Implement your own logic to check the plugin status
@@ -68,7 +78,7 @@ var PluginInstance = &Plugin{}
 
 func init() {
 	metadata := plugin.Metadata{
-		Name:         "asset",
+		Name:         "asset-development",
 		Version:      "1.0.0",
 		Dependencies: []string{},
 		Description:  "Asset management plugin",
