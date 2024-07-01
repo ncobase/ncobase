@@ -18,6 +18,7 @@ type Plugin interface {
 	RegisterRoutes(router *gin.Engine)
 	Cleanup() error
 	Status() string
+	GetMetadata() Metadata
 }
 
 // Metadata represents the metadata of a plugin
@@ -140,6 +141,5 @@ func GetPlugins() map[string]*Wrapper {
 
 // getPluginMetadata retrieves the metadata of a plugin
 func getPluginMetadata(p Plugin) Metadata {
-	// Implement metadata retrieval logic
-	return Metadata{Name: p.Name()}
+	return p.GetMetadata()
 }
