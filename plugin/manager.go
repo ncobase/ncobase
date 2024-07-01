@@ -1,4 +1,4 @@
-package bootstrap
+package plugin
 
 import (
 	"context"
@@ -8,32 +8,28 @@ import (
 	"ncobase/common/log"
 	"ncobase/common/resp"
 	"ncobase/helper"
-	"ncobase/plugin"
 	"path/filepath"
 	"strings"
-
-	_ "ncobase/plugin/asset"
-	_ "ncobase/plugin/content"
 
 	"github.com/gin-gonic/gin"
 )
 
-// PluginManager represents a plugin manager
-type PluginManager struct {
-	plugins map[string]*plugin.Wrapper
+// Manager represents a plugin manager
+type Manager struct {
+	plugins map[string]*Wrapper
 	conf    *config.Config
 }
 
-// NewPluginManager creates a new plugin manager
-func NewPluginManager(conf *config.Config) *PluginManager {
-	return &PluginManager{
-		plugins: make(map[string]*plugin.Wrapper),
+// NewManager creates a new plugin manager
+func NewManager(conf *config.Config) *Manager {
+	return &Manager{
+		plugins: make(map[string]*Wrapper),
 		conf:    conf,
 	}
 }
 
 // LoadPlugins loads all plugins based on the current configuration
-func (pm *PluginManager) LoadPlugins() error {
+func (pm *Manager) LoadPlugins() error {
 	if helper.IsPluginDevMode(pm.conf) {
 		return pm.loadPluginsInDevMode()
 	}
@@ -41,7 +37,7 @@ func (pm *PluginManager) LoadPlugins() error {
 }
 
 // loadPluginsInProdMode loads plugins in production mode
-func (pm *PluginManager) loadPluginsInProdMode() error {
+func (pm *Manager) loadPluginsInProdMode() error {
 	pluginConfig := pm.conf.Plugin
 	pluginDir := pluginConfig.Path
 
@@ -66,8 +62,8 @@ func (pm *PluginManager) loadPluginsInProdMode() error {
 }
 
 // loadPluginsInDevMode loads plugins in development mode
-func (pm *PluginManager) loadPluginsInDevMode() error {
-	devPlugins := plugin.GetRegisteredPlugins()
+func (pm *Manager) loadPluginsInDevMode() error {
+	devPlugins := GetRegisteredPlugins()
 
 	for _, p := range devPlugins {
 		if err := p.Instance.Init(pm.conf); err != nil {
@@ -82,7 +78,7 @@ func (pm *PluginManager) loadPluginsInDevMode() error {
 }
 
 // shouldLoadPlugin returns true if the plugin should be loaded
-func (pm *PluginManager) shouldLoadPlugin(pluginName string) bool {
+func (pm *Manager) shouldLoadPlugin(pluginName string) bool {
 	pluginConfig := pm.conf.Plugin
 
 	if len(pluginConfig.Includes) > 0 {
@@ -106,18 +102,18 @@ func (pm *PluginManager) shouldLoadPlugin(pluginName string) bool {
 }
 
 // loadPlugin loads a single plugin
-func (pm *PluginManager) loadPlugin(path string) error {
+func (pm *Manager) loadPlugin(path string) error {
 	pluginName := strings.TrimSuffix(filepath.Base(path), ".so")
 	if _, exists := pm.plugins[pluginName]; exists {
 		return nil // Plugin already loaded
 	}
 
-	if err := plugin.LoadPlugin(path, pm.conf); err != nil {
+	if err := LoadPlugin(path, pm.conf); err != nil {
 		log.Errorf(context.Background(), "failed to load plugin %s: %v", pluginName, err)
 		return err
 	}
 
-	loadedPlugin := plugin.GetPlugin(pluginName)
+	loadedPlugin := GetPlugin(pluginName)
 	if loadedPlugin != nil {
 		pm.plugins[pluginName] = loadedPlugin
 		log.Infof(context.Background(), "Plugin %s loaded successfully", pluginName)
@@ -127,7 +123,7 @@ func (pm *PluginManager) loadPlugin(path string) error {
 }
 
 // UnloadPlugin unloads a single plugin
-func (pm *PluginManager) UnloadPlugin(pluginName string) error {
+func (pm *Manager) UnloadPlugin(pluginName string) error {
 	p, exists := pm.plugins[pluginName]
 	if !exists {
 		return nil // Plugin not loaded
@@ -143,7 +139,7 @@ func (pm *PluginManager) UnloadPlugin(pluginName string) error {
 }
 
 // ReloadPlugin reloads a single plugin
-func (pm *PluginManager) ReloadPlugin(pluginName string) error {
+func (pm *Manager) ReloadPlugin(pluginName string) error {
 	pluginConfig := pm.conf.Plugin
 	pluginDir := pluginConfig.Path
 	pluginPath := filepath.Join(pluginDir, pluginName+".so")
@@ -156,7 +152,7 @@ func (pm *PluginManager) ReloadPlugin(pluginName string) error {
 }
 
 // RegisterPluginRoutes registers routes for all plugins
-func (pm *PluginManager) RegisterPluginRoutes(e *gin.Engine) {
+func (pm *Manager) RegisterPluginRoutes(e *gin.Engine) {
 	for name, p := range pm.plugins {
 		p.Instance.RegisterRoutes(e)
 		log.Infof(context.Background(), "Routes for plugin %s registered", name)
@@ -164,7 +160,7 @@ func (pm *PluginManager) RegisterPluginRoutes(e *gin.Engine) {
 }
 
 // CleanupPlugins cleans up all plugins
-func (pm *PluginManager) CleanupPlugins() {
+func (pm *Manager) CleanupPlugins() {
 	for name, p := range pm.plugins {
 		if err := p.Instance.Cleanup(); err != nil {
 			log.Errorf(context.Background(), "Error cleaning up plugin %s: %v", name, err)
@@ -173,7 +169,7 @@ func (pm *PluginManager) CleanupPlugins() {
 }
 
 // AddPluginRoutes adds new handler functions for dynamic plugin management
-func (pm *PluginManager) AddPluginRoutes(e *gin.Engine) {
+func (pm *Manager) AddPluginRoutes(e *gin.Engine) {
 	e.GET("/plugins", func(c *gin.Context) {
 		resp.Success(c.Writer, &resp.Exception{Data: pm.plugins})
 	})

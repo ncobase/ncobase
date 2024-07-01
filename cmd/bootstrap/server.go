@@ -8,6 +8,7 @@ import (
 	"ncobase/common/config"
 	"ncobase/common/log"
 	"ncobase/helper"
+	"ncobase/plugin"
 	"net/http"
 	"os"
 
@@ -39,13 +40,13 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 	}
 
 	// Initialize Plugin Manager
-	pm := NewPluginManager(conf)
+	pm := plugin.NewManager(conf)
 	if err := pm.LoadPlugins(); err != nil {
 		log.Fatalf(context.Background(), "❌ Failed loading plugins: %+v", err)
 	}
 
-	// New HTTP server
-	h, err := newHTTP(conf, handler.New(svc), svc, e, pm)
+	// New server
+	h, err := ginServer(conf, handler.New(svc), svc, e, pm)
 	if err != nil {
 		log.Fatalf(context.Background(), "❌ Failed initializing http: %+v", err)
 		// panic(err)
