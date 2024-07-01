@@ -63,9 +63,9 @@ func (pm *Manager) loadPluginsInProdMode() error {
 
 // loadPluginsInDevMode loads plugins in development mode
 func (pm *Manager) loadPluginsInDevMode() error {
-	devPlugins := GetRegisteredPlugins()
+	plugins := GetRegisteredPlugins()
 
-	for _, p := range devPlugins {
+	for _, p := range plugins {
 		if err := p.Instance.Init(pm.conf); err != nil {
 			log.Errorf(context.Background(), "Failed to initialize plugin %s: %v", p.Metadata.Name, err)
 			continue
@@ -78,12 +78,12 @@ func (pm *Manager) loadPluginsInDevMode() error {
 }
 
 // shouldLoadPlugin returns true if the plugin should be loaded
-func (pm *Manager) shouldLoadPlugin(pluginName string) bool {
+func (pm *Manager) shouldLoadPlugin(name string) bool {
 	pluginConfig := pm.conf.Plugin
 
 	if len(pluginConfig.Includes) > 0 {
 		for _, include := range pluginConfig.Includes {
-			if include == pluginName {
+			if include == name {
 				return true
 			}
 		}
@@ -92,7 +92,7 @@ func (pm *Manager) shouldLoadPlugin(pluginName string) bool {
 
 	if len(pluginConfig.Excludes) > 0 {
 		for _, exclude := range pluginConfig.Excludes {
-			if exclude == pluginName {
+			if exclude == name {
 				return false
 			}
 		}
@@ -103,28 +103,28 @@ func (pm *Manager) shouldLoadPlugin(pluginName string) bool {
 
 // loadPlugin loads a single plugin
 func (pm *Manager) loadPlugin(path string) error {
-	pluginName := strings.TrimSuffix(filepath.Base(path), ".so")
-	if _, exists := pm.plugins[pluginName]; exists {
+	name := strings.TrimSuffix(filepath.Base(path), ".so")
+	if _, exists := pm.plugins[name]; exists {
 		return nil // Plugin already loaded
 	}
 
 	if err := LoadPlugin(path, pm.conf); err != nil {
-		log.Errorf(context.Background(), "failed to load plugin %s: %v", pluginName, err)
+		log.Errorf(context.Background(), "failed to load plugin %s: %v", name, err)
 		return err
 	}
 
-	loadedPlugin := GetPlugin(pluginName)
+	loadedPlugin := GetPlugin(name)
 	if loadedPlugin != nil {
-		pm.plugins[pluginName] = loadedPlugin
-		log.Infof(context.Background(), "Plugin %s loaded successfully", pluginName)
+		pm.plugins[name] = loadedPlugin
+		log.Infof(context.Background(), "Plugin %s loaded successfully", name)
 	}
 
 	return nil
 }
 
 // UnloadPlugin unloads a single plugin
-func (pm *Manager) UnloadPlugin(pluginName string) error {
-	p, exists := pm.plugins[pluginName]
+func (pm *Manager) UnloadPlugin(name string) error {
+	p, exists := pm.plugins[name]
 	if !exists {
 		return nil // Plugin not loaded
 	}
@@ -133,18 +133,18 @@ func (pm *Manager) UnloadPlugin(pluginName string) error {
 		return err
 	}
 
-	delete(pm.plugins, pluginName)
-	log.Infof(context.Background(), "Plugin %s unloaded successfully", pluginName)
+	delete(pm.plugins, name)
+	log.Infof(context.Background(), "Plugin %s unloaded successfully", name)
 	return nil
 }
 
 // ReloadPlugin reloads a single plugin
-func (pm *Manager) ReloadPlugin(pluginName string) error {
+func (pm *Manager) ReloadPlugin(name string) error {
 	pluginConfig := pm.conf.Plugin
 	pluginDir := pluginConfig.Path
-	pluginPath := filepath.Join(pluginDir, pluginName+".so")
+	pluginPath := filepath.Join(pluginDir, name+".so")
 
-	if err := pm.UnloadPlugin(pluginName); err != nil {
+	if err := pm.UnloadPlugin(name); err != nil {
 		return err
 	}
 
@@ -214,4 +214,16 @@ func (pm *Manager) AddPluginRoutes(e *gin.Engine) {
 		}
 		resp.Success(c.Writer, &resp.Exception{Message: fmt.Sprintf("Plugin %s reloaded successfully", pluginName)})
 	})
+}
+
+// RegisterRoutes registers routes for all plugins
+func (pm *Manager) RegisterRoutes(e *gin.Engine) {
+	for _, plugin := range pm.plugins {
+		plugin.Instance.RegisterRoutes(e)
+	}
+}
+
+// Cleanup cleans up all plugins
+func (pm *Manager) Cleanup() {
+	pm.CleanupPlugins()
 }

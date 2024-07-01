@@ -101,21 +101,21 @@ func LoadPlugin(path string, conf *config.Config) error {
 }
 
 // UnloadPlugin unloads a plugin and cleans it up
-func UnloadPlugin(pluginName string) error {
+func UnloadPlugin(name string) error {
 	registry.mu.Lock()
 	defer registry.mu.Unlock()
 
-	p, exists := registry.plugins[pluginName]
+	p, exists := registry.plugins[name]
 	if !exists {
-		return fmt.Errorf("plugin %s not found", pluginName)
+		return fmt.Errorf("plugin %s not found", name)
 	}
 
 	if err := p.Instance.Cleanup(); err != nil {
-		return fmt.Errorf("failed to cleanup plugin %s: %v", pluginName, err)
+		return fmt.Errorf("failed to cleanup plugin %s: %v", name, err)
 	}
 
-	delete(registry.plugins, pluginName)
-	log.Printf("Plugin %s unloaded successfully", pluginName)
+	delete(registry.plugins, name)
+	log.Printf("Plugin %s unloaded successfully", name)
 	return nil
 }
 
