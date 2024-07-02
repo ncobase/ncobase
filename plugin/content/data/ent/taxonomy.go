@@ -42,7 +42,7 @@ type Taxonomy struct {
 	// status: 0 activated, 1 unactivated, 2 disabled
 	Status int `json:"status,omitempty"`
 	// Extend properties
-	Extras map[string]any `json:"extras,omitempty"`
+	Extras map[string]interface{} `json:"extras,omitempty"`
 	// parent id
 	ParentID string `json:"parent_id,omitempty"`
 	// tenant id

@@ -50,7 +50,7 @@ func init() {
 	// assetDescExtras is the schema descriptor for extras field.
 	assetDescExtras := assetMixinFields10[0].Descriptor()
 	// asset.DefaultExtras holds the default value on creation for the extras field.
-	asset.DefaultExtras = assetDescExtras.Default.(map[string]any)
+	asset.DefaultExtras = assetDescExtras.Default.(map[string]interface{})
 	// assetDescCreatedBy is the schema descriptor for created_by field.
 	assetDescCreatedBy := assetMixinFields11[0].Descriptor()
 	// asset.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.

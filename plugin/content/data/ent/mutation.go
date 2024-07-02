@@ -49,7 +49,7 @@ type TaxonomyMutation struct {
 	description   *string
 	status        *int
 	addstatus     *int
-	extras        *map[string]any
+	extras        *map[string]interface{}
 	parent_id     *string
 	tenant_id     *string
 	created_by    *string
@@ -713,12 +713,12 @@ func (m *TaxonomyMutation) ResetStatus() {
 }
 
 // SetExtras sets the "extras" field.
-func (m *TaxonomyMutation) SetExtras(value map[string]any) {
+func (m *TaxonomyMutation) SetExtras(value map[string]interface{}) {
 	m.extras = &value
 }
 
 // Extras returns the value of the "extras" field in the mutation.
-func (m *TaxonomyMutation) Extras() (r map[string]any, exists bool) {
+func (m *TaxonomyMutation) Extras() (r map[string]interface{}, exists bool) {
 	v := m.extras
 	if v == nil {
 		return
@@ -729,7 +729,7 @@ func (m *TaxonomyMutation) Extras() (r map[string]any, exists bool) {
 // OldExtras returns the old "extras" field's value of the Taxonomy entity.
 // If the Taxonomy object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaxonomyMutation) OldExtras(ctx context.Context) (v map[string]any, err error) {
+func (m *TaxonomyMutation) OldExtras(ctx context.Context) (v map[string]interface{}, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldExtras is only allowed on UpdateOne operations")
 	}
@@ -1320,7 +1320,7 @@ func (m *TaxonomyMutation) SetField(name string, value ent.Value) error {
 		m.SetStatus(v)
 		return nil
 	case taxonomy.FieldExtras:
-		v, ok := value.(map[string]any)
+		v, ok := value.(map[string]interface{})
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

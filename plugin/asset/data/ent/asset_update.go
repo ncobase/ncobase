@@ -210,7 +210,7 @@ func (au *AssetUpdate) ClearTenantID() *AssetUpdate {
 }
 
 // SetExtras sets the "extras" field.
-func (au *AssetUpdate) SetExtras(m map[string]any) *AssetUpdate {
+func (au *AssetUpdate) SetExtras(m map[string]interface{}) *AssetUpdate {
 	au.mutation.SetExtras(m)
 	return au
 }
@@ -639,7 +639,7 @@ func (auo *AssetUpdateOne) ClearTenantID() *AssetUpdateOne {
 }
 
 // SetExtras sets the "extras" field.
-func (auo *AssetUpdateOne) SetExtras(m map[string]any) *AssetUpdateOne {
+func (auo *AssetUpdateOne) SetExtras(m map[string]interface{}) *AssetUpdateOne {
 	auo.mutation.SetExtras(m)
 	return auo
 }

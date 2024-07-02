@@ -175,7 +175,7 @@ func (tc *TaxonomyCreate) SetNillableStatus(i *int) *TaxonomyCreate {
 }
 
 // SetExtras sets the "extras" field.
-func (tc *TaxonomyCreate) SetExtras(m map[string]any) *TaxonomyCreate {
+func (tc *TaxonomyCreate) SetExtras(m map[string]interface{}) *TaxonomyCreate {
 	tc.mutation.SetExtras(m)
 	return tc
 }
