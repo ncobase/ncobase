@@ -250,7 +250,7 @@ func (tu *TaxonomyUpdate) AddStatus(i int) *TaxonomyUpdate {
 }
 
 // SetExtras sets the "extras" field.
-func (tu *TaxonomyUpdate) SetExtras(m map[string]any) *TaxonomyUpdate {
+func (tu *TaxonomyUpdate) SetExtras(m map[string]interface{}) *TaxonomyUpdate {
 	tu.mutation.SetExtras(m)
 	return tu
 }
@@ -778,7 +778,7 @@ func (tuo *TaxonomyUpdateOne) AddStatus(i int) *TaxonomyUpdateOne {
 }
 
 // SetExtras sets the "extras" field.
-func (tuo *TaxonomyUpdateOne) SetExtras(m map[string]any) *TaxonomyUpdateOne {
+func (tuo *TaxonomyUpdateOne) SetExtras(m map[string]interface{}) *TaxonomyUpdateOne {
 	tuo.mutation.SetExtras(m)
 	return tuo
 }
