@@ -38,7 +38,7 @@ func (h *Handler) SendCodeHandler(c *gin.Context) {
 		return
 	}
 
-	result, _ := h.svc.SendCodeService(c, body)
+	result, _ := h.svc.SendCodeService(c.Request.Context(), body)
 	resp.Success(c.Writer, result)
 }
 
@@ -55,7 +55,7 @@ func (h *Handler) SendCodeHandler(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/authorize/{code} [get]
 func (h *Handler) CodeAuthHandler(c *gin.Context) {
-	result, err := h.svc.CodeAuthService(c, c.Param("code"))
+	result, err := h.svc.CodeAuthService(c.Request.Context(), c.Param("code"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -84,7 +84,7 @@ func (h *Handler) RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	result, _ := h.svc.RegisterService(c, body)
+	result, _ := h.svc.RegisterService(c.Request.Context(), body)
 	resp.Success(c.Writer, result)
 }
 
@@ -125,13 +125,13 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 
 	// Validate captcha
 	if body.Captcha != nil && body.Captcha.ID != "" && body.Captcha.Solution != "" {
-		if result := h.svc.ValidateCaptchaService(c, body.Captcha); result.Code != 0 {
+		if result := h.svc.ValidateCaptchaService(c.Request.Context(), body.Captcha); result.Code != 0 {
 			resp.Fail(c.Writer, result)
 			return
 		}
 	}
 
-	result, err := h.svc.LoginService(c, body)
+	result, err := h.svc.LoginService(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -150,7 +150,7 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 // // @Router /v1/refresh [post]
 // // @Security Bearer
 // func (h *Handler) RefreshHandler(c *gin.Context) {
-// 	result, err := h.svc.RefreshService(c)
+// 	result, err := h.svc.RefreshServicec.Request.Context()
 // 	if err != nil {
 // 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 // 		return
@@ -178,7 +178,7 @@ func (h *Handler) GenerateCaptchaHandler(c *gin.Context) {
 	default:
 		ext = ".png"
 	}
-	result, err := h.svc.GenerateCaptchaService(c, ext)
+	result, err := h.svc.GenerateCaptchaService(c.Request.Context(), ext)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -206,7 +206,7 @@ func (h *Handler) ValidateCaptchaHandler(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
-	result := h.svc.ValidateCaptchaService(c, body)
+	result := h.svc.ValidateCaptchaService(c.Request.Context(), body)
 	resp.Success(c.Writer, result)
 }
 
@@ -242,7 +242,7 @@ func (h *Handler) CaptchaStreamHandler(c *gin.Context) {
 		return
 	}
 
-	result := h.svc.GetCaptchaService(c, id)
+	result := h.svc.GetCaptchaService(c.Request.Context(), id)
 	if result.Code != 0 {
 		resp.Fail(c.Writer, result)
 		return

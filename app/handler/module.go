@@ -32,7 +32,7 @@ func (h *Handler) CreateModuleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.CreateModuleService(c, body)
+	result, err := h.svc.CreateModuleService(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -70,7 +70,7 @@ func (h *Handler) UpdateModuleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.UpdateModuleService(c, slug, *updates)
+	result, err := h.svc.UpdateModuleService(c.Request.Context(), slug, *updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -97,7 +97,7 @@ func (h *Handler) GetModuleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.GetModuleService(c, slug)
+	result, err := h.svc.GetModuleService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -124,7 +124,7 @@ func (h *Handler) DeleteModuleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.DeleteModuleService(c, slug)
+	result, err := h.svc.DeleteModuleService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -154,7 +154,7 @@ func (h *Handler) ListModuleHandler(c *gin.Context) {
 		return
 	}
 
-	modules, err := h.svc.ListModulesService(c, params)
+	modules, err := h.svc.ListModulesService(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

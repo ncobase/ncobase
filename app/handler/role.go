@@ -32,7 +32,7 @@ func (h *Handler) CreateRoleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.CreateRoleService(c, body)
+	result, err := h.svc.CreateRoleService(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -59,7 +59,7 @@ func (h *Handler) GetRoleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.GetRoleByIDService(c, slug)
+	result, err := h.svc.GetRoleByIDService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -97,7 +97,7 @@ func (h *Handler) UpdateRoleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.UpdateRoleService(c, slug, *updates)
+	result, err := h.svc.UpdateRoleService(c.Request.Context(), slug, *updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -124,7 +124,7 @@ func (h *Handler) DeleteRoleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.DeleteRoleService(c, slug)
+	result, err := h.svc.DeleteRoleService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -154,7 +154,7 @@ func (h *Handler) ListRoleHandler(c *gin.Context) {
 		return
 	}
 
-	roles, err := h.svc.ListRolesService(c, params)
+	roles, err := h.svc.ListRolesService(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -181,7 +181,7 @@ func (h *Handler) ListRolePermissionHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.GetRolePermissionsService(c, slug)
+	result, err := h.svc.GetRolePermissionsService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -208,7 +208,7 @@ func (h *Handler) ListUserRoleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.GetUsersByRoleIDService(c, slug)
+	result, err := h.svc.GetUsersByRoleIDService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

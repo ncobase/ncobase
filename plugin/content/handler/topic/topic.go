@@ -53,7 +53,7 @@ func (h *Handler) Create(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Topic.Create(c, body)
+	result, err := h.s.Topic.Create(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -91,7 +91,7 @@ func (h *Handler) Update(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Topic.Update(c, slug, *updates)
+	result, err := h.s.Topic.Update(c.Request.Context(), slug, *updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -117,7 +117,7 @@ func (h *Handler) Get(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Topic.Get(c, slug)
+	result, err := h.s.Topic.Get(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -144,7 +144,7 @@ func (h *Handler) Delete(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Topic.Delete(c, slug)
+	result, err := h.s.Topic.Delete(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -173,7 +173,7 @@ func (h *Handler) List(c *gin.Context) {
 		return
 	}
 
-	topics, err := h.s.Topic.List(c, params)
+	topics, err := h.s.Topic.List(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

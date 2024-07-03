@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"ncobase/app/service"
-
 	"ncobase/common/log"
 	"ncobase/common/oauth"
 	"ncobase/common/resp"
@@ -31,7 +30,7 @@ func New(svc *service.Service) *Handler {
 // @Success 200 {object} resp.Exception "success"
 // @Router /health [get]
 func (h *Handler) HealthHandler(c *gin.Context) {
-	if err := h.svc.Ping(c); err != nil {
+	if err := h.svc.Ping(c.Request.Context()); err != nil {
 		log.Fatalf(context.Background(), "ping error: %+v", err)
 	}
 	resp.Success(c.Writer, nil)

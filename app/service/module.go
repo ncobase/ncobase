@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"ncobase/app/data/ent"
 	"ncobase/app/data/structs"
 	"ncobase/common/ecode"
@@ -9,17 +10,15 @@ import (
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/helper"
-
-	"github.com/gin-gonic/gin"
 )
 
 // CreateModuleService creates a new module.
-func (svc *Service) CreateModuleService(c *gin.Context, body *structs.CreateModuleBody) (*resp.Exception, error) {
+func (svc *Service) CreateModuleService(ctx context.Context, body *structs.CreateModuleBody) (*resp.Exception, error) {
 	// set slug field.
 	if validator.IsEmpty(body.Slug) {
 		body.Slug = slug.Unicode(body.Name)
 	}
-	module, err := svc.module.Create(c, body)
+	module, err := svc.module.Create(ctx, body)
 	if exception, err := helper.HandleError("Module", err); exception != nil {
 		return exception, err
 	}
@@ -30,7 +29,7 @@ func (svc *Service) CreateModuleService(c *gin.Context, body *structs.CreateModu
 }
 
 // UpdateModuleService updates an existing module (full and partial).
-func (svc *Service) UpdateModuleService(c *gin.Context, slug string, updates types.JSON) (*resp.Exception, error) {
+func (svc *Service) UpdateModuleService(ctx context.Context, slug string, updates types.JSON) (*resp.Exception, error) {
 	if validator.IsEmpty(slug) {
 		return resp.BadRequest(ecode.FieldIsRequired("slug / id")), nil
 	}
@@ -40,7 +39,7 @@ func (svc *Service) UpdateModuleService(c *gin.Context, slug string, updates typ
 		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
 	}
 
-	module, err := svc.module.Update(c, slug, updates)
+	module, err := svc.module.Update(ctx, slug, updates)
 	if exception, err := helper.HandleError("Module", err); exception != nil {
 		return exception, err
 	}
@@ -51,8 +50,8 @@ func (svc *Service) UpdateModuleService(c *gin.Context, slug string, updates typ
 }
 
 // GetModuleService retrieves a module by slug.
-func (svc *Service) GetModuleService(c *gin.Context, slug string) (*resp.Exception, error) {
-	module, err := svc.module.GetBySlug(c, slug)
+func (svc *Service) GetModuleService(ctx context.Context, slug string) (*resp.Exception, error) {
+	module, err := svc.module.GetBySlug(ctx, slug)
 	if exception, err := helper.HandleError("Module", err); exception != nil {
 		return exception, err
 	}
@@ -63,8 +62,8 @@ func (svc *Service) GetModuleService(c *gin.Context, slug string) (*resp.Excepti
 }
 
 // DeleteModuleService deletes a module by slug.
-func (svc *Service) DeleteModuleService(c *gin.Context, slug string) (*resp.Exception, error) {
-	err := svc.module.Delete(c, slug)
+func (svc *Service) DeleteModuleService(ctx context.Context, slug string) (*resp.Exception, error) {
+	err := svc.module.Delete(ctx, slug)
 	if exception, err := helper.HandleError("Module", err); exception != nil {
 		return exception, err
 	}
@@ -73,7 +72,7 @@ func (svc *Service) DeleteModuleService(c *gin.Context, slug string) (*resp.Exce
 }
 
 // ListModulesService lists all modules.
-func (svc *Service) ListModulesService(c *gin.Context, params *structs.ListModuleParams) (*resp.Exception, error) {
+func (svc *Service) ListModulesService(ctx context.Context, params *structs.ListModuleParams) (*resp.Exception, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
@@ -83,7 +82,7 @@ func (svc *Service) ListModulesService(c *gin.Context, params *structs.ListModul
 		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
 	}
 
-	rows, err := svc.module.List(c, params)
+	rows, err := svc.module.List(ctx, params)
 
 	if ent.IsNotFound(err) {
 		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
@@ -92,7 +91,7 @@ func (svc *Service) ListModulesService(c *gin.Context, params *structs.ListModul
 		return resp.InternalServer(err.Error()), nil
 	}
 
-	total := svc.module.CountX(c, params)
+	total := svc.module.CountX(ctx, params)
 
 	return &resp.Exception{
 		Data: &types.JSON{

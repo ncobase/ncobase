@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"ncobase/common/config"
-	"ncobase/common/cookie"
 	"ncobase/common/ecode"
 	"ncobase/common/email"
 	"ncobase/common/jwt"
@@ -23,13 +22,11 @@ import (
 	"ncobase/common/validator"
 
 	"github.com/dchest/captcha"
-	"github.com/gin-gonic/gin"
 )
 
 // RegisterService register service
-func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) (*resp.Exception, error) {
-	ctx := helper.FromGinContext(c)
-	conf := helper.GetConfig(c)
+func (svc *Service) RegisterService(ctx context.Context, body *structs.RegisterBody) (*resp.Exception, error) {
+	conf := helper.GetConfig(ctx)
 	client := svc.d.GetEntClient()
 
 	// Decode register token
@@ -99,7 +96,7 @@ func (svc *Service) RegisterService(c *gin.Context, body *structs.RegisterBody) 
 		return resp.InternalServer("authorize is not created", nil), nil
 	}
 
-	cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain)
+	// cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain) // TODO: move to handler
 	return &resp.Exception{
 		Data: types.JSON{
 			"id":           user.ID,
@@ -161,9 +158,8 @@ func createAuthToken(ctx context.Context, tx *ent.Tx, userID string) (*ent.AuthT
 }
 
 // CodeAuthService code auth service
-func (svc *Service) CodeAuthService(c *gin.Context, code string) (*resp.Exception, error) {
-	ctx := helper.FromGinContext(c)
-	conf := helper.GetConfig(c)
+func (svc *Service) CodeAuthService(ctx context.Context, code string) (*resp.Exception, error) {
+	conf := helper.GetConfig(ctx)
 	client := svc.d.GetEntClient()
 
 	codeAuth, err := client.CodeAuth.Query().Where(codeAuthEnt.CodeEQ(code)).Only(ctx)
@@ -176,10 +172,10 @@ func (svc *Service) CodeAuthService(c *gin.Context, code string) (*resp.Exceptio
 
 	user, err := svc.user.Find(ctx, &structs.FindUser{Email: codeAuth.Email})
 	if ent.IsNotFound(err) {
-		return sendRegisterMail(c, conf, codeAuth)
+		return sendRegisterMail(ctx, conf, codeAuth)
 	}
 
-	return generateTokensForUser(c, client, user, conf.Domain)
+	return generateTokensForUser(ctx, client, user, conf.Domain)
 }
 
 // Helper functions for CodeAuthService
@@ -187,19 +183,18 @@ func isCodeExpired(createdAt time.Time) bool {
 	return time.Now().After(createdAt.Add(24 * time.Hour))
 }
 
-func sendRegisterMail(c *gin.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*resp.Exception, error) {
+func sendRegisterMail(ctx context.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*resp.Exception, error) {
 	subject := "email-register"
 	payload := types.JSON{"email": codeAuth.Email, "id": codeAuth.ID}
 	registerToken, err := jwt.GenerateRegisterToken(conf.Auth.JWT.Secret, codeAuth.ID, payload, subject)
 	if err != nil {
 		return resp.InternalServer(err.Error()), nil
 	}
-	cookie.SetRegister(c.Writer, registerToken, conf.Domain)
+	// cookie.SetRegister(c.Writer, registerToken, conf.Domain) // TODO: move to handler
 	return &resp.Exception{Data: types.JSON{"email": codeAuth.Email, "register_token": registerToken}}, nil
 }
 
-func generateTokensForUser(c *gin.Context, client *ent.Client, user *ent.User, tenant string) (*resp.Exception, error) {
-	ctx := helper.FromGinContext(c)
+func generateTokensForUser(ctx context.Context, client *ent.Client, user *ent.User, tenant string) (*resp.Exception, error) {
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return resp.Transactions(err.Error()), nil
@@ -218,7 +213,7 @@ func generateTokensForUser(c *gin.Context, client *ent.Client, user *ent.User, t
 		}
 		return resp.InternalServer("Authorize is not created"), nil
 	}
-	cookie.Set(c.Writer, accessToken, refreshToken, tenant)
+	// cookie.Set(c.Writer, accessToken, refreshToken, tenant) // TODO: move to handler
 	return &resp.Exception{
 		Data: types.JSON{
 			"id":           user.ID,
@@ -228,8 +223,7 @@ func generateTokensForUser(c *gin.Context, client *ent.Client, user *ent.User, t
 }
 
 // SendCodeService send code service
-func (svc *Service) SendCodeService(c *gin.Context, body *structs.SendCodeBody) (*resp.Exception, error) {
-	ctx := helper.FromGinContext(c)
+func (svc *Service) SendCodeService(ctx context.Context, body *structs.SendCodeBody) (*resp.Exception, error) {
 	client := svc.d.GetEntClient()
 
 	user, _ := svc.user.Find(ctx, &structs.FindUser{Email: body.Email, Phone: body.Phone})
@@ -247,7 +241,7 @@ func (svc *Service) SendCodeService(c *gin.Context, body *structs.SendCodeBody) 
 		return resp.Transactions(err.Error()), nil
 	}
 
-	if err := sendAuthEmail(c, body.Email, authCode, user != nil); err != nil {
+	if err := sendAuthEmail(ctx, body.Email, authCode, user != nil); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil
 		}
@@ -259,8 +253,8 @@ func (svc *Service) SendCodeService(c *gin.Context, body *structs.SendCodeBody) 
 }
 
 // Helper functions for SendCodeService
-func sendAuthEmail(c *gin.Context, e, code string, registered bool) error {
-	conf := helper.GetConfig(c)
+func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
+	conf := helper.GetConfig(ctx)
 	template := email.AuthEmailTemplate{
 		Subject:  "Email authentication",
 		Template: "auth-email",
@@ -272,14 +266,13 @@ func sendAuthEmail(c *gin.Context, e, code string, registered bool) error {
 		template.Keyword = "Sign Up"
 		template.URL = conf.Frontend.SignUpURL + "?code=" + code
 	}
-	_, err := helper.SendEmailWithTemplate(c, e, template)
+	_, err := helper.SendEmailWithTemplate(ctx, e, template)
 	return err
 }
 
 // LoginService login service
-func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp.Exception, error) {
-	ctx := helper.FromGinContext(c)
-	conf := helper.GetConfig(c)
+func (svc *Service) LoginService(ctx context.Context, body *structs.LoginBody) (*resp.Exception, error) {
+	conf := helper.GetConfig(ctx)
 	client := svc.d.GetEntClient()
 
 	user, err := svc.user.FindUser(ctx, &structs.FindUser{Username: body.Username})
@@ -291,7 +284,7 @@ func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp
 		return resp.Forbidden("Your account has not been activated"), nil
 	}
 
-	verifyResult := svc.verifyUserPassword(c, user.ID, body.Password)
+	verifyResult := svc.verifyUserPassword(ctx, user.ID, body.Password)
 	switch v := verifyResult.(type) {
 	case VerifyPasswordResult:
 		if v.Valid == false {
@@ -301,22 +294,22 @@ func (svc *Service) LoginService(c *gin.Context, body *structs.LoginBody) (*resp
 			if validator.IsEmpty(user.Email) {
 				return resp.BadRequest("Has not set a password, and the mailbox is empty, please contact the administrator"), nil
 			}
-			return svc.SendCodeService(c, &structs.SendCodeBody{Email: user.Email})
+			return svc.SendCodeService(ctx, &structs.SendCodeBody{Email: user.Email})
 		}
 	case error:
 		return resp.InternalServer(v.Error()), nil
 	}
 
-	return generateTokensForUser(c, client, user, conf.Domain)
+	return generateTokensForUser(ctx, client, user, conf.Domain)
 }
 
 // GenerateCaptchaService generates a new captcha ID and image URL.
-func (svc *Service) GenerateCaptchaService(_ *gin.Context, ext string) (*resp.Exception, error) {
+func (svc *Service) GenerateCaptchaService(ctx context.Context, ext string) (*resp.Exception, error) {
 	captchaID := captcha.New()
 	captchaURL := "/v1/captcha/" + captchaID + ext
 
 	// Set captcha ID in cache
-	if err := svc.captcha.Set(context.Background(), captchaID, &types.JSON{"id": captchaID, "url": captchaURL}); err != nil {
+	if err := svc.captcha.Set(ctx, captchaID, &types.JSON{"id": captchaID, "url": captchaURL}); err != nil {
 		return resp.InternalServer(err.Error()), nil
 	}
 
@@ -326,8 +319,8 @@ func (svc *Service) GenerateCaptchaService(_ *gin.Context, ext string) (*resp.Ex
 }
 
 // GetCaptchaService gets the captcha from the cache.
-func (svc *Service) GetCaptchaService(_ *gin.Context, id string) *resp.Exception {
-	cached, err := svc.captcha.Get(context.Background(), id)
+func (svc *Service) GetCaptchaService(ctx context.Context, id string) *resp.Exception {
+	cached, err := svc.captcha.Get(ctx, id)
 	if err != nil {
 		return resp.NotFound(ecode.NotExist("captcha"))
 	}
@@ -337,13 +330,13 @@ func (svc *Service) GetCaptchaService(_ *gin.Context, id string) *resp.Exception
 }
 
 // ValidateCaptchaService validates the captcha code.
-func (svc *Service) ValidateCaptchaService(_ *gin.Context, body *structs.Captcha) *resp.Exception {
+func (svc *Service) ValidateCaptchaService(ctx context.Context, body *structs.Captcha) *resp.Exception {
 	if body == nil || !captcha.VerifyString(body.ID, body.Solution) {
 		return resp.BadRequest(ecode.FieldIsInvalid("captcha"))
 	}
 
 	// Delete captcha after verification
-	if err := svc.captcha.Delete(context.Background(), body.ID); err != nil {
+	if err := svc.captcha.Delete(ctx, body.ID); err != nil {
 		return resp.InternalServer(err.Error())
 	}
 

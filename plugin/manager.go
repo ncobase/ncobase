@@ -159,8 +159,8 @@ func (pm *Manager) RegisterPluginRoutes(e *gin.Engine) {
 	}
 }
 
-// CleanupPlugins cleans up all plugins
-func (pm *Manager) CleanupPlugins() {
+// Cleanup cleans up all plugins
+func (pm *Manager) Cleanup() {
 	for name, p := range pm.plugins {
 		if err := p.Instance.Cleanup(); err != nil {
 			log.Errorf(context.Background(), "Error cleaning up plugin %s: %v", name, err)
@@ -168,8 +168,8 @@ func (pm *Manager) CleanupPlugins() {
 	}
 }
 
-// AddPluginRoutes adds new handler functions for dynamic plugin management
-func (pm *Manager) AddPluginRoutes(e *gin.Engine) {
+// ManageRoutes manages routes for all plugins
+func (pm *Manager) ManageRoutes(e *gin.Engine) {
 	e.GET("/plugins", func(c *gin.Context) {
 		resp.Success(c.Writer, &resp.Exception{Data: pm.plugins})
 	})
@@ -214,16 +214,4 @@ func (pm *Manager) AddPluginRoutes(e *gin.Engine) {
 		}
 		resp.Success(c.Writer, &resp.Exception{Message: fmt.Sprintf("Plugin %s reloaded successfully", pluginName)})
 	})
-}
-
-// RegisterRoutes registers routes for all plugins
-func (pm *Manager) RegisterRoutes(e *gin.Engine) {
-	for _, plugin := range pm.plugins {
-		plugin.Instance.RegisterRoutes(e)
-	}
-}
-
-// Cleanup cleans up all plugins
-func (pm *Manager) Cleanup() {
-	pm.CleanupPlugins()
 }

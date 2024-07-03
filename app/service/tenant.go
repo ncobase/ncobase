@@ -12,19 +12,17 @@ import (
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/helper"
-
-	"github.com/gin-gonic/gin"
 )
 
 // AccountTenantService retrieves the tenant associated with the user's account.
-func (svc *Service) AccountTenantService(c *gin.Context) (*resp.Exception, error) {
-	userID := helper.GetUserID(c)
+func (svc *Service) AccountTenantService(ctx context.Context) (*resp.Exception, error) {
+	userID := helper.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
 	}
 
 	// Retrieve the tenant associated with the user
-	tenant, err := svc.tenant.GetByUser(c, userID)
+	tenant, err := svc.tenant.GetByUser(ctx, userID)
 	if exception, err := helper.HandleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -36,13 +34,13 @@ func (svc *Service) AccountTenantService(c *gin.Context) (*resp.Exception, error
 }
 
 // AccountTenantsService retrieves the tenant associated with the user's account.
-func (svc *Service) AccountTenantsService(c *gin.Context) (*resp.Exception, error) {
-	userID := helper.GetUserID(c)
+func (svc *Service) AccountTenantsService(ctx context.Context) (*resp.Exception, error) {
+	userID := helper.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
 	}
 
-	tenants, err := svc.ListTenantsService(c, &structs.ListTenantParams{
+	tenants, err := svc.ListTenantsService(ctx, &structs.ListTenantParams{
 		User: userID,
 	})
 	if exception, err := helper.HandleError("Tenants", err); exception != nil {
@@ -53,17 +51,17 @@ func (svc *Service) AccountTenantsService(c *gin.Context) (*resp.Exception, erro
 }
 
 // UserOwnTenantService user own tenant service
-func (svc *Service) UserOwnTenantService(c *gin.Context, username string) (*resp.Exception, error) {
+func (svc *Service) UserOwnTenantService(ctx context.Context, username string) (*resp.Exception, error) {
 	if username == "" {
 		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
 	}
 
-	user, err := svc.findUser(c, &structs.FindUser{Username: username})
+	user, err := svc.findUser(ctx, &structs.FindUser{Username: username})
 	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 
-	tenant, err := svc.tenant.GetByUser(c, user.User.ID)
+	tenant, err := svc.tenant.GetByUser(ctx, user.User.ID)
 	if exception, err := helper.HandleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -74,22 +72,22 @@ func (svc *Service) UserOwnTenantService(c *gin.Context, username string) (*resp
 }
 
 // UserBelongTenantService user belong tenant service
-func (svc *Service) UserBelongTenantService(c *gin.Context, username string) (*resp.Exception, error) {
+func (svc *Service) UserBelongTenantService(ctx context.Context, username string) (*resp.Exception, error) {
 	if username == "" {
 		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
 	}
 
-	user, err := svc.findUser(c, &structs.FindUser{Username: username})
+	user, err := svc.findUser(ctx, &structs.FindUser{Username: username})
 	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 
-	userTenant, err := svc.userTenant.GetByUserID(c, user.User.ID)
+	userTenant, err := svc.userTenant.GetByUserID(ctx, user.User.ID)
 	if exception, err := helper.HandleError("UserTenant", err); exception != nil {
 		return exception, err
 	}
 
-	tenant, err := svc.tenant.GetBySlug(c, userTenant.TenantID)
+	tenant, err := svc.tenant.GetBySlug(ctx, userTenant.TenantID)
 	if exception, err := helper.HandleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -100,24 +98,24 @@ func (svc *Service) UserBelongTenantService(c *gin.Context, username string) (*r
 }
 
 // UserBelongTenantsService user belong tenants service
-func (svc *Service) UserBelongTenantsService(c *gin.Context, username string) (*resp.Exception, error) {
+func (svc *Service) UserBelongTenantsService(ctx context.Context, username string) (*resp.Exception, error) {
 	if username == "" {
 		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
 	}
 
-	user, err := svc.findUser(c, &structs.FindUser{Username: username})
+	user, err := svc.findUser(ctx, &structs.FindUser{Username: username})
 	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
 
-	userTenants, err := svc.userTenant.GetTenantsByUserID(c, user.User.ID)
+	userTenants, err := svc.userTenant.GetTenantsByUserID(ctx, user.User.ID)
 	if exception, err := helper.HandleError("UserTenants", err); exception != nil {
 		return exception, err
 	}
 
 	var tenants []*ent.Tenant
 	for _, userTenant := range userTenants {
-		tenant, err := svc.tenant.GetBySlug(c, userTenant.ID)
+		tenant, err := svc.tenant.GetBySlug(ctx, userTenant.ID)
 		if exception, err := helper.HandleError("Tenant", err); exception != nil {
 			return exception, err
 		}
@@ -130,13 +128,13 @@ func (svc *Service) UserBelongTenantsService(c *gin.Context, username string) (*
 }
 
 // CreateTenantService creates a tenant service.
-func (svc *Service) CreateTenantService(c *gin.Context, body *structs.CreateTenantBody) (*resp.Exception, error) {
+func (svc *Service) CreateTenantService(ctx context.Context, body *structs.CreateTenantBody) (*resp.Exception, error) {
 	if body.CreatedBy == nil {
-		body.CreatedBy = types.ToPointer(helper.GetUserID(c))
+		body.CreatedBy = types.ToPointer(helper.GetUserID(ctx))
 	}
 
 	// Create the tenant
-	tenant, err := svc.isCreateTenant(helper.FromGinContext(c), body)
+	tenant, err := svc.isCreateTenant(ctx, body)
 	if exception, err := helper.HandleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -147,15 +145,15 @@ func (svc *Service) CreateTenantService(c *gin.Context, body *structs.CreateTena
 }
 
 // UpdateTenantService updates tenant service (full and partial).
-func (svc *Service) UpdateTenantService(c *gin.Context, body *structs.UpdateTenantBody) (*resp.Exception, error) {
-	userID := helper.GetUserID(c)
+func (svc *Service) UpdateTenantService(ctx context.Context, body *structs.UpdateTenantBody) (*resp.Exception, error) {
+	userID := helper.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
 	}
 
 	// Check if CreatedBy field is provided and validate user's access to the tenant
 	if body.CreatedBy != nil {
-		_, err := svc.tenant.GetByUser(helper.FromGinContext(c), *body.CreatedBy)
+		_, err := svc.tenant.GetByUser(ctx, *body.CreatedBy)
 		if exception, err := helper.HandleError("Tenant", err); exception != nil {
 			return exception, err
 		}
@@ -163,11 +161,11 @@ func (svc *Service) UpdateTenantService(c *gin.Context, body *structs.UpdateTena
 
 	// If ID is not provided, get the tenant ID associated with the user
 	if body.ID == "" {
-		body.ID, _ = svc.tenant.GetIDByUser(helper.FromGinContext(c), userID)
+		body.ID, _ = svc.tenant.GetIDByUser(ctx, userID)
 	}
 
 	// Retrieve the tenant by ID
-	tenant, err := svc.tenant.GetBySlug(helper.FromGinContext(c), body.ID)
+	tenant, err := svc.tenant.GetBySlug(ctx, body.ID)
 	if exception, err := helper.HandleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -193,7 +191,7 @@ func (svc *Service) UpdateTenantService(c *gin.Context, body *structs.UpdateTena
 	}
 
 	// Update the tenant with the provided data
-	_, err = svc.tenant.Update(helper.FromGinContext(c), tenant.ID, data)
+	_, err = svc.tenant.Update(ctx, tenant.ID, data)
 	if exception, err := helper.HandleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -207,19 +205,19 @@ func (svc *Service) UpdateTenantService(c *gin.Context, body *structs.UpdateTena
 }
 
 // GetTenantService reads tenant service.
-func (svc *Service) GetTenantService(c *gin.Context, id string) (*resp.Exception, error) {
-	userID := helper.GetUserID(c)
+func (svc *Service) GetTenantService(ctx context.Context, id string) (*resp.Exception, error) {
+	userID := helper.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
 	}
 
 	// If ID is not provided, get the tenant ID associated with the user
 	if id == "" {
-		id, _ = svc.tenant.GetIDByUser(helper.FromGinContext(c), userID)
+		id, _ = svc.tenant.GetIDByUser(ctx, userID)
 	}
 
 	// Retrieve the tenant by ID
-	tenant, err := svc.tenant.GetBySlug(helper.FromGinContext(c), id)
+	tenant, err := svc.tenant.GetBySlug(ctx, id)
 	if exception, err := helper.HandleError("Tenant", err); exception != nil {
 		return exception, err
 	}
@@ -236,8 +234,8 @@ func (svc *Service) GetTenantService(c *gin.Context, id string) (*resp.Exception
 }
 
 // DeleteTenantService deletes tenant service.
-func (svc *Service) DeleteTenantService(c *gin.Context, id string) (*resp.Exception, error) {
-	err := svc.tenant.Delete(c, id)
+func (svc *Service) DeleteTenantService(ctx context.Context, id string) (*resp.Exception, error) {
+	err := svc.tenant.Delete(ctx, id)
 	if err != nil {
 		return resp.BadRequest(err.Error()), nil
 	}
@@ -250,7 +248,7 @@ func (svc *Service) DeleteTenantService(c *gin.Context, id string) (*resp.Except
 }
 
 // ListTenantsService lists tenant service.
-func (svc *Service) ListTenantsService(c *gin.Context, params *structs.ListTenantParams) (*resp.Exception, error) {
+func (svc *Service) ListTenantsService(ctx context.Context, params *structs.ListTenantParams) (*resp.Exception, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
@@ -260,12 +258,12 @@ func (svc *Service) ListTenantsService(c *gin.Context, params *structs.ListTenan
 		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
 	}
 
-	tenants, err := svc.tenant.List(helper.FromGinContext(c), params)
+	tenants, err := svc.tenant.List(ctx, params)
 	if exception, err := helper.HandleError("Tenant", err); exception != nil {
 		return exception, err
 	}
 
-	total := svc.tenant.CountX(helper.FromGinContext(c), params)
+	total := svc.tenant.CountX(ctx, params)
 
 	return &resp.Exception{
 		Data: types.JSON{

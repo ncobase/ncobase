@@ -20,14 +20,12 @@ import (
 	"ncobase/common/validator"
 
 	match "github.com/alexpantyukhin/go-pattern-match"
-	"github.com/gin-gonic/gin"
 )
 
 // OAuthRegisterService OAuth register service
-func (svc *Service) OAuthRegisterService(c *gin.Context, body *structs.OAuthRegisterBody) (*resp.Exception, error) {
-	ctx := helper.FromGinContext(c)
-	conf := helper.GetConfig(c)
-	registerToken, err := svc.getRegisterToken(c, body.RegisterToken)
+func (svc *Service) OAuthRegisterService(ctx context.Context, body *structs.OAuthRegisterBody) (*resp.Exception, error) {
+	conf := helper.GetConfig(ctx)
+	registerToken, err := svc.getRegisterToken(ctx, body.RegisterToken)
 	if err != nil {
 		return resp.Forbidden("register authorize is empty or invalid", nil), nil
 	}
@@ -63,7 +61,7 @@ func (svc *Service) OAuthRegisterService(c *gin.Context, body *structs.OAuthRegi
 	if user, err := svc.createUserEntities(ctx, tx, body, payload); err != nil {
 		return err, nil
 	} else {
-		return svc.generateAndSetTokens(c, tx, &structs.UserBody{ID: user.ID}), tx.Commit()
+		return svc.generateAndSetTokens(ctx, tx, &structs.UserBody{ID: user.ID}), tx.Commit()
 	}
 }
 
@@ -154,8 +152,7 @@ func (svc *Service) createUserProfile(ctx context.Context, body *structs.UserPro
 }
 
 // generateAndSetTokens Generate and set tokens
-func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *structs.UserBody) *resp.Exception {
-	conf := helper.GetConfig(c)
+func (svc *Service) generateAndSetTokens(ctx context.Context, tx *ent.Tx, user *structs.UserBody) *resp.Exception {
 	authToken, err := tx.AuthToken.Create().SetUserID(user.ID).Save(context.Background())
 	if err != nil {
 		if rear := tx.Rollback(); rear != nil {
@@ -172,7 +169,8 @@ func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *struc
 		return resp.InternalServer("authorize is not created")
 	}
 
-	cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain)
+	// cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain) // TODO: move to handler
+
 	return &resp.Exception{
 		Data: types.JSON{
 			"id":           user.ID,
@@ -183,14 +181,10 @@ func (svc *Service) generateAndSetTokens(c *gin.Context, tx *ent.Tx, user *struc
 }
 
 // GetOAuthProfileInfoService Get OAuth profile info service
-func (svc *Service) GetOAuthProfileInfoService(c *gin.Context) (*resp.Exception, error) {
-	conf := helper.GetConfig(c)
-	registerToken, err := cookie.Get(c.Request, "register_token")
-	if err != nil {
-		return resp.Forbidden("register authorize is empty or invalid"), nil
-	}
+func (svc *Service) GetOAuthProfileInfoService(ctx context.Context, r string) (*resp.Exception, error) {
+	conf := helper.GetConfig(ctx)
 
-	decoded, err := jwt.DecodeToken(conf.Auth.JWT.Secret, registerToken)
+	decoded, err := jwt.DecodeToken(conf.Auth.JWT.Secret, r)
 	if err != nil {
 		return resp.NotFound("decoded parsing is missing", nil), nil
 	}
@@ -205,25 +199,24 @@ func (svc *Service) GetOAuthProfileInfoService(c *gin.Context) (*resp.Exception,
 }
 
 // OAuthCallbackService OAuth callback service
-func (svc *Service) OAuthCallbackService(c *gin.Context, provider, code string) (*resp.Exception, error) {
+func (svc *Service) OAuthCallbackService(ctx context.Context, provider, code string) (*resp.Exception, error) {
 	if code == "" {
 		return resp.BadRequest("CODE IS EMPTY"), nil
 	}
 
-	result := svc.getOAuthInfo(c, provider, code).(types.JSON)
-	helper.SetProvider(c, provider)
-	helper.SetToken(c, result["authorize"].(string))
-	helper.SetProfile(c, result["profile"])
+	result := svc.getOAuthInfo(ctx, provider, code).(types.JSON)
+	helper.SetProvider(ctx, provider)
+	helper.SetToken(ctx, result["authorize"].(string))
+	helper.SetProfile(ctx, result["profile"])
 
 	return &resp.Exception{}, nil
 }
 
 // OAuthAuthenticationService OAuth authentication service
-func (svc *Service) OAuthAuthenticationService(c *gin.Context) (*resp.Exception, error) {
-	ctx := helper.FromGinContext(c)
-	token := helper.GetToken(c)
-	provider := helper.GetProvider(c)
-	profile := helper.GetProfile(c).(*oauth.Profile)
+func (svc *Service) OAuthAuthenticationService(ctx context.Context) (*resp.Exception, error) {
+	token := helper.GetToken(ctx)
+	provider := helper.GetProvider(ctx)
+	profile := helper.GetProfile(ctx).(*oauth.Profile)
 
 	if profile == nil || token == "" {
 		return resp.Forbidden("profile and authorize is empty"), nil
@@ -245,15 +238,15 @@ func (svc *Service) OAuthAuthenticationService(c *gin.Context) (*resp.Exception,
 	).Only(ctx)
 
 	if !ent.IsNotFound(err) {
-		return svc.handleExistingOAuthUser(c, tx, oauthUser)
+		return svc.handleExistingOAuthUser(ctx, tx, oauthUser)
 	}
 
-	return svc.handleNewOAuthUser(c, tx, profile, token, provider)
+	return svc.handleNewOAuthUser(ctx, tx, profile, token, provider)
 }
 
 // Handle existing OAuth user
-func (svc *Service) handleExistingOAuthUser(c *gin.Context, tx *ent.Tx, oauthUser *ent.OAuthUser) (*resp.Exception, error) {
-	conf := helper.GetConfig(c)
+func (svc *Service) handleExistingOAuthUser(ctx context.Context, tx *ent.Tx, oauthUser *ent.OAuthUser) (*resp.Exception, error) {
+	conf := helper.GetConfig(ctx)
 	user, err := tx.User.Query().Where(userEnt.IDEQ(oauthUser.UserID)).Only(context.Background())
 	if ent.IsNotFound(err) {
 		return resp.NotFound("User is missing"), nil
@@ -275,7 +268,7 @@ func (svc *Service) handleExistingOAuthUser(c *gin.Context, tx *ent.Tx, oauthUse
 		return resp.InternalServer("authorize is not created", nil), nil
 	}
 
-	cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain)
+	// cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain) // TODO: move to handler
 	return &resp.Exception{
 		Status: http.StatusMovedPermanently,
 		Code:   http.StatusMovedPermanently,
@@ -286,15 +279,15 @@ func (svc *Service) handleExistingOAuthUser(c *gin.Context, tx *ent.Tx, oauthUse
 }
 
 // Handle new OAuth user
-func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oauth.Profile, token, provider string) (*resp.Exception, error) {
-	conf := helper.GetConfig(c)
-	user, err := svc.user.FindUser(c, &structs.FindUser{Email: profile.Email})
+func (svc *Service) handleNewOAuthUser(ctx context.Context, tx *ent.Tx, profile *oauth.Profile, token, provider string) (*resp.Exception, error) {
+	conf := helper.GetConfig(ctx)
+	user, err := svc.user.FindUser(ctx, &structs.FindUser{Email: profile.Email})
 	if err != nil {
 		return resp.InternalServer(err.Error()), nil
 	}
 
 	if validator.IsNil(user) {
-		return svc.generateAndSetTokens(c, tx, &structs.UserBody{ID: user.ID}), tx.Commit()
+		return svc.generateAndSetTokens(ctx, tx, &structs.UserBody{ID: user.ID}), tx.Commit()
 	}
 
 	subject := "email-register"
@@ -309,7 +302,8 @@ func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oaut
 		return resp.Forbidden("authorize is not created"), nil
 	}
 
-	cookie.SetRegister(c.Writer, registerToken, conf.Domain)
+	// cookie.SetRegister(c.Writer, registerToken, conf.Domain) // TODO: move to handler
+
 	return &resp.Exception{
 		Status: http.StatusMovedPermanently,
 		Code:   http.StatusMovedPermanently,
@@ -320,21 +314,25 @@ func (svc *Service) handleNewOAuthUser(c *gin.Context, tx *ent.Tx, profile *oaut
 }
 
 // Get register token from request
-func (svc *Service) getRegisterToken(c *gin.Context, bodyToken string) (string, error) {
+func (svc *Service) getRegisterToken(ctx context.Context, bodyToken string) (string, error) {
 	if bodyToken != "" {
 		return bodyToken, nil
 	}
 
-	cookieRegisterToken, err := cookie.Get(c.Request, "register_token")
-	if err != nil {
-		return "", err
+	if c, ok := helper.GetGinContext(ctx); ok {
+		cookieRegisterToken, err := cookie.Get(c.Request, "register_token")
+		if err != nil {
+			return "", err
+		}
+		return cookieRegisterToken, nil
 	}
-	return cookieRegisterToken, nil
+
+	return "", nil
 }
 
 // Get OAuth provider information
-func (svc *Service) getOAuthInfo(c *gin.Context, provider, code string) any {
-	conf := helper.GetConfig(c)
+func (svc *Service) getOAuthInfo(ctx context.Context, provider, code string) any {
+	conf := helper.GetConfig(ctx)
 	_, result := match.Match(provider).
 		When("facebook", func() types.JSON {
 			accessToken, _ := oauth.GetFacebookAccessToken(helper.GetHost(conf, conf.Domain), code)

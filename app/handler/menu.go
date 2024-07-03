@@ -30,7 +30,7 @@ func (h *Handler) CreateMenuHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.CreateMenuService(c, body)
+	result, err := h.svc.CreateMenuService(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -60,7 +60,7 @@ func (h *Handler) UpdateMenuHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.UpdateMenuService(c, body)
+	result, err := h.svc.UpdateMenuService(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -91,7 +91,7 @@ func (h *Handler) GetMenuHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.GetMenuService(c, params)
+	result, err := h.svc.GetMenuService(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -112,7 +112,7 @@ func (h *Handler) GetMenuHandler(c *gin.Context) {
 // @Security Bearer
 func (h *Handler) DeleteMenuHandler(c *gin.Context) {
 	params := &structs.FindMenu{Menu: c.Param("slug")}
-	result, err := h.svc.DeleteMenuService(c, params)
+	result, err := h.svc.DeleteMenuService(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -141,7 +141,7 @@ func (h *Handler) ListMenusHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.ListMenusService(c, params)
+	result, err := h.svc.ListMenusService(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -163,7 +163,7 @@ func (h *Handler) ListMenusHandler(c *gin.Context) {
 // // @Security Bearer
 // func (h *Handler) GetMenuTreeHandler(c *gin.Context) {
 // 	params := &structs.FindMenu{}
-// 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+// 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c,params); err != nil {
 // 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 // 		return
 // 	} else if len(validationErrors) > 0 {
@@ -171,7 +171,7 @@ func (h *Handler) ListMenusHandler(c *gin.Context) {
 // 		return
 // 	}
 //
-// 	result, err := h.svc.GetMenuTreeService(c, params)
+// 	result, err := h.svc.GetMenuTreeService(c.Request.Context(),params)
 // 	if err != nil {
 // 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 // 		return

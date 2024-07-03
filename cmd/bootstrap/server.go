@@ -54,7 +54,7 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 
 	return h, func() {
 		cleanup()
-		pm.CleanupPlugins()
+		pm.Cleanup()
 	}, nil
 }
 
