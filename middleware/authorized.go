@@ -59,15 +59,17 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 			return
 		}
 
-		currentUser := helper.GetUserID(c)
-		currentTenant := helper.GetTenantID(c)
+		ctx := helper.FromGinContext(c)
+
+		currentUser := helper.GetUserID(ctx)
+		currentTenant := helper.GetTenantID(ctx)
 		obj := c.Request.URL.Path
 		act := c.Request.Method
 
 		log.Infof(c, "userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 
 		// Retrieve user roles from service
-		exception, err := svc.GetUserRoleByUserIDService(c, currentUser)
+		exception, err := svc.GetUserRoleByUserIDService(ctx, currentUser)
 		handleException(c, exception, err, "Error retrieving user roles")
 		if c.IsAborted() {
 			return
@@ -85,7 +87,7 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 		}
 
 		// Query current user roles of the current tenant
-		exception, err = svc.GetUserRolesInTenantService(c, currentUser, currentTenant)
+		exception, err = svc.GetUserRolesInTenantService(ctx, currentUser, currentTenant)
 		handleException(c, exception, err, "Error retrieving user roles in tenant")
 		if c.IsAborted() {
 			return
@@ -101,7 +103,7 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 
 		// Retrieve role permissions from service
 		for _, role := range roles {
-			exception, err = svc.GetRolePermissionsService(c, role)
+			exception, err = svc.GetRolePermissionsService(ctx, role)
 			handleException(c, exception, err, "Error retrieving role permissions")
 			if c.IsAborted() {
 				return

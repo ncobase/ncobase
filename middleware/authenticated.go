@@ -2,19 +2,22 @@ package middleware
 
 import (
 	"ncobase/common/validator"
-	"ncobase/helper"
 	"net/http"
 
 	"ncobase/common/ecode"
+	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
 )
 
 // Authenticated is a middleware that checks if the user is authenticated.
 func Authenticated(c *gin.Context) {
+	// Retrieve the context.Context from *gin.Context
+	ctx := helper.FromGinContext(c)
+
 	// Retrieve user ID and tenant ID from the context
-	userID := helper.GetUserID(c)
-	tenantID := helper.GetTenantID(c)
+	userID := helper.GetUserID(ctx)
+	tenantID := helper.GetTenantID(ctx)
 
 	// Check if user ID or tenant ID is empty
 	if validator.IsEmpty(userID) || validator.IsEmpty(tenantID) {

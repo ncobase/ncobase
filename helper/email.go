@@ -1,27 +1,26 @@
 package helper
 
 import (
+	"context"
 	"errors"
 
 	"ncobase/common/email"
 	"ncobase/common/log"
-
-	"github.com/gin-gonic/gin"
 )
 
-// SetEmailSender sets email sender to gin.Context
-func SetEmailSender(c *gin.Context, sender email.Sender) {
-	SetValue(c, "email_sender", sender)
+// SetEmailSender sets email sender to context.Context
+func SetEmailSender(ctx context.Context, sender email.Sender) context.Context {
+	return SetValue(ctx, emailSender, sender)
 }
 
-// GetEmailSender gets email sender from gin.Context based on the configured provider
-func GetEmailSender(c *gin.Context) (email.Sender, error) {
-	if sender, ok := GetValue(c, "email_sender").(email.Sender); ok {
+// GetEmailSender gets email sender from context.Context based on the configured provider
+func GetEmailSender(ctx context.Context) (email.Sender, error) {
+	if sender, ok := GetValue(ctx, emailSender).(email.Sender); ok {
 		return sender, nil
 	}
 
 	// Get email config
-	emailConfig := GetConfig(c).Email
+	emailConfig := GetConfig(ctx).Email
 	var emailProviderConfig email.Config
 
 	// Determine which provider to use based on the configured provider
@@ -45,18 +44,18 @@ func GetEmailSender(c *gin.Context) (email.Sender, error) {
 	// Create email sender based on the configured provider
 	sender, err := email.NewSender(emailProviderConfig)
 	if err != nil {
-		log.Errorf(c, "Error creating email sender: %v\n", err)
+		log.Errorf(ctx, "Error creating email sender: %v\n", err)
 		return nil, err
 	}
 
-	// Set email sender to gin.Context for future use
-	SetEmailSender(c, sender)
+	// Set email sender to context.Context for future use
+	ctx = SetEmailSender(ctx, sender)
 	return sender, nil
 }
 
 // SendEmailWithTemplate sends an email with a template
-func SendEmailWithTemplate(c *gin.Context, recipientEmail string, template email.AuthEmailTemplate) (string, error) {
-	sender, err := GetEmailSender(c)
+func SendEmailWithTemplate(ctx context.Context, recipientEmail string, template email.AuthEmailTemplate) (string, error) {
+	sender, err := GetEmailSender(ctx)
 	if err != nil {
 		return "", err
 	}

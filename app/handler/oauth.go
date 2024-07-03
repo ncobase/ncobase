@@ -2,6 +2,7 @@ package handler
 
 import (
 	"ncobase/app/data/structs"
+	"ncobase/common/cookie"
 	"ncobase/helper"
 	"net/http"
 
@@ -33,7 +34,7 @@ func (h *Handler) OAuthRegisterHandler(c *gin.Context) {
 		return
 	}
 
-	result, _ := h.svc.OAuthRegisterService(c, body)
+	result, _ := h.svc.OAuthRegisterService(c.Request.Context(), body)
 	resp.Success(c.Writer, result)
 }
 
@@ -81,7 +82,7 @@ func (h *Handler) OAuthRedirectHandler(c *gin.Context) {
 // @Failure 401 {object} resp.Exception "unauthorized"
 // @Router /v1/oauth/facebook/callback [get]
 func (h *Handler) OAuthFacebookCallbackHandler(c *gin.Context) {
-	result, _ := h.svc.OAuthCallbackService(c, "facebook", c.Query("code"))
+	result, _ := h.svc.OAuthCallbackService(c.Request.Context(), "facebook", c.Query("code"))
 	if result.Code != http.StatusOK {
 		resp.UnAuthorized("OAuth Auth Error", nil)
 		return
@@ -99,7 +100,7 @@ func (h *Handler) OAuthFacebookCallbackHandler(c *gin.Context) {
 // @Failure 401 {object} resp.Exception "unauthorized"
 // @Router /v1/oauth/github/callback [get]
 func (h *Handler) OAuthGithubCallbackHandler(c *gin.Context) {
-	result, _ := h.svc.OAuthCallbackService(c, "github", c.Query("code"))
+	result, _ := h.svc.OAuthCallbackService(c.Request.Context(), "github", c.Query("code"))
 	if result.Code != http.StatusOK {
 		resp.UnAuthorized("OAuth Auth Error", nil)
 		return
@@ -116,7 +117,7 @@ func (h *Handler) OAuthGithubCallbackHandler(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/oauth/callback [get]
 func (h *Handler) OAuthCallbackHandler(c *gin.Context) {
-	result, _ := h.svc.OAuthAuthenticationService(c)
+	result, _ := h.svc.OAuthAuthenticationService(c.Request.Context())
 	if result.Code == http.StatusMovedPermanently {
 		c.Redirect(http.StatusMovedPermanently, result.Data.(types.JSON)["redirectUrl"].(string))
 		return
@@ -134,6 +135,11 @@ func (h *Handler) OAuthCallbackHandler(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/oauth/profile [get]
 func (h *Handler) GetOAuthProfileHandler(c *gin.Context) {
-	result, _ := h.svc.GetOAuthProfileInfoService(c)
+	registerToken, err := cookie.Get(c.Request, "register_token")
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest("register authorize is empty or invalid"))
+		return
+	}
+	result, _ := h.svc.GetOAuthProfileInfoService(c.Request.Context(), registerToken)
 	c.JSON(result.Code, result)
 }

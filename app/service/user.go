@@ -12,13 +12,11 @@ import (
 	"ncobase/common/log"
 	"ncobase/common/resp"
 	"ncobase/helper"
-
-	"github.com/gin-gonic/gin"
 )
 
 // GetMeService get current user service
-func (svc *Service) GetMeService(c *gin.Context) (*resp.Exception, error) {
-	user, err := svc.user.GetByID(c, helper.GetUserID(c))
+func (svc *Service) GetMeService(ctx context.Context) (*resp.Exception, error) {
+	user, err := svc.user.GetByID(ctx, helper.GetUserID(ctx))
 	if err != nil {
 		return resp.BadRequest(err.Error()), err
 	}
@@ -28,11 +26,11 @@ func (svc *Service) GetMeService(c *gin.Context) (*resp.Exception, error) {
 }
 
 // GetUserService get user service
-func (svc *Service) GetUserService(c *gin.Context, username string) (*resp.Exception, error) {
+func (svc *Service) GetUserService(ctx context.Context, username string) (*resp.Exception, error) {
 	if username == "" {
 		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
 	}
-	user, err := svc.findUser(c, &structs.FindUser{Username: username})
+	user, err := svc.findUser(ctx, &structs.FindUser{Username: username})
 	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
 	}
@@ -42,27 +40,27 @@ func (svc *Service) GetUserService(c *gin.Context, username string) (*resp.Excep
 }
 
 // UpdatePasswordService update user password service
-func (svc *Service) UpdatePasswordService(c *gin.Context, body *structs.UserPassword) (*resp.Exception, error) {
+func (svc *Service) UpdatePasswordService(ctx context.Context, body *structs.UserPassword) (*resp.Exception, error) {
 	if body.NewPassword == "" {
 		return resp.BadRequest(ecode.FieldIsEmpty("new password")), nil
 	}
 	if body.Confirm != body.NewPassword {
 		return resp.BadRequest(ecode.FieldIsInvalid("confirm password")), nil
 	}
-	verifyResult := svc.verifyUserPassword(c, helper.GetUserID(c), body.OldPassword)
+	verifyResult := svc.verifyUserPassword(ctx, helper.GetUserID(ctx), body.OldPassword)
 	switch v := verifyResult.(type) {
 	case VerifyPasswordResult:
 		if v.Valid == false {
 			return resp.BadRequest(v.Error), nil
 		} else if v.Valid && v.NeedsPasswordSet == true { // print a log for user's first password setting
-			log.Printf(context.Background(), "User %s is setting password for the first time", helper.GetUserID(c))
+			log.Printf(context.Background(), "User %s is setting password for the first time", helper.GetUserID(ctx))
 		}
 	case error:
 		return resp.InternalServer(v.Error()), nil
 	}
 
-	err := svc.updateUserPassword(c, &structs.UserPassword{
-		User:        helper.GetUserID(c),
+	err := svc.updateUserPassword(ctx, &structs.UserPassword{
+		User:        helper.GetUserID(ctx),
 		OldPassword: body.OldPassword,
 		NewPassword: body.NewPassword,
 		Confirm:     body.Confirm,
@@ -333,12 +331,12 @@ func (svc *Service) DeleteUserRoleByRoleIDService(ctx context.Context, roleID st
 // ****** Internal methods of service
 
 // readUser read user by ID
-func (svc *Service) readUser(c *gin.Context, u string) (*resp.Exception, error) {
+func (svc *Service) readUser(ctx context.Context, u string) (*resp.Exception, error) {
 	if u == "" {
 		return resp.BadRequest(ecode.FieldIsInvalid("user")), nil
 	}
 
-	user, err := svc.findUserByID(c, u)
+	user, err := svc.findUserByID(ctx, u)
 
 	if exception, err := helper.HandleError("User", err); exception != nil {
 		return exception, err
@@ -357,8 +355,8 @@ type VerifyPasswordResult struct {
 }
 
 // verifyUserPassword verify user password
-func (svc *Service) verifyUserPassword(c *gin.Context, u string, password string) any {
-	user, err := svc.user.FindUser(c, &structs.FindUser{Username: u})
+func (svc *Service) verifyUserPassword(ctx context.Context, u string, password string) any {
+	user, err := svc.user.FindUser(ctx, &structs.FindUser{Username: u})
 	if ent.IsNotFound(err) {
 		return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: "user not found"}
 	} else if err != nil {
@@ -395,8 +393,7 @@ func (svc *Service) findUserByID(ctx context.Context, id string) (structs.UserMe
 }
 
 // findUser find user by username, email, or phone
-func (svc *Service) findUser(c *gin.Context, m *structs.FindUser) (structs.UserMeshes, error) {
-	ctx := helper.FromGinContext(c)
+func (svc *Service) findUser(ctx context.Context, m *structs.FindUser) (structs.UserMeshes, error) {
 	user, err := svc.user.Find(ctx, &structs.FindUser{
 		Username: m.Username,
 		Email:    m.Email,

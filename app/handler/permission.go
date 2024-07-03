@@ -32,7 +32,7 @@ func (h *Handler) CreatePermissionHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.CreatePermissionService(c, body)
+	result, err := h.svc.CreatePermissionService(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -59,7 +59,7 @@ func (h *Handler) GetPermissionHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.GetPermissionByIDService(c, slug)
+	result, err := h.svc.GetPermissionByIDService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -97,7 +97,7 @@ func (h *Handler) UpdatePermissionHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.UpdatePermissionService(c, slug, *updates)
+	result, err := h.svc.UpdatePermissionService(c.Request.Context(), slug, *updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -124,7 +124,7 @@ func (h *Handler) DeletePermissionHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.DeletePermissionService(c, slug)
+	result, err := h.svc.DeletePermissionService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -154,7 +154,7 @@ func (h *Handler) ListPermissionHandler(c *gin.Context) {
 		return
 	}
 
-	permissions, err := h.svc.ListPermissionsService(c, params)
+	permissions, err := h.svc.ListPermissionsService(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

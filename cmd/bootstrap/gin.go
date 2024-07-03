@@ -24,8 +24,8 @@ func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, en
 	engine.Use(middleware.Logger)
 	engine.Use(middleware.CORSHandler)
 	engine.Use(middleware.ConsumeUser)
-	engine.Use(middleware.BindConfig)
-	engine.Use(middleware.BindGinContext)
+	// engine.Use(middleware.BindConfig)
+	// engine.Use(middleware.BindGinContext)
 	engine.Use(middleware.Trace)
 	engine.Use(middleware.ConsumeTenant(svc))
 
@@ -44,7 +44,7 @@ func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, en
 
 	// Register plugin management routes
 	if conf.Plugin.HotReload {
-		pm.AddPluginRoutes(engine)
+		pm.ManageRoutes(engine)
 	}
 
 	engine.NoRoute(func(c *gin.Context) {

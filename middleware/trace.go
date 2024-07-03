@@ -8,15 +8,15 @@ import (
 )
 
 func Trace(c *gin.Context) {
+	ctx := helper.FromGinContext(c)
 	// Get the trace ID from the request
-	traceID := helper.GetTraceID(c)
+	traceID := helper.GetTraceID(ctx)
 
 	// If trace ID is not present in the request, generate a new one
 	if traceID == "" {
 		traceID = helper.NewTraceID()
 		// Set the trace ID in the request context
-		ctx := log.NewTraceIDContext(c.Request.Context(), traceID)
-		c.Request = c.Request.WithContext(ctx)
+		c.Request = c.Request.WithContext(log.NewTraceIDContext(ctx, traceID))
 	}
 
 	// Set trace header in the response

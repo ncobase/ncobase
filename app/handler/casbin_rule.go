@@ -32,7 +32,7 @@ func (h *Handler) CreateCasbinRuleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.CreateCasbinRuleService(c, body)
+	result, err := h.svc.CreateCasbinRuleService(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -70,7 +70,7 @@ func (h *Handler) UpdateCasbinRuleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.UpdateCasbinRuleService(c, id, *updates)
+	result, err := h.svc.UpdateCasbinRuleService(c.Request.Context(), id, *updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -97,7 +97,7 @@ func (h *Handler) GetCasbinRuleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.GetCasbinRuleService(c, id)
+	result, err := h.svc.GetCasbinRuleService(c.Request.Context(), id)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -124,7 +124,7 @@ func (h *Handler) DeleteCasbinRuleHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.svc.DeleteCasbinRuleService(c, id)
+	result, err := h.svc.DeleteCasbinRuleService(c.Request.Context(), id)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -154,7 +154,7 @@ func (h *Handler) ListCasbinRuleHandler(c *gin.Context) {
 		return
 	}
 
-	casbinRules, err := h.svc.ListCasbinRulesService(c, params)
+	casbinRules, err := h.svc.ListCasbinRulesService(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

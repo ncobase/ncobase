@@ -94,7 +94,7 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.s.Asset.CreateAssetService(c, body)
+		result, err := h.s.Asset.CreateAssetService(c.Request.Context(), body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -137,7 +137,7 @@ func (h *Handler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.s.Asset.CreateAssetService(c, body)
+		result, err := h.s.Asset.CreateAssetService(c.Request.Context(), body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -302,7 +302,7 @@ func (h *Handler) UpdateAssetHandler(c *gin.Context) {
 		updates["file"] = file
 	}
 
-	result, err := h.s.Asset.UpdateAssetService(c, slug, updates)
+	result, err := h.s.Asset.UpdateAssetService(c.Request.Context(), slug, updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -339,7 +339,7 @@ func (h *Handler) GetAssetHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Asset.GetAssetService(c, slug)
+	result, err := h.s.Asset.GetAssetService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -365,7 +365,7 @@ func (h *Handler) DeleteAssetHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Asset.DeleteAssetService(c, slug)
+	result, err := h.s.Asset.DeleteAssetService(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -394,7 +394,7 @@ func (h *Handler) ListAssetsHandler(c *gin.Context) {
 		return
 	}
 
-	assets, err := h.s.Asset.ListAssetsService(c, params)
+	assets, err := h.s.Asset.ListAssetsService(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -421,7 +421,7 @@ func (h *Handler) downloadFile(c *gin.Context, dispositionType string) {
 		return
 	}
 
-	fileStream, exception := h.s.Asset.GetFileStream(c, slug)
+	fileStream, exception := h.s.Asset.GetFileStream(c.Request.Context(), slug)
 	if exception != nil {
 		if exception.Code != 0 {
 			resp.Fail(c.Writer, exception)
