@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"ncobase/app/data/structs"
+	"ncobase/core/data/structs"
 
 	"github.com/gin-gonic/gin"
 )

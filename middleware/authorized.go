@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"strings"
 
-	"ncobase/app/data/structs"
 	"ncobase/common/ecode"
 	"ncobase/common/resp"
 	"ncobase/common/util"
+	"ncobase/core/data/structs"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"

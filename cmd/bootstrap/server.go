@@ -2,11 +2,11 @@ package bootstrap
 
 import (
 	"context"
-	"ncobase/app/data"
-	"ncobase/app/handler"
-	"ncobase/app/service"
 	"ncobase/common/config"
 	"ncobase/common/log"
+	"ncobase/core/data"
+	"ncobase/core/handler"
+	"ncobase/core/service"
 	"ncobase/helper"
 	"ncobase/plugin"
 	"net/http"

@@ -1,7 +1,7 @@
 package bootstrap
 
 import (
-	"ncobase/app/handler"
+	"ncobase/core/handler"
 	"ncobase/helper"
 	"ncobase/middleware"
 	"net/http"
