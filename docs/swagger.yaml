@@ -906,7 +906,7 @@ definitions:
     type: object
 info:
   contact: {}
-  description: Next-Gen Modular Framework
+  description: Next-Gen Plug-in Framework
   title: Ncobase
   version: 0.1.0
 paths:

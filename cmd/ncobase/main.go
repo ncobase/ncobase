@@ -23,7 +23,7 @@ const (
 
 // @title Ncobase
 // @version 0.1.0
-// @description Next-Gen Modular Framework
+// @description Next-Gen Plug-in Framework
 // @securityDefinitions.apikey Bearer
 // @in header
 // @name Authorization
