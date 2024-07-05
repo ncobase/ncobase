@@ -8,5 +8,5 @@ logs/*
 uploads/
 
 # config
-!config.example.yaml
+!infra/config/config.example.yaml
 config.yaml
