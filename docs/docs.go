@@ -4698,7 +4698,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Ncobase",
-	Description:      "Next-Gen Modular Framework",
+	Description:      "Next-Gen Plug-in Framework",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
