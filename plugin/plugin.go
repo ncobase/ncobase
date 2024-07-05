@@ -23,16 +23,16 @@ type Plugin interface {
 
 // Metadata represents the metadata of a plugin
 type Metadata struct {
-	Name         string
-	Version      string
-	Dependencies []string
-	Description  string
+	Name         string   `json:"name,omitempty"`
+	Version      string   `json:"version,omitempty"`
+	Dependencies []string `json:"dependencies,omitempty"`
+	Description  string   `json:"description,omitempty"`
 }
 
 // Wrapper wraps a Plugin instance with its metadata
 type Wrapper struct {
-	Metadata Metadata
-	Instance Plugin
+	Metadata Metadata `json:"metadata"`
+	Instance Plugin   `json:"instance,omitempty"`
 }
 
 // Registry manages the loaded plugins

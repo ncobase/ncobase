@@ -83,9 +83,6 @@ func (p *Plugin) Status() string {
 	return "active"
 }
 
-// PluginInstance is the exported symbol that will be looked up by the plugin loader
-var PluginInstance = &Plugin{}
-
 func init() {
 	metadata := plugin.Metadata{
 		Name:         "content-development",
@@ -93,5 +90,5 @@ func init() {
 		Dependencies: []string{},
 		Description:  "Content management plugin",
 	}
-	plugin.RegisterPlugin(PluginInstance, metadata)
+	plugin.RegisterPlugin(&Plugin{}, metadata)
 }
