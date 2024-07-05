@@ -33,6 +33,9 @@ func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, en
 	authzMiddleware := middleware.Authorized(enforcer, conf.Auth.Whitelist, svc)
 	engine.Use(authzMiddleware)
 
+	// Register WebSocket route
+	registerWebSocketRoutes(engine)
+
 	// Register REST
 	registerRest(engine, h, conf)
 
