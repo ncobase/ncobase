@@ -11,13 +11,29 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Handler represents the handler for a plugin
+type Handler any
+
+// Service represents the service for a plugin
+type Service any
+
 // Plugin interface defines the structure for a plugin
 type Plugin interface {
+	// Name returns the name of the plugin
 	Name() string
+	// Init initializes the plugin
 	Init(conf *config.Config) error
+	// RegisterRoutes registers routes for the plugin
 	RegisterRoutes(router *gin.Engine)
+	// GetHandlers returns the handlers for the plugin
+	GetHandlers() map[string]Handler
+	// GetServices returns the services for the plugin
+	GetServices() map[string]Service
+	// Cleanup cleans up the plugin
 	Cleanup() error
+	// Status returns the status of the plugin
 	Status() string
+	// GetMetadata returns the metadata of the plugin
 	GetMetadata() Metadata
 }
 
