@@ -49,6 +49,18 @@ func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 	}
 }
 
+// GetHandlers returns the handlers for the plugin
+func (p *Plugin) GetHandlers() map[string]plugin.Handler {
+	// Implement your own logic to get the handlers
+	return map[string]plugin.Handler{}
+}
+
+// GetServices returns the services for the plugin
+func (p *Plugin) GetServices() map[string]plugin.Service {
+	// Implement your own logic to get the services
+	return map[string]plugin.Service{}
+}
+
 // Cleanup cleans up the plugin
 func (p *Plugin) Cleanup() error {
 	if p.cleanup != nil {
