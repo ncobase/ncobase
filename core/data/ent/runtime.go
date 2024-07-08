@@ -8,7 +8,6 @@ import (
 	"ncobase/core/data/ent/codeauth"
 	"ncobase/core/data/ent/group"
 	"ncobase/core/data/ent/grouprole"
-	"ncobase/core/data/ent/module"
 	"ncobase/core/data/ent/oauthuser"
 	"ncobase/core/data/ent/permission"
 	"ncobase/core/data/ent/role"
@@ -233,63 +232,6 @@ func init() {
 	grouprole.DefaultID = grouproleDescID.Default.(func() string)
 	// grouprole.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	grouprole.IDValidator = grouproleDescID.Validators[0].(func(string) error)
-	moduleMixin := schema.Module{}.Mixin()
-	moduleMixinFields0 := moduleMixin[0].Fields()
-	_ = moduleMixinFields0
-	moduleMixinFields6 := moduleMixin[6].Fields()
-	_ = moduleMixinFields6
-	moduleMixinFields7 := moduleMixin[7].Fields()
-	_ = moduleMixinFields7
-	moduleMixinFields8 := moduleMixin[8].Fields()
-	_ = moduleMixinFields8
-	moduleMixinFields9 := moduleMixin[9].Fields()
-	_ = moduleMixinFields9
-	moduleMixinFields11 := moduleMixin[11].Fields()
-	_ = moduleMixinFields11
-	moduleMixinFields12 := moduleMixin[12].Fields()
-	_ = moduleMixinFields12
-	moduleFields := schema.Module{}.Fields()
-	_ = moduleFields
-	// moduleDescTemp is the schema descriptor for temp field.
-	moduleDescTemp := moduleMixinFields6[0].Descriptor()
-	// module.DefaultTemp holds the default value on creation for the temp field.
-	module.DefaultTemp = moduleDescTemp.Default.(bool)
-	// moduleDescMarkdown is the schema descriptor for markdown field.
-	moduleDescMarkdown := moduleMixinFields7[0].Descriptor()
-	// module.DefaultMarkdown holds the default value on creation for the markdown field.
-	module.DefaultMarkdown = moduleDescMarkdown.Default.(bool)
-	// moduleDescPrivate is the schema descriptor for private field.
-	moduleDescPrivate := moduleMixinFields8[0].Descriptor()
-	// module.DefaultPrivate holds the default value on creation for the private field.
-	module.DefaultPrivate = moduleDescPrivate.Default.(bool)
-	// moduleDescStatus is the schema descriptor for status field.
-	moduleDescStatus := moduleMixinFields9[0].Descriptor()
-	// module.DefaultStatus holds the default value on creation for the status field.
-	module.DefaultStatus = moduleDescStatus.Default.(int)
-	// moduleDescCreatedBy is the schema descriptor for created_by field.
-	moduleDescCreatedBy := moduleMixinFields11[0].Descriptor()
-	// module.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	module.CreatedByValidator = moduleDescCreatedBy.Validators[0].(func(string) error)
-	// moduleDescUpdatedBy is the schema descriptor for updated_by field.
-	moduleDescUpdatedBy := moduleMixinFields11[1].Descriptor()
-	// module.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	module.UpdatedByValidator = moduleDescUpdatedBy.Validators[0].(func(string) error)
-	// moduleDescCreatedAt is the schema descriptor for created_at field.
-	moduleDescCreatedAt := moduleMixinFields12[0].Descriptor()
-	// module.DefaultCreatedAt holds the default value on creation for the created_at field.
-	module.DefaultCreatedAt = moduleDescCreatedAt.Default.(func() time.Time)
-	// moduleDescUpdatedAt is the schema descriptor for updated_at field.
-	moduleDescUpdatedAt := moduleMixinFields12[1].Descriptor()
-	// module.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	module.DefaultUpdatedAt = moduleDescUpdatedAt.Default.(func() time.Time)
-	// module.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	module.UpdateDefaultUpdatedAt = moduleDescUpdatedAt.UpdateDefault.(func() time.Time)
-	// moduleDescID is the schema descriptor for id field.
-	moduleDescID := moduleMixinFields0[0].Descriptor()
-	// module.DefaultID holds the default value on creation for the id field.
-	module.DefaultID = moduleDescID.Default.(func() string)
-	// module.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	module.IDValidator = moduleDescID.Validators[0].(func(string) error)
 	oauthuserMixin := schema.OAuthUser{}.Mixin()
 	oauthuserMixinFields0 := oauthuserMixin[0].Fields()
 	_ = oauthuserMixinFields0
