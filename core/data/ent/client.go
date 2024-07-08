@@ -16,7 +16,6 @@ import (
 	"ncobase/core/data/ent/codeauth"
 	"ncobase/core/data/ent/group"
 	"ncobase/core/data/ent/grouprole"
-	"ncobase/core/data/ent/module"
 	"ncobase/core/data/ent/oauthuser"
 	"ncobase/core/data/ent/permission"
 	"ncobase/core/data/ent/role"
@@ -49,8 +48,6 @@ type Client struct {
 	Group *GroupClient
 	// GroupRole is the client for interacting with the GroupRole builders.
 	GroupRole *GroupRoleClient
-	// Module is the client for interacting with the Module builders.
-	Module *ModuleClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
 	OAuthUser *OAuthUserClient
 	// Permission is the client for interacting with the Permission builders.
@@ -89,7 +86,6 @@ func (c *Client) init() {
 	c.CodeAuth = NewCodeAuthClient(c.config)
 	c.Group = NewGroupClient(c.config)
 	c.GroupRole = NewGroupRoleClient(c.config)
-	c.Module = NewModuleClient(c.config)
 	c.OAuthUser = NewOAuthUserClient(c.config)
 	c.Permission = NewPermissionClient(c.config)
 	c.Role = NewRoleClient(c.config)
@@ -198,7 +194,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		CodeAuth:       NewCodeAuthClient(cfg),
 		Group:          NewGroupClient(cfg),
 		GroupRole:      NewGroupRoleClient(cfg),
-		Module:         NewModuleClient(cfg),
 		OAuthUser:      NewOAuthUserClient(cfg),
 		Permission:     NewPermissionClient(cfg),
 		Role:           NewRoleClient(cfg),
@@ -234,7 +229,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		CodeAuth:       NewCodeAuthClient(cfg),
 		Group:          NewGroupClient(cfg),
 		GroupRole:      NewGroupRoleClient(cfg),
-		Module:         NewModuleClient(cfg),
 		OAuthUser:      NewOAuthUserClient(cfg),
 		Permission:     NewPermissionClient(cfg),
 		Role:           NewRoleClient(cfg),
@@ -275,9 +269,9 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.AuthToken, c.CasbinRule, c.CodeAuth, c.Group, c.GroupRole, c.Module,
-		c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Tenant, c.User,
-		c.UserGroup, c.UserProfile, c.UserRole, c.UserTenant, c.UserTenantRole,
+		c.AuthToken, c.CasbinRule, c.CodeAuth, c.Group, c.GroupRole, c.OAuthUser,
+		c.Permission, c.Role, c.RolePermission, c.Tenant, c.User, c.UserGroup,
+		c.UserProfile, c.UserRole, c.UserTenant, c.UserTenantRole,
 	} {
 		n.Use(hooks...)
 	}
@@ -287,9 +281,9 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.AuthToken, c.CasbinRule, c.CodeAuth, c.Group, c.GroupRole, c.Module,
-		c.OAuthUser, c.Permission, c.Role, c.RolePermission, c.Tenant, c.User,
-		c.UserGroup, c.UserProfile, c.UserRole, c.UserTenant, c.UserTenantRole,
+		c.AuthToken, c.CasbinRule, c.CodeAuth, c.Group, c.GroupRole, c.OAuthUser,
+		c.Permission, c.Role, c.RolePermission, c.Tenant, c.User, c.UserGroup,
+		c.UserProfile, c.UserRole, c.UserTenant, c.UserTenantRole,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -308,8 +302,6 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Group.mutate(ctx, m)
 	case *GroupRoleMutation:
 		return c.GroupRole.mutate(ctx, m)
-	case *ModuleMutation:
-		return c.Module.mutate(ctx, m)
 	case *OAuthUserMutation:
 		return c.OAuthUser.mutate(ctx, m)
 	case *PermissionMutation:
@@ -999,139 +991,6 @@ func (c *GroupRoleClient) mutate(ctx context.Context, m *GroupRoleMutation) (Val
 		return (&GroupRoleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown GroupRole mutation op: %q", m.Op())
-	}
-}
-
-// ModuleClient is a client for the Module schema.
-type ModuleClient struct {
-	config
-}
-
-// NewModuleClient returns a client for the Module from the given config.
-func NewModuleClient(c config) *ModuleClient {
-	return &ModuleClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `module.Hooks(f(g(h())))`.
-func (c *ModuleClient) Use(hooks ...Hook) {
-	c.hooks.Module = append(c.hooks.Module, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `module.Intercept(f(g(h())))`.
-func (c *ModuleClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Module = append(c.inters.Module, interceptors...)
-}
-
-// Create returns a builder for creating a Module entity.
-func (c *ModuleClient) Create() *ModuleCreate {
-	mutation := newModuleMutation(c.config, OpCreate)
-	return &ModuleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of Module entities.
-func (c *ModuleClient) CreateBulk(builders ...*ModuleCreate) *ModuleCreateBulk {
-	return &ModuleCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *ModuleClient) MapCreateBulk(slice any, setFunc func(*ModuleCreate, int)) *ModuleCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &ModuleCreateBulk{err: fmt.Errorf("calling to ModuleClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*ModuleCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &ModuleCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for Module.
-func (c *ModuleClient) Update() *ModuleUpdate {
-	mutation := newModuleMutation(c.config, OpUpdate)
-	return &ModuleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *ModuleClient) UpdateOne(m *Module) *ModuleUpdateOne {
-	mutation := newModuleMutation(c.config, OpUpdateOne, withModule(m))
-	return &ModuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *ModuleClient) UpdateOneID(id string) *ModuleUpdateOne {
-	mutation := newModuleMutation(c.config, OpUpdateOne, withModuleID(id))
-	return &ModuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for Module.
-func (c *ModuleClient) Delete() *ModuleDelete {
-	mutation := newModuleMutation(c.config, OpDelete)
-	return &ModuleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *ModuleClient) DeleteOne(m *Module) *ModuleDeleteOne {
-	return c.DeleteOneID(m.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *ModuleClient) DeleteOneID(id string) *ModuleDeleteOne {
-	builder := c.Delete().Where(module.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &ModuleDeleteOne{builder}
-}
-
-// Query returns a query builder for Module.
-func (c *ModuleClient) Query() *ModuleQuery {
-	return &ModuleQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeModule},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a Module entity by its id.
-func (c *ModuleClient) Get(ctx context.Context, id string) (*Module, error) {
-	return c.Query().Where(module.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *ModuleClient) GetX(ctx context.Context, id string) *Module {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *ModuleClient) Hooks() []Hook {
-	return c.hooks.Module
-}
-
-// Interceptors returns the client interceptors.
-func (c *ModuleClient) Interceptors() []Interceptor {
-	return c.inters.Module
-}
-
-func (c *ModuleClient) mutate(ctx context.Context, m *ModuleMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&ModuleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&ModuleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&ModuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&ModuleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown Module mutation op: %q", m.Op())
 	}
 }
 
@@ -2601,13 +2460,13 @@ func (c *UserTenantRoleClient) mutate(ctx context.Context, m *UserTenantRoleMuta
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		AuthToken, CasbinRule, CodeAuth, Group, GroupRole, Module, OAuthUser,
-		Permission, Role, RolePermission, Tenant, User, UserGroup, UserProfile,
-		UserRole, UserTenant, UserTenantRole []ent.Hook
+		AuthToken, CasbinRule, CodeAuth, Group, GroupRole, OAuthUser, Permission, Role,
+		RolePermission, Tenant, User, UserGroup, UserProfile, UserRole, UserTenant,
+		UserTenantRole []ent.Hook
 	}
 	inters struct {
-		AuthToken, CasbinRule, CodeAuth, Group, GroupRole, Module, OAuthUser,
-		Permission, Role, RolePermission, Tenant, User, UserGroup, UserProfile,
-		UserRole, UserTenant, UserTenantRole []ent.Interceptor
+		AuthToken, CasbinRule, CodeAuth, Group, GroupRole, OAuthUser, Permission, Role,
+		RolePermission, Tenant, User, UserGroup, UserProfile, UserRole, UserTenant,
+		UserTenantRole []ent.Interceptor
 	}
 )

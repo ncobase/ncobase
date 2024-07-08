@@ -23,7 +23,6 @@ type Service struct {
 	role           repo.Role
 	permission     repo.Permission
 	rolePermission repo.RolePermission
-	module         repo.Module
 	casbinRule     repo.CasbinRule
 }
 
@@ -44,7 +43,6 @@ func New(d *data.Data) *Service {
 		role:           repo.NewRole(d),
 		permission:     repo.NewPermission(d),
 		rolePermission: repo.NewRolePermission(d),
-		module:         repo.NewModule(d),
 		casbinRule:     repo.NewCasbinRule(d),
 	}
 

@@ -75,16 +75,6 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		// users.GET("/:username/tenant/belongs", middleware.Authenticated, h.ListUserBelongHandler)
 	}
 
-	// Module endpoints
-	modules := v1.Group("/modules", middleware.Authenticated)
-	{
-		modules.GET("", h.ListModuleHandler)
-		modules.POST("", h.CreateModuleHandler)
-		modules.GET("/:slug", h.GetModuleHandler)
-		modules.PUT("/:slug", h.UpdateModuleHandler)
-		modules.DELETE("/:slug", h.DeleteModuleHandler)
-	}
-
 	// Tenant endpoints
 	tenants := v1.Group("/tenants", middleware.Authenticated)
 	{
