@@ -7,6 +7,7 @@ import (
 	"ncobase/cmd/bootstrap"
 	"net/http"
 	"os"
+	"os/exec"
 	"os/signal"
 	"syscall"
 	"time"
@@ -32,6 +33,12 @@ const (
 func main() {
 	// load config
 	conf := loadConfig()
+
+	// watch config file changes
+	config.Watch(func(newConfig *config.Config) {
+		log.Infof(context.Background(), "Configuration reloaded: %+v", newConfig)
+		restartApplication()
+	})
 
 	// initialize logger
 	cleanupLogger := initializeLogger(conf)
@@ -88,6 +95,26 @@ func createServer(conf *config.Config) (http.Handler, func(), error) {
 		return nil, nil, err
 	}
 	return handler, cleanup, nil
+}
+
+// restartApplication restarts the application.
+func restartApplication() {
+	log.Infof(context.Background(), "🔄 [Restart] Restarting application...")
+
+	execSpec := &exec.Cmd{
+		Path:   os.Args[0],
+		Args:   os.Args,
+		Env:    os.Environ(),
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	}
+
+	if err := execSpec.Start(); err != nil {
+		log.Fatalf(context.Background(), "❌ [Restart] Failed to restart application: %+v", err)
+	}
+
+	log.Infof(context.Background(), "👋 [Restart] Exiting old process")
+	os.Exit(0)
 }
 
 // gracefulShutdown gracefully shuts down the server.
