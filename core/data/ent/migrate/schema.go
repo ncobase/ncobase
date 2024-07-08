@@ -172,42 +172,6 @@ var (
 			},
 		},
 	}
-	// NbModuleColumns holds the columns for the "nb_module" table.
-	NbModuleColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
-		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
-		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
-		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "content, big text"},
-		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
-		{Name: "temp", Type: field.TypeBool, Nullable: true, Comment: "is temp", Default: false},
-		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown", Default: false},
-		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private", Default: false},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
-		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
-	}
-	// NbModuleTable holds the schema information for the "nb_module" table.
-	NbModuleTable = &schema.Table{
-		Name:       "nb_module",
-		Columns:    NbModuleColumns,
-		PrimaryKey: []*schema.Column{NbModuleColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "module_id",
-				Unique:  true,
-				Columns: []*schema.Column{NbModuleColumns[0]},
-			},
-			{
-				Name:    "module_slug",
-				Unique:  true,
-				Columns: []*schema.Column{NbModuleColumns[3]},
-			},
-		},
-	}
 	// NbOauthUserColumns holds the columns for the "nb_oauth_user" table.
 	NbOauthUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -603,7 +567,6 @@ var (
 		NbCodeAuthTable,
 		NbGroupTable,
 		NbGroupRoleTable,
-		NbModuleTable,
 		NbOauthUserTable,
 		NbPermissionTable,
 		NbRoleTable,
@@ -633,9 +596,6 @@ func init() {
 	}
 	NbGroupRoleTable.Annotation = &entsql.Annotation{
 		Table: "nb_group_role",
-	}
-	NbModuleTable.Annotation = &entsql.Annotation{
-		Table: "nb_module",
 	}
 	NbOauthUserTable.Annotation = &entsql.Annotation{
 		Table: "nb_oauth_user",

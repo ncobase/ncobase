@@ -68,18 +68,6 @@ func (f GroupRoleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, e
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GroupRoleMutation", m)
 }
 
-// The ModuleFunc type is an adapter to allow the use of ordinary
-// function as Module mutator.
-type ModuleFunc func(context.Context, *ent.ModuleMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f ModuleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.ModuleMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ModuleMutation", m)
-}
-
 // The OAuthUserFunc type is an adapter to allow the use of ordinary
 // function as OAuthUser mutator.
 type OAuthUserFunc func(context.Context, *ent.OAuthUserMutation) (ent.Value, error)
