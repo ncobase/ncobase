@@ -153,16 +153,6 @@ func registerRest(e *gin.Engine, h *handler.Handler, conf *config.Config) {
 		// // tenants.DELETE("/:tenant/topics/:topic", h.DeleteTenantTopicHandler)
 	}
 
-	// Menu endpoints
-	menus := v1.Group("/menus", middleware.Authenticated)
-	{
-		menus.GET("", h.ListMenusHandler)
-		menus.POST("", h.CreateMenuHandler)
-		menus.GET("/:slug", h.GetMenuHandler)
-		menus.PUT("/:slug", h.UpdateMenuHandler)
-		menus.DELETE("/:slug", h.DeleteMenuHandler)
-	}
-
 	// Group endpoints
 	// groups := v1.Group("/groups", middleware.Authenticated)
 	// {

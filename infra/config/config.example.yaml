@@ -13,7 +13,7 @@ server:
   # Application running port
   port: 3000
 
-plugin:
+feature:
   path: ./plugins
   includes:
     - a
