@@ -11,6 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	name    = "content"
+	desc    = "Content management plugin"
+	version = "1.0.0"
+)
+
 // Plugin represents the content plugin
 type Plugin struct {
 	s       *service.Service
@@ -21,7 +27,13 @@ type Plugin struct {
 
 // Name returns the name of the plugin
 func (p *Plugin) Name() string {
-	return "content"
+	return name
+}
+
+// PreInit performs any necessary setup before initialization
+func (p *Plugin) PreInit() error {
+	// Implement any pre-initialization logic here
+	return nil
 }
 
 // Init initializes the plugin
@@ -33,6 +45,12 @@ func (p *Plugin) Init(conf *config.Config) (err error) {
 	svc := service.New(p.d)
 	p.s = svc
 	p.h = handler.New(svc)
+	return nil
+}
+
+// PostInit performs any necessary setup after initialization
+func (p *Plugin) PostInit() error {
+	// Implement any post-initialization logic here
 	return nil
 }
 
@@ -73,6 +91,12 @@ func (p *Plugin) GetServices() map[string]feature.Service {
 	}
 }
 
+// PreCleanup performs any necessary cleanup before the main cleanup
+func (p *Plugin) PreCleanup() error {
+	// Implement any pre-cleanup logic here
+	return nil
+}
+
 // Cleanup cleans up the plugin
 func (p *Plugin) Cleanup() error {
 	if p.cleanup != nil {
@@ -84,23 +108,34 @@ func (p *Plugin) Cleanup() error {
 // GetMetadata returns the metadata of the plugin
 func (p *Plugin) GetMetadata() feature.Metadata {
 	return feature.Metadata{
-		Name:         "content",
-		Version:      "1.0.0",
-		Dependencies: []string{},
-		Description:  "Content management plugin",
+		Name:         p.Name(),
+		Version:      p.Version(),
+		Dependencies: p.Dependencies(),
+		Description:  desc,
 	}
 }
 
 // Status returns the status of the plugin
 func (p *Plugin) Status() string {
+	// Implement your own logic to check the plugin status
 	return "active"
+}
+
+// Version returns the version of the plugin
+func (p *Plugin) Version() string {
+	return version
+}
+
+// Dependencies returns the dependencies of the plugin
+func (p *Plugin) Dependencies() []string {
+	return []string{}
 }
 
 func init() {
 	feature.RegisterPlugin(&Plugin{}, feature.Metadata{
-		Name:         "content-development",
-		Version:      "1.0.0",
+		Name:         name + "-development",
+		Version:      version,
 		Dependencies: []string{},
-		Description:  "Content management plugin",
+		Description:  desc,
 	})
 }

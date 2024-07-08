@@ -1,4 +1,3 @@
-// feature/plugin.go
 package feature
 
 import (
@@ -6,7 +5,6 @@ import (
 	"fmt"
 	"ncobase/common/config"
 	"ncobase/common/log"
-	"path/filepath"
 	"plugin"
 	"sync"
 )
@@ -53,8 +51,16 @@ func LoadPlugin(path string, conf *config.Config) error {
 		return fmt.Errorf("plugin %s does not implement interface, got %T", path, sc)
 	}
 
+	if err := sc.PreInit(); err != nil {
+		return fmt.Errorf("failed pre-initialization of plugin %s: %v", path, err)
+	}
+
 	if err := sc.Init(conf); err != nil {
 		return fmt.Errorf("failed to initialize plugin %s: %v", path, err)
+	}
+
+	if err := sc.PostInit(); err != nil {
+		return fmt.Errorf("failed post-initialization of plugin %s: %v", path, err)
 	}
 
 	metadata := sc.GetMetadata()
@@ -85,6 +91,10 @@ func UnloadPlugin(name string) error {
 		return fmt.Errorf("plugin %s not found", name)
 	}
 
+	if err := c.Instance.PreCleanup(); err != nil {
+		log.Printf(context.Background(), "Warning: Failed pre-cleanup of plugin %s: %v", name, err)
+	}
+
 	if err := c.Instance.Cleanup(); err != nil {
 		return fmt.Errorf("failed to cleanup plugin %s: %v", name, err)
 	}
@@ -112,34 +122,4 @@ func GetPlugins() map[string]*Wrapper {
 		plugins[name] = c
 	}
 	return plugins
-}
-
-// ReloadPlugin reloads a single feature
-func (m *Manager) ReloadPlugin(name string) error {
-	fc := m.conf.Feature
-	fd := fc.Path
-	fp := filepath.Join(fd, name+".so")
-
-	if err := m.UnloadPlugin(name); err != nil {
-		return err
-	}
-
-	return m.loadPlugin(fp)
-}
-
-// ReloadPlugins reloads all features
-func (m *Manager) ReloadPlugins() error {
-	fc := m.conf.Feature
-	fd := fc.Path
-	pds, err := filepath.Glob(filepath.Join(fd, "*.so"))
-	if err != nil {
-		log.Errorf(context.Background(), "failed to list plugin files: %v", err)
-		return err
-	}
-	for _, fp := range pds {
-		if err := m.ReloadPlugin(filepath.Base(fp)); err != nil {
-			return err
-		}
-	}
-	return nil
 }
