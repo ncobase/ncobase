@@ -11,6 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	name    = "menu"
+	desc    = "menu module"
+	version = "1.0.0"
+)
+
 // Module represents the menu module.
 type Module struct {
 	h       *handler.Handler
@@ -22,6 +28,12 @@ type Module struct {
 // New creates a new instance of the menu module.
 func New() feature.Interface {
 	return &Module{}
+}
+
+// PreInit performs any necessary setup before initialization
+func (m *Module) PreInit() error {
+	// Implement any pre-initialization logic here
+	return nil
 }
 
 // Init initializes the menu module with the given config object
@@ -36,9 +48,15 @@ func (m *Module) Init(conf *config.Config) (err error) {
 	return nil
 }
 
+// PostInit performs any necessary setup after initialization
+func (m *Module) PostInit() error {
+	// Implement any post-initialization logic here
+	return nil
+}
+
 // Name returns the name of the module
 func (m *Module) Name() string {
-	return "menu"
+	return name
 }
 
 // RegisterRoutes registers routes for the module
@@ -67,6 +85,12 @@ func (m *Module) GetServices() map[string]feature.Service {
 	}
 }
 
+// PreCleanup performs any necessary cleanup before the main cleanup
+func (m *Module) PreCleanup() error {
+	// Implement any pre-cleanup logic here
+	return nil
+}
+
 // Cleanup cleans up the module
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
@@ -83,9 +107,19 @@ func (m *Module) Status() string {
 // GetMetadata returns the metadata of the module
 func (m *Module) GetMetadata() feature.Metadata {
 	return feature.Metadata{
-		Name:         "menu",
-		Version:      "1.0.0",
-		Dependencies: []string{},
-		Description:  "Menu module",
+		Name:         m.Name(),
+		Version:      m.Version(),
+		Dependencies: m.Dependencies(),
+		Description:  desc,
 	}
+}
+
+// Version returns the version of the plugin
+func (m *Module) Version() string {
+	return version
+}
+
+// Dependencies returns the dependencies of the plugin
+func (m *Module) Dependencies() []string {
+	return []string{}
 }

@@ -1,4 +1,3 @@
-// feature/manager.go
 package feature
 
 import (
@@ -22,6 +21,7 @@ type Manager struct {
 	conf        *config.Config
 	mu          sync.RWMutex
 	initialized bool
+	eventBus    *EventBus
 }
 
 // NewManager creates a new feature / plugin manager
@@ -29,6 +29,7 @@ func NewManager(conf *config.Config) *Manager {
 	return &Manager{
 		features: make(map[string]*Wrapper),
 		conf:     conf,
+		eventBus: NewEventBus(),
 	}
 }
 
@@ -93,8 +94,16 @@ func (m *Manager) loadPluginsInDev() error {
 	plugins := GetRegisteredPlugins()
 
 	for _, c := range plugins {
+		if err := c.Instance.PreInit(); err != nil {
+			log.Errorf(context.Background(), "Failed pre-initialization of plugin %s: %v", c.Metadata.Name, err)
+			continue
+		}
 		if err := c.Instance.Init(m.conf); err != nil {
 			log.Errorf(context.Background(), "Failed to initialize plugin %s: %v", c.Metadata.Name, err)
+			continue
+		}
+		if err := c.Instance.PostInit(); err != nil {
+			log.Errorf(context.Background(), "Failed post-initialization of plugin %s: %v", c.Metadata.Name, err)
 			continue
 		}
 		m.features[c.Metadata.Name] = c
@@ -159,6 +168,10 @@ func (m *Manager) UnloadPlugin(name string) error {
 		return fmt.Errorf("feature %s not found", name)
 	}
 
+	if err := feature.Instance.PreCleanup(); err != nil {
+		log.Errorf(context.Background(), "failed pre-cleanup of feature %s: %v", name, err)
+	}
+
 	if err := feature.Instance.Cleanup(); err != nil {
 		log.Errorf(context.Background(), "failed to cleanup feature %s: %v", name, err)
 		return err
@@ -197,8 +210,16 @@ func (m *Manager) InitFeatures() error {
 
 	for _, name := range initOrder {
 		feature := m.features[name]
+		if err := feature.Instance.PreInit(); err != nil {
+			log.Errorf(context.Background(), "failed pre-initialization of feature %s: %v", name, err)
+			return err
+		}
 		if err := feature.Instance.Init(m.conf); err != nil {
 			log.Errorf(context.Background(), "failed to initialize feature %s: %v", name, err)
+			return err
+		}
+		if err := feature.Instance.PostInit(); err != nil {
+			log.Errorf(context.Background(), "failed post-initialization of feature %s: %v", name, err)
 			return err
 		}
 	}
@@ -214,6 +235,9 @@ func (m *Manager) Cleanup() {
 	defer m.mu.Unlock()
 
 	for _, feature := range m.features {
+		if err := feature.Instance.PreCleanup(); err != nil {
+			log.Errorf(context.Background(), "failed pre-cleanup of feature %s: %v", feature.Metadata.Name, err)
+		}
 		if err := feature.Instance.Cleanup(); err != nil {
 			log.Errorf(context.Background(), "failed to cleanup feature %s: %v", feature.Metadata.Name, err)
 		}
@@ -322,7 +346,7 @@ func (m *Manager) GetStatus() map[string]string {
 	return status
 }
 
-// ManageRoutes manages routes for all features
+// ManageRoutes manages routes for all features / plugins
 func (m *Manager) ManageRoutes(e *gin.Engine) {
 	e.GET("/features", func(c *gin.Context) {
 		resp.Success(c.Writer, &resp.Exception{Data: m.features})
@@ -368,4 +392,44 @@ func (m *Manager) ManageRoutes(e *gin.Engine) {
 		}
 		resp.Success(c.Writer, &resp.Exception{Message: fmt.Sprintf("%s reloaded successfully", name)})
 	})
+}
+
+// ReloadPlugin reloads a single feature / plugin
+func (m *Manager) ReloadPlugin(name string) error {
+	fc := m.conf.Feature
+	fd := fc.Path
+	fp := filepath.Join(fd, name+".so")
+
+	if err := m.UnloadPlugin(name); err != nil {
+		return err
+	}
+
+	return m.loadPlugin(fp)
+}
+
+// ReloadPlugins reloads all features / plugins
+func (m *Manager) ReloadPlugins() error {
+	fc := m.conf.Feature
+	fd := fc.Path
+	pds, err := filepath.Glob(filepath.Join(fd, "*.so"))
+	if err != nil {
+		log.Errorf(context.Background(), "failed to list plugin files: %v", err)
+		return err
+	}
+	for _, fp := range pds {
+		if err := m.ReloadPlugin(filepath.Base(fp)); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// PublishEvent publishes an event to all features
+func (m *Manager) PublishEvent(eventName string, data interface{}) {
+	m.eventBus.Publish(eventName, data)
+}
+
+// SubscribeEvent allows a feature to subscribe to an event
+func (m *Manager) SubscribeEvent(eventName string, handler func(interface{})) {
+	m.eventBus.Subscribe(eventName, handler)
 }
