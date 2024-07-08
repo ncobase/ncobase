@@ -7,8 +7,8 @@ import (
 	"ncobase/core/data"
 	"ncobase/core/handler"
 	"ncobase/core/service"
+	"ncobase/feature"
 	"ncobase/helper"
-	"ncobase/plugin"
 	"net/http"
 	"os"
 
@@ -39,14 +39,15 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 		return nil, cleanup, err
 	}
 
-	// Initialize Plugin Manager
-	pm := plugin.NewManager(conf)
-	if err := pm.LoadPlugins(); err != nil {
+	// Initialize Component Manager
+	fm := feature.NewManager(conf)
+	registerFeatures(fm) // register built-in features
+	if err := fm.LoadPlugins(); err != nil {
 		log.Fatalf(context.Background(), "❌ Failed loading plugins: %+v", err)
 	}
 
 	// New server
-	h, err := ginServer(conf, handler.New(svc), svc, e, pm)
+	h, err := ginServer(conf, handler.New(svc), svc, e, fm)
 	if err != nil {
 		log.Fatalf(context.Background(), "❌ Failed initializing http: %+v", err)
 		// panic(err)
@@ -54,7 +55,7 @@ func New(conf *config.Config) (http.Handler, func(), error) {
 
 	return h, func() {
 		cleanup()
-		pm.Cleanup()
+		fm.Cleanup()
 	}, nil
 }
 
