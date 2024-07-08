@@ -1,4 +1,3 @@
-// feature/interface.go
 package feature
 
 import (
@@ -15,14 +14,32 @@ type Service any
 
 // Interface defines the structure for a feature (Plugin / Module)
 type Interface interface {
+	// Name returns the name of the feature
 	Name() string
+	// PreInit performs any necessary setup before initialization
+	PreInit() error
+	// Init initializes the feature with the given config
 	Init(conf *config.Config) error
+	// PostInit performs any necessary setup after initialization
+	PostInit() error
+	// RegisterRoutes registers routes for the feature
 	RegisterRoutes(router *gin.Engine)
+	// GetHandlers returns the handlers for the feature
 	GetHandlers() map[string]Handler
+	// GetServices returns the services for the feature
 	GetServices() map[string]Service
+	// PreCleanup performs any necessary cleanup before the main cleanup
+	PreCleanup() error
+	// Cleanup cleans up the feature
 	Cleanup() error
+	// Status returns the status of the feature
 	Status() string
+	// GetMetadata returns the metadata of the feature
 	GetMetadata() Metadata
+	// Version returns the version of the feature
+	Version() string
+	// Dependencies returns the dependencies of the feature
+	Dependencies() []string
 }
 
 // Metadata represents the metadata of a feature
