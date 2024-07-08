@@ -76,7 +76,7 @@ func GetConfig(ctx context.Context) *config.Config {
 
 // IsPluginDevMode returns true if the plugin is in development mode.
 func IsPluginDevMode(conf *config.Config) bool {
-	return conf.Plugin.Mode == "c2hlbgo"
+	return conf.Feature.Mode == "c2hlbgo"
 }
 
 // SetUserID sets user id to context.Context.

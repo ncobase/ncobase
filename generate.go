@@ -9,6 +9,7 @@ package ncobase
 // Generate Swagger documentation
 //go:generate make swagger
 
-// Generate plugins
-//go:generate go generate ./plugin/asset
-//go:generate go generate ./plugin/content
+// Generate components and plugins
+//go:generate go generate ./feature/menu
+//go:generate go generate ./feature/asset
+//go:generate go generate ./feature/content

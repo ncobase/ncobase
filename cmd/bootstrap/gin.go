@@ -6,8 +6,8 @@ import (
 	"ncobase/common/types"
 	"ncobase/core/handler"
 	"ncobase/core/service"
+	"ncobase/feature"
 	"ncobase/middleware"
-	"ncobase/plugin"
 	"net/http"
 
 	"github.com/casbin/casbin/v2"
@@ -15,7 +15,7 @@ import (
 )
 
 // ginServer creates and initializes the server.
-func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, enforcer *casbin.Enforcer, pm *plugin.Manager) (*gin.Engine, error) {
+func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, enforcer *casbin.Enforcer, fm *feature.Manager) (*gin.Engine, error) {
 	gin.SetMode(conf.RunMode)
 	engine := gin.New()
 
@@ -42,12 +42,12 @@ func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, en
 	// Register GraphQL
 	registerGraphql(engine, svc, conf.RunMode)
 
-	// Register plugin routes
-	pm.RegisterPluginRoutes(engine)
+	// Register feature / plugin routes
+	fm.RegisterRoutes(engine)
 
-	// Register plugin management routes
-	if conf.Plugin.HotReload {
-		pm.ManageRoutes(engine)
+	// Register feature management routes
+	if conf.Feature.HotReload {
+		fm.ManageRoutes(engine)
 	}
 
 	engine.NoRoute(func(c *gin.Context) {
