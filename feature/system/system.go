@@ -17,12 +17,13 @@ const (
 	version = "1.0.0"
 )
 
-// Module represents the menu module.
+// Module represents the system module.
 type Module struct {
 	h       *handler.Handler
 	s       *service.Service
 	d       *data.Data
 	cleanup func()
+	fm      *feature.Manager
 }
 
 // New creates a new instance of the system module.
@@ -37,14 +38,15 @@ func (m *Module) PreInit() error {
 }
 
 // Init initializes the system module with the given config object
-func (m *Module) Init(conf *config.Config) (err error) {
+func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 	m.d, m.cleanup, err = data.New(conf.Data)
 	if err != nil {
 		return err
 	}
-	svc := service.New(m.d)
-	m.s = svc
-	m.h = handler.New(svc)
+	m.s = service.New(m.d, fm)
+	m.h = handler.New(m.s)
+	// Subscribe to relevant events
+	m.subscribeEvents(fm)
 	return nil
 }
 
@@ -75,14 +77,14 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 // GetHandlers returns the handlers for the module
 func (m *Module) GetHandlers() map[string]feature.Handler {
 	return map[string]feature.Handler{
-		"menu": m.h,
+		"menu": m.h.Menu,
 	}
 }
 
 // GetServices returns the services for the module
 func (m *Module) GetServices() map[string]feature.Service {
 	return map[string]feature.Service{
-		"menu": m.s,
+		"menu": m.s.Menu,
 	}
 }
 
@@ -123,4 +125,9 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the plugin
 func (m *Module) Dependencies() []string {
 	return []string{}
+}
+
+// SubscribeEvents subscribes to relevant events
+func (m *Module) subscribeEvents(fm *feature.Manager) {
+	// Implement any event subscriptions here
 }

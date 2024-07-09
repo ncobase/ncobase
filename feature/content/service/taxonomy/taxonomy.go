@@ -14,7 +14,7 @@ import (
 	"ncobase/helper"
 )
 
-// ServiceInterface is the interface for the taxonomy service.
+// ServiceInterface is the interface for the service.
 type ServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*resp.Exception, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*resp.Exception, error)
@@ -28,11 +28,13 @@ type ServiceInterface interface {
 	DeleteTaxonomyRelation(ctx context.Context, object string) (*resp.Exception, error)
 }
 
+// Service is the struct for the service.
 type Service struct {
 	taxonomy          taxonomy.RepositoryInterface
 	taxonomyRelations taxonomy.RelationRepositoryInterface
 }
 
+// New creates a new service.
 func New(d *data.Data) ServiceInterface {
 	return &Service{
 		taxonomy:          taxonomy.NewTaxonomyRepo(d),
