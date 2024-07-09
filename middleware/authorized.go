@@ -3,6 +3,7 @@ package middleware
 import (
 	"context"
 	"ncobase/common/log"
+	"ncobase/common/validator"
 	"ncobase/helper"
 	"net/http"
 	"strings"
@@ -63,6 +64,17 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 
 		currentUser := helper.GetUserID(ctx)
 		currentTenant := helper.GetTenantID(ctx)
+
+		// Check if user ID or tenant ID is empty
+		if validator.IsEmpty(currentUser) || validator.IsEmpty(currentTenant) {
+			// Respond with unauthorized error
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"code":    ecode.Unauthorized,
+				"message": ecode.Text(ecode.Unauthorized),
+			})
+			return
+		}
+
 		obj := c.Request.URL.Path
 		act := c.Request.Method
 
