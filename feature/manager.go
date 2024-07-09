@@ -98,7 +98,7 @@ func (m *Manager) loadPluginsInDev() error {
 			log.Errorf(context.Background(), "Failed pre-initialization of plugin %s: %v", c.Metadata.Name, err)
 			continue
 		}
-		if err := c.Instance.Init(m.conf); err != nil {
+		if err := c.Instance.Init(m.conf, m); err != nil {
 			log.Errorf(context.Background(), "Failed to initialize plugin %s: %v", c.Metadata.Name, err)
 			continue
 		}
@@ -181,18 +181,6 @@ func (m *Manager) UnloadPlugin(name string) error {
 	return nil
 }
 
-// GetFeatures returns the loaded features
-func (m *Manager) GetFeatures() map[string]*Wrapper {
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-
-	features := make(map[string]*Wrapper)
-	for name, feature := range m.features {
-		features[name] = feature
-	}
-	return features
-}
-
 // InitFeatures initializes all registered features
 func (m *Manager) InitFeatures() error {
 	m.mu.Lock()
@@ -214,7 +202,7 @@ func (m *Manager) InitFeatures() error {
 			log.Errorf(context.Background(), "failed pre-initialization of feature %s: %v", name, err)
 			return err
 		}
-		if err := feature.Instance.Init(m.conf); err != nil {
+		if err := feature.Instance.Init(m.conf, m); err != nil {
 			log.Errorf(context.Background(), "failed to initialize feature %s: %v", name, err)
 			return err
 		}
@@ -227,6 +215,31 @@ func (m *Manager) InitFeatures() error {
 	m.initialized = true
 	log.Infof(context.Background(), "All features initialized successfully")
 	return nil
+}
+
+// GetFeature returns a specific feature
+func (m *Manager) GetFeature(name string) (Interface, error) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	feature, exists := m.features[name]
+	if !exists {
+		return nil, fmt.Errorf("feature %s not found", name)
+	}
+
+	return feature.Instance, nil
+}
+
+// GetFeatures returns the loaded features
+func (m *Manager) GetFeatures() map[string]*Wrapper {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	features := make(map[string]*Wrapper)
+	for name, feature := range m.features {
+		features[name] = feature
+	}
+	return features
 }
 
 // Cleanup cleans up all loaded features

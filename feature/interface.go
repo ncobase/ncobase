@@ -19,7 +19,7 @@ type Interface interface {
 	// PreInit performs any necessary setup before initialization
 	PreInit() error
 	// Init initializes the feature with the given config
-	Init(conf *config.Config) error
+	Init(conf *config.Config, m *Manager) error
 	// PostInit performs any necessary setup after initialization
 	PostInit() error
 	// RegisterRoutes registers routes for the feature

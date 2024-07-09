@@ -2,6 +2,7 @@ package menu
 
 import (
 	"context"
+	"ncobase/feature"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/data/ent"
 	"ncobase/feature/system/data/repository/menu"
@@ -27,11 +28,13 @@ type ServiceInterface interface {
 
 type Service struct {
 	menu menu.RepositoryInterface
+	fm   *feature.Manager
 }
 
-func New(d *data.Data) ServiceInterface {
+func New(d *data.Data, fm *feature.Manager) ServiceInterface {
 	return &Service{
 		menu: menu.NewMenu(d),
+		fm:   fm,
 	}
 }
 
@@ -45,6 +48,9 @@ func (svc *Service) CreateMenuService(ctx context.Context, body *structs.MenuBod
 	if exception, err := helper.HandleError("Menu", err); exception != nil {
 		return exception, err
 	}
+
+	// // publish event
+	// svc.fm.PublishEvent("menu.created", svc.serializeMenuReply(row))
 
 	return &resp.Exception{
 		Data: row,

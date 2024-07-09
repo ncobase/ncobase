@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// HandlerInterface is the interface for the taxonomy handler.
+// HandlerInterface is the interface for the handler.
 type HandlerInterface interface {
 	Create(c *gin.Context)
 	Update(c *gin.Context)
@@ -21,10 +21,12 @@ type HandlerInterface interface {
 	List(c *gin.Context)
 }
 
+// Handler represents the handler.
 type Handler struct {
 	s *service.Service
 }
 
+// New creates a new handler.
 func New(svc *service.Service) HandlerInterface {
 	return &Handler{
 		s: svc,

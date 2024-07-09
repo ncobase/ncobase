@@ -14,7 +14,7 @@ import (
 	"ncobase/helper"
 )
 
-// ServiceInterface is the interface for the topic service.
+// ServiceInterface is the interface for the service.
 type ServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTopicBody) (*resp.Exception, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*resp.Exception, error)
@@ -23,10 +23,12 @@ type ServiceInterface interface {
 	Delete(ctx context.Context, slug string) (*resp.Exception, error)
 }
 
+// Service is the struct for the service.
 type Service struct {
 	topic topic.RepositoryInterface
 }
 
+// New creates a new service.
 func New(d *data.Data) ServiceInterface {
 	return &Service{
 		topic: topic.NewTopicRepo(d),

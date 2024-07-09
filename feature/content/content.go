@@ -23,6 +23,7 @@ type Plugin struct {
 	h       *handler.Handler
 	d       *data.Data
 	cleanup func()
+	fm      *feature.Manager
 }
 
 // Name returns the name of the plugin
@@ -37,14 +38,15 @@ func (p *Plugin) PreInit() error {
 }
 
 // Init initializes the plugin
-func (p *Plugin) Init(conf *config.Config) (err error) {
+func (p *Plugin) Init(conf *config.Config, fm *feature.Manager) (err error) {
 	p.d, p.cleanup, err = data.New(conf.Data)
 	if err != nil {
 		return err
 	}
-	svc := service.New(p.d)
-	p.s = svc
-	p.h = handler.New(svc)
+	p.s = service.New(p.d)
+	p.h = handler.New(p.s)
+	// Subscribe to relevant events
+	p.subscribeEvents(fm)
 	return nil
 }
 
@@ -131,6 +133,11 @@ func (p *Plugin) Version() string {
 // Dependencies returns the dependencies of the plugin
 func (p *Plugin) Dependencies() []string {
 	return []string{}
+}
+
+// RegisterEvents registers events for the plugin
+func (p *Plugin) subscribeEvents(fm *feature.Manager) {
+	// Implement any event subscriptions here
 }
 
 func init() {
