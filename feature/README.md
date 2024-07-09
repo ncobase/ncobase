@@ -1,6 +1,6 @@
 # Features for Ncobase
 
->	This is the plug-in and module in the Next-Gen system.
+> This is the plug-in and module in the Next-Gen system.
 
 ## Structure
 
