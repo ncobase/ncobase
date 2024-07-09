@@ -4,6 +4,6 @@ package bootstrap
 
 // plugins to be loaded in development mode.
 import (
-	_ "ncobase/feature/asset"
 	_ "ncobase/feature/content"
+	_ "ncobase/feature/resource"
 )

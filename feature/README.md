@@ -7,7 +7,7 @@
 ```plantext
 ├── asset/                # Asset plugin directory.
 ├── content/              # Content plugin directory.
-├── menu/                 # Menu-related feature, built-in
+├── system/               # System-related feature, built-in
 ├── interface.go          # Feature interface
 ├── manager.go            # Feature manager
 ├── plugin.go             # Plugin manager
