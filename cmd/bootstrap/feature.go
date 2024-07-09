@@ -4,13 +4,13 @@ import (
 	"context"
 	"ncobase/common/log"
 	"ncobase/feature"
-	"ncobase/feature/menu"
+	"ncobase/feature/system"
 )
 
 // registerFeatures registers all built-in features
 func registerFeatures(fm *feature.Manager) {
 	builtinFeatures := []feature.Interface{
-		menu.New(),
+		system.New(),
 		// add more built-in components here
 	}
 	for _, f := range builtinFeatures {
