@@ -4,6 +4,7 @@ import (
 	"context"
 	"ncobase/common/log"
 	"ncobase/common/validator"
+	structs2 "ncobase/feature/access/structs"
 	"ncobase/helper"
 	"net/http"
 	"strings"
@@ -11,7 +12,6 @@ import (
 	"ncobase/common/ecode"
 	"ncobase/common/resp"
 	"ncobase/common/util"
-	"ncobase/core/data/structs"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
@@ -19,8 +19,8 @@ import (
 
 // relatedService represents the related service interface
 type relatedService interface {
+	GetUserRolesService(ctx context.Context, u string) (*resp.Exception, error)
 	GetUserRolesInTenantService(ctx context.Context, u string, t string) (*resp.Exception, error)
-	GetUserRoleByUserIDService(ctx context.Context, u string) (*resp.Exception, error)
 	GetRolePermissionsService(ctx context.Context, r string) (*resp.Exception, error)
 }
 
@@ -81,13 +81,13 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 		log.Infof(c, "userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 
 		// Retrieve user roles from service
-		exception, err := svc.GetUserRoleByUserIDService(ctx, currentUser)
+		exception, err := svc.GetUserRolesService(ctx, currentUser)
 		handleException(c, exception, err, "Error retrieving user roles")
 		if c.IsAborted() {
 			return
 		}
 
-		userRoles := exception.Data.([]*structs.ReadRole)
+		userRoles := exception.Data.([]*structs2.ReadRole)
 		if len(userRoles) == 0 {
 			handleException(c, resp.Forbidden("User has no roles, please contact your administrator"), nil, "")
 			return
@@ -105,13 +105,13 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 			return
 		}
 
-		tenantRoles := exception.Data.([]*structs.ReadRole)
+		tenantRoles := exception.Data.([]*structs2.ReadRole)
 		for _, r := range tenantRoles {
 			roles = append(roles, r.Slug)
 		}
 
 		roles = util.RemoveDuplicates(roles)
-		var permissions []*structs.ReadPermission
+		var permissions []*structs2.ReadPermission
 
 		// Retrieve role permissions from service
 		for _, role := range roles {
@@ -121,7 +121,7 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 				return
 			}
 
-			rolePermissions := exception.Data.([]*structs.ReadPermission)
+			rolePermissions := exception.Data.([]*structs2.ReadPermission)
 			permissions = append(permissions, rolePermissions...)
 		}
 
@@ -148,7 +148,7 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 }
 
 // checkPermission checks if the user has permission to access the resource based on roles and permissions
-func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act string, roles []string, permissions []*structs.ReadPermission, tenantID string) (bool, error) {
+func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act string, roles []string, permissions []*structs2.ReadPermission, tenantID string) (bool, error) {
 	for _, role := range roles {
 		ok, err := enforcer.Enforce(role, tenantID, obj, act, nil, nil)
 		if err != nil {

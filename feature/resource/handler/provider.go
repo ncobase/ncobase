@@ -1,16 +1,17 @@
 package handler
 
 import (
-	"ncobase/feature/resource/handler/asset"
 	"ncobase/feature/resource/service"
 )
 
+// Handler represents the resource handler.
 type Handler struct {
-	Asset asset.HandlerInterface
+	Asset AssetHandlerInterface
 }
 
+// New creates new resource handler.
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		Asset: asset.New(svc),
+		Asset: NewAssetHandler(svc),
 	}
 }

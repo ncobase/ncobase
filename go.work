@@ -2,8 +2,15 @@ go 1.22.4
 
 use (
 	.
-	pkg
-	./feature/system
-	./feature/resource
+	./feature/access
+	./feature/auth
+	./feature/bootstrap
 	./feature/content
+	./feature/group
+	./feature/relationship
+	./feature/resource
+	./feature/system
+	./feature/tenant
+	./feature/user
+	pkg
 )

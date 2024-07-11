@@ -4,18 +4,15 @@ import (
 	"ncobase/common/config"
 	"ncobase/common/ecode"
 	"ncobase/common/types"
-	"ncobase/core/handler"
-	"ncobase/core/service"
 	"ncobase/feature"
 	"ncobase/middleware"
 	"net/http"
 
-	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )
 
 // ginServer creates and initializes the server.
-func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, enforcer *casbin.Enforcer, fm *feature.Manager) (*gin.Engine, error) {
+func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) { // enforcer *casbin.Enforcer,
 	gin.SetMode(conf.RunMode)
 	engine := gin.New()
 
@@ -25,20 +22,38 @@ func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, en
 	engine.Use(middleware.CORSHandler)
 	engine.Use(middleware.ConsumeUser)
 	engine.Use(middleware.Trace)
-	engine.Use(middleware.ConsumeTenant(svc))
 
-	// Authorization middleware
-	authzMiddleware := middleware.Authorized(enforcer, conf.Auth.Whitelist, svc)
-	engine.Use(authzMiddleware)
+	// // get user tenant service
+	// utsi, err := fm.GetService("tenant", "user_tenant")
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// userTenantService, _ := utsi.(tenantService.UserTenantServiceInterface)
+	// engine.Use(middleware.ConsumeTenant(userTenantService))
 
-	// Register WebSocket route
-	registerWebSocketRoutes(engine)
+	// // get user role service
+	// ursi, err := fm.GetService("access", "user_role")
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// URSIIMPL, _ := ursi.(accessService.UserRoleServiceInterface)
+	//
+	// // get role permission service
+	// rpsi, err := fm.GetService("access", "role_permission")
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// RPSIIMPL, _ := rpsi.(accessService.RolePermissionServiceInterface)
+
+	// // Authorization middleware
+	// authzMiddleware := middleware.Authorized(enforcer, conf.Auth.Whitelist, svc)
+	// engine.Use(authzMiddleware)
 
 	// Register REST
-	registerRest(engine, h, conf)
+	registerRest(engine, conf)
 
 	// Register GraphQL
-	registerGraphql(engine, svc, conf.RunMode)
+	// registerGraphql(engine, svc, conf.RunMode)
 
 	// Register feature / plugin routes
 	fm.RegisterRoutes(engine)
@@ -47,6 +62,9 @@ func ginServer(conf *config.Config, h *handler.Handler, svc *service.Service, en
 	if conf.Feature.HotReload {
 		fm.ManageRoutes(engine)
 	}
+
+	// Register WebSocket route
+	registerWebSocketRoutes(engine)
 
 	engine.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, types.JSON{"message": ecode.Text(http.StatusNotFound)})

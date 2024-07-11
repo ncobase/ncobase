@@ -4,27 +4,47 @@ import (
 	"context"
 	"ncobase/common/log"
 	"ncobase/feature"
+	"ncobase/feature/access"
+	"ncobase/feature/auth"
+	"ncobase/feature/group"
 	"ncobase/feature/system"
+	"ncobase/feature/tenant"
+	"ncobase/feature/user"
 )
 
 // registerFeatures registers all built-in features
 func registerFeatures(fm *feature.Manager) {
-	builtinFeatures := []feature.Interface{
+	fs := []feature.Interface{
+		user.New(),
+		group.New(),
+		access.New(),
+		tenant.New(),
 		system.New(),
-		// add more built-in components here
+		auth.New(),
+		// add more built-in components here, disordered
 	}
-	for _, f := range builtinFeatures {
+
+	var sfs []feature.Interface
+	for _, f := range fs {
 		if err := fm.Register(f); err != nil {
 			log.Errorf(context.Background(), "❌ Failed to register feature %s: %v", f.Name(), err)
+			continue // Skip this feature and try to register the next one
 		}
 		log.Infof(context.Background(), "✅ Successfully registered feature %s", f.Name())
+		sfs = append(sfs, f)
 	}
 
-	// log.Infof(context.Background(), "All built-in features registered successfully")
+	if len(sfs) == 0 {
+		log.Errorf(context.Background(), "❌ No features were successfully registered.")
+		return
+	}
+
+	log.Infof(context.Background(), "✅ Successfully registered %d features", len(sfs))
 
 	if err := fm.InitFeatures(); err != nil {
-		log.Errorf(context.Background(), "❌ Failed to initialize feature: %v", err)
+		log.Errorf(context.Background(), "❌ Failed to initialize features: %v", err)
+		return
 	}
 
-	// log.Infof(context.Background(), "All features initialized successfully")
+	log.Infof(context.Background(), "✅ All features initialized successfully")
 }

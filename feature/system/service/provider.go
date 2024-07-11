@@ -3,17 +3,18 @@ package service
 import (
 	"ncobase/feature"
 	"ncobase/feature/system/data"
-	"ncobase/feature/system/service/menu"
 )
 
+// Service represents the system service.
 type Service struct {
-	Menu menu.ServiceInterface
+	Menu MenuServiceInterface
 	fm   *feature.Manager
 }
 
+// New creates a new service.
 func New(d *data.Data, fm *feature.Manager) *Service {
 	return &Service{
-		Menu: menu.New(d, fm),
+		Menu: NewMenuService(d, fm),
 		fm:   fm,
 	}
 }

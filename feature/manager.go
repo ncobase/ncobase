@@ -83,6 +83,7 @@ func (m *Manager) loadPluginsInProd() error {
 		}
 		if err := m.loadPlugin(pp); err != nil {
 			log.Errorf(context.Background(), "Failed to load plugin %s: %v", pluginName, err)
+			return err
 		}
 	}
 
@@ -140,11 +141,14 @@ func (m *Manager) shouldLoadPlugin(name string) bool {
 // loadPlugin loads a single plugin
 func (m *Manager) loadPlugin(path string) error {
 	name := strings.TrimSuffix(filepath.Base(path), ".so")
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
 	if _, exists := m.features[name]; exists {
 		return nil // plugin already loaded
 	}
 
-	if err := LoadPlugin(path, m.conf); err != nil {
+	if err := LoadPlugin(path, m); err != nil {
 		log.Errorf(context.Background(), "failed to load plugin %s: %v", name, err)
 		return err
 	}
@@ -184,35 +188,60 @@ func (m *Manager) UnloadPlugin(name string) error {
 // InitFeatures initializes all registered features
 func (m *Manager) InitFeatures() error {
 	m.mu.Lock()
-	defer m.mu.Unlock()
-
 	if m.initialized {
+		m.mu.Unlock()
 		return fmt.Errorf("features already initialized")
 	}
-
+	// Check dependencies before determining initialization order
+	if err := m.checkDependencies(); err != nil {
+		m.mu.Unlock()
+		return err
+	}
 	initOrder, err := getInitOrder(m.features)
 	if err != nil {
 		log.Errorf(context.Background(), "failed to determine initialization order: %v", err)
+		m.mu.Unlock()
 		return err
 	}
+	m.mu.Unlock() // Unlock after dependencies check and order determination
 
+	// Pre-initialization
 	for _, name := range initOrder {
 		feature := m.features[name]
 		if err := feature.Instance.PreInit(); err != nil {
 			log.Errorf(context.Background(), "failed pre-initialization of feature %s: %v", name, err)
-			return err
-		}
-		if err := feature.Instance.Init(m.conf, m); err != nil {
-			log.Errorf(context.Background(), "failed to initialize feature %s: %v", name, err)
-			return err
-		}
-		if err := feature.Instance.PostInit(); err != nil {
-			log.Errorf(context.Background(), "failed post-initialization of feature %s: %v", name, err)
-			return err
+			continue // Skip current feature and move to the next one
 		}
 	}
 
+	// Initialization
+	for _, name := range initOrder {
+		feature := m.features[name]
+		if err := feature.Instance.Init(m.conf, m); err != nil {
+			log.Errorf(context.Background(), "failed to initialize feature %s: %v", name, err)
+			continue // Skip current feature and move to the next one
+		}
+	}
+
+	// Post-initialization
+	for _, name := range initOrder {
+		feature := m.features[name]
+		if err := feature.Instance.PostInit(); err != nil {
+			log.Errorf(context.Background(), "failed post-initialization of feature %s: %v", name, err)
+			continue // Skip current feature and move to the next one
+		}
+	}
+
+	// Ensure all services are initialized
+	for _, feature := range m.features {
+		_ = feature.Instance.GetServices()
+	}
+
+	// Lock again to safely update the initialized flag
+	m.mu.Lock()
 	m.initialized = true
+	m.mu.Unlock()
+
 	log.Infof(context.Background(), "All features initialized successfully")
 	return nil
 }
@@ -266,8 +295,12 @@ func (m *Manager) RegisterRoutes(router *gin.Engine) {
 	defer m.mu.RUnlock()
 
 	for _, f := range m.features {
-		f.Instance.RegisterRoutes(router)
-		log.Infof(context.Background(), "Registered routes for %s", f.Metadata.Name)
+		if f.Instance.HasRoutes() {
+			f.Instance.RegisterRoutes(router)
+			log.Infof(context.Background(), "Registered routes for %s", f.Metadata.Name)
+		} else {
+			log.Infof(context.Background(), "No routes to register for %s", f.Metadata.Name)
+		}
 	}
 }
 
@@ -311,16 +344,53 @@ func getInitOrder(features map[string]*Wrapper) ([]string, error) {
 	return order, nil
 }
 
+// GetHandler returns a specific handler from a feature
+func (m *Manager) GetHandler(featureName string, handlerName string) (Handler, error) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	feature, exists := m.features[featureName]
+	if !exists {
+		return nil, fmt.Errorf("feature %s not found", featureName)
+	}
+
+	handlers := feature.Instance.GetHandlers()
+	handler, exists := handlers[handlerName]
+	if !exists {
+		return nil, fmt.Errorf("handler %s not found in feature %s", handlerName, featureName)
+	}
+
+	return handler, nil
+}
+
 // GetHandlers returns all registered feature handlers
 func (m *Manager) GetHandlers() map[string]map[string]Handler {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
-
 	handlers := make(map[string]map[string]Handler)
 	for name, feature := range m.features {
 		handlers[name] = feature.Instance.GetHandlers()
 	}
 	return handlers
+}
+
+// GetService returns a specific service from a feature
+func (m *Manager) GetService(featureName string, serviceName string) (Service, error) {
+	m.mu.RLock()
+	feature, exists := m.features[featureName]
+	m.mu.RUnlock()
+
+	if !exists {
+		return nil, fmt.Errorf("feature %s not found", featureName)
+	}
+
+	services := feature.Instance.GetServices()
+	service, exists := services[serviceName]
+	if !exists {
+		return nil, fmt.Errorf("service %s not found in feature %s", serviceName, featureName)
+	}
+
+	return service, nil
 }
 
 // GetServices returns all registered feature services
@@ -430,7 +500,7 @@ func (m *Manager) ReloadPlugins() error {
 		return err
 	}
 	for _, fp := range pds {
-		if err := m.ReloadPlugin(filepath.Base(fp)); err != nil {
+		if err := m.ReloadPlugin(strings.TrimSuffix(filepath.Base(fp), ".so")); err != nil {
 			return err
 		}
 	}
@@ -445,4 +515,16 @@ func (m *Manager) PublishEvent(eventName string, data interface{}) {
 // SubscribeEvent allows a feature to subscribe to an event
 func (m *Manager) SubscribeEvent(eventName string, handler func(interface{})) {
 	m.eventBus.Subscribe(eventName, handler)
+}
+
+// checkDependencies checks if all dependencies are loaded
+func (m *Manager) checkDependencies() error {
+	for name, feature := range m.features {
+		for _, dep := range feature.Instance.Dependencies() {
+			if _, ok := m.features[dep]; !ok {
+				return fmt.Errorf("feature '%s' depends on '%s', which is not available", name, dep)
+			}
+		}
+	}
+	return nil
 }

@@ -1,16 +1,15 @@
 package repository
 
-import (
-	"ncobase/feature/resource/data"
-	"ncobase/feature/resource/data/repository/asset"
-)
+import "ncobase/feature/resource/data"
 
+// Repository represents the resource repository.
 type Repository struct {
-	Asset asset.RepositoryInterface
+	Asset AssetRepositoryInterface
 }
 
-func New(d *data.Data) *Repository {
+// NewRepository creates a new repository.
+func NewRepository(d *data.Data) *Repository {
 	return &Repository{
-		Asset: asset.NewAsset(d),
+		Asset: NewAssetRepository(d),
 	}
 }

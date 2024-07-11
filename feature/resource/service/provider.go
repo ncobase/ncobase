@@ -2,15 +2,16 @@ package service
 
 import (
 	"ncobase/feature/resource/data"
-	"ncobase/feature/resource/service/asset"
 )
 
+// Service is the struct for the resource service.
 type Service struct {
-	Asset asset.ServiceInterface
+	Asset AssetServiceInterface
 }
 
+// New creates a new resource service.
 func New(d *data.Data) *Service {
 	return &Service{
-		Asset: asset.New(d),
+		Asset: NewAssetService(d),
 	}
 }

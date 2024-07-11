@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"ncobase/common/log"
-	repo "ncobase/core/data/repository"
-	"ncobase/core/data/structs"
+	"ncobase/feature/access/data/repository"
+	"ncobase/feature/access/structs"
 	"strings"
 
 	"github.com/casbin/casbin/v2/model"
@@ -14,18 +14,18 @@ import (
 
 // CasbinAdapter is the adapter for Casbin, using the repo layer.
 type CasbinAdapter struct {
-	casbinRepo repo.CasbinRule
+	casbin repository.CasbinRuleRepositoryInterface
 }
 
 // NewCasbinAdapter creates a new Casbin adapter.
-func NewCasbinAdapter(casbinRepo repo.CasbinRule) *CasbinAdapter {
-	return &CasbinAdapter{casbinRepo: casbinRepo}
+func NewCasbinAdapter(casbinRepo repository.CasbinRuleRepositoryInterface) *CasbinAdapter {
+	return &CasbinAdapter{casbin: casbinRepo}
 }
 
 // LoadPolicy loads all policy rules from the storage.
 func (a *CasbinAdapter) LoadPolicy(model model.Model) error {
 	ctx := context.Background()
-	rules, err := a.casbinRepo.Find(ctx, &structs.ListCasbinRuleParams{})
+	rules, err := a.casbin.Find(ctx, &structs.ListCasbinRuleParams{})
 	if err != nil {
 		log.Errorf(ctx, "failed to load policies: %v", err)
 		return err
@@ -45,7 +45,7 @@ func (a *CasbinAdapter) LoadPolicy(model model.Model) error {
 // SavePolicy saves all policy rules to the storage.
 func (a *CasbinAdapter) SavePolicy(model model.Model) error {
 	ctx := context.Background()
-	if err := a.casbinRepo.Delete(ctx, ""); err != nil {
+	if err := a.casbin.Delete(ctx, ""); err != nil {
 		log.Errorf(ctx, "failed to delete policy: %v", err)
 		return err
 	}
@@ -61,7 +61,7 @@ func (a *CasbinAdapter) SavePolicy(model model.Model) error {
 				V4:    &rule[4],
 				V5:    &rule[5],
 			}
-			if _, err := a.casbinRepo.Create(ctx, ruleBody); err != nil {
+			if _, err := a.casbin.Create(ctx, ruleBody); err != nil {
 				log.Errorf(ctx, "failed to save policy line: %v", err)
 				return err
 			}
@@ -84,7 +84,7 @@ func (a *CasbinAdapter) AddPolicy(sec string, ptype string, rule []string) error
 		V5:    &rule[5],
 	}
 
-	_, err := a.casbinRepo.Create(ctx, ruleBody)
+	_, err := a.casbin.Create(ctx, ruleBody)
 	return err
 }
 
@@ -102,7 +102,7 @@ func (a *CasbinAdapter) RemovePolicy(sec string, ptype string, rule []string) er
 		V5:    &rule[5],
 	}
 
-	rules, err := a.casbinRepo.Find(ctx, &structs.ListCasbinRuleParams{
+	rules, err := a.casbin.Find(ctx, &structs.ListCasbinRuleParams{
 		PType: &ruleBody.PType,
 		V0:    &ruleBody.V0,
 		V1:    &ruleBody.V1,
@@ -118,7 +118,7 @@ func (a *CasbinAdapter) RemovePolicy(sec string, ptype string, rule []string) er
 		return nil
 	}
 
-	err = a.casbinRepo.Delete(ctx, rules[0].ID)
+	err = a.casbin.Delete(ctx, rules[0].ID)
 	return err
 }
 
@@ -204,13 +204,13 @@ func (a *CasbinAdapter) RemoveFilteredPolicy(sec string, ptype string, fieldInde
 		return fmt.Errorf("fieldIndex %d out of range", fieldIndex)
 	}
 
-	rules, err := a.casbinRepo.Find(ctx, params)
+	rules, err := a.casbin.Find(ctx, params)
 	if err != nil {
 		return err
 	}
 
 	for _, rule := range rules {
-		err = a.casbinRepo.Delete(ctx, rule.ID)
+		err = a.casbin.Delete(ctx, rule.ID)
 		if err != nil {
 			return err
 		}

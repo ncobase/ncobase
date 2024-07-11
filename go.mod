@@ -6,36 +6,43 @@ toolchain go1.22.5
 
 replace (
 	ncobase/common => ./pkg
-	ncobase/feature/asset => ./feature/resource
+	ncobase/feature/access => ./feature/access
+	ncobase/feature/auth => ./feature/auth
+	ncobase/feature/bootstrap => ./feature/bootstrap
 	ncobase/feature/content => ./feature/content
+	ncobase/feature/group => ./feature/group
+	ncobase/feature/resource => ./feature/resource
 	ncobase/feature/system => ./feature/system
+	ncobase/feature/tenant => ./feature/tenant
+	ncobase/feature/user => ./feature/user
 )
 
 require (
-	entgo.io/contrib v0.5.0
-	entgo.io/ent v0.13.1
-	github.com/99designs/gqlgen v0.17.49
-	github.com/alexpantyukhin/go-pattern-match v0.0.0-20230301210247-d84479c117d7
 	github.com/casbin/casbin/v2 v2.97.0
 	github.com/casdoor/oss v1.6.1
-	github.com/dchest/captcha v1.0.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/gorilla/websocket v1.5.3
-	github.com/jinzhu/copier v0.4.0
-	github.com/redis/go-redis/v9 v9.5.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
-	github.com/vektah/gqlparser/v2 v2.5.16
 	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
+	ncobase/feature/access v0.0.0-00010101000000-000000000000
+	ncobase/feature/auth v0.0.0-00010101000000-000000000000
 	ncobase/feature/content v0.0.0-00010101000000-000000000000
+	ncobase/feature/group v0.0.0-00010101000000-000000000000
+	ncobase/feature/resource v0.0.0-00010101000000-000000000000
 	ncobase/feature/system v0.0.0-00010101000000-000000000000
+	ncobase/feature/tenant v0.0.0-00010101000000-000000000000
+	ncobase/feature/user v0.0.0-00010101000000-000000000000
 )
 
 require (
 	ariga.io/atlas v0.24.1 // indirect
+	entgo.io/contrib v0.5.0 // indirect
+	entgo.io/ent v0.13.1 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
+	github.com/99designs/gqlgen v0.17.49 // indirect
 	github.com/Azure/azure-pipeline-go v0.2.3 // indirect
 	github.com/Azure/azure-storage-blob-go v0.15.0 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
@@ -51,6 +58,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
+	github.com/dchest/captcha v1.0.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/elastic/elastic-transport-go/v8 v8.6.0 // indirect
 	github.com/elastic/go-elasticsearch/v8 v8.14.0 // indirect
@@ -78,7 +86,6 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gosimple/slug v1.14.0 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
-	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.21.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -105,6 +112,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/redis/go-redis/v9 v9.5.3 // indirect
 	github.com/sagikazarmark/locafero v0.6.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
@@ -120,6 +128,7 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.55.0 // indirect
+	github.com/vektah/gqlparser/v2 v2.5.16 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/zclconf/go-cty v1.14.4 // indirect
