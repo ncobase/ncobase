@@ -1,16 +1,15 @@
 package repository
 
-import (
-	"ncobase/feature/system/data"
-	"ncobase/feature/system/data/repository/menu"
-)
+import "ncobase/feature/system/data"
 
+// Repository represents the system repository.
 type Repository struct {
-	Menu menu.RepositoryInterface
+	Menu MenuRepositoryInterface
 }
 
-func New(d *data.Data) *Repository {
+// NewRepository creates a new repository.
+func NewRepository(d *data.Data) *Repository {
 	return &Repository{
-		Menu: menu.NewMenu(d),
+		Menu: NewMenuRepository(d),
 	}
 }

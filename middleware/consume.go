@@ -10,7 +10,7 @@ import (
 	"ncobase/common/jwt"
 	"ncobase/common/log"
 	"ncobase/common/resp"
-	"ncobase/core/data/structs"
+	"ncobase/feature/tenant/structs"
 	"ncobase/helper"
 	"net/http"
 	"strings"

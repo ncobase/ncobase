@@ -1,16 +1,15 @@
 package handler
 
-import (
-	"ncobase/feature/system/handler/menu"
-	"ncobase/feature/system/service"
-)
+import "ncobase/feature/system/service"
 
+// Handler represents the system handler.
 type Handler struct {
-	Menu menu.HandlerInterface
+	Menu MenuHandlerInterface
 }
 
-func New(s *service.Service) *Handler {
+// New creates new system handler.
+func New(svc *service.Service) *Handler {
 	return &Handler{
-		Menu: menu.New(s),
+		Menu: NewMenuHandler(svc),
 	}
 }

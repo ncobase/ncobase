@@ -1,0 +1,23 @@
+package handler
+
+import (
+	"ncobase/feature/auth/service"
+)
+
+// Handler represents the auth handler.
+type Handler struct {
+	Auth     AuthHandlerInterface
+	CodeAuth CodeAuthHandlerInterface
+	Captcha  CaptchaHandlerInterface
+	// OAuth    OAuthHandlerInterface
+}
+
+// New creates a new auth handler.
+func New(svc *service.Service) *Handler {
+	return &Handler{
+		Auth:     NewAuthHandler(svc),
+		CodeAuth: NewCodeAuthHandler(svc),
+		Captcha:  NewCaptchaHandler(svc),
+		// OAuth:    NewOAuthHandler(svc),
+	}
+}

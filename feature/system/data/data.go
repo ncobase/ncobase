@@ -23,7 +23,7 @@ type Data struct {
 }
 
 // New creates a new Database Connection.
-func New(conf *config.Data) (*Data, func(), error) {
+func New(conf *config.Data) (*Data, func(name ...string), error) {
 	d, cleanup, err := data.New(conf)
 	if err != nil {
 		return nil, nil, err

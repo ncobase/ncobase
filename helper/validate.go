@@ -1,10 +1,13 @@
 package helper
 
 import (
-	"ncobase/core/data/structs"
+	"ncobase/common/validator"
 
 	"github.com/gin-gonic/gin"
 )
+
+// Validate is a wrapper around validator.Validate that returns a map of JSON field names to friendly error messages.
+var Validate = validator.ValidateStruct
 
 // ShouldBindAndValidateStruct binds and validates struct
 func ShouldBindAndValidateStruct(c *gin.Context, obj any, lang ...string) (map[string]string, error) {
@@ -17,5 +20,5 @@ func ShouldBindAndValidateStruct(c *gin.Context, obj any, lang ...string) (map[s
 		return nil, err
 	}
 
-	return structs.Validate(obj, lang...), nil
+	return Validate(obj, lang...), nil
 }

@@ -3,7 +3,6 @@ package feature
 import (
 	"context"
 	"fmt"
-	"ncobase/common/config"
 	"ncobase/common/log"
 	"plugin"
 	"sync"
@@ -35,7 +34,7 @@ func GetRegisteredPlugins() []*Wrapper {
 }
 
 // LoadPlugin loads a single plugin
-func LoadPlugin(path string, conf *config.Config) error {
+func LoadPlugin(path string, m *Manager) error {
 	p, err := plugin.Open(path)
 	if err != nil {
 		return fmt.Errorf("failed to open plugin %s: %v", path, err)
@@ -55,7 +54,7 @@ func LoadPlugin(path string, conf *config.Config) error {
 		return fmt.Errorf("failed pre-initialization of plugin %s: %v", path, err)
 	}
 
-	if err := sc.Init(conf); err != nil {
+	if err := sc.Init(m.conf, m); err != nil {
 		return fmt.Errorf("failed to initialize plugin %s: %v", path, err)
 	}
 

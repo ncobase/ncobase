@@ -15,26 +15,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/health": {
-            "get": {
-                "description": "Check the health status of the service.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "root"
-                ],
-                "summary": "Health status",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/account": {
             "get": {
                 "security": [
@@ -455,19 +435,15 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "registered": {
-                                            "type": "boolean"
-                                        }
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "registered": {
+                                        "type": "boolean"
                                     }
                                 }
-                            ]
+                            }
                         }
                     },
                     "400": {
@@ -506,28 +482,24 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "access_token": {
-                                            "type": "string"
-                                        },
-                                        "email": {
-                                            "type": "string"
-                                        },
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "register_token": {
-                                            "type": "string"
-                                        }
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "access_token": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "register_token": {
+                                        "type": "string"
                                     }
                                 }
-                            ]
+                            }
                         }
                     },
                     "400": {
@@ -707,22 +679,18 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "access_token": {
-                                            "type": "string"
-                                        },
-                                        "id": {
-                                            "type": "string"
-                                        }
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "access_token": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
                                     }
                                 }
-                            ]
+                            }
                         }
                     },
                     "400": {
@@ -1006,197 +974,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/oauth/callback": {
-            "get": {
-                "description": "Handle callback from OAuth provider.",
-                "tags": [
-                    "oauth"
-                ],
-                "summary": "OAuth callback",
-                "responses": {
-                    "302": {
-                        "description": "redirect",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/oauth/facebook/callback": {
-            "get": {
-                "description": "Handle callback from Facebook OAuth provider.",
-                "tags": [
-                    "oauth"
-                ],
-                "summary": "Facebook OAuth callback",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Authorization code",
-                        "name": "code",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/oauth/github/callback": {
-            "get": {
-                "description": "Handle callback from GitHub OAuth provider.",
-                "tags": [
-                    "oauth"
-                ],
-                "summary": "GitHub OAuth callback",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Authorization code",
-                        "name": "code",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/oauth/profile": {
-            "get": {
-                "description": "Retrieve profile information from OAuth provider.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "oauth"
-                ],
-                "summary": "Get OAuth profile",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/oauth/register": {
-            "post": {
-                "description": "Register a user using OAuth.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "oauth"
-                ],
-                "summary": "OAuth register",
-                "parameters": [
-                    {
-                        "description": "OAuthRegisterBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.OAuthRegisterBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/oauth/{provider}/redirect": {
-            "get": {
-                "description": "Redirect to OAuth provider for authentication.",
-                "tags": [
-                    "oauth"
-                ],
-                "summary": "OAuth redirect",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "OAuth provider",
-                        "name": "provider",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Next URL after authentication",
-                        "name": "next",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "302": {
-                        "description": "redirect",
                         "schema": {
                             "$ref": "#/definitions/ncobase_common_resp.Exception"
                         }
@@ -1707,22 +1484,18 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "access_token": {
-                                            "type": "string"
-                                        },
-                                        "id": {
-                                            "type": "string"
-                                        }
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "access_token": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
                                     }
                                 }
-                            ]
+                            }
                         }
                     },
                     "400": {
@@ -1982,49 +1755,6 @@ const docTemplate = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/structs.ReadPermission"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/roles/{slug}/users": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of users associated with a role by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "roles"
-                ],
-                "summary": "List users for a role",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Role ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/structs.UserRole"
                             }
                         }
                     },
@@ -3458,33 +3188,6 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.OAuthRegisterBody": {
-            "type": "object",
-            "required": [
-                "display_name",
-                "username"
-            ],
-            "properties": {
-                "display_name": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "register_token": {
-                    "type": "string"
-                },
-                "short_bio": {
-                    "type": "string"
-                },
-                "tenant": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
         "structs.ReadAsset": {
             "type": "object",
             "properties": {
@@ -3525,50 +3228,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadGroup": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "leader": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "tenant_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -4211,6 +3870,9 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -4223,6 +3885,9 @@ const docTemplate = `{
                 "phone": {
                     "type": "string"
                 },
+                "status": {
+                    "type": "integer"
+                },
                 "updated_at": {
                     "type": "string"
                 },
@@ -4234,26 +3899,8 @@ const docTemplate = `{
         "structs.UserMeshes": {
             "type": "object",
             "properties": {
-                "groups": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadGroup"
-                    }
-                },
                 "profile": {
                     "$ref": "#/definitions/structs.UserProfileBody"
-                },
-                "roles": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadRole"
-                    }
-                },
-                "tenants": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadTenant"
-                    }
                 },
                 "user": {
                     "$ref": "#/definitions/structs.UserBody"
@@ -4307,17 +3954,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "thumbnail": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UserRole": {
-            "type": "object",
-            "properties": {
-                "role_id": {
-                    "type": "string"
-                },
-                "user_id": {
                     "type": "string"
                 }
             }

@@ -1,19 +1,19 @@
 package handler
 
 import (
-	"ncobase/feature/content/handler/taxonomy"
-	"ncobase/feature/content/handler/topic"
 	"ncobase/feature/content/service"
 )
 
+// Handler represents the content handler.
 type Handler struct {
-	Taxonomy taxonomy.HandlerInterface
-	Topic    topic.HandlerInterface
+	Taxonomy TaxonomyHandlerInterface
+	Topic    TopicHandlerInterface
 }
 
+// New creates a new handler.
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		Taxonomy: taxonomy.New(svc),
-		Topic:    topic.New(svc),
+		Taxonomy: NewTaxonomyHandler(svc),
+		Topic:    NewTopicHandler(svc),
 	}
 }

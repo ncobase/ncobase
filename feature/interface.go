@@ -22,8 +22,10 @@ type Interface interface {
 	Init(conf *config.Config, m *Manager) error
 	// PostInit performs any necessary setup after initialization
 	PostInit() error
-	// RegisterRoutes registers routes for the feature
+	// RegisterRoutes registers routes for the feature (optional)
 	RegisterRoutes(router *gin.Engine)
+	// HasRoutes returns true if the feature has routes to register
+	HasRoutes() bool
 	// GetHandlers returns the handlers for the feature
 	GetHandlers() map[string]Handler
 	// GetServices returns the services for the feature

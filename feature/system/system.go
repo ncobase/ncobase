@@ -1,29 +1,34 @@
 package system
 
 import (
+	"fmt"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/handler"
 	"ncobase/feature/system/service"
 	"ncobase/middleware"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 )
 
-const (
-	name    = "system"
-	desc    = "system module"
-	version = "1.0.0"
+var (
+	name         = "system"
+	desc         = "system module"
+	version      = "1.0.0"
+	dependencies []string
 )
 
 // Module represents the system module.
 type Module struct {
-	h       *handler.Handler
-	s       *service.Service
-	d       *data.Data
-	cleanup func()
-	fm      *feature.Manager
+	initialized bool
+	mu          sync.RWMutex
+	fm          *feature.Manager
+	h           *handler.Handler
+	s           *service.Service
+	d           *data.Data
+	cleanup     func(name ...string)
 }
 
 // New creates a new instance of the system module.
@@ -39,20 +44,30 @@ func (m *Module) PreInit() error {
 
 // Init initializes the system module with the given config object
 func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	if m.initialized {
+		return fmt.Errorf("system module already initialized")
+	}
+
 	m.d, m.cleanup, err = data.New(conf.Data)
 	if err != nil {
 		return err
 	}
-	m.s = service.New(m.d, fm)
-	m.h = handler.New(m.s)
-	// Subscribe to relevant events
-	m.subscribeEvents(fm)
+
+	m.fm = fm
+	m.initialized = true
+
 	return nil
 }
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	// Implement any post-initialization logic here
+	m.s = service.New(m.d, m.fm)
+	m.h = handler.New(m.s)
+	// Subscribe to relevant events
+	m.subscribeEvents(m.fm)
 	return nil
 }
 
@@ -61,10 +76,17 @@ func (m *Module) Name() string {
 	return name
 }
 
+// HasRoutes returns true if the plugin has routes, false otherwise
+func (m *Module) HasRoutes() bool {
+	return true
+}
+
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
+	// API v1 endpoints
+	v1 := e.Group("/v1")
 	// Menu endpoints
-	menus := e.Group("/v1/menus", middleware.Authenticated)
+	menus := v1.Group("/menus", middleware.Authenticated)
 	{
 		menus.GET("", m.h.Menu.List)
 		menus.POST("", m.h.Menu.Create)
@@ -97,7 +119,7 @@ func (m *Module) PreCleanup() error {
 // Cleanup cleans up the module
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
-		m.cleanup()
+		m.cleanup(m.Name())
 	}
 	return nil
 }
@@ -124,7 +146,7 @@ func (m *Module) Version() string {
 
 // Dependencies returns the dependencies of the plugin
 func (m *Module) Dependencies() []string {
-	return []string{}
+	return dependencies
 }
 
 // SubscribeEvents subscribes to relevant events

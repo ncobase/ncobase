@@ -1,21 +1,19 @@
 package repository
 
-import (
-	"ncobase/feature/content/data"
-	"ncobase/feature/content/data/repository/taxonomy"
-	"ncobase/feature/content/data/repository/topic"
-)
+import "ncobase/feature/content/data"
 
+// Repository represents the content repository.
 type Repository struct {
-	Taxonomy          taxonomy.RepositoryInterface
-	TaxonomyRelations taxonomy.RelationRepositoryInterface
-	Topic             topic.RepositoryInterface
+	Taxonomy          TaxonomyRepositoryInterface
+	TaxonomyRelations TaxonomyRelationsRepositoryInterface
+	Topic             TopicRepositoryInterface
 }
 
-func New(d *data.Data) *Repository {
+// NewRepository creates a new repository.
+func NewRepository(d *data.Data) *Repository {
 	return &Repository{
-		Taxonomy:          taxonomy.NewTaxonomyRepo(d),
-		TaxonomyRelations: taxonomy.NewTaxonomyRelationRepo(d),
-		Topic:             topic.NewTopicRepo(d),
+		Taxonomy:          NewTaxonomyRepository(d),
+		TaxonomyRelations: NewTaxonomyRelationsRepository(d),
+		Topic:             NewTopicRepository(d),
 	}
 }
