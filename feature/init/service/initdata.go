@@ -1,40 +1,59 @@
 package service
 
-//
-// import (
-// 	"context"
-// 	"fmt"
-// 	"ncobase/common/log"
-// 	"ncobase/common/types"
-// 	"ncobase/core/service"
-// 	accessStructs "ncobase/feature/access/structs"
-// 	tenantStructs "ncobase/feature/tenant/structs"
-// 	userStructs "ncobase/feature/user/structs"
-// )
-//
-// // initData initializes roles, permissions, Casbin policies, and initial users if necessary.
-// func (svc *service.Service) initData() error {
-// 	ctx := context.Background()
-//
-// 	steps := []func(context.Context) error{
-// 		svc.checkRolesInitialized,
-// 		svc.checkPermissionsInitialized,
-// 		svc.checkUsersInitialized,
-// 		svc.checkDomainsInitialized,
-// 		svc.checkCasbinPoliciesInitialized,
-// 	}
-//
-// 	for _, step := range steps {
-// 		if err := step(ctx); err != nil {
-// 			return fmt.Errorf("initialization step failed: %v", err)
-// 		}
-// 	}
-//
-// 	return nil
-// }
+import (
+	accessService "ncobase/feature/access/service"
+	tenantService "ncobase/feature/tenant/service"
+	userService "ncobase/feature/user/service"
+)
+
+// InitService initializes roles, permissions, Casbin policies, and initial users if necessary.
+type InitService interface {
+	InitData() error
+}
+
+// initService implements InitService.
+type initService struct {
+	user           userService.UserServiceInterface
+	userProfile    userService.UserProfileServiceInterface
+	tenant         tenantService.TenantServiceInterface
+	userTenant     tenantService.UserTenantServiceInterface
+	role           accessService.RoleServiceInterface
+	permission     accessService.PermissionServiceInterface
+	rolePermission accessService.RolePermissionServiceInterface
+	userRole       accessService.UserRoleServiceInterface
+	userTenantRole accessService.UserTenantRoleServiceInterface
+	casbin         accessService.CasbinServiceInterface
+}
+
+// NewInitService creates a new service.
+func NewInitService() InitService {
+	return &initService{}
+}
+
+// InitData initializes roles, permissions, Casbin policies, and initial users if necessary.
+func (svc *initService) InitData() error {
+	// ctx := context.Background()
+	//
+	// steps := []func(context.Context) error{
+	// 	svc.checkRolesInitialized,
+	// 	svc.checkPermissionsInitialized,
+	// 	svc.checkUsersInitialized,
+	// 	svc.checkDomainsInitialized,
+	// 	svc.checkCasbinPoliciesInitialized,
+	// }
+	//
+	// for _, step := range steps {
+	// 	if err := step(ctx); err != nil {
+	// 		return fmt.Errorf("initialization step failed: %v", err)
+	// 	}
+	// }
+
+	return nil
+}
+
 //
 // // checkUsersInitialized checks if users are already initialized.
-// func (svc *service.Service) checkUsersInitialized(ctx context.Context) error {
+// func (svc *initService) checkUsersInitialized(ctx context.Context) error {
 // 	params := &userStructs.ListUserParams{}
 // 	count := svc.user.CountX(ctx, params)
 // 	if count == 0 {
@@ -45,7 +64,7 @@ package service
 // }
 //
 // // initUsers initializes users, their tenants, roles, and tenant roles.
-// func (svc *service.Service) initUsers(ctx context.Context) error {
+// func (svc *initService) initUsers(ctx context.Context) error {
 // 	users := []userStructs.UserBody{
 // 		{
 // 			Username:    "super",
@@ -71,14 +90,14 @@ package service
 // 	}
 //
 // 	for _, user := range users {
-// 		createdUser, err := svc.user.Create(ctx, &user)
+// 		createdUser, err := svc.user.CreateUserService(ctx, &userStructs.UserMeshes{User: &user})
 // 		if err != nil {
 // 			log.Errorf(ctx, "initUsers error on create user: %v\n", err)
 // 			return err
 // 		}
 //
 // 		// update user password
-// 		if err := svc.updateUserPassword(ctx, &userStructs.UserPassword{
+// 		if err := svc.user.UpdateUserPassword(ctx, &userStructs.UserPassword{
 // 			User:        createdUser.Username,
 // 			NewPassword: "Ac123456",
 // 		}); err != nil {
@@ -104,7 +123,7 @@ package service
 // 				},
 // 			}
 //
-// 			if _, err := svc.createInitialTenant(ctx, tenantBody); err != nil {
+// 			if _, err := svc.tenant.CreateInitialTenant(ctx, tenantBody); err != nil {
 // 				log.Errorf(ctx, "initUsers error on create initial tenant: %v\n", err)
 // 				return err
 // 			}
@@ -162,7 +181,7 @@ package service
 // }
 //
 // // checkDomainsInitialized checks if domains are already initialized.
-// func (svc *service.Service) checkDomainsInitialized(ctx context.Context) error {
+// func (svc *initService) checkDomainsInitialized(ctx context.Context) error {
 // 	params := &tenantStructs.ListTenantParams{}
 // 	count := svc.tenant.CountX(ctx, params)
 // 	if count == 0 {
@@ -172,7 +191,7 @@ package service
 // }
 //
 // // initDomains initializes the domains (tenants).
-// func (svc *service.Service) initDomains(ctx context.Context) error {
+// func (svc *initService) initDomains(ctx context.Context) error {
 // 	domains := []tenantStructs.CreateTenantBody{
 // 		{
 // 			TenantBody: tenantStructs.TenantBody{
@@ -196,7 +215,7 @@ package service
 // }
 //
 // // checkRolesInitialized checks if roles are already initialized.
-// func (svc *service.Service) checkRolesInitialized(ctx context.Context) error {
+// func (svc *initService) checkRolesInitialized(ctx context.Context) error {
 // 	params := &accessStructs.ListRoleParams{}
 // 	count := svc.role.CountX(ctx, params)
 // 	if count == 0 {
@@ -207,7 +226,7 @@ package service
 // }
 //
 // // initRoles initializes roles.
-// func (svc *service.Service) initRoles(ctx context.Context) error {
+// func (svc *initService) initRoles(ctx context.Context) error {
 // 	roles := []*accessStructs.CreateRoleBody{
 // 		{
 // 			RoleBody: accessStructs.RoleBody{
@@ -252,7 +271,7 @@ package service
 // }
 //
 // // checkPermissionsInitialized checks if permissions are already initialized.
-// func (svc *service.Service) checkPermissionsInitialized(ctx context.Context) error {
+// func (svc *initService) checkPermissionsInitialized(ctx context.Context) error {
 // 	params := &accessStructs.ListPermissionParams{}
 // 	count := svc.permission.CountX(ctx, params)
 // 	if count == 0 {
@@ -263,7 +282,7 @@ package service
 // }
 //
 // // initPermissions initializes permissions and their relationships.
-// func (svc *service.Service) initPermissions(ctx context.Context) error {
+// func (svc *initService) initPermissions(ctx context.Context) error {
 // 	permissions := []accessStructs.CreatePermissionBody{
 // 		{
 // 			PermissionBody: accessStructs.PermissionBody{
@@ -349,9 +368,9 @@ package service
 // }
 //
 // // checkCasbinPoliciesInitialized checks if Casbin policies are already initialized.
-// func (svc *service.Service) checkCasbinPoliciesInitialized(ctx context.Context) error {
+// func (svc *initService) checkCasbinPoliciesInitialized(ctx context.Context) error {
 // 	params := &accessStructs.ListCasbinRuleParams{}
-// 	count := svc.casbinRule.CountX(ctx, params)
+// 	count := svc.casbin.CountX(ctx, params)
 // 	if count == 0 {
 // 		return svc.initCasbinPolicies(ctx)
 // 	}
@@ -360,7 +379,7 @@ package service
 // }
 //
 // // initCasbinPolicies initializes Casbin policies.
-// func (svc *service.Service) initCasbinPolicies(ctx context.Context) error {
+// func (svc *initService) initCasbinPolicies(ctx context.Context) error {
 // 	defaultTenant, err := svc.tenant.GetBySlug(ctx, "ncobase")
 // 	if err != nil {
 // 		log.Errorf(ctx, "initCasbinPolicies error on get default tenant: %v\n", err)
@@ -396,14 +415,14 @@ package service
 // 				// V4, V5 are not used
 // 			}
 //
-// 			if _, err := svc.casbinRule.Create(ctx, &policy); err != nil {
+// 			if _, err := svc.casbin.Create(ctx, &policy); err != nil {
 // 				log.Errorf(ctx, "initCasbinPolicies error on create casbin rule: %v\n", err)
 // 				return err
 // 			}
 // 		}
 // 	}
 //
-// 	count := svc.casbinRule.CountX(ctx, &accessStructs.ListCasbinRuleParams{})
+// 	count := svc.casbin.CountX(ctx, &accessStructs.ListCasbinRuleParams{})
 // 	log.Infof(ctx, "-------- initCasbinPolicies done, created %d policies\n", count)
 //
 // 	return nil

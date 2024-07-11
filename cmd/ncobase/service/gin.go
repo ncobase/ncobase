@@ -1,7 +1,7 @@
-package bootstrap
+package service
 
 import (
-	"ncobase/cmd/bootstrap/middleware"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/ecode"
 	"ncobase/common/types"
