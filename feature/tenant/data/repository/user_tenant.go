@@ -6,7 +6,6 @@ import (
 	"ncobase/feature/tenant/data/ent"
 	tenantEnt "ncobase/feature/tenant/data/ent/tenant"
 	userTenantEnt "ncobase/feature/tenant/data/ent/usertenant"
-	userTenantRoleEnt "ncobase/feature/tenant/data/ent/usertenantrole"
 	"ncobase/feature/tenant/structs"
 
 	"ncobase/common/cache"
@@ -27,7 +26,6 @@ type UserTenantRepositoryInterface interface {
 	DeleteAllByTenantID(ctx context.Context, id string) error
 	GetTenantsByUserID(ctx context.Context, userID string) ([]*ent.Tenant, error)
 	IsTenantInUser(ctx context.Context, userID string, tenantID string) (bool, error)
-	IsUserInTenant(ctx context.Context, tenantID string, userID string) (bool, error)
 }
 
 // userTenantRepository implements the UserTenantRepositoryInterface.
@@ -185,16 +183,6 @@ func (r *userTenantRepository) IsTenantInUser(ctx context.Context, tenantID stri
 	count, err := r.ec.UserTenant.Query().Where(userTenantEnt.TenantIDEQ(tenantID), userTenantEnt.UserIDEQ(userID)).Count(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "userTenantRepo.IsTenantInUser error: %v\n", err)
-		return false, err
-	}
-	return count > 0, nil
-}
-
-// IsUserInRoleInTenant verifies if a user has a specific role in a tenant.
-func (r *userTenantRepository) IsUserInRoleInTenant(ctx context.Context, userID string, tenantID string, roleID string) (bool, error) {
-	count, err := r.ec.UserTenantRole.Query().Where(userTenantRoleEnt.UserIDEQ(userID), userTenantRoleEnt.TenantIDEQ(tenantID), userTenantRoleEnt.RoleIDEQ(roleID)).Count(ctx)
-	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.IsUserInRoleInTenant error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil

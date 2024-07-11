@@ -1,31 +1,119 @@
-package helper
+package service
 
 import (
 	"context"
 	"fmt"
+	"ncobase/common/config"
 	"ncobase/common/log"
+	"ncobase/feature/access/data"
 	"ncobase/feature/access/data/repository"
 	"ncobase/feature/access/structs"
+	"os"
 	"strings"
 
+	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
 	"github.com/casbin/casbin/v2/persist"
 )
 
-// CasbinAdapter is the adapter for Casbin, using the repo layer.
-type CasbinAdapter struct {
+// CasbinAdapterServiceInterface is the interface for the service.
+type CasbinAdapterServiceInterface interface {
+	InitEnforcer() (*casbin.Enforcer, error)
+	LoadPolicy(model model.Model) error
+	SavePolicy(model model.Model) error
+	AddPolicy(sec string, ptype string, rule []string) error
+	RemovePolicy(sec string, ptype string, rule []string) error
+	RemoveFilteredPolicy(sec string, ptype string, fieldIndex int, fieldValues ...string) error
+}
+
+// casbinAdapterService is the struct for the service.
+type casbinAdapterService struct {
+	conf   *config.Config
 	casbin repository.CasbinRuleRepositoryInterface
 }
 
-// NewCasbinAdapter creates a new Casbin adapter.
-func NewCasbinAdapter(casbinRepo repository.CasbinRuleRepositoryInterface) *CasbinAdapter {
-	return &CasbinAdapter{casbin: casbinRepo}
+// NewCasbinAdapterService creates a new service.
+func NewCasbinAdapterService(conf *config.Config, d *data.Data) CasbinAdapterServiceInterface {
+	return &casbinAdapterService{
+		conf:   conf,
+		casbin: repository.NewCasbinRule(d),
+	}
+}
+
+// InitModel initializes the casbin model.
+func (s *casbinAdapterService) initModel() (model.Model, error) {
+	casbinConf := s.conf.Auth.Casbin
+	var modelSource string
+	// Define the default model source
+	defaultModelSource := `
+		[request_definition]
+		r = sub, obj, act
+
+		[policy_definition]
+		p = sub, obj, act
+
+		[policy_effect]
+		e = some(where (p.eft == allow))
+
+		[matchers]
+		m = r.sub == p.sub && r.obj == p.obj && r.act == p.act
+	`
+	if casbinConf.Path != "" {
+		// Load model from file
+		fileContent, err := os.ReadFile(casbinConf.Path)
+		if err != nil {
+			return nil, err
+		}
+		modelSource = string(fileContent)
+	} else if casbinConf.Model != "" {
+		// Use model provided as a string
+		modelSource = casbinConf.Model
+	} else {
+		// Fallback to the default internal model source
+		modelSource = defaultModelSource
+	}
+
+	// Load the Casbin model from the chosen model source
+	m, err := model.NewModelFromString(modelSource)
+	if err != nil {
+		return nil, err
+	}
+
+	return m, nil
+}
+
+// InitEnforcer initializes the casbin enforcer.
+func (s *casbinAdapterService) InitEnforcer() (*casbin.Enforcer, error) {
+	ctx := context.Background()
+
+	m, err := s.initModel()
+	if err != nil {
+		log.Errorf(ctx, "failed to initialize model: %v", err)
+		return nil, err
+	}
+
+	// Create the enforcer
+	e, err := casbin.NewEnforcer(m, s)
+	if err != nil {
+		log.Errorf(ctx, "failed to create enforcer: %v", err)
+		return nil, err
+	}
+
+	// Load policies from db
+	err = e.LoadPolicy()
+	if err != nil {
+		log.Errorf(ctx, "failed to load policies: %v", err)
+		return nil, err
+	}
+
+	log.Infof(ctx, "enforcer initialized and policies loaded successfully")
+	return e, nil
 }
 
 // LoadPolicy loads all policy rules from the storage.
-func (a *CasbinAdapter) LoadPolicy(model model.Model) error {
+func (s *casbinAdapterService) LoadPolicy(model model.Model) error {
 	ctx := context.Background()
-	rules, err := a.casbin.Find(ctx, &structs.ListCasbinRuleParams{})
+	rules, err := s.casbin.Find(ctx, &structs.ListCasbinRuleParams{})
 	if err != nil {
 		log.Errorf(ctx, "failed to load policies: %v", err)
 		return err
@@ -43,9 +131,9 @@ func (a *CasbinAdapter) LoadPolicy(model model.Model) error {
 }
 
 // SavePolicy saves all policy rules to the storage.
-func (a *CasbinAdapter) SavePolicy(model model.Model) error {
+func (s *casbinAdapterService) SavePolicy(model model.Model) error {
 	ctx := context.Background()
-	if err := a.casbin.Delete(ctx, ""); err != nil {
+	if err := s.casbin.Delete(ctx, ""); err != nil {
 		log.Errorf(ctx, "failed to delete policy: %v", err)
 		return err
 	}
@@ -61,7 +149,7 @@ func (a *CasbinAdapter) SavePolicy(model model.Model) error {
 				V4:    &rule[4],
 				V5:    &rule[5],
 			}
-			if _, err := a.casbin.Create(ctx, ruleBody); err != nil {
+			if _, err := s.casbin.Create(ctx, ruleBody); err != nil {
 				log.Errorf(ctx, "failed to save policy line: %v", err)
 				return err
 			}
@@ -71,7 +159,7 @@ func (a *CasbinAdapter) SavePolicy(model model.Model) error {
 }
 
 // AddPolicy adds a policy rule to the storage.
-func (a *CasbinAdapter) AddPolicy(sec string, ptype string, rule []string) error {
+func (s *casbinAdapterService) AddPolicy(sec string, ptype string, rule []string) error {
 	ctx := context.Background()
 
 	ruleBody := &structs.CasbinRuleBody{
@@ -84,12 +172,12 @@ func (a *CasbinAdapter) AddPolicy(sec string, ptype string, rule []string) error
 		V5:    &rule[5],
 	}
 
-	_, err := a.casbin.Create(ctx, ruleBody)
+	_, err := s.casbin.Create(ctx, ruleBody)
 	return err
 }
 
 // RemovePolicy removes a policy rule from the storage.
-func (a *CasbinAdapter) RemovePolicy(sec string, ptype string, rule []string) error {
+func (s *casbinAdapterService) RemovePolicy(sec string, ptype string, rule []string) error {
 	ctx := context.Background()
 
 	ruleBody := &structs.CasbinRuleBody{
@@ -102,7 +190,7 @@ func (a *CasbinAdapter) RemovePolicy(sec string, ptype string, rule []string) er
 		V5:    &rule[5],
 	}
 
-	rules, err := a.casbin.Find(ctx, &structs.ListCasbinRuleParams{
+	rules, err := s.casbin.Find(ctx, &structs.ListCasbinRuleParams{
 		PType: &ruleBody.PType,
 		V0:    &ruleBody.V0,
 		V1:    &ruleBody.V1,
@@ -118,12 +206,12 @@ func (a *CasbinAdapter) RemovePolicy(sec string, ptype string, rule []string) er
 		return nil
 	}
 
-	err = a.casbin.Delete(ctx, rules[0].ID)
+	err = s.casbin.Delete(ctx, rules[0].ID)
 	return err
 }
 
 // RemoveFilteredPolicy removes policy rules that match the filter from the storage.
-func (a *CasbinAdapter) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int, fieldValues ...string) error {
+func (s *casbinAdapterService) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int, fieldValues ...string) error {
 	ctx := context.Background()
 
 	params := &structs.ListCasbinRuleParams{
@@ -204,13 +292,13 @@ func (a *CasbinAdapter) RemoveFilteredPolicy(sec string, ptype string, fieldInde
 		return fmt.Errorf("fieldIndex %d out of range", fieldIndex)
 	}
 
-	rules, err := a.casbin.Find(ctx, params)
+	rules, err := s.casbin.Find(ctx, params)
 	if err != nil {
 		return err
 	}
 
 	for _, rule := range rules {
-		err = a.casbin.Delete(ctx, rule.ID)
+		err = s.casbin.Delete(ctx, rule.ID)
 		if err != nil {
 			return err
 		}

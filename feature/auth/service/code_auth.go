@@ -12,11 +12,11 @@ import (
 	"ncobase/feature/auth/data"
 	"ncobase/feature/auth/data/ent"
 	codeAuthEnt "ncobase/feature/auth/data/ent/codeauth"
+	"ncobase/feature/auth/middleware"
 	"ncobase/feature/auth/structs"
 	userService "ncobase/feature/user/service"
 	userStructs "ncobase/feature/user/structs"
 	"ncobase/helper"
-	"ncobase/middleware"
 	"strings"
 	"time"
 )
@@ -59,7 +59,7 @@ func (s *codeAuthService) CodeAuthService(ctx context.Context, code string) (*re
 		return sendRegisterMail(ctx, conf, codeAuth)
 	}
 
-	return generateTokensForUser(ctx, client, rst.User, conf.Domain)
+	return generateTokensForUser(ctx, conf, client, rst.User, conf.Domain)
 }
 
 // Helper functions for codeAuthService
@@ -78,7 +78,7 @@ func sendRegisterMail(ctx context.Context, conf *config.Config, codeAuth *ent.Co
 	return &resp.Exception{Data: types.JSON{"email": codeAuth.Email, "register_token": registerToken}}, nil
 }
 
-func generateTokensForUser(ctx context.Context, client *ent.Client, user *userStructs.UserBody, tenant string) (*resp.Exception, error) {
+func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent.Client, user *userStructs.UserBody, tenant string) (*resp.Exception, error) {
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return resp.Transactions(err.Error()), nil
@@ -90,7 +90,7 @@ func generateTokensForUser(ctx context.Context, client *ent.Client, user *userSt
 		}
 		return resp.Transactions(err.Error()), nil
 	}
-	accessToken, refreshToken := middleware.GenerateUserToken(user.ID, authToken.ID)
+	accessToken, refreshToken := middleware.GenerateUserToken(conf.Auth.JWT.Secret, user.ID, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil

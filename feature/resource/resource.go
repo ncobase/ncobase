@@ -6,8 +6,8 @@ import (
 	"ncobase/feature"
 	"ncobase/feature/resource/data"
 	"ncobase/feature/resource/handler"
+	"ncobase/feature/resource/middleware"
 	"ncobase/feature/resource/service"
-	"ncobase/middleware"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -81,7 +81,7 @@ func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 	// Asset endpoints
-	assets := v1.Group("/assets", middleware.Authenticated)
+	assets := v1.Group("/assets", middleware.AuthenticatedUser)
 	{
 		assets.GET("", p.h.Asset.ListAssetsHandler)
 		assets.POST("", p.h.Asset.CreateAssetsHandler)

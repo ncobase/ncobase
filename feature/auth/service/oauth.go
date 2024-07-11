@@ -7,9 +7,9 @@ package service
 // 	"ncobase/feature/auth/data"
 // 	"ncobase/feature/auth/data/ent"
 // 	oauthUserEnt "ncobase/feature/auth/data/ent/oauthuser"
-// 	structs3 "ncobase/feature/auth/structs"
-// 	structs2 "ncobase/feature/tenant/structs"
-// 	structs4 "ncobase/feature/user/structs"
+// 	authStructs "ncobase/feature/auth/structs"
+// 	tenantStructs "ncobase/feature/tenant/structs"
+// 	userStructs "ncobase/feature/user/structs"
 // 	"ncobase/helper"
 // 	"ncobase/middleware"
 // 	"net/http"
@@ -27,7 +27,7 @@ package service
 //
 // // OAuthServiceInterface is the interface for the service.
 // type OAuthServiceInterface interface {
-// 	OAuthRegisterService(ctx context.Context, body *structs3.OAuthRegisterBody) (*resp.Exception, error)
+// 	OAuthRegisterService(ctx context.Context, body *authStructs.OAuthRegisterBody) (*resp.Exception, error)
 // 	GetOAuthProfileInfoService(ctx context.Context, r string) (*resp.Exception, error)
 // 	OAuthCallbackService(ctx context.Context, provider, code string) (*resp.Exception, error)
 // 	OAuthAuthenticationService(ctx context.Context) (*resp.Exception, error)
@@ -46,7 +46,7 @@ package service
 // }
 //
 // // OAuthRegisterService OAuth register service
-// func (svc *oAuthService) OAuthRegisterService(ctx context.Context, body *structs3.OAuthRegisterBody) (*resp.Exception, error) {
+// func (svc *oAuthService) OAuthRegisterService(ctx context.Context, body *authStructs.OAuthRegisterBody) (*resp.Exception, error) {
 // 	conf := helper.GetConfig(ctx)
 // 	registerToken, err := svc.getRegisterToken(ctx, body.RegisterToken)
 // 	if err != nil {
@@ -59,7 +59,7 @@ package service
 // 	}
 //
 // 	fmt.Println(decoded)
-// 	payload := decoded["payload"].(structs3.RegisterTokenBody)
+// 	payload := decoded["payload"].(authStructs.RegisterTokenBody)
 //
 // 	bg := context.Background()
 // 	client := svc.d.GetEntClient()
@@ -84,7 +84,7 @@ package service
 // 	if user, err := svc.createUserEntities(ctx, tx, body, payload); err != nil {
 // 		return err, nil
 // 	} else {
-// 		return svc.generateAndSetTokens(ctx, tx, &structs4.UserBody{ID: user.ID}), tx.Commit()
+// 		return svc.generateAndSetTokens(ctx, tx, &userStructs.UserBody{ID: user.ID}), tx.Commit()
 // 	}
 // }
 //
@@ -112,8 +112,8 @@ package service
 // }
 //
 // // createUserEntities Create user and related entities
-// func (svc *oAuthService) createUserEntities(ctx context.Context, tx *ent.Tx, body *structs3.OAuthRegisterBody, payload structs3.RegisterTokenBody) (*ent.User, *resp.Exception) {
-// 	user, err := svc.user.Create(ctx, &structs4.UserBody{
+// func (svc *oAuthService) createUserEntities(ctx context.Context, tx *ent.Tx, body *authStructs.OAuthRegisterBody, payload authStructs.RegisterTokenBody) (*ent.User, *resp.Exception) {
+// 	user, err := svc.user.Create(ctx, &userStructs.UserBody{
 // 		Username: body.Username,
 // 		Email:    payload.Profile.Email,
 // 		Phone:    body.Phone,
@@ -126,7 +126,7 @@ package service
 // 		return nil, err
 // 	}
 //
-// 	if err := svc.createUserProfile(ctx, &structs4.UserProfileBody{
+// 	if err := svc.createUserProfile(ctx, &userStructs.UserProfileBody{
 // 		ID:          user.ID,
 // 		DisplayName: body.DisplayName,
 // 		ShortBio:    body.ShortBio,
@@ -134,8 +134,8 @@ package service
 // 		return nil, err
 // 	}
 //
-// 	if _, err := svc.isCreateTenant(ctx, &structs2.CreateTenantBody{
-// 		TenantBody: structs2.TenantBody{Name: body.Tenant, CreatedBy: &user.ID, UpdatedBy: &user.ID},
+// 	if _, err := svc.isCreateTenant(ctx, &tenantStructs.CreateTenantBody{
+// 		TenantBody: tenantStructs.TenantBody{Name: body.Tenant, CreatedBy: &user.ID, UpdatedBy: &user.ID},
 // 	}); err != nil {
 // 		return nil, resp.InternalServer(err.Error())
 // 	}
@@ -144,7 +144,7 @@ package service
 // }
 //
 // // createOAuthUser Create OAuth user
-// func (svc *oAuthService) createOAuthUser(ctx context.Context, tx *ent.Tx, payload structs3.RegisterTokenBody, userID string) *resp.Exception {
+// func (svc *oAuthService) createOAuthUser(ctx context.Context, tx *ent.Tx, payload authStructs.RegisterTokenBody, userID string) *resp.Exception {
 // 	_, err := tx.OAuthUser.
 // 		Create().
 // 		SetAccessToken(payload.Token).
@@ -162,7 +162,7 @@ package service
 // }
 //
 // // createUserProfile Create user profile
-// func (svc *oAuthService) createUserProfile(ctx context.Context, body *structs4.UserProfileBody) *resp.Exception {
+// func (svc *oAuthService) createUserProfile(ctx context.Context, body *userStructs.UserProfileBody) *resp.Exception {
 // 	_, err := svc.userProfile.Create(ctx, body)
 // 	if exception, _ := handleEntError("User", err); exception != nil {
 // 		return exception
@@ -172,7 +172,7 @@ package service
 // }
 //
 // // generateAndSetTokens Generate and set tokens
-// func (svc *oAuthService) generateAndSetTokens(ctx context.Context, tx *ent.Tx, user *structs4.UserBody) *resp.Exception {
+// func (svc *oAuthService) generateAndSetTokens(ctx context.Context, tx *ent.Tx, user *userStructs.UserBody) *resp.Exception {
 // 	authToken, err := tx.AuthToken.Create().SetUserID(user.ID).Save(context.Background())
 // 	if err != nil {
 // 		if rear := tx.Rollback(); rear != nil {
@@ -301,13 +301,13 @@ package service
 // // Handle new OAuth user
 // func (svc *oAuthService) handleNewOAuthUser(ctx context.Context, tx *ent.Tx, profile *oauth.Profile, token, provider string) (*resp.Exception, error) {
 // 	conf := helper.GetConfig(ctx)
-// 	user, err := svc.user.FindUser(ctx, &structs4.FindUser{Email: profile.Email})
+// 	user, err := svc.user.FindUser(ctx, &userStructs.FindUser{Email: profile.Email})
 // 	if err != nil {
 // 		return resp.InternalServer(err.Error()), nil
 // 	}
 //
 // 	if validator.IsNil(user) {
-// 		return svc.generateAndSetTokens(ctx, tx, &structs4.UserBody{ID: user.ID}), tx.Commit()
+// 		return svc.generateAndSetTokens(ctx, tx, &userStructs.UserBody{ID: user.ID}), tx.Commit()
 // 	}
 //
 // 	subject := "email-register"

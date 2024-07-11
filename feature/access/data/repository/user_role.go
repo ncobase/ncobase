@@ -14,8 +14,8 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// UserRoleRepository represents the user role repository interface.
-type UserRoleRepository interface {
+// UserRoleRepositoryInterface represents the user role repository interface.
+type UserRoleRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.UserRole) (*ent.UserRole, error)
 	GetByIDAndRoleID(ctx context.Context, uid, rid string) (*ent.UserRole, error)
 	GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserRole, error)
@@ -29,7 +29,7 @@ type UserRoleRepository interface {
 	IsUserInRole(ctx context.Context, userID string, roleID string) (bool, error)
 }
 
-// userRoleRepository implements the UserRoleRepository.
+// userRoleRepository implements the UserRoleRepositoryInterface.
 type userRoleRepository struct {
 	ec *ent.Client
 	rc *redis.Client
@@ -37,7 +37,7 @@ type userRoleRepository struct {
 }
 
 // NewUserRoleRepository creates a new user role repository.
-func NewUserRoleRepository(d *data.Data) UserRoleRepository {
+func NewUserRoleRepository(d *data.Data) UserRoleRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	return &userRoleRepository{ec, rc, cache.NewCache[ent.UserRole](rc, "nb_user_role")}

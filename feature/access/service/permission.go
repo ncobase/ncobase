@@ -9,19 +9,19 @@ import (
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/data/ent"
 	"ncobase/feature/access/data/repository"
-	structs2 "ncobase/feature/access/structs"
+	"ncobase/feature/access/structs"
 )
 
 // PermissionServiceInterface is the interface for the service.
 type PermissionServiceInterface interface {
-	Create(ctx context.Context, permissionData *structs2.CreatePermissionBody) (*resp.Exception, error)
+	Create(ctx context.Context, permissionData *structs.CreatePermissionBody) (*resp.Exception, error)
 	Update(ctx context.Context, permissionID string, updates types.JSON) (*resp.Exception, error)
 	Delete(ctx context.Context, permissionID string) (*resp.Exception, error)
 	GetByID(ctx context.Context, permissionID string) (*resp.Exception, error)
 	GetPermissionsByRoleID(ctx context.Context, roleID string) (*resp.Exception, error)
-	List(ctx context.Context, params *structs2.ListPermissionParams) (*resp.Exception, error)
-	SerializePermission(row *ent.Permission) *structs2.ReadPermission
-	SerializePermissions(rows []*ent.Permission) []*structs2.ReadPermission
+	List(ctx context.Context, params *structs.ListPermissionParams) (*resp.Exception, error)
+	SerializePermission(row *ent.Permission) *structs.ReadPermission
+	SerializePermissions(rows []*ent.Permission) []*structs.ReadPermission
 }
 
 // permissionService is the struct for the service.
@@ -39,7 +39,7 @@ func NewPermissionService(d *data.Data) PermissionServiceInterface {
 }
 
 // Create creates a new permission.
-func (s *permissionService) Create(ctx context.Context, permissionData *structs2.CreatePermissionBody) (*resp.Exception, error) {
+func (s *permissionService) Create(ctx context.Context, permissionData *structs.CreatePermissionBody) (*resp.Exception, error) {
 	if permissionData.Name == "" {
 		return resp.BadRequest("Permission name is required"), nil
 	}
@@ -103,7 +103,7 @@ func (s *permissionService) GetPermissionsByRoleID(ctx context.Context, roleID s
 }
 
 // List lists all permissions.
-func (s *permissionService) List(ctx context.Context, params *structs2.ListPermissionParams) (*resp.Exception, error) {
+func (s *permissionService) List(ctx context.Context, params *structs.ListPermissionParams) (*resp.Exception, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
@@ -129,8 +129,8 @@ func (s *permissionService) List(ctx context.Context, params *structs2.ListPermi
 }
 
 // SerializePermissions serializes a list of permission entities to a response format.
-func (s *permissionService) SerializePermissions(permissions []*ent.Permission) []*structs2.ReadPermission {
-	serializedPermissions := make([]*structs2.ReadPermission, len(permissions))
+func (s *permissionService) SerializePermissions(permissions []*ent.Permission) []*structs.ReadPermission {
+	serializedPermissions := make([]*structs.ReadPermission, len(permissions))
 	for i, permission := range permissions {
 		serializedPermissions[i] = s.SerializePermission(permission)
 	}
@@ -138,8 +138,8 @@ func (s *permissionService) SerializePermissions(permissions []*ent.Permission) 
 }
 
 // SerializePermission serializes a permission entity to a response format.
-func (s *permissionService) SerializePermission(row *ent.Permission) *structs2.ReadPermission {
-	return &structs2.ReadPermission{
+func (s *permissionService) SerializePermission(row *ent.Permission) *structs.ReadPermission {
+	return &structs.ReadPermission{
 		ID:          row.ID,
 		Name:        row.Name,
 		Action:      row.Action,

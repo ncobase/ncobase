@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/tenant/data/ent/tenant"
 	"ncobase/feature/tenant/data/ent/usertenant"
-	"ncobase/feature/tenant/data/ent/usertenantrole"
 	"reflect"
 	"sync"
 
@@ -75,9 +74,8 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			tenant.Table:         tenant.ValidColumn,
-			usertenant.Table:     usertenant.ValidColumn,
-			usertenantrole.Table: usertenantrole.ValidColumn,
+			tenant.Table:     tenant.ValidColumn,
+			usertenant.Table: usertenant.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

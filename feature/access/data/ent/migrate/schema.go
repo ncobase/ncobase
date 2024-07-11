@@ -177,6 +177,50 @@ var (
 			},
 		},
 	}
+	// NbUserTenantRoleColumns holds the columns for the "nb_user_tenant_role" table.
+	NbUserTenantRoleColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+	}
+	// NbUserTenantRoleTable holds the schema information for the "nb_user_tenant_role" table.
+	NbUserTenantRoleTable = &schema.Table{
+		Name:       "nb_user_tenant_role",
+		Columns:    NbUserTenantRoleColumns,
+		PrimaryKey: []*schema.Column{NbUserTenantRoleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "usertenantrole_id",
+				Unique:  true,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[0]},
+			},
+			{
+				Name:    "usertenantrole_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[1]},
+			},
+			{
+				Name:    "usertenantrole_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[2]},
+			},
+			{
+				Name:    "usertenantrole_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[3]},
+			},
+			{
+				Name:    "usertenantrole_user_id_tenant_id_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{NbUserTenantRoleColumns[1], NbUserTenantRoleColumns[2], NbUserTenantRoleColumns[3]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		NbCasbinRuleTable,
@@ -184,6 +228,7 @@ var (
 		NbRoleTable,
 		NbRolePermissionTable,
 		NbUserRoleTable,
+		NbUserTenantRoleTable,
 	}
 )
 
@@ -202,5 +247,8 @@ func init() {
 	}
 	NbUserRoleTable.Annotation = &entsql.Annotation{
 		Table: "nb_user_role",
+	}
+	NbUserTenantRoleTable.Annotation = &entsql.Annotation{
+		Table: "nb_user_tenant_role",
 	}
 }

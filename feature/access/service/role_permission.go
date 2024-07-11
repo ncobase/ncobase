@@ -5,7 +5,7 @@ import (
 	"ncobase/common/resp"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/data/repository"
-	structs2 "ncobase/feature/access/structs"
+	"ncobase/feature/access/structs"
 )
 
 // RolePermissionServiceInterface is the interface for the service.
@@ -31,7 +31,7 @@ func NewRolePermissionService(d *data.Data, ps PermissionServiceInterface) RoleP
 
 // AddPermissionToRole adds a permission to a role.
 func (s *rolePermissionService) AddPermissionToRole(ctx context.Context, roleID string, permissionID string) (*resp.Exception, error) {
-	_, err := s.rolePermission.Create(ctx, &structs2.RolePermission{RoleID: roleID, PermissionID: permissionID})
+	_, err := s.rolePermission.Create(ctx, &structs.RolePermission{RoleID: roleID, PermissionID: permissionID})
 	if exception, err := handleEntError("RolePermission", err); exception != nil {
 		return exception, err
 	}

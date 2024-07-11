@@ -11,6 +11,7 @@ import (
 	"ncobase/feature/access/data/ent/role"
 	"ncobase/feature/access/data/ent/rolepermission"
 	"ncobase/feature/access/data/ent/userrole"
+	"ncobase/feature/access/data/ent/usertenantrole"
 	"reflect"
 	"sync"
 
@@ -82,6 +83,7 @@ func checkColumn(table, column string) error {
 			role.Table:           role.ValidColumn,
 			rolepermission.Table: rolepermission.ValidColumn,
 			userrole.Table:       userrole.ValidColumn,
+			usertenantrole.Table: usertenantrole.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)
