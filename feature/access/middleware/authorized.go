@@ -4,7 +4,8 @@ import (
 	"context"
 	"ncobase/common/log"
 	"ncobase/common/validator"
-	structs2 "ncobase/feature/access/structs"
+	"ncobase/feature/access/service"
+	"ncobase/feature/access/structs"
 	"ncobase/helper"
 	"net/http"
 	"strings"
@@ -53,7 +54,7 @@ func handleException(c *gin.Context, exception *resp.Exception, err error, messa
 }
 
 // Authorized is a middleware that checks if the user is authorized to access the resource.
-func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedService) gin.HandlerFunc {
+func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc *service.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if inWhiteList(c.Request.URL.Path, whiteList) {
 			c.Next()
@@ -81,13 +82,13 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 		log.Infof(c, "userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 
 		// Retrieve user roles from service
-		exception, err := svc.GetUserRolesService(ctx, currentUser)
+		exception, err := svc.UserRole.GetUserRolesService(ctx, currentUser)
 		handleException(c, exception, err, "Error retrieving user roles")
 		if c.IsAborted() {
 			return
 		}
 
-		userRoles := exception.Data.([]*structs2.ReadRole)
+		userRoles := exception.Data.([]*structs.ReadRole)
 		if len(userRoles) == 0 {
 			handleException(c, resp.Forbidden("User has no roles, please contact your administrator"), nil, "")
 			return
@@ -99,29 +100,29 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 		}
 
 		// Query current user roles of the current tenant
-		exception, err = svc.GetUserRolesInTenantService(ctx, currentUser, currentTenant)
-		handleException(c, exception, err, "Error retrieving user roles in tenant")
-		if c.IsAborted() {
+		roleIDs, err := svc.UserTenantRole.GetUserRolesInTenantService(ctx, currentUser, currentTenant)
+		if err != nil {
+			handleException(c, nil, err, "Error retrieving user roles in tenant")
 			return
 		}
 
-		tenantRoles := exception.Data.([]*structs2.ReadRole)
-		for _, r := range tenantRoles {
-			roles = append(roles, r.Slug)
+		if len(roleIDs) == 0 {
+			handleException(c, resp.Forbidden("User has no roles in the current tenant, please contact your administrator"), nil, "")
+			return
 		}
 
-		roles = util.RemoveDuplicates(roles)
-		var permissions []*structs2.ReadPermission
+		roles = util.RemoveDuplicates(roleIDs)
+		var permissions []*structs.ReadPermission
 
 		// Retrieve role permissions from service
 		for _, role := range roles {
-			exception, err = svc.GetRolePermissionsService(ctx, role)
+			exception, err = svc.RolePermission.GetRolePermissions(ctx, role)
 			handleException(c, exception, err, "Error retrieving role permissions")
 			if c.IsAborted() {
 				return
 			}
 
-			rolePermissions := exception.Data.([]*structs2.ReadPermission)
+			rolePermissions := exception.Data.([]*structs.ReadPermission)
 			permissions = append(permissions, rolePermissions...)
 		}
 
@@ -148,7 +149,7 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc relatedServic
 }
 
 // checkPermission checks if the user has permission to access the resource based on roles and permissions
-func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act string, roles []string, permissions []*structs2.ReadPermission, tenantID string) (bool, error) {
+func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act string, roles []string, permissions []*structs.ReadPermission, tenantID string) (bool, error) {
 	for _, role := range roles {
 		ok, err := enforcer.Enforce(role, tenantID, obj, act, nil, nil)
 		if err != nil {

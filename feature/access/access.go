@@ -6,8 +6,8 @@ import (
 	"ncobase/feature"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/handler"
+	"ncobase/feature/access/middleware"
 	"ncobase/feature/access/service"
-	"ncobase/middleware"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -25,6 +25,7 @@ type Module struct {
 	initialized bool
 	mu          sync.RWMutex
 	fm          *feature.Manager
+	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
 	d           *data.Data
@@ -57,6 +58,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 	}
 
 	m.fm = fm
+	m.conf = conf
 	m.initialized = true
 
 	return nil
@@ -64,8 +66,10 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New(m.d)
+
+	m.s = service.New(m.conf, m.d)
 	m.h = handler.New(m.s)
+
 	return nil
 }
 
@@ -81,9 +85,17 @@ func (m *Module) HasRoutes() bool {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
+
+	// Setup middleware
+	// enforcer, err := m.s.CasbinAdapter.InitEnforcer()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// e.Use(middleware.Authorized(enforcer, m.conf.Auth.Whitelist, m.s))
+
 	v1 := e.Group("/v1")
 	// Role endpoints
-	roles := v1.Group("/roles", middleware.Authenticated)
+	roles := v1.Group("/roles", middleware.AuthenticatedUser)
 	{
 		roles.GET("", m.h.Role.List)
 		roles.POST("", m.h.Role.Create)
@@ -94,7 +106,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		// roles.GET("/:slug/users", m.h.Role.ListUser)
 	}
 	// Permission endpoints
-	permissions := v1.Group("/permissions", middleware.Authenticated)
+	permissions := v1.Group("/permissions", middleware.AuthenticatedUser)
 	{
 		permissions.GET("", m.h.Permission.List)
 		permissions.POST("", m.h.Permission.Create)
@@ -103,7 +115,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		permissions.DELETE("/:slug", m.h.Permission.Delete)
 	}
 	// Casbin Rule endpoints
-	policies := v1.Group("/policies", middleware.Authenticated)
+	policies := v1.Group("/policies", middleware.AuthenticatedUser)
 	{
 		policies.GET("", m.h.Casbin.List)
 		policies.POST("", m.h.Casbin.Create)
@@ -126,11 +138,13 @@ func (m *Module) GetHandlers() map[string]feature.Handler {
 // GetServices returns the services for the module
 func (m *Module) GetServices() map[string]feature.Service {
 	return map[string]feature.Service{
-		"access":          m.s.Permission,
-		"role":            m.s.Role,
-		"casbin":          m.s.Casbin,
-		"role_permission": m.s.RolePermission,
-		"user_role":       m.s.UserRole,
+		"access":           m.s.Permission,
+		"role":             m.s.Role,
+		"casbin":           m.s.Casbin,
+		"casbin_adapter":   m.s.CasbinAdapter,
+		"role_permission":  m.s.RolePermission,
+		"user_role":        m.s.UserRole,
+		"user_tenant_role": m.s.UserTenantRole,
 	}
 }
 

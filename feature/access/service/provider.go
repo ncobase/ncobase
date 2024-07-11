@@ -1,6 +1,9 @@
 package service
 
-import "ncobase/feature/access/data"
+import (
+	"ncobase/common/config"
+	"ncobase/feature/access/data"
+)
 
 // Service represents the auth service.
 type Service struct {
@@ -8,11 +11,13 @@ type Service struct {
 	Permission     PermissionServiceInterface
 	RolePermission RolePermissionServiceInterface
 	UserRole       UserRoleServiceInterface
+	UserTenantRole UserTenantRoleServiceInterface
 	Casbin         CasbinServiceInterface
+	CasbinAdapter  CasbinAdapterServiceInterface
 }
 
 // New creates a new service.
-func New(d *data.Data) *Service {
+func New(conf *config.Config, d *data.Data) *Service {
 	ps := NewPermissionService(d)
 	rs := NewRoleService(d, ps)
 	return &Service{
@@ -20,6 +25,8 @@ func New(d *data.Data) *Service {
 		Permission:     ps,
 		RolePermission: NewRolePermissionService(d, ps),
 		UserRole:       NewUserRoleService(d, rs),
+		UserTenantRole: NewUserTenantRoleService(d),
 		Casbin:         NewCasbinService(d),
+		CasbinAdapter:  NewCasbinAdapterService(conf, d),
 	}
 }

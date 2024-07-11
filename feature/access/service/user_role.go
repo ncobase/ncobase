@@ -22,7 +22,7 @@ type UserRoleServiceInterface interface {
 // userRoleService is the struct for the service.
 type userRoleService struct {
 	rs       RoleServiceInterface
-	userRole repository.UserRoleRepository
+	userRole repository.UserRoleRepositoryInterface
 }
 
 // NewUserRoleService creates a new service.

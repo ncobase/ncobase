@@ -5,6 +5,7 @@ import (
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/group/data"
+	"ncobase/feature/group/middleware"
 	"ncobase/feature/group/service"
 	"sync"
 
@@ -82,7 +83,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 	// Group endpoints
-	groups := v1.Group("/groups")
+	groups := v1.Group("/groups", middleware.AuthenticatedUser)
 	{
 		groups.GET("", nil)
 		groups.POST("", nil)

@@ -4,7 +4,6 @@ use (
 	.
 	./feature/access
 	./feature/auth
-	./feature/bootstrap
 	./feature/content
 	./feature/group
 	./feature/relationship

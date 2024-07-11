@@ -10,13 +10,13 @@ import (
 	"ncobase/feature/auth/data"
 	"ncobase/feature/auth/data/ent"
 	codeAuthEnt "ncobase/feature/auth/data/ent/codeauth"
+	"ncobase/feature/auth/middleware"
 	"ncobase/feature/auth/structs"
 	tenantService "ncobase/feature/tenant/service"
 	tenantStructs "ncobase/feature/tenant/structs"
 	userService "ncobase/feature/user/service"
 	userStructs "ncobase/feature/user/structs"
 	"ncobase/helper"
-	"ncobase/middleware"
 )
 
 // AuthServiceInterface is the interface for the service.
@@ -73,7 +73,7 @@ func (s *authService) LoginService(ctx context.Context, body *structs.LoginBody)
 		return resp.InternalServer(v.Error()), nil
 	}
 
-	return generateTokensForUser(ctx, client, rst.User, conf.Domain)
+	return generateTokensForUser(ctx, conf, client, rst.User, conf.Domain)
 }
 
 // RegisterService register service
@@ -137,7 +137,7 @@ func (s *authService) RegisterService(ctx context.Context, body *structs.Registe
 		return resp.Transactions(err.Error()), nil
 	}
 
-	accessToken, refreshToken := middleware.GenerateUserToken(rst.User.ID, authToken.ID)
+	accessToken, refreshToken := middleware.GenerateUserToken(conf.Auth.JWT.Secret, rst.User.ID, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		if err := tx.Rollback(); err != nil {
 			return resp.InternalServer(err.Error()), nil

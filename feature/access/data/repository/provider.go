@@ -8,6 +8,8 @@ type Repository struct {
 	role           RoleRepositoryInterface
 	permission     PermissionRepositoryInterface
 	rolePermission RolePermissionRepositoryInterface
+	userRole       UserRoleRepositoryInterface
+	userTenantRole UserTenantRoleRepositoryInterface
 }
 
 // NewRepository creates a new repository.
@@ -17,5 +19,7 @@ func NewRepository(d *data.Data) *Repository {
 		role:           NewRoleRepository(d),
 		permission:     NewPermissionRepository(d),
 		rolePermission: NewRolePermissionRepository(d),
+		userRole:       NewUserRoleRepository(d),
+		userTenantRole: NewUserTenantRoleRepository(d),
 	}
 }

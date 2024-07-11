@@ -6,8 +6,8 @@ import (
 	"ncobase/feature"
 	"ncobase/feature/content/data"
 	"ncobase/feature/content/handler"
+	"ncobase/feature/content/middleware"
 	"ncobase/feature/content/service"
-	"ncobase/middleware"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -81,7 +81,7 @@ func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 	// Taxonomy endpoints
-	taxonomies := v1.Group("/taxonomies", middleware.Authenticated)
+	taxonomies := v1.Group("/taxonomies", middleware.AuthenticatedUser)
 	{
 		taxonomies.GET("", p.h.Taxonomy.List)
 		taxonomies.POST("", p.h.Taxonomy.Create)
@@ -90,7 +90,7 @@ func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 		taxonomies.DELETE("/:slug", p.h.Taxonomy.Delete)
 	}
 	// Topic endpoints
-	topics := v1.Group("/topics", middleware.Authenticated)
+	topics := v1.Group("/topics", middleware.AuthenticatedUser)
 	{
 		topics.GET("", p.h.Topic.List)
 		topics.POST("", p.h.Topic.Create)

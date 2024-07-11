@@ -6,9 +6,9 @@ import (
 	"ncobase/feature"
 	"ncobase/feature/tenant/data"
 	"ncobase/feature/tenant/handler"
+	"ncobase/feature/tenant/middleware"
 	"ncobase/feature/tenant/service"
 	userService "ncobase/feature/user/service"
-	"ncobase/middleware"
 	"sync"
 
 	accessService "ncobase/feature/access/service"
@@ -83,7 +83,13 @@ func (m *Module) PostInit() error {
 		return err
 	}
 
-	m.s = service.New(m.d, usi, rsi, ursi)
+	// get user tenant role service
+	utrsi, err := m.getUserTenantRoleService(m.fm)
+	if err != nil {
+		return err
+	}
+
+	m.s = service.New(m.d, usi, rsi, ursi, utrsi)
 	m.h = handler.New(m.s)
 
 	return nil
@@ -101,10 +107,14 @@ func (m *Module) HasRoutes() bool {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
+
+	// middleware
+	e.Use(middleware.ConsumeTenant(m.s))
+
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 	// Tenant endpoints
-	tenants := v1.Group("/tenants", middleware.Authenticated)
+	tenants := v1.Group("/tenants", middleware.AuthenticatedTenant)
 	{
 		tenants.GET("", m.h.Tenant.ListTenantHandler)
 		tenants.POST("", m.h.Tenant.CreateTenantHandler)
@@ -182,9 +192,8 @@ func (m *Module) GetHandlers() map[string]feature.Handler {
 // GetServices returns the services for the module
 func (m *Module) GetServices() map[string]feature.Service {
 	return map[string]feature.Service{
-		"tenant":           m.s.Tenant,
-		"user_tenant":      m.s.UserTenant,
-		"user_tenant_role": m.s.UserTenantRole,
+		"tenant":      m.s.Tenant,
+		"user_tenant": m.s.UserTenant,
 	}
 }
 
@@ -268,4 +277,21 @@ func (m *Module) getUserRoleService(fm *feature.Manager) (accessService.UserRole
 	}
 
 	return userRoleServiceImpl, nil
+}
+
+// getUserTenantRoleService returns the user tenant role service
+func (m *Module) getUserTenantRoleService(fm *feature.Manager) (accessService.UserTenantRoleServiceInterface, error) {
+	utrsi, err := fm.GetService("access", "user_tenant_role")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get tenant service: %v", err)
+	}
+
+	// type assertion to ensure we have the correct interface
+	userTenantRoleServiceImpl, ok := utrsi.(accessService.UserTenantRoleServiceInterface)
+	if !ok {
+		return nil, fmt.Errorf("tenant service does not implement TenantServiceInterface")
+	}
+
+	return userTenantRoleServiceImpl, nil
+
 }

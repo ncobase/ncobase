@@ -38,23 +38,23 @@ type TenantServiceInterface interface {
 
 // tenantService is the struct for the service.
 type tenantService struct {
-	tenant         repository.TenantRepositoryInterface
-	userTenant     repository.UserTenantRepositoryInterface
-	userTenantRole repository.UserTenantRoleRepositoryInterface
-	usi            userService.UserServiceInterface
-	arsi           accessService.RoleServiceInterface
-	aursi          accessService.UserRoleServiceInterface
+	tenant     repository.TenantRepositoryInterface
+	userTenant repository.UserTenantRepositoryInterface
+	usi        userService.UserServiceInterface
+	arsi       accessService.RoleServiceInterface
+	aursi      accessService.UserRoleServiceInterface
+	autrsi     accessService.UserTenantRoleServiceInterface
 }
 
 // NewTenantService creates a new service.
-func NewTenantService(d *data.Data, usi userService.UserServiceInterface, arsi accessService.RoleServiceInterface, aursi accessService.UserRoleServiceInterface) TenantServiceInterface {
+func NewTenantService(d *data.Data, usi userService.UserServiceInterface, arsi accessService.RoleServiceInterface, aursi accessService.UserRoleServiceInterface, autrsi accessService.UserTenantRoleServiceInterface) TenantServiceInterface {
 	return &tenantService{
-		tenant:         repository.NewTenantRepository(d),
-		userTenant:     repository.NewUserTenantRepository(d),
-		userTenantRole: repository.NewUserTenantRoleRepository(d),
-		usi:            usi,
-		arsi:           arsi,
-		aursi:          aursi,
+		tenant:     repository.NewTenantRepository(d),
+		userTenant: repository.NewUserTenantRepository(d),
+		usi:        usi,
+		arsi:       arsi,
+		aursi:      aursi,
+		autrsi:     autrsi,
 	}
 }
 
@@ -293,7 +293,7 @@ func (svc *tenantService) CreateInitialTenant(ctx context.Context, body *structs
 		}
 
 		// Assign the tenant to the super admin role
-		_, err = svc.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: *body.CreatedBy, RoleID: superAdminRole.ID, TenantID: defaultTenant.ID})
+		_, err = svc.autrsi.AddRoleToUserInTenantService(ctx, *body.CreatedBy, superAdminRole.ID, defaultTenant.ID)
 		if err != nil {
 			return nil, err
 		}

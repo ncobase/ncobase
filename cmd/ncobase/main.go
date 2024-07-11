@@ -90,7 +90,7 @@ func initializeLogger(conf *config.Config) func() {
 
 // createServer creates and initializes the server.
 func createServer(conf *config.Config) (http.Handler, func(), error) {
-	handler, cleanup, err := bootstrap.New(conf)
+	handler, cleanup, err := bootstrap.NewServer(conf)
 	if err != nil {
 		return nil, nil, err
 	}

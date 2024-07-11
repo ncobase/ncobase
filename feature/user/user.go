@@ -6,8 +6,8 @@ import (
 	"ncobase/feature"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/handler"
+	"ncobase/feature/user/middleware"
 	"ncobase/feature/user/service"
-	"ncobase/middleware"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -25,6 +25,7 @@ type Module struct {
 	initialized bool
 	mu          sync.RWMutex
 	fm          *feature.Manager
+	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
 	d           *data.Data
@@ -57,6 +58,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 	}
 
 	m.fm = fm
+	m.conf = conf
 	m.initialized = true
 
 	return nil
@@ -81,11 +83,15 @@ func (m *Module) HasRoutes() bool {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
+
+	// Initialize middleware
+	e.Use(middleware.ConsumeUser(m.conf.Auth.JWT.Secret))
+
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 
 	// Account endpoints
-	account := v1.Group("/account", middleware.Authenticated)
+	account := v1.Group("/account", middleware.AuthenticatedUser)
 	{
 		account.GET("", m.h.User.GetMeHandler)
 		account.PUT("/password", m.h.User.UpdatePasswordHandler)

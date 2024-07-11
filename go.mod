@@ -8,7 +8,6 @@ replace (
 	ncobase/common => ./pkg
 	ncobase/feature/access => ./feature/access
 	ncobase/feature/auth => ./feature/auth
-	ncobase/feature/bootstrap => ./feature/bootstrap
 	ncobase/feature/content => ./feature/content
 	ncobase/feature/group => ./feature/group
 	ncobase/feature/resource => ./feature/resource

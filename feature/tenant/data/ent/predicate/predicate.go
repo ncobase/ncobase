@@ -11,6 +11,3 @@ type Tenant func(*sql.Selector)
 
 // UserTenant is the predicate function for usertenant builders.
 type UserTenant func(*sql.Selector)
-
-// UserTenantRole is the predicate function for usertenantrole builders.
-type UserTenantRole func(*sql.Selector)

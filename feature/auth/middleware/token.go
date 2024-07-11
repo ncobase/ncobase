@@ -8,7 +8,7 @@ import (
 )
 
 // GenerateUserToken generates user access and refresh tokens.
-func GenerateUserToken(userID, tokenID string) (string, string) {
+func GenerateUserToken(signingKey, userID, tokenID string) (string, string) {
 	accessPayload := types.JSON{
 		"user_id": userID,
 	}
@@ -23,7 +23,7 @@ func GenerateUserToken(userID, tokenID string) (string, string) {
 }
 
 // RefreshUserToken refreshes user access and refresh tokens.
-func RefreshUserToken(userID, tokenID, originalRefreshToken string, refreshTokenExp int64) (string, string) {
+func RefreshUserToken(signingKey, userID, tokenID, originalRefreshToken string, refreshTokenExp int64) (string, string) {
 	now := time.Now().Unix()
 	diff := refreshTokenExp - now
 

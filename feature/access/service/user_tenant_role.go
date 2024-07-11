@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"ncobase/common/resp"
-	"ncobase/feature/tenant/data"
-	"ncobase/feature/tenant/data/repository"
-	"ncobase/feature/tenant/structs"
+	"ncobase/feature/access/data"
+	"ncobase/feature/access/data/repository"
+	"ncobase/feature/access/structs"
 )
 
 // UserTenantRoleServiceInterface is the interface for the service.
@@ -17,16 +17,12 @@ type UserTenantRoleServiceInterface interface {
 
 // userTenantRoleService is the struct for the service.
 type userTenantRoleService struct {
-	ts             TenantServiceInterface
-	uts            UserTenantServiceInterface
 	userTenantRole repository.UserTenantRoleRepositoryInterface
 }
 
 // NewUserTenantRoleService creates a new service.
-func NewUserTenantRoleService(d *data.Data, ts TenantServiceInterface, uts UserTenantServiceInterface) UserTenantRoleServiceInterface {
+func NewUserTenantRoleService(d *data.Data) UserTenantRoleServiceInterface {
 	return &userTenantRoleService{
-		ts:             ts,
-		uts:            uts,
 		userTenantRole: repository.NewUserTenantRoleRepository(d),
 	}
 }

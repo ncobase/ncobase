@@ -46,7 +46,6 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 
 // registerWebSocketRoutes registers WebSocket routes.
 func registerWebSocketRoutes(e *gin.Engine) {
-	// V
 	e.GET("/ws", func(c *gin.Context) {
 		HandleWebSocket(c.Writer, c.Request)
 	})

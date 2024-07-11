@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/feature/tenant/data/ent/usertenantrole"
+	"ncobase/feature/access/data/ent/usertenantrole"
 	"strings"
 	"time"
 

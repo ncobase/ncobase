@@ -2,13 +2,12 @@ package repository
 
 import (
 	"context"
-	"ncobase/feature/tenant/data"
-	"ncobase/feature/tenant/data/ent"
-	userTenantRoleEnt "ncobase/feature/tenant/data/ent/usertenantrole"
-	"ncobase/feature/tenant/structs"
-
 	"ncobase/common/cache"
 	"ncobase/common/log"
+	"ncobase/feature/access/data"
+	"ncobase/feature/access/data/ent"
+	userTenantRoleEnt "ncobase/feature/access/data/ent/usertenantrole"
+	"ncobase/feature/access/structs"
 
 	"github.com/redis/go-redis/v9"
 )

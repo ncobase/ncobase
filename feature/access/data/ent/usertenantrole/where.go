@@ -3,7 +3,7 @@
 package usertenantrole
 
 import (
-	"ncobase/feature/tenant/data/ent/predicate"
+	"ncobase/feature/access/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

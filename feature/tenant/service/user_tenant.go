@@ -19,17 +19,15 @@ type UserTenantServiceInterface interface {
 
 // userTenantService is the struct for the service.
 type userTenantService struct {
-	ts             TenantServiceInterface
-	userTenant     repository.UserTenantRepositoryInterface
-	userTenantRole repository.UserTenantRoleRepositoryInterface
+	ts         TenantServiceInterface
+	userTenant repository.UserTenantRepositoryInterface
 }
 
 // NewUserTenantService creates a new service.
 func NewUserTenantService(d *data.Data, ts TenantServiceInterface) UserTenantServiceInterface {
 	return &userTenantService{
-		ts:             ts,
-		userTenant:     repository.NewUserTenantRepository(d),
-		userTenantRole: repository.NewUserTenantRoleRepository(d),
+		ts:         ts,
+		userTenant: repository.NewUserTenantRepository(d),
 	}
 }
 

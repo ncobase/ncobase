@@ -32,18 +32,6 @@ func (f UserTenantFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, 
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserTenantMutation", m)
 }
 
-// The UserTenantRoleFunc type is an adapter to allow the use of ordinary
-// function as UserTenantRole mutator.
-type UserTenantRoleFunc func(context.Context, *ent.UserTenantRoleMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f UserTenantRoleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.UserTenantRoleMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserTenantRoleMutation", m)
-}
-
 // Condition is a hook condition function.
 type Condition func(context.Context, ent.Mutation) bool
 

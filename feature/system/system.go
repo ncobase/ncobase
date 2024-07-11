@@ -6,8 +6,8 @@ import (
 	"ncobase/feature"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/handler"
+	"ncobase/feature/system/middleware"
 	"ncobase/feature/system/service"
-	"ncobase/middleware"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -86,7 +86,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 	// Menu endpoints
-	menus := v1.Group("/menus", middleware.Authenticated)
+	menus := v1.Group("/menus", middleware.AuthenticatedUser)
 	{
 		menus.GET("", m.h.Menu.List)
 		menus.POST("", m.h.Menu.Create)
