@@ -17,7 +17,6 @@ replace (
 )
 
 require (
-	github.com/casbin/casbin/v2 v2.97.0
 	github.com/casdoor/oss v1.6.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/gorilla/websocket v1.5.3
@@ -53,6 +52,7 @@ require (
 	github.com/aws/aws-sdk-go v1.54.15 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
+	github.com/casbin/casbin/v2 v2.97.0 // indirect
 	github.com/casbin/govaluate v1.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
