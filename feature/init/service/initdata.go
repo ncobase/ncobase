@@ -97,7 +97,7 @@ func (svc *initService) InitData() error {
 // 		}
 //
 // 		// update user password
-// 		if err := svc.user.UpdateUserPassword(ctx, &userStructs.UserPassword{
+// 		if err := svc.user.UpdatePassword(ctx, &userStructs.UserPassword{
 // 			User:        createdUser.Username,
 // 			NewPassword: "Ac123456",
 // 		}); err != nil {

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"ncobase/common/resp"
-	"ncobase/common/types"
 	"ncobase/feature/auth/service"
 	"ncobase/feature/auth/structs"
 	"ncobase/helper"
@@ -42,7 +41,7 @@ func NewCaptchaHandler(svc *service.Service) CaptchaHandlerInterface {
 // @Tags authentication
 // @Produce json
 // @Param type query string false "Captcha type" Enums(png, wav)
-// @Success 200 {object} types.JSON{id=string,url=string} "success"
+// @Success 200 {object} map[string]any{id=string,url=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/captcha/generate [get]
 func (h *captchaHandler) GenerateCaptcha(c *gin.Context) {
@@ -55,7 +54,7 @@ func (h *captchaHandler) GenerateCaptcha(c *gin.Context) {
 	default:
 		ext = ".png"
 	}
-	result, err := h.s.Captcha.GenerateCaptchaService(c.Request.Context(), ext)
+	result, err := h.s.Captcha.GenerateCaptcha(c.Request.Context(), ext)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -71,7 +70,7 @@ func (h *captchaHandler) GenerateCaptcha(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param body body structs.Captcha true "Captcha object"
-// @Success 200 {object} types.JSON{message=string} "success"
+// @Success 200 {object} map[string]any{message=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/captcha/validate [post]
 func (h *captchaHandler) ValidateCaptcha(c *gin.Context) {
@@ -83,8 +82,11 @@ func (h *captchaHandler) ValidateCaptcha(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
 		return
 	}
-	result := h.s.Captcha.ValidateCaptchaService(c.Request.Context(), body)
-	resp.Success(c.Writer, result)
+	if err := h.s.Captcha.ValidateCaptcha(c.Request.Context(), body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer)
 }
 
 // CaptchaStream handles streaming a captcha image.
@@ -119,26 +121,19 @@ func (h *captchaHandler) CaptchaStream(c *gin.Context) {
 		return
 	}
 
-	result := h.s.Captcha.GetCaptchaService(c.Request.Context(), id)
-	if result.Code != 0 {
-		resp.Fail(c.Writer, result)
+	result, err := h.s.Captcha.GetCaptcha(c.Request.Context(), id)
+	if err != nil || result == nil {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid captcha"))
 		return
 	}
 
-	data, ok := result.Data.(*types.JSON)
-	if !ok {
-		resp.Fail(c.Writer, resp.InternalServer("Invalid data type in response"))
-		return
-	}
-
-	cachedCaptchaID, ok := (*data)["id"].(string)
+	cachedCaptchaID, ok := (*result)["id"].(string)
 	if !ok {
 		resp.Fail(c.Writer, resp.InternalServer("Invalid captcha ID type"))
 		return
 	}
 
 	var content bytes.Buffer
-	var err error
 
 	switch ext {
 	case ".png":

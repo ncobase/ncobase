@@ -146,13 +146,12 @@ func (h *roleHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Role.Delete(c.Request.Context(), slug)
-	if err != nil {
+	if err := h.s.Role.Delete(c.Request.Context(), slug); err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
-	resp.Success(c.Writer, result)
+	resp.Success(c.Writer)
 }
 
 // List handles listing all roles.
@@ -176,7 +175,7 @@ func (h *roleHandler) List(c *gin.Context) {
 		return
 	}
 
-	roles, err := h.s.Role.ListRoles(c.Request.Context(), params)
+	roles, err := h.s.Role.List(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

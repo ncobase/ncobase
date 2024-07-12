@@ -68,12 +68,12 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
 	// get user service
-	us, err := m.getUserService(m.fm)
+	us, err := m.getUserService()
 	if err != nil {
 		return err
 	}
 	// get access service
-	as, err := m.getRoleService(m.fm)
+	as, err := m.getAccessService()
 	if err != nil {
 		return err
 	}
@@ -216,8 +216,8 @@ func (m *Module) Dependencies() []string {
 }
 
 // GetUserService returns the user service
-func (m *Module) getUserService(fm *feature.Manager) (*userService.Service, error) {
-	f, err := fm.GetService("user")
+func (m *Module) getUserService() (*userService.Service, error) {
+	f, err := m.fm.GetService("user")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user service: %v", err)
 	}
@@ -228,9 +228,9 @@ func (m *Module) getUserService(fm *feature.Manager) (*userService.Service, erro
 	return us, nil
 }
 
-// GetRoleService returns the role service
-func (m *Module) getRoleService(fm *feature.Manager) (*accessService.Service, error) {
-	f, err := fm.GetService("access")
+// GetAccessService returns the access service
+func (m *Module) getAccessService() (*accessService.Service, error) {
+	f, err := m.fm.GetService("access")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get access service: %v", err)
 	}

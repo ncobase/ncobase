@@ -20,6 +20,20 @@ type TaxonomyRelationCreate struct {
 	hooks    []Hook
 }
 
+// SetObjectID sets the "object_id" field.
+func (trc *TaxonomyRelationCreate) SetObjectID(s string) *TaxonomyRelationCreate {
+	trc.mutation.SetObjectID(s)
+	return trc
+}
+
+// SetNillableObjectID sets the "object_id" field if the given value is not nil.
+func (trc *TaxonomyRelationCreate) SetNillableObjectID(s *string) *TaxonomyRelationCreate {
+	if s != nil {
+		trc.SetObjectID(*s)
+	}
+	return trc
+}
+
 // SetTaxonomyID sets the "taxonomy_id" field.
 func (trc *TaxonomyRelationCreate) SetTaxonomyID(s string) *TaxonomyRelationCreate {
 	trc.mutation.SetTaxonomyID(s)
@@ -155,6 +169,11 @@ func (trc *TaxonomyRelationCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (trc *TaxonomyRelationCreate) check() error {
+	if v, ok := trc.mutation.ObjectID(); ok {
+		if err := taxonomyrelation.ObjectIDValidator(v); err != nil {
+			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.object_id": %w`, err)}
+		}
+	}
 	if v, ok := trc.mutation.TaxonomyID(); ok {
 		if err := taxonomyrelation.TaxonomyIDValidator(v); err != nil {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
@@ -166,6 +185,11 @@ func (trc *TaxonomyRelationCreate) check() error {
 	if v, ok := trc.mutation.CreatedBy(); ok {
 		if err := taxonomyrelation.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.created_by": %w`, err)}
+		}
+	}
+	if v, ok := trc.mutation.ID(); ok {
+		if err := taxonomyrelation.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.id": %w`, err)}
 		}
 	}
 	return nil
@@ -202,6 +226,10 @@ func (trc *TaxonomyRelationCreate) createSpec() (*TaxonomyRelation, *sqlgraph.Cr
 	if id, ok := trc.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
+	}
+	if value, ok := trc.mutation.ObjectID(); ok {
+		_spec.SetField(taxonomyrelation.FieldObjectID, field.TypeString, value)
+		_node.ObjectID = value
 	}
 	if value, ok := trc.mutation.TaxonomyID(); ok {
 		_spec.SetField(taxonomyrelation.FieldTaxonomyID, field.TypeString, value)

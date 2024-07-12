@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	"ncobase/common/log"
 	"ncobase/common/validator"
 	"ncobase/feature/access/service"
@@ -17,13 +16,6 @@ import (
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )
-
-// relatedService represents the related service interface
-type relatedService interface {
-	GetUserRolesService(ctx context.Context, u string) (*resp.Exception, error)
-	GetUserRolesInTenantService(ctx context.Context, u string, t string) (*resp.Exception, error)
-	GetRolePermissionsService(ctx context.Context, r string) (*resp.Exception, error)
-}
 
 // inWhiteList checks if the given path is in the whiteList
 func inWhiteList(path string, whiteList []string) bool {
@@ -82,13 +74,15 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc *service.Serv
 		log.Infof(c, "userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 
 		// Retrieve user roles from service
-		exception, err := svc.UserRole.GetUserRolesService(ctx, currentUser)
-		handleException(c, exception, err, "Error retrieving user roles")
+		userRoles, err := svc.UserRole.GetUserRoles(ctx, currentUser)
+		if err != nil {
+			handleException(c, nil, err, "Error retrieving user roles")
+			return
+		}
 		if c.IsAborted() {
 			return
 		}
 
-		userRoles := exception.Data.([]*structs.ReadRole)
 		if len(userRoles) == 0 {
 			handleException(c, resp.Forbidden("User has no roles, please contact your administrator"), nil, "")
 			return
@@ -100,7 +94,7 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc *service.Serv
 		}
 
 		// Query current user roles of the current tenant
-		roleIDs, err := svc.UserTenantRole.GetUserRolesInTenantService(ctx, currentUser, currentTenant)
+		roleIDs, err := svc.UserTenantRole.GetUserRolesInTenant(ctx, currentUser, currentTenant)
 		if err != nil {
 			handleException(c, nil, err, "Error retrieving user roles in tenant")
 			return
@@ -116,13 +110,15 @@ func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc *service.Serv
 
 		// Retrieve role permissions from service
 		for _, role := range roles {
-			exception, err = svc.RolePermission.GetRolePermissions(ctx, role)
-			handleException(c, exception, err, "Error retrieving role permissions")
+			rolePermissions, err := svc.RolePermission.GetRolePermissions(ctx, role)
+			if err != nil {
+				handleException(c, nil, err, "Error retrieving role permissions")
+				return
+			}
 			if c.IsAborted() {
 				return
 			}
 
-			rolePermissions := exception.Data.([]*structs.ReadPermission)
 			permissions = append(permissions, rolePermissions...)
 		}
 

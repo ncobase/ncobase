@@ -59,7 +59,7 @@ package handler
 // 		return
 // 	}
 //
-// 	result, _ := h.s.OAuth.OAuthRegisterService(c.Request.Context(), body)
+// 	result, _ := h.s.OAuth.OAuthRegister(c.Request.Context(), body)
 // 	resp.Success(c.Writer, result)
 // }
 //

@@ -17,8 +17,8 @@ type CasbinRuleBody struct {
 	UpdatedBy *string `json:"updated_by,omitempty"`
 }
 
-// CasbinRule represents a single Casbin rule.
-type CasbinRule struct {
+// ReadCasbinRule represents a single Casbin rule.
+type ReadCasbinRule struct {
 	PType     string     `json:"p_type"`
 	V0        string     `json:"v0"`
 	V1        string     `json:"v1"`

@@ -2,100 +2,118 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/resp"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/access/data"
+	"ncobase/feature/access/data/ent"
 	"ncobase/feature/access/data/repository"
 	"ncobase/feature/access/structs"
 )
 
 // CasbinServiceInterface is the interface for the service.
 type CasbinServiceInterface interface {
-	Create(ctx context.Context, body *structs.CasbinRuleBody) (*resp.Exception, error)
-	Update(ctx context.Context, id string, updates types.JSON) (*resp.Exception, error)
-	Delete(ctx context.Context, id string) (*resp.Exception, error)
-	Get(ctx context.Context, id string) (*resp.Exception, error)
-	List(ctx context.Context, params *structs.ListCasbinRuleParams) (*resp.Exception, error)
+	Create(ctx context.Context, body *structs.CasbinRuleBody) (*structs.ReadCasbinRule, error)
+	Update(ctx context.Context, id string, updates types.JSON) (*structs.ReadCasbinRule, error)
+	Delete(ctx context.Context, id string) error
+	Get(ctx context.Context, id string) (*structs.ReadCasbinRule, error)
+	List(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*structs.ReadCasbinRule, error)
 }
 
 // casbinService is the struct for the service.
 type casbinService struct {
-	casbinRule repository.CasbinRuleRepositoryInterface
+	casbin repository.CasbinRuleRepositoryInterface
 }
 
 // NewCasbinService creates a new service.
 func NewCasbinService(d *data.Data) CasbinServiceInterface {
 	return &casbinService{
-		casbinRule: repository.NewCasbinRule(d),
+		casbin: repository.NewCasbinRule(d),
 	}
 }
 
 // Create creates a new Casbin rule.
-func (s *casbinService) Create(ctx context.Context, body *structs.CasbinRuleBody) (*resp.Exception, error) {
-	// Create a new CasbinRule entity
-	casbinRule, err := s.casbinRule.Create(ctx, body)
-	if exception, err := handleEntError("CasbinRule", err); exception != nil {
-		return exception, err
+func (s *casbinService) Create(ctx context.Context, body *structs.CasbinRuleBody) (*structs.ReadCasbinRule, error) {
+	row, err := s.casbin.Create(ctx, body)
+	if err := handleEntError("Casbin", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: casbinRule,
-	}, nil
+	return s.SerializeCasbin(row), nil
 }
 
 // Update updates an existing Casbin rule (full and partial).
-func (s *casbinService) Update(ctx context.Context, id string, updates types.JSON) (*resp.Exception, error) {
+func (s *casbinService) Update(ctx context.Context, id string, updates types.JSON) (*structs.ReadCasbinRule, error) {
 	if validator.IsEmpty(id) {
-		return resp.BadRequest(ecode.FieldIsRequired("id")), nil
+		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
 	// Validate the updates map
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
+		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
 	}
 
-	casbinRule, err := s.casbinRule.Update(ctx, id, updates)
-	if exception, err := handleEntError("CasbinRule", err); exception != nil {
-		return exception, err
+	row, err := s.casbin.Update(ctx, id, updates)
+	if err := handleEntError("Casbin", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: casbinRule,
-	}, nil
+	return s.SerializeCasbin(row), nil
 }
 
 // Get retrieves a Casbin rule by ID.
-func (s *casbinService) Get(ctx context.Context, id string) (*resp.Exception, error) {
-	casbinRule, err := s.casbinRule.GetByID(ctx, id)
-	if exception, err := handleEntError("CasbinRule", err); exception != nil {
-		return exception, err
+func (s *casbinService) Get(ctx context.Context, id string) (*structs.ReadCasbinRule, error) {
+	row, err := s.casbin.GetByID(ctx, id)
+	if err := handleEntError("Casbin", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: casbinRule,
-	}, nil
+	return s.SerializeCasbin(row), nil
 }
 
 // Delete deletes a Casbin rule by ID.
-func (s *casbinService) Delete(ctx context.Context, id string) (*resp.Exception, error) {
-	err := s.casbinRule.Delete(ctx, id)
-	if exception, err := handleEntError("CasbinRule", err); exception != nil {
-		return exception, err
+func (s *casbinService) Delete(ctx context.Context, id string) error {
+	err := s.casbin.Delete(ctx, id)
+	if err := handleEntError("Casbin", err); err != nil {
+		return err
 	}
 
-	return nil, nil
+	return nil
 }
 
 // List lists all Casbin rules based on query parameters.
-func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRuleParams) (*resp.Exception, error) {
-	casbinRules, err := s.casbinRule.Find(ctx, params)
-	if exception, err := handleEntError("CasbinRule", err); exception != nil {
-		return exception, err
+func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*structs.ReadCasbinRule, error) {
+	rows, err := s.casbin.Find(ctx, params)
+	if err := handleEntError("Casbin", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: casbinRules,
-	}, nil
+	return s.SerializeCasbins(rows), nil
+}
+
+// SerializeCasbins serializes a list of Casbin rule entities to a response format.
+func (s *casbinService) SerializeCasbins(rows []*ent.CasbinRule) []*structs.ReadCasbinRule {
+	var rs []*structs.ReadCasbinRule
+	for _, row := range rows {
+		rs = append(rs, s.SerializeCasbin(row))
+	}
+	return rs
+}
+
+// SerializeCasbin serializes a Casbin rule entity to a response format.
+func (s *casbinService) SerializeCasbin(row *ent.CasbinRule) *structs.ReadCasbinRule {
+	return &structs.ReadCasbinRule{
+		PType:     row.PType,
+		V0:        row.V0,
+		V1:        row.V1,
+		V2:        row.V2,
+		V3:        &row.V3,
+		V4:        &row.V4,
+		V5:        &row.V5,
+		CreatedBy: &row.CreatedBy,
+		CreatedAt: &row.CreatedAt,
+		UpdatedBy: &row.UpdatedBy,
+		UpdatedAt: &row.UpdatedAt,
+	}
 }

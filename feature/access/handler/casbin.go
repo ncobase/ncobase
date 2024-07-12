@@ -40,7 +40,7 @@ func NewCasbinHandler(svc *service.Service) CasbinHandlerInterface {
 // @Accept json
 // @Produce json
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
-// @Success 200 {object} structs.CasbinRuleBody "success"
+// @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/policies [post]
 // @Security Bearer
@@ -72,7 +72,7 @@ func (h *casbinHandler) Create(c *gin.Context) {
 // @Produce json
 // @Param id path string true "Casbin rule ID"
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
-// @Success 200 {object} structs.CasbinRuleBody "success"
+// @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/policies/{id} [put]
 // @Security Bearer
@@ -108,7 +108,7 @@ func (h *casbinHandler) Update(c *gin.Context) {
 // @Tags casbin
 // @Produce json
 // @Param id path string true "Casbin rule ID"
-// @Success 200 {object} structs.CasbinRuleBody "success"
+// @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/policies/{id} [get]
 // @Security Bearer
@@ -146,13 +146,12 @@ func (h *casbinHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Casbin.Delete(c.Request.Context(), id)
-	if err != nil {
+	if err := h.s.Casbin.Delete(c.Request.Context(), id); err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
-	resp.Success(c.Writer, result)
+	resp.Success(c.Writer)
 }
 
 // List handles listing Casbin rules.

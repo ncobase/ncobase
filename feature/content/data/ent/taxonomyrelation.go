@@ -16,8 +16,10 @@ import (
 type TaxonomyRelation struct {
 	config `json:"-"`
 	// ID of the ent.
-	// object primary key alias
+	// primary key
 	ID string `json:"id,omitempty"`
+	// object id
+	ObjectID string `json:"object_id,omitempty"`
 	// taxonomy id
 	TaxonomyID string `json:"taxonomy_id,omitempty"`
 	// type
@@ -38,7 +40,7 @@ func (*TaxonomyRelation) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case taxonomyrelation.FieldOrder:
 			values[i] = new(sql.NullInt64)
-		case taxonomyrelation.FieldID, taxonomyrelation.FieldTaxonomyID, taxonomyrelation.FieldType, taxonomyrelation.FieldCreatedBy:
+		case taxonomyrelation.FieldID, taxonomyrelation.FieldObjectID, taxonomyrelation.FieldTaxonomyID, taxonomyrelation.FieldType, taxonomyrelation.FieldCreatedBy:
 			values[i] = new(sql.NullString)
 		case taxonomyrelation.FieldCreatedAt:
 			values[i] = new(sql.NullTime)
@@ -62,6 +64,12 @@ func (tr *TaxonomyRelation) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
 				tr.ID = value.String
+			}
+		case taxonomyrelation.FieldObjectID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field object_id", values[i])
+			} else if value.Valid {
+				tr.ObjectID = value.String
 			}
 		case taxonomyrelation.FieldTaxonomyID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -129,6 +137,9 @@ func (tr *TaxonomyRelation) String() string {
 	var builder strings.Builder
 	builder.WriteString("TaxonomyRelation(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", tr.ID))
+	builder.WriteString("object_id=")
+	builder.WriteString(tr.ObjectID)
+	builder.WriteString(", ")
 	builder.WriteString("taxonomy_id=")
 	builder.WriteString(tr.TaxonomyID)
 	builder.WriteString(", ")

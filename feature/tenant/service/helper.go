@@ -2,30 +2,30 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/log"
-	"ncobase/common/resp"
 	"ncobase/common/validator"
 	"ncobase/feature/tenant/data/ent"
 )
 
 // handleEntError is a helper function to handle errors in a consistent manner.
-func handleEntError(k string, err error) (*resp.Exception, error) {
+func handleEntError(k string, err error) error {
 	if ent.IsNotFound(err) {
 		log.Errorf(context.Background(), "Error not found in %s: %v\n", k, err)
-		return resp.NotFound(ecode.NotExist(k)), nil
+		return errors.New(ecode.NotExist(k))
 	}
 	if ent.IsConstraintError(err) {
 		log.Errorf(context.Background(), "Error constraint in %s: %v\n", k, err)
-		return resp.Conflict(ecode.AlreadyExist(k)), nil
+		return errors.New(ecode.AlreadyExist(k))
 	}
 	if ent.IsNotSingular(err) {
 		log.Errorf(context.Background(), "Error not singular in %s: %v\n", k, err)
-		return resp.BadRequest(ecode.NotSingular(k)), nil
+		return errors.New(ecode.NotSingular(k))
 	}
 	if validator.IsNotNil(err) {
 		log.Errorf(context.Background(), "Error internal in %s: %v\n", k, err)
-		return resp.InternalServer(err.Error()), nil
+		return err
 	}
-	return nil, err
+	return err
 }

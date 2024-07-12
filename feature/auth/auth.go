@@ -65,12 +65,12 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	us, err := m.getUserService(m.fm)
+	us, err := m.getUserService()
 	if err != nil {
 		return err
 	}
 
-	ts, err := m.getTenantService(m.fm)
+	ts, err := m.getTenantService()
 	if err != nil {
 		return err
 	}
@@ -158,8 +158,8 @@ func (m *Module) Dependencies() []string {
 }
 
 // GetUserService returns the user service
-func (m *Module) getUserService(fm *feature.Manager) (*userService.Service, error) {
-	f, err := fm.GetService("user")
+func (m *Module) getUserService() (*userService.Service, error) {
+	f, err := m.fm.GetService("user")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user service: %v", err)
 	}
@@ -172,18 +172,15 @@ func (m *Module) getUserService(fm *feature.Manager) (*userService.Service, erro
 	return us, nil
 }
 
-// GetTenantService returns the tenant service
-func (m *Module) getTenantService(fm *feature.Manager) (*tenantService.Service, error) {
-	f, err := fm.GetService("tenant")
+// GetInitService returns the init service
+func (m *Module) getTenantService() (*tenantService.Service, error) {
+	f, err := m.fm.GetService("tenant")
 	if err != nil {
-		return nil, fmt.Errorf("failed to get tenant service: %v", err)
+		return nil, fmt.Errorf("failed to get init service: %v", err)
 	}
-
-	ts, ok := f.(*tenantService.Service)
+	is, ok := f.(*tenantService.Service)
 	if !ok {
-		return nil, fmt.Errorf("tenant service does not implement TenantServiceInterface")
+		return nil, fmt.Errorf("init service does not implement")
 	}
-
-	return ts, nil
-
+	return is, nil
 }

@@ -2,19 +2,20 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/resp"
 	"ncobase/feature/tenant/data"
+	"ncobase/feature/tenant/data/ent"
 	"ncobase/feature/tenant/data/repository"
 	"ncobase/feature/tenant/structs"
 )
 
 // UserTenantServiceInterface is the interface for the service.
 type UserTenantServiceInterface interface {
-	UserBelongTenantService(ctx context.Context, uid string) (*resp.Exception, error)
-	UserBelongTenantsService(ctx context.Context, uid string) (*resp.Exception, error)
-	AddUserToTenantService(ctx context.Context, u string, t string) (*resp.Exception, error)
-	RemoveUserFromTenantService(ctx context.Context, u string, t string) (*resp.Exception, error)
+	UserBelongTenant(ctx context.Context, uid string) (*structs.ReadTenant, error)
+	UserBelongTenants(ctx context.Context, uid string) ([]*structs.ReadTenant, error)
+	AddUserToTenant(ctx context.Context, u string, t string) (*structs.UserTenant, error)
+	RemoveUserFromTenant(ctx context.Context, u string, t string) error
 }
 
 // userTenantService is the struct for the service.
@@ -31,72 +32,79 @@ func NewUserTenantService(d *data.Data, ts TenantServiceInterface) UserTenantSer
 	}
 }
 
-// UserBelongTenantService user belong tenant service
-func (s *userTenantService) UserBelongTenantService(ctx context.Context, uid string) (*resp.Exception, error) {
+// UserBelongTenant user belong tenant service
+func (s *userTenantService) UserBelongTenant(ctx context.Context, uid string) (*structs.ReadTenant, error) {
 	if uid == "" {
-		return resp.BadRequest(ecode.FieldIsInvalid("User ID")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("User ID"))
 	}
 
 	userTenant, err := s.userTenant.GetByUserID(ctx, uid)
-	if exception, err := handleEntError("UserTenant", err); exception != nil {
-		return exception, err
+	if err := handleEntError("UserTenant", err); err != nil {
+		return nil, err
 	}
 
-	tenant, err := s.ts.FindTenantService(ctx, userTenant.TenantID)
-	if exception, err := handleEntError("Tenant", err); exception != nil {
-		return exception, err
+	row, err := s.ts.Find(ctx, userTenant.TenantID)
+	if err := handleEntError("Tenant", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: tenant,
-	}, nil
+	return row, nil
 }
 
-// UserBelongTenantsService user belong tenants service
-func (s *userTenantService) UserBelongTenantsService(ctx context.Context, uid string) (*resp.Exception, error) {
+// UserBelongTenants user belong tenants service
+func (s *userTenantService) UserBelongTenants(ctx context.Context, uid string) ([]*structs.ReadTenant, error) {
 	if uid == "" {
-		return resp.BadRequest(ecode.FieldIsInvalid("User ID")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("User ID"))
 	}
 
 	userTenants, err := s.userTenant.GetTenantsByUserID(ctx, uid)
-	if exception, err := handleEntError("UserTenants", err); exception != nil {
-		return exception, err
+	if err != nil {
+		return nil, err
 	}
 
 	var tenants []*structs.ReadTenant
 	for _, userTenant := range userTenants {
-		tenant, err := s.ts.FindTenantService(ctx, userTenant.ID)
-		if exception, err := handleEntError("Tenant", err); exception != nil {
-			return exception, err
+		tenant, err := s.ts.Find(ctx, userTenant.ID)
+		if err != nil {
+			return nil, errors.New("tenant not found")
 		}
 		tenants = append(tenants, tenant)
 	}
 
-	return &resp.Exception{
-		Data: tenants,
-	}, nil
+	return tenants, nil
 }
 
-// AddUserToTenantService adds a user to a tenant.
-func (s *userTenantService) AddUserToTenantService(ctx context.Context, u string, t string) (*resp.Exception, error) {
-	_, err := s.userTenant.Create(ctx, &structs.UserTenant{UserID: u, TenantID: t})
-	if exception, err := handleEntError("UserTenant", err); exception != nil {
-		return exception, err
+// AddUserToTenant adds a user to a tenant.
+func (s *userTenantService) AddUserToTenant(ctx context.Context, u string, t string) (*structs.UserTenant, error) {
+	row, err := s.userTenant.Create(ctx, &structs.UserTenant{UserID: u, TenantID: t})
+	if err := handleEntError("UserTenant", err); err != nil {
+		return nil, err
 	}
-
-	return &resp.Exception{
-		Data: "User added to tenant successfully",
-	}, nil
+	return s.Serialize(row), nil
 }
 
-// RemoveUserFromTenantService removes a user from a tenant.
-func (s *userTenantService) RemoveUserFromTenantService(ctx context.Context, u string, t string) (*resp.Exception, error) {
+// RemoveUserFromTenant removes a user from a tenant.
+func (s *userTenantService) RemoveUserFromTenant(ctx context.Context, u string, t string) error {
 	err := s.userTenant.Delete(ctx, u, t)
-	if exception, err := handleEntError("UserTenant", err); exception != nil {
-		return exception, err
+	if err := handleEntError("UserTenant", err); err != nil {
+		return err
 	}
+	return nil
+}
 
-	return &resp.Exception{
-		Data: "User removed from tenant successfully",
-	}, nil
+// Serializes serializes user tenants.
+func (s *userTenantService) Serializes(rows []*ent.UserTenant) []*structs.UserTenant {
+	var rs []*structs.UserTenant
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
+	}
+	return rs
+}
+
+// Serialize serializes a user tenant.
+func (s *userTenantService) Serialize(row *ent.UserTenant) *structs.UserTenant {
+	return &structs.UserTenant{
+		UserID:   row.UserID,
+		TenantID: row.TenantID,
+	}
 }

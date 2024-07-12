@@ -11,9 +11,10 @@ type Service struct {
 
 // New creates a new service.
 func New(d *data.Data) *Service {
+	gs := NewGroupService(d)
 	return &Service{
-		Group:     NewGroupService(d),
+		Group:     gs,
 		GroupRole: NewGroupRoleService(d),
-		UserGroup: NewUserGroupService(d),
+		UserGroup: NewUserGroupService(d, gs),
 	}
 }

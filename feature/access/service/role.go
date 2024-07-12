@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/resp"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/access/data"
@@ -14,15 +14,16 @@ import (
 
 // RoleServiceInterface is the interface for the service.
 type RoleServiceInterface interface {
-	Create(ctx context.Context, body *structs.CreateRoleBody) (*resp.Exception, error)
-	Update(ctx context.Context, roleID string, updates types.JSON) (*resp.Exception, error)
-	Delete(ctx context.Context, roleID string) (*resp.Exception, error)
-	GetByID(ctx context.Context, roleID string) (*resp.Exception, error)
+	Create(ctx context.Context, body *structs.CreateRoleBody) (*structs.ReadRole, error)
+	Update(ctx context.Context, roleID string, updates types.JSON) (*structs.ReadRole, error)
+	Delete(ctx context.Context, roleID string) error
+	GetByID(ctx context.Context, roleID string) (*structs.ReadRole, error)
+	GetByIDs(ctx context.Context, roleIDs []string) ([]*structs.ReadRole, error)
 	Find(ctx context.Context, r string) (*structs.ReadRole, error)
 	CreateSuperAdminRole(ctx context.Context) (*structs.ReadRole, error)
-	ListRoles(ctx context.Context, params *structs.ListRoleParams) (*resp.Exception, error)
-	SerializeRole(row *ent.Role) *structs.ReadRole
-	SerializeRoles(rows []*ent.Role) []*structs.ReadRole
+	List(ctx context.Context, params *structs.ListRoleParams) (*types.JSON, error)
+	Serialize(row *ent.Role) *structs.ReadRole
+	Serializes(rows []*ent.Role) []*structs.ReadRole
 }
 
 // roleService is the struct for the service.
@@ -40,43 +41,45 @@ func NewRoleService(d *data.Data, ps PermissionServiceInterface) RoleServiceInte
 }
 
 // Create creates a new role.
-func (s *roleService) Create(ctx context.Context, body *structs.CreateRoleBody) (*resp.Exception, error) {
+func (s *roleService) Create(ctx context.Context, body *structs.CreateRoleBody) (*structs.ReadRole, error) {
 	if body.Name == "" {
-		return resp.BadRequest("Role name is required"), nil
+		return nil, errors.New("role name is required")
 	}
 
 	role, err := s.role.Create(ctx, body)
-	if exception, err := handleEntError("Role", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Role", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: s.SerializeRole(role),
-	}, nil
+	return s.Serialize(role), nil
 }
 
 // Update updates an existing role.
-func (s *roleService) Update(ctx context.Context, roleID string, updates types.JSON) (*resp.Exception, error) {
+func (s *roleService) Update(ctx context.Context, roleID string, updates types.JSON) (*structs.ReadRole, error) {
 	role, err := s.role.Update(ctx, roleID, updates)
-	if exception, err := handleEntError("Role", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Role", err); err != nil {
+		return nil, err
 	}
-
-	return &resp.Exception{
-		Data: s.SerializeRole(role),
-	}, nil
+	return s.Serialize(role), nil
 }
 
 // GetByID retrieves a role by its ID.
-func (s *roleService) GetByID(ctx context.Context, roleID string) (*resp.Exception, error) {
-	role, err := s.role.GetByID(ctx, roleID)
-	if exception, err := handleEntError("Role", err); exception != nil {
-		return exception, err
+func (s *roleService) GetByID(ctx context.Context, roleID string) (*structs.ReadRole, error) {
+	row, err := s.role.GetByID(ctx, roleID)
+	if err := handleEntError("Role", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: s.SerializeRole(role),
-	}, nil
+	return s.Serialize(row), nil
+}
+
+// GetByIDs retrieves roles by their IDs.
+func (s *roleService) GetByIDs(ctx context.Context, roleIDs []string) ([]*structs.ReadRole, error) {
+	rows, err := s.role.GetByIDs(ctx, roleIDs)
+	if err != nil {
+		return nil, err
+	}
+	return s.Serializes(rows), nil
 }
 
 // Find finds a role by id or slug.
@@ -85,19 +88,16 @@ func (s *roleService) Find(ctx context.Context, r string) (*structs.ReadRole, er
 	if err != nil {
 		return nil, err
 	}
-	return s.SerializeRole(row), nil
+	return s.Serialize(row), nil
 }
 
 // Delete deletes a role by its ID.
-func (s *roleService) Delete(ctx context.Context, roleID string) (*resp.Exception, error) {
+func (s *roleService) Delete(ctx context.Context, roleID string) error {
 	err := s.role.Delete(ctx, roleID)
-	if exception, err := handleEntError("Role", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Role", err); err != nil {
+		return err
 	}
-
-	return &resp.Exception{
-		Data: "Role deleted successfully",
-	}, nil
+	return nil
 }
 
 // CreateSuperAdminRole creates a new super admin role.
@@ -114,46 +114,44 @@ func (s *roleService) CreateSuperAdminRole(ctx context.Context) (*structs.ReadRo
 	if err != nil {
 		return nil, err
 	}
-	return s.SerializeRole(row), nil
+	return s.Serialize(row), nil
 }
 
-// ListRoles lists all roles.
-func (s *roleService) ListRoles(ctx context.Context, params *structs.ListRoleParams) (*resp.Exception, error) {
+// List lists all roles.
+func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) (*types.JSON, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
 	}
 	// limit must be less than 100
 	if params.Limit > 100 {
-		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("limit"))
 	}
 
-	roles, err := s.role.List(ctx, params)
-	if exception, err := handleEntError("Role", err); exception != nil {
-		return exception, err
+	rs, err := s.role.List(ctx, params)
+	if err := handleEntError("Role", err); err != nil {
+		return nil, err
 	}
 
 	total := s.role.CountX(ctx, params)
 
-	return &resp.Exception{
-		Data: types.JSON{
-			"content": roles,
-			"total":   total,
-		},
+	return &types.JSON{
+		"content": s.Serializes(rs),
+		"total":   total,
 	}, nil
 }
 
-// SerializeRoles serializes a list of role entities to a response format.
-func (s *roleService) SerializeRoles(rows []*ent.Role) []*structs.ReadRole {
-	roles := make([]*structs.ReadRole, len(rows))
+// Serializes serializes a list of role entities to a response format.
+func (s *roleService) Serializes(rows []*ent.Role) []*structs.ReadRole {
+	rs := make([]*structs.ReadRole, len(rows))
 	for i, row := range rows {
-		roles[i] = s.SerializeRole(row)
+		rs[i] = s.Serialize(row)
 	}
-	return roles
+	return rs
 }
 
-// SerializeRole serializes a role entity to a response format.
-func (s *roleService) SerializeRole(row *ent.Role) *structs.ReadRole {
+// Serialize serializes a role entity to a response format.
+func (s *roleService) Serialize(row *ent.Role) *structs.ReadRole {
 	return &structs.ReadRole{
 		ID:          row.ID,
 		Name:        row.Name,

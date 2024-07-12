@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/feature"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/data/ent"
@@ -10,19 +11,18 @@ import (
 	"sort"
 
 	"ncobase/common/ecode"
-	"ncobase/common/resp"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 )
 
 // MenuServiceInterface represents the menu service interface.
 type MenuServiceInterface interface {
-	CreateMenuService(ctx context.Context, body *structs.MenuBody) (*resp.Exception, error)
-	UpdateMenuService(ctx context.Context, updates *structs.UpdateMenuBody) (*resp.Exception, error)
-	GetMenuService(ctx context.Context, params *structs.FindMenu) (*resp.Exception, error)
-	DeleteMenuService(ctx context.Context, params *structs.FindMenu) (*resp.Exception, error)
-	ListMenusService(ctx context.Context, params *structs.ListMenuParams) (*resp.Exception, error)
-	GetMenuTreeService(ctx context.Context, params *structs.FindMenu) (*resp.Exception, error)
+	CreateMenuService(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error)
+	UpdateMenuService(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error)
+	GetMenuService(ctx context.Context, params *structs.FindMenu) (any, error)
+	DeleteMenuService(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error)
+	ListMenusService(ctx context.Context, params *structs.ListMenuParams) (*types.JSON, error)
+	GetMenuTreeService(ctx context.Context, params *structs.FindMenu) (*types.JSON, error)
 }
 
 // MenuService represents the menu service.
@@ -40,69 +40,63 @@ func NewMenuService(d *data.Data, fm *feature.Manager) MenuServiceInterface {
 }
 
 // CreateMenuService creates a new menu.
-func (svc *menuService) CreateMenuService(ctx context.Context, body *structs.MenuBody) (*resp.Exception, error) {
+func (svc *menuService) CreateMenuService(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error) {
 	if validator.IsEmpty(body.Name) {
-		return resp.BadRequest(ecode.FieldIsRequired("name")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("name"))
 	}
 
 	row, err := svc.menu.Create(ctx, body)
-	if exception, err := handleEntError("Menu", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Menu", err); err != nil {
+		return nil, err
 	}
 
 	// // publish event
 	// svc.fm.PublishEvent("menu.created", svc.serializeMenuReply(row))
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return svc.serializeMenuReply(row), nil
 }
 
 // UpdateMenuService updates an existing menu (full and partial).
-func (svc *menuService) UpdateMenuService(ctx context.Context, updates *structs.UpdateMenuBody) (*resp.Exception, error) {
+func (svc *menuService) UpdateMenuService(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error) {
 	if validator.IsEmpty(updates.ID) {
-		return resp.BadRequest(ecode.FieldIsRequired("id")), nil
+		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
 	row, err := svc.menu.Update(ctx, updates)
-	if exception, err := handleEntError("Menu", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Menu", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: svc.serializeMenuReply(row),
-	}, nil
+	return svc.serializeMenuReply(row), nil
 }
 
 // GetMenuService retrieves a menu by ID.
-func (svc *menuService) GetMenuService(ctx context.Context, params *structs.FindMenu) (*resp.Exception, error) {
+func (svc *menuService) GetMenuService(ctx context.Context, params *structs.FindMenu) (any, error) {
 
 	if params.Children {
 		return svc.GetMenuTreeService(ctx, params)
 	}
 
 	row, err := svc.menu.Get(ctx, params)
-	if exception, err := handleEntError("Menu", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Menu", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: svc.serializeMenuReply(row),
-	}, nil
+	return svc.serializeMenuReply(row), nil
 }
 
 // DeleteMenuService deletes a menu by ID.
-func (svc *menuService) DeleteMenuService(ctx context.Context, params *structs.FindMenu) (*resp.Exception, error) {
+func (svc *menuService) DeleteMenuService(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error) {
 	err := svc.menu.Delete(ctx, params)
-	if exception, err := handleEntError("Menu", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Menu", err); err != nil {
+		return nil, err
 	}
 
 	return nil, nil
 }
 
 // ListMenusService lists all menus.
-func (svc *menuService) ListMenusService(ctx context.Context, params *structs.ListMenuParams) (*resp.Exception, error) {
+func (svc *menuService) ListMenusService(ctx context.Context, params *structs.ListMenuParams) (*types.JSON, error) {
 	// with children menu
 	if validator.IsTrue(params.Children) {
 		return svc.GetMenuTreeService(ctx, &structs.FindMenu{
@@ -119,36 +113,32 @@ func (svc *menuService) ListMenusService(ctx context.Context, params *structs.Li
 	}
 	// limit must be less than 100
 	if params.Limit > 100 {
-		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("limit"))
 	}
 
 	rows, err := svc.menu.List(ctx, params)
-	if exception, err := handleEntError("Menu", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Menu", err); err != nil {
+		return nil, err
 	}
 
 	total := svc.menu.CountX(ctx, params)
 
-	return &resp.Exception{
-		Data: types.JSON{
-			"content": rows,
-			"total":   total,
-		},
+	return &types.JSON{
+		"content": rows,
+		"total":   total,
 	}, nil
 }
 
 // GetMenuTreeService retrieves the menu tree.
-func (svc *menuService) GetMenuTreeService(ctx context.Context, params *structs.FindMenu) (*resp.Exception, error) {
+func (svc *menuService) GetMenuTreeService(ctx context.Context, params *structs.FindMenu) (*types.JSON, error) {
 	rows, err := svc.menu.GetTree(ctx, params)
-	if exception, err := handleEntError("MenuTree", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Menu", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: &types.JSON{
-			"content": svc.buildMenuTree(rows),
-			"total":   len(rows),
-		},
+	return &types.JSON{
+		"content": svc.buildMenuTree(rows),
+		"total":   len(rows),
 	}, nil
 }
 

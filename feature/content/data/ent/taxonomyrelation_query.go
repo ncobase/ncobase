@@ -261,12 +261,12 @@ func (trq *TaxonomyRelationQuery) Clone() *TaxonomyRelationQuery {
 // Example:
 //
 //	var v []struct {
-//		TaxonomyID string `json:"taxonomy_id,omitempty"`
+//		ObjectID string `json:"object_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.TaxonomyRelation.Query().
-//		GroupBy(taxonomyrelation.FieldTaxonomyID).
+//		GroupBy(taxonomyrelation.FieldObjectID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (trq *TaxonomyRelationQuery) GroupBy(field string, fields ...string) *TaxonomyRelationGroupBy {
@@ -284,11 +284,11 @@ func (trq *TaxonomyRelationQuery) GroupBy(field string, fields ...string) *Taxon
 // Example:
 //
 //	var v []struct {
-//		TaxonomyID string `json:"taxonomy_id,omitempty"`
+//		ObjectID string `json:"object_id,omitempty"`
 //	}
 //
 //	client.TaxonomyRelation.Query().
-//		Select(taxonomyrelation.FieldTaxonomyID).
+//		Select(taxonomyrelation.FieldObjectID).
 //		Scan(ctx, &v)
 func (trq *TaxonomyRelationQuery) Select(fields ...string) *TaxonomyRelationSelect {
 	trq.ctx.Fields = append(trq.ctx.Fields, fields...)

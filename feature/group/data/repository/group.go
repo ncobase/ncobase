@@ -19,6 +19,7 @@ import (
 type GroupRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateGroupBody) (*ent.Group, error)
 	GetByID(ctx context.Context, id string) (*ent.Group, error)
+	GetByIDs(ctx context.Context, ids []string) ([]*ent.Group, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Group, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Group, error)
 	List(ctx context.Context, params *structs.ListGroupParams) ([]*ent.Group, error)
@@ -98,6 +99,21 @@ func (r *groupRepository) GetByID(ctx context.Context, id string) (*ent.Group, e
 	}
 
 	return row, nil
+}
+
+// GetByIDs gets groups by IDs.
+func (r *groupRepository) GetByIDs(ctx context.Context, ids []string) ([]*ent.Group, error) {
+	// create builder.
+	builder := r.ec.Group.Query()
+	// set conditions.
+	builder.Where(groupEnt.IDIn(ids...))
+	// execute the builder.
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(context.Background(), "groupRepo.GetByIDs error: %v\n", err)
+		return nil, err
+	}
+	return rows, nil
 }
 
 // GetBySlug gets a group by slug.

@@ -1,6 +1,9 @@
 package structs
 
 import (
+	accessStructs "ncobase/feature/access/structs"
+	groupStructs "ncobase/feature/group/structs"
+	tenantStructs "ncobase/feature/tenant/structs"
 	"time"
 
 	"ncobase/common/types"
@@ -38,11 +41,11 @@ type UserPassword struct {
 
 // UserMeshes represents the user meshes.
 type UserMeshes struct {
-	User    *UserBody        `json:"user"`
-	Profile *UserProfileBody `json:"profile,omitempty"`
-	// Roles   []*structs3.ReadRole  `json:"roles,omitempty"`
-	// Tenants []*structs.ReadTenant `json:"tenants,omitempty"`
-	// Groups  []*structs2.ReadGroup `json:"groups,omitempty"`
+	User    *UserBody                   `json:"user"`
+	Profile *UserProfileBody            `json:"profile,omitempty"`
+	Roles   []*accessStructs.ReadRole   `json:"roles,omitempty"`
+	Tenants []*tenantStructs.ReadTenant `json:"tenants,omitempty"`
+	Groups  []*groupStructs.ReadGroup   `json:"groups,omitempty"`
 }
 
 // ListUserParams represents the query parameters for listing users.

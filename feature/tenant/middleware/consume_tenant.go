@@ -5,7 +5,6 @@ import (
 	"ncobase/common/consts"
 	"ncobase/common/log"
 	"ncobase/feature/tenant/service"
-	"ncobase/feature/tenant/structs"
 	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
@@ -25,12 +24,12 @@ func ConsumeTenant(svc *service.Service) gin.HandlerFunc {
 				// Get user ID
 				userID := helper.GetUserID(ctx)
 				// Fetch user tenants
-				if result, _ := svc.UserTenant.UserBelongTenantService(c, userID); result.Code != 0 {
-					log.Errorf(context.Background(), "failed to fetch user belong tenant: %v", result)
-				} else if readTenant, ok := result.Data.(*structs.ReadTenant); ok {
-					tenantID = readTenant.ID
+				if tenant, err := svc.UserTenant.UserBelongTenant(c, userID); err != nil {
+					log.Errorf(context.Background(), "failed to fetch user belong tenant: %v", err.Error())
+				} else if tenant != nil {
+					tenantID = tenant.ID
 				} else {
-					log.Errorf(context.Background(), "failed to parse user belong tenant: %v", result)
+					log.Errorf(context.Background(), "failed to parse user belong tenant: %v", err.Error())
 				}
 			}
 		}

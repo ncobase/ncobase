@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/resp"
 	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -15,16 +15,11 @@ import (
 
 // TaxonomyServiceInterface is the interface for the service.
 type TaxonomyServiceInterface interface {
-	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*resp.Exception, error)
-	Update(ctx context.Context, slug string, updates types.JSON) (*resp.Exception, error)
-	Get(ctx context.Context, slug string) (*resp.Exception, error)
-	List(ctx context.Context, params *structs.ListTaxonomyParams) (*resp.Exception, error)
-	Delete(ctx context.Context, slug string) (*resp.Exception, error)
-	CreateTaxonomyRelation(ctx context.Context, body *structs.CreateTaxonomyRelationBody) (*resp.Exception, error)
-	UpdateTaxonomyRelation(ctx context.Context, body *structs.UpdateTaxonomyRelationBody) (*resp.Exception, error)
-	GetTaxonomyRelation(ctx context.Context, object string) (*resp.Exception, error)
-	ListTaxonomyRelations(ctx context.Context, params *structs.ListTaxonomyRelationParams) (*resp.Exception, error)
-	DeleteTaxonomyRelation(ctx context.Context, object string) (*resp.Exception, error)
+	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*structs.ReadTaxonomy, error)
+	Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTaxonomy, error)
+	Get(ctx context.Context, slug string) (*structs.ReadTaxonomy, error)
+	List(ctx context.Context, params *structs.ListTaxonomyParams) (*types.JSON, error)
+	Delete(ctx context.Context, slug string) error
 }
 
 // taxonomyService is the struct for the service.
@@ -42,167 +37,121 @@ func NewTaxonomyService(d *data.Data) TaxonomyServiceInterface {
 }
 
 // Create creates a new taxonomy.
-func (svc *taxonomyService) Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*resp.Exception, error) {
+func (s *taxonomyService) Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*structs.ReadTaxonomy, error) {
 	if validator.IsEmpty(body.Name) {
-		return resp.BadRequest(ecode.FieldIsRequired("name")), nil
+		return nil, errors.New(ecode.FieldIsRequired("name"))
 	}
 	if validator.IsEmpty(body.Type) {
-		return resp.BadRequest(ecode.FieldIsRequired("type")), nil
+		return nil, errors.New(ecode.FieldIsRequired("type"))
 	}
 	// set slug field.
 	if validator.IsEmpty(body.Slug) {
 		body.Slug = slug.Unicode(body.Name)
 	}
-	row, err := svc.taxonomy.Create(ctx, body)
-	if exception, err := handleEntError("Taxonomy", err); exception != nil {
-		return exception, err
+	row, err := s.taxonomy.Create(ctx, body)
+	if err := handleEntError("Taxonomy", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
 // Update updates an existing taxonomy (full and partial)..
-func (svc *taxonomyService) Update(ctx context.Context, slug string, updates types.JSON) (*resp.Exception, error) {
+func (s *taxonomyService) Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTaxonomy, error) {
 	if validator.IsEmpty(slug) {
-		return resp.BadRequest(ecode.FieldIsRequired("slug / id")), nil
+		return nil, errors.New(ecode.FieldIsRequired("slug / id"))
 	}
 
 	// Validate the updates map
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
+		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
 	}
 
-	row, err := svc.taxonomy.Update(ctx, slug, updates)
-	if exception, err := handleEntError("Taxonomy", err); exception != nil {
-		return exception, err
+	row, err := s.taxonomy.Update(ctx, slug, updates)
+	if err := handleEntError("Taxonomy", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
 // Get retrieves a taxonomy by ID.
-func (svc *taxonomyService) Get(ctx context.Context, slug string) (*resp.Exception, error) {
-	row, err := svc.taxonomy.GetBySlug(ctx, slug)
-	if exception, err := handleEntError("Taxonomy", err); exception != nil {
-		return exception, err
+func (s *taxonomyService) Get(ctx context.Context, slug string) (*structs.ReadTaxonomy, error) {
+	row, err := s.taxonomy.GetBySlug(ctx, slug)
+	if err := handleEntError("Taxonomy", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
 // Delete deletes a taxonomy by ID.
-func (svc *taxonomyService) Delete(ctx context.Context, slug string) (*resp.Exception, error) {
-	err := svc.taxonomy.Delete(ctx, slug)
-	if exception, err := handleEntError("Taxonomy", err); exception != nil {
-		return exception, err
+func (s *taxonomyService) Delete(ctx context.Context, slug string) error {
+	err := s.taxonomy.Delete(ctx, slug)
+	if err := handleEntError("Taxonomy", err); err != nil {
+		return err
 	}
-
-	return nil, nil
+	return nil
 }
 
 // List lists all taxonomies.
-func (svc *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomyParams) (*resp.Exception, error) {
+func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomyParams) (*types.JSON, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
 	}
 	// limit must less than 100
 	if params.Limit > 100 {
-		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("limit"))
 	}
 
-	rows, err := svc.taxonomy.List(ctx, params)
+	rows, err := s.taxonomy.List(ctx, params)
 
 	if ent.IsNotFound(err) {
-		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("cursor"))
 	}
 	if validator.IsNotNil(err) {
-		return resp.InternalServer(err.Error()), nil
+		return nil, err
 	}
 
-	total := svc.taxonomy.CountX(ctx, params)
+	total := s.taxonomy.CountX(ctx, params)
 
-	return &resp.Exception{
-		Data: &types.JSON{
-			"content": rows,
-			"total":   total,
-		},
+	return &types.JSON{
+		"content": s.Serializes(rows),
+		"total":   total,
 	}, nil
 }
 
-// CreateTaxonomyRelation creates a new taxonomy relation.
-func (svc *taxonomyService) CreateTaxonomyRelation(ctx context.Context, body *structs.CreateTaxonomyRelationBody) (*resp.Exception, error) {
-	relation, err := svc.taxonomyRelations.Create(ctx, body)
-	if exception, err := handleEntError("Taxonomy relation", err); exception != nil {
-		return exception, err
+// Serializes serializes taxonomies.
+func (s *taxonomyService) Serializes(rows []*ent.Taxonomy) []*structs.ReadTaxonomy {
+	var rs []*structs.ReadTaxonomy
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
-
-	return &resp.Exception{
-		Data: relation,
-	}, nil
+	return rs
 }
 
-// UpdateTaxonomyRelation updates an existing taxonomy relation.
-func (svc *taxonomyService) UpdateTaxonomyRelation(ctx context.Context, body *structs.UpdateTaxonomyRelationBody) (*resp.Exception, error) {
-	relation, err := svc.taxonomyRelations.Update(ctx, body)
-	if exception, err := handleEntError("Taxonomy relation", err); exception != nil {
-		return exception, err
+// Serialize serializes a taxonomy.
+func (s *taxonomyService) Serialize(row *ent.Taxonomy) *structs.ReadTaxonomy {
+	return &structs.ReadTaxonomy{
+		ID:          row.ID,
+		Name:        row.Name,
+		Type:        row.Type,
+		Slug:        row.Slug,
+		Cover:       row.Cover,
+		Thumbnail:   row.Thumbnail,
+		Color:       row.Color,
+		Icon:        row.Icon,
+		URL:         row.URL,
+		Keywords:    row.Keywords,
+		Description: row.Description,
+		Status:      row.Status,
+		Extras:      &row.Extras,
+		ParentID:    row.ParentID,
+		TenantID:    row.ParentID,
+		CreatedBy:   &row.CreatedBy,
+		CreatedAt:   &row.CreatedAt,
+		UpdatedBy:   &row.UpdatedBy,
+		UpdatedAt:   &row.UpdatedAt,
 	}
-
-	return &resp.Exception{
-		Data: relation,
-	}, nil
-}
-
-// GetTaxonomyRelation retrieves a taxonomy relation by ID.
-func (svc *taxonomyService) GetTaxonomyRelation(ctx context.Context, object string) (*resp.Exception, error) {
-	relation, err := svc.taxonomyRelations.GetByObject(ctx, object)
-	if exception, err := handleEntError("Taxonomy relation", err); exception != nil {
-		return exception, err
-	}
-
-	return &resp.Exception{
-		Data: relation,
-	}, nil
-}
-
-// DeleteTaxonomyRelation deletes a taxonomy relation by ID.
-func (svc *taxonomyService) DeleteTaxonomyRelation(ctx context.Context, object string) (*resp.Exception, error) {
-	err := svc.taxonomyRelations.Delete(ctx, object)
-	if exception, err := handleEntError("Taxonomy relation", err); exception != nil {
-		return exception, err
-	}
-
-	return nil, nil
-}
-
-// ListTaxonomyRelations lists all taxonomy relations.
-func (svc *taxonomyService) ListTaxonomyRelations(ctx context.Context, params *structs.ListTaxonomyRelationParams) (*resp.Exception, error) {
-	// limit default value
-	if validator.IsEmpty(params.Limit) {
-		params.Limit = 20
-	}
-	// limit must less than 100
-	if params.Limit > 100 {
-		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
-	}
-
-	relations, err := svc.taxonomyRelations.List(ctx, params)
-
-	if ent.IsNotFound(err) {
-		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
-	}
-	if validator.IsNotNil(err) {
-		return resp.InternalServer(err.Error()), nil
-	}
-
-	return &resp.Exception{
-		Data: relations,
-	}, nil
 }

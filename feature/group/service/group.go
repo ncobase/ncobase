@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"ncobase/common/resp"
+	"errors"
 	"ncobase/common/types"
 	"ncobase/feature/group/data"
 	"ncobase/feature/group/data/ent"
@@ -12,11 +12,13 @@ import (
 
 // GroupServiceInterface is the interface for the service.
 type GroupServiceInterface interface {
-	CreateGroupService(ctx context.Context, body *structs.CreateGroupBody) (*resp.Exception, error)
-	UpdateGroupService(ctx context.Context, groupID string, updates types.JSON) (*resp.Exception, error)
-	GetGroupByIDService(ctx context.Context, groupID string) (*resp.Exception, error)
-	DeleteGroupService(ctx context.Context, groupID string) (*resp.Exception, error)
-	SerializeGroup(group *ent.Group) *structs.ReadGroup
+	Create(ctx context.Context, body *structs.CreateGroupBody) (*structs.ReadGroup, error)
+	Update(ctx context.Context, groupID string, updates types.JSON) (*structs.ReadGroup, error)
+	GetByID(ctx context.Context, groupID string) (*structs.ReadGroup, error)
+	GetByIDs(ctx context.Context, groupIDs []string) ([]*structs.ReadGroup, error)
+	Delete(ctx context.Context, groupID string) error
+	Serializes(rows []*ent.Group) []*structs.ReadGroup
+	Serialize(group *ent.Group) *structs.ReadGroup
 }
 
 // groupService is the struct for the service.
@@ -31,60 +33,71 @@ func NewGroupService(d *data.Data) GroupServiceInterface {
 	}
 }
 
-// CreateGroupService creates a new group.
-func (s *groupService) CreateGroupService(ctx context.Context, body *structs.CreateGroupBody) (*resp.Exception, error) {
+// Create creates a new group.
+func (s *groupService) Create(ctx context.Context, body *structs.CreateGroupBody) (*structs.ReadGroup, error) {
 	if body.Name == "" {
-		return resp.BadRequest("Group name is required"), nil
+		return nil, errors.New("group name is required")
 	}
 
-	group, err := s.group.Create(ctx, body)
-	if exception, err := handleEntError("Group", err); exception != nil {
-		return exception, err
+	row, err := s.group.Create(ctx, body)
+	if err := handleEntError("Group", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: s.SerializeGroup(group),
-	}, nil
+	return s.Serialize(row), nil
 }
 
-// UpdateGroupService updates an existing group.
-func (s *groupService) UpdateGroupService(ctx context.Context, groupID string, updates types.JSON) (*resp.Exception, error) {
-	group, err := s.group.Update(ctx, groupID, updates)
-	if exception, err := handleEntError("Group", err); exception != nil {
-		return exception, err
+// Update updates an existing group.
+func (s *groupService) Update(ctx context.Context, groupID string, updates types.JSON) (*structs.ReadGroup, error) {
+	row, err := s.group.Update(ctx, groupID, updates)
+	if err := handleEntError("Group", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: s.SerializeGroup(group),
-	}, nil
+	return s.Serialize(row), nil
 }
 
-// GetGroupByIDService retrieves a group by its ID.
-func (s *groupService) GetGroupByIDService(ctx context.Context, groupID string) (*resp.Exception, error) {
-	group, err := s.group.GetByID(ctx, groupID)
-	if exception, err := handleEntError("Group", err); exception != nil {
-		return exception, err
+// GetByID retrieves a group by its ID.
+func (s *groupService) GetByID(ctx context.Context, groupID string) (*structs.ReadGroup, error) {
+	row, err := s.group.GetByID(ctx, groupID)
+	if err := handleEntError("Group", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: s.SerializeGroup(group),
-	}, nil
+	return s.Serialize(row), nil
 }
 
-// DeleteGroupService deletes a group by its ID.
-func (s *groupService) DeleteGroupService(ctx context.Context, groupID string) (*resp.Exception, error) {
+// GetByIDs retrieves groups by their IDs.
+func (s *groupService) GetByIDs(ctx context.Context, groupIDs []string) ([]*structs.ReadGroup, error) {
+	rows, err := s.group.GetByIDs(ctx, groupIDs)
+	if err := handleEntError("Group", err); err != nil {
+		return nil, err
+	}
+
+	return s.Serializes(rows), nil
+}
+
+// Delete deletes a group by its ID.
+func (s *groupService) Delete(ctx context.Context, groupID string) error {
 	err := s.group.Delete(ctx, groupID)
-	if exception, err := handleEntError("Group", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Group", err); err != nil {
+		return err
 	}
 
-	return &resp.Exception{
-		Data: "Group deleted successfully",
-	}, nil
+	return nil
 }
 
-// SerializeGroup serializes a group entity to a response format.
-func (s *groupService) SerializeGroup(row *ent.Group) *structs.ReadGroup {
+// Serializes serializes groups.
+func (s *groupService) Serializes(rows []*ent.Group) []*structs.ReadGroup {
+	var rs []*structs.ReadGroup
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
+	}
+	return rs
+}
+
+// Serialize serializes a group.
+func (s *groupService) Serialize(row *ent.Group) *structs.ReadGroup {
 	return &structs.ReadGroup{
 		ID:          row.ID,
 		Name:        row.Name,

@@ -20,6 +20,7 @@ import (
 type RoleRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateRoleBody) (*ent.Role, error)
 	GetByID(ctx context.Context, id string) (*ent.Role, error)
+	GetByIDs(ctx context.Context, ids []string) ([]*ent.Role, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Role, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Role, error)
 	List(ctx context.Context, params *structs.ListRoleParams) ([]*ent.Role, error)
@@ -89,6 +90,21 @@ func (r *roleRepository) GetByID(ctx context.Context, id string) (*ent.Role, err
 	}
 
 	return row, nil
+}
+
+// GetByIDs gets roles by IDs.
+func (r *roleRepository) GetByIDs(ctx context.Context, ids []string) ([]*ent.Role, error) {
+	// create builder.
+	builder := r.ec.Role.Query()
+	// set conditions.
+	builder.Where(roleEnt.IDIn(ids...))
+	// execute the builder.
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(context.Background(), "roleRepo.GetByIDs error: %v\n", err)
+		return nil, err
+	}
+	return rows, nil
 }
 
 // GetBySlug gets a role by slug.

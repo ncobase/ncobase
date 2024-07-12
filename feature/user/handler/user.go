@@ -39,7 +39,7 @@ func NewUserHandler(svc *service.Service) UserHandlerInterface {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/users/{username} [get]
 func (h *userHandler) GetUserHandler(c *gin.Context) {
-	result, err := h.s.User.GetUserService(c.Request.Context(), c.Param("username"))
+	result, err := h.s.User.Get(c.Request.Context(), c.Param("username"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -58,7 +58,7 @@ func (h *userHandler) GetUserHandler(c *gin.Context) {
 // @Router /v1/account [get]
 // @Security Bearer
 func (h *userHandler) GetMeHandler(c *gin.Context) {
-	result, err := h.s.User.GetMeService(c.Request.Context())
+	result, err := h.s.User.GetMe(c.Request.Context())
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -88,10 +88,10 @@ func (h *userHandler) UpdatePasswordHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.User.UpdatePasswordService(c.Request.Context(), body)
+	err := h.s.User.UpdatePassword(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
-	resp.Success(c.Writer, result)
+	resp.Success(c.Writer)
 }

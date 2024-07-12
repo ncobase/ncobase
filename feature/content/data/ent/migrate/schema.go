@@ -61,7 +61,8 @@ var (
 	}
 	// NbTaxonomyRelationColumns holds the columns for the "nb_taxonomy_relation" table.
 	NbTaxonomyRelationColumns = []*schema.Column{
-		{Name: "object_id", Type: field.TypeString, Unique: true, Comment: "object primary key alias"},
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "object id"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "taxonomy id"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
@@ -75,14 +76,19 @@ var (
 		PrimaryKey: []*schema.Column{NbTaxonomyRelationColumns[0]},
 		Indexes: []*schema.Index{
 			{
+				Name:    "taxonomyrelation_id",
+				Unique:  true,
+				Columns: []*schema.Column{NbTaxonomyRelationColumns[0]},
+			},
+			{
 				Name:    "taxonomyrelation_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyRelationColumns[0]},
+				Columns: []*schema.Column{NbTaxonomyRelationColumns[1]},
 			},
 			{
 				Name:    "taxonomyrelation_taxonomy_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyRelationColumns[1]},
+				Columns: []*schema.Column{NbTaxonomyRelationColumns[2]},
 			},
 		},
 	}

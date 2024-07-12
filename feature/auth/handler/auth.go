@@ -50,7 +50,7 @@ func (h *authHandler) Register(c *gin.Context) {
 		return
 	}
 
-	result, _ := h.s.Auth.RegisterService(c.Request.Context(), body)
+	result, _ := h.s.Auth.Register(c.Request.Context(), body)
 	resp.Success(c.Writer, result)
 }
 
@@ -77,13 +77,13 @@ func (h *authHandler) Login(c *gin.Context) {
 
 	// Validate captcha
 	if body.Captcha != nil && body.Captcha.ID != "" && body.Captcha.Solution != "" {
-		if result := h.s.Captcha.ValidateCaptchaService(c.Request.Context(), body.Captcha); result.Code != 0 {
-			resp.Fail(c.Writer, result)
+		if err := h.s.Captcha.ValidateCaptcha(c.Request.Context(), body.Captcha); err != nil {
+			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
 	}
 
-	result, err := h.s.Auth.LoginService(c.Request.Context(), body)
+	result, err := h.s.Auth.Login(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -102,7 +102,7 @@ func (h *authHandler) Login(c *gin.Context) {
 // @Security Bearer
 func (h *authHandler) Logout(c *gin.Context) {
 	cookie.ClearAll(c.Writer)
-	resp.Success(c.Writer, nil)
+	resp.Success(c.Writer)
 }
 
 // // Refresh handles user token refresh.

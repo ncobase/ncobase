@@ -2,17 +2,17 @@ package service
 
 import (
 	"context"
-	"ncobase/common/resp"
 	"ncobase/feature/group/data"
+	"ncobase/feature/group/data/ent"
 	"ncobase/feature/group/data/repository"
 	"ncobase/feature/group/structs"
 )
 
 // GroupRoleServiceInterface is the interface for the service.
 type GroupRoleServiceInterface interface {
-	AddRoleToGroupService(ctx context.Context, groupID string, roleID string) (*resp.Exception, error)
-	RemoveRoleFromGroupService(ctx context.Context, groupID string, roleID string) (*resp.Exception, error)
-	GetGroupRolesService(ctx context.Context, groupID string) (*resp.Exception, error)
+	AddRoleToGroup(ctx context.Context, groupID string, roleID string) (*structs.GroupRole, error)
+	RemoveRoleFromGroup(ctx context.Context, groupID string, roleID string) error
+	GetGroupRolesIds(ctx context.Context, groupID string) ([]string, error)
 }
 
 // groupRoleService is the struct for the service.
@@ -27,38 +27,48 @@ func NewGroupRoleService(d *data.Data) GroupRoleServiceInterface {
 	}
 }
 
-// AddRoleToGroupService adds a role to a group.
-func (s *groupRoleService) AddRoleToGroupService(ctx context.Context, groupID string, roleID string) (*resp.Exception, error) {
-	_, err := s.groupRole.Create(ctx, &structs.GroupRole{GroupID: groupID, RoleID: roleID})
-	if exception, err := handleEntError("GroupRole", err); exception != nil {
-		return exception, err
+// AddRoleToGroup adds a role to a group.
+func (s *groupRoleService) AddRoleToGroup(ctx context.Context, groupID string, roleID string) (*structs.GroupRole, error) {
+	row, err := s.groupRole.Create(ctx, &structs.GroupRole{GroupID: groupID, RoleID: roleID})
+	if err := handleEntError("GroupRole", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: "Role added to group successfully",
-	}, nil
+	return s.Serialize(row), nil
 }
 
-// RemoveRoleFromGroupService removes a role from a group.
-func (s *groupRoleService) RemoveRoleFromGroupService(ctx context.Context, groupID string, roleID string) (*resp.Exception, error) {
+// RemoveRoleFromGroup removes a role from a group.
+func (s *groupRoleService) RemoveRoleFromGroup(ctx context.Context, groupID string, roleID string) error {
 	err := s.groupRole.Delete(ctx, groupID, roleID)
-	if exception, err := handleEntError("GroupRole", err); exception != nil {
-		return exception, err
+	if err := handleEntError("GroupRole", err); err != nil {
+		return err
 	}
 
-	return &resp.Exception{
-		Data: "Role removed from group successfully",
-	}, nil
+	return nil
 }
 
-// GetGroupRolesService retrieves roles associated with a group.
-func (s *groupRoleService) GetGroupRolesService(ctx context.Context, groupID string) (*resp.Exception, error) {
-	roles, err := s.groupRole.GetRolesByGroupID(ctx, groupID)
-	if exception, err := handleEntError("GroupRole", err); exception != nil {
-		return exception, err
+// GetGroupRolesIds retrieves all roles under a group.
+func (s *groupRoleService) GetGroupRolesIds(ctx context.Context, groupID string) ([]string, error) {
+	roleIDs, err := s.groupRole.GetRolesByGroupID(ctx, groupID)
+	if err := handleEntError("GroupRole", err); err != nil {
+		return nil, err
 	}
+	return roleIDs, nil
+}
 
-	return &resp.Exception{
-		Data: roles,
-	}, nil
+// Serializes serializes the group roles.
+func (s *groupRoleService) Serializes(rows []*ent.GroupRole) []*structs.GroupRole {
+	var rs []*structs.GroupRole
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
+	}
+	return rs
+}
+
+// Serialize serializes the group role.
+func (s *groupRoleService) Serialize(row *ent.GroupRole) *structs.GroupRole {
+	return &structs.GroupRole{
+		GroupID: row.GroupID,
+		RoleID:  row.RoleID,
+	}
 }
