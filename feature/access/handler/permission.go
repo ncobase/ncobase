@@ -146,13 +146,12 @@ func (h *permissionHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Permission.Delete(c.Request.Context(), slug)
-	if err != nil {
+	if err := h.s.Permission.Delete(c.Request.Context(), slug); err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
-	resp.Success(c.Writer, result)
+	resp.Success(c.Writer)
 }
 
 // List handles listing all permissions.

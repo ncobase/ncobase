@@ -4,11 +4,12 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/common/crypto"
 	"ncobase/common/ecode"
 	"ncobase/common/log"
-	"ncobase/common/resp"
+	accessService "ncobase/feature/access/service"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/data/ent"
 	"ncobase/feature/user/data/repository"
@@ -18,17 +19,16 @@ import (
 
 // UserServiceInterface is the interface for the service.
 type UserServiceInterface interface {
-	GetMeService(ctx context.Context) (*resp.Exception, error)
-	GetUserService(ctx context.Context, username string) (*resp.Exception, error)
-	UpdatePasswordService(ctx context.Context, body *structs.UserPassword) (*resp.Exception, error)
-	CreateUserService(ctx context.Context, body *structs.UserMeshes) (*resp.Exception, error)
-	GetUserByIDService(ctx context.Context, u string) (*resp.Exception, error)
-	DeleteUserService(ctx context.Context, u string) (*resp.Exception, error)
-	FindUserByID(ctx context.Context, id string) (structs.UserMeshes, error)
-	FindUser(ctx context.Context, m *structs.FindUser) (structs.UserMeshes, error)
-	VerifyUserPassword(ctx context.Context, userID string, password string) any
-	UpdateUserPassword(ctx context.Context, body *structs.UserPassword) error
-	SerializeUser(user *ent.User, sp ...*serializeUserParams) structs.UserMeshes
+	GetMe(ctx context.Context) (*structs.UserMeshes, error)
+	Get(ctx context.Context, username string) (*structs.UserMeshes, error)
+	UpdatePassword(ctx context.Context, body *structs.UserPassword) error
+	CreateUser(ctx context.Context, body *structs.UserMeshes) (*structs.UserMeshes, error)
+	GetByID(ctx context.Context, u string) (*structs.UserMeshes, error)
+	Delete(ctx context.Context, u string) error
+	FindByID(ctx context.Context, id string) (*structs.UserMeshes, error)
+	FindUser(ctx context.Context, m *structs.FindUser) (*structs.UserMeshes, error)
+	VerifyPassword(ctx context.Context, userID string, password string) any
+	Serialize(user *ent.User, sp ...*serializeUserParams) *structs.UserMeshes
 	CountX(ctx context.Context, params *structs.ListUserParams) int
 }
 
@@ -36,84 +36,83 @@ type UserServiceInterface interface {
 type userService struct {
 	user        repository.UserRepositoryInterface
 	userProfile repository.UserProfileRepositoryInterface
+	as          *accessService.Service
 }
 
 // NewUserService creates a new service.
-func NewUserService(d *data.Data) UserServiceInterface {
+func NewUserService(d *data.Data, as *accessService.Service) UserServiceInterface {
 	return &userService{
 		user:        repository.NewUserRepository(d),
 		userProfile: repository.NewUserProfileRepository(d),
+		as:          as,
 	}
 }
 
-// GetMeService get current user service
-func (s *userService) GetMeService(ctx context.Context) (*resp.Exception, error) {
+// GetMe get current user service
+func (s *userService) GetMe(ctx context.Context) (*structs.UserMeshes, error) {
 	user, err := s.user.GetByID(ctx, helper.GetUserID(ctx))
 	if err != nil {
-		return resp.BadRequest(err.Error()), err
+		return nil, err
 	}
-	return &resp.Exception{
-		Data: s.SerializeUser(user, &serializeUserParams{WithProfile: true, WithRoles: true, WithTenants: true, WithGroups: true}),
-	}, nil
+
+	return s.Serialize(user, &serializeUserParams{WithProfile: true, WithRoles: true, WithTenants: true, WithGroups: true}), nil
 }
 
-// GetUserService get user service
-func (s *userService) GetUserService(ctx context.Context, username string) (*resp.Exception, error) {
+// Get get user service
+func (s *userService) Get(ctx context.Context, username string) (*structs.UserMeshes, error) {
 	if username == "" {
-		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("username"))
 	}
 	user, err := s.FindUser(ctx, &structs.FindUser{Username: username})
-	if exception, err := handleEntError("User", err); exception != nil {
-		return exception, err
+	if err := handleEntError("User", err); err != nil {
+		return nil, err
 	}
-	return &resp.Exception{
-		Data: user,
-	}, nil
+	return user, nil
 }
 
-// UpdatePasswordService update user password service
-func (s *userService) UpdatePasswordService(ctx context.Context, body *structs.UserPassword) (*resp.Exception, error) {
+// UpdatePassword update user password service
+func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPassword) error {
 	if body.NewPassword == "" {
-		return resp.BadRequest(ecode.FieldIsEmpty("new password")), nil
+		return errors.New(ecode.FieldIsEmpty("new password"))
 	}
 	if body.Confirm != body.NewPassword {
-		return resp.BadRequest(ecode.FieldIsInvalid("confirm password")), nil
+		return errors.New(ecode.FieldIsInvalid("confirm password"))
 	}
-	verifyResult := s.VerifyUserPassword(ctx, helper.GetUserID(ctx), body.OldPassword)
+	verifyResult := s.VerifyPassword(ctx, helper.GetUserID(ctx), body.OldPassword)
 	switch v := verifyResult.(type) {
 	case VerifyPasswordResult:
 		if v.Valid == false {
-			return resp.BadRequest(v.Error), nil
+			return errors.New(v.Error)
 		} else if v.Valid && v.NeedsPasswordSet == true { // print a log for user's first password setting
 			log.Printf(context.Background(), "User %s is setting password for the first time", helper.GetUserID(ctx))
 		}
 	case error:
-		return resp.InternalServer(v.Error()), nil
+		return v
 	}
 
-	err := s.UpdateUserPassword(ctx, &structs.UserPassword{
+	err := s.updatePassword(ctx, &structs.UserPassword{
 		User:        helper.GetUserID(ctx),
 		OldPassword: body.OldPassword,
 		NewPassword: body.NewPassword,
 		Confirm:     body.Confirm,
 	})
 
-	if exception, err := handleEntError("User", err); exception != nil {
-		return exception, err
+	if err := handleEntError("User", err); err != nil {
+		return err
 	}
 
-	return nil, nil
+	return nil
 }
 
-// CreateUserService creates a new user.
-func (s *userService) CreateUserService(ctx context.Context, body *structs.UserMeshes) (*resp.Exception, error) {
+// CreateUser creates a new user.
+func (s *userService) CreateUser(ctx context.Context, body *structs.UserMeshes) (*structs.UserMeshes, error) {
 	if body.User != nil && body.User.Username == "" {
-		return resp.BadRequest(ecode.FieldIsInvalid("username")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("username"))
 	}
 
 	user, err := s.user.Create(ctx, body.User)
-	if exception, err := handleEntError("User", err); exception != nil {
-		return exception, err
+	if err := handleEntError("User", err); err != nil {
+		return nil, err
 	}
 
 	if body.Profile != nil {
@@ -126,60 +125,53 @@ func (s *userService) CreateUserService(ctx context.Context, body *structs.UserM
 			Links:       body.Profile.Links,
 			Extras:      body.Profile.Extras,
 		})
-		if exception, err := handleEntError("UserProfile", err); exception != nil {
-			return exception, err
+		if err := handleEntError("UserProfile", err); err != nil {
+			return nil, err
 		}
 	}
 
-	return &resp.Exception{
-		Data: s.SerializeUser(user),
-	}, nil
+	return s.Serialize(user), nil
 }
 
-// GetUserByIDService retrieves a user by their ID.
-func (s *userService) GetUserByIDService(ctx context.Context, u string) (*resp.Exception, error) {
+// GetByID retrieves a user by their ID.
+func (s *userService) GetByID(ctx context.Context, u string) (*structs.UserMeshes, error) {
 	user, err := s.user.GetByID(ctx, u)
-	if exception, err := handleEntError("User", err); exception != nil {
-		return exception, err
+	if err := handleEntError("User", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: s.SerializeUser(user, &serializeUserParams{WithProfile: true}),
-	}, nil
+	return s.Serialize(user, &serializeUserParams{WithProfile: true}), nil
 }
 
-// DeleteUserService deletes a user by their ID.
-func (s *userService) DeleteUserService(ctx context.Context, u string) (*resp.Exception, error) {
+// Delete deletes a user by their ID.
+func (s *userService) Delete(ctx context.Context, u string) error {
 	err := s.user.Delete(ctx, u)
-	if exception, err := handleEntError("User", err); exception != nil {
-		return exception, err
+	if err := handleEntError("User", err); err != nil {
+		return err
 	}
-
-	return &resp.Exception{
-		Data: "User deleted successfully",
-	}, nil
+	return nil
 }
 
-// FindUserByID find user by ID
-func (s *userService) FindUserByID(ctx context.Context, id string) (structs.UserMeshes, error) {
+// FindByID find user by ID
+func (s *userService) FindByID(ctx context.Context, id string) (*structs.UserMeshes, error) {
 	user, err := s.user.GetByID(ctx, id)
 	if err != nil {
-		return structs.UserMeshes{}, err
+		return nil, err
 	}
-	return s.SerializeUser(user, &serializeUserParams{WithProfile: true}), nil
+	return s.Serialize(user, &serializeUserParams{WithProfile: true}), nil
 }
 
 // FindUser find user by username, email, or phone
-func (s *userService) FindUser(ctx context.Context, m *structs.FindUser) (structs.UserMeshes, error) {
+func (s *userService) FindUser(ctx context.Context, m *structs.FindUser) (*structs.UserMeshes, error) {
 	user, err := s.user.Find(ctx, &structs.FindUser{
 		Username: m.Username,
 		Email:    m.Email,
 		Phone:    m.Phone,
 	})
 	if err != nil {
-		return structs.UserMeshes{}, err
+		return nil, err
 	}
-	return s.SerializeUser(user, &serializeUserParams{WithProfile: true}), nil
+	return s.Serialize(user, &serializeUserParams{WithProfile: true}), nil
 }
 
 // VerifyPasswordResult Verify password result
@@ -189,8 +181,8 @@ type VerifyPasswordResult struct {
 	Error            string
 }
 
-// VerifyUserPassword verify user password
-func (s *userService) VerifyUserPassword(ctx context.Context, u string, password string) any {
+// VerifyPassword verify user password
+func (s *userService) VerifyPassword(ctx context.Context, u string, password string) any {
 	user, err := s.user.FindUser(ctx, &structs.FindUser{Username: u})
 	if ent.IsNotFound(err) {
 		return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: "user not found"}
@@ -208,8 +200,8 @@ func (s *userService) VerifyUserPassword(ctx context.Context, u string, password
 	return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: "wrong password"}
 }
 
-// UpdateUserPassword update user password
-func (s *userService) UpdateUserPassword(ctx context.Context, body *structs.UserPassword) error {
+// updatePassword update user password
+func (s *userService) updatePassword(ctx context.Context, body *structs.UserPassword) error {
 	err := s.user.UpdatePassword(ctx, body)
 	if err != nil {
 		log.Printf(context.Background(), "Error updating password for user %s: %v", body.User, err)
@@ -226,9 +218,9 @@ type serializeUserParams struct {
 	WithGroups  bool
 }
 
-func (s *userService) SerializeUser(user *ent.User, sp ...*serializeUserParams) structs.UserMeshes {
-	// ctx := context.Background()
-	um := structs.UserMeshes{
+func (s *userService) Serialize(user *ent.User, sp ...*serializeUserParams) *structs.UserMeshes {
+	ctx := context.Background()
+	um := &structs.UserMeshes{
 		User: &structs.UserBody{
 			ID:          user.ID,
 			Username:    user.Username,
@@ -243,59 +235,60 @@ func (s *userService) SerializeUser(user *ent.User, sp ...*serializeUserParams) 
 		},
 	}
 
-	// params := &serializeUserParams{}
-	// if len(sp) > 0 {
-	// 	params = sp[0]
+	params := &serializeUserParams{}
+	if len(sp) > 0 {
+		params = sp[0]
+	}
+
+	if params.WithProfile {
+		if profile, _ := s.userProfile.Get(ctx, user.ID); profile != nil {
+			um.Profile = &structs.UserProfileBody{
+				DisplayName: profile.DisplayName,
+				ShortBio:    profile.ShortBio,
+				About:       &profile.About,
+				Thumbnail:   &profile.Thumbnail,
+				Links:       &profile.Links,
+				Extras:      &profile.Extras,
+			}
+		}
+	}
+
+	// if params.WithTenants {
+	// 	if tenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID); len(tenants) > 0 {
+	// 		for _, tenant := range tenants {
+	// 			um.Tenants = append(um.Tenants, tenant)
+	// 		}
+	// 	}
 	// }
 
-	// if params.WithProfile {
-	// 	if profile, _ := s.userProfile.Get(ctx, user.ID); profile != nil {
-	// 		um.Profile = &structs.UserProfileBody{
-	// 			DisplayName: profile.DisplayName,
-	// 			ShortBio:    profile.ShortBio,
-	// 			About:       &profile.About,
-	// 			Thumbnail:   &profile.Thumbnail,
-	// 			Links:       &profile.Links,
-	// 			Extras:      &profile.Extras,
-	// 		}
-	// 	}
-	// }
-	//
-	// if params.WithTenants {
-	// 	if tenants, _ := s.userTenant.GetTenantsByUserID(ctx, user.ID); len(tenants) > 0 {
-	// 		for _, tenant := range tenants {
-	// 			um.Tenants = append(um.Tenants, s.serializeTenant(tenant))
-	// 		}
-	// 	}
-	// }
-	//
-	// if params.WithRoles {
-	// 	if len(um.Tenants) > 0 {
-	// 		for _, tenant := range um.Tenants {
-	// 			roles, _ := s.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
-	// 			for _, role := range roles {
-	// 				um.Roles = append(um.Roles, s.serializeRole(role))
-	// 			}
-	// 		}
-	// 		// TODO: remove duplicate roles if needed
-	// 		// seenRoles := make(map[string]struct{})
-	// 		// for _, tenant := range um.Tenants {
-	// 		// 	roles, _ := s.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
-	// 		// 	for _, role := range roles {
-	// 		// 		roleID := role.ID
-	// 		// 		if _, found := seenRoles[roleID]; !found {
-	// 		// 			um.Roles = append(um.Roles, s.serializeRole(role))
-	// 		// 			seenRoles[roleID] = struct{}{}
-	// 		// 		}
-	// 		// 	}
-	// 		// }
-	// 	} else {
-	// 		roles, _ := s.userRole.GetRolesByUserID(ctx, user.ID)
-	// 		for _, role := range roles {
-	// 			um.Roles = append(um.Roles, s.serializeRole(role))
-	// 		}
-	// 	}
-	// }
+	if params.WithRoles {
+		if len(um.Tenants) > 0 {
+			for _, tenant := range um.Tenants {
+				roleIDs, _ := s.as.UserTenantRole.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
+				roles, _ := s.as.Role.GetByIDs(ctx, roleIDs)
+				for _, role := range roles {
+					um.Roles = append(um.Roles, role)
+				}
+			}
+			// TODO: remove duplicate roles if needed
+			// seenRoles := make(map[string]struct{})
+			// for _, tenant := range um.Tenants {
+			// 	roles, _ := s.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
+			// 	for _, role := range roles {
+			// 		roleID := role.ID
+			// 		if _, found := seenRoles[roleID]; !found {
+			// 			um.Roles = append(um.Roles, s.serializeRole(role))
+			// 			seenRoles[roleID] = struct{}{}
+			// 		}
+			// 	}
+			// }
+		} else {
+			roles, _ := s.as.UserRole.GetUserRoles(ctx, user.ID)
+			for _, role := range roles {
+				um.Roles = append(um.Roles, role)
+			}
+		}
+	}
 
 	// TODO: group belongs to tenant
 	// if params.WithGroups && len(um.Tenants) > 0 {
@@ -311,25 +304,6 @@ func (s *userService) SerializeUser(user *ent.User, sp ...*serializeUserParams) 
 // CountX gets a count of users.
 func (s *userService) CountX(ctx context.Context, params *structs.ListUserParams) int {
 	return s.user.CountX(ctx, params)
-}
-
-// ****** Internal methods of service
-
-// readUser read user by ID
-func (s *userService) readUser(ctx context.Context, u string) (*resp.Exception, error) {
-	if u == "" {
-		return resp.BadRequest(ecode.FieldIsInvalid("user")), nil
-	}
-
-	user, err := s.FindUserByID(ctx, u)
-
-	if exception, err := handleEntError("User", err); exception != nil {
-		return exception, err
-	}
-
-	return &resp.Exception{
-		Data: user,
-	}, nil
 }
 
 // // serializeUserRoles serialize user roles

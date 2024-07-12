@@ -1649,6 +1649,7 @@ type TaxonomyRelationMutation struct {
 	op            Op
 	typ           string
 	id            *string
+	object_id     *string
 	taxonomy_id   *string
 	_type         *string
 	_order        *int
@@ -1763,6 +1764,55 @@ func (m *TaxonomyRelationMutation) IDs(ctx context.Context) ([]string, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetObjectID sets the "object_id" field.
+func (m *TaxonomyRelationMutation) SetObjectID(s string) {
+	m.object_id = &s
+}
+
+// ObjectID returns the value of the "object_id" field in the mutation.
+func (m *TaxonomyRelationMutation) ObjectID() (r string, exists bool) {
+	v := m.object_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldObjectID returns the old "object_id" field's value of the TaxonomyRelation entity.
+// If the TaxonomyRelation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TaxonomyRelationMutation) OldObjectID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldObjectID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldObjectID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldObjectID: %w", err)
+	}
+	return oldValue.ObjectID, nil
+}
+
+// ClearObjectID clears the value of the "object_id" field.
+func (m *TaxonomyRelationMutation) ClearObjectID() {
+	m.object_id = nil
+	m.clearedFields[taxonomyrelation.FieldObjectID] = struct{}{}
+}
+
+// ObjectIDCleared returns if the "object_id" field was cleared in this mutation.
+func (m *TaxonomyRelationMutation) ObjectIDCleared() bool {
+	_, ok := m.clearedFields[taxonomyrelation.FieldObjectID]
+	return ok
+}
+
+// ResetObjectID resets all changes to the "object_id" field.
+func (m *TaxonomyRelationMutation) ResetObjectID() {
+	m.object_id = nil
+	delete(m.clearedFields, taxonomyrelation.FieldObjectID)
 }
 
 // SetTaxonomyID sets the "taxonomy_id" field.
@@ -2051,7 +2101,10 @@ func (m *TaxonomyRelationMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TaxonomyRelationMutation) Fields() []string {
-	fields := make([]string, 0, 5)
+	fields := make([]string, 0, 6)
+	if m.object_id != nil {
+		fields = append(fields, taxonomyrelation.FieldObjectID)
+	}
 	if m.taxonomy_id != nil {
 		fields = append(fields, taxonomyrelation.FieldTaxonomyID)
 	}
@@ -2075,6 +2128,8 @@ func (m *TaxonomyRelationMutation) Fields() []string {
 // schema.
 func (m *TaxonomyRelationMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case taxonomyrelation.FieldObjectID:
+		return m.ObjectID()
 	case taxonomyrelation.FieldTaxonomyID:
 		return m.TaxonomyID()
 	case taxonomyrelation.FieldType:
@@ -2094,6 +2149,8 @@ func (m *TaxonomyRelationMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *TaxonomyRelationMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case taxonomyrelation.FieldObjectID:
+		return m.OldObjectID(ctx)
 	case taxonomyrelation.FieldTaxonomyID:
 		return m.OldTaxonomyID(ctx)
 	case taxonomyrelation.FieldType:
@@ -2113,6 +2170,13 @@ func (m *TaxonomyRelationMutation) OldField(ctx context.Context, name string) (e
 // type.
 func (m *TaxonomyRelationMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case taxonomyrelation.FieldObjectID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetObjectID(v)
+		return nil
 	case taxonomyrelation.FieldTaxonomyID:
 		v, ok := value.(string)
 		if !ok {
@@ -2193,6 +2257,9 @@ func (m *TaxonomyRelationMutation) AddField(name string, value ent.Value) error 
 // mutation.
 func (m *TaxonomyRelationMutation) ClearedFields() []string {
 	var fields []string
+	if m.FieldCleared(taxonomyrelation.FieldObjectID) {
+		fields = append(fields, taxonomyrelation.FieldObjectID)
+	}
 	if m.FieldCleared(taxonomyrelation.FieldTaxonomyID) {
 		fields = append(fields, taxonomyrelation.FieldTaxonomyID)
 	}
@@ -2219,6 +2286,9 @@ func (m *TaxonomyRelationMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *TaxonomyRelationMutation) ClearField(name string) error {
 	switch name {
+	case taxonomyrelation.FieldObjectID:
+		m.ClearObjectID()
+		return nil
 	case taxonomyrelation.FieldTaxonomyID:
 		m.ClearTaxonomyID()
 		return nil
@@ -2239,6 +2309,9 @@ func (m *TaxonomyRelationMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *TaxonomyRelationMutation) ResetField(name string) error {
 	switch name {
+	case taxonomyrelation.FieldObjectID:
+		m.ResetObjectID()
+		return nil
 	case taxonomyrelation.FieldTaxonomyID:
 		m.ResetTaxonomyID()
 		return nil

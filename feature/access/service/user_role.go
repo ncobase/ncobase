@@ -2,21 +2,23 @@ package service
 
 import (
 	"context"
-	"ncobase/common/resp"
+	"errors"
+	"ncobase/common/ecode"
 	"ncobase/feature/access/data"
+	"ncobase/feature/access/data/ent"
 	"ncobase/feature/access/data/repository"
 	"ncobase/feature/access/structs"
 )
 
 // UserRoleServiceInterface is the interface for the service.
 type UserRoleServiceInterface interface {
-	AddRoleToUserService(ctx context.Context, u string, r string) (*resp.Exception, error)
-	CreateUserRoleService(ctx context.Context, body *structs.UserRole) (*resp.Exception, error)
-	GetUserRolesService(ctx context.Context, u string) (*resp.Exception, error)
-	GetUsersByRoleIDService(ctx context.Context, roleID string) (*resp.Exception, error)
-	DeleteUserRoleByUserIDService(ctx context.Context, u string) (*resp.Exception, error)
-	DeleteUserRoleByRoleIDService(ctx context.Context, roleID string) (*resp.Exception, error)
-	RemoveRoleFromUserService(ctx context.Context, u string, r string) (*resp.Exception, error)
+	AddRoleToUser(ctx context.Context, u string, r string) error
+	CreateUserRole(ctx context.Context, body *structs.UserRole) (*structs.UserRole, error)
+	GetUserRoles(ctx context.Context, u string) ([]*structs.ReadRole, error)
+	GetUsersByRoleID(ctx context.Context, roleID string) ([]string, error)
+	DeleteUserRoleByUserID(ctx context.Context, u string) error
+	DeleteUserRoleByRoleID(ctx context.Context, roleID string) error
+	RemoveRoleFromUser(ctx context.Context, u string, r string) error
 }
 
 // userRoleService is the struct for the service.
@@ -33,97 +35,100 @@ func NewUserRoleService(d *data.Data, rs RoleServiceInterface) UserRoleServiceIn
 	}
 }
 
-// AddRoleToUserService adds a role to a user.
-func (s *userRoleService) AddRoleToUserService(ctx context.Context, u string, r string) (*resp.Exception, error) {
+// AddRoleToUser adds a role to a user.
+func (s *userRoleService) AddRoleToUser(ctx context.Context, u string, r string) error {
 	_, err := s.userRole.Create(ctx, &structs.UserRole{UserID: u, RoleID: r})
-	if exception, err := handleEntError("UserRole", err); exception != nil {
-		return exception, err
+	if err := handleEntError("UserRole", err); err != nil {
+		return err
 	}
 
-	return &resp.Exception{
-		Data: "Role added to user successfully",
-	}, nil
+	return nil
 }
 
-// CreateUserRoleService creates a new user role.
-func (s *userRoleService) CreateUserRoleService(ctx context.Context, body *structs.UserRole) (*resp.Exception, error) {
+// CreateUserRole creates a new user role.
+func (s *userRoleService) CreateUserRole(ctx context.Context, body *structs.UserRole) (*structs.UserRole, error) {
 	if body.UserID == "" || body.RoleID == "" {
-		return resp.BadRequest("UserID and RoleID are required"), nil
+		return nil, errors.New("UserID and RoleID are required")
 	}
 	userRole, err := s.userRole.Create(ctx, body)
-	if exception, err := handleEntError("UserRole", err); exception != nil {
-		return exception, err
+	if err := handleEntError("UserRole", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: userRole,
-	}, nil
+	return s.SerializeUserRole(userRole), nil
 }
 
-// GetUserRolesService retrieves all roles associated with a user.
-func (s *userRoleService) GetUserRolesService(ctx context.Context, u string) (*resp.Exception, error) {
+// GetUserRoles retrieves all roles associated with a user.
+func (s *userRoleService) GetUserRoles(ctx context.Context, u string) ([]*structs.ReadRole, error) {
 	roles, err := s.userRole.GetRolesByUserID(ctx, u)
-	if exception, err := handleEntError("UserRole", err); exception != nil {
-		return exception, err
+	if err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: roles,
-	}, nil
+	return s.rs.Serializes(roles), nil
 }
 
-// GetUsersByRoleIDService retrieves users by role ID.
-func (s *userRoleService) GetUsersByRoleIDService(ctx context.Context, roleID string) (*resp.Exception, error) {
+// GetUsersByRoleID retrieves users by role ID.
+func (s *userRoleService) GetUsersByRoleID(ctx context.Context, roleID string) ([]string, error) {
 	if roleID == "" {
-		return resp.BadRequest("RoleID is required"), nil
+		return nil, errors.New(ecode.FieldIsRequired("roleID"))
 	}
-	users, err := s.userRole.GetUsersByRoleID(ctx, roleID)
-	if exception, err := handleEntError("UserRole", err); exception != nil {
-		return exception, err
+	userIDs, err := s.userRole.GetUsersByRoleID(ctx, roleID)
+	if err := handleEntError("UserRole", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: users,
-	}, nil
+	return userIDs, nil
 }
 
-// DeleteUserRoleByUserIDService deletes user roles by user ID.
-func (s *userRoleService) DeleteUserRoleByUserIDService(ctx context.Context, u string) (*resp.Exception, error) {
+// DeleteUserRoleByUserID deletes user roles by user ID.
+func (s *userRoleService) DeleteUserRoleByUserID(ctx context.Context, u string) error {
 	if u == "" {
-		return resp.BadRequest("UserID is required"), nil
+		return errors.New(ecode.FieldIsRequired("userID"))
 	}
 	err := s.userRole.DeleteAllByUserID(ctx, u)
-	if exception, err := handleEntError("UserRole", err); exception != nil {
-		return exception, err
+	if err := handleEntError("UserRole", err); err != nil {
+		return err
 	}
 
-	return &resp.Exception{
-		Data: "User roles deleted successfully",
-	}, nil
+	return nil
 }
 
-// DeleteUserRoleByRoleIDService deletes user roles by role ID.
-func (s *userRoleService) DeleteUserRoleByRoleIDService(ctx context.Context, roleID string) (*resp.Exception, error) {
+// DeleteUserRoleByRoleID deletes user roles by role ID.
+func (s *userRoleService) DeleteUserRoleByRoleID(ctx context.Context, roleID string) error {
 	if roleID == "" {
-		return resp.BadRequest("RoleID is required"), nil
+		return errors.New(ecode.FieldIsRequired("roleID"))
 	}
 	err := s.userRole.DeleteAllByRoleID(ctx, roleID)
-	if exception, err := handleEntError("UserRole", err); exception != nil {
-		return exception, err
+	if err := handleEntError("UserRole", err); err != nil {
+		return err
 	}
 
-	return &resp.Exception{
-		Data: "User roles deleted successfully",
-	}, nil
+	return nil
 }
 
-// RemoveRoleFromUserService removes a role from a user.
-func (s *userRoleService) RemoveRoleFromUserService(ctx context.Context, u string, r string) (*resp.Exception, error) {
+// RemoveRoleFromUser removes a role from a user.
+func (s *userRoleService) RemoveRoleFromUser(ctx context.Context, u string, r string) error {
 	err := s.userRole.Delete(ctx, u, r)
-	if exception, err := handleEntError("UserRole", err); exception != nil {
-		return exception, err
+	if err := handleEntError("UserRole", err); err != nil {
+		return err
 	}
-	return &resp.Exception{
-		Data: "Role removed from user successfully",
-	}, nil
+	return nil
+}
+
+// SerializeUserRoles serializes user roles.
+func (s *userRoleService) SerializeUserRoles(rows []*ent.UserRole) []*structs.UserRole {
+	rs := make([]*structs.UserRole, len(rows))
+	for i, row := range rows {
+		rs[i] = s.SerializeUserRole(row)
+	}
+	return rs
+}
+
+// SerializeUserRole serializes a user role.
+func (s *userRoleService) SerializeUserRole(row *ent.UserRole) *structs.UserRole {
+	return &structs.UserRole{
+		UserID: row.UserID,
+		RoleID: row.RoleID,
+	}
 }

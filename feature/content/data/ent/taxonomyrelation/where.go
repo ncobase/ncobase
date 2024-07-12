@@ -64,6 +64,11 @@ func IDContainsFold(id string) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldContainsFold(FieldID, id))
 }
 
+// ObjectID applies equality check predicate on the "object_id" field. It's identical to ObjectIDEQ.
+func ObjectID(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldEQ(FieldObjectID, v))
+}
+
 // TaxonomyID applies equality check predicate on the "taxonomy_id" field. It's identical to TaxonomyIDEQ.
 func TaxonomyID(v string) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldEQ(FieldTaxonomyID, v))
@@ -87,6 +92,81 @@ func CreatedBy(v string) predicate.TaxonomyRelation {
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldEQ(FieldCreatedAt, v))
+}
+
+// ObjectIDEQ applies the EQ predicate on the "object_id" field.
+func ObjectIDEQ(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldEQ(FieldObjectID, v))
+}
+
+// ObjectIDNEQ applies the NEQ predicate on the "object_id" field.
+func ObjectIDNEQ(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldNEQ(FieldObjectID, v))
+}
+
+// ObjectIDIn applies the In predicate on the "object_id" field.
+func ObjectIDIn(vs ...string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldIn(FieldObjectID, vs...))
+}
+
+// ObjectIDNotIn applies the NotIn predicate on the "object_id" field.
+func ObjectIDNotIn(vs ...string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldNotIn(FieldObjectID, vs...))
+}
+
+// ObjectIDGT applies the GT predicate on the "object_id" field.
+func ObjectIDGT(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldGT(FieldObjectID, v))
+}
+
+// ObjectIDGTE applies the GTE predicate on the "object_id" field.
+func ObjectIDGTE(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldGTE(FieldObjectID, v))
+}
+
+// ObjectIDLT applies the LT predicate on the "object_id" field.
+func ObjectIDLT(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldLT(FieldObjectID, v))
+}
+
+// ObjectIDLTE applies the LTE predicate on the "object_id" field.
+func ObjectIDLTE(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldLTE(FieldObjectID, v))
+}
+
+// ObjectIDContains applies the Contains predicate on the "object_id" field.
+func ObjectIDContains(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldContains(FieldObjectID, v))
+}
+
+// ObjectIDHasPrefix applies the HasPrefix predicate on the "object_id" field.
+func ObjectIDHasPrefix(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldHasPrefix(FieldObjectID, v))
+}
+
+// ObjectIDHasSuffix applies the HasSuffix predicate on the "object_id" field.
+func ObjectIDHasSuffix(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldHasSuffix(FieldObjectID, v))
+}
+
+// ObjectIDIsNil applies the IsNil predicate on the "object_id" field.
+func ObjectIDIsNil() predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldIsNull(FieldObjectID))
+}
+
+// ObjectIDNotNil applies the NotNil predicate on the "object_id" field.
+func ObjectIDNotNil() predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldNotNull(FieldObjectID))
+}
+
+// ObjectIDEqualFold applies the EqualFold predicate on the "object_id" field.
+func ObjectIDEqualFold(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldEqualFold(FieldObjectID, v))
+}
+
+// ObjectIDContainsFold applies the ContainsFold predicate on the "object_id" field.
+func ObjectIDContainsFold(v string) predicate.TaxonomyRelation {
+	return predicate.TaxonomyRelation(sql.FieldContainsFold(FieldObjectID, v))
 }
 
 // TaxonomyIDEQ applies the EQ predicate on the "taxonomy_id" field.

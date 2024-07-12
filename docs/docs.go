@@ -537,22 +537,18 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "url": {
-                                            "type": "string"
-                                        }
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "url": {
+                                        "type": "string"
                                     }
                                 }
-                            ]
+                            }
                         }
                     },
                     "400": {
@@ -592,19 +588,15 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "message": {
+                                        "type": "string"
                                     }
                                 }
-                            ]
+                            }
                         }
                     },
                     "400": {
@@ -1316,7 +1308,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.CasbinRuleBody"
+                            "$ref": "#/definitions/structs.ReadCasbinRule"
                         }
                     },
                     "400": {
@@ -1356,7 +1348,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.CasbinRuleBody"
+                            "$ref": "#/definitions/structs.ReadCasbinRule"
                         }
                     },
                     "400": {
@@ -1406,7 +1398,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.CasbinRuleBody"
+                            "$ref": "#/definitions/structs.ReadCasbinRule"
                         }
                     },
                     "400": {
@@ -3238,6 +3230,88 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadCasbinRule": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "p_type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "v0": {
+                    "type": "string"
+                },
+                "v1": {
+                    "type": "string"
+                },
+                "v2": {
+                    "type": "string"
+                },
+                "v3": {
+                    "type": "string"
+                },
+                "v4": {
+                    "type": "string"
+                },
+                "v5": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadGroup": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "leader": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.ReadMenu": {
             "type": "object",
             "properties": {
@@ -3899,8 +3973,26 @@ const docTemplate = `{
         "structs.UserMeshes": {
             "type": "object",
             "properties": {
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadGroup"
+                    }
+                },
                 "profile": {
                     "$ref": "#/definitions/structs.UserProfileBody"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadRole"
+                    }
+                },
+                "tenants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadTenant"
+                    }
                 },
                 "user": {
                     "$ref": "#/definitions/structs.UserBody"

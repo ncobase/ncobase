@@ -2,12 +2,12 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/common/config"
 	"ncobase/common/email"
 	"ncobase/common/jwt"
 	"ncobase/common/log"
 	"ncobase/common/nanoid"
-	"ncobase/common/resp"
 	"ncobase/common/types"
 	"ncobase/feature/auth/data"
 	"ncobase/feature/auth/data/ent"
@@ -23,11 +23,11 @@ import (
 
 // CodeAuthServiceInterface is the interface for the service.
 type CodeAuthServiceInterface interface {
-	SendCodeService(ctx context.Context, body *structs.SendCodeBody) (*resp.Exception, error)
-	CodeAuthService(ctx context.Context, code string) (*resp.Exception, error)
+	SendCode(ctx context.Context, body *structs.SendCodeBody) (*types.JSON, error)
+	CodeAuth(ctx context.Context, code string) (*types.JSON, error)
 }
 
-// codeAuthService is the struct for the service.
+// codeAuth is the struct for the service.
 type codeAuthService struct {
 	d  *data.Data
 	us *userService.Service
@@ -41,17 +41,17 @@ func NewCodeAuthService(d *data.Data, us *userService.Service) CodeAuthServiceIn
 	}
 }
 
-// CodeAuthService code auth service
-func (s *codeAuthService) CodeAuthService(ctx context.Context, code string) (*resp.Exception, error) {
+// CodeAuth code auth service
+func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSON, error) {
 	conf := helper.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	codeAuth, err := client.CodeAuth.Query().Where(codeAuthEnt.CodeEQ(code)).Only(ctx)
-	if exception, err := handleEntError("Code", err); exception != nil {
-		return exception, err
+	if err := handleEntError("Code", err); err != nil {
+		return nil, err
 	}
 	if codeAuth.Logged || isCodeExpired(codeAuth.CreatedAt) {
-		return resp.Forbidden("EXPIRED_CODE"), nil
+		return nil, errors.New("code expired")
 	}
 
 	rst, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
@@ -67,76 +67,74 @@ func isCodeExpired(createdAt time.Time) bool {
 	return time.Now().After(createdAt.Add(24 * time.Hour))
 }
 
-func sendRegisterMail(_ context.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*resp.Exception, error) {
+func sendRegisterMail(_ context.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*types.JSON, error) {
 	subject := "email-register"
 	payload := types.JSON{"email": codeAuth.Email, "id": codeAuth.ID}
 	registerToken, err := jwt.GenerateRegisterToken(conf.Auth.JWT.Secret, codeAuth.ID, payload, subject)
 	if err != nil {
-		return resp.InternalServer(err.Error()), nil
+		return nil, err
 	}
 	// cookie.SetRegister(c.Writer, registerToken, conf.Domain) // TODO: move to handler
-	return &resp.Exception{Data: types.JSON{"email": codeAuth.Email, "register_token": registerToken}}, nil
+	return &types.JSON{"email": codeAuth.Email, "register_token": registerToken}, nil
 }
 
-func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent.Client, user *userStructs.UserBody) (*resp.Exception, error) {
+func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent.Client, user *userStructs.UserBody) (*types.JSON, error) {
 	tx, err := client.Tx(ctx)
 	if err != nil {
-		return resp.Transactions(err.Error()), nil
+		return nil, err
 	}
 	authToken, err := createAuthToken(ctx, tx, user.ID)
 	if err != nil {
 		if err := tx.Rollback(); err != nil {
-			return resp.InternalServer(err.Error()), nil
+			return nil, err
 		}
-		return resp.Transactions(err.Error()), nil
+		return nil, err
 	}
 	accessToken, refreshToken := middleware.GenerateUserToken(conf.Auth.JWT.Secret, user.ID, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		if err := tx.Rollback(); err != nil {
-			return resp.InternalServer(err.Error()), nil
+			return nil, err
 		}
-		return resp.InternalServer("Authorize is not created"), nil
+		return nil, errors.New("authorize is not created")
 	}
 	// cookie.Set(c.Writer, accessToken, refreshToken, tenant) // TODO: move to handler
-	return &resp.Exception{
-		Data: types.JSON{
-			"id":           user.ID,
-			"access_token": accessToken,
-		},
+	return &types.JSON{
+		"id":           user.ID,
+		"access_token": accessToken,
 	}, tx.Commit()
 }
 
-// SendCodeService send code service
-func (s *codeAuthService) SendCodeService(ctx context.Context, body *structs.SendCodeBody) (*resp.Exception, error) {
+// SendCode send code service
+func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBody) (*types.JSON, error) {
 	client := s.d.GetEntClient()
 
 	user, _ := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: body.Email, Phone: body.Phone})
 	tx, err := client.Tx(ctx)
 	if err != nil {
-		return resp.Transactions(err.Error()), nil
+		return nil, err
 	}
 
 	authCode := nanoid.String(6)
 	_, err = tx.CodeAuth.Create().SetEmail(strings.ToLower(body.Email)).SetCode(authCode).Save(ctx)
 	if err != nil {
 		if err := tx.Rollback(); err != nil {
-			return resp.InternalServer(err.Error()), nil
+			return nil, err
 		}
-		return resp.Transactions(err.Error()), nil
+		return nil, err
 	}
 
 	if err := sendAuthEmail(ctx, body.Email, authCode, user.User != nil); err != nil {
 		if err := tx.Rollback(); err != nil {
-			return resp.InternalServer(err.Error()), nil
+			return nil, err
 		}
 		log.Errorf(context.Background(), "send mail error: %v", err)
-		return resp.BadRequest("send mail failed, please try again or contact support"), nil
+		return nil, errors.New("send mail failed, please try again or contact support")
 	}
 
-	return &resp.Exception{Data: types.JSON{"registered": user.User != nil}}, tx.Commit()
+	return &types.JSON{"registered": user.User != nil}, tx.Commit()
 }
 
-// Helper functions for SendCodeService
+// Helper functions for SendCode
 func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
 	conf := helper.GetConfig(ctx)
 	template := email.AuthEmailTemplate{

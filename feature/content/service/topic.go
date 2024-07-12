@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/resp"
 	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -15,11 +15,11 @@ import (
 
 // TopicServiceInterface is the interface for the service.
 type TopicServiceInterface interface {
-	Create(ctx context.Context, body *structs.CreateTopicBody) (*resp.Exception, error)
-	Update(ctx context.Context, slug string, updates types.JSON) (*resp.Exception, error)
-	Get(ctx context.Context, slug string) (*resp.Exception, error)
-	List(ctx context.Context, params *structs.ListTopicParams) (*resp.Exception, error)
-	Delete(ctx context.Context, slug string) (*resp.Exception, error)
+	Create(ctx context.Context, body *structs.CreateTopicBody) (*structs.ReadTopic, error)
+	Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTopic, error)
+	Get(ctx context.Context, slug string) (*structs.ReadTopic, error)
+	List(ctx context.Context, params *structs.ListTopicParams) (*types.JSON, error)
+	Delete(ctx context.Context, slug string) error
 }
 
 // topicService is the struct for the service.
@@ -35,90 +35,114 @@ func NewTopicService(d *data.Data) TopicServiceInterface {
 }
 
 // Create creates a new topic.
-func (svc *topicService) Create(ctx context.Context, body *structs.CreateTopicBody) (*resp.Exception, error) {
+func (s *topicService) Create(ctx context.Context, body *structs.CreateTopicBody) (*structs.ReadTopic, error) {
 	// set slug field.
 	if validator.IsEmpty(body.Slug) {
 		body.Slug = slug.Unicode(body.Name)
 	}
-	row, err := svc.topic.Create(ctx, body)
-	if exception, err := handleEntError("Topic", err); exception != nil {
-		return exception, err
+	row, err := s.topic.Create(ctx, body)
+	if err := handleEntError("Topic", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
 // Update updates an existing topic (full and partial).
-func (svc *topicService) Update(ctx context.Context, slug string, updates types.JSON) (*resp.Exception, error) {
+func (s *topicService) Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTopic, error) {
 	if validator.IsEmpty(slug) {
-		return resp.BadRequest(ecode.FieldIsRequired("slug / id")), nil
+		return nil, errors.New(ecode.FieldIsRequired("slug / id"))
 	}
 
 	// Validate the updates map
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
+		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
 	}
 
-	row, err := svc.topic.Update(ctx, slug, updates)
-	if exception, err := handleEntError("Topic", err); exception != nil {
-		return exception, err
+	row, err := s.topic.Update(ctx, slug, updates)
+	if err := handleEntError("Topic", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
 // Get retrieves a topic by ID.
-func (svc *topicService) Get(ctx context.Context, slug string) (*resp.Exception, error) {
-	row, err := svc.topic.GetBySlug(ctx, slug)
-	if exception, err := handleEntError("Topic", err); exception != nil {
-		return exception, err
+func (s *topicService) Get(ctx context.Context, slug string) (*structs.ReadTopic, error) {
+	row, err := s.topic.GetBySlug(ctx, slug)
+	if err := handleEntError("Topic", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
 // Delete deletes a topic by ID.
-func (svc *topicService) Delete(ctx context.Context, slug string) (*resp.Exception, error) {
-	err := svc.topic.Delete(ctx, slug)
-	if exception, err := handleEntError("Topic", err); exception != nil {
-		return exception, err
+func (s *topicService) Delete(ctx context.Context, slug string) error {
+	err := s.topic.Delete(ctx, slug)
+	if err := handleEntError("Topic", err); err != nil {
+		return err
 	}
 
-	return nil, nil
+	return nil
 }
 
 // List lists all topics.
-func (svc *topicService) List(ctx context.Context, params *structs.ListTopicParams) (*resp.Exception, error) {
+func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams) (*types.JSON, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
 	}
 	// limit must less than 100
 	if params.Limit > 100 {
-		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("limit"))
 	}
 
-	rows, err := svc.topic.List(ctx, params)
+	rows, err := s.topic.List(ctx, params)
 
 	if ent.IsNotFound(err) {
-		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("cursor"))
 	}
 	if validator.IsNotNil(err) {
-		return resp.InternalServer(err.Error()), nil
+		return nil, err
 	}
 
-	total := svc.topic.CountX(ctx, params)
+	total := s.topic.CountX(ctx, params)
 
-	return &resp.Exception{
-		Data: &types.JSON{
-			"content": rows,
-			"total":   total,
-		},
+	return &types.JSON{
+		"content": rows,
+		"total":   total,
 	}, nil
+}
+
+// Serializes serializes topics.
+func (s *topicService) Serializes(rows []*ent.Topic) []*structs.ReadTopic {
+	var rs []*structs.ReadTopic
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
+	}
+	return rs
+}
+
+// Serialize serializes a topic.
+func (s *topicService) Serialize(row *ent.Topic) *structs.ReadTopic {
+	return &structs.ReadTopic{
+		ID:         row.ID,
+		Name:       row.Name,
+		Title:      row.Title,
+		Slug:       row.Slug,
+		Content:    row.Content,
+		Thumbnail:  row.Thumbnail,
+		Temp:       row.Temp,
+		Markdown:   row.Markdown,
+		Private:    row.Private,
+		Status:     row.Status,
+		Released:   row.Released,
+		TaxonomyID: row.TaxonomyID,
+		TenantID:   row.TenantID,
+		CreatedBy:  &row.CreatedBy,
+		CreatedAt:  &row.CreatedAt,
+		UpdatedBy:  &row.UpdatedBy,
+		UpdatedAt:  &row.UpdatedAt,
+	}
 }

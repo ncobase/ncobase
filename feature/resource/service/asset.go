@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"ncobase/feature/resource/data"
@@ -13,19 +14,18 @@ import (
 
 	"ncobase/common/ecode"
 	"ncobase/common/log"
-	"ncobase/common/resp"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 )
 
 // AssetServiceInterface represents the asset service interface.
 type AssetServiceInterface interface {
-	CreateAssetService(ctx context.Context, body *structs.CreateAssetBody) (*resp.Exception, error)
-	UpdateAssetService(ctx context.Context, slug string, updates map[string]any) (*resp.Exception, error)
-	GetAssetService(ctx context.Context, slug string) (*resp.Exception, error)
-	DeleteAssetService(ctx context.Context, slug string) (*resp.Exception, error)
-	ListAssetsService(ctx context.Context, params *structs.ListAssetParams) (*resp.Exception, error)
-	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *resp.Exception)
+	Create(ctx context.Context, body *structs.CreateAssetBody) (*structs.ReadAsset, error)
+	Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadAsset, error)
+	Get(ctx context.Context, slug string) (*structs.ReadAsset, error)
+	Delete(ctx context.Context, slug string) error
+	List(ctx context.Context, params *structs.ListAssetParams) (*types.JSON, error)
+	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadAsset, error)
 }
 
 // AssetService is the struct for the asset service.
@@ -40,14 +40,14 @@ func NewAssetService(d *data.Data) AssetServiceInterface {
 	}
 }
 
-// CreateAssetService creates a new asset.
-func (svc *assetService) CreateAssetService(ctx context.Context, body *structs.CreateAssetBody) (*resp.Exception, error) {
+// Create creates a new asset.
+func (s *assetService) Create(ctx context.Context, body *structs.CreateAssetBody) (*structs.ReadAsset, error) {
 	if validator.IsEmpty(body.ObjectID) {
-		return resp.BadRequest(ecode.FieldIsRequired("belongsTo object")), nil
+		return nil, errors.New(ecode.FieldIsRequired("belongsTo object"))
 	}
 
 	if validator.IsEmpty(body.TenantID) {
-		return resp.BadRequest(ecode.FieldIsRequired("belongsTo tenant")), nil
+		return nil, errors.New(ecode.FieldIsRequired("belongsTo tenant"))
 	}
 	// get storage interface
 	storage, storageConfig := helper.GetStorage(ctx)
@@ -56,7 +56,7 @@ func (svc *assetService) CreateAssetService(ctx context.Context, body *structs.C
 	_, err := storage.Put(body.Path, body.File)
 	if err != nil {
 		log.Errorf(ctx, "Error storing file: %v\n", err)
-		return resp.InternalServer("failed to store file"), nil
+		return nil, errors.New("failed to store file")
 	}
 	defer func() {
 		if err != nil {
@@ -75,27 +75,25 @@ func (svc *assetService) CreateAssetService(ctx context.Context, body *structs.C
 	body.CreatedBy = &userID
 
 	// Create the asset using the repository
-	row, err := svc.asset.Create(ctx, body)
+	row, err := s.asset.Create(ctx, body)
 	if err != nil {
 		log.Errorf(ctx, "Error creating asset: %v\n", err)
-		return resp.InternalServer("failed to create asset"), nil
+		return nil, errors.New("failed to create asset")
 	}
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
-// UpdateAssetService updates an existing asset.
-func (svc *assetService) UpdateAssetService(ctx context.Context, slug string, updates map[string]any) (*resp.Exception, error) {
+// Update updates an existing asset.
+func (s *assetService) Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadAsset, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
-		return resp.BadRequest(ecode.FieldIsRequired("slug")), nil
+		return nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
 
 	// Check if updates map is empty
 	if len(updates) == 0 {
-		return resp.BadRequest(ecode.FieldIsEmpty("updates fields")), nil
+		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
 	}
 
 	// Get storage interface
@@ -107,7 +105,7 @@ func (svc *assetService) UpdateAssetService(ctx context.Context, slug string, up
 		if file, ok := updates["file"].(io.Reader); ok {
 			if _, err := storage.Put(path, file); err != nil {
 				log.Errorf(ctx, "Error updating file: %v\n", err)
-				return resp.InternalServer("Error updating file"), err
+				return nil, errors.New("error updating file")
 			}
 			// update storage
 			updates["storage"] = storageConfig.Provider
@@ -126,40 +124,38 @@ func (svc *assetService) UpdateAssetService(ctx context.Context, slug string, up
 		}
 	}
 
-	row, err := svc.asset.Update(ctx, slug, updates)
-	if exception, err := handleEntError("Asset", err); exception != nil {
-		return exception, err
+	row, err := s.asset.Update(ctx, slug, updates)
+	if err := handleEntError("Asset", err); err != nil {
+		return nil, err
 	}
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
-// GetAssetService retrieves an asset by ID.
-func (svc *assetService) GetAssetService(ctx context.Context, slug string) (*resp.Exception, error) {
+// Get retrieves an asset by ID.
+func (s *assetService) Get(ctx context.Context, slug string) (*structs.ReadAsset, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
-		return resp.BadRequest(ecode.FieldIsRequired("slug")), nil
+		return nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
 
 	// get storage interface
 	storage, _ := helper.GetStorage(ctx)
 
-	row, err := svc.asset.GetByID(ctx, slug)
+	row, err := s.asset.GetByID(ctx, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return resp.NotFound(ecode.NotExist(fmt.Sprintf("Asset %s", slug))), nil
+			return nil, errors.New(ecode.NotExist(fmt.Sprintf("Asset %s", slug)))
 		}
 		log.Errorf(ctx, "Error retrieving asset: %v\n", err)
-		return resp.InternalServer("Error retrieving asset"), err
+		return nil, errors.New("error retrieving asset")
 	}
 
 	// Fetch file from storage
 	file, err := storage.Get(row.Path)
 	if err != nil {
 		log.Errorf(ctx, "Error retrieving file: %v\n", err)
-		return resp.InternalServer("Error retrieving file"), err
+		return nil, errors.New("error retrieving file")
 	}
 	defer func(file *os.File) {
 		err := file.Close()
@@ -168,102 +164,126 @@ func (svc *assetService) GetAssetService(ctx context.Context, slug string) (*res
 		}
 	}(file)
 
-	return &resp.Exception{
-		Data: row,
-	}, nil
+	return s.Serialize(row), nil
 }
 
-// DeleteAssetService deletes an asset by ID.
-func (svc *assetService) DeleteAssetService(ctx context.Context, slug string) (*resp.Exception, error) {
+// Delete deletes an asset by ID.
+func (s *assetService) Delete(ctx context.Context, slug string) error {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
-		return resp.BadRequest(ecode.FieldIsRequired("slug")), nil
+		return errors.New(ecode.FieldIsRequired("slug"))
 	}
 
 	// get storage interface
 	storage, _ := helper.GetStorage(ctx)
 
-	row, err := svc.asset.GetByID(ctx, slug)
+	row, err := s.asset.GetByID(ctx, slug)
 	if err != nil {
 		log.Errorf(ctx, "Error retrieving asset: %v\n", err)
-		return resp.InternalServer("Error retrieving asset"), err
+		return errors.New("Error retrieving asset")
 	}
 
-	err = svc.asset.Delete(ctx, slug)
+	err = s.asset.Delete(ctx, slug)
 	if err != nil {
 		log.Errorf(ctx, "Error deleting asset: %v\n", err)
-		return resp.InternalServer("Error deleting asset"), err
+		return errors.New("Error deleting asset")
 	}
 
 	// Delete the file from storage
 	if err := storage.Delete(row.Path); err != nil {
 		log.Errorf(ctx, "Error deleting file: %v\n", err)
-		return resp.InternalServer("Error deleting file"), err
+		return errors.New("Error deleting file")
 	}
 
-	return nil, nil
+	return nil
 }
 
-// ListAssetsService lists assets.
-func (svc *assetService) ListAssetsService(ctx context.Context, params *structs.ListAssetParams) (*resp.Exception, error) {
+// List lists assets.
+func (s *assetService) List(ctx context.Context, params *structs.ListAssetParams) (*types.JSON, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
 	}
 	// limit must less than 100
 	if params.Limit > 100 {
-		return resp.BadRequest(ecode.FieldIsInvalid("limit")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("limit"))
 	}
 
-	rows, err := svc.asset.List(ctx, params)
+	rows, err := s.asset.List(ctx, params)
 
 	if ent.IsNotFound(err) {
-		return resp.NotFound(ecode.FieldIsInvalid("cursor")), nil
+		return nil, errors.New(ecode.FieldIsInvalid("cursor"))
 	}
 	if validator.IsNotNil(err) {
 		log.Errorf(ctx, "Error listing assets: %v\n", err)
-		return resp.InternalServer(err.Error()), nil
+		return nil, err
 	}
 
-	total := svc.asset.CountX(ctx, params)
+	total := s.asset.CountX(ctx, params)
 
-	return &resp.Exception{
-		Data: types.JSON{
-			"content": rows,
-			"total":   total,
-		},
+	return &types.JSON{
+		"content": rows,
+		"total":   total,
 	}, nil
 }
 
 // GetFileStream retrieves an asset's file stream.
-func (svc *assetService) GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *resp.Exception) {
+func (s *assetService) GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadAsset, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
-		return nil, resp.BadRequest(ecode.FieldIsRequired("slug"))
+		return nil, nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
 
 	// Get storage interface
 	storage, _ := helper.GetStorage(ctx)
 
 	// Retrieve asset by ID
-	row, err := svc.asset.GetByID(ctx, slug)
+	row, err := s.asset.GetByID(ctx, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, resp.NotFound(ecode.NotExist(fmt.Sprintf("Asset %s", slug)))
+			return nil, nil, errors.New(ecode.NotExist(fmt.Sprintf("Asset %s", slug)))
 		}
 		log.Errorf(ctx, "Error retrieving asset: %v\n", err)
-		return nil, resp.InternalServer("Error retrieving asset")
+		return nil, nil, errors.New("Error retrieving asset")
 	}
 
 	// Fetch file stream from storage
 	fileStream, err := storage.GetStream(row.Path)
 	if err != nil {
 		log.Errorf(ctx, "Error retrieving file stream: %v\n", err)
-		return nil, resp.InternalServer("Error retrieving file stream")
+		return nil, nil, errors.New("Error retrieving file stream")
 	}
 
 	// Return file stream along with asset information
-	return fileStream, &resp.Exception{
-		Data: row,
+	return fileStream, s.Serialize(row), nil
+}
+
+// Serializes serializes assets.
+func (s *assetService) Serializes(rows []*ent.Asset) []*structs.ReadAsset {
+	var rs []*structs.ReadAsset
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
+	}
+	return rs
+}
+
+// Serialize serializes a asset.
+func (s *assetService) Serialize(row *ent.Asset) *structs.ReadAsset {
+	return &structs.ReadAsset{
+		ID:        row.ID,
+		Name:      row.Name,
+		Path:      row.Path,
+		Type:      row.Type,
+		Size:      &row.Size,
+		Storage:   row.Storage,
+		Bucket:    row.Bucket,
+		Endpoint:  row.Endpoint,
+		ObjectID:  row.ObjectID,
+		TenantID:  row.TenantID,
+		Extras:    &row.Extras,
+		CreatedBy: &row.CreatedBy,
+		CreatedAt: &row.CreatedAt,
+		UpdatedBy: &row.UpdatedBy,
+		UpdatedAt: &row.UpdatedAt,
 	}
 }

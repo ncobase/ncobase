@@ -273,6 +273,60 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.ReadCasbinRule:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      p_type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      v0:
+        type: string
+      v1:
+        type: string
+      v2:
+        type: string
+      v3:
+        type: string
+      v4:
+        type: string
+      v5:
+        type: string
+    type: object
+  structs.ReadGroup:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      id:
+        type: string
+      leader:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      tenant_id:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.ReadMenu:
     properties:
       children:
@@ -710,8 +764,20 @@ definitions:
     type: object
   structs.UserMeshes:
     properties:
+      groups:
+        items:
+          $ref: '#/definitions/structs.ReadGroup'
+        type: array
       profile:
         $ref: '#/definitions/structs.UserProfileBody'
+      roles:
+        items:
+          $ref: '#/definitions/structs.ReadRole'
+        type: array
+      tenants:
+        items:
+          $ref: '#/definitions/structs.ReadTenant'
+        type: array
       user:
         $ref: '#/definitions/structs.UserBody'
     type: object
@@ -1111,14 +1177,14 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/ncobase_common_types.JSON'
-            - properties:
+            additionalProperties:
+              properties:
                 id:
                   type: string
                 url:
                   type: string
               type: object
+            type: object
         "400":
           description: bad request
           schema:
@@ -1144,12 +1210,12 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/ncobase_common_types.JSON'
-            - properties:
+            additionalProperties:
+              properties:
                 message:
                   type: string
               type: object
+            type: object
         "400":
           description: bad request
           schema:
@@ -1568,7 +1634,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.CasbinRuleBody'
+            $ref: '#/definitions/structs.ReadCasbinRule'
         "400":
           description: bad request
           schema:
@@ -1617,7 +1683,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.CasbinRuleBody'
+            $ref: '#/definitions/structs.ReadCasbinRule'
         "400":
           description: bad request
           schema:
@@ -1649,7 +1715,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.CasbinRuleBody'
+            $ref: '#/definitions/structs.ReadCasbinRule'
         "400":
           description: bad request
           schema:

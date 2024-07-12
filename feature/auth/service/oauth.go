@@ -3,15 +3,17 @@ package service
 //
 // import (
 // 	"context"
+// 	"errors"
 // 	"fmt"
 // 	"ncobase/feature/auth/data"
 // 	"ncobase/feature/auth/data/ent"
 // 	oauthUserEnt "ncobase/feature/auth/data/ent/oauthuser"
+// 	"ncobase/feature/auth/middleware"
 // 	authStructs "ncobase/feature/auth/structs"
 // 	tenantStructs "ncobase/feature/tenant/structs"
+// 	userEnt "ncobase/feature/user/data/ent/user"
 // 	userStructs "ncobase/feature/user/structs"
 // 	"ncobase/helper"
-// 	"ncobase/middleware"
 // 	"net/http"
 //
 // 	"ncobase/common/cookie"
@@ -27,10 +29,10 @@ package service
 //
 // // OAuthServiceInterface is the interface for the service.
 // type OAuthServiceInterface interface {
-// 	OAuthRegisterService(ctx context.Context, body *authStructs.OAuthRegisterBody) (*resp.Exception, error)
-// 	GetOAuthProfileInfoService(ctx context.Context, r string) (*resp.Exception, error)
-// 	OAuthCallbackService(ctx context.Context, provider, code string) (*resp.Exception, error)
-// 	OAuthAuthenticationService(ctx context.Context) (*resp.Exception, error)
+// 	OAuthRegister(ctx context.Context, body *authStructs.OAuthRegisterBody) (*types.JSON, error)
+// 	GetOAuthProfileInfo(ctx context.Context, r string) (*types.JSON, error)
+// 	OAuthCallback(ctx context.Context, provider, code string) (*types.JSON, error)
+// 	OAuthAuthentication(ctx context.Context) (*types.JSON, error)
 // }
 //
 // // oAuthService is the struct for the service.
@@ -38,24 +40,24 @@ package service
 // 	d *data.Data
 // }
 //
-// // NewOAuthService creates a new service.
+// // NewOAuth creates a new service.
 // func NewOAuthService(d *data.Data) OAuthServiceInterface {
 // 	return &oAuthService{
 // 		d: d,
 // 	}
 // }
 //
-// // OAuthRegisterService OAuth register service
-// func (svc *oAuthService) OAuthRegisterService(ctx context.Context, body *authStructs.OAuthRegisterBody) (*resp.Exception, error) {
+// // OAuthRegister OAuth register service
+// func (svc *oAuthService) OAuthRegister(ctx context.Context, body *authStructs.OAuthRegisterBody) (*types.JSON, error) {
 // 	conf := helper.GetConfig(ctx)
 // 	registerToken, err := svc.getRegisterToken(ctx, body.RegisterToken)
 // 	if err != nil {
-// 		return resp.Forbidden("register authorize is empty or invalid", nil), nil
+// 		return nil, errors.New("register authorize is empty or invalid")
 // 	}
 //
 // 	decoded, err := jwt.DecodeToken(conf.Auth.JWT.Secret, registerToken)
 // 	if err != nil {
-// 		return resp.NotFound("decoded parsing is missing", nil), nil
+// 		return nil, errors.New("decoded parsing is missing")
 // 	}
 //
 // 	fmt.Println(decoded)
@@ -66,17 +68,17 @@ package service
 //
 // 	tx, err := client.Tx(bg)
 // 	if err != nil {
-// 		return resp.Transactions(err.Error()), nil
+// 		return nil, err
 // 	}
 //
 // 	// Check if user already exists
 // 	if exists, err := svc.checkUserExistence(tx, body.Username, payload.Profile.Email); err != nil {
-// 		return resp.InternalServer(err.Error()), nil
+// 		return nil, err
 // 	} else if exists != "" {
-// 		return &resp.Exception{
-// 			Status:  http.StatusConflict,
-// 			Code:    ecode.Conflict,
-// 			Message: exists,
+// 		return &types.JSON{
+// 			"status":  http.StatusConflict,
+// 			"code":    ecode.Conflict,
+// 			"message": exists,
 // 		}, nil
 // 	}
 //
@@ -112,14 +114,14 @@ package service
 // }
 //
 // // createUserEntities Create user and related entities
-// func (svc *oAuthService) createUserEntities(ctx context.Context, tx *ent.Tx, body *authStructs.OAuthRegisterBody, payload authStructs.RegisterTokenBody) (*ent.User, *resp.Exception) {
+// func (svc *oAuthService) createUserEntities(ctx context.Context, tx *ent.Tx, body *authStructs.OAuthRegisterBody, payload authStructs.RegisterTokenBody) (*userStructs.UserMeshes, error) {
 // 	user, err := svc.user.Create(ctx, &userStructs.UserBody{
 // 		Username: body.Username,
 // 		Email:    payload.Profile.Email,
 // 		Phone:    body.Phone,
 // 	})
-// 	if exception, _ := handleEntError("User", err); exception != nil {
-// 		return nil, exception
+// 	if err := handleEntError("User", err); err != nil {
+// 		return nil, err
 // 	}
 //
 // 	if err := svc.createOAuthUser(ctx, tx, payload, user.ID); err != nil {
@@ -144,7 +146,7 @@ package service
 // }
 //
 // // createOAuthUser Create OAuth user
-// func (svc *oAuthService) createOAuthUser(ctx context.Context, tx *ent.Tx, payload authStructs.RegisterTokenBody, userID string) *resp.Exception {
+// func (svc *oAuthService) createOAuthUser(ctx context.Context, tx *ent.Tx, payload authStructs.RegisterTokenBody, userID string) *types.JSON {
 // 	_, err := tx.OAuthUser.
 // 		Create().
 // 		SetAccessToken(payload.Token).
@@ -162,7 +164,7 @@ package service
 // }
 //
 // // createUserProfile Create user profile
-// func (svc *oAuthService) createUserProfile(ctx context.Context, body *userStructs.UserProfileBody) *resp.Exception {
+// func (svc *oAuthService) createUserProfile(ctx context.Context, body *userStructs.UserProfileBody) *types.JSON {
 // 	_, err := svc.userProfile.Create(ctx, body)
 // 	if exception, _ := handleEntError("User", err); exception != nil {
 // 		return exception
@@ -172,7 +174,7 @@ package service
 // }
 //
 // // generateAndSetTokens Generate and set tokens
-// func (svc *oAuthService) generateAndSetTokens(ctx context.Context, tx *ent.Tx, user *userStructs.UserBody) *resp.Exception {
+// func (svc *oAuthService) generateAndSetTokens(ctx context.Context, tx *ent.Tx, user *userStructs.UserBody) *types.JSON {
 // 	authToken, err := tx.AuthToken.Create().SetUserID(user.ID).Save(context.Background())
 // 	if err != nil {
 // 		if rear := tx.Rollback(); rear != nil {
@@ -191,35 +193,29 @@ package service
 //
 // 	// cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain) // TODO: move to handler
 //
-// 	return &resp.Exception{
-// 		Data: types.JSON{
-// 			"id":           user.ID,
-// 			"accessToken":  accessToken,
-// 			"refreshToken": refreshToken,
-// 		},
+// 	return &types.JSON{
+// 		"id":           user.ID,
+// 		"accessToken":  accessToken,
+// 		"refreshToken": refreshToken,
 // 	}
 // }
 //
-// // GetOAuthProfileInfoService Get OAuth profile info service
-// func (svc *oAuthService) GetOAuthProfileInfoService(ctx context.Context, r string) (*resp.Exception, error) {
+// // GetOAuthProfileInfo Get OAuth profile info service
+// func (svc *oAuthService) GetOAuthProfileInfo(ctx context.Context, r string) (*types.JSON, error) {
 // 	conf := helper.GetConfig(ctx)
 //
 // 	decoded, err := jwt.DecodeToken(conf.Auth.JWT.Secret, r)
 // 	if err != nil {
-// 		return resp.NotFound("decoded parsing is missing", nil), nil
+// 		return nil, errors.New("decoded parsing is missing")
 // 	}
 //
-// 	return &resp.Exception{
-// 		Status: http.StatusMovedPermanently,
-// 		Code:   http.StatusMovedPermanently,
-// 		Data: types.JSON{
-// 			"profile": decoded,
-// 		},
+// 	return &types.JSON{
+// 		"profile": decoded,
 // 	}, nil
 // }
 //
-// // OAuthCallbackService OAuth callback service
-// func (svc *oAuthService) OAuthCallbackService(ctx context.Context, provider, code string) (*resp.Exception, error) {
+// // OAuthCallback OAuth callback service
+// func (svc *oAuthService) OAuthCallback(ctx context.Context, provider, code string) (*types.JSON, error) {
 // 	if code == "" {
 // 		return resp.BadRequest("CODE IS EMPTY"), nil
 // 	}
@@ -232,8 +228,8 @@ package service
 // 	return &resp.Exception{}, nil
 // }
 //
-// // OAuthAuthenticationService OAuth authentication service
-// func (svc *oAuthService) OAuthAuthenticationService(ctx context.Context) (*resp.Exception, error) {
+// // OAuthAuthentication OAuth authentication service
+// func (svc *oAuthService) OAuthAuthentication(ctx context.Context) (*types.JSON, error) {
 // 	token := helper.GetToken(ctx)
 // 	provider := helper.GetProvider(ctx)
 // 	profile := helper.GetProfile(ctx).(*oauth.Profile)
@@ -246,7 +242,7 @@ package service
 //
 // 	tx, err := client.Tx(ctx)
 // 	if err != nil {
-// 		return resp.Transactions(err.Error()), nil
+// 		return nil, err
 // 	}
 //
 // 	// Check if OAuth user exists
@@ -265,7 +261,7 @@ package service
 // }
 //
 // // Handle existing OAuth user
-// func (svc *oAuthService) handleExistingOAuthUser(ctx context.Context, tx *ent.Tx, oauthUser *ent.OAuthUser) (*resp.Exception, error) {
+// func (svc *oAuthService) handleExistingOAuthUser(ctx context.Context, tx *ent.Tx, oauthUser *ent.OAuthUser) (*types.JSON, error) {
 // 	conf := helper.GetConfig(ctx)
 // 	user, err := tx.User.Query().Where(userEnt.IDEQ(oauthUser.UserID)).Only(context.Background())
 // 	if ent.IsNotFound(err) {
@@ -277,13 +273,13 @@ package service
 // 		if rear := tx.Rollback(); rear != nil {
 // 			return resp.Transactions(rear.Error()), nil
 // 		}
-// 		return resp.InternalServer(err.Error()), nil
+// 		return nil, err
 // 	}
 //
 // 	accessToken, refreshToken := middleware.GenerateUserToken(user.ID, authToken.ID)
 // 	if accessToken == "" || refreshToken == "" {
 // 		if err := tx.Rollback(); err != nil {
-// 			return resp.Transactions(err.Error()), nil
+// 			return nil, err
 // 		}
 // 		return resp.InternalServer("authorize is not created", nil), nil
 // 	}
@@ -299,11 +295,11 @@ package service
 // }
 //
 // // Handle new OAuth user
-// func (svc *oAuthService) handleNewOAuthUser(ctx context.Context, tx *ent.Tx, profile *oauth.Profile, token, provider string) (*resp.Exception, error) {
+// func (svc *oAuthService) handleNewOAuthUser(ctx context.Context, tx *ent.Tx, profile *oauth.Profile, token, provider string) (*types.JSON, error) {
 // 	conf := helper.GetConfig(ctx)
 // 	user, err := svc.user.FindUser(ctx, &userStructs.FindUser{Email: profile.Email})
 // 	if err != nil {
-// 		return resp.InternalServer(err.Error()), nil
+// 		return nil, err
 // 	}
 //
 // 	if validator.IsNil(user) {

@@ -6,14 +6,16 @@ import (
 
 // Service represents the content service.
 type Service struct {
-	Taxonomy TaxonomyServiceInterface
-	Topic    TopicServiceInterface
+	Taxonomy         TaxonomyServiceInterface
+	TaxonomyRelation TaxonomyRelationServiceInterface
+	Topic            TopicServiceInterface
 }
 
 // New creates a new service.
 func New(d *data.Data) *Service {
 	return &Service{
-		Taxonomy: NewTaxonomyService(d),
-		Topic:    NewTopicService(d),
+		Taxonomy:         NewTaxonomyService(d),
+		TaxonomyRelation: NewTaxonomyRelationService(d),
+		Topic:            NewTopicService(d),
 	}
 }

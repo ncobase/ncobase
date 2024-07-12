@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/common/jwt"
-	"ncobase/common/resp"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/auth/data"
@@ -21,8 +21,8 @@ import (
 
 // AuthServiceInterface is the interface for the service.
 type AuthServiceInterface interface {
-	LoginService(ctx context.Context, body *structs.LoginBody) (*resp.Exception, error)
-	RegisterService(ctx context.Context, body *structs.RegisterBody) (*resp.Exception, error)
+	Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error)
+	Register(ctx context.Context, body *structs.RegisterBody) (*types.JSON, error)
 }
 
 // authService is the struct for the service.
@@ -43,48 +43,48 @@ func NewAuthService(d *data.Data, cas CodeAuthServiceInterface, us *userService.
 	}
 }
 
-// LoginService login service
-func (s *authService) LoginService(ctx context.Context, body *structs.LoginBody) (*resp.Exception, error) {
+// Login login service
+func (s *authService) Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error) {
 	conf := helper.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	rst, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
-	if exception, err := handleEntError("User", err); exception != nil {
-		return exception, err
+	if err := handleEntError("User", err); err != nil {
+		return nil, err
 	}
 
 	if rst.User.Status != 0 {
-		return resp.Forbidden("Your account has not been activated"), nil
+		return nil, errors.New("account has been disabled, please contact the administrator")
 	}
 
-	verifyResult := s.us.User.VerifyUserPassword(ctx, rst.User.ID, body.Password)
+	verifyResult := s.us.User.VerifyPassword(ctx, rst.User.ID, body.Password)
 	switch v := verifyResult.(type) {
 	case userService.VerifyPasswordResult:
 		if v.Valid == false {
-			return resp.BadRequest(v.Error), nil
+			return nil, errors.New(v.Error)
 		} else if v.Valid && v.NeedsPasswordSet == true {
 			// The user has not set a password and the mailbox is empty
 			if validator.IsEmpty(rst.User.Email) {
-				return resp.BadRequest("Has not set a password, and the mailbox is empty, please contact the administrator"), nil
+				return nil, errors.New("has not set a password, and the mailbox is empty, please contact the administrator")
 			}
-			return s.cas.SendCodeService(ctx, &structs.SendCodeBody{Email: rst.User.Email})
+			return s.cas.SendCode(ctx, &structs.SendCodeBody{Email: rst.User.Email})
 		}
 	case error:
-		return resp.InternalServer(v.Error()), nil
+		return nil, v
 	}
 
 	return generateTokensForUser(ctx, conf, client, rst.User)
 }
 
-// RegisterService register service
-func (s *authService) RegisterService(ctx context.Context, body *structs.RegisterBody) (*resp.Exception, error) {
+// Register register service
+func (s *authService) Register(ctx context.Context, body *structs.RegisterBody) (*types.JSON, error) {
 	conf := helper.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	// Decode register token
 	payload, err := decodeRegisterToken(conf.Auth.JWT.Secret, body.RegisterToken)
 	if err != nil {
-		return resp.Forbidden("Register token decode failed"), nil
+		return nil, errors.New("register token decode failed")
 	}
 
 	// Verify user existence
@@ -94,67 +94,65 @@ func (s *authService) RegisterService(ctx context.Context, body *structs.Registe
 		Phone:    body.Phone,
 	})
 	if err != nil && exists.User != nil {
-		return resp.Conflict(getExistMessage(&userStructs.FindUser{
+		return nil, errors.New(getExistMessage(&userStructs.FindUser{
 			Username: exists.User.Username,
 			Email:    exists.User.Email,
 			Phone:    exists.User.Phone,
-		}, body)), nil
+		}, body))
 	}
 
 	// Disable code
 	if err := disableCodeAuth(ctx, client, payload["id"].(string)); err != nil {
-		return resp.DBQuery(err.Error()), nil
+		return nil, err
 	}
 
 	// Create user, profile, tenant and tokens in a transaction
 	tx, err := client.Tx(ctx)
 	if err != nil {
-		return resp.Transactions(err.Error()), nil
+		return nil, err
 	}
 
 	rst, err := createUserAndProfile(ctx, s, body, payload)
 	if err != nil {
 		if err := tx.Rollback(); err != nil {
-			return resp.InternalServer(err.Error()), nil
+			return nil, err
 		}
-		return resp.InternalServer(err.Error()), nil
+		return nil, err
 	}
 
-	if _, err := s.ts.Tenant.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
+	if _, err := s.ts.Tenant.IsCreate(ctx, &tenantStructs.CreateTenantBody{
 		TenantBody: tenantStructs.TenantBody{Name: body.Tenant, CreatedBy: &rst.User.ID, UpdatedBy: &rst.User.ID},
 	}); err != nil {
 		if err := tx.Rollback(); err != nil {
-			return resp.InternalServer(err.Error()), nil
+			return nil, err
 		}
-		return resp.InternalServer(err.Error()), nil
+		return nil, err
 	}
 
 	authToken, err := createAuthToken(ctx, tx, rst.User.ID)
 	if err != nil {
 		if err := tx.Rollback(); err != nil {
-			return resp.InternalServer(err.Error()), nil
+			return nil, err
 		}
-		return resp.Transactions(err.Error()), nil
+		return nil, err
 	}
 
 	accessToken, refreshToken := middleware.GenerateUserToken(conf.Auth.JWT.Secret, rst.User.ID, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		if err := tx.Rollback(); err != nil {
-			return resp.InternalServer(err.Error()), nil
+			return nil, err
 		}
-		return resp.InternalServer("authorize is not created", nil), nil
+		return nil, errors.New("authorize is not created")
 	}
 
 	// cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain) // TODO: move to handler
-	return &resp.Exception{
-		Data: types.JSON{
-			"id":           rst.User.ID,
-			"access_token": accessToken,
-		},
+	return &types.JSON{
+		"id":           rst.User.ID,
+		"access_token": accessToken,
 	}, tx.Commit()
 }
 
-// Helper functions for RegisterService
+// Helper functions for Register
 func decodeRegisterToken(secret, token string) (types.JSON, error) {
 	decoded, err := jwt.DecodeToken(secret, token)
 	if err != nil {
@@ -183,7 +181,7 @@ func disableCodeAuth(ctx context.Context, client *ent.Client, id string) error {
 }
 
 func createUserAndProfile(ctx context.Context, svc *authService, body *structs.RegisterBody, payload types.JSON) (*userStructs.UserMeshes, error) {
-	rst, err := svc.us.User.CreateUserService(ctx, &userStructs.UserMeshes{
+	rst, err := svc.us.User.CreateUser(ctx, &userStructs.UserMeshes{
 		User: &userStructs.UserBody{
 			Username: body.Username,
 			Email:    payload["email"].(string),
@@ -197,8 +195,7 @@ func createUserAndProfile(ctx context.Context, svc *authService, body *structs.R
 	if err != nil {
 		return nil, err
 	}
-	user := rst.Data.(*userStructs.UserMeshes)
-	return user, nil
+	return rst, nil
 }
 
 func createAuthToken(ctx context.Context, tx *ent.Tx, userID string) (*ent.AuthToken, error) {

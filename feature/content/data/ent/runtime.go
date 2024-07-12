@@ -76,34 +76,42 @@ func init() {
 	_ = taxonomyrelationMixinFields0
 	taxonomyrelationMixinFields1 := taxonomyrelationMixin[1].Fields()
 	_ = taxonomyrelationMixinFields1
-	taxonomyrelationMixinFields3 := taxonomyrelationMixin[3].Fields()
-	_ = taxonomyrelationMixinFields3
+	taxonomyrelationMixinFields2 := taxonomyrelationMixin[2].Fields()
+	_ = taxonomyrelationMixinFields2
 	taxonomyrelationMixinFields4 := taxonomyrelationMixin[4].Fields()
 	_ = taxonomyrelationMixinFields4
 	taxonomyrelationMixinFields5 := taxonomyrelationMixin[5].Fields()
 	_ = taxonomyrelationMixinFields5
+	taxonomyrelationMixinFields6 := taxonomyrelationMixin[6].Fields()
+	_ = taxonomyrelationMixinFields6
 	taxonomyrelationFields := schema.TaxonomyRelation{}.Fields()
 	_ = taxonomyrelationFields
+	// taxonomyrelationDescObjectID is the schema descriptor for object_id field.
+	taxonomyrelationDescObjectID := taxonomyrelationMixinFields1[0].Descriptor()
+	// taxonomyrelation.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
+	taxonomyrelation.ObjectIDValidator = taxonomyrelationDescObjectID.Validators[0].(func(string) error)
 	// taxonomyrelationDescTaxonomyID is the schema descriptor for taxonomy_id field.
-	taxonomyrelationDescTaxonomyID := taxonomyrelationMixinFields1[0].Descriptor()
+	taxonomyrelationDescTaxonomyID := taxonomyrelationMixinFields2[0].Descriptor()
 	// taxonomyrelation.TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
 	taxonomyrelation.TaxonomyIDValidator = taxonomyrelationDescTaxonomyID.Validators[0].(func(string) error)
 	// taxonomyrelationDescOrder is the schema descriptor for order field.
-	taxonomyrelationDescOrder := taxonomyrelationMixinFields3[0].Descriptor()
+	taxonomyrelationDescOrder := taxonomyrelationMixinFields4[0].Descriptor()
 	// taxonomyrelation.DefaultOrder holds the default value on creation for the order field.
 	taxonomyrelation.DefaultOrder = taxonomyrelationDescOrder.Default.(int)
 	// taxonomyrelationDescCreatedBy is the schema descriptor for created_by field.
-	taxonomyrelationDescCreatedBy := taxonomyrelationMixinFields4[0].Descriptor()
+	taxonomyrelationDescCreatedBy := taxonomyrelationMixinFields5[0].Descriptor()
 	// taxonomyrelation.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	taxonomyrelation.CreatedByValidator = taxonomyrelationDescCreatedBy.Validators[0].(func(string) error)
 	// taxonomyrelationDescCreatedAt is the schema descriptor for created_at field.
-	taxonomyrelationDescCreatedAt := taxonomyrelationMixinFields5[0].Descriptor()
+	taxonomyrelationDescCreatedAt := taxonomyrelationMixinFields6[0].Descriptor()
 	// taxonomyrelation.DefaultCreatedAt holds the default value on creation for the created_at field.
 	taxonomyrelation.DefaultCreatedAt = taxonomyrelationDescCreatedAt.Default.(func() time.Time)
 	// taxonomyrelationDescID is the schema descriptor for id field.
 	taxonomyrelationDescID := taxonomyrelationMixinFields0[0].Descriptor()
 	// taxonomyrelation.DefaultID holds the default value on creation for the id field.
 	taxonomyrelation.DefaultID = taxonomyrelationDescID.Default.(func() string)
+	// taxonomyrelation.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	taxonomyrelation.IDValidator = taxonomyrelationDescID.Validators[0].(func(string) error)
 	topicMixin := schema.Topic{}.Mixin()
 	topicMixinFields0 := topicMixin[0].Fields()
 	_ = topicMixinFields0

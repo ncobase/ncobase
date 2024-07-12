@@ -52,7 +52,7 @@ func NewTenantHandler(svc *service.Service) TenantHandlerInterface {
 // @Router /v1/account/tenant [get]
 // @Security Bearer
 func (h *TenantHandler) AccountTenantHandler(c *gin.Context) {
-	result, err := h.s.Tenant.AccountTenantService(c.Request.Context())
+	result, err := h.s.Tenant.Account(c.Request.Context())
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -71,7 +71,7 @@ func (h *TenantHandler) AccountTenantHandler(c *gin.Context) {
 // @Router /v1/account/tenants [get]
 // @Security Bearer
 func (h *TenantHandler) AccountTenantsHandler(c *gin.Context) {
-	result, err := h.s.Tenant.AccountTenantsService(c.Request.Context())
+	result, err := h.s.Tenant.AccountTenants(c.Request.Context())
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -101,7 +101,7 @@ func (h *TenantHandler) CreateTenantHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Tenant.CreateTenantService(c.Request.Context(), body)
+	result, err := h.s.Tenant.Create(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -121,7 +121,7 @@ func (h *TenantHandler) CreateTenantHandler(c *gin.Context) {
 // @Router /v1/users/{username}/tenant [get]
 // @Security Bearer
 func (h *TenantHandler) UserTenantHandler(c *gin.Context) {
-	result, err := h.s.Tenant.UserOwnTenantService(c.Request.Context(), c.Param("username"))
+	result, err := h.s.Tenant.UserOwn(c.Request.Context(), c.Param("username"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -157,7 +157,7 @@ func (h *TenantHandler) UpdateTenantHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Tenant.UpdateTenantService(c.Request.Context(), body)
+	result, err := h.s.Tenant.Update(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -177,7 +177,7 @@ func (h *TenantHandler) UpdateTenantHandler(c *gin.Context) {
 // @Router /v1/tenants/{slug} [get]
 // @Security Bearer
 func (h *TenantHandler) GetTenantHandler(c *gin.Context) {
-	result, err := h.s.Tenant.GetTenantService(c.Request.Context(), c.Param("slug"))
+	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -197,7 +197,7 @@ func (h *TenantHandler) GetTenantHandler(c *gin.Context) {
 // @Router /v1/tenants/{slug}/menu [get]
 // @Security Bearer
 func (h *TenantHandler) GetTenantMenuHandler(c *gin.Context) {
-	result, err := h.s.Tenant.GetTenantService(c.Request.Context(), c.Param("slug"))
+	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -217,7 +217,7 @@ func (h *TenantHandler) GetTenantMenuHandler(c *gin.Context) {
 // @Router /v1/tenants/{slug}/setting [get]
 // @Security Bearer
 func (h *TenantHandler) GetTenantSettingHandler(c *gin.Context) {
-	result, err := h.s.Tenant.GetTenantService(c.Request.Context(), c.Param("slug"))
+	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -237,12 +237,11 @@ func (h *TenantHandler) GetTenantSettingHandler(c *gin.Context) {
 // @Router /v1/tenants/{slug} [delete]
 // @Security Bearer
 func (h *TenantHandler) DeleteTenantHandler(c *gin.Context) {
-	result, err := h.s.Tenant.DeleteTenantService(c.Request.Context(), c.Param("slug"))
-	if err != nil {
+	if err := h.s.Tenant.Delete(c.Request.Context(), c.Param("slug")); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
-	resp.Success(c.Writer, result)
+	resp.Success(c.Writer)
 }
 
 // ListTenantHandler handles listing tenants.
@@ -266,7 +265,7 @@ func (h *TenantHandler) ListTenantHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Tenant.ListTenantsService(c.Request.Context(), params)
+	result, err := h.s.Tenant.List(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -292,7 +291,7 @@ func (h *TenantHandler) ListTenantAssetHandler(c *gin.Context) {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
 	// }
-	resp.Success(c.Writer, nil)
+	resp.Success(c.Writer)
 }
 
 // ListTenantRoleHandler handles listing tenant roles.
@@ -312,7 +311,7 @@ func (h *TenantHandler) ListTenantRoleHandler(c *gin.Context) {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
 	// }
-	resp.Success(c.Writer, nil)
+	resp.Success(c.Writer)
 }
 
 // ListTenantModuleHandler handles listing tenant modules.
@@ -332,7 +331,7 @@ func (h *TenantHandler) ListTenantModuleHandler(c *gin.Context) {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
 	// }
-	resp.Success(c.Writer, nil)
+	resp.Success(c.Writer)
 }
 
 // ListTenantSettingHandler handles listing tenant settings.
@@ -352,7 +351,7 @@ func (h *TenantHandler) ListTenantSettingHandler(c *gin.Context) {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
 	// }
-	resp.Success(c.Writer, nil)
+	resp.Success(c.Writer)
 }
 
 // ListTenantUserHandler handles listing tenant users.
@@ -372,7 +371,7 @@ func (h *TenantHandler) ListTenantUserHandler(c *gin.Context) {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
 	// }
-	resp.Success(c.Writer, nil)
+	resp.Success(c.Writer)
 }
 
 // ListTenantGroupHandler handles listing tenant groups.
@@ -392,5 +391,5 @@ func (h *TenantHandler) ListTenantGroupHandler(c *gin.Context) {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
 	// }
-	resp.Success(c.Writer, nil)
+	resp.Success(c.Writer)
 }

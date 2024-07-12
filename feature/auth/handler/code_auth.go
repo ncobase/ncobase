@@ -48,7 +48,7 @@ func (h *codeAuthHandler) SendCode(c *gin.Context) {
 		return
 	}
 
-	result, _ := h.s.CodeAuth.SendCodeService(c.Request.Context(), body)
+	result, _ := h.s.CodeAuth.SendCode(c.Request.Context(), body)
 	resp.Success(c.Writer, result)
 }
 
@@ -65,7 +65,7 @@ func (h *codeAuthHandler) SendCode(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/authorize/{code} [get]
 func (h *codeAuthHandler) CodeAuth(c *gin.Context) {
-	result, err := h.s.CodeAuth.CodeAuthService(c.Request.Context(), c.Param("code"))
+	result, err := h.s.CodeAuth.CodeAuth(c.Request.Context(), c.Param("code"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

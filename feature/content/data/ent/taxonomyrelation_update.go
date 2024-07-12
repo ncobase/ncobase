@@ -27,6 +27,26 @@ func (tru *TaxonomyRelationUpdate) Where(ps ...predicate.TaxonomyRelation) *Taxo
 	return tru
 }
 
+// SetObjectID sets the "object_id" field.
+func (tru *TaxonomyRelationUpdate) SetObjectID(s string) *TaxonomyRelationUpdate {
+	tru.mutation.SetObjectID(s)
+	return tru
+}
+
+// SetNillableObjectID sets the "object_id" field if the given value is not nil.
+func (tru *TaxonomyRelationUpdate) SetNillableObjectID(s *string) *TaxonomyRelationUpdate {
+	if s != nil {
+		tru.SetObjectID(*s)
+	}
+	return tru
+}
+
+// ClearObjectID clears the value of the "object_id" field.
+func (tru *TaxonomyRelationUpdate) ClearObjectID() *TaxonomyRelationUpdate {
+	tru.mutation.ClearObjectID()
+	return tru
+}
+
 // SetTaxonomyID sets the "taxonomy_id" field.
 func (tru *TaxonomyRelationUpdate) SetTaxonomyID(s string) *TaxonomyRelationUpdate {
 	tru.mutation.SetTaxonomyID(s)
@@ -142,6 +162,11 @@ func (tru *TaxonomyRelationUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (tru *TaxonomyRelationUpdate) check() error {
+	if v, ok := tru.mutation.ObjectID(); ok {
+		if err := taxonomyrelation.ObjectIDValidator(v); err != nil {
+			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.object_id": %w`, err)}
+		}
+	}
 	if v, ok := tru.mutation.TaxonomyID(); ok {
 		if err := taxonomyrelation.TaxonomyIDValidator(v); err != nil {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
@@ -166,6 +191,12 @@ func (tru *TaxonomyRelationUpdate) sqlSave(ctx context.Context) (n int, err erro
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := tru.mutation.ObjectID(); ok {
+		_spec.SetField(taxonomyrelation.FieldObjectID, field.TypeString, value)
+	}
+	if tru.mutation.ObjectIDCleared() {
+		_spec.ClearField(taxonomyrelation.FieldObjectID, field.TypeString)
 	}
 	if value, ok := tru.mutation.TaxonomyID(); ok {
 		_spec.SetField(taxonomyrelation.FieldTaxonomyID, field.TypeString, value)
@@ -212,6 +243,26 @@ type TaxonomyRelationUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *TaxonomyRelationMutation
+}
+
+// SetObjectID sets the "object_id" field.
+func (truo *TaxonomyRelationUpdateOne) SetObjectID(s string) *TaxonomyRelationUpdateOne {
+	truo.mutation.SetObjectID(s)
+	return truo
+}
+
+// SetNillableObjectID sets the "object_id" field if the given value is not nil.
+func (truo *TaxonomyRelationUpdateOne) SetNillableObjectID(s *string) *TaxonomyRelationUpdateOne {
+	if s != nil {
+		truo.SetObjectID(*s)
+	}
+	return truo
+}
+
+// ClearObjectID clears the value of the "object_id" field.
+func (truo *TaxonomyRelationUpdateOne) ClearObjectID() *TaxonomyRelationUpdateOne {
+	truo.mutation.ClearObjectID()
+	return truo
 }
 
 // SetTaxonomyID sets the "taxonomy_id" field.
@@ -342,6 +393,11 @@ func (truo *TaxonomyRelationUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (truo *TaxonomyRelationUpdateOne) check() error {
+	if v, ok := truo.mutation.ObjectID(); ok {
+		if err := taxonomyrelation.ObjectIDValidator(v); err != nil {
+			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.object_id": %w`, err)}
+		}
+	}
 	if v, ok := truo.mutation.TaxonomyID(); ok {
 		if err := taxonomyrelation.TaxonomyIDValidator(v); err != nil {
 			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
@@ -383,6 +439,12 @@ func (truo *TaxonomyRelationUpdateOne) sqlSave(ctx context.Context) (_node *Taxo
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := truo.mutation.ObjectID(); ok {
+		_spec.SetField(taxonomyrelation.FieldObjectID, field.TypeString, value)
+	}
+	if truo.mutation.ObjectIDCleared() {
+		_spec.ClearField(taxonomyrelation.FieldObjectID, field.TypeString)
 	}
 	if value, ok := truo.mutation.TaxonomyID(); ok {
 		_spec.SetField(taxonomyrelation.FieldTaxonomyID, field.TypeString, value)

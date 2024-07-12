@@ -97,7 +97,7 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.s.Asset.CreateAssetService(c.Request.Context(), body)
+		result, err := h.s.Asset.Create(c.Request.Context(), body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -116,7 +116,7 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest("File is required"))
 		return
 	}
-	var results []any
+	var results []*structs.ReadAsset
 	for _, fileHeader := range files {
 		file, err := fileHeader.Open()
 		if err != nil {
@@ -140,12 +140,12 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.s.Asset.CreateAssetService(c.Request.Context(), body)
+		result, err := h.s.Asset.Create(c.Request.Context(), body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
 		}
-		results = append(results, result.Data)
+		results = append(results, result)
 	}
 	resp.Success(c.Writer, &resp.Exception{Data: results})
 }
@@ -191,7 +191,7 @@ func (h *assetHandler) validateAssetBody(body *structs.CreateAssetBody) error {
 // 	body.Type = fileType
 //
 // 	// Call service to create asset
-// 	result, err := h.svc.CreateAssetService(c, body)
+// 	result, err := h.svc.Create(c, body)
 // 	if err != nil {
 // 		resp.Fail(c.Writer, resp.InternalServer("Failed to create asset"))
 // 		return
@@ -305,7 +305,7 @@ func (h *assetHandler) UpdateAssetHandler(c *gin.Context) {
 		updates["file"] = file
 	}
 
-	result, err := h.s.Asset.UpdateAssetService(c.Request.Context(), slug, updates)
+	result, err := h.s.Asset.Update(c.Request.Context(), slug, updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -342,7 +342,7 @@ func (h *assetHandler) GetAssetHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Asset.GetAssetService(c.Request.Context(), slug)
+	result, err := h.s.Asset.Get(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -368,13 +368,12 @@ func (h *assetHandler) DeleteAssetHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Asset.DeleteAssetService(c.Request.Context(), slug)
-	if err != nil {
+	if err := h.s.Asset.Delete(c.Request.Context(), slug); err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
-	resp.Success(c.Writer, result)
+	resp.Success(c.Writer)
 }
 
 // ListAssetsHandler handles listing assets.
@@ -397,7 +396,7 @@ func (h *assetHandler) ListAssetsHandler(c *gin.Context) {
 		return
 	}
 
-	assets, err := h.s.Asset.ListAssetsService(c.Request.Context(), params)
+	assets, err := h.s.Asset.List(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -424,27 +423,25 @@ func (h *assetHandler) downloadFile(c *gin.Context, dispositionType string) {
 		return
 	}
 
-	fileStream, exception := h.s.Asset.GetFileStream(c.Request.Context(), slug)
-	if exception != nil {
-		if exception.Code != 0 {
-			resp.Fail(c.Writer, exception)
-			return
-		}
-		row := exception.Data.(*structs.ReadAsset)
-		filename := storage.RestoreOriginalFileName(row.Path, true)
-		c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", dispositionType, filename))
+	fileStream, row, err := h.s.Asset.GetFileStream(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
 
-		// Set the Content-Type header based on the original content t
-		if row.Type == "" {
-			c.Header("Content-Type", "application/octet-stream")
-		}
-		c.Header("Content-Type", row.Type)
+	filename := storage.RestoreOriginalFileName(row.Path, true)
+	c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", dispositionType, filename))
 
-		_, err := io.Copy(c.Writer, fileStream)
-		if err != nil {
-			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
-			return
-		}
+	// Set the Content-Type header based on the original content t
+	if row.Type == "" {
+		c.Header("Content-Type", "application/octet-stream")
+	}
+	c.Header("Content-Type", row.Type)
+
+	_, err = io.Copy(c.Writer, fileStream)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
 	}
 
 	// close file stream
