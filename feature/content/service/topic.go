@@ -11,6 +11,7 @@ import (
 	"ncobase/feature/content/data/ent"
 	"ncobase/feature/content/data/repository"
 	"ncobase/feature/content/structs"
+	"ncobase/helper"
 )
 
 // TopicServiceInterface is the interface for the service.
@@ -110,8 +111,10 @@ func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams
 	total := s.topic.CountX(ctx, params)
 
 	return &types.JSON{
-		"content": rows,
-		"total":   total,
+		"current_tenant_id": helper.GetTenantID(ctx),
+		"current_user_id":   helper.GetUserID(ctx),
+		"content":           rows,
+		"total":             total,
 	}, nil
 }
 

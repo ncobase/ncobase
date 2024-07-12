@@ -2,11 +2,11 @@ package tenant
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/tenant/data"
 	"ncobase/feature/tenant/handler"
-	"ncobase/feature/tenant/middleware"
 	"ncobase/feature/tenant/service"
 	userService "ncobase/feature/user/service"
 	"sync"
@@ -91,9 +91,6 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
-
-	// middleware
-	e.Use(middleware.ConsumeTenant(m.s))
 
 	// API v1 endpoints
 	v1 := e.Group("/v1")

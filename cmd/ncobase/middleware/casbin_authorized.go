@@ -45,8 +45,8 @@ func handleException(c *gin.Context, exception *resp.Exception, err error, messa
 	}
 }
 
-// Authorized is a middleware that checks if the user is authorized to access the resource.
-func Authorized(enforcer *casbin.Enforcer, whiteList []string, svc *service.Service) gin.HandlerFunc {
+// CasbinAuthorized is a middleware that checks if the user has permission to access the resource
+func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *service.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if inWhiteList(c.Request.URL.Path, whiteList) {
 			c.Next()

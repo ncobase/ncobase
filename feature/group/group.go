@@ -2,10 +2,10 @@ package group
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/group/data"
-	"ncobase/feature/group/middleware"
 	"ncobase/feature/group/service"
 	"sync"
 

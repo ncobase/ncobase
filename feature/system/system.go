@@ -2,11 +2,11 @@ package system
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/handler"
-	"ncobase/feature/system/middleware"
 	"ncobase/feature/system/service"
 	"sync"
 
@@ -25,6 +25,7 @@ type Module struct {
 	initialized bool
 	mu          sync.RWMutex
 	fm          *feature.Manager
+	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
 	d           *data.Data
@@ -58,6 +59,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 	m.fm = fm
 	m.initialized = true
+	m.conf = conf
 
 	return nil
 }
@@ -78,6 +80,7 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
+	// Setup middleware
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 	// Menu endpoints

@@ -2,11 +2,11 @@ package content
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/content/data"
 	"ncobase/feature/content/handler"
-	"ncobase/feature/content/middleware"
 	"ncobase/feature/content/service"
 	"sync"
 
@@ -25,6 +25,7 @@ type Plugin struct {
 	initialized bool
 	mu          sync.RWMutex
 	fm          *feature.Manager
+	conf        *config.Config
 	s           *service.Service
 	h           *handler.Handler
 	d           *data.Data
@@ -58,6 +59,7 @@ func (p *Plugin) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 	p.fm = fm
 	p.initialized = true
+	p.conf = conf
 
 	return nil
 }
@@ -73,6 +75,7 @@ func (p *Plugin) PostInit() error {
 
 // RegisterRoutes registers routes for the plugin
 func (p *Plugin) RegisterRoutes(e *gin.Engine) {
+	// Setup middleware
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 	// Taxonomy endpoints

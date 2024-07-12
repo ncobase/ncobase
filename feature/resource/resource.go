@@ -2,11 +2,11 @@ package resource
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/resource/data"
 	"ncobase/feature/resource/handler"
-	"ncobase/feature/resource/middleware"
 	"ncobase/feature/resource/service"
 	"sync"
 

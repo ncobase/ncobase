@@ -4,14 +4,14 @@ import (
 	"context"
 	"ncobase/common/consts"
 	"ncobase/common/log"
-	"ncobase/feature/tenant/service"
+	tenantService "ncobase/feature/tenant/service"
 	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
 )
 
 // ConsumeTenant consumes tenant information from the request header or user tenants.
-func ConsumeTenant(svc *service.Service) gin.HandlerFunc {
+func ConsumeTenant(ts *tenantService.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := helper.FromGinContext(c)
 		// Retrieve tenant ID from request header
@@ -24,7 +24,7 @@ func ConsumeTenant(svc *service.Service) gin.HandlerFunc {
 				// Get user ID
 				userID := helper.GetUserID(ctx)
 				// Fetch user tenants
-				if tenant, err := svc.UserTenant.UserBelongTenant(c, userID); err != nil {
+				if tenant, err := ts.UserTenant.UserBelongTenant(c, userID); err != nil {
 					log.Errorf(context.Background(), "failed to fetch user belong tenant: %v", err.Error())
 				} else if tenant != nil {
 					tenantID = tenant.ID

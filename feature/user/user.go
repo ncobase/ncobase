@@ -2,12 +2,12 @@ package user
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	accessService "ncobase/feature/access/service"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/handler"
-	"ncobase/feature/user/middleware"
 	"ncobase/feature/user/service"
 	"sync"
 
@@ -75,6 +75,7 @@ func (m *Module) PostInit() error {
 
 	m.s = service.New(m.d, as)
 	m.h = handler.New(m.s)
+
 	return nil
 }
 
@@ -85,10 +86,6 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
-
-	// Initialize middleware
-	e.Use(middleware.ConsumeUser(m.conf.Auth.JWT.Secret))
-
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 

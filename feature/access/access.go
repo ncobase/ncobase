@@ -2,11 +2,11 @@ package access
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/handler"
-	"ncobase/feature/access/middleware"
 	"ncobase/feature/access/service"
 	"sync"
 
@@ -80,13 +80,6 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
-
-	// Setup middleware
-	// enforcer, err := m.s.CasbinAdapter.InitEnforcer()
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// e.Use(middleware.Authorized(enforcer, m.conf.Auth.Whitelist, m.s))
 
 	v1 := e.Group("/v1")
 	// Role endpoints
