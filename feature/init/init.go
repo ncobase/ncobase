@@ -53,12 +53,12 @@ func (m *Plugin) Name() string {
 func (m *Plugin) RegisterRoutes(_ *gin.Engine) {}
 
 // GetHandlers returns the handlers for the plugin
-func (m *Plugin) GetHandlers() map[string]feature.Handler {
+func (m *Plugin) GetHandlers() feature.Handler {
 	return nil
 }
 
 // GetServices returns the services for the plugin
-func (m *Plugin) GetServices() map[string]feature.Service {
+func (m *Plugin) GetServices() feature.Service {
 	return nil
 }
 

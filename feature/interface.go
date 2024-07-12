@@ -25,9 +25,9 @@ type Interface interface {
 	// RegisterRoutes registers routes for the feature (optional)
 	RegisterRoutes(router *gin.Engine)
 	// GetHandlers returns the handlers for the feature
-	GetHandlers() map[string]Handler
+	GetHandlers() Handler
 	// GetServices returns the services for the feature
-	GetServices() map[string]Service
+	GetServices() Service
 	// PreCleanup performs any necessary cleanup before the main cleanup
 	PreCleanup() error
 	// Cleanup cleans up the feature

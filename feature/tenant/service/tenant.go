@@ -40,21 +40,17 @@ type TenantServiceInterface interface {
 type tenantService struct {
 	tenant     repository.TenantRepositoryInterface
 	userTenant repository.UserTenantRepositoryInterface
-	usi        userService.UserServiceInterface
-	arsi       accessService.RoleServiceInterface
-	aursi      accessService.UserRoleServiceInterface
-	autrsi     accessService.UserTenantRoleServiceInterface
+	us         *userService.Service
+	as         *accessService.Service
 }
 
 // NewTenantService creates a new service.
-func NewTenantService(d *data.Data, usi userService.UserServiceInterface, arsi accessService.RoleServiceInterface, aursi accessService.UserRoleServiceInterface, autrsi accessService.UserTenantRoleServiceInterface) TenantServiceInterface {
+func NewTenantService(d *data.Data, us *userService.Service, as *accessService.Service) TenantServiceInterface {
 	return &tenantService{
 		tenant:     repository.NewTenantRepository(d),
 		userTenant: repository.NewUserTenantRepository(d),
-		usi:        usi,
-		arsi:       arsi,
-		aursi:      aursi,
-		autrsi:     autrsi,
+		us:         us,
+		as:         as,
 	}
 }
 
@@ -274,10 +270,10 @@ func (svc *tenantService) CreateInitialTenant(ctx context.Context, body *structs
 	}
 
 	// Get or create the super admin role
-	superAdminRole, err := svc.arsi.Find(ctx, "super-admin")
+	superAdminRole, err := svc.as.Role.Find(ctx, "super-admin")
 	if ent.IsNotFound(err) {
 		// Super admin role does not exist, create it
-		superAdminRole, err = svc.arsi.CreateSuperAdminRole(ctx)
+		superAdminRole, err = svc.as.Role.CreateSuperAdminRole(ctx)
 		if err != nil {
 			return nil, err
 		}
@@ -293,13 +289,13 @@ func (svc *tenantService) CreateInitialTenant(ctx context.Context, body *structs
 		}
 
 		// Assign the tenant to the super admin role
-		_, err = svc.autrsi.AddRoleToUserInTenantService(ctx, *body.CreatedBy, superAdminRole.ID, defaultTenant.ID)
+		_, err = svc.as.UserTenantRole.AddRoleToUserInTenantService(ctx, *body.CreatedBy, superAdminRole.ID, defaultTenant.ID)
 		if err != nil {
 			return nil, err
 		}
 
 		// Assign the super admin role to the user
-		_, err = svc.aursi.AddRoleToUserService(ctx, *body.CreatedBy, superAdminRole.ID)
+		_, err = svc.as.UserRole.AddRoleToUserService(ctx, *body.CreatedBy, superAdminRole.ID)
 		if err != nil {
 			return nil, err
 		}
@@ -320,7 +316,7 @@ func (svc *tenantService) IsCreateTenant(ctx context.Context, body *structs.Crea
 	}
 
 	// Check the number of existing users
-	countUsers := svc.usi.CountX(ctx, &userStructs.ListUserParams{})
+	countUsers := svc.us.User.CountX(ctx, &userStructs.ListUserParams{})
 
 	// If there are no existing users, create the initial tenant
 	if countUsers <= 1 {

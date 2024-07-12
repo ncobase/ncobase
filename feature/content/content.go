@@ -96,19 +96,13 @@ func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 }
 
 // GetHandlers returns the handlers for the plugin
-func (p *Plugin) GetHandlers() map[string]feature.Handler {
-	return map[string]feature.Handler{
-		"taxonomy": p.h.Taxonomy,
-		"topic":    p.h.Topic,
-	}
+func (p *Plugin) GetHandlers() feature.Handler {
+	return p.h
 }
 
 // GetServices returns the services for the plugin
-func (p *Plugin) GetServices() map[string]feature.Service {
-	return map[string]feature.Service{
-		"taxonomy": p.s.Taxonomy,
-		"topic":    p.s.Topic,
-	}
+func (p *Plugin) GetServices() feature.Service {
+	return p.s
 }
 
 // PreCleanup performs any necessary cleanup before the main cleanup

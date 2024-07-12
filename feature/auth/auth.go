@@ -65,17 +65,17 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	usi, err := m.getUserService(m.fm)
+	us, err := m.getUserService(m.fm)
 	if err != nil {
 		return err
 	}
 
-	tsi, err := m.getTenantService(m.fm)
+	ts, err := m.getTenantService(m.fm)
 	if err != nil {
 		return err
 	}
 
-	m.s = service.New(m.d, usi, tsi)
+	m.s = service.New(m.d, us, ts)
 	m.h = handler.New(m.s)
 	return nil
 }
@@ -109,17 +109,13 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() map[string]feature.Handler {
-	return map[string]feature.Handler{
-		"auth": m.h,
-	}
+func (m *Module) GetHandlers() feature.Handler {
+	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() map[string]feature.Service {
-	return map[string]feature.Service{
-		"auth": m.s,
-	}
+func (m *Module) GetServices() feature.Service {
+	return m.s
 }
 
 // PreCleanup performs any necessary cleanup before the main cleanup
@@ -162,33 +158,32 @@ func (m *Module) Dependencies() []string {
 }
 
 // GetUserService returns the user service
-func (m *Module) getUserService(fm *feature.Manager) (userService.UserServiceInterface, error) {
-	usi, err := fm.GetService("user", "user")
+func (m *Module) getUserService(fm *feature.Manager) (*userService.Service, error) {
+	f, err := fm.GetService("user")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user service: %v", err)
 	}
 
-	userServiceImpl, ok := usi.(userService.UserServiceInterface)
+	us, ok := f.(*userService.Service)
 	if !ok {
 		return nil, fmt.Errorf("user service does not implement UserServiceInterface")
 	}
 
-	return userServiceImpl, nil
+	return us, nil
 }
 
 // GetTenantService returns the tenant service
-func (m *Module) getTenantService(fm *feature.Manager) (tenantService.TenantServiceInterface, error) {
-	tsi, err := fm.GetService("tenant", "tenant")
+func (m *Module) getTenantService(fm *feature.Manager) (*tenantService.Service, error) {
+	f, err := fm.GetService("tenant")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get tenant service: %v", err)
 	}
 
-	// type assertion to ensure we have the correct interface
-	tenantServiceImpl, ok := tsi.(tenantService.TenantServiceInterface)
+	ts, ok := f.(*tenantService.Service)
 	if !ok {
 		return nil, fmt.Errorf("tenant service does not implement TenantServiceInterface")
 	}
 
-	return tenantServiceImpl, nil
+	return ts, nil
 
 }

@@ -26,7 +26,7 @@ type UserServiceInterface interface {
 	DeleteUserService(ctx context.Context, u string) (*resp.Exception, error)
 	FindUserByID(ctx context.Context, id string) (structs.UserMeshes, error)
 	FindUser(ctx context.Context, m *structs.FindUser) (structs.UserMeshes, error)
-	VerifyUserPassword(ctx context.Context, userID string, password string) interface{}
+	VerifyUserPassword(ctx context.Context, userID string, password string) any
 	UpdateUserPassword(ctx context.Context, body *structs.UserPassword) error
 	SerializeUser(user *ent.User, sp ...*serializeUserParams) structs.UserMeshes
 	CountX(ctx context.Context, params *structs.ListUserParams) int

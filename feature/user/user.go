@@ -111,17 +111,13 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() map[string]feature.Handler {
-	return map[string]feature.Handler{
-		"user": m.h.User,
-	}
+func (m *Module) GetHandlers() feature.Handler {
+	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() map[string]feature.Service {
-	return map[string]feature.Service{
-		"user": m.s.User,
-	}
+func (m *Module) GetServices() feature.Service {
+	return m.s
 }
 
 // PreCleanup performs any necessary cleanup before the main cleanup

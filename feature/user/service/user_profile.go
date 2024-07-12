@@ -6,7 +6,7 @@ import (
 )
 
 // UserProfileServiceInterface is the interface for the service.
-type UserProfileServiceInterface interface{}
+type UserProfileServiceInterface any
 
 // userProfileService is the struct for the service.
 type userProfileService struct {

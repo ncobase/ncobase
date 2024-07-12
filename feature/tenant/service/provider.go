@@ -13,8 +13,8 @@ type Service struct {
 }
 
 // New creates a new service.
-func New(d *data.Data, usi userService.UserServiceInterface, arsi accessService.RoleServiceInterface, aursi accessService.UserRoleServiceInterface, autrsi accessService.UserTenantRoleServiceInterface) *Service {
-	ts := NewTenantService(d, usi, arsi, aursi, autrsi)
+func New(d *data.Data, us *userService.Service, as *accessService.Service) *Service {
+	ts := NewTenantService(d, us, as)
 	uts := NewUserTenantService(d, ts)
 
 	return &Service{
