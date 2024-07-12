@@ -73,11 +73,6 @@ func (m *Module) Name() string {
 	return name
 }
 
-// HasRoutes returns true if the plugin has routes, false otherwise
-func (m *Module) HasRoutes() bool {
-	return true
-}
-
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints

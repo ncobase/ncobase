@@ -67,11 +67,6 @@ func (p *Plugin) PostInit() error {
 	return nil
 }
 
-// HasRoutes returns true if the plugin has routes, false otherwise
-func (p *Plugin) HasRoutes() bool {
-	return false
-}
-
 // RegisterRoutes registers routes for the plugin
 func (p *Plugin) RegisterRoutes(e *gin.Engine) {}
 
@@ -122,10 +117,19 @@ func (p *Plugin) Version() string {
 
 // Dependencies returns the dependencies of the plugin
 func (p *Plugin) Dependencies() []string {
-	return []string{}
+	return dependencies
 }
 
 // SubscribeEvents subscribes to relevant events
 func (p *Plugin) subscribeEvents(fm *feature.Manager) {
 	// Implement any event subscriptions here
+}
+
+func init() {
+	feature.RegisterPlugin(&Plugin{}, feature.Metadata{
+		Name:         name + "-development",
+		Version:      version,
+		Dependencies: dependencies,
+		Description:  desc,
+	})
 }

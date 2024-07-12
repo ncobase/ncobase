@@ -49,11 +49,6 @@ func (m *Plugin) Name() string {
 	return name
 }
 
-// HasRoutes returns true if the plugin has routes, false otherwise
-func (m *Plugin) HasRoutes() bool {
-	return false
-}
-
 // RegisterRoutes registers routes for the plugin
 func (m *Plugin) RegisterRoutes(_ *gin.Engine) {}
 
@@ -102,5 +97,5 @@ func (m *Plugin) Version() string {
 
 // Dependencies returns the dependencies of the plugin
 func (m *Plugin) Dependencies() []string {
-	return []string{}
+	return dependencies
 }
