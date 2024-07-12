@@ -29,15 +29,15 @@ type CodeAuthServiceInterface interface {
 
 // codeAuthService is the struct for the service.
 type codeAuthService struct {
-	d   *data.Data
-	usi userService.UserServiceInterface
+	d  *data.Data
+	us *userService.Service
 }
 
 // NewCodeAuthService creates a new service.
-func NewCodeAuthService(d *data.Data, usi userService.UserServiceInterface) CodeAuthServiceInterface {
+func NewCodeAuthService(d *data.Data, us *userService.Service) CodeAuthServiceInterface {
 	return &codeAuthService{
-		d:   d,
-		usi: usi,
+		d:  d,
+		us: us,
 	}
 }
 
@@ -54,12 +54,12 @@ func (s *codeAuthService) CodeAuthService(ctx context.Context, code string) (*re
 		return resp.Forbidden("EXPIRED_CODE"), nil
 	}
 
-	rst, err := s.usi.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
+	rst, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
 	if ent.IsNotFound(err) {
 		return sendRegisterMail(ctx, conf, codeAuth)
 	}
 
-	return generateTokensForUser(ctx, conf, client, rst.User, conf.Domain)
+	return generateTokensForUser(ctx, conf, client, rst.User)
 }
 
 // Helper functions for codeAuthService
@@ -67,7 +67,7 @@ func isCodeExpired(createdAt time.Time) bool {
 	return time.Now().After(createdAt.Add(24 * time.Hour))
 }
 
-func sendRegisterMail(ctx context.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*resp.Exception, error) {
+func sendRegisterMail(_ context.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*resp.Exception, error) {
 	subject := "email-register"
 	payload := types.JSON{"email": codeAuth.Email, "id": codeAuth.ID}
 	registerToken, err := jwt.GenerateRegisterToken(conf.Auth.JWT.Secret, codeAuth.ID, payload, subject)
@@ -78,7 +78,7 @@ func sendRegisterMail(ctx context.Context, conf *config.Config, codeAuth *ent.Co
 	return &resp.Exception{Data: types.JSON{"email": codeAuth.Email, "register_token": registerToken}}, nil
 }
 
-func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent.Client, user *userStructs.UserBody, tenant string) (*resp.Exception, error) {
+func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent.Client, user *userStructs.UserBody) (*resp.Exception, error) {
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return resp.Transactions(err.Error()), nil
@@ -110,7 +110,7 @@ func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent
 func (s *codeAuthService) SendCodeService(ctx context.Context, body *structs.SendCodeBody) (*resp.Exception, error) {
 	client := s.d.GetEntClient()
 
-	user, _ := s.usi.FindUser(ctx, &userStructs.FindUser{Email: body.Email, Phone: body.Phone})
+	user, _ := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: body.Email, Phone: body.Phone})
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return resp.Transactions(err.Error()), nil

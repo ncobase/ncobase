@@ -29,17 +29,17 @@ type AuthServiceInterface interface {
 type authService struct {
 	d   *data.Data
 	cas CodeAuthServiceInterface
-	usi userService.UserServiceInterface
-	tsi tenantService.TenantServiceInterface
+	us  *userService.Service
+	ts  *tenantService.Service
 }
 
 // NewAuthService creates a new service.
-func NewAuthService(d *data.Data, cas CodeAuthServiceInterface, usi userService.UserServiceInterface, tsi tenantService.TenantServiceInterface) AuthServiceInterface {
+func NewAuthService(d *data.Data, cas CodeAuthServiceInterface, us *userService.Service, ts *tenantService.Service) AuthServiceInterface {
 	return &authService{
 		d:   d,
 		cas: cas,
-		usi: usi,
-		tsi: tsi,
+		us:  us,
+		ts:  ts,
 	}
 }
 
@@ -48,7 +48,7 @@ func (s *authService) LoginService(ctx context.Context, body *structs.LoginBody)
 	conf := helper.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
-	rst, err := s.usi.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
+	rst, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
 	if exception, err := handleEntError("User", err); exception != nil {
 		return exception, err
 	}
@@ -57,7 +57,7 @@ func (s *authService) LoginService(ctx context.Context, body *structs.LoginBody)
 		return resp.Forbidden("Your account has not been activated"), nil
 	}
 
-	verifyResult := s.usi.VerifyUserPassword(ctx, rst.User.ID, body.Password)
+	verifyResult := s.us.User.VerifyUserPassword(ctx, rst.User.ID, body.Password)
 	switch v := verifyResult.(type) {
 	case userService.VerifyPasswordResult:
 		if v.Valid == false {
@@ -73,7 +73,7 @@ func (s *authService) LoginService(ctx context.Context, body *structs.LoginBody)
 		return resp.InternalServer(v.Error()), nil
 	}
 
-	return generateTokensForUser(ctx, conf, client, rst.User, conf.Domain)
+	return generateTokensForUser(ctx, conf, client, rst.User)
 }
 
 // RegisterService register service
@@ -88,7 +88,7 @@ func (s *authService) RegisterService(ctx context.Context, body *structs.Registe
 	}
 
 	// Verify user existence
-	exists, err := s.usi.FindUser(ctx, &userStructs.FindUser{
+	exists, err := s.us.User.FindUser(ctx, &userStructs.FindUser{
 		Username: body.Username,
 		Email:    payload["email"].(string),
 		Phone:    body.Phone,
@@ -120,7 +120,7 @@ func (s *authService) RegisterService(ctx context.Context, body *structs.Registe
 		return resp.InternalServer(err.Error()), nil
 	}
 
-	if _, err := s.tsi.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
+	if _, err := s.ts.Tenant.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
 		TenantBody: tenantStructs.TenantBody{Name: body.Tenant, CreatedBy: &rst.User.ID, UpdatedBy: &rst.User.ID},
 	}); err != nil {
 		if err := tx.Rollback(); err != nil {
@@ -183,7 +183,7 @@ func disableCodeAuth(ctx context.Context, client *ent.Client, id string) error {
 }
 
 func createUserAndProfile(ctx context.Context, svc *authService, body *structs.RegisterBody, payload types.JSON) (*userStructs.UserMeshes, error) {
-	rst, err := svc.usi.CreateUserService(ctx, &userStructs.UserMeshes{
+	rst, err := svc.us.User.CreateUserService(ctx, &userStructs.UserMeshes{
 		User: &userStructs.UserBody{
 			Username: body.Username,
 			Email:    payload["email"].(string),

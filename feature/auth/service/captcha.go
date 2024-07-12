@@ -8,7 +8,6 @@ import (
 	"ncobase/feature/auth/data"
 	"ncobase/feature/auth/data/repository"
 	"ncobase/feature/auth/structs"
-	userService "ncobase/feature/user/service"
 
 	"github.com/dchest/captcha"
 )
@@ -23,13 +22,12 @@ type CaptchaServiceInterface interface {
 // captchaService is the struct for the service.
 type captchaService struct {
 	captcha repository.CaptchaRepositoryInterface
-	usi     userService.UserServiceInterface
 }
 
 // NewCaptchaService creates a new service.
-func NewCaptchaService(d *data.Data, usi userService.UserServiceInterface) CaptchaServiceInterface {
+func NewCaptchaService(d *data.Data) CaptchaServiceInterface {
 	return &captchaService{
-		usi: usi,
+		captcha: repository.NewCaptchaRepository(d),
 	}
 }
 

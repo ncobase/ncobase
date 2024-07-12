@@ -71,12 +71,12 @@ func (p *Plugin) PostInit() error {
 func (p *Plugin) RegisterRoutes(e *gin.Engine) {}
 
 // GetHandlers returns the handlers for the plugin
-func (p *Plugin) GetHandlers() map[string]feature.Handler {
+func (p *Plugin) GetHandlers() feature.Handler {
 	return nil
 }
 
 // GetServices returns the services for the plugin
-func (p *Plugin) GetServices() map[string]feature.Service {
+func (p *Plugin) GetServices() feature.Service {
 	return nil
 }
 

@@ -15,12 +15,12 @@ type Service struct {
 }
 
 // New creates a new service.
-func New(d *data.Data, usi userService.UserServiceInterface, tsi tenantService.TenantServiceInterface) *Service {
-	cas := NewCodeAuthService(d, usi)
+func New(d *data.Data, us *userService.Service, ts *tenantService.Service) *Service {
+	cas := NewCodeAuthService(d, us)
 	return &Service{
-		Auth:     NewAuthService(d, cas, usi, tsi),
+		Auth:     NewAuthService(d, cas, us, ts),
 		CodeAuth: cas,
-		Captcha:  NewCaptchaService(d, usi),
+		Captcha:  NewCaptchaService(d),
 		// OAuth:    NewOAuthService(d),
 	}
 }

@@ -121,26 +121,13 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() map[string]feature.Handler {
-	return map[string]feature.Handler{
-		"access":          m.h.Permission,
-		"role":            m.h.Role,
-		"casbin":          m.h.Casbin,
-		"role_permission": m.h.RolePermission,
-	}
+func (m *Module) GetHandlers() feature.Handler {
+	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() map[string]feature.Service {
-	return map[string]feature.Service{
-		"access":           m.s.Permission,
-		"role":             m.s.Role,
-		"casbin":           m.s.Casbin,
-		"casbin_adapter":   m.s.CasbinAdapter,
-		"role_permission":  m.s.RolePermission,
-		"user_role":        m.s.UserRole,
-		"user_tenant_role": m.s.UserTenantRole,
-	}
+func (m *Module) GetServices() feature.Service {
+	return m.s
 }
 
 // PreCleanup performs any necessary cleanup before the main cleanup

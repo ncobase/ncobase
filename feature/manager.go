@@ -341,29 +341,28 @@ func getInitOrder(features map[string]*Wrapper) ([]string, error) {
 }
 
 // GetHandler returns a specific handler from a feature
-func (m *Manager) GetHandler(featureName string, handlerName string) (Handler, error) {
+func (m *Manager) GetHandler(f string) (Handler, error) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 
-	feature, exists := m.features[featureName]
+	feature, exists := m.features[f]
 	if !exists {
-		return nil, fmt.Errorf("feature %s not found", featureName)
+		return nil, fmt.Errorf("feature %s not found", f)
 	}
 
-	handlers := feature.Instance.GetHandlers()
-	handler, exists := handlers[handlerName]
-	if !exists {
-		return nil, fmt.Errorf("handler %s not found in feature %s", handlerName, featureName)
+	handler := feature.Instance.GetHandlers()
+	if handler == nil {
+		return nil, fmt.Errorf("no handler found in feature %s", f)
 	}
 
 	return handler, nil
 }
 
 // GetHandlers returns all registered feature handlers
-func (m *Manager) GetHandlers() map[string]map[string]Handler {
+func (m *Manager) GetHandlers() map[string]Handler {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
-	handlers := make(map[string]map[string]Handler)
+	handlers := make(map[string]Handler)
 	for name, feature := range m.features {
 		handlers[name] = feature.Instance.GetHandlers()
 	}
@@ -371,30 +370,29 @@ func (m *Manager) GetHandlers() map[string]map[string]Handler {
 }
 
 // GetService returns a specific service from a feature
-func (m *Manager) GetService(featureName string, serviceName string) (Service, error) {
+func (m *Manager) GetService(f string) (Service, error) {
 	m.mu.RLock()
-	feature, exists := m.features[featureName]
+	feature, exists := m.features[f]
 	m.mu.RUnlock()
 
 	if !exists {
-		return nil, fmt.Errorf("feature %s not found", featureName)
+		return nil, fmt.Errorf("feature %s not found", f)
 	}
 
-	services := feature.Instance.GetServices()
-	service, exists := services[serviceName]
-	if !exists {
-		return nil, fmt.Errorf("service %s not found in feature %s", serviceName, featureName)
+	service := feature.Instance.GetServices()
+	if service == nil {
+		return nil, fmt.Errorf("no service found in feature %s", f)
 	}
 
 	return service, nil
 }
 
 // GetServices returns all registered feature services
-func (m *Manager) GetServices() map[string]map[string]Service {
+func (m *Manager) GetServices() map[string]Service {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 
-	services := make(map[string]map[string]Service)
+	services := make(map[string]Service)
 	for name, feature := range m.features {
 		services[name] = feature.Instance.GetServices()
 	}
@@ -504,12 +502,12 @@ func (m *Manager) ReloadPlugins() error {
 }
 
 // PublishEvent publishes an event to all features
-func (m *Manager) PublishEvent(eventName string, data interface{}) {
+func (m *Manager) PublishEvent(eventName string, data any) {
 	m.eventBus.Publish(eventName, data)
 }
 
 // SubscribeEvent allows a feature to subscribe to an event
-func (m *Manager) SubscribeEvent(eventName string, handler func(interface{})) {
+func (m *Manager) SubscribeEvent(eventName string, handler func(any)) {
 	m.eventBus.Subscribe(eventName, handler)
 }
 

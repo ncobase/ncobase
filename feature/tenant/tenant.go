@@ -68,28 +68,17 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
 	// get user service
-	usi, err := m.getUserService(m.fm)
+	us, err := m.getUserService(m.fm)
 	if err != nil {
 		return err
 	}
-	// get role service
-	rsi, err := m.getRoleService(m.fm)
-	if err != nil {
-		return err
-	}
-	// get user role service
-	ursi, err := m.getUserRoleService(m.fm)
+	// get access service
+	as, err := m.getRoleService(m.fm)
 	if err != nil {
 		return err
 	}
 
-	// get user tenant role service
-	utrsi, err := m.getUserTenantRoleService(m.fm)
-	if err != nil {
-		return err
-	}
-
-	m.s = service.New(m.d, usi, rsi, ursi, utrsi)
+	m.s = service.New(m.d, us, as)
 	m.h = handler.New(m.s)
 
 	return nil
@@ -178,18 +167,13 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() map[string]feature.Handler {
-	return map[string]feature.Handler{
-		"tenant": m.h.Tenant,
-	}
+func (m *Module) GetHandlers() feature.Handler {
+	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() map[string]feature.Service {
-	return map[string]feature.Service{
-		"tenant":      m.s.Tenant,
-		"user_tenant": m.s.UserTenant,
-	}
+func (m *Module) GetServices() feature.Service {
+	return m.s
 }
 
 // PreCleanup performs any necessary cleanup before the main cleanup
@@ -232,61 +216,27 @@ func (m *Module) Dependencies() []string {
 }
 
 // GetUserService returns the user service
-func (m *Module) getUserService(fm *feature.Manager) (userService.UserServiceInterface, error) {
-	us, err := fm.GetService("user", "user")
+func (m *Module) getUserService(fm *feature.Manager) (*userService.Service, error) {
+	f, err := fm.GetService("user")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user service: %v", err)
 	}
-	usi, ok := us.(userService.UserServiceInterface)
+	us, ok := f.(*userService.Service)
 	if !ok {
-		return nil, fmt.Errorf("user service does not implement UserServiceInterface")
+		return nil, fmt.Errorf("user service does not implement")
 	}
-	return usi, nil
+	return us, nil
 }
 
 // GetRoleService returns the role service
-func (m *Module) getRoleService(fm *feature.Manager) (accessService.RoleServiceInterface, error) {
-	rs, err := fm.GetService("access", "role")
+func (m *Module) getRoleService(fm *feature.Manager) (*accessService.Service, error) {
+	f, err := fm.GetService("access")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get access service: %v", err)
 	}
-	rsi, ok := rs.(accessService.RoleServiceInterface)
+	as, ok := f.(*accessService.Service)
 	if !ok {
-		return nil, fmt.Errorf("access service does not implement AccessServiceInterface")
+		return nil, fmt.Errorf("access service does not implement")
 	}
-	return rsi, nil
-}
-
-// GetUserRoleService returns the user role service
-func (m *Module) getUserRoleService(fm *feature.Manager) (accessService.UserRoleServiceInterface, error) {
-	// get user role service
-	ursi, err := fm.GetService("access", "user_role")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get access service: %v", err)
-	}
-
-	// Type assertion to ensure we have the correct interface
-	userRoleServiceImpl, ok := ursi.(accessService.UserRoleServiceInterface)
-	if !ok {
-		return nil, fmt.Errorf("access service does not implement AccessServiceInterface")
-	}
-
-	return userRoleServiceImpl, nil
-}
-
-// getUserTenantRoleService returns the user tenant role service
-func (m *Module) getUserTenantRoleService(fm *feature.Manager) (accessService.UserTenantRoleServiceInterface, error) {
-	utrsi, err := fm.GetService("access", "user_tenant_role")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get tenant service: %v", err)
-	}
-
-	// type assertion to ensure we have the correct interface
-	userTenantRoleServiceImpl, ok := utrsi.(accessService.UserTenantRoleServiceInterface)
-	if !ok {
-		return nil, fmt.Errorf("tenant service does not implement TenantServiceInterface")
-	}
-
-	return userTenantRoleServiceImpl, nil
-
+	return as, nil
 }

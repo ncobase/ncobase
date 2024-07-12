@@ -6,19 +6,19 @@ import (
 
 // EventBus represents a simple event bus for inter-feature communication
 type EventBus struct {
-	subscribers map[string][]func(interface{})
+	subscribers map[string][]func(any)
 	mu          sync.RWMutex
 }
 
 // NewEventBus creates a new EventBus
 func NewEventBus() *EventBus {
 	return &EventBus{
-		subscribers: make(map[string][]func(interface{})),
+		subscribers: make(map[string][]func(any)),
 	}
 }
 
 // Subscribe adds a subscriber for a specific event
-func (eb *EventBus) Subscribe(eventName string, handler func(interface{})) {
+func (eb *EventBus) Subscribe(eventName string, handler func(any)) {
 	eb.mu.Lock()
 	defer eb.mu.Unlock()
 
@@ -26,7 +26,7 @@ func (eb *EventBus) Subscribe(eventName string, handler func(interface{})) {
 }
 
 // Publish sends an event to all subscribers
-func (eb *EventBus) Publish(eventName string, data interface{}) {
+func (eb *EventBus) Publish(eventName string, data any) {
 	eb.mu.RLock()
 	defer eb.mu.RUnlock()
 
