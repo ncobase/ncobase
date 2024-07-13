@@ -6,7 +6,7 @@ use (
 	./feature/auth
 	./feature/content
 	./feature/group
-	./feature/relationship
+	./feature/linker
 	./feature/resource
 	./feature/system
 	./feature/tenant

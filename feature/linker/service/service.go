@@ -1,6 +1,6 @@
 package service
 
-import "ncobase/feature/relationship/data"
+import "ncobase/feature/linker/data"
 
 // Service is the struct for the relationship service.
 type Service struct {

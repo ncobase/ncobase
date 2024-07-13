@@ -10,7 +10,7 @@
 ├── content/              # Content management
 ├── group/                # Group management
 ├── init/                 # System initialization
-├── relationship/         # Relationship management (consider merging into other modules)
+├── linker/               # Relationship management
 ├── resource/             # Resource management
 ├── system/               # System-related feature, built-in
 ├── tenant/               # Tenant management

@@ -7,6 +7,7 @@ import (
 	"ncobase/feature/access"
 	"ncobase/feature/auth"
 	"ncobase/feature/group"
+	"ncobase/feature/linker"
 	"ncobase/feature/system"
 	"ncobase/feature/tenant"
 	"ncobase/feature/user"
@@ -22,6 +23,7 @@ func registerFeatures(fm *feature.Manager) {
 		system.New(),
 		auth.New(),
 		// add more built-in components here, disordered
+		linker.New(), // Must be the last one
 	}
 
 	var sfs []feature.Interface

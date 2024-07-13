@@ -305,17 +305,28 @@ func getInitOrder(features map[string]*Wrapper) ([]string, error) {
 	graph := make(map[string][]string)
 	inDegree := make(map[string]int)
 
+	// Build dependency graph and calculate in-degrees
 	for name, feature := range features {
+		if name == "linker" {
+			continue // Skip 'linker'
+		}
+
 		for _, dep := range feature.Metadata.Dependencies {
+			if dep == "linker" {
+				continue // Skip dependency on 'linker'
+			}
 			graph[dep] = append(graph[dep], name)
 			inDegree[name]++
 		}
 	}
 
+	// Initialize order and queue
 	var order []string
 	var queue []string
+
+	// Initialize queue with features that have zero in-degree
 	for name := range features {
-		if inDegree[name] == 0 {
+		if inDegree[name] == 0 && name != "linker" {
 			queue = append(queue, name)
 		}
 	}
@@ -327,13 +338,16 @@ func getInitOrder(features map[string]*Wrapper) ([]string, error) {
 
 		for _, dep := range graph[name] {
 			inDegree[dep]--
-			if inDegree[dep] == 0 {
+			if inDegree[dep] == 0 && dep != "linker" {
 				queue = append(queue, dep)
 			}
 		}
 	}
 
-	if len(order) != len(features) {
+	// Append 'linker' module at the end of the order if it exists
+	if _, ok := features["linker"]; ok {
+		order = append(order, "linker")
+	} else if len(order) != len(features) {
 		return nil, fmt.Errorf("cyclic dependency detected")
 	}
 

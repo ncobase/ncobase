@@ -1,4 +1,4 @@
-module ncobase/feature/relationship
+module ncobase/feature/linker
 
 go 1.22.3
 
