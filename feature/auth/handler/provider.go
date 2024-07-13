@@ -6,7 +6,7 @@ import (
 
 // Handler represents the auth handler.
 type Handler struct {
-	Auth     AuthHandlerInterface
+	Account  AccountHandlerInterface
 	CodeAuth CodeAuthHandlerInterface
 	Captcha  CaptchaHandlerInterface
 	// OAuth    OAuthHandlerInterface
@@ -15,7 +15,7 @@ type Handler struct {
 // New creates a new auth handler.
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		Auth:     NewAuthHandler(svc),
+		Account:  NewAccountHandler(svc),
 		CodeAuth: NewCodeAuthHandler(svc),
 		Captcha:  NewCaptchaHandler(svc),
 		// OAuth:    NewOAuthHandler(svc),

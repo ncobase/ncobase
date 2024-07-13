@@ -1,6 +1,12 @@
 package structs
 
-import "ncobase/common/oauth"
+import (
+	"ncobase/common/oauth"
+	accessStructs "ncobase/feature/access/structs"
+	groupStructs "ncobase/feature/group/structs"
+	tenantStructs "ncobase/feature/tenant/structs"
+	userStructs "ncobase/feature/user/structs"
+)
 
 // SendCodeBody Send verify code body
 type SendCodeBody struct {
@@ -52,4 +58,13 @@ type LoginBody struct {
 	Username string   `json:"username" validate:"required"`
 	Password string   `json:"password" validate:"required"`
 	Captcha  *Captcha `json:"captcha,omitempty"`
+}
+
+// AccountMeshes represents the account meshes.
+type AccountMeshes struct {
+	User    *userStructs.ReadUser        `json:"user,omitempty"`
+	Profile *userStructs.ReadUserProfile `json:"profile,omitempty"`
+	Roles   []*accessStructs.ReadRole    `json:"roles,omitempty"`
+	Tenants []*tenantStructs.ReadTenant  `json:"tenants,omitempty"`
+	Groups  []*groupStructs.ReadGroup    `json:"groups,omitempty"`
 }

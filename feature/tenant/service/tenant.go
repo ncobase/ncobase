@@ -5,16 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
-	accessService "ncobase/feature/access/service"
 	"ncobase/feature/tenant/data"
 	"ncobase/feature/tenant/data/ent"
 	"ncobase/feature/tenant/data/repository"
 	"ncobase/feature/tenant/structs"
-	userService "ncobase/feature/user/service"
-	userStructs "ncobase/feature/user/structs"
 	"ncobase/helper"
 )
 
@@ -26,12 +22,12 @@ type TenantServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTenantBody) (*structs.ReadTenant, error)
 	Update(ctx context.Context, body *structs.UpdateTenantBody) (*structs.ReadTenant, error)
 	Get(ctx context.Context, id string) (*structs.ReadTenant, error)
+	GetBySlug(ctx context.Context, id string) (*structs.ReadTenant, error)
 	GetByUser(ctx context.Context, uid string) (*structs.ReadTenant, error)
 	Find(ctx context.Context, id string) (*structs.ReadTenant, error)
 	Delete(ctx context.Context, id string) error
+	CountX(ctx context.Context, params *structs.ListTenantParams) int
 	List(ctx context.Context, params *structs.ListTenantParams) (*types.JSON, error)
-	CreateInitial(ctx context.Context, body *structs.CreateTenantBody) (*structs.ReadTenant, error)
-	IsCreate(ctx context.Context, body *structs.CreateTenantBody) (*structs.ReadTenant, error)
 	Serializes(rows []*ent.Tenant) []*structs.ReadTenant
 	Serialize(tenant *ent.Tenant) *structs.ReadTenant
 }
@@ -40,17 +36,13 @@ type TenantServiceInterface interface {
 type tenantService struct {
 	tenant     repository.TenantRepositoryInterface
 	userTenant repository.UserTenantRepositoryInterface
-	us         *userService.Service
-	as         *accessService.Service
 }
 
 // NewTenantService creates a new service.
-func NewTenantService(d *data.Data, us *userService.Service, as *accessService.Service) TenantServiceInterface {
+func NewTenantService(d *data.Data) TenantServiceInterface {
 	return &tenantService{
 		tenant:     repository.NewTenantRepository(d),
 		userTenant: repository.NewUserTenantRepository(d),
-		us:         us,
-		as:         as,
 	}
 }
 
@@ -198,6 +190,18 @@ func (s *tenantService) Get(ctx context.Context, id string) (*structs.ReadTenant
 	return row, nil
 }
 
+// GetBySlug returns the tenant for the provided slug
+func (s *tenantService) GetBySlug(ctx context.Context, slug string) (*structs.ReadTenant, error) {
+	if slug == "" {
+		return nil, errors.New(ecode.FieldIsInvalid("Slug"))
+	}
+	tenant, err := s.tenant.GetBySlug(ctx, slug)
+	if err := handleEntError("Tenant", err); err != nil {
+		return nil, err
+	}
+	return s.Serialize(tenant), nil
+}
+
 // GetByUser returns the tenant for the created by user
 func (s *tenantService) GetByUser(ctx context.Context, uid string) (*structs.ReadTenant, error) {
 	if uid == "" {
@@ -255,85 +259,9 @@ func (s *tenantService) List(ctx context.Context, params *structs.ListTenantPara
 	}, nil
 }
 
-// CreateInitial creates the initial tenant, initializes roles, and user relationships.
-func (s *tenantService) CreateInitial(ctx context.Context, body *structs.CreateTenantBody) (*structs.ReadTenant, error) {
-	// Create the default tenant
-	tenant, err := s.Create(ctx, body)
-	if err != nil {
-		return nil, err
-	}
-
-	// Get or create the super admin role
-	superAdminRole, err := s.as.Role.Find(ctx, "super-admin")
-	if ent.IsNotFound(err) {
-		// Super admin role does not exist, create it
-		superAdminRole, err = s.as.Role.CreateSuperAdminRole(ctx)
-		if err != nil {
-			return nil, err
-		}
-	} else if err != nil {
-		return nil, err
-	}
-
-	// Assign the user to the default tenant with the super admin role
-	if body.CreatedBy != nil {
-		_, err = s.userTenant.Create(ctx, &structs.UserTenant{UserID: *body.CreatedBy, TenantID: tenant.ID})
-		if err != nil {
-			return nil, err
-		}
-
-		// Assign the tenant to the super admin role
-		_, err = s.as.UserTenantRole.AddRoleToUserInTenant(ctx, *body.CreatedBy, superAdminRole.ID, tenant.ID)
-		if err != nil {
-			return nil, err
-		}
-
-		// Assign the super admin role to the user
-		if err = s.as.UserRole.AddRoleToUser(ctx, *body.CreatedBy, superAdminRole.ID); err != nil {
-			return nil, err
-		}
-	}
-
-	return tenant, nil
-}
-
-// IsCreate checks if a tenant needs to be created and initializes tenant, roles, and user relationships if necessary.
-func (s *tenantService) IsCreate(ctx context.Context, body *structs.CreateTenantBody) (*structs.ReadTenant, error) {
-	if body.CreatedBy == nil {
-		return nil, errors.New("invalid user ID")
-	}
-
-	// If slug is not provided, generate it
-	if body.Slug == "" && body.Name != "" {
-		body.Slug = slug.Unicode(body.Name)
-	}
-
-	// Check the number of existing users
-	countUsers := s.us.User.CountX(ctx, &userStructs.ListUserParams{})
-
-	// If there are no existing users, create the initial tenant
-	if countUsers <= 1 {
-		return s.CreateInitial(ctx, body)
-	}
-
-	// If there are existing users, check if the user already has a tenant
-	existingTenant, err := s.GetByUser(ctx, *body.CreatedBy)
-	if ent.IsNotFound(err) {
-		// No existing tenant found for the user, proceed with tenant creation
-	} else if err != nil {
-		return nil, err
-	} else {
-		// If the user already has a tenant, return the existing tenant
-		return existingTenant, nil
-	}
-
-	// If there are no existing tenants and body.Tenant is not empty, create the initial tenant
-	if body.TenantBody.Name != "" {
-		return s.CreateInitial(ctx, body)
-	}
-
-	return nil, nil
-
+// CountX gets a count of tenants.
+func (s *tenantService) CountX(ctx context.Context, params *structs.ListTenantParams) int {
+	return s.tenant.CountX(ctx, params)
 }
 
 // Serializes serialize tenants

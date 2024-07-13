@@ -34,7 +34,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.UserMeshes"
+                            "$ref": "#/definitions/structs.AccountMeshes"
                         }
                     },
                     "400": {
@@ -2764,7 +2764,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.UserMeshes"
+                            "$ref": "#/definitions/structs.AccountMeshes"
                         }
                     },
                     "400": {
@@ -2844,6 +2844,35 @@ const docTemplate = `{
         "ncobase_common_types.JSON": {
             "type": "object",
             "additionalProperties": {}
+        },
+        "structs.AccountMeshes": {
+            "type": "object",
+            "properties": {
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadGroup"
+                    }
+                },
+                "profile": {
+                    "$ref": "#/definitions/structs.ReadUserProfile"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadRole"
+                    }
+                },
+                "tenants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadTenant"
+                    }
+                },
+                "user": {
+                    "$ref": "#/definitions/structs.ReadUser"
+                }
+            }
         },
         "structs.Captcha": {
             "type": "object",
@@ -3634,6 +3663,67 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadUser": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_admin": {
+                    "type": "boolean"
+                },
+                "is_certified": {
+                    "type": "boolean"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadUserProfile": {
+            "type": "object",
+            "properties": {
+                "about": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "short_bio": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.RegisterBody": {
             "type": "object",
             "required": [
@@ -3935,70 +4025,6 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UserBody": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_admin": {
-                    "type": "boolean"
-                },
-                "is_certified": {
-                    "type": "boolean"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UserMeshes": {
-            "type": "object",
-            "properties": {
-                "groups": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadGroup"
-                    }
-                },
-                "profile": {
-                    "$ref": "#/definitions/structs.UserProfileBody"
-                },
-                "roles": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadRole"
-                    }
-                },
-                "tenants": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadTenant"
-                    }
-                },
-                "user": {
-                    "$ref": "#/definitions/structs.UserBody"
-                }
-            }
-        },
         "structs.UserPassword": {
             "type": "object",
             "required": [
@@ -4017,35 +4043,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UserProfileBody": {
-            "type": "object",
-            "properties": {
-                "about": {
-                    "type": "string"
-                },
-                "display_name": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "links": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
-                    }
-                },
-                "short_bio": {
-                    "type": "string"
-                },
-                "thumbnail": {
                     "type": "string"
                 }
             }

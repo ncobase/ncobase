@@ -5,7 +5,6 @@ import (
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
-	accessService "ncobase/feature/access/service"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/handler"
 	"ncobase/feature/user/service"
@@ -18,7 +17,7 @@ var (
 	name         = "user"
 	desc         = "user module"
 	version      = "1.0.0"
-	dependencies = []string{"access"}
+	dependencies []string
 )
 
 // Module represents the user module.
@@ -67,15 +66,8 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-
-	as, err := m.getAccessService()
-	if err != nil || as == nil {
-		return err
-	}
-
-	m.s = service.New(m.d, as)
+	m.s = service.New(m.d)
 	m.h = handler.New(m.s)
-
 	return nil
 }
 
@@ -92,7 +84,6 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// Account endpoints
 	account := v1.Group("/account", middleware.AuthenticatedUser)
 	{
-		account.GET("", m.h.User.GetMeHandler)
 		account.PUT("/password", m.h.User.UpdatePasswordHandler)
 		// account.GET("/tenant", m.h.User.AccountTenantHandler)
 		// account.GET("/tenants", m.h.User.AccountTenantsHandler)
@@ -161,17 +152,4 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the plugin
 func (m *Module) Dependencies() []string {
 	return dependencies
-}
-
-// GetAccessService returns the access service
-func (m *Module) getAccessService() (*accessService.Service, error) {
-	f, err := m.fm.GetService("access")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get access service: %v", err)
-	}
-	as, ok := f.(*accessService.Service)
-	if !ok {
-		return nil, fmt.Errorf("access service does not implement")
-	}
-	return as, nil
 }

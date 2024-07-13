@@ -18,10 +18,12 @@ type RoleServiceInterface interface {
 	Update(ctx context.Context, roleID string, updates types.JSON) (*structs.ReadRole, error)
 	Delete(ctx context.Context, roleID string) error
 	GetByID(ctx context.Context, roleID string) (*structs.ReadRole, error)
+	GetBySlug(ctx context.Context, roleSlug string) (*structs.ReadRole, error)
 	GetByIDs(ctx context.Context, roleIDs []string) ([]*structs.ReadRole, error)
 	Find(ctx context.Context, r string) (*structs.ReadRole, error)
 	CreateSuperAdminRole(ctx context.Context) (*structs.ReadRole, error)
-	List(ctx context.Context, params *structs.ListRoleParams) (*types.JSON, error)
+	List(ctx context.Context, params *structs.ListRoleParams) (types.JSON, error)
+	CountX(ctx context.Context, params *structs.ListRoleParams) int
 	Serialize(row *ent.Role) *structs.ReadRole
 	Serializes(rows []*ent.Role) []*structs.ReadRole
 }
@@ -73,6 +75,15 @@ func (s *roleService) GetByID(ctx context.Context, roleID string) (*structs.Read
 	return s.Serialize(row), nil
 }
 
+// GetBySlug retrieves a role by its slug.
+func (s *roleService) GetBySlug(ctx context.Context, roleSlug string) (*structs.ReadRole, error) {
+	row, err := s.role.GetBySlug(ctx, roleSlug)
+	if err := handleEntError("Role", err); err != nil {
+		return nil, err
+	}
+	return s.Serialize(row), nil
+}
+
 // GetByIDs retrieves roles by their IDs.
 func (s *roleService) GetByIDs(ctx context.Context, roleIDs []string) ([]*structs.ReadRole, error) {
 	rows, err := s.role.GetByIDs(ctx, roleIDs)
@@ -118,7 +129,7 @@ func (s *roleService) CreateSuperAdminRole(ctx context.Context) (*structs.ReadRo
 }
 
 // List lists all roles.
-func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) (*types.JSON, error) {
+func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) (types.JSON, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
@@ -135,10 +146,15 @@ func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) 
 
 	total := s.role.CountX(ctx, params)
 
-	return &types.JSON{
+	return types.JSON{
 		"content": s.Serializes(rs),
 		"total":   total,
 	}, nil
+}
+
+// CountX gets a count of roles.
+func (s *roleService) CountX(ctx context.Context, params *structs.ListRoleParams) int {
+	return s.role.CountX(ctx, params)
 }
 
 // Serializes serializes a list of role entities to a response format.

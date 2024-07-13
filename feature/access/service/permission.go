@@ -19,7 +19,8 @@ type PermissionServiceInterface interface {
 	Delete(ctx context.Context, permissionID string) error
 	GetByID(ctx context.Context, permissionID string) (*structs.ReadPermission, error)
 	GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*structs.ReadPermission, error)
-	List(ctx context.Context, params *structs.ListPermissionParams) (*types.JSON, error)
+	List(ctx context.Context, params *structs.ListPermissionParams) (types.JSON, error)
+	CountX(ctx context.Context, params *structs.ListPermissionParams) int
 	Serialize(row *ent.Permission) *structs.ReadPermission
 	Serializes(rows []*ent.Permission) []*structs.ReadPermission
 }
@@ -92,7 +93,7 @@ func (s *permissionService) GetPermissionsByRoleID(ctx context.Context, roleID s
 }
 
 // List lists all permissions.
-func (s *permissionService) List(ctx context.Context, params *structs.ListPermissionParams) (*types.JSON, error) {
+func (s *permissionService) List(ctx context.Context, params *structs.ListPermissionParams) (types.JSON, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
 		params.Limit = 20
@@ -109,10 +110,15 @@ func (s *permissionService) List(ctx context.Context, params *structs.ListPermis
 
 	total := s.permission.CountX(ctx, params)
 
-	return &types.JSON{
+	return types.JSON{
 		"content": s.Serializes(rows),
 		"total":   total,
 	}, nil
+}
+
+// CountX gets a count of permissions.
+func (s *permissionService) CountX(ctx context.Context, params *structs.ListPermissionParams) int {
+	return s.permission.CountX(ctx, params)
 }
 
 // Serializes serializes a list of permission entities to a response format.

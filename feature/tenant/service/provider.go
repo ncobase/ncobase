@@ -1,9 +1,7 @@
 package service
 
 import (
-	accessService "ncobase/feature/access/service"
 	"ncobase/feature/tenant/data"
-	userService "ncobase/feature/user/service"
 )
 
 // Service represents the tenant service.
@@ -13,8 +11,8 @@ type Service struct {
 }
 
 // New creates a new service.
-func New(d *data.Data, us *userService.Service, as *accessService.Service) *Service {
-	ts := NewTenantService(d, us, as)
+func New(d *data.Data) *Service {
+	ts := NewTenantService(d)
 	uts := NewUserTenantService(d, ts)
 
 	return &Service{

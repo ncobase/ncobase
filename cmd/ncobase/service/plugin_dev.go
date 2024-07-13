@@ -5,6 +5,5 @@ package service
 // plugins to be loaded in development mode.
 import (
 	_ "ncobase/feature/content"
-	_ "ncobase/feature/init"
 	_ "ncobase/feature/resource"
 )

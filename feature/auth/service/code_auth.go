@@ -54,12 +54,12 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 		return nil, errors.New("code expired")
 	}
 
-	rst, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
+	user, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
 	if ent.IsNotFound(err) {
 		return sendRegisterMail(ctx, conf, codeAuth)
 	}
 
-	return generateTokensForUser(ctx, conf, client, rst.User)
+	return generateTokensForUser(ctx, conf, client, user)
 }
 
 // Helper functions for codeAuthService
@@ -78,7 +78,7 @@ func sendRegisterMail(_ context.Context, conf *config.Config, codeAuth *ent.Code
 	return &types.JSON{"email": codeAuth.Email, "register_token": registerToken}, nil
 }
 
-func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent.Client, user *userStructs.UserBody) (*types.JSON, error) {
+func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent.Client, user *userStructs.ReadUser) (*types.JSON, error) {
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return nil, err
@@ -123,7 +123,7 @@ func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBo
 		return nil, err
 	}
 
-	if err := sendAuthEmail(ctx, body.Email, authCode, user.User != nil); err != nil {
+	if err := sendAuthEmail(ctx, body.Email, authCode, user != nil); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return nil, err
 		}
@@ -131,7 +131,7 @@ func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBo
 		return nil, errors.New("send mail failed, please try again or contact support")
 	}
 
-	return &types.JSON{"registered": user.User != nil}, tx.Commit()
+	return &types.JSON{"registered": user != nil}, tx.Commit()
 }
 
 // Helper functions for SendCode

@@ -114,7 +114,7 @@ package service
 // }
 //
 // // createUserEntities Create user and related entities
-// func (svc *oAuthService) createUserEntities(ctx context.Context, tx *ent.Tx, body *authStructs.OAuthRegisterBody, payload authStructs.RegisterTokenBody) (*userStructs.UserMeshes, error) {
+// func (svc *oAuthService) createUserEntities(ctx context.Context, tx *ent.Tx, body *authStructs.OAuthRegisterBody, payload authStructs.RegisterTokenBody) (*userStructs.AccountMeshes, error) {
 // 	user, err := svc.user.Create(ctx, &userStructs.UserBody{
 // 		Username: body.Username,
 // 		Email:    payload.Profile.Email,

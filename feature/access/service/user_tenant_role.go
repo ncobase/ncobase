@@ -10,9 +10,9 @@ import (
 
 // UserTenantRoleServiceInterface is the interface for the service.
 type UserTenantRoleServiceInterface interface {
-	AddRoleToUserInTenant(ctx context.Context, u string, r string, t string) (*structs.UserTenantRole, error)
-	GetUserRolesInTenant(ctx context.Context, u string, t string) ([]string, error)
-	RemoveRoleFromUserInTenant(ctx context.Context, u string, t string, r string) error
+	AddRoleToUserInTenant(ctx context.Context, u, t, r string) (*structs.UserTenantRole, error)
+	GetUserRolesInTenant(ctx context.Context, u, t string) ([]string, error)
+	RemoveRoleFromUserInTenant(ctx context.Context, u, t, r string) error
 }
 
 // userTenantRoleService is the struct for the service.
@@ -28,7 +28,7 @@ func NewUserTenantRoleService(d *data.Data) UserTenantRoleServiceInterface {
 }
 
 // AddRoleToUserInTenant adds a role to a user in a tenant.
-func (s *userTenantRoleService) AddRoleToUserInTenant(ctx context.Context, u string, t string, r string) (*structs.UserTenantRole, error) {
+func (s *userTenantRoleService) AddRoleToUserInTenant(ctx context.Context, u, t, r string) (*structs.UserTenantRole, error) {
 	row, err := s.userTenantRole.Create(ctx, &structs.UserTenantRole{UserID: u, TenantID: t, RoleID: r})
 	if err := handleEntError("UserTenantRole", err); err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (s *userTenantRoleService) GetUserRolesInTenant(ctx context.Context, u stri
 }
 
 // RemoveRoleFromUserInTenant removes a role from a user in a tenant.
-func (s *userTenantRoleService) RemoveRoleFromUserInTenant(ctx context.Context, u string, t string, r string) error {
+func (s *userTenantRoleService) RemoveRoleFromUserInTenant(ctx context.Context, u, t, r string) error {
 	err := s.userTenantRole.DeleteByUserIDAndTenantIDAndRoleID(ctx, u, t, r)
 	if err := handleEntError("UserTenantRole", err); err != nil {
 		return err

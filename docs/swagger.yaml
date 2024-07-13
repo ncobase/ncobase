@@ -18,6 +18,25 @@ definitions:
   ncobase_common_types.JSON:
     additionalProperties: {}
     type: object
+  structs.AccountMeshes:
+    properties:
+      groups:
+        items:
+          $ref: '#/definitions/structs.ReadGroup'
+        type: array
+      profile:
+        $ref: '#/definitions/structs.ReadUserProfile'
+      roles:
+        items:
+          $ref: '#/definitions/structs.ReadRole'
+        type: array
+      tenants:
+        items:
+          $ref: '#/definitions/structs.ReadTenant'
+        type: array
+      user:
+        $ref: '#/definitions/structs.ReadUser'
+    type: object
   structs.Captcha:
     properties:
       id:
@@ -540,6 +559,46 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.ReadUser:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      id:
+        type: string
+      is_admin:
+        type: boolean
+      is_certified:
+        type: boolean
+      phone:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  structs.ReadUserProfile:
+    properties:
+      about:
+        type: string
+      display_name:
+        type: string
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      links:
+        items:
+          $ref: '#/definitions/ncobase_common_types.JSON'
+        type: array
+      short_bio:
+        type: string
+      thumbnail:
+        type: string
+    type: object
   structs.RegisterBody:
     properties:
       display_name:
@@ -739,48 +798,6 @@ definitions:
       updated_by:
         type: string
     type: object
-  structs.UserBody:
-    properties:
-      created_at:
-        type: string
-      email:
-        type: string
-      extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
-      id:
-        type: string
-      is_admin:
-        type: boolean
-      is_certified:
-        type: boolean
-      phone:
-        type: string
-      status:
-        type: integer
-      updated_at:
-        type: string
-      username:
-        type: string
-    type: object
-  structs.UserMeshes:
-    properties:
-      groups:
-        items:
-          $ref: '#/definitions/structs.ReadGroup'
-        type: array
-      profile:
-        $ref: '#/definitions/structs.UserProfileBody'
-      roles:
-        items:
-          $ref: '#/definitions/structs.ReadRole'
-        type: array
-      tenants:
-        items:
-          $ref: '#/definitions/structs.ReadTenant'
-        type: array
-      user:
-        $ref: '#/definitions/structs.UserBody'
-    type: object
   structs.UserPassword:
     properties:
       confirm:
@@ -795,25 +812,6 @@ definitions:
     - confirm
     - new_password
     - user
-    type: object
-  structs.UserProfileBody:
-    properties:
-      about:
-        type: string
-      display_name:
-        type: string
-      extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
-      id:
-        type: string
-      links:
-        items:
-          $ref: '#/definitions/ncobase_common_types.JSON'
-        type: array
-      short_bio:
-        type: string
-      thumbnail:
-        type: string
     type: object
 info:
   contact: {}
@@ -830,7 +828,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.UserMeshes'
+            $ref: '#/definitions/structs.AccountMeshes'
         "400":
           description: bad request
           schema:
@@ -2555,7 +2553,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.UserMeshes'
+            $ref: '#/definitions/structs.AccountMeshes'
         "400":
           description: bad request
           schema:

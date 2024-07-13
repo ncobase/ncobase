@@ -8,10 +8,7 @@ import (
 	"ncobase/feature/tenant/data"
 	"ncobase/feature/tenant/handler"
 	"ncobase/feature/tenant/service"
-	userService "ncobase/feature/user/service"
 	"sync"
-
-	accessService "ncobase/feature/access/service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +17,7 @@ var (
 	name         = "tenant"
 	desc         = "tenant module"
 	version      = "1.0.0"
-	dependencies = []string{"user", "access"}
+	dependencies []string
 )
 
 // Module represents the tenant module.
@@ -67,20 +64,8 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	// get user service
-	us, err := m.getUserService()
-	if err != nil {
-		return err
-	}
-	// get access service
-	as, err := m.getAccessService()
-	if err != nil {
-		return err
-	}
-
-	m.s = service.New(m.d, us, as)
+	m.s = service.New(m.d)
 	m.h = handler.New(m.s)
-
 	return nil
 }
 
@@ -210,30 +195,4 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the plugin
 func (m *Module) Dependencies() []string {
 	return dependencies
-}
-
-// GetUserService returns the user service
-func (m *Module) getUserService() (*userService.Service, error) {
-	f, err := m.fm.GetService("user")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get user service: %v", err)
-	}
-	us, ok := f.(*userService.Service)
-	if !ok {
-		return nil, fmt.Errorf("user service does not implement")
-	}
-	return us, nil
-}
-
-// GetAccessService returns the access service
-func (m *Module) getAccessService() (*accessService.Service, error) {
-	f, err := m.fm.GetService("access")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get access service: %v", err)
-	}
-	as, ok := f.(*accessService.Service)
-	if !ok {
-		return nil, fmt.Errorf("access service does not implement")
-	}
-	return as, nil
 }

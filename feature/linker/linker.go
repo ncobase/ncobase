@@ -5,6 +5,7 @@ import (
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/linker/data"
+	"ncobase/feature/linker/handler"
 	"ncobase/feature/linker/service"
 	"sync"
 
@@ -23,6 +24,7 @@ type Linker struct {
 	initialized bool
 	mu          sync.RWMutex
 	fm          *feature.Manager
+	h           *handler.Handler
 	s           *service.Service
 	d           *data.Data
 	cleanup     func(name ...string)
@@ -61,14 +63,37 @@ func (l *Linker) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (l *Linker) PostInit() error {
-	l.s = service.New(l.d)
+
+	as, err := l.getAuthService()
+	if err != nil {
+		return err
+	}
+	us, err := l.getUserService()
+	if err != nil {
+		return err
+	}
+	ts, err := l.getTenantService()
+	if err != nil {
+		return err
+	}
+	acs, err := l.getAccessService()
+	if err != nil {
+		return err
+	}
+	l.s = service.New(l.d, as, us, ts, acs)
+	l.h = handler.New(l.s)
 	// Subscribe to relevant events
 	l.subscribeEvents(l.fm)
+	// initialize data
+	err = l.s.InitData()
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 // RegisterRoutes registers routes for the linker
-func (l *Linker) RegisterRoutes(e *gin.Engine) {}
+func (l *Linker) RegisterRoutes(_ *gin.Engine) {}
 
 // GetHandlers returns the handlers for the linker
 func (l *Linker) GetHandlers() feature.Handler {
@@ -121,7 +146,7 @@ func (l *Linker) Dependencies() []string {
 }
 
 // SubscribeEvents subscribes to relevant events
-func (l *Linker) subscribeEvents(fm *feature.Manager) {
+func (l *Linker) subscribeEvents(_ *feature.Manager) {
 	// Implement any event subscriptions here
 }
 

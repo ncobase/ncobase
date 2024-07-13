@@ -9,7 +9,6 @@ import (
 	"ncobase/common/crypto"
 	"ncobase/common/ecode"
 	"ncobase/common/log"
-	accessService "ncobase/feature/access/service"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/data/ent"
 	"ncobase/feature/user/data/repository"
@@ -19,47 +18,33 @@ import (
 
 // UserServiceInterface is the interface for the service.
 type UserServiceInterface interface {
-	GetMe(ctx context.Context) (*structs.UserMeshes, error)
-	Get(ctx context.Context, username string) (*structs.UserMeshes, error)
+	Get(ctx context.Context, username string) (*structs.ReadUser, error)
 	UpdatePassword(ctx context.Context, body *structs.UserPassword) error
-	CreateUser(ctx context.Context, body *structs.UserMeshes) (*structs.UserMeshes, error)
-	GetByID(ctx context.Context, u string) (*structs.UserMeshes, error)
+	CreateUser(ctx context.Context, body *structs.UserBody) (*structs.ReadUser, error)
+	GetByID(ctx context.Context, u string) (*structs.ReadUser, error)
 	Delete(ctx context.Context, u string) error
-	FindByID(ctx context.Context, id string) (*structs.UserMeshes, error)
-	FindUser(ctx context.Context, m *structs.FindUser) (*structs.UserMeshes, error)
+	FindByID(ctx context.Context, id string) (*structs.ReadUser, error)
+	FindUser(ctx context.Context, m *structs.FindUser) (*structs.ReadUser, error)
 	VerifyPassword(ctx context.Context, userID string, password string) any
-	Serialize(user *ent.User, sp ...*serializeUserParams) *structs.UserMeshes
+	Serializes(rows []*ent.User) []*structs.ReadUser
+	Serialize(user *ent.User) *structs.ReadUser
 	CountX(ctx context.Context, params *structs.ListUserParams) int
 }
 
 // userService is the struct for the service.
 type userService struct {
-	user        repository.UserRepositoryInterface
-	userProfile repository.UserProfileRepositoryInterface
-	as          *accessService.Service
+	user repository.UserRepositoryInterface
 }
 
 // NewUserService creates a new service.
-func NewUserService(d *data.Data, as *accessService.Service) UserServiceInterface {
+func NewUserService(d *data.Data) UserServiceInterface {
 	return &userService{
-		user:        repository.NewUserRepository(d),
-		userProfile: repository.NewUserProfileRepository(d),
-		as:          as,
+		user: repository.NewUserRepository(d),
 	}
-}
-
-// GetMe get current user service
-func (s *userService) GetMe(ctx context.Context) (*structs.UserMeshes, error) {
-	user, err := s.user.GetByID(ctx, helper.GetUserID(ctx))
-	if err != nil {
-		return nil, err
-	}
-
-	return s.Serialize(user, &serializeUserParams{WithProfile: true, WithRoles: true, WithTenants: true, WithGroups: true}), nil
 }
 
 // Get get user service
-func (s *userService) Get(ctx context.Context, username string) (*structs.UserMeshes, error) {
+func (s *userService) Get(ctx context.Context, username string) (*structs.ReadUser, error) {
 	if username == "" {
 		return nil, errors.New(ecode.FieldIsInvalid("username"))
 	}
@@ -105,42 +90,27 @@ func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPass
 }
 
 // CreateUser creates a new user.
-func (s *userService) CreateUser(ctx context.Context, body *structs.UserMeshes) (*structs.UserMeshes, error) {
-	if body.User != nil && body.User.Username == "" {
+func (s *userService) CreateUser(ctx context.Context, body *structs.UserBody) (*structs.ReadUser, error) {
+	if body != nil && body.Username == "" {
 		return nil, errors.New(ecode.FieldIsInvalid("username"))
 	}
 
-	user, err := s.user.Create(ctx, body.User)
+	row, err := s.user.Create(ctx, body)
 	if err := handleEntError("User", err); err != nil {
 		return nil, err
 	}
 
-	if body.Profile != nil {
-		_, err := s.userProfile.Create(ctx, &structs.UserProfileBody{
-			ID:          user.ID,
-			DisplayName: body.Profile.DisplayName,
-			ShortBio:    body.Profile.ShortBio,
-			About:       body.Profile.About,
-			Thumbnail:   body.Profile.Thumbnail,
-			Links:       body.Profile.Links,
-			Extras:      body.Profile.Extras,
-		})
-		if err := handleEntError("UserProfile", err); err != nil {
-			return nil, err
-		}
-	}
-
-	return s.Serialize(user), nil
+	return s.Serialize(row), nil
 }
 
 // GetByID retrieves a user by their ID.
-func (s *userService) GetByID(ctx context.Context, u string) (*structs.UserMeshes, error) {
-	user, err := s.user.GetByID(ctx, u)
+func (s *userService) GetByID(ctx context.Context, u string) (*structs.ReadUser, error) {
+	row, err := s.user.GetByID(ctx, u)
 	if err := handleEntError("User", err); err != nil {
 		return nil, err
 	}
 
-	return s.Serialize(user, &serializeUserParams{WithProfile: true}), nil
+	return s.Serialize(row), nil
 }
 
 // Delete deletes a user by their ID.
@@ -153,17 +123,17 @@ func (s *userService) Delete(ctx context.Context, u string) error {
 }
 
 // FindByID find user by ID
-func (s *userService) FindByID(ctx context.Context, id string) (*structs.UserMeshes, error) {
-	user, err := s.user.GetByID(ctx, id)
+func (s *userService) FindByID(ctx context.Context, id string) (*structs.ReadUser, error) {
+	row, err := s.user.GetByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(user, &serializeUserParams{WithProfile: true}), nil
+	return s.Serialize(row), nil
 }
 
 // FindUser find user by username, email, or phone
-func (s *userService) FindUser(ctx context.Context, m *structs.FindUser) (*structs.UserMeshes, error) {
-	user, err := s.user.Find(ctx, &structs.FindUser{
+func (s *userService) FindUser(ctx context.Context, m *structs.FindUser) (*structs.ReadUser, error) {
+	row, err := s.user.Find(ctx, &structs.FindUser{
 		Username: m.Username,
 		Email:    m.Email,
 		Phone:    m.Phone,
@@ -171,7 +141,7 @@ func (s *userService) FindUser(ctx context.Context, m *structs.FindUser) (*struc
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(user, &serializeUserParams{WithProfile: true}), nil
+	return s.Serialize(row), nil
 }
 
 // VerifyPasswordResult Verify password result
@@ -210,95 +180,29 @@ func (s *userService) updatePassword(ctx context.Context, body *structs.UserPass
 	return err
 }
 
-// SerializeParams serialize params
-type serializeUserParams struct {
-	WithProfile bool
-	WithRoles   bool
-	WithTenants bool
-	WithGroups  bool
+// Serializes serializes users
+func (s *userService) Serializes(rows []*ent.User) []*structs.ReadUser {
+	var rs []*structs.ReadUser
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
+	}
+	return rs
 }
 
-func (s *userService) Serialize(user *ent.User, sp ...*serializeUserParams) *structs.UserMeshes {
-	ctx := context.Background()
-	um := &structs.UserMeshes{
-		User: &structs.UserBody{
-			ID:          user.ID,
-			Username:    user.Username,
-			Email:       user.Email,
-			Phone:       user.Phone,
-			IsCertified: user.IsCertified,
-			IsAdmin:     user.IsAdmin,
-			Status:      user.Status,
-			ExtraProps:  &user.Extras,
-			CreatedAt:   user.CreatedAt,
-			UpdatedAt:   user.UpdatedAt,
-		},
+// Serialize serialize a user
+func (s *userService) Serialize(user *ent.User) *structs.ReadUser {
+	return &structs.ReadUser{
+		ID:          user.ID,
+		Username:    user.Username,
+		Email:       user.Email,
+		Phone:       user.Phone,
+		IsCertified: user.IsCertified,
+		IsAdmin:     user.IsAdmin,
+		Status:      user.Status,
+		Extras:      &user.Extras,
+		CreatedAt:   user.CreatedAt,
+		UpdatedAt:   user.UpdatedAt,
 	}
-
-	params := &serializeUserParams{}
-	if len(sp) > 0 {
-		params = sp[0]
-	}
-
-	if params.WithProfile {
-		if profile, _ := s.userProfile.Get(ctx, user.ID); profile != nil {
-			um.Profile = &structs.UserProfileBody{
-				DisplayName: profile.DisplayName,
-				ShortBio:    profile.ShortBio,
-				About:       &profile.About,
-				Thumbnail:   &profile.Thumbnail,
-				Links:       &profile.Links,
-				Extras:      &profile.Extras,
-			}
-		}
-	}
-
-	// if params.WithTenants {
-	// 	if tenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID); len(tenants) > 0 {
-	// 		for _, tenant := range tenants {
-	// 			um.Tenants = append(um.Tenants, tenant)
-	// 		}
-	// 	}
-	// }
-
-	if params.WithRoles {
-		if len(um.Tenants) > 0 {
-			for _, tenant := range um.Tenants {
-				roleIDs, _ := s.as.UserTenantRole.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
-				roles, _ := s.as.Role.GetByIDs(ctx, roleIDs)
-				for _, role := range roles {
-					um.Roles = append(um.Roles, role)
-				}
-			}
-			// TODO: remove duplicate roles if needed
-			// seenRoles := make(map[string]struct{})
-			// for _, tenant := range um.Tenants {
-			// 	roles, _ := s.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
-			// 	for _, role := range roles {
-			// 		roleID := role.ID
-			// 		if _, found := seenRoles[roleID]; !found {
-			// 			um.Roles = append(um.Roles, s.serializeRole(role))
-			// 			seenRoles[roleID] = struct{}{}
-			// 		}
-			// 	}
-			// }
-		} else {
-			roles, _ := s.as.UserRole.GetUserRoles(ctx, user.ID)
-			for _, role := range roles {
-				um.Roles = append(um.Roles, role)
-			}
-		}
-	}
-
-	// TODO: group belongs to tenant
-	// if params.WithGroups && len(um.Tenants) > 0 {
-	// 	groups, _ := s.userGroup.GetGroupsByUserID(ctx, user.ID)
-	// 	for _, group := range groups {
-	// 		um.Groups = append(um.Groups, s.serializeGroup(group))
-	// 	}
-	// }
-
-	return um
 }
 
 // CountX gets a count of users.

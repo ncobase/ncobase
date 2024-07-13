@@ -2,13 +2,12 @@ package auth
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/auth/data"
 	"ncobase/feature/auth/handler"
 	"ncobase/feature/auth/service"
-	tenantService "ncobase/feature/tenant/service"
-	userService "ncobase/feature/user/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +17,7 @@ var (
 	name         = "auth"
 	desc         = "auth module"
 	version      = "1.0.0"
-	dependencies = []string{"user", "tenant"}
+	dependencies = []string{"access", "tenant", "user"}
 )
 
 // Module represents the auth module.
@@ -69,13 +68,15 @@ func (m *Module) PostInit() error {
 	if err != nil {
 		return err
 	}
-
 	ts, err := m.getTenantService()
 	if err != nil {
 		return err
 	}
-
-	m.s = service.New(m.d, us, ts)
+	as, err := m.getAccessService()
+	if err != nil {
+		return err
+	}
+	m.s = service.New(m.d, us, as, ts)
 	m.h = handler.New(m.s)
 	return nil
 }
@@ -90,9 +91,9 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 	// Authentication endpoints
-	v1.POST("/login", m.h.Auth.Login)
-	v1.POST("/register", m.h.Auth.Register)
-	v1.POST("/logout", m.h.Auth.Logout)
+	v1.POST("/login", m.h.Account.Login)
+	v1.POST("/register", m.h.Account.Register)
+	v1.POST("/logout", m.h.Account.Logout)
 	// Captcha endpoints
 	captcha := v1.Group("/captcha")
 	{
@@ -106,6 +107,9 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		authorize.POST("/send", m.h.CodeAuth.SendCode)
 		authorize.GET("/:code", m.h.CodeAuth.CodeAuth)
 	}
+
+	// Current Account
+	v1.GET("/account", middleware.AuthenticatedUser, m.h.Account.GetMe)
 }
 
 // GetHandlers returns the handlers for the module
@@ -155,32 +159,4 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the plugin
 func (m *Module) Dependencies() []string {
 	return dependencies
-}
-
-// GetUserService returns the user service
-func (m *Module) getUserService() (*userService.Service, error) {
-	f, err := m.fm.GetService("user")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get user service: %v", err)
-	}
-
-	us, ok := f.(*userService.Service)
-	if !ok {
-		return nil, fmt.Errorf("user service does not implement UserServiceInterface")
-	}
-
-	return us, nil
-}
-
-// GetInitService returns the init service
-func (m *Module) getTenantService() (*tenantService.Service, error) {
-	f, err := m.fm.GetService("tenant")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get init service: %v", err)
-	}
-	is, ok := f.(*tenantService.Service)
-	if !ok {
-		return nil, fmt.Errorf("init service does not implement")
-	}
-	return is, nil
 }

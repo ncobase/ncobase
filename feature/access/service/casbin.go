@@ -19,6 +19,7 @@ type CasbinServiceInterface interface {
 	Delete(ctx context.Context, id string) error
 	Get(ctx context.Context, id string) (*structs.ReadCasbinRule, error)
 	List(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*structs.ReadCasbinRule, error)
+	CountX(ctx context.Context, params *structs.ListCasbinRuleParams) int
 }
 
 // casbinService is the struct for the service.
@@ -90,6 +91,11 @@ func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRule
 	}
 
 	return s.SerializeCasbins(rows), nil
+}
+
+// CountX gets a count of Casbin rules.
+func (s *casbinService) CountX(ctx context.Context, params *structs.ListCasbinRuleParams) int {
+	return s.casbin.CountX(ctx, params)
 }
 
 // SerializeCasbins serializes a list of Casbin rule entities to a response format.

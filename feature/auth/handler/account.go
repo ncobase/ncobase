@@ -10,21 +10,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AuthHandlerInterface is the interface for the handler.
-type AuthHandlerInterface interface {
+// AccountHandlerInterface is the interface for the handler.
+type AccountHandlerInterface interface {
 	Register(c *gin.Context)
 	Login(c *gin.Context)
 	Logout(c *gin.Context)
+	GetMe(c *gin.Context)
 }
 
-// authHandler represents the handler.
-type authHandler struct {
+// accountHandler represents the handler.
+type accountHandler struct {
 	s *service.Service
 }
 
-// NewAuthHandler creates a new handler.
-func NewAuthHandler(svc *service.Service) AuthHandlerInterface {
-	return &authHandler{
+// NewAccountHandler creates a new handler.
+func NewAccountHandler(svc *service.Service) AccountHandlerInterface {
+	return &accountHandler{
 		s: svc,
 	}
 }
@@ -40,7 +41,7 @@ func NewAuthHandler(svc *service.Service) AuthHandlerInterface {
 // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/register [post]
-func (h *authHandler) Register(c *gin.Context) {
+func (h *accountHandler) Register(c *gin.Context) {
 	body := &structs.RegisterBody{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -50,7 +51,7 @@ func (h *authHandler) Register(c *gin.Context) {
 		return
 	}
 
-	result, _ := h.s.Auth.Register(c.Request.Context(), body)
+	result, _ := h.s.Account.Register(c.Request.Context(), body)
 	resp.Success(c.Writer, result)
 }
 
@@ -65,7 +66,7 @@ func (h *authHandler) Register(c *gin.Context) {
 // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/login [post]
-func (h *authHandler) Login(c *gin.Context) {
+func (h *accountHandler) Login(c *gin.Context) {
 	body := &structs.LoginBody{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -83,7 +84,26 @@ func (h *authHandler) Login(c *gin.Context) {
 		}
 	}
 
-	result, err := h.s.Auth.Login(c.Request.Context(), body)
+	result, err := h.s.Account.Login(c.Request.Context(), body)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, result)
+}
+
+// GetMe handles reading the current user.
+//
+// @Summary Get current user
+// @Description Retrieve information about the current user.
+// @Tags account
+// @Produce json
+// @Success 200 {object} structs.AccountMeshes "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/account [get]
+// @Security Bearer
+func (h *accountHandler) GetMe(c *gin.Context) {
+	result, err := h.s.Account.GetMe(c.Request.Context())
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -100,7 +120,7 @@ func (h *authHandler) Login(c *gin.Context) {
 // @Success 200 {object} resp.Exception "success"
 // @Router /v1/logout [post]
 // @Security Bearer
-func (h *authHandler) Logout(c *gin.Context) {
+func (h *accountHandler) Logout(c *gin.Context) {
 	cookie.ClearAll(c.Writer)
 	resp.Success(c.Writer)
 }
