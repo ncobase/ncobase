@@ -13,7 +13,7 @@ import (
 // AuthenticatedUser is a middleware that checks if the user is authenticated.
 func AuthenticatedUser(c *gin.Context) {
 	// Retrieve the context.Context from *gin.Context
-	ctx := helper.FromGinContext(c)
+	ctx := c.Request.Context()
 
 	// Retrieve user ID from the context
 	userID := helper.GetUserID(ctx)

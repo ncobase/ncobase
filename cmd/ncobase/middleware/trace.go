@@ -8,7 +8,7 @@ import (
 )
 
 func Trace(c *gin.Context) {
-	ctx := helper.FromGinContext(c)
+	ctx := c.Request.Context()
 	// Get the trace ID from the request
 	traceID := helper.GetTraceID(ctx)
 

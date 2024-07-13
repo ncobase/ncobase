@@ -53,7 +53,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			return
 		}
 
-		ctx := helper.FromGinContext(c)
+		ctx := c.Request.Context()
 
 		currentUser := helper.GetUserID(ctx)
 		currentTenant := helper.GetTenantID(ctx)

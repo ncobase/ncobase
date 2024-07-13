@@ -13,7 +13,7 @@ import (
 // AuthenticatedTenant is a middleware that checks if the user is related to a tenant and authenticated.
 func AuthenticatedTenant(c *gin.Context) {
 	// Retrieve the context.Context from *gin.Context
-	ctx := helper.FromGinContext(c)
+	ctx := c.Request.Context()
 
 	// Retrieve tenant ID from the context
 	tenantID := helper.GetTenantID(ctx)
