@@ -5,6 +5,7 @@ import (
 	"ncobase/common/resp"
 	"ncobase/feature/auth/service"
 	"ncobase/feature/auth/structs"
+	userStructs "ncobase/feature/user/structs"
 	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,9 @@ type AccountHandlerInterface interface {
 	Login(c *gin.Context)
 	Logout(c *gin.Context)
 	GetMe(c *gin.Context)
+	UpdatePassword(c *gin.Context)
+	Tenant(c *gin.Context)
+	Tenants(c *gin.Context)
 }
 
 // accountHandler represents the handler.
@@ -143,3 +147,71 @@ func (h *accountHandler) Logout(c *gin.Context) {
 // 	}
 // 	resp.Success(c.Writer, result)
 // }
+
+// UpdatePassword handles updating user password.
+//
+// @Summary Update user password
+// @Description Update the password of the current user.
+// @Tags account
+// @Accept json
+// @Produce json
+// @Param body body structs.UserPassword true "UserPassword object"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/account/password [put]
+// @Security Bearer
+func (h *accountHandler) UpdatePassword(c *gin.Context) {
+	body := &userStructs.UserPassword{}
+	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
+		return
+	}
+
+	err := h.s.Account.UpdatePassword(c.Request.Context(), body)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer)
+}
+
+// Tenant handles reading the current user's tenant.
+//
+// @Summary Get current user tenant
+// @Description Retrieve the tenant associated with the current user.
+// @Tags account
+// @Produce json
+// @Success 200 {object} structs.ReadTenant "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/account/tenant [get]
+// @Security Bearer
+func (h *accountHandler) Tenant(c *gin.Context) {
+	result, err := h.s.Account.Tenant(c.Request.Context())
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, result)
+}
+
+// Tenants handles reading the current user's tenants.
+//
+// @Summary Get current user tenants
+// @Description Retrieve the tenant associated with the current user.
+// @Tags account
+// @Produce json
+// @Success 200 {object} structs.ReadTenant "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /v1/account/tenants [get]
+// @Security Bearer
+func (h *accountHandler) Tenants(c *gin.Context) {
+	result, err := h.s.Account.Tenants(c.Request.Context())
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, result)
+}

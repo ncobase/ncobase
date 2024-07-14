@@ -8,7 +8,7 @@ import (
 // Event represents a proxy event
 type Event struct {
 	Type    string
-	Payload interface{}
+	Payload any
 }
 
 // EventHandler is a function that handles proxy events

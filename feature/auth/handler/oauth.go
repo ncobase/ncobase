@@ -107,7 +107,7 @@ package handler
 // // @Failure 401 {object} resp.Exception "unauthorized"
 // // @Router /v1/oauth/facebook/callback [get]
 // func (h *oAuthHandler) OAuthFacebookCallback(c *gin.Context) {
-// 	result, _ := h.s.OAuth.OAuthCallbackService(c.Request.Context(), "facebook", c.Query("code"))
+// 	result, _ := h.s.OAuth.OAuthCallback(c.Request.Context(), "facebook", c.Query("code"))
 // 	if result.Code != http.StatusOK {
 // 		resp.UnAuthorized("OAuth Auth Error", nil)
 // 		return
@@ -125,7 +125,7 @@ package handler
 // // @Failure 401 {object} resp.Exception "unauthorized"
 // // @Router /v1/oauth/github/callback [get]
 // func (h *oAuthHandler) OAuthGithubCallback(c *gin.Context) {
-// 	result, _ := h.s.OAuth.OAuthCallbackService(c.Request.Context(), "github", c.Query("code"))
+// 	result, _ := h.s.OAuth.OAuthCallback(c.Request.Context(), "github", c.Query("code"))
 // 	if result.Code != http.StatusOK {
 // 		resp.UnAuthorized("OAuth Auth Error", nil)
 // 		return
@@ -142,7 +142,7 @@ package handler
 // // @Failure 400 {object} resp.Exception "bad request"
 // // @Router /v1/oauth/callback [get]
 // func (h *oAuthHandler) OAuthCallback(c *gin.Context) {
-// 	result, _ := h.s.OAuth.OAuthAuthenticationService(c.Request.Context())
+// 	result, _ := h.s.OAuth.OAuthAuthentication(c.Request.Context())
 // 	if result.Code == http.StatusMovedPermanently {
 // 		c.Redirect(http.StatusMovedPermanently, result.Data.(types.JSON)["redirectUrl"].(string))
 // 		return
@@ -165,6 +165,6 @@ package handler
 // 		resp.Fail(c.Writer, resp.BadRequest("register authorize is empty or invalid"))
 // 		return
 // 	}
-// 	result, _ := h.s.OAuth.GetOAuthProfileInfoService(c.Request.Context(), registerToken)
+// 	result, _ := h.s.OAuth.GetOAuthProfileInfo(c.Request.Context(), registerToken)
 // 	c.JSON(result.Code, result)
 // }

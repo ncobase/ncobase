@@ -82,11 +82,11 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// Tenant endpoints
 	tenants := v1.Group("/tenants", middleware.AuthenticatedTenant)
 	{
-		tenants.GET("", m.h.Tenant.ListTenantHandler)
-		tenants.POST("", m.h.Tenant.CreateTenantHandler)
-		tenants.GET("/:slug", m.h.Tenant.GetTenantHandler)
-		tenants.PUT("/:slug", m.h.Tenant.UpdateTenantHandler)
-		tenants.DELETE("/:slug", m.h.Tenant.DeleteTenantHandler)
+		tenants.GET("", m.h.Tenant.List)
+		tenants.POST("", m.h.Tenant.Create)
+		tenants.GET("/:slug", m.h.Tenant.Get)
+		tenants.PUT("/:slug", m.h.Tenant.Update)
+		tenants.DELETE("/:slug", m.h.Tenant.Delete)
 
 		// // Tenant asset endpoints
 		// tenants.GET("/:tenant/assets", m.h.ListTenantAssetHandler)

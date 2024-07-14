@@ -24,11 +24,11 @@ import (
 
 // AssetHandlerInterface represents the asset handler interface.
 type AssetHandlerInterface interface {
-	CreateAssetsHandler(c *gin.Context)
-	UpdateAssetHandler(c *gin.Context)
-	GetAssetHandler(c *gin.Context)
-	ListAssetsHandler(c *gin.Context)
-	DeleteAssetHandler(c *gin.Context)
+	Create(c *gin.Context)
+	Update(c *gin.Context)
+	Get(c *gin.Context)
+	List(c *gin.Context)
+	Delete(c *gin.Context)
 }
 
 // assetHandler represents the asset handler.
@@ -46,7 +46,7 @@ func NewAssetHandler(s *service.Service) AssetHandlerInterface {
 // maxAssetSize is the maximum allowed size of an asset.
 var maxAssetSize int64 = 2048 << 20 // 2048 MB
 
-// CreateAssetsHandler handles the creation of assets, both single and multiple.
+// Create handles the creation of assets, both single and multiple.
 //
 // @Summary Create assets
 // @Description Create one or multiple assets.
@@ -61,7 +61,7 @@ var maxAssetSize int64 = 2048 << 20 // 2048 MB
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets [post]
 // @Security Bearer
-func (h *assetHandler) CreateAssetsHandler(c *gin.Context) {
+func (h *assetHandler) Create(c *gin.Context) {
 	if c.Request.Method != http.MethodPost {
 		resp.Fail(c.Writer, resp.NotAllowed("Method not allowed"))
 		return
@@ -240,7 +240,7 @@ func bindAssetFields(c *gin.Context, body *structs.CreateAssetBody) error {
 	return nil
 }
 
-// UpdateAssetHandler handles updating a asset.
+// Update handles updating a asset.
 //
 // @Summary Update asset
 // @Description Update an existing asset.
@@ -253,7 +253,7 @@ func bindAssetFields(c *gin.Context, body *structs.CreateAssetBody) error {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets/{slug} [put]
 // @Security Bearer
-func (h *assetHandler) UpdateAssetHandler(c *gin.Context) {
+func (h *assetHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
@@ -314,7 +314,7 @@ func (h *assetHandler) UpdateAssetHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// GetAssetHandler handles getting a asset.
+// Get handles getting a asset.
 //
 // @Summary Get asset
 // @Description Get details of a specific asset.
@@ -325,7 +325,7 @@ func (h *assetHandler) UpdateAssetHandler(c *gin.Context) {
 // @Success 200 {object} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets/{slug} [get]
-func (h *assetHandler) GetAssetHandler(c *gin.Context) {
+func (h *assetHandler) Get(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("file")))
@@ -333,12 +333,12 @@ func (h *assetHandler) GetAssetHandler(c *gin.Context) {
 	}
 
 	if c.Query("type") == "download" {
-		h.downloadAssetHandler(c)
+		h.download(c)
 		return
 	}
 
 	if c.Query("type") == "stream" {
-		h.assetStreamHandler(c)
+		h.assetStream(c)
 		return
 	}
 
@@ -351,7 +351,7 @@ func (h *assetHandler) GetAssetHandler(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// DeleteAssetHandler handles deleting a asset.
+// Delete handles deleting a asset.
 //
 // @Summary Delete asset
 // @Description Delete a specific asset.
@@ -361,7 +361,7 @@ func (h *assetHandler) GetAssetHandler(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets/{slug} [delete]
 // @Security Bearer
-func (h *assetHandler) DeleteAssetHandler(c *gin.Context) {
+func (h *assetHandler) Delete(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("file")))
@@ -376,7 +376,7 @@ func (h *assetHandler) DeleteAssetHandler(c *gin.Context) {
 	resp.Success(c.Writer)
 }
 
-// ListAssetsHandler handles listing assets.
+// List handles listing assets.
 //
 // @Summary List assets
 // @Description List assets based on specified parameters.
@@ -386,7 +386,7 @@ func (h *assetHandler) DeleteAssetHandler(c *gin.Context) {
 // @Success 200 {array} structs.ReadAsset "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/assets [get]
-func (h *assetHandler) ListAssetsHandler(c *gin.Context) {
+func (h *assetHandler) List(c *gin.Context) {
 	params := &structs.ListAssetParams{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -406,12 +406,12 @@ func (h *assetHandler) ListAssetsHandler(c *gin.Context) {
 }
 
 // downloadAssetHandler handles the direct download of a asset.
-func (h *assetHandler) downloadAssetHandler(c *gin.Context) {
+func (h *assetHandler) download(c *gin.Context) {
 	h.downloadFile(c, "attachment")
 }
 
 // assetStreamHandler handles the streaming of a asset.
-func (h *assetHandler) assetStreamHandler(c *gin.Context) {
+func (h *assetHandler) assetStream(c *gin.Context) {
 	h.downloadFile(c, "inline")
 }
 

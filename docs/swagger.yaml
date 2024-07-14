@@ -2275,31 +2275,6 @@ paths:
       summary: Get tenant menu
       tags:
       - tenant
-  /v1/tenants/{slug}/modules:
-    get:
-      description: Retrieve a list of modules associated with a specific tenant.
-      parameters:
-      - description: Tenant ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: List tenant modules
-      tags:
-      - tenant
   /v1/tenants/{slug}/roles:
     get:
       description: Retrieve a list of roles associated with a specific tenant.
@@ -2553,7 +2528,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.AccountMeshes'
+            $ref: '#/definitions/structs.ReadUser'
         "400":
           description: bad request
           schema:

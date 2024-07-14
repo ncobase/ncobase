@@ -52,7 +52,7 @@ func (h *menuHandler) Create(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Menu.CreateMenuService(c.Request.Context(), body)
+	result, err := h.s.Menu.Create(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -82,7 +82,7 @@ func (h *menuHandler) Update(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Menu.UpdateMenuService(c.Request.Context(), body)
+	result, err := h.s.Menu.Update(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -113,7 +113,7 @@ func (h *menuHandler) Get(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Menu.GetMenuService(c.Request.Context(), params)
+	result, err := h.s.Menu.Get(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -134,7 +134,7 @@ func (h *menuHandler) Get(c *gin.Context) {
 // @Security Bearer
 func (h *menuHandler) Delete(c *gin.Context) {
 	params := &structs.FindMenu{Menu: c.Param("slug")}
-	result, err := h.s.Menu.DeleteMenuService(c.Request.Context(), params)
+	result, err := h.s.Menu.Delete(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -163,7 +163,7 @@ func (h *menuHandler) List(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Menu.ListMenusService(c.Request.Context(), params)
+	result, err := h.s.Menu.List(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -172,7 +172,7 @@ func (h *menuHandler) List(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// // GetMenuTreeHandler handles retrieving the menu tree.
+// // GetTree handles retrieving the menu tree.
 // //
 // // @Summary Get menu tree
 // // @Description Retrieve the menu tree structure.
@@ -183,7 +183,7 @@ func (h *menuHandler) List(c *gin.Context) {
 // // @Failure 400 {object} resp.Exception "bad request"
 // // @Router /v1/menus/tree [get]
 // // @Security Bearer
-// func (h *Handler) GetMenuTreeHandler(c *gin.Context) {
+// func (h *Handler) GetTree(c *gin.Context) {
 // 	params := &structs.FindMenu{}
 // 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c,params); err != nil {
 // 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -193,7 +193,7 @@ func (h *menuHandler) List(c *gin.Context) {
 // 		return
 // 	}
 //
-// 	result, err := h.s.Menu.GetMenuTreeService(c.Request.Context(),params)
+// 	result, err := h.s.Menu.GetTree(c.Request.Context(),params)
 // 	if err != nil {
 // 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 // 		return

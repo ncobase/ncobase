@@ -2,7 +2,6 @@ package user
 
 import (
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/user/data"
@@ -81,27 +80,18 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints
 	v1 := e.Group("/v1")
 
-	// Account endpoints
-	account := v1.Group("/account", middleware.AuthenticatedUser)
-	{
-		account.PUT("/password", m.h.User.UpdatePasswordHandler)
-		// account.GET("/tenant", m.h.User.AccountTenantHandler)
-		// account.GET("/tenants", m.h.User.AccountTenantsHandler)
-	}
-
 	// User endpoints
 	users := v1.Group("/users")
 	{
-		// users.GET("", m.h.ListUserHandler)
-		// users.POST("", m.h.CreateUserHandler)
-		users.GET("/:username", m.h.User.GetUserHandler)
-		// users.PUT("/:username", m.h.UpdateUserHandler)
-		// users.DELETE("/:username", m.h.DeleteUserHandler)
-		// users.GET("/:username/roles", m.h.ListUserRoleHandler)
-		// users.GET("/:username/groups", m.h.ListUserGroupHandler)
-		// users.GET("/:username/tenants", m.h.UserTenantHandler)
-		// users.GET("/:username/tenants/:slug", m.h.UserTenantHandler)
-		// users.GET("/:username/tenant/belongs", middleware.Authenticated, m.h.ListUserBelongHandler)
+		// users.GET("", m.h.List)
+		// users.POST("", m.h.Create)
+		users.GET("/:username", m.h.User.Get)
+		// users.PUT("/:username", m.h.Update)
+		// users.DELETE("/:username", m.h.Delete)
+		// users.GET("/:username/roles", m.h.ListUserRoles)
+		// users.GET("/:username/groups", m.h.ListUserGroups)
+		// users.GET("/:username/tenants", m.h.UserTenants)
+		// users.GET("/:username/tenants/:slug", m.h.UserTenant)
 	}
 }
 

@@ -3,16 +3,13 @@ package handler
 import (
 	"ncobase/common/resp"
 	"ncobase/feature/user/service"
-	"ncobase/feature/user/structs"
-	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
 )
 
 // UserHandlerInterface is the interface for the handler.
 type UserHandlerInterface interface {
-	GetUserHandler(c *gin.Context)
-	UpdatePasswordHandler(c *gin.Context)
+	Get(c *gin.Context)
 }
 
 // userHandler represents the handler.
@@ -27,51 +24,21 @@ func NewUserHandler(svc *service.Service) UserHandlerInterface {
 	}
 }
 
-// GetUserHandler handles reading a user.
+// Get handles reading a user.
 //
 // @Summary Get user
 // @Description Retrieve information about a specific user.
 // @Tags user
 // @Produce json
 // @Param username path string true "Username"
-// @Success 200 {object} structs.AccountMeshes "success"
+// @Success 200 {object} structs.ReadUser "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /v1/users/{username} [get]
-func (h *userHandler) GetUserHandler(c *gin.Context) {
+func (h *userHandler) Get(c *gin.Context) {
 	result, err := h.s.User.Get(c.Request.Context(), c.Param("username"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
 	resp.Success(c.Writer, result)
-}
-
-// UpdatePasswordHandler handles updating user password.
-//
-// @Summary Update user password
-// @Description Update the password of the current user.
-// @Tags account
-// @Accept json
-// @Produce json
-// @Param body body structs.UserPassword true "UserPassword object"
-// @Success 200 {object} resp.Exception "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/account/password [put]
-// @Security Bearer
-func (h *userHandler) UpdatePasswordHandler(c *gin.Context) {
-	body := &structs.UserPassword{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-		return
-	} else if len(validationErrors) > 0 {
-		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
-		return
-	}
-
-	err := h.s.User.UpdatePassword(c.Request.Context(), body)
-	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-		return
-	}
-	resp.Success(c.Writer)
 }

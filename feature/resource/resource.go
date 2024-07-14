@@ -78,11 +78,11 @@ func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 	// Asset endpoints
 	assets := v1.Group("/assets", middleware.AuthenticatedUser)
 	{
-		assets.GET("", p.h.Asset.ListAssetsHandler)
-		assets.POST("", p.h.Asset.CreateAssetsHandler)
-		assets.GET("/:slug", p.h.Asset.GetAssetHandler)
-		assets.PUT("/:slug", p.h.Asset.UpdateAssetHandler)
-		assets.DELETE("/:slug", p.h.Asset.DeleteAssetHandler)
+		assets.GET("", p.h.Asset.List)
+		assets.POST("", p.h.Asset.Create)
+		assets.GET("/:slug", p.h.Asset.Get)
+		assets.PUT("/:slug", p.h.Asset.Update)
+		assets.DELETE("/:slug", p.h.Asset.Delete)
 	}
 }
 

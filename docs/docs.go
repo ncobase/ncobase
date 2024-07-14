@@ -2324,46 +2324,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/tenants/{slug}/modules": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of modules associated with a specific tenant.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "tenant"
-                ],
-                "summary": "List tenant modules",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_common_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/tenants/{slug}/roles": {
             "get": {
                 "security": [
@@ -2764,7 +2724,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.AccountMeshes"
+                            "$ref": "#/definitions/structs.ReadUser"
                         }
                     },
                     "400": {

@@ -1,5 +1,3 @@
-// Considered improvements are made here
-
 package service
 
 import (

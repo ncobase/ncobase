@@ -108,8 +108,14 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		authorize.GET("/:code", m.h.CodeAuth.CodeAuth)
 	}
 
-	// Current Account
-	v1.GET("/account", middleware.AuthenticatedUser, m.h.Account.GetMe)
+	// Account endpoints
+	account := v1.Group("/account", middleware.AuthenticatedUser)
+	{
+		account.GET("", m.h.Account.GetMe)
+		account.PUT("/password", m.h.Account.UpdatePassword)
+		account.GET("/tenant", m.h.Account.Tenant)
+		account.GET("/tenants", m.h.Account.Tenants)
+	}
 }
 
 // GetHandlers returns the handlers for the module

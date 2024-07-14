@@ -16,8 +16,6 @@ import (
 
 // TenantServiceInterface is the interface for the service.
 type TenantServiceInterface interface {
-	Account(ctx context.Context) (*structs.ReadTenant, error)
-	AccountTenants(ctx context.Context) (*types.JSON, error)
 	UserOwn(ctx context.Context, uid string) (*structs.ReadTenant, error)
 	Create(ctx context.Context, body *structs.CreateTenantBody) (*structs.ReadTenant, error)
 	Update(ctx context.Context, body *structs.UpdateTenantBody) (*structs.ReadTenant, error)
@@ -44,40 +42,6 @@ func NewTenantService(d *data.Data) TenantServiceInterface {
 		tenant:     repository.NewTenantRepository(d),
 		userTenant: repository.NewUserTenantRepository(d),
 	}
-}
-
-// Account retrieves the tenant associated with the user's account.
-func (s *tenantService) Account(ctx context.Context) (*structs.ReadTenant, error) {
-	userID := helper.GetUserID(ctx)
-	if userID == "" {
-		return nil, errors.New("invalid user ID")
-	}
-
-	// Retrieve the tenant associated with the user
-	row, err := s.tenant.GetByUser(ctx, userID)
-	if err := handleEntError("Tenant", err); err != nil {
-		return nil, err
-	}
-
-	// Serialize tenant data and return
-	return s.Serialize(row), nil
-}
-
-// AccountTenants retrieves the tenant associated with the user's account.
-func (s *tenantService) AccountTenants(ctx context.Context) (*types.JSON, error) {
-	userID := helper.GetUserID(ctx)
-	if userID == "" {
-		return nil, errors.New("invalid user ID")
-	}
-
-	rows, err := s.List(ctx, &structs.ListTenantParams{
-		User: userID,
-	})
-	if err := handleEntError("Tenants", err); err != nil {
-		return nil, err
-	}
-
-	return rows, nil
 }
 
 // UserOwn user own tenant service

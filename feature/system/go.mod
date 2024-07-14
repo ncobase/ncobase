@@ -7,6 +7,8 @@ toolchain go1.22.5
 replace (
 	ncobase => ../../
 	ncobase/common => ../../pkg
+	ncobase/feature/access => ../access
+	ncobase/feature/tenant => ../tenant
 )
 
 require (
@@ -120,4 +122,6 @@ require (
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	ncobase/feature/access v0.0.0-00010101000000-000000000000 // indirect
+	ncobase/feature/tenant v0.0.0-00010101000000-000000000000 // indirect
 )

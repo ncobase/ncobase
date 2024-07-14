@@ -25,6 +25,9 @@ type AccountServiceInterface interface {
 	Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error)
 	Register(ctx context.Context, body *structs.RegisterBody) (*types.JSON, error)
 	GetMe(ctx context.Context) (*structs.AccountMeshes, error)
+	UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error
+	Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error)
+	Tenants(ctx context.Context) (*types.JSON, error)
 }
 
 // accountService is the struct for the service.
@@ -226,6 +229,11 @@ func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, err
 	return s.Serialize(user, &serializeUserParams{WithProfile: true, WithRoles: true, WithTenants: true, WithGroups: true}), nil
 }
 
+// UpdatePassword update user password service
+func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error {
+	return s.us.User.UpdatePassword(ctx, body)
+}
+
 // SerializeParams serialize params
 type serializeUserParams struct {
 	WithProfile bool
@@ -298,4 +306,37 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 	// }
 
 	return um
+}
+
+// Tenant retrieves the tenant associated with the user's account.
+func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error) {
+	userID := helper.GetUserID(ctx)
+	if userID == "" {
+		return nil, errors.New("invalid user ID")
+	}
+
+	// Retrieve the tenant associated with the user
+	row, err := s.ts.Tenant.GetByUser(ctx, userID)
+	if err := handleEntError("Tenant", err); err != nil {
+		return nil, err
+	}
+
+	return row, nil
+}
+
+// Tenants retrieves the tenant associated with the user's account.
+func (s *accountService) Tenants(ctx context.Context) (*types.JSON, error) {
+	userID := helper.GetUserID(ctx)
+	if userID == "" {
+		return nil, errors.New("invalid user ID")
+	}
+
+	rows, err := s.ts.Tenant.List(ctx, &tenantStructs.ListTenantParams{
+		User: userID,
+	})
+	if err := handleEntError("Tenants", err); err != nil {
+		return nil, err
+	}
+
+	return rows, nil
 }

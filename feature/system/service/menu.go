@@ -17,12 +17,12 @@ import (
 
 // MenuServiceInterface represents the menu service interface.
 type MenuServiceInterface interface {
-	CreateMenuService(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error)
-	UpdateMenuService(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error)
-	GetMenuService(ctx context.Context, params *structs.FindMenu) (any, error)
-	DeleteMenuService(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error)
-	ListMenusService(ctx context.Context, params *structs.ListMenuParams) (*types.JSON, error)
-	GetMenuTreeService(ctx context.Context, params *structs.FindMenu) (*types.JSON, error)
+	Create(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error)
+	Update(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error)
+	Get(ctx context.Context, params *structs.FindMenu) (any, error)
+	Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error)
+	List(ctx context.Context, params *structs.ListMenuParams) (*types.JSON, error)
+	GetTree(ctx context.Context, params *structs.FindMenu) (*types.JSON, error)
 }
 
 // MenuService represents the menu service.
@@ -39,8 +39,8 @@ func NewMenuService(d *data.Data, fm *feature.Manager) MenuServiceInterface {
 	}
 }
 
-// CreateMenuService creates a new menu.
-func (svc *menuService) CreateMenuService(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error) {
+// Create creates a new menu.
+func (svc *menuService) Create(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error) {
 	if validator.IsEmpty(body.Name) {
 		return nil, errors.New(ecode.FieldIsInvalid("name"))
 	}
@@ -56,8 +56,8 @@ func (svc *menuService) CreateMenuService(ctx context.Context, body *structs.Men
 	return svc.serializeMenuReply(row), nil
 }
 
-// UpdateMenuService updates an existing menu (full and partial).
-func (svc *menuService) UpdateMenuService(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error) {
+// Update updates an existing menu (full and partial).
+func (svc *menuService) Update(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error) {
 	if validator.IsEmpty(updates.ID) {
 		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
@@ -70,11 +70,11 @@ func (svc *menuService) UpdateMenuService(ctx context.Context, updates *structs.
 	return svc.serializeMenuReply(row), nil
 }
 
-// GetMenuService retrieves a menu by ID.
-func (svc *menuService) GetMenuService(ctx context.Context, params *structs.FindMenu) (any, error) {
+// Get retrieves a menu by ID.
+func (svc *menuService) Get(ctx context.Context, params *structs.FindMenu) (any, error) {
 
 	if params.Children {
-		return svc.GetMenuTreeService(ctx, params)
+		return svc.GetTree(ctx, params)
 	}
 
 	row, err := svc.menu.Get(ctx, params)
@@ -85,8 +85,8 @@ func (svc *menuService) GetMenuService(ctx context.Context, params *structs.Find
 	return svc.serializeMenuReply(row), nil
 }
 
-// DeleteMenuService deletes a menu by ID.
-func (svc *menuService) DeleteMenuService(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error) {
+// Delete deletes a menu by ID.
+func (svc *menuService) Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error) {
 	err := svc.menu.Delete(ctx, params)
 	if err := handleEntError("Menu", err); err != nil {
 		return nil, err
@@ -95,11 +95,11 @@ func (svc *menuService) DeleteMenuService(ctx context.Context, params *structs.F
 	return nil, nil
 }
 
-// ListMenusService lists all menus.
-func (svc *menuService) ListMenusService(ctx context.Context, params *structs.ListMenuParams) (*types.JSON, error) {
+// List lists all menus.
+func (svc *menuService) List(ctx context.Context, params *structs.ListMenuParams) (*types.JSON, error) {
 	// with children menu
 	if validator.IsTrue(params.Children) {
-		return svc.GetMenuTreeService(ctx, &structs.FindMenu{
+		return svc.GetTree(ctx, &structs.FindMenu{
 			Children: true,
 			Tenant:   params.Tenant,
 			Menu:     params.Parent,
@@ -129,8 +129,8 @@ func (svc *menuService) ListMenusService(ctx context.Context, params *structs.Li
 	}, nil
 }
 
-// GetMenuTreeService retrieves the menu tree.
-func (svc *menuService) GetMenuTreeService(ctx context.Context, params *structs.FindMenu) (*types.JSON, error) {
+// GetTree retrieves the menu tree.
+func (svc *menuService) GetTree(ctx context.Context, params *structs.FindMenu) (*types.JSON, error) {
 	rows, err := svc.menu.GetTree(ctx, params)
 	if err := handleEntError("Menu", err); err != nil {
 		return nil, err
