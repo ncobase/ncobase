@@ -7,19 +7,19 @@
 ```plantext
 ├── access/               # Access control and permission management
 ├── auth/                 # Authentication and authorization
-├── content/              # Content management
-├── group/                # Group management
-├── init/                 # System initialization
-├── linker/               # Relationship management
-├── resource/             # Resource management
-├── system/               # System-related feature, built-in
-├── tenant/               # Tenant management
-├── user/                 # User management
-├── asset/                # Asset plugin directory
-├── interface.go          # Feature interface
-├── manager.go            # Feature manager
-├── plugin.go             # Plugin manager
-└── README.md             # README
+├── content/              # Content management system
+├── group/                # User group and role management
+├── init/                 # System initialization and setup
+├── linker/               # Relationship and data linking management
+├── resource/             # Resource definition and handling
+├── system/               # Core system functionalities
+├── tenant/               # Multi-tenancy support
+├── user/                 # User management and profiles
+├── asset/                # Asset management plugin
+├── interface.go          # Feature interface definitions
+├── manager.go            # Feature management and orchestration
+├── plugin.go             # Plugin system implementation
+└── README.md             # This file
 ```
 
 Each directory contains its own README.md file explaining its structure and functionality.
