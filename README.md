@@ -1,65 +1,53 @@
-# Ncobase backend
+# Ncobase
 
 ## Start
 
 ```shell
-# go mod
+# Install dependencies
 go mod tidy
 
-# generate
+# Generate necessary files
 make generate
 
-# run
+# Run the application
 make run
 ```
 
 ## Technologies
 
-[Golang](https://go.dev), [PostgreSQL](https://www.postgresql.org) / [MySQL](https://www.mysql.com), [Gin](https://github.com/gin-gonic/gin), [ent.](https://entgo.io), [GraphQL](https://graphql.org), [Swagger 2.0](https://github.com/swaggo/gin-swagger)
+[Golang](https://go.dev), [PostgreSQL](https://www.postgresql.org) / [MySQL](https://www.mysql.com), [Gin](https://github.com/gin-gonic/gin), [ent.](https://entgo.io), [Swagger 2.0](https://github.com/swaggo/gin-swagger)
 
 ## Project structure
 
-```plaintext
+```plaintext.
 ├── bin                     # Compiled executable files
 │   └── plugins             # Plugin binaries
 ├── cmd
-│   ├── bootstrap           # Bootstrap commands
 │   └── ncobase             # Main program entry
-├── core                    # Core application logic
-│   ├── data                # Data handling
-│   │   ├── ent             # ent ORM related
-│   │   ├── graphql         # GraphQL schemas and generated code
-│   │   ├── repository      # Repositories for data access
-│   │   ├── schema          # Database schemas
-│   │   └── structs         # Data structures
-│   ├── graphql             # GraphQL resolvers and types
-│   │   ├── generated       # Auto-generated GraphQL code
-│   │   ├── resolvers       # GraphQL resolvers
-│   │   └── types           # GraphQL type definitions
-│   ├── handler             # Request handlers
-│   └── service             # Business logic services
 ├── docs                    # Documentation
+├── feature                 # Core features and modules
+│   ├── access              # Access control and permissions
+│   ├── auth                # Authentication and authorization
+│   ├── content             # Content management
+│   ├── group               # User group management
+│   ├── linker              # Data relationship management
+│   ├── resource            # Resource management
+│   ├── system              # System-wide functionalities
+│   ├── tenant              # Multi-tenancy support
+│   └── user                # User management
 ├── helper                  # Helper utilities and functions
 ├── infra                   # Infrastructure configurations
 │   ├── config              # Configuration files
 │   └── systemd             # Systemd service files
 ├── logs                    # Log files
-├── middleware              # Middleware
 ├── pkg                     # Public packages
-└── plugin                  # Plugin management
-    ├── asset               # Asset plugin
-    ├── content             # Content plugin
-    └── user                # User plugin
+└── proxy                   # API proxy functionality
 ```
 
 ## Documentation
 
-For full documentation, visit [https://domain.com](https://domain.com).
+For full documentation, including API references and deployment guides, visit https://docs.nocobase.com.
 
 ## Maintainers
 
 [@Shen](https://github.com/haiyon)
-
-## License
-
-[MIT](LICENSE)
