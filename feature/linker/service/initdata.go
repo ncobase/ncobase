@@ -280,7 +280,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 		{
 			PermissionBody: accessStructs.PermissionBody{
 				Name:        "update_all",
-				Action:      "POST",
+				Action:      "PUT",
 				Subject:     "*",
 				Description: "Update access to all resources",
 			},
@@ -288,7 +288,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 		{
 			PermissionBody: accessStructs.PermissionBody{
 				Name:        "delete_all",
-				Action:      "POST",
+				Action:      "DELETE",
 				Subject:     "*",
 				Description: "Delete access to all resources",
 			},
@@ -327,7 +327,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 				assignPermission = true
 			case "admin":
 				// Admin gets read and write permissions
-				if perm.Action == "GET" || perm.Action == "POST" {
+				if perm.Action == "GET" || perm.Action == "POST" || perm.Action == "PUT" || perm.Action == "DELETE" {
 					assignPermission = true
 				}
 			case "user":
