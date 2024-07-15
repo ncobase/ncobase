@@ -29,7 +29,7 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 	userMiddleware(conf, engine, fm)
 
 	// Consume tenant
-	tenantMiddleware(engine, fm)
+	tenantMiddleware(conf, engine, fm)
 
 	// Casbin middleware
 	casbinMiddleware(conf, engine, fm)
@@ -76,11 +76,11 @@ func userMiddleware(conf *config.Config, engine *gin.Engine, _ *feature.Manager)
 	// if us == nil {
 	// 	return
 	// }
-	engine.Use(middleware.ConsumeUser(conf.Auth.JWT.Secret))
+	engine.Use(middleware.ConsumeUser(conf.Auth.JWT.Secret, conf.Auth.Whitelist))
 }
 
 // register Tenant middleware
-func tenantMiddleware(engine *gin.Engine, fm *feature.Manager) {
+func tenantMiddleware(conf *config.Config, engine *gin.Engine, fm *feature.Manager) {
 	// get tenant service
 	ft, err := fm.GetService("tenant")
 	if err != nil {
@@ -97,7 +97,7 @@ func tenantMiddleware(engine *gin.Engine, fm *feature.Manager) {
 	if ts == nil {
 		return
 	}
-	engine.Use(middleware.ConsumeTenant(ts))
+	engine.Use(middleware.ConsumeTenant(ts, conf.Auth.Whitelist))
 }
 
 // register casbin middleware

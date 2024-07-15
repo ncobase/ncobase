@@ -1,7 +1,11 @@
 package middleware
 
 import (
+	"ncobase/common/ecode"
 	"ncobase/common/log"
+	"ncobase/common/resp"
+	"ncobase/common/types"
+	"ncobase/common/util"
 	"ncobase/common/validator"
 	"ncobase/feature/access/service"
 	"ncobase/feature/access/structs"
@@ -9,23 +13,9 @@ import (
 	"net/http"
 	"strings"
 
-	"ncobase/common/ecode"
-	"ncobase/common/resp"
-	"ncobase/common/util"
-
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )
-
-// inWhiteList checks if the given path is in the whiteList
-func inWhiteList(path string, whiteList []string) bool {
-	for _, whitePath := range whiteList {
-		if strings.HasPrefix(path, whitePath) {
-			return true
-		}
-	}
-	return false
-}
 
 // handleException is a helper function to handle exceptions and abort the request with the appropriate response
 func handleException(c *gin.Context, exception *resp.Exception, err error, message string) {
@@ -70,8 +60,6 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 
 		obj := c.Request.URL.Path
 		act := c.Request.Method
-
-		log.Infof(c, "userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 
 		// Retrieve user roles from service
 		userRoles, err := svc.UserRole.GetUserRoles(ctx, currentUser)
@@ -122,17 +110,21 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			permissions = append(permissions, rolePermissions...)
 		}
 
+		log.Infof(c, "Checking permission for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
+		log.Infof(c, "User roles: %v\n", roles)
+
 		// Check if the user has permission to access the resource
 		ok, err := checkPermission(enforcer, currentUser, obj, act, roles, permissions, currentTenant)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 				"code":    ecode.ServerErr,
-				"message": "Error enforcing policy",
+				"message": "Error evaluating permission, please contact the administrator",
 			})
 			return
 		}
 
 		if !ok {
+			log.Warnf(c, "Permission denied for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
 				"code":    ecode.AccessDenied,
 				"message": "You don't have permission to access this resource, please contact the administrator",
@@ -140,12 +132,14 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			return
 		}
 
+		log.Infof(c, "Permission granted for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 		c.Next()
 	}
 }
 
 // checkPermission checks if the user has permission to access the resource based on roles and permissions
 func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act string, roles []string, permissions []*structs.ReadPermission, tenantID string) (bool, error) {
+	// First, check role-based permissions
 	for _, role := range roles {
 		ok, err := enforcer.Enforce(role, tenantID, obj, act, nil, nil)
 		if err != nil {
@@ -155,14 +149,40 @@ func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act s
 			return true, nil
 		}
 	}
+
+	// Then, check user-specific permissions
 	for _, permission := range permissions {
-		ok, err := enforcer.Enforce(userID, tenantID, permission.Subject, permission.Action, nil, nil)
-		if err != nil {
-			return false, err
+		if types.ToValue(permission.Disabled) {
+			continue // Skip disabled permissions
 		}
-		if ok {
+
+		// Check for exact match
+		if permission.Subject == obj && (permission.Action == act || permission.Action == "*") {
 			return true, nil
 		}
+
+		// Check for wildcard permissions
+		if permission.Subject == "*" && (permission.Action == act || permission.Action == "*") {
+			return true, nil
+		}
+
+		// Check for partial wildcard matches (e.g., /v1/tenants/* should match /v1/tenants/{slug}/users)
+		if strings.HasSuffix(permission.Subject, "*") {
+			prefix := strings.TrimSuffix(permission.Subject, "*")
+			if strings.HasPrefix(obj, prefix) && (permission.Action == act || permission.Action == "*") {
+				return true, nil
+			}
+		}
 	}
+
+	// If no matching permission is found, check if the user has a wildcard permission
+	ok, err := enforcer.Enforce(userID, tenantID, "*", "*", nil, nil)
+	if err != nil {
+		return false, err
+	}
+	if ok {
+		return true, nil
+	}
+
 	return false, nil
 }

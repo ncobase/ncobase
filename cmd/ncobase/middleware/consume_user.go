@@ -33,10 +33,13 @@ func isTokenExpiring(tokenData map[string]any) bool {
 }
 
 // ConsumeUser consumes user authentication information.
-func ConsumeUser(signingKey string) gin.HandlerFunc {
+func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if inWhiteList(c.Request.URL.Path, whiteList) {
+			c.Next()
+			return
+		}
 		var token string
-
 		// Retrieve token from request header, query, or cookie
 		if authHeader := c.GetHeader("Authorization"); authHeader != "" {
 			// Token from header
@@ -99,10 +102,24 @@ func ConsumeUser(signingKey string) gin.HandlerFunc {
 
 // handleTokenError handles token decoding/validation errors.
 func handleTokenError(c *gin.Context, err error) {
+	var status int
+	var code int
+	var message string
+
+	if strings.Contains(err.Error(), "token is expired") {
+		status = http.StatusUnauthorized
+		code = ecode.Unauthorized
+		message = "token is expired"
+	} else {
+		status = http.StatusForbidden
+		code = ecode.AccessDenied
+		message = err.Error()
+	}
+
 	exception := &resp.Exception{
-		Status:  http.StatusForbidden,
-		Code:    ecode.AccessDenied,
-		Message: err.Error(),
+		Status:  status,
+		Code:    code,
+		Message: message,
 	}
 	resp.Fail(c.Writer, exception)
 	c.Abort()

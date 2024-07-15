@@ -11,8 +11,12 @@ import (
 )
 
 // ConsumeTenant consumes tenant information from the request header or user tenants.
-func ConsumeTenant(ts *tenantService.Service) gin.HandlerFunc {
+func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if inWhiteList(c.Request.URL.Path, whiteList) {
+			c.Next()
+			return
+		}
 		ctx := c.Request.Context()
 		// Retrieve user ID from context
 		userID := helper.GetUserID(ctx)

@@ -57,7 +57,7 @@ func (h *taxonomyHandler) Create(c *gin.Context) {
 
 	result, err := h.s.Taxonomy.Create(c.Request.Context(), body)
 	if err != nil {
-		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
 
