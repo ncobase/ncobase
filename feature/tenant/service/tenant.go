@@ -203,10 +203,10 @@ func (s *tenantService) Delete(ctx context.Context, id string) error {
 func (s *tenantService) List(ctx context.Context, params *structs.ListTenantParams) (*types.JSON, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
-		params.Limit = 20
+		params.Limit = 256
 	}
 	// limit must less than 100
-	if params.Limit > 100 {
+	if params.Limit > 1024 {
 		return nil, errors.New(ecode.FieldIsInvalid("limit"))
 	}
 

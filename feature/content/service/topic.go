@@ -92,10 +92,10 @@ func (s *topicService) Delete(ctx context.Context, slug string) error {
 func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams) (*types.JSON, error) {
 	// limit default value
 	if validator.IsEmpty(params.Limit) {
-		params.Limit = 20
+		params.Limit = 256
 	}
 	// limit must less than 100
-	if params.Limit > 100 {
+	if params.Limit > 1024 {
 		return nil, errors.New(ecode.FieldIsInvalid("limit"))
 	}
 
