@@ -255,26 +255,42 @@ func (s *Service) initPermissions(ctx context.Context) error {
 	permissions := []accessStructs.CreatePermissionBody{
 		{
 			PermissionBody: accessStructs.PermissionBody{
-				Name:        "all_permissions",
+				Name:        "all",
 				Action:      "*",
 				Subject:     "*",
-				Description: "All permissions",
+				Description: "Full access to all resources",
 			},
 		},
 		{
 			PermissionBody: accessStructs.PermissionBody{
-				Name:        "read",
+				Name:        "read_all",
 				Action:      "GET",
 				Subject:     "*",
-				Description: "Read permissions",
+				Description: "Read access to all resources",
 			},
 		},
 		{
 			PermissionBody: accessStructs.PermissionBody{
-				Name:        "write",
+				Name:        "write_all",
 				Action:      "POST",
 				Subject:     "*",
-				Description: "Write permissions",
+				Description: "Write access to all resources",
+			},
+		},
+		{
+			PermissionBody: accessStructs.PermissionBody{
+				Name:        "update_all",
+				Action:      "POST",
+				Subject:     "*",
+				Description: "Update access to all resources",
+			},
+		},
+		{
+			PermissionBody: accessStructs.PermissionBody{
+				Name:        "delete_all",
+				Action:      "POST",
+				Subject:     "*",
+				Description: "Delete access to all resources",
 			},
 		},
 	}
