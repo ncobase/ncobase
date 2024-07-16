@@ -10,6 +10,11 @@ import (
 
 // inWhiteList checks if the given path is in the whiteList.
 func inWhiteList(requestPath string, whiteList []string) bool {
+	// Skip root path
+	if requestPath == "/" {
+		return true
+	}
+
 	for _, whitePath := range whiteList {
 		// Support wildcard
 		if strings.Contains(whitePath, "*") {
