@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/access/data"
@@ -18,7 +20,7 @@ type CasbinServiceInterface interface {
 	Update(ctx context.Context, id string, updates types.JSON) (*structs.ReadCasbinRule, error)
 	Delete(ctx context.Context, id string) error
 	Get(ctx context.Context, id string) (*structs.ReadCasbinRule, error)
-	List(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*structs.ReadCasbinRule, error)
+	List(ctx context.Context, params *structs.ListCasbinRuleParams) (*paging.Result[*structs.ReadCasbinRule], error)
 	CountX(ctx context.Context, params *structs.ListCasbinRuleParams) int
 }
 
@@ -41,7 +43,7 @@ func (s *casbinService) Create(ctx context.Context, body *structs.CasbinRuleBody
 		return nil, err
 	}
 
-	return s.SerializeCasbin(row), nil
+	return s.Serialize(row), nil
 }
 
 // Update updates an existing Casbin rule (full and partial).
@@ -60,7 +62,7 @@ func (s *casbinService) Update(ctx context.Context, id string, updates types.JSO
 		return nil, err
 	}
 
-	return s.SerializeCasbin(row), nil
+	return s.Serialize(row), nil
 }
 
 // Get retrieves a Casbin rule by ID.
@@ -70,7 +72,7 @@ func (s *casbinService) Get(ctx context.Context, id string) (*structs.ReadCasbin
 		return nil, err
 	}
 
-	return s.SerializeCasbin(row), nil
+	return s.Serialize(row), nil
 }
 
 // Delete deletes a Casbin rule by ID.
@@ -84,13 +86,38 @@ func (s *casbinService) Delete(ctx context.Context, id string) error {
 }
 
 // List lists all Casbin rules based on query parameters.
-func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*structs.ReadCasbinRule, error) {
-	rows, err := s.casbin.Find(ctx, params)
-	if err := handleEntError("Casbin", err); err != nil {
-		return nil, err
+func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRuleParams) (*paging.Result[*structs.ReadCasbinRule], error) {
+	pp := paging.Params{
+		Cursor: params.Cursor,
+		Limit:  params.Limit,
 	}
 
-	return s.SerializeCasbins(rows), nil
+	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadCasbinRule, int, string, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
+
+		rows, err := s.casbin.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if validator.IsNotNil(err) {
+			log.Errorf(ctx, "Error listing Casbin rules: %v\n", err)
+			return nil, 0, "", err
+		}
+		if err != nil {
+			return nil, 0, "", err
+		}
+
+		total := s.casbin.CountX(ctx, params)
+
+		var nextCursor string
+		if len(rows) > 0 {
+			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
+		}
+
+		return s.Serializes(rows), total, nextCursor, nil
+	})
 }
 
 // CountX gets a count of Casbin rules.
@@ -98,17 +125,17 @@ func (s *casbinService) CountX(ctx context.Context, params *structs.ListCasbinRu
 	return s.casbin.CountX(ctx, params)
 }
 
-// SerializeCasbins serializes a list of Casbin rule entities to a response format.
-func (s *casbinService) SerializeCasbins(rows []*ent.CasbinRule) []*structs.ReadCasbinRule {
+// Serializes serializes a list of Casbin rule entities to a response format.
+func (s *casbinService) Serializes(rows []*ent.CasbinRule) []*structs.ReadCasbinRule {
 	var rs []*structs.ReadCasbinRule
 	for _, row := range rows {
-		rs = append(rs, s.SerializeCasbin(row))
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }
 
-// SerializeCasbin serializes a Casbin rule entity to a response format.
-func (s *casbinService) SerializeCasbin(row *ent.CasbinRule) *structs.ReadCasbinRule {
+// Serialize serializes a Casbin rule entity to a response format.
+func (s *casbinService) Serialize(row *ent.CasbinRule) *structs.ReadCasbinRule {
 	return &structs.ReadCasbinRule{
 		PType:     row.PType,
 		V0:        row.V0,

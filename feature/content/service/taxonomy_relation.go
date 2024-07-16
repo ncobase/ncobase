@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/feature/content/data"
 	"ncobase/feature/content/data/ent"
@@ -16,7 +18,7 @@ type TaxonomyRelationServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyRelationBody) (*structs.ReadTaxonomyRelation, error)
 	Update(ctx context.Context, body *structs.UpdateTaxonomyRelationBody) (*structs.ReadTaxonomyRelation, error)
 	Get(ctx context.Context, object string) (*structs.ReadTaxonomyRelation, error)
-	List(ctx context.Context, params *structs.ListTaxonomyRelationParams) ([]*structs.ReadTaxonomyRelation, error)
+	List(ctx context.Context, params *structs.ListTaxonomyRelationParams) (*paging.Result[*structs.ReadTaxonomyRelation], error)
 	Delete(ctx context.Context, object string) error
 }
 
@@ -72,25 +74,38 @@ func (s *taxonomyRelationService) Delete(ctx context.Context, object string) err
 }
 
 // List lists all taxonomy relations.
-func (s *taxonomyRelationService) List(ctx context.Context, params *structs.ListTaxonomyRelationParams) ([]*structs.ReadTaxonomyRelation, error) {
-	// limit default value
-	if validator.IsEmpty(params.Limit) {
-		params.Limit = 256
-	}
-	// limit must less than 100
-	if params.Limit > 1024 {
-		return nil, errors.New(ecode.FieldIsInvalid("limit"))
+func (s *taxonomyRelationService) List(ctx context.Context, params *structs.ListTaxonomyRelationParams) (*paging.Result[*structs.ReadTaxonomyRelation], error) {
+	pp := paging.Params{
+		Cursor: params.Cursor,
+		Limit:  params.Limit,
 	}
 
-	rows, err := s.taxonomyRelations.List(ctx, params)
-	if ent.IsNotFound(err) {
-		return nil, errors.New(ecode.FieldIsInvalid("cursor"))
-	}
-	if validator.IsNotNil(err) {
-		return nil, err
-	}
+	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadTaxonomyRelation, int, string, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
 
-	return s.Serializes(rows), nil
+		rows, err := s.taxonomyRelations.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if validator.IsNotNil(err) {
+			log.Errorf(ctx, "Error listing taxonomy relations: %v\n", err)
+			return nil, 0, "", err
+		}
+		if err != nil {
+			return nil, 0, "", err
+		}
+
+		total := s.taxonomyRelations.CountX(ctx, params)
+
+		var nextCursor string
+		if len(rows) > 0 {
+			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
+		}
+
+		return s.Serializes(rows), total, nextCursor, nil
+	})
 }
 
 // Serializes serializes taxonomy relations.

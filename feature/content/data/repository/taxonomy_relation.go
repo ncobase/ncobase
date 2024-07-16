@@ -22,6 +22,7 @@ type TaxonomyRelationsRepositoryInterface interface {
 	GetByObject(ctx context.Context, object string) (*ent.TaxonomyRelation, error)
 	Update(ctx context.Context, body *structs.UpdateTaxonomyRelationBody) (*ent.TaxonomyRelation, error)
 	List(ctx context.Context, params *structs.ListTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error)
+	CountX(ctx context.Context, params *structs.ListTaxonomyRelationParams) int
 	Delete(ctx context.Context, object string) error
 	BatchCreate(ctx context.Context, bodies []*structs.CreateTaxonomyRelationBody) ([]*ent.TaxonomyRelation, error)
 	FindRelations(ctx context.Context, params *structs.FindTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error)
@@ -150,6 +151,13 @@ func (r *taxonomyRelationsRepository) List(ctx context.Context, params *structs.
 	}
 
 	return rows, nil
+}
+
+// CountX gets a count of taxonomy relations.
+func (r *taxonomyRelationsRepository) CountX(ctx context.Context, _ *structs.ListTaxonomyRelationParams) int {
+	return r.ec.TaxonomyRelation.
+		Query().
+		CountX(ctx)
 }
 
 // Delete deletes a taxonomy relation.

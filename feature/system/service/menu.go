@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"errors"
+	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/feature"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/data/ent"
@@ -21,8 +23,8 @@ type MenuServiceInterface interface {
 	Update(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error)
 	Get(ctx context.Context, params *structs.FindMenu) (any, error)
 	Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error)
-	List(ctx context.Context, params *structs.ListMenuParams) (*types.JSON, error)
-	GetTree(ctx context.Context, params *structs.FindMenu) (*types.JSON, error)
+	List(ctx context.Context, params *structs.ListMenuParams) (*paging.Result[*structs.ReadMenu], error)
+	GetTree(ctx context.Context, params *structs.FindMenu) (*paging.Result[*structs.ReadMenu], error)
 }
 
 // MenuService represents the menu service.
@@ -40,54 +42,54 @@ func NewMenuService(d *data.Data, fm *feature.Manager) MenuServiceInterface {
 }
 
 // Create creates a new menu.
-func (svc *menuService) Create(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error) {
+func (s *menuService) Create(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error) {
 	if validator.IsEmpty(body.Name) {
 		return nil, errors.New(ecode.FieldIsInvalid("name"))
 	}
 
-	row, err := svc.menu.Create(ctx, body)
+	row, err := s.menu.Create(ctx, body)
 	if err := handleEntError("Menu", err); err != nil {
 		return nil, err
 	}
 
 	// // publish event
-	// svc.fm.PublishEvent("menu.created", svc.serializeMenuReply(row))
+	// s.fm.PublishEvent("menu.created", s.Serialize(row))
 
-	return svc.serializeMenuReply(row), nil
+	return s.Serialize(row), nil
 }
 
 // Update updates an existing menu (full and partial).
-func (svc *menuService) Update(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error) {
+func (s *menuService) Update(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error) {
 	if validator.IsEmpty(updates.ID) {
 		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
-	row, err := svc.menu.Update(ctx, updates)
+	row, err := s.menu.Update(ctx, updates)
 	if err := handleEntError("Menu", err); err != nil {
 		return nil, err
 	}
 
-	return svc.serializeMenuReply(row), nil
+	return s.Serialize(row), nil
 }
 
 // Get retrieves a menu by ID.
-func (svc *menuService) Get(ctx context.Context, params *structs.FindMenu) (any, error) {
+func (s *menuService) Get(ctx context.Context, params *structs.FindMenu) (any, error) {
 
 	if params.Children {
-		return svc.GetTree(ctx, params)
+		return s.GetTree(ctx, params)
 	}
 
-	row, err := svc.menu.Get(ctx, params)
+	row, err := s.menu.Get(ctx, params)
 	if err := handleEntError("Menu", err); err != nil {
 		return nil, err
 	}
 
-	return svc.serializeMenuReply(row), nil
+	return s.Serialize(row), nil
 }
 
 // Delete deletes a menu by ID.
-func (svc *menuService) Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error) {
-	err := svc.menu.Delete(ctx, params)
+func (s *menuService) Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error) {
+	err := s.menu.Delete(ctx, params)
 	if err := handleEntError("Menu", err); err != nil {
 		return nil, err
 	}
@@ -96,10 +98,9 @@ func (svc *menuService) Delete(ctx context.Context, params *structs.FindMenu) (*
 }
 
 // List lists all menus.
-func (svc *menuService) List(ctx context.Context, params *structs.ListMenuParams) (*types.JSON, error) {
-	// with children menu
-	if validator.IsTrue(params.Children) {
-		return svc.GetTree(ctx, &structs.FindMenu{
+func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) (*paging.Result[*structs.ReadMenu], error) {
+	if params.Children {
+		return s.GetTree(ctx, &structs.FindMenu{
 			Children: true,
 			Tenant:   params.Tenant,
 			Menu:     params.Parent,
@@ -107,43 +108,63 @@ func (svc *menuService) List(ctx context.Context, params *structs.ListMenuParams
 		})
 	}
 
-	// limit default value
-	if validator.IsEmpty(params.Limit) {
-		params.Limit = 256
-	}
-	// limit must be less than 100
-	if params.Limit > 1024 {
-		return nil, errors.New(ecode.FieldIsInvalid("limit"))
+	pp := paging.Params{
+		Cursor: params.Cursor,
+		Limit:  params.Limit,
 	}
 
-	rows, err := svc.menu.List(ctx, params)
-	if err := handleEntError("Menu", err); err != nil {
-		return nil, err
-	}
+	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadMenu, int, string, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
 
-	total := svc.menu.CountX(ctx, params)
+		rows, err := s.menu.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if validator.IsNotNil(err) {
+			log.Errorf(ctx, "Error listing menus: %v\n", err)
+			return nil, 0, "", err
+		}
+		if err != nil {
+			return nil, 0, "", err
+		}
 
-	return &types.JSON{
-		"content": rows,
-		"total":   total,
-	}, nil
+		total := s.menu.CountX(ctx, params)
+
+		var nextCursor string
+		if len(rows) > 0 {
+			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
+		}
+
+		return s.Serializes(rows), total, nextCursor, nil
+	})
 }
 
 // GetTree retrieves the menu tree.
-func (svc *menuService) GetTree(ctx context.Context, params *structs.FindMenu) (*types.JSON, error) {
-	rows, err := svc.menu.GetTree(ctx, params)
+func (s *menuService) GetTree(ctx context.Context, params *structs.FindMenu) (*paging.Result[*structs.ReadMenu], error) {
+	rows, err := s.menu.GetTree(ctx, params)
 	if err := handleEntError("Menu", err); err != nil {
 		return nil, err
 	}
 
-	return &types.JSON{
-		"content": svc.buildMenuTree(rows),
-		"total":   len(rows),
+	return &paging.Result[*structs.ReadMenu]{
+		Items: s.buildMenuTree(rows),
+		Total: len(rows),
 	}, nil
 }
 
-// serializeMenuReply serializes a menu.
-func (svc *menuService) serializeMenuReply(row *ent.Menu) *structs.ReadMenu {
+// Serializes menus.
+func (s *menuService) Serializes(rows []*ent.Menu) []*structs.ReadMenu {
+	rs := make([]*structs.ReadMenu, len(rows))
+	for i, row := range rows {
+		rs[i] = s.Serialize(row)
+	}
+	return rs
+}
+
+// Serialize serializes a menu.
+func (s *menuService) Serialize(row *ent.Menu) *structs.ReadMenu {
 	return &structs.ReadMenu{
 		ID:        row.ID,
 		Name:      row.Name,
@@ -168,11 +189,11 @@ func (svc *menuService) serializeMenuReply(row *ent.Menu) *structs.ReadMenu {
 }
 
 // buildMenuTree builds a menu tree structure.
-func (svc *menuService) buildMenuTree(menus []*ent.Menu) []*structs.ReadMenu {
+func (s *menuService) buildMenuTree(menus []*ent.Menu) []*structs.ReadMenu {
 	// Convert menus to ReadMenu objects
 	menuNodes := make([]types.TreeNode, len(menus))
 	for i, m := range menus {
-		menuNodes[i] = svc.serializeMenuReply(m)
+		menuNodes[i] = s.Serialize(m)
 	}
 
 	// Sort menu nodes

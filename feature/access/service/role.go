@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/access/data"
@@ -22,7 +24,7 @@ type RoleServiceInterface interface {
 	GetByIDs(ctx context.Context, roleIDs []string) ([]*structs.ReadRole, error)
 	Find(ctx context.Context, r string) (*structs.ReadRole, error)
 	CreateSuperAdminRole(ctx context.Context) (*structs.ReadRole, error)
-	List(ctx context.Context, params *structs.ListRoleParams) (types.JSON, error)
+	List(ctx context.Context, params *structs.ListRoleParams) (paging.Result[*structs.ReadRole], error)
 	CountX(ctx context.Context, params *structs.ListRoleParams) int
 	Serialize(row *ent.Role) *structs.ReadRole
 	Serializes(rows []*ent.Role) []*structs.ReadRole
@@ -129,27 +131,40 @@ func (s *roleService) CreateSuperAdminRole(ctx context.Context) (*structs.ReadRo
 }
 
 // List lists all roles.
-func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) (types.JSON, error) {
-	// limit default value
-	if validator.IsEmpty(params.Limit) {
-		params.Limit = 256
-	}
-	// limit must be less than 100
-	if params.Limit > 1024 {
-		return nil, errors.New(ecode.FieldIsInvalid("limit"))
+func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) (paging.Result[*structs.ReadRole], error) {
+	pp := paging.Params{
+		Cursor: params.Cursor,
+		Limit:  params.Limit,
 	}
 
-	rs, err := s.role.List(ctx, params)
-	if err := handleEntError("Role", err); err != nil {
-		return nil, err
-	}
+	rs, err := paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadRole, int, string, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
 
-	total := s.role.CountX(ctx, params)
+		rows, err := s.role.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if validator.IsNotNil(err) {
+			log.Errorf(ctx, "Error listing roles: %v\n", err)
+			return nil, 0, "", err
+		}
+		if err != nil {
+			return nil, 0, "", err
+		}
 
-	return types.JSON{
-		"content": s.Serializes(rs),
-		"total":   total,
-	}, nil
+		total := s.role.CountX(ctx, params)
+
+		var nextCursor string
+		if len(rows) > 0 {
+			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
+		}
+
+		return s.Serializes(rows), total, nextCursor, nil
+	})
+
+	return *rs, err
 }
 
 // CountX gets a count of roles.

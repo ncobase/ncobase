@@ -308,18 +308,14 @@ func (s *Service) initPermissions(ctx context.Context) error {
 		return err
 	}
 
-	aps := allPermissions["all_permissions"].([]*accessStructs.ReadPermission)
-
 	roles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{})
 	if err != nil {
 		log.Errorf(ctx, "initPermissions error on list roles: %v\n", err)
 		return err
 	}
 
-	rs := roles["content"].([]*accessStructs.ReadRole)
-
-	for _, role := range rs {
-		for _, perm := range aps {
+	for _, role := range roles.Items {
+		for _, perm := range allPermissions.Items {
 			var assignPermission bool
 			switch role.Slug {
 			case "super-admin":
@@ -376,10 +372,8 @@ func (s *Service) initCasbinPolicies(ctx context.Context) error {
 		return err
 	}
 
-	roles := allRoles["content"].([]*accessStructs.ReadRole)
-
 	// Initialize policies based on role-permission relationship
-	for _, role := range roles {
+	for _, role := range allRoles.Items {
 		rolePermissions, err := s.acs.RolePermission.GetRolePermissions(ctx, role.ID)
 		if err != nil {
 			log.Errorf(ctx, "initCasbinPolicies error on list role permissions for role %s: %v\n", role.Slug, err)

@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/access/data"
@@ -19,7 +21,7 @@ type PermissionServiceInterface interface {
 	Delete(ctx context.Context, permissionID string) error
 	GetByID(ctx context.Context, permissionID string) (*structs.ReadPermission, error)
 	GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*structs.ReadPermission, error)
-	List(ctx context.Context, params *structs.ListPermissionParams) (types.JSON, error)
+	List(ctx context.Context, params *structs.ListPermissionParams) (paging.Result[*structs.ReadPermission], error)
 	CountX(ctx context.Context, params *structs.ListPermissionParams) int
 	Serialize(row *ent.Permission) *structs.ReadPermission
 	Serializes(rows []*ent.Permission) []*structs.ReadPermission
@@ -93,27 +95,40 @@ func (s *permissionService) GetPermissionsByRoleID(ctx context.Context, roleID s
 }
 
 // List lists all permissions.
-func (s *permissionService) List(ctx context.Context, params *structs.ListPermissionParams) (types.JSON, error) {
-	// limit default value
-	if validator.IsEmpty(params.Limit) {
-		params.Limit = 256
-	}
-	// limit must be less than 100
-	if params.Limit > 1024 {
-		return nil, errors.New(ecode.FieldIsInvalid("limit"))
+func (s *permissionService) List(ctx context.Context, params *structs.ListPermissionParams) (paging.Result[*structs.ReadPermission], error) {
+	pp := paging.Params{
+		Cursor: params.Cursor,
+		Limit:  params.Limit,
 	}
 
-	rows, err := s.permission.List(ctx, params)
-	if err := handleEntError("Permission", err); err != nil {
-		return nil, err
-	}
+	rs, err := paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadPermission, int, string, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
 
-	total := s.permission.CountX(ctx, params)
+		rows, err := s.permission.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if validator.IsNotNil(err) {
+			log.Errorf(ctx, "Error listing permissions: %v\n", err)
+			return nil, 0, "", err
+		}
+		if err != nil {
+			return nil, 0, "", err
+		}
 
-	return types.JSON{
-		"content": s.Serializes(rows),
-		"total":   total,
-	}, nil
+		total := s.permission.CountX(ctx, params)
+
+		var nextCursor string
+		if len(rows) > 0 {
+			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
+		}
+
+		return s.Serializes(rows), total, nextCursor, nil
+	})
+
+	return *rs, err
 }
 
 // CountX gets a count of permissions.

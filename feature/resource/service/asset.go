@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"ncobase/common/paging"
 	"ncobase/feature/resource/data"
 	"ncobase/feature/resource/data/ent"
 	"ncobase/feature/resource/data/repository"
@@ -14,7 +15,6 @@ import (
 
 	"ncobase/common/ecode"
 	"ncobase/common/log"
-	"ncobase/common/types"
 	"ncobase/common/validator"
 )
 
@@ -24,7 +24,7 @@ type AssetServiceInterface interface {
 	Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadAsset, error)
 	Get(ctx context.Context, slug string) (*structs.ReadAsset, error)
 	Delete(ctx context.Context, slug string) error
-	List(ctx context.Context, params *structs.ListAssetParams) (*types.JSON, error)
+	List(ctx context.Context, params *structs.ListAssetParams) (*paging.Result[*structs.ReadAsset], error)
 	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadAsset, error)
 }
 
@@ -180,51 +180,57 @@ func (s *assetService) Delete(ctx context.Context, slug string) error {
 	row, err := s.asset.GetByID(ctx, slug)
 	if err != nil {
 		log.Errorf(ctx, "Error retrieving asset: %v\n", err)
-		return errors.New("Error retrieving asset")
+		return errors.New("error retrieving asset")
 	}
 
 	err = s.asset.Delete(ctx, slug)
 	if err != nil {
 		log.Errorf(ctx, "Error deleting asset: %v\n", err)
-		return errors.New("Error deleting asset")
+		return errors.New("error deleting asset")
 	}
 
 	// Delete the file from storage
 	if err := storage.Delete(row.Path); err != nil {
 		log.Errorf(ctx, "Error deleting file: %v\n", err)
-		return errors.New("Error deleting file")
+		return errors.New("error deleting file")
 	}
 
 	return nil
 }
 
 // List lists assets.
-func (s *assetService) List(ctx context.Context, params *structs.ListAssetParams) (*types.JSON, error) {
-	// limit default value
-	if validator.IsEmpty(params.Limit) {
-		params.Limit = 256
-	}
-	// limit must less than 100
-	if params.Limit > 1024 {
-		return nil, errors.New(ecode.FieldIsInvalid("limit"))
+func (s *assetService) List(ctx context.Context, params *structs.ListAssetParams) (*paging.Result[*structs.ReadAsset], error) {
+	pp := paging.Params{
+		Cursor: params.Cursor,
+		Limit:  params.Limit,
 	}
 
-	rows, err := s.asset.List(ctx, params)
+	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadAsset, int, string, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
 
-	if ent.IsNotFound(err) {
-		return nil, errors.New(ecode.FieldIsInvalid("cursor"))
-	}
-	if validator.IsNotNil(err) {
-		log.Errorf(ctx, "Error listing assets: %v\n", err)
-		return nil, err
-	}
+		rows, err := s.asset.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if validator.IsNotNil(err) {
+			log.Errorf(ctx, "Error listing assets: %v\n", err)
+			return nil, 0, "", err
+		}
+		if err != nil {
+			return nil, 0, "", err
+		}
 
-	total := s.asset.CountX(ctx, params)
+		total := s.asset.CountX(ctx, params)
 
-	return &types.JSON{
-		"content": rows,
-		"total":   total,
-	}, nil
+		var nextCursor string
+		if len(rows) > 0 {
+			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
+		}
+
+		return s.Serializes(rows), total, nextCursor, nil
+	})
 }
 
 // GetFileStream retrieves an asset's file stream.
@@ -244,14 +250,14 @@ func (s *assetService) GetFileStream(ctx context.Context, slug string) (io.ReadC
 			return nil, nil, errors.New(ecode.NotExist(fmt.Sprintf("Asset %s", slug)))
 		}
 		log.Errorf(ctx, "Error retrieving asset: %v\n", err)
-		return nil, nil, errors.New("Error retrieving asset")
+		return nil, nil, errors.New("error retrieving asset")
 	}
 
 	// Fetch file stream from storage
 	fileStream, err := storage.GetStream(row.Path)
 	if err != nil {
 		log.Errorf(ctx, "Error retrieving file stream: %v\n", err)
-		return nil, nil, errors.New("Error retrieving file stream")
+		return nil, nil, errors.New("error retrieving file stream")
 	}
 
 	// Return file stream along with asset information

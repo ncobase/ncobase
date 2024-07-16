@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/common/jwt"
+	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	accessService "ncobase/feature/access/service"
@@ -27,7 +28,7 @@ type AccountServiceInterface interface {
 	GetMe(ctx context.Context) (*structs.AccountMeshes, error)
 	UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error
 	Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error)
-	Tenants(ctx context.Context) (*types.JSON, error)
+	Tenants(ctx context.Context) (*paging.Result[*tenantStructs.ReadTenant], error)
 }
 
 // accountService is the struct for the service.
@@ -325,7 +326,7 @@ func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant,
 }
 
 // Tenants retrieves the tenant associated with the user's account.
-func (s *accountService) Tenants(ctx context.Context) (*types.JSON, error) {
+func (s *accountService) Tenants(ctx context.Context) (*paging.Result[*tenantStructs.ReadTenant], error) {
 	userID := helper.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")

@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -18,7 +20,7 @@ type TaxonomyServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*structs.ReadTaxonomy, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTaxonomy, error)
 	Get(ctx context.Context, slug string) (*structs.ReadTaxonomy, error)
-	List(ctx context.Context, params *structs.ListTaxonomyParams) (*types.JSON, error)
+	List(ctx context.Context, params *structs.ListTaxonomyParams) (*paging.Result[*structs.ReadTaxonomy], error)
 	Delete(ctx context.Context, slug string) error
 }
 
@@ -95,31 +97,38 @@ func (s *taxonomyService) Delete(ctx context.Context, slug string) error {
 }
 
 // List lists all taxonomies.
-func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomyParams) (*types.JSON, error) {
-	// limit default value
-	if validator.IsEmpty(params.Limit) {
-		params.Limit = 256
-	}
-	// limit must less than 100
-	if params.Limit > 1024 {
-		return nil, errors.New(ecode.FieldIsInvalid("limit"))
+func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomyParams) (*paging.Result[*structs.ReadTaxonomy], error) {
+	pp := paging.Params{
+		Cursor: params.Cursor,
+		Limit:  params.Limit,
 	}
 
-	rows, err := s.taxonomy.List(ctx, params)
+	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadTaxonomy, int, string, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
 
-	if ent.IsNotFound(err) {
-		return nil, errors.New(ecode.FieldIsInvalid("cursor"))
-	}
-	if validator.IsNotNil(err) {
-		return nil, err
-	}
+		rows, err := s.taxonomy.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if validator.IsNotNil(err) {
+			log.Errorf(ctx, "Error listing taxonomies: %v\n", err)
+			return nil, 0, "", err
+		}
+		if err != nil {
+			return nil, 0, "", err
+		}
 
-	total := s.taxonomy.CountX(ctx, params)
+		total := s.taxonomy.CountX(ctx, params)
 
-	return &types.JSON{
-		"content": s.Serializes(rows),
-		"total":   total,
-	}, nil
+		var nextCursor string
+		if len(rows) > 0 {
+			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
+		}
+
+		return s.Serializes(rows), total, nextCursor, nil
+	})
 }
 
 // Serializes serializes taxonomies.

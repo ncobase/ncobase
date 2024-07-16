@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
+	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -11,7 +13,6 @@ import (
 	"ncobase/feature/content/data/ent"
 	"ncobase/feature/content/data/repository"
 	"ncobase/feature/content/structs"
-	"ncobase/helper"
 )
 
 // TopicServiceInterface is the interface for the service.
@@ -19,7 +20,7 @@ type TopicServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTopicBody) (*structs.ReadTopic, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTopic, error)
 	Get(ctx context.Context, slug string) (*structs.ReadTopic, error)
-	List(ctx context.Context, params *structs.ListTopicParams) (*types.JSON, error)
+	List(ctx context.Context, params *structs.ListTopicParams) (*paging.Result[*structs.ReadTopic], error)
 	Delete(ctx context.Context, slug string) error
 }
 
@@ -89,33 +90,38 @@ func (s *topicService) Delete(ctx context.Context, slug string) error {
 }
 
 // List lists all topics.
-func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams) (*types.JSON, error) {
-	// limit default value
-	if validator.IsEmpty(params.Limit) {
-		params.Limit = 256
-	}
-	// limit must less than 100
-	if params.Limit > 1024 {
-		return nil, errors.New(ecode.FieldIsInvalid("limit"))
+func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams) (*paging.Result[*structs.ReadTopic], error) {
+	pp := paging.Params{
+		Cursor: params.Cursor,
+		Limit:  params.Limit,
 	}
 
-	rows, err := s.topic.List(ctx, params)
+	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadTopic, int, string, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
 
-	if ent.IsNotFound(err) {
-		return nil, errors.New(ecode.FieldIsInvalid("cursor"))
-	}
-	if validator.IsNotNil(err) {
-		return nil, err
-	}
+		rows, err := s.topic.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if validator.IsNotNil(err) {
+			log.Errorf(ctx, "Error listing taxonomies: %v\n", err)
+			return nil, 0, "", err
+		}
+		if err != nil {
+			return nil, 0, "", err
+		}
 
-	total := s.topic.CountX(ctx, params)
+		total := s.topic.CountX(ctx, params)
 
-	return &types.JSON{
-		"current_tenant_id": helper.GetTenantID(ctx),
-		"current_user_id":   helper.GetUserID(ctx),
-		"content":           rows,
-		"total":             total,
-	}, nil
+		var nextCursor string
+		if len(rows) > 0 {
+			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
+		}
+
+		return s.Serializes(rows), total, nextCursor, nil
+	})
 }
 
 // Serializes serializes topics.
