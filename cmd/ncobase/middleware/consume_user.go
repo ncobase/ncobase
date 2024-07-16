@@ -8,6 +8,7 @@ import (
 	"ncobase/common/cookie"
 	"ncobase/common/ecode"
 	"ncobase/common/jwt"
+	"ncobase/common/log"
 	"ncobase/common/resp"
 	"ncobase/helper"
 	"net/http"
@@ -102,18 +103,44 @@ func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
 
 // handleTokenError handles token decoding/validation errors.
 func handleTokenError(c *gin.Context, err error) {
-	var status int
-	var code int
-	var message string
+	var (
+		status  int
+		code    int
+		message string
+	)
 
-	if strings.Contains(err.Error(), "token is expired") {
+	// Logging the error
+	log.Printf(c.Request.Context(), "Error: %v", err)
+
+	switch {
+	case strings.Contains(err.Error(), "token is expired"):
 		status = http.StatusUnauthorized
 		code = ecode.Unauthorized
-		message = "token is expired"
-	} else {
+		message = "Token has expired. Please login again."
+	case strings.Contains(err.Error(), "token is invalid"):
+		status = http.StatusUnauthorized
+		code = ecode.Unauthorized
+		message = "Token is invalid. Please check your token and try again."
+	case strings.Contains(err.Error(), "signature is invalid"):
+		status = http.StatusUnauthorized
+		code = ecode.Unauthorized
+		message = "Signature is invalid. Please check your token and try again."
+	case strings.Contains(err.Error(), "token is malformed"):
+		status = http.StatusUnauthorized
+		code = ecode.Unauthorized
+		message = "Token is malformed. Please check your token and try again."
+	case strings.Contains(err.Error(), "token is missing"):
+		status = http.StatusUnauthorized
+		code = ecode.Unauthorized
+		message = "Token is missing. Please provide a valid token."
+	case strings.Contains(err.Error(), "user not found"):
+		status = http.StatusUnauthorized
+		code = ecode.Unauthorized
+		message = "User not found. Please check your credentials and try again."
+	default:
 		status = http.StatusForbidden
 		code = ecode.AccessDenied
-		message = err.Error()
+		message = "Access denied. You do not have the necessary permissions to access this resource."
 	}
 
 	exception := &resp.Exception{
