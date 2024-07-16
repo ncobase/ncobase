@@ -147,7 +147,7 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 		}
 		results = append(results, result)
 	}
-	resp.Success(c.Writer, &resp.Exception{Data: results})
+	resp.Success(c.Writer, results)
 }
 
 func (h *assetHandler) validateAssetBody(body *structs.CreateAssetBody) error {

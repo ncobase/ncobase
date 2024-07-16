@@ -440,48 +440,48 @@ func (m *Manager) GetStatus() map[string]string {
 // ManageRoutes manages routes for all features / plugins
 func (m *Manager) ManageRoutes(e *gin.Engine) {
 	e.GET("/features", func(c *gin.Context) {
-		resp.Success(c.Writer, &resp.Exception{Data: m.features})
+		resp.Success(c.Writer, m.features)
 	})
 
 	e.POST("/features/load", func(c *gin.Context) {
 		name := c.Query("name")
 		if name == "" {
-			resp.Fail(c.Writer, &resp.Exception{Code: ecode.RequestErr, Message: "name is required"})
+			resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("name")))
 			return
 		}
 		fc := m.conf.Feature
 		fp := filepath.Join(fc.Path, name+".so")
 		if err := m.loadPlugin(fp); err != nil {
-			resp.Fail(c.Writer, &resp.Exception{Code: ecode.ServerErr, Message: fmt.Sprintf("Failed to load feature %s: %v", name, err)})
+			resp.Fail(c.Writer, resp.InternalServer(fmt.Sprintf("Failed to load feature %s: %v", name, err)))
 			return
 		}
-		resp.Success(c.Writer, &resp.Exception{Message: fmt.Sprintf("%s loaded successfully", name)})
+		resp.Success(c.Writer, fmt.Sprintf("%s loaded successfully", name))
 	})
 
 	e.POST("/features/unload", func(c *gin.Context) {
 		name := c.Query("name")
 		if name == "" {
-			resp.Fail(c.Writer, &resp.Exception{Code: ecode.RequestErr, Message: "name is required"})
+			resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("name")))
 			return
 		}
 		if err := m.UnloadPlugin(name); err != nil {
-			resp.Fail(c.Writer, &resp.Exception{Code: ecode.ServerErr, Message: fmt.Sprintf("Failed to unload feature %s: %v", name, err)})
+			resp.Fail(c.Writer, resp.InternalServer(fmt.Sprintf("Failed to unload feature %s: %v", name, err)))
 			return
 		}
-		resp.Success(c.Writer, &resp.Exception{Message: fmt.Sprintf("%s unloaded successfully", name)})
+		resp.Success(c.Writer, fmt.Sprintf("%s unloaded successfully", name))
 	})
 
 	e.POST("/features/reload", func(c *gin.Context) {
 		name := c.Query("name")
 		if name == "" {
-			resp.Fail(c.Writer, &resp.Exception{Code: ecode.RequestErr, Message: "name is required"})
+			resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("name")))
 			return
 		}
 		if err := m.ReloadPlugin(name); err != nil {
-			resp.Fail(c.Writer, &resp.Exception{Code: ecode.ServerErr, Message: fmt.Sprintf("Failed to reload feature %s: %v", name, err)})
+			resp.Fail(c.Writer, resp.InternalServer(fmt.Sprintf("Failed to reload feature %s: %v", name, err)))
 			return
 		}
-		resp.Success(c.Writer, &resp.Exception{Message: fmt.Sprintf("%s reloaded successfully", name)})
+		resp.Success(c.Writer, fmt.Sprintf("%s reloaded successfully", name))
 	})
 }
 

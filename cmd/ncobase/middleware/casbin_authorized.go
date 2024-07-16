@@ -10,7 +10,6 @@ import (
 	"ncobase/feature/access/service"
 	"ncobase/feature/access/structs"
 	"ncobase/helper"
-	"net/http"
 	"strings"
 
 	"github.com/casbin/casbin/v2"
@@ -20,18 +19,12 @@ import (
 // handleException is a helper function to handle exceptions and abort the request with the appropriate response
 func handleException(c *gin.Context, exception *resp.Exception, err error, message string) {
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-			"code":    ecode.ServerErr,
-			"message": message,
-		})
-		return
+		resp.Fail(c.Writer, resp.InternalServer(message))
+		c.Abort()
 	}
 	if exception.Code != 0 {
-		c.AbortWithStatusJSON(exception.Status, gin.H{
-			"code":    exception.Code,
-			"message": exception.Message,
-		})
-		return
+		resp.Fail(c.Writer, exception)
+		c.Abort()
 	}
 }
 
@@ -51,10 +44,8 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 		// Check if user ID or tenant ID is empty
 		if validator.IsEmpty(currentUser) || validator.IsEmpty(currentTenant) {
 			// Respond with unauthorized error
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"code":    ecode.Unauthorized,
-				"message": ecode.Text(ecode.Unauthorized),
-			})
+			resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
+			c.Abort()
 			return
 		}
 
@@ -116,19 +107,15 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 		// Check if the user has permission to access the resource
 		ok, err := checkPermission(enforcer, currentUser, obj, act, roles, permissions, currentTenant)
 		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-				"code":    ecode.ServerErr,
-				"message": "Error evaluating permission, please contact the administrator",
-			})
+			resp.Fail(c.Writer, resp.InternalServer("Error evaluating permission, please contact the administrator"))
+			c.Abort()
 			return
 		}
 
 		if !ok {
 			log.Warnf(c, "Permission denied for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
-			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
-				"code":    ecode.AccessDenied,
-				"message": "You don't have permission to access this resource, please contact the administrator",
-			})
+			resp.Fail(c.Writer, resp.Forbidden("You don't have permission to access this resource, please contact the administrator"))
+			c.Abort()
 			return
 		}
 

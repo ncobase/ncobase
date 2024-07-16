@@ -1,10 +1,9 @@
 package middleware
 
 import (
-	"ncobase/common/validator"
-	"net/http"
-
 	"ncobase/common/ecode"
+	"ncobase/common/resp"
+	"ncobase/common/validator"
 	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
@@ -21,11 +20,8 @@ func AuthenticatedTenant(c *gin.Context) {
 	// Check if tenant ID is empty
 	if validator.IsEmpty(tenantID) {
 		// Respond with unauthorized error
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-			"code":    ecode.Unauthorized,
-			"message": ecode.Text(ecode.Unauthorized),
-		})
-		return
+		resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
+		c.Abort()
 	}
 
 	// Proceed to the next handler if the user is authenticated

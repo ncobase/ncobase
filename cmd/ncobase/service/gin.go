@@ -6,7 +6,7 @@ import (
 	"ncobase/common/config"
 	"ncobase/common/ecode"
 	"ncobase/common/log"
-	"ncobase/common/types"
+	"ncobase/common/resp"
 	"ncobase/feature"
 	accessService "ncobase/feature/access/service"
 	tenantService "ncobase/feature/tenant/service"
@@ -52,7 +52,7 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 	registerWebSocketRoutes(engine)
 
 	engine.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusNotFound, types.JSON{"message": ecode.Text(http.StatusNotFound)})
+		resp.Fail(c.Writer, resp.NotFound(ecode.Text(http.StatusNotFound)))
 	})
 	engine.NoMethod()
 
