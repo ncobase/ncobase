@@ -2,6 +2,7 @@ package structs
 
 import (
 	"fmt"
+	"ncobase/common/types"
 )
 
 // CasbinRuleBody defines the structure for request body used to create or update Casbin rules.
@@ -34,7 +35,7 @@ type ReadCasbinRule struct {
 }
 
 func (r *ReadCasbinRule) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // ListCasbinRuleParams defines the parameters for listing Casbin rules.

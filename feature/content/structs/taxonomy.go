@@ -68,7 +68,7 @@ type ReadTaxonomy struct {
 }
 
 func (r *ReadTaxonomy) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // ListTaxonomyParams represents the query parameters for listing taxonomies.

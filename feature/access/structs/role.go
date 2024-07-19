@@ -42,7 +42,7 @@ type ReadRole struct {
 }
 
 func (r *ReadRole) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // FindRole represents the parameters for finding a role.

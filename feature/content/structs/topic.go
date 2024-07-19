@@ -2,6 +2,7 @@ package structs
 
 import (
 	"fmt"
+	"ncobase/common/types"
 )
 
 // FindTopic represents the parameters for finding a topic.
@@ -62,7 +63,7 @@ type ReadTopic struct {
 }
 
 func (r *ReadTopic) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // ListTopicParams represents the parameters for listing topics.

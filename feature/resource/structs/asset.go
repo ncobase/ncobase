@@ -61,7 +61,7 @@ type ReadAsset struct {
 }
 
 func (r *ReadAsset) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // ListAssetParams represents the parameters for listing assets.

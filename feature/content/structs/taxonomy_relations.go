@@ -2,6 +2,7 @@ package structs
 
 import (
 	"fmt"
+	"ncobase/common/types"
 )
 
 // TaxonomyRelationBody represents the common fields for creating and updating a taxonomy relation.
@@ -39,7 +40,7 @@ type ReadTaxonomyRelation struct {
 }
 
 func (r *ReadTaxonomyRelation) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // ListTaxonomyRelationParams represents the parameters for listing taxonomy relations.

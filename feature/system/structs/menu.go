@@ -81,7 +81,7 @@ func (r *ReadMenu) GetChildren() []types.TreeNode {
 }
 
 func (r *ReadMenu) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // FindMenu represents the parameters for finding a menu.

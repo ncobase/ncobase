@@ -46,7 +46,7 @@ type ReadPermission struct {
 }
 
 func (r *ReadPermission) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // FindPermission represents the parameters for finding a permission.
