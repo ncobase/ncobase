@@ -291,7 +291,6 @@ func (r *tenantRepository) List(ctx context.Context, params *structs.ListTenantP
 		builder.Order(ent.Desc(tenantEnt.FieldCreatedAt), ent.Desc(tenantEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)

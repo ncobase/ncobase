@@ -222,7 +222,6 @@ func (r *roleRepository) List(ctx context.Context, params *structs.ListRoleParam
 		builder.Order(ent.Desc(roleEnt.FieldCreatedAt), ent.Desc(roleEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)

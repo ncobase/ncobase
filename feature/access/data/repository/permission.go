@@ -260,7 +260,6 @@ func (r *permissionRepository) List(ctx context.Context, params *structs.ListPer
 		builder.Order(ent.Desc(permissionEnt.FieldCreatedAt), ent.Desc(permissionEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)

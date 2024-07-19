@@ -162,7 +162,6 @@ func (r *taxonomyRelationsRepository) List(ctx context.Context, params *structs.
 		builder.Order(ent.Desc(taxonomyRelationEnt.FieldCreatedAt), ent.Desc(taxonomyRelationEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)

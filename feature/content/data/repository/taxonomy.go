@@ -282,7 +282,6 @@ func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxon
 		builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt), ent.Desc(taxonomyEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	// belong tenant

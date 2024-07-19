@@ -263,7 +263,6 @@ func (r *assetRepostory) List(ctx context.Context, params *structs.ListAssetPara
 		builder.Order(ent.Desc(assetEnt.FieldCreatedAt), ent.Desc(assetEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	// execute the builder.

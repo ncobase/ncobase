@@ -75,14 +75,14 @@ func (s *taxonomyRelationService) Delete(ctx context.Context, object string) err
 // List lists all taxonomy relations.
 func (s *taxonomyRelationService) List(ctx context.Context, params *structs.ListTaxonomyRelationParams) (paging.Result[*structs.ReadTaxonomyRelation], error) {
 	pp := paging.Params{
-		Cursor: params.Cursor,
-		Limit:  params.Limit,
+		Cursor:    params.Cursor,
+		Limit:     params.Limit,
+		Direction: params.Direction,
 	}
 
-	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadTaxonomyRelation, int, error) {
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadTaxonomyRelation, int, error) {
 		lp := *params
 		lp.Cursor = cursor
-		lp.Offset = offset
 		lp.Limit = limit
 		lp.Direction = direction
 

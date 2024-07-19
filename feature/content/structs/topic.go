@@ -70,7 +70,6 @@ func (r *ReadTopic) GetCursorValue() string {
 type ListTopicParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Taxonomy  string `form:"taxonomy,omitempty" json:"taxonomy,omitempty"`
 	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`

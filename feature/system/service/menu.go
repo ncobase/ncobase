@@ -108,14 +108,14 @@ func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) 
 	}
 
 	pp := paging.Params{
-		Cursor: params.Cursor,
-		Limit:  params.Limit,
+		Cursor:    params.Cursor,
+		Limit:     params.Limit,
+		Direction: params.Direction,
 	}
 
-	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadMenu, int, error) {
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadMenu, int, error) {
 		lp := *params
 		lp.Cursor = cursor
-		lp.Offset = offset
 		lp.Limit = limit
 		lp.Direction = direction
 

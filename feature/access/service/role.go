@@ -132,14 +132,14 @@ func (s *roleService) CreateSuperAdminRole(ctx context.Context) (*structs.ReadRo
 // List lists all roles.
 func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) (paging.Result[*structs.ReadRole], error) {
 	pp := paging.Params{
-		Cursor: params.Cursor,
-		Limit:  params.Limit,
+		Cursor:    params.Cursor,
+		Limit:     params.Limit,
+		Direction: params.Direction,
 	}
 
-	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadRole, int, error) {
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadRole, int, error) {
 		lp := *params
 		lp.Cursor = cursor
-		lp.Offset = offset
 		lp.Limit = limit
 		lp.Direction = direction
 

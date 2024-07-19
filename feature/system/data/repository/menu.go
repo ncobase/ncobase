@@ -311,7 +311,6 @@ func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParam
 		builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	return r.executeArrayQuery(ctx, builder)

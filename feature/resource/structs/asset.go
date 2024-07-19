@@ -68,7 +68,6 @@ func (r *ReadAsset) GetCursorValue() string {
 type ListAssetParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty" validate:"required"`
 	Object    string `form:"object,omitempty" json:"object,omitempty" validate:"required"`

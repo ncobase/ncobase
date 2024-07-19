@@ -263,7 +263,6 @@ func (r *topicRepository) List(ctx context.Context, params *structs.ListTopicPar
 		builder.Order(ent.Desc(topicEnt.FieldCreatedAt), ent.Desc(topicEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)

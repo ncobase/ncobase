@@ -92,14 +92,14 @@ func (s *topicService) Delete(ctx context.Context, slug string) error {
 // List lists all topics.
 func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams) (paging.Result[*structs.ReadTopic], error) {
 	pp := paging.Params{
-		Cursor: params.Cursor,
-		Limit:  params.Limit,
+		Cursor:    params.Cursor,
+		Limit:     params.Limit,
+		Direction: params.Direction,
 	}
 
-	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadTopic, int, error) {
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadTopic, int, error) {
 		lp := *params
 		lp.Cursor = cursor
-		lp.Offset = offset
 		lp.Limit = limit
 		lp.Direction = direction
 

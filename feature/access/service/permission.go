@@ -97,15 +97,13 @@ func (s *permissionService) GetPermissionsByRoleID(ctx context.Context, roleID s
 func (s *permissionService) List(ctx context.Context, params *structs.ListPermissionParams) (paging.Result[*structs.ReadPermission], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,
-		Offset:    params.Offset,
 		Limit:     params.Limit,
 		Direction: params.Direction,
 	}
 
-	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadPermission, int, error) {
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadPermission, int, error) {
 		lp := *params
 		lp.Cursor = cursor
-		lp.Offset = offset
 		lp.Limit = limit
 		lp.Direction = direction
 

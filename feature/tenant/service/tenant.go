@@ -204,15 +204,13 @@ func (s *tenantService) Delete(ctx context.Context, id string) error {
 func (s *tenantService) List(ctx context.Context, params *structs.ListTenantParams) (paging.Result[*structs.ReadTenant], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,
-		Offset:    params.Offset,
 		Limit:     params.Limit,
 		Direction: params.Direction,
 	}
 
-	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadTenant, int, error) {
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadTenant, int, error) {
 		lp := *params
 		lp.Cursor = cursor
-		lp.Offset = offset
 		lp.Limit = limit
 		lp.Direction = direction
 

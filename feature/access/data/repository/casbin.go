@@ -156,7 +156,6 @@ func (r *casbinRuleRepository) Find(ctx context.Context, params *structs.ListCas
 	}
 
 	// limit the result
-	builder.Limit(params.Limit)
 
 	// Execute the query
 	rows, err := builder.All(ctx)
@@ -213,7 +212,6 @@ func (r *casbinRuleRepository) List(ctx context.Context, params *structs.ListCas
 		builder.Order(ent.Desc(casbinRuleEnt.FieldCreatedAt), ent.Desc(casbinRuleEnt.FieldID))
 	}
 
-	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)
