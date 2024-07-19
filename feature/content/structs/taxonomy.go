@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"time"
 
 	"ncobase/common/types"
@@ -68,11 +69,17 @@ type ReadTaxonomy struct {
 	UpdatedAt   *time.Time  `json:"updated_at,omitempty"`
 }
 
+func (r *ReadTaxonomy) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+}
+
 // ListTaxonomyParams represents the query parameters for listing taxonomies.
 type ListTaxonomyParams struct {
-	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"`
-	ParentID string `form:"parent_id,omitempty" json:"parent_id,omitempty"`
-	TenantID string `form:"tenant_id,omitempty" json:"tenant_id,omitempty"`
-	Type     string `form:"type,omitempty" json:"type,omitempty" validate:"required"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	ParentID  string `form:"parent_id,omitempty" json:"parent_id,omitempty"`
+	TenantID  string `form:"tenant_id,omitempty" json:"tenant_id,omitempty"`
+	Type      string `form:"type,omitempty" json:"type,omitempty" validate:"required"`
 }

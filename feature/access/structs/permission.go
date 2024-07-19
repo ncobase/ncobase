@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"ncobase/common/types"
 	"time"
 )
@@ -45,6 +46,10 @@ type ReadPermission struct {
 	UpdatedAt   *time.Time  `json:"updated_at,omitempty"`
 }
 
+func (r *ReadPermission) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+}
+
 // FindPermission represents the parameters for finding a permission.
 type FindPermission struct {
 	ID      string `form:"id,omitempty" json:"id,omitempty"`
@@ -54,6 +59,8 @@ type FindPermission struct {
 
 // ListPermissionParams represents the query parameters for listing permissions.
 type ListPermissionParams struct {
-	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 }

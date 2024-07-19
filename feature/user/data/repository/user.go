@@ -217,24 +217,8 @@ func (r *userRepository) CountX(ctx context.Context, params *structs.ListUserPar
 
 // listBuilder creates list builder.
 func (r *userRepository) listBuilder(ctx context.Context, params *structs.ListUserParams) (*ent.UserQuery, error) {
-	// verify query params.
-	var next *ent.User
-	if validator.IsNotEmpty(params.Cursor) {
-		// query the user.
-		row, err := r.GetByID(ctx, params.Cursor)
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
 	// create builder.
 	builder := r.ec.User.Query()
-
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(userEnt.CreatedAtLT(next.CreatedAt))
-	}
 
 	return builder, nil
 }

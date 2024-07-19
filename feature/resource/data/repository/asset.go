@@ -3,10 +3,13 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
 	"ncobase/feature/resource/data"
 	"ncobase/feature/resource/data/ent"
 	assetEnt "ncobase/feature/resource/data/ent/asset"
 	"ncobase/feature/resource/structs"
+	"time"
 
 	"ncobase/common/cache"
 	"ncobase/common/log"
@@ -223,11 +226,47 @@ func (r *assetRepostory) List(ctx context.Context, params *structs.ListAssetPara
 		return nil, err
 	}
 
-	// limit the result
-	builder.Limit(int(params.Limit))
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
 
-	// sort
-	builder.Order(ent.Desc(assetEnt.FieldCreatedAt))
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				assetEnt.Or(
+					assetEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					assetEnt.And(
+						assetEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						assetEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				assetEnt.Or(
+					assetEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					assetEnt.And(
+						assetEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						assetEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
+
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(assetEnt.FieldCreatedAt), ent.Asc(assetEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(assetEnt.FieldCreatedAt), ent.Desc(assetEnt.FieldID))
+	}
+
+	builder.Offset(params.Offset)
+	builder.Limit(params.Limit)
 
 	// execute the builder.
 	rows, err := builder.All(ctx)
@@ -241,22 +280,8 @@ func (r *assetRepostory) List(ctx context.Context, params *structs.ListAssetPara
 
 // ListBuilder creates list builder.
 func (r *assetRepostory) ListBuilder(ctx context.Context, params *structs.ListAssetParams) (*ent.AssetQuery, error) {
-	var next *ent.Asset
-	if validator.IsNotEmpty(params.Cursor) {
-		row, err := r.FindAsset(ctx, &structs.FindAsset{Asset: params.Cursor})
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
 	// create builder.
 	builder := r.ec.Asset.Query()
-
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(assetEnt.CreatedAtLT(next.CreatedAt))
-	}
 
 	// belong tenant
 	if params.Tenant != "" {

@@ -20,7 +20,7 @@ type TopicServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTopicBody) (*structs.ReadTopic, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTopic, error)
 	Get(ctx context.Context, slug string) (*structs.ReadTopic, error)
-	List(ctx context.Context, params *structs.ListTopicParams) (*paging.Result[*structs.ReadTopic], error)
+	List(ctx context.Context, params *structs.ListTopicParams) (paging.Result[*structs.ReadTopic], error)
 	Delete(ctx context.Context, slug string) error
 }
 
@@ -90,37 +90,31 @@ func (s *topicService) Delete(ctx context.Context, slug string) error {
 }
 
 // List lists all topics.
-func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams) (*paging.Result[*structs.ReadTopic], error) {
+func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams) (paging.Result[*structs.ReadTopic], error) {
 	pp := paging.Params{
 		Cursor: params.Cursor,
 		Limit:  params.Limit,
 	}
 
-	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadTopic, int, string, error) {
+	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadTopic, int, error) {
 		lp := *params
 		lp.Cursor = cursor
+		lp.Offset = offset
 		lp.Limit = limit
+		lp.Direction = direction
 
 		rows, err := s.topic.List(ctx, &lp)
 		if ent.IsNotFound(err) {
-			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
-		}
-		if validator.IsNotNil(err) {
-			log.Errorf(ctx, "Error listing taxonomies: %v\n", err)
-			return nil, 0, "", err
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			return nil, 0, "", err
+			log.Errorf(ctx, "Error listing topics: %v\n", err)
+			return nil, 0, err
 		}
 
 		total := s.topic.CountX(ctx, params)
 
-		var nextCursor string
-		if len(rows) > 0 {
-			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
-		}
-
-		return s.Serializes(rows), total, nextCursor, nil
+		return s.Serializes(rows), total, nil
 	})
 }
 

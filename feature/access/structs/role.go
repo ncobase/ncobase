@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"ncobase/common/types"
 	"time"
 )
@@ -41,6 +42,10 @@ type ReadRole struct {
 	UpdatedAt   *time.Time  `json:"updated_at,omitempty"`
 }
 
+func (r *ReadRole) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+}
+
 // FindRole represents the parameters for finding a role.
 type FindRole struct {
 	ID   string `form:"id,omitempty" json:"id,omitempty"`
@@ -50,6 +55,8 @@ type FindRole struct {
 
 // ListRoleParams represents the query parameters for listing roles.
 type ListRoleParams struct {
-	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 }

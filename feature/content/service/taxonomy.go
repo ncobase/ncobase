@@ -20,7 +20,7 @@ type TaxonomyServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*structs.ReadTaxonomy, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTaxonomy, error)
 	Get(ctx context.Context, slug string) (*structs.ReadTaxonomy, error)
-	List(ctx context.Context, params *structs.ListTaxonomyParams) (*paging.Result[*structs.ReadTaxonomy], error)
+	List(ctx context.Context, params *structs.ListTaxonomyParams) (paging.Result[*structs.ReadTaxonomy], error)
 	Delete(ctx context.Context, slug string) error
 }
 
@@ -97,37 +97,31 @@ func (s *taxonomyService) Delete(ctx context.Context, slug string) error {
 }
 
 // List lists all taxonomies.
-func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomyParams) (*paging.Result[*structs.ReadTaxonomy], error) {
+func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomyParams) (paging.Result[*structs.ReadTaxonomy], error) {
 	pp := paging.Params{
 		Cursor: params.Cursor,
 		Limit:  params.Limit,
 	}
 
-	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadTaxonomy, int, string, error) {
+	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadTaxonomy, int, error) {
 		lp := *params
 		lp.Cursor = cursor
+		lp.Offset = offset
 		lp.Limit = limit
+		lp.Direction = direction
 
 		rows, err := s.taxonomy.List(ctx, &lp)
 		if ent.IsNotFound(err) {
-			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
-		}
-		if validator.IsNotNil(err) {
-			log.Errorf(ctx, "Error listing taxonomies: %v\n", err)
-			return nil, 0, "", err
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			return nil, 0, "", err
+			log.Errorf(ctx, "Error listing taxonomies: %v\n", err)
+			return nil, 0, err
 		}
 
 		total := s.taxonomy.CountX(ctx, params)
 
-		var nextCursor string
-		if len(rows) > 0 {
-			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
-		}
-
-		return s.Serializes(rows), total, nextCursor, nil
+		return s.Serializes(rows), total, nil
 	})
 }
 

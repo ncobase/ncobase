@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -61,10 +62,16 @@ type ReadTopic struct {
 	UpdatedAt  *time.Time `json:"updated_at,omitempty"`
 }
 
+func (r *ReadTopic) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+}
+
 // ListTopicParams represents the parameters for listing topics.
 type ListTopicParams struct {
-	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Taxonomy string `form:"taxonomy,omitempty" json:"taxonomy,omitempty"`
-	Tenant   string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	Taxonomy  string `form:"taxonomy,omitempty" json:"taxonomy,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
 }

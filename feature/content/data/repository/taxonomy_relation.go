@@ -2,12 +2,14 @@ package repository
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
 	"ncobase/feature/content/data"
 	"ncobase/feature/content/data/ent"
 	taxonomyRelationEnt "ncobase/feature/content/data/ent/taxonomyrelation"
 	"ncobase/feature/content/structs"
+	"time"
 
 	"ncobase/common/cache"
 	"ncobase/common/log"
@@ -118,33 +120,54 @@ func (r *taxonomyRelationsRepository) Update(ctx context.Context, body *structs.
 
 // List gets a list of taxonomy relations.
 func (r *taxonomyRelationsRepository) List(ctx context.Context, params *structs.ListTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
-	var next *ent.TaxonomyRelation
-	if params.Cursor != "" {
-		taxonomyRelations, err := r.ec.TaxonomyRelation.
-			Query().
-			Where(
-				taxonomyRelationEnt.IDEQ(params.Cursor),
-			).
-			First(ctx)
-		if err != nil || taxonomyRelations == nil {
-			return nil, errors.New("invalid cursor")
-		}
-		next = taxonomyRelations
-	}
-
-	query := r.ec.TaxonomyRelation.
+	// create builder.
+	builder := r.ec.TaxonomyRelation.
 		Query().
 		Limit(params.Limit)
 
-	// lt the cursor create time
-	if next != nil {
-		query.Where(taxonomyRelationEnt.CreatedAtLT(next.CreatedAt))
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				taxonomyRelationEnt.Or(
+					taxonomyRelationEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					taxonomyRelationEnt.And(
+						taxonomyRelationEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						taxonomyRelationEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				taxonomyRelationEnt.Or(
+					taxonomyRelationEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					taxonomyRelationEnt.And(
+						taxonomyRelationEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						taxonomyRelationEnt.IDLT(id),
+					),
+				),
+			)
+		}
 	}
 
-	// sort
-	query.Order(ent.Desc(taxonomyRelationEnt.FieldCreatedAt))
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(taxonomyRelationEnt.FieldCreatedAt), ent.Asc(taxonomyRelationEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(taxonomyRelationEnt.FieldCreatedAt), ent.Desc(taxonomyRelationEnt.FieldID))
+	}
 
-	rows, err := query.All(ctx)
+	builder.Offset(params.Offset)
+	builder.Limit(params.Limit)
+
+	rows, err := builder.All(ctx)
 	if err != nil {
 		log.Errorf(context.Background(), "taxonomyRelationsRepo.List error: %v\n", err)
 		return nil, err

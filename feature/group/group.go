@@ -80,11 +80,21 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// Group endpoints
 	groups := v1.Group("/groups", middleware.AuthenticatedUser)
 	{
-		groups.GET("", nil)
-		groups.POST("", nil)
-		groups.GET("/:slug", nil)
-		groups.PUT("/:slug", nil)
-		groups.DELETE("/:slug", nil)
+		groups.GET("", func(c *gin.Context) {
+			c.JSON(200, gin.H{"message": "To be implemented"})
+		})
+		groups.POST("", func(c *gin.Context) {
+			c.JSON(200, gin.H{"message": "To be implemented"})
+		})
+		groups.GET("/:slug", func(c *gin.Context) {
+			c.JSON(200, gin.H{"message": "To be implemented"})
+		})
+		groups.PUT("/:slug", func(c *gin.Context) {
+			c.JSON(200, gin.H{"message": "To be implemented"})
+		})
+		groups.DELETE("/:slug", func(c *gin.Context) {
+			c.JSON(200, gin.H{"message": "To be implemented"})
+		})
 	}
 }
 

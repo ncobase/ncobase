@@ -5,17 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"ncobase/common/ecode"
+	"ncobase/common/log"
 	"ncobase/common/paging"
+	"ncobase/common/validator"
 	"ncobase/feature/resource/data"
 	"ncobase/feature/resource/data/ent"
 	"ncobase/feature/resource/data/repository"
 	"ncobase/feature/resource/structs"
 	"ncobase/helper"
 	"os"
-
-	"ncobase/common/ecode"
-	"ncobase/common/log"
-	"ncobase/common/validator"
 )
 
 // AssetServiceInterface represents the asset service interface.
@@ -24,7 +23,7 @@ type AssetServiceInterface interface {
 	Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadAsset, error)
 	Get(ctx context.Context, slug string) (*structs.ReadAsset, error)
 	Delete(ctx context.Context, slug string) error
-	List(ctx context.Context, params *structs.ListAssetParams) (*paging.Result[*structs.ReadAsset], error)
+	List(ctx context.Context, params *structs.ListAssetParams) (paging.Result[*structs.ReadAsset], error)
 	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadAsset, error)
 }
 
@@ -199,37 +198,31 @@ func (s *assetService) Delete(ctx context.Context, slug string) error {
 }
 
 // List lists assets.
-func (s *assetService) List(ctx context.Context, params *structs.ListAssetParams) (*paging.Result[*structs.ReadAsset], error) {
+func (s *assetService) List(ctx context.Context, params *structs.ListAssetParams) (paging.Result[*structs.ReadAsset], error) {
 	pp := paging.Params{
 		Cursor: params.Cursor,
 		Limit:  params.Limit,
 	}
 
-	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadAsset, int, string, error) {
+	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadAsset, int, error) {
 		lp := *params
 		lp.Cursor = cursor
+		lp.Offset = offset
 		lp.Limit = limit
+		lp.Direction = direction
 
 		rows, err := s.asset.List(ctx, &lp)
 		if ent.IsNotFound(err) {
-			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
-		}
-		if validator.IsNotNil(err) {
-			log.Errorf(ctx, "Error listing assets: %v\n", err)
-			return nil, 0, "", err
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			return nil, 0, "", err
+			log.Errorf(ctx, "Error listing assets: %v\n", err)
+			return nil, 0, err
 		}
 
 		total := s.asset.CountX(ctx, params)
 
-		var nextCursor string
-		if len(rows) > 0 {
-			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
-		}
-
-		return s.Serializes(rows), total, nextCursor, nil
+		return s.Serializes(rows), total, nil
 	})
 }
 

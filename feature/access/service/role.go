@@ -7,7 +7,6 @@ import (
 	"ncobase/common/log"
 	"ncobase/common/paging"
 	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/data/ent"
 	"ncobase/feature/access/data/repository"
@@ -137,34 +136,26 @@ func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) 
 		Limit:  params.Limit,
 	}
 
-	rs, err := paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadRole, int, string, error) {
+	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadRole, int, error) {
 		lp := *params
 		lp.Cursor = cursor
+		lp.Offset = offset
 		lp.Limit = limit
+		lp.Direction = direction
 
 		rows, err := s.role.List(ctx, &lp)
 		if ent.IsNotFound(err) {
-			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
-		}
-		if validator.IsNotNil(err) {
-			log.Errorf(ctx, "Error listing roles: %v\n", err)
-			return nil, 0, "", err
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			return nil, 0, "", err
+			log.Errorf(ctx, "Error listing roles: %v\n", err)
+			return nil, 0, err
 		}
 
 		total := s.role.CountX(ctx, params)
 
-		var nextCursor string
-		if len(rows) > 0 {
-			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
-		}
-
-		return s.Serializes(rows), total, nextCursor, nil
+		return s.Serializes(rows), total, nil
 	})
-
-	return *rs, err
 }
 
 // CountX gets a count of roles.

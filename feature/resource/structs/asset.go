@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"mime/multipart"
 	"time"
 
@@ -61,13 +62,19 @@ type ReadAsset struct {
 	UpdatedAt *time.Time  `json:"updated_at,omitempty"`
 }
 
+func (r *ReadAsset) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+}
+
 // ListAssetParams represents the parameters for listing assets.
 type ListAssetParams struct {
-	Cursor  string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit   int    `form:"limit,omitempty" json:"limit,omitempty"` // validate:"gte=1,lte=100"
-	Tenant  string `form:"tenant,omitempty" json:"tenant,omitempty" validate:"required"`
-	Object  string `form:"object,omitempty" json:"object,omitempty" validate:"required"`
-	User    string `form:"user,omitempty" json:"user,omitempty"`
-	Type    string `form:"type,omitempty" json:"type,omitempty"`
-	Storage string `form:"storage,omitempty" json:"storage,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty" validate:"required"`
+	Object    string `form:"object,omitempty" json:"object,omitempty" validate:"required"`
+	User      string `form:"user,omitempty" json:"user,omitempty"`
+	Type      string `form:"type,omitempty" json:"type,omitempty"`
+	Storage   string `form:"storage,omitempty" json:"storage,omitempty"`
 }

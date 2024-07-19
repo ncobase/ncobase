@@ -3,15 +3,17 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/cache"
+	"ncobase/common/log"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/data/ent"
 	permissionEnt "ncobase/feature/access/data/ent/permission"
 	"ncobase/feature/access/structs"
-
-	"ncobase/common/cache"
-	"ncobase/common/log"
-	"ncobase/common/types"
-	"ncobase/common/validator"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -165,26 +167,6 @@ func (r *permissionRepository) Update(ctx context.Context, id string, updates ty
 	return row, nil
 }
 
-// List gets a list of permissions.
-func (r *permissionRepository) List(ctx context.Context, params *structs.ListPermissionParams) ([]*ent.Permission, error) {
-	// create list builder
-	builder, err := r.listBuilder(ctx, params)
-	if validator.IsNotNil(err) {
-		return nil, err
-	}
-
-	// limit the result
-	builder.Limit(int(params.Limit))
-
-	rows, err := builder.All(ctx)
-	if err != nil {
-		log.Errorf(context.Background(), "permissionRepo.List error: %v\n", err)
-		return nil, err
-	}
-
-	return rows, nil
-}
-
 // Delete deletes a permission.
 func (r *permissionRepository) Delete(ctx context.Context, id string) error {
 	permission, err := r.FindPermission(ctx, &structs.FindPermission{ID: id})
@@ -236,28 +218,58 @@ func (r *permissionRepository) FindPermission(ctx context.Context, params *struc
 	return row, nil
 }
 
-// listBuilder creates list builder.
-func (r *permissionRepository) listBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error) {
-	// verify query params.
-	var next *ent.Permission
-	if validator.IsNotEmpty(params.Cursor) {
-		// query the menu.
-		row, err := r.GetByID(ctx, params.Cursor)
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
-	// create builder.
+// List gets a list of permissions.
+func (r *permissionRepository) List(ctx context.Context, params *structs.ListPermissionParams) ([]*ent.Permission, error) {
 	builder := r.ec.Permission.Query()
 
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(permissionEnt.CreatedAtLT(next.CreatedAt))
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				permissionEnt.Or(
+					permissionEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					permissionEnt.And(
+						permissionEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						permissionEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				permissionEnt.Or(
+					permissionEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					permissionEnt.And(
+						permissionEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						permissionEnt.IDLT(id),
+					),
+				),
+			)
+		}
 	}
 
-	return builder, nil
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(permissionEnt.FieldCreatedAt), ent.Asc(permissionEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(permissionEnt.FieldCreatedAt), ent.Desc(permissionEnt.FieldID))
+	}
+
+	builder.Offset(params.Offset)
+	builder.Limit(params.Limit)
+
+	rows, err := builder.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return rows, nil
 }
 
 // CountX gets a count of permissions.
@@ -268,4 +280,12 @@ func (r *permissionRepository) CountX(ctx context.Context, params *structs.ListP
 		return 0
 	}
 	return builder.CountX(ctx)
+}
+
+// listBuilder creates list builder.
+func (r *permissionRepository) listBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error) {
+	// create builder.
+	builder := r.ec.Permission.Query()
+
+	return builder, nil
 }

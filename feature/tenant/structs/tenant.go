@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"ncobase/common/types"
 	"time"
 )
@@ -59,6 +60,10 @@ type ReadTenant struct {
 	UpdatedAt   *time.Time  `json:"updated_at,omitempty"`
 }
 
+func (r *ReadTenant) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+}
+
 // FindTenant represents the parameters for finding a tenant.
 type FindTenant struct {
 	Slug string `json:"slug,omitempty"`
@@ -67,7 +72,9 @@ type FindTenant struct {
 
 // ListTenantParams represents the query parameters for listing tenants.
 type ListTenantParams struct {
-	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
-	User   string `form:"user,omitempty" json:"user,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	User      string `form:"user,omitempty" json:"user,omitempty"`
 }

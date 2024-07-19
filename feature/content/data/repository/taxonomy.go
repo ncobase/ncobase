@@ -6,12 +6,15 @@ import (
 	"ncobase/common/cache"
 	"ncobase/common/log"
 	"ncobase/common/meili"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/content/data"
 	"ncobase/feature/content/data/ent"
 	taxonomyEnt "ncobase/feature/content/data/ent/taxonomy"
 	"ncobase/feature/content/structs"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -241,8 +244,47 @@ func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxon
 		return nil, err
 	}
 
-	// limit the result
-	builder.Limit(int(params.Limit))
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				taxonomyEnt.Or(
+					taxonomyEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					taxonomyEnt.And(
+						taxonomyEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						taxonomyEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				taxonomyEnt.Or(
+					taxonomyEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					taxonomyEnt.And(
+						taxonomyEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						taxonomyEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
+
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(taxonomyEnt.FieldCreatedAt), ent.Asc(taxonomyEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt), ent.Desc(taxonomyEnt.FieldID))
+	}
+
+	builder.Offset(params.Offset)
+	builder.Limit(params.Limit)
 
 	// belong tenant
 	if params.TenantID != "" {
@@ -256,9 +298,6 @@ func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxon
 	if params.Type != "" {
 		builder.Where(taxonomyEnt.TypeEQ(params.Type))
 	}
-
-	// sort
-	builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt))
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -341,27 +380,9 @@ func (r *taxonomyRepository) FindTaxonomy(ctx context.Context, params *structs.F
 }
 
 // listBuilder create list builder
-func (r *taxonomyRepository) listBuilder(ctx context.Context, params *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error) {
-	// verify query params.
-	var next *ent.Taxonomy
-	if validator.IsNotEmpty(params.Cursor) {
-		// query the address.
-		row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{
-			ID: params.Cursor,
-		})
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
+func (r *taxonomyRepository) listBuilder(_ context.Context, params *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error) {
 	// create builder.
 	builder := r.ec.Taxonomy.Query()
-
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(taxonomyEnt.CreatedAtLT(next.CreatedAt))
-	}
 
 	// match parent id.
 	// default is root.

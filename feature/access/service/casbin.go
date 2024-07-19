@@ -20,7 +20,7 @@ type CasbinServiceInterface interface {
 	Update(ctx context.Context, id string, updates types.JSON) (*structs.ReadCasbinRule, error)
 	Delete(ctx context.Context, id string) error
 	Get(ctx context.Context, id string) (*structs.ReadCasbinRule, error)
-	List(ctx context.Context, params *structs.ListCasbinRuleParams) (*paging.Result[*structs.ReadCasbinRule], error)
+	List(ctx context.Context, params *structs.ListCasbinRuleParams) (paging.Result[*structs.ReadCasbinRule], error)
 	CountX(ctx context.Context, params *structs.ListCasbinRuleParams) int
 }
 
@@ -86,37 +86,31 @@ func (s *casbinService) Delete(ctx context.Context, id string) error {
 }
 
 // List lists all Casbin rules based on query parameters.
-func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRuleParams) (*paging.Result[*structs.ReadCasbinRule], error) {
+func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRuleParams) (paging.Result[*structs.ReadCasbinRule], error) {
 	pp := paging.Params{
 		Cursor: params.Cursor,
 		Limit:  params.Limit,
 	}
 
-	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadCasbinRule, int, string, error) {
+	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadCasbinRule, int, error) {
 		lp := *params
 		lp.Cursor = cursor
+		lp.Offset = offset
 		lp.Limit = limit
+		lp.Direction = direction
 
 		rows, err := s.casbin.List(ctx, &lp)
 		if ent.IsNotFound(err) {
-			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
-		}
-		if validator.IsNotNil(err) {
-			log.Errorf(ctx, "Error listing Casbin rules: %v\n", err)
-			return nil, 0, "", err
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			return nil, 0, "", err
+			log.Errorf(ctx, "Error listing casbin rules: %v\n", err)
+			return nil, 0, err
 		}
 
-		total := s.casbin.CountX(ctx, params)
+		total := s.CountX(ctx, params)
 
-		var nextCursor string
-		if len(rows) > 0 {
-			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
-		}
-
-		return s.Serializes(rows), total, nextCursor, nil
+		return s.Serializes(rows), total, nil
 	})
 }
 

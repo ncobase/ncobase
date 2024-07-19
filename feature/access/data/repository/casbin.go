@@ -2,13 +2,17 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"ncobase/common/log"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/data/ent"
 	casbinRuleEnt "ncobase/feature/access/data/ent/casbinrule"
 	"ncobase/feature/access/structs"
+	"time"
 )
 
 // CasbinRuleRepositoryInterface represents the Casbin rule repository interface.
@@ -153,7 +157,7 @@ func (r *casbinRuleRepository) Find(ctx context.Context, params *structs.ListCas
 	}
 
 	// limit the result
-	builder.Limit(int(params.Limit))
+	builder.Limit(params.Limit)
 
 	// Execute the query
 	rows, err := builder.All(ctx)
@@ -171,9 +175,47 @@ func (r *casbinRuleRepository) List(ctx context.Context, params *structs.ListCas
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
 
-	// limit the result
-	builder.Limit(int(params.Limit))
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				casbinRuleEnt.Or(
+					casbinRuleEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					casbinRuleEnt.And(
+						casbinRuleEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						casbinRuleEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				casbinRuleEnt.Or(
+					casbinRuleEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					casbinRuleEnt.And(
+						casbinRuleEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						casbinRuleEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
+
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(casbinRuleEnt.FieldCreatedAt), ent.Asc(casbinRuleEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(casbinRuleEnt.FieldCreatedAt), ent.Desc(casbinRuleEnt.FieldID))
+	}
+
+	builder.Offset(params.Offset)
+	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -195,25 +237,9 @@ func (r *casbinRuleRepository) CountX(ctx context.Context, params *structs.ListC
 }
 
 // listBuilder builds the list query.
-func (r *casbinRuleRepository) listBuilder(ctx context.Context, params *structs.ListCasbinRuleParams) (*ent.CasbinRuleQuery, error) {
-
-	var next *ent.CasbinRule
-	if validator.IsNotEmpty(params.Cursor) {
-		// query the role.
-		row, err := r.FindByID(ctx, params.Cursor)
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
+func (r *casbinRuleRepository) listBuilder(_ context.Context, params *structs.ListCasbinRuleParams) (*ent.CasbinRuleQuery, error) {
 	// create list builder
 	builder := r.ec.CasbinRule.Query()
-
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(casbinRuleEnt.CreatedAtLT(next.CreatedAt))
-	}
 
 	// Add conditions to the query based on parameters
 	if params.PType != nil && *params.PType != "" {

@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"ncobase/common/types"
 	"time"
 )
@@ -80,6 +81,10 @@ func (r *ReadMenu) GetChildren() []types.TreeNode {
 	return r.Children
 }
 
+func (r *ReadMenu) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+}
+
 // FindMenu represents the parameters for finding a menu.
 type FindMenu struct {
 	Menu     string `form:"menu,omitempty" json:"menu,omitempty"`
@@ -91,11 +96,13 @@ type FindMenu struct {
 
 // ListMenuParams represents the query parameters for listing menus.
 type ListMenuParams struct {
-	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Type     string `form:"type,omitempty" json:"type,omitempty"`
-	Parent   string `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant   string `form:"tenant,omitempty" json:"tenant,omitempty"`
-	Perms    string `form:"perms,omitempty" json:"perms,omitempty"`
-	Children bool   `form:"children,omitempty" json:"children,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	Type      string `form:"type,omitempty" json:"type,omitempty"`
+	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Perms     string `form:"perms,omitempty" json:"perms,omitempty"`
+	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
 }

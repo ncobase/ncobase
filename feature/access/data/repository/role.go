@@ -3,10 +3,13 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/data/ent"
 	roleEnt "ncobase/feature/access/data/ent/role"
 	"ncobase/feature/access/structs"
+	"time"
 
 	"ncobase/common/cache"
 	"ncobase/common/log"
@@ -182,9 +185,47 @@ func (r *roleRepository) List(ctx context.Context, params *structs.ListRoleParam
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
 
-	// limit the result
-	builder.Limit(int(params.Limit))
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				roleEnt.Or(
+					roleEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					roleEnt.And(
+						roleEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						roleEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				roleEnt.Or(
+					roleEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					roleEnt.And(
+						roleEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						roleEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
+
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(roleEnt.FieldCreatedAt), ent.Asc(roleEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(roleEnt.FieldCreatedAt), ent.Desc(roleEnt.FieldID))
+	}
+
+	builder.Offset(params.Offset)
+	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -248,25 +289,9 @@ func (r *roleRepository) FindRole(ctx context.Context, params *structs.FindRole)
 }
 
 // listBuilder creates list builder.
-func (r *roleRepository) listBuilder(ctx context.Context, params *structs.ListRoleParams) (*ent.RoleQuery, error) {
-	// verify query params.
-	var next *ent.Role
-	if validator.IsNotEmpty(params.Cursor) {
-		// query the role.
-		row, err := r.GetByID(ctx, params.Cursor)
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
+func (r *roleRepository) listBuilder(_ context.Context, _ *structs.ListRoleParams) (*ent.RoleQuery, error) {
 	// create builder.
 	builder := r.ec.Role.Query()
-
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(roleEnt.CreatedAtLT(next.CreatedAt))
-	}
 
 	return builder, nil
 }

@@ -3,6 +3,8 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
 	"ncobase/feature/content/data"
 	"ncobase/feature/content/data/ent"
 	topicEnt "ncobase/feature/content/data/ent/topic"
@@ -219,16 +221,52 @@ func (r *topicRepository) List(ctx context.Context, params *structs.ListTopicPar
 		return nil, err
 	}
 
-	// limit the result
-	builder.Limit(int(params.Limit))
-
 	// belong tenant
 	if params.Tenant != "" {
 		builder.Where(topicEnt.TenantIDEQ(params.Tenant))
 	}
 
-	// sort
-	builder.Order(ent.Desc(topicEnt.FieldCreatedAt))
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				topicEnt.Or(
+					topicEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					topicEnt.And(
+						topicEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						topicEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				topicEnt.Or(
+					topicEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					topicEnt.And(
+						topicEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						topicEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
+
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(topicEnt.FieldCreatedAt), ent.Asc(topicEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(topicEnt.FieldCreatedAt), ent.Desc(topicEnt.FieldID))
+	}
+
+	builder.Offset(params.Offset)
+	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -298,23 +336,9 @@ func (r *topicRepository) FindTopic(ctx context.Context, params *structs.FindTop
 }
 
 // ListBuilder creates list builder.
-func (r *topicRepository) ListBuilder(ctx context.Context, params *structs.ListTopicParams) (*ent.TopicQuery, error) {
-	var next *ent.Topic
-	if validator.IsNotEmpty(params.Cursor) {
-		row, err := r.FindTopic(ctx, &structs.FindTopic{Topic: params.Cursor})
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
+func (r *topicRepository) ListBuilder(_ context.Context, _ *structs.ListTopicParams) (*ent.TopicQuery, error) {
 	// create builder.
 	builder := r.ec.Topic.Query()
-
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(topicEnt.CreatedAtLT(next.CreatedAt))
-	}
 
 	return builder, nil
 }

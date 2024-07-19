@@ -6,12 +6,14 @@ import (
 	"ncobase/common/cache"
 	"ncobase/common/log"
 	"ncobase/common/meili"
+	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/data/ent"
 	menuEnt "ncobase/feature/system/data/ent/menu"
 	"ncobase/feature/system/structs"
 	"net/url"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -270,40 +272,49 @@ func (r *menuRepository) Delete(ctx context.Context, params *structs.FindMenu) e
 
 // List lists menus based on given parameters.
 func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParams) ([]*ent.Menu, error) {
-	// cacheParams := url.Values{}
-	// if validator.IsNotEmpty(params.Cursor) {
-	// 	cacheParams.Set("cursor", params.Cursor)
-	// }
-	// if validator.IsNotEmpty(params.Tenant) {
-	// 	cacheParams.Set("tenant", params.Tenant)
-	// }
-	// if validator.IsNotEmpty(params.Parent) {
-	// 	cacheParams.Set("parent", params.Parent)
-	// }
-	// if len(cacheParams) == 0 {
-	// 	cacheParams.Set("menu", "list")
-	// }
-	// cacheKey := cacheParams.Encode()
-
-	// // Attempt to retrieve the menu list from cache
-	// var rows []*ent.Menu
-	// if err := r.c.GetArray(ctx, cacheKey, &rows); err == nil && len(rows) > 0 {
-	// 	return rows, nil
-	// }
-
-	// create list builder
 	builder, err := r.listBuilder(ctx, params)
-	if validator.IsNotNil(err) {
+	if err != nil {
 		return nil, err
 	}
 
-	// limit the result
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				menuEnt.Or(
+					menuEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					menuEnt.And(
+						menuEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						menuEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				menuEnt.Or(
+					menuEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					menuEnt.And(
+						menuEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						menuEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
+
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(menuEnt.FieldCreatedAt), ent.Asc(menuEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
+	}
+
+	builder.Offset(params.Offset)
 	builder.Limit(params.Limit)
 
-	// order by order field
-	builder.Order(ent.Desc(menuEnt.FieldOrder))
-
-	// execute the builder.
 	return r.executeArrayQuery(ctx, builder)
 }
 
@@ -318,47 +329,27 @@ func (r *menuRepository) CountX(ctx context.Context, params *structs.ListMenuPar
 }
 
 // listBuilder - create list builder.
-// internal method.
-func (r *menuRepository) listBuilder(ctx context.Context, params *structs.ListMenuParams) (*ent.MenuQuery, error) {
-	// verify query params.
-	var next *ent.Menu
-	if validator.IsNotEmpty(params.Cursor) {
-		// query the menu.
-		row, err := r.getMenu(ctx, &structs.FindMenu{
-			Menu:   params.Cursor,
-			Tenant: params.Tenant,
-			Type:   params.Type,
-		})
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
+func (r *menuRepository) listBuilder(_ context.Context, params *structs.ListMenuParams) (*ent.MenuQuery, error) {
 	// create builder.
 	builder := r.ec.Menu.Query()
 
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(menuEnt.CreatedAtLT(next.CreatedAt))
-	}
-
 	// match tenant id.
-	if validator.IsNotEmpty(params.Tenant) {
+	if params.Tenant != "" {
 		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// match type.
-	if validator.IsNotEmpty(params.Type) {
+	if params.Type != "" {
 		builder.Where(menuEnt.TypeEQ(params.Type))
 	}
+
 	// match permission.
-	if validator.IsNotEmpty(params.Perms) {
+	if params.Perms != "" {
 		builder.Where(menuEnt.PermsContains(params.Perms))
 	}
+
 	// match parent id.
-	// default is root.
-	if validator.IsEmpty(params.Parent) {
+	if params.Parent == "" {
 		builder.Where(menuEnt.Or(
 			menuEnt.ParentIDIsNil(),
 			menuEnt.ParentIDEQ(""),
@@ -367,6 +358,7 @@ func (r *menuRepository) listBuilder(ctx context.Context, params *structs.ListMe
 	} else {
 		builder.Where(menuEnt.ParentIDEQ(params.Parent))
 	}
+
 	return builder, nil
 }
 

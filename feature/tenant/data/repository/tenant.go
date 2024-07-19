@@ -6,12 +6,15 @@ import (
 	"ncobase/common/cache"
 	"ncobase/common/log"
 	"ncobase/common/meili"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/tenant/data"
 	"ncobase/feature/tenant/data/ent"
 	tenantEnt "ncobase/feature/tenant/data/ent/tenant"
 	"ncobase/feature/tenant/structs"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -246,14 +249,51 @@ func (r *tenantRepository) List(ctx context.Context, params *structs.ListTenantP
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
-	// limit the result
-	builder.Limit(params.Limit)
 
 	// is disabled
 	builder.Where(tenantEnt.DisabledEQ(false))
 
-	// sort
-	builder.Order(ent.Desc(tenantEnt.FieldCreatedAt))
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				tenantEnt.Or(
+					tenantEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					tenantEnt.And(
+						tenantEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						tenantEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				tenantEnt.Or(
+					tenantEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					tenantEnt.And(
+						tenantEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						tenantEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
+
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(tenantEnt.FieldCreatedAt), ent.Asc(tenantEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(tenantEnt.FieldCreatedAt), ent.Desc(tenantEnt.FieldID))
+	}
+
+	builder.Offset(params.Offset)
+	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -360,22 +400,7 @@ func (r *tenantRepository) FindTenant(ctx context.Context, params *structs.FindT
 
 // listBuilder - create list builder.
 // internal method.
-func (r *tenantRepository) listBuilder(ctx context.Context, params *structs.ListTenantParams) (*ent.TenantQuery, error) {
-	// verify query params.
-	var next *ent.Tenant
-	if validator.IsNotEmpty(params.Cursor) {
-		// query the menu.
-		// use internal get method.
-		row, err := r.FindTenant(ctx, &structs.FindTenant{
-			Slug: params.Cursor,
-			User: params.User,
-		})
-		if validator.IsNotNil(err) || validator.IsNil(row) {
-			return nil, err
-		}
-		next = row
-	}
-
+func (r *tenantRepository) listBuilder(_ context.Context, params *structs.ListTenantParams) (*ent.TenantQuery, error) {
 	// create builder.
 	builder := r.ec.Tenant.Query()
 
@@ -384,11 +409,5 @@ func (r *tenantRepository) listBuilder(ctx context.Context, params *structs.List
 		builder.Where(tenantEnt.CreatedByEQ(params.User))
 	}
 
-	// lt the cursor create time
-	if next != nil {
-		builder.Where(tenantEnt.CreatedAtLT(next.CreatedAt))
-	}
-
 	return builder, nil
-
 }

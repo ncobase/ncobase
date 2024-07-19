@@ -1,6 +1,9 @@
 package structs
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // TaxonomyRelationBody represents the common fields for creating and updating a taxonomy relation.
 type TaxonomyRelationBody struct {
@@ -36,11 +39,17 @@ type ReadTaxonomyRelation struct {
 	UpdatedAt  *time.Time `json:"updated_at,omitempty"`
 }
 
+func (r *ReadTaxonomyRelation) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+}
+
 // ListTaxonomyRelationParams represents the parameters for listing taxonomy relations.
 type ListTaxonomyRelationParams struct {
-	Cursor   string `json:"cursor,omitempty"`
-	Limit    int    `json:"limit,omitempty"`
-	TenantID string `json:"tenant_id,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset    int    `form:"offset,omitempty" json:"offset,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	TenantID  string `json:"tenant_id,omitempty"`
 }
 
 // FindTaxonomyRelation represents the parameters for finding a single taxonomy relation.

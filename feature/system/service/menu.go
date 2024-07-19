@@ -3,18 +3,17 @@ package service
 import (
 	"context"
 	"errors"
+	"ncobase/common/ecode"
 	"ncobase/common/log"
 	"ncobase/common/paging"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/feature"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/data/ent"
 	"ncobase/feature/system/data/repository"
 	"ncobase/feature/system/structs"
 	"sort"
-
-	"ncobase/common/ecode"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 )
 
 // MenuServiceInterface represents the menu service interface.
@@ -23,8 +22,8 @@ type MenuServiceInterface interface {
 	Update(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error)
 	Get(ctx context.Context, params *structs.FindMenu) (any, error)
 	Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error)
-	List(ctx context.Context, params *structs.ListMenuParams) (*paging.Result[*structs.ReadMenu], error)
-	GetTree(ctx context.Context, params *structs.FindMenu) (*paging.Result[*structs.ReadMenu], error)
+	List(ctx context.Context, params *structs.ListMenuParams) (paging.Result[*structs.ReadMenu], error)
+	GetTree(ctx context.Context, params *structs.FindMenu) (paging.Result[*structs.ReadMenu], error)
 }
 
 // MenuService represents the menu service.
@@ -98,7 +97,7 @@ func (s *menuService) Delete(ctx context.Context, params *structs.FindMenu) (*st
 }
 
 // List lists all menus.
-func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) (*paging.Result[*structs.ReadMenu], error) {
+func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) (paging.Result[*structs.ReadMenu], error) {
 	if params.Children {
 		return s.GetTree(ctx, &structs.FindMenu{
 			Children: true,
@@ -113,45 +112,26 @@ func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) 
 		Limit:  params.Limit,
 	}
 
-	return paging.Paginate(pp, func(cursor string, limit int) ([]*structs.ReadMenu, int, string, error) {
+	return paging.Paginate(pp, func(cursor string, offset int, limit int, direction string) ([]*structs.ReadMenu, int, error) {
 		lp := *params
 		lp.Cursor = cursor
+		lp.Offset = offset
 		lp.Limit = limit
+		lp.Direction = direction
 
 		rows, err := s.menu.List(ctx, &lp)
 		if ent.IsNotFound(err) {
-			return nil, 0, "", errors.New(ecode.FieldIsInvalid("cursor"))
-		}
-		if validator.IsNotNil(err) {
-			log.Errorf(ctx, "Error listing menus: %v\n", err)
-			return nil, 0, "", err
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			return nil, 0, "", err
+			log.Errorf(ctx, "Error listing menus: %v\n", err)
+			return nil, 0, err
 		}
 
 		total := s.menu.CountX(ctx, params)
 
-		var nextCursor string
-		if len(rows) > 0 {
-			nextCursor = paging.EncodeCursor(rows[len(rows)-1].CreatedAt)
-		}
-
-		return s.Serializes(rows), total, nextCursor, nil
+		return s.Serializes(rows), total, nil
 	})
-}
-
-// GetTree retrieves the menu tree.
-func (s *menuService) GetTree(ctx context.Context, params *structs.FindMenu) (*paging.Result[*structs.ReadMenu], error) {
-	rows, err := s.menu.GetTree(ctx, params)
-	if err := handleEntError("Menu", err); err != nil {
-		return nil, err
-	}
-
-	return &paging.Result[*structs.ReadMenu]{
-		Items: s.buildMenuTree(rows),
-		Total: len(rows),
-	}, nil
 }
 
 // Serializes menus.
@@ -186,6 +166,19 @@ func (s *menuService) Serialize(row *ent.Menu) *structs.ReadMenu {
 		UpdatedBy: &row.UpdatedBy,
 		UpdatedAt: &row.UpdatedAt,
 	}
+}
+
+// GetTree retrieves the menu tree.
+func (s *menuService) GetTree(ctx context.Context, params *structs.FindMenu) (paging.Result[*structs.ReadMenu], error) {
+	rows, err := s.menu.GetTree(ctx, params)
+	if err := handleEntError("Menu", err); err != nil {
+		return paging.Result[*structs.ReadMenu]{}, err
+	}
+
+	return paging.Result[*structs.ReadMenu]{
+		Items: s.buildMenuTree(rows),
+		Total: len(rows),
+	}, nil
 }
 
 // buildMenuTree builds a menu tree structure.
