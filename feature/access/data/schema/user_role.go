@@ -18,7 +18,7 @@ type UserRole struct {
 
 // Annotations of the UserRole.
 func (UserRole) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "user_role"}, "_")
+	table := strings.Join([]string{"ncse", "user_role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -50,6 +50,7 @@ func (UserRole) Edges() []ent.Edge {
 // Indexes of the UserRole.
 func (UserRole) Indexes() []ent.Index {
 	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
 		index.Fields("user_id", "role_id"),
 	}
 }

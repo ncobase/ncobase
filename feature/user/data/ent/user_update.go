@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/user/data/ent/predicate"
 	"ncobase/feature/user/data/ent/user"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -182,8 +181,15 @@ func (uu *UserUpdate) ClearExtras() *UserUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (uu *UserUpdate) SetUpdatedAt(t time.Time) *UserUpdate {
-	uu.mutation.SetUpdatedAt(t)
+func (uu *UserUpdate) SetUpdatedAt(i int64) *UserUpdate {
+	uu.mutation.ResetUpdatedAt()
+	uu.mutation.SetUpdatedAt(i)
+	return uu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (uu *UserUpdate) AddUpdatedAt(i int64) *UserUpdate {
+	uu.mutation.AddUpdatedAt(i)
 	return uu
 }
 
@@ -305,13 +311,16 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(user.FieldExtras, field.TypeJSON)
 	}
 	if uu.mutation.CreatedAtCleared() {
-		_spec.ClearField(user.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(user.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := uu.mutation.UpdatedAt(); ok {
-		_spec.SetField(user.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(user.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := uu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(user.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if uu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(user.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(user.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -487,8 +496,15 @@ func (uuo *UserUpdateOne) ClearExtras() *UserUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (uuo *UserUpdateOne) SetUpdatedAt(t time.Time) *UserUpdateOne {
-	uuo.mutation.SetUpdatedAt(t)
+func (uuo *UserUpdateOne) SetUpdatedAt(i int64) *UserUpdateOne {
+	uuo.mutation.ResetUpdatedAt()
+	uuo.mutation.SetUpdatedAt(i)
+	return uuo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (uuo *UserUpdateOne) AddUpdatedAt(i int64) *UserUpdateOne {
+	uuo.mutation.AddUpdatedAt(i)
 	return uuo
 }
 
@@ -640,13 +656,16 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 		_spec.ClearField(user.FieldExtras, field.TypeJSON)
 	}
 	if uuo.mutation.CreatedAtCleared() {
-		_spec.ClearField(user.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(user.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := uuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(user.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(user.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := uuo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(user.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if uuo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(user.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(user.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &User{config: uuo.config}
 	_spec.Assign = _node.assignValues

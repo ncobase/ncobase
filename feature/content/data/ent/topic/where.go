@@ -4,7 +4,6 @@ package topic
 
 import (
 	"ncobase/feature/content/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -110,7 +109,7 @@ func Status(v int) predicate.Topic {
 }
 
 // Released applies equality check predicate on the "released" field. It's identical to ReleasedEQ.
-func Released(v time.Time) predicate.Topic {
+func Released(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldReleased, v))
 }
 
@@ -135,12 +134,12 @@ func UpdatedBy(v string) predicate.Topic {
 }
 
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
-func CreatedAt(v time.Time) predicate.Topic {
+func CreatedAt(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
-func UpdatedAt(v time.Time) predicate.Topic {
+func UpdatedAt(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
@@ -620,42 +619,42 @@ func StatusLTE(v int) predicate.Topic {
 }
 
 // ReleasedEQ applies the EQ predicate on the "released" field.
-func ReleasedEQ(v time.Time) predicate.Topic {
+func ReleasedEQ(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldReleased, v))
 }
 
 // ReleasedNEQ applies the NEQ predicate on the "released" field.
-func ReleasedNEQ(v time.Time) predicate.Topic {
+func ReleasedNEQ(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldNEQ(FieldReleased, v))
 }
 
 // ReleasedIn applies the In predicate on the "released" field.
-func ReleasedIn(vs ...time.Time) predicate.Topic {
+func ReleasedIn(vs ...int64) predicate.Topic {
 	return predicate.Topic(sql.FieldIn(FieldReleased, vs...))
 }
 
 // ReleasedNotIn applies the NotIn predicate on the "released" field.
-func ReleasedNotIn(vs ...time.Time) predicate.Topic {
+func ReleasedNotIn(vs ...int64) predicate.Topic {
 	return predicate.Topic(sql.FieldNotIn(FieldReleased, vs...))
 }
 
 // ReleasedGT applies the GT predicate on the "released" field.
-func ReleasedGT(v time.Time) predicate.Topic {
+func ReleasedGT(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldGT(FieldReleased, v))
 }
 
 // ReleasedGTE applies the GTE predicate on the "released" field.
-func ReleasedGTE(v time.Time) predicate.Topic {
+func ReleasedGTE(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldGTE(FieldReleased, v))
 }
 
 // ReleasedLT applies the LT predicate on the "released" field.
-func ReleasedLT(v time.Time) predicate.Topic {
+func ReleasedLT(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldLT(FieldReleased, v))
 }
 
 // ReleasedLTE applies the LTE predicate on the "released" field.
-func ReleasedLTE(v time.Time) predicate.Topic {
+func ReleasedLTE(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldLTE(FieldReleased, v))
 }
 
@@ -970,42 +969,42 @@ func UpdatedByContainsFold(v string) predicate.Topic {
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
-func CreatedAtEQ(v time.Time) predicate.Topic {
+func CreatedAtEQ(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
-func CreatedAtNEQ(v time.Time) predicate.Topic {
+func CreatedAtNEQ(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtIn applies the In predicate on the "created_at" field.
-func CreatedAtIn(vs ...time.Time) predicate.Topic {
+func CreatedAtIn(vs ...int64) predicate.Topic {
 	return predicate.Topic(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
-func CreatedAtNotIn(vs ...time.Time) predicate.Topic {
+func CreatedAtNotIn(vs ...int64) predicate.Topic {
 	return predicate.Topic(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtGT applies the GT predicate on the "created_at" field.
-func CreatedAtGT(v time.Time) predicate.Topic {
+func CreatedAtGT(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldGT(FieldCreatedAt, v))
 }
 
 // CreatedAtGTE applies the GTE predicate on the "created_at" field.
-func CreatedAtGTE(v time.Time) predicate.Topic {
+func CreatedAtGTE(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldGTE(FieldCreatedAt, v))
 }
 
 // CreatedAtLT applies the LT predicate on the "created_at" field.
-func CreatedAtLT(v time.Time) predicate.Topic {
+func CreatedAtLT(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldLT(FieldCreatedAt, v))
 }
 
 // CreatedAtLTE applies the LTE predicate on the "created_at" field.
-func CreatedAtLTE(v time.Time) predicate.Topic {
+func CreatedAtLTE(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldLTE(FieldCreatedAt, v))
 }
 
@@ -1020,42 +1019,42 @@ func CreatedAtNotNil() predicate.Topic {
 }
 
 // UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
-func UpdatedAtEQ(v time.Time) predicate.Topic {
+func UpdatedAtEQ(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
-func UpdatedAtNEQ(v time.Time) predicate.Topic {
+func UpdatedAtNEQ(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtIn applies the In predicate on the "updated_at" field.
-func UpdatedAtIn(vs ...time.Time) predicate.Topic {
+func UpdatedAtIn(vs ...int64) predicate.Topic {
 	return predicate.Topic(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
-func UpdatedAtNotIn(vs ...time.Time) predicate.Topic {
+func UpdatedAtNotIn(vs ...int64) predicate.Topic {
 	return predicate.Topic(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtGT applies the GT predicate on the "updated_at" field.
-func UpdatedAtGT(v time.Time) predicate.Topic {
+func UpdatedAtGT(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldGT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
-func UpdatedAtGTE(v time.Time) predicate.Topic {
+func UpdatedAtGTE(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLT applies the LT predicate on the "updated_at" field.
-func UpdatedAtLT(v time.Time) predicate.Topic {
+func UpdatedAtLT(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldLT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
-func UpdatedAtLTE(v time.Time) predicate.Topic {
+func UpdatedAtLTE(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldLTE(FieldUpdatedAt, v))
 }
 

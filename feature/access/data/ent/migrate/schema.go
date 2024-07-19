@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NbCasbinRuleColumns holds the columns for the "nb_casbin_rule" table.
-	NbCasbinRuleColumns = []*schema.Column{
+	// NcseCasbinRuleColumns holds the columns for the "ncse_casbin_rule" table.
+	NcseCasbinRuleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "p_type", Type: field.TypeString, Nullable: true, Comment: "permission type"},
 		{Name: "v0", Type: field.TypeString, Nullable: true, Comment: "version 0"},
@@ -21,24 +21,29 @@ var (
 		{Name: "v5", Type: field.TypeString, Nullable: true, Comment: "version 5"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbCasbinRuleTable holds the schema information for the "nb_casbin_rule" table.
-	NbCasbinRuleTable = &schema.Table{
-		Name:       "nb_casbin_rule",
-		Columns:    NbCasbinRuleColumns,
-		PrimaryKey: []*schema.Column{NbCasbinRuleColumns[0]},
+	// NcseCasbinRuleTable holds the schema information for the "ncse_casbin_rule" table.
+	NcseCasbinRuleTable = &schema.Table{
+		Name:       "ncse_casbin_rule",
+		Columns:    NcseCasbinRuleColumns,
+		PrimaryKey: []*schema.Column{NcseCasbinRuleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "casbinrule_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbCasbinRuleColumns[0]},
+				Columns: []*schema.Column{NcseCasbinRuleColumns[0]},
+			},
+			{
+				Name:    "casbinrule_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCasbinRuleColumns[0], NcseCasbinRuleColumns[10]},
 			},
 		},
 	}
-	// NbPermissionColumns holds the columns for the "nb_permission" table.
-	NbPermissionColumns = []*schema.Column{
+	// NcsePermissionColumns holds the columns for the "ncse_permission" table.
+	NcsePermissionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "action", Type: field.TypeString, Nullable: true, Comment: "action"},
@@ -49,29 +54,34 @@ var (
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbPermissionTable holds the schema information for the "nb_permission" table.
-	NbPermissionTable = &schema.Table{
-		Name:       "nb_permission",
-		Columns:    NbPermissionColumns,
-		PrimaryKey: []*schema.Column{NbPermissionColumns[0]},
+	// NcsePermissionTable holds the schema information for the "ncse_permission" table.
+	NcsePermissionTable = &schema.Table{
+		Name:       "ncse_permission",
+		Columns:    NcsePermissionColumns,
+		PrimaryKey: []*schema.Column{NcsePermissionColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "permission_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbPermissionColumns[0]},
+				Columns: []*schema.Column{NcsePermissionColumns[0]},
+			},
+			{
+				Name:    "permission_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcsePermissionColumns[0], NcsePermissionColumns[10]},
 			},
 			{
 				Name:    "permission_action_subject",
 				Unique:  false,
-				Columns: []*schema.Column{NbPermissionColumns[2], NbPermissionColumns[3]},
+				Columns: []*schema.Column{NcsePermissionColumns[2], NcsePermissionColumns[3]},
 			},
 		},
 	}
-	// NbRoleColumns holds the columns for the "nb_role" table.
-	NbRoleColumns = []*schema.Column{
+	// NcseRoleColumns holds the columns for the "ncse_role" table.
+	NcseRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
@@ -80,175 +90,195 @@ var (
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbRoleTable holds the schema information for the "nb_role" table.
-	NbRoleTable = &schema.Table{
-		Name:       "nb_role",
-		Columns:    NbRoleColumns,
-		PrimaryKey: []*schema.Column{NbRoleColumns[0]},
+	// NcseRoleTable holds the schema information for the "ncse_role" table.
+	NcseRoleTable = &schema.Table{
+		Name:       "ncse_role",
+		Columns:    NcseRoleColumns,
+		PrimaryKey: []*schema.Column{NcseRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "role_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbRoleColumns[0]},
+				Columns: []*schema.Column{NcseRoleColumns[0]},
 			},
 			{
 				Name:    "role_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NbRoleColumns[2]},
+				Columns: []*schema.Column{NcseRoleColumns[2]},
+			},
+			{
+				Name:    "role_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseRoleColumns[0], NcseRoleColumns[8]},
 			},
 		},
 	}
-	// NbRolePermissionColumns holds the columns for the "nb_role_permission" table.
-	NbRolePermissionColumns = []*schema.Column{
+	// NcseRolePermissionColumns holds the columns for the "ncse_role_permission" table.
+	NcseRolePermissionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
 		{Name: "permission_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "permission id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbRolePermissionTable holds the schema information for the "nb_role_permission" table.
-	NbRolePermissionTable = &schema.Table{
-		Name:       "nb_role_permission",
-		Columns:    NbRolePermissionColumns,
-		PrimaryKey: []*schema.Column{NbRolePermissionColumns[0]},
+	// NcseRolePermissionTable holds the schema information for the "ncse_role_permission" table.
+	NcseRolePermissionTable = &schema.Table{
+		Name:       "ncse_role_permission",
+		Columns:    NcseRolePermissionColumns,
+		PrimaryKey: []*schema.Column{NcseRolePermissionColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "rolepermission_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbRolePermissionColumns[0]},
+				Columns: []*schema.Column{NcseRolePermissionColumns[0]},
 			},
 			{
 				Name:    "rolepermission_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbRolePermissionColumns[1]},
+				Columns: []*schema.Column{NcseRolePermissionColumns[1]},
 			},
 			{
 				Name:    "rolepermission_permission_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbRolePermissionColumns[2]},
+				Columns: []*schema.Column{NcseRolePermissionColumns[2]},
+			},
+			{
+				Name:    "rolepermission_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseRolePermissionColumns[0], NcseRolePermissionColumns[5]},
 			},
 			{
 				Name:    "rolepermission_role_id_permission_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbRolePermissionColumns[1], NbRolePermissionColumns[2]},
+				Columns: []*schema.Column{NcseRolePermissionColumns[1], NcseRolePermissionColumns[2]},
 			},
 		},
 	}
-	// NbUserRoleColumns holds the columns for the "nb_user_role" table.
-	NbUserRoleColumns = []*schema.Column{
+	// NcseUserRoleColumns holds the columns for the "ncse_user_role" table.
+	NcseUserRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbUserRoleTable holds the schema information for the "nb_user_role" table.
-	NbUserRoleTable = &schema.Table{
-		Name:       "nb_user_role",
-		Columns:    NbUserRoleColumns,
-		PrimaryKey: []*schema.Column{NbUserRoleColumns[0]},
+	// NcseUserRoleTable holds the schema information for the "ncse_user_role" table.
+	NcseUserRoleTable = &schema.Table{
+		Name:       "ncse_user_role",
+		Columns:    NcseUserRoleColumns,
+		PrimaryKey: []*schema.Column{NcseUserRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "userrole_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbUserRoleColumns[0]},
+				Columns: []*schema.Column{NcseUserRoleColumns[0]},
 			},
 			{
 				Name:    "userrole_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserRoleColumns[1]},
+				Columns: []*schema.Column{NcseUserRoleColumns[1]},
 			},
 			{
 				Name:    "userrole_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserRoleColumns[2]},
+				Columns: []*schema.Column{NcseUserRoleColumns[2]},
+			},
+			{
+				Name:    "userrole_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseUserRoleColumns[0], NcseUserRoleColumns[5]},
 			},
 			{
 				Name:    "userrole_user_id_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserRoleColumns[1], NbUserRoleColumns[2]},
+				Columns: []*schema.Column{NcseUserRoleColumns[1], NcseUserRoleColumns[2]},
 			},
 		},
 	}
-	// NbUserTenantRoleColumns holds the columns for the "nb_user_tenant_role" table.
-	NbUserTenantRoleColumns = []*schema.Column{
+	// NcseUserTenantRoleColumns holds the columns for the "ncse_user_tenant_role" table.
+	NcseUserTenantRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbUserTenantRoleTable holds the schema information for the "nb_user_tenant_role" table.
-	NbUserTenantRoleTable = &schema.Table{
-		Name:       "nb_user_tenant_role",
-		Columns:    NbUserTenantRoleColumns,
-		PrimaryKey: []*schema.Column{NbUserTenantRoleColumns[0]},
+	// NcseUserTenantRoleTable holds the schema information for the "ncse_user_tenant_role" table.
+	NcseUserTenantRoleTable = &schema.Table{
+		Name:       "ncse_user_tenant_role",
+		Columns:    NcseUserTenantRoleColumns,
+		PrimaryKey: []*schema.Column{NcseUserTenantRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "usertenantrole_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbUserTenantRoleColumns[0]},
+				Columns: []*schema.Column{NcseUserTenantRoleColumns[0]},
 			},
 			{
 				Name:    "usertenantrole_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserTenantRoleColumns[1]},
+				Columns: []*schema.Column{NcseUserTenantRoleColumns[1]},
 			},
 			{
 				Name:    "usertenantrole_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserTenantRoleColumns[2]},
+				Columns: []*schema.Column{NcseUserTenantRoleColumns[2]},
 			},
 			{
 				Name:    "usertenantrole_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserTenantRoleColumns[3]},
+				Columns: []*schema.Column{NcseUserTenantRoleColumns[3]},
+			},
+			{
+				Name:    "usertenantrole_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseUserTenantRoleColumns[0], NcseUserTenantRoleColumns[6]},
 			},
 			{
 				Name:    "usertenantrole_user_id_tenant_id_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserTenantRoleColumns[1], NbUserTenantRoleColumns[2], NbUserTenantRoleColumns[3]},
+				Columns: []*schema.Column{NcseUserTenantRoleColumns[1], NcseUserTenantRoleColumns[2], NcseUserTenantRoleColumns[3]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NbCasbinRuleTable,
-		NbPermissionTable,
-		NbRoleTable,
-		NbRolePermissionTable,
-		NbUserRoleTable,
-		NbUserTenantRoleTable,
+		NcseCasbinRuleTable,
+		NcsePermissionTable,
+		NcseRoleTable,
+		NcseRolePermissionTable,
+		NcseUserRoleTable,
+		NcseUserTenantRoleTable,
 	}
 )
 
 func init() {
-	NbCasbinRuleTable.Annotation = &entsql.Annotation{
-		Table: "nb_casbin_rule",
+	NcseCasbinRuleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_casbin_rule",
 	}
-	NbPermissionTable.Annotation = &entsql.Annotation{
-		Table: "nb_permission",
+	NcsePermissionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_permission",
 	}
-	NbRoleTable.Annotation = &entsql.Annotation{
-		Table: "nb_role",
+	NcseRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_role",
 	}
-	NbRolePermissionTable.Annotation = &entsql.Annotation{
-		Table: "nb_role_permission",
+	NcseRolePermissionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_role_permission",
 	}
-	NbUserRoleTable.Annotation = &entsql.Annotation{
-		Table: "nb_user_role",
+	NcseUserRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user_role",
 	}
-	NbUserTenantRoleTable.Annotation = &entsql.Annotation{
-		Table: "nb_user_tenant_role",
+	NcseUserTenantRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user_tenant_role",
 	}
 }

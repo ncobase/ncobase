@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // OAuthUser holds the schema definition for the OAuthUser entity.
@@ -17,7 +18,7 @@ type OAuthUser struct {
 
 // Annotations of the OAuthUser.
 func (OAuthUser) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "oauth_user"}, "_")
+	table := strings.Join([]string{"ncse", "oauth_user"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -50,5 +51,7 @@ func (OAuthUser) Edges() []ent.Edge {
 
 // Indexes of the OAuthUser.
 func (OAuthUser) Indexes() []ent.Index {
-	return nil
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

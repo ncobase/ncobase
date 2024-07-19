@@ -4,7 +4,6 @@ package codeauth
 
 import (
 	"ncobase/feature/auth/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -80,12 +79,12 @@ func Logged(v bool) predicate.CodeAuth {
 }
 
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
-func CreatedAt(v time.Time) predicate.CodeAuth {
+func CreatedAt(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
-func UpdatedAt(v time.Time) predicate.CodeAuth {
+func UpdatedAt(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
@@ -260,42 +259,42 @@ func LoggedNotNil() predicate.CodeAuth {
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
-func CreatedAtEQ(v time.Time) predicate.CodeAuth {
+func CreatedAtEQ(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
-func CreatedAtNEQ(v time.Time) predicate.CodeAuth {
+func CreatedAtNEQ(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtIn applies the In predicate on the "created_at" field.
-func CreatedAtIn(vs ...time.Time) predicate.CodeAuth {
+func CreatedAtIn(vs ...int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
-func CreatedAtNotIn(vs ...time.Time) predicate.CodeAuth {
+func CreatedAtNotIn(vs ...int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtGT applies the GT predicate on the "created_at" field.
-func CreatedAtGT(v time.Time) predicate.CodeAuth {
+func CreatedAtGT(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldGT(FieldCreatedAt, v))
 }
 
 // CreatedAtGTE applies the GTE predicate on the "created_at" field.
-func CreatedAtGTE(v time.Time) predicate.CodeAuth {
+func CreatedAtGTE(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldGTE(FieldCreatedAt, v))
 }
 
 // CreatedAtLT applies the LT predicate on the "created_at" field.
-func CreatedAtLT(v time.Time) predicate.CodeAuth {
+func CreatedAtLT(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldLT(FieldCreatedAt, v))
 }
 
 // CreatedAtLTE applies the LTE predicate on the "created_at" field.
-func CreatedAtLTE(v time.Time) predicate.CodeAuth {
+func CreatedAtLTE(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldLTE(FieldCreatedAt, v))
 }
 
@@ -310,42 +309,42 @@ func CreatedAtNotNil() predicate.CodeAuth {
 }
 
 // UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
-func UpdatedAtEQ(v time.Time) predicate.CodeAuth {
+func UpdatedAtEQ(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
-func UpdatedAtNEQ(v time.Time) predicate.CodeAuth {
+func UpdatedAtNEQ(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtIn applies the In predicate on the "updated_at" field.
-func UpdatedAtIn(vs ...time.Time) predicate.CodeAuth {
+func UpdatedAtIn(vs ...int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
-func UpdatedAtNotIn(vs ...time.Time) predicate.CodeAuth {
+func UpdatedAtNotIn(vs ...int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtGT applies the GT predicate on the "updated_at" field.
-func UpdatedAtGT(v time.Time) predicate.CodeAuth {
+func UpdatedAtGT(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldGT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
-func UpdatedAtGTE(v time.Time) predicate.CodeAuth {
+func UpdatedAtGTE(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLT applies the LT predicate on the "updated_at" field.
-func UpdatedAtLT(v time.Time) predicate.CodeAuth {
+func UpdatedAtLT(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldLT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
-func UpdatedAtLTE(v time.Time) predicate.CodeAuth {
+func UpdatedAtLTE(v int64) predicate.CodeAuth {
 	return predicate.CodeAuth(sql.FieldLTE(FieldUpdatedAt, v))
 }
 

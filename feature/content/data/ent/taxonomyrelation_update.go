@@ -223,7 +223,7 @@ func (tru *TaxonomyRelationUpdate) sqlSave(ctx context.Context) (n int, err erro
 		_spec.ClearField(taxonomyrelation.FieldCreatedBy, field.TypeString)
 	}
 	if tru.mutation.CreatedAtCleared() {
-		_spec.ClearField(taxonomyrelation.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(taxonomyrelation.FieldCreatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -471,7 +471,7 @@ func (truo *TaxonomyRelationUpdateOne) sqlSave(ctx context.Context) (_node *Taxo
 		_spec.ClearField(taxonomyrelation.FieldCreatedBy, field.TypeString)
 	}
 	if truo.mutation.CreatedAtCleared() {
-		_spec.ClearField(taxonomyrelation.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(taxonomyrelation.FieldCreatedAt, field.TypeInt64)
 	}
 	_node = &TaxonomyRelation{config: truo.config}
 	_spec.Assign = _node.assignValues

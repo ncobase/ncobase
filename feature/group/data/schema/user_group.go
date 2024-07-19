@@ -17,7 +17,7 @@ type UserGroup struct {
 
 // Annotations of the UserGroup.
 func (UserGroup) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "user_group"}, "_")
+	table := strings.Join([]string{"ncse", "user_group"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),
@@ -48,6 +48,7 @@ func (UserGroup) Edges() []ent.Edge {
 // Indexes of the UserGroup.
 func (UserGroup) Indexes() []ent.Index {
 	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
 		index.Fields("user_id", "group_id"),
 	}
 }

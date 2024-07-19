@@ -3,7 +3,6 @@ package structs
 import (
 	"fmt"
 	"ncobase/common/types"
-	"time"
 )
 
 // TenantBody represents common fields for a tenant.
@@ -21,7 +20,7 @@ type TenantBody struct {
 	Order       *int        `json:"order,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
-	ExpiredAt   *time.Time  `json:"expired_at,omitempty"`
+	ExpiredAt   *int64      `json:"expired_at,omitempty"`
 	CreatedBy   *string     `json:"created_by,omitempty"`
 	UpdatedBy   *string     `json:"updated_by,omitempty"`
 }
@@ -53,15 +52,15 @@ type ReadTenant struct {
 	Order       *int        `json:"order"`
 	Disabled    bool        `json:"disabled"`
 	Extras      *types.JSON `json:"extras,omitempty"`
-	ExpiredAt   *time.Time  `json:"expired_at"`
+	ExpiredAt   *int64      `json:"expired_at"`
 	CreatedBy   *string     `json:"created_by,omitempty"`
-	CreatedAt   *time.Time  `json:"created_at,omitempty"`
+	CreatedAt   *int64      `json:"created_at,omitempty"`
 	UpdatedBy   *string     `json:"updated_by,omitempty"`
-	UpdatedAt   *time.Time  `json:"updated_at,omitempty"`
+	UpdatedAt   *int64      `json:"updated_at,omitempty"`
 }
 
 func (r *ReadTenant) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
 }
 
 // FindTenant represents the parameters for finding a tenant.

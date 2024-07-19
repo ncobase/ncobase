@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/feature/tenant/data/ent/tenant"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -50,11 +49,11 @@ type Tenant struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// expired at
-	ExpiredAt time.Time `json:"expired_at,omitempty"`
+	ExpiredAt int64 `json:"expired_at,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -67,12 +66,10 @@ func (*Tenant) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case tenant.FieldDisabled:
 			values[i] = new(sql.NullBool)
-		case tenant.FieldOrder:
+		case tenant.FieldOrder, tenant.FieldExpiredAt, tenant.FieldCreatedAt, tenant.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
 		case tenant.FieldID, tenant.FieldName, tenant.FieldSlug, tenant.FieldType, tenant.FieldTitle, tenant.FieldURL, tenant.FieldLogo, tenant.FieldLogoAlt, tenant.FieldKeywords, tenant.FieldCopyright, tenant.FieldDescription, tenant.FieldCreatedBy, tenant.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case tenant.FieldExpiredAt, tenant.FieldCreatedAt, tenant.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -187,22 +184,22 @@ func (t *Tenant) assignValues(columns []string, values []any) error {
 				t.UpdatedBy = value.String
 			}
 		case tenant.FieldExpiredAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field expired_at", values[i])
 			} else if value.Valid {
-				t.ExpiredAt = value.Time
+				t.ExpiredAt = value.Int64
 			}
 		case tenant.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				t.CreatedAt = value.Time
+				t.CreatedAt = value.Int64
 			}
 		case tenant.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				t.UpdatedAt = value.Time
+				t.UpdatedAt = value.Int64
 			}
 		default:
 			t.selectValues.Set(columns[i], values[i])
@@ -286,13 +283,13 @@ func (t *Tenant) String() string {
 	builder.WriteString(t.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("expired_at=")
-	builder.WriteString(t.ExpiredAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.ExpiredAt))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(t.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(t.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

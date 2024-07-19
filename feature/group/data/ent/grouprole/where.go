@@ -4,7 +4,6 @@ package grouprole
 
 import (
 	"ncobase/feature/group/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -85,12 +84,12 @@ func UpdatedBy(v string) predicate.GroupRole {
 }
 
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
-func CreatedAt(v time.Time) predicate.GroupRole {
+func CreatedAt(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
-func UpdatedAt(v time.Time) predicate.GroupRole {
+func UpdatedAt(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
@@ -395,42 +394,42 @@ func UpdatedByContainsFold(v string) predicate.GroupRole {
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
-func CreatedAtEQ(v time.Time) predicate.GroupRole {
+func CreatedAtEQ(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
-func CreatedAtNEQ(v time.Time) predicate.GroupRole {
+func CreatedAtNEQ(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtIn applies the In predicate on the "created_at" field.
-func CreatedAtIn(vs ...time.Time) predicate.GroupRole {
+func CreatedAtIn(vs ...int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
-func CreatedAtNotIn(vs ...time.Time) predicate.GroupRole {
+func CreatedAtNotIn(vs ...int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtGT applies the GT predicate on the "created_at" field.
-func CreatedAtGT(v time.Time) predicate.GroupRole {
+func CreatedAtGT(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldGT(FieldCreatedAt, v))
 }
 
 // CreatedAtGTE applies the GTE predicate on the "created_at" field.
-func CreatedAtGTE(v time.Time) predicate.GroupRole {
+func CreatedAtGTE(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldGTE(FieldCreatedAt, v))
 }
 
 // CreatedAtLT applies the LT predicate on the "created_at" field.
-func CreatedAtLT(v time.Time) predicate.GroupRole {
+func CreatedAtLT(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldLT(FieldCreatedAt, v))
 }
 
 // CreatedAtLTE applies the LTE predicate on the "created_at" field.
-func CreatedAtLTE(v time.Time) predicate.GroupRole {
+func CreatedAtLTE(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldLTE(FieldCreatedAt, v))
 }
 
@@ -445,42 +444,42 @@ func CreatedAtNotNil() predicate.GroupRole {
 }
 
 // UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
-func UpdatedAtEQ(v time.Time) predicate.GroupRole {
+func UpdatedAtEQ(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
-func UpdatedAtNEQ(v time.Time) predicate.GroupRole {
+func UpdatedAtNEQ(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtIn applies the In predicate on the "updated_at" field.
-func UpdatedAtIn(vs ...time.Time) predicate.GroupRole {
+func UpdatedAtIn(vs ...int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
-func UpdatedAtNotIn(vs ...time.Time) predicate.GroupRole {
+func UpdatedAtNotIn(vs ...int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtGT applies the GT predicate on the "updated_at" field.
-func UpdatedAtGT(v time.Time) predicate.GroupRole {
+func UpdatedAtGT(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldGT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
-func UpdatedAtGTE(v time.Time) predicate.GroupRole {
+func UpdatedAtGTE(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLT applies the LT predicate on the "updated_at" field.
-func UpdatedAtLT(v time.Time) predicate.GroupRole {
+func UpdatedAtLT(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldLT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
-func UpdatedAtLTE(v time.Time) predicate.GroupRole {
+func UpdatedAtLTE(v int64) predicate.GroupRole {
 	return predicate.GroupRole(sql.FieldLTE(FieldUpdatedAt, v))
 }
 

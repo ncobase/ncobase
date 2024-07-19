@@ -63,8 +63,10 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 }
 
 // Helper functions for codeAuthService
-func isCodeExpired(createdAt time.Time) bool {
-	return time.Now().After(createdAt.Add(24 * time.Hour))
+func isCodeExpired(createdAt int64) bool {
+	createdTime := time.UnixMilli(createdAt)
+	expirationTime := createdTime.Add(24 * time.Hour)
+	return time.Now().After(expirationTime)
 }
 
 func sendRegisterMail(_ context.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*types.JSON, error) {

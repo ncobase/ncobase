@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/group/data/ent/group"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -144,29 +143,29 @@ func (gc *GroupCreate) SetNillableUpdatedBy(s *string) *GroupCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (gc *GroupCreate) SetCreatedAt(t time.Time) *GroupCreate {
-	gc.mutation.SetCreatedAt(t)
+func (gc *GroupCreate) SetCreatedAt(i int64) *GroupCreate {
+	gc.mutation.SetCreatedAt(i)
 	return gc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (gc *GroupCreate) SetNillableCreatedAt(t *time.Time) *GroupCreate {
-	if t != nil {
-		gc.SetCreatedAt(*t)
+func (gc *GroupCreate) SetNillableCreatedAt(i *int64) *GroupCreate {
+	if i != nil {
+		gc.SetCreatedAt(*i)
 	}
 	return gc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (gc *GroupCreate) SetUpdatedAt(t time.Time) *GroupCreate {
-	gc.mutation.SetUpdatedAt(t)
+func (gc *GroupCreate) SetUpdatedAt(i int64) *GroupCreate {
+	gc.mutation.SetUpdatedAt(i)
 	return gc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (gc *GroupCreate) SetNillableUpdatedAt(t *time.Time) *GroupCreate {
-	if t != nil {
-		gc.SetUpdatedAt(*t)
+func (gc *GroupCreate) SetNillableUpdatedAt(i *int64) *GroupCreate {
+	if i != nil {
+		gc.SetUpdatedAt(*i)
 	}
 	return gc
 }
@@ -349,11 +348,11 @@ func (gc *GroupCreate) createSpec() (*Group, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := gc.mutation.CreatedAt(); ok {
-		_spec.SetField(group.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(group.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := gc.mutation.UpdatedAt(); ok {
-		_spec.SetField(group.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(group.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/tenant/data/ent/usertenant"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -76,29 +75,29 @@ func (utc *UserTenantCreate) SetNillableUpdatedBy(s *string) *UserTenantCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (utc *UserTenantCreate) SetCreatedAt(t time.Time) *UserTenantCreate {
-	utc.mutation.SetCreatedAt(t)
+func (utc *UserTenantCreate) SetCreatedAt(i int64) *UserTenantCreate {
+	utc.mutation.SetCreatedAt(i)
 	return utc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (utc *UserTenantCreate) SetNillableCreatedAt(t *time.Time) *UserTenantCreate {
-	if t != nil {
-		utc.SetCreatedAt(*t)
+func (utc *UserTenantCreate) SetNillableCreatedAt(i *int64) *UserTenantCreate {
+	if i != nil {
+		utc.SetCreatedAt(*i)
 	}
 	return utc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (utc *UserTenantCreate) SetUpdatedAt(t time.Time) *UserTenantCreate {
-	utc.mutation.SetUpdatedAt(t)
+func (utc *UserTenantCreate) SetUpdatedAt(i int64) *UserTenantCreate {
+	utc.mutation.SetUpdatedAt(i)
 	return utc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (utc *UserTenantCreate) SetNillableUpdatedAt(t *time.Time) *UserTenantCreate {
-	if t != nil {
-		utc.SetUpdatedAt(*t)
+func (utc *UserTenantCreate) SetNillableUpdatedAt(i *int64) *UserTenantCreate {
+	if i != nil {
+		utc.SetUpdatedAt(*i)
 	}
 	return utc
 }
@@ -245,11 +244,11 @@ func (utc *UserTenantCreate) createSpec() (*UserTenant, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := utc.mutation.CreatedAt(); ok {
-		_spec.SetField(usertenant.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(usertenant.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := utc.mutation.UpdatedAt(); ok {
-		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

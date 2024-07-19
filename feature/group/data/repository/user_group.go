@@ -38,7 +38,7 @@ type userGroupRepository struct {
 func NewUserGroupRepository(d *data.Data) UserGroupRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userGroupRepository{ec, rc, cache.NewCache[ent.UserGroup](rc, "nb_user_group")}
+	return &userGroupRepository{ec, rc, cache.NewCache[ent.UserGroup](rc, "ncse_user_group")}
 }
 
 // Create create user group

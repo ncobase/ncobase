@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/group/data/ent/grouprole"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -76,29 +75,29 @@ func (grc *GroupRoleCreate) SetNillableUpdatedBy(s *string) *GroupRoleCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (grc *GroupRoleCreate) SetCreatedAt(t time.Time) *GroupRoleCreate {
-	grc.mutation.SetCreatedAt(t)
+func (grc *GroupRoleCreate) SetCreatedAt(i int64) *GroupRoleCreate {
+	grc.mutation.SetCreatedAt(i)
 	return grc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (grc *GroupRoleCreate) SetNillableCreatedAt(t *time.Time) *GroupRoleCreate {
-	if t != nil {
-		grc.SetCreatedAt(*t)
+func (grc *GroupRoleCreate) SetNillableCreatedAt(i *int64) *GroupRoleCreate {
+	if i != nil {
+		grc.SetCreatedAt(*i)
 	}
 	return grc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (grc *GroupRoleCreate) SetUpdatedAt(t time.Time) *GroupRoleCreate {
-	grc.mutation.SetUpdatedAt(t)
+func (grc *GroupRoleCreate) SetUpdatedAt(i int64) *GroupRoleCreate {
+	grc.mutation.SetUpdatedAt(i)
 	return grc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (grc *GroupRoleCreate) SetNillableUpdatedAt(t *time.Time) *GroupRoleCreate {
-	if t != nil {
-		grc.SetUpdatedAt(*t)
+func (grc *GroupRoleCreate) SetNillableUpdatedAt(i *int64) *GroupRoleCreate {
+	if i != nil {
+		grc.SetUpdatedAt(*i)
 	}
 	return grc
 }
@@ -245,11 +244,11 @@ func (grc *GroupRoleCreate) createSpec() (*GroupRole, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := grc.mutation.CreatedAt(); ok {
-		_spec.SetField(grouprole.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(grouprole.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := grc.mutation.UpdatedAt(); ok {
-		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

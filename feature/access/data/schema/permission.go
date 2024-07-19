@@ -18,7 +18,7 @@ type Permission struct {
 
 // Annotations of the Permission.
 func (Permission) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "permission"}, "_")
+	table := strings.Join([]string{"ncse", "permission"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -55,6 +55,7 @@ func (Permission) Edges() []ent.Edge {
 // Indexes of the Permission.
 func (Permission) Indexes() []ent.Index {
 	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
 		index.Fields("action", "subject"),
 	}
 }

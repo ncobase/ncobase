@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/auth/data/ent/authtoken"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -34,29 +33,29 @@ func (atc *AuthTokenCreate) SetNillableDisabled(b *bool) *AuthTokenCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (atc *AuthTokenCreate) SetCreatedAt(t time.Time) *AuthTokenCreate {
-	atc.mutation.SetCreatedAt(t)
+func (atc *AuthTokenCreate) SetCreatedAt(i int64) *AuthTokenCreate {
+	atc.mutation.SetCreatedAt(i)
 	return atc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (atc *AuthTokenCreate) SetNillableCreatedAt(t *time.Time) *AuthTokenCreate {
-	if t != nil {
-		atc.SetCreatedAt(*t)
+func (atc *AuthTokenCreate) SetNillableCreatedAt(i *int64) *AuthTokenCreate {
+	if i != nil {
+		atc.SetCreatedAt(*i)
 	}
 	return atc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (atc *AuthTokenCreate) SetUpdatedAt(t time.Time) *AuthTokenCreate {
-	atc.mutation.SetUpdatedAt(t)
+func (atc *AuthTokenCreate) SetUpdatedAt(i int64) *AuthTokenCreate {
+	atc.mutation.SetUpdatedAt(i)
 	return atc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (atc *AuthTokenCreate) SetNillableUpdatedAt(t *time.Time) *AuthTokenCreate {
-	if t != nil {
-		atc.SetUpdatedAt(*t)
+func (atc *AuthTokenCreate) SetNillableUpdatedAt(i *int64) *AuthTokenCreate {
+	if i != nil {
+		atc.SetUpdatedAt(*i)
 	}
 	return atc
 }
@@ -194,11 +193,11 @@ func (atc *AuthTokenCreate) createSpec() (*AuthToken, *sqlgraph.CreateSpec) {
 		_node.Disabled = value
 	}
 	if value, ok := atc.mutation.CreatedAt(); ok {
-		_spec.SetField(authtoken.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(authtoken.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := atc.mutation.UpdatedAt(); ok {
-		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	if value, ok := atc.mutation.UserID(); ok {

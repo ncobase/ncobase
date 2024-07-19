@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NbUserColumns holds the columns for the "nb_user" table.
-	NbUserColumns = []*schema.Column{
+	// NcseUserColumns holds the columns for the "ncse_user" table.
+	NcseUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "username", Type: field.TypeString, Unique: true, Nullable: true, Size: 50, Comment: "username"},
 		{Name: "password", Type: field.TypeString, Nullable: true, Comment: "password"},
@@ -20,29 +20,34 @@ var (
 		{Name: "is_admin", Type: field.TypeBool, Nullable: true, Comment: "is admin", Default: false},
 		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbUserTable holds the schema information for the "nb_user" table.
-	NbUserTable = &schema.Table{
-		Name:       "nb_user",
-		Columns:    NbUserColumns,
-		PrimaryKey: []*schema.Column{NbUserColumns[0]},
+	// NcseUserTable holds the schema information for the "ncse_user" table.
+	NcseUserTable = &schema.Table{
+		Name:       "ncse_user",
+		Columns:    NcseUserColumns,
+		PrimaryKey: []*schema.Column{NcseUserColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "user_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbUserColumns[0]},
+				Columns: []*schema.Column{NcseUserColumns[0]},
 			},
 			{
 				Name:    "user_username",
 				Unique:  true,
-				Columns: []*schema.Column{NbUserColumns[1]},
+				Columns: []*schema.Column{NcseUserColumns[1]},
+			},
+			{
+				Name:    "user_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseUserColumns[0], NcseUserColumns[9]},
 			},
 		},
 	}
-	// NbUserProfileColumns holds the columns for the "nb_user_profile" table.
-	NbUserProfileColumns = []*schema.Column{
+	// NcseUserProfileColumns holds the columns for the "ncse_user_profile" table.
+	NcseUserProfileColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
 		{Name: "display_name", Type: field.TypeString, Nullable: true, Comment: "display name"},
 		{Name: "short_bio", Type: field.TypeString, Nullable: true, Comment: "short bio"},
@@ -51,31 +56,31 @@ var (
 		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 	}
-	// NbUserProfileTable holds the schema information for the "nb_user_profile" table.
-	NbUserProfileTable = &schema.Table{
-		Name:       "nb_user_profile",
-		Columns:    NbUserProfileColumns,
-		PrimaryKey: []*schema.Column{NbUserProfileColumns[0]},
+	// NcseUserProfileTable holds the schema information for the "ncse_user_profile" table.
+	NcseUserProfileTable = &schema.Table{
+		Name:       "ncse_user_profile",
+		Columns:    NcseUserProfileColumns,
+		PrimaryKey: []*schema.Column{NcseUserProfileColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "userprofile_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserProfileColumns[0]},
+				Columns: []*schema.Column{NcseUserProfileColumns[0]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NbUserTable,
-		NbUserProfileTable,
+		NcseUserTable,
+		NcseUserProfileTable,
 	}
 )
 
 func init() {
-	NbUserTable.Annotation = &entsql.Annotation{
-		Table: "nb_user",
+	NcseUserTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user",
 	}
-	NbUserProfileTable.Annotation = &entsql.Annotation{
-		Table: "nb_user_profile",
+	NcseUserProfileTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user_profile",
 	}
 }

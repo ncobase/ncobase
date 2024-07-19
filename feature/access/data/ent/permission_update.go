@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/permission"
 	"ncobase/feature/access/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -201,8 +200,15 @@ func (pu *PermissionUpdate) ClearUpdatedBy() *PermissionUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pu *PermissionUpdate) SetUpdatedAt(t time.Time) *PermissionUpdate {
-	pu.mutation.SetUpdatedAt(t)
+func (pu *PermissionUpdate) SetUpdatedAt(i int64) *PermissionUpdate {
+	pu.mutation.ResetUpdatedAt()
+	pu.mutation.SetUpdatedAt(i)
+	return pu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (pu *PermissionUpdate) AddUpdatedAt(i int64) *PermissionUpdate {
+	pu.mutation.AddUpdatedAt(i)
 	return pu
 }
 
@@ -335,13 +341,16 @@ func (pu *PermissionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(permission.FieldUpdatedBy, field.TypeString)
 	}
 	if pu.mutation.CreatedAtCleared() {
-		_spec.ClearField(permission.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(permission.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := pu.mutation.UpdatedAt(); ok {
-		_spec.SetField(permission.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(permission.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := pu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(permission.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if pu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(permission.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(permission.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, pu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -536,8 +545,15 @@ func (puo *PermissionUpdateOne) ClearUpdatedBy() *PermissionUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (puo *PermissionUpdateOne) SetUpdatedAt(t time.Time) *PermissionUpdateOne {
-	puo.mutation.SetUpdatedAt(t)
+func (puo *PermissionUpdateOne) SetUpdatedAt(i int64) *PermissionUpdateOne {
+	puo.mutation.ResetUpdatedAt()
+	puo.mutation.SetUpdatedAt(i)
+	return puo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (puo *PermissionUpdateOne) AddUpdatedAt(i int64) *PermissionUpdateOne {
+	puo.mutation.AddUpdatedAt(i)
 	return puo
 }
 
@@ -700,13 +716,16 @@ func (puo *PermissionUpdateOne) sqlSave(ctx context.Context) (_node *Permission,
 		_spec.ClearField(permission.FieldUpdatedBy, field.TypeString)
 	}
 	if puo.mutation.CreatedAtCleared() {
-		_spec.ClearField(permission.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(permission.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := puo.mutation.UpdatedAt(); ok {
-		_spec.SetField(permission.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(permission.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := puo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(permission.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if puo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(permission.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(permission.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &Permission{config: puo.config}
 	_spec.Assign = _node.assignValues

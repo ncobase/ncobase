@@ -10,7 +10,6 @@ import (
 	"ncobase/feature/tenant/data/ent/tenant"
 	"ncobase/feature/tenant/data/ent/usertenant"
 	"sync"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -51,9 +50,12 @@ type TenantMutation struct {
 	extras        *map[string]interface{}
 	created_by    *string
 	updated_by    *string
-	expired_at    *time.Time
-	created_at    *time.Time
-	updated_at    *time.Time
+	expired_at    *int64
+	addexpired_at *int64
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Tenant, error)
@@ -907,12 +909,13 @@ func (m *TenantMutation) ResetUpdatedBy() {
 }
 
 // SetExpiredAt sets the "expired_at" field.
-func (m *TenantMutation) SetExpiredAt(t time.Time) {
-	m.expired_at = &t
+func (m *TenantMutation) SetExpiredAt(i int64) {
+	m.expired_at = &i
+	m.addexpired_at = nil
 }
 
 // ExpiredAt returns the value of the "expired_at" field in the mutation.
-func (m *TenantMutation) ExpiredAt() (r time.Time, exists bool) {
+func (m *TenantMutation) ExpiredAt() (r int64, exists bool) {
 	v := m.expired_at
 	if v == nil {
 		return
@@ -923,7 +926,7 @@ func (m *TenantMutation) ExpiredAt() (r time.Time, exists bool) {
 // OldExpiredAt returns the old "expired_at" field's value of the Tenant entity.
 // If the Tenant object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TenantMutation) OldExpiredAt(ctx context.Context) (v time.Time, err error) {
+func (m *TenantMutation) OldExpiredAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldExpiredAt is only allowed on UpdateOne operations")
 	}
@@ -937,9 +940,28 @@ func (m *TenantMutation) OldExpiredAt(ctx context.Context) (v time.Time, err err
 	return oldValue.ExpiredAt, nil
 }
 
+// AddExpiredAt adds i to the "expired_at" field.
+func (m *TenantMutation) AddExpiredAt(i int64) {
+	if m.addexpired_at != nil {
+		*m.addexpired_at += i
+	} else {
+		m.addexpired_at = &i
+	}
+}
+
+// AddedExpiredAt returns the value that was added to the "expired_at" field in this mutation.
+func (m *TenantMutation) AddedExpiredAt() (r int64, exists bool) {
+	v := m.addexpired_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearExpiredAt clears the value of the "expired_at" field.
 func (m *TenantMutation) ClearExpiredAt() {
 	m.expired_at = nil
+	m.addexpired_at = nil
 	m.clearedFields[tenant.FieldExpiredAt] = struct{}{}
 }
 
@@ -952,16 +974,18 @@ func (m *TenantMutation) ExpiredAtCleared() bool {
 // ResetExpiredAt resets all changes to the "expired_at" field.
 func (m *TenantMutation) ResetExpiredAt() {
 	m.expired_at = nil
+	m.addexpired_at = nil
 	delete(m.clearedFields, tenant.FieldExpiredAt)
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *TenantMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *TenantMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *TenantMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *TenantMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -972,7 +996,7 @@ func (m *TenantMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the Tenant entity.
 // If the Tenant object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TenantMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *TenantMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -986,9 +1010,28 @@ func (m *TenantMutation) OldCreatedAt(ctx context.Context) (v time.Time, err err
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *TenantMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *TenantMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *TenantMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[tenant.FieldCreatedAt] = struct{}{}
 }
 
@@ -1001,16 +1044,18 @@ func (m *TenantMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *TenantMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, tenant.FieldCreatedAt)
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *TenantMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+func (m *TenantMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *TenantMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *TenantMutation) UpdatedAt() (r int64, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -1021,7 +1066,7 @@ func (m *TenantMutation) UpdatedAt() (r time.Time, exists bool) {
 // OldUpdatedAt returns the old "updated_at" field's value of the Tenant entity.
 // If the Tenant object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TenantMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *TenantMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -1035,9 +1080,28 @@ func (m *TenantMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err err
 	return oldValue.UpdatedAt, nil
 }
 
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *TenantMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *TenantMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (m *TenantMutation) ClearUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	m.clearedFields[tenant.FieldUpdatedAt] = struct{}{}
 }
 
@@ -1050,6 +1114,7 @@ func (m *TenantMutation) UpdatedAtCleared() bool {
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *TenantMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	delete(m.clearedFields, tenant.FieldUpdatedAt)
 }
 
@@ -1346,21 +1411,21 @@ func (m *TenantMutation) SetField(name string, value ent.Value) error {
 		m.SetUpdatedBy(v)
 		return nil
 	case tenant.FieldExpiredAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetExpiredAt(v)
 		return nil
 	case tenant.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
 	case tenant.FieldUpdatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1377,6 +1442,15 @@ func (m *TenantMutation) AddedFields() []string {
 	if m.add_order != nil {
 		fields = append(fields, tenant.FieldOrder)
 	}
+	if m.addexpired_at != nil {
+		fields = append(fields, tenant.FieldExpiredAt)
+	}
+	if m.addcreated_at != nil {
+		fields = append(fields, tenant.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, tenant.FieldUpdatedAt)
+	}
 	return fields
 }
 
@@ -1387,6 +1461,12 @@ func (m *TenantMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case tenant.FieldOrder:
 		return m.AddedOrder()
+	case tenant.FieldExpiredAt:
+		return m.AddedExpiredAt()
+	case tenant.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case tenant.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
 	}
 	return nil, false
 }
@@ -1402,6 +1482,27 @@ func (m *TenantMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddOrder(v)
+		return nil
+	case tenant.FieldExpiredAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddExpiredAt(v)
+		return nil
+	case tenant.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case tenant.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Tenant numeric field %s", name)
@@ -1651,8 +1752,10 @@ type UserTenantMutation struct {
 	tenant_id     *string
 	created_by    *string
 	updated_by    *string
-	created_at    *time.Time
-	updated_at    *time.Time
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*UserTenant, error)
@@ -1960,12 +2063,13 @@ func (m *UserTenantMutation) ResetUpdatedBy() {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *UserTenantMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *UserTenantMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *UserTenantMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *UserTenantMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -1976,7 +2080,7 @@ func (m *UserTenantMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the UserTenant entity.
 // If the UserTenant object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserTenantMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *UserTenantMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -1990,9 +2094,28 @@ func (m *UserTenantMutation) OldCreatedAt(ctx context.Context) (v time.Time, err
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *UserTenantMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *UserTenantMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *UserTenantMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[usertenant.FieldCreatedAt] = struct{}{}
 }
 
@@ -2005,16 +2128,18 @@ func (m *UserTenantMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *UserTenantMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, usertenant.FieldCreatedAt)
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *UserTenantMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+func (m *UserTenantMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *UserTenantMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *UserTenantMutation) UpdatedAt() (r int64, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -2025,7 +2150,7 @@ func (m *UserTenantMutation) UpdatedAt() (r time.Time, exists bool) {
 // OldUpdatedAt returns the old "updated_at" field's value of the UserTenant entity.
 // If the UserTenant object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserTenantMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *UserTenantMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -2039,9 +2164,28 @@ func (m *UserTenantMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err
 	return oldValue.UpdatedAt, nil
 }
 
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *UserTenantMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *UserTenantMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (m *UserTenantMutation) ClearUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	m.clearedFields[usertenant.FieldUpdatedAt] = struct{}{}
 }
 
@@ -2054,6 +2198,7 @@ func (m *UserTenantMutation) UpdatedAtCleared() bool {
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *UserTenantMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	delete(m.clearedFields, usertenant.FieldUpdatedAt)
 }
 
@@ -2189,14 +2334,14 @@ func (m *UserTenantMutation) SetField(name string, value ent.Value) error {
 		m.SetUpdatedBy(v)
 		return nil
 	case usertenant.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
 	case usertenant.FieldUpdatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2209,13 +2354,26 @@ func (m *UserTenantMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *UserTenantMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, usertenant.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, usertenant.FieldUpdatedAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *UserTenantMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case usertenant.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case usertenant.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	}
 	return nil, false
 }
 
@@ -2224,6 +2382,20 @@ func (m *UserTenantMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *UserTenantMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case usertenant.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case usertenant.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown UserTenant numeric field %s", name)
 }

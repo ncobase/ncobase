@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/group/data/ent/grouprole"
 	"ncobase/feature/group/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -109,8 +108,15 @@ func (gru *GroupRoleUpdate) ClearUpdatedBy() *GroupRoleUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (gru *GroupRoleUpdate) SetUpdatedAt(t time.Time) *GroupRoleUpdate {
-	gru.mutation.SetUpdatedAt(t)
+func (gru *GroupRoleUpdate) SetUpdatedAt(i int64) *GroupRoleUpdate {
+	gru.mutation.ResetUpdatedAt()
+	gru.mutation.SetUpdatedAt(i)
+	return gru
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (gru *GroupRoleUpdate) AddUpdatedAt(i int64) *GroupRoleUpdate {
+	gru.mutation.AddUpdatedAt(i)
 	return gru
 }
 
@@ -223,13 +229,16 @@ func (gru *GroupRoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(grouprole.FieldUpdatedBy, field.TypeString)
 	}
 	if gru.mutation.CreatedAtCleared() {
-		_spec.ClearField(grouprole.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(grouprole.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := gru.mutation.UpdatedAt(); ok {
-		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := gru.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(grouprole.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if gru.mutation.UpdatedAtCleared() {
-		_spec.ClearField(grouprole.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(grouprole.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, gru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -332,8 +341,15 @@ func (gruo *GroupRoleUpdateOne) ClearUpdatedBy() *GroupRoleUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (gruo *GroupRoleUpdateOne) SetUpdatedAt(t time.Time) *GroupRoleUpdateOne {
-	gruo.mutation.SetUpdatedAt(t)
+func (gruo *GroupRoleUpdateOne) SetUpdatedAt(i int64) *GroupRoleUpdateOne {
+	gruo.mutation.ResetUpdatedAt()
+	gruo.mutation.SetUpdatedAt(i)
+	return gruo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (gruo *GroupRoleUpdateOne) AddUpdatedAt(i int64) *GroupRoleUpdateOne {
+	gruo.mutation.AddUpdatedAt(i)
 	return gruo
 }
 
@@ -476,13 +492,16 @@ func (gruo *GroupRoleUpdateOne) sqlSave(ctx context.Context) (_node *GroupRole, 
 		_spec.ClearField(grouprole.FieldUpdatedBy, field.TypeString)
 	}
 	if gruo.mutation.CreatedAtCleared() {
-		_spec.ClearField(grouprole.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(grouprole.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := gruo.mutation.UpdatedAt(); ok {
-		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(grouprole.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := gruo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(grouprole.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if gruo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(grouprole.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(grouprole.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &GroupRole{config: gruo.config}
 	_spec.Assign = _node.assignValues

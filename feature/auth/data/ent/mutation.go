@@ -11,7 +11,6 @@ import (
 	"ncobase/feature/auth/data/ent/oauthuser"
 	"ncobase/feature/auth/data/ent/predicate"
 	"sync"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -38,8 +37,10 @@ type AuthTokenMutation struct {
 	typ           string
 	id            *string
 	disabled      *bool
-	created_at    *time.Time
-	updated_at    *time.Time
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
 	user_id       *string
 	clearedFields map[string]struct{}
 	done          bool
@@ -201,12 +202,13 @@ func (m *AuthTokenMutation) ResetDisabled() {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *AuthTokenMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *AuthTokenMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *AuthTokenMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *AuthTokenMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -217,7 +219,7 @@ func (m *AuthTokenMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the AuthToken entity.
 // If the AuthToken object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AuthTokenMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *AuthTokenMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -231,9 +233,28 @@ func (m *AuthTokenMutation) OldCreatedAt(ctx context.Context) (v time.Time, err 
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *AuthTokenMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *AuthTokenMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *AuthTokenMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[authtoken.FieldCreatedAt] = struct{}{}
 }
 
@@ -246,16 +267,18 @@ func (m *AuthTokenMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *AuthTokenMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, authtoken.FieldCreatedAt)
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *AuthTokenMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+func (m *AuthTokenMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *AuthTokenMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *AuthTokenMutation) UpdatedAt() (r int64, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -266,7 +289,7 @@ func (m *AuthTokenMutation) UpdatedAt() (r time.Time, exists bool) {
 // OldUpdatedAt returns the old "updated_at" field's value of the AuthToken entity.
 // If the AuthToken object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AuthTokenMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *AuthTokenMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -280,9 +303,28 @@ func (m *AuthTokenMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err 
 	return oldValue.UpdatedAt, nil
 }
 
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *AuthTokenMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *AuthTokenMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (m *AuthTokenMutation) ClearUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	m.clearedFields[authtoken.FieldUpdatedAt] = struct{}{}
 }
 
@@ -295,6 +337,7 @@ func (m *AuthTokenMutation) UpdatedAtCleared() bool {
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *AuthTokenMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	delete(m.clearedFields, authtoken.FieldUpdatedAt)
 }
 
@@ -444,14 +487,14 @@ func (m *AuthTokenMutation) SetField(name string, value ent.Value) error {
 		m.SetDisabled(v)
 		return nil
 	case authtoken.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
 	case authtoken.FieldUpdatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -471,13 +514,26 @@ func (m *AuthTokenMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *AuthTokenMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, authtoken.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, authtoken.FieldUpdatedAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *AuthTokenMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case authtoken.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case authtoken.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	}
 	return nil, false
 }
 
@@ -486,6 +542,20 @@ func (m *AuthTokenMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *AuthTokenMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case authtoken.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case authtoken.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown AuthToken numeric field %s", name)
 }
@@ -613,8 +683,10 @@ type CodeAuthMutation struct {
 	code          *string
 	email         *string
 	logged        *bool
-	created_at    *time.Time
-	updated_at    *time.Time
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*CodeAuth, error)
@@ -873,12 +945,13 @@ func (m *CodeAuthMutation) ResetLogged() {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *CodeAuthMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *CodeAuthMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *CodeAuthMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *CodeAuthMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -889,7 +962,7 @@ func (m *CodeAuthMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the CodeAuth entity.
 // If the CodeAuth object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CodeAuthMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *CodeAuthMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -903,9 +976,28 @@ func (m *CodeAuthMutation) OldCreatedAt(ctx context.Context) (v time.Time, err e
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *CodeAuthMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *CodeAuthMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *CodeAuthMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[codeauth.FieldCreatedAt] = struct{}{}
 }
 
@@ -918,16 +1010,18 @@ func (m *CodeAuthMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *CodeAuthMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, codeauth.FieldCreatedAt)
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *CodeAuthMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+func (m *CodeAuthMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *CodeAuthMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *CodeAuthMutation) UpdatedAt() (r int64, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -938,7 +1032,7 @@ func (m *CodeAuthMutation) UpdatedAt() (r time.Time, exists bool) {
 // OldUpdatedAt returns the old "updated_at" field's value of the CodeAuth entity.
 // If the CodeAuth object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CodeAuthMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *CodeAuthMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -952,9 +1046,28 @@ func (m *CodeAuthMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err e
 	return oldValue.UpdatedAt, nil
 }
 
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *CodeAuthMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *CodeAuthMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (m *CodeAuthMutation) ClearUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	m.clearedFields[codeauth.FieldUpdatedAt] = struct{}{}
 }
 
@@ -967,6 +1080,7 @@ func (m *CodeAuthMutation) UpdatedAtCleared() bool {
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *CodeAuthMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	delete(m.clearedFields, codeauth.FieldUpdatedAt)
 }
 
@@ -1088,14 +1202,14 @@ func (m *CodeAuthMutation) SetField(name string, value ent.Value) error {
 		m.SetLogged(v)
 		return nil
 	case codeauth.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
 	case codeauth.FieldUpdatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1108,13 +1222,26 @@ func (m *CodeAuthMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *CodeAuthMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, codeauth.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, codeauth.FieldUpdatedAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *CodeAuthMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case codeauth.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case codeauth.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	}
 	return nil, false
 }
 
@@ -1123,6 +1250,20 @@ func (m *CodeAuthMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *CodeAuthMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case codeauth.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case codeauth.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown CodeAuth numeric field %s", name)
 }
@@ -1260,8 +1401,10 @@ type OAuthUserMutation struct {
 	access_token  *string
 	provider      *string
 	user_id       *string
-	created_at    *time.Time
-	updated_at    *time.Time
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*OAuthUser, error)
@@ -1556,12 +1699,13 @@ func (m *OAuthUserMutation) ResetUserID() {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *OAuthUserMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *OAuthUserMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *OAuthUserMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *OAuthUserMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -1572,7 +1716,7 @@ func (m *OAuthUserMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the OAuthUser entity.
 // If the OAuthUser object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *OAuthUserMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *OAuthUserMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -1586,9 +1730,28 @@ func (m *OAuthUserMutation) OldCreatedAt(ctx context.Context) (v time.Time, err 
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *OAuthUserMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *OAuthUserMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *OAuthUserMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[oauthuser.FieldCreatedAt] = struct{}{}
 }
 
@@ -1601,16 +1764,18 @@ func (m *OAuthUserMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *OAuthUserMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, oauthuser.FieldCreatedAt)
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *OAuthUserMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+func (m *OAuthUserMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *OAuthUserMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *OAuthUserMutation) UpdatedAt() (r int64, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -1621,7 +1786,7 @@ func (m *OAuthUserMutation) UpdatedAt() (r time.Time, exists bool) {
 // OldUpdatedAt returns the old "updated_at" field's value of the OAuthUser entity.
 // If the OAuthUser object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *OAuthUserMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *OAuthUserMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -1635,9 +1800,28 @@ func (m *OAuthUserMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err 
 	return oldValue.UpdatedAt, nil
 }
 
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *OAuthUserMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *OAuthUserMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (m *OAuthUserMutation) ClearUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	m.clearedFields[oauthuser.FieldUpdatedAt] = struct{}{}
 }
 
@@ -1650,6 +1834,7 @@ func (m *OAuthUserMutation) UpdatedAtCleared() bool {
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *OAuthUserMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	delete(m.clearedFields, oauthuser.FieldUpdatedAt)
 }
 
@@ -1785,14 +1970,14 @@ func (m *OAuthUserMutation) SetField(name string, value ent.Value) error {
 		m.SetUserID(v)
 		return nil
 	case oauthuser.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
 	case oauthuser.FieldUpdatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1805,13 +1990,26 @@ func (m *OAuthUserMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *OAuthUserMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, oauthuser.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, oauthuser.FieldUpdatedAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *OAuthUserMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case oauthuser.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case oauthuser.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	}
 	return nil, false
 }
 
@@ -1820,6 +2018,20 @@ func (m *OAuthUserMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *OAuthUserMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case oauthuser.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case oauthuser.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown OAuthUser numeric field %s", name)
 }

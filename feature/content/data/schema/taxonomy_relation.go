@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // TaxonomyRelation holds the schema definition for the TaxonomyRelation entity.
@@ -17,7 +18,7 @@ type TaxonomyRelation struct {
 
 // Annotations of the TaxonomyRelation.
 func (TaxonomyRelation) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "taxonomy_relation"}, "_")
+	table := strings.Join([]string{"ncse", "taxonomy_relation"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.QueryField(),
@@ -51,5 +52,7 @@ func (TaxonomyRelation) Edges() []ent.Edge {
 
 // Indexes of the TaxonomyRelation
 func (TaxonomyRelation) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

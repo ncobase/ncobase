@@ -39,7 +39,7 @@ type userTenantRepository struct {
 func NewUserTenantRepository(d *data.Data) UserTenantRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userTenantRepository{ec, rc, cache.NewCache[ent.UserTenant](rc, "nb_user_tenant")}
+	return &userTenantRepository{ec, rc, cache.NewCache[ent.UserTenant](rc, "ncse_user_tenant")}
 }
 
 // Create  creates a new user tenant

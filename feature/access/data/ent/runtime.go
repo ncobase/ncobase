@@ -10,7 +10,6 @@ import (
 	"ncobase/feature/access/data/ent/userrole"
 	"ncobase/feature/access/data/ent/usertenantrole"
 	"ncobase/feature/access/data/schema"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -37,13 +36,13 @@ func init() {
 	// casbinruleDescCreatedAt is the schema descriptor for created_at field.
 	casbinruleDescCreatedAt := casbinruleMixinFields9[0].Descriptor()
 	// casbinrule.DefaultCreatedAt holds the default value on creation for the created_at field.
-	casbinrule.DefaultCreatedAt = casbinruleDescCreatedAt.Default.(func() time.Time)
+	casbinrule.DefaultCreatedAt = casbinruleDescCreatedAt.Default.(func() int64)
 	// casbinruleDescUpdatedAt is the schema descriptor for updated_at field.
 	casbinruleDescUpdatedAt := casbinruleMixinFields9[1].Descriptor()
 	// casbinrule.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	casbinrule.DefaultUpdatedAt = casbinruleDescUpdatedAt.Default.(func() time.Time)
+	casbinrule.DefaultUpdatedAt = casbinruleDescUpdatedAt.Default.(func() int64)
 	// casbinrule.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	casbinrule.UpdateDefaultUpdatedAt = casbinruleDescUpdatedAt.UpdateDefault.(func() time.Time)
+	casbinrule.UpdateDefaultUpdatedAt = casbinruleDescUpdatedAt.UpdateDefault.(func() int64)
 	// casbinruleDescID is the schema descriptor for id field.
 	casbinruleDescID := casbinruleMixinFields0[0].Descriptor()
 	// casbinrule.DefaultID holds the default value on creation for the id field.
@@ -88,13 +87,13 @@ func init() {
 	// permissionDescCreatedAt is the schema descriptor for created_at field.
 	permissionDescCreatedAt := permissionMixinFields9[0].Descriptor()
 	// permission.DefaultCreatedAt holds the default value on creation for the created_at field.
-	permission.DefaultCreatedAt = permissionDescCreatedAt.Default.(func() time.Time)
+	permission.DefaultCreatedAt = permissionDescCreatedAt.Default.(func() int64)
 	// permissionDescUpdatedAt is the schema descriptor for updated_at field.
 	permissionDescUpdatedAt := permissionMixinFields9[1].Descriptor()
 	// permission.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	permission.DefaultUpdatedAt = permissionDescUpdatedAt.Default.(func() time.Time)
+	permission.DefaultUpdatedAt = permissionDescUpdatedAt.Default.(func() int64)
 	// permission.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	permission.UpdateDefaultUpdatedAt = permissionDescUpdatedAt.UpdateDefault.(func() time.Time)
+	permission.UpdateDefaultUpdatedAt = permissionDescUpdatedAt.UpdateDefault.(func() int64)
 	// permissionDescID is the schema descriptor for id field.
 	permissionDescID := permissionMixinFields0[0].Descriptor()
 	// permission.DefaultID holds the default value on creation for the id field.
@@ -133,13 +132,13 @@ func init() {
 	// roleDescCreatedAt is the schema descriptor for created_at field.
 	roleDescCreatedAt := roleMixinFields7[0].Descriptor()
 	// role.DefaultCreatedAt holds the default value on creation for the created_at field.
-	role.DefaultCreatedAt = roleDescCreatedAt.Default.(func() time.Time)
+	role.DefaultCreatedAt = roleDescCreatedAt.Default.(func() int64)
 	// roleDescUpdatedAt is the schema descriptor for updated_at field.
 	roleDescUpdatedAt := roleMixinFields7[1].Descriptor()
 	// role.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	role.DefaultUpdatedAt = roleDescUpdatedAt.Default.(func() time.Time)
+	role.DefaultUpdatedAt = roleDescUpdatedAt.Default.(func() int64)
 	// role.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	role.UpdateDefaultUpdatedAt = roleDescUpdatedAt.UpdateDefault.(func() time.Time)
+	role.UpdateDefaultUpdatedAt = roleDescUpdatedAt.UpdateDefault.(func() int64)
 	// roleDescID is the schema descriptor for id field.
 	roleDescID := roleMixinFields0[0].Descriptor()
 	// role.DefaultID holds the default value on creation for the id field.
@@ -178,13 +177,13 @@ func init() {
 	// rolepermissionDescCreatedAt is the schema descriptor for created_at field.
 	rolepermissionDescCreatedAt := rolepermissionMixinFields4[0].Descriptor()
 	// rolepermission.DefaultCreatedAt holds the default value on creation for the created_at field.
-	rolepermission.DefaultCreatedAt = rolepermissionDescCreatedAt.Default.(func() time.Time)
+	rolepermission.DefaultCreatedAt = rolepermissionDescCreatedAt.Default.(func() int64)
 	// rolepermissionDescUpdatedAt is the schema descriptor for updated_at field.
 	rolepermissionDescUpdatedAt := rolepermissionMixinFields4[1].Descriptor()
 	// rolepermission.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	rolepermission.DefaultUpdatedAt = rolepermissionDescUpdatedAt.Default.(func() time.Time)
+	rolepermission.DefaultUpdatedAt = rolepermissionDescUpdatedAt.Default.(func() int64)
 	// rolepermission.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	rolepermission.UpdateDefaultUpdatedAt = rolepermissionDescUpdatedAt.UpdateDefault.(func() time.Time)
+	rolepermission.UpdateDefaultUpdatedAt = rolepermissionDescUpdatedAt.UpdateDefault.(func() int64)
 	// rolepermissionDescID is the schema descriptor for id field.
 	rolepermissionDescID := rolepermissionMixinFields0[0].Descriptor()
 	// rolepermission.DefaultID holds the default value on creation for the id field.
@@ -223,13 +222,13 @@ func init() {
 	// userroleDescCreatedAt is the schema descriptor for created_at field.
 	userroleDescCreatedAt := userroleMixinFields4[0].Descriptor()
 	// userrole.DefaultCreatedAt holds the default value on creation for the created_at field.
-	userrole.DefaultCreatedAt = userroleDescCreatedAt.Default.(func() time.Time)
+	userrole.DefaultCreatedAt = userroleDescCreatedAt.Default.(func() int64)
 	// userroleDescUpdatedAt is the schema descriptor for updated_at field.
 	userroleDescUpdatedAt := userroleMixinFields4[1].Descriptor()
 	// userrole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	userrole.DefaultUpdatedAt = userroleDescUpdatedAt.Default.(func() time.Time)
+	userrole.DefaultUpdatedAt = userroleDescUpdatedAt.Default.(func() int64)
 	// userrole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	userrole.UpdateDefaultUpdatedAt = userroleDescUpdatedAt.UpdateDefault.(func() time.Time)
+	userrole.UpdateDefaultUpdatedAt = userroleDescUpdatedAt.UpdateDefault.(func() int64)
 	// userroleDescID is the schema descriptor for id field.
 	userroleDescID := userroleMixinFields0[0].Descriptor()
 	// userrole.DefaultID holds the default value on creation for the id field.
@@ -274,13 +273,13 @@ func init() {
 	// usertenantroleDescCreatedAt is the schema descriptor for created_at field.
 	usertenantroleDescCreatedAt := usertenantroleMixinFields5[0].Descriptor()
 	// usertenantrole.DefaultCreatedAt holds the default value on creation for the created_at field.
-	usertenantrole.DefaultCreatedAt = usertenantroleDescCreatedAt.Default.(func() time.Time)
+	usertenantrole.DefaultCreatedAt = usertenantroleDescCreatedAt.Default.(func() int64)
 	// usertenantroleDescUpdatedAt is the schema descriptor for updated_at field.
 	usertenantroleDescUpdatedAt := usertenantroleMixinFields5[1].Descriptor()
 	// usertenantrole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	usertenantrole.DefaultUpdatedAt = usertenantroleDescUpdatedAt.Default.(func() time.Time)
+	usertenantrole.DefaultUpdatedAt = usertenantroleDescUpdatedAt.Default.(func() int64)
 	// usertenantrole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	usertenantrole.UpdateDefaultUpdatedAt = usertenantroleDescUpdatedAt.UpdateDefault.(func() time.Time)
+	usertenantrole.UpdateDefaultUpdatedAt = usertenantroleDescUpdatedAt.UpdateDefault.(func() int64)
 	// usertenantroleDescID is the schema descriptor for id field.
 	usertenantroleDescID := usertenantroleMixinFields0[0].Descriptor()
 	// usertenantrole.DefaultID holds the default value on creation for the id field.

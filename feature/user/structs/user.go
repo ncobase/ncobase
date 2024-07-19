@@ -1,8 +1,6 @@
 package structs
 
 import (
-	"time"
-
 	"ncobase/common/types"
 )
 
@@ -24,8 +22,8 @@ type UserBody struct {
 	IsAdmin     bool        `json:"is_admin"`
 	Status      int         `json:"status"`
 	Extras      *types.JSON `json:"extras"`
-	CreatedAt   time.Time   `json:"created_at"`
-	UpdatedAt   time.Time   `json:"updated_at"`
+	CreatedAt   *int64      `json:"created_at"`
+	UpdatedAt   *int64      `json:"updated_at"`
 }
 
 // UserPassword represents the user password schema.
@@ -46,8 +44,8 @@ type ReadUser struct {
 	IsAdmin     bool        `json:"is_admin"`
 	Status      int         `json:"status"`
 	Extras      *types.JSON `json:"extras"`
-	CreatedAt   time.Time   `json:"created_at"`
-	UpdatedAt   time.Time   `json:"updated_at"`
+	CreatedAt   *int64      `json:"created_at"`
+	UpdatedAt   *int64      `json:"updated_at"`
 }
 
 // ListUserParams represents the query parameters for listing users.

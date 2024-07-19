@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/auth/data/ent/oauthuser"
 	"ncobase/feature/auth/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -103,8 +102,15 @@ func (ouu *OAuthUserUpdate) ClearUserID() *OAuthUserUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ouu *OAuthUserUpdate) SetUpdatedAt(t time.Time) *OAuthUserUpdate {
-	ouu.mutation.SetUpdatedAt(t)
+func (ouu *OAuthUserUpdate) SetUpdatedAt(i int64) *OAuthUserUpdate {
+	ouu.mutation.ResetUpdatedAt()
+	ouu.mutation.SetUpdatedAt(i)
+	return ouu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (ouu *OAuthUserUpdate) AddUpdatedAt(i int64) *OAuthUserUpdate {
+	ouu.mutation.AddUpdatedAt(i)
 	return ouu
 }
 
@@ -204,13 +210,16 @@ func (ouu *OAuthUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(oauthuser.FieldUserID, field.TypeString)
 	}
 	if ouu.mutation.CreatedAtCleared() {
-		_spec.ClearField(oauthuser.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(oauthuser.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := ouu.mutation.UpdatedAt(); ok {
-		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := ouu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if ouu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(oauthuser.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(oauthuser.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ouu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -307,8 +316,15 @@ func (ouuo *OAuthUserUpdateOne) ClearUserID() *OAuthUserUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ouuo *OAuthUserUpdateOne) SetUpdatedAt(t time.Time) *OAuthUserUpdateOne {
-	ouuo.mutation.SetUpdatedAt(t)
+func (ouuo *OAuthUserUpdateOne) SetUpdatedAt(i int64) *OAuthUserUpdateOne {
+	ouuo.mutation.ResetUpdatedAt()
+	ouuo.mutation.SetUpdatedAt(i)
+	return ouuo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (ouuo *OAuthUserUpdateOne) AddUpdatedAt(i int64) *OAuthUserUpdateOne {
+	ouuo.mutation.AddUpdatedAt(i)
 	return ouuo
 }
 
@@ -438,13 +454,16 @@ func (ouuo *OAuthUserUpdateOne) sqlSave(ctx context.Context) (_node *OAuthUser, 
 		_spec.ClearField(oauthuser.FieldUserID, field.TypeString)
 	}
 	if ouuo.mutation.CreatedAtCleared() {
-		_spec.ClearField(oauthuser.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(oauthuser.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := ouuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := ouuo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if ouuo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(oauthuser.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(oauthuser.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &OAuthUser{config: ouuo.config}
 	_spec.Assign = _node.assignValues

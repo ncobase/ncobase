@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/rolepermission"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -27,9 +26,9 @@ type RolePermission struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -38,10 +37,10 @@ func (*RolePermission) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case rolepermission.FieldCreatedAt, rolepermission.FieldUpdatedAt:
+			values[i] = new(sql.NullInt64)
 		case rolepermission.FieldID, rolepermission.FieldRoleID, rolepermission.FieldPermissionID, rolepermission.FieldCreatedBy, rolepermission.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case rolepermission.FieldCreatedAt, rolepermission.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -88,16 +87,16 @@ func (rp *RolePermission) assignValues(columns []string, values []any) error {
 				rp.UpdatedBy = value.String
 			}
 		case rolepermission.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				rp.CreatedAt = value.Time
+				rp.CreatedAt = value.Int64
 			}
 		case rolepermission.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				rp.UpdatedAt = value.Time
+				rp.UpdatedAt = value.Int64
 			}
 		default:
 			rp.selectValues.Set(columns[i], values[i])
@@ -148,10 +147,10 @@ func (rp *RolePermission) String() string {
 	builder.WriteString(rp.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(rp.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", rp.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(rp.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", rp.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

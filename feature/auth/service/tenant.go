@@ -64,7 +64,7 @@ func (s *authTenantService) CreateInitialTenant(ctx context.Context, body *tenan
 		}
 
 		// Assign the tenant to the super admin role
-		_, err = s.as.UserTenantRole.AddRoleToUserInTenant(ctx, *body.CreatedBy, superAdminRole.ID, tenant.ID)
+		_, err = s.as.UserTenantRole.AddRoleToUserInTenant(ctx, *body.CreatedBy, tenant.ID, superAdminRole.ID)
 		if err != nil {
 			return nil, err
 		}

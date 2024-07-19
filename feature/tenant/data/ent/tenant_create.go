@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/feature/tenant/data/ent/tenant"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -223,43 +222,43 @@ func (tc *TenantCreate) SetNillableUpdatedBy(s *string) *TenantCreate {
 }
 
 // SetExpiredAt sets the "expired_at" field.
-func (tc *TenantCreate) SetExpiredAt(t time.Time) *TenantCreate {
-	tc.mutation.SetExpiredAt(t)
+func (tc *TenantCreate) SetExpiredAt(i int64) *TenantCreate {
+	tc.mutation.SetExpiredAt(i)
 	return tc
 }
 
 // SetNillableExpiredAt sets the "expired_at" field if the given value is not nil.
-func (tc *TenantCreate) SetNillableExpiredAt(t *time.Time) *TenantCreate {
-	if t != nil {
-		tc.SetExpiredAt(*t)
+func (tc *TenantCreate) SetNillableExpiredAt(i *int64) *TenantCreate {
+	if i != nil {
+		tc.SetExpiredAt(*i)
 	}
 	return tc
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tc *TenantCreate) SetCreatedAt(t time.Time) *TenantCreate {
-	tc.mutation.SetCreatedAt(t)
+func (tc *TenantCreate) SetCreatedAt(i int64) *TenantCreate {
+	tc.mutation.SetCreatedAt(i)
 	return tc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TenantCreate) SetNillableCreatedAt(t *time.Time) *TenantCreate {
-	if t != nil {
-		tc.SetCreatedAt(*t)
+func (tc *TenantCreate) SetNillableCreatedAt(i *int64) *TenantCreate {
+	if i != nil {
+		tc.SetCreatedAt(*i)
 	}
 	return tc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tc *TenantCreate) SetUpdatedAt(t time.Time) *TenantCreate {
-	tc.mutation.SetUpdatedAt(t)
+func (tc *TenantCreate) SetUpdatedAt(i int64) *TenantCreate {
+	tc.mutation.SetUpdatedAt(i)
 	return tc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tc *TenantCreate) SetNillableUpdatedAt(t *time.Time) *TenantCreate {
-	if t != nil {
-		tc.SetUpdatedAt(*t)
+func (tc *TenantCreate) SetNillableUpdatedAt(i *int64) *TenantCreate {
+	if i != nil {
+		tc.SetUpdatedAt(*i)
 	}
 	return tc
 }
@@ -455,15 +454,15 @@ func (tc *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := tc.mutation.ExpiredAt(); ok {
-		_spec.SetField(tenant.FieldExpiredAt, field.TypeTime, value)
+		_spec.SetField(tenant.FieldExpiredAt, field.TypeInt64, value)
 		_node.ExpiredAt = value
 	}
 	if value, ok := tc.mutation.CreatedAt(); ok {
-		_spec.SetField(tenant.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(tenant.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := tc.mutation.UpdatedAt(); ok {
-		_spec.SetField(tenant.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(tenant.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

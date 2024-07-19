@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/feature/auth/data/ent/oauthuser"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -69,29 +68,29 @@ func (ouc *OAuthUserCreate) SetNillableUserID(s *string) *OAuthUserCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ouc *OAuthUserCreate) SetCreatedAt(t time.Time) *OAuthUserCreate {
-	ouc.mutation.SetCreatedAt(t)
+func (ouc *OAuthUserCreate) SetCreatedAt(i int64) *OAuthUserCreate {
+	ouc.mutation.SetCreatedAt(i)
 	return ouc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ouc *OAuthUserCreate) SetNillableCreatedAt(t *time.Time) *OAuthUserCreate {
-	if t != nil {
-		ouc.SetCreatedAt(*t)
+func (ouc *OAuthUserCreate) SetNillableCreatedAt(i *int64) *OAuthUserCreate {
+	if i != nil {
+		ouc.SetCreatedAt(*i)
 	}
 	return ouc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ouc *OAuthUserCreate) SetUpdatedAt(t time.Time) *OAuthUserCreate {
-	ouc.mutation.SetUpdatedAt(t)
+func (ouc *OAuthUserCreate) SetUpdatedAt(i int64) *OAuthUserCreate {
+	ouc.mutation.SetUpdatedAt(i)
 	return ouc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ouc *OAuthUserCreate) SetNillableUpdatedAt(t *time.Time) *OAuthUserCreate {
-	if t != nil {
-		ouc.SetUpdatedAt(*t)
+func (ouc *OAuthUserCreate) SetNillableUpdatedAt(i *int64) *OAuthUserCreate {
+	if i != nil {
+		ouc.SetUpdatedAt(*i)
 	}
 	return ouc
 }
@@ -231,11 +230,11 @@ func (ouc *OAuthUserCreate) createSpec() (*OAuthUser, *sqlgraph.CreateSpec) {
 		_node.UserID = value
 	}
 	if value, ok := ouc.mutation.CreatedAt(); ok {
-		_spec.SetField(oauthuser.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(oauthuser.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := ouc.mutation.UpdatedAt(); ok {
-		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

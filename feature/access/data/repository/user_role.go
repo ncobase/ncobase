@@ -40,7 +40,7 @@ type userRoleRepository struct {
 func NewUserRoleRepository(d *data.Data) UserRoleRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &userRoleRepository{ec, rc, cache.NewCache[ent.UserRole](rc, "nb_user_role")}
+	return &userRoleRepository{ec, rc, cache.NewCache[ent.UserRole](rc, "ncse_user_role")}
 }
 
 // VerifyUserRole verifies if a user has a specific role.

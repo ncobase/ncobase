@@ -7,6 +7,7 @@ import (
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 
 	"entgo.io/ent"
 )
@@ -18,7 +19,7 @@ type Topic struct {
 
 // Annotations of the Topic.
 func (Topic) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "topic"}, "_")
+	table := strings.Join([]string{"ncse", "topic"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -59,5 +60,7 @@ func (Topic) Edges() []ent.Edge {
 
 // Indexes of the Topic.
 func (Topic) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

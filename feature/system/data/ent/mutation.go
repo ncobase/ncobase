@@ -9,7 +9,6 @@ import (
 	"ncobase/feature/system/data/ent/menu"
 	"ncobase/feature/system/data/ent/predicate"
 	"sync"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -50,8 +49,10 @@ type MenuMutation struct {
 	tenant_id     *string
 	created_by    *string
 	updated_by    *string
-	created_at    *time.Time
-	updated_at    *time.Time
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Menu, error)
@@ -954,12 +955,13 @@ func (m *MenuMutation) ResetUpdatedBy() {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *MenuMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *MenuMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *MenuMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *MenuMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -970,7 +972,7 @@ func (m *MenuMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the Menu entity.
 // If the Menu object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *MenuMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *MenuMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -984,9 +986,28 @@ func (m *MenuMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *MenuMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *MenuMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *MenuMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[menu.FieldCreatedAt] = struct{}{}
 }
 
@@ -999,16 +1020,18 @@ func (m *MenuMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *MenuMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, menu.FieldCreatedAt)
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *MenuMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+func (m *MenuMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *MenuMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *MenuMutation) UpdatedAt() (r int64, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -1019,7 +1042,7 @@ func (m *MenuMutation) UpdatedAt() (r time.Time, exists bool) {
 // OldUpdatedAt returns the old "updated_at" field's value of the Menu entity.
 // If the Menu object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *MenuMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *MenuMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -1033,9 +1056,28 @@ func (m *MenuMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error
 	return oldValue.UpdatedAt, nil
 }
 
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *MenuMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *MenuMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (m *MenuMutation) ClearUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	m.clearedFields[menu.FieldUpdatedAt] = struct{}{}
 }
 
@@ -1048,6 +1090,7 @@ func (m *MenuMutation) UpdatedAtCleared() bool {
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *MenuMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	delete(m.clearedFields, menu.FieldUpdatedAt)
 }
 
@@ -1351,14 +1394,14 @@ func (m *MenuMutation) SetField(name string, value ent.Value) error {
 		m.SetUpdatedBy(v)
 		return nil
 	case menu.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
 	case menu.FieldUpdatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1375,6 +1418,12 @@ func (m *MenuMutation) AddedFields() []string {
 	if m.add_order != nil {
 		fields = append(fields, menu.FieldOrder)
 	}
+	if m.addcreated_at != nil {
+		fields = append(fields, menu.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, menu.FieldUpdatedAt)
+	}
 	return fields
 }
 
@@ -1385,6 +1434,10 @@ func (m *MenuMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case menu.FieldOrder:
 		return m.AddedOrder()
+	case menu.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case menu.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
 	}
 	return nil, false
 }
@@ -1400,6 +1453,20 @@ func (m *MenuMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddOrder(v)
+		return nil
+	case menu.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case menu.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Menu numeric field %s", name)

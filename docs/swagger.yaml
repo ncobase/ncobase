@@ -157,7 +157,7 @@ definitions:
       disabled:
         type: boolean
       expired_at:
-        type: string
+        type: integer
       extras:
         $ref: '#/definitions/ncobase_common_types.JSON'
       keywords:
@@ -194,7 +194,7 @@ definitions:
       private:
         type: boolean
       released:
-        type: string
+        type: integer
       slug:
         type: string
       status:
@@ -264,7 +264,7 @@ definitions:
       bucket:
         type: string
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       endpoint:
@@ -288,20 +288,22 @@ definitions:
       type:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
     type: object
   structs.ReadCasbinRule:
     properties:
       created_at:
-        type: string
+        type: integer
       created_by:
+        type: string
+      id:
         type: string
       p_type:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
       v0:
@@ -320,7 +322,7 @@ definitions:
   structs.ReadGroup:
     properties:
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       description:
@@ -342,7 +344,7 @@ definitions:
       tenant_id:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
     type: object
@@ -352,7 +354,7 @@ definitions:
         items: {}
         type: array
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       disabled:
@@ -386,7 +388,7 @@ definitions:
       type:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
     type: object
@@ -395,7 +397,7 @@ definitions:
       action:
         type: string
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       default:
@@ -413,14 +415,14 @@ definitions:
       subject:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
     type: object
   structs.ReadRole:
     properties:
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       description:
@@ -436,7 +438,7 @@ definitions:
       slug:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
     type: object
@@ -447,7 +449,7 @@ definitions:
       cover:
         type: string
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       description:
@@ -475,7 +477,7 @@ definitions:
       type:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
       url:
@@ -486,7 +488,7 @@ definitions:
       copyright:
         type: string
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       description:
@@ -494,7 +496,7 @@ definitions:
       disabled:
         type: boolean
       expired_at:
-        type: string
+        type: integer
       extras:
         $ref: '#/definitions/ncobase_common_types.JSON'
       id:
@@ -516,7 +518,7 @@ definitions:
       type:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
       url:
@@ -527,7 +529,7 @@ definitions:
       content:
         type: string
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       id:
@@ -539,7 +541,7 @@ definitions:
       private:
         type: boolean
       released:
-        type: string
+        type: integer
       slug:
         type: string
       status:
@@ -555,14 +557,14 @@ definitions:
       title:
         type: string
       updated_at:
-        type: string
+        type: integer
       updated_by:
         type: string
     type: object
   structs.ReadUser:
     properties:
       created_at:
-        type: string
+        type: integer
       email:
         type: string
       extras:
@@ -578,7 +580,7 @@ definitions:
       status:
         type: integer
       updated_at:
-        type: string
+        type: integer
       username:
         type: string
     type: object
@@ -739,7 +741,7 @@ definitions:
       disabled:
         type: boolean
       expired_at:
-        type: string
+        type: integer
       extras:
         $ref: '#/definitions/ncobase_common_types.JSON'
       id:
@@ -780,7 +782,7 @@ definitions:
       private:
         type: boolean
       released:
-        type: string
+        type: integer
       slug:
         type: string
       status:
@@ -911,14 +913,19 @@ paths:
       - in: query
         name: cursor
         type: string
-      - description: validate:"gte=1,lte=100"
-        in: query
+      - in: query
+        name: direction
+        type: string
+      - in: query
         name: limit
         type: integer
       - in: query
         name: object
         required: true
         type: string
+      - in: query
+        name: offset
+        type: integer
       - in: query
         name: storage
         type: string
@@ -1280,7 +1287,13 @@ paths:
         name: cursor
         type: string
       - in: query
+        name: direction
+        type: string
+      - in: query
         name: limit
+        type: integer
+      - in: query
+        name: offset
         type: integer
       - in: query
         name: parent
@@ -1438,7 +1451,13 @@ paths:
         name: cursor
         type: string
       - in: query
+        name: direction
+        type: string
+      - in: query
         name: limit
+        type: integer
+      - in: query
+        name: offset
         type: integer
       produces:
       - application/json
@@ -1574,7 +1593,13 @@ paths:
         name: cursor
         type: string
       - in: query
+        name: direction
+        type: string
+      - in: query
         name: limit
+        type: integer
+      - in: query
+        name: offset
         type: integer
       - in: query
         name: p_type
@@ -1764,7 +1789,13 @@ paths:
         name: cursor
         type: string
       - in: query
+        name: direction
+        type: string
+      - in: query
         name: limit
+        type: integer
+      - in: query
+        name: offset
         type: integer
       produces:
       - application/json
@@ -1927,7 +1958,13 @@ paths:
         name: cursor
         type: string
       - in: query
+        name: direction
+        type: string
+      - in: query
         name: limit
+        type: integer
+      - in: query
+        name: offset
         type: integer
       - in: query
         name: parent_id
@@ -2069,7 +2106,13 @@ paths:
         name: cursor
         type: string
       - in: query
+        name: direction
+        type: string
+      - in: query
         name: limit
+        type: integer
+      - in: query
+        name: offset
         type: integer
       - in: query
         name: user
@@ -2383,7 +2426,13 @@ paths:
         name: cursor
         type: string
       - in: query
+        name: direction
+        type: string
+      - in: query
         name: limit
+        type: integer
+      - in: query
+        name: offset
         type: integer
       - in: query
         name: taxonomy

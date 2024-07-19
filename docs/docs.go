@@ -170,8 +170,12 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
-                        "description": "validate:\"gte=1,lte=100\"",
                         "name": "limit",
                         "in": "query"
                     },
@@ -180,6 +184,11 @@ const docTemplate = `{
                         "name": "object",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
                     },
                     {
                         "type": "string",
@@ -746,8 +755,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
                         "in": "query"
                     },
                     {
@@ -1001,8 +1020,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
                         "in": "query"
                     }
                 ],
@@ -1218,8 +1247,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
                         "in": "query"
                     },
                     {
@@ -1521,8 +1560,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
                         "in": "query"
                     }
                 ],
@@ -1776,8 +1825,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
                         "in": "query"
                     },
                     {
@@ -2004,8 +2063,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
                         "in": "query"
                     },
                     {
@@ -2501,8 +2570,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
                         "in": "query"
                     },
                     {
@@ -3014,7 +3093,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "expired_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"
@@ -3070,7 +3149,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "released": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "slug": {
                     "type": "string"
@@ -3176,7 +3255,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -3212,7 +3291,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3223,16 +3302,19 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "p_type": {
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3261,7 +3343,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -3294,7 +3376,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3309,7 +3391,7 @@ const docTemplate = `{
                     "items": {}
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -3360,7 +3442,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3374,7 +3456,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -3401,7 +3483,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3412,7 +3494,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -3436,7 +3518,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3453,7 +3535,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -3495,7 +3577,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3512,7 +3594,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -3524,7 +3606,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "expired_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"
@@ -3557,7 +3639,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3574,7 +3656,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -3592,7 +3674,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "released": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "slug": {
                     "type": "string"
@@ -3616,7 +3698,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updated_by": {
                     "type": "string"
@@ -3627,7 +3709,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "email": {
                     "type": "string"
@@ -3651,7 +3733,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "username": {
                     "type": "string"
@@ -3895,7 +3977,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "expired_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "extras": {
                     "$ref": "#/definitions/ncobase_common_types.JSON"
@@ -3957,7 +4039,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "released": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "slug": {
                     "type": "string"

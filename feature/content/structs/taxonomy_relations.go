@@ -2,17 +2,16 @@ package structs
 
 import (
 	"fmt"
-	"time"
 )
 
 // TaxonomyRelationBody represents the common fields for creating and updating a taxonomy relation.
 type TaxonomyRelationBody struct {
-	TaxonomyID string     `json:"taxonomy_id,omitempty"`
-	Type       string     `json:"type,omitempty"`
-	ObjectID   string     `json:"object_id,omitempty"`
-	Order      *int       `json:"order,omitempty"`
-	CreatedBy  *string    `json:"created_by,omitempty"`
-	CreatedAt  *time.Time `json:"created_at,omitempty"`
+	TaxonomyID string  `json:"taxonomy_id,omitempty"`
+	Type       string  `json:"type,omitempty"`
+	ObjectID   string  `json:"object_id,omitempty"`
+	Order      *int    `json:"order,omitempty"`
+	CreatedBy  *string `json:"created_by,omitempty"`
+	CreatedAt  *int64  `json:"created_at,omitempty"`
 }
 
 // CreateTaxonomyRelationBody represents the request body for creating a taxonomy relation.
@@ -28,19 +27,19 @@ type UpdateTaxonomyRelationBody struct {
 
 // ReadTaxonomyRelation represents the output schema for retrieving a taxonomy relation.
 type ReadTaxonomyRelation struct {
-	ID         string     `json:"id"`
-	ObjectID   string     `json:"object_id"`
-	TaxonomyID string     `json:"taxonomy_id"`
-	Type       string     `json:"type"`
-	Order      *int       `json:"order"`
-	CreatedBy  *string    `json:"created_by,omitempty"`
-	CreatedAt  *time.Time `json:"created_at,omitempty"`
-	UpdatedBy  *string    `json:"updated_by,omitempty"`
-	UpdatedAt  *time.Time `json:"updated_at,omitempty"`
+	ID         string  `json:"id"`
+	ObjectID   string  `json:"object_id"`
+	TaxonomyID string  `json:"taxonomy_id"`
+	Type       string  `json:"type"`
+	Order      *int    `json:"order"`
+	CreatedBy  *string `json:"created_by,omitempty"`
+	CreatedAt  *int64  `json:"created_at,omitempty"`
+	UpdatedBy  *string `json:"updated_by,omitempty"`
+	UpdatedAt  *int64  `json:"updated_at,omitempty"`
 }
 
 func (r *ReadTaxonomyRelation) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
 }
 
 // ListTaxonomyRelationParams represents the parameters for listing taxonomy relations.

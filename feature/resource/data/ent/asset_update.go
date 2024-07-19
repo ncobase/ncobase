@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/resource/data/ent/asset"
 	"ncobase/feature/resource/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -262,8 +261,15 @@ func (au *AssetUpdate) ClearUpdatedBy() *AssetUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (au *AssetUpdate) SetUpdatedAt(t time.Time) *AssetUpdate {
-	au.mutation.SetUpdatedAt(t)
+func (au *AssetUpdate) SetUpdatedAt(i int64) *AssetUpdate {
+	au.mutation.ResetUpdatedAt()
+	au.mutation.SetUpdatedAt(i)
+	return au
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (au *AssetUpdate) AddUpdatedAt(i int64) *AssetUpdate {
+	au.mutation.AddUpdatedAt(i)
 	return au
 }
 
@@ -429,13 +435,16 @@ func (au *AssetUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(asset.FieldUpdatedBy, field.TypeString)
 	}
 	if au.mutation.CreatedAtCleared() {
-		_spec.ClearField(asset.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(asset.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := au.mutation.UpdatedAt(); ok {
-		_spec.SetField(asset.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(asset.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := au.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(asset.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if au.mutation.UpdatedAtCleared() {
-		_spec.ClearField(asset.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(asset.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -691,8 +700,15 @@ func (auo *AssetUpdateOne) ClearUpdatedBy() *AssetUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (auo *AssetUpdateOne) SetUpdatedAt(t time.Time) *AssetUpdateOne {
-	auo.mutation.SetUpdatedAt(t)
+func (auo *AssetUpdateOne) SetUpdatedAt(i int64) *AssetUpdateOne {
+	auo.mutation.ResetUpdatedAt()
+	auo.mutation.SetUpdatedAt(i)
+	return auo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (auo *AssetUpdateOne) AddUpdatedAt(i int64) *AssetUpdateOne {
+	auo.mutation.AddUpdatedAt(i)
 	return auo
 }
 
@@ -888,13 +904,16 @@ func (auo *AssetUpdateOne) sqlSave(ctx context.Context) (_node *Asset, err error
 		_spec.ClearField(asset.FieldUpdatedBy, field.TypeString)
 	}
 	if auo.mutation.CreatedAtCleared() {
-		_spec.ClearField(asset.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(asset.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := auo.mutation.UpdatedAt(); ok {
-		_spec.SetField(asset.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(asset.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := auo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(asset.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if auo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(asset.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(asset.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &Asset{config: auo.config}
 	_spec.Assign = _node.assignValues

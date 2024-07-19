@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"ncobase/feature/auth/data/ent/codeauth"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -25,9 +24,9 @@ type CodeAuth struct {
 	// is logged
 	Logged bool `json:"logged,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -38,10 +37,10 @@ func (*CodeAuth) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case codeauth.FieldLogged:
 			values[i] = new(sql.NullBool)
+		case codeauth.FieldCreatedAt, codeauth.FieldUpdatedAt:
+			values[i] = new(sql.NullInt64)
 		case codeauth.FieldID, codeauth.FieldCode, codeauth.FieldEmail:
 			values[i] = new(sql.NullString)
-		case codeauth.FieldCreatedAt, codeauth.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -82,16 +81,16 @@ func (ca *CodeAuth) assignValues(columns []string, values []any) error {
 				ca.Logged = value.Bool
 			}
 		case codeauth.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				ca.CreatedAt = value.Time
+				ca.CreatedAt = value.Int64
 			}
 		case codeauth.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				ca.UpdatedAt = value.Time
+				ca.UpdatedAt = value.Int64
 			}
 		default:
 			ca.selectValues.Set(columns[i], values[i])
@@ -139,10 +138,10 @@ func (ca *CodeAuth) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ca.Logged))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(ca.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", ca.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(ca.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", ca.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

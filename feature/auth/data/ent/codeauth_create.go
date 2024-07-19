@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/auth/data/ent/codeauth"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -62,29 +61,29 @@ func (cac *CodeAuthCreate) SetNillableLogged(b *bool) *CodeAuthCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (cac *CodeAuthCreate) SetCreatedAt(t time.Time) *CodeAuthCreate {
-	cac.mutation.SetCreatedAt(t)
+func (cac *CodeAuthCreate) SetCreatedAt(i int64) *CodeAuthCreate {
+	cac.mutation.SetCreatedAt(i)
 	return cac
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (cac *CodeAuthCreate) SetNillableCreatedAt(t *time.Time) *CodeAuthCreate {
-	if t != nil {
-		cac.SetCreatedAt(*t)
+func (cac *CodeAuthCreate) SetNillableCreatedAt(i *int64) *CodeAuthCreate {
+	if i != nil {
+		cac.SetCreatedAt(*i)
 	}
 	return cac
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cac *CodeAuthCreate) SetUpdatedAt(t time.Time) *CodeAuthCreate {
-	cac.mutation.SetUpdatedAt(t)
+func (cac *CodeAuthCreate) SetUpdatedAt(i int64) *CodeAuthCreate {
+	cac.mutation.SetUpdatedAt(i)
 	return cac
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (cac *CodeAuthCreate) SetNillableUpdatedAt(t *time.Time) *CodeAuthCreate {
-	if t != nil {
-		cac.SetUpdatedAt(*t)
+func (cac *CodeAuthCreate) SetNillableUpdatedAt(i *int64) *CodeAuthCreate {
+	if i != nil {
+		cac.SetUpdatedAt(*i)
 	}
 	return cac
 }
@@ -211,11 +210,11 @@ func (cac *CodeAuthCreate) createSpec() (*CodeAuth, *sqlgraph.CreateSpec) {
 		_node.Logged = value
 	}
 	if value, ok := cac.mutation.CreatedAt(); ok {
-		_spec.SetField(codeauth.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(codeauth.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := cac.mutation.UpdatedAt(); ok {
-		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

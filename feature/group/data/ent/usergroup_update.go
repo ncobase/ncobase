@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/group/data/ent/predicate"
 	"ncobase/feature/group/data/ent/usergroup"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -109,8 +108,15 @@ func (ugu *UserGroupUpdate) ClearUpdatedBy() *UserGroupUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ugu *UserGroupUpdate) SetUpdatedAt(t time.Time) *UserGroupUpdate {
-	ugu.mutation.SetUpdatedAt(t)
+func (ugu *UserGroupUpdate) SetUpdatedAt(i int64) *UserGroupUpdate {
+	ugu.mutation.ResetUpdatedAt()
+	ugu.mutation.SetUpdatedAt(i)
+	return ugu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (ugu *UserGroupUpdate) AddUpdatedAt(i int64) *UserGroupUpdate {
+	ugu.mutation.AddUpdatedAt(i)
 	return ugu
 }
 
@@ -223,13 +229,16 @@ func (ugu *UserGroupUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(usergroup.FieldUpdatedBy, field.TypeString)
 	}
 	if ugu.mutation.CreatedAtCleared() {
-		_spec.ClearField(usergroup.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(usergroup.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := ugu.mutation.UpdatedAt(); ok {
-		_spec.SetField(usergroup.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(usergroup.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := ugu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(usergroup.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if ugu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(usergroup.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(usergroup.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ugu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -332,8 +341,15 @@ func (uguo *UserGroupUpdateOne) ClearUpdatedBy() *UserGroupUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (uguo *UserGroupUpdateOne) SetUpdatedAt(t time.Time) *UserGroupUpdateOne {
-	uguo.mutation.SetUpdatedAt(t)
+func (uguo *UserGroupUpdateOne) SetUpdatedAt(i int64) *UserGroupUpdateOne {
+	uguo.mutation.ResetUpdatedAt()
+	uguo.mutation.SetUpdatedAt(i)
+	return uguo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (uguo *UserGroupUpdateOne) AddUpdatedAt(i int64) *UserGroupUpdateOne {
+	uguo.mutation.AddUpdatedAt(i)
 	return uguo
 }
 
@@ -476,13 +492,16 @@ func (uguo *UserGroupUpdateOne) sqlSave(ctx context.Context) (_node *UserGroup, 
 		_spec.ClearField(usergroup.FieldUpdatedBy, field.TypeString)
 	}
 	if uguo.mutation.CreatedAtCleared() {
-		_spec.ClearField(usergroup.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(usergroup.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := uguo.mutation.UpdatedAt(); ok {
-		_spec.SetField(usergroup.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(usergroup.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := uguo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(usergroup.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if uguo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(usergroup.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(usergroup.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &UserGroup{config: uguo.config}
 	_spec.Assign = _node.assignValues

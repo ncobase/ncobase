@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/auth/data/ent/authtoken"
 	"ncobase/feature/auth/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -49,8 +48,15 @@ func (atu *AuthTokenUpdate) ClearDisabled() *AuthTokenUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (atu *AuthTokenUpdate) SetUpdatedAt(t time.Time) *AuthTokenUpdate {
-	atu.mutation.SetUpdatedAt(t)
+func (atu *AuthTokenUpdate) SetUpdatedAt(i int64) *AuthTokenUpdate {
+	atu.mutation.ResetUpdatedAt()
+	atu.mutation.SetUpdatedAt(i)
+	return atu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (atu *AuthTokenUpdate) AddUpdatedAt(i int64) *AuthTokenUpdate {
+	atu.mutation.AddUpdatedAt(i)
 	return atu
 }
 
@@ -150,13 +156,16 @@ func (atu *AuthTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(authtoken.FieldDisabled, field.TypeBool)
 	}
 	if atu.mutation.CreatedAtCleared() {
-		_spec.ClearField(authtoken.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(authtoken.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := atu.mutation.UpdatedAt(); ok {
-		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := atu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if atu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(authtoken.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(authtoken.FieldUpdatedAt, field.TypeInt64)
 	}
 	if value, ok := atu.mutation.UserID(); ok {
 		_spec.SetField(authtoken.FieldUserID, field.TypeString, value)
@@ -205,8 +214,15 @@ func (atuo *AuthTokenUpdateOne) ClearDisabled() *AuthTokenUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (atuo *AuthTokenUpdateOne) SetUpdatedAt(t time.Time) *AuthTokenUpdateOne {
-	atuo.mutation.SetUpdatedAt(t)
+func (atuo *AuthTokenUpdateOne) SetUpdatedAt(i int64) *AuthTokenUpdateOne {
+	atuo.mutation.ResetUpdatedAt()
+	atuo.mutation.SetUpdatedAt(i)
+	return atuo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (atuo *AuthTokenUpdateOne) AddUpdatedAt(i int64) *AuthTokenUpdateOne {
+	atuo.mutation.AddUpdatedAt(i)
 	return atuo
 }
 
@@ -336,13 +352,16 @@ func (atuo *AuthTokenUpdateOne) sqlSave(ctx context.Context) (_node *AuthToken, 
 		_spec.ClearField(authtoken.FieldDisabled, field.TypeBool)
 	}
 	if atuo.mutation.CreatedAtCleared() {
-		_spec.ClearField(authtoken.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(authtoken.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := atuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := atuo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if atuo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(authtoken.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(authtoken.FieldUpdatedAt, field.TypeInt64)
 	}
 	if value, ok := atuo.mutation.UserID(); ok {
 		_spec.SetField(authtoken.FieldUserID, field.TypeString, value)

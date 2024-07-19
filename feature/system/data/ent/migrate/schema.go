@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NbMenuColumns holds the columns for the "nb_menu" table.
-	NbMenuColumns = []*schema.Column{
+	// NcseMenuColumns holds the columns for the "ncse_menu" table.
+	NcseMenuColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "label", Type: field.TypeString, Nullable: true, Comment: "label"},
@@ -28,45 +28,50 @@ var (
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbMenuTable holds the schema information for the "nb_menu" table.
-	NbMenuTable = &schema.Table{
-		Name:       "nb_menu",
-		Columns:    NbMenuColumns,
-		PrimaryKey: []*schema.Column{NbMenuColumns[0]},
+	// NcseMenuTable holds the schema information for the "ncse_menu" table.
+	NcseMenuTable = &schema.Table{
+		Name:       "ncse_menu",
+		Columns:    NcseMenuColumns,
+		PrimaryKey: []*schema.Column{NcseMenuColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "menu_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbMenuColumns[0]},
+				Columns: []*schema.Column{NcseMenuColumns[0]},
 			},
 			{
 				Name:    "menu_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NbMenuColumns[3]},
+				Columns: []*schema.Column{NcseMenuColumns[3]},
 			},
 			{
 				Name:    "menu_parent_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbMenuColumns[13]},
+				Columns: []*schema.Column{NcseMenuColumns[13]},
 			},
 			{
 				Name:    "menu_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbMenuColumns[14]},
+				Columns: []*schema.Column{NcseMenuColumns[14]},
+			},
+			{
+				Name:    "menu_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseMenuColumns[0], NcseMenuColumns[17]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NbMenuTable,
+		NcseMenuTable,
 	}
 )
 
 func init() {
-	NbMenuTable.Annotation = &entsql.Annotation{
-		Table: "nb_menu",
+	NcseMenuTable.Annotation = &entsql.Annotation{
+		Table: "ncse_menu",
 	}
 }

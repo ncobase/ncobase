@@ -4,7 +4,6 @@ package tenant
 
 import (
 	"ncobase/feature/tenant/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -135,17 +134,17 @@ func UpdatedBy(v string) predicate.Tenant {
 }
 
 // ExpiredAt applies equality check predicate on the "expired_at" field. It's identical to ExpiredAtEQ.
-func ExpiredAt(v time.Time) predicate.Tenant {
+func ExpiredAt(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldEQ(FieldExpiredAt, v))
 }
 
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
-func CreatedAt(v time.Time) predicate.Tenant {
+func CreatedAt(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
-func UpdatedAt(v time.Time) predicate.Tenant {
+func UpdatedAt(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
@@ -1120,42 +1119,42 @@ func UpdatedByContainsFold(v string) predicate.Tenant {
 }
 
 // ExpiredAtEQ applies the EQ predicate on the "expired_at" field.
-func ExpiredAtEQ(v time.Time) predicate.Tenant {
+func ExpiredAtEQ(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldEQ(FieldExpiredAt, v))
 }
 
 // ExpiredAtNEQ applies the NEQ predicate on the "expired_at" field.
-func ExpiredAtNEQ(v time.Time) predicate.Tenant {
+func ExpiredAtNEQ(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldNEQ(FieldExpiredAt, v))
 }
 
 // ExpiredAtIn applies the In predicate on the "expired_at" field.
-func ExpiredAtIn(vs ...time.Time) predicate.Tenant {
+func ExpiredAtIn(vs ...int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldIn(FieldExpiredAt, vs...))
 }
 
 // ExpiredAtNotIn applies the NotIn predicate on the "expired_at" field.
-func ExpiredAtNotIn(vs ...time.Time) predicate.Tenant {
+func ExpiredAtNotIn(vs ...int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldNotIn(FieldExpiredAt, vs...))
 }
 
 // ExpiredAtGT applies the GT predicate on the "expired_at" field.
-func ExpiredAtGT(v time.Time) predicate.Tenant {
+func ExpiredAtGT(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldGT(FieldExpiredAt, v))
 }
 
 // ExpiredAtGTE applies the GTE predicate on the "expired_at" field.
-func ExpiredAtGTE(v time.Time) predicate.Tenant {
+func ExpiredAtGTE(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldGTE(FieldExpiredAt, v))
 }
 
 // ExpiredAtLT applies the LT predicate on the "expired_at" field.
-func ExpiredAtLT(v time.Time) predicate.Tenant {
+func ExpiredAtLT(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldLT(FieldExpiredAt, v))
 }
 
 // ExpiredAtLTE applies the LTE predicate on the "expired_at" field.
-func ExpiredAtLTE(v time.Time) predicate.Tenant {
+func ExpiredAtLTE(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldLTE(FieldExpiredAt, v))
 }
 
@@ -1170,42 +1169,42 @@ func ExpiredAtNotNil() predicate.Tenant {
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
-func CreatedAtEQ(v time.Time) predicate.Tenant {
+func CreatedAtEQ(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
-func CreatedAtNEQ(v time.Time) predicate.Tenant {
+func CreatedAtNEQ(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtIn applies the In predicate on the "created_at" field.
-func CreatedAtIn(vs ...time.Time) predicate.Tenant {
+func CreatedAtIn(vs ...int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
-func CreatedAtNotIn(vs ...time.Time) predicate.Tenant {
+func CreatedAtNotIn(vs ...int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtGT applies the GT predicate on the "created_at" field.
-func CreatedAtGT(v time.Time) predicate.Tenant {
+func CreatedAtGT(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldGT(FieldCreatedAt, v))
 }
 
 // CreatedAtGTE applies the GTE predicate on the "created_at" field.
-func CreatedAtGTE(v time.Time) predicate.Tenant {
+func CreatedAtGTE(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldGTE(FieldCreatedAt, v))
 }
 
 // CreatedAtLT applies the LT predicate on the "created_at" field.
-func CreatedAtLT(v time.Time) predicate.Tenant {
+func CreatedAtLT(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldLT(FieldCreatedAt, v))
 }
 
 // CreatedAtLTE applies the LTE predicate on the "created_at" field.
-func CreatedAtLTE(v time.Time) predicate.Tenant {
+func CreatedAtLTE(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldLTE(FieldCreatedAt, v))
 }
 
@@ -1220,42 +1219,42 @@ func CreatedAtNotNil() predicate.Tenant {
 }
 
 // UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
-func UpdatedAtEQ(v time.Time) predicate.Tenant {
+func UpdatedAtEQ(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
-func UpdatedAtNEQ(v time.Time) predicate.Tenant {
+func UpdatedAtNEQ(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
 // UpdatedAtIn applies the In predicate on the "updated_at" field.
-func UpdatedAtIn(vs ...time.Time) predicate.Tenant {
+func UpdatedAtIn(vs ...int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
-func UpdatedAtNotIn(vs ...time.Time) predicate.Tenant {
+func UpdatedAtNotIn(vs ...int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
 // UpdatedAtGT applies the GT predicate on the "updated_at" field.
-func UpdatedAtGT(v time.Time) predicate.Tenant {
+func UpdatedAtGT(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldGT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
-func UpdatedAtGTE(v time.Time) predicate.Tenant {
+func UpdatedAtGTE(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLT applies the LT predicate on the "updated_at" field.
-func UpdatedAtLT(v time.Time) predicate.Tenant {
+func UpdatedAtLT(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldLT(FieldUpdatedAt, v))
 }
 
 // UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
-func UpdatedAtLTE(v time.Time) predicate.Tenant {
+func UpdatedAtLTE(v int64) predicate.Tenant {
 	return predicate.Tenant(sql.FieldLTE(FieldUpdatedAt, v))
 }
 

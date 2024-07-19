@@ -232,6 +232,7 @@ func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, err
 
 // UpdatePassword update user password service
 func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error {
+	body.User = helper.GetUserID(ctx)
 	return s.us.User.UpdatePassword(ctx, body)
 }
 

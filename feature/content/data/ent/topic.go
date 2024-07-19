@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"ncobase/feature/content/data/ent/topic"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -37,7 +36,7 @@ type Topic struct {
 	// status: 0 activated, 1 unactivated, 2 disabled
 	Status int `json:"status,omitempty"`
 	// released
-	Released time.Time `json:"released,omitempty"`
+	Released int64 `json:"released,omitempty"`
 	// taxonomy id
 	TaxonomyID string `json:"taxonomy_id,omitempty"`
 	// tenant id
@@ -47,9 +46,9 @@ type Topic struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -60,12 +59,10 @@ func (*Topic) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case topic.FieldTemp, topic.FieldMarkdown, topic.FieldPrivate:
 			values[i] = new(sql.NullBool)
-		case topic.FieldStatus:
+		case topic.FieldStatus, topic.FieldReleased, topic.FieldCreatedAt, topic.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
 		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldTenantID, topic.FieldCreatedBy, topic.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case topic.FieldReleased, topic.FieldCreatedAt, topic.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -142,10 +139,10 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 				t.Status = int(value.Int64)
 			}
 		case topic.FieldReleased:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field released", values[i])
 			} else if value.Valid {
-				t.Released = value.Time
+				t.Released = value.Int64
 			}
 		case topic.FieldTaxonomyID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -172,16 +169,16 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 				t.UpdatedBy = value.String
 			}
 		case topic.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				t.CreatedAt = value.Time
+				t.CreatedAt = value.Int64
 			}
 		case topic.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				t.UpdatedAt = value.Time
+				t.UpdatedAt = value.Int64
 			}
 		default:
 			t.selectValues.Set(columns[i], values[i])
@@ -247,7 +244,7 @@ func (t *Topic) String() string {
 	builder.WriteString(fmt.Sprintf("%v", t.Status))
 	builder.WriteString(", ")
 	builder.WriteString("released=")
-	builder.WriteString(t.Released.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.Released))
 	builder.WriteString(", ")
 	builder.WriteString("taxonomy_id=")
 	builder.WriteString(t.TaxonomyID)
@@ -262,10 +259,10 @@ func (t *Topic) String() string {
 	builder.WriteString(t.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(t.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(t.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

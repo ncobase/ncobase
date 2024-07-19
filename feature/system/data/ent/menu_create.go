@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/feature/system/data/ent/menu"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -237,29 +236,29 @@ func (mc *MenuCreate) SetNillableUpdatedBy(s *string) *MenuCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (mc *MenuCreate) SetCreatedAt(t time.Time) *MenuCreate {
-	mc.mutation.SetCreatedAt(t)
+func (mc *MenuCreate) SetCreatedAt(i int64) *MenuCreate {
+	mc.mutation.SetCreatedAt(i)
 	return mc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableCreatedAt(t *time.Time) *MenuCreate {
-	if t != nil {
-		mc.SetCreatedAt(*t)
+func (mc *MenuCreate) SetNillableCreatedAt(i *int64) *MenuCreate {
+	if i != nil {
+		mc.SetCreatedAt(*i)
 	}
 	return mc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (mc *MenuCreate) SetUpdatedAt(t time.Time) *MenuCreate {
-	mc.mutation.SetUpdatedAt(t)
+func (mc *MenuCreate) SetUpdatedAt(i int64) *MenuCreate {
+	mc.mutation.SetUpdatedAt(i)
 	return mc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableUpdatedAt(t *time.Time) *MenuCreate {
-	if t != nil {
-		mc.SetUpdatedAt(*t)
+func (mc *MenuCreate) SetNillableUpdatedAt(i *int64) *MenuCreate {
+	if i != nil {
+		mc.SetUpdatedAt(*i)
 	}
 	return mc
 }
@@ -473,11 +472,11 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := mc.mutation.CreatedAt(); ok {
-		_spec.SetField(menu.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(menu.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := mc.mutation.UpdatedAt(); ok {
-		_spec.SetField(menu.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(menu.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/content/data/ent/predicate"
 	"ncobase/feature/content/data/ent/taxonomy"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -342,8 +341,15 @@ func (tu *TaxonomyUpdate) ClearUpdatedBy() *TaxonomyUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tu *TaxonomyUpdate) SetUpdatedAt(t time.Time) *TaxonomyUpdate {
-	tu.mutation.SetUpdatedAt(t)
+func (tu *TaxonomyUpdate) SetUpdatedAt(i int64) *TaxonomyUpdate {
+	tu.mutation.ResetUpdatedAt()
+	tu.mutation.SetUpdatedAt(i)
+	return tu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (tu *TaxonomyUpdate) AddUpdatedAt(i int64) *TaxonomyUpdate {
+	tu.mutation.AddUpdatedAt(i)
 	return tu
 }
 
@@ -528,13 +534,16 @@ func (tu *TaxonomyUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(taxonomy.FieldUpdatedBy, field.TypeString)
 	}
 	if tu.mutation.CreatedAtCleared() {
-		_spec.ClearField(taxonomy.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(taxonomy.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := tu.mutation.UpdatedAt(); ok {
-		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := tu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if tu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(taxonomy.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(taxonomy.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -870,8 +879,15 @@ func (tuo *TaxonomyUpdateOne) ClearUpdatedBy() *TaxonomyUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tuo *TaxonomyUpdateOne) SetUpdatedAt(t time.Time) *TaxonomyUpdateOne {
-	tuo.mutation.SetUpdatedAt(t)
+func (tuo *TaxonomyUpdateOne) SetUpdatedAt(i int64) *TaxonomyUpdateOne {
+	tuo.mutation.ResetUpdatedAt()
+	tuo.mutation.SetUpdatedAt(i)
+	return tuo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (tuo *TaxonomyUpdateOne) AddUpdatedAt(i int64) *TaxonomyUpdateOne {
+	tuo.mutation.AddUpdatedAt(i)
 	return tuo
 }
 
@@ -1086,13 +1102,16 @@ func (tuo *TaxonomyUpdateOne) sqlSave(ctx context.Context) (_node *Taxonomy, err
 		_spec.ClearField(taxonomy.FieldUpdatedBy, field.TypeString)
 	}
 	if tuo.mutation.CreatedAtCleared() {
-		_spec.ClearField(taxonomy.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(taxonomy.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := tuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := tuo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if tuo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(taxonomy.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(taxonomy.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &Taxonomy{config: tuo.config}
 	_spec.Assign = _node.assignValues

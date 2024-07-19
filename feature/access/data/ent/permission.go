@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/permission"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -38,9 +37,9 @@ type Permission struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -53,10 +52,10 @@ func (*Permission) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case permission.FieldDefault, permission.FieldDisabled:
 			values[i] = new(sql.NullBool)
+		case permission.FieldCreatedAt, permission.FieldUpdatedAt:
+			values[i] = new(sql.NullInt64)
 		case permission.FieldID, permission.FieldName, permission.FieldAction, permission.FieldSubject, permission.FieldDescription, permission.FieldCreatedBy, permission.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case permission.FieldCreatedAt, permission.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -135,16 +134,16 @@ func (pe *Permission) assignValues(columns []string, values []any) error {
 				pe.UpdatedBy = value.String
 			}
 		case permission.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pe.CreatedAt = value.Time
+				pe.CreatedAt = value.Int64
 			}
 		case permission.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pe.UpdatedAt = value.Time
+				pe.UpdatedAt = value.Int64
 			}
 		default:
 			pe.selectValues.Set(columns[i], values[i])
@@ -210,10 +209,10 @@ func (pe *Permission) String() string {
 	builder.WriteString(pe.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(pe.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", pe.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(pe.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", pe.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

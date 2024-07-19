@@ -14,7 +14,6 @@ import (
 	"ncobase/feature/tenant/data/ent"
 	tenantEnt "ncobase/feature/tenant/data/ent/tenant"
 	"ncobase/feature/tenant/structs"
-	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -45,7 +44,7 @@ func NewTenantRepository(d *data.Data) TenantRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &tenantRepository{ec, rc, ms, cache.NewCache[ent.Tenant](rc, "nb_tenant")}
+	return &tenantRepository{ec, rc, ms, cache.NewCache[ent.Tenant](rc, "ncse_tenant")}
 }
 
 // Create create tenant
@@ -211,7 +210,7 @@ func (r *tenantRepository) Update(ctx context.Context, slug string, updates type
 			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
 		case "expired_at":
 			adjustedTime, _ := types.AdjustToEndOfDay(value)
-			builder.SetNillableExpiredAt(adjustedTime)
+			builder.SetNillableExpiredAt(&adjustedTime)
 		}
 	}
 
@@ -266,9 +265,9 @@ func (r *tenantRepository) List(ctx context.Context, params *structs.ListTenantP
 		if params.Direction == "backward" {
 			builder.Where(
 				tenantEnt.Or(
-					tenantEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					tenantEnt.CreatedAtGT(timestamp),
 					tenantEnt.And(
-						tenantEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						tenantEnt.CreatedAtEQ(timestamp),
 						tenantEnt.IDGT(id),
 					),
 				),
@@ -276,9 +275,9 @@ func (r *tenantRepository) List(ctx context.Context, params *structs.ListTenantP
 		} else {
 			builder.Where(
 				tenantEnt.Or(
-					tenantEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					tenantEnt.CreatedAtLT(timestamp),
 					tenantEnt.And(
-						tenantEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						tenantEnt.CreatedAtEQ(timestamp),
 						tenantEnt.IDLT(id),
 					),
 				),

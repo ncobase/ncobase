@@ -7,6 +7,7 @@ import (
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 
 	"entgo.io/ent"
 )
@@ -18,7 +19,7 @@ type Taxonomy struct {
 
 // Annotations of the Taxonomy.
 func (Taxonomy) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "taxonomy"}, "_")
+	table := strings.Join([]string{"ncse", "taxonomy"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.QueryField(),
@@ -62,5 +63,7 @@ func (Taxonomy) Edges() []ent.Edge {
 
 // Indexes of the Taxonomy.
 func (Taxonomy) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

@@ -7,7 +7,6 @@ import (
 	"ncobase/feature/content/data/ent/taxonomyrelation"
 	"ncobase/feature/content/data/ent/topic"
 	"ncobase/feature/content/data/schema"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -58,13 +57,13 @@ func init() {
 	// taxonomyDescCreatedAt is the schema descriptor for created_at field.
 	taxonomyDescCreatedAt := taxonomyMixinFields16[0].Descriptor()
 	// taxonomy.DefaultCreatedAt holds the default value on creation for the created_at field.
-	taxonomy.DefaultCreatedAt = taxonomyDescCreatedAt.Default.(func() time.Time)
+	taxonomy.DefaultCreatedAt = taxonomyDescCreatedAt.Default.(func() int64)
 	// taxonomyDescUpdatedAt is the schema descriptor for updated_at field.
 	taxonomyDescUpdatedAt := taxonomyMixinFields16[1].Descriptor()
 	// taxonomy.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	taxonomy.DefaultUpdatedAt = taxonomyDescUpdatedAt.Default.(func() time.Time)
+	taxonomy.DefaultUpdatedAt = taxonomyDescUpdatedAt.Default.(func() int64)
 	// taxonomy.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	taxonomy.UpdateDefaultUpdatedAt = taxonomyDescUpdatedAt.UpdateDefault.(func() time.Time)
+	taxonomy.UpdateDefaultUpdatedAt = taxonomyDescUpdatedAt.UpdateDefault.(func() int64)
 	// taxonomyDescID is the schema descriptor for id field.
 	taxonomyDescID := taxonomyMixinFields0[0].Descriptor()
 	// taxonomy.DefaultID holds the default value on creation for the id field.
@@ -105,7 +104,7 @@ func init() {
 	// taxonomyrelationDescCreatedAt is the schema descriptor for created_at field.
 	taxonomyrelationDescCreatedAt := taxonomyrelationMixinFields6[0].Descriptor()
 	// taxonomyrelation.DefaultCreatedAt holds the default value on creation for the created_at field.
-	taxonomyrelation.DefaultCreatedAt = taxonomyrelationDescCreatedAt.Default.(func() time.Time)
+	taxonomyrelation.DefaultCreatedAt = taxonomyrelationDescCreatedAt.Default.(func() int64)
 	// taxonomyrelationDescID is the schema descriptor for id field.
 	taxonomyrelationDescID := taxonomyrelationMixinFields0[0].Descriptor()
 	// taxonomyrelation.DefaultID holds the default value on creation for the id field.
@@ -168,13 +167,13 @@ func init() {
 	// topicDescCreatedAt is the schema descriptor for created_at field.
 	topicDescCreatedAt := topicMixinFields14[0].Descriptor()
 	// topic.DefaultCreatedAt holds the default value on creation for the created_at field.
-	topic.DefaultCreatedAt = topicDescCreatedAt.Default.(func() time.Time)
+	topic.DefaultCreatedAt = topicDescCreatedAt.Default.(func() int64)
 	// topicDescUpdatedAt is the schema descriptor for updated_at field.
 	topicDescUpdatedAt := topicMixinFields14[1].Descriptor()
 	// topic.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	topic.DefaultUpdatedAt = topicDescUpdatedAt.Default.(func() time.Time)
+	topic.DefaultUpdatedAt = topicDescUpdatedAt.Default.(func() int64)
 	// topic.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	topic.UpdateDefaultUpdatedAt = topicDescUpdatedAt.UpdateDefault.(func() time.Time)
+	topic.UpdateDefaultUpdatedAt = topicDescUpdatedAt.UpdateDefault.(func() int64)
 	// topicDescID is the schema descriptor for id field.
 	topicDescID := topicMixinFields0[0].Descriptor()
 	// topic.DefaultID holds the default value on creation for the id field.

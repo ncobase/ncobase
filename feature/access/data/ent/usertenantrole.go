@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/usertenantrole"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -29,9 +28,9 @@ type UserTenantRole struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -40,10 +39,10 @@ func (*UserTenantRole) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case usertenantrole.FieldCreatedAt, usertenantrole.FieldUpdatedAt:
+			values[i] = new(sql.NullInt64)
 		case usertenantrole.FieldID, usertenantrole.FieldUserID, usertenantrole.FieldTenantID, usertenantrole.FieldRoleID, usertenantrole.FieldCreatedBy, usertenantrole.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case usertenantrole.FieldCreatedAt, usertenantrole.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -96,16 +95,16 @@ func (utr *UserTenantRole) assignValues(columns []string, values []any) error {
 				utr.UpdatedBy = value.String
 			}
 		case usertenantrole.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				utr.CreatedAt = value.Time
+				utr.CreatedAt = value.Int64
 			}
 		case usertenantrole.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				utr.UpdatedAt = value.Time
+				utr.UpdatedAt = value.Int64
 			}
 		default:
 			utr.selectValues.Set(columns[i], values[i])
@@ -159,10 +158,10 @@ func (utr *UserTenantRole) String() string {
 	builder.WriteString(utr.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(utr.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", utr.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(utr.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", utr.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

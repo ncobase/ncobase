@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/tenant/data/ent/predicate"
 	"ncobase/feature/tenant/data/ent/usertenant"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -109,8 +108,15 @@ func (utu *UserTenantUpdate) ClearUpdatedBy() *UserTenantUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (utu *UserTenantUpdate) SetUpdatedAt(t time.Time) *UserTenantUpdate {
-	utu.mutation.SetUpdatedAt(t)
+func (utu *UserTenantUpdate) SetUpdatedAt(i int64) *UserTenantUpdate {
+	utu.mutation.ResetUpdatedAt()
+	utu.mutation.SetUpdatedAt(i)
+	return utu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (utu *UserTenantUpdate) AddUpdatedAt(i int64) *UserTenantUpdate {
+	utu.mutation.AddUpdatedAt(i)
 	return utu
 }
 
@@ -223,13 +229,16 @@ func (utu *UserTenantUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(usertenant.FieldUpdatedBy, field.TypeString)
 	}
 	if utu.mutation.CreatedAtCleared() {
-		_spec.ClearField(usertenant.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(usertenant.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := utu.mutation.UpdatedAt(); ok {
-		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := utu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(usertenant.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if utu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(usertenant.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(usertenant.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, utu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -332,8 +341,15 @@ func (utuo *UserTenantUpdateOne) ClearUpdatedBy() *UserTenantUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (utuo *UserTenantUpdateOne) SetUpdatedAt(t time.Time) *UserTenantUpdateOne {
-	utuo.mutation.SetUpdatedAt(t)
+func (utuo *UserTenantUpdateOne) SetUpdatedAt(i int64) *UserTenantUpdateOne {
+	utuo.mutation.ResetUpdatedAt()
+	utuo.mutation.SetUpdatedAt(i)
+	return utuo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (utuo *UserTenantUpdateOne) AddUpdatedAt(i int64) *UserTenantUpdateOne {
+	utuo.mutation.AddUpdatedAt(i)
 	return utuo
 }
 
@@ -476,13 +492,16 @@ func (utuo *UserTenantUpdateOne) sqlSave(ctx context.Context) (_node *UserTenant
 		_spec.ClearField(usertenant.FieldUpdatedBy, field.TypeString)
 	}
 	if utuo.mutation.CreatedAtCleared() {
-		_spec.ClearField(usertenant.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(usertenant.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := utuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(usertenant.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := utuo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(usertenant.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if utuo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(usertenant.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(usertenant.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &UserTenant{config: utuo.config}
 	_spec.Assign = _node.assignValues

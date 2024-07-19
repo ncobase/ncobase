@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"ncobase/feature/auth/data/ent/authtoken"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -21,9 +20,9 @@ type AuthToken struct {
 	// is disabled
 	Disabled bool `json:"disabled,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 	// user id
 	UserID       string `json:"user_id,omitempty"`
 	selectValues sql.SelectValues
@@ -36,10 +35,10 @@ func (*AuthToken) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case authtoken.FieldDisabled:
 			values[i] = new(sql.NullBool)
+		case authtoken.FieldCreatedAt, authtoken.FieldUpdatedAt:
+			values[i] = new(sql.NullInt64)
 		case authtoken.FieldID, authtoken.FieldUserID:
 			values[i] = new(sql.NullString)
-		case authtoken.FieldCreatedAt, authtoken.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -68,16 +67,16 @@ func (at *AuthToken) assignValues(columns []string, values []any) error {
 				at.Disabled = value.Bool
 			}
 		case authtoken.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				at.CreatedAt = value.Time
+				at.CreatedAt = value.Int64
 			}
 		case authtoken.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				at.UpdatedAt = value.Time
+				at.UpdatedAt = value.Int64
 			}
 		case authtoken.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -125,10 +124,10 @@ func (at *AuthToken) String() string {
 	builder.WriteString(fmt.Sprintf("%v", at.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(at.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", at.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(at.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", at.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("user_id=")
 	builder.WriteString(at.UserID)

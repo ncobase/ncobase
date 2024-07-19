@@ -5,7 +5,6 @@ package ent
 import (
 	"ncobase/feature/resource/data/ent/asset"
 	"ncobase/feature/resource/data/schema"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -62,13 +61,13 @@ func init() {
 	// assetDescCreatedAt is the schema descriptor for created_at field.
 	assetDescCreatedAt := assetMixinFields12[0].Descriptor()
 	// asset.DefaultCreatedAt holds the default value on creation for the created_at field.
-	asset.DefaultCreatedAt = assetDescCreatedAt.Default.(func() time.Time)
+	asset.DefaultCreatedAt = assetDescCreatedAt.Default.(func() int64)
 	// assetDescUpdatedAt is the schema descriptor for updated_at field.
 	assetDescUpdatedAt := assetMixinFields12[1].Descriptor()
 	// asset.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	asset.DefaultUpdatedAt = assetDescUpdatedAt.Default.(func() time.Time)
+	asset.DefaultUpdatedAt = assetDescUpdatedAt.Default.(func() int64)
 	// asset.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	asset.UpdateDefaultUpdatedAt = assetDescUpdatedAt.UpdateDefault.(func() time.Time)
+	asset.UpdateDefaultUpdatedAt = assetDescUpdatedAt.UpdateDefault.(func() int64)
 	// assetDescID is the schema descriptor for id field.
 	assetDescID := assetMixinFields0[0].Descriptor()
 	// asset.DefaultID holds the default value on creation for the id field.

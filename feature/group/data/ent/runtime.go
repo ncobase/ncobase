@@ -7,7 +7,6 @@ import (
 	"ncobase/feature/group/data/ent/grouprole"
 	"ncobase/feature/group/data/ent/usergroup"
 	"ncobase/feature/group/data/schema"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -64,13 +63,13 @@ func init() {
 	// groupDescCreatedAt is the schema descriptor for created_at field.
 	groupDescCreatedAt := groupMixinFields10[0].Descriptor()
 	// group.DefaultCreatedAt holds the default value on creation for the created_at field.
-	group.DefaultCreatedAt = groupDescCreatedAt.Default.(func() time.Time)
+	group.DefaultCreatedAt = groupDescCreatedAt.Default.(func() int64)
 	// groupDescUpdatedAt is the schema descriptor for updated_at field.
 	groupDescUpdatedAt := groupMixinFields10[1].Descriptor()
 	// group.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	group.DefaultUpdatedAt = groupDescUpdatedAt.Default.(func() time.Time)
+	group.DefaultUpdatedAt = groupDescUpdatedAt.Default.(func() int64)
 	// group.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	group.UpdateDefaultUpdatedAt = groupDescUpdatedAt.UpdateDefault.(func() time.Time)
+	group.UpdateDefaultUpdatedAt = groupDescUpdatedAt.UpdateDefault.(func() int64)
 	// groupDescID is the schema descriptor for id field.
 	groupDescID := groupMixinFields0[0].Descriptor()
 	// group.DefaultID holds the default value on creation for the id field.
@@ -109,13 +108,13 @@ func init() {
 	// grouproleDescCreatedAt is the schema descriptor for created_at field.
 	grouproleDescCreatedAt := grouproleMixinFields4[0].Descriptor()
 	// grouprole.DefaultCreatedAt holds the default value on creation for the created_at field.
-	grouprole.DefaultCreatedAt = grouproleDescCreatedAt.Default.(func() time.Time)
+	grouprole.DefaultCreatedAt = grouproleDescCreatedAt.Default.(func() int64)
 	// grouproleDescUpdatedAt is the schema descriptor for updated_at field.
 	grouproleDescUpdatedAt := grouproleMixinFields4[1].Descriptor()
 	// grouprole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	grouprole.DefaultUpdatedAt = grouproleDescUpdatedAt.Default.(func() time.Time)
+	grouprole.DefaultUpdatedAt = grouproleDescUpdatedAt.Default.(func() int64)
 	// grouprole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	grouprole.UpdateDefaultUpdatedAt = grouproleDescUpdatedAt.UpdateDefault.(func() time.Time)
+	grouprole.UpdateDefaultUpdatedAt = grouproleDescUpdatedAt.UpdateDefault.(func() int64)
 	// grouproleDescID is the schema descriptor for id field.
 	grouproleDescID := grouproleMixinFields0[0].Descriptor()
 	// grouprole.DefaultID holds the default value on creation for the id field.
@@ -154,13 +153,13 @@ func init() {
 	// usergroupDescCreatedAt is the schema descriptor for created_at field.
 	usergroupDescCreatedAt := usergroupMixinFields4[0].Descriptor()
 	// usergroup.DefaultCreatedAt holds the default value on creation for the created_at field.
-	usergroup.DefaultCreatedAt = usergroupDescCreatedAt.Default.(func() time.Time)
+	usergroup.DefaultCreatedAt = usergroupDescCreatedAt.Default.(func() int64)
 	// usergroupDescUpdatedAt is the schema descriptor for updated_at field.
 	usergroupDescUpdatedAt := usergroupMixinFields4[1].Descriptor()
 	// usergroup.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	usergroup.DefaultUpdatedAt = usergroupDescUpdatedAt.Default.(func() time.Time)
+	usergroup.DefaultUpdatedAt = usergroupDescUpdatedAt.Default.(func() int64)
 	// usergroup.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	usergroup.UpdateDefaultUpdatedAt = usergroupDescUpdatedAt.UpdateDefault.(func() time.Time)
+	usergroup.UpdateDefaultUpdatedAt = usergroupDescUpdatedAt.UpdateDefault.(func() int64)
 	// usergroupDescID is the schema descriptor for id field.
 	usergroupDescID := usergroupMixinFields0[0].Descriptor()
 	// usergroup.DefaultID holds the default value on creation for the id field.

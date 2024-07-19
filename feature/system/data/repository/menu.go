@@ -13,7 +13,6 @@ import (
 	menuEnt "ncobase/feature/system/data/ent/menu"
 	"ncobase/feature/system/structs"
 	"net/url"
-	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -46,7 +45,7 @@ func NewMenuRepository(d *data.Data) MenuRepositoryInterface {
 		ec: ec,
 		rc: rc,
 		ms: ms,
-		c:  cache.NewCache[ent.Menu](rc, "nb_menu", false),
+		c:  cache.NewCache[ent.Menu](rc, "ncse_menu", false),
 	}
 }
 
@@ -286,9 +285,9 @@ func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParam
 		if params.Direction == "backward" {
 			builder.Where(
 				menuEnt.Or(
-					menuEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					menuEnt.CreatedAtGT(timestamp),
 					menuEnt.And(
-						menuEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						menuEnt.CreatedAtEQ(timestamp),
 						menuEnt.IDGT(id),
 					),
 				),
@@ -296,9 +295,9 @@ func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParam
 		} else {
 			builder.Where(
 				menuEnt.Or(
-					menuEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					menuEnt.CreatedAtLT(timestamp),
 					menuEnt.And(
-						menuEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						menuEnt.CreatedAtEQ(timestamp),
 						menuEnt.IDLT(id),
 					),
 				),

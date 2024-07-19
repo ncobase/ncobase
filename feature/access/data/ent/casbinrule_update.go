@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/casbinrule"
 	"ncobase/feature/access/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -209,8 +208,15 @@ func (cru *CasbinRuleUpdate) ClearUpdatedBy() *CasbinRuleUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cru *CasbinRuleUpdate) SetUpdatedAt(t time.Time) *CasbinRuleUpdate {
-	cru.mutation.SetUpdatedAt(t)
+func (cru *CasbinRuleUpdate) SetUpdatedAt(i int64) *CasbinRuleUpdate {
+	cru.mutation.ResetUpdatedAt()
+	cru.mutation.SetUpdatedAt(i)
+	return cru
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (cru *CasbinRuleUpdate) AddUpdatedAt(i int64) *CasbinRuleUpdate {
+	cru.mutation.AddUpdatedAt(i)
 	return cru
 }
 
@@ -343,13 +349,16 @@ func (cru *CasbinRuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(casbinrule.FieldUpdatedBy, field.TypeString)
 	}
 	if cru.mutation.CreatedAtCleared() {
-		_spec.ClearField(casbinrule.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(casbinrule.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := cru.mutation.UpdatedAt(); ok {
-		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := cru.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(casbinrule.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if cru.mutation.UpdatedAtCleared() {
-		_spec.ClearField(casbinrule.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(casbinrule.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -552,8 +561,15 @@ func (cruo *CasbinRuleUpdateOne) ClearUpdatedBy() *CasbinRuleUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cruo *CasbinRuleUpdateOne) SetUpdatedAt(t time.Time) *CasbinRuleUpdateOne {
-	cruo.mutation.SetUpdatedAt(t)
+func (cruo *CasbinRuleUpdateOne) SetUpdatedAt(i int64) *CasbinRuleUpdateOne {
+	cruo.mutation.ResetUpdatedAt()
+	cruo.mutation.SetUpdatedAt(i)
+	return cruo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (cruo *CasbinRuleUpdateOne) AddUpdatedAt(i int64) *CasbinRuleUpdateOne {
+	cruo.mutation.AddUpdatedAt(i)
 	return cruo
 }
 
@@ -716,13 +732,16 @@ func (cruo *CasbinRuleUpdateOne) sqlSave(ctx context.Context) (_node *CasbinRule
 		_spec.ClearField(casbinrule.FieldUpdatedBy, field.TypeString)
 	}
 	if cruo.mutation.CreatedAtCleared() {
-		_spec.ClearField(casbinrule.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(casbinrule.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := cruo.mutation.UpdatedAt(); ok {
-		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := cruo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(casbinrule.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if cruo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(casbinrule.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(casbinrule.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &CasbinRule{config: cruo.config}
 	_spec.Assign = _node.assignValues

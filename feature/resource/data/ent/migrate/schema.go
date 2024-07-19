@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NbAssetColumns holds the columns for the "nb_asset" table.
-	NbAssetColumns = []*schema.Column{
+	// NcseAssetColumns holds the columns for the "ncse_asset" table.
+	NcseAssetColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
@@ -24,45 +24,50 @@ var (
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbAssetTable holds the schema information for the "nb_asset" table.
-	NbAssetTable = &schema.Table{
-		Name:       "nb_asset",
-		Columns:    NbAssetColumns,
-		PrimaryKey: []*schema.Column{NbAssetColumns[0]},
+	// NcseAssetTable holds the schema information for the "ncse_asset" table.
+	NcseAssetTable = &schema.Table{
+		Name:       "ncse_asset",
+		Columns:    NcseAssetColumns,
+		PrimaryKey: []*schema.Column{NcseAssetColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "asset_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbAssetColumns[0]},
+				Columns: []*schema.Column{NcseAssetColumns[0]},
 			},
 			{
 				Name:    "asset_name",
 				Unique:  true,
-				Columns: []*schema.Column{NbAssetColumns[1]},
+				Columns: []*schema.Column{NcseAssetColumns[1]},
 			},
 			{
 				Name:    "asset_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbAssetColumns[8]},
+				Columns: []*schema.Column{NcseAssetColumns[8]},
 			},
 			{
 				Name:    "asset_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbAssetColumns[9]},
+				Columns: []*schema.Column{NcseAssetColumns[9]},
+			},
+			{
+				Name:    "asset_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseAssetColumns[0], NcseAssetColumns[13]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NbAssetTable,
+		NcseAssetTable,
 	}
 )
 
 func init() {
-	NbAssetTable.Annotation = &entsql.Annotation{
-		Table: "nb_asset",
+	NcseAssetTable.Annotation = &entsql.Annotation{
+		Table: "ncse_asset",
 	}
 }

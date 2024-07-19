@@ -2,7 +2,6 @@ package structs
 
 import (
 	"ncobase/common/types"
-	"time"
 )
 
 // GroupBody represents a group entity.
@@ -42,9 +41,9 @@ type ReadGroup struct {
 	ParentID    *string     `json:"parent_id,omitempty"`
 	TenantID    *string     `json:"tenant_id,omitempty"`
 	CreatedBy   *string     `json:"created_by,omitempty"`
-	CreatedAt   *time.Time  `json:"created_at,omitempty"`
+	CreatedAt   *int64      `json:"created_at,omitempty"`
 	UpdatedBy   *string     `json:"updated_by,omitempty"`
-	UpdatedAt   *time.Time  `json:"updated_at,omitempty"`
+	UpdatedAt   *int64      `json:"updated_at,omitempty"`
 }
 
 // FindGroup represents the parameters for finding a group.

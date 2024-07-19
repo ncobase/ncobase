@@ -11,7 +11,6 @@ import (
 	"ncobase/feature/content/data/ent/taxonomyrelation"
 	"ncobase/feature/content/data/ent/topic"
 	"sync"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -54,8 +53,10 @@ type TaxonomyMutation struct {
 	tenant_id     *string
 	created_by    *string
 	updated_by    *string
-	created_at    *time.Time
-	updated_at    *time.Time
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Taxonomy, error)
@@ -958,12 +959,13 @@ func (m *TaxonomyMutation) ResetUpdatedBy() {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *TaxonomyMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *TaxonomyMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *TaxonomyMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *TaxonomyMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -974,7 +976,7 @@ func (m *TaxonomyMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the Taxonomy entity.
 // If the Taxonomy object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaxonomyMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *TaxonomyMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -988,9 +990,28 @@ func (m *TaxonomyMutation) OldCreatedAt(ctx context.Context) (v time.Time, err e
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *TaxonomyMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *TaxonomyMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *TaxonomyMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[taxonomy.FieldCreatedAt] = struct{}{}
 }
 
@@ -1003,16 +1024,18 @@ func (m *TaxonomyMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *TaxonomyMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, taxonomy.FieldCreatedAt)
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *TaxonomyMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+func (m *TaxonomyMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *TaxonomyMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *TaxonomyMutation) UpdatedAt() (r int64, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -1023,7 +1046,7 @@ func (m *TaxonomyMutation) UpdatedAt() (r time.Time, exists bool) {
 // OldUpdatedAt returns the old "updated_at" field's value of the Taxonomy entity.
 // If the Taxonomy object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaxonomyMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *TaxonomyMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -1037,9 +1060,28 @@ func (m *TaxonomyMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err e
 	return oldValue.UpdatedAt, nil
 }
 
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *TaxonomyMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *TaxonomyMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (m *TaxonomyMutation) ClearUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	m.clearedFields[taxonomy.FieldUpdatedAt] = struct{}{}
 }
 
@@ -1052,6 +1094,7 @@ func (m *TaxonomyMutation) UpdatedAtCleared() bool {
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *TaxonomyMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	delete(m.clearedFields, taxonomy.FieldUpdatedAt)
 }
 
@@ -1355,14 +1398,14 @@ func (m *TaxonomyMutation) SetField(name string, value ent.Value) error {
 		m.SetUpdatedBy(v)
 		return nil
 	case taxonomy.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
 	case taxonomy.FieldUpdatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1379,6 +1422,12 @@ func (m *TaxonomyMutation) AddedFields() []string {
 	if m.addstatus != nil {
 		fields = append(fields, taxonomy.FieldStatus)
 	}
+	if m.addcreated_at != nil {
+		fields = append(fields, taxonomy.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, taxonomy.FieldUpdatedAt)
+	}
 	return fields
 }
 
@@ -1389,6 +1438,10 @@ func (m *TaxonomyMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case taxonomy.FieldStatus:
 		return m.AddedStatus()
+	case taxonomy.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case taxonomy.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
 	}
 	return nil, false
 }
@@ -1404,6 +1457,20 @@ func (m *TaxonomyMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddStatus(v)
+		return nil
+	case taxonomy.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case taxonomy.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Taxonomy numeric field %s", name)
@@ -1655,7 +1722,8 @@ type TaxonomyRelationMutation struct {
 	_order        *int
 	add_order     *int
 	created_by    *string
-	created_at    *time.Time
+	created_at    *int64
+	addcreated_at *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*TaxonomyRelation, error)
@@ -2019,12 +2087,13 @@ func (m *TaxonomyRelationMutation) ResetCreatedBy() {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *TaxonomyRelationMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *TaxonomyRelationMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *TaxonomyRelationMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *TaxonomyRelationMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -2035,7 +2104,7 @@ func (m *TaxonomyRelationMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the TaxonomyRelation entity.
 // If the TaxonomyRelation object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaxonomyRelationMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *TaxonomyRelationMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -2049,9 +2118,28 @@ func (m *TaxonomyRelationMutation) OldCreatedAt(ctx context.Context) (v time.Tim
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *TaxonomyRelationMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *TaxonomyRelationMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *TaxonomyRelationMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[taxonomyrelation.FieldCreatedAt] = struct{}{}
 }
 
@@ -2064,6 +2152,7 @@ func (m *TaxonomyRelationMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *TaxonomyRelationMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, taxonomyrelation.FieldCreatedAt)
 }
 
@@ -2206,7 +2295,7 @@ func (m *TaxonomyRelationMutation) SetField(name string, value ent.Value) error 
 		m.SetCreatedBy(v)
 		return nil
 	case taxonomyrelation.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2223,6 +2312,9 @@ func (m *TaxonomyRelationMutation) AddedFields() []string {
 	if m.add_order != nil {
 		fields = append(fields, taxonomyrelation.FieldOrder)
 	}
+	if m.addcreated_at != nil {
+		fields = append(fields, taxonomyrelation.FieldCreatedAt)
+	}
 	return fields
 }
 
@@ -2233,6 +2325,8 @@ func (m *TaxonomyRelationMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case taxonomyrelation.FieldOrder:
 		return m.AddedOrder()
+	case taxonomyrelation.FieldCreatedAt:
+		return m.AddedCreatedAt()
 	}
 	return nil, false
 }
@@ -2248,6 +2342,13 @@ func (m *TaxonomyRelationMutation) AddField(name string, value ent.Value) error 
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddOrder(v)
+		return nil
+	case taxonomyrelation.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
 		return nil
 	}
 	return fmt.Errorf("unknown TaxonomyRelation numeric field %s", name)
@@ -2395,13 +2496,16 @@ type TopicMutation struct {
 	private       *bool
 	status        *int
 	addstatus     *int
-	released      *time.Time
+	released      *int64
+	addreleased   *int64
 	taxonomy_id   *string
 	tenant_id     *string
 	created_by    *string
 	updated_by    *string
-	created_at    *time.Time
-	updated_at    *time.Time
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Topic, error)
@@ -2961,12 +3065,13 @@ func (m *TopicMutation) ResetStatus() {
 }
 
 // SetReleased sets the "released" field.
-func (m *TopicMutation) SetReleased(t time.Time) {
-	m.released = &t
+func (m *TopicMutation) SetReleased(i int64) {
+	m.released = &i
+	m.addreleased = nil
 }
 
 // Released returns the value of the "released" field in the mutation.
-func (m *TopicMutation) Released() (r time.Time, exists bool) {
+func (m *TopicMutation) Released() (r int64, exists bool) {
 	v := m.released
 	if v == nil {
 		return
@@ -2977,7 +3082,7 @@ func (m *TopicMutation) Released() (r time.Time, exists bool) {
 // OldReleased returns the old "released" field's value of the Topic entity.
 // If the Topic object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TopicMutation) OldReleased(ctx context.Context) (v time.Time, err error) {
+func (m *TopicMutation) OldReleased(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldReleased is only allowed on UpdateOne operations")
 	}
@@ -2991,9 +3096,28 @@ func (m *TopicMutation) OldReleased(ctx context.Context) (v time.Time, err error
 	return oldValue.Released, nil
 }
 
+// AddReleased adds i to the "released" field.
+func (m *TopicMutation) AddReleased(i int64) {
+	if m.addreleased != nil {
+		*m.addreleased += i
+	} else {
+		m.addreleased = &i
+	}
+}
+
+// AddedReleased returns the value that was added to the "released" field in this mutation.
+func (m *TopicMutation) AddedReleased() (r int64, exists bool) {
+	v := m.addreleased
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearReleased clears the value of the "released" field.
 func (m *TopicMutation) ClearReleased() {
 	m.released = nil
+	m.addreleased = nil
 	m.clearedFields[topic.FieldReleased] = struct{}{}
 }
 
@@ -3006,6 +3130,7 @@ func (m *TopicMutation) ReleasedCleared() bool {
 // ResetReleased resets all changes to the "released" field.
 func (m *TopicMutation) ResetReleased() {
 	m.released = nil
+	m.addreleased = nil
 	delete(m.clearedFields, topic.FieldReleased)
 }
 
@@ -3206,12 +3331,13 @@ func (m *TopicMutation) ResetUpdatedBy() {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *TopicMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+func (m *TopicMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *TopicMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *TopicMutation) CreatedAt() (r int64, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -3222,7 +3348,7 @@ func (m *TopicMutation) CreatedAt() (r time.Time, exists bool) {
 // OldCreatedAt returns the old "created_at" field's value of the Topic entity.
 // If the Topic object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TopicMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *TopicMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -3236,9 +3362,28 @@ func (m *TopicMutation) OldCreatedAt(ctx context.Context) (v time.Time, err erro
 	return oldValue.CreatedAt, nil
 }
 
+// AddCreatedAt adds i to the "created_at" field.
+func (m *TopicMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *TopicMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearCreatedAt clears the value of the "created_at" field.
 func (m *TopicMutation) ClearCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	m.clearedFields[topic.FieldCreatedAt] = struct{}{}
 }
 
@@ -3251,16 +3396,18 @@ func (m *TopicMutation) CreatedAtCleared() bool {
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *TopicMutation) ResetCreatedAt() {
 	m.created_at = nil
+	m.addcreated_at = nil
 	delete(m.clearedFields, topic.FieldCreatedAt)
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *TopicMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+func (m *TopicMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *TopicMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *TopicMutation) UpdatedAt() (r int64, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -3271,7 +3418,7 @@ func (m *TopicMutation) UpdatedAt() (r time.Time, exists bool) {
 // OldUpdatedAt returns the old "updated_at" field's value of the Topic entity.
 // If the Topic object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TopicMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *TopicMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -3285,9 +3432,28 @@ func (m *TopicMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err erro
 	return oldValue.UpdatedAt, nil
 }
 
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *TopicMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *TopicMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (m *TopicMutation) ClearUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	m.clearedFields[topic.FieldUpdatedAt] = struct{}{}
 }
 
@@ -3300,6 +3466,7 @@ func (m *TopicMutation) UpdatedAtCleared() bool {
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *TopicMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	m.addupdated_at = nil
 	delete(m.clearedFields, topic.FieldUpdatedAt)
 }
 
@@ -3540,7 +3707,7 @@ func (m *TopicMutation) SetField(name string, value ent.Value) error {
 		m.SetStatus(v)
 		return nil
 	case topic.FieldReleased:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3575,14 +3742,14 @@ func (m *TopicMutation) SetField(name string, value ent.Value) error {
 		m.SetUpdatedBy(v)
 		return nil
 	case topic.FieldCreatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
 	case topic.FieldUpdatedAt:
-		v, ok := value.(time.Time)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3599,6 +3766,15 @@ func (m *TopicMutation) AddedFields() []string {
 	if m.addstatus != nil {
 		fields = append(fields, topic.FieldStatus)
 	}
+	if m.addreleased != nil {
+		fields = append(fields, topic.FieldReleased)
+	}
+	if m.addcreated_at != nil {
+		fields = append(fields, topic.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, topic.FieldUpdatedAt)
+	}
 	return fields
 }
 
@@ -3609,6 +3785,12 @@ func (m *TopicMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case topic.FieldStatus:
 		return m.AddedStatus()
+	case topic.FieldReleased:
+		return m.AddedReleased()
+	case topic.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case topic.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
 	}
 	return nil, false
 }
@@ -3624,6 +3806,27 @@ func (m *TopicMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddStatus(v)
+		return nil
+	case topic.FieldReleased:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddReleased(v)
+		return nil
+	case topic.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case topic.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Topic numeric field %s", name)

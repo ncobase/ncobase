@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/predicate"
 	"ncobase/feature/access/data/ent/usertenantrole"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -129,8 +128,15 @@ func (utru *UserTenantRoleUpdate) ClearUpdatedBy() *UserTenantRoleUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (utru *UserTenantRoleUpdate) SetUpdatedAt(t time.Time) *UserTenantRoleUpdate {
-	utru.mutation.SetUpdatedAt(t)
+func (utru *UserTenantRoleUpdate) SetUpdatedAt(i int64) *UserTenantRoleUpdate {
+	utru.mutation.ResetUpdatedAt()
+	utru.mutation.SetUpdatedAt(i)
+	return utru
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (utru *UserTenantRoleUpdate) AddUpdatedAt(i int64) *UserTenantRoleUpdate {
+	utru.mutation.AddUpdatedAt(i)
 	return utru
 }
 
@@ -254,13 +260,16 @@ func (utru *UserTenantRoleUpdate) sqlSave(ctx context.Context) (n int, err error
 		_spec.ClearField(usertenantrole.FieldUpdatedBy, field.TypeString)
 	}
 	if utru.mutation.CreatedAtCleared() {
-		_spec.ClearField(usertenantrole.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(usertenantrole.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := utru.mutation.UpdatedAt(); ok {
-		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := utru.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(usertenantrole.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if utru.mutation.UpdatedAtCleared() {
-		_spec.ClearField(usertenantrole.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(usertenantrole.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, utru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -383,8 +392,15 @@ func (utruo *UserTenantRoleUpdateOne) ClearUpdatedBy() *UserTenantRoleUpdateOne 
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (utruo *UserTenantRoleUpdateOne) SetUpdatedAt(t time.Time) *UserTenantRoleUpdateOne {
-	utruo.mutation.SetUpdatedAt(t)
+func (utruo *UserTenantRoleUpdateOne) SetUpdatedAt(i int64) *UserTenantRoleUpdateOne {
+	utruo.mutation.ResetUpdatedAt()
+	utruo.mutation.SetUpdatedAt(i)
+	return utruo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (utruo *UserTenantRoleUpdateOne) AddUpdatedAt(i int64) *UserTenantRoleUpdateOne {
+	utruo.mutation.AddUpdatedAt(i)
 	return utruo
 }
 
@@ -538,13 +554,16 @@ func (utruo *UserTenantRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserT
 		_spec.ClearField(usertenantrole.FieldUpdatedBy, field.TypeString)
 	}
 	if utruo.mutation.CreatedAtCleared() {
-		_spec.ClearField(usertenantrole.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(usertenantrole.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := utruo.mutation.UpdatedAt(); ok {
-		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := utruo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(usertenantrole.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if utruo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(usertenantrole.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(usertenantrole.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &UserTenantRole{config: utruo.config}
 	_spec.Assign = _node.assignValues

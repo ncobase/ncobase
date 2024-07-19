@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/auth/data/ent/codeauth"
 	"ncobase/feature/auth/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -89,8 +88,15 @@ func (cau *CodeAuthUpdate) ClearLogged() *CodeAuthUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cau *CodeAuthUpdate) SetUpdatedAt(t time.Time) *CodeAuthUpdate {
-	cau.mutation.SetUpdatedAt(t)
+func (cau *CodeAuthUpdate) SetUpdatedAt(i int64) *CodeAuthUpdate {
+	cau.mutation.ResetUpdatedAt()
+	cau.mutation.SetUpdatedAt(i)
+	return cau
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (cau *CodeAuthUpdate) AddUpdatedAt(i int64) *CodeAuthUpdate {
+	cau.mutation.AddUpdatedAt(i)
 	return cau
 }
 
@@ -169,13 +175,16 @@ func (cau *CodeAuthUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(codeauth.FieldLogged, field.TypeBool)
 	}
 	if cau.mutation.CreatedAtCleared() {
-		_spec.ClearField(codeauth.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(codeauth.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := cau.mutation.UpdatedAt(); ok {
-		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := cau.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if cau.mutation.UpdatedAtCleared() {
-		_spec.ClearField(codeauth.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(codeauth.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cau.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -258,8 +267,15 @@ func (cauo *CodeAuthUpdateOne) ClearLogged() *CodeAuthUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cauo *CodeAuthUpdateOne) SetUpdatedAt(t time.Time) *CodeAuthUpdateOne {
-	cauo.mutation.SetUpdatedAt(t)
+func (cauo *CodeAuthUpdateOne) SetUpdatedAt(i int64) *CodeAuthUpdateOne {
+	cauo.mutation.ResetUpdatedAt()
+	cauo.mutation.SetUpdatedAt(i)
+	return cauo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (cauo *CodeAuthUpdateOne) AddUpdatedAt(i int64) *CodeAuthUpdateOne {
+	cauo.mutation.AddUpdatedAt(i)
 	return cauo
 }
 
@@ -368,13 +384,16 @@ func (cauo *CodeAuthUpdateOne) sqlSave(ctx context.Context) (_node *CodeAuth, er
 		_spec.ClearField(codeauth.FieldLogged, field.TypeBool)
 	}
 	if cauo.mutation.CreatedAtCleared() {
-		_spec.ClearField(codeauth.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(codeauth.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := cauo.mutation.UpdatedAt(); ok {
-		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := cauo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if cauo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(codeauth.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(codeauth.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &CodeAuth{config: cauo.config}
 	_spec.Assign = _node.assignValues

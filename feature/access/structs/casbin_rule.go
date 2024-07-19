@@ -2,7 +2,6 @@ package structs
 
 import (
 	"fmt"
-	"time"
 )
 
 // CasbinRuleBody defines the structure for request body used to create or update Casbin rules.
@@ -20,22 +19,22 @@ type CasbinRuleBody struct {
 
 // ReadCasbinRule represents a single Casbin rule.
 type ReadCasbinRule struct {
-	ID        string     `json:"id"`
-	PType     string     `json:"p_type"`
-	V0        string     `json:"v0"`
-	V1        string     `json:"v1"`
-	V2        string     `json:"v2"`
-	V3        *string    `json:"v3"`
-	V4        *string    `json:"v4"`
-	V5        *string    `json:"v5"`
-	CreatedBy *string    `json:"created_by,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
-	UpdatedBy *string    `json:"updated_by,omitempty"`
-	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+	ID        string  `json:"id"`
+	PType     string  `json:"p_type"`
+	V0        string  `json:"v0"`
+	V1        string  `json:"v1"`
+	V2        string  `json:"v2"`
+	V3        *string `json:"v3"`
+	V4        *string `json:"v4"`
+	V5        *string `json:"v5"`
+	CreatedBy *string `json:"created_by,omitempty"`
+	CreatedAt *int64  `json:"created_at,omitempty"`
+	UpdatedBy *string `json:"updated_by,omitempty"`
+	UpdatedAt *int64  `json:"updated_at,omitempty"`
 }
 
 func (r *ReadCasbinRule) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
 }
 
 // ListCasbinRuleParams defines the parameters for listing Casbin rules.

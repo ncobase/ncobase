@@ -6,7 +6,6 @@ import (
 	"ncobase/feature/tenant/data/ent/tenant"
 	"ncobase/feature/tenant/data/ent/usertenant"
 	"ncobase/feature/tenant/data/schema"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -51,13 +50,13 @@ func init() {
 	// tenantDescCreatedAt is the schema descriptor for created_at field.
 	tenantDescCreatedAt := tenantMixinFields16[0].Descriptor()
 	// tenant.DefaultCreatedAt holds the default value on creation for the created_at field.
-	tenant.DefaultCreatedAt = tenantDescCreatedAt.Default.(func() time.Time)
+	tenant.DefaultCreatedAt = tenantDescCreatedAt.Default.(func() int64)
 	// tenantDescUpdatedAt is the schema descriptor for updated_at field.
 	tenantDescUpdatedAt := tenantMixinFields16[1].Descriptor()
 	// tenant.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	tenant.DefaultUpdatedAt = tenantDescUpdatedAt.Default.(func() time.Time)
+	tenant.DefaultUpdatedAt = tenantDescUpdatedAt.Default.(func() int64)
 	// tenant.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	tenant.UpdateDefaultUpdatedAt = tenantDescUpdatedAt.UpdateDefault.(func() time.Time)
+	tenant.UpdateDefaultUpdatedAt = tenantDescUpdatedAt.UpdateDefault.(func() int64)
 	// tenantDescID is the schema descriptor for id field.
 	tenantDescID := tenantMixinFields0[0].Descriptor()
 	// tenant.DefaultID holds the default value on creation for the id field.
@@ -96,13 +95,13 @@ func init() {
 	// usertenantDescCreatedAt is the schema descriptor for created_at field.
 	usertenantDescCreatedAt := usertenantMixinFields4[0].Descriptor()
 	// usertenant.DefaultCreatedAt holds the default value on creation for the created_at field.
-	usertenant.DefaultCreatedAt = usertenantDescCreatedAt.Default.(func() time.Time)
+	usertenant.DefaultCreatedAt = usertenantDescCreatedAt.Default.(func() int64)
 	// usertenantDescUpdatedAt is the schema descriptor for updated_at field.
 	usertenantDescUpdatedAt := usertenantMixinFields4[1].Descriptor()
 	// usertenant.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	usertenant.DefaultUpdatedAt = usertenantDescUpdatedAt.Default.(func() time.Time)
+	usertenant.DefaultUpdatedAt = usertenantDescUpdatedAt.Default.(func() int64)
 	// usertenant.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	usertenant.UpdateDefaultUpdatedAt = usertenantDescUpdatedAt.UpdateDefault.(func() time.Time)
+	usertenant.UpdateDefaultUpdatedAt = usertenantDescUpdatedAt.UpdateDefault.(func() int64)
 	// usertenantDescID is the schema descriptor for id field.
 	usertenantDescID := usertenantMixinFields0[0].Descriptor()
 	// usertenant.DefaultID holds the default value on creation for the id field.

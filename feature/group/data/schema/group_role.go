@@ -18,7 +18,7 @@ type GroupRole struct {
 
 // Annotations of the GroupRole.
 func (GroupRole) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "group_role"}, "_")
+	table := strings.Join([]string{"ncse", "group_role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -50,6 +50,7 @@ func (GroupRole) Edges() []ent.Edge {
 // Indexes of the GroupRole.
 func (GroupRole) Indexes() []ent.Index {
 	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
 		index.Fields("group_id", "role_id"),
 	}
 }

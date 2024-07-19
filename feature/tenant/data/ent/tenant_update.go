@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/tenant/data/ent/predicate"
 	"ncobase/feature/tenant/data/ent/tenant"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -322,16 +321,23 @@ func (tu *TenantUpdate) ClearUpdatedBy() *TenantUpdate {
 }
 
 // SetExpiredAt sets the "expired_at" field.
-func (tu *TenantUpdate) SetExpiredAt(t time.Time) *TenantUpdate {
-	tu.mutation.SetExpiredAt(t)
+func (tu *TenantUpdate) SetExpiredAt(i int64) *TenantUpdate {
+	tu.mutation.ResetExpiredAt()
+	tu.mutation.SetExpiredAt(i)
 	return tu
 }
 
 // SetNillableExpiredAt sets the "expired_at" field if the given value is not nil.
-func (tu *TenantUpdate) SetNillableExpiredAt(t *time.Time) *TenantUpdate {
-	if t != nil {
-		tu.SetExpiredAt(*t)
+func (tu *TenantUpdate) SetNillableExpiredAt(i *int64) *TenantUpdate {
+	if i != nil {
+		tu.SetExpiredAt(*i)
 	}
+	return tu
+}
+
+// AddExpiredAt adds i to the "expired_at" field.
+func (tu *TenantUpdate) AddExpiredAt(i int64) *TenantUpdate {
+	tu.mutation.AddExpiredAt(i)
 	return tu
 }
 
@@ -342,8 +348,15 @@ func (tu *TenantUpdate) ClearExpiredAt() *TenantUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tu *TenantUpdate) SetUpdatedAt(t time.Time) *TenantUpdate {
-	tu.mutation.SetUpdatedAt(t)
+func (tu *TenantUpdate) SetUpdatedAt(i int64) *TenantUpdate {
+	tu.mutation.ResetUpdatedAt()
+	tu.mutation.SetUpdatedAt(i)
+	return tu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (tu *TenantUpdate) AddUpdatedAt(i int64) *TenantUpdate {
+	tu.mutation.AddUpdatedAt(i)
 	return tu
 }
 
@@ -512,19 +525,25 @@ func (tu *TenantUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(tenant.FieldUpdatedBy, field.TypeString)
 	}
 	if value, ok := tu.mutation.ExpiredAt(); ok {
-		_spec.SetField(tenant.FieldExpiredAt, field.TypeTime, value)
+		_spec.SetField(tenant.FieldExpiredAt, field.TypeInt64, value)
+	}
+	if value, ok := tu.mutation.AddedExpiredAt(); ok {
+		_spec.AddField(tenant.FieldExpiredAt, field.TypeInt64, value)
 	}
 	if tu.mutation.ExpiredAtCleared() {
-		_spec.ClearField(tenant.FieldExpiredAt, field.TypeTime)
+		_spec.ClearField(tenant.FieldExpiredAt, field.TypeInt64)
 	}
 	if tu.mutation.CreatedAtCleared() {
-		_spec.ClearField(tenant.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(tenant.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := tu.mutation.UpdatedAt(); ok {
-		_spec.SetField(tenant.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(tenant.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := tu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(tenant.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if tu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(tenant.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(tenant.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -840,16 +859,23 @@ func (tuo *TenantUpdateOne) ClearUpdatedBy() *TenantUpdateOne {
 }
 
 // SetExpiredAt sets the "expired_at" field.
-func (tuo *TenantUpdateOne) SetExpiredAt(t time.Time) *TenantUpdateOne {
-	tuo.mutation.SetExpiredAt(t)
+func (tuo *TenantUpdateOne) SetExpiredAt(i int64) *TenantUpdateOne {
+	tuo.mutation.ResetExpiredAt()
+	tuo.mutation.SetExpiredAt(i)
 	return tuo
 }
 
 // SetNillableExpiredAt sets the "expired_at" field if the given value is not nil.
-func (tuo *TenantUpdateOne) SetNillableExpiredAt(t *time.Time) *TenantUpdateOne {
-	if t != nil {
-		tuo.SetExpiredAt(*t)
+func (tuo *TenantUpdateOne) SetNillableExpiredAt(i *int64) *TenantUpdateOne {
+	if i != nil {
+		tuo.SetExpiredAt(*i)
 	}
+	return tuo
+}
+
+// AddExpiredAt adds i to the "expired_at" field.
+func (tuo *TenantUpdateOne) AddExpiredAt(i int64) *TenantUpdateOne {
+	tuo.mutation.AddExpiredAt(i)
 	return tuo
 }
 
@@ -860,8 +886,15 @@ func (tuo *TenantUpdateOne) ClearExpiredAt() *TenantUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tuo *TenantUpdateOne) SetUpdatedAt(t time.Time) *TenantUpdateOne {
-	tuo.mutation.SetUpdatedAt(t)
+func (tuo *TenantUpdateOne) SetUpdatedAt(i int64) *TenantUpdateOne {
+	tuo.mutation.ResetUpdatedAt()
+	tuo.mutation.SetUpdatedAt(i)
+	return tuo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (tuo *TenantUpdateOne) AddUpdatedAt(i int64) *TenantUpdateOne {
+	tuo.mutation.AddUpdatedAt(i)
 	return tuo
 }
 
@@ -1060,19 +1093,25 @@ func (tuo *TenantUpdateOne) sqlSave(ctx context.Context) (_node *Tenant, err err
 		_spec.ClearField(tenant.FieldUpdatedBy, field.TypeString)
 	}
 	if value, ok := tuo.mutation.ExpiredAt(); ok {
-		_spec.SetField(tenant.FieldExpiredAt, field.TypeTime, value)
+		_spec.SetField(tenant.FieldExpiredAt, field.TypeInt64, value)
+	}
+	if value, ok := tuo.mutation.AddedExpiredAt(); ok {
+		_spec.AddField(tenant.FieldExpiredAt, field.TypeInt64, value)
 	}
 	if tuo.mutation.ExpiredAtCleared() {
-		_spec.ClearField(tenant.FieldExpiredAt, field.TypeTime)
+		_spec.ClearField(tenant.FieldExpiredAt, field.TypeInt64)
 	}
 	if tuo.mutation.CreatedAtCleared() {
-		_spec.ClearField(tenant.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(tenant.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := tuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(tenant.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(tenant.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := tuo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(tenant.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if tuo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(tenant.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(tenant.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &Tenant{config: tuo.config}
 	_spec.Assign = _node.assignValues

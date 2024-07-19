@@ -17,7 +17,7 @@ type UserTenantRole struct {
 
 // Annotations of the UserTenantRole.
 func (UserTenantRole) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "user_tenant_role"}, "_")
+	table := strings.Join([]string{"ncse", "user_tenant_role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),
@@ -49,6 +49,7 @@ func (UserTenantRole) Edges() []ent.Edge {
 // Indexes of the UserTenantRole.
 func (UserTenantRole) Indexes() []ent.Index {
 	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
 		index.Fields("user_id", "tenant_id", "role_id"),
 	}
 }

@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/feature/content/data/ent/taxonomy"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -237,29 +236,29 @@ func (tc *TaxonomyCreate) SetNillableUpdatedBy(s *string) *TaxonomyCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tc *TaxonomyCreate) SetCreatedAt(t time.Time) *TaxonomyCreate {
-	tc.mutation.SetCreatedAt(t)
+func (tc *TaxonomyCreate) SetCreatedAt(i int64) *TaxonomyCreate {
+	tc.mutation.SetCreatedAt(i)
 	return tc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableCreatedAt(t *time.Time) *TaxonomyCreate {
-	if t != nil {
-		tc.SetCreatedAt(*t)
+func (tc *TaxonomyCreate) SetNillableCreatedAt(i *int64) *TaxonomyCreate {
+	if i != nil {
+		tc.SetCreatedAt(*i)
 	}
 	return tc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tc *TaxonomyCreate) SetUpdatedAt(t time.Time) *TaxonomyCreate {
-	tc.mutation.SetUpdatedAt(t)
+func (tc *TaxonomyCreate) SetUpdatedAt(i int64) *TaxonomyCreate {
+	tc.mutation.SetUpdatedAt(i)
 	return tc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableUpdatedAt(t *time.Time) *TaxonomyCreate {
-	if t != nil {
-		tc.SetUpdatedAt(*t)
+func (tc *TaxonomyCreate) SetNillableUpdatedAt(i *int64) *TaxonomyCreate {
+	if i != nil {
+		tc.SetUpdatedAt(*i)
 	}
 	return tc
 }
@@ -465,11 +464,11 @@ func (tc *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := tc.mutation.CreatedAt(); ok {
-		_spec.SetField(taxonomy.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(taxonomy.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := tc.mutation.UpdatedAt(); ok {
-		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

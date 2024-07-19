@@ -5,7 +5,6 @@ package ent
 import (
 	"ncobase/feature/system/data/ent/menu"
 	"ncobase/feature/system/data/schema"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -68,13 +67,13 @@ func init() {
 	// menuDescCreatedAt is the schema descriptor for created_at field.
 	menuDescCreatedAt := menuMixinFields16[0].Descriptor()
 	// menu.DefaultCreatedAt holds the default value on creation for the created_at field.
-	menu.DefaultCreatedAt = menuDescCreatedAt.Default.(func() time.Time)
+	menu.DefaultCreatedAt = menuDescCreatedAt.Default.(func() int64)
 	// menuDescUpdatedAt is the schema descriptor for updated_at field.
 	menuDescUpdatedAt := menuMixinFields16[1].Descriptor()
 	// menu.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	menu.DefaultUpdatedAt = menuDescUpdatedAt.Default.(func() time.Time)
+	menu.DefaultUpdatedAt = menuDescUpdatedAt.Default.(func() int64)
 	// menu.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	menu.UpdateDefaultUpdatedAt = menuDescUpdatedAt.UpdateDefault.(func() time.Time)
+	menu.UpdateDefaultUpdatedAt = menuDescUpdatedAt.UpdateDefault.(func() int64)
 	// menuDescID is the schema descriptor for id field.
 	menuDescID := menuMixinFields0[0].Descriptor()
 	// menu.DefaultID holds the default value on creation for the id field.

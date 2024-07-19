@@ -27,7 +27,7 @@ type captchaRepository struct {
 // NewCaptchaRepository creates a new captcha repository.
 func NewCaptchaRepository(d *data.Data) CaptchaRepositoryInterface {
 	rc := d.GetRedis()
-	return &captchaRepository{rc, cache.NewCache[types.JSON](rc, "nb_captcha", false)}
+	return &captchaRepository{rc, cache.NewCache[types.JSON](rc, "ncse_captcha", false)}
 }
 
 // Set sets the captcha in the cache.

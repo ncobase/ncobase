@@ -3,7 +3,6 @@ package structs
 import (
 	"fmt"
 	"ncobase/common/types"
-	"time"
 )
 
 // MenuBody represents a menu entity.
@@ -56,9 +55,9 @@ type ReadMenu struct {
 	TenantID  string           `json:"tenant_id,omitempty"`
 	Children  []types.TreeNode `json:"children,omitempty"`
 	CreatedBy *string          `json:"created_by,omitempty"`
-	CreatedAt *time.Time       `json:"created_at,omitempty"`
+	CreatedAt *int64           `json:"created_at,omitempty"`
 	UpdatedBy *string          `json:"updated_by,omitempty"`
-	UpdatedAt *time.Time       `json:"updated_at,omitempty"`
+	UpdatedAt *int64           `json:"updated_at,omitempty"`
 }
 
 // GetID returns the ID of the menu.
@@ -82,7 +81,7 @@ func (r *ReadMenu) GetChildren() []types.TreeNode {
 }
 
 func (r *ReadMenu) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
 }
 
 // FindMenu represents the parameters for finding a menu.

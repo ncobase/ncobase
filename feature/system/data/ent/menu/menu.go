@@ -3,8 +3,6 @@
 package menu
 
 import (
-	"time"
-
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -50,7 +48,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the menu in the database.
-	Table = "nb_menu"
+	Table = "ncse_menu"
 )
 
 // Columns holds all SQL columns for menu fields.
@@ -104,11 +102,11 @@ var (
 	// UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	UpdatedByValidator func(string) error
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
-	DefaultCreatedAt func() time.Time
+	DefaultCreatedAt func() int64
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
-	DefaultUpdatedAt func() time.Time
+	DefaultUpdatedAt func() int64
 	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
-	UpdateDefaultUpdatedAt func() time.Time
+	UpdateDefaultUpdatedAt func() int64
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.

@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/group/data/ent/group"
 	"ncobase/feature/group/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -213,8 +212,15 @@ func (gu *GroupUpdate) ClearUpdatedBy() *GroupUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (gu *GroupUpdate) SetUpdatedAt(t time.Time) *GroupUpdate {
-	gu.mutation.SetUpdatedAt(t)
+func (gu *GroupUpdate) SetUpdatedAt(i int64) *GroupUpdate {
+	gu.mutation.ResetUpdatedAt()
+	gu.mutation.SetUpdatedAt(i)
+	return gu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (gu *GroupUpdate) AddUpdatedAt(i int64) *GroupUpdate {
+	gu.mutation.AddUpdatedAt(i)
 	return gu
 }
 
@@ -363,13 +369,16 @@ func (gu *GroupUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(group.FieldUpdatedBy, field.TypeString)
 	}
 	if gu.mutation.CreatedAtCleared() {
-		_spec.ClearField(group.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(group.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := gu.mutation.UpdatedAt(); ok {
-		_spec.SetField(group.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(group.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := gu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(group.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if gu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(group.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(group.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, gu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -576,8 +585,15 @@ func (guo *GroupUpdateOne) ClearUpdatedBy() *GroupUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (guo *GroupUpdateOne) SetUpdatedAt(t time.Time) *GroupUpdateOne {
-	guo.mutation.SetUpdatedAt(t)
+func (guo *GroupUpdateOne) SetUpdatedAt(i int64) *GroupUpdateOne {
+	guo.mutation.ResetUpdatedAt()
+	guo.mutation.SetUpdatedAt(i)
+	return guo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (guo *GroupUpdateOne) AddUpdatedAt(i int64) *GroupUpdateOne {
+	guo.mutation.AddUpdatedAt(i)
 	return guo
 }
 
@@ -756,13 +772,16 @@ func (guo *GroupUpdateOne) sqlSave(ctx context.Context) (_node *Group, err error
 		_spec.ClearField(group.FieldUpdatedBy, field.TypeString)
 	}
 	if guo.mutation.CreatedAtCleared() {
-		_spec.ClearField(group.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(group.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := guo.mutation.UpdatedAt(); ok {
-		_spec.SetField(group.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(group.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := guo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(group.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if guo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(group.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(group.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &Group{config: guo.config}
 	_spec.Assign = _node.assignValues

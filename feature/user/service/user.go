@@ -11,7 +11,6 @@ import (
 	"ncobase/feature/user/data/ent"
 	"ncobase/feature/user/data/repository"
 	"ncobase/feature/user/structs"
-	"ncobase/helper"
 )
 
 // UserServiceInterface is the interface for the service.
@@ -61,24 +60,19 @@ func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPass
 	if body.Confirm != body.NewPassword {
 		return errors.New(ecode.FieldIsInvalid("confirm password"))
 	}
-	verifyResult := s.VerifyPassword(ctx, helper.GetUserID(ctx), body.OldPassword)
+	verifyResult := s.VerifyPassword(ctx, body.User, body.OldPassword)
 	switch v := verifyResult.(type) {
 	case VerifyPasswordResult:
 		if v.Valid == false {
 			return errors.New(v.Error)
 		} else if v.Valid && v.NeedsPasswordSet == true { // print a log for user's first password setting
-			log.Printf(context.Background(), "User %s is setting password for the first time", helper.GetUserID(ctx))
+			log.Printf(context.Background(), "User %s is setting password for the first time", body.User)
 		}
 	case error:
 		return v
 	}
 
-	err := s.updatePassword(ctx, &structs.UserPassword{
-		User:        helper.GetUserID(ctx),
-		OldPassword: body.OldPassword,
-		NewPassword: body.NewPassword,
-		Confirm:     body.Confirm,
-	})
+	err := s.updatePassword(ctx, body)
 
 	if err := handleEntError("User", err); err != nil {
 		return err
@@ -198,8 +192,8 @@ func (s *userService) Serialize(user *ent.User) *structs.ReadUser {
 		IsAdmin:     user.IsAdmin,
 		Status:      user.Status,
 		Extras:      &user.Extras,
-		CreatedAt:   user.CreatedAt,
-		UpdatedAt:   user.UpdatedAt,
+		CreatedAt:   &user.CreatedAt,
+		UpdatedAt:   &user.UpdatedAt,
 	}
 }
 

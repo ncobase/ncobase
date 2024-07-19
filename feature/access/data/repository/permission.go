@@ -13,7 +13,6 @@ import (
 	"ncobase/feature/access/data/ent"
 	permissionEnt "ncobase/feature/access/data/ent/permission"
 	"ncobase/feature/access/structs"
-	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -41,7 +40,7 @@ type permissionRepository struct {
 func NewPermissionRepository(d *data.Data) PermissionRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &permissionRepository{ec, rc, cache.NewCache[ent.Permission](rc, "nb_permission")}
+	return &permissionRepository{ec, rc, cache.NewCache[ent.Permission](rc, "ncse_permission")}
 }
 
 // Create creates a new permission.
@@ -235,9 +234,9 @@ func (r *permissionRepository) List(ctx context.Context, params *structs.ListPer
 		if params.Direction == "backward" {
 			builder.Where(
 				permissionEnt.Or(
-					permissionEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					permissionEnt.CreatedAtGT(timestamp),
 					permissionEnt.And(
-						permissionEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						permissionEnt.CreatedAtEQ(timestamp),
 						permissionEnt.IDGT(id),
 					),
 				),
@@ -245,9 +244,9 @@ func (r *permissionRepository) List(ctx context.Context, params *structs.ListPer
 		} else {
 			builder.Where(
 				permissionEnt.Or(
-					permissionEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					permissionEnt.CreatedAtLT(timestamp),
 					permissionEnt.And(
-						permissionEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						permissionEnt.CreatedAtEQ(timestamp),
 						permissionEnt.IDLT(id),
 					),
 				),

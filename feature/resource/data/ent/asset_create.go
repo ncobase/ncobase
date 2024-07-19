@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/feature/resource/data/ent/asset"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -181,29 +180,29 @@ func (ac *AssetCreate) SetNillableUpdatedBy(s *string) *AssetCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ac *AssetCreate) SetCreatedAt(t time.Time) *AssetCreate {
-	ac.mutation.SetCreatedAt(t)
+func (ac *AssetCreate) SetCreatedAt(i int64) *AssetCreate {
+	ac.mutation.SetCreatedAt(i)
 	return ac
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableCreatedAt(t *time.Time) *AssetCreate {
-	if t != nil {
-		ac.SetCreatedAt(*t)
+func (ac *AssetCreate) SetNillableCreatedAt(i *int64) *AssetCreate {
+	if i != nil {
+		ac.SetCreatedAt(*i)
 	}
 	return ac
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ac *AssetCreate) SetUpdatedAt(t time.Time) *AssetCreate {
-	ac.mutation.SetUpdatedAt(t)
+func (ac *AssetCreate) SetUpdatedAt(i int64) *AssetCreate {
+	ac.mutation.SetUpdatedAt(i)
 	return ac
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableUpdatedAt(t *time.Time) *AssetCreate {
-	if t != nil {
-		ac.SetUpdatedAt(*t)
+func (ac *AssetCreate) SetNillableUpdatedAt(i *int64) *AssetCreate {
+	if i != nil {
+		ac.SetUpdatedAt(*i)
 	}
 	return ac
 }
@@ -398,11 +397,11 @@ func (ac *AssetCreate) createSpec() (*Asset, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := ac.mutation.CreatedAt(); ok {
-		_spec.SetField(asset.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(asset.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := ac.mutation.UpdatedAt(); ok {
-		_spec.SetField(asset.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(asset.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

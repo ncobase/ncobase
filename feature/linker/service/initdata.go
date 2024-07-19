@@ -18,7 +18,7 @@ func (s *Service) InitData() error {
 		s.checkRolesInitialized,
 		s.checkPermissionsInitialized,
 		s.checkUsersInitialized,
-		s.checkDomainsInitialized,
+		s.checkTenantsInitialized,
 		s.checkCasbinPoliciesInitialized,
 	}
 
@@ -76,9 +76,10 @@ func (s *Service) initUsers(ctx context.Context) error {
 		}
 
 		// update user password
-		if err := s.us.User.UpdatePassword(ctx, &userStructs.UserPassword{
+		if err = s.us.User.UpdatePassword(ctx, &userStructs.UserPassword{
 			User:        createdUser.Username,
 			NewPassword: "Ac123456",
+			Confirm:     "Ac123456",
 		}); err != nil {
 			log.Errorf(ctx, "initUsers error on update user password: %v\n", err)
 			return err
@@ -149,8 +150,8 @@ func (s *Service) initUsers(ctx context.Context) error {
 	return nil
 }
 
-// checkDomainsInitialized checks if domains are already initialized.
-func (s *Service) checkDomainsInitialized(ctx context.Context) error {
+// checkTenantsInitialized checks if domains are already initialized.
+func (s *Service) checkTenantsInitialized(ctx context.Context) error {
 	params := &tenantStructs.ListTenantParams{}
 	count := s.ts.Tenant.CountX(ctx, params)
 	if count == 0 {
@@ -320,7 +321,9 @@ func (s *Service) initPermissions(ctx context.Context) error {
 			switch role.Slug {
 			case "super-admin":
 				// Super Admin gets all permissions
-				assignPermission = true
+				if perm.Action == "*" && perm.Subject == "*" {
+					assignPermission = true
+				}
 			case "admin":
 				// Admin gets read and write permissions
 				if perm.Action == "GET" || perm.Action == "POST" || perm.Action == "PUT" || perm.Action == "DELETE" {

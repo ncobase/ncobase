@@ -3,19 +3,17 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/cache"
+	"ncobase/common/log"
+	"ncobase/common/meili"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/feature/resource/data"
 	"ncobase/feature/resource/data/ent"
 	assetEnt "ncobase/feature/resource/data/ent/asset"
 	"ncobase/feature/resource/structs"
-	"time"
-
-	"ncobase/common/cache"
-	"ncobase/common/log"
-	"ncobase/common/meili"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -43,7 +41,7 @@ func NewAssetRepository(d *data.Data) AssetRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &assetRepostory{ec, rc, ms, cache.NewCache[ent.Asset](rc, "nb_asset")}
+	return &assetRepostory{ec, rc, ms, cache.NewCache[ent.Asset](rc, "ncse_asset")}
 }
 
 // Create creates an asset.
@@ -239,9 +237,9 @@ func (r *assetRepostory) List(ctx context.Context, params *structs.ListAssetPara
 		if params.Direction == "backward" {
 			builder.Where(
 				assetEnt.Or(
-					assetEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					assetEnt.CreatedAtGT(timestamp),
 					assetEnt.And(
-						assetEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						assetEnt.CreatedAtEQ(timestamp),
 						assetEnt.IDGT(id),
 					),
 				),
@@ -249,9 +247,9 @@ func (r *assetRepostory) List(ctx context.Context, params *structs.ListAssetPara
 		} else {
 			builder.Where(
 				assetEnt.Or(
-					assetEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					assetEnt.CreatedAtLT(timestamp),
 					assetEnt.And(
-						assetEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						assetEnt.CreatedAtEQ(timestamp),
 						assetEnt.IDLT(id),
 					),
 				),

@@ -3,7 +3,6 @@ package structs
 import (
 	"fmt"
 	"ncobase/common/types"
-	"time"
 )
 
 // RoleBody represents a role entity.
@@ -37,13 +36,13 @@ type ReadRole struct {
 	Description string      `json:"description"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	CreatedBy   *string     `json:"created_by,omitempty"`
-	CreatedAt   *time.Time  `json:"created_at,omitempty"`
+	CreatedAt   *int64      `json:"created_at,omitempty"`
 	UpdatedBy   *string     `json:"updated_by,omitempty"`
-	UpdatedAt   *time.Time  `json:"updated_at,omitempty"`
+	UpdatedAt   *int64      `json:"updated_at,omitempty"`
 }
 
 func (r *ReadRole) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
 }
 
 // FindRole represents the parameters for finding a role.

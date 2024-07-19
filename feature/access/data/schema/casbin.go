@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // CasbinRule holds the schema definition for the CasbinRule entity.
@@ -17,7 +18,7 @@ type CasbinRule struct {
 
 // Annotations of the CasbinRule.
 func (CasbinRule) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "casbin_rule"}, "_")
+	table := strings.Join([]string{"ncse", "casbin_rule"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -53,7 +54,9 @@ func (CasbinRule) Edges() []ent.Edge {
 
 // Indexes of the CasbinRule.
 func (CasbinRule) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }
 
 // Policy of the CasbinRule.

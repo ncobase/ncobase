@@ -3,8 +3,6 @@ package structs
 import (
 	"fmt"
 	"mime/multipart"
-	"time"
-
 	"ncobase/common/types"
 )
 
@@ -57,13 +55,13 @@ type ReadAsset struct {
 	TenantID  string      `json:"tenant_id"`
 	Extras    *types.JSON `json:"extras,omitempty"`
 	CreatedBy *string     `json:"created_by,omitempty"`
-	CreatedAt *time.Time  `json:"created_at,omitempty"`
+	CreatedAt *int64      `json:"created_at,omitempty"`
 	UpdatedBy *string     `json:"updated_by,omitempty"`
-	UpdatedAt *time.Time  `json:"updated_at,omitempty"`
+	UpdatedAt *int64      `json:"updated_at,omitempty"`
 }
 
 func (r *ReadAsset) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
 }
 
 // ListAssetParams represents the parameters for listing assets.

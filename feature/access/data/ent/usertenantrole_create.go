@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/access/data/ent/usertenantrole"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -90,29 +89,29 @@ func (utrc *UserTenantRoleCreate) SetNillableUpdatedBy(s *string) *UserTenantRol
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (utrc *UserTenantRoleCreate) SetCreatedAt(t time.Time) *UserTenantRoleCreate {
-	utrc.mutation.SetCreatedAt(t)
+func (utrc *UserTenantRoleCreate) SetCreatedAt(i int64) *UserTenantRoleCreate {
+	utrc.mutation.SetCreatedAt(i)
 	return utrc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (utrc *UserTenantRoleCreate) SetNillableCreatedAt(t *time.Time) *UserTenantRoleCreate {
-	if t != nil {
-		utrc.SetCreatedAt(*t)
+func (utrc *UserTenantRoleCreate) SetNillableCreatedAt(i *int64) *UserTenantRoleCreate {
+	if i != nil {
+		utrc.SetCreatedAt(*i)
 	}
 	return utrc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (utrc *UserTenantRoleCreate) SetUpdatedAt(t time.Time) *UserTenantRoleCreate {
-	utrc.mutation.SetUpdatedAt(t)
+func (utrc *UserTenantRoleCreate) SetUpdatedAt(i int64) *UserTenantRoleCreate {
+	utrc.mutation.SetUpdatedAt(i)
 	return utrc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (utrc *UserTenantRoleCreate) SetNillableUpdatedAt(t *time.Time) *UserTenantRoleCreate {
-	if t != nil {
-		utrc.SetUpdatedAt(*t)
+func (utrc *UserTenantRoleCreate) SetNillableUpdatedAt(i *int64) *UserTenantRoleCreate {
+	if i != nil {
+		utrc.SetUpdatedAt(*i)
 	}
 	return utrc
 }
@@ -268,11 +267,11 @@ func (utrc *UserTenantRoleCreate) createSpec() (*UserTenantRole, *sqlgraph.Creat
 		_node.UpdatedBy = value
 	}
 	if value, ok := utrc.mutation.CreatedAt(); ok {
-		_spec.SetField(usertenantrole.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(usertenantrole.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := utrc.mutation.UpdatedAt(); ok {
-		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(usertenantrole.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

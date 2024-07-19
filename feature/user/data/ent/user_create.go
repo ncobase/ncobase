@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/feature/user/data/ent/user"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -125,29 +124,29 @@ func (uc *UserCreate) SetExtras(m map[string]interface{}) *UserCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (uc *UserCreate) SetCreatedAt(t time.Time) *UserCreate {
-	uc.mutation.SetCreatedAt(t)
+func (uc *UserCreate) SetCreatedAt(i int64) *UserCreate {
+	uc.mutation.SetCreatedAt(i)
 	return uc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (uc *UserCreate) SetNillableCreatedAt(t *time.Time) *UserCreate {
-	if t != nil {
-		uc.SetCreatedAt(*t)
+func (uc *UserCreate) SetNillableCreatedAt(i *int64) *UserCreate {
+	if i != nil {
+		uc.SetCreatedAt(*i)
 	}
 	return uc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (uc *UserCreate) SetUpdatedAt(t time.Time) *UserCreate {
-	uc.mutation.SetUpdatedAt(t)
+func (uc *UserCreate) SetUpdatedAt(i int64) *UserCreate {
+	uc.mutation.SetUpdatedAt(i)
 	return uc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (uc *UserCreate) SetNillableUpdatedAt(t *time.Time) *UserCreate {
-	if t != nil {
-		uc.SetUpdatedAt(*t)
+func (uc *UserCreate) SetNillableUpdatedAt(i *int64) *UserCreate {
+	if i != nil {
+		uc.SetUpdatedAt(*i)
 	}
 	return uc
 }
@@ -314,11 +313,11 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_node.Extras = value
 	}
 	if value, ok := uc.mutation.CreatedAt(); ok {
-		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(user.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := uc.mutation.UpdatedAt(); ok {
-		_spec.SetField(user.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(user.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

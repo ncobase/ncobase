@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // Group holds the schema definition for the Group entity.
@@ -17,7 +18,7 @@ type Group struct {
 
 // Annotations of the Group.
 func (Group) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "group"}, "_")
+	table := strings.Join([]string{"ncse", "group"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -54,5 +55,7 @@ func (Group) Edges() []ent.Edge {
 
 // Indexes of the Group.
 func (Group) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

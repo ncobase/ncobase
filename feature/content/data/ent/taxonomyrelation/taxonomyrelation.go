@@ -3,8 +3,6 @@
 package taxonomyrelation
 
 import (
-	"time"
-
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -26,7 +24,7 @@ const (
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
 	// Table holds the table name of the taxonomyrelation in the database.
-	Table = "nb_taxonomy_relation"
+	Table = "ncse_taxonomy_relation"
 )
 
 // Columns holds all SQL columns for taxonomyrelation fields.
@@ -60,7 +58,7 @@ var (
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	CreatedByValidator func(string) error
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
-	DefaultCreatedAt func() time.Time
+	DefaultCreatedAt func() int64
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.

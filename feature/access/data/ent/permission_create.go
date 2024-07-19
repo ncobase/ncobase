@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/access/data/ent/permission"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -138,29 +137,29 @@ func (pc *PermissionCreate) SetNillableUpdatedBy(s *string) *PermissionCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (pc *PermissionCreate) SetCreatedAt(t time.Time) *PermissionCreate {
-	pc.mutation.SetCreatedAt(t)
+func (pc *PermissionCreate) SetCreatedAt(i int64) *PermissionCreate {
+	pc.mutation.SetCreatedAt(i)
 	return pc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableCreatedAt(t *time.Time) *PermissionCreate {
-	if t != nil {
-		pc.SetCreatedAt(*t)
+func (pc *PermissionCreate) SetNillableCreatedAt(i *int64) *PermissionCreate {
+	if i != nil {
+		pc.SetCreatedAt(*i)
 	}
 	return pc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pc *PermissionCreate) SetUpdatedAt(t time.Time) *PermissionCreate {
-	pc.mutation.SetUpdatedAt(t)
+func (pc *PermissionCreate) SetUpdatedAt(i int64) *PermissionCreate {
+	pc.mutation.SetUpdatedAt(i)
 	return pc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableUpdatedAt(t *time.Time) *PermissionCreate {
-	if t != nil {
-		pc.SetUpdatedAt(*t)
+func (pc *PermissionCreate) SetNillableUpdatedAt(i *int64) *PermissionCreate {
+	if i != nil {
+		pc.SetUpdatedAt(*i)
 	}
 	return pc
 }
@@ -329,11 +328,11 @@ func (pc *PermissionCreate) createSpec() (*Permission, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := pc.mutation.CreatedAt(); ok {
-		_spec.SetField(permission.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(permission.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := pc.mutation.UpdatedAt(); ok {
-		_spec.SetField(permission.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(permission.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

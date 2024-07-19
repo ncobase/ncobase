@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/predicate"
 	"ncobase/feature/access/data/ent/userrole"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -109,8 +108,15 @@ func (uru *UserRoleUpdate) ClearUpdatedBy() *UserRoleUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (uru *UserRoleUpdate) SetUpdatedAt(t time.Time) *UserRoleUpdate {
-	uru.mutation.SetUpdatedAt(t)
+func (uru *UserRoleUpdate) SetUpdatedAt(i int64) *UserRoleUpdate {
+	uru.mutation.ResetUpdatedAt()
+	uru.mutation.SetUpdatedAt(i)
+	return uru
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (uru *UserRoleUpdate) AddUpdatedAt(i int64) *UserRoleUpdate {
+	uru.mutation.AddUpdatedAt(i)
 	return uru
 }
 
@@ -223,13 +229,16 @@ func (uru *UserRoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(userrole.FieldUpdatedBy, field.TypeString)
 	}
 	if uru.mutation.CreatedAtCleared() {
-		_spec.ClearField(userrole.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(userrole.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := uru.mutation.UpdatedAt(); ok {
-		_spec.SetField(userrole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(userrole.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := uru.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(userrole.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if uru.mutation.UpdatedAtCleared() {
-		_spec.ClearField(userrole.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(userrole.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -332,8 +341,15 @@ func (uruo *UserRoleUpdateOne) ClearUpdatedBy() *UserRoleUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (uruo *UserRoleUpdateOne) SetUpdatedAt(t time.Time) *UserRoleUpdateOne {
-	uruo.mutation.SetUpdatedAt(t)
+func (uruo *UserRoleUpdateOne) SetUpdatedAt(i int64) *UserRoleUpdateOne {
+	uruo.mutation.ResetUpdatedAt()
+	uruo.mutation.SetUpdatedAt(i)
+	return uruo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (uruo *UserRoleUpdateOne) AddUpdatedAt(i int64) *UserRoleUpdateOne {
+	uruo.mutation.AddUpdatedAt(i)
 	return uruo
 }
 
@@ -476,13 +492,16 @@ func (uruo *UserRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserRole, er
 		_spec.ClearField(userrole.FieldUpdatedBy, field.TypeString)
 	}
 	if uruo.mutation.CreatedAtCleared() {
-		_spec.ClearField(userrole.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(userrole.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := uruo.mutation.UpdatedAt(); ok {
-		_spec.SetField(userrole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(userrole.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := uruo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(userrole.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if uruo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(userrole.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(userrole.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &UserRole{config: uruo.config}
 	_spec.Assign = _node.assignValues

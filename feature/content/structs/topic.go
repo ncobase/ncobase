@@ -2,7 +2,6 @@ package structs
 
 import (
 	"fmt"
-	"time"
 )
 
 // FindTopic represents the parameters for finding a topic.
@@ -14,20 +13,20 @@ type FindTopic struct {
 
 // TopicBody represents the common fields for creating and updating topics.
 type TopicBody struct {
-	Name       string    `json:"name,omitempty"`
-	Title      string    `json:"title,omitempty"`
-	Slug       string    `json:"slug,omitempty"`
-	Content    string    `json:"content,omitempty"`
-	Thumbnail  string    `json:"thumbnail,omitempty"`
-	Temp       bool      `json:"temp,omitempty"`
-	Markdown   bool      `json:"markdown,omitempty"`
-	Private    bool      `json:"private,omitempty"`
-	Status     int       `json:"status,omitempty"`
-	Released   time.Time `json:"released,omitempty"`
-	TaxonomyID string    `json:"taxonomy_id,omitempty"`
-	TenantID   string    `json:"tenant_id,omitempty"`
-	CreatedBy  *string   `json:"created_by,omitempty"`
-	UpdatedBy  *string   `json:"updated_by,omitempty"`
+	Name       string  `json:"name,omitempty"`
+	Title      string  `json:"title,omitempty"`
+	Slug       string  `json:"slug,omitempty"`
+	Content    string  `json:"content,omitempty"`
+	Thumbnail  string  `json:"thumbnail,omitempty"`
+	Temp       bool    `json:"temp,omitempty"`
+	Markdown   bool    `json:"markdown,omitempty"`
+	Private    bool    `json:"private,omitempty"`
+	Status     int     `json:"status,omitempty"`
+	Released   int64   `json:"released,omitempty"`
+	TaxonomyID string  `json:"taxonomy_id,omitempty"`
+	TenantID   string  `json:"tenant_id,omitempty"`
+	CreatedBy  *string `json:"created_by,omitempty"`
+	UpdatedBy  *string `json:"updated_by,omitempty"`
 }
 
 // CreateTopicBody represents the body for creating a topic.
@@ -43,27 +42,27 @@ type UpdateTopicBody struct {
 
 // ReadTopic represents the output schema for retrieving a topic.
 type ReadTopic struct {
-	ID         string     `json:"id"`
-	Name       string     `json:"name"`
-	Title      string     `json:"title"`
-	Slug       string     `json:"slug"`
-	Content    string     `json:"content"`
-	Thumbnail  string     `json:"thumbnail"`
-	Temp       bool       `json:"temp"`
-	Markdown   bool       `json:"markdown"`
-	Private    bool       `json:"private"`
-	Status     int        `json:"status"`
-	Released   time.Time  `json:"released"`
-	TaxonomyID string     `json:"taxonomy_id"`
-	TenantID   string     `json:"tenant_id"`
-	CreatedBy  *string    `json:"created_by,omitempty"`
-	CreatedAt  *time.Time `json:"created_at,omitempty"`
-	UpdatedBy  *string    `json:"updated_by,omitempty"`
-	UpdatedAt  *time.Time `json:"updated_at,omitempty"`
+	ID         string  `json:"id"`
+	Name       string  `json:"name"`
+	Title      string  `json:"title"`
+	Slug       string  `json:"slug"`
+	Content    string  `json:"content"`
+	Thumbnail  string  `json:"thumbnail"`
+	Temp       bool    `json:"temp"`
+	Markdown   bool    `json:"markdown"`
+	Private    bool    `json:"private"`
+	Status     int     `json:"status"`
+	Released   int64   `json:"released"`
+	TaxonomyID string  `json:"taxonomy_id"`
+	TenantID   string  `json:"tenant_id"`
+	CreatedBy  *string `json:"created_by,omitempty"`
+	CreatedAt  *int64  `json:"created_at,omitempty"`
+	UpdatedBy  *string `json:"updated_by,omitempty"`
+	UpdatedAt  *int64  `json:"updated_at,omitempty"`
 }
 
 func (r *ReadTopic) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
 }
 
 // ListTopicParams represents the parameters for listing topics.

@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // Asset holds the schema definition for the Asset entity.
@@ -17,7 +18,7 @@ type Asset struct {
 
 // Annotations of the Asset.
 func (Asset) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "asset"}, "_")
+	table := strings.Join([]string{"ncse", "asset"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -56,5 +57,7 @@ func (Asset) Edges() []ent.Edge {
 
 // Indexes of the Asset.
 func (Asset) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

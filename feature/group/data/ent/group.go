@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/feature/group/data/ent/group"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -40,9 +39,9 @@ type Group struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -55,10 +54,10 @@ func (*Group) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case group.FieldDisabled:
 			values[i] = new(sql.NullBool)
+		case group.FieldCreatedAt, group.FieldUpdatedAt:
+			values[i] = new(sql.NullInt64)
 		case group.FieldID, group.FieldName, group.FieldSlug, group.FieldDescription, group.FieldParentID, group.FieldTenantID, group.FieldCreatedBy, group.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case group.FieldCreatedAt, group.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -145,16 +144,16 @@ func (gr *Group) assignValues(columns []string, values []any) error {
 				gr.UpdatedBy = value.String
 			}
 		case group.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				gr.CreatedAt = value.Time
+				gr.CreatedAt = value.Int64
 			}
 		case group.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				gr.UpdatedAt = value.Time
+				gr.UpdatedAt = value.Int64
 			}
 		default:
 			gr.selectValues.Set(columns[i], values[i])
@@ -223,10 +222,10 @@ func (gr *Group) String() string {
 	builder.WriteString(gr.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(gr.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", gr.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(gr.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", gr.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -3,18 +3,16 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/cache"
+	"ncobase/common/log"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/data/ent"
 	roleEnt "ncobase/feature/access/data/ent/role"
 	"ncobase/feature/access/structs"
-	"time"
-
-	"ncobase/common/cache"
-	"ncobase/common/log"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -43,7 +41,7 @@ type roleRepository struct {
 func NewRoleRepository(d *data.Data) RoleRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &roleRepository{ec, rc, cache.NewCache[ent.Role](rc, "nb_role")}
+	return &roleRepository{ec, rc, cache.NewCache[ent.Role](rc, "ncse_role")}
 }
 
 // Create creates a new role.
@@ -198,9 +196,9 @@ func (r *roleRepository) List(ctx context.Context, params *structs.ListRoleParam
 		if params.Direction == "backward" {
 			builder.Where(
 				roleEnt.Or(
-					roleEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					roleEnt.CreatedAtGT(timestamp),
 					roleEnt.And(
-						roleEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						roleEnt.CreatedAtEQ(timestamp),
 						roleEnt.IDGT(id),
 					),
 				),
@@ -208,9 +206,9 @@ func (r *roleRepository) List(ctx context.Context, params *structs.ListRoleParam
 		} else {
 			builder.Where(
 				roleEnt.Or(
-					roleEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					roleEnt.CreatedAtLT(timestamp),
 					roleEnt.And(
-						roleEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						roleEnt.CreatedAtEQ(timestamp),
 						roleEnt.IDLT(id),
 					),
 				),

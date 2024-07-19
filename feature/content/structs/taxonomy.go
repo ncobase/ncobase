@@ -2,8 +2,6 @@ package structs
 
 import (
 	"fmt"
-	"time"
-
 	"ncobase/common/types"
 )
 
@@ -64,13 +62,13 @@ type ReadTaxonomy struct {
 	ParentID    string      `json:"parent_id"`
 	TenantID    string      `json:"tenant_id"`
 	CreatedBy   *string     `json:"created_by,omitempty"`
-	CreatedAt   *time.Time  `json:"created_at,omitempty"`
+	CreatedAt   *int64      `json:"created_at,omitempty"`
 	UpdatedBy   *string     `json:"updated_by,omitempty"`
-	UpdatedAt   *time.Time  `json:"updated_at,omitempty"`
+	UpdatedAt   *int64      `json:"updated_at,omitempty"`
 }
 
 func (r *ReadTaxonomy) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt.UnixMilli())
+	return fmt.Sprintf("%s:%d", r.ID, r.CreatedAt)
 }
 
 // ListTaxonomyParams represents the query parameters for listing taxonomies.

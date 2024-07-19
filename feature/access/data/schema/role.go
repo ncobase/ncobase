@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // Role holds the schema definition for the Role entity.
@@ -17,7 +18,7 @@ type Role struct {
 
 // Annotations of the Role.
 func (Role) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "role"}, "_")
+	table := strings.Join([]string{"ncse", "role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -51,5 +52,7 @@ func (Role) Edges() []ent.Edge {
 
 // Indexes of the Role.
 func (Role) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

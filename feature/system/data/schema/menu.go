@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // Menu holds the schema definition for the Menu entity.
@@ -17,7 +18,7 @@ type Menu struct {
 
 // Annotations of the Menu.
 func (Menu) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "menu"}, "_")
+	table := strings.Join([]string{"ncse", "menu"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -60,5 +61,7 @@ func (Menu) Edges() []ent.Edge {
 
 // Indexes of the Menu.
 func (Menu) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

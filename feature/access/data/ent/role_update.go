@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/predicate"
 	"ncobase/feature/access/data/ent/role"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -161,8 +160,15 @@ func (ru *RoleUpdate) ClearUpdatedBy() *RoleUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ru *RoleUpdate) SetUpdatedAt(t time.Time) *RoleUpdate {
-	ru.mutation.SetUpdatedAt(t)
+func (ru *RoleUpdate) SetUpdatedAt(i int64) *RoleUpdate {
+	ru.mutation.ResetUpdatedAt()
+	ru.mutation.SetUpdatedAt(i)
+	return ru
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (ru *RoleUpdate) AddUpdatedAt(i int64) *RoleUpdate {
+	ru.mutation.AddUpdatedAt(i)
 	return ru
 }
 
@@ -283,13 +289,16 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(role.FieldUpdatedBy, field.TypeString)
 	}
 	if ru.mutation.CreatedAtCleared() {
-		_spec.ClearField(role.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(role.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := ru.mutation.UpdatedAt(); ok {
-		_spec.SetField(role.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(role.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := ru.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(role.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if ru.mutation.UpdatedAtCleared() {
-		_spec.ClearField(role.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(role.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -444,8 +453,15 @@ func (ruo *RoleUpdateOne) ClearUpdatedBy() *RoleUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ruo *RoleUpdateOne) SetUpdatedAt(t time.Time) *RoleUpdateOne {
-	ruo.mutation.SetUpdatedAt(t)
+func (ruo *RoleUpdateOne) SetUpdatedAt(i int64) *RoleUpdateOne {
+	ruo.mutation.ResetUpdatedAt()
+	ruo.mutation.SetUpdatedAt(i)
+	return ruo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (ruo *RoleUpdateOne) AddUpdatedAt(i int64) *RoleUpdateOne {
+	ruo.mutation.AddUpdatedAt(i)
 	return ruo
 }
 
@@ -596,13 +612,16 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 		_spec.ClearField(role.FieldUpdatedBy, field.TypeString)
 	}
 	if ruo.mutation.CreatedAtCleared() {
-		_spec.ClearField(role.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(role.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := ruo.mutation.UpdatedAt(); ok {
-		_spec.SetField(role.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(role.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := ruo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(role.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if ruo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(role.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(role.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &Role{config: ruo.config}
 	_spec.Assign = _node.assignValues

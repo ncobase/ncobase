@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/feature/content/data/ent/taxonomyrelation"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -91,15 +90,15 @@ func (trc *TaxonomyRelationCreate) SetNillableCreatedBy(s *string) *TaxonomyRela
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (trc *TaxonomyRelationCreate) SetCreatedAt(t time.Time) *TaxonomyRelationCreate {
-	trc.mutation.SetCreatedAt(t)
+func (trc *TaxonomyRelationCreate) SetCreatedAt(i int64) *TaxonomyRelationCreate {
+	trc.mutation.SetCreatedAt(i)
 	return trc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (trc *TaxonomyRelationCreate) SetNillableCreatedAt(t *time.Time) *TaxonomyRelationCreate {
-	if t != nil {
-		trc.SetCreatedAt(*t)
+func (trc *TaxonomyRelationCreate) SetNillableCreatedAt(i *int64) *TaxonomyRelationCreate {
+	if i != nil {
+		trc.SetCreatedAt(*i)
 	}
 	return trc
 }
@@ -248,7 +247,7 @@ func (trc *TaxonomyRelationCreate) createSpec() (*TaxonomyRelation, *sqlgraph.Cr
 		_node.CreatedBy = value
 	}
 	if value, ok := trc.mutation.CreatedAt(); ok {
-		_spec.SetField(taxonomyrelation.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(taxonomyrelation.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	return _node, _spec

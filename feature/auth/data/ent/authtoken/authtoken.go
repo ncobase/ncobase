@@ -3,8 +3,6 @@
 package authtoken
 
 import (
-	"time"
-
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -22,7 +20,7 @@ const (
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
 	// Table holds the table name of the authtoken in the database.
-	Table = "nb_auth_token"
+	Table = "ncse_auth_token"
 )
 
 // Columns holds all SQL columns for authtoken fields.
@@ -48,11 +46,11 @@ var (
 	// DefaultDisabled holds the default value on creation for the "disabled" field.
 	DefaultDisabled bool
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
-	DefaultCreatedAt func() time.Time
+	DefaultCreatedAt func() int64
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
-	DefaultUpdatedAt func() time.Time
+	DefaultUpdatedAt func() int64
 	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
-	UpdateDefaultUpdatedAt func() time.Time
+	UpdateDefaultUpdatedAt func() int64
 	// UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
 	UserIDValidator func(string) error
 	// DefaultID holds the default value on creation for the "id" field.

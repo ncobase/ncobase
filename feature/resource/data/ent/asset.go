@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/feature/resource/data/ent/asset"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -44,9 +43,9 @@ type Asset struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -57,12 +56,10 @@ func (*Asset) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case asset.FieldExtras:
 			values[i] = new([]byte)
-		case asset.FieldSize:
+		case asset.FieldSize, asset.FieldCreatedAt, asset.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
 		case asset.FieldID, asset.FieldName, asset.FieldPath, asset.FieldType, asset.FieldStorage, asset.FieldBucket, asset.FieldEndpoint, asset.FieldObjectID, asset.FieldTenantID, asset.FieldCreatedBy, asset.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case asset.FieldCreatedAt, asset.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -159,16 +156,16 @@ func (a *Asset) assignValues(columns []string, values []any) error {
 				a.UpdatedBy = value.String
 			}
 		case asset.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				a.CreatedAt = value.Time
+				a.CreatedAt = value.Int64
 			}
 		case asset.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				a.UpdatedAt = value.Time
+				a.UpdatedAt = value.Int64
 			}
 		default:
 			a.selectValues.Set(columns[i], values[i])
@@ -243,10 +240,10 @@ func (a *Asset) String() string {
 	builder.WriteString(a.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(a.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", a.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(a.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", a.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

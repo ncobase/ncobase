@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/access/data/ent/userrole"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -76,29 +75,29 @@ func (urc *UserRoleCreate) SetNillableUpdatedBy(s *string) *UserRoleCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (urc *UserRoleCreate) SetCreatedAt(t time.Time) *UserRoleCreate {
-	urc.mutation.SetCreatedAt(t)
+func (urc *UserRoleCreate) SetCreatedAt(i int64) *UserRoleCreate {
+	urc.mutation.SetCreatedAt(i)
 	return urc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableCreatedAt(t *time.Time) *UserRoleCreate {
-	if t != nil {
-		urc.SetCreatedAt(*t)
+func (urc *UserRoleCreate) SetNillableCreatedAt(i *int64) *UserRoleCreate {
+	if i != nil {
+		urc.SetCreatedAt(*i)
 	}
 	return urc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (urc *UserRoleCreate) SetUpdatedAt(t time.Time) *UserRoleCreate {
-	urc.mutation.SetUpdatedAt(t)
+func (urc *UserRoleCreate) SetUpdatedAt(i int64) *UserRoleCreate {
+	urc.mutation.SetUpdatedAt(i)
 	return urc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableUpdatedAt(t *time.Time) *UserRoleCreate {
-	if t != nil {
-		urc.SetUpdatedAt(*t)
+func (urc *UserRoleCreate) SetNillableUpdatedAt(i *int64) *UserRoleCreate {
+	if i != nil {
+		urc.SetUpdatedAt(*i)
 	}
 	return urc
 }
@@ -245,11 +244,11 @@ func (urc *UserRoleCreate) createSpec() (*UserRole, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := urc.mutation.CreatedAt(); ok {
-		_spec.SetField(userrole.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(userrole.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := urc.mutation.UpdatedAt(); ok {
-		_spec.SetField(userrole.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(userrole.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

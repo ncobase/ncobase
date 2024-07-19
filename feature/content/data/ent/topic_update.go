@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/content/data/ent/predicate"
 	"ncobase/feature/content/data/ent/topic"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -210,16 +209,23 @@ func (tu *TopicUpdate) AddStatus(i int) *TopicUpdate {
 }
 
 // SetReleased sets the "released" field.
-func (tu *TopicUpdate) SetReleased(t time.Time) *TopicUpdate {
-	tu.mutation.SetReleased(t)
+func (tu *TopicUpdate) SetReleased(i int64) *TopicUpdate {
+	tu.mutation.ResetReleased()
+	tu.mutation.SetReleased(i)
 	return tu
 }
 
 // SetNillableReleased sets the "released" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableReleased(t *time.Time) *TopicUpdate {
-	if t != nil {
-		tu.SetReleased(*t)
+func (tu *TopicUpdate) SetNillableReleased(i *int64) *TopicUpdate {
+	if i != nil {
+		tu.SetReleased(*i)
 	}
+	return tu
+}
+
+// AddReleased adds i to the "released" field.
+func (tu *TopicUpdate) AddReleased(i int64) *TopicUpdate {
+	tu.mutation.AddReleased(i)
 	return tu
 }
 
@@ -310,8 +316,15 @@ func (tu *TopicUpdate) ClearUpdatedBy() *TopicUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tu *TopicUpdate) SetUpdatedAt(t time.Time) *TopicUpdate {
-	tu.mutation.SetUpdatedAt(t)
+func (tu *TopicUpdate) SetUpdatedAt(i int64) *TopicUpdate {
+	tu.mutation.ResetUpdatedAt()
+	tu.mutation.SetUpdatedAt(i)
+	return tu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (tu *TopicUpdate) AddUpdatedAt(i int64) *TopicUpdate {
+	tu.mutation.AddUpdatedAt(i)
 	return tu
 }
 
@@ -454,10 +467,13 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.AddField(topic.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tu.mutation.Released(); ok {
-		_spec.SetField(topic.FieldReleased, field.TypeTime, value)
+		_spec.SetField(topic.FieldReleased, field.TypeInt64, value)
+	}
+	if value, ok := tu.mutation.AddedReleased(); ok {
+		_spec.AddField(topic.FieldReleased, field.TypeInt64, value)
 	}
 	if tu.mutation.ReleasedCleared() {
-		_spec.ClearField(topic.FieldReleased, field.TypeTime)
+		_spec.ClearField(topic.FieldReleased, field.TypeInt64)
 	}
 	if value, ok := tu.mutation.TaxonomyID(); ok {
 		_spec.SetField(topic.FieldTaxonomyID, field.TypeString, value)
@@ -484,13 +500,16 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(topic.FieldUpdatedBy, field.TypeString)
 	}
 	if tu.mutation.CreatedAtCleared() {
-		_spec.ClearField(topic.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(topic.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := tu.mutation.UpdatedAt(); ok {
-		_spec.SetField(topic.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(topic.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := tu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(topic.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if tu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(topic.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(topic.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -694,16 +713,23 @@ func (tuo *TopicUpdateOne) AddStatus(i int) *TopicUpdateOne {
 }
 
 // SetReleased sets the "released" field.
-func (tuo *TopicUpdateOne) SetReleased(t time.Time) *TopicUpdateOne {
-	tuo.mutation.SetReleased(t)
+func (tuo *TopicUpdateOne) SetReleased(i int64) *TopicUpdateOne {
+	tuo.mutation.ResetReleased()
+	tuo.mutation.SetReleased(i)
 	return tuo
 }
 
 // SetNillableReleased sets the "released" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableReleased(t *time.Time) *TopicUpdateOne {
-	if t != nil {
-		tuo.SetReleased(*t)
+func (tuo *TopicUpdateOne) SetNillableReleased(i *int64) *TopicUpdateOne {
+	if i != nil {
+		tuo.SetReleased(*i)
 	}
+	return tuo
+}
+
+// AddReleased adds i to the "released" field.
+func (tuo *TopicUpdateOne) AddReleased(i int64) *TopicUpdateOne {
+	tuo.mutation.AddReleased(i)
 	return tuo
 }
 
@@ -794,8 +820,15 @@ func (tuo *TopicUpdateOne) ClearUpdatedBy() *TopicUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tuo *TopicUpdateOne) SetUpdatedAt(t time.Time) *TopicUpdateOne {
-	tuo.mutation.SetUpdatedAt(t)
+func (tuo *TopicUpdateOne) SetUpdatedAt(i int64) *TopicUpdateOne {
+	tuo.mutation.ResetUpdatedAt()
+	tuo.mutation.SetUpdatedAt(i)
+	return tuo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (tuo *TopicUpdateOne) AddUpdatedAt(i int64) *TopicUpdateOne {
+	tuo.mutation.AddUpdatedAt(i)
 	return tuo
 }
 
@@ -968,10 +1001,13 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 		_spec.AddField(topic.FieldStatus, field.TypeInt, value)
 	}
 	if value, ok := tuo.mutation.Released(); ok {
-		_spec.SetField(topic.FieldReleased, field.TypeTime, value)
+		_spec.SetField(topic.FieldReleased, field.TypeInt64, value)
+	}
+	if value, ok := tuo.mutation.AddedReleased(); ok {
+		_spec.AddField(topic.FieldReleased, field.TypeInt64, value)
 	}
 	if tuo.mutation.ReleasedCleared() {
-		_spec.ClearField(topic.FieldReleased, field.TypeTime)
+		_spec.ClearField(topic.FieldReleased, field.TypeInt64)
 	}
 	if value, ok := tuo.mutation.TaxonomyID(); ok {
 		_spec.SetField(topic.FieldTaxonomyID, field.TypeString, value)
@@ -998,13 +1034,16 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 		_spec.ClearField(topic.FieldUpdatedBy, field.TypeString)
 	}
 	if tuo.mutation.CreatedAtCleared() {
-		_spec.ClearField(topic.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(topic.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := tuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(topic.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(topic.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := tuo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(topic.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if tuo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(topic.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(topic.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &Topic{config: tuo.config}
 	_spec.Assign = _node.assignValues

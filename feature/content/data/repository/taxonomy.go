@@ -14,7 +14,6 @@ import (
 	"ncobase/feature/content/data/ent"
 	taxonomyEnt "ncobase/feature/content/data/ent/taxonomy"
 	"ncobase/feature/content/structs"
-	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -44,7 +43,7 @@ func NewTaxonomyRepository(d *data.Data) TaxonomyRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &taxonomyRepository{ec, rc, ms, cache.NewCache[ent.Taxonomy](rc, "nb_taxonomy")}
+	return &taxonomyRepository{ec, rc, ms, cache.NewCache[ent.Taxonomy](rc, "ncse_taxonomy")}
 }
 
 // Create create taxonomy
@@ -257,9 +256,9 @@ func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxon
 		if params.Direction == "backward" {
 			builder.Where(
 				taxonomyEnt.Or(
-					taxonomyEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					taxonomyEnt.CreatedAtGT(timestamp),
 					taxonomyEnt.And(
-						taxonomyEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						taxonomyEnt.CreatedAtEQ(timestamp),
 						taxonomyEnt.IDGT(id),
 					),
 				),
@@ -267,9 +266,9 @@ func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxon
 		} else {
 			builder.Where(
 				taxonomyEnt.Or(
-					taxonomyEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					taxonomyEnt.CreatedAtLT(timestamp),
 					taxonomyEnt.And(
-						taxonomyEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						taxonomyEnt.CreatedAtEQ(timestamp),
 						taxonomyEnt.IDLT(id),
 					),
 				),

@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NbGroupColumns holds the columns for the "nb_group" table.
-	NbGroupColumns = []*schema.Column{
+	// NcseGroupColumns holds the columns for the "ncse_group" table.
+	NcseGroupColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
@@ -22,129 +22,144 @@ var (
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbGroupTable holds the schema information for the "nb_group" table.
-	NbGroupTable = &schema.Table{
-		Name:       "nb_group",
-		Columns:    NbGroupColumns,
-		PrimaryKey: []*schema.Column{NbGroupColumns[0]},
+	// NcseGroupTable holds the schema information for the "ncse_group" table.
+	NcseGroupTable = &schema.Table{
+		Name:       "ncse_group",
+		Columns:    NcseGroupColumns,
+		PrimaryKey: []*schema.Column{NcseGroupColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "group_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbGroupColumns[0]},
+				Columns: []*schema.Column{NcseGroupColumns[0]},
 			},
 			{
 				Name:    "group_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NbGroupColumns[2]},
+				Columns: []*schema.Column{NcseGroupColumns[2]},
 			},
 			{
 				Name:    "group_parent_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbGroupColumns[7]},
+				Columns: []*schema.Column{NcseGroupColumns[7]},
 			},
 			{
 				Name:    "group_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbGroupColumns[8]},
+				Columns: []*schema.Column{NcseGroupColumns[8]},
+			},
+			{
+				Name:    "group_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseGroupColumns[0], NcseGroupColumns[11]},
 			},
 		},
 	}
-	// NbGroupRoleColumns holds the columns for the "nb_group_role" table.
-	NbGroupRoleColumns = []*schema.Column{
+	// NcseGroupRoleColumns holds the columns for the "ncse_group_role" table.
+	NcseGroupRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "group id"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbGroupRoleTable holds the schema information for the "nb_group_role" table.
-	NbGroupRoleTable = &schema.Table{
-		Name:       "nb_group_role",
-		Columns:    NbGroupRoleColumns,
-		PrimaryKey: []*schema.Column{NbGroupRoleColumns[0]},
+	// NcseGroupRoleTable holds the schema information for the "ncse_group_role" table.
+	NcseGroupRoleTable = &schema.Table{
+		Name:       "ncse_group_role",
+		Columns:    NcseGroupRoleColumns,
+		PrimaryKey: []*schema.Column{NcseGroupRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "grouprole_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbGroupRoleColumns[0]},
+				Columns: []*schema.Column{NcseGroupRoleColumns[0]},
 			},
 			{
 				Name:    "grouprole_group_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbGroupRoleColumns[1]},
+				Columns: []*schema.Column{NcseGroupRoleColumns[1]},
 			},
 			{
 				Name:    "grouprole_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbGroupRoleColumns[2]},
+				Columns: []*schema.Column{NcseGroupRoleColumns[2]},
+			},
+			{
+				Name:    "grouprole_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseGroupRoleColumns[0], NcseGroupRoleColumns[5]},
 			},
 			{
 				Name:    "grouprole_group_id_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbGroupRoleColumns[1], NbGroupRoleColumns[2]},
+				Columns: []*schema.Column{NcseGroupRoleColumns[1], NcseGroupRoleColumns[2]},
 			},
 		},
 	}
-	// NbUserGroupColumns holds the columns for the "nb_user_group" table.
-	NbUserGroupColumns = []*schema.Column{
+	// NcseUserGroupColumns holds the columns for the "ncse_user_group" table.
+	NcseUserGroupColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
 		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "group id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbUserGroupTable holds the schema information for the "nb_user_group" table.
-	NbUserGroupTable = &schema.Table{
-		Name:       "nb_user_group",
-		Columns:    NbUserGroupColumns,
-		PrimaryKey: []*schema.Column{NbUserGroupColumns[0]},
+	// NcseUserGroupTable holds the schema information for the "ncse_user_group" table.
+	NcseUserGroupTable = &schema.Table{
+		Name:       "ncse_user_group",
+		Columns:    NcseUserGroupColumns,
+		PrimaryKey: []*schema.Column{NcseUserGroupColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "usergroup_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbUserGroupColumns[0]},
+				Columns: []*schema.Column{NcseUserGroupColumns[0]},
 			},
 			{
 				Name:    "usergroup_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserGroupColumns[1]},
+				Columns: []*schema.Column{NcseUserGroupColumns[1]},
 			},
 			{
 				Name:    "usergroup_group_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserGroupColumns[2]},
+				Columns: []*schema.Column{NcseUserGroupColumns[2]},
+			},
+			{
+				Name:    "usergroup_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseUserGroupColumns[0], NcseUserGroupColumns[5]},
 			},
 			{
 				Name:    "usergroup_user_id_group_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbUserGroupColumns[1], NbUserGroupColumns[2]},
+				Columns: []*schema.Column{NcseUserGroupColumns[1], NcseUserGroupColumns[2]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NbGroupTable,
-		NbGroupRoleTable,
-		NbUserGroupTable,
+		NcseGroupTable,
+		NcseGroupRoleTable,
+		NcseUserGroupTable,
 	}
 )
 
 func init() {
-	NbGroupTable.Annotation = &entsql.Annotation{
-		Table: "nb_group",
+	NcseGroupTable.Annotation = &entsql.Annotation{
+		Table: "ncse_group",
 	}
-	NbGroupRoleTable.Annotation = &entsql.Annotation{
-		Table: "nb_group_role",
+	NcseGroupRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_group_role",
 	}
-	NbUserGroupTable.Annotation = &entsql.Annotation{
-		Table: "nb_user_group",
+	NcseUserGroupTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user_group",
 	}
 }

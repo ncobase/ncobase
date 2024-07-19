@@ -18,7 +18,7 @@ type RolePermission struct {
 
 // Annotations of the RolePermission.
 func (RolePermission) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "role_permission"}, "_")
+	table := strings.Join([]string{"ncse", "role_permission"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -50,6 +50,7 @@ func (RolePermission) Edges() []ent.Edge {
 // Indexes of the RolePermission.
 func (RolePermission) Indexes() []ent.Index {
 	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
 		index.Fields("role_id", "permission_id"),
 	}
 }

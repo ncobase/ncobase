@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"ncobase/feature/content/data/ent/taxonomyrelation"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -29,7 +28,7 @@ type TaxonomyRelation struct {
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// created at
-	CreatedAt    time.Time `json:"created_at,omitempty"`
+	CreatedAt    int64 `json:"created_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -38,12 +37,10 @@ func (*TaxonomyRelation) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case taxonomyrelation.FieldOrder:
+		case taxonomyrelation.FieldOrder, taxonomyrelation.FieldCreatedAt:
 			values[i] = new(sql.NullInt64)
 		case taxonomyrelation.FieldID, taxonomyrelation.FieldObjectID, taxonomyrelation.FieldTaxonomyID, taxonomyrelation.FieldType, taxonomyrelation.FieldCreatedBy:
 			values[i] = new(sql.NullString)
-		case taxonomyrelation.FieldCreatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -96,10 +93,10 @@ func (tr *TaxonomyRelation) assignValues(columns []string, values []any) error {
 				tr.CreatedBy = value.String
 			}
 		case taxonomyrelation.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				tr.CreatedAt = value.Time
+				tr.CreatedAt = value.Int64
 			}
 		default:
 			tr.selectValues.Set(columns[i], values[i])
@@ -153,7 +150,7 @@ func (tr *TaxonomyRelation) String() string {
 	builder.WriteString(tr.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(tr.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", tr.CreatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

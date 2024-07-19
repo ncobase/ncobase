@@ -3,19 +3,17 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/cache"
+	"ncobase/common/log"
+	"ncobase/common/meili"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
+	"ncobase/common/types"
+	"ncobase/common/validator"
 	"ncobase/feature/content/data"
 	"ncobase/feature/content/data/ent"
 	topicEnt "ncobase/feature/content/data/ent/topic"
 	"ncobase/feature/content/structs"
-	"time"
-
-	"ncobase/common/cache"
-	"ncobase/common/log"
-	"ncobase/common/meili"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -46,7 +44,7 @@ func NewTopicRepository(d *data.Data) TopicRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &topicRepository{ec, rc, ms, cache.NewCache[ent.Topic](rc, "nb_topic")}
+	return &topicRepository{ec, rc, ms, cache.NewCache[ent.Topic](rc, "ncse_topic")}
 }
 
 // Create creates a new topic.
@@ -175,7 +173,7 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 		case "status":
 			builder.SetStatus(value.(int))
 		case "released":
-			builder.SetNillableReleased(types.ToPointer(value.(time.Time)))
+			builder.SetNillableReleased(types.ToPointer(value.(int64)))
 		case "taxonomy_id":
 			builder.SetNillableTaxonomyID(types.ToPointer(value.(string)))
 		case "tenant_id":
@@ -239,9 +237,9 @@ func (r *topicRepository) List(ctx context.Context, params *structs.ListTopicPar
 		if params.Direction == "backward" {
 			builder.Where(
 				topicEnt.Or(
-					topicEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					topicEnt.CreatedAtGT(timestamp),
 					topicEnt.And(
-						topicEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						topicEnt.CreatedAtEQ(timestamp),
 						topicEnt.IDGT(id),
 					),
 				),
@@ -249,9 +247,9 @@ func (r *topicRepository) List(ctx context.Context, params *structs.ListTopicPar
 		} else {
 			builder.Where(
 				topicEnt.Or(
-					topicEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					topicEnt.CreatedAtLT(timestamp),
 					topicEnt.And(
-						topicEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						topicEnt.CreatedAtEQ(timestamp),
 						topicEnt.IDLT(id),
 					),
 				),

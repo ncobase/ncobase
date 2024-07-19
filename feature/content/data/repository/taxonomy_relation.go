@@ -3,17 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/cache"
+	"ncobase/common/log"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
+	"ncobase/common/validator"
 	"ncobase/feature/content/data"
 	"ncobase/feature/content/data/ent"
 	taxonomyRelationEnt "ncobase/feature/content/data/ent/taxonomyrelation"
 	"ncobase/feature/content/structs"
-	"time"
-
-	"ncobase/common/cache"
-	"ncobase/common/log"
-	"ncobase/common/validator"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -41,7 +39,7 @@ type taxonomyRelationsRepository struct {
 func NewTaxonomyRelationsRepository(d *data.Data) TaxonomyRelationsRepositoryInterface {
 	ec := d.GetEntClient()
 	rc := d.GetRedis()
-	return &taxonomyRelationsRepository{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, "nb_taxonomy_relations")}
+	return &taxonomyRelationsRepository{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations")}
 }
 
 // Create creates a new taxonomy relation.
@@ -138,9 +136,9 @@ func (r *taxonomyRelationsRepository) List(ctx context.Context, params *structs.
 		if params.Direction == "backward" {
 			builder.Where(
 				taxonomyRelationEnt.Or(
-					taxonomyRelationEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					taxonomyRelationEnt.CreatedAtGT(timestamp),
 					taxonomyRelationEnt.And(
-						taxonomyRelationEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						taxonomyRelationEnt.CreatedAtEQ(timestamp),
 						taxonomyRelationEnt.IDGT(id),
 					),
 				),
@@ -148,9 +146,9 @@ func (r *taxonomyRelationsRepository) List(ctx context.Context, params *structs.
 		} else {
 			builder.Where(
 				taxonomyRelationEnt.Or(
-					taxonomyRelationEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					taxonomyRelationEnt.CreatedAtLT(timestamp),
 					taxonomyRelationEnt.And(
-						taxonomyRelationEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						taxonomyRelationEnt.CreatedAtEQ(timestamp),
 						taxonomyRelationEnt.IDLT(id),
 					),
 				),

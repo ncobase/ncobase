@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NbTaxonomyColumns holds the columns for the "nb_taxonomy" table.
-	NbTaxonomyColumns = []*schema.Column{
+	// NcseTaxonomyColumns holds the columns for the "ncse_taxonomy" table.
+	NcseTaxonomyColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
@@ -28,72 +28,82 @@ var (
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbTaxonomyTable holds the schema information for the "nb_taxonomy" table.
-	NbTaxonomyTable = &schema.Table{
-		Name:       "nb_taxonomy",
-		Columns:    NbTaxonomyColumns,
-		PrimaryKey: []*schema.Column{NbTaxonomyColumns[0]},
+	// NcseTaxonomyTable holds the schema information for the "ncse_taxonomy" table.
+	NcseTaxonomyTable = &schema.Table{
+		Name:       "ncse_taxonomy",
+		Columns:    NcseTaxonomyColumns,
+		PrimaryKey: []*schema.Column{NcseTaxonomyColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "taxonomy_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbTaxonomyColumns[0]},
+				Columns: []*schema.Column{NcseTaxonomyColumns[0]},
 			},
 			{
 				Name:    "taxonomy_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NbTaxonomyColumns[3]},
+				Columns: []*schema.Column{NcseTaxonomyColumns[3]},
 			},
 			{
 				Name:    "taxonomy_parent_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyColumns[13]},
+				Columns: []*schema.Column{NcseTaxonomyColumns[13]},
 			},
 			{
 				Name:    "taxonomy_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyColumns[14]},
+				Columns: []*schema.Column{NcseTaxonomyColumns[14]},
+			},
+			{
+				Name:    "taxonomy_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseTaxonomyColumns[0], NcseTaxonomyColumns[17]},
 			},
 		},
 	}
-	// NbTaxonomyRelationColumns holds the columns for the "nb_taxonomy_relation" table.
-	NbTaxonomyRelationColumns = []*schema.Column{
+	// NcseTaxonomyRelationColumns holds the columns for the "ncse_taxonomy_relation" table.
+	NcseTaxonomyRelationColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "object_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "object id"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "taxonomy id"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 	}
-	// NbTaxonomyRelationTable holds the schema information for the "nb_taxonomy_relation" table.
-	NbTaxonomyRelationTable = &schema.Table{
-		Name:       "nb_taxonomy_relation",
-		Columns:    NbTaxonomyRelationColumns,
-		PrimaryKey: []*schema.Column{NbTaxonomyRelationColumns[0]},
+	// NcseTaxonomyRelationTable holds the schema information for the "ncse_taxonomy_relation" table.
+	NcseTaxonomyRelationTable = &schema.Table{
+		Name:       "ncse_taxonomy_relation",
+		Columns:    NcseTaxonomyRelationColumns,
+		PrimaryKey: []*schema.Column{NcseTaxonomyRelationColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "taxonomyrelation_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbTaxonomyRelationColumns[0]},
+				Columns: []*schema.Column{NcseTaxonomyRelationColumns[0]},
 			},
 			{
 				Name:    "taxonomyrelation_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyRelationColumns[1]},
+				Columns: []*schema.Column{NcseTaxonomyRelationColumns[1]},
 			},
 			{
 				Name:    "taxonomyrelation_taxonomy_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbTaxonomyRelationColumns[2]},
+				Columns: []*schema.Column{NcseTaxonomyRelationColumns[2]},
+			},
+			{
+				Name:    "taxonomyrelation_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseTaxonomyRelationColumns[0], NcseTaxonomyRelationColumns[6]},
 			},
 		},
 	}
-	// NbTopicColumns holds the columns for the "nb_topic" table.
-	NbTopicColumns = []*schema.Column{
+	// NcseTopicColumns holds the columns for the "ncse_topic" table.
+	NcseTopicColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
@@ -104,58 +114,63 @@ var (
 		{Name: "markdown", Type: field.TypeBool, Nullable: true, Comment: "is markdown", Default: false},
 		{Name: "private", Type: field.TypeBool, Nullable: true, Comment: "is private", Default: false},
 		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
-		{Name: "released", Type: field.TypeTime, Nullable: true, Comment: "released"},
+		{Name: "released", Type: field.TypeInt64, Nullable: true, Comment: "released"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "taxonomy id"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "updated at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NbTopicTable holds the schema information for the "nb_topic" table.
-	NbTopicTable = &schema.Table{
-		Name:       "nb_topic",
-		Columns:    NbTopicColumns,
-		PrimaryKey: []*schema.Column{NbTopicColumns[0]},
+	// NcseTopicTable holds the schema information for the "ncse_topic" table.
+	NcseTopicTable = &schema.Table{
+		Name:       "ncse_topic",
+		Columns:    NcseTopicColumns,
+		PrimaryKey: []*schema.Column{NcseTopicColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "topic_id",
 				Unique:  true,
-				Columns: []*schema.Column{NbTopicColumns[0]},
+				Columns: []*schema.Column{NcseTopicColumns[0]},
 			},
 			{
 				Name:    "topic_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NbTopicColumns[3]},
+				Columns: []*schema.Column{NcseTopicColumns[3]},
 			},
 			{
 				Name:    "topic_taxonomy_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbTopicColumns[11]},
+				Columns: []*schema.Column{NcseTopicColumns[11]},
 			},
 			{
 				Name:    "topic_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NbTopicColumns[12]},
+				Columns: []*schema.Column{NcseTopicColumns[12]},
+			},
+			{
+				Name:    "topic_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseTopicColumns[0], NcseTopicColumns[15]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NbTaxonomyTable,
-		NbTaxonomyRelationTable,
-		NbTopicTable,
+		NcseTaxonomyTable,
+		NcseTaxonomyRelationTable,
+		NcseTopicTable,
 	}
 )
 
 func init() {
-	NbTaxonomyTable.Annotation = &entsql.Annotation{
-		Table: "nb_taxonomy",
+	NcseTaxonomyTable.Annotation = &entsql.Annotation{
+		Table: "ncse_taxonomy",
 	}
-	NbTaxonomyRelationTable.Annotation = &entsql.Annotation{
-		Table: "nb_taxonomy_relation",
+	NcseTaxonomyRelationTable.Annotation = &entsql.Annotation{
+		Table: "ncse_taxonomy_relation",
 	}
-	NbTopicTable.Annotation = &entsql.Annotation{
-		Table: "nb_topic",
+	NcseTopicTable.Annotation = &entsql.Annotation{
+		Table: "ncse_topic",
 	}
 }

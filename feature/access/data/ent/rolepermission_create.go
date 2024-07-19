@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/access/data/ent/rolepermission"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -76,29 +75,29 @@ func (rpc *RolePermissionCreate) SetNillableUpdatedBy(s *string) *RolePermission
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (rpc *RolePermissionCreate) SetCreatedAt(t time.Time) *RolePermissionCreate {
-	rpc.mutation.SetCreatedAt(t)
+func (rpc *RolePermissionCreate) SetCreatedAt(i int64) *RolePermissionCreate {
+	rpc.mutation.SetCreatedAt(i)
 	return rpc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillableCreatedAt(t *time.Time) *RolePermissionCreate {
-	if t != nil {
-		rpc.SetCreatedAt(*t)
+func (rpc *RolePermissionCreate) SetNillableCreatedAt(i *int64) *RolePermissionCreate {
+	if i != nil {
+		rpc.SetCreatedAt(*i)
 	}
 	return rpc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rpc *RolePermissionCreate) SetUpdatedAt(t time.Time) *RolePermissionCreate {
-	rpc.mutation.SetUpdatedAt(t)
+func (rpc *RolePermissionCreate) SetUpdatedAt(i int64) *RolePermissionCreate {
+	rpc.mutation.SetUpdatedAt(i)
 	return rpc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillableUpdatedAt(t *time.Time) *RolePermissionCreate {
-	if t != nil {
-		rpc.SetUpdatedAt(*t)
+func (rpc *RolePermissionCreate) SetNillableUpdatedAt(i *int64) *RolePermissionCreate {
+	if i != nil {
+		rpc.SetUpdatedAt(*i)
 	}
 	return rpc
 }
@@ -245,11 +244,11 @@ func (rpc *RolePermissionCreate) createSpec() (*RolePermission, *sqlgraph.Create
 		_node.UpdatedBy = value
 	}
 	if value, ok := rpc.mutation.CreatedAt(); ok {
-		_spec.SetField(rolepermission.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(rolepermission.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := rpc.mutation.UpdatedAt(); ok {
-		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

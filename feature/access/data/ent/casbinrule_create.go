@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/access/data/ent/casbinrule"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -146,29 +145,29 @@ func (crc *CasbinRuleCreate) SetNillableUpdatedBy(s *string) *CasbinRuleCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (crc *CasbinRuleCreate) SetCreatedAt(t time.Time) *CasbinRuleCreate {
-	crc.mutation.SetCreatedAt(t)
+func (crc *CasbinRuleCreate) SetCreatedAt(i int64) *CasbinRuleCreate {
+	crc.mutation.SetCreatedAt(i)
 	return crc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableCreatedAt(t *time.Time) *CasbinRuleCreate {
-	if t != nil {
-		crc.SetCreatedAt(*t)
+func (crc *CasbinRuleCreate) SetNillableCreatedAt(i *int64) *CasbinRuleCreate {
+	if i != nil {
+		crc.SetCreatedAt(*i)
 	}
 	return crc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (crc *CasbinRuleCreate) SetUpdatedAt(t time.Time) *CasbinRuleCreate {
-	crc.mutation.SetUpdatedAt(t)
+func (crc *CasbinRuleCreate) SetUpdatedAt(i int64) *CasbinRuleCreate {
+	crc.mutation.SetUpdatedAt(i)
 	return crc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableUpdatedAt(t *time.Time) *CasbinRuleCreate {
-	if t != nil {
-		crc.SetUpdatedAt(*t)
+func (crc *CasbinRuleCreate) SetNillableUpdatedAt(i *int64) *CasbinRuleCreate {
+	if i != nil {
+		crc.SetUpdatedAt(*i)
 	}
 	return crc
 }
@@ -325,11 +324,11 @@ func (crc *CasbinRuleCreate) createSpec() (*CasbinRule, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := crc.mutation.CreatedAt(); ok {
-		_spec.SetField(casbinrule.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(casbinrule.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := crc.mutation.UpdatedAt(); ok {
-		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

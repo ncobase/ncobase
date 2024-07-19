@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"ncobase/common/config"
 	"ncobase/feature"
-	"ncobase/feature/linker/data"
-	"ncobase/feature/linker/handler"
 	"ncobase/feature/linker/service"
 	"sync"
 
@@ -24,9 +22,7 @@ type Linker struct {
 	initialized bool
 	mu          sync.RWMutex
 	fm          *feature.Manager
-	h           *handler.Handler
 	s           *service.Service
-	d           *data.Data
 	cleanup     func(name ...string)
 }
 
@@ -48,11 +44,6 @@ func (l *Linker) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 	if l.initialized {
 		return fmt.Errorf("linker already initialized")
-	}
-
-	l.d, l.cleanup, err = data.New(conf.Data)
-	if err != nil {
-		return err
 	}
 
 	l.fm = fm
@@ -80,8 +71,7 @@ func (l *Linker) PostInit() error {
 	if err != nil {
 		return err
 	}
-	l.s = service.New(l.d, as, us, ts, acs)
-	l.h = handler.New(l.s)
+	l.s = service.New(as, us, ts, acs)
 	// Subscribe to relevant events
 	l.subscribeEvents(l.fm)
 	// initialize data

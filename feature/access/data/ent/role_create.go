@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/feature/access/data/ent/role"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -110,29 +109,29 @@ func (rc *RoleCreate) SetNillableUpdatedBy(s *string) *RoleCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (rc *RoleCreate) SetCreatedAt(t time.Time) *RoleCreate {
-	rc.mutation.SetCreatedAt(t)
+func (rc *RoleCreate) SetCreatedAt(i int64) *RoleCreate {
+	rc.mutation.SetCreatedAt(i)
 	return rc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableCreatedAt(t *time.Time) *RoleCreate {
-	if t != nil {
-		rc.SetCreatedAt(*t)
+func (rc *RoleCreate) SetNillableCreatedAt(i *int64) *RoleCreate {
+	if i != nil {
+		rc.SetCreatedAt(*i)
 	}
 	return rc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rc *RoleCreate) SetUpdatedAt(t time.Time) *RoleCreate {
-	rc.mutation.SetUpdatedAt(t)
+func (rc *RoleCreate) SetUpdatedAt(i int64) *RoleCreate {
+	rc.mutation.SetUpdatedAt(i)
 	return rc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableUpdatedAt(t *time.Time) *RoleCreate {
-	if t != nil {
-		rc.SetUpdatedAt(*t)
+func (rc *RoleCreate) SetNillableUpdatedAt(i *int64) *RoleCreate {
+	if i != nil {
+		rc.SetUpdatedAt(*i)
 	}
 	return rc
 }
@@ -289,11 +288,11 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := rc.mutation.CreatedAt(); ok {
-		_spec.SetField(role.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(role.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := rc.mutation.UpdatedAt(); ok {
-		_spec.SetField(role.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(role.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

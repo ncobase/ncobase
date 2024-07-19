@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/casbinrule"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -37,9 +36,9 @@ type CasbinRule struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -48,10 +47,10 @@ func (*CasbinRule) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case casbinrule.FieldCreatedAt, casbinrule.FieldUpdatedAt:
+			values[i] = new(sql.NullInt64)
 		case casbinrule.FieldID, casbinrule.FieldPType, casbinrule.FieldV0, casbinrule.FieldV1, casbinrule.FieldV2, casbinrule.FieldV3, casbinrule.FieldV4, casbinrule.FieldV5, casbinrule.FieldCreatedBy, casbinrule.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case casbinrule.FieldCreatedAt, casbinrule.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -128,16 +127,16 @@ func (cr *CasbinRule) assignValues(columns []string, values []any) error {
 				cr.UpdatedBy = value.String
 			}
 		case casbinrule.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				cr.CreatedAt = value.Time
+				cr.CreatedAt = value.Int64
 			}
 		case casbinrule.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				cr.UpdatedAt = value.Time
+				cr.UpdatedAt = value.Int64
 			}
 		default:
 			cr.selectValues.Set(columns[i], values[i])
@@ -203,10 +202,10 @@ func (cr *CasbinRule) String() string {
 	builder.WriteString(cr.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(cr.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", cr.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(cr.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", cr.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

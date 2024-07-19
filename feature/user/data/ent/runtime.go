@@ -6,7 +6,6 @@ import (
 	"ncobase/feature/user/data/ent/user"
 	"ncobase/feature/user/data/ent/userprofile"
 	"ncobase/feature/user/data/schema"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -70,13 +69,13 @@ func init() {
 	// userDescCreatedAt is the schema descriptor for created_at field.
 	userDescCreatedAt := userMixinFields9[0].Descriptor()
 	// user.DefaultCreatedAt holds the default value on creation for the created_at field.
-	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() time.Time)
+	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() int64)
 	// userDescUpdatedAt is the schema descriptor for updated_at field.
 	userDescUpdatedAt := userMixinFields10[0].Descriptor()
 	// user.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	user.DefaultUpdatedAt = userDescUpdatedAt.Default.(func() time.Time)
+	user.DefaultUpdatedAt = userDescUpdatedAt.Default.(func() int64)
 	// user.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	user.UpdateDefaultUpdatedAt = userDescUpdatedAt.UpdateDefault.(func() time.Time)
+	user.UpdateDefaultUpdatedAt = userDescUpdatedAt.UpdateDefault.(func() int64)
 	// userDescID is the schema descriptor for id field.
 	userDescID := userMixinFields0[0].Descriptor()
 	// user.DefaultID holds the default value on creation for the id field.

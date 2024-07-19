@@ -17,7 +17,7 @@ type UserProfile struct {
 
 // Annotations of the UserProfile.
 func (UserProfile) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "user_profile"}, "_")
+	table := strings.Join([]string{"ncse", "user_profile"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

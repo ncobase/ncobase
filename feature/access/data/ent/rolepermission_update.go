@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/access/data/ent/predicate"
 	"ncobase/feature/access/data/ent/rolepermission"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -109,8 +108,15 @@ func (rpu *RolePermissionUpdate) ClearUpdatedBy() *RolePermissionUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rpu *RolePermissionUpdate) SetUpdatedAt(t time.Time) *RolePermissionUpdate {
-	rpu.mutation.SetUpdatedAt(t)
+func (rpu *RolePermissionUpdate) SetUpdatedAt(i int64) *RolePermissionUpdate {
+	rpu.mutation.ResetUpdatedAt()
+	rpu.mutation.SetUpdatedAt(i)
+	return rpu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (rpu *RolePermissionUpdate) AddUpdatedAt(i int64) *RolePermissionUpdate {
+	rpu.mutation.AddUpdatedAt(i)
 	return rpu
 }
 
@@ -223,13 +229,16 @@ func (rpu *RolePermissionUpdate) sqlSave(ctx context.Context) (n int, err error)
 		_spec.ClearField(rolepermission.FieldUpdatedBy, field.TypeString)
 	}
 	if rpu.mutation.CreatedAtCleared() {
-		_spec.ClearField(rolepermission.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(rolepermission.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := rpu.mutation.UpdatedAt(); ok {
-		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := rpu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if rpu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(rolepermission.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(rolepermission.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, rpu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -332,8 +341,15 @@ func (rpuo *RolePermissionUpdateOne) ClearUpdatedBy() *RolePermissionUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rpuo *RolePermissionUpdateOne) SetUpdatedAt(t time.Time) *RolePermissionUpdateOne {
-	rpuo.mutation.SetUpdatedAt(t)
+func (rpuo *RolePermissionUpdateOne) SetUpdatedAt(i int64) *RolePermissionUpdateOne {
+	rpuo.mutation.ResetUpdatedAt()
+	rpuo.mutation.SetUpdatedAt(i)
+	return rpuo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (rpuo *RolePermissionUpdateOne) AddUpdatedAt(i int64) *RolePermissionUpdateOne {
+	rpuo.mutation.AddUpdatedAt(i)
 	return rpuo
 }
 
@@ -476,13 +492,16 @@ func (rpuo *RolePermissionUpdateOne) sqlSave(ctx context.Context) (_node *RolePe
 		_spec.ClearField(rolepermission.FieldUpdatedBy, field.TypeString)
 	}
 	if rpuo.mutation.CreatedAtCleared() {
-		_spec.ClearField(rolepermission.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(rolepermission.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := rpuo.mutation.UpdatedAt(); ok {
-		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := rpuo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if rpuo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(rolepermission.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(rolepermission.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &RolePermission{config: rpuo.config}
 	_spec.Assign = _node.assignValues

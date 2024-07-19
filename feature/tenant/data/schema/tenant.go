@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // Tenant holds the schema definition for the Tenant entity.
@@ -17,7 +18,7 @@ type Tenant struct {
 
 // Annotations of the Tenant.
 func (Tenant) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "tenant"}, "_")
+	table := strings.Join([]string{"ncse", "tenant"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -60,5 +61,7 @@ func (Tenant) Edges() []ent.Edge {
 
 // Indexes of the Tenant.
 func (Tenant) Indexes() []ent.Index {
-	return nil
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

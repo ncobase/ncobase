@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/feature/system/data/ent/menu"
 	"ncobase/feature/system/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -342,8 +341,15 @@ func (mu *MenuUpdate) ClearUpdatedBy() *MenuUpdate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (mu *MenuUpdate) SetUpdatedAt(t time.Time) *MenuUpdate {
-	mu.mutation.SetUpdatedAt(t)
+func (mu *MenuUpdate) SetUpdatedAt(i int64) *MenuUpdate {
+	mu.mutation.ResetUpdatedAt()
+	mu.mutation.SetUpdatedAt(i)
+	return mu
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (mu *MenuUpdate) AddUpdatedAt(i int64) *MenuUpdate {
+	mu.mutation.AddUpdatedAt(i)
 	return mu
 }
 
@@ -528,13 +534,16 @@ func (mu *MenuUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(menu.FieldUpdatedBy, field.TypeString)
 	}
 	if mu.mutation.CreatedAtCleared() {
-		_spec.ClearField(menu.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(menu.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := mu.mutation.UpdatedAt(); ok {
-		_spec.SetField(menu.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(menu.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := mu.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(menu.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if mu.mutation.UpdatedAtCleared() {
-		_spec.ClearField(menu.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(menu.FieldUpdatedAt, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, mu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -870,8 +879,15 @@ func (muo *MenuUpdateOne) ClearUpdatedBy() *MenuUpdateOne {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (muo *MenuUpdateOne) SetUpdatedAt(t time.Time) *MenuUpdateOne {
-	muo.mutation.SetUpdatedAt(t)
+func (muo *MenuUpdateOne) SetUpdatedAt(i int64) *MenuUpdateOne {
+	muo.mutation.ResetUpdatedAt()
+	muo.mutation.SetUpdatedAt(i)
+	return muo
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (muo *MenuUpdateOne) AddUpdatedAt(i int64) *MenuUpdateOne {
+	muo.mutation.AddUpdatedAt(i)
 	return muo
 }
 
@@ -1086,13 +1102,16 @@ func (muo *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) 
 		_spec.ClearField(menu.FieldUpdatedBy, field.TypeString)
 	}
 	if muo.mutation.CreatedAtCleared() {
-		_spec.ClearField(menu.FieldCreatedAt, field.TypeTime)
+		_spec.ClearField(menu.FieldCreatedAt, field.TypeInt64)
 	}
 	if value, ok := muo.mutation.UpdatedAt(); ok {
-		_spec.SetField(menu.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(menu.FieldUpdatedAt, field.TypeInt64, value)
+	}
+	if value, ok := muo.mutation.AddedUpdatedAt(); ok {
+		_spec.AddField(menu.FieldUpdatedAt, field.TypeInt64, value)
 	}
 	if muo.mutation.UpdatedAtCleared() {
-		_spec.ClearField(menu.FieldUpdatedAt, field.TypeTime)
+		_spec.ClearField(menu.FieldUpdatedAt, field.TypeInt64)
 	}
 	_node = &Menu{config: muo.config}
 	_spec.Assign = _node.assignValues

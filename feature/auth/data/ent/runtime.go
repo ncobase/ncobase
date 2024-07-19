@@ -7,7 +7,6 @@ import (
 	"ncobase/feature/auth/data/ent/codeauth"
 	"ncobase/feature/auth/data/ent/oauthuser"
 	"ncobase/feature/auth/data/schema"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -32,13 +31,13 @@ func init() {
 	// authtokenDescCreatedAt is the schema descriptor for created_at field.
 	authtokenDescCreatedAt := authtokenMixinFields2[0].Descriptor()
 	// authtoken.DefaultCreatedAt holds the default value on creation for the created_at field.
-	authtoken.DefaultCreatedAt = authtokenDescCreatedAt.Default.(func() time.Time)
+	authtoken.DefaultCreatedAt = authtokenDescCreatedAt.Default.(func() int64)
 	// authtokenDescUpdatedAt is the schema descriptor for updated_at field.
 	authtokenDescUpdatedAt := authtokenMixinFields2[1].Descriptor()
 	// authtoken.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	authtoken.DefaultUpdatedAt = authtokenDescUpdatedAt.Default.(func() time.Time)
+	authtoken.DefaultUpdatedAt = authtokenDescUpdatedAt.Default.(func() int64)
 	// authtoken.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	authtoken.UpdateDefaultUpdatedAt = authtokenDescUpdatedAt.UpdateDefault.(func() time.Time)
+	authtoken.UpdateDefaultUpdatedAt = authtokenDescUpdatedAt.UpdateDefault.(func() int64)
 	// authtokenDescUserID is the schema descriptor for user_id field.
 	authtokenDescUserID := authtokenMixinFields3[0].Descriptor()
 	// authtoken.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
@@ -65,13 +64,13 @@ func init() {
 	// codeauthDescCreatedAt is the schema descriptor for created_at field.
 	codeauthDescCreatedAt := codeauthMixinFields4[0].Descriptor()
 	// codeauth.DefaultCreatedAt holds the default value on creation for the created_at field.
-	codeauth.DefaultCreatedAt = codeauthDescCreatedAt.Default.(func() time.Time)
+	codeauth.DefaultCreatedAt = codeauthDescCreatedAt.Default.(func() int64)
 	// codeauthDescUpdatedAt is the schema descriptor for updated_at field.
 	codeauthDescUpdatedAt := codeauthMixinFields4[1].Descriptor()
 	// codeauth.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	codeauth.DefaultUpdatedAt = codeauthDescUpdatedAt.Default.(func() time.Time)
+	codeauth.DefaultUpdatedAt = codeauthDescUpdatedAt.Default.(func() int64)
 	// codeauth.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	codeauth.UpdateDefaultUpdatedAt = codeauthDescUpdatedAt.UpdateDefault.(func() time.Time)
+	codeauth.UpdateDefaultUpdatedAt = codeauthDescUpdatedAt.UpdateDefault.(func() int64)
 	// codeauthDescID is the schema descriptor for id field.
 	codeauthDescID := codeauthMixinFields0[0].Descriptor()
 	// codeauth.DefaultID holds the default value on creation for the id field.
@@ -102,13 +101,13 @@ func init() {
 	// oauthuserDescCreatedAt is the schema descriptor for created_at field.
 	oauthuserDescCreatedAt := oauthuserMixinFields5[0].Descriptor()
 	// oauthuser.DefaultCreatedAt holds the default value on creation for the created_at field.
-	oauthuser.DefaultCreatedAt = oauthuserDescCreatedAt.Default.(func() time.Time)
+	oauthuser.DefaultCreatedAt = oauthuserDescCreatedAt.Default.(func() int64)
 	// oauthuserDescUpdatedAt is the schema descriptor for updated_at field.
 	oauthuserDescUpdatedAt := oauthuserMixinFields6[0].Descriptor()
 	// oauthuser.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	oauthuser.DefaultUpdatedAt = oauthuserDescUpdatedAt.Default.(func() time.Time)
+	oauthuser.DefaultUpdatedAt = oauthuserDescUpdatedAt.Default.(func() int64)
 	// oauthuser.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	oauthuser.UpdateDefaultUpdatedAt = oauthuserDescUpdatedAt.UpdateDefault.(func() time.Time)
+	oauthuser.UpdateDefaultUpdatedAt = oauthuserDescUpdatedAt.UpdateDefault.(func() int64)
 	// oauthuserDescID is the schema descriptor for id field.
 	oauthuserDescID := oauthuserMixinFields0[0].Descriptor()
 	// oauthuser.DefaultID holds the default value on creation for the id field.

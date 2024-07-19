@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/feature/content/data/ent/taxonomy"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -52,9 +51,9 @@ type Taxonomy struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -65,12 +64,10 @@ func (*Taxonomy) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case taxonomy.FieldExtras:
 			values[i] = new([]byte)
-		case taxonomy.FieldStatus:
+		case taxonomy.FieldStatus, taxonomy.FieldCreatedAt, taxonomy.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
 		case taxonomy.FieldID, taxonomy.FieldName, taxonomy.FieldType, taxonomy.FieldSlug, taxonomy.FieldCover, taxonomy.FieldThumbnail, taxonomy.FieldColor, taxonomy.FieldIcon, taxonomy.FieldURL, taxonomy.FieldKeywords, taxonomy.FieldDescription, taxonomy.FieldParentID, taxonomy.FieldTenantID, taxonomy.FieldCreatedBy, taxonomy.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case taxonomy.FieldCreatedAt, taxonomy.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -191,16 +188,16 @@ func (t *Taxonomy) assignValues(columns []string, values []any) error {
 				t.UpdatedBy = value.String
 			}
 		case taxonomy.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				t.CreatedAt = value.Time
+				t.CreatedAt = value.Int64
 			}
 		case taxonomy.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				t.UpdatedAt = value.Time
+				t.UpdatedAt = value.Int64
 			}
 		default:
 			t.selectValues.Set(columns[i], values[i])
@@ -287,10 +284,10 @@ func (t *Taxonomy) String() string {
 	builder.WriteString(t.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(t.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(t.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

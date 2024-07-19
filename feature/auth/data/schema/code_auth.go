@@ -18,7 +18,7 @@ type CodeAuth struct {
 
 // Annotations of the CodeAuth.
 func (CodeAuth) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "code_auth"}, "_")
+	table := strings.Join([]string{"ncse", "code_auth"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -42,14 +42,15 @@ func (CodeAuth) Fields() []ent.Field {
 	return nil
 }
 
-// Indexes of the CodeAuth.
-func (CodeAuth) Indexes() []ent.Index {
-	return []ent.Index{
-		index.Fields("code"),
-	}
-}
-
 // Edges of the CodeAuth.
 func (CodeAuth) Edges() []ent.Edge {
 	return nil
+}
+
+// Indexes of the CodeAuth.
+func (CodeAuth) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+		index.Fields("code"),
+	}
 }

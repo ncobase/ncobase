@@ -12,7 +12,6 @@ import (
 	"ncobase/feature/access/data/ent"
 	casbinRuleEnt "ncobase/feature/access/data/ent/casbinrule"
 	"ncobase/feature/access/structs"
-	"time"
 )
 
 // CasbinRuleRepositoryInterface represents the Casbin rule repository interface.
@@ -188,9 +187,9 @@ func (r *casbinRuleRepository) List(ctx context.Context, params *structs.ListCas
 		if params.Direction == "backward" {
 			builder.Where(
 				casbinRuleEnt.Or(
-					casbinRuleEnt.CreatedAtGT(time.UnixMilli(timestamp)),
+					casbinRuleEnt.CreatedAtGT(timestamp),
 					casbinRuleEnt.And(
-						casbinRuleEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						casbinRuleEnt.CreatedAtEQ(timestamp),
 						casbinRuleEnt.IDGT(id),
 					),
 				),
@@ -198,9 +197,9 @@ func (r *casbinRuleRepository) List(ctx context.Context, params *structs.ListCas
 		} else {
 			builder.Where(
 				casbinRuleEnt.Or(
-					casbinRuleEnt.CreatedAtLT(time.UnixMilli(timestamp)),
+					casbinRuleEnt.CreatedAtLT(timestamp),
 					casbinRuleEnt.And(
-						casbinRuleEnt.CreatedAtEQ(time.UnixMilli(timestamp)),
+						casbinRuleEnt.CreatedAtEQ(timestamp),
 						casbinRuleEnt.IDLT(id),
 					),
 				),

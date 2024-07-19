@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/index"
 )
 
 // User holds the schema definition for the User entity.
@@ -17,7 +18,7 @@ type User struct {
 
 // Annotations of the User.
 func (User) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"nb", "user"}, "_")
+	table := strings.Join([]string{"ncse", "user"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -54,5 +55,7 @@ func (User) Edges() []ent.Edge {
 
 // Indexes of the User.
 func (User) Indexes() []ent.Index {
-	return nil
+	return []ent.Index{
+		index.Fields("id", "created_at").Unique(),
+	}
 }

@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/feature/content/data/ent/topic"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -147,15 +146,15 @@ func (tc *TopicCreate) SetNillableStatus(i *int) *TopicCreate {
 }
 
 // SetReleased sets the "released" field.
-func (tc *TopicCreate) SetReleased(t time.Time) *TopicCreate {
-	tc.mutation.SetReleased(t)
+func (tc *TopicCreate) SetReleased(i int64) *TopicCreate {
+	tc.mutation.SetReleased(i)
 	return tc
 }
 
 // SetNillableReleased sets the "released" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableReleased(t *time.Time) *TopicCreate {
-	if t != nil {
-		tc.SetReleased(*t)
+func (tc *TopicCreate) SetNillableReleased(i *int64) *TopicCreate {
+	if i != nil {
+		tc.SetReleased(*i)
 	}
 	return tc
 }
@@ -217,29 +216,29 @@ func (tc *TopicCreate) SetNillableUpdatedBy(s *string) *TopicCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tc *TopicCreate) SetCreatedAt(t time.Time) *TopicCreate {
-	tc.mutation.SetCreatedAt(t)
+func (tc *TopicCreate) SetCreatedAt(i int64) *TopicCreate {
+	tc.mutation.SetCreatedAt(i)
 	return tc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableCreatedAt(t *time.Time) *TopicCreate {
-	if t != nil {
-		tc.SetCreatedAt(*t)
+func (tc *TopicCreate) SetNillableCreatedAt(i *int64) *TopicCreate {
+	if i != nil {
+		tc.SetCreatedAt(*i)
 	}
 	return tc
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tc *TopicCreate) SetUpdatedAt(t time.Time) *TopicCreate {
-	tc.mutation.SetUpdatedAt(t)
+func (tc *TopicCreate) SetUpdatedAt(i int64) *TopicCreate {
+	tc.mutation.SetUpdatedAt(i)
 	return tc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableUpdatedAt(t *time.Time) *TopicCreate {
-	if t != nil {
-		tc.SetUpdatedAt(*t)
+func (tc *TopicCreate) SetNillableUpdatedAt(i *int64) *TopicCreate {
+	if i != nil {
+		tc.SetUpdatedAt(*i)
 	}
 	return tc
 }
@@ -425,7 +424,7 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_node.Status = value
 	}
 	if value, ok := tc.mutation.Released(); ok {
-		_spec.SetField(topic.FieldReleased, field.TypeTime, value)
+		_spec.SetField(topic.FieldReleased, field.TypeInt64, value)
 		_node.Released = value
 	}
 	if value, ok := tc.mutation.TaxonomyID(); ok {
@@ -445,11 +444,11 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_node.UpdatedBy = value
 	}
 	if value, ok := tc.mutation.CreatedAt(); ok {
-		_spec.SetField(topic.FieldCreatedAt, field.TypeTime, value)
+		_spec.SetField(topic.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := tc.mutation.UpdatedAt(); ok {
-		_spec.SetField(topic.FieldUpdatedAt, field.TypeTime, value)
+		_spec.SetField(topic.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec

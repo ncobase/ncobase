@@ -4,7 +4,6 @@ package taxonomyrelation
 
 import (
 	"ncobase/feature/content/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -90,7 +89,7 @@ func CreatedBy(v string) predicate.TaxonomyRelation {
 }
 
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
-func CreatedAt(v time.Time) predicate.TaxonomyRelation {
+func CreatedAt(v int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldEQ(FieldCreatedAt, v))
 }
 
@@ -435,42 +434,42 @@ func CreatedByContainsFold(v string) predicate.TaxonomyRelation {
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
-func CreatedAtEQ(v time.Time) predicate.TaxonomyRelation {
+func CreatedAtEQ(v int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
-func CreatedAtNEQ(v time.Time) predicate.TaxonomyRelation {
+func CreatedAtNEQ(v int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
 // CreatedAtIn applies the In predicate on the "created_at" field.
-func CreatedAtIn(vs ...time.Time) predicate.TaxonomyRelation {
+func CreatedAtIn(vs ...int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
-func CreatedAtNotIn(vs ...time.Time) predicate.TaxonomyRelation {
+func CreatedAtNotIn(vs ...int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
 // CreatedAtGT applies the GT predicate on the "created_at" field.
-func CreatedAtGT(v time.Time) predicate.TaxonomyRelation {
+func CreatedAtGT(v int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldGT(FieldCreatedAt, v))
 }
 
 // CreatedAtGTE applies the GTE predicate on the "created_at" field.
-func CreatedAtGTE(v time.Time) predicate.TaxonomyRelation {
+func CreatedAtGTE(v int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldGTE(FieldCreatedAt, v))
 }
 
 // CreatedAtLT applies the LT predicate on the "created_at" field.
-func CreatedAtLT(v time.Time) predicate.TaxonomyRelation {
+func CreatedAtLT(v int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldLT(FieldCreatedAt, v))
 }
 
 // CreatedAtLTE applies the LTE predicate on the "created_at" field.
-func CreatedAtLTE(v time.Time) predicate.TaxonomyRelation {
+func CreatedAtLTE(v int64) predicate.TaxonomyRelation {
 	return predicate.TaxonomyRelation(sql.FieldLTE(FieldCreatedAt, v))
 }
 

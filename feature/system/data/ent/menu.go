@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/feature/system/data/ent/menu"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -52,9 +51,9 @@ type Menu struct {
 	// id of the last updater
 	UpdatedBy string `json:"updated_by,omitempty"`
 	// created at
-	CreatedAt time.Time `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	UpdatedAt    int64 `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -67,12 +66,10 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case menu.FieldHidden, menu.FieldDisabled:
 			values[i] = new(sql.NullBool)
-		case menu.FieldOrder:
+		case menu.FieldOrder, menu.FieldCreatedAt, menu.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
 		case menu.FieldID, menu.FieldName, menu.FieldLabel, menu.FieldSlug, menu.FieldType, menu.FieldPath, menu.FieldTarget, menu.FieldIcon, menu.FieldPerms, menu.FieldParentID, menu.FieldTenantID, menu.FieldCreatedBy, menu.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case menu.FieldCreatedAt, menu.FieldUpdatedAt:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -193,16 +190,16 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 				m.UpdatedBy = value.String
 			}
 		case menu.FieldCreatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				m.CreatedAt = value.Time
+				m.CreatedAt = value.Int64
 			}
 		case menu.FieldUpdatedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				m.UpdatedAt = value.Time
+				m.UpdatedAt = value.Int64
 			}
 		default:
 			m.selectValues.Set(columns[i], values[i])
@@ -289,10 +286,10 @@ func (m *Menu) String() string {
 	builder.WriteString(m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(m.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(m.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }
