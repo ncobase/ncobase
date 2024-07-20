@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"ncobase/common/types"
 )
 
@@ -31,25 +32,52 @@ type UpdateGroupBody struct {
 
 // ReadGroup represents the output schema for retrieving a group.
 type ReadGroup struct {
-	ID          string      `json:"id"`
-	Name        string      `json:"name"`
-	Slug        string      `json:"slug"`
-	Disabled    bool        `json:"disabled"`
-	Description string      `json:"description"`
-	Leader      *types.JSON `json:"leader,omitempty"`
-	Extras      *types.JSON `json:"extras,omitempty"`
-	ParentID    *string     `json:"parent_id,omitempty"`
-	TenantID    *string     `json:"tenant_id,omitempty"`
-	CreatedBy   *string     `json:"created_by,omitempty"`
-	CreatedAt   *int64      `json:"created_at,omitempty"`
-	UpdatedBy   *string     `json:"updated_by,omitempty"`
-	UpdatedAt   *int64      `json:"updated_at,omitempty"`
+	ID          string           `json:"id"`
+	Name        string           `json:"name"`
+	Slug        string           `json:"slug"`
+	Disabled    bool             `json:"disabled"`
+	Description string           `json:"description"`
+	Leader      *types.JSON      `json:"leader,omitempty"`
+	Extras      *types.JSON      `json:"extras,omitempty"`
+	ParentID    *string          `json:"parent_id,omitempty"`
+	TenantID    *string          `json:"tenant_id,omitempty"`
+	Children    []types.TreeNode `json:"children,omitempty"`
+	CreatedBy   *string          `json:"created_by,omitempty"`
+	CreatedAt   *int64           `json:"created_at,omitempty"`
+	UpdatedBy   *string          `json:"updated_by,omitempty"`
+	UpdatedAt   *int64           `json:"updated_at,omitempty"`
+}
+
+// GetID returns the ID of the group.
+func (r *ReadGroup) GetID() string {
+	return r.ID
+}
+
+// GetParentID returns the parent ID of the group.
+func (r *ReadGroup) GetParentID() string {
+	return types.ToValue(r.ParentID)
+}
+
+// SetChildren sets the children of the group.
+func (r *ReadGroup) SetChildren(children []types.TreeNode) {
+	r.Children = children
+}
+
+// GetChildren returns the children of the group.
+func (r *ReadGroup) GetChildren() []types.TreeNode {
+	return r.Children
+}
+
+func (r *ReadGroup) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // FindGroup represents the parameters for finding a group.
 type FindGroup struct {
-	ID   string `form:"id,omitempty" json:"id,omitempty"`
-	Slug string `form:"slug,omitempty" json:"slug,omitempty"`
+	Group    string `form:"group,omitempty" json:"group,omitempty"`
+	Parent   string `form:"parent,omitempty" json:"parent,omitempty"`
+	Tenant   string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Children bool   `form:"children,omitempty" json:"children,omitempty"`
 }
 
 // ListGroupParams represents the query parameters for listing groups.
@@ -57,4 +85,7 @@ type ListGroupParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
 }

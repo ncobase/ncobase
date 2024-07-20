@@ -18,9 +18,10 @@ import (
 // GroupRepositoryInterface represents the group repository interface.
 type GroupRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateGroupBody) (*ent.Group, error)
-	GetByID(ctx context.Context, id string) (*ent.Group, error)
+	Get(ctx context.Context, params *structs.FindGroup) (*ent.Group, error)
 	GetByIDs(ctx context.Context, ids []string) ([]*ent.Group, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Group, error)
+	GetTree(ctx context.Context, params *structs.FindGroup) ([]*ent.Group, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Group, error)
 	List(ctx context.Context, params *structs.ListGroupParams) ([]*ent.Group, error)
 	Delete(ctx context.Context, slug string) error
@@ -77,25 +78,25 @@ func (r *groupRepository) Create(ctx context.Context, body *structs.CreateGroupB
 	return row, nil
 }
 
-// GetByID gets a group by ID.
-func (r *groupRepository) GetByID(ctx context.Context, id string) (*ent.Group, error) {
+// Get gets a group by ID.
+func (r *groupRepository) Get(ctx context.Context, params *structs.FindGroup) (*ent.Group, error) {
 	// check cache
-	cacheKey := fmt.Sprintf("%s", id)
+	cacheKey := fmt.Sprintf("%s", params.Group)
 	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindGroup(ctx, &structs.FindGroup{ID: id})
+	row, err := r.FindGroup(ctx, params)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.GetByID error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.Get error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.GetByID cache error: %v\n", err)
+		log.Errorf(context.Background(), "groupRepo.Get cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -125,7 +126,7 @@ func (r *groupRepository) GetBySlug(ctx context.Context, slug string) (*ent.Grou
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindGroup(ctx, &structs.FindGroup{Slug: slug})
+	row, err := r.FindGroup(ctx, &structs.FindGroup{Group: slug})
 	if err != nil {
 		log.Errorf(context.Background(), "groupRepo.GetBySlug error: %v\n", err)
 		return nil, err
@@ -142,7 +143,7 @@ func (r *groupRepository) GetBySlug(ctx context.Context, slug string) (*ent.Grou
 
 // Update updates a group (full or partial).
 func (r *groupRepository) Update(ctx context.Context, slug string, updates types.JSON) (*ent.Group, error) {
-	group, err := r.FindGroup(ctx, &structs.FindGroup{Slug: slug})
+	group, err := r.FindGroup(ctx, &structs.FindGroup{Group: slug})
 	if err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (r *groupRepository) List(ctx context.Context, params *structs.ListGroupPar
 	}
 
 	// limit the result
-	builder.Limit(int(params.Limit))
+	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -212,7 +213,7 @@ func (r *groupRepository) List(ctx context.Context, params *structs.ListGroupPar
 
 // Delete deletes a group.
 func (r *groupRepository) Delete(ctx context.Context, slug string) error {
-	group, err := r.FindGroup(ctx, &structs.FindGroup{Slug: slug})
+	group, err := r.FindGroup(ctx, &structs.FindGroup{Group: slug})
 	if err != nil {
 		return err
 	}
@@ -243,14 +244,11 @@ func (r *groupRepository) FindGroup(ctx context.Context, params *structs.FindGro
 	// create builder.
 	builder := r.ec.Group.Query()
 
-	if validator.IsNotEmpty(params.ID) {
-		builder = builder.Where(groupEnt.IDEQ(params.ID))
-	}
 	// support slug or ID
-	if validator.IsNotEmpty(params.Slug) {
+	if validator.IsNotEmpty(params.Group) {
 		builder = builder.Where(groupEnt.Or(
-			groupEnt.ID(params.Slug),
-			groupEnt.SlugEQ(params.Slug),
+			groupEnt.ID(params.Group),
+			groupEnt.SlugEQ(params.Group),
 		))
 	}
 
@@ -263,17 +261,57 @@ func (r *groupRepository) FindGroup(ctx context.Context, params *structs.FindGro
 	return row, nil
 }
 
-// ListBuilder creates list builder.
-func (r *groupRepository) ListBuilder(ctx context.Context, params *structs.ListGroupParams) (*ent.GroupQuery, error) {
-	// Here you can construct and return a builder for listing groups based on the provided parameters.
-	// Similar to the ListBuilder method in the topicRepo.
-	return nil, nil
+// GetTree retrieves the group tree.
+func (r *groupRepository) GetTree(ctx context.Context, params *structs.FindGroup) ([]*ent.Group, error) {
+	// create builder
+	builder := r.ec.Group.Query()
+
+	// set where conditions
+	if validator.IsNotEmpty(params.Tenant) {
+		builder.Where(groupEnt.TenantIDEQ(params.Tenant))
+	}
+
+	// handle sub groups
+	if validator.IsNotEmpty(params.Group) && params.Group != "root" {
+		return r.getSubGroup(ctx, params.Group, builder)
+	}
+
+	// execute the builder
+	return r.executeArrayQuery(ctx, builder)
+}
+
+// ListBuilder - create list builder.
+func (r *groupRepository) ListBuilder(_ context.Context, params *structs.ListGroupParams) (*ent.GroupQuery, error) {
+	// create builder.
+	builder := r.ec.Group.Query()
+
+	// match tenant id.
+	if params.Tenant != "" {
+		builder.Where(groupEnt.TenantIDEQ(params.Tenant))
+	}
+
+	// match parent id.
+	if params.Parent == "" {
+		builder.Where(groupEnt.Or(
+			groupEnt.ParentIDIsNil(),
+			groupEnt.ParentIDEQ(""),
+			groupEnt.ParentIDEQ("root"),
+		))
+	} else {
+		builder.Where(groupEnt.ParentIDEQ(params.Parent))
+	}
+
+	return builder, nil
 }
 
 // CountX gets a count of groups.
 func (r *groupRepository) CountX(ctx context.Context, params *structs.ListGroupParams) int {
-	// Here you can implement the logic to count the number of groups based on the provided parameters.
-	return 0
+	// create list builder
+	builder, err := r.ListBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return 0
+	}
+	return builder.CountX(ctx)
 }
 
 // GetGroupsByTenantID retrieves all groups under a tenant.
@@ -294,4 +332,28 @@ func (r *groupRepository) IsGroupInTenant(ctx context.Context, tenantID string, 
 		return false, err
 	}
 	return count > 0, nil
+}
+
+// getSubGroup - get sub groups.
+func (r *groupRepository) getSubGroup(ctx context.Context, rootID string, builder *ent.GroupQuery) ([]*ent.Group, error) {
+	// set where conditions
+	builder.Where(
+		groupEnt.Or(
+			groupEnt.ID(rootID),
+			groupEnt.ParentIDHasPrefix(rootID),
+		),
+	)
+
+	// execute the builder
+	return r.executeArrayQuery(ctx, builder)
+}
+
+// executeArrayQuery - execute the builder query and return results.
+func (r *groupRepository) executeArrayQuery(ctx context.Context, builder *ent.GroupQuery) ([]*ent.Group, error) {
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(ctx, "groupRepo.executeArrayQuery error: %v", err)
+		return nil, err
+	}
+	return rows, nil
 }

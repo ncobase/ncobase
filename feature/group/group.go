@@ -6,6 +6,7 @@ import (
 	"ncobase/common/config"
 	"ncobase/feature"
 	"ncobase/feature/group/data"
+	"ncobase/feature/group/handler"
 	"ncobase/feature/group/service"
 	"sync"
 
@@ -24,10 +25,10 @@ type Module struct {
 	initialized bool
 	mu          sync.RWMutex
 	fm          *feature.Manager
-	// h       *handler.Handler
-	s       *service.Service
-	d       *data.Data
-	cleanup func(name ...string)
+	h           *handler.Handler
+	s           *service.Service
+	d           *data.Data
+	cleanup     func(name ...string)
 }
 
 // New creates a new instance of the group module.
@@ -64,7 +65,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
 	m.s = service.New(m.d)
-	// m.h = handler.New(m.s)
+	m.h = handler.New(m.s)
 	return nil
 }
 
@@ -80,21 +81,11 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// Group endpoints
 	groups := v1.Group("/groups", middleware.AuthenticatedUser)
 	{
-		groups.GET("", func(c *gin.Context) {
-			c.JSON(200, gin.H{"message": "To be implemented"})
-		})
-		groups.POST("", func(c *gin.Context) {
-			c.JSON(200, gin.H{"message": "To be implemented"})
-		})
-		groups.GET("/:slug", func(c *gin.Context) {
-			c.JSON(200, gin.H{"message": "To be implemented"})
-		})
-		groups.PUT("/:slug", func(c *gin.Context) {
-			c.JSON(200, gin.H{"message": "To be implemented"})
-		})
-		groups.DELETE("/:slug", func(c *gin.Context) {
-			c.JSON(200, gin.H{"message": "To be implemented"})
-		})
+		groups.GET("", m.h.Group.List)
+		groups.POST("", m.h.Group.Create)
+		groups.GET("/:slug", m.h.Group.Get)
+		groups.PUT("/:slug", m.h.Group.Update)
+		groups.DELETE("/:slug", m.h.Group.Delete)
 	}
 }
 

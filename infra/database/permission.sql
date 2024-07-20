@@ -1,5 +1,5 @@
 -- Account related permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_account', 'GET', '/v1/account', 'Read account information', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'update_account', 'PUT', '/v1/account', 'Update account information', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -8,7 +8,7 @@ VALUES
   (nanoid(), 'read_account_tenants', 'GET', '/v1/account/tenants', 'Read all account tenants', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Assets permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_assets', 'GET', '/v1/assets', 'Read all assets', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'create_asset', 'POST', '/v1/assets', 'Create a new asset', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -17,27 +17,27 @@ VALUES
   (nanoid(), 'delete_asset', 'DELETE', '/v1/assets/{slug}', 'Delete a specific asset', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Authorization permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'send_authorization', 'POST', '/v1/authorize/send', 'Send authorization', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'validate_authorization', 'POST', '/v1/authorize/{code}', 'Validate authorization code', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Captcha permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'generate_captcha', 'POST', '/v1/captcha/generate', 'Generate a new captcha', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'validate_captcha', 'POST', '/v1/captcha/validate', 'Validate a captcha', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'read_captcha', 'GET', '/v1/captcha/{captcha_id}', 'Read a specific captcha', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Authentication permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'login', 'POST', '/v1/login', 'User login', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'logout', 'POST', '/v1/logout', 'User logout', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'register', 'POST', '/v1/register', 'User registration', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Menus permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_menus', 'GET', '/v1/menus', 'Read all menus', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'create_menu', 'POST', '/v1/menus', 'Create a new menu', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -46,7 +46,7 @@ VALUES
   (nanoid(), 'delete_menu', 'DELETE', '/v1/menus/{slug}', 'Delete a specific menu', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Permissions management
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_permissions', 'GET', '/v1/permissions', 'Read all permissions', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'create_permission', 'POST', '/v1/permissions', 'Create a new permission', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -55,7 +55,7 @@ VALUES
   (nanoid(), 'delete_permission', 'DELETE', '/v1/permissions/{slug}', 'Delete a specific permission', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Policies management
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_policies', 'GET', '/v1/policies', 'Read all policies', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'create_policy', 'POST', '/v1/policies', 'Create a new policy', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -64,7 +64,7 @@ VALUES
   (nanoid(), 'delete_policy', 'DELETE', '/v1/policies/{id}', 'Delete a specific policy', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Roles management
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_roles', 'GET', '/v1/roles', 'Read all roles', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'create_role', 'POST', '/v1/roles', 'Create a new role', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -74,7 +74,7 @@ VALUES
   (nanoid(), 'manage_role_permissions', 'POST', '/v1/roles/{slug}/permissions', 'Manage permissions for a specific role', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Taxonomies management
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_taxonomies', 'GET', '/v1/taxonomies', 'Read all taxonomies', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'create_taxonomy', 'POST', '/v1/taxonomies', 'Create a new taxonomy', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -83,7 +83,7 @@ VALUES
   (nanoid(), 'delete_taxonomy', 'DELETE', '/v1/taxonomies/{slug}', 'Delete a specific taxonomy', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Tenants management
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_tenants', 'GET', '/v1/tenants', 'Read all tenants', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'create_tenant', 'POST', '/v1/tenants', 'Create a new tenant', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -99,7 +99,7 @@ VALUES
   (nanoid(), 'manage_tenant_users', 'POST', '/v1/tenants/{slug}/users', 'Manage users for a specific tenant', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Topics management
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'read_topics', 'GET', '/v1/topics', 'Read all topics', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'create_topic', 'POST', '/v1/topics', 'Create a new topic', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -108,14 +108,14 @@ VALUES
   (nanoid(), 'delete_topic', 'DELETE', '/v1/topics/{slug}', 'Delete a specific topic', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Users management
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'update_user', 'PUT', '/v1/users/{username}', 'Update a specific user', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'delete_user', 'DELETE', '/v1/users/{username}', 'Delete a specific user', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'manage_user_tenant', 'POST', '/v1/users/{username}/tenant', 'Manage tenant for a specific user', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- -- general permissions
--- INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+-- INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 -- VALUES
 --   (nanoid(), 'all', '*', '*', 'Full access to all resources', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
 --   (nanoid(), 'read_all', 'GET', '*', 'Read access to all resources', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
@@ -124,18 +124,18 @@ VALUES
 --   (nanoid(), 'delete_all', 'DELETE', '*', 'Delete access to all resources', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Tenant-specific permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'manage_tenant_all', '*', '/v1/tenants/{slug}/*', 'Full access to all tenant-specific resources', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'read_tenant_all', 'GET', '/v1/tenants/{slug}/*', 'Read access to all tenant-specific resources', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- API version permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'access_v1_api', '*', '/v1/*', 'Full access to all v1 API endpoints', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000);
 
 -- Specific endpoint group permissions
-INSERT INTO public.ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
+INSERT INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by, created_at, updated_at)
 VALUES
   (nanoid(), 'manage_account', '*', '/v1/account*', 'Full access to account-related endpoints', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
   (nanoid(), 'manage_assets', '*', '/v1/assets*', 'Full access to asset-related endpoints', false, false, '{}', null, null, EXTRACT(EPOCH FROM now()) * 1000, EXTRACT(EPOCH FROM now()) * 1000),
