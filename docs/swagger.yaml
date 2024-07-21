@@ -212,6 +212,29 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.GroupBody:
+    properties:
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      leader:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      tenant_id:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.LoginBody:
     properties:
       captcha:
@@ -321,6 +344,9 @@ definitions:
     type: object
   structs.ReadGroup:
     properties:
+      children:
+        items: {}
+        type: array
       created_at:
         type: integer
       created_by:
@@ -656,6 +682,31 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.UpdateGroupBody:
+    properties:
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      id:
+        type: string
+      leader:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      name:
+        type: string
+      parent_id:
+        type: string
+      slug:
+        type: string
+      tenant_id:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.UpdateMenuBody:
     properties:
       created_by:
@@ -923,9 +974,6 @@ paths:
         name: object
         required: true
         type: string
-      - in: query
-        name: offset
-        type: integer
       - in: query
         name: storage
         type: string
@@ -1228,6 +1276,161 @@ paths:
       summary: Validate captcha
       tags:
       - authentication
+  /v1/groups:
+    get:
+      description: Retrieve a list or tree structure of groups.
+      parameters:
+      - in: query
+        name: children
+        type: boolean
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: parent
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadGroup'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List groups
+      tags:
+      - group
+    post:
+      consumes:
+      - application/json
+      description: Create a new group.
+      parameters:
+      - description: GroupBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.GroupBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadGroup'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create group
+      tags:
+      - group
+    put:
+      consumes:
+      - application/json
+      description: Update an existing group.
+      parameters:
+      - description: UpdateGroupBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateGroupBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadGroup'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update group
+      tags:
+      - group
+  /v1/groups/{slug}:
+    delete:
+      description: Delete a group by ID or slug.
+      parameters:
+      - description: Group ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete group
+      tags:
+      - group
+    get:
+      description: Retrieve a group by ID or slug.
+      parameters:
+      - description: Group ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - in: query
+        name: children
+        type: boolean
+      - in: query
+        name: group
+        type: string
+      - in: query
+        name: parent
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadGroup'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get group
+      tags:
+      - group
   /v1/login:
     post:
       consumes:
@@ -1291,9 +1494,6 @@ paths:
         type: string
       - in: query
         name: limit
-        type: integer
-      - in: query
-        name: offset
         type: integer
       - in: query
         name: parent
@@ -1456,9 +1656,6 @@ paths:
       - in: query
         name: limit
         type: integer
-      - in: query
-        name: offset
-        type: integer
       produces:
       - application/json
       responses:
@@ -1597,9 +1794,6 @@ paths:
         type: string
       - in: query
         name: limit
-        type: integer
-      - in: query
-        name: offset
         type: integer
       - in: query
         name: p_type
@@ -1794,9 +1988,6 @@ paths:
       - in: query
         name: limit
         type: integer
-      - in: query
-        name: offset
-        type: integer
       produces:
       - application/json
       responses:
@@ -1964,9 +2155,6 @@ paths:
         name: limit
         type: integer
       - in: query
-        name: offset
-        type: integer
-      - in: query
         name: parent_id
         type: string
       - in: query
@@ -2110,9 +2298,6 @@ paths:
         type: string
       - in: query
         name: limit
-        type: integer
-      - in: query
-        name: offset
         type: integer
       - in: query
         name: user
@@ -2430,9 +2615,6 @@ paths:
         type: string
       - in: query
         name: limit
-        type: integer
-      - in: query
-        name: offset
         type: integer
       - in: query
         name: taxonomy
