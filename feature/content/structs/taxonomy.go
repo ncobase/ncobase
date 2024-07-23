@@ -7,9 +7,9 @@ import (
 
 // FindTaxonomy represents the parameters for finding a taxonomy.
 type FindTaxonomy struct {
-	ID       string `json:"id,omitempty"`
-	Slug     string `json:"slug,omitempty"`
-	TenantID string `json:"tenant_id,omitempty"`
+	Taxonomy string `json:"taxonomy,omitempty"`
+	Tenant   string `json:"tenant,omitempty"`
+	Children bool   `json:"children,omitempty"`
 	Type     string `json:"type,omitempty"`
 }
 
@@ -27,8 +27,8 @@ type TaxonomyBody struct {
 	Description string      `json:"description,omitempty"`
 	Status      int         `json:"status,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
-	ParentID    string      `json:"parent_id,omitempty"`
-	TenantID    string      `json:"tenant_id,omitempty"`
+	ParentID    *string     `json:"parent_id,omitempty"`
+	TenantID    *string     `json:"tenant_id,omitempty"`
 	CreatedBy   *string     `json:"created_by,omitempty"`
 	UpdatedBy   *string     `json:"updated_by,omitempty"`
 }
@@ -46,25 +46,46 @@ type UpdateTaxonomyBody struct {
 
 // ReadTaxonomy represents the output schema for retrieving a taxonomy.
 type ReadTaxonomy struct {
-	ID          string      `json:"id"`
-	Name        string      `json:"name"`
-	Type        string      `json:"type"`
-	Slug        string      `json:"slug"`
-	Cover       string      `json:"cover"`
-	Thumbnail   string      `json:"thumbnail"`
-	Color       string      `json:"color"`
-	Icon        string      `json:"icon"`
-	URL         string      `json:"url"`
-	Keywords    string      `json:"keywords"`
-	Description string      `json:"description"`
-	Status      int         `json:"status"`
-	Extras      *types.JSON `json:"extras,omitempty"`
-	ParentID    string      `json:"parent_id"`
-	TenantID    string      `json:"tenant_id"`
-	CreatedBy   *string     `json:"created_by,omitempty"`
-	CreatedAt   *int64      `json:"created_at,omitempty"`
-	UpdatedBy   *string     `json:"updated_by,omitempty"`
-	UpdatedAt   *int64      `json:"updated_at,omitempty"`
+	ID          string           `json:"id"`
+	Name        string           `json:"name"`
+	Type        string           `json:"type"`
+	Slug        string           `json:"slug"`
+	Cover       string           `json:"cover"`
+	Thumbnail   string           `json:"thumbnail"`
+	Color       string           `json:"color"`
+	Icon        string           `json:"icon"`
+	URL         string           `json:"url"`
+	Keywords    string           `json:"keywords"`
+	Description string           `json:"description"`
+	Status      int              `json:"status"`
+	Extras      *types.JSON      `json:"extras,omitempty"`
+	ParentID    *string          `json:"parent_id,omitempty"`
+	TenantID    *string          `json:"tenant_id,omitempty"`
+	Children    []types.TreeNode `json:"children,omitempty"`
+	CreatedBy   *string          `json:"created_by,omitempty"`
+	CreatedAt   *int64           `json:"created_at,omitempty"`
+	UpdatedBy   *string          `json:"updated_by,omitempty"`
+	UpdatedAt   *int64           `json:"updated_at,omitempty"`
+}
+
+// GetID returns the ID of the taxonomy.
+func (r *ReadTaxonomy) GetID() string {
+	return r.ID
+}
+
+// GetParentID returns the parent ID of the taxonomy.
+func (r *ReadTaxonomy) GetParentID() string {
+	return types.ToValue(r.ParentID)
+}
+
+// SetChildren sets the children of the taxonomy.
+func (r *ReadTaxonomy) SetChildren(children []types.TreeNode) {
+	r.Children = children
+}
+
+// GetChildren returns the children of the taxonomy.
+func (r *ReadTaxonomy) GetChildren() []types.TreeNode {
+	return r.Children
 }
 
 func (r *ReadTaxonomy) GetCursorValue() string {
@@ -76,7 +97,8 @@ type ListTaxonomyParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
-	ParentID  string `form:"parent_id,omitempty" json:"parent_id,omitempty"`
-	TenantID  string `form:"tenant_id,omitempty" json:"tenant_id,omitempty"`
+	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
+	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty" validate:"required"`
 }

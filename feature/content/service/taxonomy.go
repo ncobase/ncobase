@@ -13,6 +13,7 @@ import (
 	"ncobase/feature/content/data/ent"
 	"ncobase/feature/content/data/repository"
 	"ncobase/feature/content/structs"
+	"sort"
 )
 
 // TaxonomyServiceInterface is the interface for the service.
@@ -21,7 +22,11 @@ type TaxonomyServiceInterface interface {
 	Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadTaxonomy, error)
 	Get(ctx context.Context, slug string) (*structs.ReadTaxonomy, error)
 	List(ctx context.Context, params *structs.ListTaxonomyParams) (paging.Result[*structs.ReadTaxonomy], error)
+	CountX(ctx context.Context, params *structs.ListTaxonomyParams) int
+	GetTree(ctx context.Context, params *structs.FindTaxonomy) (paging.Result[*structs.ReadTaxonomy], error)
 	Delete(ctx context.Context, slug string) error
+	Serializes(rows []*ent.Taxonomy) []*structs.ReadTaxonomy
+	Serialize(row *ent.Taxonomy) *structs.ReadTaxonomy
 }
 
 // taxonomyService is the struct for the service.
@@ -98,6 +103,13 @@ func (s *taxonomyService) Delete(ctx context.Context, slug string) error {
 
 // List lists all taxonomies.
 func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomyParams) (paging.Result[*structs.ReadTaxonomy], error) {
+	if params.Children {
+		return s.GetTree(ctx, &structs.FindTaxonomy{
+			Children: true,
+			Tenant:   params.Tenant,
+			Taxonomy: params.Parent,
+		})
+	}
 	pp := paging.Params{
 		Cursor:    params.Cursor,
 		Limit:     params.Limit,
@@ -150,11 +162,75 @@ func (s *taxonomyService) Serialize(row *ent.Taxonomy) *structs.ReadTaxonomy {
 		Description: row.Description,
 		Status:      row.Status,
 		Extras:      &row.Extras,
-		ParentID:    row.ParentID,
-		TenantID:    row.ParentID,
+		ParentID:    &row.ParentID,
+		TenantID:    &row.ParentID,
 		CreatedBy:   &row.CreatedBy,
 		CreatedAt:   &row.CreatedAt,
 		UpdatedBy:   &row.UpdatedBy,
 		UpdatedAt:   &row.UpdatedAt,
 	}
+}
+
+// CountX gets a count of taxonomys.
+func (s *taxonomyService) CountX(ctx context.Context, params *structs.ListTaxonomyParams) int {
+	return s.taxonomy.CountX(ctx, params)
+}
+
+// GetTree retrieves the taxonomy tree.
+func (s *taxonomyService) GetTree(ctx context.Context, params *structs.FindTaxonomy) (paging.Result[*structs.ReadTaxonomy], error) {
+	rows, err := s.taxonomy.GetTree(ctx, params)
+	if err := handleEntError("Taxonomy", err); err != nil {
+		return paging.Result[*structs.ReadTaxonomy]{}, err
+	}
+
+	return paging.Result[*structs.ReadTaxonomy]{
+		Items: s.buildTaxonomyTree(rows),
+		Total: len(rows),
+	}, nil
+}
+
+// buildTaxonomyTree builds a taxonomy tree structure.
+func (s *taxonomyService) buildTaxonomyTree(taxonomys []*ent.Taxonomy) []*structs.ReadTaxonomy {
+	// Convert taxonomys to ReadTaxonomy objects
+	taxonomyNodes := make([]types.TreeNode, len(taxonomys))
+	for i, m := range taxonomys {
+		taxonomyNodes[i] = s.Serialize(m)
+	}
+
+	// Sort taxonomy nodes
+	sortTaxonomyNodes(taxonomyNodes)
+
+	// Build tree structure
+	tree := types.BuildTree(taxonomyNodes)
+
+	result := make([]*structs.ReadTaxonomy, len(tree))
+	for i, node := range tree {
+		result[i] = node.(*structs.ReadTaxonomy)
+	}
+
+	return result
+}
+
+// sortTaxonomyNodes sorts taxonomy nodes.
+func sortTaxonomyNodes(taxonomyNodes []types.TreeNode) {
+	// Recursively sort children nodes first
+	for _, node := range taxonomyNodes {
+		children := node.GetChildren()
+		sortTaxonomyNodes(children)
+
+		// Sort children and set back to node
+		sort.SliceStable(children, func(i, j int) bool {
+			nodeI := children[i].(*structs.ReadTaxonomy)
+			nodeJ := children[j].(*structs.ReadTaxonomy)
+			return types.ToValue(nodeI.CreatedAt) < (types.ToValue(nodeJ.CreatedAt))
+		})
+		node.SetChildren(children)
+	}
+
+	// Sort the immediate children of the current level
+	sort.SliceStable(taxonomyNodes, func(i, j int) bool {
+		nodeI := taxonomyNodes[i].(*structs.ReadTaxonomy)
+		nodeJ := taxonomyNodes[j].(*structs.ReadTaxonomy)
+		return types.ToValue(nodeI.CreatedAt) < (types.ToValue(nodeJ.CreatedAt))
+	})
 }

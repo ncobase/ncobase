@@ -23,6 +23,7 @@ type TaxonomyRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateTaxonomyBody) (*ent.Taxonomy, error)
 	GetByID(ctx context.Context, id string) (*ent.Taxonomy, error)
 	GetBySlug(ctx context.Context, slug string) (*ent.Taxonomy, error)
+	GetTree(ctx context.Context, params *structs.FindTaxonomy) ([]*ent.Taxonomy, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Taxonomy, error)
 	List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error)
 	Delete(ctx context.Context, slug string) error
@@ -63,7 +64,7 @@ func (r *taxonomyRepository) Create(ctx context.Context, body *structs.CreateTax
 	builder.SetNillableKeywords(&body.Keywords)
 	builder.SetNillableDescription(&body.Description)
 	builder.SetStatus(body.Status)
-	builder.SetNillableParentID(&body.ParentID)
+	builder.SetNillableParentID(body.ParentID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
@@ -101,7 +102,7 @@ func (r *taxonomyRepository) GetByID(ctx context.Context, id string) (*ent.Taxon
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{ID: id})
+	row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Taxonomy: id})
 
 	if err != nil {
 		log.Errorf(context.Background(), "taxonomyRepo.GetByID error: %v\n", err)
@@ -132,7 +133,7 @@ func (r *taxonomyRepository) GetBySlug(ctx context.Context, slug string) (*ent.T
 	}
 
 	// If not found in cache, query the database
-	row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Slug: slug})
+	row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Taxonomy: slug})
 
 	if err != nil {
 		log.Errorf(context.Background(), "taxonomyRepo.GetBySlug error: %v\n", err)
@@ -148,9 +149,28 @@ func (r *taxonomyRepository) GetBySlug(ctx context.Context, slug string) (*ent.T
 	return row, nil
 }
 
+// GetTree retrieves the taxonomy tree.
+func (r *taxonomyRepository) GetTree(ctx context.Context, params *structs.FindTaxonomy) ([]*ent.Taxonomy, error) {
+	// create builder
+	builder := r.ec.Taxonomy.Query()
+
+	// set where conditions
+	if validator.IsNotEmpty(params.Tenant) {
+		builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
+	}
+
+	// handle sub taxonomys
+	if validator.IsNotEmpty(params.Taxonomy) && params.Taxonomy != "root" {
+		return r.getSubTaxonomy(ctx, params.Taxonomy, builder)
+	}
+
+	// execute the builder
+	return r.executeArrayQuery(ctx, builder)
+}
+
 // Update update taxonomy
 func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates types.JSON) (*ent.Taxonomy, error) {
-	taxonomy, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Slug: slug})
+	taxonomy, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Taxonomy: slug})
 	if err != nil {
 		return nil, err
 	}
@@ -285,8 +305,8 @@ func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxon
 	builder.Limit(params.Limit)
 
 	// belong tenant
-	if params.TenantID != "" {
-		builder.Where(taxonomyEnt.TenantIDEQ(params.TenantID))
+	if params.Tenant != "" {
+		builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// type
@@ -319,7 +339,7 @@ func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxon
 
 // Delete delete taxonomy
 func (r *taxonomyRepository) Delete(ctx context.Context, slug string) error {
-	taxonomy, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Slug: slug})
+	taxonomy, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Taxonomy: slug})
 	if err != nil {
 		return err
 	}
@@ -354,18 +374,15 @@ func (r *taxonomyRepository) FindTaxonomy(ctx context.Context, params *structs.F
 	// create builder.
 	builder := r.ec.Taxonomy.Query()
 
-	if validator.IsNotEmpty(params.ID) {
-		builder = builder.Where(taxonomyEnt.IDEQ(params.ID))
-	}
 	// support slug or ID
-	if validator.IsNotEmpty(params.Slug) {
+	if validator.IsNotEmpty(params.Taxonomy) {
 		builder = builder.Where(taxonomyEnt.Or(
-			taxonomyEnt.ID(params.Slug),
-			taxonomyEnt.SlugEQ(params.Slug),
+			taxonomyEnt.ID(params.Taxonomy),
+			taxonomyEnt.SlugEQ(params.Taxonomy),
 		))
 	}
-	if validator.IsNotEmpty(params.TenantID) {
-		builder = builder.Where(taxonomyEnt.TenantIDEQ(params.TenantID))
+	if validator.IsNotEmpty(params.Tenant) {
+		builder = builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// execute the builder.
@@ -384,14 +401,14 @@ func (r *taxonomyRepository) listBuilder(_ context.Context, params *structs.List
 
 	// match parent id.
 	// default is root.
-	if validator.IsEmpty(params.ParentID) {
+	if validator.IsEmpty(params.Parent) {
 		builder.Where(taxonomyEnt.Or(
 			taxonomyEnt.ParentIDIsNil(),
 			taxonomyEnt.ParentIDEQ(""),
 			taxonomyEnt.ParentIDEQ("root"),
 		))
 	} else {
-		builder.Where(taxonomyEnt.ParentIDEQ(params.ParentID))
+		builder.Where(taxonomyEnt.ParentIDEQ(params.Parent))
 	}
 
 	return builder, nil
@@ -405,4 +422,28 @@ func (r *taxonomyRepository) CountX(ctx context.Context, params *structs.ListTax
 		return 0
 	}
 	return builder.CountX(ctx)
+}
+
+// getSubTaxonomy - get sub taxonomys.
+func (r *taxonomyRepository) getSubTaxonomy(ctx context.Context, rootID string, builder *ent.TaxonomyQuery) ([]*ent.Taxonomy, error) {
+	// set where conditions
+	builder.Where(
+		taxonomyEnt.Or(
+			taxonomyEnt.ID(rootID),
+			taxonomyEnt.ParentIDHasPrefix(rootID),
+		),
+	)
+
+	// execute the builder
+	return r.executeArrayQuery(ctx, builder)
+}
+
+// executeArrayQuery - execute the builder query and return results.
+func (r *taxonomyRepository) executeArrayQuery(ctx context.Context, builder *ent.TaxonomyQuery) ([]*ent.Taxonomy, error) {
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(ctx, "taxonomyRepo.executeArrayQuery error: %v", err)
+		return nil, err
+	}
+	return rows, nil
 }
