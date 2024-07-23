@@ -470,6 +470,9 @@ definitions:
     type: object
   structs.ReadTaxonomy:
     properties:
+      children:
+        items: {}
+        type: array
       color:
         type: string
       cover:
@@ -2146,6 +2149,9 @@ paths:
       description: Retrieve a list of taxonomies.
       parameters:
       - in: query
+        name: children
+        type: boolean
+      - in: query
         name: cursor
         type: string
       - in: query
@@ -2155,10 +2161,10 @@ paths:
         name: limit
         type: integer
       - in: query
-        name: parent_id
+        name: parent
         type: string
       - in: query
-        name: tenant_id
+        name: tenant
         type: string
       - in: query
         name: type

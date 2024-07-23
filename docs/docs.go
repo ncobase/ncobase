@@ -2045,6 +2045,11 @@ const docTemplate = `{
                 "summary": "List taxonomies",
                 "parameters": [
                     {
+                        "type": "boolean",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "name": "cursor",
                         "in": "query"
@@ -2061,12 +2066,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "parent_id",
+                        "name": "parent",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "tenant_id",
+                        "name": "tenant",
                         "in": "query"
                     },
                     {
@@ -3777,6 +3782,10 @@ const docTemplate = `{
         "structs.ReadTaxonomy": {
             "type": "object",
             "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {}
+                },
                 "color": {
                     "type": "string"
                 },
