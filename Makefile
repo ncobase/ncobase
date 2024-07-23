@@ -24,7 +24,7 @@ ifeq ($(debug), 1)
 BUILD_FLAGS += -gcflags "-N -l"
 endif
 
-PLATFORMS := linux-amd64 linux-arm64
+PLATFORMS := linux-amd64 linux-arm64 darwin-amd64
 
 # Detect if running on an Apple Silicon chip
 ifeq ($(shell uname -m), arm64)
