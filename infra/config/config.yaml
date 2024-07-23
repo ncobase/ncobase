@@ -54,6 +54,10 @@ data:
     addresses:
     username:
     password:
+  mongodb:
+    uri:
+    username:
+    password:
 
 auth:
   jwt:
