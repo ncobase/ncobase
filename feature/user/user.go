@@ -134,12 +134,12 @@ func (m *Module) GetMetadata() feature.Metadata {
 	}
 }
 
-// Version returns the version of the plugin
+// Version returns the version of the module
 func (m *Module) Version() string {
 	return version
 }
 
-// Dependencies returns the dependencies of the plugin
+// Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
 }

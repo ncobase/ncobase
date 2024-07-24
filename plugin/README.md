@@ -5,8 +5,6 @@
 ## Structure
 
 ```plantext
-├── content/              # Content management plugin
-├── resource/             # Resource management plugin
 └── README.md             # This file
 ```
 

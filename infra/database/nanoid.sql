@@ -12,7 +12,7 @@ CREATE OR REPLACE FUNCTION nanoid(size int DEFAULT 16,
 AS
 $$
 DECLARE
-idBuilder     text := '';
+  idBuilder     text := '';
   i             int  := 0;
   bytes         bytea;
   alphabetIndex int;
@@ -32,11 +32,11 @@ BEGIN
             idBuilder := idBuilder || substr(alphabet, alphabetIndex, 1);
             if length(idBuilder) = size then
               return idBuilder;
-end if;
-end if;
+            end if;
+          end if;
           i = i + 1;
-end loop;
+        end loop;
       i := 0;
-end loop;
+    end loop;
 END
 $$;

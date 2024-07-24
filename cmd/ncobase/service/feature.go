@@ -6,8 +6,10 @@ import (
 	"ncobase/common/log"
 	"ncobase/feature/access"
 	"ncobase/feature/auth"
+	"ncobase/feature/content"
 	"ncobase/feature/group"
 	"ncobase/feature/linker"
+	"ncobase/feature/resource"
 	"ncobase/feature/system"
 	"ncobase/feature/tenant"
 	"ncobase/feature/user"
@@ -22,6 +24,8 @@ func registerFeatures(fm *feature.Manager) {
 		tenant.New(),
 		system.New(),
 		auth.New(),
+		resource.New(),
+		content.New(),
 		// add more built-in components here, disordered
 		linker.New(), // Must be the last one
 	}
