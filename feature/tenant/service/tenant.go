@@ -100,9 +100,13 @@ func (s *tenantService) Update(ctx context.Context, body *structs.UpdateTenantBo
 		return nil, err
 	}
 
-	// Check if the user is the creator of the tenant
-	if types.ToValue(row.CreatedBy) != userID {
-		return nil, errors.New("this tenant is not yours")
+	// Check if the user is the creator or user belongs to the tenant
+	ut, err := s.userTenant.GetByUserID(ctx, userID)
+	if err := handleEntError("UserTenant", err); err != nil {
+		return nil, err
+	}
+	if types.ToValue(row.CreatedBy) != userID && ut.TenantID != row.ID {
+		return nil, errors.New("this tenant is not yours or your not belong to this tenant")
 	}
 
 	// set updated by
@@ -147,9 +151,13 @@ func (s *tenantService) Get(ctx context.Context, id string) (*structs.ReadTenant
 		return nil, err
 	}
 
-	// Check if the user is the creator of the tenant
-	if types.ToValue(row.CreatedBy) != userID {
-		return nil, errors.New("this tenant is not yours")
+	// Check if the user is the creator or user belongs to the tenant
+	ut, err := s.userTenant.GetByUserID(ctx, userID)
+	if err := handleEntError("UserTenant", err); err != nil {
+		return nil, err
+	}
+	if types.ToValue(row.CreatedBy) != userID && ut.TenantID != row.ID {
+		return nil, errors.New("this tenant is not yours or your not belong to this tenant")
 	}
 
 	return row, nil
