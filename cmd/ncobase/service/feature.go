@@ -33,24 +33,24 @@ func registerFeatures(fm *feature.Manager) {
 	var sfs []feature.Interface
 	for _, f := range fs {
 		if err := fm.Register(f); err != nil {
-			log.Errorf(context.Background(), "❌ Failed to register feature %s: %v", f.Name(), err)
+			log.Errorf(context.Background(), "Failed to register feature %s: %v", f.Name(), err)
 			continue // Skip this feature and try to register the next one
 		}
-		log.Infof(context.Background(), "✅ Successfully registered feature %s", f.Name())
+		log.Infof(context.Background(), "Successfully registered feature %s", f.Name())
 		sfs = append(sfs, f)
 	}
 
 	if len(sfs) == 0 {
-		log.Errorf(context.Background(), "❌ No features were successfully registered.")
+		log.Errorf(context.Background(), "No features were successfully registered.")
 		return
 	}
 
-	log.Infof(context.Background(), "✅ Successfully registered %d features", len(sfs))
+	log.Infof(context.Background(), "Successfully registered %d features", len(sfs))
 
 	if err := fm.InitFeatures(); err != nil {
-		log.Errorf(context.Background(), "❌ Failed to initialize features: %v", err)
+		log.Errorf(context.Background(), "Failed to initialize features: %v", err)
 		return
 	}
 
-	log.Infof(context.Background(), "✅ All features initialized successfully")
+	log.Infof(context.Background(), "All features initialized successfully")
 }

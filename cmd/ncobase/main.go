@@ -45,12 +45,12 @@ func main() {
 	cleanupLogger := initializeLogger(conf)
 	defer cleanupLogger()
 
-	log.Infof(context.Background(), "🛫 [Server] Starting: %s", conf.AppName)
+	log.Infof(context.Background(), "Starting: %s", conf.AppName)
 
 	// create server
 	handler, cleanup, err := createServer(conf)
 	if err != nil {
-		log.Fatalf(context.Background(), "❌ [Server] Failed to start: %+v", err)
+		log.Fatalf(context.Background(), "Failed to start: %+v", err)
 	}
 	defer cleanup()
 
@@ -61,13 +61,13 @@ func main() {
 	if conf.Port == 0 {
 		listener, err = net.Listen("tcp", fmt.Sprintf("%s:0", conf.Host))
 		if err != nil {
-			log.Fatalf(context.Background(), "❌ [Server] Error starting server: %v", err)
+			log.Fatalf(context.Background(), "Error starting server: %v", err)
 		}
 		conf.Port = listener.Addr().(*net.TCPAddr).Port
 	} else {
 		listener, err = net.Listen("tcp", fmt.Sprintf("%s:%d", conf.Host, conf.Port))
 		if err != nil {
-			log.Fatalf(context.Background(), "❌ [Server] Error starting server: %v", err)
+			log.Fatalf(context.Background(), "Error starting server: %v", err)
 		}
 	}
 
@@ -80,15 +80,15 @@ func main() {
 		Handler: handler,
 	}
 
-	log.Infof(context.Background(), "🚀 [Server] Listening and serving HTTP on: %s", srv.Addr)
+	log.Infof(context.Background(), "Listening and serving HTTP on: %s", srv.Addr)
 
 	// listen and serve
 	go func() {
 		if err := srv.Serve(listener); err != nil {
 			if !errors.Is(err, http.ErrServerClosed) {
-				log.Errorf(context.Background(), "❌ [Server] Listen error: %s", err)
+				log.Errorf(context.Background(), "Listen error: %s", err)
 			} else {
-				log.Infof(context.Background(), "🛑 [Server] Server closed")
+				log.Infof(context.Background(), "Server closed")
 			}
 		}
 	}()
@@ -100,7 +100,7 @@ func main() {
 func loadConfig() *config.Config {
 	conf, err := config.Init()
 	if err != nil {
-		log.Fatalf(context.Background(), "❌ [Config] Initialization error: %+v", err)
+		log.Fatalf(context.Background(), "[Config] Initialization error: %+v", err)
 	}
 	return conf
 }
@@ -108,7 +108,7 @@ func loadConfig() *config.Config {
 func initializeLogger(conf *config.Config) func() {
 	cleanupLogger, err := log.Init(conf.Logger)
 	if err != nil {
-		log.Fatalf(context.Background(), "❌ [Logger] Initialization error: %+v", err)
+		log.Fatalf(context.Background(), "[Logger] Initialization error: %+v", err)
 	}
 	return cleanupLogger
 }
@@ -124,7 +124,7 @@ func createServer(conf *config.Config) (http.Handler, func(), error) {
 
 // restartApplication restarts the application.
 // func restartApplication() {
-// 	log.Infof(context.Background(), "🔄 [Restart] Restarting application...")
+// 	log.Infof(context.Background(), "Restarting application...")
 //
 // 	execSpec := &exec.Cmd{
 // 		Path:   os.Args[0],
@@ -135,10 +135,10 @@ func createServer(conf *config.Config) (http.Handler, func(), error) {
 // 	}
 //
 // 	if err := execSpec.Start(); err != nil {
-// 		log.Fatalf(context.Background(), "❌ [Restart] Failed to restart application: %+v", err)
+// 		log.Fatalf(context.Background(), "Failed to restart application: %+v", err)
 // 	}
 //
-// 	log.Infof(context.Background(), "👋 [Restart] Exiting old process")
+// 	log.Infof(context.Background(), "Exiting old process")
 // 	os.Exit(0)
 // }
 
@@ -148,24 +148,24 @@ func gracefulShutdown(srv *http.Server) {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	log.Infof(context.Background(), "⌛️ [Server] Graceful shutdown in progress...")
+	log.Infof(context.Background(), "Graceful shutdown in progress...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
 	defer cancel()
 
 	// Then shutdown the server
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Errorf(context.Background(), "❌ [Server] Shutdown error: %v", err)
+		log.Errorf(context.Background(), "Shutdown error: %v", err)
 	}
 
 	select {
 	case <-ctx.Done():
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			log.Warnf(context.Background(), "⚠️ [Server] Shutdown timed out after %s", shutdownTimeout)
+			log.Warnf(context.Background(), "Shutdown timed out after %s", shutdownTimeout)
 		} else {
-			log.Infof(context.Background(), "✅ [Server] Shutdown completed within %s", shutdownTimeout)
+			log.Infof(context.Background(), "Shutdown completed within %s", shutdownTimeout)
 		}
 	}
 
-	log.Infof(context.Background(), "👋 [Server] Exiting")
+	log.Infof(context.Background(), "Exiting")
 }

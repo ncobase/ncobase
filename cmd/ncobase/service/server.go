@@ -15,13 +15,13 @@ func NewServer(conf *config.Config) (http.Handler, func(), error) {
 	fm := feature.NewManager(conf)
 	registerFeatures(fm) // register built-in features
 	if err := fm.LoadPlugins(); err != nil {
-		log.Fatalf(context.Background(), "❌ Failed loading plugins: %+v", err)
+		log.Fatalf(context.Background(), "Failed loading plugins: %+v", err)
 	}
 
 	// New server
 	h, err := ginServer(conf, fm)
 	if err != nil {
-		log.Fatalf(context.Background(), "❌ Failed initializing http: %+v", err)
+		log.Fatalf(context.Background(), "Failed initializing http: %+v", err)
 		// panic(err)
 	}
 
