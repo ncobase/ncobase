@@ -3,7 +3,7 @@ package user
 import (
 	"fmt"
 	"ncobase/common/config"
-	"ncobase/feature"
+	"ncobase/common/feature"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/handler"
 	"ncobase/feature/user/service"

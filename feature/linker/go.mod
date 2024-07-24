@@ -14,7 +14,6 @@ replace (
 
 require (
 	github.com/gin-gonic/gin v1.10.0
-	ncobase v0.0.0-00010101000000-000000000000
 	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
 	ncobase/feature/access v0.0.0-00010101000000-000000000000
 	ncobase/feature/auth v0.0.0-00010101000000-000000000000
@@ -35,7 +34,7 @@ require (
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
-	github.com/aws/aws-sdk-go v1.55.0 // indirect
+	github.com/aws/aws-sdk-go v1.55.1 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/casbin/casbin/v2 v2.98.0 // indirect
@@ -141,5 +140,6 @@ require (
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	ncobase v0.0.0-00010101000000-000000000000 // indirect
 	ncobase/feature/group v0.0.0-00010101000000-000000000000 // indirect
 )

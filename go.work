@@ -4,12 +4,12 @@ use (
 	.
 	./feature/access
 	./feature/auth
-	./feature/content
 	./feature/group
 	./feature/linker
-	./feature/resource
 	./feature/system
 	./feature/tenant
 	./feature/user
-	pkg
+	./pkg
+	./plugin/content
+	./plugin/resource
 )

@@ -3,17 +3,21 @@ module ncobase
 go 1.22.5
 
 replace (
-	ncobase/common => ./pkg
 	ncobase/feature/access => ./feature/access
 	ncobase/feature/auth => ./feature/auth
-	ncobase/feature/content => ./feature/content
 	ncobase/feature/group => ./feature/group
 	ncobase/feature/linker => ./feature/linker
-	ncobase/feature/resource => ./feature/resource
 	ncobase/feature/system => ./feature/system
 	ncobase/feature/tenant => ./feature/tenant
 	ncobase/feature/user => ./feature/user
 )
+
+replace (
+	ncobase/plugin/content => ./plugin/content
+	ncobase/plugin/resource => ./plugin/resource
+)
+
+replace ncobase/common => ./pkg
 
 require (
 	github.com/casbin/casbin/v2 v2.98.0
@@ -27,13 +31,13 @@ require (
 	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
 	ncobase/feature/access v0.0.0-00010101000000-000000000000
 	ncobase/feature/auth v0.0.0-00010101000000-000000000000
-	ncobase/feature/content v0.0.0-00010101000000-000000000000
 	ncobase/feature/group v0.0.0-00010101000000-000000000000
 	ncobase/feature/linker v0.0.0-00010101000000-000000000000
-	ncobase/feature/resource v0.0.0-00010101000000-000000000000
 	ncobase/feature/system v0.0.0-00010101000000-000000000000
 	ncobase/feature/tenant v0.0.0-00010101000000-000000000000
 	ncobase/feature/user v0.0.0-00010101000000-000000000000
+	ncobase/plugin/content v0.0.0-00010101000000-000000000000
+	ncobase/plugin/resource v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -50,7 +54,7 @@ require (
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
-	github.com/aws/aws-sdk-go v1.55.0 // indirect
+	github.com/aws/aws-sdk-go v1.55.1 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/casbin/govaluate v1.2.0 // indirect

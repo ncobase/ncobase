@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
-	"ncobase/feature"
+	"ncobase/common/feature"
 	"ncobase/feature/access/data"
 	"ncobase/feature/access/handler"
 	"ncobase/feature/access/service"

@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
+	"ncobase/common/feature"
 	"ncobase/common/log"
-	"ncobase/feature"
 	"ncobase/feature/access"
 	"ncobase/feature/auth"
 	"ncobase/feature/group"

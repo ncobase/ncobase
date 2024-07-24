@@ -3,7 +3,7 @@ package linker
 import (
 	"fmt"
 	"ncobase/common/config"
-	"ncobase/feature"
+	"ncobase/common/feature"
 	"ncobase/feature/linker/service"
 	"sync"
 

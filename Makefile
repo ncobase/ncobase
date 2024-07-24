@@ -4,7 +4,7 @@ GO111MODULE := on
 APP_NAME := ncobase
 CMD_PATH := ./cmd/ncobase
 OUT := ./bin
-FEATURE_PATH := ./feature
+PLUGIN_PATH := ./plugin
 
 VERSION := $(shell git describe --tags --match "v*" --always | sed 's/-g[a-z0-9]\{7\}//')
 BRANCH := $(shell git symbolic-ref -q --short HEAD)
@@ -60,7 +60,7 @@ build-plugins:
 	@if [ $(APPLE_CHIP) -eq 1 ]; then \
 		echo "Skipping multi-platform plugin build on Apple Silicon"; \
 	else \
-		for dir in $(FEATURE_PATH)/*; do \
+		for dir in $(PLUGIN_PATH)/*; do \
 			if [ -d "$$dir" ] && [ -f "$$dir/cmd/plugin.go" ]; then \
 				PLUGIN_NAME=$$(basename $$dir); \
 				for platform in $(PLATFORMS); do \
@@ -87,7 +87,7 @@ build: generate
 
 build-plugin: build
 	@mkdir -p $(OUT)/plugins
-	@for dir in $(FEATURE_PATH)/*; do \
+	@for dir in $(PLUGIN_PATH)/*; do \
 		if [ -d "$$dir" ] && [ -f "$$dir/cmd/plugin.go" ]; then \
 			echo "Building plugin $$dir for current platform..."; \
 			PLUGIN_NAME=$$(basename $$dir); \

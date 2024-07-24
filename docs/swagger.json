@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Next-Gen Plug-in Framework",
+        "description": "Base Development Framework",
         "title": "Ncobase",
         "contact": {},
         "version": "0.1.0"

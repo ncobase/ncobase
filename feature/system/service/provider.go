@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ncobase/feature"
+	"ncobase/common/feature"
 	"ncobase/feature/system/data"
 )
 
