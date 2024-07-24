@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/cmd/ncobase/service"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -44,7 +45,7 @@ func main() {
 	cleanupLogger := initializeLogger(conf)
 	defer cleanupLogger()
 
-	log.Infof(context.Background(), "Application Name: %s", conf.AppName)
+	log.Infof(context.Background(), "🛫 [Server] Starting: %s", conf.AppName)
 
 	// create server
 	handler, cleanup, err := createServer(conf)
@@ -54,17 +55,41 @@ func main() {
 	defer cleanup()
 
 	// start server
-	addr := fmt.Sprintf("%s:%d", conf.Host, conf.Port)
-	srv := &http.Server{
-		Addr:    addr,
+	var srv *http.Server
+	var listener net.Listener
+
+	if conf.Port == 0 {
+		listener, err = net.Listen("tcp", fmt.Sprintf("%s:0", conf.Host))
+		if err != nil {
+			log.Fatalf(context.Background(), "❌ [Server] Error starting server: %v", err)
+		}
+		conf.Port = listener.Addr().(*net.TCPAddr).Port
+	} else {
+		listener, err = net.Listen("tcp", fmt.Sprintf("%s:%d", conf.Host, conf.Port))
+		if err != nil {
+			log.Fatalf(context.Background(), "❌ [Server] Error starting server: %v", err)
+		}
+	}
+
+	defer func(listener net.Listener) {
+		_ = listener.Close()
+	}(listener)
+
+	srv = &http.Server{
+		Addr:    fmt.Sprintf("%s:%d", conf.Host, conf.Port),
 		Handler: handler,
 	}
-	log.Infof(context.Background(), "🚀 [Server] Listening and serving HTTP on: %s", addr)
+
+	log.Infof(context.Background(), "🚀 [Server] Listening and serving HTTP on: %s", srv.Addr)
 
 	// listen and serve
 	go func() {
-		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			log.Fatalf(context.Background(), "❌ [Server] Listen: %s", err)
+		if err := srv.Serve(listener); err != nil {
+			if !errors.Is(err, http.ErrServerClosed) {
+				log.Errorf(context.Background(), "❌ [Server] Listen error: %s", err)
+			} else {
+				log.Infof(context.Background(), "🛑 [Server] Server closed")
+			}
 		}
 	}()
 
@@ -128,13 +153,18 @@ func gracefulShutdown(srv *http.Server) {
 	ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
 	defer cancel()
 
+	// Then shutdown the server
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatalf(context.Background(), "❌ [Server] Shutdown: %+v", err)
+		log.Errorf(context.Background(), "❌ [Server] Shutdown error: %v", err)
 	}
 
 	select {
 	case <-ctx.Done():
-		log.Infof(context.Background(), "⌛️ [Server] Shutdown completed within %s", shutdownTimeout)
+		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+			log.Warnf(context.Background(), "⚠️ [Server] Shutdown timed out after %s", shutdownTimeout)
+		} else {
+			log.Infof(context.Background(), "✅ [Server] Shutdown completed within %s", shutdownTimeout)
+		}
 	}
 
 	log.Infof(context.Background(), "👋 [Server] Exiting")
