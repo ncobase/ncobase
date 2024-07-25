@@ -75,7 +75,7 @@ func (l *Linker) PostInit() error {
 	// Subscribe to relevant events
 	l.subscribeEvents(l.fm)
 	// initialize data
-	err = l.s.InitData()
+	err = l.s.Initialize.Execute()
 	if err != nil {
 		return err
 	}
