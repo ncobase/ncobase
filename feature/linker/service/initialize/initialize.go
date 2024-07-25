@@ -5,6 +5,7 @@ import (
 	"fmt"
 	accessService "ncobase/feature/access/service"
 	authService "ncobase/feature/auth/service"
+	groupService "ncobase/feature/group/service"
 	tenantService "ncobase/feature/tenant/service"
 	userService "ncobase/feature/user/service"
 )
@@ -14,15 +15,17 @@ type InitializeService struct {
 	as  *authService.Service
 	us  *userService.Service
 	ts  *tenantService.Service
+	gs  *groupService.Service
 	acs *accessService.Service
 }
 
 // New creates a new initDataService.
-func New(as *authService.Service, us *userService.Service, ts *tenantService.Service, acs *accessService.Service) *InitializeService {
+func New(as *authService.Service, us *userService.Service, ts *tenantService.Service, gs *groupService.Service, acs *accessService.Service) *InitializeService {
 	return &InitializeService{
 		as:  as,
 		us:  us,
 		ts:  ts,
+		gs:  gs,
 		acs: acs,
 	}
 }
@@ -37,6 +40,7 @@ func (s *InitializeService) Execute() error {
 		s.checkUsersInitialized,
 		s.checkTenantsInitialized,
 		s.checkCasbinPoliciesInitialized,
+		s.checkGroupsInitialized,
 	}
 
 	for _, step := range steps {

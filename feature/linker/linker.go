@@ -2,8 +2,10 @@ package linker
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/feature"
+	"ncobase/common/resp"
 	"ncobase/feature/linker/service"
 	"sync"
 
@@ -67,23 +69,32 @@ func (l *Linker) PostInit() error {
 	if err != nil {
 		return err
 	}
+	gs, err := l.getGroupService()
+	if err != nil {
+		return err
+	}
 	acs, err := l.getAccessService()
 	if err != nil {
 		return err
 	}
-	l.s = service.New(as, us, ts, acs)
+	l.s = service.New(as, us, ts, gs, acs)
 	// Subscribe to relevant events
 	l.subscribeEvents(l.fm)
-	// initialize data
-	err = l.s.Initialize.Execute()
-	if err != nil {
-		return err
-	}
 	return nil
 }
 
 // RegisterRoutes registers routes for the linker
-func (l *Linker) RegisterRoutes(_ *gin.Engine) {}
+func (l *Linker) RegisterRoutes(e *gin.Engine) {
+	// initialize routes
+	e.POST("/v1/initialize", middleware.AuthenticatedUser, middleware.AuthenticatedTenant, func(c *gin.Context) {
+		err := l.s.Initialize.Execute()
+		if err != nil {
+			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+			return
+		}
+		resp.Success(c.Writer)
+	})
+}
 
 // GetHandlers returns the handlers for the linker
 func (l *Linker) GetHandlers() feature.Handler {
