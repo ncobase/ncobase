@@ -12,7 +12,6 @@ import (
 	"ncobase/feature/auth/data"
 	"ncobase/feature/auth/data/ent"
 	codeAuthEnt "ncobase/feature/auth/data/ent/codeauth"
-	"ncobase/feature/auth/middleware"
 	"ncobase/feature/auth/structs"
 	tenantService "ncobase/feature/tenant/service"
 	tenantStructs "ncobase/feature/tenant/structs"
@@ -149,7 +148,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, err
 	}
 
-	accessToken, refreshToken := middleware.GenerateUserToken(conf.Auth.JWT.Secret, user.ID, authToken.ID)
+	accessToken, refreshToken := generateUserToken(conf.Auth.JWT.Secret, user.ID, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		if err := tx.Rollback(); err != nil {
 			return nil, err
