@@ -8,16 +8,16 @@ import (
 	"ncobase/feature/resource/data/ent"
 )
 
-// The AssetFunc type is an adapter to allow the use of ordinary
-// function as Asset mutator.
-type AssetFunc func(context.Context, *ent.AssetMutation) (ent.Value, error)
+// The AttachmentFunc type is an adapter to allow the use of ordinary
+// function as Attachment mutator.
+type AttachmentFunc func(context.Context, *ent.AttachmentMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f AssetFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.AssetMutation); ok {
+func (f AttachmentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.AttachmentMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AssetMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AttachmentMutation", m)
 }
 
 // Condition is a hook condition function.

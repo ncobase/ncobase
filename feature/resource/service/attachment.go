@@ -17,30 +17,30 @@ import (
 	"os"
 )
 
-// AssetServiceInterface represents the asset service interface.
-type AssetServiceInterface interface {
-	Create(ctx context.Context, body *structs.CreateAssetBody) (*structs.ReadAsset, error)
-	Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadAsset, error)
-	Get(ctx context.Context, slug string) (*structs.ReadAsset, error)
+// AttachmentServiceInterface represents the attachment service interface.
+type AttachmentServiceInterface interface {
+	Create(ctx context.Context, body *structs.CreateAttachmentBody) (*structs.ReadAttachment, error)
+	Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadAttachment, error)
+	Get(ctx context.Context, slug string) (*structs.ReadAttachment, error)
 	Delete(ctx context.Context, slug string) error
-	List(ctx context.Context, params *structs.ListAssetParams) (paging.Result[*structs.ReadAsset], error)
-	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadAsset, error)
+	List(ctx context.Context, params *structs.ListAttachmentParams) (paging.Result[*structs.ReadAttachment], error)
+	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadAttachment, error)
 }
 
-// AssetService is the struct for the asset service.
-type assetService struct {
-	asset repository.AssetRepositoryInterface
+// AttachmentService is the struct for the attachment service.
+type attachmentService struct {
+	attachment repository.AttachmentRepositoryInterface
 }
 
-// NewAssetService creates a new asset service.
-func NewAssetService(d *data.Data) AssetServiceInterface {
-	return &assetService{
-		asset: repository.NewAssetRepository(d),
+// NewAttachmentService creates a new attachment service.
+func NewAttachmentService(d *data.Data) AttachmentServiceInterface {
+	return &attachmentService{
+		attachment: repository.NewAttachmentRepository(d),
 	}
 }
 
-// Create creates a new asset.
-func (s *assetService) Create(ctx context.Context, body *structs.CreateAssetBody) (*structs.ReadAsset, error) {
+// Create creates a new attachment.
+func (s *attachmentService) Create(ctx context.Context, body *structs.CreateAttachmentBody) (*structs.ReadAttachment, error) {
 	if validator.IsEmpty(body.ObjectID) {
 		return nil, errors.New(ecode.FieldIsRequired("belongsTo object"))
 	}
@@ -73,18 +73,18 @@ func (s *assetService) Create(ctx context.Context, body *structs.CreateAssetBody
 	userID := helper.GetUserID(ctx)
 	body.CreatedBy = &userID
 
-	// Create the asset using the repository
-	row, err := s.asset.Create(ctx, body)
+	// Create the attachment using the repository
+	row, err := s.attachment.Create(ctx, body)
 	if err != nil {
-		log.Errorf(ctx, "Error creating asset: %v\n", err)
-		return nil, errors.New("failed to create asset")
+		log.Errorf(ctx, "Error creating attachment: %v\n", err)
+		return nil, errors.New("failed to create attachment")
 	}
 
 	return s.Serialize(row), nil
 }
 
-// Update updates an existing asset.
-func (s *assetService) Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadAsset, error) {
+// Update updates an existing attachment.
+func (s *attachmentService) Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadAttachment, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return nil, errors.New(ecode.FieldIsRequired("slug"))
@@ -123,16 +123,16 @@ func (s *assetService) Update(ctx context.Context, slug string, updates map[stri
 		}
 	}
 
-	row, err := s.asset.Update(ctx, slug, updates)
-	if err := handleEntError("Asset", err); err != nil {
+	row, err := s.attachment.Update(ctx, slug, updates)
+	if err := handleEntError("Attachment", err); err != nil {
 		return nil, err
 	}
 
 	return s.Serialize(row), nil
 }
 
-// Get retrieves an asset by ID.
-func (s *assetService) Get(ctx context.Context, slug string) (*structs.ReadAsset, error) {
+// Get retrieves an attachment by ID.
+func (s *attachmentService) Get(ctx context.Context, slug string) (*structs.ReadAttachment, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return nil, errors.New(ecode.FieldIsRequired("slug"))
@@ -141,13 +141,13 @@ func (s *assetService) Get(ctx context.Context, slug string) (*structs.ReadAsset
 	// get storage interface
 	storage, _ := helper.GetStorage(ctx)
 
-	row, err := s.asset.GetByID(ctx, slug)
+	row, err := s.attachment.GetByID(ctx, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, errors.New(ecode.NotExist(fmt.Sprintf("Asset %s", slug)))
+			return nil, errors.New(ecode.NotExist(fmt.Sprintf("Attachment %s", slug)))
 		}
-		log.Errorf(ctx, "Error retrieving asset: %v\n", err)
-		return nil, errors.New("error retrieving asset")
+		log.Errorf(ctx, "Error retrieving attachment: %v\n", err)
+		return nil, errors.New("error retrieving attachment")
 	}
 
 	// Fetch file from storage
@@ -166,8 +166,8 @@ func (s *assetService) Get(ctx context.Context, slug string) (*structs.ReadAsset
 	return s.Serialize(row), nil
 }
 
-// Delete deletes an asset by ID.
-func (s *assetService) Delete(ctx context.Context, slug string) error {
+// Delete deletes an attachment by ID.
+func (s *attachmentService) Delete(ctx context.Context, slug string) error {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return errors.New(ecode.FieldIsRequired("slug"))
@@ -176,16 +176,16 @@ func (s *assetService) Delete(ctx context.Context, slug string) error {
 	// get storage interface
 	storage, _ := helper.GetStorage(ctx)
 
-	row, err := s.asset.GetByID(ctx, slug)
+	row, err := s.attachment.GetByID(ctx, slug)
 	if err != nil {
-		log.Errorf(ctx, "Error retrieving asset: %v\n", err)
-		return errors.New("error retrieving asset")
+		log.Errorf(ctx, "Error retrieving attachment: %v\n", err)
+		return errors.New("error retrieving attachment")
 	}
 
-	err = s.asset.Delete(ctx, slug)
+	err = s.attachment.Delete(ctx, slug)
 	if err != nil {
-		log.Errorf(ctx, "Error deleting asset: %v\n", err)
-		return errors.New("error deleting asset")
+		log.Errorf(ctx, "Error deleting attachment: %v\n", err)
+		return errors.New("error deleting attachment")
 	}
 
 	// Delete the file from storage
@@ -197,37 +197,37 @@ func (s *assetService) Delete(ctx context.Context, slug string) error {
 	return nil
 }
 
-// List lists assets.
-func (s *assetService) List(ctx context.Context, params *structs.ListAssetParams) (paging.Result[*structs.ReadAsset], error) {
+// List lists attachments.
+func (s *attachmentService) List(ctx context.Context, params *structs.ListAttachmentParams) (paging.Result[*structs.ReadAttachment], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,
 		Limit:     params.Limit,
 		Direction: params.Direction,
 	}
 
-	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadAsset, int, error) {
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadAttachment, int, error) {
 		lp := *params
 		lp.Cursor = cursor
 		lp.Limit = limit
 		lp.Direction = direction
 
-		rows, err := s.asset.List(ctx, &lp)
+		rows, err := s.attachment.List(ctx, &lp)
 		if ent.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing assets: %v\n", err)
+			log.Errorf(ctx, "Error listing attachments: %v\n", err)
 			return nil, 0, err
 		}
 
-		total := s.asset.CountX(ctx, params)
+		total := s.attachment.CountX(ctx, params)
 
 		return s.Serializes(rows), total, nil
 	})
 }
 
-// GetFileStream retrieves an asset's file stream.
-func (s *assetService) GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadAsset, error) {
+// GetFileStream retrieves an attachment's file stream.
+func (s *attachmentService) GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadAttachment, error) {
 	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return nil, nil, errors.New(ecode.FieldIsRequired("slug"))
@@ -236,14 +236,14 @@ func (s *assetService) GetFileStream(ctx context.Context, slug string) (io.ReadC
 	// Get storage interface
 	storage, _ := helper.GetStorage(ctx)
 
-	// Retrieve asset by ID
-	row, err := s.asset.GetByID(ctx, slug)
+	// Retrieve attachment by ID
+	row, err := s.attachment.GetByID(ctx, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, nil, errors.New(ecode.NotExist(fmt.Sprintf("Asset %s", slug)))
+			return nil, nil, errors.New(ecode.NotExist(fmt.Sprintf("Attachment %s", slug)))
 		}
-		log.Errorf(ctx, "Error retrieving asset: %v\n", err)
-		return nil, nil, errors.New("error retrieving asset")
+		log.Errorf(ctx, "Error retrieving attachment: %v\n", err)
+		return nil, nil, errors.New("error retrieving attachment")
 	}
 
 	// Fetch file stream from storage
@@ -253,22 +253,22 @@ func (s *assetService) GetFileStream(ctx context.Context, slug string) (io.ReadC
 		return nil, nil, errors.New("error retrieving file stream")
 	}
 
-	// Return file stream along with asset information
+	// Return file stream along with attachment information
 	return fileStream, s.Serialize(row), nil
 }
 
-// Serializes serializes assets.
-func (s *assetService) Serializes(rows []*ent.Asset) []*structs.ReadAsset {
-	var rs []*structs.ReadAsset
+// Serializes serializes attachments.
+func (s *attachmentService) Serializes(rows []*ent.Attachment) []*structs.ReadAttachment {
+	var rs []*structs.ReadAttachment
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }
 
-// Serialize serializes a asset.
-func (s *assetService) Serialize(row *ent.Asset) *structs.ReadAsset {
-	return &structs.ReadAsset{
+// Serialize serializes a attachment.
+func (s *attachmentService) Serialize(row *ent.Attachment) *structs.ReadAttachment {
+	return &structs.ReadAttachment{
 		ID:        row.ID,
 		Name:      row.Name,
 		Path:      row.Path,

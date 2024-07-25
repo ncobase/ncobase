@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/feature/resource/data/ent/asset"
+	"ncobase/feature/resource/data/ent/attachment"
 	"reflect"
 	"sync"
 
@@ -73,7 +73,7 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			asset.Table: asset.ValidColumn,
+			attachment.Table: attachment.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

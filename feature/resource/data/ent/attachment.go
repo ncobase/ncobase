@@ -5,15 +5,15 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/feature/resource/data/ent/asset"
+	"ncobase/feature/resource/data/ent/attachment"
 	"strings"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 )
 
-// Asset is the model entity for the Asset schema.
-type Asset struct {
+// Attachment is the model entity for the Attachment schema.
+type Attachment struct {
 	config `json:"-"`
 	// ID of the ent.
 	// primary key
@@ -50,15 +50,15 @@ type Asset struct {
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*Asset) scanValues(columns []string) ([]any, error) {
+func (*Attachment) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case asset.FieldExtras:
+		case attachment.FieldExtras:
 			values[i] = new([]byte)
-		case asset.FieldSize, asset.FieldCreatedAt, asset.FieldUpdatedAt:
+		case attachment.FieldSize, attachment.FieldCreatedAt, attachment.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case asset.FieldID, asset.FieldName, asset.FieldPath, asset.FieldType, asset.FieldStorage, asset.FieldBucket, asset.FieldEndpoint, asset.FieldObjectID, asset.FieldTenantID, asset.FieldCreatedBy, asset.FieldUpdatedBy:
+		case attachment.FieldID, attachment.FieldName, attachment.FieldPath, attachment.FieldType, attachment.FieldStorage, attachment.FieldBucket, attachment.FieldEndpoint, attachment.FieldObjectID, attachment.FieldTenantID, attachment.FieldCreatedBy, attachment.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -68,74 +68,74 @@ func (*Asset) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the Asset fields.
-func (a *Asset) assignValues(columns []string, values []any) error {
+// to the Attachment fields.
+func (a *Attachment) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case asset.FieldID:
+		case attachment.FieldID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
 				a.ID = value.String
 			}
-		case asset.FieldName:
+		case attachment.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
 				a.Name = value.String
 			}
-		case asset.FieldPath:
+		case attachment.FieldPath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field path", values[i])
 			} else if value.Valid {
 				a.Path = value.String
 			}
-		case asset.FieldType:
+		case attachment.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
 				a.Type = value.String
 			}
-		case asset.FieldSize:
+		case attachment.FieldSize:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field size", values[i])
 			} else if value.Valid {
 				a.Size = int(value.Int64)
 			}
-		case asset.FieldStorage:
+		case attachment.FieldStorage:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field storage", values[i])
 			} else if value.Valid {
 				a.Storage = value.String
 			}
-		case asset.FieldBucket:
+		case attachment.FieldBucket:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field bucket", values[i])
 			} else if value.Valid {
 				a.Bucket = value.String
 			}
-		case asset.FieldEndpoint:
+		case attachment.FieldEndpoint:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field endpoint", values[i])
 			} else if value.Valid {
 				a.Endpoint = value.String
 			}
-		case asset.FieldObjectID:
+		case attachment.FieldObjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field object_id", values[i])
 			} else if value.Valid {
 				a.ObjectID = value.String
 			}
-		case asset.FieldTenantID:
+		case attachment.FieldTenantID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
 				a.TenantID = value.String
 			}
-		case asset.FieldExtras:
+		case attachment.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
@@ -143,25 +143,25 @@ func (a *Asset) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case asset.FieldCreatedBy:
+		case attachment.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
 				a.CreatedBy = value.String
 			}
-		case asset.FieldUpdatedBy:
+		case attachment.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
 				a.UpdatedBy = value.String
 			}
-		case asset.FieldCreatedAt:
+		case attachment.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
 				a.CreatedAt = value.Int64
 			}
-		case asset.FieldUpdatedAt:
+		case attachment.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
@@ -174,34 +174,34 @@ func (a *Asset) assignValues(columns []string, values []any) error {
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the Asset.
+// Value returns the ent.Value that was dynamically selected and assigned to the Attachment.
 // This includes values selected through modifiers, order, etc.
-func (a *Asset) Value(name string) (ent.Value, error) {
+func (a *Attachment) Value(name string) (ent.Value, error) {
 	return a.selectValues.Get(name)
 }
 
-// Update returns a builder for updating this Asset.
-// Note that you need to call Asset.Unwrap() before calling this method if this Asset
+// Update returns a builder for updating this Attachment.
+// Note that you need to call Attachment.Unwrap() before calling this method if this Attachment
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (a *Asset) Update() *AssetUpdateOne {
-	return NewAssetClient(a.config).UpdateOne(a)
+func (a *Attachment) Update() *AttachmentUpdateOne {
+	return NewAttachmentClient(a.config).UpdateOne(a)
 }
 
-// Unwrap unwraps the Asset entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the Attachment entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (a *Asset) Unwrap() *Asset {
+func (a *Attachment) Unwrap() *Attachment {
 	_tx, ok := a.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: Asset is not a transactional entity")
+		panic("ent: Attachment is not a transactional entity")
 	}
 	a.config.driver = _tx.drv
 	return a
 }
 
 // String implements the fmt.Stringer.
-func (a *Asset) String() string {
+func (a *Attachment) String() string {
 	var builder strings.Builder
-	builder.WriteString("Asset(")
+	builder.WriteString("Attachment(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", a.ID))
 	builder.WriteString("name=")
 	builder.WriteString(a.Name)
@@ -248,5 +248,5 @@ func (a *Asset) String() string {
 	return builder.String()
 }
 
-// Assets is a parsable slice of Asset.
-type Assets []*Asset
+// Attachments is a parsable slice of Attachment.
+type Attachments []*Attachment

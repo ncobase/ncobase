@@ -6,15 +6,15 @@ import (
 	"ncobase/common/types"
 )
 
-// FindAsset represents the parameters for finding an asset.
-type FindAsset struct {
-	Asset  string `json:"asset,omitempty"`
-	Tenant string `json:"tenant,omitempty"`
-	User   string `json:"user,omitempty"`
+// FindAttachment represents the parameters for finding an attachment.
+type FindAttachment struct {
+	Attachment string `json:"attachment,omitempty"`
+	Tenant     string `json:"tenant,omitempty"`
+	User       string `json:"user,omitempty"`
 }
 
-// AssetBody represents the common fields for creating and updating an asset.
-type AssetBody struct {
+// AttachmentBody represents the common fields for creating and updating an attachment.
+type AttachmentBody struct {
 	File      multipart.File `json:"-"` // For internal use only, not to be serialized
 	Name      string         `json:"name,omitempty"`
 	Path      string         `json:"path,omitempty"`
@@ -30,19 +30,19 @@ type AssetBody struct {
 	UpdatedBy *string        `json:"updated_by,omitempty"`
 }
 
-// CreateAssetBody represents the body for creating an asset.
-type CreateAssetBody struct {
-	AssetBody
+// CreateAttachmentBody represents the body for creating an attachment.
+type CreateAttachmentBody struct {
+	AttachmentBody
 }
 
-// UpdateAssetBody represents the body for updating an asset.
-type UpdateAssetBody struct {
+// UpdateAttachmentBody represents the body for updating an attachment.
+type UpdateAttachmentBody struct {
 	ID string `json:"id"`
-	AssetBody
+	AttachmentBody
 }
 
-// ReadAsset represents the output schema for retrieving an asset.
-type ReadAsset struct {
+// ReadAttachment represents the output schema for retrieving an attachment.
+type ReadAttachment struct {
 	ID        string      `json:"id"`
 	Name      string      `json:"name"`
 	Path      string      `json:"path"`
@@ -61,12 +61,12 @@ type ReadAsset struct {
 }
 
 // GetCursorValue returns the cursor value.
-func (r *ReadAsset) GetCursorValue() string {
+func (r *ReadAttachment) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
-// ListAssetParams represents the parameters for listing assets.
-type ListAssetParams struct {
+// ListAttachmentParams represents the parameters for listing attachments.
+type ListAttachmentParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`

@@ -6,12 +6,12 @@ import (
 
 // Handler represents the resource handler.
 type Handler struct {
-	Asset AssetHandlerInterface
+	Attachment AttachmentHandlerInterface
 }
 
 // New creates new resource handler.
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		Asset: NewAssetHandler(svc),
+		Attachment: NewAttachmentHandler(svc),
 	}
 }

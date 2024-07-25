@@ -11,7 +11,7 @@ import (
 
 	"ncobase/feature/resource/data/ent/migrate"
 
-	"ncobase/feature/resource/data/ent/asset"
+	"ncobase/feature/resource/data/ent/attachment"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -23,8 +23,8 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
-	// Asset is the client for interacting with the Asset builders.
-	Asset *AssetClient
+	// Attachment is the client for interacting with the Attachment builders.
+	Attachment *AttachmentClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -36,7 +36,7 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
-	c.Asset = NewAssetClient(c.config)
+	c.Attachment = NewAttachmentClient(c.config)
 }
 
 type (
@@ -127,9 +127,9 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Asset:  NewAssetClient(cfg),
+		ctx:        ctx,
+		config:     cfg,
+		Attachment: NewAttachmentClient(cfg),
 	}, nil
 }
 
@@ -147,16 +147,16 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Asset:  NewAssetClient(cfg),
+		ctx:        ctx,
+		config:     cfg,
+		Attachment: NewAttachmentClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Asset.
+//		Attachment.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -178,126 +178,126 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Asset.Use(hooks...)
+	c.Attachment.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.Asset.Intercept(interceptors...)
+	c.Attachment.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
-	case *AssetMutation:
-		return c.Asset.mutate(ctx, m)
+	case *AttachmentMutation:
+		return c.Attachment.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
 }
 
-// AssetClient is a client for the Asset schema.
-type AssetClient struct {
+// AttachmentClient is a client for the Attachment schema.
+type AttachmentClient struct {
 	config
 }
 
-// NewAssetClient returns a client for the Asset from the given config.
-func NewAssetClient(c config) *AssetClient {
-	return &AssetClient{config: c}
+// NewAttachmentClient returns a client for the Attachment from the given config.
+func NewAttachmentClient(c config) *AttachmentClient {
+	return &AttachmentClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `asset.Hooks(f(g(h())))`.
-func (c *AssetClient) Use(hooks ...Hook) {
-	c.hooks.Asset = append(c.hooks.Asset, hooks...)
+// A call to `Use(f, g, h)` equals to `attachment.Hooks(f(g(h())))`.
+func (c *AttachmentClient) Use(hooks ...Hook) {
+	c.hooks.Attachment = append(c.hooks.Attachment, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `asset.Intercept(f(g(h())))`.
-func (c *AssetClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Asset = append(c.inters.Asset, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `attachment.Intercept(f(g(h())))`.
+func (c *AttachmentClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Attachment = append(c.inters.Attachment, interceptors...)
 }
 
-// Create returns a builder for creating a Asset entity.
-func (c *AssetClient) Create() *AssetCreate {
-	mutation := newAssetMutation(c.config, OpCreate)
-	return &AssetCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a Attachment entity.
+func (c *AttachmentClient) Create() *AttachmentCreate {
+	mutation := newAttachmentMutation(c.config, OpCreate)
+	return &AttachmentCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of Asset entities.
-func (c *AssetClient) CreateBulk(builders ...*AssetCreate) *AssetCreateBulk {
-	return &AssetCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of Attachment entities.
+func (c *AttachmentClient) CreateBulk(builders ...*AttachmentCreate) *AttachmentCreateBulk {
+	return &AttachmentCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *AssetClient) MapCreateBulk(slice any, setFunc func(*AssetCreate, int)) *AssetCreateBulk {
+func (c *AttachmentClient) MapCreateBulk(slice any, setFunc func(*AttachmentCreate, int)) *AttachmentCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &AssetCreateBulk{err: fmt.Errorf("calling to AssetClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &AttachmentCreateBulk{err: fmt.Errorf("calling to AttachmentClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*AssetCreate, rv.Len())
+	builders := make([]*AttachmentCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &AssetCreateBulk{config: c.config, builders: builders}
+	return &AttachmentCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for Asset.
-func (c *AssetClient) Update() *AssetUpdate {
-	mutation := newAssetMutation(c.config, OpUpdate)
-	return &AssetUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for Attachment.
+func (c *AttachmentClient) Update() *AttachmentUpdate {
+	mutation := newAttachmentMutation(c.config, OpUpdate)
+	return &AttachmentUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *AssetClient) UpdateOne(a *Asset) *AssetUpdateOne {
-	mutation := newAssetMutation(c.config, OpUpdateOne, withAsset(a))
-	return &AssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *AttachmentClient) UpdateOne(a *Attachment) *AttachmentUpdateOne {
+	mutation := newAttachmentMutation(c.config, OpUpdateOne, withAttachment(a))
+	return &AttachmentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *AssetClient) UpdateOneID(id string) *AssetUpdateOne {
-	mutation := newAssetMutation(c.config, OpUpdateOne, withAssetID(id))
-	return &AssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *AttachmentClient) UpdateOneID(id string) *AttachmentUpdateOne {
+	mutation := newAttachmentMutation(c.config, OpUpdateOne, withAttachmentID(id))
+	return &AttachmentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for Asset.
-func (c *AssetClient) Delete() *AssetDelete {
-	mutation := newAssetMutation(c.config, OpDelete)
-	return &AssetDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for Attachment.
+func (c *AttachmentClient) Delete() *AttachmentDelete {
+	mutation := newAttachmentMutation(c.config, OpDelete)
+	return &AttachmentDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *AssetClient) DeleteOne(a *Asset) *AssetDeleteOne {
+func (c *AttachmentClient) DeleteOne(a *Attachment) *AttachmentDeleteOne {
 	return c.DeleteOneID(a.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *AssetClient) DeleteOneID(id string) *AssetDeleteOne {
-	builder := c.Delete().Where(asset.ID(id))
+func (c *AttachmentClient) DeleteOneID(id string) *AttachmentDeleteOne {
+	builder := c.Delete().Where(attachment.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &AssetDeleteOne{builder}
+	return &AttachmentDeleteOne{builder}
 }
 
-// Query returns a query builder for Asset.
-func (c *AssetClient) Query() *AssetQuery {
-	return &AssetQuery{
+// Query returns a query builder for Attachment.
+func (c *AttachmentClient) Query() *AttachmentQuery {
+	return &AttachmentQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeAsset},
+		ctx:    &QueryContext{Type: TypeAttachment},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a Asset entity by its id.
-func (c *AssetClient) Get(ctx context.Context, id string) (*Asset, error) {
-	return c.Query().Where(asset.ID(id)).Only(ctx)
+// Get returns a Attachment entity by its id.
+func (c *AttachmentClient) Get(ctx context.Context, id string) (*Attachment, error) {
+	return c.Query().Where(attachment.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *AssetClient) GetX(ctx context.Context, id string) *Asset {
+func (c *AttachmentClient) GetX(ctx context.Context, id string) *Attachment {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -306,36 +306,36 @@ func (c *AssetClient) GetX(ctx context.Context, id string) *Asset {
 }
 
 // Hooks returns the client hooks.
-func (c *AssetClient) Hooks() []Hook {
-	return c.hooks.Asset
+func (c *AttachmentClient) Hooks() []Hook {
+	return c.hooks.Attachment
 }
 
 // Interceptors returns the client interceptors.
-func (c *AssetClient) Interceptors() []Interceptor {
-	return c.inters.Asset
+func (c *AttachmentClient) Interceptors() []Interceptor {
+	return c.inters.Attachment
 }
 
-func (c *AssetClient) mutate(ctx context.Context, m *AssetMutation) (Value, error) {
+func (c *AttachmentClient) mutate(ctx context.Context, m *AttachmentMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&AssetCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&AttachmentCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&AssetUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&AttachmentUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&AssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&AttachmentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&AssetDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&AttachmentDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown Asset mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown Attachment mutation op: %q", m.Op())
 	}
 }
 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Asset []ent.Hook
+		Attachment []ent.Hook
 	}
 	inters struct {
-		Asset []ent.Interceptor
+		Attachment []ent.Interceptor
 	}
 )

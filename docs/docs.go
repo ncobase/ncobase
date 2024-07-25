@@ -153,16 +153,16 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/assets": {
+        "/v1/attachments": {
             "get": {
-                "description": "List assets based on specified parameters.",
+                "description": "List attachments based on specified parameters.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "assets"
+                    "attachments"
                 ],
-                "summary": "List assets",
+                "summary": "List attachments",
                 "parameters": [
                     {
                         "type": "string",
@@ -213,7 +213,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadAsset"
+                                "$ref": "#/definitions/structs.ReadAttachment"
                             }
                         }
                     },
@@ -231,7 +231,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Create one or multiple assets.",
+                "description": "Create one or multiple attachments.",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -239,9 +239,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "assets"
+                    "attachments"
                 ],
-                "summary": "Create assets",
+                "summary": "Create attachments",
                 "parameters": [
                     {
                         "type": "file",
@@ -252,19 +252,19 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Object ID associated with the asset",
+                        "description": "Object ID associated with the attachment",
                         "name": "object_id",
                         "in": "formData"
                     },
                     {
                         "type": "string",
-                        "description": "Tenant ID associated with the asset",
+                        "description": "Tenant ID associated with the attachment",
                         "name": "tenant_id",
                         "in": "formData"
                     },
                     {
                         "type": "string",
-                        "description": "Additional properties associated with the asset (JSON format)",
+                        "description": "Additional properties associated with the attachment (JSON format)",
                         "name": "extras",
                         "in": "formData"
                     }
@@ -273,7 +273,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadAsset"
+                            "$ref": "#/definitions/structs.ReadAttachment"
                         }
                     },
                     "400": {
@@ -285,20 +285,20 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/assets/{slug}": {
+        "/v1/attachments/{slug}": {
             "get": {
-                "description": "Get details of a specific asset.",
+                "description": "Get details of a specific attachment.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "assets"
+                    "attachments"
                 ],
-                "summary": "Get asset",
+                "summary": "Get attachment",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Slug of the asset to retrieve",
+                        "description": "Slug of the attachment to retrieve",
                         "name": "slug",
                         "in": "path",
                         "required": true
@@ -314,7 +314,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadAsset"
+                            "$ref": "#/definitions/structs.ReadAttachment"
                         }
                     },
                     "400": {
@@ -331,7 +331,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Update an existing asset.",
+                "description": "Update an existing attachment.",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -339,24 +339,24 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "assets"
+                    "attachments"
                 ],
-                "summary": "Update asset",
+                "summary": "Update attachment",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Slug of the asset to update",
+                        "description": "Slug of the attachment to update",
                         "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Asset details",
-                        "name": "asset",
+                        "description": "Attachment details",
+                        "name": "attachment",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateAssetBody"
+                            "$ref": "#/definitions/structs.UpdateAttachmentBody"
                         }
                     }
                 ],
@@ -364,7 +364,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadAsset"
+                            "$ref": "#/definitions/structs.ReadAttachment"
                         }
                     },
                     "400": {
@@ -381,15 +381,15 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete a specific asset.",
+                "description": "Delete a specific attachment.",
                 "tags": [
-                    "assets"
+                    "attachments"
                 ],
-                "summary": "Delete asset",
+                "summary": "Delete attachment",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Slug of the asset to delete",
+                        "description": "Slug of the attachment to delete",
                         "name": "slug",
                         "in": "path",
                         "required": true
@@ -399,7 +399,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadAsset"
+                            "$ref": "#/definitions/structs.ReadAttachment"
                         }
                     },
                     "400": {
@@ -2733,21 +2733,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/tenants/{slug}/assets": {
+        "/v1/tenants/{slug}/attachments": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of assets associated with a specific tenant.",
+                "description": "Retrieve a list of attachments associated with a specific tenant.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "tenant"
                 ],
-                "summary": "List tenant assets",
+                "summary": "List tenant attachments",
                 "parameters": [
                     {
                         "type": "string",
@@ -3767,7 +3767,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadAsset": {
+        "structs.ReadAttachment": {
             "type": "object",
             "properties": {
                 "bucket": {
@@ -4370,7 +4370,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateAssetBody": {
+        "structs.UpdateAttachmentBody": {
             "type": "object",
             "properties": {
                 "bucket": {

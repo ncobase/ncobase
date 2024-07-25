@@ -6,27 +6,27 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/feature/resource/data/ent/asset"
+	"ncobase/feature/resource/data/ent/attachment"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
 
-// AssetCreate is the builder for creating a Asset entity.
-type AssetCreate struct {
+// AttachmentCreate is the builder for creating a Attachment entity.
+type AttachmentCreate struct {
 	config
-	mutation *AssetMutation
+	mutation *AttachmentMutation
 	hooks    []Hook
 }
 
 // SetName sets the "name" field.
-func (ac *AssetCreate) SetName(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetName(s string) *AttachmentCreate {
 	ac.mutation.SetName(s)
 	return ac
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableName(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableName(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetName(*s)
 	}
@@ -34,13 +34,13 @@ func (ac *AssetCreate) SetNillableName(s *string) *AssetCreate {
 }
 
 // SetPath sets the "path" field.
-func (ac *AssetCreate) SetPath(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetPath(s string) *AttachmentCreate {
 	ac.mutation.SetPath(s)
 	return ac
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (ac *AssetCreate) SetNillablePath(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillablePath(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetPath(*s)
 	}
@@ -48,13 +48,13 @@ func (ac *AssetCreate) SetNillablePath(s *string) *AssetCreate {
 }
 
 // SetType sets the "type" field.
-func (ac *AssetCreate) SetType(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetType(s string) *AttachmentCreate {
 	ac.mutation.SetType(s)
 	return ac
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableType(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableType(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetType(*s)
 	}
@@ -62,13 +62,13 @@ func (ac *AssetCreate) SetNillableType(s *string) *AssetCreate {
 }
 
 // SetSize sets the "size" field.
-func (ac *AssetCreate) SetSize(i int) *AssetCreate {
+func (ac *AttachmentCreate) SetSize(i int) *AttachmentCreate {
 	ac.mutation.SetSize(i)
 	return ac
 }
 
 // SetNillableSize sets the "size" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableSize(i *int) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableSize(i *int) *AttachmentCreate {
 	if i != nil {
 		ac.SetSize(*i)
 	}
@@ -76,13 +76,13 @@ func (ac *AssetCreate) SetNillableSize(i *int) *AssetCreate {
 }
 
 // SetStorage sets the "storage" field.
-func (ac *AssetCreate) SetStorage(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetStorage(s string) *AttachmentCreate {
 	ac.mutation.SetStorage(s)
 	return ac
 }
 
 // SetNillableStorage sets the "storage" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableStorage(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableStorage(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetStorage(*s)
 	}
@@ -90,13 +90,13 @@ func (ac *AssetCreate) SetNillableStorage(s *string) *AssetCreate {
 }
 
 // SetBucket sets the "bucket" field.
-func (ac *AssetCreate) SetBucket(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetBucket(s string) *AttachmentCreate {
 	ac.mutation.SetBucket(s)
 	return ac
 }
 
 // SetNillableBucket sets the "bucket" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableBucket(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableBucket(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetBucket(*s)
 	}
@@ -104,13 +104,13 @@ func (ac *AssetCreate) SetNillableBucket(s *string) *AssetCreate {
 }
 
 // SetEndpoint sets the "endpoint" field.
-func (ac *AssetCreate) SetEndpoint(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetEndpoint(s string) *AttachmentCreate {
 	ac.mutation.SetEndpoint(s)
 	return ac
 }
 
 // SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableEndpoint(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableEndpoint(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetEndpoint(*s)
 	}
@@ -118,13 +118,13 @@ func (ac *AssetCreate) SetNillableEndpoint(s *string) *AssetCreate {
 }
 
 // SetObjectID sets the "object_id" field.
-func (ac *AssetCreate) SetObjectID(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetObjectID(s string) *AttachmentCreate {
 	ac.mutation.SetObjectID(s)
 	return ac
 }
 
 // SetNillableObjectID sets the "object_id" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableObjectID(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableObjectID(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetObjectID(*s)
 	}
@@ -132,13 +132,13 @@ func (ac *AssetCreate) SetNillableObjectID(s *string) *AssetCreate {
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (ac *AssetCreate) SetTenantID(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetTenantID(s string) *AttachmentCreate {
 	ac.mutation.SetTenantID(s)
 	return ac
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableTenantID(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableTenantID(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetTenantID(*s)
 	}
@@ -146,19 +146,19 @@ func (ac *AssetCreate) SetNillableTenantID(s *string) *AssetCreate {
 }
 
 // SetExtras sets the "extras" field.
-func (ac *AssetCreate) SetExtras(m map[string]interface{}) *AssetCreate {
+func (ac *AttachmentCreate) SetExtras(m map[string]interface{}) *AttachmentCreate {
 	ac.mutation.SetExtras(m)
 	return ac
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ac *AssetCreate) SetCreatedBy(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetCreatedBy(s string) *AttachmentCreate {
 	ac.mutation.SetCreatedBy(s)
 	return ac
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableCreatedBy(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableCreatedBy(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetCreatedBy(*s)
 	}
@@ -166,13 +166,13 @@ func (ac *AssetCreate) SetNillableCreatedBy(s *string) *AssetCreate {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ac *AssetCreate) SetUpdatedBy(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetUpdatedBy(s string) *AttachmentCreate {
 	ac.mutation.SetUpdatedBy(s)
 	return ac
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableUpdatedBy(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableUpdatedBy(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetUpdatedBy(*s)
 	}
@@ -180,13 +180,13 @@ func (ac *AssetCreate) SetNillableUpdatedBy(s *string) *AssetCreate {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ac *AssetCreate) SetCreatedAt(i int64) *AssetCreate {
+func (ac *AttachmentCreate) SetCreatedAt(i int64) *AttachmentCreate {
 	ac.mutation.SetCreatedAt(i)
 	return ac
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableCreatedAt(i *int64) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableCreatedAt(i *int64) *AttachmentCreate {
 	if i != nil {
 		ac.SetCreatedAt(*i)
 	}
@@ -194,13 +194,13 @@ func (ac *AssetCreate) SetNillableCreatedAt(i *int64) *AssetCreate {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ac *AssetCreate) SetUpdatedAt(i int64) *AssetCreate {
+func (ac *AttachmentCreate) SetUpdatedAt(i int64) *AttachmentCreate {
 	ac.mutation.SetUpdatedAt(i)
 	return ac
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableUpdatedAt(i *int64) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableUpdatedAt(i *int64) *AttachmentCreate {
 	if i != nil {
 		ac.SetUpdatedAt(*i)
 	}
@@ -208,32 +208,32 @@ func (ac *AssetCreate) SetNillableUpdatedAt(i *int64) *AssetCreate {
 }
 
 // SetID sets the "id" field.
-func (ac *AssetCreate) SetID(s string) *AssetCreate {
+func (ac *AttachmentCreate) SetID(s string) *AttachmentCreate {
 	ac.mutation.SetID(s)
 	return ac
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (ac *AssetCreate) SetNillableID(s *string) *AssetCreate {
+func (ac *AttachmentCreate) SetNillableID(s *string) *AttachmentCreate {
 	if s != nil {
 		ac.SetID(*s)
 	}
 	return ac
 }
 
-// Mutation returns the AssetMutation object of the builder.
-func (ac *AssetCreate) Mutation() *AssetMutation {
+// Mutation returns the AttachmentMutation object of the builder.
+func (ac *AttachmentCreate) Mutation() *AttachmentMutation {
 	return ac.mutation
 }
 
-// Save creates the Asset in the database.
-func (ac *AssetCreate) Save(ctx context.Context) (*Asset, error) {
+// Save creates the Attachment in the database.
+func (ac *AttachmentCreate) Save(ctx context.Context) (*Attachment, error) {
 	ac.defaults()
 	return withHooks(ctx, ac.sqlSave, ac.mutation, ac.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ac *AssetCreate) SaveX(ctx context.Context) *Asset {
+func (ac *AttachmentCreate) SaveX(ctx context.Context) *Attachment {
 	v, err := ac.Save(ctx)
 	if err != nil {
 		panic(err)
@@ -242,81 +242,81 @@ func (ac *AssetCreate) SaveX(ctx context.Context) *Asset {
 }
 
 // Exec executes the query.
-func (ac *AssetCreate) Exec(ctx context.Context) error {
+func (ac *AttachmentCreate) Exec(ctx context.Context) error {
 	_, err := ac.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ac *AssetCreate) ExecX(ctx context.Context) {
+func (ac *AttachmentCreate) ExecX(ctx context.Context) {
 	if err := ac.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ac *AssetCreate) defaults() {
+func (ac *AttachmentCreate) defaults() {
 	if _, ok := ac.mutation.Size(); !ok {
-		v := asset.DefaultSize
+		v := attachment.DefaultSize
 		ac.mutation.SetSize(v)
 	}
 	if _, ok := ac.mutation.Extras(); !ok {
-		v := asset.DefaultExtras
+		v := attachment.DefaultExtras
 		ac.mutation.SetExtras(v)
 	}
 	if _, ok := ac.mutation.CreatedAt(); !ok {
-		v := asset.DefaultCreatedAt()
+		v := attachment.DefaultCreatedAt()
 		ac.mutation.SetCreatedAt(v)
 	}
 	if _, ok := ac.mutation.UpdatedAt(); !ok {
-		v := asset.DefaultUpdatedAt()
+		v := attachment.DefaultUpdatedAt()
 		ac.mutation.SetUpdatedAt(v)
 	}
 	if _, ok := ac.mutation.ID(); !ok {
-		v := asset.DefaultID()
+		v := attachment.DefaultID()
 		ac.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ac *AssetCreate) check() error {
+func (ac *AttachmentCreate) check() error {
 	if v, ok := ac.mutation.Name(); ok {
-		if err := asset.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Asset.name": %w`, err)}
+		if err := attachment.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Attachment.name": %w`, err)}
 		}
 	}
 	if _, ok := ac.mutation.Size(); !ok {
-		return &ValidationError{Name: "size", err: errors.New(`ent: missing required field "Asset.size"`)}
+		return &ValidationError{Name: "size", err: errors.New(`ent: missing required field "Attachment.size"`)}
 	}
 	if v, ok := ac.mutation.ObjectID(); ok {
-		if err := asset.ObjectIDValidator(v); err != nil {
-			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "Asset.object_id": %w`, err)}
+		if err := attachment.ObjectIDValidator(v); err != nil {
+			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "Attachment.object_id": %w`, err)}
 		}
 	}
 	if v, ok := ac.mutation.TenantID(); ok {
-		if err := asset.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Asset.tenant_id": %w`, err)}
+		if err := attachment.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Attachment.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := ac.mutation.CreatedBy(); ok {
-		if err := asset.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Asset.created_by": %w`, err)}
+		if err := attachment.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Attachment.created_by": %w`, err)}
 		}
 	}
 	if v, ok := ac.mutation.UpdatedBy(); ok {
-		if err := asset.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Asset.updated_by": %w`, err)}
+		if err := attachment.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Attachment.updated_by": %w`, err)}
 		}
 	}
 	if v, ok := ac.mutation.ID(); ok {
-		if err := asset.IDValidator(v); err != nil {
-			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Asset.id": %w`, err)}
+		if err := attachment.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Attachment.id": %w`, err)}
 		}
 	}
 	return nil
 }
 
-func (ac *AssetCreate) sqlSave(ctx context.Context) (*Asset, error) {
+func (ac *AttachmentCreate) sqlSave(ctx context.Context) (*Attachment, error) {
 	if err := ac.check(); err != nil {
 		return nil, err
 	}
@@ -331,7 +331,7 @@ func (ac *AssetCreate) sqlSave(ctx context.Context) (*Asset, error) {
 		if id, ok := _spec.ID.Value.(string); ok {
 			_node.ID = id
 		} else {
-			return nil, fmt.Errorf("unexpected Asset.ID type: %T", _spec.ID.Value)
+			return nil, fmt.Errorf("unexpected Attachment.ID type: %T", _spec.ID.Value)
 		}
 	}
 	ac.mutation.id = &_node.ID
@@ -339,95 +339,95 @@ func (ac *AssetCreate) sqlSave(ctx context.Context) (*Asset, error) {
 	return _node, nil
 }
 
-func (ac *AssetCreate) createSpec() (*Asset, *sqlgraph.CreateSpec) {
+func (ac *AttachmentCreate) createSpec() (*Attachment, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Asset{config: ac.config}
-		_spec = sqlgraph.NewCreateSpec(asset.Table, sqlgraph.NewFieldSpec(asset.FieldID, field.TypeString))
+		_node = &Attachment{config: ac.config}
+		_spec = sqlgraph.NewCreateSpec(attachment.Table, sqlgraph.NewFieldSpec(attachment.FieldID, field.TypeString))
 	)
 	if id, ok := ac.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
 	if value, ok := ac.mutation.Name(); ok {
-		_spec.SetField(asset.FieldName, field.TypeString, value)
+		_spec.SetField(attachment.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
 	if value, ok := ac.mutation.Path(); ok {
-		_spec.SetField(asset.FieldPath, field.TypeString, value)
+		_spec.SetField(attachment.FieldPath, field.TypeString, value)
 		_node.Path = value
 	}
 	if value, ok := ac.mutation.GetType(); ok {
-		_spec.SetField(asset.FieldType, field.TypeString, value)
+		_spec.SetField(attachment.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
 	if value, ok := ac.mutation.Size(); ok {
-		_spec.SetField(asset.FieldSize, field.TypeInt, value)
+		_spec.SetField(attachment.FieldSize, field.TypeInt, value)
 		_node.Size = value
 	}
 	if value, ok := ac.mutation.Storage(); ok {
-		_spec.SetField(asset.FieldStorage, field.TypeString, value)
+		_spec.SetField(attachment.FieldStorage, field.TypeString, value)
 		_node.Storage = value
 	}
 	if value, ok := ac.mutation.Bucket(); ok {
-		_spec.SetField(asset.FieldBucket, field.TypeString, value)
+		_spec.SetField(attachment.FieldBucket, field.TypeString, value)
 		_node.Bucket = value
 	}
 	if value, ok := ac.mutation.Endpoint(); ok {
-		_spec.SetField(asset.FieldEndpoint, field.TypeString, value)
+		_spec.SetField(attachment.FieldEndpoint, field.TypeString, value)
 		_node.Endpoint = value
 	}
 	if value, ok := ac.mutation.ObjectID(); ok {
-		_spec.SetField(asset.FieldObjectID, field.TypeString, value)
+		_spec.SetField(attachment.FieldObjectID, field.TypeString, value)
 		_node.ObjectID = value
 	}
 	if value, ok := ac.mutation.TenantID(); ok {
-		_spec.SetField(asset.FieldTenantID, field.TypeString, value)
+		_spec.SetField(attachment.FieldTenantID, field.TypeString, value)
 		_node.TenantID = value
 	}
 	if value, ok := ac.mutation.Extras(); ok {
-		_spec.SetField(asset.FieldExtras, field.TypeJSON, value)
+		_spec.SetField(attachment.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
 	if value, ok := ac.mutation.CreatedBy(); ok {
-		_spec.SetField(asset.FieldCreatedBy, field.TypeString, value)
+		_spec.SetField(attachment.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
 	if value, ok := ac.mutation.UpdatedBy(); ok {
-		_spec.SetField(asset.FieldUpdatedBy, field.TypeString, value)
+		_spec.SetField(attachment.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
 	if value, ok := ac.mutation.CreatedAt(); ok {
-		_spec.SetField(asset.FieldCreatedAt, field.TypeInt64, value)
+		_spec.SetField(attachment.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := ac.mutation.UpdatedAt(); ok {
-		_spec.SetField(asset.FieldUpdatedAt, field.TypeInt64, value)
+		_spec.SetField(attachment.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }
 
-// AssetCreateBulk is the builder for creating many Asset entities in bulk.
-type AssetCreateBulk struct {
+// AttachmentCreateBulk is the builder for creating many Attachment entities in bulk.
+type AttachmentCreateBulk struct {
 	config
 	err      error
-	builders []*AssetCreate
+	builders []*AttachmentCreate
 }
 
-// Save creates the Asset entities in the database.
-func (acb *AssetCreateBulk) Save(ctx context.Context) ([]*Asset, error) {
+// Save creates the Attachment entities in the database.
+func (acb *AttachmentCreateBulk) Save(ctx context.Context) ([]*Attachment, error) {
 	if acb.err != nil {
 		return nil, acb.err
 	}
 	specs := make([]*sqlgraph.CreateSpec, len(acb.builders))
-	nodes := make([]*Asset, len(acb.builders))
+	nodes := make([]*Attachment, len(acb.builders))
 	mutators := make([]Mutator, len(acb.builders))
 	for i := range acb.builders {
 		func(i int, root context.Context) {
 			builder := acb.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
-				mutation, ok := m.(*AssetMutation)
+				mutation, ok := m.(*AttachmentMutation)
 				if !ok {
 					return nil, fmt.Errorf("unexpected mutation type %T", m)
 				}
@@ -470,7 +470,7 @@ func (acb *AssetCreateBulk) Save(ctx context.Context) ([]*Asset, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (acb *AssetCreateBulk) SaveX(ctx context.Context) []*Asset {
+func (acb *AttachmentCreateBulk) SaveX(ctx context.Context) []*Attachment {
 	v, err := acb.Save(ctx)
 	if err != nil {
 		panic(err)
@@ -479,13 +479,13 @@ func (acb *AssetCreateBulk) SaveX(ctx context.Context) []*Asset {
 }
 
 // Exec executes the query.
-func (acb *AssetCreateBulk) Exec(ctx context.Context) error {
+func (acb *AttachmentCreateBulk) Exec(ctx context.Context) error {
 	_, err := acb.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (acb *AssetCreateBulk) ExecX(ctx context.Context) {
+func (acb *AttachmentCreateBulk) ExecX(ctx context.Context) {
 	if err := acb.Exec(ctx); err != nil {
 		panic(err)
 	}

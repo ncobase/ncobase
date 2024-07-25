@@ -6,5 +6,5 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Asset is the predicate function for asset builders.
-type Asset func(*sql.Selector)
+// Attachment is the predicate function for attachment builders.
+type Attachment func(*sql.Selector)

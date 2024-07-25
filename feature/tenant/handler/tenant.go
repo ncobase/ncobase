@@ -19,7 +19,7 @@ type TenantHandlerInterface interface {
 	GetMenus(c *gin.Context)
 	Delete(c *gin.Context)
 	List(c *gin.Context)
-	ListAssets(c *gin.Context)
+	ListAttachments(c *gin.Context)
 	ListRoles(c *gin.Context)
 	GetSetting(c *gin.Context)
 	ListUsers(c *gin.Context)
@@ -233,19 +233,19 @@ func (h *TenantHandler) List(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// ListAssets handles listing tenant assets.
+// ListAttachments handles listing tenant attachments.
 // TODO: implement this
-// @Summary List tenant assets
-// @Description Retrieve a list of assets associated with a specific tenant.
+// @Summary List tenant attachments
+// @Description Retrieve a list of attachments associated with a specific tenant.
 // @Tags tenant
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/tenants/{slug}/assets [get]
+// @Router /v1/tenants/{slug}/attachments [get]
 // @Security Bearer
-func (h *TenantHandler) ListAssets(c *gin.Context) {
-	// result, err := h.svc.ListAssetss(c.Request.Context(),c.Param("slug"))
+func (h *TenantHandler) ListAttachments(c *gin.Context) {
+	// result, err := h.svc.ListAttachmentss(c.Request.Context(),c.Param("slug"))
 	// if err != nil {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return

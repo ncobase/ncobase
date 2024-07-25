@@ -22,8 +22,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AssetHandlerInterface represents the asset handler interface.
-type AssetHandlerInterface interface {
+// AttachmentHandlerInterface represents the attachment handler interface.
+type AttachmentHandlerInterface interface {
 	Create(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
@@ -31,37 +31,37 @@ type AssetHandlerInterface interface {
 	Delete(c *gin.Context)
 }
 
-// assetHandler represents the asset handler.
-type assetHandler struct {
+// attachmentHandler represents the attachment handler.
+type attachmentHandler struct {
 	s *service.Service
 }
 
-// NewAssetHandler creates a new asset handler.
-func NewAssetHandler(s *service.Service) AssetHandlerInterface {
-	return &assetHandler{
+// NewAttachmentHandler creates a new attachment handler.
+func NewAttachmentHandler(s *service.Service) AttachmentHandlerInterface {
+	return &attachmentHandler{
 		s: s,
 	}
 }
 
-// maxAssetSize is the maximum allowed size of an asset.
-var maxAssetSize int64 = 2048 << 20 // 2048 MB
+// maxAttachmentSize is the maximum allowed size of an attachment.
+var maxAttachmentSize int64 = 2048 << 20 // 2048 MB
 
-// Create handles the creation of assets, both single and multiple.
+// Create handles the creation of attachments, both single and multiple.
 //
-// @Summary Create assets
-// @Description Create one or multiple assets.
-// @Tags assets
+// @Summary Create attachments
+// @Description Create one or multiple attachments.
+// @Tags attachments
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file true "File to upload"
-// @Param object_id formData string false "Object ID associated with the asset"
-// @Param tenant_id formData string false "Tenant ID associated with the asset"
-// @Param extras formData string false "Additional properties associated with the asset (JSON format)"
-// @Success 200 {object} structs.ReadAsset "success"
+// @Param object_id formData string false "Object ID associated with the attachment"
+// @Param tenant_id formData string false "Tenant ID associated with the attachment"
+// @Param extras formData string false "Additional properties associated with the attachment (JSON format)"
+// @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/assets [post]
+// @Router /v1/attachments [post]
 // @Security Bearer
-func (h *assetHandler) Create(c *gin.Context) {
+func (h *attachmentHandler) Create(c *gin.Context) {
 	if c.Request.Method != http.MethodPost {
 		resp.Fail(c.Writer, resp.NotAllowed("Method not allowed"))
 		return
@@ -79,7 +79,7 @@ func (h *assetHandler) Create(c *gin.Context) {
 }
 
 // handleFormDataUpload handles file upload using multipart form data
-func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
+func (h *attachmentHandler) handleFormDataUpload(c *gin.Context) {
 	file, header, err := c.Request.FormFile("file")
 	if err == nil {
 		defer func(file multipart.File) {
@@ -93,11 +93,11 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		if err := h.validateAssetBody(body); err != nil {
+		if err := h.validateAttachmentBody(body); err != nil {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.s.Asset.Create(c.Request.Context(), body)
+		result, err := h.s.Attachment.Create(c.Request.Context(), body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -106,7 +106,7 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 		return
 	}
 
-	err = c.Request.ParseMultipartForm(maxAssetSize) // Set maxMemory to 32MB
+	err = c.Request.ParseMultipartForm(maxAttachmentSize) // Set maxMemory to 32MB
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer("Failed to parse multipart form"))
 		return
@@ -116,7 +116,7 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest("File is required"))
 		return
 	}
-	var results []*structs.ReadAsset
+	var results []*structs.ReadAttachment
 	for _, fileHeader := range files {
 		file, err := fileHeader.Open()
 		if err != nil {
@@ -136,11 +136,11 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		if err := h.validateAssetBody(body); err != nil {
+		if err := h.validateAttachmentBody(body); err != nil {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 			return
 		}
-		result, err := h.s.Asset.Create(c.Request.Context(), body)
+		result, err := h.s.Attachment.Create(c.Request.Context(), body)
 		if err != nil {
 			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
@@ -150,7 +150,7 @@ func (h *assetHandler) handleFormDataUpload(c *gin.Context) {
 	resp.Success(c.Writer, results)
 }
 
-func (h *assetHandler) validateAssetBody(body *structs.CreateAssetBody) error {
+func (h *attachmentHandler) validateAttachmentBody(body *structs.CreateAttachmentBody) error {
 	if validator.IsEmpty(body.ObjectID) {
 		return errors.New("belongsTo object is required")
 	}
@@ -163,7 +163,7 @@ func (h *assetHandler) validateAssetBody(body *structs.CreateAssetBody) error {
 // // handleBlobUpload handles file upload using Blob object
 // func (h *Handler) handleBlobUpload(c *gin.Context) {
 // 	// Limit the maximum request body size
-// 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, maxAssetSize)
+// 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, maxAttachmentSize)
 //
 // 	// Create a buffer to store the file data
 // 	fileBuffer := bytes.Buffer{}
@@ -184,26 +184,26 @@ func (h *assetHandler) validateAssetBody(body *structs.CreateAssetBody) error {
 // 	// Determine file type
 // 	fileType := http.DetectContentType(fileBuffer.Bytes())
 //
-// 	// Create a new CreateAssetBody instance
-// 	body := &structs.CreateAssetBody{}
+// 	// Create a new CreateAttachmentBody instance
+// 	body := &structs.CreateAttachmentBody{}
 //
 // 	body.File = bytes.NewReader(fileBuffer.Bytes())
 // 	body.Type = fileType
 //
-// 	// Call service to create asset
+// 	// Call service to create attachment
 // 	result, err := h.svc.Create(c, body)
 // 	if err != nil {
-// 		resp.Fail(c.Writer, resp.InternalServer("Failed to create asset"))
+// 		resp.Fail(c.Writer, resp.InternalServer("Failed to create attachment"))
 // 		return
 // 	}
 //
 // 	resp.Success(c.Writer, result)
 // }
 
-// processFile processes file details and binds other fields from the form to the asset body
-func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateAssetBody, error) {
-	body := &structs.CreateAssetBody{}
-	fileHeader := storage.GetFileHeader(header, "assets")
+// processFile processes file details and binds other fields from the form to the attachment body
+func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateAttachmentBody, error) {
+	body := &structs.CreateAttachmentBody{}
+	fileHeader := storage.GetFileHeader(header, "attachments")
 	body.Path = fileHeader.Path
 	body.File = file
 	body.Type = fileHeader.Type
@@ -211,14 +211,14 @@ func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.Fi
 	body.Size = &fileHeader.Size
 
 	// Bind other fields from the form
-	if err := bindAssetFields(c, body); err != nil {
+	if err := bindAttachmentFields(c, body); err != nil {
 		return nil, err
 	}
 	return body, nil
 }
 
-// bindAssetFields binds other fields from the form to the asset body
-func bindAssetFields(c *gin.Context, body *structs.CreateAssetBody) error {
+// bindAttachmentFields binds other fields from the form to the attachment body
+func bindAttachmentFields(c *gin.Context, body *structs.CreateAttachmentBody) error {
 	// Manually bind other fields from the form
 	for key, values := range c.Request.Form {
 		if len(values) == 0 || (key != "file" && values[0] == "") {
@@ -240,20 +240,20 @@ func bindAssetFields(c *gin.Context, body *structs.CreateAssetBody) error {
 	return nil
 }
 
-// Update handles updating a asset.
+// Update handles updating a attachment.
 //
-// @Summary Update asset
-// @Description Update an existing asset.
-// @Tags assets
+// @Summary Update attachment
+// @Description Update an existing attachment.
+// @Tags attachments
 // @Accept multipart/form-data
 // @Produce json
-// @Param slug path string true "Slug of the asset to update"
-// @Param asset body structs.UpdateAssetBody true "Asset details"
-// @Success 200 {object} structs.ReadAsset "success"
+// @Param slug path string true "Slug of the attachment to update"
+// @Param attachment body structs.UpdateAttachmentBody true "Attachment details"
+// @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/assets/{slug} [put]
+// @Router /v1/attachments/{slug} [put]
 // @Security Bearer
-func (h *assetHandler) Update(c *gin.Context) {
+func (h *attachmentHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
@@ -264,7 +264,7 @@ func (h *assetHandler) Update(c *gin.Context) {
 	updates := make(types.JSON)
 
 	// Parse multipart form
-	if err := c.Request.ParseMultipartForm(maxAssetSize); err != nil {
+	if err := c.Request.ParseMultipartForm(maxAttachmentSize); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse form"))
 		return
 	}
@@ -281,7 +281,7 @@ func (h *assetHandler) Update(c *gin.Context) {
 		// Fetch file header from request
 		header := fileHeaders[0]
 		// Get file data
-		fileHeader := storage.GetFileHeader(header, "assets")
+		fileHeader := storage.GetFileHeader(header, "attachments")
 		// Add file header data to updates
 		// if updates["name"] == nil {
 		updates["name"] = fileHeader.Name
@@ -305,7 +305,7 @@ func (h *assetHandler) Update(c *gin.Context) {
 		updates["file"] = file
 	}
 
-	result, err := h.s.Asset.Update(c.Request.Context(), slug, updates)
+	result, err := h.s.Attachment.Update(c.Request.Context(), slug, updates)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -314,18 +314,18 @@ func (h *assetHandler) Update(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Get handles getting a asset.
+// Get handles getting a attachment.
 //
-// @Summary Get asset
-// @Description Get details of a specific asset.
-// @Tags assets
+// @Summary Get attachment
+// @Description Get details of a specific attachment.
+// @Tags attachments
 // @Produce json
-// @Param slug path string true "Slug of the asset to retrieve"
+// @Param slug path string true "Slug of the attachment to retrieve"
 // @Param type query string false "Type of retrieval ('download' or 'stream')"
-// @Success 200 {object} structs.ReadAsset "success"
+// @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/assets/{slug} [get]
-func (h *assetHandler) Get(c *gin.Context) {
+// @Router /v1/attachments/{slug} [get]
+func (h *attachmentHandler) Get(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("file")))
@@ -338,11 +338,11 @@ func (h *assetHandler) Get(c *gin.Context) {
 	}
 
 	if c.Query("type") == "stream" {
-		h.assetStream(c)
+		h.attachmentStream(c)
 		return
 	}
 
-	result, err := h.s.Asset.Get(c.Request.Context(), slug)
+	result, err := h.s.Attachment.Get(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -351,24 +351,24 @@ func (h *assetHandler) Get(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Delete handles deleting a asset.
+// Delete handles deleting a attachment.
 //
-// @Summary Delete asset
-// @Description Delete a specific asset.
-// @Tags assets
-// @Param slug path string true "Slug of the asset to delete"
-// @Success 200 {object} structs.ReadAsset "success"
+// @Summary Delete attachment
+// @Description Delete a specific attachment.
+// @Tags attachments
+// @Param slug path string true "Slug of the attachment to delete"
+// @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/assets/{slug} [delete]
+// @Router /v1/attachments/{slug} [delete]
 // @Security Bearer
-func (h *assetHandler) Delete(c *gin.Context) {
+func (h *attachmentHandler) Delete(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("file")))
 		return
 	}
 
-	if err := h.s.Asset.Delete(c.Request.Context(), slug); err != nil {
+	if err := h.s.Attachment.Delete(c.Request.Context(), slug); err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
@@ -376,18 +376,18 @@ func (h *assetHandler) Delete(c *gin.Context) {
 	resp.Success(c.Writer)
 }
 
-// List handles listing assets.
+// List handles listing attachments.
 //
-// @Summary List assets
-// @Description List assets based on specified parameters.
-// @Tags assets
+// @Summary List attachments
+// @Description List attachments based on specified parameters.
+// @Tags attachments
 // @Produce json
-// @Param params query structs.ListAssetParams true "List assets parameters"
-// @Success 200 {array} structs.ReadAsset "success"
+// @Param params query structs.ListAttachmentParams true "List attachments parameters"
+// @Success 200 {array} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/assets [get]
-func (h *assetHandler) List(c *gin.Context) {
-	params := &structs.ListAssetParams{}
+// @Router /v1/attachments [get]
+func (h *attachmentHandler) List(c *gin.Context) {
+	params := &structs.ListAttachmentParams{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -396,34 +396,34 @@ func (h *assetHandler) List(c *gin.Context) {
 		return
 	}
 
-	assets, err := h.s.Asset.List(c.Request.Context(), params)
+	attachments, err := h.s.Attachment.List(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
-	resp.Success(c.Writer, assets)
+	resp.Success(c.Writer, attachments)
 }
 
-// downloadAssetHandler handles the direct download of a asset.
-func (h *assetHandler) download(c *gin.Context) {
+// downloadAttachmentHandler handles the direct download of a attachment.
+func (h *attachmentHandler) download(c *gin.Context) {
 	h.downloadFile(c, "attachment")
 }
 
-// assetStreamHandler handles the streaming of a asset.
-func (h *assetHandler) assetStream(c *gin.Context) {
+// attachmentStreamHandler handles the streaming of a attachment.
+func (h *attachmentHandler) attachmentStream(c *gin.Context) {
 	h.downloadFile(c, "inline")
 }
 
-// downloadFile handles the download or streaming of a asset
-func (h *assetHandler) downloadFile(c *gin.Context, dispositionType string) {
+// downloadFile handles the download or streaming of a attachment
+func (h *attachmentHandler) downloadFile(c *gin.Context, dispositionType string) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
 		return
 	}
 
-	fileStream, row, err := h.s.Asset.GetFileStream(c.Request.Context(), slug)
+	fileStream, row, err := h.s.Attachment.GetFileStream(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

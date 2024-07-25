@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"ncobase/feature/resource/data/ent/asset"
+	"ncobase/feature/resource/data/ent/attachment"
 	"ncobase/feature/resource/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
@@ -14,64 +14,64 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// AssetQuery is the builder for querying Asset entities.
-type AssetQuery struct {
+// AttachmentQuery is the builder for querying Attachment entities.
+type AttachmentQuery struct {
 	config
 	ctx        *QueryContext
-	order      []asset.OrderOption
+	order      []attachment.OrderOption
 	inters     []Interceptor
-	predicates []predicate.Asset
+	predicates []predicate.Attachment
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
 }
 
-// Where adds a new predicate for the AssetQuery builder.
-func (aq *AssetQuery) Where(ps ...predicate.Asset) *AssetQuery {
+// Where adds a new predicate for the AttachmentQuery builder.
+func (aq *AttachmentQuery) Where(ps ...predicate.Attachment) *AttachmentQuery {
 	aq.predicates = append(aq.predicates, ps...)
 	return aq
 }
 
 // Limit the number of records to be returned by this query.
-func (aq *AssetQuery) Limit(limit int) *AssetQuery {
+func (aq *AttachmentQuery) Limit(limit int) *AttachmentQuery {
 	aq.ctx.Limit = &limit
 	return aq
 }
 
 // Offset to start from.
-func (aq *AssetQuery) Offset(offset int) *AssetQuery {
+func (aq *AttachmentQuery) Offset(offset int) *AttachmentQuery {
 	aq.ctx.Offset = &offset
 	return aq
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (aq *AssetQuery) Unique(unique bool) *AssetQuery {
+func (aq *AttachmentQuery) Unique(unique bool) *AttachmentQuery {
 	aq.ctx.Unique = &unique
 	return aq
 }
 
 // Order specifies how the records should be ordered.
-func (aq *AssetQuery) Order(o ...asset.OrderOption) *AssetQuery {
+func (aq *AttachmentQuery) Order(o ...attachment.OrderOption) *AttachmentQuery {
 	aq.order = append(aq.order, o...)
 	return aq
 }
 
-// First returns the first Asset entity from the query.
-// Returns a *NotFoundError when no Asset was found.
-func (aq *AssetQuery) First(ctx context.Context) (*Asset, error) {
+// First returns the first Attachment entity from the query.
+// Returns a *NotFoundError when no Attachment was found.
+func (aq *AttachmentQuery) First(ctx context.Context) (*Attachment, error) {
 	nodes, err := aq.Limit(1).All(setContextOp(ctx, aq.ctx, "First"))
 	if err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
-		return nil, &NotFoundError{asset.Label}
+		return nil, &NotFoundError{attachment.Label}
 	}
 	return nodes[0], nil
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (aq *AssetQuery) FirstX(ctx context.Context) *Asset {
+func (aq *AttachmentQuery) FirstX(ctx context.Context) *Attachment {
 	node, err := aq.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -79,22 +79,22 @@ func (aq *AssetQuery) FirstX(ctx context.Context) *Asset {
 	return node
 }
 
-// FirstID returns the first Asset ID from the query.
-// Returns a *NotFoundError when no Asset ID was found.
-func (aq *AssetQuery) FirstID(ctx context.Context) (id string, err error) {
+// FirstID returns the first Attachment ID from the query.
+// Returns a *NotFoundError when no Attachment ID was found.
+func (aq *AttachmentQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
 	if ids, err = aq.Limit(1).IDs(setContextOp(ctx, aq.ctx, "FirstID")); err != nil {
 		return
 	}
 	if len(ids) == 0 {
-		err = &NotFoundError{asset.Label}
+		err = &NotFoundError{attachment.Label}
 		return
 	}
 	return ids[0], nil
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (aq *AssetQuery) FirstIDX(ctx context.Context) string {
+func (aq *AttachmentQuery) FirstIDX(ctx context.Context) string {
 	id, err := aq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -102,10 +102,10 @@ func (aq *AssetQuery) FirstIDX(ctx context.Context) string {
 	return id
 }
 
-// Only returns a single Asset entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when more than one Asset entity is found.
-// Returns a *NotFoundError when no Asset entities are found.
-func (aq *AssetQuery) Only(ctx context.Context) (*Asset, error) {
+// Only returns a single Attachment entity found by the query, ensuring it only returns one.
+// Returns a *NotSingularError when more than one Attachment entity is found.
+// Returns a *NotFoundError when no Attachment entities are found.
+func (aq *AttachmentQuery) Only(ctx context.Context) (*Attachment, error) {
 	nodes, err := aq.Limit(2).All(setContextOp(ctx, aq.ctx, "Only"))
 	if err != nil {
 		return nil, err
@@ -114,14 +114,14 @@ func (aq *AssetQuery) Only(ctx context.Context) (*Asset, error) {
 	case 1:
 		return nodes[0], nil
 	case 0:
-		return nil, &NotFoundError{asset.Label}
+		return nil, &NotFoundError{attachment.Label}
 	default:
-		return nil, &NotSingularError{asset.Label}
+		return nil, &NotSingularError{attachment.Label}
 	}
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (aq *AssetQuery) OnlyX(ctx context.Context) *Asset {
+func (aq *AttachmentQuery) OnlyX(ctx context.Context) *Attachment {
 	node, err := aq.Only(ctx)
 	if err != nil {
 		panic(err)
@@ -129,10 +129,10 @@ func (aq *AssetQuery) OnlyX(ctx context.Context) *Asset {
 	return node
 }
 
-// OnlyID is like Only, but returns the only Asset ID in the query.
-// Returns a *NotSingularError when more than one Asset ID is found.
+// OnlyID is like Only, but returns the only Attachment ID in the query.
+// Returns a *NotSingularError when more than one Attachment ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (aq *AssetQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (aq *AttachmentQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
 	if ids, err = aq.Limit(2).IDs(setContextOp(ctx, aq.ctx, "OnlyID")); err != nil {
 		return
@@ -141,15 +141,15 @@ func (aq *AssetQuery) OnlyID(ctx context.Context) (id string, err error) {
 	case 1:
 		id = ids[0]
 	case 0:
-		err = &NotFoundError{asset.Label}
+		err = &NotFoundError{attachment.Label}
 	default:
-		err = &NotSingularError{asset.Label}
+		err = &NotSingularError{attachment.Label}
 	}
 	return
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (aq *AssetQuery) OnlyIDX(ctx context.Context) string {
+func (aq *AttachmentQuery) OnlyIDX(ctx context.Context) string {
 	id, err := aq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -157,18 +157,18 @@ func (aq *AssetQuery) OnlyIDX(ctx context.Context) string {
 	return id
 }
 
-// All executes the query and returns a list of Assets.
-func (aq *AssetQuery) All(ctx context.Context) ([]*Asset, error) {
+// All executes the query and returns a list of Attachments.
+func (aq *AttachmentQuery) All(ctx context.Context) ([]*Attachment, error) {
 	ctx = setContextOp(ctx, aq.ctx, "All")
 	if err := aq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
-	qr := querierAll[[]*Asset, *AssetQuery]()
-	return withInterceptors[[]*Asset](ctx, aq, qr, aq.inters)
+	qr := querierAll[[]*Attachment, *AttachmentQuery]()
+	return withInterceptors[[]*Attachment](ctx, aq, qr, aq.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (aq *AssetQuery) AllX(ctx context.Context) []*Asset {
+func (aq *AttachmentQuery) AllX(ctx context.Context) []*Attachment {
 	nodes, err := aq.All(ctx)
 	if err != nil {
 		panic(err)
@@ -176,20 +176,20 @@ func (aq *AssetQuery) AllX(ctx context.Context) []*Asset {
 	return nodes
 }
 
-// IDs executes the query and returns a list of Asset IDs.
-func (aq *AssetQuery) IDs(ctx context.Context) (ids []string, err error) {
+// IDs executes the query and returns a list of Attachment IDs.
+func (aq *AttachmentQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if aq.ctx.Unique == nil && aq.path != nil {
 		aq.Unique(true)
 	}
 	ctx = setContextOp(ctx, aq.ctx, "IDs")
-	if err = aq.Select(asset.FieldID).Scan(ctx, &ids); err != nil {
+	if err = aq.Select(attachment.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (aq *AssetQuery) IDsX(ctx context.Context) []string {
+func (aq *AttachmentQuery) IDsX(ctx context.Context) []string {
 	ids, err := aq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -198,16 +198,16 @@ func (aq *AssetQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (aq *AssetQuery) Count(ctx context.Context) (int, error) {
+func (aq *AttachmentQuery) Count(ctx context.Context) (int, error) {
 	ctx = setContextOp(ctx, aq.ctx, "Count")
 	if err := aq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, aq, querierCount[*AssetQuery](), aq.inters)
+	return withInterceptors[int](ctx, aq, querierCount[*AttachmentQuery](), aq.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (aq *AssetQuery) CountX(ctx context.Context) int {
+func (aq *AttachmentQuery) CountX(ctx context.Context) int {
 	count, err := aq.Count(ctx)
 	if err != nil {
 		panic(err)
@@ -216,7 +216,7 @@ func (aq *AssetQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (aq *AssetQuery) Exist(ctx context.Context) (bool, error) {
+func (aq *AttachmentQuery) Exist(ctx context.Context) (bool, error) {
 	ctx = setContextOp(ctx, aq.ctx, "Exist")
 	switch _, err := aq.FirstID(ctx); {
 	case IsNotFound(err):
@@ -229,7 +229,7 @@ func (aq *AssetQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (aq *AssetQuery) ExistX(ctx context.Context) bool {
+func (aq *AttachmentQuery) ExistX(ctx context.Context) bool {
 	exist, err := aq.Exist(ctx)
 	if err != nil {
 		panic(err)
@@ -237,18 +237,18 @@ func (aq *AssetQuery) ExistX(ctx context.Context) bool {
 	return exist
 }
 
-// Clone returns a duplicate of the AssetQuery builder, including all associated steps. It can be
+// Clone returns a duplicate of the AttachmentQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (aq *AssetQuery) Clone() *AssetQuery {
+func (aq *AttachmentQuery) Clone() *AttachmentQuery {
 	if aq == nil {
 		return nil
 	}
-	return &AssetQuery{
+	return &AttachmentQuery{
 		config:     aq.config,
 		ctx:        aq.ctx.Clone(),
-		order:      append([]asset.OrderOption{}, aq.order...),
+		order:      append([]attachment.OrderOption{}, aq.order...),
 		inters:     append([]Interceptor{}, aq.inters...),
-		predicates: append([]predicate.Asset{}, aq.predicates...),
+		predicates: append([]predicate.Attachment{}, aq.predicates...),
 		// clone intermediate query.
 		sql:  aq.sql.Clone(),
 		path: aq.path,
@@ -265,15 +265,15 @@ func (aq *AssetQuery) Clone() *AssetQuery {
 //		Count int `json:"count,omitempty"`
 //	}
 //
-//	client.Asset.Query().
-//		GroupBy(asset.FieldName).
+//	client.Attachment.Query().
+//		GroupBy(attachment.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (aq *AssetQuery) GroupBy(field string, fields ...string) *AssetGroupBy {
+func (aq *AttachmentQuery) GroupBy(field string, fields ...string) *AttachmentGroupBy {
 	aq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &AssetGroupBy{build: aq}
+	grbuild := &AttachmentGroupBy{build: aq}
 	grbuild.flds = &aq.ctx.Fields
-	grbuild.label = asset.Label
+	grbuild.label = attachment.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
 }
@@ -287,23 +287,23 @@ func (aq *AssetQuery) GroupBy(field string, fields ...string) *AssetGroupBy {
 //		Name string `json:"name,omitempty"`
 //	}
 //
-//	client.Asset.Query().
-//		Select(asset.FieldName).
+//	client.Attachment.Query().
+//		Select(attachment.FieldName).
 //		Scan(ctx, &v)
-func (aq *AssetQuery) Select(fields ...string) *AssetSelect {
+func (aq *AttachmentQuery) Select(fields ...string) *AttachmentSelect {
 	aq.ctx.Fields = append(aq.ctx.Fields, fields...)
-	sbuild := &AssetSelect{AssetQuery: aq}
-	sbuild.label = asset.Label
+	sbuild := &AttachmentSelect{AttachmentQuery: aq}
+	sbuild.label = attachment.Label
 	sbuild.flds, sbuild.scan = &aq.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
-// Aggregate returns a AssetSelect configured with the given aggregations.
-func (aq *AssetQuery) Aggregate(fns ...AggregateFunc) *AssetSelect {
+// Aggregate returns a AttachmentSelect configured with the given aggregations.
+func (aq *AttachmentQuery) Aggregate(fns ...AggregateFunc) *AttachmentSelect {
 	return aq.Select().Aggregate(fns...)
 }
 
-func (aq *AssetQuery) prepareQuery(ctx context.Context) error {
+func (aq *AttachmentQuery) prepareQuery(ctx context.Context) error {
 	for _, inter := range aq.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
@@ -315,7 +315,7 @@ func (aq *AssetQuery) prepareQuery(ctx context.Context) error {
 		}
 	}
 	for _, f := range aq.ctx.Fields {
-		if !asset.ValidColumn(f) {
+		if !attachment.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
@@ -329,16 +329,16 @@ func (aq *AssetQuery) prepareQuery(ctx context.Context) error {
 	return nil
 }
 
-func (aq *AssetQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Asset, error) {
+func (aq *AttachmentQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Attachment, error) {
 	var (
-		nodes = []*Asset{}
+		nodes = []*Attachment{}
 		_spec = aq.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
-		return (*Asset).scanValues(nil, columns)
+		return (*Attachment).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &Asset{config: aq.config}
+		node := &Attachment{config: aq.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
@@ -354,7 +354,7 @@ func (aq *AssetQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Asset,
 	return nodes, nil
 }
 
-func (aq *AssetQuery) sqlCount(ctx context.Context) (int, error) {
+func (aq *AttachmentQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := aq.querySpec()
 	_spec.Node.Columns = aq.ctx.Fields
 	if len(aq.ctx.Fields) > 0 {
@@ -363,8 +363,8 @@ func (aq *AssetQuery) sqlCount(ctx context.Context) (int, error) {
 	return sqlgraph.CountNodes(ctx, aq.driver, _spec)
 }
 
-func (aq *AssetQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(asset.Table, asset.Columns, sqlgraph.NewFieldSpec(asset.FieldID, field.TypeString))
+func (aq *AttachmentQuery) querySpec() *sqlgraph.QuerySpec {
+	_spec := sqlgraph.NewQuerySpec(attachment.Table, attachment.Columns, sqlgraph.NewFieldSpec(attachment.FieldID, field.TypeString))
 	_spec.From = aq.sql
 	if unique := aq.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
@@ -373,9 +373,9 @@ func (aq *AssetQuery) querySpec() *sqlgraph.QuerySpec {
 	}
 	if fields := aq.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
-		_spec.Node.Columns = append(_spec.Node.Columns, asset.FieldID)
+		_spec.Node.Columns = append(_spec.Node.Columns, attachment.FieldID)
 		for i := range fields {
-			if fields[i] != asset.FieldID {
+			if fields[i] != attachment.FieldID {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
 		}
@@ -403,12 +403,12 @@ func (aq *AssetQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (aq *AssetQuery) sqlQuery(ctx context.Context) *sql.Selector {
+func (aq *AttachmentQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	builder := sql.Dialect(aq.driver.Dialect())
-	t1 := builder.Table(asset.Table)
+	t1 := builder.Table(attachment.Table)
 	columns := aq.ctx.Fields
 	if len(columns) == 0 {
-		columns = asset.Columns
+		columns = attachment.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
 	if aq.sql != nil {
@@ -435,28 +435,28 @@ func (aq *AssetQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
-// AssetGroupBy is the group-by builder for Asset entities.
-type AssetGroupBy struct {
+// AttachmentGroupBy is the group-by builder for Attachment entities.
+type AttachmentGroupBy struct {
 	selector
-	build *AssetQuery
+	build *AttachmentQuery
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (agb *AssetGroupBy) Aggregate(fns ...AggregateFunc) *AssetGroupBy {
+func (agb *AttachmentGroupBy) Aggregate(fns ...AggregateFunc) *AttachmentGroupBy {
 	agb.fns = append(agb.fns, fns...)
 	return agb
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (agb *AssetGroupBy) Scan(ctx context.Context, v any) error {
+func (agb *AttachmentGroupBy) Scan(ctx context.Context, v any) error {
 	ctx = setContextOp(ctx, agb.build.ctx, "GroupBy")
 	if err := agb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*AssetQuery, *AssetGroupBy](ctx, agb.build, agb, agb.build.inters, v)
+	return scanWithInterceptors[*AttachmentQuery, *AttachmentGroupBy](ctx, agb.build, agb, agb.build.inters, v)
 }
 
-func (agb *AssetGroupBy) sqlScan(ctx context.Context, root *AssetQuery, v any) error {
+func (agb *AttachmentGroupBy) sqlScan(ctx context.Context, root *AttachmentQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
 	aggregation := make([]string, 0, len(agb.fns))
 	for _, fn := range agb.fns {
@@ -483,28 +483,28 @@ func (agb *AssetGroupBy) sqlScan(ctx context.Context, root *AssetQuery, v any) e
 	return sql.ScanSlice(rows, v)
 }
 
-// AssetSelect is the builder for selecting fields of Asset entities.
-type AssetSelect struct {
-	*AssetQuery
+// AttachmentSelect is the builder for selecting fields of Attachment entities.
+type AttachmentSelect struct {
+	*AttachmentQuery
 	selector
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (as *AssetSelect) Aggregate(fns ...AggregateFunc) *AssetSelect {
+func (as *AttachmentSelect) Aggregate(fns ...AggregateFunc) *AttachmentSelect {
 	as.fns = append(as.fns, fns...)
 	return as
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (as *AssetSelect) Scan(ctx context.Context, v any) error {
+func (as *AttachmentSelect) Scan(ctx context.Context, v any) error {
 	ctx = setContextOp(ctx, as.ctx, "Select")
 	if err := as.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*AssetQuery, *AssetSelect](ctx, as.AssetQuery, as, as.inters, v)
+	return scanWithInterceptors[*AttachmentQuery, *AttachmentSelect](ctx, as.AttachmentQuery, as, as.inters, v)
 }
 
-func (as *AssetSelect) sqlScan(ctx context.Context, root *AssetQuery, v any) error {
+func (as *AttachmentSelect) sqlScan(ctx context.Context, root *AttachmentQuery, v any) error {
 	selector := root.sqlQuery(ctx)
 	aggregation := make([]string, 0, len(as.fns))
 	for _, fn := range as.fns {

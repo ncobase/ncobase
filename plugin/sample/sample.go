@@ -63,7 +63,7 @@ func (p *Plugin) PostInit() error {
 func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints
 	v1 := e.Group("/v1")
-	// Asset endpoints
+	// Sample endpoints
 	samples := v1.Group("/samples")
 	{
 		samples.GET("", func(c *gin.Context) {

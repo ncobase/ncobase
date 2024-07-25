@@ -301,7 +301,7 @@ definitions:
       updated_by:
         type: string
     type: object
-  structs.ReadAsset:
+  structs.ReadAttachment:
     properties:
       bucket:
         type: string
@@ -700,7 +700,7 @@ definitions:
       phone:
         type: string
     type: object
-  structs.UpdateAssetBody:
+  structs.UpdateAttachmentBody:
     properties:
       bucket:
         type: string
@@ -1025,9 +1025,9 @@ paths:
       summary: Get current user tenants
       tags:
       - account
-  /v1/assets:
+  /v1/attachments:
     get:
-      description: List assets based on specified parameters.
+      description: List attachments based on specified parameters.
       parameters:
       - in: query
         name: cursor
@@ -1062,34 +1062,34 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/structs.ReadAsset'
+              $ref: '#/definitions/structs.ReadAttachment'
             type: array
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: List assets
+      summary: List attachments
       tags:
-      - assets
+      - attachments
     post:
       consumes:
       - multipart/form-data
-      description: Create one or multiple assets.
+      description: Create one or multiple attachments.
       parameters:
       - description: File to upload
         in: formData
         name: file
         required: true
         type: file
-      - description: Object ID associated with the asset
+      - description: Object ID associated with the attachment
         in: formData
         name: object_id
         type: string
-      - description: Tenant ID associated with the asset
+      - description: Tenant ID associated with the attachment
         in: formData
         name: tenant_id
         type: string
-      - description: Additional properties associated with the asset (JSON format)
+      - description: Additional properties associated with the attachment (JSON format)
         in: formData
         name: extras
         type: string
@@ -1099,21 +1099,21 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadAsset'
+            $ref: '#/definitions/structs.ReadAttachment'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
-      summary: Create assets
+      summary: Create attachments
       tags:
-      - assets
-  /v1/assets/{slug}:
+      - attachments
+  /v1/attachments/{slug}:
     delete:
-      description: Delete a specific asset.
+      description: Delete a specific attachment.
       parameters:
-      - description: Slug of the asset to delete
+      - description: Slug of the attachment to delete
         in: path
         name: slug
         required: true
@@ -1122,20 +1122,20 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadAsset'
+            $ref: '#/definitions/structs.ReadAttachment'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
-      summary: Delete asset
+      summary: Delete attachment
       tags:
-      - assets
+      - attachments
     get:
-      description: Get details of a specific asset.
+      description: Get details of a specific attachment.
       parameters:
-      - description: Slug of the asset to retrieve
+      - description: Slug of the attachment to retrieve
         in: path
         name: slug
         required: true
@@ -1150,46 +1150,46 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadAsset'
+            $ref: '#/definitions/structs.ReadAttachment'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Get asset
+      summary: Get attachment
       tags:
-      - assets
+      - attachments
     put:
       consumes:
       - multipart/form-data
-      description: Update an existing asset.
+      description: Update an existing attachment.
       parameters:
-      - description: Slug of the asset to update
+      - description: Slug of the attachment to update
         in: path
         name: slug
         required: true
         type: string
-      - description: Asset details
+      - description: Attachment details
         in: body
-        name: asset
+        name: attachment
         required: true
         schema:
-          $ref: '#/definitions/structs.UpdateAssetBody'
+          $ref: '#/definitions/structs.UpdateAttachmentBody'
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadAsset'
+            $ref: '#/definitions/structs.ReadAttachment'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
-      summary: Update asset
+      summary: Update attachment
       tags:
-      - assets
+      - attachments
   /v1/authorize/{code}:
     get:
       consumes:
@@ -2648,9 +2648,9 @@ paths:
       summary: Get tenant
       tags:
       - tenant
-  /v1/tenants/{slug}/assets:
+  /v1/tenants/{slug}/attachments:
     get:
-      description: Retrieve a list of assets associated with a specific tenant.
+      description: Retrieve a list of attachments associated with a specific tenant.
       parameters:
       - description: Tenant ID
         in: path
@@ -2670,7 +2670,7 @@ paths:
             $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
-      summary: List tenant assets
+      summary: List tenant attachments
       tags:
       - tenant
   /v1/tenants/{slug}/groups:

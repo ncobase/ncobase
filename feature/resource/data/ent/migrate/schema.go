@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseAssetColumns holds the columns for the "ncse_asset" table.
-	NcseAssetColumns = []*schema.Column{
+	// NcseAttachmentColumns holds the columns for the "ncse_attachment" table.
+	NcseAttachmentColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
@@ -27,47 +27,47 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseAssetTable holds the schema information for the "ncse_asset" table.
-	NcseAssetTable = &schema.Table{
-		Name:       "ncse_asset",
-		Columns:    NcseAssetColumns,
-		PrimaryKey: []*schema.Column{NcseAssetColumns[0]},
+	// NcseAttachmentTable holds the schema information for the "ncse_attachment" table.
+	NcseAttachmentTable = &schema.Table{
+		Name:       "ncse_attachment",
+		Columns:    NcseAttachmentColumns,
+		PrimaryKey: []*schema.Column{NcseAttachmentColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "asset_id",
+				Name:    "attachment_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseAssetColumns[0]},
+				Columns: []*schema.Column{NcseAttachmentColumns[0]},
 			},
 			{
-				Name:    "asset_name",
+				Name:    "attachment_name",
 				Unique:  true,
-				Columns: []*schema.Column{NcseAssetColumns[1]},
+				Columns: []*schema.Column{NcseAttachmentColumns[1]},
 			},
 			{
-				Name:    "asset_object_id",
+				Name:    "attachment_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseAssetColumns[8]},
+				Columns: []*schema.Column{NcseAttachmentColumns[8]},
 			},
 			{
-				Name:    "asset_tenant_id",
+				Name:    "attachment_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseAssetColumns[9]},
+				Columns: []*schema.Column{NcseAttachmentColumns[9]},
 			},
 			{
-				Name:    "asset_id_created_at",
+				Name:    "attachment_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseAssetColumns[0], NcseAssetColumns[13]},
+				Columns: []*schema.Column{NcseAttachmentColumns[0], NcseAttachmentColumns[13]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseAssetTable,
+		NcseAttachmentTable,
 	}
 )
 
 func init() {
-	NcseAssetTable.Annotation = &entsql.Annotation{
-		Table: "ncse_asset",
+	NcseAttachmentTable.Annotation = &entsql.Annotation{
+		Table: "ncse_attachment",
 	}
 }

@@ -75,14 +75,14 @@ func (m *Module) PostInit() error {
 func (m *Module) RegisterRoutes(e *gin.Engine) {
 	// API v1 endpoints
 	v1 := e.Group("/v1")
-	// Asset endpoints
-	assets := v1.Group("/assets", middleware.AuthenticatedUser)
+	// Attachment endpoints
+	attachments := v1.Group("/attachments", middleware.AuthenticatedUser)
 	{
-		assets.GET("", m.h.Asset.List)
-		assets.POST("", m.h.Asset.Create)
-		assets.GET("/:slug", m.h.Asset.Get)
-		assets.PUT("/:slug", m.h.Asset.Update)
-		assets.DELETE("/:slug", m.h.Asset.Delete)
+		attachments.GET("", m.h.Attachment.List)
+		attachments.POST("", m.h.Attachment.Create)
+		attachments.GET("/:slug", m.h.Attachment.Get)
+		attachments.PUT("/:slug", m.h.Attachment.Update)
+		attachments.DELETE("/:slug", m.h.Attachment.Delete)
 	}
 }
 

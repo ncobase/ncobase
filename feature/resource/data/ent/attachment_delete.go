@@ -4,7 +4,7 @@ package ent
 
 import (
 	"context"
-	"ncobase/feature/resource/data/ent/asset"
+	"ncobase/feature/resource/data/ent/attachment"
 	"ncobase/feature/resource/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
@@ -12,26 +12,26 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// AssetDelete is the builder for deleting a Asset entity.
-type AssetDelete struct {
+// AttachmentDelete is the builder for deleting a Attachment entity.
+type AttachmentDelete struct {
 	config
 	hooks    []Hook
-	mutation *AssetMutation
+	mutation *AttachmentMutation
 }
 
-// Where appends a list predicates to the AssetDelete builder.
-func (ad *AssetDelete) Where(ps ...predicate.Asset) *AssetDelete {
+// Where appends a list predicates to the AttachmentDelete builder.
+func (ad *AttachmentDelete) Where(ps ...predicate.Attachment) *AttachmentDelete {
 	ad.mutation.Where(ps...)
 	return ad
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (ad *AssetDelete) Exec(ctx context.Context) (int, error) {
+func (ad *AttachmentDelete) Exec(ctx context.Context) (int, error) {
 	return withHooks(ctx, ad.sqlExec, ad.mutation, ad.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ad *AssetDelete) ExecX(ctx context.Context) int {
+func (ad *AttachmentDelete) ExecX(ctx context.Context) int {
 	n, err := ad.Exec(ctx)
 	if err != nil {
 		panic(err)
@@ -39,8 +39,8 @@ func (ad *AssetDelete) ExecX(ctx context.Context) int {
 	return n
 }
 
-func (ad *AssetDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(asset.Table, sqlgraph.NewFieldSpec(asset.FieldID, field.TypeString))
+func (ad *AttachmentDelete) sqlExec(ctx context.Context) (int, error) {
+	_spec := sqlgraph.NewDeleteSpec(attachment.Table, sqlgraph.NewFieldSpec(attachment.FieldID, field.TypeString))
 	if ps := ad.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -56,32 +56,32 @@ func (ad *AssetDelete) sqlExec(ctx context.Context) (int, error) {
 	return affected, err
 }
 
-// AssetDeleteOne is the builder for deleting a single Asset entity.
-type AssetDeleteOne struct {
-	ad *AssetDelete
+// AttachmentDeleteOne is the builder for deleting a single Attachment entity.
+type AttachmentDeleteOne struct {
+	ad *AttachmentDelete
 }
 
-// Where appends a list predicates to the AssetDelete builder.
-func (ado *AssetDeleteOne) Where(ps ...predicate.Asset) *AssetDeleteOne {
+// Where appends a list predicates to the AttachmentDelete builder.
+func (ado *AttachmentDeleteOne) Where(ps ...predicate.Attachment) *AttachmentDeleteOne {
 	ado.ad.mutation.Where(ps...)
 	return ado
 }
 
 // Exec executes the deletion query.
-func (ado *AssetDeleteOne) Exec(ctx context.Context) error {
+func (ado *AttachmentDeleteOne) Exec(ctx context.Context) error {
 	n, err := ado.ad.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
 	case n == 0:
-		return &NotFoundError{asset.Label}
+		return &NotFoundError{attachment.Label}
 	default:
 		return nil
 	}
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ado *AssetDeleteOne) ExecX(ctx context.Context) {
+func (ado *AttachmentDeleteOne) ExecX(ctx context.Context) {
 	if err := ado.Exec(ctx); err != nil {
 		panic(err)
 	}

@@ -11,14 +11,14 @@ import (
 	"entgo.io/ent/schema/index"
 )
 
-// Asset holds the schema definition for the Asset entity.
-type Asset struct {
+// Attachment holds the schema definition for the Attachment entity.
+type Attachment struct {
 	ent.Schema
 }
 
-// Annotations of the Asset.
-func (Asset) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "asset"}, "_")
+// Annotations of the Attachment.
+func (Attachment) Annotations() []schema.Annotation {
+	table := strings.Join([]string{"ncse", "attachment"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -26,8 +26,8 @@ func (Asset) Annotations() []schema.Annotation {
 	}
 }
 
-// Mixin of the Asset.
-func (Asset) Mixin() []ent.Mixin {
+// Mixin of the Attachment.
+func (Attachment) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey,
 		mixin.NameUnique,
@@ -45,18 +45,18 @@ func (Asset) Mixin() []ent.Mixin {
 	}
 }
 
-// Fields of the Asset.
-func (Asset) Fields() []ent.Field {
+// Fields of the Attachment.
+func (Attachment) Fields() []ent.Field {
 	return []ent.Field{}
 }
 
-// Edges of the Asset.
-func (Asset) Edges() []ent.Edge {
+// Edges of the Attachment.
+func (Attachment) Edges() []ent.Edge {
 	return []ent.Edge{}
 }
 
-// Indexes of the Asset.
-func (Asset) Indexes() []ent.Index {
+// Indexes of the Attachment.
+func (Attachment) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("id", "created_at").Unique(),
 	}

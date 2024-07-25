@@ -88,12 +88,12 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		tenants.PUT("/:slug", m.h.Tenant.Update)
 		tenants.DELETE("/:slug", m.h.Tenant.Delete)
 
-		// // Tenant asset endpoints
-		// tenants.GET("/:tenant/assets", m.h.ListTenantAssetHandler)
-		// tenants.POST("/:tenant/assets", m.h.CreateTenantAssetsHandler)
-		// tenants.GET("/:tenant/assets/:asset", m.h.GetTenantAssetHandler)
-		// tenants.PUT("/:tenant/assets/:asset", m.h.UpdateTenantAssetHandler)
-		// tenants.DELETE("/:tenant/assets/:asset", m.h.DeleteTenantAssetHandler)
+		// // Tenant attachment endpoints
+		// tenants.GET("/:tenant/attachments", m.h.ListTenantAttachmentHandler)
+		// tenants.POST("/:tenant/attachments", m.h.CreateTenantAttachmentsHandler)
+		// tenants.GET("/:tenant/attachments/:attachment", m.h.GetTenantAttachmentHandler)
+		// tenants.PUT("/:tenant/attachments/:attachment", m.h.UpdateTenantAttachmentHandler)
+		// tenants.DELETE("/:tenant/attachments/:attachment", m.h.DeleteTenantAttachmentHandler)
 		//
 		// // // Tenant role endpoints
 		// // tenants.GET("/:tenant/roles", m.h.ListTenantRoleHandler)
