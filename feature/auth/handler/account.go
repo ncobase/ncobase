@@ -56,6 +56,8 @@ func (h *accountHandler) Register(c *gin.Context) {
 	}
 
 	result, _ := h.s.Account.Register(c.Request.Context(), body)
+
+	// _ = cookie.SetTokensFromResult(c.Writer, c.Request, result)
 	resp.Success(c.Writer, result)
 }
 
@@ -93,6 +95,8 @@ func (h *accountHandler) Login(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
+
+	// _ = cookie.SetTokensFromResult(c.Writer, c.Request, result)
 	resp.Success(c.Writer, result)
 }
 

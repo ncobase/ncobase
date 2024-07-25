@@ -157,7 +157,6 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, errors.New("authorize is not created")
 	}
 
-	// cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain) // TODO: move to handler
 	return &types.JSON{
 		"id":           user.ID,
 		"access_token": accessToken,

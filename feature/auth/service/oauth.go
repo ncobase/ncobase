@@ -191,8 +191,6 @@ package service
 // 		return resp.InternalServer("authorize is not created")
 // 	}
 //
-// 	// cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain) // TODO: move to handler
-//
 // 	return &types.JSON{
 // 		"id":           user.ID,
 // 		"accessToken":  accessToken,
@@ -284,7 +282,6 @@ package service
 // 		return resp.InternalServer("authorize is not created", nil), nil
 // 	}
 //
-// 	// cookie.Set(c.Writer, accessToken, refreshToken, conf.Domain) // TODO: move to handler
 // 	return &resp.Exception{
 // 		Status: http.StatusMovedPermanently,
 // 		Code:   http.StatusMovedPermanently,
@@ -317,8 +314,6 @@ package service
 // 	if registerToken == "" || err != nil {
 // 		return resp.Forbidden("authorize is not created"), nil
 // 	}
-//
-// 	// cookie.SetRegister(c.Writer, registerToken, conf.Domain) // TODO: move to handler
 //
 // 	return &resp.Exception{
 // 		Status: http.StatusMovedPermanently,

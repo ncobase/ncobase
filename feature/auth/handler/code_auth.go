@@ -70,5 +70,7 @@ func (h *codeAuthHandler) CodeAuth(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
+
+	// _ = cookie.SetRegisterTokenFromResult(c.Writer, c.Request, result)
 	resp.Success(c.Writer, result)
 }

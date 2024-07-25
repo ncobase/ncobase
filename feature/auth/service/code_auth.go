@@ -76,7 +76,6 @@ func sendRegisterMail(_ context.Context, conf *config.Config, codeAuth *ent.Code
 	if err != nil {
 		return nil, err
 	}
-	// cookie.SetRegister(c.Writer, registerToken, conf.Domain) // TODO: move to handler
 	return &types.JSON{"email": codeAuth.Email, "register_token": registerToken}, nil
 }
 
@@ -99,7 +98,6 @@ func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent
 		}
 		return nil, errors.New("authorize is not created")
 	}
-	// cookie.Set(c.Writer, accessToken, refreshToken, tenant) // TODO: move to handler
 	return &types.JSON{
 		"id":           user.ID,
 		"access_token": accessToken,
