@@ -212,6 +212,25 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.DictionaryBody:
+    properties:
+      created_by:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_by:
+        type: string
+      value:
+        type: string
+    type: object
   structs.GroupBody:
     properties:
       created_by:
@@ -340,6 +359,31 @@ definitions:
       v4:
         type: string
       v5:
+        type: string
+    type: object
+  structs.ReadDictionary:
+    properties:
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+      value:
         type: string
     type: object
   structs.ReadGroup:
@@ -683,6 +727,27 @@ definitions:
       type:
         type: string
       updated_by:
+        type: string
+    type: object
+  structs.UpdateDictionaryBody:
+    properties:
+      created_by:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_by:
+        type: string
+      value:
         type: string
     type: object
   structs.UpdateGroupBody:
@@ -1279,6 +1344,155 @@ paths:
       summary: Validate captcha
       tags:
       - authentication
+  /v1/dictionarys:
+    get:
+      description: Retrieve a list or tree structure of dictionarys.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadDictionary'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List dictionarys
+      tags:
+      - dictionary
+    post:
+      consumes:
+      - application/json
+      description: Create a new dictionary.
+      parameters:
+      - description: DictionaryBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.DictionaryBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDictionary'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create dictionary
+      tags:
+      - dictionary
+    put:
+      consumes:
+      - application/json
+      description: Update an existing dictionary.
+      parameters:
+      - description: UpdateDictionaryBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateDictionaryBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDictionary'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update dictionary
+      tags:
+      - dictionary
+  /v1/dictionarys/{slug}:
+    delete:
+      description: Delete a dictionary by ID or slug.
+      parameters:
+      - description: Dictionary ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete dictionary
+      tags:
+      - dictionary
+    get:
+      description: Retrieve a dictionary by ID or slug.
+      parameters:
+      - description: Dictionary ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - in: query
+        name: dictionary
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDictionary'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get dictionary
+      tags:
+      - dictionary
   /v1/groups:
     get:
       description: Retrieve a list or tree structure of groups.

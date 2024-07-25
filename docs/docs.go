@@ -647,6 +647,246 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/dictionarys": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list or tree structure of dictionarys.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dictionary"
+                ],
+                "summary": "List dictionarys",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadDictionary"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing dictionary.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dictionary"
+                ],
+                "summary": "Update dictionary",
+                "parameters": [
+                    {
+                        "description": "UpdateDictionaryBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateDictionaryBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDictionary"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new dictionary.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dictionary"
+                ],
+                "summary": "Create dictionary",
+                "parameters": [
+                    {
+                        "description": "DictionaryBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.DictionaryBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDictionary"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/dictionarys/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a dictionary by ID or slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dictionary"
+                ],
+                "summary": "Get dictionary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Dictionary ID or slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "dictionary",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDictionary"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a dictionary by ID or slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dictionary"
+                ],
+                "summary": "Delete dictionary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Dictionary ID or slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/groups": {
             "get": {
                 "security": [
@@ -3392,6 +3632,35 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.DictionaryBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.GroupBody": {
             "type": "object",
             "properties": {
@@ -3585,6 +3854,44 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "v5": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadDictionary": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
                     "type": "string"
                 }
             }
@@ -4103,6 +4410,38 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateDictionaryBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
                     "type": "string"
                 }
             }

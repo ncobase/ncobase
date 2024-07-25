@@ -21,7 +21,7 @@ var (
 		{Name: "icon", Type: field.TypeString, Nullable: true, Comment: "icon"},
 		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
 		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "parent id"},

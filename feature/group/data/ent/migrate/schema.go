@@ -15,7 +15,7 @@ var (
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
-		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "leader", Type: field.TypeJSON, Nullable: true, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "parent id"},

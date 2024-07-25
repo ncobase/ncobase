@@ -8,6 +8,18 @@ import (
 	"ncobase/feature/system/data/ent"
 )
 
+// The DictionaryFunc type is an adapter to allow the use of ordinary
+// function as Dictionary mutator.
+type DictionaryFunc func(context.Context, *ent.DictionaryMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f DictionaryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DictionaryMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictionaryMutation", m)
+}
+
 // The MenuFunc type is an adapter to allow the use of ordinary
 // function as Menu mutator.
 type MenuFunc func(context.Context, *ent.MenuMutation) (ent.Value, error)

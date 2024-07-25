@@ -96,7 +96,7 @@ func (h *accountHandler) Login(c *gin.Context) {
 		return
 	}
 
-	// _ = cookie.SetTokensFromResult(c.Writer, c.Request, result)
+	_ = cookie.SetTokensFromResult(c.Writer, c.Request, result)
 	resp.Success(c.Writer, result)
 }
 

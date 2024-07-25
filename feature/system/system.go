@@ -92,6 +92,15 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		menus.PUT("/:slug", m.h.Menu.Update)
 		menus.DELETE("/:slug", m.h.Menu.Delete)
 	}
+	// Dictionary endpoints
+	dictionaries := v1.Group("/dictionaries", middleware.AuthenticatedUser)
+	{
+		dictionaries.GET("", m.h.Dictionary.List)
+		dictionaries.POST("", m.h.Dictionary.Create)
+		dictionaries.GET("/:slug", m.h.Dictionary.Get)
+		dictionaries.PUT("/:slug", m.h.Dictionary.Update)
+		dictionaries.DELETE("/:slug", m.h.Dictionary.Delete)
+	}
 }
 
 // GetHandlers returns the handlers for the module

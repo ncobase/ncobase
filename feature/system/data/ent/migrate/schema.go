@@ -9,6 +9,43 @@ import (
 )
 
 var (
+	// NcseDictionaryColumns holds the columns for the "ncse_dictionary" table.
+	NcseDictionaryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "value", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "value"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseDictionaryTable holds the schema information for the "ncse_dictionary" table.
+	NcseDictionaryTable = &schema.Table{
+		Name:       "ncse_dictionary",
+		Columns:    NcseDictionaryColumns,
+		PrimaryKey: []*schema.Column{NcseDictionaryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "dictionary_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseDictionaryColumns[0]},
+			},
+			{
+				Name:    "dictionary_slug",
+				Unique:  true,
+				Columns: []*schema.Column{NcseDictionaryColumns[2]},
+			},
+			{
+				Name:    "dictionary_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseDictionaryColumns[5]},
+			},
+		},
+	}
 	// NcseMenuColumns holds the columns for the "ncse_menu" table.
 	NcseMenuColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -66,11 +103,15 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		NcseDictionaryTable,
 		NcseMenuTable,
 	}
 )
 
 func init() {
+	NcseDictionaryTable.Annotation = &entsql.Annotation{
+		Table: "ncse_dictionary",
+	}
 	NcseMenuTable.Annotation = &entsql.Annotation{
 		Table: "ncse_menu",
 	}

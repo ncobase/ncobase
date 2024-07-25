@@ -39,6 +39,7 @@ type ReadTaxonomyRelation struct {
 	UpdatedAt  *int64  `json:"updated_at,omitempty"`
 }
 
+// GetCursorValue returns the cursor value.
 func (r *ReadTaxonomyRelation) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }

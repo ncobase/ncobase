@@ -3,6 +3,8 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/nanoid"
+	"ncobase/common/paging"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/data/ent"
 	userEnt "ncobase/feature/user/data/ent/user"
@@ -24,6 +26,7 @@ type UserRepositoryInterface interface {
 	Find(ctx context.Context, m *structs.FindUser) (*ent.User, error)
 	Existed(ctx context.Context, m *structs.FindUser) bool
 	Delete(ctx context.Context, id string) error
+	List(ctx context.Context, params *structs.ListUserParams) ([]*ent.User, error)
 	UpdatePassword(ctx context.Context, params *structs.UserPassword) error
 	FindUser(ctx context.Context, params *structs.FindUser) (*ent.User, error) // not use cache
 	CountX(ctx context.Context, params *structs.ListUserParams) int
@@ -213,10 +216,62 @@ func (r *userRepository) CountX(ctx context.Context, params *structs.ListUserPar
 	return builder.CountX(ctx)
 }
 
-// ****** Internal methods of repository
+// List gets a list of users.
+func (r *userRepository) List(ctx context.Context, params *structs.ListUserParams) ([]*ent.User, error) {
+	builder := r.ec.User.Query()
 
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				userEnt.Or(
+					userEnt.CreatedAtGT(timestamp),
+					userEnt.And(
+						userEnt.CreatedAtEQ(timestamp),
+						userEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				userEnt.Or(
+					userEnt.CreatedAtLT(timestamp),
+					userEnt.And(
+						userEnt.CreatedAtEQ(timestamp),
+						userEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
+
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(userEnt.FieldCreatedAt), ent.Asc(userEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(userEnt.FieldCreatedAt), ent.Desc(userEnt.FieldID))
+	}
+
+	builder.Limit(params.Limit)
+
+	rows, err := builder.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return rows, nil
+}
+
+// ****** Internal methods of repository
 // listBuilder creates list builder.
-func (r *userRepository) listBuilder(ctx context.Context, params *structs.ListUserParams) (*ent.UserQuery, error) {
+func (r *userRepository) listBuilder(_ context.Context, _ *structs.ListUserParams) (*ent.UserQuery, error) {
 	// create builder.
 	builder := r.ec.User.Query()
 

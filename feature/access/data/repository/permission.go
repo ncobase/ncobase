@@ -20,6 +20,7 @@ import (
 // PermissionRepositoryInterface represents the permission repository interface.
 type PermissionRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreatePermissionBody) (*ent.Permission, error)
+	GetByName(ctx context.Context, name string) (*ent.Permission, error)
 	GetByID(ctx context.Context, id string) (*ent.Permission, error)
 	GetByActionAndSubject(ctx context.Context, action, subject string) (*ent.Permission, error)
 	Update(ctx context.Context, id string, updates types.JSON) (*ent.Permission, error)
@@ -66,6 +67,30 @@ func (r *permissionRepository) Create(ctx context.Context, body *structs.CreateP
 	if err != nil {
 		log.Errorf(context.Background(), "permissionRepo.Create error: %v\n", err)
 		return nil, err
+	}
+
+	return row, nil
+}
+
+// GetByName gets a permission by name.
+func (r *permissionRepository) GetByName(ctx context.Context, name string) (*ent.Permission, error) {
+	// check cache
+	cacheKey := fmt.Sprintf("%s", name)
+	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
+		return cached, nil
+	}
+
+	// If not found in cache, query the database
+	row, err := r.FindPermission(ctx, &structs.FindPermission{Name: name})
+	if err != nil {
+		log.Errorf(context.Background(), "permissionRepo.GetByName error: %v\n", err)
+		return nil, err
+	}
+
+	// cache the result
+	err = r.c.Set(ctx, cacheKey, row)
+	if err != nil {
+		log.Errorf(context.Background(), "permissionRepo.GetByName cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -200,6 +225,9 @@ func (r *permissionRepository) FindPermission(ctx context.Context, params *struc
 
 	if validator.IsNotEmpty(params.ID) {
 		builder = builder.Where(permissionEnt.IDEQ(params.ID))
+	}
+	if validator.IsNotEmpty(params.Name) {
+		builder = builder.Where(permissionEnt.NameEQ(params.Name))
 	}
 	if validator.IsNotEmpty(params.Action) && validator.IsNotEmpty(params.Subject) {
 		builder = builder.Where(permissionEnt.And(

@@ -11,6 +11,7 @@ import (
 
 	"ncobase/feature/system/data/ent/migrate"
 
+	"ncobase/feature/system/data/ent/dictionary"
 	"ncobase/feature/system/data/ent/menu"
 
 	"entgo.io/ent"
@@ -23,6 +24,8 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// Dictionary is the client for interacting with the Dictionary builders.
+	Dictionary *DictionaryClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
 }
@@ -36,6 +39,7 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.Dictionary = NewDictionaryClient(c.config)
 	c.Menu = NewMenuClient(c.config)
 }
 
@@ -127,9 +131,10 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Menu:   NewMenuClient(cfg),
+		ctx:        ctx,
+		config:     cfg,
+		Dictionary: NewDictionaryClient(cfg),
+		Menu:       NewMenuClient(cfg),
 	}, nil
 }
 
@@ -147,16 +152,17 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Menu:   NewMenuClient(cfg),
+		ctx:        ctx,
+		config:     cfg,
+		Dictionary: NewDictionaryClient(cfg),
+		Menu:       NewMenuClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Menu.
+//		Dictionary.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -178,22 +184,159 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
+	c.Dictionary.Use(hooks...)
 	c.Menu.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
+	c.Dictionary.Intercept(interceptors...)
 	c.Menu.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
+	case *DictionaryMutation:
+		return c.Dictionary.mutate(ctx, m)
 	case *MenuMutation:
 		return c.Menu.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
+	}
+}
+
+// DictionaryClient is a client for the Dictionary schema.
+type DictionaryClient struct {
+	config
+}
+
+// NewDictionaryClient returns a client for the Dictionary from the given config.
+func NewDictionaryClient(c config) *DictionaryClient {
+	return &DictionaryClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `dictionary.Hooks(f(g(h())))`.
+func (c *DictionaryClient) Use(hooks ...Hook) {
+	c.hooks.Dictionary = append(c.hooks.Dictionary, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `dictionary.Intercept(f(g(h())))`.
+func (c *DictionaryClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Dictionary = append(c.inters.Dictionary, interceptors...)
+}
+
+// Create returns a builder for creating a Dictionary entity.
+func (c *DictionaryClient) Create() *DictionaryCreate {
+	mutation := newDictionaryMutation(c.config, OpCreate)
+	return &DictionaryCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Dictionary entities.
+func (c *DictionaryClient) CreateBulk(builders ...*DictionaryCreate) *DictionaryCreateBulk {
+	return &DictionaryCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *DictionaryClient) MapCreateBulk(slice any, setFunc func(*DictionaryCreate, int)) *DictionaryCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &DictionaryCreateBulk{err: fmt.Errorf("calling to DictionaryClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*DictionaryCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &DictionaryCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Dictionary.
+func (c *DictionaryClient) Update() *DictionaryUpdate {
+	mutation := newDictionaryMutation(c.config, OpUpdate)
+	return &DictionaryUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *DictionaryClient) UpdateOne(d *Dictionary) *DictionaryUpdateOne {
+	mutation := newDictionaryMutation(c.config, OpUpdateOne, withDictionary(d))
+	return &DictionaryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *DictionaryClient) UpdateOneID(id string) *DictionaryUpdateOne {
+	mutation := newDictionaryMutation(c.config, OpUpdateOne, withDictionaryID(id))
+	return &DictionaryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Dictionary.
+func (c *DictionaryClient) Delete() *DictionaryDelete {
+	mutation := newDictionaryMutation(c.config, OpDelete)
+	return &DictionaryDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *DictionaryClient) DeleteOne(d *Dictionary) *DictionaryDeleteOne {
+	return c.DeleteOneID(d.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *DictionaryClient) DeleteOneID(id string) *DictionaryDeleteOne {
+	builder := c.Delete().Where(dictionary.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &DictionaryDeleteOne{builder}
+}
+
+// Query returns a query builder for Dictionary.
+func (c *DictionaryClient) Query() *DictionaryQuery {
+	return &DictionaryQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeDictionary},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Dictionary entity by its id.
+func (c *DictionaryClient) Get(ctx context.Context, id string) (*Dictionary, error) {
+	return c.Query().Where(dictionary.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *DictionaryClient) GetX(ctx context.Context, id string) *Dictionary {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *DictionaryClient) Hooks() []Hook {
+	return c.hooks.Dictionary
+}
+
+// Interceptors returns the client interceptors.
+func (c *DictionaryClient) Interceptors() []Interceptor {
+	return c.inters.Dictionary
+}
+
+func (c *DictionaryClient) mutate(ctx context.Context, m *DictionaryMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&DictionaryCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&DictionaryUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&DictionaryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&DictionaryDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Dictionary mutation op: %q", m.Op())
 	}
 }
 
@@ -333,9 +476,9 @@ func (c *MenuClient) mutate(ctx context.Context, m *MenuMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Menu []ent.Hook
+		Dictionary, Menu []ent.Hook
 	}
 	inters struct {
-		Menu []ent.Interceptor
+		Dictionary, Menu []ent.Interceptor
 	}
 )

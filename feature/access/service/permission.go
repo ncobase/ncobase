@@ -18,6 +18,7 @@ type PermissionServiceInterface interface {
 	Create(ctx context.Context, permissionData *structs.CreatePermissionBody) (*structs.ReadPermission, error)
 	Update(ctx context.Context, permissionID string, updates types.JSON) (*structs.ReadPermission, error)
 	Delete(ctx context.Context, permissionID string) error
+	GetByName(ctx context.Context, name string) (*structs.ReadPermission, error)
 	GetByID(ctx context.Context, permissionID string) (*structs.ReadPermission, error)
 	GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*structs.ReadPermission, error)
 	List(ctx context.Context, params *structs.ListPermissionParams) (paging.Result[*structs.ReadPermission], error)
@@ -57,6 +58,16 @@ func (s *permissionService) Create(ctx context.Context, body *structs.CreatePerm
 // Update updates an existing permission.
 func (s *permissionService) Update(ctx context.Context, permissionID string, updates types.JSON) (*structs.ReadPermission, error) {
 	row, err := s.permission.Update(ctx, permissionID, updates)
+	if err := handleEntError("Permission", err); err != nil {
+		return nil, err
+	}
+
+	return s.Serialize(row), nil
+}
+
+// GetByName retrieves a permission by its name.
+func (s *permissionService) GetByName(ctx context.Context, name string) (*structs.ReadPermission, error) {
+	row, err := s.permission.GetByName(ctx, name)
 	if err := handleEntError("Permission", err); err != nil {
 		return nil, err
 	}

@@ -68,6 +68,7 @@ func (r *ReadGroup) GetChildren() []types.TreeNode {
 	return r.Children
 }
 
+// GetCursorValue returns the cursor value.
 func (r *ReadGroup) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }

@@ -21,7 +21,7 @@ var (
 		{Name: "logo_alt", Type: field.TypeString, Nullable: true, Comment: "logo alt"},
 		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
 		{Name: "copyright", Type: field.TypeString, Nullable: true, Comment: "copyright"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "description"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},

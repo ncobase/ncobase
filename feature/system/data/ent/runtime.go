@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"ncobase/feature/system/data/ent/dictionary"
 	"ncobase/feature/system/data/ent/menu"
 	"ncobase/feature/system/data/schema"
 )
@@ -11,6 +12,45 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	dictionaryMixin := schema.Dictionary{}.Mixin()
+	dictionaryMixinFields0 := dictionaryMixin[0].Fields()
+	_ = dictionaryMixinFields0
+	dictionaryMixinFields5 := dictionaryMixin[5].Fields()
+	_ = dictionaryMixinFields5
+	dictionaryMixinFields7 := dictionaryMixin[7].Fields()
+	_ = dictionaryMixinFields7
+	dictionaryMixinFields8 := dictionaryMixin[8].Fields()
+	_ = dictionaryMixinFields8
+	dictionaryFields := schema.Dictionary{}.Fields()
+	_ = dictionaryFields
+	// dictionaryDescTenantID is the schema descriptor for tenant_id field.
+	dictionaryDescTenantID := dictionaryMixinFields5[0].Descriptor()
+	// dictionary.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	dictionary.TenantIDValidator = dictionaryDescTenantID.Validators[0].(func(string) error)
+	// dictionaryDescCreatedBy is the schema descriptor for created_by field.
+	dictionaryDescCreatedBy := dictionaryMixinFields7[0].Descriptor()
+	// dictionary.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	dictionary.CreatedByValidator = dictionaryDescCreatedBy.Validators[0].(func(string) error)
+	// dictionaryDescUpdatedBy is the schema descriptor for updated_by field.
+	dictionaryDescUpdatedBy := dictionaryMixinFields7[1].Descriptor()
+	// dictionary.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	dictionary.UpdatedByValidator = dictionaryDescUpdatedBy.Validators[0].(func(string) error)
+	// dictionaryDescCreatedAt is the schema descriptor for created_at field.
+	dictionaryDescCreatedAt := dictionaryMixinFields8[0].Descriptor()
+	// dictionary.DefaultCreatedAt holds the default value on creation for the created_at field.
+	dictionary.DefaultCreatedAt = dictionaryDescCreatedAt.Default.(func() int64)
+	// dictionaryDescUpdatedAt is the schema descriptor for updated_at field.
+	dictionaryDescUpdatedAt := dictionaryMixinFields8[1].Descriptor()
+	// dictionary.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	dictionary.DefaultUpdatedAt = dictionaryDescUpdatedAt.Default.(func() int64)
+	// dictionary.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	dictionary.UpdateDefaultUpdatedAt = dictionaryDescUpdatedAt.UpdateDefault.(func() int64)
+	// dictionaryDescID is the schema descriptor for id field.
+	dictionaryDescID := dictionaryMixinFields0[0].Descriptor()
+	// dictionary.DefaultID holds the default value on creation for the id field.
+	dictionary.DefaultID = dictionaryDescID.Default.(func() string)
+	// dictionary.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	dictionary.IDValidator = dictionaryDescID.Validators[0].(func(string) error)
 	menuMixin := schema.Menu{}.Mixin()
 	menuMixinFields0 := menuMixin[0].Fields()
 	_ = menuMixinFields0

@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/feature/system/data/ent/dictionary"
 	"ncobase/feature/system/data/ent/menu"
 	"reflect"
 	"sync"
@@ -73,7 +74,8 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			menu.Table: menu.ValidColumn,
+			dictionary.Table: dictionary.ValidColumn,
+			menu.Table:       menu.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

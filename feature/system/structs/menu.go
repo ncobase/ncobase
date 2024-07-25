@@ -80,6 +80,7 @@ func (r *ReadMenu) GetChildren() []types.TreeNode {
 	return r.Children
 }
 
+// GetCursorValue returns the cursor value.
 func (r *ReadMenu) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }

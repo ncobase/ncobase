@@ -45,6 +45,7 @@ type ReadPermission struct {
 	UpdatedAt   *int64      `json:"updated_at,omitempty"`
 }
 
+// GetCursorValue returns the cursor value.
 func (r *ReadPermission) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
@@ -52,6 +53,7 @@ func (r *ReadPermission) GetCursorValue() string {
 // FindPermission represents the parameters for finding a permission.
 type FindPermission struct {
 	ID      string `form:"id,omitempty" json:"id,omitempty"`
+	Name    string `form:"name,omitempty" json:"name,omitempty"`
 	Action  string `form:"action,omitempty" json:"action,omitempty"`
 	Subject string `form:"subject,omitempty" json:"subject,omitempty"`
 }

@@ -6,5 +6,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// Dictionary is the predicate function for dictionary builders.
+type Dictionary func(*sql.Selector)
+
 // Menu is the predicate function for menu builders.
 type Menu func(*sql.Selector)

@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"fmt"
 	"ncobase/common/types"
 )
 
@@ -46,6 +47,11 @@ type ReadUser struct {
 	Extras      *types.JSON `json:"extras"`
 	CreatedAt   *int64      `json:"created_at"`
 	UpdatedAt   *int64      `json:"updated_at"`
+}
+
+// GetCursorValue returns the cursor value.
+func (r *ReadUser) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // ListUserParams represents the query parameters for listing users.

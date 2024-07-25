@@ -7,14 +7,16 @@ import (
 
 // Service represents the system service.
 type Service struct {
-	Menu MenuServiceInterface
-	fm   *feature.Manager
+	Menu       MenuServiceInterface
+	Dictionary DictionaryServiceInterface
+	fm         *feature.Manager
 }
 
 // New creates a new service.
 func New(d *data.Data, fm *feature.Manager) *Service {
 	return &Service{
-		Menu: NewMenuService(d, fm),
-		fm:   fm,
+		Menu:       NewMenuService(d, fm),
+		Dictionary: NewDictionaryService(d),
+		fm:         fm,
 	}
 }

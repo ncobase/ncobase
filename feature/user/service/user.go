@@ -7,6 +7,7 @@ import (
 	"ncobase/common/crypto"
 	"ncobase/common/ecode"
 	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/data/ent"
 	"ncobase/feature/user/data/repository"
@@ -20,6 +21,7 @@ type UserServiceInterface interface {
 	CreateUser(ctx context.Context, body *structs.UserBody) (*structs.ReadUser, error)
 	GetByID(ctx context.Context, u string) (*structs.ReadUser, error)
 	Delete(ctx context.Context, u string) error
+	List(ctx context.Context, params *structs.ListUserParams) (paging.Result[*structs.ReadUser], error)
 	FindByID(ctx context.Context, id string) (*structs.ReadUser, error)
 	FindUser(ctx context.Context, m *structs.FindUser) (*structs.ReadUser, error)
 	VerifyPassword(ctx context.Context, userID string, password string) any
@@ -170,6 +172,35 @@ func (s *userService) updatePassword(ctx context.Context, body *structs.UserPass
 	}
 
 	return err
+}
+
+// List lists all users.
+func (s *userService) List(ctx context.Context, params *structs.ListUserParams) (paging.Result[*structs.ReadUser], error) {
+	pp := paging.Params{
+		Cursor:    params.Cursor,
+		Limit:     params.Limit,
+		Direction: params.Direction,
+	}
+
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadUser, int, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
+		lp.Direction = direction
+
+		rows, err := s.user.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if err != nil {
+			log.Errorf(ctx, "Error listing users: %v\n", err)
+			return nil, 0, err
+		}
+
+		total := s.CountX(ctx, params)
+
+		return s.Serializes(rows), total, nil
+	})
 }
 
 // Serializes serializes users
