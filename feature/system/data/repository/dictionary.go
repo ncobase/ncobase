@@ -12,7 +12,6 @@ import (
 	"ncobase/feature/system/data/ent"
 	dictionaryEnt "ncobase/feature/system/data/ent/dictionary"
 	"ncobase/feature/system/structs"
-	"net/url"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -92,11 +91,7 @@ func (r *dictionaryRepository) Create(ctx context.Context, body *structs.Diction
 
 // Get retrieves a specific dictionary.
 func (r *dictionaryRepository) Get(ctx context.Context, params *structs.FindDictionary) (*ent.Dictionary, error) {
-	cacheParams := url.Values{}
-	if validator.IsNotEmpty(params.Dictionary) {
-		cacheParams.Set("dictionary", params.Dictionary)
-	}
-	cacheKey := cacheParams.Encode()
+	cacheKey := fmt.Sprintf("%s", params.Dictionary)
 
 	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
@@ -104,7 +99,7 @@ func (r *dictionaryRepository) Get(ctx context.Context, params *structs.FindDict
 
 	row, err := r.getDictionary(ctx, params)
 	if err != nil {
-		log.Errorf(ctx, "dictionaryRepo.Get error: %v", err)
+		log.Errorf(ctx, "dictionaryRepo.Get error: %`v", err)
 		return nil, err
 	}
 

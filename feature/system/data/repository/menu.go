@@ -12,7 +12,6 @@ import (
 	"ncobase/feature/system/data/ent"
 	menuEnt "ncobase/feature/system/data/ent/menu"
 	"ncobase/feature/system/structs"
-	"net/url"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -139,11 +138,7 @@ func (r *menuRepository) GetTree(ctx context.Context, params *structs.FindMenu) 
 
 // Get retrieves a specific menu.
 func (r *menuRepository) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu, error) {
-	cacheParams := url.Values{}
-	if validator.IsNotEmpty(params.Menu) {
-		cacheParams.Set("menu", params.Menu)
-	}
-	cacheKey := cacheParams.Encode()
+	cacheKey := fmt.Sprintf("%s", params.Menu)
 
 	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
