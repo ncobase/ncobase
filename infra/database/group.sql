@@ -152,27 +152,22 @@ WITH tenant AS
                                                           WHERE slug = 'ad-department'), (SELECT id FROM tenant),
                  (SELECT id FROM user_ids WHERE username = 'admin'), (SELECT id FROM user_ids WHERE username = 'admin'),
                  EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
-                 EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000))),
-     -- 插入 法务部的组（合同组、诉讼组、合规组）
-     group_7 AS (
-       INSERT INTO ncse_group (id, name, slug, parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
-         VALUES (nanoid(), '合同组', 'contract-team', (SELECT id FROM department_2 WHERE slug = 'legal-department'),
-                 (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
-                 (SELECT id FROM user_ids WHERE username = 'admin'),
-                 EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
-                 EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
-                (nanoid(), '诉讼组', 'litigation-team', (SELECT id FROM department_2 WHERE slug = 'legal-department'),
-                 (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
-                 (SELECT id FROM user_ids WHERE username = 'admin'),
-                 EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
-                 EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
-                (nanoid(), '合规组', 'compliance-team', (SELECT id FROM department_2 WHERE slug = 'legal-department'),
-                 (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
-                 (SELECT id FROM user_ids WHERE username = 'admin'),
-                 EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
                  EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)))
-
--- 查询结果检查
-SELECT *
-FROM ncse_group
-WHERE tenant_id = (SELECT id FROM tenant);
+-- 插入 法务部的组（合同组、诉讼组、合规组）
+INSERT
+INTO ncse_group (id, name, slug, parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
+VALUES (nanoid(), '合同组', 'contract-team', (SELECT id FROM department_2 WHERE slug = 'legal-department'),
+        (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
+        (SELECT id FROM user_ids WHERE username = 'admin'),
+        EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
+        EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
+       (nanoid(), '诉讼组', 'litigation-team', (SELECT id FROM department_2 WHERE slug = 'legal-department'),
+        (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
+        (SELECT id FROM user_ids WHERE username = 'admin'),
+        EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
+        EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
+       (nanoid(), '合规组', 'compliance-team', (SELECT id FROM department_2 WHERE slug = 'legal-department'),
+        (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
+        (SELECT id FROM user_ids WHERE username = 'admin'),
+        EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
+        EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000));
