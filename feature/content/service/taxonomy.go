@@ -9,7 +9,6 @@ import (
 	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
-	"ncobase/feature/content/data"
 	"ncobase/feature/content/data/ent"
 	"ncobase/feature/content/data/repository"
 	"ncobase/feature/content/structs"
@@ -31,15 +30,13 @@ type TaxonomyServiceInterface interface {
 
 // taxonomyService is the struct for the service.
 type taxonomyService struct {
-	taxonomy          repository.TaxonomyRepositoryInterface
-	taxonomyRelations repository.TaxonomyRelationsRepositoryInterface
+	repo *repository.Repository
 }
 
 // NewTaxonomyService creates a new service.
-func NewTaxonomyService(d *data.Data) TaxonomyServiceInterface {
+func NewTaxonomyService(repo *repository.Repository) TaxonomyServiceInterface {
 	return &taxonomyService{
-		taxonomy:          repository.NewTaxonomyRepository(d),
-		taxonomyRelations: repository.NewTaxonomyRelationsRepository(d),
+		repo: repo,
 	}
 }
 
@@ -55,7 +52,7 @@ func (s *taxonomyService) Create(ctx context.Context, body *structs.CreateTaxono
 	if validator.IsEmpty(body.Slug) {
 		body.Slug = slug.Unicode(body.Name)
 	}
-	row, err := s.taxonomy.Create(ctx, body)
+	row, err := s.repo.Taxonomy.Create(ctx, body)
 	if err := handleEntError("Taxonomy", err); err != nil {
 		return nil, err
 	}
@@ -74,7 +71,7 @@ func (s *taxonomyService) Update(ctx context.Context, slug string, updates types
 		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
 	}
 
-	row, err := s.taxonomy.Update(ctx, slug, updates)
+	row, err := s.repo.Taxonomy.Update(ctx, slug, updates)
 	if err := handleEntError("Taxonomy", err); err != nil {
 		return nil, err
 	}
@@ -84,7 +81,7 @@ func (s *taxonomyService) Update(ctx context.Context, slug string, updates types
 
 // Get retrieves a taxonomy by ID.
 func (s *taxonomyService) Get(ctx context.Context, slug string) (*structs.ReadTaxonomy, error) {
-	row, err := s.taxonomy.GetBySlug(ctx, slug)
+	row, err := s.repo.Taxonomy.GetBySlug(ctx, slug)
 	if err := handleEntError("Taxonomy", err); err != nil {
 		return nil, err
 	}
@@ -94,7 +91,7 @@ func (s *taxonomyService) Get(ctx context.Context, slug string) (*structs.ReadTa
 
 // Delete deletes a taxonomy by ID.
 func (s *taxonomyService) Delete(ctx context.Context, slug string) error {
-	err := s.taxonomy.Delete(ctx, slug)
+	err := s.repo.Taxonomy.Delete(ctx, slug)
 	if err := handleEntError("Taxonomy", err); err != nil {
 		return err
 	}
@@ -122,7 +119,7 @@ func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomy
 		lp.Limit = limit
 		lp.Direction = direction
 
-		rows, err := s.taxonomy.List(ctx, &lp)
+		rows, err := s.repo.Taxonomy.List(ctx, &lp)
 		if ent.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
@@ -131,7 +128,7 @@ func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomy
 			return nil, 0, err
 		}
 
-		total := s.taxonomy.CountX(ctx, params)
+		total := s.repo.Taxonomy.CountX(ctx, params)
 
 		return s.Serializes(rows), total, nil
 	})
@@ -173,12 +170,12 @@ func (s *taxonomyService) Serialize(row *ent.Taxonomy) *structs.ReadTaxonomy {
 
 // CountX gets a count of taxonomys.
 func (s *taxonomyService) CountX(ctx context.Context, params *structs.ListTaxonomyParams) int {
-	return s.taxonomy.CountX(ctx, params)
+	return s.repo.Taxonomy.CountX(ctx, params)
 }
 
 // GetTree retrieves the taxonomy tree.
 func (s *taxonomyService) GetTree(ctx context.Context, params *structs.FindTaxonomy) (paging.Result[*structs.ReadTaxonomy], error) {
-	rows, err := s.taxonomy.GetTree(ctx, params)
+	rows, err := s.repo.Taxonomy.GetTree(ctx, params)
 	if err := handleEntError("Taxonomy", err); err != nil {
 		return paging.Result[*structs.ReadTaxonomy]{}, err
 	}

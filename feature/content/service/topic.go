@@ -9,7 +9,6 @@ import (
 	"ncobase/common/slug"
 	"ncobase/common/types"
 	"ncobase/common/validator"
-	"ncobase/feature/content/data"
 	"ncobase/feature/content/data/ent"
 	"ncobase/feature/content/data/repository"
 	"ncobase/feature/content/structs"
@@ -26,13 +25,13 @@ type TopicServiceInterface interface {
 
 // topicService is the struct for the service.
 type topicService struct {
-	topic repository.TopicRepositoryInterface
+	repo *repository.Repository
 }
 
 // NewTopicService creates a new service.
-func NewTopicService(d *data.Data) TopicServiceInterface {
+func NewTopicService(repo *repository.Repository) TopicServiceInterface {
 	return &topicService{
-		topic: repository.NewTopicRepository(d),
+		repo: repo,
 	}
 }
 
@@ -42,7 +41,7 @@ func (s *topicService) Create(ctx context.Context, body *structs.CreateTopicBody
 	if validator.IsEmpty(body.Slug) {
 		body.Slug = slug.Unicode(body.Name)
 	}
-	row, err := s.topic.Create(ctx, body)
+	row, err := s.repo.Topic.Create(ctx, body)
 	if err := handleEntError("Topic", err); err != nil {
 		return nil, err
 	}
@@ -61,7 +60,7 @@ func (s *topicService) Update(ctx context.Context, slug string, updates types.JS
 		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
 	}
 
-	row, err := s.topic.Update(ctx, slug, updates)
+	row, err := s.repo.Topic.Update(ctx, slug, updates)
 	if err := handleEntError("Topic", err); err != nil {
 		return nil, err
 	}
@@ -71,7 +70,7 @@ func (s *topicService) Update(ctx context.Context, slug string, updates types.JS
 
 // Get retrieves a topic by ID.
 func (s *topicService) Get(ctx context.Context, slug string) (*structs.ReadTopic, error) {
-	row, err := s.topic.GetBySlug(ctx, slug)
+	row, err := s.repo.Topic.GetBySlug(ctx, slug)
 	if err := handleEntError("Topic", err); err != nil {
 		return nil, err
 	}
@@ -81,7 +80,7 @@ func (s *topicService) Get(ctx context.Context, slug string) (*structs.ReadTopic
 
 // Delete deletes a topic by ID.
 func (s *topicService) Delete(ctx context.Context, slug string) error {
-	err := s.topic.Delete(ctx, slug)
+	err := s.repo.Topic.Delete(ctx, slug)
 	if err := handleEntError("Topic", err); err != nil {
 		return err
 	}
@@ -103,7 +102,7 @@ func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams
 		lp.Limit = limit
 		lp.Direction = direction
 
-		rows, err := s.topic.List(ctx, &lp)
+		rows, err := s.repo.Topic.List(ctx, &lp)
 		if ent.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
@@ -112,7 +111,7 @@ func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams
 			return nil, 0, err
 		}
 
-		total := s.topic.CountX(ctx, params)
+		total := s.repo.Topic.CountX(ctx, params)
 
 		return s.Serializes(rows), total, nil
 	})

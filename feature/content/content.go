@@ -5,12 +5,15 @@ import (
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/feature"
+	"ncobase/common/observes"
 	"ncobase/feature/content/data"
+	"ncobase/feature/content/data/repository"
 	"ncobase/feature/content/handler"
 	"ncobase/feature/content/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"
+	"go.opentelemetry.io/otel/trace"
 )
 
 var (
@@ -28,7 +31,9 @@ type Module struct {
 	conf        *config.Config
 	s           *service.Service
 	h           *handler.Handler
+	r           *repository.Repository
 	d           *data.Data
+	tracer      trace.Tracer
 	cleanup     func(name ...string)
 }
 
@@ -66,9 +71,30 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New(m.d)
-	m.h = handler.New(m.s)
-	// Subscribe to relevant events
+	repoOpt := observes.TracingDecoratorOption{
+		Layer:                    observes.LayerRepo,
+		CreateSpanForEachMethod:  true,
+		RecordMethodParams:       true,
+		RecordMethodReturnValues: true,
+	}
+	m.r = observes.DecorateStruct(repository.New(m.d), repoOpt)
+
+	serviceOpt := observes.TracingDecoratorOption{
+		Layer:                    observes.LayerService,
+		CreateSpanForEachMethod:  true,
+		RecordMethodParams:       true,
+		RecordMethodReturnValues: true,
+	}
+	m.s = observes.DecorateStruct(service.New(m.r), serviceOpt)
+
+	handlerOpt := observes.TracingDecoratorOption{
+		Layer:                    observes.LayerHandler,
+		CreateSpanForEachMethod:  true,
+		RecordMethodParams:       true,
+		RecordMethodReturnValues: false,
+	}
+	m.h = observes.DecorateStruct(handler.New(m.s), handlerOpt)
+
 	m.subscribeEvents(m.fm)
 	return nil
 }

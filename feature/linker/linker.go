@@ -94,6 +94,11 @@ func (l *Linker) RegisterRoutes(e *gin.Engine) {
 		}
 		resp.Success(c.Writer)
 	})
+	// user meshes
+	e.GET("/:username/meshes", func(c *gin.Context) {
+		resp.Success(c.Writer)
+	})
+
 }
 
 // GetHandlers returns the handlers for the linker

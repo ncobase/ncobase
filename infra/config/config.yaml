@@ -3,6 +3,12 @@ app_name: ncobase
 # Run mode (release / debug)
 run_mode: release
 
+observes:
+  tracer:
+    endpoint:
+  sentry:
+    endpoint:
+
 server:
   # Protocol type http / https
   protocol: http

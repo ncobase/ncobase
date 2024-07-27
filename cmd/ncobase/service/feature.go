@@ -51,6 +51,5 @@ func registerFeatures(fm *feature.Manager) {
 		log.Errorf(context.Background(), "Failed to initialize features: %v", err)
 		return
 	}
-
-	log.Infof(context.Background(), "All features initialized successfully")
+	// log.Infof(context.Background(), "All features initialized successfully")
 }

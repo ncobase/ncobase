@@ -24,6 +24,7 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 	engine.Use(middleware.Logger)
 	engine.Use(middleware.CORSHandler)
 	engine.Use(middleware.Trace)
+	engine.Use(middleware.OtelTrace)
 
 	// Consume user
 	userMiddleware(conf, engine, fm)

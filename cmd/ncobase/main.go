@@ -5,10 +5,13 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/cmd/ncobase/service"
+	"ncobase/common/observes"
+	"ncobase/helper"
 	"net"
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -41,11 +44,44 @@ func main() {
 	// 	// restartApplication()
 	// })
 
+	appName := strings.ToLower(conf.AppName)
+
+	// init tracer
+	if conf.Observes != nil && conf.Observes.Tracer != nil && conf.Observes.Tracer.Endpoint != "" {
+		err := observes.NewTracer(&observes.TracerOption{
+			URL:                conf.Observes.Tracer.Endpoint,
+			Name:               strings.ToLower(conf.AppName),
+			Version:            helper.Version,
+			Branch:             helper.Branch,
+			Revision:           helper.Revision,
+			Environment:        conf.RunMode,
+			SamplingRate:       1.0,
+			MaxAttributes:      100,
+			BatchTimeout:       5 * time.Second,
+			ExportTimeout:      30 * time.Second,
+			MaxExportBatchSize: 512,
+		})
+		if err != nil {
+			log.Errorf(context.Background(), "tracer.Init: %s", err)
+		}
+	}
+	// init sentry
+	if conf.Observes != nil && conf.Observes.Sentry != nil && conf.Observes.Sentry.Endpoint != "" {
+		if err := observes.NewSentry(&observes.SentryOptions{
+			Dsn:         conf.Observes.Sentry.Endpoint,
+			Name:        appName,
+			Release:     helper.Version,
+			Environment: conf.RunMode,
+		}); err != nil {
+			log.Errorf(context.Background(), "sentry.Init: %s", err)
+		}
+	}
+
 	// initialize logger
 	cleanupLogger := initializeLogger(conf)
 	defer cleanupLogger()
 
-	log.Infof(context.Background(), "Starting: %s", conf.AppName)
+	log.Infof(context.Background(), "Starting: %s", appName)
 
 	// create server
 	handler, cleanup, err := createServer(conf)
