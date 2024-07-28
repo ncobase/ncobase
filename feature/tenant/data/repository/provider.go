@@ -10,8 +10,8 @@ type Repository struct {
 	userTenant UserTenantRepositoryInterface
 }
 
-// NewRepository creates a new repository.
-func NewRepository(d *data.Data) *Repository {
+// New creates a new repository.
+func New(d *data.Data) *Repository {
 	return &Repository{
 		tenant:     NewTenantRepository(d),
 		userTenant: NewUserTenantRepository(d),

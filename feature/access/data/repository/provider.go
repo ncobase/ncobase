@@ -12,8 +12,8 @@ type Repository struct {
 	userTenantRole UserTenantRoleRepositoryInterface
 }
 
-// NewRepository creates a new repository.
-func NewRepository(d *data.Data) *Repository {
+// New creates a new repository.
+func New(d *data.Data) *Repository {
 	return &Repository{
 		casbin:         NewCasbinRule(d),
 		role:           NewRoleRepository(d),

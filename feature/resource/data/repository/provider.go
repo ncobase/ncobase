@@ -7,8 +7,8 @@ type Repository struct {
 	Attachment AttachmentRepositoryInterface
 }
 
-// NewRepository creates a new repository.
-func NewRepository(d *data.Data) *Repository {
+// New creates a new repository.
+func New(d *data.Data) *Repository {
 	return &Repository{
 		Attachment: NewAttachmentRepository(d),
 	}

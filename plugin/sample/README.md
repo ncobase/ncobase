@@ -1,6 +1,6 @@
 # Sample Plugin
 
-> This plugin handles resource-related functionalities.
+> This plugin handles sample-related functionalities.
 
 ## Structure
 

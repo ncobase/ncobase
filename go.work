@@ -12,5 +12,6 @@ use (
 	./feature/tenant
 	./feature/user
 	./pkg
+	plugin/counter
 	plugin/sample
 )

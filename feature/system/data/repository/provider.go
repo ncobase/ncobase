@@ -8,8 +8,8 @@ type Repository struct {
 	Dictionary DictionaryRepositoryInterface
 }
 
-// NewRepository creates a new repository.
-func NewRepository(d *data.Data) *Repository {
+// New creates a new repository.
+func New(d *data.Data) *Repository {
 	return &Repository{
 		Menu:       NewMenuRepository(d),
 		Dictionary: NewDictionaryRepository(d),

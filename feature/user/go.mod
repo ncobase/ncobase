@@ -81,6 +81,7 @@ require (
 	github.com/neo4j/neo4j-go-driver/v5 v5.22.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	github.com/sagikazarmark/locafero v0.6.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
