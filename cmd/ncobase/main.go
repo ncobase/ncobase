@@ -34,6 +34,7 @@ const (
 // @description Type "Bearer" followed by a space and JWT token.
 // @termsOfService https://ncobase.com
 func main() {
+	log.SetVersion(helper.Version)
 	// load config
 	conf := loadConfig()
 

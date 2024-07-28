@@ -21,24 +21,24 @@ var upgrader = websocket.Upgrader{
 func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Printf(context.Background(), "Failed to set websocket upgrade: %+v", err)
+		log.Errorf(context.Background(), "Failed to set websocket upgrade: %+v", err)
 		return
 	}
 	defer func(conn *websocket.Conn) {
 		err := conn.Close()
 		if err != nil {
-			log.Printf(context.Background(), "Failed to close websocket: %+v", err)
+			log.Errorf(context.Background(), "Failed to close websocket: %+v", err)
 		}
 	}(conn)
 
 	for {
 		messageType, p, err := conn.ReadMessage()
 		if err != nil {
-			log.Printf(context.Background(), "Read message error: %+v", err)
+			log.Errorf(context.Background(), "Read message error: %+v", err)
 			return
 		}
 		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Printf(context.Background(), "Write message error: %+v", err)
+			log.Errorf(context.Background(), "Write message error: %+v", err)
 			return
 		}
 	}

@@ -3,7 +3,6 @@ package helper
 import (
 	"context"
 	"ncobase/common/config"
-	"ncobase/common/nanoid"
 
 	"github.com/gin-gonic/gin"
 )
@@ -137,40 +136,4 @@ func GetProfile(ctx context.Context) any {
 		return profile
 	}
 	return nil
-}
-
-// SetRequestID sets request id to context.Context.
-func SetRequestID(ctx context.Context, rid string) context.Context {
-	return SetValue(ctx, requestIDKey, rid)
-}
-
-// GetRequestID gets request id from context.Context.
-func GetRequestID(ctx context.Context) string {
-	if rid, ok := GetValue(ctx, requestIDKey).(string); ok {
-		return rid
-	}
-	return ""
-}
-
-// SetTraceID sets trace id to context.Context.
-func SetTraceID(ctx context.Context, traceID string) context.Context {
-	return SetValue(ctx, traceIDKey, traceID)
-}
-
-// GetTraceID gets trace id from context.Context.
-func GetTraceID(ctx context.Context) string {
-	if traceID, ok := GetValue(ctx, traceIDKey).(string); ok {
-		return traceID
-	}
-	return ""
-}
-
-// NewTraceID creates a new trace ID.
-func NewTraceID() string {
-	return nanoid.Must(32)
-}
-
-// NewRequestID creates a new request ID.
-func NewRequestID() string {
-	return nanoid.Must(32)
 }

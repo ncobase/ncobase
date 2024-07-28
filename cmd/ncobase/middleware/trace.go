@@ -2,33 +2,13 @@ package middleware
 
 import (
 	"context"
-	"ncobase/common/log"
 	"ncobase/common/observes"
-	"ncobase/helper"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 )
-
-func Trace(c *gin.Context) {
-	ctx := c.Request.Context()
-	// Get the trace ID from the request
-	traceID := helper.GetTraceID(ctx)
-
-	// If trace ID is not present in the request, generate a new one
-	if traceID == "" {
-		traceID = helper.NewTraceID()
-		// Set the trace ID in the request context
-		c.Request = c.Request.WithContext(log.NewTraceIDContext(ctx, traceID))
-	}
-
-	// Set trace header in the response
-	c.Writer.Header().Set("X-Trace-ID", traceID)
-
-	c.Next()
-}
 
 // OtelTrace is a middleware for OpenTelemetry trace
 func OtelTrace(c *gin.Context) {
