@@ -91,20 +91,19 @@ func (h *counterHandler) Update(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Get handles retrieving a counter by ID or slug.
+// Get handles retrieving a counter by ID.
 //
 // @Summary Get counter
-// @Description Retrieve a counter by ID or slug.
+// @Description Retrieve a counter by ID.
 // @Tags counter
 // @Produce json
-// @Param slug path string true "Counter ID or slug"
-// @Param params query structs.FindCounter true "FindCounter parameters"
+// @Param id path string true "Counter ID"
 // @Success 200 {object} structs.ReadCounter "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/counters/{slug} [get]
+// @Router /v1/counters/{id} [get]
 // @Security Bearer
 func (h *counterHandler) Get(c *gin.Context) {
-	params := &structs.FindCounter{Counter: c.Param("slug")}
+	params := &structs.FindCounter{Counter: c.Param("id")}
 
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -122,19 +121,19 @@ func (h *counterHandler) Get(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Delete handles deleting a counter by ID or slug.
+// Delete handles deleting a counter by ID.
 //
 // @Summary Delete counter
-// @Description Delete a counter by ID or slug.
+// @Description Delete a counter by ID.
 // @Tags counter
 // @Produce json
-// @Param slug path string true "Counter ID or slug"
+// @Param id path string true "Counter ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/counters/{slug} [delete]
+// @Router /v1/counters/{id} [delete]
 // @Security Bearer
 func (h *counterHandler) Delete(c *gin.Context) {
-	params := &structs.FindCounter{Counter: c.Param("slug")}
+	params := &structs.FindCounter{Counter: c.Param("id")}
 	err := h.s.Counter.Delete(c.Request.Context(), params.Counter)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))

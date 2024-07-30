@@ -73,6 +73,35 @@ definitions:
     - v1
     - v2
     type: object
+  structs.CounterBody:
+    properties:
+      created_by:
+        type: string
+      current_value:
+        type: integer
+      date_format:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      identifier:
+        type: string
+      increment_step:
+        type: integer
+      name:
+        type: string
+      prefix:
+        type: string
+      start_value:
+        type: integer
+      suffix:
+        type: string
+      tenant_id:
+        type: string
+      updated_by:
+        type: string
+    type: object
   structs.CreatePermissionBody:
     properties:
       action:
@@ -359,6 +388,41 @@ definitions:
       v4:
         type: string
       v5:
+        type: string
+    type: object
+  structs.ReadCounter:
+    properties:
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      current_value:
+        type: integer
+      date_format:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      id:
+        type: string
+      identifier:
+        type: string
+      increment_step:
+        type: integer
+      name:
+        type: string
+      prefix:
+        type: string
+      start_value:
+        type: integer
+      suffix:
+        type: string
+      tenant_id:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
         type: string
     type: object
   structs.ReadDictionary:
@@ -725,6 +789,37 @@ definitions:
       tenant_id:
         type: string
       type:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.UpdateCounterBody:
+    properties:
+      created_by:
+        type: string
+      current_value:
+        type: integer
+      date_format:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      id:
+        type: string
+      identifier:
+        type: string
+      increment_step:
+        type: integer
+      name:
+        type: string
+      prefix:
+        type: string
+      start_value:
+        type: integer
+      suffix:
+        type: string
+      tenant_id:
         type: string
       updated_by:
         type: string
@@ -1344,6 +1439,146 @@ paths:
       summary: Validate captcha
       tags:
       - authentication
+  /v1/counters:
+    get:
+      description: Retrieve a list or tree structure of counters.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: disabled
+        type: boolean
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: tenant
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadCounter'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List counters
+      tags:
+      - counter
+    post:
+      consumes:
+      - application/json
+      description: Create a new counter.
+      parameters:
+      - description: CounterBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CounterBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadCounter'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create counter
+      tags:
+      - counter
+    put:
+      consumes:
+      - application/json
+      description: Update an existing counter.
+      parameters:
+      - description: UpdateCounterBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateCounterBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadCounter'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update counter
+      tags:
+      - counter
+  /v1/counters/{id}:
+    delete:
+      description: Delete a counter by ID.
+      parameters:
+      - description: Counter ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete counter
+      tags:
+      - counter
+    get:
+      description: Retrieve a counter by ID.
+      parameters:
+      - description: Counter ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadCounter'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get counter
+      tags:
+      - counter
   /v1/dictionarys:
     get:
       description: Retrieve a list or tree structure of dictionarys.
