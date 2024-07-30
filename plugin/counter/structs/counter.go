@@ -1,5 +1,10 @@
 package structs
 
+import (
+	"fmt"
+	"ncobase/common/types"
+)
+
 // CounterBody represents a counter entity.
 type CounterBody struct {
 	Identifier    string  `json:"identifier,omitempty"`
@@ -46,6 +51,11 @@ type ReadCounter struct {
 	CreatedAt     *int64  `json:"created_at,omitempty"`
 	UpdatedBy     *string `json:"updated_by,omitempty"`
 	UpdatedAt     *int64  `json:"updated_at,omitempty"`
+}
+
+// GetCursorValue returns the cursor value.
+func (r *ReadCounter) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
 // FindCounter represents the parameters for finding a counter.

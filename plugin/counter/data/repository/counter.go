@@ -22,6 +22,7 @@ import (
 type CounterRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateCounterBody) (*ent.Counter, error)
 	GetByID(ctx context.Context, id string) (*ent.Counter, error)
+	GetByIDs(ctx context.Context, counterIDs []string) ([]*ent.Counter, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Counter, error)
 	List(ctx context.Context, params *structs.ListCounterParams) ([]*ent.Counter, error)
 	Delete(ctx context.Context, slug string) error
@@ -48,13 +49,47 @@ func NewCounterRepository(d *data.Data) CounterRepositoryInterface {
 
 // Create creates a new counter.
 func (r *counterRepository) Create(ctx context.Context, body *structs.CreateCounterBody) (*ent.Counter, error) {
-
 	// create builder.
 	builder := r.ec.Counter.Create()
 	// set values.
-	builder.SetNillableName(&body.Name)
-	builder.SetNillableTenantID(body.TenantID)
-	builder.SetNillableCreatedBy(body.CreatedBy)
+	if body.Identifier != "" {
+		builder.SetNillableIdentifier(&body.Identifier)
+	}
+	if body.Name != "" {
+		builder.SetNillableName(&body.Name)
+	}
+	if body.Prefix != "" {
+		builder.SetNillablePrefix(&body.Prefix)
+	}
+	if body.Suffix != "" {
+		builder.SetNillableSuffix(&body.Suffix)
+	}
+	if body.StartValue != 0 {
+		builder.SetNillableStartValue(&body.StartValue)
+	}
+	if body.IncrementStep != 0 {
+		builder.SetNillableIncrementStep(&body.IncrementStep)
+	}
+	if body.DateFormat != "" {
+		builder.SetNillableDateFormat(&body.DateFormat)
+	}
+	if body.CurrentValue != 0 {
+		builder.SetNillableCurrentValue(&body.CurrentValue)
+	}
+	if body.Disabled {
+		builder.SetNillableDisabled(&body.Disabled)
+	} else {
+		builder.SetDisabled(false)
+	}
+	if body.Description != "" {
+		builder.SetNillableDescription(&body.Description)
+	}
+	if body.TenantID != nil {
+		builder.SetNillableTenantID(body.TenantID)
+	}
+	if body.CreatedBy != nil {
+		builder.SetNillableCreatedBy(body.CreatedBy)
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)
@@ -102,6 +137,23 @@ func (r *counterRepository) GetByID(ctx context.Context, id string) (*ent.Counte
 	return row, nil
 }
 
+// GetByIDs retrieves counters by their IDs.
+func (r *counterRepository) GetByIDs(ctx context.Context, counterIDs []string) ([]*ent.Counter, error) {
+	// create builder.
+	builder := r.ec.Counter.Query()
+	// set conditions.
+	builder.Where(counterEnt.IDIn(counterIDs...))
+
+	// execute the builder.
+	rows, err := builder.All(ctx)
+	if err != nil {
+		log.Errorf(context.Background(), "counterRepo.GetByIDs error: %v\n", err)
+		return nil, err
+	}
+
+	return rows, nil
+}
+
 // Update updates a counter (full or partial).
 func (r *counterRepository) Update(ctx context.Context, slug string, updates types.JSON) (*ent.Counter, error) {
 	counter, err := r.FindCounter(ctx, &structs.FindCounter{Counter: slug})
@@ -113,8 +165,26 @@ func (r *counterRepository) Update(ctx context.Context, slug string, updates typ
 
 	for field, value := range updates {
 		switch field {
+		case "identifier":
+			builder.SetNillableIdentifier(types.ToPointer(value.(string)))
 		case "name":
 			builder.SetNillableName(types.ToPointer(value.(string)))
+		case "prefix":
+			builder.SetNillablePrefix(types.ToPointer(value.(string)))
+		case "suffix":
+			builder.SetNillableSuffix(types.ToPointer(value.(string)))
+		case "start_value":
+			builder.SetNillableStartValue(types.ToPointer(value.(int)))
+		case "increment_step":
+			builder.SetNillableIncrementStep(types.ToPointer(value.(int)))
+		case "date_format":
+			builder.SetNillableDateFormat(types.ToPointer(value.(string)))
+		case "current_value":
+			builder.SetNillableCurrentValue(types.ToPointer(value.(int)))
+		case "disabled":
+			builder.SetNillableDisabled(types.ToPointer(value.(bool)))
+		case "description":
+			builder.SetNillableDescription(types.ToPointer(value.(string)))
 		case "tenant_id":
 			builder.SetNillableTenantID(types.ToPointer(value.(string)))
 		case "updated_by":

@@ -6,6 +6,8 @@ import (
 	"ncobase/common/feature"
 	"ncobase/plugin/counter/data"
 	"ncobase/plugin/counter/data/repository"
+	"ncobase/plugin/counter/handler"
+	"ncobase/plugin/counter/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +28,8 @@ type Plugin struct {
 	conf        *config.Config
 	d           *data.Data
 	r           *repository.Repository
+	s           *service.Service
+	h           *handler.Handler
 	cleanup     func(name ...string)
 }
 
@@ -64,6 +68,8 @@ func (p *Plugin) Init(conf *config.Config, fm *feature.Manager) (err error) {
 // PostInit performs any necessary setup after initialization
 func (p *Plugin) PostInit() error {
 	p.r = repository.New(p.d)
+	p.s = service.New(p.d)
+	p.h = handler.New(p.s)
 	// Subscribe to relevant events
 	p.subscribeEvents(p.fm)
 	return nil
@@ -76,22 +82,22 @@ func (p *Plugin) RegisterRoutes(e *gin.Engine) {
 	// Counter endpoints
 	counters := v1.Group("/counters")
 	{
-		counters.GET("", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "Counter endpoint",
-			})
-		})
+		counters.GET("", p.h.Counter.List)
+		counters.POST("", p.h.Counter.Create)
+		counters.GET("/:id", p.h.Counter.Get)
+		counters.PUT("/:id", p.h.Counter.Update)
+		counters.DELETE("/:id", p.h.Counter.Delete)
 	}
 }
 
 // GetHandlers returns the handlers for the plugin
 func (p *Plugin) GetHandlers() feature.Handler {
-	return nil
+	return p.h
 }
 
 // GetServices returns the services for the plugin
 func (p *Plugin) GetServices() feature.Service {
-	return nil
+	return p.s
 }
 
 // PreCleanup performs any necessary cleanup before the main cleanup
