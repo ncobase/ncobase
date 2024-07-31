@@ -91,7 +91,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 
 // GetHandlers returns the handlers for the module
 func (m *Module) GetHandlers() feature.Handler {
-	return nil
+	return m.h
 }
 
 // GetServices returns the services for the module
