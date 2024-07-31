@@ -9,6 +9,7 @@ import (
 	"ncobase/feature/tenant/data/ent/predicate"
 	"ncobase/feature/tenant/data/ent/usertenant"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (utq *UserTenantQuery) Order(o ...usertenant.OrderOption) *UserTenantQuery 
 // First returns the first UserTenant entity from the query.
 // Returns a *NotFoundError when no UserTenant was found.
 func (utq *UserTenantQuery) First(ctx context.Context) (*UserTenant, error) {
-	nodes, err := utq.Limit(1).All(setContextOp(ctx, utq.ctx, "First"))
+	nodes, err := utq.Limit(1).All(setContextOp(ctx, utq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (utq *UserTenantQuery) FirstX(ctx context.Context) *UserTenant {
 // Returns a *NotFoundError when no UserTenant ID was found.
 func (utq *UserTenantQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = utq.Limit(1).IDs(setContextOp(ctx, utq.ctx, "FirstID")); err != nil {
+	if ids, err = utq.Limit(1).IDs(setContextOp(ctx, utq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (utq *UserTenantQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one UserTenant entity is found.
 // Returns a *NotFoundError when no UserTenant entities are found.
 func (utq *UserTenantQuery) Only(ctx context.Context) (*UserTenant, error) {
-	nodes, err := utq.Limit(2).All(setContextOp(ctx, utq.ctx, "Only"))
+	nodes, err := utq.Limit(2).All(setContextOp(ctx, utq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (utq *UserTenantQuery) OnlyX(ctx context.Context) *UserTenant {
 // Returns a *NotFoundError when no entities are found.
 func (utq *UserTenantQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = utq.Limit(2).IDs(setContextOp(ctx, utq.ctx, "OnlyID")); err != nil {
+	if ids, err = utq.Limit(2).IDs(setContextOp(ctx, utq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (utq *UserTenantQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of UserTenants.
 func (utq *UserTenantQuery) All(ctx context.Context) ([]*UserTenant, error) {
-	ctx = setContextOp(ctx, utq.ctx, "All")
+	ctx = setContextOp(ctx, utq.ctx, ent.OpQueryAll)
 	if err := utq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (utq *UserTenantQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if utq.ctx.Unique == nil && utq.path != nil {
 		utq.Unique(true)
 	}
-	ctx = setContextOp(ctx, utq.ctx, "IDs")
+	ctx = setContextOp(ctx, utq.ctx, ent.OpQueryIDs)
 	if err = utq.Select(usertenant.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (utq *UserTenantQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (utq *UserTenantQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, utq.ctx, "Count")
+	ctx = setContextOp(ctx, utq.ctx, ent.OpQueryCount)
 	if err := utq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (utq *UserTenantQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (utq *UserTenantQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, utq.ctx, "Exist")
+	ctx = setContextOp(ctx, utq.ctx, ent.OpQueryExist)
 	switch _, err := utq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (utgb *UserTenantGroupBy) Aggregate(fns ...AggregateFunc) *UserTenantGroupB
 
 // Scan applies the selector query and scans the result into the given value.
 func (utgb *UserTenantGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, utgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, utgb.build.ctx, ent.OpQueryGroupBy)
 	if err := utgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (uts *UserTenantSelect) Aggregate(fns ...AggregateFunc) *UserTenantSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (uts *UserTenantSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, uts.ctx, "Select")
+	ctx = setContextOp(ctx, uts.ctx, ent.OpQuerySelect)
 	if err := uts.prepareQuery(ctx); err != nil {
 		return err
 	}

@@ -9,6 +9,7 @@ import (
 	"ncobase/feature/access/data/ent/predicate"
 	"ncobase/feature/access/data/ent/userrole"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (urq *UserRoleQuery) Order(o ...userrole.OrderOption) *UserRoleQuery {
 // First returns the first UserRole entity from the query.
 // Returns a *NotFoundError when no UserRole was found.
 func (urq *UserRoleQuery) First(ctx context.Context) (*UserRole, error) {
-	nodes, err := urq.Limit(1).All(setContextOp(ctx, urq.ctx, "First"))
+	nodes, err := urq.Limit(1).All(setContextOp(ctx, urq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (urq *UserRoleQuery) FirstX(ctx context.Context) *UserRole {
 // Returns a *NotFoundError when no UserRole ID was found.
 func (urq *UserRoleQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = urq.Limit(1).IDs(setContextOp(ctx, urq.ctx, "FirstID")); err != nil {
+	if ids, err = urq.Limit(1).IDs(setContextOp(ctx, urq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (urq *UserRoleQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one UserRole entity is found.
 // Returns a *NotFoundError when no UserRole entities are found.
 func (urq *UserRoleQuery) Only(ctx context.Context) (*UserRole, error) {
-	nodes, err := urq.Limit(2).All(setContextOp(ctx, urq.ctx, "Only"))
+	nodes, err := urq.Limit(2).All(setContextOp(ctx, urq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (urq *UserRoleQuery) OnlyX(ctx context.Context) *UserRole {
 // Returns a *NotFoundError when no entities are found.
 func (urq *UserRoleQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = urq.Limit(2).IDs(setContextOp(ctx, urq.ctx, "OnlyID")); err != nil {
+	if ids, err = urq.Limit(2).IDs(setContextOp(ctx, urq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (urq *UserRoleQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of UserRoles.
 func (urq *UserRoleQuery) All(ctx context.Context) ([]*UserRole, error) {
-	ctx = setContextOp(ctx, urq.ctx, "All")
+	ctx = setContextOp(ctx, urq.ctx, ent.OpQueryAll)
 	if err := urq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (urq *UserRoleQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if urq.ctx.Unique == nil && urq.path != nil {
 		urq.Unique(true)
 	}
-	ctx = setContextOp(ctx, urq.ctx, "IDs")
+	ctx = setContextOp(ctx, urq.ctx, ent.OpQueryIDs)
 	if err = urq.Select(userrole.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (urq *UserRoleQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (urq *UserRoleQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, urq.ctx, "Count")
+	ctx = setContextOp(ctx, urq.ctx, ent.OpQueryCount)
 	if err := urq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (urq *UserRoleQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (urq *UserRoleQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, urq.ctx, "Exist")
+	ctx = setContextOp(ctx, urq.ctx, ent.OpQueryExist)
 	switch _, err := urq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (urgb *UserRoleGroupBy) Aggregate(fns ...AggregateFunc) *UserRoleGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (urgb *UserRoleGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, urgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, urgb.build.ctx, ent.OpQueryGroupBy)
 	if err := urgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (urs *UserRoleSelect) Aggregate(fns ...AggregateFunc) *UserRoleSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (urs *UserRoleSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, urs.ctx, "Select")
+	ctx = setContextOp(ctx, urs.ctx, ent.OpQuerySelect)
 	if err := urs.prepareQuery(ctx); err != nil {
 		return err
 	}

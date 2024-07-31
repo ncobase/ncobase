@@ -4,6 +4,7 @@ package enttest
 
 import (
 	"context"
+
 	"ncobase/feature/group/data/ent"
 	// required by schema hooks.
 	_ "ncobase/feature/group/data/ent/runtime"

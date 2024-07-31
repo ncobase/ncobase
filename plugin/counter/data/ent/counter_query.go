@@ -9,6 +9,7 @@ import (
 	"ncobase/plugin/counter/data/ent/counter"
 	"ncobase/plugin/counter/data/ent/predicate"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (cq *CounterQuery) Order(o ...counter.OrderOption) *CounterQuery {
 // First returns the first Counter entity from the query.
 // Returns a *NotFoundError when no Counter was found.
 func (cq *CounterQuery) First(ctx context.Context) (*Counter, error) {
-	nodes, err := cq.Limit(1).All(setContextOp(ctx, cq.ctx, "First"))
+	nodes, err := cq.Limit(1).All(setContextOp(ctx, cq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (cq *CounterQuery) FirstX(ctx context.Context) *Counter {
 // Returns a *NotFoundError when no Counter ID was found.
 func (cq *CounterQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = cq.Limit(1).IDs(setContextOp(ctx, cq.ctx, "FirstID")); err != nil {
+	if ids, err = cq.Limit(1).IDs(setContextOp(ctx, cq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (cq *CounterQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one Counter entity is found.
 // Returns a *NotFoundError when no Counter entities are found.
 func (cq *CounterQuery) Only(ctx context.Context) (*Counter, error) {
-	nodes, err := cq.Limit(2).All(setContextOp(ctx, cq.ctx, "Only"))
+	nodes, err := cq.Limit(2).All(setContextOp(ctx, cq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (cq *CounterQuery) OnlyX(ctx context.Context) *Counter {
 // Returns a *NotFoundError when no entities are found.
 func (cq *CounterQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = cq.Limit(2).IDs(setContextOp(ctx, cq.ctx, "OnlyID")); err != nil {
+	if ids, err = cq.Limit(2).IDs(setContextOp(ctx, cq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (cq *CounterQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of Counters.
 func (cq *CounterQuery) All(ctx context.Context) ([]*Counter, error) {
-	ctx = setContextOp(ctx, cq.ctx, "All")
+	ctx = setContextOp(ctx, cq.ctx, ent.OpQueryAll)
 	if err := cq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (cq *CounterQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if cq.ctx.Unique == nil && cq.path != nil {
 		cq.Unique(true)
 	}
-	ctx = setContextOp(ctx, cq.ctx, "IDs")
+	ctx = setContextOp(ctx, cq.ctx, ent.OpQueryIDs)
 	if err = cq.Select(counter.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (cq *CounterQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (cq *CounterQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, cq.ctx, "Count")
+	ctx = setContextOp(ctx, cq.ctx, ent.OpQueryCount)
 	if err := cq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (cq *CounterQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (cq *CounterQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, cq.ctx, "Exist")
+	ctx = setContextOp(ctx, cq.ctx, ent.OpQueryExist)
 	switch _, err := cq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (cgb *CounterGroupBy) Aggregate(fns ...AggregateFunc) *CounterGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (cgb *CounterGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, cgb.build.ctx, ent.OpQueryGroupBy)
 	if err := cgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (cs *CounterSelect) Aggregate(fns ...AggregateFunc) *CounterSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (cs *CounterSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cs.ctx, "Select")
+	ctx = setContextOp(ctx, cs.ctx, ent.OpQuerySelect)
 	if err := cs.prepareQuery(ctx); err != nil {
 		return err
 	}

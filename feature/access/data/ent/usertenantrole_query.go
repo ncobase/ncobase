@@ -9,6 +9,7 @@ import (
 	"ncobase/feature/access/data/ent/predicate"
 	"ncobase/feature/access/data/ent/usertenantrole"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (utrq *UserTenantRoleQuery) Order(o ...usertenantrole.OrderOption) *UserTen
 // First returns the first UserTenantRole entity from the query.
 // Returns a *NotFoundError when no UserTenantRole was found.
 func (utrq *UserTenantRoleQuery) First(ctx context.Context) (*UserTenantRole, error) {
-	nodes, err := utrq.Limit(1).All(setContextOp(ctx, utrq.ctx, "First"))
+	nodes, err := utrq.Limit(1).All(setContextOp(ctx, utrq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (utrq *UserTenantRoleQuery) FirstX(ctx context.Context) *UserTenantRole {
 // Returns a *NotFoundError when no UserTenantRole ID was found.
 func (utrq *UserTenantRoleQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = utrq.Limit(1).IDs(setContextOp(ctx, utrq.ctx, "FirstID")); err != nil {
+	if ids, err = utrq.Limit(1).IDs(setContextOp(ctx, utrq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (utrq *UserTenantRoleQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one UserTenantRole entity is found.
 // Returns a *NotFoundError when no UserTenantRole entities are found.
 func (utrq *UserTenantRoleQuery) Only(ctx context.Context) (*UserTenantRole, error) {
-	nodes, err := utrq.Limit(2).All(setContextOp(ctx, utrq.ctx, "Only"))
+	nodes, err := utrq.Limit(2).All(setContextOp(ctx, utrq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (utrq *UserTenantRoleQuery) OnlyX(ctx context.Context) *UserTenantRole {
 // Returns a *NotFoundError when no entities are found.
 func (utrq *UserTenantRoleQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = utrq.Limit(2).IDs(setContextOp(ctx, utrq.ctx, "OnlyID")); err != nil {
+	if ids, err = utrq.Limit(2).IDs(setContextOp(ctx, utrq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (utrq *UserTenantRoleQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of UserTenantRoles.
 func (utrq *UserTenantRoleQuery) All(ctx context.Context) ([]*UserTenantRole, error) {
-	ctx = setContextOp(ctx, utrq.ctx, "All")
+	ctx = setContextOp(ctx, utrq.ctx, ent.OpQueryAll)
 	if err := utrq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (utrq *UserTenantRoleQuery) IDs(ctx context.Context) (ids []string, err err
 	if utrq.ctx.Unique == nil && utrq.path != nil {
 		utrq.Unique(true)
 	}
-	ctx = setContextOp(ctx, utrq.ctx, "IDs")
+	ctx = setContextOp(ctx, utrq.ctx, ent.OpQueryIDs)
 	if err = utrq.Select(usertenantrole.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (utrq *UserTenantRoleQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (utrq *UserTenantRoleQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, utrq.ctx, "Count")
+	ctx = setContextOp(ctx, utrq.ctx, ent.OpQueryCount)
 	if err := utrq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (utrq *UserTenantRoleQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (utrq *UserTenantRoleQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, utrq.ctx, "Exist")
+	ctx = setContextOp(ctx, utrq.ctx, ent.OpQueryExist)
 	switch _, err := utrq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (utrgb *UserTenantRoleGroupBy) Aggregate(fns ...AggregateFunc) *UserTenantR
 
 // Scan applies the selector query and scans the result into the given value.
 func (utrgb *UserTenantRoleGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, utrgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, utrgb.build.ctx, ent.OpQueryGroupBy)
 	if err := utrgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (utrs *UserTenantRoleSelect) Aggregate(fns ...AggregateFunc) *UserTenantRol
 
 // Scan applies the selector query and scans the result into the given value.
 func (utrs *UserTenantRoleSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, utrs.ctx, "Select")
+	ctx = setContextOp(ctx, utrs.ctx, ent.OpQuerySelect)
 	if err := utrs.prepareQuery(ctx); err != nil {
 		return err
 	}

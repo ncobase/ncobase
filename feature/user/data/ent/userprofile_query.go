@@ -9,6 +9,7 @@ import (
 	"ncobase/feature/user/data/ent/predicate"
 	"ncobase/feature/user/data/ent/userprofile"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (upq *UserProfileQuery) Order(o ...userprofile.OrderOption) *UserProfileQue
 // First returns the first UserProfile entity from the query.
 // Returns a *NotFoundError when no UserProfile was found.
 func (upq *UserProfileQuery) First(ctx context.Context) (*UserProfile, error) {
-	nodes, err := upq.Limit(1).All(setContextOp(ctx, upq.ctx, "First"))
+	nodes, err := upq.Limit(1).All(setContextOp(ctx, upq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (upq *UserProfileQuery) FirstX(ctx context.Context) *UserProfile {
 // Returns a *NotFoundError when no UserProfile ID was found.
 func (upq *UserProfileQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = upq.Limit(1).IDs(setContextOp(ctx, upq.ctx, "FirstID")); err != nil {
+	if ids, err = upq.Limit(1).IDs(setContextOp(ctx, upq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (upq *UserProfileQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one UserProfile entity is found.
 // Returns a *NotFoundError when no UserProfile entities are found.
 func (upq *UserProfileQuery) Only(ctx context.Context) (*UserProfile, error) {
-	nodes, err := upq.Limit(2).All(setContextOp(ctx, upq.ctx, "Only"))
+	nodes, err := upq.Limit(2).All(setContextOp(ctx, upq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (upq *UserProfileQuery) OnlyX(ctx context.Context) *UserProfile {
 // Returns a *NotFoundError when no entities are found.
 func (upq *UserProfileQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = upq.Limit(2).IDs(setContextOp(ctx, upq.ctx, "OnlyID")); err != nil {
+	if ids, err = upq.Limit(2).IDs(setContextOp(ctx, upq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (upq *UserProfileQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of UserProfiles.
 func (upq *UserProfileQuery) All(ctx context.Context) ([]*UserProfile, error) {
-	ctx = setContextOp(ctx, upq.ctx, "All")
+	ctx = setContextOp(ctx, upq.ctx, ent.OpQueryAll)
 	if err := upq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (upq *UserProfileQuery) IDs(ctx context.Context) (ids []string, err error) 
 	if upq.ctx.Unique == nil && upq.path != nil {
 		upq.Unique(true)
 	}
-	ctx = setContextOp(ctx, upq.ctx, "IDs")
+	ctx = setContextOp(ctx, upq.ctx, ent.OpQueryIDs)
 	if err = upq.Select(userprofile.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (upq *UserProfileQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (upq *UserProfileQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, upq.ctx, "Count")
+	ctx = setContextOp(ctx, upq.ctx, ent.OpQueryCount)
 	if err := upq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (upq *UserProfileQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (upq *UserProfileQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, upq.ctx, "Exist")
+	ctx = setContextOp(ctx, upq.ctx, ent.OpQueryExist)
 	switch _, err := upq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (upgb *UserProfileGroupBy) Aggregate(fns ...AggregateFunc) *UserProfileGrou
 
 // Scan applies the selector query and scans the result into the given value.
 func (upgb *UserProfileGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, upgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, upgb.build.ctx, ent.OpQueryGroupBy)
 	if err := upgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (ups *UserProfileSelect) Aggregate(fns ...AggregateFunc) *UserProfileSelect
 
 // Scan applies the selector query and scans the result into the given value.
 func (ups *UserProfileSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ups.ctx, "Select")
+	ctx = setContextOp(ctx, ups.ctx, ent.OpQuerySelect)
 	if err := ups.prepareQuery(ctx); err != nil {
 		return err
 	}

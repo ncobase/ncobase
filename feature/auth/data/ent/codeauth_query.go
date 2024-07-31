@@ -9,6 +9,7 @@ import (
 	"ncobase/feature/auth/data/ent/codeauth"
 	"ncobase/feature/auth/data/ent/predicate"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (caq *CodeAuthQuery) Order(o ...codeauth.OrderOption) *CodeAuthQuery {
 // First returns the first CodeAuth entity from the query.
 // Returns a *NotFoundError when no CodeAuth was found.
 func (caq *CodeAuthQuery) First(ctx context.Context) (*CodeAuth, error) {
-	nodes, err := caq.Limit(1).All(setContextOp(ctx, caq.ctx, "First"))
+	nodes, err := caq.Limit(1).All(setContextOp(ctx, caq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (caq *CodeAuthQuery) FirstX(ctx context.Context) *CodeAuth {
 // Returns a *NotFoundError when no CodeAuth ID was found.
 func (caq *CodeAuthQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = caq.Limit(1).IDs(setContextOp(ctx, caq.ctx, "FirstID")); err != nil {
+	if ids, err = caq.Limit(1).IDs(setContextOp(ctx, caq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (caq *CodeAuthQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one CodeAuth entity is found.
 // Returns a *NotFoundError when no CodeAuth entities are found.
 func (caq *CodeAuthQuery) Only(ctx context.Context) (*CodeAuth, error) {
-	nodes, err := caq.Limit(2).All(setContextOp(ctx, caq.ctx, "Only"))
+	nodes, err := caq.Limit(2).All(setContextOp(ctx, caq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (caq *CodeAuthQuery) OnlyX(ctx context.Context) *CodeAuth {
 // Returns a *NotFoundError when no entities are found.
 func (caq *CodeAuthQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = caq.Limit(2).IDs(setContextOp(ctx, caq.ctx, "OnlyID")); err != nil {
+	if ids, err = caq.Limit(2).IDs(setContextOp(ctx, caq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (caq *CodeAuthQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of CodeAuths.
 func (caq *CodeAuthQuery) All(ctx context.Context) ([]*CodeAuth, error) {
-	ctx = setContextOp(ctx, caq.ctx, "All")
+	ctx = setContextOp(ctx, caq.ctx, ent.OpQueryAll)
 	if err := caq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (caq *CodeAuthQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if caq.ctx.Unique == nil && caq.path != nil {
 		caq.Unique(true)
 	}
-	ctx = setContextOp(ctx, caq.ctx, "IDs")
+	ctx = setContextOp(ctx, caq.ctx, ent.OpQueryIDs)
 	if err = caq.Select(codeauth.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (caq *CodeAuthQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (caq *CodeAuthQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, caq.ctx, "Count")
+	ctx = setContextOp(ctx, caq.ctx, ent.OpQueryCount)
 	if err := caq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (caq *CodeAuthQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (caq *CodeAuthQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, caq.ctx, "Exist")
+	ctx = setContextOp(ctx, caq.ctx, ent.OpQueryExist)
 	switch _, err := caq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (cagb *CodeAuthGroupBy) Aggregate(fns ...AggregateFunc) *CodeAuthGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (cagb *CodeAuthGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cagb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, cagb.build.ctx, ent.OpQueryGroupBy)
 	if err := cagb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (cas *CodeAuthSelect) Aggregate(fns ...AggregateFunc) *CodeAuthSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (cas *CodeAuthSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cas.ctx, "Select")
+	ctx = setContextOp(ctx, cas.ctx, ent.OpQuerySelect)
 	if err := cas.prepareQuery(ctx); err != nil {
 		return err
 	}

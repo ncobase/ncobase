@@ -9,6 +9,7 @@ import (
 	"ncobase/feature/access/data/ent/predicate"
 	"ncobase/feature/access/data/ent/rolepermission"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (rpq *RolePermissionQuery) Order(o ...rolepermission.OrderOption) *RolePerm
 // First returns the first RolePermission entity from the query.
 // Returns a *NotFoundError when no RolePermission was found.
 func (rpq *RolePermissionQuery) First(ctx context.Context) (*RolePermission, error) {
-	nodes, err := rpq.Limit(1).All(setContextOp(ctx, rpq.ctx, "First"))
+	nodes, err := rpq.Limit(1).All(setContextOp(ctx, rpq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (rpq *RolePermissionQuery) FirstX(ctx context.Context) *RolePermission {
 // Returns a *NotFoundError when no RolePermission ID was found.
 func (rpq *RolePermissionQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = rpq.Limit(1).IDs(setContextOp(ctx, rpq.ctx, "FirstID")); err != nil {
+	if ids, err = rpq.Limit(1).IDs(setContextOp(ctx, rpq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (rpq *RolePermissionQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one RolePermission entity is found.
 // Returns a *NotFoundError when no RolePermission entities are found.
 func (rpq *RolePermissionQuery) Only(ctx context.Context) (*RolePermission, error) {
-	nodes, err := rpq.Limit(2).All(setContextOp(ctx, rpq.ctx, "Only"))
+	nodes, err := rpq.Limit(2).All(setContextOp(ctx, rpq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (rpq *RolePermissionQuery) OnlyX(ctx context.Context) *RolePermission {
 // Returns a *NotFoundError when no entities are found.
 func (rpq *RolePermissionQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = rpq.Limit(2).IDs(setContextOp(ctx, rpq.ctx, "OnlyID")); err != nil {
+	if ids, err = rpq.Limit(2).IDs(setContextOp(ctx, rpq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (rpq *RolePermissionQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of RolePermissions.
 func (rpq *RolePermissionQuery) All(ctx context.Context) ([]*RolePermission, error) {
-	ctx = setContextOp(ctx, rpq.ctx, "All")
+	ctx = setContextOp(ctx, rpq.ctx, ent.OpQueryAll)
 	if err := rpq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (rpq *RolePermissionQuery) IDs(ctx context.Context) (ids []string, err erro
 	if rpq.ctx.Unique == nil && rpq.path != nil {
 		rpq.Unique(true)
 	}
-	ctx = setContextOp(ctx, rpq.ctx, "IDs")
+	ctx = setContextOp(ctx, rpq.ctx, ent.OpQueryIDs)
 	if err = rpq.Select(rolepermission.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (rpq *RolePermissionQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (rpq *RolePermissionQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, rpq.ctx, "Count")
+	ctx = setContextOp(ctx, rpq.ctx, ent.OpQueryCount)
 	if err := rpq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (rpq *RolePermissionQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (rpq *RolePermissionQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, rpq.ctx, "Exist")
+	ctx = setContextOp(ctx, rpq.ctx, ent.OpQueryExist)
 	switch _, err := rpq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (rpgb *RolePermissionGroupBy) Aggregate(fns ...AggregateFunc) *RolePermissi
 
 // Scan applies the selector query and scans the result into the given value.
 func (rpgb *RolePermissionGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, rpgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, rpgb.build.ctx, ent.OpQueryGroupBy)
 	if err := rpgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (rps *RolePermissionSelect) Aggregate(fns ...AggregateFunc) *RolePermission
 
 // Scan applies the selector query and scans the result into the given value.
 func (rps *RolePermissionSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, rps.ctx, "Select")
+	ctx = setContextOp(ctx, rps.ctx, ent.OpQuerySelect)
 	if err := rps.prepareQuery(ctx); err != nil {
 		return err
 	}

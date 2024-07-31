@@ -9,6 +9,7 @@ import (
 	"ncobase/feature/content/data/ent/predicate"
 	"ncobase/feature/content/data/ent/taxonomyrelation"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (trq *TaxonomyRelationQuery) Order(o ...taxonomyrelation.OrderOption) *Taxo
 // First returns the first TaxonomyRelation entity from the query.
 // Returns a *NotFoundError when no TaxonomyRelation was found.
 func (trq *TaxonomyRelationQuery) First(ctx context.Context) (*TaxonomyRelation, error) {
-	nodes, err := trq.Limit(1).All(setContextOp(ctx, trq.ctx, "First"))
+	nodes, err := trq.Limit(1).All(setContextOp(ctx, trq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (trq *TaxonomyRelationQuery) FirstX(ctx context.Context) *TaxonomyRelation 
 // Returns a *NotFoundError when no TaxonomyRelation ID was found.
 func (trq *TaxonomyRelationQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = trq.Limit(1).IDs(setContextOp(ctx, trq.ctx, "FirstID")); err != nil {
+	if ids, err = trq.Limit(1).IDs(setContextOp(ctx, trq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (trq *TaxonomyRelationQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one TaxonomyRelation entity is found.
 // Returns a *NotFoundError when no TaxonomyRelation entities are found.
 func (trq *TaxonomyRelationQuery) Only(ctx context.Context) (*TaxonomyRelation, error) {
-	nodes, err := trq.Limit(2).All(setContextOp(ctx, trq.ctx, "Only"))
+	nodes, err := trq.Limit(2).All(setContextOp(ctx, trq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (trq *TaxonomyRelationQuery) OnlyX(ctx context.Context) *TaxonomyRelation {
 // Returns a *NotFoundError when no entities are found.
 func (trq *TaxonomyRelationQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = trq.Limit(2).IDs(setContextOp(ctx, trq.ctx, "OnlyID")); err != nil {
+	if ids, err = trq.Limit(2).IDs(setContextOp(ctx, trq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (trq *TaxonomyRelationQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of TaxonomyRelations.
 func (trq *TaxonomyRelationQuery) All(ctx context.Context) ([]*TaxonomyRelation, error) {
-	ctx = setContextOp(ctx, trq.ctx, "All")
+	ctx = setContextOp(ctx, trq.ctx, ent.OpQueryAll)
 	if err := trq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (trq *TaxonomyRelationQuery) IDs(ctx context.Context) (ids []string, err er
 	if trq.ctx.Unique == nil && trq.path != nil {
 		trq.Unique(true)
 	}
-	ctx = setContextOp(ctx, trq.ctx, "IDs")
+	ctx = setContextOp(ctx, trq.ctx, ent.OpQueryIDs)
 	if err = trq.Select(taxonomyrelation.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (trq *TaxonomyRelationQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (trq *TaxonomyRelationQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, trq.ctx, "Count")
+	ctx = setContextOp(ctx, trq.ctx, ent.OpQueryCount)
 	if err := trq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (trq *TaxonomyRelationQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (trq *TaxonomyRelationQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, trq.ctx, "Exist")
+	ctx = setContextOp(ctx, trq.ctx, ent.OpQueryExist)
 	switch _, err := trq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (trgb *TaxonomyRelationGroupBy) Aggregate(fns ...AggregateFunc) *TaxonomyRe
 
 // Scan applies the selector query and scans the result into the given value.
 func (trgb *TaxonomyRelationGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, trgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, trgb.build.ctx, ent.OpQueryGroupBy)
 	if err := trgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (trs *TaxonomyRelationSelect) Aggregate(fns ...AggregateFunc) *TaxonomyRela
 
 // Scan applies the selector query and scans the result into the given value.
 func (trs *TaxonomyRelationSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, trs.ctx, "Select")
+	ctx = setContextOp(ctx, trs.ctx, ent.OpQuerySelect)
 	if err := trs.prepareQuery(ctx); err != nil {
 		return err
 	}

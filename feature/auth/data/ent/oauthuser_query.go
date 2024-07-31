@@ -9,6 +9,7 @@ import (
 	"ncobase/feature/auth/data/ent/oauthuser"
 	"ncobase/feature/auth/data/ent/predicate"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (ouq *OAuthUserQuery) Order(o ...oauthuser.OrderOption) *OAuthUserQuery {
 // First returns the first OAuthUser entity from the query.
 // Returns a *NotFoundError when no OAuthUser was found.
 func (ouq *OAuthUserQuery) First(ctx context.Context) (*OAuthUser, error) {
-	nodes, err := ouq.Limit(1).All(setContextOp(ctx, ouq.ctx, "First"))
+	nodes, err := ouq.Limit(1).All(setContextOp(ctx, ouq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (ouq *OAuthUserQuery) FirstX(ctx context.Context) *OAuthUser {
 // Returns a *NotFoundError when no OAuthUser ID was found.
 func (ouq *OAuthUserQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = ouq.Limit(1).IDs(setContextOp(ctx, ouq.ctx, "FirstID")); err != nil {
+	if ids, err = ouq.Limit(1).IDs(setContextOp(ctx, ouq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (ouq *OAuthUserQuery) FirstIDX(ctx context.Context) string {
 // Returns a *NotSingularError when more than one OAuthUser entity is found.
 // Returns a *NotFoundError when no OAuthUser entities are found.
 func (ouq *OAuthUserQuery) Only(ctx context.Context) (*OAuthUser, error) {
-	nodes, err := ouq.Limit(2).All(setContextOp(ctx, ouq.ctx, "Only"))
+	nodes, err := ouq.Limit(2).All(setContextOp(ctx, ouq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (ouq *OAuthUserQuery) OnlyX(ctx context.Context) *OAuthUser {
 // Returns a *NotFoundError when no entities are found.
 func (ouq *OAuthUserQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = ouq.Limit(2).IDs(setContextOp(ctx, ouq.ctx, "OnlyID")); err != nil {
+	if ids, err = ouq.Limit(2).IDs(setContextOp(ctx, ouq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (ouq *OAuthUserQuery) OnlyIDX(ctx context.Context) string {
 
 // All executes the query and returns a list of OAuthUsers.
 func (ouq *OAuthUserQuery) All(ctx context.Context) ([]*OAuthUser, error) {
-	ctx = setContextOp(ctx, ouq.ctx, "All")
+	ctx = setContextOp(ctx, ouq.ctx, ent.OpQueryAll)
 	if err := ouq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (ouq *OAuthUserQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if ouq.ctx.Unique == nil && ouq.path != nil {
 		ouq.Unique(true)
 	}
-	ctx = setContextOp(ctx, ouq.ctx, "IDs")
+	ctx = setContextOp(ctx, ouq.ctx, ent.OpQueryIDs)
 	if err = ouq.Select(oauthuser.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (ouq *OAuthUserQuery) IDsX(ctx context.Context) []string {
 
 // Count returns the count of the given query.
 func (ouq *OAuthUserQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, ouq.ctx, "Count")
+	ctx = setContextOp(ctx, ouq.ctx, ent.OpQueryCount)
 	if err := ouq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (ouq *OAuthUserQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (ouq *OAuthUserQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, ouq.ctx, "Exist")
+	ctx = setContextOp(ctx, ouq.ctx, ent.OpQueryExist)
 	switch _, err := ouq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (ougb *OAuthUserGroupBy) Aggregate(fns ...AggregateFunc) *OAuthUserGroupBy 
 
 // Scan applies the selector query and scans the result into the given value.
 func (ougb *OAuthUserGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ougb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, ougb.build.ctx, ent.OpQueryGroupBy)
 	if err := ougb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (ous *OAuthUserSelect) Aggregate(fns ...AggregateFunc) *OAuthUserSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (ous *OAuthUserSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ous.ctx, "Select")
+	ctx = setContextOp(ctx, ous.ctx, ent.OpQuerySelect)
 	if err := ous.prepareQuery(ctx); err != nil {
 		return err
 	}
