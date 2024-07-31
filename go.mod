@@ -7,8 +7,8 @@ replace (
 	ncobase/feature/auth => ./feature/auth
 	ncobase/feature/content => ./feature/content
 	ncobase/feature/group => ./feature/group
-	ncobase/feature/linker => ./feature/linker
 	ncobase/feature/resource => ./feature/resource
+	ncobase/feature/socket => ./feature/socket
 	ncobase/feature/system => ./feature/system
 	ncobase/feature/tenant => ./feature/tenant
 	ncobase/feature/user => ./feature/user
@@ -25,8 +25,6 @@ require (
 	github.com/casbin/casbin/v2 v2.98.0
 	github.com/casdoor/oss v1.6.1
 	github.com/gin-gonic/gin v1.10.0
-	github.com/gorilla/websocket v1.5.3
-	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
@@ -36,11 +34,12 @@ require (
 	ncobase/feature/auth v0.0.0-00010101000000-000000000000
 	ncobase/feature/content v0.0.0-00010101000000-000000000000
 	ncobase/feature/group v0.0.0-00010101000000-000000000000
-	ncobase/feature/linker v0.0.0-00010101000000-000000000000
 	ncobase/feature/resource v0.0.0-00010101000000-000000000000
+	ncobase/feature/socket v0.0.0-00010101000000-000000000000
 	ncobase/feature/system v0.0.0-00010101000000-000000000000
 	ncobase/feature/tenant v0.0.0-00010101000000-000000000000
 	ncobase/feature/user v0.0.0-00010101000000-000000000000
+	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -93,6 +92,7 @@ require (
 	github.com/google/go-github v17.0.0+incompatible // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/gosimple/slug v1.14.0 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0 // indirect
@@ -129,6 +129,7 @@ require (
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.14.0+incompatible // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect

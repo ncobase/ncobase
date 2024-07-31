@@ -1,4 +1,4 @@
-package linker
+package socket
 
 import (
 	"fmt"
@@ -10,8 +10,8 @@ import (
 )
 
 // GetUserService returns the user service
-func (l *Linker) getUserService() (*userService.Service, error) {
-	f, err := l.fm.GetService("user")
+func (m *Module) getUserService() (*userService.Service, error) {
+	f, err := m.fm.GetService("user")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user service: %v", err)
 	}
@@ -25,8 +25,8 @@ func (l *Linker) getUserService() (*userService.Service, error) {
 }
 
 // GetTenantService returns the tenant service
-func (l *Linker) getTenantService() (*tenantService.Service, error) {
-	f, err := l.fm.GetService("tenant")
+func (m *Module) getTenantService() (*tenantService.Service, error) {
+	f, err := m.fm.GetService("tenant")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get tenant service: %v", err)
 	}
@@ -38,8 +38,8 @@ func (l *Linker) getTenantService() (*tenantService.Service, error) {
 }
 
 // GetGroupService returns the group service
-func (l *Linker) getGroupService() (*groupService.Service, error) {
-	f, err := l.fm.GetService("group")
+func (m *Module) getGroupService() (*groupService.Service, error) {
+	f, err := m.fm.GetService("group")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get group service: %v", err)
 	}
@@ -51,8 +51,8 @@ func (l *Linker) getGroupService() (*groupService.Service, error) {
 }
 
 // GetAccessService returns the access service
-func (l *Linker) getAccessService() (*accessService.Service, error) {
-	f, err := l.fm.GetService("access")
+func (m *Module) getAccessService() (*accessService.Service, error) {
+	f, err := m.fm.GetService("access")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get access service: %v", err)
 	}
@@ -64,8 +64,8 @@ func (l *Linker) getAccessService() (*accessService.Service, error) {
 }
 
 // GetAuthService returns the auth service
-func (l *Linker) getAuthService() (*authService.Service, error) {
-	f, err := l.fm.GetService("auth")
+func (m *Module) getAuthService() (*authService.Service, error) {
+	f, err := m.fm.GetService("auth")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get access service: %v", err)
 	}

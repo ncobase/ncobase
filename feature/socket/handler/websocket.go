@@ -1,11 +1,11 @@
-package service
+package handler
 
 import (
 	"context"
 	"ncobase/common/log"
+	"ncobase/feature/socket/service"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
@@ -17,8 +17,25 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-// HandleWebSocket handles WebSocket connections.
-func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
+// WebSocketHandlerInterface represents the websocket handler interface.
+type WebSocketHandlerInterface interface {
+	Connect(w http.ResponseWriter, r *http.Request)
+}
+
+// websocketHandler represents the websocket handler.
+type websocketHandler struct {
+	s *service.Service
+}
+
+// NewWebSocketHandler creates a new websocket handler.
+func NewWebSocketHandler(s *service.Service) WebSocketHandlerInterface {
+	return &websocketHandler{
+		s: s,
+	}
+}
+
+// Connect handles WebSocket connections.
+func (h *websocketHandler) Connect(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Errorf(context.Background(), "Failed to set websocket upgrade: %+v", err)
@@ -42,11 +59,4 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-}
-
-// registerWebSocketRoutes registers WebSocket routes.
-func registerWebSocketRoutes(e *gin.Engine) {
-	e.GET("/ws", func(c *gin.Context) {
-		HandleWebSocket(c.Writer, c.Request)
-	})
 }

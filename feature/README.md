@@ -9,7 +9,7 @@
 ├── auth/                 # Authentication and authorization
 ├── content/              # Content management
 ├── group/                # User group and role management
-├── linker/               # Relationship and data linking management
+├── socket/               # Relationship and data linking management, websocket service
 ├── resource/             # Resource management
 ├── system/               # Core system functionalities
 ├── tenant/               # Multi-tenancy support

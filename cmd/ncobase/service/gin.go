@@ -48,9 +48,6 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 		fm.ManageRoutes(engine)
 	}
 
-	// Register WebSocket route
-	registerWebSocketRoutes(engine)
-
 	engine.NoRoute(func(c *gin.Context) {
 		resp.Fail(c.Writer, resp.NotFound(ecode.Text(http.StatusNotFound)))
 	})

@@ -8,8 +8,8 @@ import (
 	"ncobase/feature/auth"
 	"ncobase/feature/content"
 	"ncobase/feature/group"
-	"ncobase/feature/linker"
 	"ncobase/feature/resource"
+	"ncobase/feature/socket"
 	"ncobase/feature/system"
 	"ncobase/feature/tenant"
 	"ncobase/feature/user"
@@ -27,7 +27,7 @@ func registerFeatures(fm *feature.Manager) {
 		resource.New(),
 		content.New(),
 		// add more built-in components here, disordered
-		linker.New(), // Must be the last one
+		socket.New(),
 	}
 
 	var sfs []feature.Interface

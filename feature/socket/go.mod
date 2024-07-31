@@ -1,4 +1,4 @@
-module ncobase/feature/linker
+module ncobase/feature/socket
 
 go 1.22.5
 
@@ -14,6 +14,7 @@ replace (
 
 require (
 	github.com/gin-gonic/gin v1.10.0
+	github.com/gorilla/websocket v1.5.3
 	ncobase v0.0.0-00010101000000-000000000000
 	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
 	ncobase/feature/access v0.0.0-00010101000000-000000000000

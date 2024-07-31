@@ -2,9 +2,7 @@ module ncobase/plugin/sample
 
 go 1.22.5
 
-replace (
-	ncobase/common => ../../pkg
-)
+replace ncobase/common => ../../pkg
 
 require (
 	github.com/gin-gonic/gin v1.10.0

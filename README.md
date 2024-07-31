@@ -30,7 +30,7 @@ make run
 │   ├── auth                # Authentication and authorization
 │   ├── content             # Content management
 │   ├── group               # User group management
-│   ├── linker              # Data relationship management
+│   ├── socket              # Data relationship management
 │   ├── resource            # Resource management
 │   ├── system              # System-wide functionalities
 │   ├── tenant              # Multi-tenancy support

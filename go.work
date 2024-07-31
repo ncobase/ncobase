@@ -6,8 +6,8 @@ use (
 	./feature/auth
 	./feature/content
 	./feature/group
-	./feature/linker
 	./feature/resource
+	./feature/socket
 	./feature/system
 	./feature/tenant
 	./feature/user
