@@ -16,8 +16,6 @@ const (
 	tokenKey      contextKey = "token"
 	providerKey   contextKey = "provider"
 	profileKey    contextKey = "profile"
-	requestIDKey  contextKey = "request_id"
-	traceIDKey    contextKey = "trace_id"
 	configKey     contextKey = "config"
 	emailSender   contextKey = "email_sender"
 	storageKey    contextKey = "storage"

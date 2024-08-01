@@ -3,6 +3,7 @@ package middleware
 import (
 	"bytes"
 	"io"
+	"ncobase/common/consts"
 	"ncobase/common/log"
 	"time"
 
@@ -82,7 +83,7 @@ func Logger(c *gin.Context) {
 	log.EntryFromContext(ctx).WithField("http", entry).Info("HTTP Request")
 
 	// Set trace ID in response header
-	c.Header("X-Trace-ID", log.GetTraceID(ctx))
+	c.Header(consts.XMdTraceKey, log.GetTraceID(ctx))
 }
 
 func isBinaryContentType(contentType string) bool {
