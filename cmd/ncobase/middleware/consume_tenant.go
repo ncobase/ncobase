@@ -21,7 +21,7 @@ func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFun
 		// Retrieve user ID from context
 		userID := helper.GetUserID(ctx)
 		// Retrieve tenant ID from request header
-		tenantID := c.GetHeader(consts.XMdTenantKey)
+		tenantID := c.GetHeader(consts.TenantKey)
 		// If tenant ID is not provided in the header, try to fetch from other sources
 		if tenantID == "" && userID != "" {
 			// Get tenant ID

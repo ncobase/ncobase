@@ -3,6 +3,7 @@ package helper
 import (
 	"context"
 	"ncobase/common/config"
+	"ncobase/common/consts"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,10 +11,10 @@ import (
 type contextKey string
 
 const (
-	ginContextKey contextKey = "ginContext"
-	userIDKey     contextKey = "user_id"
-	tenantIDKey   contextKey = "tenant_id"
-	tokenKey      contextKey = "token"
+	ginContextKey            = contextKey(consts.GinContextKey)
+	userIDKey                = contextKey(consts.UserKey)
+	tenantIDKey              = contextKey(consts.TenantKey)
+	tokenKey                 = contextKey(consts.TokenKey)
 	providerKey   contextKey = "provider"
 	profileKey    contextKey = "profile"
 	configKey     contextKey = "config"

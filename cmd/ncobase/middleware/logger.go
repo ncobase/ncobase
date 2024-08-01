@@ -5,9 +5,11 @@ import (
 	"io"
 	"ncobase/common/consts"
 	"ncobase/common/log"
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 // ResponseLoggerWriter wraps the original ResponseWriter to capture response data
@@ -38,10 +40,14 @@ type LogFormat struct {
 // Logger is a middleware for logging requests with consistent tracing
 func Logger(c *gin.Context) {
 	start := time.Now()
+	ctx := c.Request.Context()
 
 	// Ensure context has a trace ID
-	ctx := log.ContextWithTraceID(c.Request.Context())
+	ctx, traceID := log.EnsureTraceID(ctx)
 	c.Request = c.Request.WithContext(ctx)
+
+	// Set trace ID in Gin's context for easy access in handlers
+	c.Set(log.TraceIDKey, traceID)
 
 	// Capture request body
 	var requestBody []byte
@@ -79,11 +85,21 @@ func Logger(c *gin.Context) {
 		entry.ErrorMessage = c.Errors.String()
 	}
 
-	// Log the entry
-	log.EntryFromContext(ctx).WithField("http", entry).Info("HTTP Request")
+	l := log.EntryWithFields(ctx, logrus.Fields{
+		"http": entry,
+	})
+
+	switch {
+	case entry.Status >= http.StatusInternalServerError:
+		l.Error("Internal Server Error")
+	case entry.Status >= http.StatusBadRequest:
+		l.Warn("Client Error")
+	default:
+		l.Info("Request Completed")
+	}
 
 	// Set trace ID in response header
-	c.Header(consts.XMdTraceKey, log.GetTraceID(ctx))
+	c.Writer.Header().Set(consts.TraceKey, traceID)
 }
 
 func isBinaryContentType(contentType string) bool {

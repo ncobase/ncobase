@@ -42,7 +42,7 @@ func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
 		}
 		var token string
 		// Retrieve token from request header, query, or cookie
-		if authHeader := c.GetHeader("Authorization"); authHeader != "" {
+		if authHeader := c.GetHeader(consts.AuthorizationKey); authHeader != "" {
 			// Token from header
 			if strings.HasPrefix(authHeader, consts.BearerKey) {
 				token = strings.TrimPrefix(authHeader, consts.BearerKey)
@@ -92,7 +92,7 @@ func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
 				handleTokenError(c, fmt.Errorf("failed to refresh token: %v", err))
 				return
 			}
-			c.Header("Authorization", consts.BearerKey+newToken)
+			c.Header(consts.AuthorizationKey, consts.BearerKey+newToken)
 			cookie.SetAccessToken(c.Writer, newToken, "")
 		}
 

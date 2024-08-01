@@ -101,8 +101,8 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			permissions = append(permissions, rolePermissions...)
 		}
 
-		log.Infof(c, "Checking permission for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
-		log.Infof(c, "User roles: %v\n", roles)
+		log.Infof(ctx, "Checking permission for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
+		log.Infof(ctx, "User roles: %v\n", roles)
 
 		// Check if the user has permission to access the resource
 		ok, err := checkPermission(enforcer, currentUser, obj, act, roles, permissions, currentTenant)
@@ -113,13 +113,13 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 		}
 
 		if !ok {
-			log.Warnf(c, "Permission denied for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
+			log.Warnf(ctx, "Permission denied for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 			resp.Fail(c.Writer, resp.Forbidden("You don't have permission to access this resource, please contact the administrator"))
 			c.Abort()
 			return
 		}
 
-		log.Infof(c, "Permission granted for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
+		log.Infof(ctx, "Permission granted for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
 		c.Next()
 	}
 }
