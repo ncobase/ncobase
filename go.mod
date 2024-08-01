@@ -16,7 +16,6 @@ replace (
 
 replace (
 	ncobase/plugin/counter => ./plugin/counter
-	ncobase/plugin/sample => ./plugin/sample
 )
 
 replace ncobase/common => ./pkg
@@ -25,6 +24,7 @@ require (
 	github.com/casbin/casbin/v2 v2.98.0
 	github.com/casdoor/oss v1.6.1
 	github.com/gin-gonic/gin v1.10.0
+	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
@@ -129,7 +129,6 @@ require (
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.14.0+incompatible // indirect
-	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
