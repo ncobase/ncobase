@@ -26,6 +26,12 @@ func (w *responseWriter) Write(b []byte) (int, error) {
 	return w.ResponseWriter.Write(b)
 }
 
+// shouldSkipPath checks if the path should be skipped
+var skippedPaths = []string{
+	"/swagger",
+	"/v1/attachments/*",
+}
+
 // Logger is a middleware for logging
 func Logger(c *gin.Context) {
 	start := time.Now()
@@ -56,12 +62,12 @@ func Logger(c *gin.Context) {
 		"user_agent": c.Request.UserAgent(),
 	}
 
-	if requestBody != nil {
+	if requestBody != nil && !shouldSkipPath(c.Request.URL.Path, skippedPaths) {
 		entry["request_body"] = requestBody
 	}
 
 	responseBody := processBody(w.body.Bytes(), w.Header().Get("Content-Type"))
-	if responseBody != nil {
+	if responseBody != nil && !shouldSkipPath(c.Request.URL.Path, skippedPaths) {
 		entry["response_body"] = responseBody
 	}
 

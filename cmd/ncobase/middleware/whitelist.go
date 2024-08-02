@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// inWhiteList checks if the given path is in the whiteList.
-func inWhiteList(requestPath string, whiteList []string) bool {
+// shouldSkipPath checks if the path should be skipped
+func shouldSkipPath(requestPath string, whiteList []string) bool {
 	// Skip root path
 	if requestPath == "/" {
 		return true
@@ -40,7 +40,7 @@ func inWhiteList(requestPath string, whiteList []string) bool {
 // WhiteList is a middleware for white list
 func WhiteList(whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if inWhiteList(c.Request.URL.Path, whiteList) {
+		if shouldSkipPath(c.Request.URL.Path, whiteList) {
 			c.Next()
 			return
 		}
