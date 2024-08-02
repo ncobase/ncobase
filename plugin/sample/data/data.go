@@ -55,7 +55,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 func newEntClient(db *sql.DB, conf *config.Database) (*ent.Client, error) {
 	client := ent.NewClient(ent.Driver(dialect.DebugWithContext(
 		entsql.OpenDB(conf.Driver, db),
-		func(ctx context.Context, i ...interface{}) {
+		func(ctx context.Context, i ...any) {
 			if conf.Logging {
 				log.Infof(ctx, "%v", i)
 			}

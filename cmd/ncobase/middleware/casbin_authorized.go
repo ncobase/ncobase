@@ -14,6 +14,7 @@ import (
 
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 // handleException is a helper function to handle exceptions and abort the request with the appropriate response
@@ -101,8 +102,16 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			permissions = append(permissions, rolePermissions...)
 		}
 
-		log.Infof(ctx, "Checking permission for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
-		log.Infof(ctx, "User roles: %v\n", roles)
+		log.EntryWithFields(ctx,
+			logrus.Fields{
+				"userID":      currentUser,
+				"tenantID":    currentTenant,
+				"object":      obj,
+				"action":      act,
+				"roles":       roles,
+				"permissions": permissions,
+			},
+		).Info("Checking permission")
 
 		// Check if the user has permission to access the resource
 		ok, err := checkPermission(enforcer, currentUser, obj, act, roles, permissions, currentTenant)
@@ -113,13 +122,27 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 		}
 
 		if !ok {
-			log.Warnf(ctx, "Permission denied for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
+
+			log.EntryWithFields(ctx, logrus.Fields{
+				"userID":   currentUser,
+				"tenantID": currentTenant,
+				"object":   obj,
+				"action":   act,
+			}).Warn("Permission denied")
+
 			resp.Fail(c.Writer, resp.Forbidden("You don't have permission to access this resource, please contact the administrator"))
+
 			c.Abort()
 			return
 		}
 
-		log.Infof(ctx, "Permission granted for userID: %s, tenantID: %s, obj: %s, act: %s\n", currentUser, currentTenant, obj, act)
+		log.EntryWithFields(ctx, logrus.Fields{
+			"userID":   currentUser,
+			"tenantID": currentTenant,
+			"object":   obj,
+			"action":   act,
+		}).Info("Permission granted")
+
 		c.Next()
 	}
 }

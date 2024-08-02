@@ -2,100 +2,112 @@ package middleware
 
 import (
 	"bytes"
+	"encoding/base64"
+	"encoding/json"
 	"io"
 	"ncobase/common/log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
 
-// ResponseLoggerWriter wraps the original ResponseWriter to capture response data
-type ResponseLoggerWriter struct {
+// responseWriter  wraps the original responseWriter to capture response data
+type responseWriter struct {
 	gin.ResponseWriter
 	body *bytes.Buffer
 }
 
-func (w ResponseLoggerWriter) Write(b []byte) (int, error) {
+// Write writes the data to the buffer
+func (w *responseWriter) Write(b []byte) (int, error) {
 	w.body.Write(b)
 	return w.ResponseWriter.Write(b)
 }
 
-// LogFormat holds the structure for logging information
-type LogFormat struct {
-	Status       int           `json:"status,omitempty"`
-	Method       string        `json:"method,omitempty"`
-	Path         string        `json:"path,omitempty"`
-	Query        string        `json:"query,omitempty"`
-	IP           string        `json:"ip,omitempty"`
-	UserAgent    string        `json:"user_agent,omitempty"`
-	Latency      time.Duration `json:"latency,omitempty"`
-	RequestBody  string        `json:"request_body,omitempty"`
-	ResponseBody string        `json:"response_body,omitempty"`
-	ErrorMessage string        `json:"error,omitempty"`
-}
-
-// Logger is a middleware for logging requests with consistent tracing
+// Logger is a middleware for logging
 func Logger(c *gin.Context) {
 	start := time.Now()
 	ctx := c.Request.Context()
 
 	// Capture request body
-	var requestBody []byte
+	var requestBody any
 	if c.Request.Body != nil {
-		requestBody, _ = io.ReadAll(c.Request.Body)
-		c.Request.Body = io.NopCloser(bytes.NewBuffer(requestBody))
+		bodyBytes, _ := io.ReadAll(c.Request.Body)
+		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+		requestBody = processBody(bodyBytes, c.ContentType())
 	}
 
-	// Create a response writer that captures the response body
-	blw := &ResponseLoggerWriter{body: new(bytes.Buffer), ResponseWriter: c.Writer}
-	c.Writer = blw
+	// Wrap response writer
+	w := &responseWriter{body: &bytes.Buffer{}, ResponseWriter: c.Writer}
+	c.Writer = w
 
-	// Process request
 	c.Next()
 
 	// Prepare log entry
-	entry := &LogFormat{
-		Status:      c.Writer.Status(),
-		Method:      c.Request.Method,
-		Path:        c.Request.URL.Path,
-		Query:       c.Request.URL.RawQuery,
-		IP:          c.ClientIP(),
-		UserAgent:   c.Request.UserAgent(),
-		Latency:     time.Since(start),
-		RequestBody: string(requestBody),
+	entry := logrus.Fields{
+		"status":     c.Writer.Status(),
+		"method":     c.Request.Method,
+		"path":       c.Request.URL.Path,
+		"query":      c.Request.URL.RawQuery,
+		"ip":         c.ClientIP(),
+		"latency":    time.Since(start),
+		"user_agent": c.Request.UserAgent(),
 	}
 
-	// Only include response body for non-binary content types
-	if !isBinaryContentType(c.Writer.Header().Get("Content-Type")) {
-		entry.ResponseBody = blw.body.String()
+	if requestBody != nil {
+		entry["request_body"] = requestBody
 	}
 
-	// Log errors if any
+	responseBody := processBody(w.body.Bytes(), w.Header().Get("Content-Type"))
+	if responseBody != nil {
+		entry["response_body"] = responseBody
+	}
+
 	if len(c.Errors) > 0 {
-		entry.ErrorMessage = c.Errors.String()
+		entry["error"] = c.Errors.String()
 	}
 
-	l := log.EntryWithFields(ctx, logrus.Fields{
-		"http": entry,
-	})
-
+	// Log request
+	l := log.EntryWithFields(ctx, entry)
 	switch {
-	case entry.Status >= http.StatusInternalServerError:
+	case c.Writer.Status() >= http.StatusInternalServerError:
 		l.Error("Internal Server Error")
-	case entry.Status >= http.StatusBadRequest:
+	case c.Writer.Status() >= http.StatusBadRequest:
 		l.Warn("Client Error")
 	default:
 		l.Info("Request Completed")
 	}
 }
 
+// processBody processes the body of the request
+func processBody(body []byte, contentType string) any {
+	if len(body) == 0 {
+		return nil
+	}
+
+	if isBinaryContentType(contentType) {
+		return base64.StdEncoding.EncodeToString(body)
+	}
+
+	var jsonBody any
+	if json.Valid(body) {
+		_ = json.Unmarshal(body, &jsonBody)
+		return jsonBody
+	}
+
+	return string(body)
+}
+
+// isBinaryContentType checks if the content type is a binary type
 func isBinaryContentType(contentType string) bool {
-	return contentType == "application/octet-stream" ||
-		contentType == "application/pdf" ||
-		contentType == "image/jpeg" ||
-		contentType == "image/png" ||
-		contentType == "audio/mpeg" ||
-		contentType == "video/mp4"
+	binaryTypes := []string{"application/octet-stream", "application/pdf", "image/", "audio/", "video/"}
+	contentType = strings.ToLower(strings.TrimSpace(strings.SplitN(contentType, ";", 2)[0]))
+	for _, t := range binaryTypes {
+		if strings.HasPrefix(contentType, t) {
+			return true
+		}
+	}
+	return false
 }
