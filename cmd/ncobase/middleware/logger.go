@@ -3,7 +3,6 @@ package middleware
 import (
 	"bytes"
 	"io"
-	"ncobase/common/consts"
 	"ncobase/common/log"
 	"net/http"
 	"time"
@@ -41,13 +40,6 @@ type LogFormat struct {
 func Logger(c *gin.Context) {
 	start := time.Now()
 	ctx := c.Request.Context()
-
-	// Ensure context has a trace ID
-	ctx, traceID := log.EnsureTraceID(ctx)
-	c.Request = c.Request.WithContext(ctx)
-
-	// Set trace ID in Gin's context for easy access in handlers
-	c.Set(log.TraceIDKey, traceID)
 
 	// Capture request body
 	var requestBody []byte
@@ -97,9 +89,6 @@ func Logger(c *gin.Context) {
 	default:
 		l.Info("Request Completed")
 	}
-
-	// Set trace ID in response header
-	c.Writer.Header().Set(consts.TraceKey, traceID)
 }
 
 func isBinaryContentType(contentType string) bool {
