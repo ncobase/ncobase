@@ -41,7 +41,10 @@ define build_binary
   @CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build $(BUILD_FLAGS) -o $(OUT)/$(APP_NAME)-$(1)$(EXT) $(CMD_PATH)
 endef
 
-.PHONY: generate copy-config build-multi build-plugins build-plugin build-all swagger build run optimize clean version help
+.PHONY: install generate copy-config build-multi build-plugins build-plugin build-all swagger build run optimize clean version help
+
+install:
+	@go install github.com/swaggo/swag/cmd/swag@latest
 
 generate:
 	@go generate -x ./...
