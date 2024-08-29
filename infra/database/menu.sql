@@ -14,7 +14,7 @@ WITH tenant AS
             EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
             EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
            -- system
-           (nanoid(), '系统', 'system.navigation', 'system', 'header', '/system/tenant', null, null, null, false, 10,
+           (nanoid(), '系统', 'system.navigation', 'system', 'header', '/system/group', null, null, null, false, 10,
             false, '{}', null, (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
             (SELECT id FROM user_ids WHERE username = 'admin'),
             EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
