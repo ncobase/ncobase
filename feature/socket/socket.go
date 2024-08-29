@@ -2,7 +2,6 @@ package socket
 
 import (
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/feature"
 	"ncobase/common/resp"
@@ -90,8 +89,8 @@ func (m *Module) PostInit() error {
 
 // RegisterRoutes registers routes for the socket
 func (m *Module) RegisterRoutes(e *gin.Engine) {
-	// initialize routes
-	e.POST("/v1/initialize", middleware.AuthenticatedUser, middleware.AuthenticatedTenant, func(c *gin.Context) {
+	// initialize routes, TODO: move to a separate module
+	e.GET("/v1/initialize", func(c *gin.Context) {
 		err := m.s.Initialize.Execute()
 		if err != nil {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))

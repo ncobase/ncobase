@@ -14,9 +14,7 @@ replace (
 	ncobase/feature/user => ./feature/user
 )
 
-replace (
-	ncobase/plugin/counter => ./plugin/counter
-)
+replace ncobase/plugin/counter => ./plugin/counter
 
 replace ncobase/common => ./pkg
 
