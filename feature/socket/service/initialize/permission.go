@@ -22,7 +22,7 @@ func (s *InitializeService) initPermissions(ctx context.Context) error {
 	permissions := []accessStructs.CreatePermissionBody{
 		{
 			PermissionBody: accessStructs.PermissionBody{
-				Name:        "all",
+				Name:        "All",
 				Action:      "*",
 				Subject:     "*",
 				Description: "Full access to all resources",
@@ -30,7 +30,7 @@ func (s *InitializeService) initPermissions(ctx context.Context) error {
 		},
 		{
 			PermissionBody: accessStructs.PermissionBody{
-				Name:        "read_all",
+				Name:        "Read all",
 				Action:      "GET",
 				Subject:     "*",
 				Description: "Read access to all resources",
@@ -38,7 +38,7 @@ func (s *InitializeService) initPermissions(ctx context.Context) error {
 		},
 		{
 			PermissionBody: accessStructs.PermissionBody{
-				Name:        "write_all",
+				Name:        "Write all",
 				Action:      "POST",
 				Subject:     "*",
 				Description: "Write access to all resources",
@@ -46,7 +46,7 @@ func (s *InitializeService) initPermissions(ctx context.Context) error {
 		},
 		{
 			PermissionBody: accessStructs.PermissionBody{
-				Name:        "update_all",
+				Name:        "Update all",
 				Action:      "PUT",
 				Subject:     "*",
 				Description: "Update access to all resources",
@@ -54,7 +54,7 @@ func (s *InitializeService) initPermissions(ctx context.Context) error {
 		},
 		{
 			PermissionBody: accessStructs.PermissionBody{
-				Name:        "delete_all",
+				Name:        "Delete all",
 				Action:      "DELETE",
 				Subject:     "*",
 				Description: "Delete access to all resources",
