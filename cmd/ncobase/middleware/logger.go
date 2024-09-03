@@ -42,7 +42,7 @@ func Logger(c *gin.Context) {
 	if c.Request.Body != nil {
 		bodyBytes, _ := io.ReadAll(c.Request.Body)
 		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
-		requestBody = processBody(bodyBytes, c.ContentType())
+		requestBody = processBody(bodyBytes, c.ContentType(), c.Request.URL.Path)
 	}
 
 	// Wrap response writer
@@ -66,7 +66,7 @@ func Logger(c *gin.Context) {
 		entry["request_body"] = requestBody
 	}
 
-	responseBody := processBody(w.body.Bytes(), w.Header().Get("Content-Type"))
+	responseBody := processBody(w.body.Bytes(), w.Header().Get("Content-Type"), c.Request.URL.Path)
 	if responseBody != nil && !shouldSkipPath(c.Request.URL.Path, skippedPaths) {
 		entry["response_body"] = responseBody
 	}
@@ -88,8 +88,13 @@ func Logger(c *gin.Context) {
 }
 
 // processBody processes the body of the request
-func processBody(body []byte, contentType string) any {
+func processBody(body []byte, contentType, path string) any {
 	if len(body) == 0 {
+		return nil
+	}
+
+	skipPaths := []string{"/attachments", "/attachments/*", "/swagger/*", "/v1/attachments", "/v1/attachments/*", "/v1/swagger/*"}
+	if shouldSkipPath(path, skipPaths) {
 		return nil
 	}
 

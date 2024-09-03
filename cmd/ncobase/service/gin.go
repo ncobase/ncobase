@@ -21,11 +21,13 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 	engine := gin.New()
 
 	// Initialize middleware
-	engine.Use(middleware.Timestamp)
 	engine.Use(middleware.Trace)
 	engine.Use(middleware.Logger)
 	engine.Use(middleware.CORSHandler)
 	engine.Use(middleware.OtelTrace)
+
+	// validate timestamp
+	// engine.Use(middleware.Timestamp(conf.Auth.Whitelist))
 
 	// Consume user
 	userMiddleware(conf, engine, fm)
