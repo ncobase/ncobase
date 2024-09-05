@@ -10,3 +10,4 @@ uploads/
 # config
 !infra/config/config.yaml
 config.yaml
+/.VSCodeCounter/

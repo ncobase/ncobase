@@ -6,6 +6,7 @@
 
 ```plantext
 ├── access/               # Access control and permission management
+├── assistant/            # Work Assistant, including ai assistant and management
 ├── auth/                 # Authentication and authorization
 ├── content/              # Content management
 ├── group/                # User group and role management
