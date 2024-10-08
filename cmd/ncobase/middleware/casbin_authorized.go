@@ -41,6 +41,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 
 		currentUser := helper.GetUserID(ctx)
 		currentTenant := helper.GetTenantID(ctx)
+		contextTraceID := helper.GetTraceID(ctx)
 
 		// Check if user ID or tenant ID is empty
 		if validator.IsEmpty(currentUser) || validator.IsEmpty(currentTenant) {
@@ -104,6 +105,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 
 		log.EntryWithFields(ctx,
 			logrus.Fields{
+				"trace_id":    contextTraceID,
 				"userID":      currentUser,
 				"tenantID":    currentTenant,
 				"object":      obj,
@@ -122,8 +124,8 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 		}
 
 		if !ok {
-
 			log.EntryWithFields(ctx, logrus.Fields{
+				"trace_id": contextTraceID,
 				"userID":   currentUser,
 				"tenantID": currentTenant,
 				"object":   obj,
@@ -135,8 +137,8 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			c.Abort()
 			return
 		}
-
 		log.EntryWithFields(ctx, logrus.Fields{
+			"trace_id": contextTraceID,
 			"userID":   currentUser,
 			"tenantID": currentTenant,
 			"object":   obj,

@@ -34,7 +34,31 @@ func Trace(c *gin.Context) {
 	// Set trace header in the response
 	c.Writer.Header().Set(consts.TraceKey, traceID)
 
+	// Create OpenTelemetry tracing context
+	path := c.Request.URL.Path
+	if path == "" {
+		path = c.FullPath()
+	}
+	tc := observes.NewTracingContext(ctx, path, 100)
+	defer tc.End()
+
+	tc.SetAttributes(
+		attribute.String("http.method", c.Request.Method),
+		attribute.String("http.path", path),
+		attribute.String("trace.id", traceID),
+	)
+
+	ctx = context.WithValue(tc.Context(), "tracing_context", tc)
+	c.Request = c.Request.WithContext(ctx)
+
 	c.Next()
+
+	// Update OpenTelemetry span with response status
+	status := c.Writer.Status()
+	tc.SetAttributes(
+		attribute.Int("http.status_code", status),
+	)
+	tc.SetStatus(codes.Code(status), http.StatusText(status))
 }
 
 // OtelTrace is a middleware for OpenTelemetry trace

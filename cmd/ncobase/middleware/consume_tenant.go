@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	"ncobase/common/consts"
 	"ncobase/common/log"
 	tenantService "ncobase/feature/tenant/service"
@@ -27,10 +26,11 @@ func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFun
 			// Get tenant ID
 			tenantID = helper.GetTenantID(ctx)
 			if tenantID == "" {
+				log.Warn(ctx, "tenant not found, try to fetch from user tenants")
 				// Fetch user tenants
 				tenant, err := ts.UserTenant.UserBelongTenant(c, userID)
 				if err != nil {
-					log.Errorf(context.Background(), "failed to fetch user belong tenant: %v", err.Error())
+					log.Errorf(ctx, "failed to fetch user belong tenant: %v", err.Error())
 				}
 				if tenant != nil {
 					tenantID = tenant.ID

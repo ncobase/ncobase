@@ -16,7 +16,7 @@ func AuthenticatedTenant(c *gin.Context) {
 	tenantID := helper.GetTenantID(ctx)
 
 	if validator.IsEmpty(tenantID) {
-		log.EntryWithFields(ctx, nil).Warn("Tenant authentication failed")
+		log.Warn(ctx, "Tenant authentication failed")
 		resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
 		c.Abort()
 		return
@@ -31,7 +31,7 @@ func AuthenticatedUser(c *gin.Context) {
 	userID := helper.GetUserID(ctx)
 
 	if validator.IsEmpty(userID) {
-		log.EntryWithFields(ctx, nil).Warn("User authentication failed")
+		log.Warn(ctx, "User authentication failed")
 		resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
 		c.Abort()
 		return

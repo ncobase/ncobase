@@ -4,6 +4,7 @@ import (
 	"context"
 	"ncobase/common/config"
 	"ncobase/common/consts"
+	"ncobase/common/log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -135,4 +136,17 @@ func GetProfile(ctx context.Context) any {
 		return profile
 	}
 	return nil
+}
+
+// GetTraceID gets trace id from context.Context.
+func GetTraceID(ctx context.Context) string {
+	if traceID, ok := GetValue(ctx, log.TraceIDKey).(string); ok {
+		return traceID
+	}
+	return ""
+}
+
+// SetTraceID sets trace id to context.Context.
+func SetTraceID(ctx context.Context, traceID string) context.Context {
+	return SetValue(ctx, log.TraceIDKey, traceID)
 }
