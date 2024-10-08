@@ -8,13 +8,14 @@ import (
 	"ncobase/common/log"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
 
-// responseWriter  wraps the original responseWriter to capture response data
+// responseWriter wraps the original responseWriter to capture response data
 type responseWriter struct {
 	gin.ResponseWriter
 	body *bytes.Buffer
@@ -26,27 +27,61 @@ func (w *responseWriter) Write(b []byte) (int, error) {
 	return w.ResponseWriter.Write(b)
 }
 
-// shouldSkipPath checks if the path should be skipped
-var skippedPaths = []string{
-	"/swagger",
-	"/v1/attachments/*",
-}
+var (
+	// skippedPaths is a list of paths that should be skipped for detailed logging
+	skippedPaths = []string{
+		"/swagger*",
+		"/v1/attachments/*",
+		"/attachments*",
+		"/v1/swagger*",
+	}
+
+	// binaryTypes is a list of content types that should be treated as binary
+	binaryTypes = []string{
+		"application/octet-stream",
+		"application/pdf",
+		"image/",
+		"audio/",
+		"video/",
+	}
+
+	// Use a sync.Pool to reduce allocations
+	bufferPool = sync.Pool{
+		New: func() any {
+			return new(bytes.Buffer)
+		},
+	}
+)
 
 // Logger is a middleware for logging
 func Logger(c *gin.Context) {
 	start := time.Now()
 	ctx := c.Request.Context()
 
+	// Check if the path should be skipped
+	if shouldSkipPath(c.Request.URL.Path, skippedPaths) {
+		c.Next()
+		return
+	}
+
 	// Capture request body
 	var requestBody any
 	if c.Request.Body != nil {
-		bodyBytes, _ := io.ReadAll(c.Request.Body)
-		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
-		requestBody = processBody(bodyBytes, c.ContentType(), c.Request.URL.Path)
+		bodyBytes, err := io.ReadAll(c.Request.Body)
+		if err != nil {
+			log.Errorf(ctx, "Failed to read request body: %v", err)
+		} else {
+			c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+			requestBody = processBody(bodyBytes, c.ContentType(), c.Request.URL.Path)
+		}
 	}
 
 	// Wrap response writer
-	w := &responseWriter{body: &bytes.Buffer{}, ResponseWriter: c.Writer}
+	buf := bufferPool.Get().(*bytes.Buffer)
+	buf.Reset()
+	defer bufferPool.Put(buf)
+
+	w := &responseWriter{body: buf, ResponseWriter: c.Writer}
 	c.Writer = w
 
 	c.Next()
@@ -62,12 +97,12 @@ func Logger(c *gin.Context) {
 		"user_agent": c.Request.UserAgent(),
 	}
 
-	if requestBody != nil && !shouldSkipPath(c.Request.URL.Path, skippedPaths) {
+	if requestBody != nil {
 		entry["request_body"] = requestBody
 	}
 
 	responseBody := processBody(w.body.Bytes(), w.Header().Get("Content-Type"), c.Request.URL.Path)
-	if responseBody != nil && !shouldSkipPath(c.Request.URL.Path, skippedPaths) {
+	if responseBody != nil {
 		entry["response_body"] = responseBody
 	}
 
@@ -87,14 +122,9 @@ func Logger(c *gin.Context) {
 	}
 }
 
-// processBody processes the body of the request
+// processBody processes the body of the request or response
 func processBody(body []byte, contentType, path string) any {
 	if len(body) == 0 {
-		return nil
-	}
-
-	skipPaths := []string{"/attachments", "/attachments/*", "/swagger/*", "/v1/attachments", "/v1/attachments/*", "/v1/swagger/*"}
-	if shouldSkipPath(path, skipPaths) {
 		return nil
 	}
 
@@ -104,7 +134,9 @@ func processBody(body []byte, contentType, path string) any {
 
 	var jsonBody any
 	if json.Valid(body) {
-		_ = json.Unmarshal(body, &jsonBody)
+		if err := json.Unmarshal(body, &jsonBody); err != nil {
+			return string(body)
+		}
 		return jsonBody
 	}
 
@@ -113,7 +145,6 @@ func processBody(body []byte, contentType, path string) any {
 
 // isBinaryContentType checks if the content type is a binary type
 func isBinaryContentType(contentType string) bool {
-	binaryTypes := []string{"application/octet-stream", "application/pdf", "image/", "audio/", "video/"}
 	contentType = strings.ToLower(strings.TrimSpace(strings.SplitN(contentType, ";", 2)[0]))
 	for _, t := range binaryTypes {
 		if strings.HasPrefix(contentType, t) {
