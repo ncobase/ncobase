@@ -2,26 +2,42 @@ package middleware
 
 import (
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
-// CORSHeaders contains the CORS headers.
-var CORSHeaders = map[string]string{
-	"Access-Control-Allow-Origin":      "*",
-	"Access-Control-Allow-Credentials": "true",
-	"Access-Control-Allow-Headers":     "content-type, content-length, accept-encoding, x-csrf-token, authorization, accept, origin, cache-control, x-requested-with",
-	"Access-Control-Allow-Methods":     "POST, GET, OPTIONS, PUT, DELETE",
+// CORSConfig defines the config for CORS middleware.
+type CORSConfig struct {
+	AllowOrigins     []string
+	AllowMethods     []string
+	AllowHeaders     []string
+	AllowCredentials bool
+	ExposeHeaders    []string
+	MaxAge           int
+}
+
+// defaultCORSConfig is the default config for CORS middleware.
+var defaultCORSConfig = CORSConfig{
+	AllowOrigins:     []string{"*"},
+	AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
+	AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
+	AllowCredentials: false,
+	ExposeHeaders:    []string{},
+	MaxAge:           12 * 60 * 60, // 12 hours
 }
 
 // CORSHandler is a middleware for handling CORS.
 func CORSHandler(c *gin.Context) {
-	// Set CORS headers
-	for key, value := range CORSHeaders {
-		c.Writer.Header().Set(key, value)
-	}
+	config := defaultCORSConfig
+	c.Writer.Header().Set("Access-Control-Allow-Origin", strings.Join(config.AllowOrigins, ","))
+	c.Writer.Header().Set("Access-Control-Allow-Methods", strings.Join(config.AllowMethods, ","))
+	c.Writer.Header().Set("Access-Control-Allow-Headers", strings.Join(config.AllowHeaders, ","))
+	c.Writer.Header().Set("Access-Control-Allow-Credentials", strconv.FormatBool(config.AllowCredentials))
+	c.Writer.Header().Set("Access-Control-Expose-Headers", strings.Join(config.ExposeHeaders, ","))
+	c.Writer.Header().Set("Access-Control-Max-Age", strconv.Itoa(config.MaxAge))
 
-	// Handle preflight requests
 	if c.Request.Method == http.MethodOptions {
 		c.AbortWithStatus(http.StatusNoContent)
 		return
