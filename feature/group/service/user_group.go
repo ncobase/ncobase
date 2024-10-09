@@ -18,21 +18,21 @@ type UserGroupServiceInterface interface {
 
 // userGroupService is the struct for the service.
 type userGroupService struct {
-	gs        GroupServiceInterface
-	userGroup repository.UserGroupRepositoryInterface
+	gs GroupServiceInterface
+	r  repository.UserGroupRepositoryInterface
 }
 
 // NewUserGroupService creates a new service.
 func NewUserGroupService(d *data.Data, gs GroupServiceInterface) UserGroupServiceInterface {
 	return &userGroupService{
-		gs:        gs,
-		userGroup: repository.NewUserGroupRepository(d),
+		gs: gs,
+		r:  repository.NewUserGroupRepository(d),
 	}
 }
 
 // AddUserToGroup adds a user to a group.
 func (s *userGroupService) AddUserToGroup(ctx context.Context, u string, g string) (*structs.UserGroup, error) {
-	row, err := s.userGroup.Create(ctx, &structs.UserGroup{UserID: u, GroupID: g})
+	row, err := s.r.Create(ctx, &structs.UserGroup{UserID: u, GroupID: g})
 	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func (s *userGroupService) AddUserToGroup(ctx context.Context, u string, g strin
 
 // RemoveUserFromGroup removes a user from a group.
 func (s *userGroupService) RemoveUserFromGroup(ctx context.Context, u string, g string) error {
-	err := s.userGroup.Delete(ctx, u, g)
+	err := s.r.Delete(ctx, u, g)
 	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func (s *userGroupService) RemoveUserFromGroup(ctx context.Context, u string, g 
 
 // GetUserGroupIds retrieves all group IDs associated with a user.
 func (s *userGroupService) GetUserGroupIds(ctx context.Context, u string) ([]string, error) {
-	groupIDs, err := s.userGroup.GetGroupsByUserID(ctx, u)
+	groupIDs, err := s.r.GetGroupsByUserID(ctx, u)
 	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func (s *userGroupService) GetUserGroupIds(ctx context.Context, u string) ([]str
 
 // GetUserGroups retrieves all groups associated with a user.
 func (s *userGroupService) GetUserGroups(ctx context.Context, u string) ([]*structs.ReadGroup, error) {
-	groupIDs, err := s.userGroup.GetGroupsByUserID(ctx, u)
+	groupIDs, err := s.r.GetGroupsByUserID(ctx, u)
 	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return nil, err
 	}

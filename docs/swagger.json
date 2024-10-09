@@ -1147,6 +1147,11 @@
                     },
                     {
                         "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "tenant",
                         "in": "query"
                     }
@@ -1292,6 +1297,11 @@
                     {
                         "type": "string",
                         "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
                         "in": "query"
                     },
                     {
@@ -1478,6 +1488,11 @@
                     },
                     {
                         "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "tenant",
                         "in": "query"
                     },
@@ -1628,6 +1643,11 @@
                     {
                         "type": "string",
                         "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
                         "in": "query"
                     },
                     {
@@ -2524,6 +2544,11 @@
                     {
                         "type": "string",
                         "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
                         "in": "query"
                     },
                     {

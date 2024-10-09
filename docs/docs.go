@@ -1155,6 +1155,11 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "tenant",
                         "in": "query"
                     }
@@ -1300,6 +1305,11 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
                         "in": "query"
                     },
                     {
@@ -1486,6 +1496,11 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "tenant",
                         "in": "query"
                     },
@@ -1636,6 +1651,11 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
                         "in": "query"
                     },
                     {
@@ -2532,6 +2552,11 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
                         "in": "query"
                     },
                     {

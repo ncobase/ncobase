@@ -88,7 +88,7 @@ func (s *Schema) NamedDiff(ctx context.Context, name string, opts ...schema.Migr
 
 // WriteTo writes the schema changes to w instead of running them against the database.
 //
-//	if err := client.Schema.WriteTo(ctx, os.Stdout); err != nil {
+//	if err := client.Schema.WriteTo(context.Background(), os.Stdout); err != nil {
 //		log.Fatal(err)
 //	}
 func (s *Schema) WriteTo(ctx context.Context, w io.Writer, opts ...schema.MigrateOption) error {

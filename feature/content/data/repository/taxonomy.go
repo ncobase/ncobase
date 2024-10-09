@@ -6,7 +6,6 @@ import (
 	"ncobase/common/cache"
 	"ncobase/common/log"
 	"ncobase/common/meili"
-	"ncobase/common/nanoid"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -26,6 +25,7 @@ type TaxonomyRepositoryInterface interface {
 	GetTree(ctx context.Context, params *structs.FindTaxonomy) ([]*ent.Taxonomy, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Taxonomy, error)
 	List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error)
+	ListWithCount(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, int, error)
 	Delete(ctx context.Context, slug string) error
 	FindTaxonomy(ctx context.Context, params *structs.FindTaxonomy) (*ent.Taxonomy, error)
 	CountX(ctx context.Context, params *structs.ListTaxonomyParams) int
@@ -159,7 +159,7 @@ func (r *taxonomyRepository) GetTree(ctx context.Context, params *structs.FindTa
 		builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
 	}
 
-	// handle sub taxonomys
+	// handle sub taxonomies
 	if validator.IsNotEmpty(params.Taxonomy) && params.Taxonomy != "root" {
 		return r.getSubTaxonomy(ctx, params.Taxonomy, builder)
 	}
@@ -239,103 +239,103 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 	return row, nil
 }
 
-// List get taxonomy list
-func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error) {
-	// Generate cache key based on query parameters
-	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", params.Cursor, params.Limit, params.TenantID, params.Type)
-
-	// // check cache first
-	// cachedResult, err := r.c.Get(ctx, cacheKey)
-	// if err == nil {
-	// 	// Convert cached JSON data back to []*ent.Taxonomy
-	// 	var result []*ent.Taxonomy
-	// 	if err := json.Unmarshal([]byte(cachedResult), &result); err != nil {
-	// 		return nil, err
-	// 	}
-	// 	return result, nil
-	// } else if err != cache.ErrCacheMiss {
-	// 	log.Errorf(ctx, "taxonomyRepo.List cache error: %v\n", err)
-	// }
-
-	// create list builder
-	builder, err := r.listBuilder(ctx, params)
-	if validator.IsNotNil(err) {
-		return nil, err
-	}
-
-	if params.Cursor != "" {
-		id, timestamp, err := paging.DecodeCursor(params.Cursor)
-		if err != nil {
-			return nil, fmt.Errorf("invalid cursor: %v", err)
-		}
-
-		if !nanoid.IsPrimaryKey(id) {
-			return nil, fmt.Errorf("invalid id in cursor: %s", id)
-		}
-
-		if params.Direction == "backward" {
-			builder.Where(
-				taxonomyEnt.Or(
-					taxonomyEnt.CreatedAtGT(timestamp),
-					taxonomyEnt.And(
-						taxonomyEnt.CreatedAtEQ(timestamp),
-						taxonomyEnt.IDGT(id),
-					),
-				),
-			)
-		} else {
-			builder.Where(
-				taxonomyEnt.Or(
-					taxonomyEnt.CreatedAtLT(timestamp),
-					taxonomyEnt.And(
-						taxonomyEnt.CreatedAtEQ(timestamp),
-						taxonomyEnt.IDLT(id),
-					),
-				),
-			)
-		}
-	}
-
-	if params.Direction == "backward" {
-		builder.Order(ent.Asc(taxonomyEnt.FieldCreatedAt), ent.Asc(taxonomyEnt.FieldID))
-	} else {
-		builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt), ent.Desc(taxonomyEnt.FieldID))
-	}
-
-	builder.Limit(params.Limit)
-
-	// belong tenant
-	if params.Tenant != "" {
-		builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
-	}
-
-	// type
-	if params.Type == "all" {
-		params.Type = ""
-	}
-	if params.Type != "" {
-		builder.Where(taxonomyEnt.TypeEQ(params.Type))
-	}
-
-	rows, err := builder.All(ctx)
-	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.List error: %v\n", err)
-		return nil, err
-	}
-
-	// // Convert []*ent.Taxonomy to JSON data
-	// jsonData, err := json.Marshal(rows)
-	// if err != nil {
-	// 	log.Errorf(ctx, "taxonomyRepo.List cache error: %v\n", err)
-	// } else {
-	// 	// cache the result
-	// 	if err := r.c.Set(ctx, cacheKey, jsonData); err != nil {
-	// 		log.Errorf(ctx, "taxonomyRepo.List cache error: %v\n", err)
-	// 	}
-	// }
-
-	return rows, nil
-}
+// // List get taxonomy list
+// func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error) {
+// 	// Generate cache key based on query parameters
+// 	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", params.Cursor, params.Limit, params.TenantID, params.Type)
+//
+// 	// // check cache first
+// 	// cachedResult, err := r.c.Get(ctx, cacheKey)
+// 	// if err == nil {
+// 	// 	// Convert cached JSON data back to []*ent.Taxonomy
+// 	// 	var result []*ent.Taxonomy
+// 	// 	if err := json.Unmarshal([]byte(cachedResult), &result); err != nil {
+// 	// 		return nil, err
+// 	// 	}
+// 	// 	return result, nil
+// 	// } else if err != cache.ErrCacheMiss {
+// 	// 	log.Errorf(ctx, "taxonomyRepo.List cache error: %v\n", err)
+// 	// }
+//
+// 	// create list builder
+// 	builder, err := r.listBuilder(ctx, params)
+// 	if validator.IsNotNil(err) {
+// 		return nil, err
+// 	}
+//
+// 	if params.Cursor != "" {
+// 		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+// 		if err != nil {
+// 			return nil, fmt.Errorf("invalid cursor: %v", err)
+// 		}
+//
+// 		if !nanoid.IsPrimaryKey(id) {
+// 			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+// 		}
+//
+// 		if params.Direction == "backward" {
+// 			builder.Where(
+// 				taxonomyEnt.Or(
+// 					taxonomyEnt.CreatedAtGT(timestamp),
+// 					taxonomyEnt.And(
+// 						taxonomyEnt.CreatedAtEQ(timestamp),
+// 						taxonomyEnt.IDGT(id),
+// 					),
+// 				),
+// 			)
+// 		} else {
+// 			builder.Where(
+// 				taxonomyEnt.Or(
+// 					taxonomyEnt.CreatedAtLT(timestamp),
+// 					taxonomyEnt.And(
+// 						taxonomyEnt.CreatedAtEQ(timestamp),
+// 						taxonomyEnt.IDLT(id),
+// 					),
+// 				),
+// 			)
+// 		}
+// 	}
+//
+// 	if params.Direction == "backward" {
+// 		builder.Order(ent.Asc(taxonomyEnt.FieldCreatedAt), ent.Asc(taxonomyEnt.FieldID))
+// 	} else {
+// 		builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt), ent.Desc(taxonomyEnt.FieldID))
+// 	}
+//
+// 	builder.Limit(params.Limit)
+//
+// 	// belong tenant
+// 	if params.Tenant != "" {
+// 		builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
+// 	}
+//
+// 	// type
+// 	if params.Type == "all" {
+// 		params.Type = ""
+// 	}
+// 	if params.Type != "" {
+// 		builder.Where(taxonomyEnt.TypeEQ(params.Type))
+// 	}
+//
+// 	rows, err := builder.All(ctx)
+// 	if err != nil {
+// 		log.Errorf(ctx, "taxonomyRepo.List error: %v\n", err)
+// 		return nil, err
+// 	}
+//
+// 	// // Convert []*ent.Taxonomy to JSON data
+// 	// jsonData, err := json.Marshal(rows)
+// 	// if err != nil {
+// 	// 	log.Errorf(ctx, "taxonomyRepo.List cache error: %v\n", err)
+// 	// } else {
+// 	// 	// cache the result
+// 	// 	if err := r.c.Set(ctx, cacheKey, jsonData); err != nil {
+// 	// 		log.Errorf(ctx, "taxonomyRepo.List cache error: %v\n", err)
+// 	// 	}
+// 	// }
+//
+// 	return rows, nil
+// }
 
 // Delete delete taxonomy
 func (r *taxonomyRepository) Delete(ctx context.Context, slug string) error {
@@ -414,17 +414,113 @@ func (r *taxonomyRepository) listBuilder(_ context.Context, params *structs.List
 	return builder, nil
 }
 
-// CountX gets a count of taxonomies.
-func (r *taxonomyRepository) CountX(ctx context.Context, params *structs.ListTaxonomyParams) int {
-	// create list builder
+// List returns a slice of taxonomies based on the provided parameters.
+func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error) {
 	builder, err := r.listBuilder(ctx, params)
-	if validator.IsNotNil(err) {
+	if err != nil {
+		return nil, fmt.Errorf("building list query: %w", err)
+	}
+
+	builder = applySorting(builder, params.SortBy)
+
+	if params.Cursor != "" {
+		id, value, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("decoding cursor: %w", err)
+		}
+		builder = applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
+	}
+
+	builder.Limit(params.Limit)
+
+	return r.executeArrayQuery(ctx, builder)
+}
+
+// CountX returns the total count of taxonomies based on the provided parameters.
+func (r *taxonomyRepository) CountX(ctx context.Context, params *structs.ListTaxonomyParams) int {
+	builder, err := r.listBuilder(ctx, params)
+	if err != nil {
+		log.Errorf(ctx, "Error building count query: %v", err)
 		return 0
 	}
 	return builder.CountX(ctx)
 }
 
-// getSubTaxonomy - get sub taxonomys.
+// ListWithCount returns both a slice of taxonomies and the total count based on the provided parameters.
+func (r *taxonomyRepository) ListWithCount(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, int, error) {
+	builder, err := r.listBuilder(ctx, params)
+	if err != nil {
+		return nil, 0, fmt.Errorf("building list query: %w", err)
+	}
+
+	builder = applySorting(builder, params.SortBy)
+
+	if params.Cursor != "" {
+		id, value, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, 0, fmt.Errorf("decoding cursor: %w", err)
+		}
+		builder = applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
+	}
+
+	total, err := builder.Count(ctx)
+	if err != nil {
+		return nil, 0, fmt.Errorf("counting taxonomies: %w", err)
+	}
+
+	rows, err := builder.Limit(params.Limit).All(ctx)
+	if err != nil {
+		return nil, 0, fmt.Errorf("fetching taxonomies: %w", err)
+	}
+
+	return rows, total, nil
+}
+
+// applySorting applies the specified sorting to the query builder.
+func applySorting(builder *ent.TaxonomyQuery, sortBy types.SortField) *ent.TaxonomyQuery {
+	switch sortBy {
+	case structs.SortByCreatedAt:
+		return builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt), ent.Desc(taxonomyEnt.FieldID))
+	default:
+		return builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt), ent.Desc(taxonomyEnt.FieldID))
+	}
+}
+
+// applyCursorCondition applies the cursor-based condition to the query builder.
+func applyCursorCondition(builder *ent.TaxonomyQuery, id string, value any, direction string, sortBy types.SortField) *ent.TaxonomyQuery {
+	switch sortBy {
+	case structs.SortByCreatedAt:
+		timestamp, ok := value.(int64)
+		if !ok {
+			log.Errorf(context.Background(), "Invalid timestamp value for cursor")
+			return builder
+		}
+		if direction == "backward" {
+			return builder.Where(
+				taxonomyEnt.Or(
+					taxonomyEnt.CreatedAtGT(timestamp),
+					taxonomyEnt.And(
+						taxonomyEnt.CreatedAtEQ(timestamp),
+						taxonomyEnt.IDGT(id),
+					),
+				),
+			)
+		}
+		return builder.Where(
+			taxonomyEnt.Or(
+				taxonomyEnt.CreatedAtLT(timestamp),
+				taxonomyEnt.And(
+					taxonomyEnt.CreatedAtEQ(timestamp),
+					taxonomyEnt.IDLT(id),
+				),
+			),
+		)
+	default:
+		return applyCursorCondition(builder, id, value, direction, structs.SortByCreatedAt)
+	}
+}
+
+// getSubTaxonomy - get sub taxonomies.
 func (r *taxonomyRepository) getSubTaxonomy(ctx context.Context, rootID string, builder *ent.TaxonomyQuery) ([]*ent.Taxonomy, error) {
 	// set where conditions
 	builder.Where(

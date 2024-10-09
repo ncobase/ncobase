@@ -17,19 +17,19 @@ type GroupRoleServiceInterface interface {
 
 // groupRoleService is the struct for the service.
 type groupRoleService struct {
-	groupRole repository.GroupRoleRepositoryInterface
+	r repository.GroupRoleRepositoryInterface
 }
 
 // NewGroupRoleService creates a new service.
 func NewGroupRoleService(d *data.Data) GroupRoleServiceInterface {
 	return &groupRoleService{
-		groupRole: repository.NewGroupRoleRepository(d),
+		r: repository.NewGroupRoleRepository(d),
 	}
 }
 
 // AddRoleToGroup adds a role to a group.
 func (s *groupRoleService) AddRoleToGroup(ctx context.Context, groupID string, roleID string) (*structs.GroupRole, error) {
-	row, err := s.groupRole.Create(ctx, &structs.GroupRole{GroupID: groupID, RoleID: roleID})
+	row, err := s.r.Create(ctx, &structs.GroupRole{GroupID: groupID, RoleID: roleID})
 	if err := handleEntError(ctx, "GroupRole", err); err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (s *groupRoleService) AddRoleToGroup(ctx context.Context, groupID string, r
 
 // RemoveRoleFromGroup removes a role from a group.
 func (s *groupRoleService) RemoveRoleFromGroup(ctx context.Context, groupID string, roleID string) error {
-	err := s.groupRole.Delete(ctx, groupID, roleID)
+	err := s.r.Delete(ctx, groupID, roleID)
 	if err := handleEntError(ctx, "GroupRole", err); err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func (s *groupRoleService) RemoveRoleFromGroup(ctx context.Context, groupID stri
 
 // GetGroupRolesIds retrieves all roles under a group.
 func (s *groupRoleService) GetGroupRolesIds(ctx context.Context, groupID string) ([]string, error) {
-	roleIDs, err := s.groupRole.GetRolesByGroupID(ctx, groupID)
+	roleIDs, err := s.r.GetRolesByGroupID(ctx, groupID)
 	if err := handleEntError(ctx, "GroupRole", err); err != nil {
 		return nil, err
 	}

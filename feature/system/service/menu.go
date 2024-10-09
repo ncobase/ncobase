@@ -13,7 +13,6 @@ import (
 	"ncobase/feature/system/data/ent"
 	"ncobase/feature/system/data/repository"
 	"ncobase/feature/system/structs"
-	"sort"
 )
 
 // MenuServiceInterface represents the menu service interface.
@@ -104,6 +103,7 @@ func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) 
 			Tenant:   params.Tenant,
 			Menu:     params.Parent,
 			Type:     params.Type,
+			SortBy:   params.SortBy,
 		})
 	}
 
@@ -119,19 +119,48 @@ func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) 
 		lp.Limit = limit
 		lp.Direction = direction
 
-		rows, err := s.menu.List(ctx, &lp)
-		if ent.IsNotFound(err) {
-			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
-		}
+		rows, total, err := s.menu.ListWithCount(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing menus: %v\n", err)
+			if ent.IsNotFound(err) {
+				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
+			}
+			log.Errorf(ctx, "Error listing menus: %v", err)
 			return nil, 0, err
 		}
 
-		total := s.menu.CountX(ctx, params)
-
 		return s.Serializes(rows), total, nil
 	})
+}
+
+// GetTree retrieves the menu tree.
+func (s *menuService) GetTree(ctx context.Context, params *structs.FindMenu) (paging.Result[*structs.ReadMenu], error) {
+	rows, err := s.menu.GetTree(ctx, params)
+	if err := handleEntError(ctx, "Menu", err); err != nil {
+		return paging.Result[*structs.ReadMenu]{}, err
+	}
+
+	return paging.Result[*structs.ReadMenu]{
+		Items: s.buildMenuTree(rows, string(determineSortField(params))),
+		Total: len(rows),
+	}, nil
+}
+
+// buildMenuTree builds a menu tree structure.
+func (s *menuService) buildMenuTree(menus []*ent.Menu, sortField string) []*structs.ReadMenu {
+	menuNodes := make([]*structs.ReadMenu, len(menus))
+	for i, m := range menus {
+		menuNodes[i] = s.Serialize(m)
+	}
+
+	tree := types.BuildTree(menuNodes, sortField)
+	return tree
+}
+
+func determineSortField(params *structs.FindMenu) types.SortField {
+	if params.SortBy != "" {
+		return params.SortBy
+	}
+	return structs.SortByCreatedAt // Default
 }
 
 // Serializes menus.
@@ -166,69 +195,4 @@ func (s *menuService) Serialize(row *ent.Menu) *structs.ReadMenu {
 		UpdatedBy: &row.UpdatedBy,
 		UpdatedAt: &row.UpdatedAt,
 	}
-}
-
-// GetTree retrieves the menu tree.
-func (s *menuService) GetTree(ctx context.Context, params *structs.FindMenu) (paging.Result[*structs.ReadMenu], error) {
-	rows, err := s.menu.GetTree(ctx, params)
-	if err := handleEntError(ctx, "Menu", err); err != nil {
-		return paging.Result[*structs.ReadMenu]{}, err
-	}
-
-	return paging.Result[*structs.ReadMenu]{
-		Items: s.buildMenuTree(rows),
-		Total: len(rows),
-	}, nil
-}
-
-// buildMenuTree builds a menu tree structure.
-func (s *menuService) buildMenuTree(menus []*ent.Menu) []*structs.ReadMenu {
-	// Convert menus to ReadMenu objects
-	menuNodes := make([]types.TreeNode, len(menus))
-	for i, m := range menus {
-		menuNodes[i] = s.Serialize(m)
-	}
-
-	// Sort menu nodes
-	sortMenuNodes(menuNodes)
-
-	// Build tree structure
-	tree := types.BuildTree(menuNodes)
-
-	result := make([]*structs.ReadMenu, len(tree))
-	for i, node := range tree {
-		result[i] = node.(*structs.ReadMenu)
-	}
-
-	return result
-}
-
-// sortMenuNodes sorts menu nodes.
-func sortMenuNodes(menuNodes []types.TreeNode) {
-	// Recursively sort children nodes first
-	for _, node := range menuNodes {
-		children := node.GetChildren()
-		sortMenuNodes(children)
-
-		// Sort children and set back to node
-		sort.SliceStable(children, func(i, j int) bool {
-			nodeI := children[i].(*structs.ReadMenu)
-			nodeJ := children[j].(*structs.ReadMenu)
-			// if nodeI.Order == nodeJ.Order {
-			// 	return nodeI.CreatedAt.Before(types.ToValue(nodeJ.CreatedAt))
-			// }
-			return nodeI.Order < nodeJ.Order
-		})
-		node.SetChildren(children)
-	}
-
-	// Sort the immediate children of the current level
-	sort.SliceStable(menuNodes, func(i, j int) bool {
-		nodeI := menuNodes[i].(*structs.ReadMenu)
-		nodeJ := menuNodes[j].(*structs.ReadMenu)
-		// if nodeI.Order == nodeJ.Order {
-		// 	return nodeI.CreatedAt.Before(types.ToValue(nodeJ.CreatedAt))
-		// }
-		return nodeI.Order < nodeJ.Order
-	})
 }

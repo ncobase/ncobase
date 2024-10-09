@@ -7,10 +7,11 @@ import (
 
 // FindTaxonomy represents the parameters for finding a taxonomy.
 type FindTaxonomy struct {
-	Taxonomy string `json:"taxonomy,omitempty"`
-	Tenant   string `json:"tenant,omitempty"`
-	Children bool   `json:"children,omitempty"`
-	Type     string `json:"type,omitempty"`
+	Taxonomy string          `json:"taxonomy,omitempty"`
+	Tenant   string          `json:"tenant,omitempty"`
+	Children bool            `json:"children,omitempty"`
+	Type     string          `json:"type,omitempty"`
+	SortBy   types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
 // TaxonomyBody represents the common fields for creating and updating a taxonomy.
@@ -93,13 +94,24 @@ func (r *ReadTaxonomy) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
 }
 
+// GetSortValue get sort value
+func (r *ReadTaxonomy) GetSortValue(field string) any {
+	switch types.SortField(field) {
+	case SortByCreatedAt:
+		return types.ToValue(r.CreatedAt)
+	default:
+		return types.ToValue(r.CreatedAt)
+	}
+}
+
 // ListTaxonomyParams represents the query parameters for listing taxonomies.
 type ListTaxonomyParams struct {
-	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
-	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
-	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
-	Type      string `form:"type,omitempty" json:"type,omitempty" validate:"required"`
+	Cursor    string          `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int             `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction string          `form:"direction,omitempty" json:"direction,omitempty"`
+	Children  bool            `form:"children,omitempty" json:"children,omitempty"`
+	Parent    string          `form:"parent,omitempty" json:"parent,omitempty"`
+	Tenant    string          `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Type      string          `form:"type,omitempty" json:"type,omitempty" validate:"required"`
+	SortBy    types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

@@ -1748,6 +1748,9 @@ paths:
         name: parent
         type: string
       - in: query
+        name: sort_by
+        type: string
+      - in: query
         name: tenant
         type: string
       produces:
@@ -1865,6 +1868,9 @@ paths:
         name: parent
         type: string
       - in: query
+        name: sort_by
+        type: string
+      - in: query
         name: tenant
         type: string
       produces:
@@ -1952,6 +1958,9 @@ paths:
         type: string
       - in: query
         name: perms
+        type: string
+      - in: query
+        name: sort_by
         type: string
       - in: query
         name: tenant
@@ -2072,6 +2081,9 @@ paths:
         type: string
       - in: query
         name: parent
+        type: string
+      - in: query
+        name: sort_by
         type: string
       - in: query
         name: tenant
@@ -2611,6 +2623,9 @@ paths:
         type: integer
       - in: query
         name: parent
+        type: string
+      - in: query
+        name: sort_by
         type: string
       - in: query
         name: tenant

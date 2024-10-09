@@ -1,8 +1,6 @@
 package service
 
-import (
-	"ncobase/feature/content/data/repository"
-)
+import "ncobase/feature/content/data"
 
 // Service represents the content service.
 type Service struct {
@@ -12,10 +10,10 @@ type Service struct {
 }
 
 // New creates a new service.
-func New(r *repository.Repository) *Service {
+func New(d *data.Data) *Service {
 	return &Service{
-		Taxonomy:         NewTaxonomyService(r),
-		TaxonomyRelation: NewTaxonomyRelationService(r),
-		Topic:            NewTopicService(r),
+		Taxonomy:         NewTaxonomyService(d),
+		TaxonomyRelation: NewTaxonomyRelationService(d),
+		Topic:            NewTopicService(d),
 	}
 }

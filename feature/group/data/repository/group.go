@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/cache"
 	"ncobase/common/log"
+	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/group/data"
@@ -24,6 +25,7 @@ type GroupRepositoryInterface interface {
 	GetTree(ctx context.Context, params *structs.FindGroup) ([]*ent.Group, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Group, error)
 	List(ctx context.Context, params *structs.ListGroupParams) ([]*ent.Group, error)
+	ListWithCount(ctx context.Context, params *structs.ListGroupParams) ([]*ent.Group, int, error)
 	Delete(ctx context.Context, slug string) error
 	FindGroup(ctx context.Context, params *structs.FindGroup) (*ent.Group, error)
 	ListBuilder(ctx context.Context, params *structs.ListGroupParams) (*ent.GroupQuery, error)
@@ -209,6 +211,84 @@ func (r *groupRepository) List(ctx context.Context, params *structs.ListGroupPar
 	}
 
 	return rows, nil
+}
+
+// ListWithCount gets a list and counts of groups.
+func (r *groupRepository) ListWithCount(ctx context.Context, params *structs.ListGroupParams) ([]*ent.Group, int, error) {
+	builder, err := r.ListBuilder(ctx, params)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// Apply sorting
+	builder = applySorting(builder, params.SortBy)
+
+	// Apply cursor-based pagination
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, 0, err
+		}
+		builder = applyCursorCondition(builder, id, timestamp, params.Direction, params.SortBy)
+	}
+
+	// Execute count query
+	total, err := builder.Count(ctx)
+	if err != nil {
+		log.Errorf(ctx, "groupRepo.ListWithCount count error: %v", err)
+		return nil, 0, err
+	}
+
+	// Execute main query
+	rows, err := builder.Limit(params.Limit).All(ctx)
+	if err != nil {
+		log.Errorf(ctx, "groupRepo.ListWithCount error: %v", err)
+		return nil, 0, err
+	}
+
+	return rows, total, nil
+}
+
+func applySorting(builder *ent.GroupQuery, sortBy types.SortField) *ent.GroupQuery {
+	switch sortBy {
+	case structs.SortByCreatedAt:
+		return builder.Order(ent.Desc(groupEnt.FieldCreatedAt))
+	default:
+		return builder.Order(ent.Desc(groupEnt.FieldCreatedAt))
+	}
+}
+
+func applyCursorCondition(builder *ent.GroupQuery, id string, value any, direction string, sortBy types.SortField) *ent.GroupQuery {
+	switch sortBy {
+	case structs.SortByCreatedAt:
+		timestamp, ok := value.(int64)
+		if !ok {
+			log.Errorf(context.Background(), "Invalid timestamp value for cursor")
+			return builder
+		}
+		if direction == "backward" {
+			return builder.Where(
+				groupEnt.Or(
+					groupEnt.CreatedAtGT(timestamp),
+					groupEnt.And(
+						groupEnt.CreatedAtEQ(timestamp),
+						groupEnt.IDGT(id),
+					),
+				),
+			)
+		}
+		return builder.Where(
+			groupEnt.Or(
+				groupEnt.CreatedAtLT(timestamp),
+				groupEnt.And(
+					groupEnt.CreatedAtEQ(timestamp),
+					groupEnt.IDLT(id),
+				),
+			),
+		)
+	default:
+		return applyCursorCondition(builder, id, value, direction, structs.SortByCreatedAt)
+	}
 }
 
 // Delete deletes a group.

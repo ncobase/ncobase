@@ -7,6 +7,7 @@ import (
 	"ncobase/common/log"
 	"ncobase/common/meili"
 	"ncobase/common/paging"
+	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/data/ent"
@@ -24,6 +25,7 @@ type MenuRepositoryInterface interface {
 	Update(context.Context, *structs.UpdateMenuBody) (*ent.Menu, error)
 	Delete(context.Context, *structs.FindMenu) error
 	List(context.Context, *structs.ListMenuParams) ([]*ent.Menu, error)
+	ListWithCount(ctx context.Context, params *structs.ListMenuParams) ([]*ent.Menu, int, error)
 	CountX(context.Context, *structs.ListMenuParams) int
 }
 
@@ -264,21 +266,91 @@ func (r *menuRepository) Delete(ctx context.Context, params *structs.FindMenu) e
 	return nil
 }
 
-// List lists menus based on given parameters.
+// List returns a slice of menus based on the provided parameters.
 func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParams) ([]*ent.Menu, error) {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("building list query: %w", err)
 	}
 
-	if params.Cursor != "" {
-		id, timestamp, err := paging.DecodeCursor(params.Cursor)
-		if err != nil {
-			return nil, fmt.Errorf("invalid cursor: %v", err)
-		}
+	builder = applySorting(builder, params.SortBy)
 
-		if params.Direction == "backward" {
-			builder.Where(
+	if params.Cursor != "" {
+		id, value, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("decoding cursor: %w", err)
+		}
+		builder = applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
+	}
+
+	builder.Limit(params.Limit)
+
+	return r.executeArrayQuery(ctx, builder)
+}
+
+// CountX returns the total count of menus based on the provided parameters.
+func (r *menuRepository) CountX(ctx context.Context, params *structs.ListMenuParams) int {
+	builder, err := r.listBuilder(ctx, params)
+	if err != nil {
+		log.Errorf(ctx, "Error building count query: %v", err)
+		return 0
+	}
+	return builder.CountX(ctx)
+}
+
+// ListWithCount returns both a slice of menus and the total count based on the provided parameters.
+func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.ListMenuParams) ([]*ent.Menu, int, error) {
+	builder, err := r.listBuilder(ctx, params)
+	if err != nil {
+		return nil, 0, fmt.Errorf("building list query: %w", err)
+	}
+
+	builder = applySorting(builder, params.SortBy)
+
+	if params.Cursor != "" {
+		id, value, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, 0, fmt.Errorf("decoding cursor: %w", err)
+		}
+		builder = applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
+	}
+
+	total, err := builder.Count(ctx)
+	if err != nil {
+		return nil, 0, fmt.Errorf("counting menus: %w", err)
+	}
+
+	rows, err := builder.Limit(params.Limit).All(ctx)
+	if err != nil {
+		return nil, 0, fmt.Errorf("fetching menus: %w", err)
+	}
+
+	return rows, total, nil
+}
+
+// applySorting applies the specified sorting to the query builder.
+func applySorting(builder *ent.MenuQuery, sortBy types.SortField) *ent.MenuQuery {
+	switch sortBy {
+	case structs.SortByCreatedAt:
+		return builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
+	case structs.SortByOrder:
+		return builder.Order(ent.Asc(menuEnt.FieldOrder), ent.Desc(menuEnt.FieldID))
+	default:
+		return builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
+	}
+}
+
+// applyCursorCondition applies the cursor-based condition to the query builder.
+func applyCursorCondition(builder *ent.MenuQuery, id string, value any, direction string, sortBy types.SortField) *ent.MenuQuery {
+	switch sortBy {
+	case structs.SortByCreatedAt:
+		timestamp, ok := value.(int64)
+		if !ok {
+			log.Errorf(context.Background(), "Invalid timestamp value for cursor")
+			return builder
+		}
+		if direction == "backward" {
+			return builder.Where(
 				menuEnt.Or(
 					menuEnt.CreatedAtGT(timestamp),
 					menuEnt.And(
@@ -287,38 +359,45 @@ func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParam
 					),
 				),
 			)
-		} else {
-			builder.Where(
+		}
+		return builder.Where(
+			menuEnt.Or(
+				menuEnt.CreatedAtLT(timestamp),
+				menuEnt.And(
+					menuEnt.CreatedAtEQ(timestamp),
+					menuEnt.IDLT(id),
+				),
+			),
+		)
+	case structs.SortByOrder:
+		order, ok := value.(int)
+		if !ok {
+			log.Errorf(context.Background(), "Invalid order value for cursor")
+			return builder
+		}
+		if direction == "backward" {
+			return builder.Where(
 				menuEnt.Or(
-					menuEnt.CreatedAtLT(timestamp),
+					menuEnt.OrderGT(order),
 					menuEnt.And(
-						menuEnt.CreatedAtEQ(timestamp),
-						menuEnt.IDLT(id),
+						menuEnt.OrderEQ(order),
+						menuEnt.IDGT(id),
 					),
 				),
 			)
 		}
+		return builder.Where(
+			menuEnt.Or(
+				menuEnt.OrderLT(order),
+				menuEnt.And(
+					menuEnt.OrderEQ(order),
+					menuEnt.IDLT(id),
+				),
+			),
+		)
+	default:
+		return applyCursorCondition(builder, id, value, direction, structs.SortByCreatedAt)
 	}
-
-	if params.Direction == "backward" {
-		builder.Order(ent.Asc(menuEnt.FieldCreatedAt), ent.Asc(menuEnt.FieldID))
-	} else {
-		builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
-	}
-
-	builder.Limit(params.Limit)
-
-	return r.executeArrayQuery(ctx, builder)
-}
-
-// CountX counts menus based on given parameters.
-func (r *menuRepository) CountX(ctx context.Context, params *structs.ListMenuParams) int {
-	// create list builder
-	builder, err := r.listBuilder(ctx, params)
-	if validator.IsNotNil(err) {
-		return 0
-	}
-	return builder.CountX(ctx)
 }
 
 // listBuilder - create list builder.
