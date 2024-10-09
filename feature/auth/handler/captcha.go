@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"ncobase/common/helper"
 	"ncobase/common/resp"
 	"ncobase/feature/auth/service"
 	"ncobase/feature/auth/structs"
-	"ncobase/helper"
 	"path/filepath"
 	"strings"
 

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"ncobase/common/ecode"
+	"ncobase/common/helper"
 	"ncobase/common/log"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
@@ -13,7 +14,6 @@ import (
 	"ncobase/feature/resource/data/ent"
 	"ncobase/feature/resource/data/repository"
 	"ncobase/feature/resource/structs"
-	"ncobase/helper"
 	"os"
 )
 
@@ -124,7 +124,7 @@ func (s *attachmentService) Update(ctx context.Context, slug string, updates map
 	}
 
 	row, err := s.attachment.Update(ctx, slug, updates)
-	if err := handleEntError("Attachment", err); err != nil {
+	if err := handleEntError(ctx, "Attachment", err); err != nil {
 		return nil, err
 	}
 

@@ -41,7 +41,7 @@ func (s *dictionaryService) Create(ctx context.Context, body *structs.Dictionary
 	}
 
 	row, err := s.dictionary.Create(ctx, body)
-	if err := handleEntError("Dictionary", err); err != nil {
+	if err := handleEntError(ctx, "Dictionary", err); err != nil {
 		return nil, err
 	}
 
@@ -55,7 +55,7 @@ func (s *dictionaryService) Update(ctx context.Context, updates *structs.UpdateD
 	}
 
 	row, err := s.dictionary.Update(ctx, updates)
-	if err := handleEntError("Dictionary", err); err != nil {
+	if err := handleEntError(ctx, "Dictionary", err); err != nil {
 		return nil, err
 	}
 
@@ -65,7 +65,7 @@ func (s *dictionaryService) Update(ctx context.Context, updates *structs.UpdateD
 // Get retrieves a dictionary by ID.
 func (s *dictionaryService) Get(ctx context.Context, params *structs.FindDictionary) (any, error) {
 	row, err := s.dictionary.Get(ctx, params)
-	if err := handleEntError("Dictionary", err); err != nil {
+	if err := handleEntError(ctx, "Dictionary", err); err != nil {
 		return nil, err
 	}
 
@@ -75,7 +75,7 @@ func (s *dictionaryService) Get(ctx context.Context, params *structs.FindDiction
 // Delete deletes a dictionary by ID.
 func (s *dictionaryService) Delete(ctx context.Context, params *structs.FindDictionary) (*structs.ReadDictionary, error) {
 	err := s.dictionary.Delete(ctx, params)
-	if err := handleEntError("Dictionary", err); err != nil {
+	if err := handleEntError(ctx, "Dictionary", err); err != nil {
 		return nil, err
 	}
 

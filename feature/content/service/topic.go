@@ -42,7 +42,7 @@ func (s *topicService) Create(ctx context.Context, body *structs.CreateTopicBody
 		body.Slug = slug.Unicode(body.Name)
 	}
 	row, err := s.repo.Topic.Create(ctx, body)
-	if err := handleEntError("Topic", err); err != nil {
+	if err := handleEntError(ctx, "Topic", err); err != nil {
 		return nil, err
 	}
 
@@ -61,7 +61,7 @@ func (s *topicService) Update(ctx context.Context, slug string, updates types.JS
 	}
 
 	row, err := s.repo.Topic.Update(ctx, slug, updates)
-	if err := handleEntError("Topic", err); err != nil {
+	if err := handleEntError(ctx, "Topic", err); err != nil {
 		return nil, err
 	}
 
@@ -71,7 +71,7 @@ func (s *topicService) Update(ctx context.Context, slug string, updates types.JS
 // Get retrieves a topic by ID.
 func (s *topicService) Get(ctx context.Context, slug string) (*structs.ReadTopic, error) {
 	row, err := s.repo.Topic.GetBySlug(ctx, slug)
-	if err := handleEntError("Topic", err); err != nil {
+	if err := handleEntError(ctx, "Topic", err); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *topicService) Get(ctx context.Context, slug string) (*structs.ReadTopic
 // Delete deletes a topic by ID.
 func (s *topicService) Delete(ctx context.Context, slug string) error {
 	err := s.repo.Topic.Delete(ctx, slug)
-	if err := handleEntError("Topic", err); err != nil {
+	if err := handleEntError(ctx, "Topic", err); err != nil {
 		return err
 	}
 

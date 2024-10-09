@@ -157,7 +157,7 @@ func (r *attachmentRepostory) Update(ctx context.Context, slug string, updates t
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("attachments", attachment.ID); err != nil {
-		log.Errorf(context.Background(), "attachmentRepo.Update index error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Update index error: %v\n", err)
 		// return nil, err
 	}
 
@@ -176,7 +176,7 @@ func (r *attachmentRepostory) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(attachmentEnt.IDEQ(slug)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "attachmentRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -188,7 +188,7 @@ func (r *attachmentRepostory) Delete(ctx context.Context, slug string) error {
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("attachments", attachment.ID); err != nil {
-		log.Errorf(context.Background(), "attachmentRepo.Delete index error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Delete index error: %v\n", err)
 		// return nil, err
 	}
 
@@ -268,7 +268,7 @@ func (r *attachmentRepostory) List(ctx context.Context, params *structs.ListAtta
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if validator.IsNotNil(err) {
-		log.Errorf(context.Background(), "attachmentRepo.List error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.List error: %v\n", err)
 		return nil, err
 	}
 

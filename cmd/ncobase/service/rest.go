@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ncobase/helper"
+	"ncobase/common/helper"
 	"net/http"
 
 	"ncobase/common/config"

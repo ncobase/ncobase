@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"ncobase/common/ecode"
+	"ncobase/common/helper"
 	"ncobase/common/log"
 	"ncobase/common/paging"
 	"ncobase/common/types"
@@ -12,7 +13,6 @@ import (
 	"ncobase/feature/tenant/data/ent"
 	"ncobase/feature/tenant/data/repository"
 	"ncobase/feature/tenant/structs"
-	"ncobase/helper"
 )
 
 // TenantServiceInterface is the interface for the service.
@@ -52,7 +52,7 @@ func (s *tenantService) UserOwn(ctx context.Context, uid string) (*structs.ReadT
 	}
 
 	row, err := s.tenant.GetByUser(ctx, uid)
-	if err := handleEntError("Tenant", err); err != nil {
+	if err := handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 
@@ -84,7 +84,7 @@ func (s *tenantService) Update(ctx context.Context, body *structs.UpdateTenantBo
 	// Check if CreatedBy field is provided and validate user's access to the tenant
 	if body.CreatedBy != nil {
 		_, err := s.tenant.GetByUser(ctx, *body.CreatedBy)
-		if err := handleEntError("Tenant", err); err != nil {
+		if err := handleEntError(ctx, "Tenant", err); err != nil {
 			return nil, err
 		}
 	}
@@ -96,13 +96,13 @@ func (s *tenantService) Update(ctx context.Context, body *structs.UpdateTenantBo
 
 	// Retrieve the tenant by ID
 	row, err := s.Find(ctx, body.ID)
-	if err := handleEntError("Tenant", err); err != nil {
+	if err := handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 
 	// Check if the user is the creator or user belongs to the tenant
 	ut, err := s.userTenant.GetByUserID(ctx, userID)
-	if err := handleEntError("UserTenant", err); err != nil {
+	if err := handleEntError(ctx, "UserTenant", err); err != nil {
 		return nil, err
 	}
 	if types.ToValue(row.CreatedBy) != userID && ut.TenantID != row.ID {
@@ -126,7 +126,7 @@ func (s *tenantService) Update(ctx context.Context, body *structs.UpdateTenantBo
 
 	// Update the tenant with the provided data
 	_, err = s.tenant.Update(ctx, row.ID, d)
-	if err := handleEntError("Tenant", err); err != nil {
+	if err := handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 
@@ -147,13 +147,13 @@ func (s *tenantService) Get(ctx context.Context, id string) (*structs.ReadTenant
 
 	// Retrieve the tenant by ID
 	row, err := s.Find(ctx, id)
-	if err := handleEntError("Tenant", err); err != nil {
+	if err := handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 
 	// Check if the user is the creator or user belongs to the tenant
 	ut, err := s.userTenant.GetByUserID(ctx, userID)
-	if err := handleEntError("UserTenant", err); err != nil {
+	if err := handleEntError(ctx, "UserTenant", err); err != nil {
 		return nil, err
 	}
 	if types.ToValue(row.CreatedBy) != userID && ut.TenantID != row.ID {
@@ -169,7 +169,7 @@ func (s *tenantService) GetBySlug(ctx context.Context, slug string) (*structs.Re
 		return nil, errors.New(ecode.FieldIsInvalid("Slug"))
 	}
 	tenant, err := s.tenant.GetBySlug(ctx, slug)
-	if err := handleEntError("Tenant", err); err != nil {
+	if err := handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 	return s.Serialize(tenant), nil
@@ -181,7 +181,7 @@ func (s *tenantService) GetByUser(ctx context.Context, uid string) (*structs.Rea
 		return nil, errors.New(ecode.FieldIsInvalid("User ID"))
 	}
 	tenant, err := s.tenant.GetByUser(ctx, uid)
-	if err := handleEntError("Tenant", err); err != nil {
+	if err := handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 	return s.Serialize(tenant), nil

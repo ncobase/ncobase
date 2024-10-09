@@ -38,7 +38,7 @@ func NewUserRoleService(d *data.Data, rs RoleServiceInterface) UserRoleServiceIn
 // AddRoleToUser adds a role to a user.
 func (s *userRoleService) AddRoleToUser(ctx context.Context, u string, r string) error {
 	_, err := s.userRole.Create(ctx, &structs.UserRole{UserID: u, RoleID: r})
-	if err := handleEntError("UserRole", err); err != nil {
+	if err := handleEntError(ctx, "UserRole", err); err != nil {
 		return err
 	}
 
@@ -51,7 +51,7 @@ func (s *userRoleService) CreateUserRole(ctx context.Context, body *structs.User
 		return nil, errors.New("UserID and RoleID are required")
 	}
 	userRole, err := s.userRole.Create(ctx, body)
-	if err := handleEntError("UserRole", err); err != nil {
+	if err := handleEntError(ctx, "UserRole", err); err != nil {
 		return nil, err
 	}
 
@@ -74,7 +74,7 @@ func (s *userRoleService) GetUsersByRoleID(ctx context.Context, roleID string) (
 		return nil, errors.New(ecode.FieldIsRequired("roleID"))
 	}
 	userIDs, err := s.userRole.GetUsersByRoleID(ctx, roleID)
-	if err := handleEntError("UserRole", err); err != nil {
+	if err := handleEntError(ctx, "UserRole", err); err != nil {
 		return nil, err
 	}
 
@@ -87,7 +87,7 @@ func (s *userRoleService) DeleteUserRoleByUserID(ctx context.Context, u string) 
 		return errors.New(ecode.FieldIsRequired("userID"))
 	}
 	err := s.userRole.DeleteAllByUserID(ctx, u)
-	if err := handleEntError("UserRole", err); err != nil {
+	if err := handleEntError(ctx, "UserRole", err); err != nil {
 		return err
 	}
 
@@ -100,7 +100,7 @@ func (s *userRoleService) DeleteUserRoleByRoleID(ctx context.Context, roleID str
 		return errors.New(ecode.FieldIsRequired("roleID"))
 	}
 	err := s.userRole.DeleteAllByRoleID(ctx, roleID)
-	if err := handleEntError("UserRole", err); err != nil {
+	if err := handleEntError(ctx, "UserRole", err); err != nil {
 		return err
 	}
 
@@ -110,7 +110,7 @@ func (s *userRoleService) DeleteUserRoleByRoleID(ctx context.Context, roleID str
 // RemoveRoleFromUser removes a role from a user.
 func (s *userRoleService) RemoveRoleFromUser(ctx context.Context, u string, r string) error {
 	err := s.userRole.Delete(ctx, u, r)
-	if err := handleEntError("UserRole", err); err != nil {
+	if err := handleEntError(ctx, "UserRole", err); err != nil {
 		return err
 	}
 	return nil

@@ -33,7 +33,7 @@ func NewRolePermissionService(d *data.Data, ps PermissionServiceInterface) RoleP
 // AddPermissionToRole adds a permission to a role.
 func (s *rolePermissionService) AddPermissionToRole(ctx context.Context, roleID string, permissionID string) (*structs.RolePermission, error) {
 	row, err := s.rolePermission.Create(ctx, &structs.RolePermission{RoleID: roleID, PermissionID: permissionID})
-	if err := handleEntError("RolePermission", err); err != nil {
+	if err := handleEntError(ctx, "RolePermission", err); err != nil {
 		return nil, err
 	}
 
@@ -43,7 +43,7 @@ func (s *rolePermissionService) AddPermissionToRole(ctx context.Context, roleID 
 // RemovePermissionFromRole removes a permission from a role.
 func (s *rolePermissionService) RemovePermissionFromRole(ctx context.Context, roleID string, permissionID string) error {
 	err := s.rolePermission.Delete(ctx, roleID, permissionID)
-	if err := handleEntError("RolePermission", err); err != nil {
+	if err := handleEntError(ctx, "RolePermission", err); err != nil {
 		return err
 	}
 
@@ -54,7 +54,7 @@ func (s *rolePermissionService) RemovePermissionFromRole(ctx context.Context, ro
 func (s *rolePermissionService) GetRolePermissions(ctx context.Context, r string) ([]*structs.ReadPermission, error) {
 	permissions, err := s.rolePermission.GetPermissionsByRoleID(ctx, r)
 	if err != nil {
-		log.Errorf(context.Background(), "rolePermissionRepo.GetRolePermissions error: %v\n", err)
+		log.Errorf(ctx, "rolePermissionRepo.GetRolePermissions error: %v\n", err)
 		return nil, err
 	}
 

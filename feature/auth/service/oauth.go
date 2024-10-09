@@ -120,7 +120,7 @@ package service
 // 		Email:    payload.Profile.Email,
 // 		Phone:    body.Phone,
 // 	})
-// 	if err := handleEntError("User", err); err != nil {
+// 	if err := handleEntError(ctx, "User", err); err != nil {
 // 		return nil, err
 // 	}
 //
@@ -166,7 +166,7 @@ package service
 // // createUserProfile Create user profile
 // func (svc *oAuthService) createUserProfile(ctx context.Context, body *userStructs.UserProfileBody) *types.JSON {
 // 	_, err := svc.userProfile.Create(ctx, body)
-// 	if exception, _ := handleEntError("User", err); exception != nil {
+// 	if exception, _ := handleEntError(ctx, "User", err); exception != nil {
 // 		return exception
 // 	}
 //

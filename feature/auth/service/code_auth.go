@@ -5,6 +5,7 @@ import (
 	"errors"
 	"ncobase/common/config"
 	"ncobase/common/email"
+	"ncobase/common/helper"
 	"ncobase/common/jwt"
 	"ncobase/common/log"
 	"ncobase/common/nanoid"
@@ -15,7 +16,6 @@ import (
 	"ncobase/feature/auth/structs"
 	userService "ncobase/feature/user/service"
 	userStructs "ncobase/feature/user/structs"
-	"ncobase/helper"
 	"strings"
 	"time"
 )
@@ -46,7 +46,7 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 	client := s.d.GetEntClient()
 
 	codeAuth, err := client.CodeAuth.Query().Where(codeAuthEnt.CodeEQ(code)).Only(ctx)
-	if err := handleEntError("Code", err); err != nil {
+	if err := handleEntError(ctx, "Code", err); err != nil {
 		return nil, err
 	}
 	if codeAuth.Logged || isCodeExpired(codeAuth.CreatedAt) {
@@ -126,7 +126,7 @@ func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBo
 		if err := tx.Rollback(); err != nil {
 			return nil, err
 		}
-		log.Errorf(context.Background(), "send mail error: %v", err)
+		log.Errorf(ctx, "send mail error: %v", err)
 		return nil, errors.New("send mail failed, please try again or contact support")
 	}
 

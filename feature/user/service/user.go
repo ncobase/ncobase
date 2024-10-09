@@ -48,7 +48,7 @@ func (s *userService) Get(ctx context.Context, username string) (*structs.ReadUs
 		return nil, errors.New(ecode.FieldIsInvalid("username"))
 	}
 	user, err := s.FindUser(ctx, &structs.FindUser{Username: username})
-	if err := handleEntError("User", err); err != nil {
+	if err := handleEntError(ctx, "User", err); err != nil {
 		return nil, err
 	}
 	return user, nil
@@ -68,7 +68,7 @@ func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPass
 		if v.Valid == false {
 			return errors.New(v.Error)
 		} else if v.Valid && v.NeedsPasswordSet == true { // print a log for user's first password setting
-			log.Infof(context.Background(), "User %s is setting password for the first time", body.User)
+			log.Infof(ctx, "User %s is setting password for the first time", body.User)
 		}
 	case error:
 		return v
@@ -76,7 +76,7 @@ func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPass
 
 	err := s.updatePassword(ctx, body)
 
-	if err := handleEntError("User", err); err != nil {
+	if err := handleEntError(ctx, "User", err); err != nil {
 		return err
 	}
 
@@ -90,7 +90,7 @@ func (s *userService) CreateUser(ctx context.Context, body *structs.UserBody) (*
 	}
 
 	row, err := s.user.Create(ctx, body)
-	if err := handleEntError("User", err); err != nil {
+	if err := handleEntError(ctx, "User", err); err != nil {
 		return nil, err
 	}
 
@@ -100,7 +100,7 @@ func (s *userService) CreateUser(ctx context.Context, body *structs.UserBody) (*
 // GetByID retrieves a user by their ID.
 func (s *userService) GetByID(ctx context.Context, u string) (*structs.ReadUser, error) {
 	row, err := s.user.GetByID(ctx, u)
-	if err := handleEntError("User", err); err != nil {
+	if err := handleEntError(ctx, "User", err); err != nil {
 		return nil, err
 	}
 
@@ -110,7 +110,7 @@ func (s *userService) GetByID(ctx context.Context, u string) (*structs.ReadUser,
 // Delete deletes a user by their ID.
 func (s *userService) Delete(ctx context.Context, u string) error {
 	err := s.user.Delete(ctx, u)
-	if err := handleEntError("User", err); err != nil {
+	if err := handleEntError(ctx, "User", err); err != nil {
 		return err
 	}
 	return nil
@@ -168,7 +168,7 @@ func (s *userService) VerifyPassword(ctx context.Context, u string, password str
 func (s *userService) updatePassword(ctx context.Context, body *structs.UserPassword) error {
 	err := s.user.UpdatePassword(ctx, body)
 	if err != nil {
-		log.Infof(context.Background(), "Error updating password for user %s: %v", body.User, err)
+		log.Infof(ctx, "Error updating password for user %s: %v", body.User, err)
 	}
 
 	return err

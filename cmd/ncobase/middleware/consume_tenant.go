@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"ncobase/common/consts"
+	"ncobase/common/helper"
 	"ncobase/common/log"
 	tenantService "ncobase/feature/tenant/service"
-	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
 )

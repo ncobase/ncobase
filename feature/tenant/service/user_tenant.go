@@ -39,12 +39,12 @@ func (s *userTenantService) UserBelongTenant(ctx context.Context, uid string) (*
 	}
 
 	userTenant, err := s.userTenant.GetByUserID(ctx, uid)
-	if err := handleEntError("UserTenant", err); err != nil {
+	if err := handleEntError(ctx, "UserTenant", err); err != nil {
 		return nil, err
 	}
 
 	row, err := s.ts.Find(ctx, userTenant.TenantID)
-	if err := handleEntError("Tenant", err); err != nil {
+	if err := handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 
@@ -77,7 +77,7 @@ func (s *userTenantService) UserBelongTenants(ctx context.Context, uid string) (
 // AddUserToTenant adds a user to a tenant.
 func (s *userTenantService) AddUserToTenant(ctx context.Context, u string, t string) (*structs.UserTenant, error) {
 	row, err := s.userTenant.Create(ctx, &structs.UserTenant{UserID: u, TenantID: t})
-	if err := handleEntError("UserTenant", err); err != nil {
+	if err := handleEntError(ctx, "UserTenant", err); err != nil {
 		return nil, err
 	}
 	return s.Serialize(row), nil
@@ -86,7 +86,7 @@ func (s *userTenantService) AddUserToTenant(ctx context.Context, u string, t str
 // RemoveUserFromTenant removes a user from a tenant.
 func (s *userTenantService) RemoveUserFromTenant(ctx context.Context, u string, t string) error {
 	err := s.userTenant.Delete(ctx, u, t)
-	if err := handleEntError("UserTenant", err); err != nil {
+	if err := handleEntError(ctx, "UserTenant", err); err != nil {
 		return err
 	}
 	return nil

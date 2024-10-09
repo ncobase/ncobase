@@ -48,7 +48,7 @@ func (s *permissionService) Create(ctx context.Context, body *structs.CreatePerm
 	}
 
 	row, err := s.permission.Create(ctx, body)
-	if err := handleEntError("Permission", err); err != nil {
+	if err := handleEntError(ctx, "Permission", err); err != nil {
 		return nil, err
 	}
 
@@ -58,7 +58,7 @@ func (s *permissionService) Create(ctx context.Context, body *structs.CreatePerm
 // Update updates an existing permission.
 func (s *permissionService) Update(ctx context.Context, permissionID string, updates types.JSON) (*structs.ReadPermission, error) {
 	row, err := s.permission.Update(ctx, permissionID, updates)
-	if err := handleEntError("Permission", err); err != nil {
+	if err := handleEntError(ctx, "Permission", err); err != nil {
 		return nil, err
 	}
 
@@ -68,7 +68,7 @@ func (s *permissionService) Update(ctx context.Context, permissionID string, upd
 // GetByName retrieves a permission by its name.
 func (s *permissionService) GetByName(ctx context.Context, name string) (*structs.ReadPermission, error) {
 	row, err := s.permission.GetByName(ctx, name)
-	if err := handleEntError("Permission", err); err != nil {
+	if err := handleEntError(ctx, "Permission", err); err != nil {
 		return nil, err
 	}
 
@@ -78,7 +78,7 @@ func (s *permissionService) GetByName(ctx context.Context, name string) (*struct
 // GetByID retrieves a permission by its ID.
 func (s *permissionService) GetByID(ctx context.Context, permissionID string) (*structs.ReadPermission, error) {
 	row, err := s.permission.GetByID(ctx, permissionID)
-	if err := handleEntError("Permission", err); err != nil {
+	if err := handleEntError(ctx, "Permission", err); err != nil {
 		return nil, err
 	}
 
@@ -88,7 +88,7 @@ func (s *permissionService) GetByID(ctx context.Context, permissionID string) (*
 // Delete deletes a permission by its ID.
 func (s *permissionService) Delete(ctx context.Context, permissionID string) error {
 	err := s.permission.Delete(ctx, permissionID)
-	if err := handleEntError("Permission", err); err != nil {
+	if err := handleEntError(ctx, "Permission", err); err != nil {
 		return err
 	}
 	return nil
@@ -97,7 +97,7 @@ func (s *permissionService) Delete(ctx context.Context, permissionID string) err
 // GetPermissionsByRoleID retrieves all permissions associated with a role.
 func (s *permissionService) GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*structs.ReadPermission, error) {
 	rows, err := s.rolePermission.GetPermissionsByRoleID(ctx, roleID)
-	if err := handleEntError("Permission", err); err != nil {
+	if err := handleEntError(ctx, "Permission", err); err != nil {
 		return nil, err
 	}
 

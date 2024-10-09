@@ -30,7 +30,7 @@ func NewGroupRoleService(d *data.Data) GroupRoleServiceInterface {
 // AddRoleToGroup adds a role to a group.
 func (s *groupRoleService) AddRoleToGroup(ctx context.Context, groupID string, roleID string) (*structs.GroupRole, error) {
 	row, err := s.groupRole.Create(ctx, &structs.GroupRole{GroupID: groupID, RoleID: roleID})
-	if err := handleEntError("GroupRole", err); err != nil {
+	if err := handleEntError(ctx, "GroupRole", err); err != nil {
 		return nil, err
 	}
 
@@ -40,7 +40,7 @@ func (s *groupRoleService) AddRoleToGroup(ctx context.Context, groupID string, r
 // RemoveRoleFromGroup removes a role from a group.
 func (s *groupRoleService) RemoveRoleFromGroup(ctx context.Context, groupID string, roleID string) error {
 	err := s.groupRole.Delete(ctx, groupID, roleID)
-	if err := handleEntError("GroupRole", err); err != nil {
+	if err := handleEntError(ctx, "GroupRole", err); err != nil {
 		return err
 	}
 
@@ -50,7 +50,7 @@ func (s *groupRoleService) RemoveRoleFromGroup(ctx context.Context, groupID stri
 // GetGroupRolesIds retrieves all roles under a group.
 func (s *groupRoleService) GetGroupRolesIds(ctx context.Context, groupID string) ([]string, error) {
 	roleIDs, err := s.groupRole.GetRolesByGroupID(ctx, groupID)
-	if err := handleEntError("GroupRole", err); err != nil {
+	if err := handleEntError(ctx, "GroupRole", err); err != nil {
 		return nil, err
 	}
 	return roleIDs, nil

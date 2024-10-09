@@ -53,7 +53,7 @@ func (s *userProfileService) Update(ctx context.Context, id string, updates type
 	}
 
 	row, err := s.userProfile.Update(ctx, id, updates)
-	if err := handleEntError("UserProfile", err); err != nil {
+	if err := handleEntError(ctx, "UserProfile", err); err != nil {
 		return nil, err
 	}
 	return s.Serialize(row), nil
@@ -62,7 +62,7 @@ func (s *userProfileService) Update(ctx context.Context, id string, updates type
 // Get creates a new service.
 func (s *userProfileService) Get(ctx context.Context, id string) (*structs.ReadUserProfile, error) {
 	row, err := s.userProfile.Get(ctx, id)
-	if err := handleEntError("UserProfile", err); err != nil {
+	if err := handleEntError(ctx, "UserProfile", err); err != nil {
 		return nil, err
 	}
 	return s.Serialize(row), nil

@@ -35,7 +35,7 @@ func NewTaxonomyRelationService(repo *repository.Repository) TaxonomyRelationSer
 // Create creates a new taxonomy relation.
 func (s *taxonomyRelationService) Create(ctx context.Context, body *structs.CreateTaxonomyRelationBody) (*structs.ReadTaxonomyRelation, error) {
 	row, err := s.repo.TaxonomyRelations.Create(ctx, body)
-	if err := handleEntError("Taxonomy relation", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy relation", err); err != nil {
 		return nil, err
 	}
 
@@ -45,7 +45,7 @@ func (s *taxonomyRelationService) Create(ctx context.Context, body *structs.Crea
 // Update updates an existing taxonomy relation.
 func (s *taxonomyRelationService) Update(ctx context.Context, body *structs.UpdateTaxonomyRelationBody) (*structs.ReadTaxonomyRelation, error) {
 	row, err := s.repo.TaxonomyRelations.Update(ctx, body)
-	if err := handleEntError("Taxonomy relation", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy relation", err); err != nil {
 		return nil, err
 	}
 
@@ -55,7 +55,7 @@ func (s *taxonomyRelationService) Update(ctx context.Context, body *structs.Upda
 // Get retrieves a taxonomy relation by ID.
 func (s *taxonomyRelationService) Get(ctx context.Context, object string) (*structs.ReadTaxonomyRelation, error) {
 	row, err := s.repo.TaxonomyRelations.GetByObject(ctx, object)
-	if err := handleEntError("Taxonomy relation", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy relation", err); err != nil {
 		return nil, err
 	}
 
@@ -65,7 +65,7 @@ func (s *taxonomyRelationService) Get(ctx context.Context, object string) (*stru
 // Delete deletes a taxonomy relation by ID.
 func (s *taxonomyRelationService) Delete(ctx context.Context, object string) error {
 	err := s.repo.TaxonomyRelations.Delete(ctx, object)
-	if err := handleEntError("Taxonomy relation", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy relation", err); err != nil {
 		return err
 	}
 	return nil

@@ -47,7 +47,7 @@ func (s *menuService) Create(ctx context.Context, body *structs.MenuBody) (*stru
 	}
 
 	row, err := s.menu.Create(ctx, body)
-	if err := handleEntError("Menu", err); err != nil {
+	if err := handleEntError(ctx, "Menu", err); err != nil {
 		return nil, err
 	}
 
@@ -64,7 +64,7 @@ func (s *menuService) Update(ctx context.Context, updates *structs.UpdateMenuBod
 	}
 
 	row, err := s.menu.Update(ctx, updates)
-	if err := handleEntError("Menu", err); err != nil {
+	if err := handleEntError(ctx, "Menu", err); err != nil {
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func (s *menuService) Get(ctx context.Context, params *structs.FindMenu) (any, e
 	}
 
 	row, err := s.menu.Get(ctx, params)
-	if err := handleEntError("Menu", err); err != nil {
+	if err := handleEntError(ctx, "Menu", err); err != nil {
 		return nil, err
 	}
 
@@ -89,7 +89,7 @@ func (s *menuService) Get(ctx context.Context, params *structs.FindMenu) (any, e
 // Delete deletes a menu by ID.
 func (s *menuService) Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error) {
 	err := s.menu.Delete(ctx, params)
-	if err := handleEntError("Menu", err); err != nil {
+	if err := handleEntError(ctx, "Menu", err); err != nil {
 		return nil, err
 	}
 
@@ -171,7 +171,7 @@ func (s *menuService) Serialize(row *ent.Menu) *structs.ReadMenu {
 // GetTree retrieves the menu tree.
 func (s *menuService) GetTree(ctx context.Context, params *structs.FindMenu) (paging.Result[*structs.ReadMenu], error) {
 	rows, err := s.menu.GetTree(ctx, params)
-	if err := handleEntError("Menu", err); err != nil {
+	if err := handleEntError(ctx, "Menu", err); err != nil {
 		return paging.Result[*structs.ReadMenu]{}, err
 	}
 

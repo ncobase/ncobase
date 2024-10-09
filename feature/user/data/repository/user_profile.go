@@ -60,14 +60,14 @@ func (r *userProfileRepository) Create(ctx context.Context, body *structs.UserPr
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userProfileRepo.CreateProfile error: %v\n", err)
+		log.Errorf(ctx, "userProfileRepo.CreateProfile error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, fmt.Sprintf("%s", body.ID), row)
 	if err != nil {
-		log.Errorf(context.Background(), "userProfileRepo.CreateProfile cache error: %v\n", err)
+		log.Errorf(ctx, "userProfileRepo.CreateProfile cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -99,7 +99,7 @@ func (r *userProfileRepository) Update(ctx context.Context, id string, updates t
 	// execute the builder
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userProfileRepo.UpdateProfile error: %v\n", err)
+		log.Errorf(ctx, "userProfileRepo.UpdateProfile error: %v\n", err)
 		return nil, err
 	}
 
@@ -121,14 +121,14 @@ func (r *userProfileRepository) Get(ctx context.Context, id string) (*ent.UserPr
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userProfileRepo.GetProfile error: %v\n", err)
+		log.Errorf(ctx, "userProfileRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "userProfileRepo.GetProfile cache error: %v\n", err)
+		log.Errorf(ctx, "userProfileRepo.GetProfile cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -137,7 +137,7 @@ func (r *userProfileRepository) Get(ctx context.Context, id string) (*ent.UserPr
 // Delete delete user profile
 func (r *userProfileRepository) Delete(ctx context.Context, id string) error {
 	if _, err := r.ec.UserProfile.Delete().Where(userProfileEnt.IDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "userProfileRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "userProfileRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -145,7 +145,7 @@ func (r *userProfileRepository) Delete(ctx context.Context, id string) error {
 	cacheKey := fmt.Sprintf("%s", id)
 	err := r.c.Delete(ctx, cacheKey)
 	if err != nil {
-		log.Errorf(context.Background(), "userProfileRepo.Delete cache error: %v\n", err)
+		log.Errorf(ctx, "userProfileRepo.Delete cache error: %v\n", err)
 	}
 
 	return nil

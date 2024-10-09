@@ -10,7 +10,7 @@ import (
 )
 
 // handleEntError is a helper function to handle errors in a consistent manner.
-func handleEntError(k string, err error) error {
+func handleEntError(ctx context.Context, k string, err error) error {
 	if ent.IsNotFound(err) {
 		log.Errorf(context.Background(), "Error not found in %s: %v\n", k, err)
 		return errors.New(ecode.NotExist(k))

@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"ncobase/common/ecode"
+	"ncobase/common/helper"
 	"ncobase/common/log"
 	"ncobase/common/resp"
 	"ncobase/common/types"
@@ -9,7 +10,6 @@ import (
 	"ncobase/common/validator"
 	"ncobase/feature/access/service"
 	"ncobase/feature/access/structs"
-	"ncobase/helper"
 	"strings"
 
 	"github.com/casbin/casbin/v2"

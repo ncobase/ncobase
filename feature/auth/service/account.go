@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/common/helper"
 	"ncobase/common/jwt"
 	"ncobase/common/paging"
 	"ncobase/common/types"
@@ -17,7 +18,6 @@ import (
 	tenantStructs "ncobase/feature/tenant/structs"
 	userService "ncobase/feature/user/service"
 	userStructs "ncobase/feature/user/structs"
-	"ncobase/helper"
 )
 
 // AccountServiceInterface is the interface for the service.
@@ -58,7 +58,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 	client := s.d.GetEntClient()
 
 	user, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
-	if err := handleEntError("User", err); err != nil {
+	if err := handleEntError(ctx, "User", err); err != nil {
 		return nil, err
 	}
 
@@ -317,7 +317,7 @@ func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant,
 
 	// Retrieve the tenant associated with the user
 	row, err := s.ts.Tenant.GetByUser(ctx, userID)
-	if err := handleEntError("Tenant", err); err != nil {
+	if err := handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 
@@ -334,7 +334,7 @@ func (s *accountService) Tenants(ctx context.Context) (paging.Result[*tenantStru
 	rows, err := s.ts.Tenant.List(ctx, &tenantStructs.ListTenantParams{
 		User: userID,
 	})
-	if err := handleEntError("Tenants", err); err != nil {
+	if err := handleEntError(ctx, "Tenants", err); err != nil {
 		return paging.Result[*tenantStructs.ReadTenant]{}, err
 	}
 

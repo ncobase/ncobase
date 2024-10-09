@@ -80,7 +80,7 @@ func (r *dictionaryRepository) Create(ctx context.Context, body *structs.Diction
 
 	// Create the dictionary in Meilisearch index
 	if err = r.ms.IndexDocuments("dictionarys", row); err != nil {
-		log.Errorf(context.Background(), "dictionaryRepo.Create error creating Meilisearch index: %v\n", err)
+		log.Errorf(ctx, "dictionaryRepo.Create error creating Meilisearch index: %v\n", err)
 	}
 
 	// delete cached dictionary tree

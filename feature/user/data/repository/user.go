@@ -62,7 +62,7 @@ func (r *userRepository) Create(ctx context.Context, body *structs.UserBody) (*e
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "userRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
@@ -82,14 +82,14 @@ func (r *userRepository) GetByID(ctx context.Context, id string) (*ent.User, err
 	row, err := r.FindUser(ctx, &structs.FindUser{ID: id})
 
 	if err != nil {
-		log.Errorf(context.Background(), "userRepo.GetByID error: %v\n", err)
+		log.Errorf(ctx, "userRepo.GetByID error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "userRepo.GetByID cache error: %v\n", err)
+		log.Errorf(ctx, "userRepo.GetByID cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -118,14 +118,14 @@ func (r *userRepository) Find(ctx context.Context, m *structs.FindUser) (*ent.Us
 	row, err := r.FindUser(ctx, m)
 
 	if err != nil {
-		log.Errorf(context.Background(), "userRepo.Find error: %v\n", err)
+		log.Errorf(ctx, "userRepo.Find error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "userRepo.Find cache error: %v\n", err)
+		log.Errorf(ctx, "userRepo.Find cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -139,7 +139,7 @@ func (r *userRepository) Existed(ctx context.Context, m *structs.FindUser) bool 
 // Delete delete user
 func (r *userRepository) Delete(ctx context.Context, id string) error {
 	if err := r.ec.User.DeleteOneID(id).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "userRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "userRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -147,7 +147,7 @@ func (r *userRepository) Delete(ctx context.Context, id string) error {
 	cacheKey := fmt.Sprintf("%s", id)
 	err := r.c.Delete(ctx, cacheKey)
 	if err != nil {
-		log.Errorf(context.Background(), "userRepo.Delete cache error: %v\n", err)
+		log.Errorf(ctx, "userRepo.Delete cache error: %v\n", err)
 	}
 
 	return nil

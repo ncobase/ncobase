@@ -45,7 +45,7 @@ func (s *counterService) Create(ctx context.Context, body *structs.CreateCounter
 	}
 
 	row, err := s.counter.Create(ctx, body)
-	if err := handleEntError("Counter", err); err != nil {
+	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return nil, err
 	}
 
@@ -55,7 +55,7 @@ func (s *counterService) Create(ctx context.Context, body *structs.CreateCounter
 // Update updates an existing counter.
 func (s *counterService) Update(ctx context.Context, counterID string, updates types.JSON) (*structs.ReadCounter, error) {
 	row, err := s.counter.Update(ctx, counterID, updates)
-	if err := handleEntError("Counter", err); err != nil {
+	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return nil, err
 	}
 
@@ -65,7 +65,7 @@ func (s *counterService) Update(ctx context.Context, counterID string, updates t
 // Get retrieves a counter by its ID.
 func (s *counterService) Get(ctx context.Context, params *structs.FindCounter) (*structs.ReadCounter, error) {
 	row, err := s.counter.GetByID(ctx, params.Counter)
-	if err := handleEntError("Counter", err); err != nil {
+	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return nil, err
 	}
 
@@ -75,7 +75,7 @@ func (s *counterService) Get(ctx context.Context, params *structs.FindCounter) (
 // GetByIDs retrieves counters by their IDs.
 func (s *counterService) GetByIDs(ctx context.Context, counterIDs []string) ([]*structs.ReadCounter, error) {
 	rows, err := s.counter.GetByIDs(ctx, counterIDs)
-	if err := handleEntError("Counter", err); err != nil {
+	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return nil, err
 	}
 
@@ -85,7 +85,7 @@ func (s *counterService) GetByIDs(ctx context.Context, counterIDs []string) ([]*
 // Delete deletes a counter by its ID.
 func (s *counterService) Delete(ctx context.Context, counterID string) error {
 	err := s.counter.Delete(ctx, counterID)
-	if err := handleEntError("Counter", err); err != nil {
+	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return err
 	}
 

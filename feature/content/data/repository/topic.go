@@ -70,13 +70,13 @@ func (r *topicRepository) Create(ctx context.Context, body *structs.CreateTopicB
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
 	// Create the topic in Meilisearch index
 	if err = r.ms.IndexDocuments("topics", row); err != nil {
-		log.Errorf(context.Background(), "topicRepo.Create error creating Meilisearch index: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Create error creating Meilisearch index: %v\n", err)
 		// return nil, err
 	}
 
@@ -100,14 +100,14 @@ func (r *topicRepository) GetByID(ctx context.Context, id string) (*ent.Topic, e
 	// If not found in cache, query the database
 	row, err := r.FindTopic(ctx, &structs.FindTopic{Topic: id})
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.GetByID error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.GetByID error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.GetByID cache error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.GetByID cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -130,14 +130,14 @@ func (r *topicRepository) GetBySlug(ctx context.Context, slug string) (*ent.Topi
 	// If not found in cache, query the database
 	row, err := r.FindTopic(ctx, &structs.FindTopic{Topic: slug})
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.GetBySlug error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.GetBySlug error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.GetBySlug cache error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.GetBySlug cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -186,7 +186,7 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.Update error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Update error: %v\n", err)
 		return nil, err
 	}
 
@@ -195,16 +195,16 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, topic.Slug)
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.Update cache error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Update cache error: %v\n", err)
 	}
 
 	// Update the topic in Meilisearch index
 	if err = r.ms.DeleteDocuments("topics", slug); err != nil {
-		log.Errorf(context.Background(), "topicRepo.Update error deleting Meilisearch index: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Update error deleting Meilisearch index: %v\n", err)
 		// return nil, err
 	}
 	if err = r.ms.IndexDocuments("topics", row); err != nil {
-		log.Errorf(context.Background(), "topicRepo.Update error updating Meilisearch index: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Update error updating Meilisearch index: %v\n", err)
 		// return nil, err
 	}
 
@@ -267,7 +267,7 @@ func (r *topicRepository) List(ctx context.Context, params *structs.ListTopicPar
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.List error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.List error: %v\n", err)
 		return nil, err
 	}
 
@@ -286,7 +286,7 @@ func (r *topicRepository) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(topicEnt.IDEQ(topic.ID)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "topicRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -295,12 +295,12 @@ func (r *topicRepository) Delete(ctx context.Context, slug string) error {
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("topic:slug:%s", topic.Slug))
 	if err != nil {
-		log.Errorf(context.Background(), "topicRepo.Delete cache error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Delete cache error: %v\n", err)
 	}
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("topics", topic.ID); err != nil {
-		log.Errorf(context.Background(), "topicRepo.Delete index error: %v\n", err)
+		log.Errorf(ctx, "topicRepo.Delete index error: %v\n", err)
 		// return nil, err
 	}
 

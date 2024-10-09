@@ -39,7 +39,7 @@ func NewCasbinService(d *data.Data) CasbinServiceInterface {
 // Create creates a new Casbin rule.
 func (s *casbinService) Create(ctx context.Context, body *structs.CasbinRuleBody) (*structs.ReadCasbinRule, error) {
 	row, err := s.casbin.Create(ctx, body)
-	if err := handleEntError("Casbin", err); err != nil {
+	if err := handleEntError(ctx, "Casbin", err); err != nil {
 		return nil, err
 	}
 
@@ -58,7 +58,7 @@ func (s *casbinService) Update(ctx context.Context, id string, updates types.JSO
 	}
 
 	row, err := s.casbin.Update(ctx, id, updates)
-	if err := handleEntError("Casbin", err); err != nil {
+	if err := handleEntError(ctx, "Casbin", err); err != nil {
 		return nil, err
 	}
 
@@ -68,7 +68,7 @@ func (s *casbinService) Update(ctx context.Context, id string, updates types.JSO
 // Get retrieves a Casbin rule by ID.
 func (s *casbinService) Get(ctx context.Context, id string) (*structs.ReadCasbinRule, error) {
 	row, err := s.casbin.GetByID(ctx, id)
-	if err := handleEntError("Casbin", err); err != nil {
+	if err := handleEntError(ctx, "Casbin", err); err != nil {
 		return nil, err
 	}
 
@@ -78,7 +78,7 @@ func (s *casbinService) Get(ctx context.Context, id string) (*structs.ReadCasbin
 // Delete deletes a Casbin rule by ID.
 func (s *casbinService) Delete(ctx context.Context, id string) error {
 	err := s.casbin.Delete(ctx, id)
-	if err := handleEntError("Casbin", err); err != nil {
+	if err := handleEntError(ctx, "Casbin", err); err != nil {
 		return err
 	}
 

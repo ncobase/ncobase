@@ -52,7 +52,7 @@ func (r *userTenantRepository) Create(ctx context.Context, body *structs.UserTen
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.Create error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -67,7 +67,7 @@ func (r *userTenantRepository) GetByUserID(ctx context.Context, id string) (*ent
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.GetProfile error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -82,7 +82,7 @@ func (r *userTenantRepository) GetByUserIDs(ctx context.Context, ids []string) (
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.GetByUserIDs error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.GetByUserIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -97,7 +97,7 @@ func (r *userTenantRepository) GetByTenantID(ctx context.Context, id string) (*e
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.GetProfile error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -113,7 +113,7 @@ func (r *userTenantRepository) GetByTenantIDs(ctx context.Context, ids []string)
 	rows, err := builder.All(ctx)
 
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.GetByTenantIDs error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.GetByTenantIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -122,7 +122,7 @@ func (r *userTenantRepository) GetByTenantIDs(ctx context.Context, ids []string)
 // Delete delete user tenant
 func (r *userTenantRepository) Delete(ctx context.Context, uid, did string) error {
 	if _, err := r.ec.UserTenant.Delete().Where(userTenantEnt.UserIDEQ(uid), userTenantEnt.TenantIDEQ(did)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.Delete error: %v\n", err)
 		return err
 	}
 	return nil
@@ -131,7 +131,7 @@ func (r *userTenantRepository) Delete(ctx context.Context, uid, did string) erro
 // DeleteAllByUserID delete all user tenant
 func (r *userTenantRepository) DeleteAllByUserID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserTenant.Delete().Where(userTenantEnt.UserIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.DeleteAllByUserID error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.DeleteAllByUserID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -140,7 +140,7 @@ func (r *userTenantRepository) DeleteAllByUserID(ctx context.Context, id string)
 // DeleteAllByTenantID delete all user tenant
 func (r *userTenantRepository) DeleteAllByTenantID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserTenant.Delete().Where(userTenantEnt.TenantIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.DeleteAllByTenantID error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.DeleteAllByTenantID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -150,7 +150,7 @@ func (r *userTenantRepository) DeleteAllByTenantID(ctx context.Context, id strin
 func (r *userTenantRepository) GetTenantsByUserID(ctx context.Context, userID string) ([]*ent.Tenant, error) {
 	userTenants, err := r.ec.UserTenant.Query().Where(userTenantEnt.UserIDEQ(userID)).All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.GetTenantsByUserID error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.GetTenantsByUserID error: %v\n", err)
 		return nil, err
 	}
 
@@ -161,7 +161,7 @@ func (r *userTenantRepository) GetTenantsByUserID(ctx context.Context, userID st
 
 	tenants, err := r.ec.Tenant.Query().Where(tenantEnt.IDIn(tenantIDs...)).All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.GetTenantsByUserID error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.GetTenantsByUserID error: %v\n", err)
 		return nil, err
 	}
 
@@ -172,7 +172,7 @@ func (r *userTenantRepository) GetTenantsByUserID(ctx context.Context, userID st
 func (r *userTenantRepository) IsUserInTenant(ctx context.Context, userID string, tenantID string) (bool, error) {
 	count, err := r.ec.UserTenant.Query().Where(userTenantEnt.UserIDEQ(userID), userTenantEnt.TenantIDEQ(tenantID)).Count(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.IsUserInTenant error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.IsUserInTenant error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil
@@ -182,7 +182,7 @@ func (r *userTenantRepository) IsUserInTenant(ctx context.Context, userID string
 func (r *userTenantRepository) IsTenantInUser(ctx context.Context, tenantID string, userID string) (bool, error) {
 	count, err := r.ec.UserTenant.Query().Where(userTenantEnt.TenantIDEQ(tenantID), userTenantEnt.UserIDEQ(userID)).Count(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "userTenantRepo.IsTenantInUser error: %v\n", err)
+		log.Errorf(ctx, "userTenantRepo.IsTenantInUser error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil

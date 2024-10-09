@@ -3,8 +3,8 @@ package middleware
 import (
 	"context"
 	"ncobase/common/consts"
-	"ncobase/common/log"
 	"ncobase/common/observes"
+	"ncobase/common/tracing"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,16 +20,16 @@ func Trace(c *gin.Context) {
 	traceID := c.GetHeader(consts.TraceKey)
 
 	if traceID == "" {
-		ctx, traceID = log.EnsureTraceID(ctx)
+		ctx, traceID = tracing.EnsureTraceID(ctx)
 	} else {
-		ctx = log.SetTraceID(ctx, traceID)
+		ctx = tracing.SetTraceID(ctx, traceID)
 	}
 
 	// Update the request context
 	c.Request = c.Request.WithContext(ctx)
 
 	// Set trace ID in Gin's context for easy access in handlers
-	c.Set(log.TraceIDKey, traceID)
+	c.Set(tracing.TraceIDKey, traceID)
 
 	// Set trace header in the response
 	c.Writer.Header().Set(consts.TraceKey, traceID)
@@ -63,19 +63,24 @@ func Trace(c *gin.Context) {
 
 // OtelTrace is a middleware for OpenTelemetry trace
 func OtelTrace(c *gin.Context) {
+	ctx := c.Request.Context()
 	path := c.Request.URL.Path
 	if path == "" {
 		path = c.FullPath()
 	}
-	tc := observes.NewTracingContext(c.Request.Context(), path, 100)
+
+	traceID := tracing.GetTraceID(ctx)
+	tc := observes.NewTracingContext(ctx, path, 100)
 	defer tc.End()
 
 	tc.SetAttributes(
 		attribute.String("http.method", c.Request.Method),
 		attribute.String("http.path", path),
+		attribute.String("trace.id", traceID),
 	)
 
-	c.Request = c.Request.WithContext(context.WithValue(tc.Context(), "tracing_context", tc))
+	ctx = context.WithValue(tc.Context(), "tracing_context", tc)
+	c.Request = c.Request.WithContext(ctx)
 
 	c.Next()
 

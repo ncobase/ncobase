@@ -53,7 +53,7 @@ func (s *taxonomyService) Create(ctx context.Context, body *structs.CreateTaxono
 		body.Slug = slug.Unicode(body.Name)
 	}
 	row, err := s.repo.Taxonomy.Create(ctx, body)
-	if err := handleEntError("Taxonomy", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy", err); err != nil {
 		return nil, err
 	}
 
@@ -72,7 +72,7 @@ func (s *taxonomyService) Update(ctx context.Context, slug string, updates types
 	}
 
 	row, err := s.repo.Taxonomy.Update(ctx, slug, updates)
-	if err := handleEntError("Taxonomy", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy", err); err != nil {
 		return nil, err
 	}
 
@@ -82,7 +82,7 @@ func (s *taxonomyService) Update(ctx context.Context, slug string, updates types
 // Get retrieves a taxonomy by ID.
 func (s *taxonomyService) Get(ctx context.Context, slug string) (*structs.ReadTaxonomy, error) {
 	row, err := s.repo.Taxonomy.GetBySlug(ctx, slug)
-	if err := handleEntError("Taxonomy", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy", err); err != nil {
 		return nil, err
 	}
 
@@ -92,7 +92,7 @@ func (s *taxonomyService) Get(ctx context.Context, slug string) (*structs.ReadTa
 // Delete deletes a taxonomy by ID.
 func (s *taxonomyService) Delete(ctx context.Context, slug string) error {
 	err := s.repo.Taxonomy.Delete(ctx, slug)
-	if err := handleEntError("Taxonomy", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy", err); err != nil {
 		return err
 	}
 	return nil
@@ -176,7 +176,7 @@ func (s *taxonomyService) CountX(ctx context.Context, params *structs.ListTaxono
 // GetTree retrieves the taxonomy tree.
 func (s *taxonomyService) GetTree(ctx context.Context, params *structs.FindTaxonomy) (paging.Result[*structs.ReadTaxonomy], error) {
 	rows, err := s.repo.Taxonomy.GetTree(ctx, params)
-	if err := handleEntError("Taxonomy", err); err != nil {
+	if err := handleEntError(ctx, "Taxonomy", err); err != nil {
 		return paging.Result[*structs.ReadTaxonomy]{}, err
 	}
 

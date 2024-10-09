@@ -50,7 +50,7 @@ func (s *roleService) Create(ctx context.Context, body *structs.CreateRoleBody) 
 	}
 
 	role, err := s.role.Create(ctx, body)
-	if err := handleEntError("Role", err); err != nil {
+	if err := handleEntError(ctx, "Role", err); err != nil {
 		return nil, err
 	}
 
@@ -60,7 +60,7 @@ func (s *roleService) Create(ctx context.Context, body *structs.CreateRoleBody) 
 // Update updates an existing role.
 func (s *roleService) Update(ctx context.Context, roleID string, updates types.JSON) (*structs.ReadRole, error) {
 	role, err := s.role.Update(ctx, roleID, updates)
-	if err := handleEntError("Role", err); err != nil {
+	if err := handleEntError(ctx, "Role", err); err != nil {
 		return nil, err
 	}
 	return s.Serialize(role), nil
@@ -69,7 +69,7 @@ func (s *roleService) Update(ctx context.Context, roleID string, updates types.J
 // GetByID retrieves a role by its ID.
 func (s *roleService) GetByID(ctx context.Context, roleID string) (*structs.ReadRole, error) {
 	row, err := s.role.GetByID(ctx, roleID)
-	if err := handleEntError("Role", err); err != nil {
+	if err := handleEntError(ctx, "Role", err); err != nil {
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func (s *roleService) GetByID(ctx context.Context, roleID string) (*structs.Read
 // GetBySlug retrieves a role by its slug.
 func (s *roleService) GetBySlug(ctx context.Context, roleSlug string) (*structs.ReadRole, error) {
 	row, err := s.role.GetBySlug(ctx, roleSlug)
-	if err := handleEntError("Role", err); err != nil {
+	if err := handleEntError(ctx, "Role", err); err != nil {
 		return nil, err
 	}
 	return s.Serialize(row), nil
@@ -106,7 +106,7 @@ func (s *roleService) Find(ctx context.Context, r string) (*structs.ReadRole, er
 // Delete deletes a role by its ID.
 func (s *roleService) Delete(ctx context.Context, roleID string) error {
 	err := s.role.Delete(ctx, roleID)
-	if err := handleEntError("Role", err); err != nil {
+	if err := handleEntError(ctx, "Role", err); err != nil {
 		return err
 	}
 	return nil

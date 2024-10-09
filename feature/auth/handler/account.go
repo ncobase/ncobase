@@ -2,11 +2,11 @@ package handler
 
 import (
 	"ncobase/common/cookie"
+	"ncobase/common/helper"
 	"ncobase/common/resp"
 	"ncobase/feature/auth/service"
 	"ncobase/feature/auth/structs"
 	userStructs "ncobase/feature/user/structs"
-	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
 )

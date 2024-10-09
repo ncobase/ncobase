@@ -33,7 +33,7 @@ func NewUserGroupService(d *data.Data, gs GroupServiceInterface) UserGroupServic
 // AddUserToGroup adds a user to a group.
 func (s *userGroupService) AddUserToGroup(ctx context.Context, u string, g string) (*structs.UserGroup, error) {
 	row, err := s.userGroup.Create(ctx, &structs.UserGroup{UserID: u, GroupID: g})
-	if err := handleEntError("UserGroup", err); err != nil {
+	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return nil, err
 	}
 	return s.Serialize(row), nil
@@ -42,7 +42,7 @@ func (s *userGroupService) AddUserToGroup(ctx context.Context, u string, g strin
 // RemoveUserFromGroup removes a user from a group.
 func (s *userGroupService) RemoveUserFromGroup(ctx context.Context, u string, g string) error {
 	err := s.userGroup.Delete(ctx, u, g)
-	if err := handleEntError("UserGroup", err); err != nil {
+	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return err
 	}
 	return nil
@@ -51,7 +51,7 @@ func (s *userGroupService) RemoveUserFromGroup(ctx context.Context, u string, g 
 // GetUserGroupIds retrieves all group IDs associated with a user.
 func (s *userGroupService) GetUserGroupIds(ctx context.Context, u string) ([]string, error) {
 	groupIDs, err := s.userGroup.GetGroupsByUserID(ctx, u)
-	if err := handleEntError("UserGroup", err); err != nil {
+	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return nil, err
 	}
 
@@ -61,12 +61,12 @@ func (s *userGroupService) GetUserGroupIds(ctx context.Context, u string) ([]str
 // GetUserGroups retrieves all groups associated with a user.
 func (s *userGroupService) GetUserGroups(ctx context.Context, u string) ([]*structs.ReadGroup, error) {
 	groupIDs, err := s.userGroup.GetGroupsByUserID(ctx, u)
-	if err := handleEntError("UserGroup", err); err != nil {
+	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return nil, err
 	}
 
 	rows, err := s.gs.GetByIDs(ctx, groupIDs)
-	if err := handleEntError("Group", err); err != nil {
+	if err := handleEntError(ctx, "Group", err); err != nil {
 		return nil, err
 	}
 

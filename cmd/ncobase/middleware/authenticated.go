@@ -2,10 +2,10 @@ package middleware
 
 import (
 	"ncobase/common/ecode"
+	"ncobase/common/helper"
 	"ncobase/common/log"
 	"ncobase/common/resp"
 	"ncobase/common/validator"
-	"ncobase/helper"
 
 	"github.com/gin-gonic/gin"
 )

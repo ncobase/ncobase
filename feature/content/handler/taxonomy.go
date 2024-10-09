@@ -1,9 +1,9 @@
 package handler
 
 import (
+	"ncobase/common/helper"
 	"ncobase/feature/content/service"
 	"ncobase/feature/content/structs"
-	"ncobase/helper"
 
 	"ncobase/common/ecode"
 	"ncobase/common/resp"

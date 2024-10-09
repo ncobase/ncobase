@@ -53,7 +53,7 @@ func (r *groupRoleRepository) Create(ctx context.Context, body *structs.GroupRol
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.Create error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -68,7 +68,7 @@ func (r *groupRoleRepository) GetByGroupID(ctx context.Context, id string) (*ent
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.GetProfile error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -83,7 +83,7 @@ func (r *groupRoleRepository) GetByGroupIDs(ctx context.Context, ids []string) (
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.GetByGroupIDs error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.GetByGroupIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -98,7 +98,7 @@ func (r *groupRoleRepository) GetByRoleID(ctx context.Context, id string) (*ent.
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.GetProfile error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.GetProfile error: %v\n", err)
 		return nil, err
 	}
 	return row, nil
@@ -113,7 +113,7 @@ func (r *groupRoleRepository) GetByRoleIDs(ctx context.Context, ids []string) ([
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.GetByRoleIDs error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.GetByRoleIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -122,7 +122,7 @@ func (r *groupRoleRepository) GetByRoleIDs(ctx context.Context, ids []string) ([
 // Delete group role
 func (r *groupRoleRepository) Delete(ctx context.Context, gid, rid string) error {
 	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.GroupIDEQ(gid), groupRoleEnt.RoleIDEQ(rid)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.Delete error: %v\n", err)
 		return err
 	}
 	return nil
@@ -131,7 +131,7 @@ func (r *groupRoleRepository) Delete(ctx context.Context, gid, rid string) error
 // DeleteAllByGroupID Delete all group role
 func (r *groupRoleRepository) DeleteAllByGroupID(ctx context.Context, id string) error {
 	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.GroupIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.DeleteAllByGroupID error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.DeleteAllByGroupID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -140,7 +140,7 @@ func (r *groupRoleRepository) DeleteAllByGroupID(ctx context.Context, id string)
 // DeleteAllByRoleID Delete all group role
 func (r *groupRoleRepository) DeleteAllByRoleID(ctx context.Context, id string) error {
 	if _, err := r.ec.GroupRole.Delete().Where(groupRoleEnt.RoleIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.DeleteAllByRoleID error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.DeleteAllByRoleID error: %v\n", err)
 		return err
 	}
 	return nil
@@ -150,7 +150,7 @@ func (r *groupRoleRepository) DeleteAllByRoleID(ctx context.Context, id string) 
 func (r *groupRoleRepository) GetRolesByGroupID(ctx context.Context, groupID string) ([]string, error) {
 	groupRoles, err := r.ec.GroupRole.Query().Where(groupRoleEnt.GroupIDEQ(groupID)).All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.GetRolesByGroupID error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.GetRolesByGroupID error: %v\n", err)
 		return nil, err
 	}
 
@@ -166,7 +166,7 @@ func (r *groupRoleRepository) GetRolesByGroupID(ctx context.Context, groupID str
 func (r *groupRoleRepository) GetGroupsByRoleID(ctx context.Context, roleID string) ([]*ent.Group, error) {
 	groupRoles, err := r.ec.GroupRole.Query().Where(groupRoleEnt.RoleIDEQ(roleID)).All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.GetGroupsByRoleID error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.GetGroupsByRoleID error: %v\n", err)
 		return nil, err
 	}
 
@@ -177,7 +177,7 @@ func (r *groupRoleRepository) GetGroupsByRoleID(ctx context.Context, roleID stri
 
 	groups, err := r.ec.Group.Query().Where(groupEnt.IDIn(groupIDs...)).All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.GetGroupsByRoleID error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.GetGroupsByRoleID error: %v\n", err)
 		return nil, err
 	}
 
@@ -188,7 +188,7 @@ func (r *groupRoleRepository) GetGroupsByRoleID(ctx context.Context, roleID stri
 func (r *groupRoleRepository) IsRoleInGroup(ctx context.Context, groupID string, roleID string) (bool, error) {
 	count, err := r.ec.GroupRole.Query().Where(groupRoleEnt.GroupIDEQ(groupID), groupRoleEnt.RoleIDEQ(roleID)).Count(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.IsRoleInGroup error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.IsRoleInGroup error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil
@@ -198,7 +198,7 @@ func (r *groupRoleRepository) IsRoleInGroup(ctx context.Context, groupID string,
 func (r *groupRoleRepository) IsGroupInRole(ctx context.Context, groupID string, roleID string) (bool, error) {
 	count, err := r.ec.GroupRole.Query().Where(groupRoleEnt.GroupIDEQ(groupID), groupRoleEnt.RoleIDEQ(roleID)).Count(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRoleRepo.IsGroupInRole error: %v\n", err)
+		log.Errorf(ctx, "groupRoleRepo.IsGroupInRole error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil

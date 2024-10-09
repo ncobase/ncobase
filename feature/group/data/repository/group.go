@@ -71,7 +71,7 @@ func (r *groupRepository) Create(ctx context.Context, body *structs.CreateGroupB
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.Create error: %v\n", err)
 		return nil, err
 	}
 
@@ -89,14 +89,14 @@ func (r *groupRepository) Get(ctx context.Context, params *structs.FindGroup) (*
 	// If not found in cache, query the database
 	row, err := r.FindGroup(ctx, params)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.Get error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.Get error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.Get cache error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.Get cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -111,7 +111,7 @@ func (r *groupRepository) GetByIDs(ctx context.Context, ids []string) ([]*ent.Gr
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.GetByIDs error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.GetByIDs error: %v\n", err)
 		return nil, err
 	}
 	return rows, nil
@@ -128,14 +128,14 @@ func (r *groupRepository) GetBySlug(ctx context.Context, slug string) (*ent.Grou
 	// If not found in cache, query the database
 	row, err := r.FindGroup(ctx, &structs.FindGroup{Group: slug})
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.GetBySlug error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.GetBySlug error: %v\n", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.GetBySlug cache error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.GetBySlug cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -176,7 +176,7 @@ func (r *groupRepository) Update(ctx context.Context, slug string, updates types
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.Update error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.Update error: %v\n", err)
 		return nil, err
 	}
 
@@ -185,7 +185,7 @@ func (r *groupRepository) Update(ctx context.Context, slug string, updates types
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("group:slug:%s", group.Slug))
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.Update cache error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.Update cache error: %v\n", err)
 	}
 
 	return row, nil
@@ -204,7 +204,7 @@ func (r *groupRepository) List(ctx context.Context, params *structs.ListGroupPar
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.List error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.List error: %v\n", err)
 		return nil, err
 	}
 
@@ -223,7 +223,7 @@ func (r *groupRepository) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(groupEnt.IDEQ(group.ID)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "groupRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.Delete error: %v\n", err)
 		return err
 	}
 
@@ -232,7 +232,7 @@ func (r *groupRepository) Delete(ctx context.Context, slug string) error {
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("group:slug:%s", group.Slug))
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.Delete cache error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.Delete cache error: %v\n", err)
 	}
 
 	return nil
@@ -318,7 +318,7 @@ func (r *groupRepository) CountX(ctx context.Context, params *structs.ListGroupP
 func (r *groupRepository) GetGroupsByTenantID(ctx context.Context, tenantID string) ([]*ent.Group, error) {
 	groups, err := r.ec.Group.Query().Where(groupEnt.TenantIDEQ(tenantID)).All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.GetGroupsByTenantID error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.GetGroupsByTenantID error: %v\n", err)
 		return nil, err
 	}
 	return groups, nil
@@ -328,7 +328,7 @@ func (r *groupRepository) GetGroupsByTenantID(ctx context.Context, tenantID stri
 func (r *groupRepository) IsGroupInTenant(ctx context.Context, tenantID string, groupID string) (bool, error) {
 	count, err := r.ec.Group.Query().Where(groupEnt.TenantIDEQ(tenantID), groupEnt.IDEQ(groupID)).Count(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "groupRepo.IsGroupInTenant error: %v\n", err)
+		log.Errorf(ctx, "groupRepo.IsGroupInTenant error: %v\n", err)
 		return false, err
 	}
 	return count > 0, nil
