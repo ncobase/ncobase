@@ -69,14 +69,6 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	handlerOpt := observes.TracingDecoratorOption{
-		Layer:                    observes.LayerHandler,
-		CreateSpanForEachMethod:  true,
-		RecordMethodParams:       true,
-		RecordMethodReturnValues: false,
-	}
-	m.h = observes.DecorateStruct(handler.New(m.s), handlerOpt)
-
 	serviceOpt := observes.TracingDecoratorOption{
 		Layer:                    observes.LayerService,
 		CreateSpanForEachMethod:  true,
@@ -84,6 +76,14 @@ func (m *Module) PostInit() error {
 		RecordMethodReturnValues: true,
 	}
 	m.s = observes.DecorateStruct(service.New(m.d), serviceOpt)
+
+	handlerOpt := observes.TracingDecoratorOption{
+		Layer:                    observes.LayerHandler,
+		CreateSpanForEachMethod:  true,
+		RecordMethodParams:       true,
+		RecordMethodReturnValues: false,
+	}
+	m.h = observes.DecorateStruct(handler.New(m.s), handlerOpt)
 
 	m.subscribeEvents(m.fm)
 	return nil

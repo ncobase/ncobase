@@ -105,6 +105,7 @@ func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomy
 			Children: true,
 			Tenant:   params.Tenant,
 			Taxonomy: params.Parent,
+			SortBy:   params.SortBy,
 		})
 	}
 	pp := paging.Params{
@@ -124,7 +125,7 @@ func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomy
 			if ent.IsNotFound(err) {
 				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 			}
-			log.Errorf(ctx, "Error listing groups: %v", err)
+			log.Errorf(ctx, "Error listing taxonomies: %v", err)
 			return nil, 0, err
 		}
 
