@@ -5,6 +5,7 @@ import (
 	"ncobase/common/helper"
 	"ncobase/common/log"
 	"ncobase/common/resp"
+	"ncobase/common/tracing"
 	"ncobase/common/types"
 	"ncobase/common/util"
 	"ncobase/common/validator"
@@ -37,7 +38,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			return
 		}
 
-		ctx := c.Request.Context()
+		ctx := helper.FromGinContext(c)
 
 		currentUser := helper.GetUserID(ctx)
 		currentTenant := helper.GetTenantID(ctx)
@@ -105,13 +106,13 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 
 		log.EntryWithFields(ctx,
 			logrus.Fields{
-				"trace_id":    contextTraceID,
-				"userID":      currentUser,
-				"tenantID":    currentTenant,
-				"object":      obj,
-				"action":      act,
-				"roles":       roles,
-				"permissions": permissions,
+				tracing.TraceIDKey: contextTraceID,
+				"userID":           currentUser,
+				"tenantID":         currentTenant,
+				"object":           obj,
+				"action":           act,
+				"roles":            roles,
+				"permissions":      permissions,
 			},
 		).Info("Checking permission")
 
@@ -125,11 +126,11 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 
 		if !ok {
 			log.EntryWithFields(ctx, logrus.Fields{
-				"trace_id": contextTraceID,
-				"userID":   currentUser,
-				"tenantID": currentTenant,
-				"object":   obj,
-				"action":   act,
+				tracing.TraceIDKey: contextTraceID,
+				"userID":           currentUser,
+				"tenantID":         currentTenant,
+				"object":           obj,
+				"action":           act,
 			}).Warn("Permission denied")
 
 			resp.Fail(c.Writer, resp.Forbidden("You don't have permission to access this resource, please contact the administrator"))
@@ -138,11 +139,11 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			return
 		}
 		log.EntryWithFields(ctx, logrus.Fields{
-			"trace_id": contextTraceID,
-			"userID":   currentUser,
-			"tenantID": currentTenant,
-			"object":   obj,
-			"action":   act,
+			tracing.TraceIDKey: contextTraceID,
+			"userID":           currentUser,
+			"tenantID":         currentTenant,
+			"object":           obj,
+			"action":           act,
 		}).Info("Permission granted")
 
 		c.Next()

@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"io"
+	"ncobase/common/helper"
 	"ncobase/common/log"
 	"net/http"
 	"strings"
@@ -56,7 +57,7 @@ var (
 // Logger is a middleware for logging
 func Logger(c *gin.Context) {
 	start := time.Now()
-	ctx := c.Request.Context()
+	ctx := helper.FromGinContext(c)
 
 	// Check if the path should be skipped
 	if shouldSkipPath(c.Request.URL.Path, skippedPaths) {

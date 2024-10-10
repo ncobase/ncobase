@@ -108,9 +108,9 @@ func handleTokenError(c *gin.Context, err error) {
 		code    int
 		message string
 	)
-
+	ctx := helper.FromGinContext(c)
 	// Logging the error
-	log.Errorf(c.Request.Context(), "Error: %v", err)
+	log.Errorf(ctx, "Error: %v", err)
 
 	switch {
 	case strings.Contains(err.Error(), "token is expired"):

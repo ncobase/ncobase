@@ -4,9 +4,11 @@ import (
 	"ncobase/common/consts"
 	"ncobase/common/helper"
 	"ncobase/common/log"
+	"ncobase/common/tracing"
 	tenantService "ncobase/feature/tenant/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 // ConsumeTenant consumes tenant information from the request header or user tenants.
@@ -16,7 +18,8 @@ func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFun
 			c.Next()
 			return
 		}
-		ctx := c.Request.Context()
+		ctx := helper.FromGinContext(c)
+		contextTraceID := helper.GetTraceID(ctx)
 		// Retrieve user ID from context
 		userID := helper.GetUserID(ctx)
 		// Retrieve tenant ID from request header
@@ -26,11 +29,15 @@ func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFun
 			// Get tenant ID
 			tenantID = helper.GetTenantID(ctx)
 			if tenantID == "" {
-				log.Warn(ctx, "tenant not found, try to fetch from user tenants")
+				log.EntryWithFields(ctx, logrus.Fields{
+					tracing.TraceIDKey: contextTraceID,
+				}).Warn("tenant not found, try to fetch from user tenants")
 				// Fetch user tenants
 				tenant, err := ts.UserTenant.UserBelongTenant(c, userID)
 				if err != nil {
-					log.Errorf(ctx, "failed to fetch user belong tenant: %v", err.Error())
+					log.EntryWithFields(ctx, logrus.Fields{
+						tracing.TraceIDKey: contextTraceID,
+					}).Errorf("failed to fetch user belong tenant: %v", err.Error())
 				}
 				if tenant != nil {
 					tenantID = tenant.ID

@@ -3,6 +3,7 @@ package middleware
 import (
 	"context"
 	"ncobase/common/consts"
+	"ncobase/common/helper"
 	"ncobase/common/observes"
 	"ncobase/common/tracing"
 	"net/http"
@@ -14,7 +15,7 @@ import (
 
 // Trace is a middleware for tracing
 func Trace(c *gin.Context) {
-	ctx := c.Request.Context()
+	ctx := helper.FromGinContext(c)
 
 	// Check for trace ID in the request header
 	traceID := c.GetHeader(consts.TraceKey)
@@ -63,7 +64,7 @@ func Trace(c *gin.Context) {
 
 // OtelTrace is a middleware for OpenTelemetry trace
 func OtelTrace(c *gin.Context) {
-	ctx := c.Request.Context()
+	ctx := helper.FromGinContext(c)
 	path := c.Request.URL.Path
 	if path == "" {
 		path = c.FullPath()
