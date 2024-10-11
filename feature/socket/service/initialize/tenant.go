@@ -30,12 +30,12 @@ func (s *InitializeService) initTenants(ctx context.Context) error {
 
 	for _, tenant := range tenants {
 		if _, err := s.ts.Tenant.Create(ctx, &tenant); err != nil {
-			log.Errorf(ctx, "initTenants error on create domain: %v\n", err)
+			log.Errorf(ctx, "initTenants error on create domain: %v", err)
 			return err
 		}
 	}
 
-	log.Infof(ctx, "-------- initTenants done, created %d domains\n", len(tenants))
+	log.Infof(ctx, "-------- initTenants done, created %d domains", len(tenants))
 
 	return nil
 }

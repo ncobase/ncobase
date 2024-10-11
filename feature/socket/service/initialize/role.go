@@ -51,13 +51,13 @@ func (s *InitializeService) initRoles(ctx context.Context) error {
 
 	for _, role := range roles {
 		if _, err := s.acs.Role.Create(ctx, role); err != nil {
-			log.Errorf(ctx, "initRoles error on create role: %v\n", err)
+			log.Errorf(ctx, "initRoles error on create role: %v", err)
 			return err
 		}
 	}
 
 	count := s.acs.Role.CountX(ctx, &accessStructs.ListRoleParams{})
-	log.Infof(ctx, "-------- initRoles done, created %d roles\n", count)
+	log.Infof(ctx, "-------- initRoles done, created %d roles", count)
 
 	return nil
 }

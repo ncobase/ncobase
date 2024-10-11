@@ -54,7 +54,7 @@ func (s *rolePermissionService) RemovePermissionFromRole(ctx context.Context, ro
 func (s *rolePermissionService) GetRolePermissions(ctx context.Context, r string) ([]*structs.ReadPermission, error) {
 	permissions, err := s.rolePermission.GetPermissionsByRoleID(ctx, r)
 	if err != nil {
-		log.Errorf(ctx, "rolePermissionRepo.GetRolePermissions error: %v\n", err)
+		log.Errorf(ctx, "rolePermissionRepo.GetRolePermissions error: %v", err)
 		return nil, err
 	}
 

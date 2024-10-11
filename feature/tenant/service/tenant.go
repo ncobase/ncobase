@@ -227,7 +227,7 @@ func (s *tenantService) List(ctx context.Context, params *structs.ListTenantPara
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing tenants: %v\n", err)
+			log.Errorf(ctx, "Error listing tenants: %v", err)
 			return nil, 0, err
 		}
 

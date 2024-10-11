@@ -65,7 +65,7 @@ func (r *permissionRepository) Create(ctx context.Context, body *structs.CreateP
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.Create error: %v", err)
 		return nil, err
 	}
 
@@ -83,14 +83,14 @@ func (r *permissionRepository) GetByName(ctx context.Context, name string) (*ent
 	// If not found in cache, query the database
 	row, err := r.FindPermission(ctx, &structs.FindPermission{Name: name})
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.GetByName error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.GetByName error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.GetByName cache error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.GetByName cache error: %v", err)
 	}
 
 	return row, nil
@@ -107,14 +107,14 @@ func (r *permissionRepository) GetByID(ctx context.Context, id string) (*ent.Per
 	// If not found in cache, query the database
 	row, err := r.FindPermission(ctx, &structs.FindPermission{ID: id})
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.GetByID error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.GetByID cache error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.GetByID cache error: %v", err)
 	}
 
 	return row, nil
@@ -131,14 +131,14 @@ func (r *permissionRepository) GetByActionAndSubject(ctx context.Context, action
 	// If not found in cache, query the database
 	row, err := r.FindPermission(ctx, &structs.FindPermission{Action: action, Subject: subject})
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.GetByActionAndSubject error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.GetByActionAndSubject error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.GetByActionAndSubject cache error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.GetByActionAndSubject cache error: %v", err)
 	}
 
 	return row, nil
@@ -177,7 +177,7 @@ func (r *permissionRepository) Update(ctx context.Context, id string, updates ty
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.Update error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.Update error: %v", err)
 		return nil, err
 	}
 
@@ -185,7 +185,7 @@ func (r *permissionRepository) Update(ctx context.Context, id string, updates ty
 	cacheKey := fmt.Sprintf("%s", permission.ID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.Update cache error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.Update cache error: %v", err)
 	}
 
 	return row, nil
@@ -203,7 +203,7 @@ func (r *permissionRepository) Delete(ctx context.Context, id string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(permissionEnt.IDEQ(permission.ID)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "permissionRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.Delete error: %v", err)
 		return err
 	}
 
@@ -211,7 +211,7 @@ func (r *permissionRepository) Delete(ctx context.Context, id string) error {
 	cacheKey := fmt.Sprintf("%s", permission.ID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
-		log.Errorf(ctx, "permissionRepo.Delete cache error: %v\n", err)
+		log.Errorf(ctx, "permissionRepo.Delete cache error: %v", err)
 	}
 
 	return nil

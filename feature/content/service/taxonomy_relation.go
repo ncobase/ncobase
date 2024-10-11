@@ -91,7 +91,7 @@ func (s *taxonomyRelationService) List(ctx context.Context, params *structs.List
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing taxonomy relations: %v\n", err)
+			log.Errorf(ctx, "Error listing taxonomy relations: %v", err)
 			return nil, 0, err
 		}
 

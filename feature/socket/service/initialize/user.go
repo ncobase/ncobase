@@ -47,7 +47,7 @@ func (s *InitializeService) initUsers(ctx context.Context) error {
 	for _, user := range users {
 		createdUser, err := s.us.User.CreateUser(ctx, &user)
 		if err != nil {
-			log.Errorf(ctx, "initUsers error on create user: %v\n", err)
+			log.Errorf(ctx, "initUsers error on create user: %v", err)
 			return err
 		}
 
@@ -57,7 +57,7 @@ func (s *InitializeService) initUsers(ctx context.Context) error {
 			NewPassword: "Ac123456",
 			Confirm:     "Ac123456",
 		}); err != nil {
-			log.Errorf(ctx, "initUsers error on update user password: %v\n", err)
+			log.Errorf(ctx, "initUsers error on update user password: %v", err)
 			return err
 		}
 
@@ -66,7 +66,7 @@ func (s *InitializeService) initUsers(ctx context.Context) error {
 			ID:          createdUser.ID,
 			DisplayName: user.Username,
 		}); err != nil {
-			log.Errorf(ctx, "initUsers error on create user profile: %v\n", err)
+			log.Errorf(ctx, "initUsers error on create user profile: %v", err)
 			return err
 		}
 
@@ -80,7 +80,7 @@ func (s *InitializeService) initUsers(ctx context.Context) error {
 			}
 
 			if _, err := s.as.AuthTenant.CreateInitialTenant(ctx, tenantBody); err != nil {
-				log.Errorf(ctx, "initUsers error on create initial tenant: %v\n", err)
+				log.Errorf(ctx, "initUsers error on create initial tenant: %v", err)
 				return err
 			}
 		}
@@ -90,11 +90,11 @@ func (s *InitializeService) initUsers(ctx context.Context) error {
 			// related to tenant
 			existedTenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
 			if err != nil {
-				log.Errorf(ctx, "initUsers error on get tenant: %v\n", err)
+				log.Errorf(ctx, "initUsers error on get tenant: %v", err)
 				return err
 			}
 			if _, err := s.ts.UserTenant.AddUserToTenant(ctx, createdUser.ID, existedTenant.ID); err != nil {
-				log.Errorf(ctx, "initUsers error on create user tenant: %v\n", err)
+				log.Errorf(ctx, "initUsers error on create user tenant: %v", err)
 				return err
 			}
 			// Assign roles based on user type
@@ -107,21 +107,21 @@ func (s *InitializeService) initUsers(ctx context.Context) error {
 
 			role, err := s.acs.Role.GetBySlug(ctx, roleSlug)
 			if err != nil {
-				log.Errorf(ctx, "initUsers error on get role (%s): %v\n", roleSlug, err)
+				log.Errorf(ctx, "initUsers error on get role (%s): %v", roleSlug, err)
 				return err
 			}
 			if err := s.acs.UserRole.AddRoleToUser(ctx, createdUser.ID, role.ID); err != nil {
-				log.Errorf(ctx, "initUsers error on create role (%s): %v\n", roleSlug, err)
+				log.Errorf(ctx, "initUsers error on create role (%s): %v", roleSlug, err)
 				return err
 			}
 			if _, err := s.acs.UserTenantRole.AddRoleToUserInTenant(ctx, createdUser.ID, existedTenant.ID, role.ID); err != nil {
-				log.Errorf(ctx, "initUsers error on create tenant role (%s): %v\n", roleSlug, err)
+				log.Errorf(ctx, "initUsers error on create tenant role (%s): %v", roleSlug, err)
 				return err
 			}
 		}
 	}
 
-	log.Infof(ctx, "-------- initUsers done, created %d users\n", len(users))
+	log.Infof(ctx, "-------- initUsers done, created %d users", len(users))
 
 	return nil
 }

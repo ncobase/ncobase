@@ -107,7 +107,7 @@ func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*e
 
 	// Create the menu in Meilisearch index
 	if err = r.ms.IndexDocuments("menus", row); err != nil {
-		log.Errorf(ctx, "menuRepo.Create error creating Meilisearch index: %v\n", err)
+		log.Errorf(ctx, "menuRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	// delete cached menu tree

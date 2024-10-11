@@ -123,7 +123,7 @@ func (s *permissionService) List(ctx context.Context, params *structs.ListPermis
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing permissions: %v\n", err)
+			log.Errorf(ctx, "Error listing permissions: %v", err)
 			return nil, 0, err
 		}
 

@@ -52,7 +52,7 @@ func (r *userRoleRepository) VerifyUserRole(ctx context.Context, userID, roleID 
 		).
 		Count(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.VerifyUserRole error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.VerifyUserRole error: %v", err)
 		return false, err
 	}
 	return count > 0, nil
@@ -79,7 +79,7 @@ func (r *userRoleRepository) Create(ctx context.Context, body *structs.UserRole)
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.Create error: %v", err)
 		return nil, err
 	}
 
@@ -95,7 +95,7 @@ func (r *userRoleRepository) GetByIDAndRoleID(ctx context.Context, uid, rid stri
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.GetByIDAndRoleID error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.GetByIDAndRoleID error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -110,7 +110,7 @@ func (r *userRoleRepository) GetByUserIDs(ctx context.Context, ids []string) ([]
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.GetByIDs error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.GetByIDs error: %v", err)
 		return nil, err
 	}
 	return rows, nil
@@ -125,7 +125,7 @@ func (r *userRoleRepository) GetByRoleID(ctx context.Context, id string) (*ent.U
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.GetByRoleID error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.GetByRoleID error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -140,7 +140,7 @@ func (r *userRoleRepository) GetByRoleIDs(ctx context.Context, ids []string) ([]
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.GetByRoleIDs error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.GetByRoleIDs error: %v", err)
 		return nil, err
 	}
 	return rows, nil
@@ -149,7 +149,7 @@ func (r *userRoleRepository) GetByRoleIDs(ctx context.Context, ids []string) ([]
 // Delete delete user role
 func (r *userRoleRepository) Delete(ctx context.Context, uid, rid string) error {
 	if _, err := r.ec.UserRole.Delete().Where(userRoleEnt.UserIDEQ(uid), userRoleEnt.RoleIDEQ(rid)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "userRoleRepo.DeleteByID error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.DeleteByID error: %v", err)
 		return err
 	}
 	return nil
@@ -158,7 +158,7 @@ func (r *userRoleRepository) Delete(ctx context.Context, uid, rid string) error 
 // DeleteAllByUserID delete all user roles by user ID
 func (r *userRoleRepository) DeleteAllByUserID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserRole.Delete().Where(userRoleEnt.UserIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "userRoleRepo.DeleteAllByID error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.DeleteAllByID error: %v", err)
 		return err
 	}
 	return nil
@@ -167,7 +167,7 @@ func (r *userRoleRepository) DeleteAllByUserID(ctx context.Context, id string) e
 // DeleteAllByRoleID delete all user roles by role ID
 func (r *userRoleRepository) DeleteAllByRoleID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserRole.Delete().Where(userRoleEnt.RoleIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "userRoleRepo.DeleteAllByRoleID error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.DeleteAllByRoleID error: %v", err)
 		return err
 	}
 	return nil
@@ -177,7 +177,7 @@ func (r *userRoleRepository) DeleteAllByRoleID(ctx context.Context, id string) e
 func (r *userRoleRepository) GetRolesByUserID(ctx context.Context, userID string) ([]*ent.Role, error) {
 	userRoles, err := r.ec.UserRole.Query().Where(userRoleEnt.UserIDEQ(userID)).All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.GetRolesByUserID error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.GetRolesByUserID error: %v", err)
 		return nil, err
 	}
 
@@ -188,7 +188,7 @@ func (r *userRoleRepository) GetRolesByUserID(ctx context.Context, userID string
 
 	roles, err := r.ec.Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.GetRolesByUserID error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.GetRolesByUserID error: %v", err)
 		return nil, err
 	}
 	return roles, nil
@@ -199,7 +199,7 @@ func (r *userRoleRepository) GetRolesByUserID(ctx context.Context, userID string
 func (r *userRoleRepository) GetUsersByRoleID(ctx context.Context, roleID string) ([]string, error) {
 	userRoles, err := r.ec.UserRole.Query().Where(userRoleEnt.RoleIDEQ(roleID)).All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.GetUsersByRoleID error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.GetUsersByRoleID error: %v", err)
 		return nil, err
 	}
 
@@ -214,7 +214,7 @@ func (r *userRoleRepository) GetUsersByRoleID(ctx context.Context, roleID string
 func (r *userRoleRepository) IsUserInRole(ctx context.Context, userID string, roleID string) (bool, error) {
 	count, err := r.ec.UserRole.Query().Where(userRoleEnt.UserIDEQ(userID), userRoleEnt.RoleIDEQ(roleID)).Count(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userRoleRepo.IsUserInRole error: %v\n", err)
+		log.Errorf(ctx, "userRoleRepo.IsUserInRole error: %v", err)
 		return false, err
 	}
 	return count > 0, nil

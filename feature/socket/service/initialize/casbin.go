@@ -22,12 +22,12 @@ func (s *InitializeService) checkCasbinPoliciesInitialized(ctx context.Context) 
 func (s *InitializeService) initCasbinPolicies(ctx context.Context) error {
 	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
 	if err != nil {
-		log.Errorf(ctx, "initCasbinPolicies error on get default tenant: %v\n", err)
+		log.Errorf(ctx, "initCasbinPolicies error on get default tenant: %v", err)
 		return err
 	}
 	allRoles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{})
 	if err != nil {
-		log.Errorf(ctx, "initCasbinPolicies error on list roles: %v\n", err)
+		log.Errorf(ctx, "initCasbinPolicies error on list roles: %v", err)
 		return err
 	}
 
@@ -35,14 +35,14 @@ func (s *InitializeService) initCasbinPolicies(ctx context.Context) error {
 	for _, role := range allRoles.Items {
 		rolePermissions, err := s.acs.RolePermission.GetRolePermissions(ctx, role.ID)
 		if err != nil {
-			log.Errorf(ctx, "initCasbinPolicies error on list role permissions for role %s: %v\n", role.Slug, err)
+			log.Errorf(ctx, "initCasbinPolicies error on list role permissions for role %s: %v", role.Slug, err)
 			return err
 		}
 
 		for _, p := range rolePermissions {
 			permission, err := s.acs.Permission.GetByID(ctx, p.ID)
 			if err != nil {
-				log.Errorf(ctx, "initCasbinPolicies error on get permission %s: %v\n", p.ID, err)
+				log.Errorf(ctx, "initCasbinPolicies error on get permission %s: %v", p.ID, err)
 				return err
 			}
 
@@ -56,14 +56,14 @@ func (s *InitializeService) initCasbinPolicies(ctx context.Context) error {
 			}
 
 			if _, err := s.acs.Casbin.Create(ctx, &policy); err != nil {
-				log.Errorf(ctx, "initCasbinPolicies error on create casbin rule: %v\n", err)
+				log.Errorf(ctx, "initCasbinPolicies error on create casbin rule: %v", err)
 				return err
 			}
 		}
 	}
 
 	count := s.acs.Casbin.CountX(ctx, &accessStructs.ListCasbinRuleParams{})
-	log.Infof(ctx, "-------- initCasbinPolicies done, created %d policies\n", count)
+	log.Infof(ctx, "-------- initCasbinPolicies done, created %d policies", count)
 
 	return nil
 }

@@ -69,13 +69,13 @@ func (r *attachmentRepostory) Create(ctx context.Context, body *structs.CreateAt
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "attachmentRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// create the attachment in Meilisearch index
 	if err = r.ms.IndexDocuments("attachments", row); err != nil {
-		log.Errorf(ctx, "attachmentRepo.Create index error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Create index error: %v", err)
 		// return nil, err
 	}
 
@@ -93,14 +93,14 @@ func (r *attachmentRepostory) GetByID(ctx context.Context, slug string) (*ent.At
 	// If not found in cache, query the database
 	row, err := r.FindAttachment(ctx, &structs.FindAttachment{Attachment: slug})
 	if err != nil {
-		log.Errorf(ctx, "attachmentRepo.GetByID error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "attachmentRepo.GetByID cache error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.GetByID cache error: %v", err)
 	}
 
 	return row, nil
@@ -145,19 +145,19 @@ func (r *attachmentRepostory) Update(ctx context.Context, slug string, updates t
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "attachmentRepo.Update error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Update error: %v", err)
 		return nil, err
 	}
 
 	// remove from cache
 	cacheKey := fmt.Sprintf("%s", attachment.ID)
 	if err = r.c.Delete(ctx, cacheKey); err != nil {
-		log.Errorf(ctx, "attachmentRepo.Update cache error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Update cache error: %v", err)
 	}
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("attachments", attachment.ID); err != nil {
-		log.Errorf(ctx, "attachmentRepo.Update index error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Update index error: %v", err)
 		// return nil, err
 	}
 
@@ -176,19 +176,19 @@ func (r *attachmentRepostory) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(attachmentEnt.IDEQ(slug)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "attachmentRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Delete error: %v", err)
 		return err
 	}
 
 	// remove from cache
 	cacheKey := fmt.Sprintf("%s", attachment.ID)
 	if err = r.c.Delete(ctx, cacheKey); err != nil {
-		log.Errorf(ctx, "attachmentRepo.Delete cache error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Delete cache error: %v", err)
 	}
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("attachments", attachment.ID); err != nil {
-		log.Errorf(ctx, "attachmentRepo.Delete index error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.Delete index error: %v", err)
 		// return nil, err
 	}
 
@@ -268,7 +268,7 @@ func (r *attachmentRepostory) List(ctx context.Context, params *structs.ListAtta
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if validator.IsNotNil(err) {
-		log.Errorf(ctx, "attachmentRepo.List error: %v\n", err)
+		log.Errorf(ctx, "attachmentRepo.List error: %v", err)
 		return nil, err
 	}
 

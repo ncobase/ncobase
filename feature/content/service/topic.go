@@ -108,7 +108,7 @@ func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing topics: %v\n", err)
+			log.Errorf(ctx, "Error listing topics: %v", err)
 			return nil, 0, err
 		}
 

@@ -53,7 +53,7 @@ func (r *userGroupRepository) Create(ctx context.Context, body *structs.UserGrou
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userGroupRepo.Create error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.Create error: %v", err)
 		return nil, err
 	}
 
@@ -69,7 +69,7 @@ func (r *userGroupRepository) GetByUserID(ctx context.Context, id string) (*ent.
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userGroupRepo.GetProfile error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.GetProfile error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -84,7 +84,7 @@ func (r *userGroupRepository) GetByUserIDs(ctx context.Context, ids []string) ([
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userGroupRepo.GetByUserIDs error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.GetByUserIDs error: %v", err)
 		return nil, err
 	}
 	return rows, nil
@@ -99,7 +99,7 @@ func (r *userGroupRepository) GetByGroupID(ctx context.Context, id string) (*ent
 	// execute the builder.
 	row, err := builder.Only(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userGroupRepo.GetProfile error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.GetProfile error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -114,7 +114,7 @@ func (r *userGroupRepository) GetByGroupIDs(ctx context.Context, ids []string) (
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userGroupRepo.GetByGroupIDs error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.GetByGroupIDs error: %v", err)
 		return nil, err
 	}
 	return rows, nil
@@ -123,7 +123,7 @@ func (r *userGroupRepository) GetByGroupIDs(ctx context.Context, ids []string) (
 // Delete delete user group
 func (r *userGroupRepository) Delete(ctx context.Context, uid, gid string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.UserIDEQ(uid), userGroupEnt.GroupIDEQ(gid)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "userGroupRepo.DeleteByUserID error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.DeleteByUserID error: %v", err)
 		return err
 	}
 	return nil
@@ -132,7 +132,7 @@ func (r *userGroupRepository) Delete(ctx context.Context, uid, gid string) error
 // DeleteAllByUserID delete all user group
 func (r *userGroupRepository) DeleteAllByUserID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.UserIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "userGroupRepo.DeleteAllByUserID error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.DeleteAllByUserID error: %v", err)
 		return err
 	}
 	return nil
@@ -141,7 +141,7 @@ func (r *userGroupRepository) DeleteAllByUserID(ctx context.Context, id string) 
 // DeleteAllByGroupID delete all user group
 func (r *userGroupRepository) DeleteAllByGroupID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.GroupIDEQ(id)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "userGroupRepo.DeleteAllByGroupID error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.DeleteAllByGroupID error: %v", err)
 		return err
 	}
 	return nil
@@ -151,7 +151,7 @@ func (r *userGroupRepository) DeleteAllByGroupID(ctx context.Context, id string)
 func (r *userGroupRepository) GetGroupsByUserID(ctx context.Context, userID string) ([]string, error) {
 	userGroups, err := r.ec.UserGroup.Query().Where(userGroupEnt.UserIDEQ(userID)).All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userGroupRepo.GetGroupsByUserID error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.GetGroupsByUserID error: %v", err)
 		return nil, err
 	}
 	var groupIDs []string
@@ -166,7 +166,7 @@ func (r *userGroupRepository) GetGroupsByUserID(ctx context.Context, userID stri
 func (r *userGroupRepository) GetUsersByGroupID(ctx context.Context, groupID string) ([]string, error) {
 	userGroups, err := r.ec.UserGroup.Query().Where(userGroupEnt.GroupIDEQ(groupID)).All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userGroupRepo.GetUsersByGroupID error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.GetUsersByGroupID error: %v", err)
 		return nil, err
 	}
 	var userIDs []string
@@ -181,7 +181,7 @@ func (r *userGroupRepository) GetUsersByGroupID(ctx context.Context, groupID str
 func (r *userGroupRepository) IsUserInGroup(ctx context.Context, userID string, groupID string) (bool, error) {
 	count, err := r.ec.UserGroup.Query().Where(userGroupEnt.UserIDEQ(userID), userGroupEnt.GroupIDEQ(groupID)).Count(ctx)
 	if err != nil {
-		log.Errorf(ctx, "userGroupRepo.IsUserInGroup error: %v\n", err)
+		log.Errorf(ctx, "userGroupRepo.IsUserInGroup error: %v", err)
 		return false, err
 	}
 	return count > 0, nil

@@ -148,7 +148,7 @@ func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) 
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing roles: %v\n", err)
+			log.Errorf(ctx, "Error listing roles: %v", err)
 			return nil, 0, err
 		}
 

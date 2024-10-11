@@ -193,7 +193,7 @@ func (s *userService) List(ctx context.Context, params *structs.ListUserParams) 
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing users: %v\n", err)
+			log.Errorf(ctx, "Error listing users: %v", err)
 			return nil, 0, err
 		}
 

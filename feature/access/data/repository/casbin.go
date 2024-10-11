@@ -64,7 +64,7 @@ func (r *casbinRuleRepository) Create(ctx context.Context, body *structs.CasbinR
 func (r *casbinRuleRepository) GetByID(ctx context.Context, id string) (*ent.CasbinRule, error) {
 	row, err := r.FindByID(ctx, id)
 	if err != nil {
-		log.Errorf(ctx, "casbinRuleRepo.GetByID error: %v\n", err)
+		log.Errorf(ctx, "casbinRuleRepo.GetByID error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -123,7 +123,7 @@ func (r *casbinRuleRepository) Delete(ctx context.Context, id string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(casbinRuleEnt.IDEQ(row.ID)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "casbinRuleRepo.Delete error: %v\n", err)
+		log.Errorf(ctx, "casbinRuleRepo.Delete error: %v", err)
 		return err
 	}
 
@@ -216,7 +216,7 @@ func (r *casbinRuleRepository) List(ctx context.Context, params *structs.ListCas
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "casbinRuleRepo.List error: %v\n", err)
+		log.Errorf(ctx, "casbinRuleRepo.List error: %v", err)
 		return nil, err
 	}
 
