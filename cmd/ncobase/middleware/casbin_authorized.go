@@ -104,8 +104,8 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 
 		log.EntryWithFields(ctx,
 			logrus.Fields{
-				"userID":      currentUser,
-				"tenantID":    currentTenant,
+				"user_id":     currentUser,
+				"tenant_id":   currentTenant,
 				"object":      obj,
 				"action":      act,
 				"roles":       roles,
@@ -123,10 +123,10 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 
 		if !ok {
 			log.EntryWithFields(ctx, logrus.Fields{
-				"userID":   currentUser,
-				"tenantID": currentTenant,
-				"object":   obj,
-				"action":   act,
+				"user_id":   currentUser,
+				"tenant_id": currentTenant,
+				"object":    obj,
+				"action":    act,
 			}).Warn("Permission denied")
 
 			resp.Fail(c.Writer, resp.Forbidden("You don't have permission to access this resource, please contact the administrator"))
@@ -135,10 +135,10 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			return
 		}
 		log.EntryWithFields(ctx, logrus.Fields{
-			"userID":   currentUser,
-			"tenantID": currentTenant,
-			"object":   obj,
-			"action":   act,
+			"user_id":   currentUser,
+			"tenant_id": currentTenant,
+			"object":    obj,
+			"action":    act,
 		}).Info("Permission granted")
 
 		c.Next()
@@ -146,7 +146,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 }
 
 // checkPermission checks if the user has permission to access the resource based on roles and permissions
-func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act string, roles []string, permissions []*structs.ReadPermission, tenantID string) (bool, error) {
+func checkPermission(enforcer *casbin.Enforcer, user_id string, obj string, act string, roles []string, permissions []*structs.ReadPermission, tenantID string) (bool, error) {
 	// First, check role-based permissions
 	for _, role := range roles {
 		ok, err := enforcer.Enforce(role, tenantID, obj, act, nil, nil)
@@ -184,7 +184,7 @@ func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act s
 	}
 
 	// If no matching permission is found, check if the user has a wildcard permission
-	ok, err := enforcer.Enforce(userID, tenantID, "*", "*", nil, nil)
+	ok, err := enforcer.Enforce(user_id, tenantID, "*", "*", nil, nil)
 	if err != nil {
 		return false, err
 	}
