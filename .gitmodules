@@ -1,3 +1,6 @@
+[submodule "front"]
+	path = front
+	url = git@github.com:ncobase/frontend.git
 [submodule "pkg"]
 	path = pkg
 	url = git@github.com:ncobase/common.git
