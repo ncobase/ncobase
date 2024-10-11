@@ -5,7 +5,6 @@ import (
 	"ncobase/common/consts"
 	"ncobase/common/helper"
 	"ncobase/common/observes"
-	"ncobase/common/tracing"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,16 +20,16 @@ func Trace(c *gin.Context) {
 	traceID := c.GetHeader(consts.TraceKey)
 
 	if traceID == "" {
-		ctx, traceID = tracing.EnsureTraceID(ctx)
+		ctx, traceID = helper.EnsureTraceID(ctx)
 	} else {
-		ctx = tracing.SetTraceID(ctx, traceID)
+		ctx = helper.SetTraceID(ctx, traceID)
 	}
 
 	// Update the request context
 	c.Request = c.Request.WithContext(ctx)
 
 	// Set trace ID in Gin's context for easy access in handlers
-	c.Set(tracing.TraceIDKey, traceID)
+	c.Set(helper.TraceIDKey, traceID)
 
 	// Set trace header in the response
 	c.Writer.Header().Set(consts.TraceKey, traceID)
@@ -70,7 +69,7 @@ func OtelTrace(c *gin.Context) {
 		path = c.FullPath()
 	}
 
-	traceID := tracing.GetTraceID(ctx)
+	traceID := helper.GetTraceID(ctx)
 	tc := observes.NewTracingContext(ctx, path, 100)
 	defer tc.End()
 
