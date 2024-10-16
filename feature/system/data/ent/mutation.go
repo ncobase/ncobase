@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"ncobase/feature/system/data/ent/dictionary"
 	"ncobase/feature/system/data/ent/menu"
+	"ncobase/feature/system/data/ent/options"
 	"ncobase/feature/system/data/ent/predicate"
 	"sync"
 
@@ -26,6 +27,7 @@ const (
 	// Node types.
 	TypeDictionary = "Dictionary"
 	TypeMenu       = "Menu"
+	TypeOptions    = "Options"
 )
 
 // DictionaryMutation represents an operation that mutates the Dictionary nodes in the graph.
@@ -2788,4 +2790,1013 @@ func (m *MenuMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *MenuMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Menu edge %s", name)
+}
+
+// OptionsMutation represents an operation that mutates the Options nodes in the graph.
+type OptionsMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *string
+	name          *string
+	_type         *string
+	value         *string
+	autoload      *bool
+	tenant_id     *string
+	created_by    *string
+	updated_by    *string
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*Options, error)
+	predicates    []predicate.Options
+}
+
+var _ ent.Mutation = (*OptionsMutation)(nil)
+
+// optionsOption allows management of the mutation configuration using functional options.
+type optionsOption func(*OptionsMutation)
+
+// newOptionsMutation creates new mutation for the Options entity.
+func newOptionsMutation(c config, op Op, opts ...optionsOption) *OptionsMutation {
+	m := &OptionsMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeOptions,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withOptionsID sets the ID field of the mutation.
+func withOptionsID(id string) optionsOption {
+	return func(m *OptionsMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *Options
+		)
+		m.oldValue = func(ctx context.Context) (*Options, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().Options.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withOptions sets the old Options of the mutation.
+func withOptions(node *Options) optionsOption {
+	return func(m *OptionsMutation) {
+		m.oldValue = func(context.Context) (*Options, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m OptionsMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m OptionsMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Options entities.
+func (m *OptionsMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *OptionsMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *OptionsMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().Options.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetName sets the "name" field.
+func (m *OptionsMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *OptionsMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ClearName clears the value of the "name" field.
+func (m *OptionsMutation) ClearName() {
+	m.name = nil
+	m.clearedFields[options.FieldName] = struct{}{}
+}
+
+// NameCleared returns if the "name" field was cleared in this mutation.
+func (m *OptionsMutation) NameCleared() bool {
+	_, ok := m.clearedFields[options.FieldName]
+	return ok
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *OptionsMutation) ResetName() {
+	m.name = nil
+	delete(m.clearedFields, options.FieldName)
+}
+
+// SetType sets the "type" field.
+func (m *OptionsMutation) SetType(s string) {
+	m._type = &s
+}
+
+// GetType returns the value of the "type" field in the mutation.
+func (m *OptionsMutation) GetType() (r string, exists bool) {
+	v := m._type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldType returns the old "type" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldType: %w", err)
+	}
+	return oldValue.Type, nil
+}
+
+// ClearType clears the value of the "type" field.
+func (m *OptionsMutation) ClearType() {
+	m._type = nil
+	m.clearedFields[options.FieldType] = struct{}{}
+}
+
+// TypeCleared returns if the "type" field was cleared in this mutation.
+func (m *OptionsMutation) TypeCleared() bool {
+	_, ok := m.clearedFields[options.FieldType]
+	return ok
+}
+
+// ResetType resets all changes to the "type" field.
+func (m *OptionsMutation) ResetType() {
+	m._type = nil
+	delete(m.clearedFields, options.FieldType)
+}
+
+// SetValue sets the "value" field.
+func (m *OptionsMutation) SetValue(s string) {
+	m.value = &s
+}
+
+// Value returns the value of the "value" field in the mutation.
+func (m *OptionsMutation) Value() (r string, exists bool) {
+	v := m.value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValue returns the old "value" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldValue(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValue: %w", err)
+	}
+	return oldValue.Value, nil
+}
+
+// ClearValue clears the value of the "value" field.
+func (m *OptionsMutation) ClearValue() {
+	m.value = nil
+	m.clearedFields[options.FieldValue] = struct{}{}
+}
+
+// ValueCleared returns if the "value" field was cleared in this mutation.
+func (m *OptionsMutation) ValueCleared() bool {
+	_, ok := m.clearedFields[options.FieldValue]
+	return ok
+}
+
+// ResetValue resets all changes to the "value" field.
+func (m *OptionsMutation) ResetValue() {
+	m.value = nil
+	delete(m.clearedFields, options.FieldValue)
+}
+
+// SetAutoload sets the "autoload" field.
+func (m *OptionsMutation) SetAutoload(b bool) {
+	m.autoload = &b
+}
+
+// Autoload returns the value of the "autoload" field in the mutation.
+func (m *OptionsMutation) Autoload() (r bool, exists bool) {
+	v := m.autoload
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAutoload returns the old "autoload" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldAutoload(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAutoload is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAutoload requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAutoload: %w", err)
+	}
+	return oldValue.Autoload, nil
+}
+
+// ClearAutoload clears the value of the "autoload" field.
+func (m *OptionsMutation) ClearAutoload() {
+	m.autoload = nil
+	m.clearedFields[options.FieldAutoload] = struct{}{}
+}
+
+// AutoloadCleared returns if the "autoload" field was cleared in this mutation.
+func (m *OptionsMutation) AutoloadCleared() bool {
+	_, ok := m.clearedFields[options.FieldAutoload]
+	return ok
+}
+
+// ResetAutoload resets all changes to the "autoload" field.
+func (m *OptionsMutation) ResetAutoload() {
+	m.autoload = nil
+	delete(m.clearedFields, options.FieldAutoload)
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (m *OptionsMutation) SetTenantID(s string) {
+	m.tenant_id = &s
+}
+
+// TenantID returns the value of the "tenant_id" field in the mutation.
+func (m *OptionsMutation) TenantID() (r string, exists bool) {
+	v := m.tenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTenantID returns the old "tenant_id" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldTenantID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTenantID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+	}
+	return oldValue.TenantID, nil
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *OptionsMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.clearedFields[options.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *OptionsMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[options.FieldTenantID]
+	return ok
+}
+
+// ResetTenantID resets all changes to the "tenant_id" field.
+func (m *OptionsMutation) ResetTenantID() {
+	m.tenant_id = nil
+	delete(m.clearedFields, options.FieldTenantID)
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (m *OptionsMutation) SetCreatedBy(s string) {
+	m.created_by = &s
+}
+
+// CreatedBy returns the value of the "created_by" field in the mutation.
+func (m *OptionsMutation) CreatedBy() (r string, exists bool) {
+	v := m.created_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedBy returns the old "created_by" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldCreatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedBy: %w", err)
+	}
+	return oldValue.CreatedBy, nil
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (m *OptionsMutation) ClearCreatedBy() {
+	m.created_by = nil
+	m.clearedFields[options.FieldCreatedBy] = struct{}{}
+}
+
+// CreatedByCleared returns if the "created_by" field was cleared in this mutation.
+func (m *OptionsMutation) CreatedByCleared() bool {
+	_, ok := m.clearedFields[options.FieldCreatedBy]
+	return ok
+}
+
+// ResetCreatedBy resets all changes to the "created_by" field.
+func (m *OptionsMutation) ResetCreatedBy() {
+	m.created_by = nil
+	delete(m.clearedFields, options.FieldCreatedBy)
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (m *OptionsMutation) SetUpdatedBy(s string) {
+	m.updated_by = &s
+}
+
+// UpdatedBy returns the value of the "updated_by" field in the mutation.
+func (m *OptionsMutation) UpdatedBy() (r string, exists bool) {
+	v := m.updated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedBy returns the old "updated_by" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldUpdatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedBy: %w", err)
+	}
+	return oldValue.UpdatedBy, nil
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (m *OptionsMutation) ClearUpdatedBy() {
+	m.updated_by = nil
+	m.clearedFields[options.FieldUpdatedBy] = struct{}{}
+}
+
+// UpdatedByCleared returns if the "updated_by" field was cleared in this mutation.
+func (m *OptionsMutation) UpdatedByCleared() bool {
+	_, ok := m.clearedFields[options.FieldUpdatedBy]
+	return ok
+}
+
+// ResetUpdatedBy resets all changes to the "updated_by" field.
+func (m *OptionsMutation) ResetUpdatedBy() {
+	m.updated_by = nil
+	delete(m.clearedFields, options.FieldUpdatedBy)
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *OptionsMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *OptionsMutation) CreatedAt() (r int64, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// AddCreatedAt adds i to the "created_at" field.
+func (m *OptionsMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *OptionsMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *OptionsMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	m.clearedFields[options.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *OptionsMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[options.FieldCreatedAt]
+	return ok
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *OptionsMutation) ResetCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	delete(m.clearedFields, options.FieldCreatedAt)
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *OptionsMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *OptionsMutation) UpdatedAt() (r int64, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *OptionsMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *OptionsMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *OptionsMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	m.clearedFields[options.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *OptionsMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[options.FieldUpdatedAt]
+	return ok
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *OptionsMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	delete(m.clearedFields, options.FieldUpdatedAt)
+}
+
+// Where appends a list predicates to the OptionsMutation builder.
+func (m *OptionsMutation) Where(ps ...predicate.Options) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the OptionsMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *OptionsMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.Options, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *OptionsMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *OptionsMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (Options).
+func (m *OptionsMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *OptionsMutation) Fields() []string {
+	fields := make([]string, 0, 9)
+	if m.name != nil {
+		fields = append(fields, options.FieldName)
+	}
+	if m._type != nil {
+		fields = append(fields, options.FieldType)
+	}
+	if m.value != nil {
+		fields = append(fields, options.FieldValue)
+	}
+	if m.autoload != nil {
+		fields = append(fields, options.FieldAutoload)
+	}
+	if m.tenant_id != nil {
+		fields = append(fields, options.FieldTenantID)
+	}
+	if m.created_by != nil {
+		fields = append(fields, options.FieldCreatedBy)
+	}
+	if m.updated_by != nil {
+		fields = append(fields, options.FieldUpdatedBy)
+	}
+	if m.created_at != nil {
+		fields = append(fields, options.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, options.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *OptionsMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case options.FieldName:
+		return m.Name()
+	case options.FieldType:
+		return m.GetType()
+	case options.FieldValue:
+		return m.Value()
+	case options.FieldAutoload:
+		return m.Autoload()
+	case options.FieldTenantID:
+		return m.TenantID()
+	case options.FieldCreatedBy:
+		return m.CreatedBy()
+	case options.FieldUpdatedBy:
+		return m.UpdatedBy()
+	case options.FieldCreatedAt:
+		return m.CreatedAt()
+	case options.FieldUpdatedAt:
+		return m.UpdatedAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *OptionsMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case options.FieldName:
+		return m.OldName(ctx)
+	case options.FieldType:
+		return m.OldType(ctx)
+	case options.FieldValue:
+		return m.OldValue(ctx)
+	case options.FieldAutoload:
+		return m.OldAutoload(ctx)
+	case options.FieldTenantID:
+		return m.OldTenantID(ctx)
+	case options.FieldCreatedBy:
+		return m.OldCreatedBy(ctx)
+	case options.FieldUpdatedBy:
+		return m.OldUpdatedBy(ctx)
+	case options.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case options.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown Options field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *OptionsMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case options.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case options.FieldType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetType(v)
+		return nil
+	case options.FieldValue:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValue(v)
+		return nil
+	case options.FieldAutoload:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAutoload(v)
+		return nil
+	case options.FieldTenantID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTenantID(v)
+		return nil
+	case options.FieldCreatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedBy(v)
+		return nil
+	case options.FieldUpdatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedBy(v)
+		return nil
+	case options.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case options.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Options field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *OptionsMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, options.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, options.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *OptionsMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case options.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case options.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *OptionsMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case options.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case options.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Options numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *OptionsMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(options.FieldName) {
+		fields = append(fields, options.FieldName)
+	}
+	if m.FieldCleared(options.FieldType) {
+		fields = append(fields, options.FieldType)
+	}
+	if m.FieldCleared(options.FieldValue) {
+		fields = append(fields, options.FieldValue)
+	}
+	if m.FieldCleared(options.FieldAutoload) {
+		fields = append(fields, options.FieldAutoload)
+	}
+	if m.FieldCleared(options.FieldTenantID) {
+		fields = append(fields, options.FieldTenantID)
+	}
+	if m.FieldCleared(options.FieldCreatedBy) {
+		fields = append(fields, options.FieldCreatedBy)
+	}
+	if m.FieldCleared(options.FieldUpdatedBy) {
+		fields = append(fields, options.FieldUpdatedBy)
+	}
+	if m.FieldCleared(options.FieldCreatedAt) {
+		fields = append(fields, options.FieldCreatedAt)
+	}
+	if m.FieldCleared(options.FieldUpdatedAt) {
+		fields = append(fields, options.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *OptionsMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *OptionsMutation) ClearField(name string) error {
+	switch name {
+	case options.FieldName:
+		m.ClearName()
+		return nil
+	case options.FieldType:
+		m.ClearType()
+		return nil
+	case options.FieldValue:
+		m.ClearValue()
+		return nil
+	case options.FieldAutoload:
+		m.ClearAutoload()
+		return nil
+	case options.FieldTenantID:
+		m.ClearTenantID()
+		return nil
+	case options.FieldCreatedBy:
+		m.ClearCreatedBy()
+		return nil
+	case options.FieldUpdatedBy:
+		m.ClearUpdatedBy()
+		return nil
+	case options.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case options.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown Options nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *OptionsMutation) ResetField(name string) error {
+	switch name {
+	case options.FieldName:
+		m.ResetName()
+		return nil
+	case options.FieldType:
+		m.ResetType()
+		return nil
+	case options.FieldValue:
+		m.ResetValue()
+		return nil
+	case options.FieldAutoload:
+		m.ResetAutoload()
+		return nil
+	case options.FieldTenantID:
+		m.ResetTenantID()
+		return nil
+	case options.FieldCreatedBy:
+		m.ResetCreatedBy()
+		return nil
+	case options.FieldUpdatedBy:
+		m.ResetUpdatedBy()
+		return nil
+	case options.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case options.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown Options field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *OptionsMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *OptionsMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *OptionsMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *OptionsMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *OptionsMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *OptionsMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *OptionsMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown Options unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *OptionsMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown Options edge %s", name)
 }

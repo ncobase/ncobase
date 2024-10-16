@@ -11,3 +11,6 @@ type Dictionary func(*sql.Selector)
 
 // Menu is the predicate function for menu builders.
 type Menu func(*sql.Selector)
+
+// Options is the predicate function for options builders.
+type Options func(*sql.Selector)

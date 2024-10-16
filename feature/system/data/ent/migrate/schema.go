@@ -101,10 +101,47 @@ var (
 			},
 		},
 	}
+	// NcseOptionsColumns holds the columns for the "ncse_options" table.
+	NcseOptionsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "value", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "value"},
+		{Name: "autoload", Type: field.TypeBool, Nullable: true, Comment: "Whether to load the option automatically", Default: true},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseOptionsTable holds the schema information for the "ncse_options" table.
+	NcseOptionsTable = &schema.Table{
+		Name:       "ncse_options",
+		Columns:    NcseOptionsColumns,
+		PrimaryKey: []*schema.Column{NcseOptionsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "options_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseOptionsColumns[0]},
+			},
+			{
+				Name:    "options_name",
+				Unique:  true,
+				Columns: []*schema.Column{NcseOptionsColumns[1]},
+			},
+			{
+				Name:    "options_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseOptionsColumns[5]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		NcseDictionaryTable,
 		NcseMenuTable,
+		NcseOptionsTable,
 	}
 )
 
@@ -114,5 +151,8 @@ func init() {
 	}
 	NcseMenuTable.Annotation = &entsql.Annotation{
 		Table: "ncse_menu",
+	}
+	NcseOptionsTable.Annotation = &entsql.Annotation{
+		Table: "ncse_options",
 	}
 }

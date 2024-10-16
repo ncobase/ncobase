@@ -16,6 +16,8 @@ type Tx struct {
 	Dictionary *DictionaryClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
+	// Options is the client for interacting with the Options builders.
+	Options *OptionsClient
 
 	// lazily loaded.
 	client     *Client
@@ -149,6 +151,7 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.Dictionary = NewDictionaryClient(tx.config)
 	tx.Menu = NewMenuClient(tx.config)
+	tx.Options = NewOptionsClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

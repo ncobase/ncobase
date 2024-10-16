@@ -5,6 +5,7 @@ package ent
 import (
 	"ncobase/feature/system/data/ent/dictionary"
 	"ncobase/feature/system/data/ent/menu"
+	"ncobase/feature/system/data/ent/options"
 	"ncobase/feature/system/data/schema"
 )
 
@@ -120,4 +121,55 @@ func init() {
 	menu.DefaultID = menuDescID.Default.(func() string)
 	// menu.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	menu.IDValidator = menuDescID.Validators[0].(func(string) error)
+	optionsMixin := schema.Options{}.Mixin()
+	optionsMixinFields0 := optionsMixin[0].Fields()
+	_ = optionsMixinFields0
+	optionsMixinFields1 := optionsMixin[1].Fields()
+	_ = optionsMixinFields1
+	optionsMixinFields4 := optionsMixin[4].Fields()
+	_ = optionsMixinFields4
+	optionsMixinFields5 := optionsMixin[5].Fields()
+	_ = optionsMixinFields5
+	optionsMixinFields6 := optionsMixin[6].Fields()
+	_ = optionsMixinFields6
+	optionsMixinFields7 := optionsMixin[7].Fields()
+	_ = optionsMixinFields7
+	optionsFields := schema.Options{}.Fields()
+	_ = optionsFields
+	// optionsDescName is the schema descriptor for name field.
+	optionsDescName := optionsMixinFields1[0].Descriptor()
+	// options.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	options.NameValidator = optionsDescName.Validators[0].(func(string) error)
+	// optionsDescAutoload is the schema descriptor for autoload field.
+	optionsDescAutoload := optionsMixinFields4[0].Descriptor()
+	// options.DefaultAutoload holds the default value on creation for the autoload field.
+	options.DefaultAutoload = optionsDescAutoload.Default.(bool)
+	// optionsDescTenantID is the schema descriptor for tenant_id field.
+	optionsDescTenantID := optionsMixinFields5[0].Descriptor()
+	// options.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	options.TenantIDValidator = optionsDescTenantID.Validators[0].(func(string) error)
+	// optionsDescCreatedBy is the schema descriptor for created_by field.
+	optionsDescCreatedBy := optionsMixinFields6[0].Descriptor()
+	// options.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	options.CreatedByValidator = optionsDescCreatedBy.Validators[0].(func(string) error)
+	// optionsDescUpdatedBy is the schema descriptor for updated_by field.
+	optionsDescUpdatedBy := optionsMixinFields6[1].Descriptor()
+	// options.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	options.UpdatedByValidator = optionsDescUpdatedBy.Validators[0].(func(string) error)
+	// optionsDescCreatedAt is the schema descriptor for created_at field.
+	optionsDescCreatedAt := optionsMixinFields7[0].Descriptor()
+	// options.DefaultCreatedAt holds the default value on creation for the created_at field.
+	options.DefaultCreatedAt = optionsDescCreatedAt.Default.(func() int64)
+	// optionsDescUpdatedAt is the schema descriptor for updated_at field.
+	optionsDescUpdatedAt := optionsMixinFields7[1].Descriptor()
+	// options.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	options.DefaultUpdatedAt = optionsDescUpdatedAt.Default.(func() int64)
+	// options.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	options.UpdateDefaultUpdatedAt = optionsDescUpdatedAt.UpdateDefault.(func() int64)
+	// optionsDescID is the schema descriptor for id field.
+	optionsDescID := optionsMixinFields0[0].Descriptor()
+	// options.DefaultID holds the default value on creation for the id field.
+	options.DefaultID = optionsDescID.Default.(func() string)
+	// options.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	options.IDValidator = optionsDescID.Validators[0].(func(string) error)
 }

@@ -13,6 +13,7 @@ import (
 
 	"ncobase/feature/system/data/ent/dictionary"
 	"ncobase/feature/system/data/ent/menu"
+	"ncobase/feature/system/data/ent/options"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -28,6 +29,8 @@ type Client struct {
 	Dictionary *DictionaryClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
+	// Options is the client for interacting with the Options builders.
+	Options *OptionsClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -41,6 +44,7 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Dictionary = NewDictionaryClient(c.config)
 	c.Menu = NewMenuClient(c.config)
+	c.Options = NewOptionsClient(c.config)
 }
 
 type (
@@ -135,6 +139,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		config:     cfg,
 		Dictionary: NewDictionaryClient(cfg),
 		Menu:       NewMenuClient(cfg),
+		Options:    NewOptionsClient(cfg),
 	}, nil
 }
 
@@ -156,6 +161,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		config:     cfg,
 		Dictionary: NewDictionaryClient(cfg),
 		Menu:       NewMenuClient(cfg),
+		Options:    NewOptionsClient(cfg),
 	}, nil
 }
 
@@ -186,6 +192,7 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	c.Dictionary.Use(hooks...)
 	c.Menu.Use(hooks...)
+	c.Options.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
@@ -193,6 +200,7 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	c.Dictionary.Intercept(interceptors...)
 	c.Menu.Intercept(interceptors...)
+	c.Options.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -202,6 +210,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Dictionary.mutate(ctx, m)
 	case *MenuMutation:
 		return c.Menu.mutate(ctx, m)
+	case *OptionsMutation:
+		return c.Options.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -473,12 +483,145 @@ func (c *MenuClient) mutate(ctx context.Context, m *MenuMutation) (Value, error)
 	}
 }
 
+// OptionsClient is a client for the Options schema.
+type OptionsClient struct {
+	config
+}
+
+// NewOptionsClient returns a client for the Options from the given config.
+func NewOptionsClient(c config) *OptionsClient {
+	return &OptionsClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `options.Hooks(f(g(h())))`.
+func (c *OptionsClient) Use(hooks ...Hook) {
+	c.hooks.Options = append(c.hooks.Options, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `options.Intercept(f(g(h())))`.
+func (c *OptionsClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Options = append(c.inters.Options, interceptors...)
+}
+
+// Create returns a builder for creating a Options entity.
+func (c *OptionsClient) Create() *OptionsCreate {
+	mutation := newOptionsMutation(c.config, OpCreate)
+	return &OptionsCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Options entities.
+func (c *OptionsClient) CreateBulk(builders ...*OptionsCreate) *OptionsCreateBulk {
+	return &OptionsCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *OptionsClient) MapCreateBulk(slice any, setFunc func(*OptionsCreate, int)) *OptionsCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &OptionsCreateBulk{err: fmt.Errorf("calling to OptionsClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*OptionsCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &OptionsCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Options.
+func (c *OptionsClient) Update() *OptionsUpdate {
+	mutation := newOptionsMutation(c.config, OpUpdate)
+	return &OptionsUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *OptionsClient) UpdateOne(o *Options) *OptionsUpdateOne {
+	mutation := newOptionsMutation(c.config, OpUpdateOne, withOptions(o))
+	return &OptionsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *OptionsClient) UpdateOneID(id string) *OptionsUpdateOne {
+	mutation := newOptionsMutation(c.config, OpUpdateOne, withOptionsID(id))
+	return &OptionsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Options.
+func (c *OptionsClient) Delete() *OptionsDelete {
+	mutation := newOptionsMutation(c.config, OpDelete)
+	return &OptionsDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *OptionsClient) DeleteOne(o *Options) *OptionsDeleteOne {
+	return c.DeleteOneID(o.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *OptionsClient) DeleteOneID(id string) *OptionsDeleteOne {
+	builder := c.Delete().Where(options.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &OptionsDeleteOne{builder}
+}
+
+// Query returns a query builder for Options.
+func (c *OptionsClient) Query() *OptionsQuery {
+	return &OptionsQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeOptions},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Options entity by its id.
+func (c *OptionsClient) Get(ctx context.Context, id string) (*Options, error) {
+	return c.Query().Where(options.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *OptionsClient) GetX(ctx context.Context, id string) *Options {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *OptionsClient) Hooks() []Hook {
+	return c.hooks.Options
+}
+
+// Interceptors returns the client interceptors.
+func (c *OptionsClient) Interceptors() []Interceptor {
+	return c.inters.Options
+}
+
+func (c *OptionsClient) mutate(ctx context.Context, m *OptionsMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&OptionsCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&OptionsUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&OptionsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&OptionsDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Options mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Dictionary, Menu []ent.Hook
+		Dictionary, Menu, Options []ent.Hook
 	}
 	inters struct {
-		Dictionary, Menu []ent.Interceptor
+		Dictionary, Menu, Options []ent.Interceptor
 	}
 )
