@@ -79,11 +79,9 @@ func (m *Module) Name() string {
 }
 
 // RegisterRoutes registers routes for the module
-func (m *Module) RegisterRoutes(e *gin.Engine) {
-
-	v1 := e.Group("/v1")
+func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Role endpoints
-	roles := v1.Group("/roles", middleware.AuthenticatedUser)
+	roles := r.Group("/roles", middleware.AuthenticatedUser)
 	{
 		roles.GET("", m.h.Role.List)
 		roles.POST("", m.h.Role.Create)
@@ -94,7 +92,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		// roles.GET("/:slug/users", m.h.Role.ListUser)
 	}
 	// Permission endpoints
-	permissions := v1.Group("/permissions", middleware.AuthenticatedUser)
+	permissions := r.Group("/permissions", middleware.AuthenticatedUser)
 	{
 		permissions.GET("", m.h.Permission.List)
 		permissions.POST("", m.h.Permission.Create)
@@ -103,7 +101,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		permissions.DELETE("/:slug", m.h.Permission.Delete)
 	}
 	// Casbin Rule endpoints
-	policies := v1.Group("/policies", middleware.AuthenticatedUser)
+	policies := r.Group("/policies", middleware.AuthenticatedUser)
 	{
 		policies.GET("", m.h.Casbin.List)
 		policies.POST("", m.h.Casbin.Create)

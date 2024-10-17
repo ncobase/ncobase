@@ -90,12 +90,9 @@ func (m *Module) PostInit() error {
 }
 
 // RegisterRoutes registers routes for the module
-func (m *Module) RegisterRoutes(e *gin.Engine) {
-	// Setup middleware
-	// API v1 endpoints
-	v1 := e.Group("/v1")
+func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Taxonomy endpoints
-	taxonomies := v1.Group("/taxonomies", middleware.AuthenticatedUser)
+	taxonomies := r.Group("/taxonomies", middleware.AuthenticatedUser)
 	{
 		taxonomies.GET("", m.h.Taxonomy.List)
 		taxonomies.POST("", m.h.Taxonomy.Create)
@@ -104,7 +101,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		taxonomies.DELETE("/:slug", m.h.Taxonomy.Delete)
 	}
 	// Topic endpoints
-	topics := v1.Group("/topics", middleware.AuthenticatedUser)
+	topics := r.Group("/topics", middleware.AuthenticatedUser)
 	{
 		topics.GET("", m.h.Topic.List)
 		topics.POST("", m.h.Topic.Create)

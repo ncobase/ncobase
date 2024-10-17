@@ -42,7 +42,7 @@ func NewRoleHandler(svc *service.Service) RoleHandlerInterface {
 // @Param body body structs.CreateRoleBody true "Role data"
 // @Success 200 {object} structs.ReadRole "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/roles [post]
+// @Router /access/roles [post]
 // @Security Bearer
 func (h *roleHandler) Create(c *gin.Context) {
 	body := &structs.CreateRoleBody{}
@@ -72,7 +72,7 @@ func (h *roleHandler) Create(c *gin.Context) {
 // @Param slug path string true "Role slug or ID"
 // @Success 200 {object} structs.ReadRole "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/roles/{slug} [get]
+// @Router /access/roles/{slug} [get]
 // @Security Bearer
 func (h *roleHandler) Get(c *gin.Context) {
 	slug := c.Param("slug")
@@ -101,7 +101,7 @@ func (h *roleHandler) Get(c *gin.Context) {
 // @Param body body types.JSON true "Role data"
 // @Success 200 {object} structs.ReadRole "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/roles/{slug} [put]
+// @Router /access/roles/{slug} [put]
 // @Security Bearer
 func (h *roleHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
@@ -137,7 +137,7 @@ func (h *roleHandler) Update(c *gin.Context) {
 // @Param slug path string true "Role slug or ID"
 // @Success 200 {object} structs.ReadRole "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/roles/{slug} [delete]
+// @Router /access/roles/{slug} [delete]
 // @Security Bearer
 func (h *roleHandler) Delete(c *gin.Context) {
 	slug := c.Param("slug")
@@ -163,7 +163,7 @@ func (h *roleHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListRoleParams true "List roles parameters"
 // @Success 200 {array} structs.ReadRole "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/roles [get]
+// @Router /access/roles [get]
 // @Security Bearer
 func (h *roleHandler) List(c *gin.Context) {
 	params := &structs.ListRoleParams{}
@@ -193,7 +193,7 @@ func (h *roleHandler) List(c *gin.Context) {
 // // @Param slug path string true "Role ID"
 // // @Success 200 {array} structs.UserRole "success"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /v1/roles/{slug}/users [get]
+// // @Router /access/roles/{slug}/users [get]
 // // @Security Bearer
 // func (h *roleHandler) ListUser(c *gin.Context) {
 // 	slug := c.Param("slug")

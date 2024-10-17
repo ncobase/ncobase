@@ -42,7 +42,7 @@ func NewCasbinHandler(svc *service.Service) CasbinHandlerInterface {
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
 // @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/policies [post]
+// @Router /access/policies [post]
 // @Security Bearer
 func (h *casbinHandler) Create(c *gin.Context) {
 	body := &structs.CasbinRuleBody{}
@@ -74,7 +74,7 @@ func (h *casbinHandler) Create(c *gin.Context) {
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
 // @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/policies/{id} [put]
+// @Router /access/policies/{id} [put]
 // @Security Bearer
 func (h *casbinHandler) Update(c *gin.Context) {
 	id := c.Param("id")
@@ -110,7 +110,7 @@ func (h *casbinHandler) Update(c *gin.Context) {
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/policies/{id} [get]
+// @Router /access/policies/{id} [get]
 // @Security Bearer
 func (h *casbinHandler) Get(c *gin.Context) {
 	id := c.Param("id")
@@ -137,7 +137,7 @@ func (h *casbinHandler) Get(c *gin.Context) {
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/policies/{id} [delete]
+// @Router /access/policies/{id} [delete]
 // @Security Bearer
 func (h *casbinHandler) Delete(c *gin.Context) {
 	id := c.Param("id")
@@ -163,7 +163,7 @@ func (h *casbinHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListCasbinRuleParams true "ListCasbinRuleParams object"
 // @Success 200 {array} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/policies [get]
+// @Router /access/policies [get]
 // @Security Bearer
 func (h *casbinHandler) List(c *gin.Context) {
 	params := &structs.ListCasbinRuleParams{}

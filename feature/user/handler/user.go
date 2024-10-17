@@ -33,7 +33,7 @@ func NewUserHandler(svc *service.Service) UserHandlerInterface {
 // @Param username path string true "Username"
 // @Success 200 {object} structs.ReadUser "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/users/{username} [get]
+// @Router /user/users/{username} [get]
 func (h *userHandler) Get(c *gin.Context) {
 	result, err := h.s.User.Get(c.Request.Context(), c.Param("username"))
 	if err != nil {

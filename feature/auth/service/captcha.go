@@ -34,7 +34,7 @@ func NewCaptchaService(d *data.Data) CaptchaServiceInterface {
 // GenerateCaptcha generates a new captcha ID and image URL.
 func (s *captchaService) GenerateCaptcha(ctx context.Context, ext string) (*types.JSON, error) {
 	captchaID := captcha.New()
-	captchaURL := "/v1/captcha/" + captchaID + ext
+	captchaURL := "/auth/captcha/" + captchaID + ext
 
 	// Set captcha ID in cache
 	if err := s.captcha.Set(ctx, captchaID, &types.JSON{"id": captchaID, "url": captchaURL}); err != nil {

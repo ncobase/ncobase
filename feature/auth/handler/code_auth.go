@@ -37,7 +37,7 @@ func NewCodeAuthHandler(svc *service.Service) CodeAuthHandlerInterface {
 // @Param body body structs.SendCodeBody true "SendCodeBody object"
 // @Success 200 {object} map[string]any{registered=bool} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/authorize/send [post]
+// @Router /auth/authorize/send [post]
 func (h *codeAuthHandler) SendCode(c *gin.Context) {
 	body := &structs.SendCodeBody{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -63,7 +63,7 @@ func (h *codeAuthHandler) SendCode(c *gin.Context) {
 // @Param code path string true "Verification code"
 // @Success 200 {object} map[string]any{id=string,access_token=string,email=string,register_token=string}  "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/authorize/{code} [get]
+// @Router /auth/authorize/{code} [get]
 func (h *codeAuthHandler) CodeAuth(c *gin.Context) {
 	result, err := h.s.CodeAuth.CodeAuth(c.Request.Context(), c.Param("code"))
 	if err != nil {

@@ -44,7 +44,7 @@ func NewAccountHandler(svc *service.Service) AccountHandlerInterface {
 // @Param body body structs.RegisterBody true "RegisterBody object"
 // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/register [post]
+// @Router /auth/register [post]
 func (h *accountHandler) Register(c *gin.Context) {
 	body := &structs.RegisterBody{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -71,7 +71,7 @@ func (h *accountHandler) Register(c *gin.Context) {
 // @Param body body structs.LoginBody true "LoginBody object"
 // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/login [post]
+// @Router /auth/login [post]
 func (h *accountHandler) Login(c *gin.Context) {
 	body := &structs.LoginBody{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -108,7 +108,7 @@ func (h *accountHandler) Login(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} structs.AccountMeshes "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/account [get]
+// @Router /auth/account [get]
 // @Security Bearer
 func (h *accountHandler) GetMe(c *gin.Context) {
 	result, err := h.s.Account.GetMe(c.Request.Context())
@@ -126,7 +126,7 @@ func (h *accountHandler) GetMe(c *gin.Context) {
 // @Tags authentication
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
-// @Router /v1/logout [post]
+// @Router /auth/logout [post]
 // @Security Bearer
 func (h *accountHandler) Logout(c *gin.Context) {
 	cookie.ClearAll(c.Writer)
@@ -141,7 +141,7 @@ func (h *accountHandler) Logout(c *gin.Context) {
 // // @Produce json
 // // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /v1/refresh [post]
+// // @Router /auth/refresh [post]
 // // @Security Bearer
 // func (h *Handler) Refresh(c *gin.Context) {
 // 	result, err := h.svc.RefreshServicec.Request.Context()
@@ -162,7 +162,7 @@ func (h *accountHandler) Logout(c *gin.Context) {
 // @Param body body structs.UserPassword true "UserPassword object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/account/password [put]
+// @Router /auth/account/password [put]
 // @Security Bearer
 func (h *accountHandler) UpdatePassword(c *gin.Context) {
 	body := &userStructs.UserPassword{}
@@ -190,7 +190,7 @@ func (h *accountHandler) UpdatePassword(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/account/tenant [get]
+// @Router /auth/account/tenant [get]
 // @Security Bearer
 func (h *accountHandler) Tenant(c *gin.Context) {
 	result, err := h.s.Account.Tenant(c.Request.Context())
@@ -209,7 +209,7 @@ func (h *accountHandler) Tenant(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/account/tenants [get]
+// @Router /auth/account/tenants [get]
 // @Security Bearer
 func (h *accountHandler) Tenants(c *gin.Context) {
 	result, err := h.s.Account.Tenants(c.Request.Context())

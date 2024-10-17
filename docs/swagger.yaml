@@ -330,6 +330,21 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.OptionsBody:
+    properties:
+      autoload:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      name:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      value:
+        type: string
+    type: object
   structs.ReadAttachment:
     properties:
       bucket:
@@ -524,6 +539,29 @@ definitions:
       updated_at:
         type: integer
       updated_by:
+        type: string
+    type: object
+  structs.ReadOptions:
+    properties:
+      autoload:
+        type: boolean
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+      value:
         type: string
     type: object
   structs.ReadPermission:
@@ -907,6 +945,23 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.UpdateOptionsBody:
+    properties:
+      autoload:
+        type: boolean
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        type: string
+      value:
+        type: string
+    type: object
   structs.UpdateTaxonomyBody:
     properties:
       color:
@@ -1035,7 +1090,472 @@ info:
   title: Ncobase
   version: 0.1.0
 paths:
-  /v1/account:
+  /access/permissions:
+    get:
+      description: Retrieve a list of permissions based on the provided query parameters
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadPermission'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all permissions
+      tags:
+      - permissions
+    post:
+      consumes:
+      - application/json
+      description: Create a new permission with the provided data
+      parameters:
+      - description: Permission data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreatePermissionBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadPermission'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create a new permission
+      tags:
+      - permissions
+  /access/permissions/{slug}:
+    delete:
+      description: Delete a permission by its slug or ID
+      parameters:
+      - description: Permission slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadPermission'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a permission by slug or ID
+      tags:
+      - permissions
+    get:
+      description: Retrieve a permission by its slug or ID
+      parameters:
+      - description: Permission slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadPermission'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a permission by slug or ID
+      tags:
+      - permissions
+    put:
+      consumes:
+      - application/json
+      description: Update an existing permission with the provided data
+      parameters:
+      - description: Permission slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Permission data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ncobase_common_types.JSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadPermission'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update an existing permission
+      tags:
+      - permissions
+  /access/policies:
+    get:
+      description: Retrieve a list of Casbin rules.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: p_type
+        type: string
+      - in: query
+        name: v0
+        type: string
+      - in: query
+        name: v1
+        type: string
+      - in: query
+        name: v2
+        type: string
+      - in: query
+        name: v3
+        type: string
+      - in: query
+        name: v4
+        type: string
+      - in: query
+        name: v5
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.CasbinRuleBody'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List Casbin rules
+      tags:
+      - casbin
+    post:
+      consumes:
+      - application/json
+      description: Create a new Casbin rule.
+      parameters:
+      - description: CasbinRuleBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CasbinRuleBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadCasbinRule'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create Casbin rule
+      tags:
+      - casbin
+  /access/policies/{id}:
+    delete:
+      description: Delete an existing Casbin rule.
+      parameters:
+      - description: Casbin rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete Casbin rule
+      tags:
+      - casbin
+    get:
+      description: Retrieve details of a Casbin rule.
+      parameters:
+      - description: Casbin rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadCasbinRule'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get Casbin rule
+      tags:
+      - casbin
+    put:
+      consumes:
+      - application/json
+      description: Update an existing Casbin rule, either fully or partially.
+      parameters:
+      - description: Casbin rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: CasbinRuleBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CasbinRuleBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadCasbinRule'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update Casbin rule
+      tags:
+      - casbin
+  /access/roles:
+    get:
+      description: Retrieve a list of roles based on the provided query parameters
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadRole'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all roles
+      tags:
+      - roles
+    post:
+      consumes:
+      - application/json
+      description: Create a new role with the provided data
+      parameters:
+      - description: Role data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateRoleBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRole'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create a new role
+      tags:
+      - roles
+  /access/roles/{slug}:
+    delete:
+      description: Delete a role by its slug or ID
+      parameters:
+      - description: Role slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRole'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a role by slug or ID
+      tags:
+      - roles
+    get:
+      description: Retrieve a role by its slug or ID
+      parameters:
+      - description: Role slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRole'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a role by slug or ID
+      tags:
+      - roles
+    put:
+      consumes:
+      - application/json
+      description: Update an existing role with the provided data
+      parameters:
+      - description: Role slug or ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Role data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ncobase_common_types.JSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRole'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update an existing role
+      tags:
+      - roles
+  /access/roles/{slug}/permissions:
+    get:
+      description: Retrieve a list of permissions associated with a role by its ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadPermission'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List permissions for a role
+      tags:
+      - roles
+  /auth/account:
     get:
       description: Retrieve information about the current user.
       produces:
@@ -1054,7 +1574,7 @@ paths:
       summary: Get current user
       tags:
       - account
-  /v1/account/password:
+  /auth/account/password:
     put:
       consumes:
       - application/json
@@ -1082,7 +1602,7 @@ paths:
       summary: Update user password
       tags:
       - account
-  /v1/account/tenant:
+  /auth/account/tenant:
     get:
       description: Retrieve the tenant associated with the current user.
       produces:
@@ -1101,7 +1621,7 @@ paths:
       summary: Get current user tenant
       tags:
       - account
-  /v1/account/tenants:
+  /auth/account/tenants:
     get:
       description: Retrieve the tenant associated with the current user.
       produces:
@@ -1120,172 +1640,7 @@ paths:
       summary: Get current user tenants
       tags:
       - account
-  /v1/attachments:
-    get:
-      description: List attachments based on specified parameters.
-      parameters:
-      - in: query
-        name: cursor
-        type: string
-      - in: query
-        name: direction
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: object
-        required: true
-        type: string
-      - in: query
-        name: storage
-        type: string
-      - in: query
-        name: tenant
-        required: true
-        type: string
-      - in: query
-        name: type
-        type: string
-      - in: query
-        name: user
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.ReadAttachment'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: List attachments
-      tags:
-      - attachments
-    post:
-      consumes:
-      - multipart/form-data
-      description: Create one or multiple attachments.
-      parameters:
-      - description: File to upload
-        in: formData
-        name: file
-        required: true
-        type: file
-      - description: Object ID associated with the attachment
-        in: formData
-        name: object_id
-        type: string
-      - description: Tenant ID associated with the attachment
-        in: formData
-        name: tenant_id
-        type: string
-      - description: Additional properties associated with the attachment (JSON format)
-        in: formData
-        name: extras
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadAttachment'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Create attachments
-      tags:
-      - attachments
-  /v1/attachments/{slug}:
-    delete:
-      description: Delete a specific attachment.
-      parameters:
-      - description: Slug of the attachment to delete
-        in: path
-        name: slug
-        required: true
-        type: string
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadAttachment'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Delete attachment
-      tags:
-      - attachments
-    get:
-      description: Get details of a specific attachment.
-      parameters:
-      - description: Slug of the attachment to retrieve
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: Type of retrieval ('download' or 'stream')
-        in: query
-        name: type
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadAttachment'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Get attachment
-      tags:
-      - attachments
-    put:
-      consumes:
-      - multipart/form-data
-      description: Update an existing attachment.
-      parameters:
-      - description: Slug of the attachment to update
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: Attachment details
-        in: body
-        name: attachment
-        required: true
-        schema:
-          $ref: '#/definitions/structs.UpdateAttachmentBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadAttachment'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Update attachment
-      tags:
-      - attachments
-  /v1/authorize/{code}:
+  /auth/authorize/{code}:
     get:
       consumes:
       - application/json
@@ -1322,7 +1677,7 @@ paths:
       tags:
       - authorization
       - authentication
-  /v1/authorize/send:
+  /auth/authorize/send:
     post:
       consumes:
       - application/json
@@ -1353,7 +1708,7 @@ paths:
       summary: Send verification code
       tags:
       - authorization
-  /v1/captcha/{captcha_id}:
+  /auth/captcha/{captcha_id}:
     get:
       description: Stream a captcha image.
       parameters:
@@ -1376,7 +1731,7 @@ paths:
       summary: Stream captcha
       tags:
       - authentication
-  /v1/captcha/generate:
+  /auth/captcha/generate:
     get:
       description: Generate a captcha image.
       parameters:
@@ -1408,7 +1763,7 @@ paths:
       summary: Generate captcha
       tags:
       - authentication
-  /v1/captcha/validate:
+  /auth/captcha/validate:
     post:
       consumes:
       - application/json
@@ -1439,7 +1794,380 @@ paths:
       summary: Validate captcha
       tags:
       - authentication
-  /v1/counters:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Log in a user.
+      parameters:
+      - description: LoginBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.LoginBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              properties:
+                access_token:
+                  type: string
+                id:
+                  type: string
+              type: object
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Login
+      tags:
+      - authentication
+  /auth/logout:
+    post:
+      description: Logout the current user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Logout
+      tags:
+      - authentication
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user.
+      parameters:
+      - description: RegisterBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.RegisterBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              properties:
+                access_token:
+                  type: string
+                id:
+                  type: string
+              type: object
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Register
+      tags:
+      - authentication
+  /content/taxonomies:
+    get:
+      description: Retrieve a list of taxonomies.
+      parameters:
+      - in: query
+        name: children
+        type: boolean
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: parent
+        type: string
+      - in: query
+        name: sort_by
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadTaxonomy'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: List taxonomies
+      tags:
+      - taxonomy
+    post:
+      consumes:
+      - application/json
+      description: Create a new taxonomy.
+      parameters:
+      - description: CreateTaxonomyBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTaxonomyBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTaxonomy'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create taxonomy
+      tags:
+      - taxonomy
+  /content/taxonomies/{slug}:
+    delete:
+      description: Delete an existing taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete taxonomy
+      tags:
+      - taxonomy
+    get:
+      description: Retrieve details of a taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTaxonomy'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Get taxonomy
+      tags:
+      - taxonomy
+    put:
+      consumes:
+      - application/json
+      description: Update an existing taxonomy.
+      parameters:
+      - description: Taxonomy slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: UpdateTaxonomyBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateTaxonomyBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTaxonomy'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update taxonomy
+      tags:
+      - taxonomy
+  /content/topics:
+    get:
+      description: Retrieve a list of topics.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: taxonomy
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadTopic'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: List topics
+      tags:
+      - topic
+    post:
+      consumes:
+      - application/json
+      description: Create a new topic.
+      parameters:
+      - description: CreateTopicBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTopicBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopic'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create topic
+      tags:
+      - topic
+  /content/topics/{slug}:
+    delete:
+      description: Delete an existing topic.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete topic
+      tags:
+      - topic
+    get:
+      description: Retrieve details of a topic.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopic'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Get topic
+      tags:
+      - topic
+    put:
+      consumes:
+      - application/json
+      description: Update an existing topic, either fully or partially.
+      parameters:
+      - description: Topic slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: UpdateTopicBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateTopicBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopic'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update topic
+      tags:
+      - topic
+  /counter/counters:
     get:
       description: Retrieve a list or tree structure of counters.
       parameters:
@@ -1530,7 +2258,7 @@ paths:
       summary: Update counter
       tags:
       - counter
-  /v1/counters/{id}:
+  /counter/counters/{id}:
     delete:
       description: Delete a counter by ID.
       parameters:
@@ -1579,156 +2307,7 @@ paths:
       summary: Get counter
       tags:
       - counter
-  /v1/dictionarys:
-    get:
-      description: Retrieve a list or tree structure of dictionarys.
-      parameters:
-      - in: query
-        name: cursor
-        type: string
-      - in: query
-        name: direction
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: tenant
-        type: string
-      - in: query
-        name: type
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.ReadDictionary'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: List dictionarys
-      tags:
-      - dictionary
-    post:
-      consumes:
-      - application/json
-      description: Create a new dictionary.
-      parameters:
-      - description: DictionaryBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.DictionaryBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadDictionary'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Create dictionary
-      tags:
-      - dictionary
-    put:
-      consumes:
-      - application/json
-      description: Update an existing dictionary.
-      parameters:
-      - description: UpdateDictionaryBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.UpdateDictionaryBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadDictionary'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Update dictionary
-      tags:
-      - dictionary
-  /v1/dictionarys/{slug}:
-    delete:
-      description: Delete a dictionary by ID or slug.
-      parameters:
-      - description: Dictionary ID or slug
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Delete dictionary
-      tags:
-      - dictionary
-    get:
-      description: Retrieve a dictionary by ID or slug.
-      parameters:
-      - description: Dictionary ID or slug
-        in: path
-        name: slug
-        required: true
-        type: string
-      - in: query
-        name: dictionary
-        type: string
-      - in: query
-        name: tenant
-        type: string
-      - in: query
-        name: type
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadDictionary'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get dictionary
-      tags:
-      - dictionary
-  /v1/groups:
+  /group/groups:
     get:
       description: Retrieve a list or tree structure of groups.
       parameters:
@@ -1825,7 +2404,7 @@ paths:
       summary: Update group
       tags:
       - group
-  /v1/groups/{slug}:
+  /group/groups/{slug}:
     delete:
       description: Delete a group by ID or slug.
       parameters:
@@ -1889,42 +2468,271 @@ paths:
       summary: Get group
       tags:
       - group
-  /v1/login:
-    post:
-      consumes:
-      - application/json
-      description: Log in a user.
+  /resource/attachments:
+    get:
+      description: List attachments based on specified parameters.
       parameters:
-      - description: LoginBody object
-        in: body
-        name: body
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: object
         required: true
-        schema:
-          $ref: '#/definitions/structs.LoginBody'
+        type: string
+      - in: query
+        name: storage
+        type: string
+      - in: query
+        name: tenant
+        required: true
+        type: string
+      - in: query
+        name: type
+        type: string
+      - in: query
+        name: user
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            additionalProperties:
-              properties:
-                access_token:
-                  type: string
-                id:
-                  type: string
-              type: object
-            type: object
+            items:
+              $ref: '#/definitions/structs.ReadAttachment'
+            type: array
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Login
+      summary: List attachments
       tags:
-      - authentication
-  /v1/logout:
+      - attachments
     post:
-      description: Logout the current user.
+      consumes:
+      - multipart/form-data
+      description: Create one or multiple attachments.
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Object ID associated with the attachment
+        in: formData
+        name: object_id
+        type: string
+      - description: Tenant ID associated with the attachment
+        in: formData
+        name: tenant_id
+        type: string
+      - description: Additional properties associated with the attachment (JSON format)
+        in: formData
+        name: extras
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadAttachment'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create attachments
+      tags:
+      - attachments
+  /resource/attachments/{slug}:
+    delete:
+      description: Delete a specific attachment.
+      parameters:
+      - description: Slug of the attachment to delete
+        in: path
+        name: slug
+        required: true
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadAttachment'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete attachment
+      tags:
+      - attachments
+    get:
+      description: Get details of a specific attachment.
+      parameters:
+      - description: Slug of the attachment to retrieve
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Type of retrieval ('download' or 'stream')
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadAttachment'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Get attachment
+      tags:
+      - attachments
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update an existing attachment.
+      parameters:
+      - description: Slug of the attachment to update
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Attachment details
+        in: body
+        name: attachment
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateAttachmentBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadAttachment'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update attachment
+      tags:
+      - attachments
+  /system/dictionarys:
+    get:
+      description: Retrieve a list or tree structure of dictionarys.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadDictionary'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List dictionarys
+      tags:
+      - dictionary
+    post:
+      consumes:
+      - application/json
+      description: Create a new dictionary.
+      parameters:
+      - description: DictionaryBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.DictionaryBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDictionary'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create dictionary
+      tags:
+      - dictionary
+    put:
+      consumes:
+      - application/json
+      description: Update an existing dictionary.
+      parameters:
+      - description: UpdateDictionaryBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateDictionaryBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDictionary'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update dictionary
+      tags:
+      - dictionary
+  /system/dictionarys/{slug}:
+    delete:
+      description: Delete a dictionary by ID or slug.
+      parameters:
+      - description: Dictionary ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1932,12 +2740,49 @@ paths:
           description: success
           schema:
             $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
-      summary: Logout
+      summary: Delete dictionary
       tags:
-      - authentication
-  /v1/menus:
+      - dictionary
+    get:
+      description: Retrieve a dictionary by ID or slug.
+      parameters:
+      - description: Dictionary ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - in: query
+        name: dictionary
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDictionary'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get dictionary
+      tags:
+      - dictionary
+  /system/menus:
     get:
       description: Retrieve a list or tree structure of menus.
       parameters:
@@ -2040,7 +2885,7 @@ paths:
       summary: Update menu
       tags:
       - menu
-  /v1/menus/{slug}:
+  /system/menus/{slug}:
     delete:
       description: Delete a menu by ID or slug.
       parameters:
@@ -2107,510 +2952,12 @@ paths:
       summary: Get menu
       tags:
       - menu
-  /v1/permissions:
+  /system/options:
     get:
-      description: Retrieve a list of permissions based on the provided query parameters
+      description: Retrieve a list of options.
       parameters:
       - in: query
-        name: cursor
-        type: string
-      - in: query
-        name: direction
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.ReadPermission'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: List all permissions
-      tags:
-      - permissions
-    post:
-      consumes:
-      - application/json
-      description: Create a new permission with the provided data
-      parameters:
-      - description: Permission data
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.CreatePermissionBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadPermission'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Create a new permission
-      tags:
-      - permissions
-  /v1/permissions/{slug}:
-    delete:
-      description: Delete a permission by its slug or ID
-      parameters:
-      - description: Permission slug or ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadPermission'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Delete a permission by slug or ID
-      tags:
-      - permissions
-    get:
-      description: Retrieve a permission by its slug or ID
-      parameters:
-      - description: Permission slug or ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadPermission'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get a permission by slug or ID
-      tags:
-      - permissions
-    put:
-      consumes:
-      - application/json
-      description: Update an existing permission with the provided data
-      parameters:
-      - description: Permission slug or ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: Permission data
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/ncobase_common_types.JSON'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadPermission'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Update an existing permission
-      tags:
-      - permissions
-  /v1/policies:
-    get:
-      description: Retrieve a list of Casbin rules.
-      parameters:
-      - in: query
-        name: cursor
-        type: string
-      - in: query
-        name: direction
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: p_type
-        type: string
-      - in: query
-        name: v0
-        type: string
-      - in: query
-        name: v1
-        type: string
-      - in: query
-        name: v2
-        type: string
-      - in: query
-        name: v3
-        type: string
-      - in: query
-        name: v4
-        type: string
-      - in: query
-        name: v5
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.CasbinRuleBody'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: List Casbin rules
-      tags:
-      - casbin
-    post:
-      consumes:
-      - application/json
-      description: Create a new Casbin rule.
-      parameters:
-      - description: CasbinRuleBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.CasbinRuleBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadCasbinRule'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Create Casbin rule
-      tags:
-      - casbin
-  /v1/policies/{id}:
-    delete:
-      description: Delete an existing Casbin rule.
-      parameters:
-      - description: Casbin rule ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Delete Casbin rule
-      tags:
-      - casbin
-    get:
-      description: Retrieve details of a Casbin rule.
-      parameters:
-      - description: Casbin rule ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadCasbinRule'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get Casbin rule
-      tags:
-      - casbin
-    put:
-      consumes:
-      - application/json
-      description: Update an existing Casbin rule, either fully or partially.
-      parameters:
-      - description: Casbin rule ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: CasbinRuleBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.CasbinRuleBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadCasbinRule'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Update Casbin rule
-      tags:
-      - casbin
-  /v1/register:
-    post:
-      consumes:
-      - application/json
-      description: Register a new user.
-      parameters:
-      - description: RegisterBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.RegisterBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            additionalProperties:
-              properties:
-                access_token:
-                  type: string
-                id:
-                  type: string
-              type: object
-            type: object
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Register
-      tags:
-      - authentication
-  /v1/roles:
-    get:
-      description: Retrieve a list of roles based on the provided query parameters
-      parameters:
-      - in: query
-        name: cursor
-        type: string
-      - in: query
-        name: direction
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.ReadRole'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: List all roles
-      tags:
-      - roles
-    post:
-      consumes:
-      - application/json
-      description: Create a new role with the provided data
-      parameters:
-      - description: Role data
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.CreateRoleBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadRole'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Create a new role
-      tags:
-      - roles
-  /v1/roles/{slug}:
-    delete:
-      description: Delete a role by its slug or ID
-      parameters:
-      - description: Role slug or ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadRole'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Delete a role by slug or ID
-      tags:
-      - roles
-    get:
-      description: Retrieve a role by its slug or ID
-      parameters:
-      - description: Role slug or ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadRole'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get a role by slug or ID
-      tags:
-      - roles
-    put:
-      consumes:
-      - application/json
-      description: Update an existing role with the provided data
-      parameters:
-      - description: Role slug or ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: Role data
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/ncobase_common_types.JSON'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadRole'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Update an existing role
-      tags:
-      - roles
-  /v1/roles/{slug}/permissions:
-    get:
-      description: Retrieve a list of permissions associated with a role by its ID
-      parameters:
-      - description: Role ID
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.ReadPermission'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: List permissions for a role
-      tags:
-      - roles
-  /v1/taxonomies:
-    get:
-      description: Retrieve a list of taxonomies.
-      parameters:
-      - in: query
-        name: children
+        name: autoload
         type: boolean
       - in: query
         name: cursor
@@ -2622,7 +2969,121 @@ paths:
         name: limit
         type: integer
       - in: query
-        name: parent
+        name: sort_by
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadOptions'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List options
+      tags:
+      - options
+    post:
+      consumes:
+      - application/json
+      description: Create a new option.
+      parameters:
+      - description: OptionsBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.OptionsBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadOptions'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create option
+      tags:
+      - options
+    put:
+      consumes:
+      - application/json
+      description: Update an existing option.
+      parameters:
+      - description: UpdateOptionsBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateOptionsBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadOptions'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update option
+      tags:
+      - options
+  /system/options/{option}:
+    delete:
+      description: Delete an option by ID or name.
+      parameters:
+      - description: Option ID or name
+        in: path
+        name: option
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete option
+      tags:
+      - options
+    get:
+      description: Retrieve an option by ID or name.
+      parameters:
+      - description: Option ID or name
+        in: path
+        name: option
+        required: true
+        type: string
+      - in: query
+        name: option
         type: string
       - in: query
         name: sort_by
@@ -2632,7 +3093,6 @@ paths:
         type: string
       - in: query
         name: type
-        required: true
         type: string
       produces:
       - application/json
@@ -2640,123 +3100,17 @@ paths:
         "200":
           description: success
           schema:
-            items:
-              $ref: '#/definitions/structs.ReadTaxonomy'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: List taxonomies
-      tags:
-      - taxonomy
-    post:
-      consumes:
-      - application/json
-      description: Create a new taxonomy.
-      parameters:
-      - description: CreateTaxonomyBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.CreateTaxonomyBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadTaxonomy'
+            $ref: '#/definitions/structs.ReadOptions'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/ncobase_common_resp.Exception'
       security:
       - Bearer: []
-      summary: Create taxonomy
+      summary: Get option
       tags:
-      - taxonomy
-  /v1/taxonomies/{slug}:
-    delete:
-      description: Delete an existing taxonomy.
-      parameters:
-      - description: Taxonomy slug
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Delete taxonomy
-      tags:
-      - taxonomy
-    get:
-      description: Retrieve details of a taxonomy.
-      parameters:
-      - description: Taxonomy slug
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadTaxonomy'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Get taxonomy
-      tags:
-      - taxonomy
-    put:
-      consumes:
-      - application/json
-      description: Update an existing taxonomy.
-      parameters:
-      - description: Taxonomy slug
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: UpdateTaxonomyBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.UpdateTaxonomyBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadTaxonomy'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Update taxonomy
-      tags:
-      - taxonomy
-  /v1/tenants:
+      - options
+  /tenant/tenants:
     get:
       description: Retrieve a list of tenants.
       parameters:
@@ -2849,7 +3203,7 @@ paths:
       summary: Update tenant
       tags:
       - tenant
-  /v1/tenants/{slug}:
+  /tenant/tenants/{slug}:
     delete:
       description: Delete a specific tenant.
       parameters:
@@ -2898,7 +3252,7 @@ paths:
       summary: Get tenant
       tags:
       - tenant
-  /v1/tenants/{slug}/attachments:
+  /tenant/tenants/{slug}/attachments:
     get:
       description: Retrieve a list of attachments associated with a specific tenant.
       parameters:
@@ -2923,7 +3277,7 @@ paths:
       summary: List tenant attachments
       tags:
       - tenant
-  /v1/tenants/{slug}/groups:
+  /tenant/tenants/{slug}/groups:
     get:
       description: Retrieve a list of groups associated with a specific tenant.
       parameters:
@@ -2948,7 +3302,7 @@ paths:
       summary: List tenant groups
       tags:
       - tenant
-  /v1/tenants/{slug}/menu:
+  /tenant/tenants/{slug}/menu:
     get:
       description: Retrieve the menu associated with a specific tenant.
       parameters:
@@ -2973,7 +3327,7 @@ paths:
       summary: Get tenant menu
       tags:
       - tenant
-  /v1/tenants/{slug}/roles:
+  /tenant/tenants/{slug}/roles:
     get:
       description: Retrieve a list of roles associated with a specific tenant.
       parameters:
@@ -2998,7 +3352,7 @@ paths:
       summary: List tenant roles
       tags:
       - tenant
-  /v1/tenants/{slug}/setting:
+  /tenant/tenants/{slug}/setting:
     get:
       description: Retrieve the settings associated with a specific tenant.
       parameters:
@@ -3023,7 +3377,7 @@ paths:
       summary: Get tenant setting
       tags:
       - tenant
-  /v1/tenants/{slug}/settings:
+  /tenant/tenants/{slug}/settings:
     get:
       description: Retrieve a list of settings associated with a specific tenant.
       parameters:
@@ -3048,7 +3402,7 @@ paths:
       summary: List tenant settings
       tags:
       - tenant
-  /v1/tenants/{slug}/users:
+  /tenant/tenants/{slug}/users:
     get:
       description: Retrieve a list of users associated with a specific tenant.
       parameters:
@@ -3073,171 +3427,7 @@ paths:
       summary: List tenant users
       tags:
       - tenant
-  /v1/topics:
-    get:
-      description: Retrieve a list of topics.
-      parameters:
-      - in: query
-        name: cursor
-        type: string
-      - in: query
-        name: direction
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: taxonomy
-        type: string
-      - in: query
-        name: tenant
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.ReadTopic'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: List topics
-      tags:
-      - topic
-    post:
-      consumes:
-      - application/json
-      description: Create a new topic.
-      parameters:
-      - description: CreateTopicBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.CreateTopicBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadTopic'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Create topic
-      tags:
-      - topic
-  /v1/topics/{slug}:
-    delete:
-      description: Delete an existing topic.
-      parameters:
-      - description: Topic slug
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Delete topic
-      tags:
-      - topic
-    get:
-      description: Retrieve details of a topic.
-      parameters:
-      - description: Topic slug
-        in: path
-        name: slug
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadTopic'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Get topic
-      tags:
-      - topic
-    put:
-      consumes:
-      - application/json
-      description: Update an existing topic, either fully or partially.
-      parameters:
-      - description: Topic slug
-        in: path
-        name: slug
-        required: true
-        type: string
-      - description: UpdateTopicBody object
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/structs.UpdateTopicBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadTopic'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Update topic
-      tags:
-      - topic
-  /v1/users/{username}:
-    get:
-      description: Retrieve information about a specific user.
-      parameters:
-      - description: Username
-        in: path
-        name: username
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadUser'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Get user
-      tags:
-      - user
-  /v1/users/{username}/tenant:
+  /tenant/users/{username}/tenant:
     get:
       description: Retrieve the tenant associated with the specified user.
       parameters:
@@ -3260,6 +3450,29 @@ paths:
       security:
       - Bearer: []
       summary: Get user owned tenant
+      tags:
+      - user
+  /user/users/{username}:
+    get:
+      description: Retrieve information about a specific user.
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadUser'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Get user
       tags:
       - user
 securityDefinitions:

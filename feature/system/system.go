@@ -79,12 +79,9 @@ func (m *Module) Name() string {
 }
 
 // RegisterRoutes registers routes for the module
-func (m *Module) RegisterRoutes(e *gin.Engine) {
-	// Setup middleware
-	// API v1 endpoints
-	v1 := e.Group("/v1")
+func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Menu endpoints
-	menus := v1.Group("/menus", middleware.AuthenticatedUser)
+	menus := r.Group("/menus", middleware.AuthenticatedUser)
 	{
 		menus.GET("", m.h.Menu.List)
 		menus.POST("", m.h.Menu.Create)
@@ -93,7 +90,7 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		menus.DELETE("/:slug", m.h.Menu.Delete)
 	}
 	// Dictionary endpoints
-	dictionaries := v1.Group("/dictionaries", middleware.AuthenticatedUser)
+	dictionaries := r.Group("/dictionaries", middleware.AuthenticatedUser)
 	{
 		dictionaries.GET("", m.h.Dictionary.List)
 		dictionaries.POST("", m.h.Dictionary.Create)

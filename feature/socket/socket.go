@@ -88,9 +88,9 @@ func (m *Module) PostInit() error {
 }
 
 // RegisterRoutes registers routes for the socket
-func (m *Module) RegisterRoutes(e *gin.Engine) {
+func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// initialize routes, TODO: move to a separate module
-	e.GET("/v1/initialize", func(c *gin.Context) {
+	r.GET("/socket/initialize", func(c *gin.Context) {
 		err := m.s.Initialize.Execute()
 		if err != nil {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -99,12 +99,12 @@ func (m *Module) RegisterRoutes(e *gin.Engine) {
 		resp.Success(c.Writer)
 	})
 	// user meshes
-	e.GET("/:username/meshes", func(c *gin.Context) {
+	r.GET("/:username/meshes", func(c *gin.Context) {
 		resp.Success(c.Writer)
 	})
 
 	// websocket routes
-	e.GET("/websocket", func(c *gin.Context) {
+	r.GET("/websocket", func(c *gin.Context) {
 		m.h.WebSocket.Connect(c.Writer, c.Request)
 	})
 

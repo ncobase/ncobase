@@ -43,7 +43,7 @@ func NewTopicHandler(s *service.Service) TopicHandlerInterface {
 // @Param body body structs.CreateTopicBody true "CreateTopicBody object"
 // @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topics [post]
+// @Router /content/topics [post]
 // @Security Bearer
 func (h *topicHandler) Create(c *gin.Context) {
 	body := &structs.CreateTopicBody{}
@@ -75,7 +75,7 @@ func (h *topicHandler) Create(c *gin.Context) {
 // @Param body body structs.UpdateTopicBody true "UpdateTopicBody object"
 // @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topics/{slug} [put]
+// @Router /content/topics/{slug} [put]
 // @Security Bearer
 func (h *topicHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
@@ -111,7 +111,7 @@ func (h *topicHandler) Update(c *gin.Context) {
 // @Param slug path string true "Topic slug"
 // @Success 200 {object} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topics/{slug} [get]
+// @Router /content/topics/{slug} [get]
 func (h *topicHandler) Get(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -137,7 +137,7 @@ func (h *topicHandler) Get(c *gin.Context) {
 // @Param slug path string true "Topic slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topics/{slug} [delete]
+// @Router /content/topics/{slug} [delete]
 // @Security Bearer
 func (h *topicHandler) Delete(c *gin.Context) {
 	slug := c.Param("slug")
@@ -163,7 +163,7 @@ func (h *topicHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListTopicParams true "List topics parameters"
 // @Success 200 {array} structs.ReadTopic "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/topics [get]
+// @Router /content/topics [get]
 func (h *topicHandler) List(c *gin.Context) {
 	params := &structs.ListTopicParams{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {

@@ -76,12 +76,10 @@ func (m *Module) Name() string {
 }
 
 // RegisterRoutes registers routes for the module
-func (m *Module) RegisterRoutes(e *gin.Engine) {
-	// API v1 endpoints
-	v1 := e.Group("/v1")
+func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 
 	// User endpoints
-	users := v1.Group("/users")
+	users := r.Group("/users")
 	{
 		// users.GET("", m.h.List)
 		// users.POST("", m.h.Create)

@@ -48,7 +48,7 @@ package handler
 // // @Param body body structs.OAuthRegisterBody true "OAuthRegisterBody object"
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /v1/oauth/register [post]
+// // @Router /auth/oauth/register [post]
 // func (h *oAuthHandler) OAuthRegister(c *gin.Context) {
 // 	body := &structs.OAuthRegisterBody{}
 // 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -72,7 +72,7 @@ package handler
 // // @Param next query string false "Next URL after authentication"
 // // @Success 302 {object} resp.Exception "redirect"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /v1/oauth/{provider}/redirect [get]
+// // @Router /auth/oauth/{provider}/redirect [get]
 // func (h *oAuthHandler) OAuthRedirect(c *gin.Context) {
 // 	provider := c.Param("provider")
 // 	next := c.Query("next")
@@ -105,7 +105,7 @@ package handler
 // // @Param code query string true "Authorization code"
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 401 {object} resp.Exception "unauthorized"
-// // @Router /v1/oauth/facebook/callback [get]
+// // @Router /auth/oauth/facebook/callback [get]
 // func (h *oAuthHandler) OAuthFacebookCallback(c *gin.Context) {
 // 	result, _ := h.s.OAuth.OAuthCallback(c.Request.Context(), "facebook", c.Query("code"))
 // 	if result.Code != http.StatusOK {
@@ -123,7 +123,7 @@ package handler
 // // @Param code query string true "Authorization code"
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 401 {object} resp.Exception "unauthorized"
-// // @Router /v1/oauth/github/callback [get]
+// // @Router /auth/oauth/github/callback [get]
 // func (h *oAuthHandler) OAuthGithubCallback(c *gin.Context) {
 // 	result, _ := h.s.OAuth.OAuthCallback(c.Request.Context(), "github", c.Query("code"))
 // 	if result.Code != http.StatusOK {
@@ -140,7 +140,7 @@ package handler
 // // @Tags oauth
 // // @Success 302 {object} resp.Exception "redirect"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /v1/oauth/callback [get]
+// // @Router /auth/oauth/callback [get]
 // func (h *oAuthHandler) OAuthCallback(c *gin.Context) {
 // 	result, _ := h.s.OAuth.OAuthAuthentication(c.Request.Context())
 // 	if result.Code == http.StatusMovedPermanently {
@@ -158,7 +158,7 @@ package handler
 // // @Produce json
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /v1/oauth/profile [get]
+// // @Router /auth/oauth/profile [get]
 // func (h *oAuthHandler) GetOAuthProfile(c *gin.Context) {
 // 	registerToken, err := cookie.Get(c.Request, "register_token")
 // 	if err != nil {

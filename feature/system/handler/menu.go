@@ -40,7 +40,7 @@ func NewMenuHandler(svc *service.Service) MenuHandlerInterface {
 // @Param body body structs.MenuBody true "MenuBody object"
 // @Success 200 {object} structs.ReadMenu "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/menus [post]
+// @Router /system/menus [post]
 // @Security Bearer
 func (h *menuHandler) Create(c *gin.Context) {
 	body := &structs.MenuBody{}
@@ -70,7 +70,7 @@ func (h *menuHandler) Create(c *gin.Context) {
 // @Param body body structs.UpdateMenuBody true "UpdateMenuBody object"
 // @Success 200 {object} structs.ReadMenu "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/menus [put]
+// @Router /system/menus [put]
 // @Security Bearer
 func (h *menuHandler) Update(c *gin.Context) {
 	body := &structs.UpdateMenuBody{}
@@ -100,7 +100,7 @@ func (h *menuHandler) Update(c *gin.Context) {
 // @Param params query structs.FindMenu true "FindMenu parameters"
 // @Success 200 {object} structs.ReadMenu "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/menus/{slug} [get]
+// @Router /system/menus/{slug} [get]
 // @Security Bearer
 func (h *menuHandler) Get(c *gin.Context) {
 	params := &structs.FindMenu{Menu: c.Param("slug")}
@@ -130,7 +130,7 @@ func (h *menuHandler) Get(c *gin.Context) {
 // @Param slug path string true "Menu ID or slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/menus/{slug} [delete]
+// @Router /system/menus/{slug} [delete]
 // @Security Bearer
 func (h *menuHandler) Delete(c *gin.Context) {
 	params := &structs.FindMenu{Menu: c.Param("slug")}
@@ -151,7 +151,7 @@ func (h *menuHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListMenuParams true "List menu parameters"
 // @Success 200 {array} structs.ReadMenu "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/menus [get]
+// @Router /system/menus [get]
 // @Security Bearer
 func (h *menuHandler) List(c *gin.Context) {
 	params := &structs.ListMenuParams{}
@@ -181,7 +181,7 @@ func (h *menuHandler) List(c *gin.Context) {
 // // @Param params query structs.FindMenu true "FindMenu parameters"
 // // @Success 200 {object} structs.ReadMenu "success"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /v1/menus/tree [get]
+// // @Router /system/menus/tree [get]
 // // @Security Bearer
 // func (h *Handler) GetTree(c *gin.Context) {
 // 	params := &structs.FindMenu{}

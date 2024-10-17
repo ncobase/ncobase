@@ -87,29 +87,27 @@ func (m *Module) Name() string {
 }
 
 // RegisterRoutes registers routes for the module
-func (m *Module) RegisterRoutes(e *gin.Engine) {
-	// API v1 endpoints
-	v1 := e.Group("/v1")
+func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Authentication endpoints
-	v1.POST("/login", m.h.Account.Login)
-	v1.POST("/register", m.h.Account.Register)
-	v1.POST("/logout", m.h.Account.Logout)
+	r.POST("/login", m.h.Account.Login)
+	r.POST("/register", m.h.Account.Register)
+	r.POST("/logout", m.h.Account.Logout)
 	// Captcha endpoints
-	captcha := v1.Group("/captcha")
+	captcha := r.Group("/captcha")
 	{
 		captcha.GET("/generate", m.h.Captcha.GenerateCaptcha)
 		captcha.GET("/:captcha", m.h.Captcha.CaptchaStream)
 		captcha.POST("/validate", m.h.Captcha.ValidateCaptcha)
 	}
 	// Authorization endpoints
-	authorize := v1.Group("/authorize")
+	authorize := r.Group("/authorize")
 	{
 		authorize.POST("/send", m.h.CodeAuth.SendCode)
 		authorize.GET("/:code", m.h.CodeAuth.CodeAuth)
 	}
 
 	// Account endpoints
-	account := v1.Group("/account", middleware.AuthenticatedUser)
+	account := r.Group("/account", middleware.AuthenticatedUser)
 	{
 		account.GET("", m.h.Account.GetMe)
 		account.PUT("/password", m.h.Account.UpdatePassword)

@@ -273,14 +273,14 @@ func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParam
 		return nil, fmt.Errorf("building list query: %w", err)
 	}
 
-	builder = applySorting(builder, params.SortBy)
+	builder = menuSorting(builder, params.SortBy)
 
 	if params.Cursor != "" {
 		id, value, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
 			return nil, fmt.Errorf("decoding cursor: %w", err)
 		}
-		builder = applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
+		builder = menuCondition(builder, id, value, params.Direction, params.SortBy)
 	}
 
 	builder.Limit(params.Limit)
@@ -305,14 +305,14 @@ func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.List
 		return nil, 0, fmt.Errorf("building list query: %w", err)
 	}
 
-	builder = applySorting(builder, params.SortBy)
+	builder = menuSorting(builder, params.SortBy)
 
 	if params.Cursor != "" {
 		id, value, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
 			return nil, 0, fmt.Errorf("decoding cursor: %w", err)
 		}
-		builder = applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
+		builder = menuCondition(builder, id, value, params.Direction, params.SortBy)
 	}
 
 	total, err := builder.Count(ctx)
@@ -328,8 +328,8 @@ func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.List
 	return rows, total, nil
 }
 
-// applySorting applies the specified sorting to the query builder.
-func applySorting(builder *ent.MenuQuery, sortBy types.SortField) *ent.MenuQuery {
+// menuSorting applies the specified sorting to the query builder.
+func menuSorting(builder *ent.MenuQuery, sortBy types.SortField) *ent.MenuQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		return builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
@@ -340,8 +340,8 @@ func applySorting(builder *ent.MenuQuery, sortBy types.SortField) *ent.MenuQuery
 	}
 }
 
-// applyCursorCondition applies the cursor-based condition to the query builder.
-func applyCursorCondition(builder *ent.MenuQuery, id string, value any, direction string, sortBy types.SortField) *ent.MenuQuery {
+// menuCondition applies the cursor-based condition to the query builder.
+func menuCondition(builder *ent.MenuQuery, id string, value any, direction string, sortBy types.SortField) *ent.MenuQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)
@@ -396,7 +396,7 @@ func applyCursorCondition(builder *ent.MenuQuery, id string, value any, directio
 			),
 		)
 	default:
-		return applyCursorCondition(builder, id, value, direction, structs.SortByCreatedAt)
+		return menuCondition(builder, id, value, direction, structs.SortByCreatedAt)
 	}
 }
 

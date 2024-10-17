@@ -41,7 +41,7 @@ func NewCounterHandler(svc *service.Service) CounterHandlerInterface {
 // @Param body body structs.CounterBody true "CounterBody object"
 // @Success 200 {object} structs.ReadCounter "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/counters [post]
+// @Router /counter/counters [post]
 // @Security Bearer
 func (h *counterHandler) Create(c *gin.Context) {
 	body := &structs.CreateCounterBody{}
@@ -71,7 +71,7 @@ func (h *counterHandler) Create(c *gin.Context) {
 // @Param body body structs.UpdateCounterBody true "UpdateCounterBody object"
 // @Success 200 {object} structs.ReadCounter "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/counters [put]
+// @Router /counter/counters [put]
 // @Security Bearer
 func (h *counterHandler) Update(c *gin.Context) {
 	body := types.JSON{}
@@ -100,7 +100,7 @@ func (h *counterHandler) Update(c *gin.Context) {
 // @Param id path string true "Counter ID"
 // @Success 200 {object} structs.ReadCounter "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/counters/{id} [get]
+// @Router /counter/counters/{id} [get]
 // @Security Bearer
 func (h *counterHandler) Get(c *gin.Context) {
 	params := &structs.FindCounter{Counter: c.Param("id")}
@@ -130,7 +130,7 @@ func (h *counterHandler) Get(c *gin.Context) {
 // @Param id path string true "Counter ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/counters/{id} [delete]
+// @Router /counter/counters/{id} [delete]
 // @Security Bearer
 func (h *counterHandler) Delete(c *gin.Context) {
 	params := &structs.FindCounter{Counter: c.Param("id")}
@@ -151,7 +151,7 @@ func (h *counterHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListCounterParams true "List counter parameters"
 // @Success 200 {array} structs.ReadCounter "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /v1/counters [get]
+// @Router /counter/counters [get]
 // @Security Bearer
 func (h *counterHandler) List(c *gin.Context) {
 	params := &structs.ListCounterParams{}

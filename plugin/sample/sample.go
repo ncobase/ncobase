@@ -60,11 +60,9 @@ func (p *Plugin) PostInit() error {
 }
 
 // RegisterRoutes registers routes for the plugin
-func (p *Plugin) RegisterRoutes(e *gin.Engine) {
-	// API v1 endpoints
-	v1 := e.Group("/v1")
+func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	// Sample endpoints
-	samples := v1.Group("/samples")
+	samples := r.Group("/samples")
 	{
 		samples.GET("", func(c *gin.Context) {
 			c.JSON(200, gin.H{

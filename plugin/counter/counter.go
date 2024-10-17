@@ -76,11 +76,9 @@ func (p *Plugin) PostInit() error {
 }
 
 // RegisterRoutes registers routes for the plugin
-func (p *Plugin) RegisterRoutes(e *gin.Engine) {
-	// API v1 endpoints
-	v1 := e.Group("/v1")
+func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	// Counter endpoints
-	counters := v1.Group("/counters")
+	counters := r.Group("/counters")
 	{
 		counters.GET("", p.h.Counter.List)
 		counters.POST("", p.h.Counter.Create)

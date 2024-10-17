@@ -72,11 +72,9 @@ func (m *Module) PostInit() error {
 }
 
 // RegisterRoutes registers routes for the module
-func (m *Module) RegisterRoutes(e *gin.Engine) {
-	// API v1 endpoints
-	v1 := e.Group("/v1")
+func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Attachment endpoints
-	attachments := v1.Group("/attachments", middleware.AuthenticatedUser)
+	attachments := r.Group("/attachments", middleware.AuthenticatedUser)
 	{
 		attachments.GET("", m.h.Attachment.List)
 		attachments.POST("", m.h.Attachment.Create)
