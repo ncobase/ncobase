@@ -98,6 +98,15 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		dictionaries.PUT("/:slug", m.h.Dictionary.Update)
 		dictionaries.DELETE("/:slug", m.h.Dictionary.Delete)
 	}
+	// Options endpoints
+	options := r.Group("/options", middleware.AuthenticatedUser)
+	{
+		options.GET("", m.h.Options.List)
+		options.POST("", m.h.Options.Create)
+		options.GET("/:slug", m.h.Options.Get)
+		options.PUT("/:slug", m.h.Options.Update)
+		options.DELETE("/:slug", m.h.Options.Delete)
+	}
 }
 
 // GetHandlers returns the handlers for the module
