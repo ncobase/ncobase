@@ -8,6 +8,7 @@ import (
 	"ncobase/common/ecode"
 	"ncobase/common/log"
 	"ncobase/common/paging"
+	"ncobase/common/types"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/data/ent"
 	"ncobase/feature/user/data/repository"
@@ -19,6 +20,7 @@ type UserServiceInterface interface {
 	Get(ctx context.Context, username string) (*structs.ReadUser, error)
 	UpdatePassword(ctx context.Context, body *structs.UserPassword) error
 	CreateUser(ctx context.Context, body *structs.UserBody) (*structs.ReadUser, error)
+	UpdateUser(ctx context.Context, user string, updates types.JSON) (*structs.ReadUser, error)
 	GetByID(ctx context.Context, u string) (*structs.ReadUser, error)
 	Delete(ctx context.Context, u string) error
 	List(ctx context.Context, params *structs.ListUserParams) (paging.Result[*structs.ReadUser], error)
@@ -95,6 +97,15 @@ func (s *userService) CreateUser(ctx context.Context, body *structs.UserBody) (*
 	}
 
 	return s.Serialize(row), nil
+}
+
+// UpdateUser updates an existing user.
+func (s *userService) UpdateUser(ctx context.Context, u string, updates types.JSON) (*structs.ReadUser, error) {
+	user, err := s.user.Update(ctx, u, updates)
+	if err != nil {
+		return nil, err
+	}
+	return s.Serialize(user), nil
 }
 
 // GetByID retrieves a user by their ID.

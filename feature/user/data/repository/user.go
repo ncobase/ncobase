@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
+	"ncobase/common/types"
 	"ncobase/feature/user/data"
 	"ncobase/feature/user/data/ent"
 	userEnt "ncobase/feature/user/data/ent/user"
@@ -22,6 +23,7 @@ import (
 // UserRepositoryInterface represents the user repository interface.
 type UserRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.UserBody) (*ent.User, error)
+	Update(ctx context.Context, user string, updates types.JSON) (*ent.User, error)
 	GetByID(ctx context.Context, id string) (*ent.User, error)
 	Find(ctx context.Context, m *structs.FindUser) (*ent.User, error)
 	Existed(ctx context.Context, m *structs.FindUser) bool
@@ -65,6 +67,55 @@ func (r *userRepository) Create(ctx context.Context, body *structs.UserBody) (*e
 		log.Errorf(ctx, "userRepo.Create error: %v", err)
 		return nil, err
 	}
+
+	return row, nil
+}
+
+// Update update user
+func (r *userRepository) Update(ctx context.Context, u string, updates types.JSON) (*ent.User, error) {
+	user, err := r.FindUser(ctx, &structs.FindUser{Username: u})
+	if err != nil {
+		log.Errorf(ctx, "userRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	builder := user.Update()
+
+	for field, value := range updates {
+		switch field {
+		case "username":
+			builder.SetUsername(value.(string))
+		case "email":
+			builder.SetEmail(value.(string))
+		case "phone":
+			builder.SetPhone(value.(string))
+		case "is_certified":
+			builder.SetIsCertified(value.(bool))
+		case "status":
+			builder.SetStatus(value.(int))
+		case "extras":
+			builder.SetExtras(value.(types.JSON))
+		}
+	}
+
+	// execute the builder
+	row, err := builder.Save(ctx)
+	if err != nil {
+		log.Errorf(ctx, "userRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// remove from cache
+	cacheKey := fmt.Sprintf("%s", u)
+	err = r.c.Delete(ctx, cacheKey)
+	if err != nil {
+		log.Errorf(ctx, "userRepo.Update cache error: %v", err)
+	}
+
+	// // delete from Meilisearch index
+	// if err = r.ms.DeleteDocuments("users", user.ID); err != nil {
+	// 	log.Errorf(ctx, "userRepo.Update index error: %v", err)
+	// }
 
 	return row, nil
 }

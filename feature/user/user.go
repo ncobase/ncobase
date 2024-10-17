@@ -77,19 +77,15 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-
 	// User endpoints
 	users := r.Group("/users")
 	{
-		// users.GET("", m.h.List)
-		// users.POST("", m.h.Create)
+		users.GET("", m.h.User.List)
+		users.POST("", m.h.User.Create)
 		users.GET("/:username", m.h.User.Get)
-		// users.PUT("/:username", m.h.Update)
-		// users.DELETE("/:username", m.h.Delete)
-		// users.GET("/:username/roles", m.h.ListUserRoles)
-		// users.GET("/:username/groups", m.h.ListUserGroups)
-		// users.GET("/:username/tenants", m.h.UserTenants)
-		// users.GET("/:username/tenants/:slug", m.h.UserTenant)
+		users.PUT("/:username", m.h.User.Update)
+		users.DELETE("/:username", m.h.User.Delete)
+		users.PUT("/:username/password", m.h.User.UpdatePassword)
 	}
 }
 
