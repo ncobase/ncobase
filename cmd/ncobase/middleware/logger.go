@@ -31,10 +31,8 @@ func (w *responseWriter) Write(b []byte) (int, error) {
 var (
 	// skippedPaths is a list of paths that should be skipped for detailed logging
 	skippedPaths = []string{
-		"/swagger*",
-		"/v1/attachments/*",
-		"/attachments*",
-		"/v1/swagger*",
+		"*swagger*",
+		"*attachments*",
 	}
 
 	// binaryTypes is a list of content types that should be treated as binary

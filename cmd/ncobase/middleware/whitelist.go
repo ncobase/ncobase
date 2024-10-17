@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"path"
 	"regexp"
 	"strings"
 
@@ -18,7 +17,10 @@ func shouldSkipPath(requestPath string, whiteList []string) bool {
 	for _, whitePath := range whiteList {
 		// Support wildcard
 		if strings.Contains(whitePath, "*") {
-			matched, _ := path.Match(whitePath, requestPath)
+			// Convert *keyword* to regex like .*keyword.*
+			regexPattern := "^" + regexp.QuoteMeta(whitePath)
+			regexPattern = strings.ReplaceAll(regexPattern, `\*`, ".*") + "$"
+			matched, _ := regexp.MatchString(regexPattern, requestPath)
 			if matched {
 				return true
 			}
