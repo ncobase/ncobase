@@ -11,7 +11,7 @@ import (
 // Timestamp middleware for checking timestamp
 func Timestamp(whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if shouldSkipPath(c.Request.URL.Path, whiteList) {
+		if shouldSkipPath(c.Request, whiteList) {
 			c.Next()
 			return
 		}

@@ -32,7 +32,7 @@ var (
 	// skippedPaths is a list of paths that should be skipped for detailed logging
 	skippedPaths = []string{
 		"*swagger*",
-		"*attachments*",
+		"*attachments/*",
 	}
 
 	// binaryTypes is a list of content types that should be treated as binary
@@ -58,7 +58,7 @@ func Logger(c *gin.Context) {
 	ctx := helper.FromGinContext(c)
 
 	// Check if the path should be skipped
-	if shouldSkipPath(c.Request.URL.Path, skippedPaths) {
+	if shouldSkipPath(c.Request, skippedPaths) {
 		c.Next()
 		return
 	}

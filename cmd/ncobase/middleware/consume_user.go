@@ -36,7 +36,7 @@ func isTokenExpiring(tokenData map[string]any) bool {
 // ConsumeUser consumes user authentication information.
 func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if shouldSkipPath(c.Request.URL.Path, whiteList) {
+		if shouldSkipPath(c.Request, whiteList) {
 			c.Next()
 			return
 		}

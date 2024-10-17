@@ -12,7 +12,7 @@ import (
 // ConsumeTenant consumes tenant information from the request header or user tenants.
 func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if shouldSkipPath(c.Request.URL.Path, whiteList) {
+		if shouldSkipPath(c.Request, whiteList) {
 			c.Next()
 			return
 		}
