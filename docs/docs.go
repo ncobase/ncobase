@@ -4322,9 +4322,6 @@ const docTemplate = `{
                 "autoload": {
                     "type": "boolean"
                 },
-                "extras": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -5252,9 +5249,6 @@ const docTemplate = `{
             "properties": {
                 "autoload": {
                     "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 },
                 "id": {
                     "type": "string"
