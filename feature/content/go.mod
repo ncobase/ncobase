@@ -25,6 +25,9 @@ require (
 	github.com/bmatcuk/doublestar v1.3.4 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
 	github.com/mailgun/errors v0.4.0 // indirect
+	github.com/pierrec/lz4/v4 v4.1.15 // indirect
+	github.com/rabbitmq/amqp091-go v1.10.0 // indirect
+	github.com/segmentio/kafka-go v0.4.47 // indirect
 )
 
 require (
