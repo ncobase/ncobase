@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"ncobase/common/config"
-	"ncobase/common/data"
 	"ncobase/common/elastic"
 	"ncobase/common/log"
 	"ncobase/common/meili"
@@ -22,19 +21,19 @@ import (
 
 // Data contains the shared resources and clients.
 type Data struct {
-	*data.Data
+	*connections.Data
 	EntClient  *ent.Client
 	GormClient *gorm.DB
 }
 
 // New creates a new Data instance with database connections.
 func New(conf *config.Data) (*Data, func(name ...string), error) {
-	d, cleanup, err := data.New(conf)
+	d, cleanup, err := connections.New(conf)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	entClient, err := newEntClient(d.DB, conf.Database)
+	entClient, err := newEntClient(d.Conn.DB, conf.Database)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -124,27 +123,27 @@ func (d *Data) GetGormClient() *gorm.DB {
 
 // GetDB returns the SQL database instance.
 func (d *Data) GetDB() *sql.DB {
-	return d.DB
+	return d.GetDB()
 }
 
 // GetRedis returns the Redis client.
 func (d *Data) GetRedis() *redis.Client {
-	return d.RC
+	return d.GetRedis()
 }
 
 // GetMeilisearch returns the Meilisearch client.
 func (d *Data) GetMeilisearch() *meili.Client {
-	return d.MS
+	return d.GetMeilisearch()
 }
 
 // GetElasticsearchClient returns the Elasticsearch client.
 func (d *Data) GetElasticsearchClient() *elastic.Client {
-	return d.ES
+	return d.GetElasticsearchClient()
 }
 
 // Ping checks the database connection.
 func (d *Data) Ping(ctx context.Context) error {
-	return d.DB.PingContext(ctx)
+	return d.GetDB().PingContext(ctx)
 }
 
 // Close closes all the resources in Data and returns any errors encountered.
@@ -162,5 +161,5 @@ func (d *Data) Close() (errs []error) {
 
 // CloseDB closes the SQL database connection.
 func (d *Data) CloseDB() error {
-	return d.DB.Close()
+	return d.GetDB().Close()
 }

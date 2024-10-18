@@ -29,7 +29,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 		return nil, nil, err
 	}
 
-	entClient, err := newEntClient(d.DB, conf.Database)
+	entClient, err := newEntClient(d.Conn.DB, conf.Database)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -89,29 +89,29 @@ func (d *Data) Close() (errs []error) {
 
 // GetDB get database
 func (d *Data) GetDB() *sql.DB {
-	return d.DB
+	return d.GetDB()
 }
 
 // GetRedis get redis
 func (d *Data) GetRedis() *redis.Client {
-	return d.RC
+	return d.Conn.RC
 }
 
 // GetMeilisearch get meilisearch
 func (d *Data) GetMeilisearch() *meili.Client {
-	return d.MS
+	return d.Conn.MS
 }
 
 func (d *Data) GetElasticsearchClient() *elastic.Client {
-	return d.ES
+	return d.Conn.ES
 }
 
 // Ping .
 func (d *Data) Ping(ctx context.Context) error {
-	return d.DB.PingContext(ctx)
+	return d.Conn.DB.PingContext(ctx)
 }
 
 // CloseDB .
 func (d *Data) CloseDB() error {
-	return d.DB.Close()
+	return d.Conn.DB.Close()
 }

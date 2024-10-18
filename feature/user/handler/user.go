@@ -120,7 +120,7 @@ func (h *userHandler) Update(c *gin.Context) {
 // @Tags user
 // @Produce json
 // @Param username path string true "Username"
-// @Success 200 {object} resp.Response "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /user/users/{username} [delete]
 func (h *userHandler) Delete(c *gin.Context) {
@@ -148,7 +148,7 @@ func (h *userHandler) Delete(c *gin.Context) {
 // @Param cursor query string false "Cursor for pagination"
 // @Param limit query int false "Number of items to return"
 // @Param direction query string false "Direction of pagination (forward or backward)"
-// @Success 200 {object} paging.Result[structs.ReadUser] "success"
+// @Success 200 {array} structs.ReadUser "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /user/users [get]
 func (h *userHandler) List(c *gin.Context) {
@@ -178,7 +178,7 @@ func (h *userHandler) List(c *gin.Context) {
 // @Produce json
 // @Param username path string true "Username"
 // @Param password body structs.UserPassword true "Password information"
-// @Success 200 {object} resp.Response "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /user/users/{username}/password [put]
 func (h *userHandler) UpdatePassword(c *gin.Context) {

@@ -34,7 +34,7 @@ func NewWebSocketHandler(s *service.Service) WebSocketHandlerInterface {
 	}
 }
 
-// Connect handles WebSocket connections.
+// Connect handles WebSocket data.
 func (h *websocketHandler) Connect(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
