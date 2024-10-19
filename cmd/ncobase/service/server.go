@@ -12,7 +12,11 @@ import (
 func NewServer(conf *config.Config) (http.Handler, func(), error) {
 
 	// Initialize Feature Manager
-	fm := feature.NewManager(conf)
+	fm, err := feature.NewManager(conf)
+	if err != nil {
+		log.Fatalf(context.Background(), "Failed initializing feature manager: %+v", err)
+		return nil, nil, err
+	}
 	registerFeatures(fm) // register built-in features
 	if err := fm.LoadPlugins(); err != nil {
 		log.Fatalf(context.Background(), "Failed loading plugins: %+v", err)
