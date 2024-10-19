@@ -3,6 +3,8 @@
 GO111MODULE := on
 APP_NAME := ncobase
 CMD_PATH := ./cmd/ncobase
+CLI_NAME := nco
+CLI_PATH := ./cmd/cli
 OUT := ./bin
 PLUGIN_PATH := ./plugin
 
@@ -104,6 +106,9 @@ build-plugin: build
 			go build -buildmode=plugin $(BUILD_FLAGS) -o $(OUT)/plugins/$$PLUGIN_NAME.$$EXT $$dir/cmd/plugin.go || exit 1; \
 		fi \
 	done
+
+build-cli:
+	@go build $(BUILD_FLAGS) -o $(CLI_NAME) $(CLI_PATH)
 
 run:
 	@go run $(CMD_PATH)
