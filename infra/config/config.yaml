@@ -3,6 +3,10 @@ app_name: ncobase
 # Run mode (release / debug)
 run_mode: release
 
+consul:
+  address: 127.1:8500
+  scheme: http
+
 observes:
   tracer:
     endpoint:
@@ -64,6 +68,25 @@ data:
     uri:
     username:
     password:
+  neo4j:
+    uri:
+    username:
+    password:
+  rabbitmq:
+    url:
+    username:
+    password:
+    vhost:
+    connection_timeout: 10s
+    heartbeat_interval: 15s
+  kafka:
+    brokers: []
+    client_id:
+    consumer_group:
+    topic:
+    read_timeout: 10s
+    write_timeout: 10s
+    connect_timeout: 10s
 
 auth:
   jwt:
