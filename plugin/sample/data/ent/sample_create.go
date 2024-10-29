@@ -4,7 +4,6 @@ package ent
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"ncobase/plugin/sample/data/ent/sample"
 
@@ -17,160 +16,6 @@ type SampleCreate struct {
 	config
 	mutation *SampleMutation
 	hooks    []Hook
-}
-
-// SetIdentifier sets the "identifier" field.
-func (sc *SampleCreate) SetIdentifier(s string) *SampleCreate {
-	sc.mutation.SetIdentifier(s)
-	return sc
-}
-
-// SetNillableIdentifier sets the "identifier" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableIdentifier(s *string) *SampleCreate {
-	if s != nil {
-		sc.SetIdentifier(*s)
-	}
-	return sc
-}
-
-// SetName sets the "name" field.
-func (sc *SampleCreate) SetName(s string) *SampleCreate {
-	sc.mutation.SetName(s)
-	return sc
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableName(s *string) *SampleCreate {
-	if s != nil {
-		sc.SetName(*s)
-	}
-	return sc
-}
-
-// SetPrefix sets the "prefix" field.
-func (sc *SampleCreate) SetPrefix(s string) *SampleCreate {
-	sc.mutation.SetPrefix(s)
-	return sc
-}
-
-// SetNillablePrefix sets the "prefix" field if the given value is not nil.
-func (sc *SampleCreate) SetNillablePrefix(s *string) *SampleCreate {
-	if s != nil {
-		sc.SetPrefix(*s)
-	}
-	return sc
-}
-
-// SetSuffix sets the "suffix" field.
-func (sc *SampleCreate) SetSuffix(s string) *SampleCreate {
-	sc.mutation.SetSuffix(s)
-	return sc
-}
-
-// SetNillableSuffix sets the "suffix" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableSuffix(s *string) *SampleCreate {
-	if s != nil {
-		sc.SetSuffix(*s)
-	}
-	return sc
-}
-
-// SetStartValue sets the "start_value" field.
-func (sc *SampleCreate) SetStartValue(i int) *SampleCreate {
-	sc.mutation.SetStartValue(i)
-	return sc
-}
-
-// SetNillableStartValue sets the "start_value" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableStartValue(i *int) *SampleCreate {
-	if i != nil {
-		sc.SetStartValue(*i)
-	}
-	return sc
-}
-
-// SetIncrementStep sets the "increment_step" field.
-func (sc *SampleCreate) SetIncrementStep(i int) *SampleCreate {
-	sc.mutation.SetIncrementStep(i)
-	return sc
-}
-
-// SetNillableIncrementStep sets the "increment_step" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableIncrementStep(i *int) *SampleCreate {
-	if i != nil {
-		sc.SetIncrementStep(*i)
-	}
-	return sc
-}
-
-// SetDateFormat sets the "date_format" field.
-func (sc *SampleCreate) SetDateFormat(s string) *SampleCreate {
-	sc.mutation.SetDateFormat(s)
-	return sc
-}
-
-// SetNillableDateFormat sets the "date_format" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableDateFormat(s *string) *SampleCreate {
-	if s != nil {
-		sc.SetDateFormat(*s)
-	}
-	return sc
-}
-
-// SetCurrentValue sets the "current_value" field.
-func (sc *SampleCreate) SetCurrentValue(i int) *SampleCreate {
-	sc.mutation.SetCurrentValue(i)
-	return sc
-}
-
-// SetNillableCurrentValue sets the "current_value" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableCurrentValue(i *int) *SampleCreate {
-	if i != nil {
-		sc.SetCurrentValue(*i)
-	}
-	return sc
-}
-
-// SetDisabled sets the "disabled" field.
-func (sc *SampleCreate) SetDisabled(b bool) *SampleCreate {
-	sc.mutation.SetDisabled(b)
-	return sc
-}
-
-// SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableDisabled(b *bool) *SampleCreate {
-	if b != nil {
-		sc.SetDisabled(*b)
-	}
-	return sc
-}
-
-// SetDescription sets the "description" field.
-func (sc *SampleCreate) SetDescription(s string) *SampleCreate {
-	sc.mutation.SetDescription(s)
-	return sc
-}
-
-// SetNillableDescription sets the "description" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableDescription(s *string) *SampleCreate {
-	if s != nil {
-		sc.SetDescription(*s)
-	}
-	return sc
-}
-
-// SetTenantID sets the "tenant_id" field.
-func (sc *SampleCreate) SetTenantID(s string) *SampleCreate {
-	sc.mutation.SetTenantID(s)
-	return sc
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (sc *SampleCreate) SetNillableTenantID(s *string) *SampleCreate {
-	if s != nil {
-		sc.SetTenantID(*s)
-	}
-	return sc
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -278,26 +123,6 @@ func (sc *SampleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (sc *SampleCreate) defaults() {
-	if _, ok := sc.mutation.StartValue(); !ok {
-		v := sample.DefaultStartValue
-		sc.mutation.SetStartValue(v)
-	}
-	if _, ok := sc.mutation.IncrementStep(); !ok {
-		v := sample.DefaultIncrementStep
-		sc.mutation.SetIncrementStep(v)
-	}
-	if _, ok := sc.mutation.DateFormat(); !ok {
-		v := sample.DefaultDateFormat
-		sc.mutation.SetDateFormat(v)
-	}
-	if _, ok := sc.mutation.CurrentValue(); !ok {
-		v := sample.DefaultCurrentValue
-		sc.mutation.SetCurrentValue(v)
-	}
-	if _, ok := sc.mutation.Disabled(); !ok {
-		v := sample.DefaultDisabled
-		sc.mutation.SetDisabled(v)
-	}
 	if _, ok := sc.mutation.CreatedAt(); !ok {
 		v := sample.DefaultCreatedAt()
 		sc.mutation.SetCreatedAt(v)
@@ -314,25 +139,6 @@ func (sc *SampleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (sc *SampleCreate) check() error {
-	if v, ok := sc.mutation.Identifier(); ok {
-		if err := sample.IdentifierValidator(v); err != nil {
-			return &ValidationError{Name: "identifier", err: fmt.Errorf(`ent: validator failed for field "Sample.identifier": %w`, err)}
-		}
-	}
-	if _, ok := sc.mutation.StartValue(); !ok {
-		return &ValidationError{Name: "start_value", err: errors.New(`ent: missing required field "Sample.start_value"`)}
-	}
-	if _, ok := sc.mutation.IncrementStep(); !ok {
-		return &ValidationError{Name: "increment_step", err: errors.New(`ent: missing required field "Sample.increment_step"`)}
-	}
-	if _, ok := sc.mutation.CurrentValue(); !ok {
-		return &ValidationError{Name: "current_value", err: errors.New(`ent: missing required field "Sample.current_value"`)}
-	}
-	if v, ok := sc.mutation.TenantID(); ok {
-		if err := sample.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Sample.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := sc.mutation.CreatedBy(); ok {
 		if err := sample.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Sample.created_by": %w`, err)}
@@ -382,50 +188,6 @@ func (sc *SampleCreate) createSpec() (*Sample, *sqlgraph.CreateSpec) {
 	if id, ok := sc.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
-	}
-	if value, ok := sc.mutation.Identifier(); ok {
-		_spec.SetField(sample.FieldIdentifier, field.TypeString, value)
-		_node.Identifier = value
-	}
-	if value, ok := sc.mutation.Name(); ok {
-		_spec.SetField(sample.FieldName, field.TypeString, value)
-		_node.Name = value
-	}
-	if value, ok := sc.mutation.Prefix(); ok {
-		_spec.SetField(sample.FieldPrefix, field.TypeString, value)
-		_node.Prefix = value
-	}
-	if value, ok := sc.mutation.Suffix(); ok {
-		_spec.SetField(sample.FieldSuffix, field.TypeString, value)
-		_node.Suffix = value
-	}
-	if value, ok := sc.mutation.StartValue(); ok {
-		_spec.SetField(sample.FieldStartValue, field.TypeInt, value)
-		_node.StartValue = value
-	}
-	if value, ok := sc.mutation.IncrementStep(); ok {
-		_spec.SetField(sample.FieldIncrementStep, field.TypeInt, value)
-		_node.IncrementStep = value
-	}
-	if value, ok := sc.mutation.DateFormat(); ok {
-		_spec.SetField(sample.FieldDateFormat, field.TypeString, value)
-		_node.DateFormat = value
-	}
-	if value, ok := sc.mutation.CurrentValue(); ok {
-		_spec.SetField(sample.FieldCurrentValue, field.TypeInt, value)
-		_node.CurrentValue = value
-	}
-	if value, ok := sc.mutation.Disabled(); ok {
-		_spec.SetField(sample.FieldDisabled, field.TypeBool, value)
-		_node.Disabled = value
-	}
-	if value, ok := sc.mutation.Description(); ok {
-		_spec.SetField(sample.FieldDescription, field.TypeString, value)
-		_node.Description = value
-	}
-	if value, ok := sc.mutation.TenantID(); ok {
-		_spec.SetField(sample.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
 	}
 	if value, ok := sc.mutation.CreatedBy(); ok {
 		_spec.SetField(sample.FieldCreatedBy, field.TypeString, value)

@@ -11,28 +11,6 @@ const (
 	Label = "sample"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldIdentifier holds the string denoting the identifier field in the database.
-	FieldIdentifier = "identifier"
-	// FieldName holds the string denoting the name field in the database.
-	FieldName = "name"
-	// FieldPrefix holds the string denoting the prefix field in the database.
-	FieldPrefix = "prefix"
-	// FieldSuffix holds the string denoting the suffix field in the database.
-	FieldSuffix = "suffix"
-	// FieldStartValue holds the string denoting the start_value field in the database.
-	FieldStartValue = "start_value"
-	// FieldIncrementStep holds the string denoting the increment_step field in the database.
-	FieldIncrementStep = "increment_step"
-	// FieldDateFormat holds the string denoting the date_format field in the database.
-	FieldDateFormat = "date_format"
-	// FieldCurrentValue holds the string denoting the current_value field in the database.
-	FieldCurrentValue = "current_value"
-	// FieldDisabled holds the string denoting the disabled field in the database.
-	FieldDisabled = "disabled"
-	// FieldDescription holds the string denoting the description field in the database.
-	FieldDescription = "description"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
 	FieldCreatedBy = "created_by"
 	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
@@ -48,17 +26,6 @@ const (
 // Columns holds all SQL columns for sample fields.
 var Columns = []string{
 	FieldID,
-	FieldIdentifier,
-	FieldName,
-	FieldPrefix,
-	FieldSuffix,
-	FieldStartValue,
-	FieldIncrementStep,
-	FieldDateFormat,
-	FieldCurrentValue,
-	FieldDisabled,
-	FieldDescription,
-	FieldTenantID,
 	FieldCreatedBy,
 	FieldUpdatedBy,
 	FieldCreatedAt,
@@ -76,20 +43,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// IdentifierValidator is a validator for the "identifier" field. It is called by the builders before save.
-	IdentifierValidator func(string) error
-	// DefaultStartValue holds the default value on creation for the "start_value" field.
-	DefaultStartValue int
-	// DefaultIncrementStep holds the default value on creation for the "increment_step" field.
-	DefaultIncrementStep int
-	// DefaultDateFormat holds the default value on creation for the "date_format" field.
-	DefaultDateFormat string
-	// DefaultCurrentValue holds the default value on creation for the "current_value" field.
-	DefaultCurrentValue int
-	// DefaultDisabled holds the default value on creation for the "disabled" field.
-	DefaultDisabled bool
-	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	TenantIDValidator func(string) error
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	CreatedByValidator func(string) error
 	// UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
@@ -112,61 +65,6 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
-}
-
-// ByIdentifier orders the results by the identifier field.
-func ByIdentifier(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIdentifier, opts...).ToFunc()
-}
-
-// ByName orders the results by the name field.
-func ByName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldName, opts...).ToFunc()
-}
-
-// ByPrefix orders the results by the prefix field.
-func ByPrefix(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPrefix, opts...).ToFunc()
-}
-
-// BySuffix orders the results by the suffix field.
-func BySuffix(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldSuffix, opts...).ToFunc()
-}
-
-// ByStartValue orders the results by the start_value field.
-func ByStartValue(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStartValue, opts...).ToFunc()
-}
-
-// ByIncrementStep orders the results by the increment_step field.
-func ByIncrementStep(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIncrementStep, opts...).ToFunc()
-}
-
-// ByDateFormat orders the results by the date_format field.
-func ByDateFormat(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDateFormat, opts...).ToFunc()
-}
-
-// ByCurrentValue orders the results by the current_value field.
-func ByCurrentValue(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCurrentValue, opts...).ToFunc()
-}
-
-// ByDisabled orders the results by the disabled field.
-func ByDisabled(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDisabled, opts...).ToFunc()
-}
-
-// ByDescription orders the results by the description field.
-func ByDescription(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDescription, opts...).ToFunc()
-}
-
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }
 
 // ByCreatedBy orders the results by the created_by field.

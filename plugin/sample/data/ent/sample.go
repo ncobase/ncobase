@@ -17,28 +17,6 @@ type Sample struct {
 	// ID of the ent.
 	// primary key
 	ID string `json:"id,omitempty"`
-	// Identifier
-	Identifier string `json:"identifier,omitempty"`
-	// name
-	Name string `json:"name,omitempty"`
-	// prefix
-	Prefix string `json:"prefix,omitempty"`
-	// suffix
-	Suffix string `json:"suffix,omitempty"`
-	// Start value
-	StartValue int `json:"start_value,omitempty"`
-	// Increment step
-	IncrementStep int `json:"increment_step,omitempty"`
-	// Date format, default YYYYMMDD
-	DateFormat string `json:"date_format,omitempty"`
-	// Current value
-	CurrentValue int `json:"current_value,omitempty"`
-	// is disabled
-	Disabled bool `json:"disabled,omitempty"`
-	// description
-	Description string `json:"description,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -55,11 +33,9 @@ func (*Sample) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case sample.FieldDisabled:
-			values[i] = new(sql.NullBool)
-		case sample.FieldStartValue, sample.FieldIncrementStep, sample.FieldCurrentValue, sample.FieldCreatedAt, sample.FieldUpdatedAt:
+		case sample.FieldCreatedAt, sample.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case sample.FieldID, sample.FieldIdentifier, sample.FieldName, sample.FieldPrefix, sample.FieldSuffix, sample.FieldDateFormat, sample.FieldDescription, sample.FieldTenantID, sample.FieldCreatedBy, sample.FieldUpdatedBy:
+		case sample.FieldID, sample.FieldCreatedBy, sample.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -81,72 +57,6 @@ func (s *Sample) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
 				s.ID = value.String
-			}
-		case sample.FieldIdentifier:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field identifier", values[i])
-			} else if value.Valid {
-				s.Identifier = value.String
-			}
-		case sample.FieldName:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field name", values[i])
-			} else if value.Valid {
-				s.Name = value.String
-			}
-		case sample.FieldPrefix:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field prefix", values[i])
-			} else if value.Valid {
-				s.Prefix = value.String
-			}
-		case sample.FieldSuffix:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field suffix", values[i])
-			} else if value.Valid {
-				s.Suffix = value.String
-			}
-		case sample.FieldStartValue:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field start_value", values[i])
-			} else if value.Valid {
-				s.StartValue = int(value.Int64)
-			}
-		case sample.FieldIncrementStep:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field increment_step", values[i])
-			} else if value.Valid {
-				s.IncrementStep = int(value.Int64)
-			}
-		case sample.FieldDateFormat:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field date_format", values[i])
-			} else if value.Valid {
-				s.DateFormat = value.String
-			}
-		case sample.FieldCurrentValue:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field current_value", values[i])
-			} else if value.Valid {
-				s.CurrentValue = int(value.Int64)
-			}
-		case sample.FieldDisabled:
-			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field disabled", values[i])
-			} else if value.Valid {
-				s.Disabled = value.Bool
-			}
-		case sample.FieldDescription:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field description", values[i])
-			} else if value.Valid {
-				s.Description = value.String
-			}
-		case sample.FieldTenantID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
-			} else if value.Valid {
-				s.TenantID = value.String
 			}
 		case sample.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -208,39 +118,6 @@ func (s *Sample) String() string {
 	var builder strings.Builder
 	builder.WriteString("Sample(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", s.ID))
-	builder.WriteString("identifier=")
-	builder.WriteString(s.Identifier)
-	builder.WriteString(", ")
-	builder.WriteString("name=")
-	builder.WriteString(s.Name)
-	builder.WriteString(", ")
-	builder.WriteString("prefix=")
-	builder.WriteString(s.Prefix)
-	builder.WriteString(", ")
-	builder.WriteString("suffix=")
-	builder.WriteString(s.Suffix)
-	builder.WriteString(", ")
-	builder.WriteString("start_value=")
-	builder.WriteString(fmt.Sprintf("%v", s.StartValue))
-	builder.WriteString(", ")
-	builder.WriteString("increment_step=")
-	builder.WriteString(fmt.Sprintf("%v", s.IncrementStep))
-	builder.WriteString(", ")
-	builder.WriteString("date_format=")
-	builder.WriteString(s.DateFormat)
-	builder.WriteString(", ")
-	builder.WriteString("current_value=")
-	builder.WriteString(fmt.Sprintf("%v", s.CurrentValue))
-	builder.WriteString(", ")
-	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", s.Disabled))
-	builder.WriteString(", ")
-	builder.WriteString("description=")
-	builder.WriteString(s.Description)
-	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(s.TenantID)
-	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(s.CreatedBy)
 	builder.WriteString(", ")

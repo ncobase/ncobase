@@ -29,33 +29,19 @@ const (
 // SampleMutation represents an operation that mutates the Sample nodes in the graph.
 type SampleMutation struct {
 	config
-	op                Op
-	typ               string
-	id                *string
-	identifier        *string
-	name              *string
-	prefix            *string
-	suffix            *string
-	start_value       *int
-	addstart_value    *int
-	increment_step    *int
-	addincrement_step *int
-	date_format       *string
-	current_value     *int
-	addcurrent_value  *int
-	disabled          *bool
-	description       *string
-	tenant_id         *string
-	created_by        *string
-	updated_by        *string
-	created_at        *int64
-	addcreated_at     *int64
-	updated_at        *int64
-	addupdated_at     *int64
-	clearedFields     map[string]struct{}
-	done              bool
-	oldValue          func(context.Context) (*Sample, error)
-	predicates        []predicate.Sample
+	op            Op
+	typ           string
+	id            *string
+	created_by    *string
+	updated_by    *string
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*Sample, error)
+	predicates    []predicate.Sample
 }
 
 var _ ent.Mutation = (*SampleMutation)(nil)
@@ -160,566 +146,6 @@ func (m *SampleMutation) IDs(ctx context.Context) ([]string, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
-}
-
-// SetIdentifier sets the "identifier" field.
-func (m *SampleMutation) SetIdentifier(s string) {
-	m.identifier = &s
-}
-
-// Identifier returns the value of the "identifier" field in the mutation.
-func (m *SampleMutation) Identifier() (r string, exists bool) {
-	v := m.identifier
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldIdentifier returns the old "identifier" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldIdentifier(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldIdentifier is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldIdentifier requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldIdentifier: %w", err)
-	}
-	return oldValue.Identifier, nil
-}
-
-// ClearIdentifier clears the value of the "identifier" field.
-func (m *SampleMutation) ClearIdentifier() {
-	m.identifier = nil
-	m.clearedFields[sample.FieldIdentifier] = struct{}{}
-}
-
-// IdentifierCleared returns if the "identifier" field was cleared in this mutation.
-func (m *SampleMutation) IdentifierCleared() bool {
-	_, ok := m.clearedFields[sample.FieldIdentifier]
-	return ok
-}
-
-// ResetIdentifier resets all changes to the "identifier" field.
-func (m *SampleMutation) ResetIdentifier() {
-	m.identifier = nil
-	delete(m.clearedFields, sample.FieldIdentifier)
-}
-
-// SetName sets the "name" field.
-func (m *SampleMutation) SetName(s string) {
-	m.name = &s
-}
-
-// Name returns the value of the "name" field in the mutation.
-func (m *SampleMutation) Name() (r string, exists bool) {
-	v := m.name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldName returns the old "name" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldName is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldName: %w", err)
-	}
-	return oldValue.Name, nil
-}
-
-// ClearName clears the value of the "name" field.
-func (m *SampleMutation) ClearName() {
-	m.name = nil
-	m.clearedFields[sample.FieldName] = struct{}{}
-}
-
-// NameCleared returns if the "name" field was cleared in this mutation.
-func (m *SampleMutation) NameCleared() bool {
-	_, ok := m.clearedFields[sample.FieldName]
-	return ok
-}
-
-// ResetName resets all changes to the "name" field.
-func (m *SampleMutation) ResetName() {
-	m.name = nil
-	delete(m.clearedFields, sample.FieldName)
-}
-
-// SetPrefix sets the "prefix" field.
-func (m *SampleMutation) SetPrefix(s string) {
-	m.prefix = &s
-}
-
-// Prefix returns the value of the "prefix" field in the mutation.
-func (m *SampleMutation) Prefix() (r string, exists bool) {
-	v := m.prefix
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPrefix returns the old "prefix" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldPrefix(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPrefix is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPrefix requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPrefix: %w", err)
-	}
-	return oldValue.Prefix, nil
-}
-
-// ClearPrefix clears the value of the "prefix" field.
-func (m *SampleMutation) ClearPrefix() {
-	m.prefix = nil
-	m.clearedFields[sample.FieldPrefix] = struct{}{}
-}
-
-// PrefixCleared returns if the "prefix" field was cleared in this mutation.
-func (m *SampleMutation) PrefixCleared() bool {
-	_, ok := m.clearedFields[sample.FieldPrefix]
-	return ok
-}
-
-// ResetPrefix resets all changes to the "prefix" field.
-func (m *SampleMutation) ResetPrefix() {
-	m.prefix = nil
-	delete(m.clearedFields, sample.FieldPrefix)
-}
-
-// SetSuffix sets the "suffix" field.
-func (m *SampleMutation) SetSuffix(s string) {
-	m.suffix = &s
-}
-
-// Suffix returns the value of the "suffix" field in the mutation.
-func (m *SampleMutation) Suffix() (r string, exists bool) {
-	v := m.suffix
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSuffix returns the old "suffix" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldSuffix(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSuffix is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSuffix requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSuffix: %w", err)
-	}
-	return oldValue.Suffix, nil
-}
-
-// ClearSuffix clears the value of the "suffix" field.
-func (m *SampleMutation) ClearSuffix() {
-	m.suffix = nil
-	m.clearedFields[sample.FieldSuffix] = struct{}{}
-}
-
-// SuffixCleared returns if the "suffix" field was cleared in this mutation.
-func (m *SampleMutation) SuffixCleared() bool {
-	_, ok := m.clearedFields[sample.FieldSuffix]
-	return ok
-}
-
-// ResetSuffix resets all changes to the "suffix" field.
-func (m *SampleMutation) ResetSuffix() {
-	m.suffix = nil
-	delete(m.clearedFields, sample.FieldSuffix)
-}
-
-// SetStartValue sets the "start_value" field.
-func (m *SampleMutation) SetStartValue(i int) {
-	m.start_value = &i
-	m.addstart_value = nil
-}
-
-// StartValue returns the value of the "start_value" field in the mutation.
-func (m *SampleMutation) StartValue() (r int, exists bool) {
-	v := m.start_value
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldStartValue returns the old "start_value" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldStartValue(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStartValue is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStartValue requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStartValue: %w", err)
-	}
-	return oldValue.StartValue, nil
-}
-
-// AddStartValue adds i to the "start_value" field.
-func (m *SampleMutation) AddStartValue(i int) {
-	if m.addstart_value != nil {
-		*m.addstart_value += i
-	} else {
-		m.addstart_value = &i
-	}
-}
-
-// AddedStartValue returns the value that was added to the "start_value" field in this mutation.
-func (m *SampleMutation) AddedStartValue() (r int, exists bool) {
-	v := m.addstart_value
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetStartValue resets all changes to the "start_value" field.
-func (m *SampleMutation) ResetStartValue() {
-	m.start_value = nil
-	m.addstart_value = nil
-}
-
-// SetIncrementStep sets the "increment_step" field.
-func (m *SampleMutation) SetIncrementStep(i int) {
-	m.increment_step = &i
-	m.addincrement_step = nil
-}
-
-// IncrementStep returns the value of the "increment_step" field in the mutation.
-func (m *SampleMutation) IncrementStep() (r int, exists bool) {
-	v := m.increment_step
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldIncrementStep returns the old "increment_step" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldIncrementStep(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldIncrementStep is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldIncrementStep requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldIncrementStep: %w", err)
-	}
-	return oldValue.IncrementStep, nil
-}
-
-// AddIncrementStep adds i to the "increment_step" field.
-func (m *SampleMutation) AddIncrementStep(i int) {
-	if m.addincrement_step != nil {
-		*m.addincrement_step += i
-	} else {
-		m.addincrement_step = &i
-	}
-}
-
-// AddedIncrementStep returns the value that was added to the "increment_step" field in this mutation.
-func (m *SampleMutation) AddedIncrementStep() (r int, exists bool) {
-	v := m.addincrement_step
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetIncrementStep resets all changes to the "increment_step" field.
-func (m *SampleMutation) ResetIncrementStep() {
-	m.increment_step = nil
-	m.addincrement_step = nil
-}
-
-// SetDateFormat sets the "date_format" field.
-func (m *SampleMutation) SetDateFormat(s string) {
-	m.date_format = &s
-}
-
-// DateFormat returns the value of the "date_format" field in the mutation.
-func (m *SampleMutation) DateFormat() (r string, exists bool) {
-	v := m.date_format
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDateFormat returns the old "date_format" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldDateFormat(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDateFormat is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDateFormat requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDateFormat: %w", err)
-	}
-	return oldValue.DateFormat, nil
-}
-
-// ClearDateFormat clears the value of the "date_format" field.
-func (m *SampleMutation) ClearDateFormat() {
-	m.date_format = nil
-	m.clearedFields[sample.FieldDateFormat] = struct{}{}
-}
-
-// DateFormatCleared returns if the "date_format" field was cleared in this mutation.
-func (m *SampleMutation) DateFormatCleared() bool {
-	_, ok := m.clearedFields[sample.FieldDateFormat]
-	return ok
-}
-
-// ResetDateFormat resets all changes to the "date_format" field.
-func (m *SampleMutation) ResetDateFormat() {
-	m.date_format = nil
-	delete(m.clearedFields, sample.FieldDateFormat)
-}
-
-// SetCurrentValue sets the "current_value" field.
-func (m *SampleMutation) SetCurrentValue(i int) {
-	m.current_value = &i
-	m.addcurrent_value = nil
-}
-
-// CurrentValue returns the value of the "current_value" field in the mutation.
-func (m *SampleMutation) CurrentValue() (r int, exists bool) {
-	v := m.current_value
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCurrentValue returns the old "current_value" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldCurrentValue(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCurrentValue is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCurrentValue requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCurrentValue: %w", err)
-	}
-	return oldValue.CurrentValue, nil
-}
-
-// AddCurrentValue adds i to the "current_value" field.
-func (m *SampleMutation) AddCurrentValue(i int) {
-	if m.addcurrent_value != nil {
-		*m.addcurrent_value += i
-	} else {
-		m.addcurrent_value = &i
-	}
-}
-
-// AddedCurrentValue returns the value that was added to the "current_value" field in this mutation.
-func (m *SampleMutation) AddedCurrentValue() (r int, exists bool) {
-	v := m.addcurrent_value
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetCurrentValue resets all changes to the "current_value" field.
-func (m *SampleMutation) ResetCurrentValue() {
-	m.current_value = nil
-	m.addcurrent_value = nil
-}
-
-// SetDisabled sets the "disabled" field.
-func (m *SampleMutation) SetDisabled(b bool) {
-	m.disabled = &b
-}
-
-// Disabled returns the value of the "disabled" field in the mutation.
-func (m *SampleMutation) Disabled() (r bool, exists bool) {
-	v := m.disabled
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDisabled returns the old "disabled" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldDisabled(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDisabled is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDisabled requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDisabled: %w", err)
-	}
-	return oldValue.Disabled, nil
-}
-
-// ClearDisabled clears the value of the "disabled" field.
-func (m *SampleMutation) ClearDisabled() {
-	m.disabled = nil
-	m.clearedFields[sample.FieldDisabled] = struct{}{}
-}
-
-// DisabledCleared returns if the "disabled" field was cleared in this mutation.
-func (m *SampleMutation) DisabledCleared() bool {
-	_, ok := m.clearedFields[sample.FieldDisabled]
-	return ok
-}
-
-// ResetDisabled resets all changes to the "disabled" field.
-func (m *SampleMutation) ResetDisabled() {
-	m.disabled = nil
-	delete(m.clearedFields, sample.FieldDisabled)
-}
-
-// SetDescription sets the "description" field.
-func (m *SampleMutation) SetDescription(s string) {
-	m.description = &s
-}
-
-// Description returns the value of the "description" field in the mutation.
-func (m *SampleMutation) Description() (r string, exists bool) {
-	v := m.description
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDescription returns the old "description" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldDescription(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDescription requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
-	}
-	return oldValue.Description, nil
-}
-
-// ClearDescription clears the value of the "description" field.
-func (m *SampleMutation) ClearDescription() {
-	m.description = nil
-	m.clearedFields[sample.FieldDescription] = struct{}{}
-}
-
-// DescriptionCleared returns if the "description" field was cleared in this mutation.
-func (m *SampleMutation) DescriptionCleared() bool {
-	_, ok := m.clearedFields[sample.FieldDescription]
-	return ok
-}
-
-// ResetDescription resets all changes to the "description" field.
-func (m *SampleMutation) ResetDescription() {
-	m.description = nil
-	delete(m.clearedFields, sample.FieldDescription)
-}
-
-// SetTenantID sets the "tenant_id" field.
-func (m *SampleMutation) SetTenantID(s string) {
-	m.tenant_id = &s
-}
-
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *SampleMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTenantID returns the old "tenant_id" field's value of the Sample entity.
-// If the Sample object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SampleMutation) OldTenantID(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
-	}
-	return oldValue.TenantID, nil
-}
-
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *SampleMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[sample.FieldTenantID] = struct{}{}
-}
-
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *SampleMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[sample.FieldTenantID]
-	return ok
-}
-
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *SampleMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, sample.FieldTenantID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -994,40 +420,7 @@ func (m *SampleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *SampleMutation) Fields() []string {
-	fields := make([]string, 0, 15)
-	if m.identifier != nil {
-		fields = append(fields, sample.FieldIdentifier)
-	}
-	if m.name != nil {
-		fields = append(fields, sample.FieldName)
-	}
-	if m.prefix != nil {
-		fields = append(fields, sample.FieldPrefix)
-	}
-	if m.suffix != nil {
-		fields = append(fields, sample.FieldSuffix)
-	}
-	if m.start_value != nil {
-		fields = append(fields, sample.FieldStartValue)
-	}
-	if m.increment_step != nil {
-		fields = append(fields, sample.FieldIncrementStep)
-	}
-	if m.date_format != nil {
-		fields = append(fields, sample.FieldDateFormat)
-	}
-	if m.current_value != nil {
-		fields = append(fields, sample.FieldCurrentValue)
-	}
-	if m.disabled != nil {
-		fields = append(fields, sample.FieldDisabled)
-	}
-	if m.description != nil {
-		fields = append(fields, sample.FieldDescription)
-	}
-	if m.tenant_id != nil {
-		fields = append(fields, sample.FieldTenantID)
-	}
+	fields := make([]string, 0, 4)
 	if m.created_by != nil {
 		fields = append(fields, sample.FieldCreatedBy)
 	}
@@ -1048,28 +441,6 @@ func (m *SampleMutation) Fields() []string {
 // schema.
 func (m *SampleMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case sample.FieldIdentifier:
-		return m.Identifier()
-	case sample.FieldName:
-		return m.Name()
-	case sample.FieldPrefix:
-		return m.Prefix()
-	case sample.FieldSuffix:
-		return m.Suffix()
-	case sample.FieldStartValue:
-		return m.StartValue()
-	case sample.FieldIncrementStep:
-		return m.IncrementStep()
-	case sample.FieldDateFormat:
-		return m.DateFormat()
-	case sample.FieldCurrentValue:
-		return m.CurrentValue()
-	case sample.FieldDisabled:
-		return m.Disabled()
-	case sample.FieldDescription:
-		return m.Description()
-	case sample.FieldTenantID:
-		return m.TenantID()
 	case sample.FieldCreatedBy:
 		return m.CreatedBy()
 	case sample.FieldUpdatedBy:
@@ -1087,28 +458,6 @@ func (m *SampleMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *SampleMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case sample.FieldIdentifier:
-		return m.OldIdentifier(ctx)
-	case sample.FieldName:
-		return m.OldName(ctx)
-	case sample.FieldPrefix:
-		return m.OldPrefix(ctx)
-	case sample.FieldSuffix:
-		return m.OldSuffix(ctx)
-	case sample.FieldStartValue:
-		return m.OldStartValue(ctx)
-	case sample.FieldIncrementStep:
-		return m.OldIncrementStep(ctx)
-	case sample.FieldDateFormat:
-		return m.OldDateFormat(ctx)
-	case sample.FieldCurrentValue:
-		return m.OldCurrentValue(ctx)
-	case sample.FieldDisabled:
-		return m.OldDisabled(ctx)
-	case sample.FieldDescription:
-		return m.OldDescription(ctx)
-	case sample.FieldTenantID:
-		return m.OldTenantID(ctx)
 	case sample.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case sample.FieldUpdatedBy:
@@ -1126,83 +475,6 @@ func (m *SampleMutation) OldField(ctx context.Context, name string) (ent.Value, 
 // type.
 func (m *SampleMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case sample.FieldIdentifier:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetIdentifier(v)
-		return nil
-	case sample.FieldName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetName(v)
-		return nil
-	case sample.FieldPrefix:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPrefix(v)
-		return nil
-	case sample.FieldSuffix:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSuffix(v)
-		return nil
-	case sample.FieldStartValue:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetStartValue(v)
-		return nil
-	case sample.FieldIncrementStep:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetIncrementStep(v)
-		return nil
-	case sample.FieldDateFormat:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDateFormat(v)
-		return nil
-	case sample.FieldCurrentValue:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCurrentValue(v)
-		return nil
-	case sample.FieldDisabled:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDisabled(v)
-		return nil
-	case sample.FieldDescription:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDescription(v)
-		return nil
-	case sample.FieldTenantID:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTenantID(v)
-		return nil
 	case sample.FieldCreatedBy:
 		v, ok := value.(string)
 		if !ok {
@@ -1239,15 +511,6 @@ func (m *SampleMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *SampleMutation) AddedFields() []string {
 	var fields []string
-	if m.addstart_value != nil {
-		fields = append(fields, sample.FieldStartValue)
-	}
-	if m.addincrement_step != nil {
-		fields = append(fields, sample.FieldIncrementStep)
-	}
-	if m.addcurrent_value != nil {
-		fields = append(fields, sample.FieldCurrentValue)
-	}
 	if m.addcreated_at != nil {
 		fields = append(fields, sample.FieldCreatedAt)
 	}
@@ -1262,12 +525,6 @@ func (m *SampleMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *SampleMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case sample.FieldStartValue:
-		return m.AddedStartValue()
-	case sample.FieldIncrementStep:
-		return m.AddedIncrementStep()
-	case sample.FieldCurrentValue:
-		return m.AddedCurrentValue()
 	case sample.FieldCreatedAt:
 		return m.AddedCreatedAt()
 	case sample.FieldUpdatedAt:
@@ -1281,27 +538,6 @@ func (m *SampleMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *SampleMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case sample.FieldStartValue:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddStartValue(v)
-		return nil
-	case sample.FieldIncrementStep:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddIncrementStep(v)
-		return nil
-	case sample.FieldCurrentValue:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddCurrentValue(v)
-		return nil
 	case sample.FieldCreatedAt:
 		v, ok := value.(int64)
 		if !ok {
@@ -1324,30 +560,6 @@ func (m *SampleMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *SampleMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(sample.FieldIdentifier) {
-		fields = append(fields, sample.FieldIdentifier)
-	}
-	if m.FieldCleared(sample.FieldName) {
-		fields = append(fields, sample.FieldName)
-	}
-	if m.FieldCleared(sample.FieldPrefix) {
-		fields = append(fields, sample.FieldPrefix)
-	}
-	if m.FieldCleared(sample.FieldSuffix) {
-		fields = append(fields, sample.FieldSuffix)
-	}
-	if m.FieldCleared(sample.FieldDateFormat) {
-		fields = append(fields, sample.FieldDateFormat)
-	}
-	if m.FieldCleared(sample.FieldDisabled) {
-		fields = append(fields, sample.FieldDisabled)
-	}
-	if m.FieldCleared(sample.FieldDescription) {
-		fields = append(fields, sample.FieldDescription)
-	}
-	if m.FieldCleared(sample.FieldTenantID) {
-		fields = append(fields, sample.FieldTenantID)
-	}
 	if m.FieldCleared(sample.FieldCreatedBy) {
 		fields = append(fields, sample.FieldCreatedBy)
 	}
@@ -1374,30 +586,6 @@ func (m *SampleMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *SampleMutation) ClearField(name string) error {
 	switch name {
-	case sample.FieldIdentifier:
-		m.ClearIdentifier()
-		return nil
-	case sample.FieldName:
-		m.ClearName()
-		return nil
-	case sample.FieldPrefix:
-		m.ClearPrefix()
-		return nil
-	case sample.FieldSuffix:
-		m.ClearSuffix()
-		return nil
-	case sample.FieldDateFormat:
-		m.ClearDateFormat()
-		return nil
-	case sample.FieldDisabled:
-		m.ClearDisabled()
-		return nil
-	case sample.FieldDescription:
-		m.ClearDescription()
-		return nil
-	case sample.FieldTenantID:
-		m.ClearTenantID()
-		return nil
 	case sample.FieldCreatedBy:
 		m.ClearCreatedBy()
 		return nil
@@ -1418,39 +606,6 @@ func (m *SampleMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *SampleMutation) ResetField(name string) error {
 	switch name {
-	case sample.FieldIdentifier:
-		m.ResetIdentifier()
-		return nil
-	case sample.FieldName:
-		m.ResetName()
-		return nil
-	case sample.FieldPrefix:
-		m.ResetPrefix()
-		return nil
-	case sample.FieldSuffix:
-		m.ResetSuffix()
-		return nil
-	case sample.FieldStartValue:
-		m.ResetStartValue()
-		return nil
-	case sample.FieldIncrementStep:
-		m.ResetIncrementStep()
-		return nil
-	case sample.FieldDateFormat:
-		m.ResetDateFormat()
-		return nil
-	case sample.FieldCurrentValue:
-		m.ResetCurrentValue()
-		return nil
-	case sample.FieldDisabled:
-		m.ResetDisabled()
-		return nil
-	case sample.FieldDescription:
-		m.ResetDescription()
-		return nil
-	case sample.FieldTenantID:
-		m.ResetTenantID()
-		return nil
 	case sample.FieldCreatedBy:
 		m.ResetCreatedBy()
 		return nil
