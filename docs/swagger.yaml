@@ -3129,6 +3129,25 @@ paths:
       summary: Get option
       tags:
       - options
+  /system/options/initialize:
+    post:
+      description: Initialize the system with default options
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Initialize
+      tags:
+      - options
   /tenant/tenants:
     get:
       description: Retrieve a list of tenants.

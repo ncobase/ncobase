@@ -63,7 +63,7 @@ func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBod
 		builder.SetNillableValue(&body.Value)
 	}
 	if validator.IsNotNil(body.Autoload) {
-		builder.SetNillableAutoload(body.Autoload)
+		builder.SetAutoload(body.Autoload)
 	}
 	if validator.IsNotEmpty(body.TenantID) {
 		builder.SetNillableTenantID(&body.TenantID)
@@ -124,7 +124,7 @@ func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOpti
 		builder.SetNillableValue(&body.Value)
 	}
 	if validator.IsNotNil(body.Autoload) {
-		builder.SetNillableAutoload(body.Autoload)
+		builder.SetAutoload(body.Autoload)
 	}
 	if validator.IsNotEmpty(body.TenantID) {
 		builder.SetNillableTenantID(&body.TenantID)

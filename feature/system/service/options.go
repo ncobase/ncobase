@@ -7,6 +7,7 @@ import (
 	"ncobase/common/log"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
+	"ncobase/feature/system/config"
 	"ncobase/feature/system/data"
 	"ncobase/feature/system/data/ent"
 	"ncobase/feature/system/data/repository"
@@ -15,6 +16,7 @@ import (
 
 // OptionsServiceInterface represents the options service interface.
 type OptionsServiceInterface interface {
+	Initialize(ctx context.Context) error
 	Create(ctx context.Context, body *structs.OptionsBody) (*structs.ReadOptions, error)
 	Update(ctx context.Context, updates *structs.UpdateOptionsBody) (*structs.ReadOptions, error)
 	Get(ctx context.Context, params *structs.FindOptions) (*structs.ReadOptions, error)
@@ -34,6 +36,38 @@ func NewOptionsService(d *data.Data) OptionsServiceInterface {
 	}
 }
 
+// Initialize initializes the system with default options
+func (s *optionsService) Initialize(ctx context.Context) error {
+	log.Infof(ctx, "Initializing system options...")
+
+	for _, option := range config.SystemDefaultOptions {
+		existing, err := s.options.Get(ctx, &structs.FindOptions{
+			Option: option.Name,
+		})
+
+		if err != nil && !ent.IsNotFound(err) {
+			log.Errorf(ctx, "Error checking existing option %s: %v", option.Name, err)
+			return err
+		}
+
+		if existing != nil {
+			log.Infof(ctx, "Option %s already exists, skipping...", option.Name)
+			continue
+		}
+
+		_, err = s.Create(ctx, &option)
+		if err != nil {
+			log.Errorf(ctx, "Error creating option %s: %v", option.Name, err)
+			return err
+		}
+
+		log.Infof(ctx, "Created option: %s", option.Name)
+	}
+
+	log.Infof(ctx, "System options initialization completed")
+	return nil
+}
+
 // Create creates a new option.
 func (s *optionsService) Create(ctx context.Context, body *structs.OptionsBody) (*structs.ReadOptions, error) {
 	if validator.IsEmpty(body.Name) {
@@ -48,7 +82,7 @@ func (s *optionsService) Create(ctx context.Context, body *structs.OptionsBody) 
 	return s.Serialize(row), nil
 }
 
-// Update updates an existing option (full and partial).
+// Update updates an existing option.
 func (s *optionsService) Update(ctx context.Context, updates *structs.UpdateOptionsBody) (*structs.ReadOptions, error) {
 	if validator.IsEmpty(updates.ID) {
 		return nil, errors.New(ecode.FieldIsRequired("id"))

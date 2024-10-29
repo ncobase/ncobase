@@ -16,6 +16,7 @@ type OptionsHandlerInterface interface {
 	Get(c *gin.Context)
 	Delete(c *gin.Context)
 	List(c *gin.Context)
+	Initialize(c *gin.Context)
 }
 
 // optionsHandler represents the options handler.
@@ -170,4 +171,23 @@ func (h *optionsHandler) List(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, result)
+}
+
+// Initialize initializes the system with default options
+//
+// @Summary Initialize
+// @Description Initialize the system with default options
+// @Tags options
+// @Produce json
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /system/options/initialize [post]
+// @Security Bearer
+func (h *optionsHandler) Initialize(c *gin.Context) {
+	err := h.s.Options.Initialize(c.Request.Context())
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, nil)
 }

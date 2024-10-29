@@ -10,7 +10,7 @@ type OptionsBody struct {
 	Name     string `json:"name,omitempty"`
 	Type     string `json:"type,omitempty"`
 	Value    string `json:"value,omitempty"`
-	Autoload *bool  `json:"autoload,omitempty"`
+	Autoload bool   `json:"autoload,omitempty"`
 	TenantID string `json:"tenant_id,omitempty"`
 }
 

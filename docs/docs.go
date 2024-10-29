@@ -3135,6 +3135,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/system/options/initialize": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Initialize the system with default options",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "options"
+                ],
+                "summary": "Initialize",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/system/options/{option}": {
             "get": {
                 "security": [

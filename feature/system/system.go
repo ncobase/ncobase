@@ -101,6 +101,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Options endpoints
 	options := r.Group("/options", middleware.AuthenticatedUser)
 	{
+		options.POST("/initialize", m.h.Options.Initialize)
 		options.GET("", m.h.Options.List)
 		options.POST("", m.h.Options.Create)
 		options.GET("/:slug", m.h.Options.Get)
