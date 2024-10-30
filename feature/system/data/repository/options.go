@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/common/cache"
 	"ncobase/common/log"
 	"ncobase/common/meili"
 	"ncobase/common/paging"
@@ -33,7 +32,6 @@ type optionsRepository struct {
 	ec *ent.Client
 	rc *redis.Client
 	ms *meili.Client
-	c  *cache.Cache[ent.Options]
 }
 
 // NewOptionsRepository creates a new options repository.
@@ -45,7 +43,6 @@ func NewOptionsRepository(d *data.Data) OptionsRepositoryInterface {
 		ec: ec,
 		rc: rc,
 		ms: ms,
-		c:  cache.NewCache[ent.Options](rc, "ncse_options", false),
 	}
 }
 
@@ -84,22 +81,11 @@ func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBod
 
 // Get retrieves a specific option.
 func (r *optionsRepository) Get(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
-	cacheKey := fmt.Sprintf("%s", params.Option)
-
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
-	}
-
 	row, err := r.getOption(ctx, params)
 	if err != nil {
 		log.Errorf(ctx, "optionsRepo.Get error: %v", err)
 		return nil, err
 	}
-
-	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Errorf(ctx, "optionsRepo.Get cache error: %v", err)
-	}
-
 	return row, nil
 }
 
@@ -136,11 +122,6 @@ func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOpti
 		return nil, err
 	}
 
-	cacheKey := fmt.Sprintf("%s", row.ID)
-	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Errorf(ctx, "optionsRepo.Update cache error: %v", err)
-	}
-
 	return row, nil
 }
 
@@ -160,11 +141,6 @@ func (r *optionsRepository) Delete(ctx context.Context, params *structs.FindOpti
 	_, err := builder.Exec(ctx)
 	if validator.IsNotNil(err) {
 		return err
-	}
-
-	cacheKey := fmt.Sprintf("%s", params.Option)
-	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Errorf(ctx, "optionsRepo.Delete cache error: %v", err)
 	}
 
 	return nil
