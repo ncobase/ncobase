@@ -6,13 +6,15 @@ package ncobase
 // Generate features
 //go:generate go generate ./feature/access
 //go:generate go generate ./feature/auth
-//go:generate go generate ./feature/content
 //go:generate go generate ./feature/group
 //go:generate go generate ./feature/socket
-//go:generate go generate ./feature/resource
 //go:generate go generate ./feature/system
 //go:generate go generate ./feature/tenant
 //go:generate go generate ./feature/user
+
+// Generate business
+//go:generate go generate ./domain/content
+//go:generate go generate ./domain/resource
 
 // Generate plugins
 //go:generate go generate ./plugin/counter

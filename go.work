@@ -4,11 +4,11 @@ toolchain go1.23.1
 
 use (
 	.
+	./domain/content
+	./domain/resource
 	./feature/access
 	./feature/auth
-	./feature/content
 	./feature/group
-	./feature/resource
 	./feature/socket
 	./feature/system
 	./feature/tenant
