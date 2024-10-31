@@ -49,7 +49,9 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 
 	// Register feature management routes
 	if conf.Feature.HotReload {
-		fm.ManageRoutes(engine)
+		// Belong domain group
+		g := engine.Group("/sys", middleware.AuthenticatedUser)
+		fm.ManageRoutes(g)
 	}
 
 	engine.NoRoute(func(c *gin.Context) {
