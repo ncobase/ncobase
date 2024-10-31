@@ -42,7 +42,7 @@ func NewPermissionHandler(svc *service.Service) PermissionHandlerInterface {
 // @Param body body structs.CreatePermissionBody true "Permission data"
 // @Success 200 {object} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /access/permissions [post]
+// @Router /permissions [post]
 // @Security Bearer
 func (h *permissionHandler) Create(c *gin.Context) {
 	body := &structs.CreatePermissionBody{}
@@ -72,7 +72,7 @@ func (h *permissionHandler) Create(c *gin.Context) {
 // @Param slug path string true "Permission slug or ID"
 // @Success 200 {object} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /access/permissions/{slug} [get]
+// @Router /permissions/{slug} [get]
 // @Security Bearer
 func (h *permissionHandler) Get(c *gin.Context) {
 	slug := c.Param("slug")
@@ -101,7 +101,7 @@ func (h *permissionHandler) Get(c *gin.Context) {
 // @Param body body types.JSON true "Permission data"
 // @Success 200 {object} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /access/permissions/{slug} [put]
+// @Router /permissions/{slug} [put]
 // @Security Bearer
 func (h *permissionHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
@@ -137,7 +137,7 @@ func (h *permissionHandler) Update(c *gin.Context) {
 // @Param slug path string true "Permission slug or ID"
 // @Success 200 {object} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /access/permissions/{slug} [delete]
+// @Router /permissions/{slug} [delete]
 // @Security Bearer
 func (h *permissionHandler) Delete(c *gin.Context) {
 	slug := c.Param("slug")
@@ -163,7 +163,7 @@ func (h *permissionHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListPermissionParams true "List permissions parameters"
 // @Success 200 {array} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /access/permissions [get]
+// @Router /permissions [get]
 // @Security Bearer
 func (h *permissionHandler) List(c *gin.Context) {
 	params := &structs.ListPermissionParams{}

@@ -41,7 +41,7 @@ func NewGroupHandler(svc *service.Service) GroupHandlerInterface {
 // @Param body body structs.GroupBody true "GroupBody object"
 // @Success 200 {object} structs.ReadGroup "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /group/groups [post]
+// @Router /groups [post]
 // @Security Bearer
 func (h *groupHandler) Create(c *gin.Context) {
 	body := &structs.CreateGroupBody{}
@@ -71,7 +71,7 @@ func (h *groupHandler) Create(c *gin.Context) {
 // @Param body body structs.UpdateGroupBody true "UpdateGroupBody object"
 // @Success 200 {object} structs.ReadGroup "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /group/groups [put]
+// @Router /groups [put]
 // @Security Bearer
 func (h *groupHandler) Update(c *gin.Context) {
 	body := types.JSON{}
@@ -101,7 +101,7 @@ func (h *groupHandler) Update(c *gin.Context) {
 // @Param params query structs.FindGroup true "FindGroup parameters"
 // @Success 200 {object} structs.ReadGroup "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /group/groups/{slug} [get]
+// @Router /groups/{slug} [get]
 // @Security Bearer
 func (h *groupHandler) Get(c *gin.Context) {
 	params := &structs.FindGroup{Group: c.Param("slug")}
@@ -131,7 +131,7 @@ func (h *groupHandler) Get(c *gin.Context) {
 // @Param slug path string true "Group ID or slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /group/groups/{slug} [delete]
+// @Router /groups/{slug} [delete]
 // @Security Bearer
 func (h *groupHandler) Delete(c *gin.Context) {
 	params := &structs.FindGroup{Group: c.Param("slug")}
@@ -152,7 +152,7 @@ func (h *groupHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListGroupParams true "List group parameters"
 // @Success 200 {array} structs.ReadGroup "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /group/groups [get]
+// @Router /groups [get]
 // @Security Bearer
 func (h *groupHandler) List(c *gin.Context) {
 	params := &structs.ListGroupParams{}
@@ -182,7 +182,7 @@ func (h *groupHandler) List(c *gin.Context) {
 // // @Param params query structs.FindGroup true "FindGroup parameters"
 // // @Success 200 {object} structs.ReadGroup "success"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /group/groups/tree [get]
+// // @Router /groups/tree [get]
 // // @Security Bearer
 // func (h *Handler) GetTree(c *gin.Context) {
 // 	params := &structs.FindGroup{}

@@ -43,7 +43,7 @@ func NewUserHandler(svc *service.Service) UserHandlerInterface {
 // @Param username path string true "Username"
 // @Success 200 {object} structs.ReadUser "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /user/users/{username} [get]
+// @Router /users/{username} [get]
 func (h *userHandler) Get(c *gin.Context) {
 	result, err := h.s.User.Get(c.Request.Context(), c.Param("username"))
 	if err != nil {
@@ -63,7 +63,7 @@ func (h *userHandler) Get(c *gin.Context) {
 // @Param user body structs.UserBody true "User information"
 // @Success 200 {object} structs.ReadUser "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /user/users [post]
+// @Router /users [post]
 func (h *userHandler) Create(c *gin.Context) {
 	var body structs.UserBody
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -90,7 +90,7 @@ func (h *userHandler) Create(c *gin.Context) {
 // @Param user body types.JSON true "User information to update"
 // @Success 200 {object} structs.ReadUser "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /user/users/{username} [put]
+// @Router /users/{username} [put]
 func (h *userHandler) Update(c *gin.Context) {
 	var updates types.JSON
 	if err := c.ShouldBindJSON(&updates); err != nil {
@@ -122,7 +122,7 @@ func (h *userHandler) Update(c *gin.Context) {
 // @Param username path string true "Username"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /user/users/{username} [delete]
+// @Router /users/{username} [delete]
 func (h *userHandler) Delete(c *gin.Context) {
 	username := c.Param("username")
 	user, err := h.s.User.Get(c.Request.Context(), username)
@@ -150,7 +150,7 @@ func (h *userHandler) Delete(c *gin.Context) {
 // @Param direction query string false "Direction of pagination (forward or backward)"
 // @Success 200 {array} structs.ReadUser "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /user/users [get]
+// @Router /users [get]
 func (h *userHandler) List(c *gin.Context) {
 	params := &structs.ListUserParams{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
@@ -180,7 +180,7 @@ func (h *userHandler) List(c *gin.Context) {
 // @Param password body structs.UserPassword true "Password information"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /user/users/{username}/password [put]
+// @Router /users/{username}/password [put]
 func (h *userHandler) UpdatePassword(c *gin.Context) {
 	var body structs.UserPassword
 	if err := c.ShouldBindJSON(&body); err != nil {

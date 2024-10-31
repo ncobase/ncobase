@@ -34,7 +34,7 @@ func NewRolePermissionHandler(svc *service.Service) RolePermissionHandlerInterfa
 // @Param slug path string true "Role ID"
 // @Success 200 {array} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /access/roles/{slug}/permissions [get]
+// @Router /roles/{slug}/permissions [get]
 // @Security Bearer
 func (h *rolePermissionHandler) ListRolePermission(c *gin.Context) {
 	slug := c.Param("slug")

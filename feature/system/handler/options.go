@@ -41,7 +41,7 @@ func NewOptionsHandler(svc *service.Service) OptionsHandlerInterface {
 // @Param body body structs.OptionsBody true "OptionsBody object"
 // @Success 200 {object} structs.ReadOptions "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /system/options [post]
+// @Router /options [post]
 // @Security Bearer
 func (h *optionsHandler) Create(c *gin.Context) {
 	body := &structs.OptionsBody{}
@@ -71,7 +71,7 @@ func (h *optionsHandler) Create(c *gin.Context) {
 // @Param body body structs.UpdateOptionsBody true "UpdateOptionsBody object"
 // @Success 200 {object} structs.ReadOptions "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /system/options [put]
+// @Router /options [put]
 // @Security Bearer
 func (h *optionsHandler) Update(c *gin.Context) {
 	body := &structs.UpdateOptionsBody{}
@@ -101,7 +101,7 @@ func (h *optionsHandler) Update(c *gin.Context) {
 // @Param params query structs.FindOptions true "FindOptions parameters"
 // @Success 200 {object} structs.ReadOptions "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /system/options/{option} [get]
+// @Router /options/{option} [get]
 // @Security Bearer
 func (h *optionsHandler) Get(c *gin.Context) {
 	params := &structs.FindOptions{Option: c.Param("option")}
@@ -131,7 +131,7 @@ func (h *optionsHandler) Get(c *gin.Context) {
 // @Param option path string true "Option ID or name"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /system/options/{option} [delete]
+// @Router /options/{option} [delete]
 // @Security Bearer
 func (h *optionsHandler) Delete(c *gin.Context) {
 	params := &structs.FindOptions{Option: c.Param("option")}
@@ -152,7 +152,7 @@ func (h *optionsHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListOptionsParams true "List options parameters"
 // @Success 200 {array} structs.ReadOptions "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /system/options [get]
+// @Router /options [get]
 // @Security Bearer
 func (h *optionsHandler) List(c *gin.Context) {
 	params := &structs.ListOptionsParams{}
@@ -181,7 +181,7 @@ func (h *optionsHandler) List(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /system/options/initialize [post]
+// @Router /options/initialize [post]
 // @Security Bearer
 func (h *optionsHandler) Initialize(c *gin.Context) {
 	err := h.s.Options.Initialize(c.Request.Context())

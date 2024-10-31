@@ -48,7 +48,7 @@ func NewTenantHandler(svc *service.Service) TenantHandlerInterface {
 // @Param body body structs.CreateTenantBody true "CreateTenantBody object"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants [post]
+// @Router /tenants [post]
 // @Security Bearer
 func (h *TenantHandler) Create(c *gin.Context) {
 	body := &structs.CreateTenantBody{}
@@ -77,7 +77,7 @@ func (h *TenantHandler) Create(c *gin.Context) {
 // @Param username path string true "Username"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/users/{username}/tenant [get]
+// @Router /users/{username}/tenant [get]
 // @Security Bearer
 func (h *TenantHandler) UserOwn(c *gin.Context) {
 	result, err := h.s.Tenant.UserOwn(c.Request.Context(), c.Param("username"))
@@ -99,7 +99,7 @@ func (h *TenantHandler) UserOwn(c *gin.Context) {
 // @Param body body structs.UpdateTenantBody true "UpdateTenantBody object"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants [put]
+// @Router /tenants [put]
 // @Security Bearer
 func (h *TenantHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
@@ -133,7 +133,7 @@ func (h *TenantHandler) Update(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug} [get]
+// @Router /tenants/{slug} [get]
 // @Security Bearer
 func (h *TenantHandler) Get(c *gin.Context) {
 	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
@@ -153,7 +153,7 @@ func (h *TenantHandler) Get(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug}/menu [get]
+// @Router /tenants/{slug}/menu [get]
 // @Security Bearer
 func (h *TenantHandler) GetMenus(c *gin.Context) {
 	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
@@ -173,7 +173,7 @@ func (h *TenantHandler) GetMenus(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug}/setting [get]
+// @Router /tenants/{slug}/setting [get]
 // @Security Bearer
 func (h *TenantHandler) GetTenantSetting(c *gin.Context) {
 	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
@@ -193,7 +193,7 @@ func (h *TenantHandler) GetTenantSetting(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug} [delete]
+// @Router /tenants/{slug} [delete]
 // @Security Bearer
 func (h *TenantHandler) Delete(c *gin.Context) {
 	if err := h.s.Tenant.Delete(c.Request.Context(), c.Param("slug")); err != nil {
@@ -212,7 +212,7 @@ func (h *TenantHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListTenantParams true "List tenant parameters"
 // @Success 200 {array} structs.ReadTenant"success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants [get]
+// @Router /tenants [get]
 // @Security Bearer
 func (h *TenantHandler) List(c *gin.Context) {
 	params := &structs.ListTenantParams{}
@@ -242,7 +242,7 @@ func (h *TenantHandler) List(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug}/attachments [get]
+// @Router /tenants/{slug}/attachments [get]
 // @Security Bearer
 func (h *TenantHandler) ListAttachments(c *gin.Context) {
 	// result, err := h.svc.ListAttachmentss(c.Request.Context(),c.Param("slug"))
@@ -262,7 +262,7 @@ func (h *TenantHandler) ListAttachments(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug}/roles [get]
+// @Router /tenants/{slug}/roles [get]
 // @Security Bearer
 func (h *TenantHandler) ListRoles(c *gin.Context) {
 	// result, err := h.svc.ListRoless(c.Request.Context(),c.Param("slug"))
@@ -282,7 +282,7 @@ func (h *TenantHandler) ListRoles(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug}/settings [get]
+// @Router /tenants/{slug}/settings [get]
 // @Security Bearer
 func (h *TenantHandler) GetSetting(c *gin.Context) {
 	// result, err := h.svc.GetSettings(c.Request.Context(),c.Param("slug"))
@@ -302,7 +302,7 @@ func (h *TenantHandler) GetSetting(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug}/users [get]
+// @Router /tenants/{slug}/users [get]
 // @Security Bearer
 func (h *TenantHandler) ListUsers(c *gin.Context) {
 	// result, err := h.svc.ListUserss(c.Request.Context(),c.Param("slug"))
@@ -322,7 +322,7 @@ func (h *TenantHandler) ListUsers(c *gin.Context) {
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /tenant/tenants/{slug}/groups [get]
+// @Router /tenants/{slug}/groups [get]
 // @Security Bearer
 func (h *TenantHandler) ListGroups(c *gin.Context) {
 	// result, err := h.svc.ListGroupss(c.Request.Context(),c.Param("slug"))
