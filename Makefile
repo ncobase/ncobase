@@ -108,7 +108,7 @@ build-plugin: build
 	done
 
 build-cli:
-	@go build $(BUILD_FLAGS) -o $(CLI_NAME) $(CLI_PATH)
+	@go build $(BUILD_FLAGS) -o $(OUT)/$(CLI_NAME) $(CLI_PATH)
 
 run:
 	@go run $(CMD_PATH)
