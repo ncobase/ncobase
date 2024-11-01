@@ -3,8 +3,7 @@ package handler
 import "ncobase/core/system/service"
 
 // InstanceHandlerInterface represents the instance handler interface.
-type InstanceHandlerInterface interface {
-}
+type InstanceHandlerInterface any
 
 // instanceHandler represents the instance handler.
 type instanceHandler struct {

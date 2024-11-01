@@ -3,8 +3,7 @@ package service
 import "ncobase/core/system/data"
 
 // InstanceServiceInterface is the interface for the service.
-type InstanceServiceInterface interface {
-}
+type InstanceServiceInterface any
 
 // instanceService is the struct for the service.
 type instanceService struct {

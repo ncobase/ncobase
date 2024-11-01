@@ -35,10 +35,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 
 // Close closes all the resources in Data and returns any errors encountered.
 func (d *Data) Close() (errs []error) {
-	if len(errs) > 0 {
-		return errs
-	}
-	return nil
+	return errs
 }
 
 // GetDB get database

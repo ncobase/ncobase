@@ -153,10 +153,7 @@ func (d *Data) Close() (errs []error) {
 			errs = append(errs, err)
 		}
 	}
-	if len(errs) > 0 {
-		return errs
-	}
-	return nil
+	return errs
 }
 
 // CloseDB closes the SQL database connection.

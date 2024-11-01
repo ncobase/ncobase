@@ -39,7 +39,7 @@ func (m *Module) getTenantService() (*tenantService.Service, error) {
 
 // GetSpaceService returns the space service
 func (m *Module) getSpaceService() (*spaceService.Service, error) {
-	f, err := m.fm.GetService("group")
+	f, err := m.fm.GetService("space")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get space service: %v", err)
 	}
