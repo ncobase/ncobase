@@ -1154,6 +1154,8 @@ paths:
       summary: List taxonomies
       tags:
       - taxonomy
+      - cms
+      - business domain
     post:
       consumes:
       - application/json
@@ -1181,6 +1183,8 @@ paths:
       summary: Create taxonomy
       tags:
       - taxonomy
+      - cms
+      - business domain
   /cms/taxonomies/{slug}:
     delete:
       description: Delete an existing taxonomy.
@@ -1206,6 +1210,8 @@ paths:
       summary: Delete taxonomy
       tags:
       - taxonomy
+      - cms
+      - business domain
     get:
       description: Retrieve details of a taxonomy.
       parameters:
@@ -1228,6 +1234,8 @@ paths:
       summary: Get taxonomy
       tags:
       - taxonomy
+      - cms
+      - business domain
     put:
       consumes:
       - application/json
@@ -1260,6 +1268,8 @@ paths:
       summary: Update taxonomy
       tags:
       - taxonomy
+      - cms
+      - business domain
   /cms/topics:
     get:
       description: Retrieve a list of topics.
@@ -1295,6 +1305,8 @@ paths:
       summary: List topics
       tags:
       - topic
+      - cms
+      - business domain
     post:
       consumes:
       - application/json
@@ -1322,6 +1334,8 @@ paths:
       summary: Create topic
       tags:
       - topic
+      - cms
+      - business domain
   /cms/topics/{slug}:
     delete:
       description: Delete an existing topic.
@@ -1347,6 +1361,8 @@ paths:
       summary: Delete topic
       tags:
       - topic
+      - cms
+      - business domain
     get:
       description: Retrieve details of a topic.
       parameters:
@@ -1369,6 +1385,8 @@ paths:
       summary: Get topic
       tags:
       - topic
+      - cms
+      - business domain
     put:
       consumes:
       - application/json
@@ -1401,6 +1419,8 @@ paths:
       summary: Update topic
       tags:
       - topic
+      - cms
+      - business domain
   /iam/account:
     get:
       description: Retrieve information about the current user.
@@ -1420,6 +1440,8 @@ paths:
       summary: Get current user
       tags:
       - account
+      - iam
+      - core domain
   /iam/account/password:
     put:
       consumes:
@@ -1448,6 +1470,8 @@ paths:
       summary: Update user password
       tags:
       - account
+      - iam
+      - core domain
   /iam/account/tenant:
     get:
       description: Retrieve the tenant associated with the current user.
@@ -1467,6 +1491,8 @@ paths:
       summary: Get current user tenant
       tags:
       - account
+      - iam
+      - core domain
   /iam/account/tenants:
     get:
       description: Retrieve the tenant associated with the current user.
@@ -1486,6 +1512,8 @@ paths:
       summary: Get current user tenants
       tags:
       - account
+      - iam
+      - core domain
   /iam/authorize/{code}:
     get:
       consumes:
@@ -1521,8 +1549,9 @@ paths:
             $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Verify code
       tags:
-      - authorization
       - authentication
+      - iam
+      - core domain
   /iam/authorize/send:
     post:
       consumes:
@@ -1554,6 +1583,8 @@ paths:
       summary: Send verification code
       tags:
       - authorization
+      - iam
+      - core domain
   /iam/captcha/{captcha_id}:
     get:
       description: Stream a captcha image.
@@ -1577,6 +1608,9 @@ paths:
       summary: Stream captcha
       tags:
       - authentication
+      - captcha
+      - iam
+      - core domain
   /iam/captcha/generate:
     get:
       description: Generate a captcha image.
@@ -1609,6 +1643,9 @@ paths:
       summary: Generate captcha
       tags:
       - authentication
+      - captcha
+      - iam
+      - core domain
   /iam/captcha/validate:
     post:
       consumes:
@@ -1640,6 +1677,9 @@ paths:
       summary: Validate captcha
       tags:
       - authentication
+      - captcha
+      - iam
+      - core domain
   /iam/login:
     post:
       consumes:
@@ -1673,6 +1713,8 @@ paths:
       summary: Login
       tags:
       - authentication
+      - iam
+      - core domain
   /iam/logout:
     post:
       description: Logout the current user.
@@ -1688,6 +1730,8 @@ paths:
       summary: Logout
       tags:
       - authentication
+      - iam
+      - core domain
   /iam/permissions:
     get:
       description: Retrieve a list of permissions based on the provided query parameters
@@ -1718,7 +1762,9 @@ paths:
       - Bearer: []
       summary: List all permissions
       tags:
-      - permissions
+      - permission
+      - iam
+      - core domain
     post:
       consumes:
       - application/json
@@ -1745,7 +1791,9 @@ paths:
       - Bearer: []
       summary: Create a new permission
       tags:
-      - permissions
+      - permission
+      - iam
+      - core domain
   /iam/permissions/{slug}:
     delete:
       description: Delete a permission by its slug or ID
@@ -1770,7 +1818,9 @@ paths:
       - Bearer: []
       summary: Delete a permission by slug or ID
       tags:
-      - permissions
+      - permission
+      - iam
+      - core domain
     get:
       description: Retrieve a permission by its slug or ID
       parameters:
@@ -1794,7 +1844,9 @@ paths:
       - Bearer: []
       summary: Get a permission by slug or ID
       tags:
-      - permissions
+      - permission
+      - iam
+      - core domain
     put:
       consumes:
       - application/json
@@ -1826,7 +1878,9 @@ paths:
       - Bearer: []
       summary: Update an existing permission
       tags:
-      - permissions
+      - permission
+      - iam
+      - core domain
   /iam/policies:
     get:
       description: Retrieve a list of Casbin rules.
@@ -1879,6 +1933,8 @@ paths:
       summary: List Casbin rules
       tags:
       - casbin
+      - iam
+      - core domain
     post:
       consumes:
       - application/json
@@ -1906,6 +1962,8 @@ paths:
       summary: Create Casbin rule
       tags:
       - casbin
+      - iam
+      - core domain
   /iam/policies/{id}:
     delete:
       description: Delete an existing Casbin rule.
@@ -1931,6 +1989,8 @@ paths:
       summary: Delete Casbin rule
       tags:
       - casbin
+      - iam
+      - core domain
     get:
       description: Retrieve details of a Casbin rule.
       parameters:
@@ -1955,6 +2015,8 @@ paths:
       summary: Get Casbin rule
       tags:
       - casbin
+      - iam
+      - core domain
     put:
       consumes:
       - application/json
@@ -1987,6 +2049,8 @@ paths:
       summary: Update Casbin rule
       tags:
       - casbin
+      - iam
+      - core domain
   /iam/register:
     post:
       consumes:
@@ -2020,6 +2084,8 @@ paths:
       summary: Register
       tags:
       - authentication
+      - iam
+      - core domain
   /iam/roles:
     get:
       description: Retrieve a list of roles based on the provided query parameters
@@ -2050,7 +2116,9 @@ paths:
       - Bearer: []
       summary: List all roles
       tags:
-      - roles
+      - role
+      - iam
+      - core domain
     post:
       consumes:
       - application/json
@@ -2077,7 +2145,9 @@ paths:
       - Bearer: []
       summary: Create a new role
       tags:
-      - roles
+      - role
+      - iam
+      - core domain
   /iam/roles/{slug}:
     delete:
       description: Delete a role by its slug or ID
@@ -2102,7 +2172,9 @@ paths:
       - Bearer: []
       summary: Delete a role by slug or ID
       tags:
-      - roles
+      - role
+      - iam
+      - core domain
     get:
       description: Retrieve a role by its slug or ID
       parameters:
@@ -2126,7 +2198,9 @@ paths:
       - Bearer: []
       summary: Get a role by slug or ID
       tags:
-      - roles
+      - role
+      - iam
+      - core domain
     put:
       consumes:
       - application/json
@@ -2158,7 +2232,9 @@ paths:
       - Bearer: []
       summary: Update an existing role
       tags:
-      - roles
+      - role
+      - iam
+      - core domain
   /iam/roles/{slug}/permissions:
     get:
       description: Retrieve a list of permissions associated with a role by its ID
@@ -2185,7 +2261,9 @@ paths:
       - Bearer: []
       summary: List permissions for a role
       tags:
-      - roles
+      - role
+      - iam
+      - core domain
   /iam/tenants:
     get:
       description: Retrieve a list of tenants.
@@ -2220,6 +2298,8 @@ paths:
       summary: List tenants
       tags:
       - tenant
+      - iam
+      - core domain
     post:
       consumes:
       - application/json
@@ -2247,6 +2327,8 @@ paths:
       summary: Create tenant
       tags:
       - tenant
+      - iam
+      - core domain
     put:
       consumes:
       - application/json
@@ -2279,6 +2361,8 @@ paths:
       summary: Update tenant
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/tenants/{slug}:
     delete:
       description: Delete a specific tenant.
@@ -2304,6 +2388,8 @@ paths:
       summary: Delete tenant
       tags:
       - tenant
+      - iam
+      - core domain
     get:
       description: Retrieve information about a specific tenant.
       parameters:
@@ -2328,6 +2414,8 @@ paths:
       summary: Get tenant
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/tenants/{slug}/attachments:
     get:
       description: Retrieve a list of attachments associated with a specific tenant.
@@ -2353,6 +2441,8 @@ paths:
       summary: List tenant attachments
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/tenants/{slug}/groups:
     get:
       description: Retrieve a list of groups associated with a specific tenant.
@@ -2378,6 +2468,8 @@ paths:
       summary: List tenant groups
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/tenants/{slug}/menu:
     get:
       description: Retrieve the menu associated with a specific tenant.
@@ -2403,6 +2495,8 @@ paths:
       summary: Get tenant menu
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/tenants/{slug}/roles:
     get:
       description: Retrieve a list of roles associated with a specific tenant.
@@ -2428,6 +2522,8 @@ paths:
       summary: List tenant roles
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/tenants/{slug}/setting:
     get:
       description: Retrieve the settings associated with a specific tenant.
@@ -2453,6 +2549,8 @@ paths:
       summary: Get tenant setting
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/tenants/{slug}/settings:
     get:
       description: Retrieve a list of settings associated with a specific tenant.
@@ -2478,6 +2576,8 @@ paths:
       summary: List tenant settings
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/tenants/{slug}/users:
     get:
       description: Retrieve a list of users associated with a specific tenant.
@@ -2503,6 +2603,8 @@ paths:
       summary: List tenant users
       tags:
       - tenant
+      - iam
+      - core domain
   /iam/users:
     get:
       description: List all users with pagination.
@@ -2535,6 +2637,8 @@ paths:
       summary: List users
       tags:
       - user
+      - iam
+      - core domain
     post:
       consumes:
       - application/json
@@ -2560,6 +2664,8 @@ paths:
       summary: Create user
       tags:
       - user
+      - iam
+      - core domain
   /iam/users/{username}:
     delete:
       description: Delete an existing user.
@@ -2583,6 +2689,8 @@ paths:
       summary: Delete user
       tags:
       - user
+      - iam
+      - core domain
     get:
       description: Retrieve information about a specific user.
       parameters:
@@ -2605,6 +2713,8 @@ paths:
       summary: Get user
       tags:
       - user
+      - iam
+      - core domain
     put:
       consumes:
       - application/json
@@ -2635,6 +2745,8 @@ paths:
       summary: Update user
       tags:
       - user
+      - iam
+      - core domain
   /iam/users/{username}/password:
     put:
       consumes:
@@ -2666,6 +2778,8 @@ paths:
       summary: Update user password
       tags:
       - user
+      - iam
+      - core domain
   /iam/users/{username}/tenant:
     get:
       description: Retrieve the tenant associated with the specified user.
@@ -2691,6 +2805,8 @@ paths:
       summary: Get user owned tenant
       tags:
       - user
+      - iam
+      - core domain
   /org/groups:
     get:
       description: Retrieve a list or tree structure of groups.
@@ -2734,6 +2850,8 @@ paths:
       summary: List groups
       tags:
       - group
+      - org
+      - core domain
     post:
       consumes:
       - application/json
@@ -2761,6 +2879,8 @@ paths:
       summary: Create group
       tags:
       - group
+      - org
+      - core domain
     put:
       consumes:
       - application/json
@@ -2788,6 +2908,8 @@ paths:
       summary: Update group
       tags:
       - group
+      - org
+      - core domain
   /org/groups/{slug}:
     delete:
       description: Delete a group by ID or slug.
@@ -2813,6 +2935,8 @@ paths:
       summary: Delete group
       tags:
       - group
+      - org
+      - core domain
     get:
       description: Retrieve a group by ID or slug.
       parameters:
@@ -2852,6 +2976,8 @@ paths:
       summary: Get group
       tags:
       - group
+      - org
+      - core domain
   /plug/counters:
     get:
       description: Retrieve a list or tree structure of counters.
@@ -2889,6 +3015,8 @@ paths:
       summary: List counters
       tags:
       - counter
+      - plug
+      - business domain
     post:
       consumes:
       - application/json
@@ -2916,6 +3044,8 @@ paths:
       summary: Create counter
       tags:
       - counter
+      - plug
+      - business domain
     put:
       consumes:
       - application/json
@@ -2943,6 +3073,8 @@ paths:
       summary: Update counter
       tags:
       - counter
+      - plug
+      - business domain
   /plug/counters/{id}:
     delete:
       description: Delete a counter by ID.
@@ -2968,6 +3100,8 @@ paths:
       summary: Delete counter
       tags:
       - counter
+      - plug
+      - business domain
     get:
       description: Retrieve a counter by ID.
       parameters:
@@ -2992,6 +3126,8 @@ paths:
       summary: Get counter
       tags:
       - counter
+      - plug
+      - business domain
   /res/attachments:
     get:
       description: List attachments based on specified parameters.
@@ -3037,7 +3173,9 @@ paths:
             $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: List attachments
       tags:
-      - attachments
+      - attachment
+      - res
+      - business domain
     post:
       consumes:
       - multipart/form-data
@@ -3075,7 +3213,9 @@ paths:
       - Bearer: []
       summary: Create attachments
       tags:
-      - attachments
+      - attachment
+      - res
+      - business domain
   /res/attachments/{slug}:
     delete:
       description: Delete a specific attachment.
@@ -3098,7 +3238,9 @@ paths:
       - Bearer: []
       summary: Delete attachment
       tags:
-      - attachments
+      - attachment
+      - res
+      - business domain
     get:
       description: Get details of a specific attachment.
       parameters:
@@ -3124,7 +3266,9 @@ paths:
             $ref: '#/definitions/ncobase_common_resp.Exception'
       summary: Get attachment
       tags:
-      - attachments
+      - attachment
+      - res
+      - business domain
     put:
       consumes:
       - multipart/form-data
@@ -3156,7 +3300,9 @@ paths:
       - Bearer: []
       summary: Update attachment
       tags:
-      - attachments
+      - attachment
+      - res
+      - business domain
   /sys/dictionarys:
     get:
       description: Retrieve a list or tree structure of dictionarys.
@@ -3194,6 +3340,8 @@ paths:
       summary: List dictionarys
       tags:
       - dictionary
+      - sys
+      - core domain
     post:
       consumes:
       - application/json
@@ -3221,6 +3369,8 @@ paths:
       summary: Create dictionary
       tags:
       - dictionary
+      - sys
+      - core domain
     put:
       consumes:
       - application/json
@@ -3248,6 +3398,8 @@ paths:
       summary: Update dictionary
       tags:
       - dictionary
+      - sys
+      - core domain
   /sys/dictionarys/{slug}:
     delete:
       description: Delete a dictionary by ID or slug.
@@ -3273,6 +3425,8 @@ paths:
       summary: Delete dictionary
       tags:
       - dictionary
+      - sys
+      - core domain
     get:
       description: Retrieve a dictionary by ID or slug.
       parameters:
@@ -3306,6 +3460,8 @@ paths:
       summary: Get dictionary
       tags:
       - dictionary
+      - sys
+      - core domain
   /sys/menus:
     get:
       description: Retrieve a list or tree structure of menus.
@@ -3355,6 +3511,8 @@ paths:
       summary: List menus
       tags:
       - menu
+      - sys
+      - core domain
     post:
       consumes:
       - application/json
@@ -3382,6 +3540,8 @@ paths:
       summary: Create menu
       tags:
       - menu
+      - sys
+      - core domain
     put:
       consumes:
       - application/json
@@ -3409,6 +3569,8 @@ paths:
       summary: Update menu
       tags:
       - menu
+      - sys
+      - core domain
   /sys/menus/{slug}:
     delete:
       description: Delete a menu by ID or slug.
@@ -3434,6 +3596,8 @@ paths:
       summary: Delete menu
       tags:
       - menu
+      - sys
+      - core domain
     get:
       description: Retrieve a menu by ID or slug.
       parameters:
@@ -3476,6 +3640,8 @@ paths:
       summary: Get menu
       tags:
       - menu
+      - sys
+      - core domain
   /sys/options:
     get:
       description: Retrieve a list of options.
@@ -3518,7 +3684,9 @@ paths:
       - Bearer: []
       summary: List options
       tags:
-      - options
+      - option
+      - sys
+      - core domain
     post:
       consumes:
       - application/json
@@ -3545,7 +3713,9 @@ paths:
       - Bearer: []
       summary: Create option
       tags:
-      - options
+      - option
+      - sys
+      - core domain
     put:
       consumes:
       - application/json
@@ -3572,7 +3742,9 @@ paths:
       - Bearer: []
       summary: Update option
       tags:
-      - options
+      - option
+      - sys
+      - core domain
   /sys/options/{option}:
     delete:
       description: Delete an option by ID or name.
@@ -3597,7 +3769,9 @@ paths:
       - Bearer: []
       summary: Delete option
       tags:
-      - options
+      - option
+      - sys
+      - core domain
     get:
       description: Retrieve an option by ID or name.
       parameters:
@@ -3633,7 +3807,9 @@ paths:
       - Bearer: []
       summary: Get option
       tags:
-      - options
+      - option
+      - sys
+      - core domain
   /sys/options/initialize:
     post:
       description: Initialize the system with default options
@@ -3652,7 +3828,9 @@ paths:
       - Bearer: []
       summary: Initialize
       tags:
-      - options
+      - option
+      - sys
+      - core domain
 securityDefinitions:
   Bearer:
     description: Type "Bearer" followed by a space and JWT token.

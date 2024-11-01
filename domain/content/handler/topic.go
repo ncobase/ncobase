@@ -37,7 +37,7 @@ func NewTopicHandler(s *service.Service) TopicHandlerInterface {
 //
 // @Summary Create topic
 // @Description Create a new topic.
-// @Tags topic
+// @Tags topic, cms, business domain
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTopicBody true "CreateTopicBody object"
@@ -68,7 +68,7 @@ func (h *topicHandler) Create(c *gin.Context) {
 //
 // @Summary Update topic
 // @Description Update an existing topic, either fully or partially.
-// @Tags topic
+// @Tags topic, cms, business domain
 // @Accept json
 // @Produce json
 // @Param slug path string true "Topic slug"
@@ -106,7 +106,7 @@ func (h *topicHandler) Update(c *gin.Context) {
 //
 // @Summary Get topic
 // @Description Retrieve details of a topic.
-// @Tags topic
+// @Tags topic, cms, business domain
 // @Produce json
 // @Param slug path string true "Topic slug"
 // @Success 200 {object} structs.ReadTopic "success"
@@ -132,7 +132,7 @@ func (h *topicHandler) Get(c *gin.Context) {
 //
 // @Summary Delete topic
 // @Description Delete an existing topic.
-// @Tags topic
+// @Tags topic, cms, business domain
 // @Produce json
 // @Param slug path string true "Topic slug"
 // @Success 200 {object} resp.Exception "success"
@@ -158,7 +158,7 @@ func (h *topicHandler) Delete(c *gin.Context) {
 //
 // @Summary List topics
 // @Description Retrieve a list of topics.
-// @Tags topic
+// @Tags topic, cms, business domain
 // @Produce json
 // @Param params query structs.ListTopicParams true "List topics parameters"
 // @Success 200 {array} structs.ReadTopic "success"

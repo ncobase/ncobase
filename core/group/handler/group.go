@@ -35,7 +35,7 @@ func NewGroupHandler(svc *service.Service) GroupHandlerInterface {
 //
 // @Summary Create group
 // @Description Create a new group.
-// @Tags group
+// @Tags group, org, core domain
 // @Accept json
 // @Produce json
 // @Param body body structs.GroupBody true "GroupBody object"
@@ -65,7 +65,7 @@ func (h *groupHandler) Create(c *gin.Context) {
 //
 // @Summary Update group
 // @Description Update an existing group.
-// @Tags group
+// @Tags group, org, core domain
 // @Accept json
 // @Produce json
 // @Param body body structs.UpdateGroupBody true "UpdateGroupBody object"
@@ -95,7 +95,7 @@ func (h *groupHandler) Update(c *gin.Context) {
 //
 // @Summary Get group
 // @Description Retrieve a group by ID or slug.
-// @Tags group
+// @Tags group, org, core domain
 // @Produce json
 // @Param slug path string true "Group ID or slug"
 // @Param params query structs.FindGroup true "FindGroup parameters"
@@ -126,7 +126,7 @@ func (h *groupHandler) Get(c *gin.Context) {
 //
 // @Summary Delete group
 // @Description Delete a group by ID or slug.
-// @Tags group
+// @Tags group, org, core domain
 // @Produce json
 // @Param slug path string true "Group ID or slug"
 // @Success 200 {object} resp.Exception "success"
@@ -147,7 +147,7 @@ func (h *groupHandler) Delete(c *gin.Context) {
 //
 // @Summary List groups
 // @Description Retrieve a list or tree structure of groups.
-// @Tags group
+// @Tags group, org, core domain
 // @Produce json
 // @Param params query structs.ListGroupParams true "List group parameters"
 // @Success 200 {array} structs.ReadGroup "success"
@@ -177,7 +177,7 @@ func (h *groupHandler) List(c *gin.Context) {
 // //
 // // @Summary Get group tree
 // // @Description Retrieve the group tree structure.
-// // @Tags group
+// // @Tags group, org, core domain
 // // @Produce json
 // // @Param params query structs.FindGroup true "FindGroup parameters"
 // // @Success 200 {object} structs.ReadGroup "success"

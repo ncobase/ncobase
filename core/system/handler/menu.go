@@ -34,7 +34,7 @@ func NewMenuHandler(svc *service.Service) MenuHandlerInterface {
 //
 // @Summary Create menu
 // @Description Create a new menu.
-// @Tags menu
+// @Tags menu, sys, core domain
 // @Accept json
 // @Produce json
 // @Param body body structs.MenuBody true "MenuBody object"
@@ -64,7 +64,7 @@ func (h *menuHandler) Create(c *gin.Context) {
 //
 // @Summary Update menu
 // @Description Update an existing menu.
-// @Tags menu
+// @Tags menu, sys, core domain
 // @Accept json
 // @Produce json
 // @Param body body structs.UpdateMenuBody true "UpdateMenuBody object"
@@ -94,7 +94,7 @@ func (h *menuHandler) Update(c *gin.Context) {
 //
 // @Summary Get menu
 // @Description Retrieve a menu by ID or slug.
-// @Tags menu
+// @Tags menu, sys, core domain
 // @Produce json
 // @Param slug path string true "Menu ID or slug"
 // @Param params query structs.FindMenu true "FindMenu parameters"
@@ -125,7 +125,7 @@ func (h *menuHandler) Get(c *gin.Context) {
 //
 // @Summary Delete menu
 // @Description Delete a menu by ID or slug.
-// @Tags menu
+// @Tags menu, sys, core domain
 // @Produce json
 // @Param slug path string true "Menu ID or slug"
 // @Success 200 {object} resp.Exception "success"
@@ -146,7 +146,7 @@ func (h *menuHandler) Delete(c *gin.Context) {
 //
 // @Summary List menus
 // @Description Retrieve a list or tree structure of menus.
-// @Tags menu
+// @Tags menu, sys, core domain
 // @Produce json
 // @Param params query structs.ListMenuParams true "List menu parameters"
 // @Success 200 {array} structs.ReadMenu "success"
@@ -176,7 +176,7 @@ func (h *menuHandler) List(c *gin.Context) {
 // //
 // // @Summary Get menu tree
 // // @Description Retrieve the menu tree structure.
-// // @Tags menu
+// // @Tags menu, sys, core domain
 // // @Produce json
 // // @Param params query structs.FindMenu true "FindMenu parameters"
 // // @Success 200 {object} structs.ReadMenu "success"

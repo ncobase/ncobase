@@ -22,7 +22,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy"
+                    "taxonomy",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "List taxonomies",
                 "parameters": [
@@ -100,7 +102,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy"
+                    "taxonomy",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "Create taxonomy",
                 "parameters": [
@@ -137,7 +141,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy"
+                    "taxonomy",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "Get taxonomy",
                 "parameters": [
@@ -178,7 +184,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy"
+                    "taxonomy",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "Update taxonomy",
                 "parameters": [
@@ -225,7 +233,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy"
+                    "taxonomy",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "Delete taxonomy",
                 "parameters": [
@@ -260,7 +270,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "topic"
+                    "topic",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "List topics",
                 "parameters": [
@@ -322,7 +334,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "topic"
+                    "topic",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "Create topic",
                 "parameters": [
@@ -359,7 +373,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "topic"
+                    "topic",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "Get topic",
                 "parameters": [
@@ -400,7 +416,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "topic"
+                    "topic",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "Update topic",
                 "parameters": [
@@ -447,7 +465,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "topic"
+                    "topic",
+                    "cms",
+                    "business domain"
                 ],
                 "summary": "Delete topic",
                 "parameters": [
@@ -487,7 +507,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "account",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get current user",
                 "responses": {
@@ -521,7 +543,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "account",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Update user password",
                 "parameters": [
@@ -563,7 +587,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "account",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get current user tenant",
                 "responses": {
@@ -594,7 +620,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "account",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get current user tenants",
                 "responses": {
@@ -623,7 +651,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "authorization"
+                    "authorization",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Send verification code",
                 "parameters": [
@@ -671,8 +701,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "authorization",
-                    "authentication"
+                    "authentication",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Verify code",
                 "parameters": [
@@ -724,7 +755,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "authentication"
+                    "authentication",
+                    "captcha",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Generate captcha",
                 "parameters": [
@@ -776,7 +810,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "authentication"
+                    "authentication",
+                    "captcha",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Validate captcha",
                 "parameters": [
@@ -821,7 +858,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "authentication"
+                    "authentication",
+                    "captcha",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Stream captcha",
                 "parameters": [
@@ -859,7 +899,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "authentication"
+                    "authentication",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -912,7 +954,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "authentication"
+                    "authentication",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Logout",
                 "responses": {
@@ -937,7 +981,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "permissions"
+                    "permission",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List all permissions",
                 "parameters": [
@@ -989,7 +1035,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "permissions"
+                    "permission",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Create a new permission",
                 "parameters": [
@@ -1031,7 +1079,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "permissions"
+                    "permission",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get a permission by slug or ID",
                 "parameters": [
@@ -1072,7 +1122,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "permissions"
+                    "permission",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Update an existing permission",
                 "parameters": [
@@ -1119,7 +1171,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "permissions"
+                    "permission",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Delete a permission by slug or ID",
                 "parameters": [
@@ -1159,7 +1213,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "casbin"
+                    "casbin",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List Casbin rules",
                 "parameters": [
@@ -1246,7 +1302,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "casbin"
+                    "casbin",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Create Casbin rule",
                 "parameters": [
@@ -1288,7 +1346,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "casbin"
+                    "casbin",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get Casbin rule",
                 "parameters": [
@@ -1329,7 +1389,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "casbin"
+                    "casbin",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Update Casbin rule",
                 "parameters": [
@@ -1376,7 +1438,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "casbin"
+                    "casbin",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Delete Casbin rule",
                 "parameters": [
@@ -1414,7 +1478,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "authentication"
+                    "authentication",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Register",
                 "parameters": [
@@ -1467,7 +1533,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "roles"
+                    "role",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List all roles",
                 "parameters": [
@@ -1519,7 +1587,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "roles"
+                    "role",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Create a new role",
                 "parameters": [
@@ -1561,7 +1631,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "roles"
+                    "role",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get a role by slug or ID",
                 "parameters": [
@@ -1602,7 +1674,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "roles"
+                    "role",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Update an existing role",
                 "parameters": [
@@ -1649,7 +1723,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "roles"
+                    "role",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Delete a role by slug or ID",
                 "parameters": [
@@ -1689,7 +1765,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "roles"
+                    "role",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List permissions for a role",
                 "parameters": [
@@ -1732,7 +1810,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List tenants",
                 "parameters": [
@@ -1789,7 +1869,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Update tenant",
                 "parameters": [
@@ -1839,7 +1921,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Create tenant",
                 "parameters": [
@@ -1881,7 +1965,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get tenant",
                 "parameters": [
@@ -1919,7 +2005,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Delete tenant",
                 "parameters": [
@@ -1959,7 +2047,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List tenant attachments",
                 "parameters": [
@@ -1999,7 +2089,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List tenant groups",
                 "parameters": [
@@ -2039,7 +2131,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get tenant menu",
                 "parameters": [
@@ -2079,7 +2173,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List tenant roles",
                 "parameters": [
@@ -2119,7 +2215,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get tenant setting",
                 "parameters": [
@@ -2159,7 +2257,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List tenant settings",
                 "parameters": [
@@ -2199,7 +2299,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tenant"
+                    "tenant",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List tenant users",
                 "parameters": [
@@ -2234,7 +2336,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "List users",
                 "parameters": [
@@ -2284,7 +2388,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Create user",
                 "parameters": [
@@ -2321,7 +2427,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get user",
                 "parameters": [
@@ -2357,7 +2465,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Update user",
                 "parameters": [
@@ -2399,7 +2509,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Delete user",
                 "parameters": [
@@ -2437,7 +2549,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Update user password",
                 "parameters": [
@@ -2486,7 +2600,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "user",
+                    "iam",
+                    "core domain"
                 ],
                 "summary": "Get user owned tenant",
                 "parameters": [
@@ -2526,7 +2642,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "group"
+                    "group",
+                    "org",
+                    "core domain"
                 ],
                 "summary": "List groups",
                 "parameters": [
@@ -2598,7 +2716,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "group"
+                    "group",
+                    "org",
+                    "core domain"
                 ],
                 "summary": "Update group",
                 "parameters": [
@@ -2641,7 +2761,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "group"
+                    "group",
+                    "org",
+                    "core domain"
                 ],
                 "summary": "Create group",
                 "parameters": [
@@ -2683,7 +2805,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "group"
+                    "group",
+                    "org",
+                    "core domain"
                 ],
                 "summary": "Get group",
                 "parameters": [
@@ -2746,7 +2870,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "group"
+                    "group",
+                    "org",
+                    "core domain"
                 ],
                 "summary": "Delete group",
                 "parameters": [
@@ -2786,7 +2912,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "counter"
+                    "counter",
+                    "plug",
+                    "business domain"
                 ],
                 "summary": "List counters",
                 "parameters": [
@@ -2848,7 +2976,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "counter"
+                    "counter",
+                    "plug",
+                    "business domain"
                 ],
                 "summary": "Update counter",
                 "parameters": [
@@ -2891,7 +3021,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "counter"
+                    "counter",
+                    "plug",
+                    "business domain"
                 ],
                 "summary": "Create counter",
                 "parameters": [
@@ -2933,7 +3065,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "counter"
+                    "counter",
+                    "plug",
+                    "business domain"
                 ],
                 "summary": "Get counter",
                 "parameters": [
@@ -2971,7 +3105,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "counter"
+                    "counter",
+                    "plug",
+                    "business domain"
                 ],
                 "summary": "Delete counter",
                 "parameters": [
@@ -3006,7 +3142,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "attachments"
+                    "attachment",
+                    "res",
+                    "business domain"
                 ],
                 "summary": "List attachments",
                 "parameters": [
@@ -3085,7 +3223,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "attachments"
+                    "attachment",
+                    "res",
+                    "business domain"
                 ],
                 "summary": "Create attachments",
                 "parameters": [
@@ -3138,7 +3278,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "attachments"
+                    "attachment",
+                    "res",
+                    "business domain"
                 ],
                 "summary": "Get attachment",
                 "parameters": [
@@ -3185,7 +3327,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "attachments"
+                    "attachment",
+                    "res",
+                    "business domain"
                 ],
                 "summary": "Update attachment",
                 "parameters": [
@@ -3229,7 +3373,9 @@ const docTemplate = `{
                 ],
                 "description": "Delete a specific attachment.",
                 "tags": [
-                    "attachments"
+                    "attachment",
+                    "res",
+                    "business domain"
                 ],
                 "summary": "Delete attachment",
                 "parameters": [
@@ -3269,7 +3415,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary"
+                    "dictionary",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "List dictionarys",
                 "parameters": [
@@ -3331,7 +3479,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary"
+                    "dictionary",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Update dictionary",
                 "parameters": [
@@ -3374,7 +3524,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary"
+                    "dictionary",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Create dictionary",
                 "parameters": [
@@ -3416,7 +3568,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary"
+                    "dictionary",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Get dictionary",
                 "parameters": [
@@ -3469,7 +3623,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary"
+                    "dictionary",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Delete dictionary",
                 "parameters": [
@@ -3509,7 +3665,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "menu"
+                    "menu",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "List menus",
                 "parameters": [
@@ -3591,7 +3749,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "menu"
+                    "menu",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Update menu",
                 "parameters": [
@@ -3634,7 +3794,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "menu"
+                    "menu",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Create menu",
                 "parameters": [
@@ -3676,7 +3838,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "menu"
+                    "menu",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Get menu",
                 "parameters": [
@@ -3744,7 +3908,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "menu"
+                    "menu",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Delete menu",
                 "parameters": [
@@ -3784,7 +3950,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "options"
+                    "option",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "List options",
                 "parameters": [
@@ -3856,7 +4024,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "options"
+                    "option",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Update option",
                 "parameters": [
@@ -3899,7 +4069,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "options"
+                    "option",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Create option",
                 "parameters": [
@@ -3941,7 +4113,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "options"
+                    "option",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Initialize",
                 "responses": {
@@ -3972,7 +4146,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "options"
+                    "option",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Get option",
                 "parameters": [
@@ -4030,7 +4206,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "options"
+                    "option",
+                    "sys",
+                    "core domain"
                 ],
                 "summary": "Delete option",
                 "parameters": [

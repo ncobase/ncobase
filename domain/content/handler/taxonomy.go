@@ -37,7 +37,7 @@ func NewTaxonomyHandler(svc *service.Service) TaxonomyHandlerInterface {
 //
 // @Summary Create taxonomy
 // @Description Create a new taxonomy.
-// @Tags taxonomy
+// @Tags taxonomy, cms, business domain
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTaxonomyBody true "CreateTaxonomyBody object"
@@ -68,7 +68,7 @@ func (h *taxonomyHandler) Create(c *gin.Context) {
 //
 // @Summary Update taxonomy
 // @Description Update an existing taxonomy.
-// @Tags taxonomy
+// @Tags taxonomy, cms, business domain
 // @Accept json
 // @Produce json
 // @Param slug path string true "Taxonomy slug"
@@ -106,7 +106,7 @@ func (h *taxonomyHandler) Update(c *gin.Context) {
 //
 // @Summary Get taxonomy
 // @Description Retrieve details of a taxonomy.
-// @Tags taxonomy
+// @Tags taxonomy, cms, business domain
 // @Produce json
 // @Param slug path string true "Taxonomy slug"
 // @Success 200 {object} structs.ReadTaxonomy "success"
@@ -132,7 +132,7 @@ func (h *taxonomyHandler) Get(c *gin.Context) {
 //
 // @Summary Delete taxonomy
 // @Description Delete an existing taxonomy.
-// @Tags taxonomy
+// @Tags taxonomy, cms, business domain
 // @Produce json
 // @Param slug path string true "Taxonomy slug"
 // @Success 200 {object} resp.Exception "success"
@@ -158,7 +158,7 @@ func (h *taxonomyHandler) Delete(c *gin.Context) {
 //
 // @Summary List taxonomies
 // @Description Retrieve a list of taxonomies.
-// @Tags taxonomy
+// @Tags taxonomy, cms, business domain
 // @Produce json
 // @Param params query structs.ListTaxonomyParams true "ListTaxonomyParams object"
 // @Success 200 {array} structs.ReadTaxonomy "success"

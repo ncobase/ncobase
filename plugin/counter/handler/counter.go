@@ -35,7 +35,7 @@ func NewCounterHandler(svc *service.Service) CounterHandlerInterface {
 //
 // @Summary Create counter
 // @Description Create a new counter.
-// @Tags counter
+// @Tags counter, plug, business domain
 // @Accept json
 // @Produce json
 // @Param body body structs.CounterBody true "CounterBody object"
@@ -65,7 +65,7 @@ func (h *counterHandler) Create(c *gin.Context) {
 //
 // @Summary Update counter
 // @Description Update an existing counter.
-// @Tags counter
+// @Tags counter, plug, business domain
 // @Accept json
 // @Produce json
 // @Param body body structs.UpdateCounterBody true "UpdateCounterBody object"
@@ -95,7 +95,7 @@ func (h *counterHandler) Update(c *gin.Context) {
 //
 // @Summary Get counter
 // @Description Retrieve a counter by ID.
-// @Tags counter
+// @Tags counter, plug, business domain
 // @Produce json
 // @Param id path string true "Counter ID"
 // @Success 200 {object} structs.ReadCounter "success"
@@ -125,7 +125,7 @@ func (h *counterHandler) Get(c *gin.Context) {
 //
 // @Summary Delete counter
 // @Description Delete a counter by ID.
-// @Tags counter
+// @Tags counter, plug, business domain
 // @Produce json
 // @Param id path string true "Counter ID"
 // @Success 200 {object} resp.Exception "success"
@@ -146,7 +146,7 @@ func (h *counterHandler) Delete(c *gin.Context) {
 //
 // @Summary List counters
 // @Description Retrieve a list or tree structure of counters.
-// @Tags counter
+// @Tags counter, plug, business domain
 // @Produce json
 // @Param params query structs.ListCounterParams true "List counter parameters"
 // @Success 200 {array} structs.ReadCounter "success"

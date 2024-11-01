@@ -36,7 +36,7 @@ func NewPermissionHandler(svc *service.Service) PermissionHandlerInterface {
 //
 // @Summary Create a new permission
 // @Description Create a new permission with the provided data
-// @Tags permissions
+// @Tags permission, iam, core domain
 // @Accept json
 // @Produce json
 // @Param body body structs.CreatePermissionBody true "Permission data"
@@ -67,7 +67,7 @@ func (h *permissionHandler) Create(c *gin.Context) {
 //
 // @Summary Get a permission by slug or ID
 // @Description Retrieve a permission by its slug or ID
-// @Tags permissions
+// @Tags permission, iam, core domain
 // @Produce json
 // @Param slug path string true "Permission slug or ID"
 // @Success 200 {object} structs.ReadPermission "success"
@@ -94,7 +94,7 @@ func (h *permissionHandler) Get(c *gin.Context) {
 //
 // @Summary Update an existing permission
 // @Description Update an existing permission with the provided data
-// @Tags permissions
+// @Tags permission, iam, core domain
 // @Accept json
 // @Produce json
 // @Param slug path string true "Permission slug or ID"
@@ -132,7 +132,7 @@ func (h *permissionHandler) Update(c *gin.Context) {
 //
 // @Summary Delete a permission by slug or ID
 // @Description Delete a permission by its slug or ID
-// @Tags permissions
+// @Tags permission, iam, core domain
 // @Produce json
 // @Param slug path string true "Permission slug or ID"
 // @Success 200 {object} structs.ReadPermission "success"
@@ -158,7 +158,7 @@ func (h *permissionHandler) Delete(c *gin.Context) {
 //
 // @Summary List all permissions
 // @Description Retrieve a list of permissions based on the provided query parameters
-// @Tags permissions
+// @Tags permission, iam, core domain
 // @Produce json
 // @Param params query structs.ListPermissionParams true "List permissions parameters"
 // @Success 200 {array} structs.ReadPermission "success"

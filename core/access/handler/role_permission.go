@@ -29,7 +29,7 @@ func NewRolePermissionHandler(svc *service.Service) RolePermissionHandlerInterfa
 //
 // @Summary List permissions for a role
 // @Description Retrieve a list of permissions associated with a role by its ID
-// @Tags roles
+// @Tags role, iam, core domain
 // @Produce json
 // @Param slug path string true "Role ID"
 // @Success 200 {array} structs.ReadPermission "success"

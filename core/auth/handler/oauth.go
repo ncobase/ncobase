@@ -42,7 +42,7 @@ package handler
 // //
 // // @Summary OAuth register
 // // @Description Register a user using OAuth.
-// // @Tags oauth
+// // @Tags oauth, iam, core domain
 // // @Accept json
 // // @Produce json
 // // @Param body body structs.OAuthRegisterBody true "OAuthRegisterBody object"
@@ -67,7 +67,7 @@ package handler
 // //
 // // @Summary OAuth redirect
 // // @Description Redirect to OAuth provider for authentication.
-// // @Tags oauth
+// // @Tags oauth, iam, core domain
 // // @Param provider path string true "OAuth provider"
 // // @Param next query string false "Next URL after authentication"
 // // @Success 302 {object} resp.Exception "redirect"
@@ -101,7 +101,7 @@ package handler
 // //
 // // @Summary Facebook OAuth callback
 // // @Description Handle callback from Facebook OAuth provider.
-// // @Tags oauth
+// // @Tags oauth, iam, core domain
 // // @Param code query string true "Authorization code"
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 401 {object} resp.Exception "unauthorized"
@@ -119,7 +119,7 @@ package handler
 // //
 // // @Summary GitHub OAuth callback
 // // @Description Handle callback from GitHub OAuth provider.
-// // @Tags oauth
+// // @Tags oauth, iam, core domain
 // // @Param code query string true "Authorization code"
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 401 {object} resp.Exception "unauthorized"
@@ -137,7 +137,7 @@ package handler
 // //
 // // @Summary OAuth callback
 // // @Description Handle callback from OAuth provider.
-// // @Tags oauth
+// // @Tags oauth, iam, core domain
 // // @Success 302 {object} resp.Exception "redirect"
 // // @Failure 400 {object} resp.Exception "bad request"
 // // @Router /iam/oauth/callback [get]
@@ -154,7 +154,7 @@ package handler
 // //
 // // @Summary Get OAuth profile
 // // @Description Retrieve profile information from OAuth provider.
-// // @Tags oauth
+// // @Tags oauth, iam, core domain
 // // @Produce json
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 400 {object} resp.Exception "bad request"
