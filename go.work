@@ -6,12 +6,12 @@ use (
 	.
 	./core/access
 	./core/auth
-	./core/group
-	./core/linker
+	./core/space
 	./core/system
 	./core/tenant
 	./core/user
 	./domain/content
+	./domain/realtime
 	./domain/resource
 	./pkg
 	./plugin/counter

@@ -8,7 +8,7 @@ replace (
 	ncobase => ../..
 	ncobase/common => ../../pkg
 	ncobase/core/access => ../access
-	ncobase/core/group => ../group
+	ncobase/core/space => ../space
 	ncobase/core/tenant => ../tenant
 	ncobase/core/user => ../user
 )
@@ -22,7 +22,7 @@ require (
 	ncobase v0.0.0-00010101000000-000000000000
 	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
 	ncobase/core/access v0.0.0-00010101000000-000000000000
-	ncobase/core/group v0.0.0-00010101000000-000000000000
+	ncobase/core/space v0.0.0-00010101000000-000000000000
 	ncobase/core/tenant v0.0.0-00010101000000-000000000000
 	ncobase/core/user v0.0.0-00010101000000-000000000000
 )

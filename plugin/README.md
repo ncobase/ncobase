@@ -5,6 +5,9 @@
 ## Structure
 
 ```plantext
+├── assistant/            # Work Assistant, including ai assistant and management
+├── counter/              # Counter plugin, built-in, used for counting business code and statistics
+├── sample/               # Sample plugin
 └── README.md             # This file
 ```
 

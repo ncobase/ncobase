@@ -1,14 +1,13 @@
 # Features for Ncobase
 
-> This is the core module in the system.
+> This is the core domain module in the system.
 
 ## Structure
 
 ```plantext
-├── access/               # Access control and permission management
+├── access/               # Access control and permission management, including role, permission, casbin, role permission
 ├── auth/                 # Authentication and authorization
-├── group/                # User group and role management
-├── linker/               # Relationship and data linking management, websocket service
+├── space/                # organization structure, and team management, including group, department, member, role
 ├── system/               # Core system functionalities
 ├── tenant/               # Multi-tenancy support
 ├── user/                 # User management and profiles

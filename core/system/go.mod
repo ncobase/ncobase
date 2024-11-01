@@ -18,6 +18,8 @@ require (
 	github.com/redis/go-redis/v9 v9.7.0
 	ncobase v0.0.0-00010101000000-000000000000
 	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
+	ncobase/core/access v0.0.0-00010101000000-000000000000
+	ncobase/core/tenant v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -157,6 +159,4 @@ require (
 	google.golang.org/protobuf v1.35.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	ncobase/core/access v0.0.0-00010101000000-000000000000 // indirect
-	ncobase/core/tenant v0.0.0-00010101000000-000000000000 // indirect
 )

@@ -6,12 +6,12 @@ import (
 	"ncobase/common/log"
 	"ncobase/core/access"
 	"ncobase/core/auth"
-	"ncobase/core/group"
-	"ncobase/core/linker"
+	"ncobase/core/space"
 	"ncobase/core/system"
 	"ncobase/core/tenant"
 	"ncobase/core/user"
 	"ncobase/domain/content"
+	"ncobase/domain/realtime"
 	"ncobase/domain/resource"
 )
 
@@ -23,18 +23,18 @@ func registerFeatures(fm *feature.Manager) {
 	fs := make([]feature.Interface, 0, 10) // adjust this if you add more features
 	// Core features
 	fs = append(fs,
-		user.New(),
-		group.New(),
 		access.New(),
-		tenant.New(),
-		system.New(),
 		auth.New(),
-		linker.New(),
+		space.New(),
+		system.New(),
+		tenant.New(),
+		user.New(),
 	)
 
 	// Domain features
 	fs = append(fs,
 		resource.New(),
+		realtime.New(),
 		content.New(),
 	)
 

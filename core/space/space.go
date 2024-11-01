@@ -1,43 +1,39 @@
-package system
+package space
 
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/feature"
-	"ncobase/common/resp"
-	"ncobase/core/system/data"
-	"ncobase/core/system/handler"
-	"ncobase/core/system/initialize"
-	"ncobase/core/system/service"
+	"ncobase/core/space/data"
+	"ncobase/core/space/handler"
+	"ncobase/core/space/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"
 )
 
 var (
-	name         = "system"
-	desc         = "system module"
+	name         = "space"
+	desc         = "Space module, provides organization management"
 	version      = "1.0.0"
-	dependencies = []string{"access", "auth", "tenant", "user"}
+	dependencies []string
 	typeStr      = "module"
-	group        = "sys"
+	group        = "org"
 )
 
-// Module represents the system module.
+// Module represents the group module.
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
 	fm          *feature.Manager
-	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
-	i           *initialize.Service
 	d           *data.Data
 	cleanup     func(name ...string)
 }
 
-// New creates a new instance of the system module.
+// New creates a new instance of the group module.
 func New() feature.Interface {
 	return &Module{}
 }
@@ -48,13 +44,13 @@ func (m *Module) PreInit() error {
 	return nil
 }
 
-// Init initializes the system module with the given config object
+// Init initializes the group module with the given config object
 func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
 	if m.initialized {
-		return fmt.Errorf("system module already initialized")
+		return fmt.Errorf("space module already initialized")
 	}
 
 	m.d, m.cleanup, err = data.New(conf.Data)
@@ -64,40 +60,14 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 
 	m.fm = fm
 	m.initialized = true
-	m.conf = conf
 
 	return nil
 }
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New(m.d, m.fm)
+	m.s = service.New(m.d)
 	m.h = handler.New(m.s)
-	// Subscribe to relevant events
-	m.subscribeEvents(m.fm)
-	// get dependencies services
-	as, err := m.getAuthService()
-	if err != nil {
-		return err
-	}
-	us, err := m.getUserService()
-	if err != nil {
-		return err
-	}
-	ts, err := m.getTenantService()
-	if err != nil {
-		return err
-	}
-	ss, err := m.getSpaceService()
-	if err != nil {
-		return err
-	}
-	acs, err := m.getAccessService()
-	if err != nil {
-		return err
-	}
-	// initialize
-	m.i = initialize.New(as, us, ts, ss, acs)
 	return nil
 }
 
@@ -110,42 +80,19 @@ func (m *Module) Name() string {
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
 	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
-	// System initialization, roles, permissions, Casbin policies...
-	r.POST("/initialize", func(c *gin.Context) {
-		err := m.i.Execute()
-		if err != nil {
-			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-			return
-		}
-		resp.Success(c.Writer)
-	})
-	// Menu endpoints
-	menus := r.Group("/menus")
+	// Group endpoints
+	groups := r.Group("/groups")
 	{
-		menus.GET("", m.h.Menu.List)
-		menus.POST("", m.h.Menu.Create)
-		menus.GET("/:slug", m.h.Menu.Get)
-		menus.PUT("/:slug", m.h.Menu.Update)
-		menus.DELETE("/:slug", m.h.Menu.Delete)
+		groups.GET("", m.h.Group.List)
+		groups.POST("", m.h.Group.Create)
+		groups.GET("/:slug", m.h.Group.Get)
+		groups.PUT("/:slug", m.h.Group.Update)
+		groups.DELETE("/:slug", m.h.Group.Delete)
 	}
-	// Dictionary endpoints
-	dictionaries := r.Group("/dictionaries")
+	// Member endpoints
+	member := r.Group("/members")
 	{
-		dictionaries.GET("", m.h.Dictionary.List)
-		dictionaries.POST("", m.h.Dictionary.Create)
-		dictionaries.GET("/:slug", m.h.Dictionary.Get)
-		dictionaries.PUT("/:slug", m.h.Dictionary.Update)
-		dictionaries.DELETE("/:slug", m.h.Dictionary.Delete)
-	}
-	// Options endpoints
-	options := r.Group("/options")
-	{
-		options.POST("/initialize", m.h.Options.Initialize)
-		options.GET("", m.h.Options.List)
-		options.POST("", m.h.Options.Create)
-		options.GET("/:slug", m.h.Options.Get)
-		options.PUT("/:slug", m.h.Options.Update)
-		options.DELETE("/:slug", m.h.Options.Delete)
+		member.GET("", nil)
 	}
 }
 
@@ -190,6 +137,11 @@ func (m *Module) GetMetadata() feature.Metadata {
 	}
 }
 
+// Version returns the version of the module
+func (m *Module) Version() string {
+	return version
+}
+
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
@@ -200,11 +152,6 @@ func (m *Module) Description() string {
 	return desc
 }
 
-// Version returns the version of the module
-func (m *Module) Version() string {
-	return version
-}
-
 // Type returns the type of the module
 func (m *Module) Type() string {
 	return typeStr
@@ -213,9 +160,4 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
-}
-
-// SubscribeEvents subscribes to relevant events
-func (m *Module) subscribeEvents(_ *feature.Manager) {
-	// Implement any event subscriptions here
 }

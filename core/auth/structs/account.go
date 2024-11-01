@@ -3,7 +3,7 @@ package structs
 import (
 	"ncobase/common/oauth"
 	accessStructs "ncobase/core/access/structs"
-	groupStructs "ncobase/core/group/structs"
+	spaceStructs "ncobase/core/space/structs"
 	tenantStructs "ncobase/core/tenant/structs"
 	userStructs "ncobase/core/user/structs"
 )
@@ -66,5 +66,5 @@ type AccountMeshes struct {
 	Profile *userStructs.ReadUserProfile `json:"profile,omitempty"`
 	Roles   []*accessStructs.ReadRole    `json:"roles,omitempty"`
 	Tenants []*tenantStructs.ReadTenant  `json:"tenants,omitempty"`
-	Groups  []*groupStructs.ReadGroup    `json:"groups,omitempty"`
+	Groups  []*spaceStructs.ReadGroup    `json:"groups,omitempty"`
 }
