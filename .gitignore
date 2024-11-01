@@ -8,6 +8,6 @@ logs/*
 uploads/
 
 # config
-!infra/config/config.yaml
+!setup/config/config.yaml
 config.yaml
 /.VSCodeCounter/
