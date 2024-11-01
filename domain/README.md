@@ -5,6 +5,7 @@
 ## Structure
 
 ```plantext
+├── assistant/            # Work Assistant, including ai assistant and management
 ├── content/              # Content management
 ├── resource/             # Resource management
 └── README.md             # This file

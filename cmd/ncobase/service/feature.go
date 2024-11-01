@@ -4,20 +4,22 @@ import (
 	"context"
 	"ncobase/common/feature"
 	"ncobase/common/log"
+	"ncobase/core/access"
+	"ncobase/core/auth"
+	"ncobase/core/group"
+	"ncobase/core/relation"
+	"ncobase/core/system"
+	"ncobase/core/tenant"
+	"ncobase/core/user"
 	"ncobase/domain/content"
 	"ncobase/domain/resource"
-	"ncobase/feature/access"
-	"ncobase/feature/auth"
-	"ncobase/feature/group"
-	"ncobase/feature/socket"
-	"ncobase/feature/system"
-	"ncobase/feature/tenant"
-	"ncobase/feature/user"
 )
 
 // registerFeatures registers all built-in features
 func registerFeatures(fm *feature.Manager) {
-	// all built-in components
+	// All built-in components
+	// Add more components here, disordered
+	// dependent sorting through the getInitOrder method
 	components := map[string][]feature.Interface{
 		"features": {
 			user.New(),
@@ -26,7 +28,7 @@ func registerFeatures(fm *feature.Manager) {
 			tenant.New(),
 			system.New(),
 			auth.New(),
-			socket.New(),
+			relation.New(),
 		},
 		"domains": {
 			resource.New(),

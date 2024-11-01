@@ -59,7 +59,7 @@ var maxAttachmentSize int64 = 2048 << 20 // 2048 MB
 // @Param extras formData string false "Additional properties associated with the attachment (JSON format)"
 // @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /attachments [post]
+// @Router /res/attachments [post]
 // @Security Bearer
 func (h *attachmentHandler) Create(c *gin.Context) {
 	if c.Request.Method != http.MethodPost {
@@ -251,7 +251,7 @@ func bindAttachmentFields(c *gin.Context, body *structs.CreateAttachmentBody) er
 // @Param attachment body structs.UpdateAttachmentBody true "Attachment details"
 // @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /attachments/{slug} [put]
+// @Router /res/attachments/{slug} [put]
 // @Security Bearer
 func (h *attachmentHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
@@ -324,7 +324,7 @@ func (h *attachmentHandler) Update(c *gin.Context) {
 // @Param type query string false "Type of retrieval ('download' or 'stream')"
 // @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /attachments/{slug} [get]
+// @Router /res/attachments/{slug} [get]
 func (h *attachmentHandler) Get(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -359,7 +359,7 @@ func (h *attachmentHandler) Get(c *gin.Context) {
 // @Param slug path string true "Slug of the attachment to delete"
 // @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /attachments/{slug} [delete]
+// @Router /res/attachments/{slug} [delete]
 // @Security Bearer
 func (h *attachmentHandler) Delete(c *gin.Context) {
 	slug := c.Param("slug")
@@ -385,7 +385,7 @@ func (h *attachmentHandler) Delete(c *gin.Context) {
 // @Param params query structs.ListAttachmentParams true "List attachments parameters"
 // @Success 200 {array} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /attachments [get]
+// @Router /res/attachments [get]
 func (h *attachmentHandler) List(c *gin.Context) {
 	params := &structs.ListAttachmentParams{}
 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {

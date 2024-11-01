@@ -4,13 +4,13 @@ package ncobase
 // //go:generate go run github.com/99designs/gqlgen
 
 // Generate features
-//go:generate go generate ./feature/access
-//go:generate go generate ./feature/auth
-//go:generate go generate ./feature/group
-//go:generate go generate ./feature/socket
-//go:generate go generate ./feature/system
-//go:generate go generate ./feature/tenant
-//go:generate go generate ./feature/user
+//go:generate go generate ./core/access
+//go:generate go generate ./core/auth
+//go:generate go generate ./core/group
+//go:generate go generate ./core/relation
+//go:generate go generate ./core/system
+//go:generate go generate ./core/tenant
+//go:generate go generate ./core/user
 
 // Generate business
 //go:generate go generate ./domain/content

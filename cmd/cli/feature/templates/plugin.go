@@ -2,7 +2,7 @@ package templates
 
 import "fmt"
 
-func PluginMainTemplate(name string) string {
+func PluginTemplate(name string) string {
 	return fmt.Sprintf(`package %s
 
 import (

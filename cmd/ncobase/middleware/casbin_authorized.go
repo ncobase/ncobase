@@ -8,8 +8,8 @@ import (
 	"ncobase/common/types"
 	"ncobase/common/util"
 	"ncobase/common/validator"
-	"ncobase/feature/access/service"
-	"ncobase/feature/access/structs"
+	"ncobase/core/access/service"
+	"ncobase/core/access/structs"
 	"strings"
 
 	"github.com/casbin/casbin/v2"

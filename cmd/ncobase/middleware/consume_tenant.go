@@ -4,7 +4,7 @@ import (
 	"ncobase/common/consts"
 	"ncobase/common/helper"
 	"ncobase/common/log"
-	tenantService "ncobase/feature/tenant/service"
+	tenantService "ncobase/core/tenant/service"
 
 	"github.com/gin-gonic/gin"
 )

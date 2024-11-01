@@ -8,8 +8,8 @@ import (
 	"ncobase/common/feature"
 	"ncobase/common/log"
 	"ncobase/common/resp"
-	accessService "ncobase/feature/access/service"
-	tenantService "ncobase/feature/tenant/service"
+	accessService "ncobase/core/access/service"
+	tenantService "ncobase/core/tenant/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

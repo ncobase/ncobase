@@ -109,8 +109,13 @@ auth:
       [matchers]
       m = (g(r.sub, p.sub, r.dom) && r.dom == p.dom && keyMatch(r.obj, p.obj) && keyMatch(r.act, p.act)) || (r.sub == "super-admin" && r.dom == p.dom && keyMatch(r.obj, p.obj) && keyMatch(r.act, p.act))
   whitelist:
-    - /v1/login
-    - /v1/register
+    - /health
+    - /iam/login
+    - /iam/register
+    - /iam/logout
+    - /iam/captcha/*
+    - /static/*
+    - "*swagger*"
 
 logger:
   # Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug)

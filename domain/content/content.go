@@ -20,6 +20,7 @@ var (
 	desc         = "Content module"
 	version      = "1.0.0"
 	dependencies []string
+	group        = "cms"
 )
 
 // Module represents the content module
@@ -91,8 +92,10 @@ func (m *Module) PostInit() error {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
+	// Belong domain group
+	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
 	// Taxonomy endpoints
-	taxonomies := r.Group("/taxonomies", middleware.AuthenticatedUser)
+	taxonomies := r.Group("/taxonomies")
 	{
 		taxonomies.GET("", m.h.Taxonomy.List)
 		taxonomies.POST("", m.h.Taxonomy.Create)
@@ -101,7 +104,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		taxonomies.DELETE("/:slug", m.h.Taxonomy.Delete)
 	}
 	// Topic endpoints
-	topics := r.Group("/topics", middleware.AuthenticatedUser)
+	topics := r.Group("/topics")
 	{
 		topics.GET("", m.h.Topic.List)
 		topics.POST("", m.h.Topic.Create)
@@ -142,6 +145,7 @@ func (m *Module) GetMetadata() feature.Metadata {
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
 		Description:  desc,
+		Group:        m.Group(),
 	}
 }
 
@@ -159,6 +163,11 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
+}
+
+// Group returns the domain group of the module belongs
+func (m *Module) Group() string {
+	return group
 }
 
 // RegisterEvents registers events for the module

@@ -18,6 +18,7 @@ var (
 	desc         = "Resource module"
 	version      = "1.0.0"
 	dependencies []string
+	group        = "res"
 )
 
 // Module represents the resource module
@@ -73,8 +74,10 @@ func (m *Module) PostInit() error {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
+	// Belong domain group
+	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
 	// Attachment endpoints
-	attachments := r.Group("/attachments", middleware.AuthenticatedUser)
+	attachments := r.Group("/attachments")
 	{
 		attachments.GET("", m.h.Attachment.List)
 		attachments.POST("", m.h.Attachment.Create)
@@ -115,6 +118,7 @@ func (m *Module) GetMetadata() feature.Metadata {
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
 		Description:  desc,
+		Group:        m.Group(),
 	}
 }
 
@@ -127,6 +131,11 @@ func (m *Module) Status() string {
 // Version returns the version of the module
 func (m *Module) Version() string {
 	return version
+}
+
+// Group returns the domain group of the module belongs
+func (m *Module) Group() string {
+	return group
 }
 
 // Dependencies returns the dependencies of the module

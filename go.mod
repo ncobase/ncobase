@@ -5,15 +5,18 @@ go 1.23.0
 toolchain go1.23.1
 
 replace (
-	ncobase/feature/access => ./feature/access
-	ncobase/feature/auth => ./feature/auth
+	ncobase/core/access => ./core/access
+	ncobase/core/auth => ./core/auth
+	ncobase/core/group => ./core/group
+	ncobase/core/relation => ./core/relation
+	ncobase/core/system => ./core/system
+	ncobase/core/tenant => ./core/tenant
+	ncobase/core/user => ./core/user
+)
+
+replace (
 	ncobase/domain/content => ./domain/content
-	ncobase/feature/group => ./feature/group
 	ncobase/domain/resource => ./domain/resource
-	ncobase/feature/socket => ./feature/socket
-	ncobase/feature/system => ./feature/system
-	ncobase/feature/tenant => ./feature/tenant
-	ncobase/feature/user => ./feature/user
 )
 
 replace ncobase/plugin/counter => ./plugin/counter
@@ -30,15 +33,15 @@ require (
 	github.com/swaggo/swag v1.16.4
 	go.opentelemetry.io/otel v1.31.0
 	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
-	ncobase/feature/access v0.0.0-00010101000000-000000000000
-	ncobase/feature/auth v0.0.0-00010101000000-000000000000
+	ncobase/core/access v0.0.0-00010101000000-000000000000
+	ncobase/core/auth v0.0.0-00010101000000-000000000000
+	ncobase/core/group v0.0.0-00010101000000-000000000000
+	ncobase/core/relation v0.0.0-00010101000000-000000000000
+	ncobase/core/system v0.0.0-00010101000000-000000000000
+	ncobase/core/tenant v0.0.0-00010101000000-000000000000
+	ncobase/core/user v0.0.0-00010101000000-000000000000
 	ncobase/domain/content v0.0.0-00010101000000-000000000000
-	ncobase/feature/group v0.0.0-00010101000000-000000000000
 	ncobase/domain/resource v0.0.0-00010101000000-000000000000
-	ncobase/feature/socket v0.0.0-00010101000000-000000000000
-	ncobase/feature/system v0.0.0-00010101000000-000000000000
-	ncobase/feature/tenant v0.0.0-00010101000000-000000000000
-	ncobase/feature/user v0.0.0-00010101000000-000000000000
 	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
 )
 

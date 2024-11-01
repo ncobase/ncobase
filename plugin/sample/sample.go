@@ -14,6 +14,7 @@ var (
 	desc         = "Sample plugin"
 	version      = "1.0.0"
 	dependencies []string
+	group        = "plug"
 )
 
 // Plugin represents the sample plugin
@@ -103,6 +104,7 @@ func (p *Plugin) GetMetadata() feature.Metadata {
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),
 		Description:  desc,
+		Group:        p.Group(),
 	}
 }
 
@@ -115,6 +117,11 @@ func (p *Plugin) Status() string {
 // Version returns the version of the plugin
 func (p *Plugin) Version() string {
 	return version
+}
+
+// Group returns the domain group of the plugin belongs
+func (p *Plugin) Group() string {
+	return group
 }
 
 // Dependencies returns the dependencies of the plugin

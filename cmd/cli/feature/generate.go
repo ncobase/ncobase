@@ -12,6 +12,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	ErrEmptyName     = "Error: Name cannot be empty. Please provide a name for your core, business or plugin."
+	ErrInvalidName   = "Error: Invalid name. Use only alphanumeric characters, underscores, and hyphens."
+	ErrInvalidType   = "Error: Invalid generation type. Use 'core', 'business' or 'plugin'."
+	ErrAlreadyExists = "Error: '%s' already exists in %s. Please choose a different name or remove the existing one."
+)
+
 // Cmd is the main generate command
 var Cmd = &cobra.Command{
 	Use:     "create",
@@ -20,11 +27,20 @@ var Cmd = &cobra.Command{
 	Long:    `Generate new features, plugins, or other components for Ncobase.`,
 }
 
-var genFeatureCmd = &cobra.Command{
-	Use:     "feature [name]",
-	Aliases: []string{"f"},
-	Short:   "Generate a new feature",
-	Long:    `Generate a new feature with the specified name.`,
+var genCoreCmd = &cobra.Command{
+	Use:     "core [name]",
+	Aliases: []string{"c"},
+	Short:   "Generate a new core feature",
+	Long:    `Generate a new core feature with the specified name.`,
+	Args:    cobra.ExactArgs(1),
+	Run:     runGenerate,
+}
+
+var genBusinessCmd = &cobra.Command{
+	Use:     "business [name]",
+	Aliases: []string{"b"},
+	Short:   "Generate a new business feature",
+	Long:    `Generate a new business feature with the specified name.`,
 	Args:    cobra.ExactArgs(1),
 	Run:     runGenerate,
 }
@@ -39,19 +55,19 @@ var genPluginCmd = &cobra.Command{
 }
 
 func init() {
-	Cmd.AddCommand(genFeatureCmd, genPluginCmd)
+	Cmd.AddCommand(genCoreCmd, genBusinessCmd, genPluginCmd)
 }
 
 func runGenerate(cmd *cobra.Command, args []string) {
 	if len(args) == 0 || strings.TrimSpace(args[0]) == "" {
-		fmt.Println("Error: Name cannot be empty. Please provide a name for your feature or plugin.")
+		fmt.Println(ErrEmptyName)
 		os.Exit(1)
 	}
 
 	name := strings.TrimSpace(args[0])
 
 	if !isValidName(name) {
-		fmt.Println("Error: Invalid name. Use only alphanumeric characters, underscores, and hyphens.")
+		fmt.Println(ErrInvalidName)
 		os.Exit(1)
 	}
 
@@ -59,14 +75,17 @@ func runGenerate(cmd *cobra.Command, args []string) {
 	var generateFunc func(string)
 
 	switch cmd.CalledAs() {
-	case "feature", "f":
-		basePath = filepath.Join("feature", name)
-		generateFunc = generateFeature
+	case "core", "c":
+		basePath = filepath.Join("core", name)
+		generateFunc = generateCore
+	case "business", "b":
+		basePath = filepath.Join("domain", name)
+		generateFunc = generateBusiness
 	case "plugin", "p":
 		basePath = filepath.Join("plugin", name)
 		generateFunc = generatePlugin
 	default:
-		fmt.Println("Invalid generation type. Use 'feature' or 'plugin'.")
+		fmt.Println(ErrInvalidType)
 		os.Exit(1)
 	}
 
@@ -75,7 +94,7 @@ func runGenerate(cmd *cobra.Command, args []string) {
 		fmt.Printf("Error checking existence: %v\n", err)
 		os.Exit(1)
 	} else if exists {
-		fmt.Printf("Error: '%s' already exists in %s. Please choose a different name or remove the existing one.\n", name, filepath.Dir(basePath))
+		fmt.Printf(ErrAlreadyExists, name, filepath.Dir(basePath))
 		os.Exit(1)
 	}
 
@@ -100,14 +119,19 @@ func pathExists(path string) (bool, error) {
 	return false, err
 }
 
-func generateFeature(name string) {
-	basePath := filepath.Join("feature", name)
-	createStructure(basePath, name, templates.FeatureMainTemplate, "feature")
+func generateCore(name string) {
+	basePath := filepath.Join("core", name)
+	createStructure(basePath, name, templates.CoreTemplate, "core")
+}
+
+func generateBusiness(name string) {
+	basePath := filepath.Join("domain", name)
+	createStructure(basePath, name, templates.BusinessTemplate, "domain")
 }
 
 func generatePlugin(name string) {
 	basePath := filepath.Join("plugin", name)
-	createStructure(basePath, name, templates.PluginMainTemplate, "plugin")
+	createStructure(basePath, name, templates.PluginTemplate, "plugin")
 }
 
 func createStructure(basePath, name string, mainTemplate func(string) string, moduleType string) {
