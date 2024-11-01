@@ -85,7 +85,7 @@ build-plugins:
 build-all: build-multi build-plugins
 
 swagger:
-	@swag init --parseDependency --parseInternal --parseDepth 1 -g $(CMD_PATH)/main.go -o ./docs
+	@swag init --parseDependency --parseInternal --parseDepth 1 -g $(CMD_PATH)/main.go -o ./docs/swagger
 
 build: generate
 	@go build $(BUILD_FLAGS) -o $(OUT)/$(APP_NAME) $(CMD_PATH)
