@@ -121,7 +121,7 @@ func (p *Plugin) GetMetadata() feature.Metadata {
 		Name:         p.Name(),
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),
-		Description:  desc,
+		Description:  m.Description(),
 	}
 }
 

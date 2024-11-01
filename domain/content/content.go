@@ -20,6 +20,7 @@ var (
 	desc         = "Content module"
 	version      = "1.0.0"
 	dependencies []string
+	typeStr      = "module"
 	group        = "cms"
 )
 
@@ -144,7 +145,8 @@ func (m *Module) GetMetadata() feature.Metadata {
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
-		Description:  desc,
+		Description:  m.Description(),
+		Type:         m.Type(),
 		Group:        m.Group(),
 	}
 }
@@ -163,6 +165,16 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
+}
+
+// Description returns the description of the module
+func (m *Module) Description() string {
+	return desc
+}
+
+// Type returns the type of the module
+func (m *Module) Type() string {
+	return typeStr
 }
 
 // Group returns the domain group of the module belongs

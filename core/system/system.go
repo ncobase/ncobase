@@ -18,6 +18,7 @@ var (
 	desc         = "system module"
 	version      = "1.0.0"
 	dependencies []string
+	typeStr      = "module"
 	group        = "sys"
 )
 
@@ -148,9 +149,20 @@ func (m *Module) GetMetadata() feature.Metadata {
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
-		Description:  desc,
+		Description:  m.Description(),
+		Type:         m.Type(),
 		Group:        m.Group(),
 	}
+}
+
+// Dependencies returns the dependencies of the module
+func (m *Module) Dependencies() []string {
+	return dependencies
+}
+
+// Description returns the description of the module
+func (m *Module) Description() string {
+	return desc
 }
 
 // Version returns the version of the module
@@ -158,14 +170,14 @@ func (m *Module) Version() string {
 	return version
 }
 
+// Type returns the type of the module
+func (m *Module) Type() string {
+	return typeStr
+}
+
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
-}
-
-// Dependencies returns the dependencies of the module
-func (m *Module) Dependencies() []string {
-	return dependencies
 }
 
 // SubscribeEvents subscribes to relevant events

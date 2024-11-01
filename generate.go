@@ -7,7 +7,7 @@ package ncobase
 //go:generate go generate ./core/access
 //go:generate go generate ./core/auth
 //go:generate go generate ./core/group
-//go:generate go generate ./core/relation
+//go:generate go generate ./core/linker
 //go:generate go generate ./core/system
 //go:generate go generate ./core/tenant
 //go:generate go generate ./core/user

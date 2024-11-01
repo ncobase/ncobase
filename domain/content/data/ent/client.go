@@ -10,12 +10,12 @@ import (
 	"reflect"
 
 	"ncobase/domain/content/data/ent/migrate"
+	"ncobase/domain/resource/data/ent"
 
 	"ncobase/domain/content/data/ent/taxonomy"
 	"ncobase/domain/content/data/ent/taxonomyrelation"
 	"ncobase/domain/content/data/ent/topic"
 
-	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 )

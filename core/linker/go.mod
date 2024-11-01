@@ -1,4 +1,4 @@
-module ncobase/core/relation
+module ncobase/core/linker
 
 go 1.23.0
 

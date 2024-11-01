@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 	"ncobase/common/log"
-	"ncobase/core/relation/service"
+	"ncobase/core/linker/service"
 	"net/http"
 
 	"github.com/gorilla/websocket"

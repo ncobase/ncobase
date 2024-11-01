@@ -8,7 +8,7 @@
 ├── access/               # Access control and permission management
 ├── auth/                 # Authentication and authorization
 ├── group/                # User group and role management
-├── relation/               # Relationship and data linking management, websocket service
+├── linker/               # Relationship and data linking management, websocket service
 ├── system/               # Core system functionalities
 ├── tenant/               # Multi-tenancy support
 ├── user/                 # User management and profiles

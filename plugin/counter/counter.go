@@ -19,6 +19,7 @@ var (
 	desc         = "Counter plugin, built-in"
 	version      = "1.0.0"
 	dependencies []string
+	typeStr      = "plugin"
 	group        = "plug"
 )
 
@@ -122,7 +123,8 @@ func (p *Plugin) GetMetadata() feature.Metadata {
 		Name:         p.Name(),
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),
-		Description:  desc,
+		Description:  p.Description(),
+		Type:         p.Type(),
 		Group:        p.Group(),
 	}
 }
@@ -138,14 +140,24 @@ func (p *Plugin) Version() string {
 	return version
 }
 
-// Group returns the domain group of the plugin belongs
-func (p *Plugin) Group() string {
-	return group
-}
-
 // Dependencies returns the dependencies of the plugin
 func (p *Plugin) Dependencies() []string {
 	return dependencies
+}
+
+// Description returns the description of the plugin
+func (p *Plugin) Description() string {
+	return desc
+}
+
+// Type returns the type of the plugin
+func (p *Plugin) Type() string {
+	return typeStr
+}
+
+// Group returns the domain group of the plugin belongs
+func (p *Plugin) Group() string {
+	return group
 }
 
 // SubscribeEvents subscribes to relevant events
@@ -159,5 +171,7 @@ func init() {
 		Version:      version,
 		Dependencies: dependencies,
 		Description:  desc,
+		Type:         typeStr,
+		Group:        group,
 	})
 }

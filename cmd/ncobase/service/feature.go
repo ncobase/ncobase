@@ -7,7 +7,7 @@ import (
 	"ncobase/core/access"
 	"ncobase/core/auth"
 	"ncobase/core/group"
-	"ncobase/core/relation"
+	"ncobase/core/linker"
 	"ncobase/core/system"
 	"ncobase/core/tenant"
 	"ncobase/core/user"
@@ -29,7 +29,7 @@ func registerFeatures(fm *feature.Manager) {
 		tenant.New(),
 		system.New(),
 		auth.New(),
-		relation.New(),
+		linker.New(),
 	)
 
 	// Domain features

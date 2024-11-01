@@ -18,6 +18,7 @@ var (
 	desc         = "auth module"
 	version      = "1.0.0"
 	dependencies = []string{"access", "tenant", "user"}
+	typeStr      = "module"
 	group        = "iam"
 )
 
@@ -154,7 +155,8 @@ func (m *Module) GetMetadata() feature.Metadata {
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
-		Description:  desc,
+		Description:  m.Description(),
+		Type:         m.Type(),
 		Group:        m.Group(),
 	}
 }
@@ -164,12 +166,22 @@ func (m *Module) Version() string {
 	return version
 }
 
-// Group returns the domain group of the module belongs
-func (m *Module) Group() string {
-	return group
-}
-
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
+}
+
+// Description returns the description of the module
+func (m *Module) Description() string {
+	return desc
+}
+
+// Type returns the type of the module
+func (m *Module) Type() string {
+	return typeStr
+}
+
+// Group returns the domain group of the module belongs
+func (m *Module) Group() string {
+	return group
 }

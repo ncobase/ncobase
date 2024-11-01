@@ -7,7 +7,7 @@ use (
 	./core/access
 	./core/auth
 	./core/group
-	./core/relation
+	./core/linker
 	./core/system
 	./core/tenant
 	./core/user

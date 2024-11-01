@@ -1,4 +1,4 @@
-package relation
+package linker
 
 import (
 	"fmt"

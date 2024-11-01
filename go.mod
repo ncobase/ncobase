@@ -8,7 +8,7 @@ replace (
 	ncobase/core/access => ./core/access
 	ncobase/core/auth => ./core/auth
 	ncobase/core/group => ./core/group
-	ncobase/core/relation => ./core/relation
+	ncobase/core/linker => ./core/linker
 	ncobase/core/system => ./core/system
 	ncobase/core/tenant => ./core/tenant
 	ncobase/core/user => ./core/user
@@ -36,7 +36,6 @@ require (
 	ncobase/core/access v0.0.0-00010101000000-000000000000
 	ncobase/core/auth v0.0.0-00010101000000-000000000000
 	ncobase/core/group v0.0.0-00010101000000-000000000000
-	ncobase/core/relation v0.0.0-00010101000000-000000000000
 	ncobase/core/system v0.0.0-00010101000000-000000000000
 	ncobase/core/tenant v0.0.0-00010101000000-000000000000
 	ncobase/core/user v0.0.0-00010101000000-000000000000
@@ -99,7 +98,6 @@ require (
 	github.com/google/go-github v17.0.0+incompatible // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/gosimple/slug v1.14.0 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0 // indirect

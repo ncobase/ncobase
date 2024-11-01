@@ -1,6 +1,6 @@
 package handler
 
-import "ncobase/core/relation/service"
+import "ncobase/core/linker/service"
 
 // Handler represents the socket handler.
 type Handler struct {

@@ -4,7 +4,7 @@ import (
 	accessService "ncobase/core/access/service"
 	authService "ncobase/core/auth/service"
 	groupService "ncobase/core/group/service"
-	"ncobase/core/relation/service/initialize"
+	"ncobase/core/linker/service/initialize"
 	tenantService "ncobase/core/tenant/service"
 	userService "ncobase/core/user/service"
 )
