@@ -20,44 +20,43 @@ func registerFeatures(fm *feature.Manager) {
 	// All built-in components
 	// Add more components here, disordered
 	// dependent sorting through the getInitOrder method
-	components := map[string][]feature.Interface{
-		"features": {
-			user.New(),
-			group.New(),
-			access.New(),
-			tenant.New(),
-			system.New(),
-			auth.New(),
-			relation.New(),
-		},
-		"domains": {
-			resource.New(),
-			content.New(),
-		},
-	}
+	fs := make([]feature.Interface, 0, 10) // adjust this if you add more features
+	// Core features
+	fs = append(fs,
+		user.New(),
+		group.New(),
+		access.New(),
+		tenant.New(),
+		system.New(),
+		auth.New(),
+		relation.New(),
+	)
 
-	var sfs []feature.Interface
+	// Domain features
+	fs = append(fs,
+		resource.New(),
+		content.New(),
+	)
 
-	// Register each component
-	for category, comps := range components {
-		for _, f := range comps {
-			if err := fm.Register(f); err != nil {
-				log.Errorf(context.Background(), "Failed to register %s %s: %v", category, f.Name(), err)
-				continue // Skip this feature and try to register the next one
-			}
-			log.Infof(context.Background(), "Successfully registered %s %s", category, f.Name())
-			sfs = append(sfs, f)
+	// Registered features
+	registered := make([]feature.Interface, 0, len(fs))
+
+	for _, f := range fs {
+		if err := fm.Register(f); err != nil {
+			log.Errorf(context.Background(), "Failed to register feature %s: %v", f.Name(), err)
+			continue // Skip this feature and try to register the next one
 		}
+		log.Infof(context.Background(), "Successfully registered feature %s", f.Name())
+		registered = append(registered, f)
 	}
 
-	if len(sfs) == 0 {
+	if len(registered) == 0 {
 		log.Errorf(context.Background(), "No features were successfully registered.")
 		return
 	}
 
-	log.Infof(context.Background(), "Successfully registered %d features", len(sfs))
+	log.Infof(context.Background(), "Successfully registered %d features", len(registered))
 
-	// Initialize all registered features
 	if err := fm.InitFeatures(); err != nil {
 		log.Errorf(context.Background(), "Failed to initialize features: %v", err)
 		return
