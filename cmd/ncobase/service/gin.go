@@ -17,7 +17,13 @@ import (
 
 // ginServer creates and initializes the server.
 func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
+	// Set gin mode
+	if conf.RunMode == "" {
+		conf.RunMode = gin.ReleaseMode
+	}
+	// Set mode before creating engine
 	gin.SetMode(conf.RunMode)
+	// Create gin engine
 	engine := gin.New()
 
 	// Initialize middleware
@@ -26,7 +32,7 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 	engine.Use(middleware.CORSHandler)
 	engine.Use(middleware.OtelTrace)
 
-	// validate timestamp
+	// Validate timestamp
 	// engine.Use(middleware.Timestamp(conf.Auth.Whitelist))
 
 	// Consume user
@@ -53,7 +59,7 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 		g := engine.Group("/sys", middleware.AuthenticatedUser)
 		fm.ManageRoutes(g)
 	}
-
+	// No route
 	engine.NoRoute(func(c *gin.Context) {
 		resp.Fail(c.Writer, resp.NotFound(ecode.Text(http.StatusNotFound)))
 	})
