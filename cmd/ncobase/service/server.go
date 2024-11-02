@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"ncobase/common/config"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/common/log"
 	"net/http"
 )
@@ -11,27 +11,27 @@ import (
 // NewServer creates a new server.
 func NewServer(conf *config.Config) (http.Handler, func(), error) {
 
-	// Initialize Feature Manager
-	fm, err := feature.NewManager(conf)
+	// Initialize Extension Manager
+	em, err := extension.NewManager(conf)
 	if err != nil {
-		log.Fatalf(context.Background(), "Failed initializing feature manager: %+v", err)
+		log.Fatalf(context.Background(), "Failed initializing extension manager: %+v", err)
 		return nil, nil, err
 	}
 
-	// Register built-in features
-	registerFeatures(fm)
-	if err := fm.LoadPlugins(); err != nil {
+	// Register built-in extensions
+	registerExtensions(em)
+	if err := em.LoadPlugins(); err != nil {
 		log.Fatalf(context.Background(), "Failed loading plugins: %+v", err)
 	}
 
 	// New server
-	h, err := ginServer(conf, fm)
+	h, err := ginServer(conf, em)
 	if err != nil {
 		log.Fatalf(context.Background(), "Failed initializing http: %+v", err)
 		// panic(err)
 	}
 
 	return h, func() {
-		fm.Cleanup()
+		em.Cleanup()
 	}, nil
 }

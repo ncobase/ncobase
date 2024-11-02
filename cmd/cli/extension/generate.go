@@ -1,4 +1,4 @@
-package feature
+package extension
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"ncobase/cmd/cli/feature/templates"
+	"ncobase/cmd/cli/extension/templates"
 
 	"github.com/spf13/cobra"
 )
@@ -24,14 +24,14 @@ var Cmd = &cobra.Command{
 	Use:     "create",
 	Aliases: []string{"gen", "generate"},
 	Short:   "Generate new components",
-	Long:    `Generate new features, plugins, or other components for Ncobase.`,
+	Long:    `Generate new extensions, plugins, or other components for Ncobase.`,
 }
 
 var genCoreCmd = &cobra.Command{
 	Use:     "core [name]",
 	Aliases: []string{"c"},
-	Short:   "Generate a new core feature",
-	Long:    `Generate a new core feature with the specified name.`,
+	Short:   "Generate a new core extension",
+	Long:    `Generate a new core extension with the specified name.`,
 	Args:    cobra.ExactArgs(1),
 	Run:     runGenerate,
 }
@@ -39,8 +39,8 @@ var genCoreCmd = &cobra.Command{
 var genBusinessCmd = &cobra.Command{
 	Use:     "business [name]",
 	Aliases: []string{"b"},
-	Short:   "Generate a new business feature",
-	Long:    `Generate a new business feature with the specified name.`,
+	Short:   "Generate a new business extension",
+	Long:    `Generate a new business extension with the specified name.`,
 	Args:    cobra.ExactArgs(1),
 	Run:     runGenerate,
 }
@@ -89,7 +89,7 @@ func runGenerate(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	// Check if the feature/plugin already exists
+	// Check if the extension/plugin already exists
 	if exists, err := pathExists(basePath); err != nil {
 		fmt.Printf("Error checking existence: %v\n", err)
 		os.Exit(1)

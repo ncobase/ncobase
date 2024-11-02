@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/common/observes"
 	"ncobase/domain/content/data"
 	"ncobase/domain/content/handler"
@@ -28,7 +28,7 @@ var (
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
-	fm          *feature.Manager
+	em          *extension.Manager
 	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
@@ -49,7 +49,7 @@ func (m *Module) PreInit() error {
 }
 
 // Init initializes the module
-func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
+func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -62,7 +62,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 		return err
 	}
 
-	m.fm = fm
+	m.em = em
 	m.initialized = true
 	m.conf = conf
 
@@ -87,7 +87,7 @@ func (m *Module) PostInit() error {
 	}
 	m.h = observes.DecorateStruct(handler.New(m.s), handlerOpt)
 
-	m.subscribeEvents(m.fm)
+	m.subscribeEvents(m.em)
 	return nil
 }
 
@@ -116,12 +116,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() feature.Handler {
+func (m *Module) GetHandlers() extension.Handler {
 	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() feature.Service {
+func (m *Module) GetServices() extension.Service {
 	return m.s
 }
 
@@ -140,8 +140,8 @@ func (m *Module) Cleanup() error {
 }
 
 // GetMetadata returns the metadata of the module
-func (m *Module) GetMetadata() feature.Metadata {
-	return feature.Metadata{
+func (m *Module) GetMetadata() extension.Metadata {
+	return extension.Metadata{
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
@@ -183,11 +183,11 @@ func (m *Module) Group() string {
 }
 
 // RegisterEvents registers events for the module
-func (m *Module) subscribeEvents(_ *feature.Manager) {
+func (m *Module) subscribeEvents(_ *extension.Manager) {
 	// Implement any event subscriptions here
 }
 
 // New creates a new instance of the auth module.
-func New() feature.Interface {
+func New() extension.Interface {
 	return &Module{}
 }

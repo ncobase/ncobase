@@ -1,4 +1,4 @@
-# Features for Ncobase
+# Extensions for Ncobase
 
 > This is the core domain module in the system.
 

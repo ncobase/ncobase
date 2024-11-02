@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/plugin/counter/data"
 	"ncobase/plugin/counter/data/repository"
 	"ncobase/plugin/counter/handler"
@@ -27,7 +27,7 @@ var (
 type Plugin struct {
 	initialized bool
 	mu          sync.RWMutex
-	fm          *feature.Manager
+	em          *extension.Manager
 	conf        *config.Config
 	d           *data.Data
 	r           *repository.Repository
@@ -48,7 +48,7 @@ func (p *Plugin) PreInit() error {
 }
 
 // Init initializes the plugin
-func (p *Plugin) Init(conf *config.Config, fm *feature.Manager) (err error) {
+func (p *Plugin) Init(conf *config.Config, em *extension.Manager) (err error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
@@ -61,7 +61,7 @@ func (p *Plugin) Init(conf *config.Config, fm *feature.Manager) (err error) {
 		return err
 	}
 
-	p.fm = fm
+	p.em = em
 	p.conf = conf
 	p.initialized = true
 
@@ -74,7 +74,7 @@ func (p *Plugin) PostInit() error {
 	p.s = service.New(p.d)
 	p.h = handler.New(p.s)
 	// Subscribe to relevant events
-	p.subscribeEvents(p.fm)
+	p.subscribeEvents(p.em)
 	return nil
 }
 
@@ -94,12 +94,12 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the plugin
-func (p *Plugin) GetHandlers() feature.Handler {
+func (p *Plugin) GetHandlers() extension.Handler {
 	return p.h
 }
 
 // GetServices returns the services for the plugin
-func (p *Plugin) GetServices() feature.Service {
+func (p *Plugin) GetServices() extension.Service {
 	return p.s
 }
 
@@ -118,8 +118,8 @@ func (p *Plugin) Cleanup() error {
 }
 
 // GetMetadata returns the metadata of the plugin
-func (p *Plugin) GetMetadata() feature.Metadata {
-	return feature.Metadata{
+func (p *Plugin) GetMetadata() extension.Metadata {
+	return extension.Metadata{
 		Name:         p.Name(),
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),
@@ -161,12 +161,12 @@ func (p *Plugin) Group() string {
 }
 
 // SubscribeEvents subscribes to relevant events
-func (p *Plugin) subscribeEvents(_ *feature.Manager) {
+func (p *Plugin) subscribeEvents(_ *extension.Manager) {
 	// Implement any event subscriptions here
 }
 
 func init() {
-	feature.RegisterPlugin(&Plugin{}, feature.Metadata{
+	extension.RegisterPlugin(&Plugin{}, extension.Metadata{
 		Name:         name,
 		Version:      version,
 		Dependencies: dependencies,

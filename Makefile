@@ -61,7 +61,7 @@ build-multi: generate
 	@$(MAKE) copy-config
 
 build-plugins:
-	@mkdir -p $(OUT)/plugins
+	@mkdir -p $(OUT)/extension/plugins
 	@if [ $(APPLE_CHIP) -eq 1 ]; then \
 		echo "Skipping multi-platform plugin build on Apple Silicon"; \
 	else \

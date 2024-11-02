@@ -2,16 +2,16 @@ package templates
 
 import "fmt"
 
-func CoreTemplate(name string) string {
+func BusinessTemplate(name string) string {
 	return fmt.Sprintf(`package %s
 
 import (
 	"fmt"
 	"ncobase/common/config"
-	"ncobase/common/feature"
-	"ncobase/core/%s/data"
-	"ncobase/core/%s/handler"
-	"ncobase/core/%s/service"
+	"ncobase/common/extension"
+	"ncobase/domain/%s/data"
+	"ncobase/domain/%s/handler"
+	"ncobase/domain/%s/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -28,7 +28,7 @@ var (
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
-	fm          *feature.Manager
+	em          *extension.Manager
 	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
@@ -37,7 +37,7 @@ type Module struct {
 }
 
 // New creates a new instance of the %s module.
-func New() feature.Interface {
+func New() extension.Interface {
 	return &Module{}
 }
 
@@ -48,7 +48,7 @@ func (m *Module) PreInit() error {
 }
 
 // Init initializes the %s module with the given config object
-func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
+func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -61,7 +61,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 		return err
 	}
 
-	m.fm = fm
+	m.em = em
 	m.conf = conf
 	m.initialized = true
 
@@ -87,12 +87,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() feature.Handler {
+func (m *Module) GetHandlers() extension.Handler {
 	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() feature.Service {
+func (m *Module) GetServices() extension.Service {
 	return m.s
 }
 
@@ -116,8 +116,8 @@ func (m *Module) Status() string {
 }
 
 // GetMetadata returns the metadata of the module
-func (m *Module) GetMetadata() feature.Metadata {
-	return feature.Metadata{
+func (m *Module) GetMetadata() extension.Metadata {
+	return extension.Metadata{
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),

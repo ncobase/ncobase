@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/domain/resource/data"
 	"ncobase/domain/resource/handler"
 	"ncobase/domain/resource/service"
@@ -26,7 +26,7 @@ var (
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
-	fm          *feature.Manager
+	em          *extension.Manager
 	s           *service.Service
 	h           *handler.Handler
 	d           *data.Data
@@ -45,7 +45,7 @@ func (m *Module) PreInit() error {
 }
 
 // Init initializes the module
-func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
+func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -58,7 +58,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 		return err
 	}
 
-	m.fm = fm
+	m.em = em
 	m.initialized = true
 
 	return nil
@@ -69,7 +69,7 @@ func (m *Module) PostInit() error {
 	m.s = service.New(m.d)
 	m.h = handler.New(m.s)
 	// Subscribe to relevant events
-	m.subscribeEvents(m.fm)
+	m.subscribeEvents(m.em)
 	return nil
 }
 
@@ -89,12 +89,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() feature.Handler {
+func (m *Module) GetHandlers() extension.Handler {
 	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() feature.Service {
+func (m *Module) GetServices() extension.Service {
 	return m.s
 }
 
@@ -113,8 +113,8 @@ func (m *Module) Cleanup() error {
 }
 
 // GetMetadata returns the metadata of the module
-func (m *Module) GetMetadata() feature.Metadata {
-	return feature.Metadata{
+func (m *Module) GetMetadata() extension.Metadata {
+	return extension.Metadata{
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
@@ -156,12 +156,12 @@ func (m *Module) Group() string {
 }
 
 // SubscribeEvents subscribes to relevant events
-func (m *Module) subscribeEvents(_ *feature.Manager) {
+func (m *Module) subscribeEvents(_ *extension.Manager) {
 	// Implement any event subscriptions here
 }
 
 // func init() {
-// 	feature.RegisterModule(&Module{}, feature.Metadata{
+// 	extension.RegisterModule(&Module{}, extension.Metadata{
 // 		Name:         name + "-development",
 // 		Version:      version,
 // 		Dependencies: dependencies,
@@ -170,6 +170,6 @@ func (m *Module) subscribeEvents(_ *feature.Manager) {
 // }
 
 // New creates a new instance of the auth module.
-func New() feature.Interface {
+func New() extension.Interface {
 	return &Module{}
 }

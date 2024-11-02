@@ -9,7 +9,7 @@ import (
 
 // GetUserService returns the user service
 func (m *Module) getUserService() (*userService.Service, error) {
-	f, err := m.fm.GetService("user")
+	f, err := m.em.GetService("user")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user service: %v", err)
 	}
@@ -24,7 +24,7 @@ func (m *Module) getUserService() (*userService.Service, error) {
 
 // GetTenantService returns the tenant service
 func (m *Module) getTenantService() (*tenantService.Service, error) {
-	f, err := m.fm.GetService("tenant")
+	f, err := m.em.GetService("tenant")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get tenant service: %v", err)
 	}
@@ -37,7 +37,7 @@ func (m *Module) getTenantService() (*tenantService.Service, error) {
 
 // GetAccessService returns the access service
 func (m *Module) getAccessService() (*accessService.Service, error) {
-	f, err := m.fm.GetService("access")
+	f, err := m.em.GetService("access")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get access service: %v", err)
 	}

@@ -8,7 +8,7 @@ func PluginTemplate(name string) string {
 import (
 	"fmt"
 	"ncobase/common/config"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/plugin/%s/data"
 	"ncobase/plugin/%s/handler"
 	"ncobase/plugin/%s/service"
@@ -28,7 +28,7 @@ var (
 type Plugin struct {
 	initialized bool
 	mu          sync.RWMutex
-	fm          *feature.Manager
+	em          *extension.Manager
 	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
@@ -37,7 +37,7 @@ type Plugin struct {
 }
 
 // New creates a new instance of the %s plugin.
-func New() feature.Interface {
+func New() extension.Interface {
 	return &Plugin{}
 }
 
@@ -48,7 +48,7 @@ func (p *Plugin) PreInit() error {
 }
 
 // Init initializes the %s plugin with the given config object
-func (p *Plugin) Init(conf *config.Config, fm *feature.Manager) (err error) {
+func (p *Plugin) Init(conf *config.Config, em *extension.Manager) (err error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
@@ -61,7 +61,7 @@ func (p *Plugin) Init(conf *config.Config, fm *feature.Manager) (err error) {
 		return err
 	}
 
-	p.fm = fm
+	p.em = em
 	p.conf = conf
 	p.initialized = true
 
@@ -87,12 +87,12 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the plugin
-func (p *Plugin) GetHandlers() feature.Handler {
+func (p *Plugin) GetHandlers() extension.Handler {
 	return p.h
 }
 
 // GetServices returns the services for the plugin
-func (p *Plugin) GetServices() feature.Service {
+func (p *Plugin) GetServices() extension.Service {
 	return p.s
 }
 
@@ -116,8 +116,8 @@ func (p *Plugin) Status() string {
 }
 
 // GetMetadata returns the metadata of the plugin
-func (p *Plugin) GetMetadata() feature.Metadata {
-	return feature.Metadata{
+func (p *Plugin) GetMetadata() extension.Metadata {
+	return extension.Metadata{
 		Name:         p.Name(),
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),

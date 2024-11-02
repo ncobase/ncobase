@@ -3,7 +3,7 @@ package ncobase
 // Generate GraphQL server code
 // //go:generate go run github.com/99designs/gqlgen
 
-// Generate features
+// Generate core components
 //go:generate go generate ./core/access
 //go:generate go generate ./core/auth
 //go:generate go generate ./core/space
@@ -12,7 +12,7 @@ package ncobase
 //go:generate go generate ./core/tenant
 //go:generate go generate ./core/user
 
-// Generate business
+// Generate business components
 //go:generate go generate ./domain/content
 //go:generate go generate ./domain/resource
 

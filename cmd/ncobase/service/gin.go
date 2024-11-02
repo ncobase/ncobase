@@ -5,7 +5,7 @@ import (
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/ecode"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/common/log"
 	"ncobase/common/resp"
 	accessService "ncobase/core/access/service"
@@ -16,7 +16,7 @@ import (
 )
 
 // ginServer creates and initializes the server.
-func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
+func ginServer(conf *config.Config, em *extension.Manager) (*gin.Engine, error) {
 	// Set gin mode
 	if conf.RunMode == "" {
 		conf.RunMode = gin.ReleaseMode
@@ -36,13 +36,13 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 	// engine.Use(middleware.Timestamp(conf.Auth.Whitelist))
 
 	// Consume user
-	userMiddleware(conf, engine, fm)
+	userMiddleware(conf, engine, em)
 
 	// Consume tenant
-	tenantMiddleware(conf, engine, fm)
+	tenantMiddleware(conf, engine, em)
 
 	// Casbin middleware
-	casbinMiddleware(conf, engine, fm)
+	casbinMiddleware(conf, engine, em)
 
 	// Register REST
 	registerRest(engine, conf)
@@ -50,14 +50,14 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 	// Register GraphQL
 	// registerGraphql(engine, svc, conf.RunMode)
 
-	// Register feature / plugin routes
-	fm.RegisterRoutes(engine)
+	// Register extension / plugin routes
+	em.RegisterRoutes(engine)
 
-	// Register feature management routes
-	if conf.Feature.HotReload {
+	// Register extension management routes
+	if conf.Extension.HotReload {
 		// Belong domain group
 		g := engine.Group("/sys", middleware.AuthenticatedUser)
-		fm.ManageRoutes(g)
+		em.ManageRoutes(g)
 	}
 	// No route
 	engine.NoRoute(func(c *gin.Context) {
@@ -69,9 +69,9 @@ func ginServer(conf *config.Config, fm *feature.Manager) (*gin.Engine, error) {
 }
 
 // register user middleware
-func userMiddleware(conf *config.Config, engine *gin.Engine, _ *feature.Manager) {
+func userMiddleware(conf *config.Config, engine *gin.Engine, _ *extension.Manager) {
 	// get user service
-	// fu, err := fm.GetService("user")
+	// fu, err := em.GetService("user")
 	// if err != nil {
 	// 	log.Errorf(context.Background(), "failed to get user service: %v", err.Error())
 	// 	return
@@ -89,9 +89,9 @@ func userMiddleware(conf *config.Config, engine *gin.Engine, _ *feature.Manager)
 }
 
 // register Tenant middleware
-func tenantMiddleware(conf *config.Config, engine *gin.Engine, fm *feature.Manager) {
+func tenantMiddleware(conf *config.Config, engine *gin.Engine, em *extension.Manager) {
 	// get tenant service
-	ft, err := fm.GetService("tenant")
+	ft, err := em.GetService("tenant")
 	if err != nil {
 		log.Errorf(context.Background(), "failed to get tenant service: %v", err.Error())
 		return
@@ -110,9 +110,9 @@ func tenantMiddleware(conf *config.Config, engine *gin.Engine, fm *feature.Manag
 }
 
 // register casbin middleware
-func casbinMiddleware(conf *config.Config, engine *gin.Engine, fm *feature.Manager) {
+func casbinMiddleware(conf *config.Config, engine *gin.Engine, em *extension.Manager) {
 	// get access service
-	fa, err := fm.GetService("access")
+	fa, err := em.GetService("access")
 	if err != nil {
 		log.Errorf(context.Background(), "failed to get access service: %v", err.Error())
 		return

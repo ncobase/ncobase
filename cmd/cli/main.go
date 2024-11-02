@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
+	"ncobase/cmd/cli/extension"
 	"os"
-
-	"ncobase/cmd/cli/feature"
 
 	"github.com/spf13/cobra"
 )
@@ -17,7 +16,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
-	rootCmd.AddCommand(feature.Cmd)
+	rootCmd.AddCommand(extension.Cmd)
 }
 
 func main() {

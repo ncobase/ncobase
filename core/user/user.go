@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/core/user/data"
 	"ncobase/core/user/handler"
 	"ncobase/core/user/service"
@@ -25,7 +25,7 @@ var (
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
-	fm          *feature.Manager
+	em          *extension.Manager
 	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
@@ -34,7 +34,7 @@ type Module struct {
 }
 
 // New creates a new instance of the user module.
-func New() feature.Interface {
+func New() extension.Interface {
 	return &Module{}
 }
 
@@ -45,7 +45,7 @@ func (m *Module) PreInit() error {
 }
 
 // Init initializes the user module with the given config object
-func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
+func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -58,7 +58,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 		return err
 	}
 
-	m.fm = fm
+	m.em = em
 	m.conf = conf
 	m.initialized = true
 
@@ -94,12 +94,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() feature.Handler {
+func (m *Module) GetHandlers() extension.Handler {
 	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() feature.Service {
+func (m *Module) GetServices() extension.Service {
 	return m.s
 }
 
@@ -123,8 +123,8 @@ func (m *Module) Status() string {
 }
 
 // GetMetadata returns the metadata of the module
-func (m *Module) GetMetadata() feature.Metadata {
-	return feature.Metadata{
+func (m *Module) GetMetadata() extension.Metadata {
+	return extension.Metadata{
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),

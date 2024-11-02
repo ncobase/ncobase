@@ -3,7 +3,7 @@ package realtime
 import (
 	"fmt"
 	"ncobase/common/config"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/common/resp"
 	"ncobase/domain/realtime/handler"
 	"ncobase/domain/realtime/service"
@@ -25,7 +25,7 @@ var (
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
-	fm          *feature.Manager
+	em          *extension.Manager
 	conf        *config.Config
 	s           *service.Service
 	h           *handler.Handler
@@ -44,7 +44,7 @@ func (m *Module) PreInit() error {
 }
 
 // Init initializes the socket
-func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
+func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -52,7 +52,7 @@ func (m *Module) Init(conf *config.Config, fm *feature.Manager) (err error) {
 		return fmt.Errorf("socket already initialized")
 	}
 
-	m.fm = fm
+	m.em = em
 	m.conf = conf
 	m.initialized = true
 
@@ -64,7 +64,7 @@ func (m *Module) PostInit() error {
 	m.s = service.New()
 	m.h = handler.New(m.s)
 	// Subscribe to relevant events
-	m.subscribeEvents(m.fm)
+	m.subscribeEvents(m.em)
 	return nil
 }
 
@@ -84,12 +84,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the socket
-func (m *Module) GetHandlers() feature.Handler {
+func (m *Module) GetHandlers() extension.Handler {
 	return m.h
 }
 
 // GetServices returns the services for the socket
-func (m *Module) GetServices() feature.Service {
+func (m *Module) GetServices() extension.Service {
 	return m.s
 }
 
@@ -108,8 +108,8 @@ func (m *Module) Cleanup() error {
 }
 
 // GetMetadata returns the metadata of the socket
-func (m *Module) GetMetadata() feature.Metadata {
-	return feature.Metadata{
+func (m *Module) GetMetadata() extension.Metadata {
+	return extension.Metadata{
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
@@ -151,7 +151,7 @@ func (m *Module) Group() string {
 }
 
 // SubscribeEvents subscribes to relevant events
-func (m *Module) subscribeEvents(_ *feature.Manager) {
+func (m *Module) subscribeEvents(_ *extension.Manager) {
 	// Implement any event subscriptions here
 }
 

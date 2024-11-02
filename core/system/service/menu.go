@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/feature"
+	"ncobase/common/extension"
 	"ncobase/common/log"
 	"ncobase/common/paging"
 	"ncobase/common/types"
@@ -28,14 +28,14 @@ type MenuServiceInterface interface {
 // MenuService represents the menu service.
 type menuService struct {
 	menu repository.MenuRepositoryInterface
-	fm   *feature.Manager
+	em   *extension.Manager
 }
 
 // NewMenuService creates a new menu service.
-func NewMenuService(d *data.Data, fm *feature.Manager) MenuServiceInterface {
+func NewMenuService(d *data.Data, em *extension.Manager) MenuServiceInterface {
 	return &menuService{
 		menu: repository.NewMenuRepository(d),
-		fm:   fm,
+		em:   em,
 	}
 }
 
@@ -51,7 +51,7 @@ func (s *menuService) Create(ctx context.Context, body *structs.MenuBody) (*stru
 	}
 
 	// // publish event
-	// s.fm.PublishEvent("menu.created", s.Serialize(row))
+	// s.em.PublishEvent("menu.created", s.Serialize(row))
 
 	return s.Serialize(row), nil
 }
