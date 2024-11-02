@@ -1,4 +1,6 @@
-# 业务领域参考 Business Domain Reference (bd)
+# 业务领域参考
+
+Business Domain Reference
 
 > 示例样本，仅作参考，请根据实际情况决定是否采用
 

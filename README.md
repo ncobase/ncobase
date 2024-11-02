@@ -20,6 +20,7 @@ make run
 ## Documentation
 
 - [Overview](docs/Overview.md)
+- [Extension Design Development Guide](docs/Extension_Design_Development_Guide.md)
 - [Business Domain Reference](docs/Business_Domain_Reference.md)
 
 For full documentation, including API references and deployment guides, visit [https://docs.nocobase.com](https://docs.nocobase.com).
