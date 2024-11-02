@@ -16,7 +16,7 @@ const (
 	ErrEmptyName     = "Error: Name cannot be empty. Please provide a name for your core, business or plugin."
 	ErrInvalidName   = "Error: Invalid name. Use only alphanumeric characters, underscores, and hyphens."
 	ErrInvalidType   = "Error: Invalid generation type. Use 'core', 'business' or 'plugin'."
-	ErrAlreadyExists = "Error: '%s' already exists in %s. Please choose a different name or remove the existing one."
+	ErrAlreadyExists = "Error: '%s' already exists in %s. Please choose a different name or remove the existing one.\n"
 )
 
 // Cmd is the main generate command
