@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"ncobase/common/config"
+	"ncobase/common/data"
 	"ncobase/common/elastic"
 	"ncobase/common/log"
 	"ncobase/common/meili"
@@ -21,14 +22,14 @@ import (
 
 // Data contains the shared resources and clients.
 type Data struct {
-	*connections.Data
+	*data.Data
 	EntClient  *ent.Client
 	GormClient *gorm.DB
 }
 
 // New creates a new Data instance with database connections.
 func New(conf *config.Data) (*Data, func(name ...string), error) {
-	d, cleanup, err := connections.New(conf)
+	d, cleanup, err := data.New(conf)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -38,7 +39,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 		return nil, nil, err
 	}
 
-	gormClient, err := newGormClient(d.DB, conf.Database)
+	gormClient, err := newGormClient(d.Conn.DB, conf.Database)
 	if err != nil {
 		return nil, nil, err
 	}
