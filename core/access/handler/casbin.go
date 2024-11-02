@@ -36,7 +36,7 @@ func NewCasbinHandler(svc *service.Service) CasbinHandlerInterface {
 //
 // @Summary Create Casbin rule
 // @Description Create a new Casbin rule.
-// @Tags casbin, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
@@ -67,7 +67,7 @@ func (h *casbinHandler) Create(c *gin.Context) {
 //
 // @Summary Update Casbin rule
 // @Description Update an existing Casbin rule, either fully or partially.
-// @Tags casbin, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param id path string true "Casbin rule ID"
@@ -105,7 +105,7 @@ func (h *casbinHandler) Update(c *gin.Context) {
 //
 // @Summary Get Casbin rule
 // @Description Retrieve details of a Casbin rule.
-// @Tags casbin, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} structs.ReadCasbinRule "success"
@@ -132,7 +132,7 @@ func (h *casbinHandler) Get(c *gin.Context) {
 //
 // @Summary Delete Casbin rule
 // @Description Delete an existing Casbin rule.
-// @Tags casbin, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} resp.Exception "success"
@@ -158,7 +158,7 @@ func (h *casbinHandler) Delete(c *gin.Context) {
 //
 // @Summary List Casbin rules
 // @Description Retrieve a list of Casbin rules.
-// @Tags casbin, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param params query structs.ListCasbinRuleParams true "ListCasbinRuleParams object"
 // @Success 200 {array} structs.CasbinRuleBody "success"

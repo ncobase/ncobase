@@ -50,7 +50,7 @@ var maxAttachmentSize int64 = 2048 << 20 // 2048 MB
 //
 // @Summary Create attachments
 // @Description Create one or multiple attachments.
-// @Tags attachment, res, business domain
+// @Tags res
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file true "File to upload"
@@ -244,7 +244,7 @@ func bindAttachmentFields(c *gin.Context, body *structs.CreateAttachmentBody) er
 //
 // @Summary Update attachment
 // @Description Update an existing attachment.
-// @Tags attachment, res, business domain
+// @Tags res
 // @Accept multipart/form-data
 // @Produce json
 // @Param slug path string true "Slug of the attachment to update"
@@ -318,7 +318,7 @@ func (h *attachmentHandler) Update(c *gin.Context) {
 //
 // @Summary Get attachment
 // @Description Get details of a specific attachment.
-// @Tags attachment, res, business domain
+// @Tags res
 // @Produce json
 // @Param slug path string true "Slug of the attachment to retrieve"
 // @Param type query string false "Type of retrieval ('download' or 'stream')"
@@ -355,7 +355,7 @@ func (h *attachmentHandler) Get(c *gin.Context) {
 //
 // @Summary Delete attachment
 // @Description Delete a specific attachment.
-// @Tags attachment, res, business domain
+// @Tags res
 // @Param slug path string true "Slug of the attachment to delete"
 // @Success 200 {object} structs.ReadAttachment "success"
 // @Failure 400 {object} resp.Exception "bad request"
@@ -380,7 +380,7 @@ func (h *attachmentHandler) Delete(c *gin.Context) {
 //
 // @Summary List attachments
 // @Description List attachments based on specified parameters.
-// @Tags attachment, res, business domain
+// @Tags res
 // @Produce json
 // @Param params query structs.ListAttachmentParams true "List attachments parameters"
 // @Success 200 {array} structs.ReadAttachment "success"

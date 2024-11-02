@@ -34,7 +34,7 @@ func NewDictionaryHandler(svc *service.Service) DictionaryHandlerInterface {
 //
 // @Summary Create dictionary
 // @Description Create a new dictionary.
-// @Tags dictionary, sys, core domain
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.DictionaryBody true "DictionaryBody object"
@@ -64,7 +64,7 @@ func (h *dictionaryHandler) Create(c *gin.Context) {
 //
 // @Summary Update dictionary
 // @Description Update an existing dictionary.
-// @Tags dictionary, sys, core domain
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.UpdateDictionaryBody true "UpdateDictionaryBody object"
@@ -94,7 +94,7 @@ func (h *dictionaryHandler) Update(c *gin.Context) {
 //
 // @Summary Get dictionary
 // @Description Retrieve a dictionary by ID or slug.
-// @Tags dictionary, sys, core domain
+// @Tags sys
 // @Produce json
 // @Param slug path string true "Dictionary ID or slug"
 // @Param params query structs.FindDictionary true "FindDictionary parameters"
@@ -125,7 +125,7 @@ func (h *dictionaryHandler) Get(c *gin.Context) {
 //
 // @Summary Delete dictionary
 // @Description Delete a dictionary by ID or slug.
-// @Tags dictionary, sys, core domain
+// @Tags sys
 // @Produce json
 // @Param slug path string true "Dictionary ID or slug"
 // @Success 200 {object} resp.Exception "success"
@@ -146,7 +146,7 @@ func (h *dictionaryHandler) Delete(c *gin.Context) {
 //
 // @Summary List dictionarys
 // @Description Retrieve a list or tree structure of dictionarys.
-// @Tags dictionary, sys, core domain
+// @Tags sys
 // @Produce json
 // @Param params query structs.ListDictionaryParams true "List dictionary parameters"
 // @Success 200 {array} structs.ReadDictionary "success"

@@ -38,7 +38,7 @@ func NewCaptchaHandler(svc *service.Service) CaptchaHandlerInterface {
 //
 // @Summary Generate captcha
 // @Description Generate a captcha image.
-// @Tags authentication, captcha, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param type query string false "Captcha type" Enums(png, wav)
 // @Success 200 {object} map[string]any{id=string,url=string} "success"
@@ -66,7 +66,7 @@ func (h *captchaHandler) GenerateCaptcha(c *gin.Context) {
 //
 // @Summary Validate captcha
 // @Description Validate a captcha code.
-// @Tags authentication, captcha, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param body body structs.Captcha true "Captcha object"
@@ -93,7 +93,7 @@ func (h *captchaHandler) ValidateCaptcha(c *gin.Context) {
 //
 // @Summary Stream captcha
 // @Description Stream a captcha image.
-// @Tags authentication, captcha, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param captcha_id path string true "Captcha ID With Extension (png, wav)"
 // @Success 200 {file} octet-stream

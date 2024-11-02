@@ -31,7 +31,7 @@ func NewCodeAuthHandler(svc *service.Service) CodeAuthHandlerInterface {
 //
 // @Summary Send verification code
 // @Description Send a verification code to the specified destination.
-// @Tags authorization, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param body body structs.SendCodeBody true "SendCodeBody object"
@@ -56,7 +56,7 @@ func (h *codeAuthHandler) SendCode(c *gin.Context) {
 //
 // @Summary Verify code
 // @Description Verify the provided code.
-// @Tags authentication, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param code path string true "Verification code"

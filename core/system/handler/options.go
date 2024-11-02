@@ -35,7 +35,7 @@ func NewOptionsHandler(svc *service.Service) OptionsHandlerInterface {
 //
 // @Summary Create option
 // @Description Create a new option.
-// @Tags option, sys, core domain
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.OptionsBody true "OptionsBody object"
@@ -65,7 +65,7 @@ func (h *optionsHandler) Create(c *gin.Context) {
 //
 // @Summary Update option
 // @Description Update an existing option.
-// @Tags option, sys, core domain
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.UpdateOptionsBody true "UpdateOptionsBody object"
@@ -95,7 +95,7 @@ func (h *optionsHandler) Update(c *gin.Context) {
 //
 // @Summary Get option
 // @Description Retrieve an option by ID or name.
-// @Tags option, sys, core domain
+// @Tags sys
 // @Produce json
 // @Param option path string true "Option ID or name"
 // @Param params query structs.FindOptions true "FindOptions parameters"
@@ -126,7 +126,7 @@ func (h *optionsHandler) Get(c *gin.Context) {
 //
 // @Summary Delete option
 // @Description Delete an option by ID or name.
-// @Tags option, sys, core domain
+// @Tags sys
 // @Produce json
 // @Param option path string true "Option ID or name"
 // @Success 200 {object} resp.Exception "success"
@@ -147,7 +147,7 @@ func (h *optionsHandler) Delete(c *gin.Context) {
 //
 // @Summary List options
 // @Description Retrieve a list of options.
-// @Tags option, sys, core domain
+// @Tags sys
 // @Produce json
 // @Param params query structs.ListOptionsParams true "List options parameters"
 // @Success 200 {array} structs.ReadOptions "success"
@@ -177,7 +177,7 @@ func (h *optionsHandler) List(c *gin.Context) {
 //
 // @Summary Initialize
 // @Description Initialize the system with default options
-// @Tags option, sys, core domain
+// @Tags sys
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"

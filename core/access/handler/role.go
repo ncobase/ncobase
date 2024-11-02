@@ -36,7 +36,7 @@ func NewRoleHandler(svc *service.Service) RoleHandlerInterface {
 //
 // @Summary Create a new role
 // @Description Create a new role with the provided data
-// @Tags role, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateRoleBody true "Role data"
@@ -67,7 +67,7 @@ func (h *roleHandler) Create(c *gin.Context) {
 //
 // @Summary Get a role by slug or ID
 // @Description Retrieve a role by its slug or ID
-// @Tags role, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Role slug or ID"
 // @Success 200 {object} structs.ReadRole "success"
@@ -94,7 +94,7 @@ func (h *roleHandler) Get(c *gin.Context) {
 //
 // @Summary Update an existing role
 // @Description Update an existing role with the provided data
-// @Tags role, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param slug path string true "Role slug or ID"
@@ -132,7 +132,7 @@ func (h *roleHandler) Update(c *gin.Context) {
 //
 // @Summary Delete a role by slug or ID
 // @Description Delete a role by its slug or ID
-// @Tags role, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Role slug or ID"
 // @Success 200 {object} structs.ReadRole "success"
@@ -158,7 +158,7 @@ func (h *roleHandler) Delete(c *gin.Context) {
 //
 // @Summary List all roles
 // @Description Retrieve a list of roles based on the provided query parameters
-// @Tags role, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param params query structs.ListRoleParams true "List roles parameters"
 // @Success 200 {array} structs.ReadRole "success"
@@ -188,7 +188,7 @@ func (h *roleHandler) List(c *gin.Context) {
 // //
 // // @Summary List users for a role
 // // @Description Retrieve a list of users associated with a role by its ID
-// // @Tags role, iam, core domain
+// // @Tags iam
 // // @Produce json
 // // @Param slug path string true "Role ID"
 // // @Success 200 {array} structs.UserRole "success"

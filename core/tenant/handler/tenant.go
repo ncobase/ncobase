@@ -42,7 +42,7 @@ func NewTenantHandler(svc *service.Service) TenantHandlerInterface {
 //
 // @Summary Create tenant
 // @Description Create a new tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTenantBody true "CreateTenantBody object"
@@ -72,7 +72,7 @@ func (h *TenantHandler) Create(c *gin.Context) {
 //
 // @Summary Get user owned tenant
 // @Description Retrieve the tenant associated with the specified user.
-// @Tags user, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param username path string true "Username"
 // @Success 200 {object} structs.ReadTenant "success"
@@ -92,7 +92,7 @@ func (h *TenantHandler) UserOwn(c *gin.Context) {
 //
 // @Summary Update tenant
 // @Description Update the tenant information.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param slug path string true "Tenant ID"
@@ -128,7 +128,7 @@ func (h *TenantHandler) Update(c *gin.Context) {
 //
 // @Summary Get tenant
 // @Description Retrieve information about a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} structs.ReadTenant "success"
@@ -148,7 +148,7 @@ func (h *TenantHandler) Get(c *gin.Context) {
 //
 // @Summary Get tenant menu
 // @Description Retrieve the menu associated with a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
@@ -168,7 +168,7 @@ func (h *TenantHandler) GetMenus(c *gin.Context) {
 //
 // @Summary Get tenant setting
 // @Description Retrieve the settings associated with a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
@@ -188,7 +188,7 @@ func (h *TenantHandler) GetTenantSetting(c *gin.Context) {
 //
 // @Summary Delete tenant
 // @Description Delete a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
@@ -207,7 +207,7 @@ func (h *TenantHandler) Delete(c *gin.Context) {
 //
 // @Summary List tenants
 // @Description Retrieve a list of tenants.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param params query structs.ListTenantParams true "List tenant parameters"
 // @Success 200 {array} structs.ReadTenant"success"
@@ -237,7 +237,7 @@ func (h *TenantHandler) List(c *gin.Context) {
 // TODO: implement this
 // @Summary List tenant attachments
 // @Description Retrieve a list of attachments associated with a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
@@ -257,7 +257,7 @@ func (h *TenantHandler) ListAttachments(c *gin.Context) {
 // TODO: implement this
 // @Summary List tenant roles
 // @Description Retrieve a list of roles associated with a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
@@ -277,7 +277,7 @@ func (h *TenantHandler) ListRoles(c *gin.Context) {
 // TODO: implement this
 // @Summary List tenant settings
 // @Description Retrieve a list of settings associated with a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
@@ -297,7 +297,7 @@ func (h *TenantHandler) GetSetting(c *gin.Context) {
 // TODO: implement this
 // @Summary List tenant users
 // @Description Retrieve a list of users associated with a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
@@ -317,7 +317,7 @@ func (h *TenantHandler) ListUsers(c *gin.Context) {
 // TODO: implement this
 // @Summary List tenant groups
 // @Description Retrieve a list of groups associated with a specific tenant.
-// @Tags tenant, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"

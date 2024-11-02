@@ -38,7 +38,7 @@ func NewUserHandler(svc *service.Service) UserHandlerInterface {
 //
 // @Summary Get user
 // @Description Retrieve information about a specific user.
-// @Tags user, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param username path string true "Username"
 // @Success 200 {object} structs.ReadUser "success"
@@ -57,7 +57,7 @@ func (h *userHandler) Get(c *gin.Context) {
 //
 // @Summary Create user
 // @Description Create a new user.
-// @Tags user, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param user body structs.UserBody true "User information"
@@ -83,7 +83,7 @@ func (h *userHandler) Create(c *gin.Context) {
 //
 // @Summary Update user
 // @Description Update an existing user.
-// @Tags user, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param username path string true "Username"
@@ -117,7 +117,7 @@ func (h *userHandler) Update(c *gin.Context) {
 //
 // @Summary Delete user
 // @Description Delete an existing user.
-// @Tags user, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param username path string true "Username"
 // @Success 200 {object} resp.Exception "success"
@@ -143,7 +143,7 @@ func (h *userHandler) Delete(c *gin.Context) {
 //
 // @Summary List users
 // @Description List all users with pagination.
-// @Tags user, iam, core domain
+// @Tags iam
 // @Produce json
 // @Param cursor query string false "Cursor for pagination"
 // @Param limit query int false "Number of items to return"
@@ -173,7 +173,7 @@ func (h *userHandler) List(c *gin.Context) {
 //
 // @Summary Update user password
 // @Description Update an existing user's password.
-// @Tags user, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param username path string true "Username"

@@ -14,9 +14,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "List taxonomies",
                 "parameters": [
@@ -94,9 +92,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "Create taxonomy",
                 "parameters": [
@@ -133,9 +129,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "Get taxonomy",
                 "parameters": [
@@ -176,9 +170,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "Update taxonomy",
                 "parameters": [
@@ -225,9 +217,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "taxonomy",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "Delete taxonomy",
                 "parameters": [
@@ -262,9 +252,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "topic",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "List topics",
                 "parameters": [
@@ -326,9 +314,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "topic",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "Create topic",
                 "parameters": [
@@ -365,9 +351,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "topic",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "Get topic",
                 "parameters": [
@@ -408,9 +392,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "topic",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "Update topic",
                 "parameters": [
@@ -457,9 +439,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "topic",
-                    "cms",
-                    "business domain"
+                    "cms"
                 ],
                 "summary": "Delete topic",
                 "parameters": [
@@ -499,9 +479,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "account",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get current user",
                 "responses": {
@@ -535,9 +513,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "account",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Update user password",
                 "parameters": [
@@ -579,9 +555,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "account",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get current user tenant",
                 "responses": {
@@ -612,9 +586,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "account",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get current user tenants",
                 "responses": {
@@ -643,9 +615,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "authorization",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Send verification code",
                 "parameters": [
@@ -693,9 +663,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "authentication",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Verify code",
                 "parameters": [
@@ -747,10 +715,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "authentication",
-                    "captcha",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Generate captcha",
                 "parameters": [
@@ -802,10 +767,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "authentication",
-                    "captcha",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Validate captcha",
                 "parameters": [
@@ -850,10 +812,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "authentication",
-                    "captcha",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Stream captcha",
                 "parameters": [
@@ -891,9 +850,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "authentication",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -946,9 +903,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "authentication",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Logout",
                 "responses": {
@@ -973,9 +928,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "permission",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List all permissions",
                 "parameters": [
@@ -1027,9 +980,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "permission",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Create a new permission",
                 "parameters": [
@@ -1071,9 +1022,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "permission",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get a permission by slug or ID",
                 "parameters": [
@@ -1114,9 +1063,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "permission",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Update an existing permission",
                 "parameters": [
@@ -1163,9 +1110,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "permission",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Delete a permission by slug or ID",
                 "parameters": [
@@ -1205,9 +1150,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "casbin",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List Casbin rules",
                 "parameters": [
@@ -1294,9 +1237,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "casbin",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Create Casbin rule",
                 "parameters": [
@@ -1338,9 +1279,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "casbin",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get Casbin rule",
                 "parameters": [
@@ -1381,9 +1320,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "casbin",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Update Casbin rule",
                 "parameters": [
@@ -1430,9 +1367,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "casbin",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Delete Casbin rule",
                 "parameters": [
@@ -1470,9 +1405,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "authentication",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Register",
                 "parameters": [
@@ -1525,9 +1458,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "role",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List all roles",
                 "parameters": [
@@ -1579,9 +1510,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "role",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Create a new role",
                 "parameters": [
@@ -1623,9 +1552,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "role",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get a role by slug or ID",
                 "parameters": [
@@ -1666,9 +1593,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "role",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Update an existing role",
                 "parameters": [
@@ -1715,9 +1640,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "role",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Delete a role by slug or ID",
                 "parameters": [
@@ -1757,9 +1680,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "role",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List permissions for a role",
                 "parameters": [
@@ -1802,9 +1723,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List tenants",
                 "parameters": [
@@ -1861,9 +1780,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Update tenant",
                 "parameters": [
@@ -1913,9 +1830,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Create tenant",
                 "parameters": [
@@ -1957,9 +1872,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get tenant",
                 "parameters": [
@@ -1997,9 +1910,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Delete tenant",
                 "parameters": [
@@ -2039,9 +1950,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List tenant attachments",
                 "parameters": [
@@ -2081,9 +1990,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List tenant groups",
                 "parameters": [
@@ -2123,9 +2030,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get tenant menu",
                 "parameters": [
@@ -2165,9 +2070,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List tenant roles",
                 "parameters": [
@@ -2207,9 +2110,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get tenant setting",
                 "parameters": [
@@ -2249,9 +2150,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List tenant settings",
                 "parameters": [
@@ -2291,9 +2190,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tenant",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List tenant users",
                 "parameters": [
@@ -2328,9 +2225,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "List users",
                 "parameters": [
@@ -2380,9 +2275,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Create user",
                 "parameters": [
@@ -2419,9 +2312,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get user",
                 "parameters": [
@@ -2457,9 +2348,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Update user",
                 "parameters": [
@@ -2501,9 +2390,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Delete user",
                 "parameters": [
@@ -2541,9 +2428,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Update user password",
                 "parameters": [
@@ -2592,9 +2477,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user",
-                    "iam",
-                    "core domain"
+                    "iam"
                 ],
                 "summary": "Get user owned tenant",
                 "parameters": [
@@ -2634,9 +2517,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "group",
-                    "org",
-                    "core domain"
+                    "org"
                 ],
                 "summary": "List groups",
                 "parameters": [
@@ -2708,9 +2589,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "group",
-                    "org",
-                    "core domain"
+                    "org"
                 ],
                 "summary": "Update group",
                 "parameters": [
@@ -2753,9 +2632,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "group",
-                    "org",
-                    "core domain"
+                    "org"
                 ],
                 "summary": "Create group",
                 "parameters": [
@@ -2797,9 +2674,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "group",
-                    "org",
-                    "core domain"
+                    "org"
                 ],
                 "summary": "Get group",
                 "parameters": [
@@ -2862,9 +2737,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "group",
-                    "org",
-                    "core domain"
+                    "org"
                 ],
                 "summary": "Delete group",
                 "parameters": [
@@ -2904,9 +2777,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "counter",
-                    "plug",
-                    "business domain"
+                    "plug"
                 ],
                 "summary": "List counters",
                 "parameters": [
@@ -2968,9 +2839,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "counter",
-                    "plug",
-                    "business domain"
+                    "plug"
                 ],
                 "summary": "Update counter",
                 "parameters": [
@@ -3013,9 +2882,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "counter",
-                    "plug",
-                    "business domain"
+                    "plug"
                 ],
                 "summary": "Create counter",
                 "parameters": [
@@ -3057,9 +2924,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "counter",
-                    "plug",
-                    "business domain"
+                    "plug"
                 ],
                 "summary": "Get counter",
                 "parameters": [
@@ -3097,9 +2962,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "counter",
-                    "plug",
-                    "business domain"
+                    "plug"
                 ],
                 "summary": "Delete counter",
                 "parameters": [
@@ -3134,9 +2997,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "attachment",
-                    "res",
-                    "business domain"
+                    "res"
                 ],
                 "summary": "List attachments",
                 "parameters": [
@@ -3215,9 +3076,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "attachment",
-                    "res",
-                    "business domain"
+                    "res"
                 ],
                 "summary": "Create attachments",
                 "parameters": [
@@ -3270,9 +3129,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "attachment",
-                    "res",
-                    "business domain"
+                    "res"
                 ],
                 "summary": "Get attachment",
                 "parameters": [
@@ -3319,9 +3176,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "attachment",
-                    "res",
-                    "business domain"
+                    "res"
                 ],
                 "summary": "Update attachment",
                 "parameters": [
@@ -3365,9 +3220,7 @@
                 ],
                 "description": "Delete a specific attachment.",
                 "tags": [
-                    "attachment",
-                    "res",
-                    "business domain"
+                    "res"
                 ],
                 "summary": "Delete attachment",
                 "parameters": [
@@ -3407,9 +3260,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "List dictionarys",
                 "parameters": [
@@ -3471,9 +3322,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Update dictionary",
                 "parameters": [
@@ -3516,9 +3365,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Create dictionary",
                 "parameters": [
@@ -3560,9 +3407,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Get dictionary",
                 "parameters": [
@@ -3615,9 +3460,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "dictionary",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Delete dictionary",
                 "parameters": [
@@ -3657,9 +3500,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "menu",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "List menus",
                 "parameters": [
@@ -3741,9 +3582,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "menu",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Update menu",
                 "parameters": [
@@ -3786,9 +3625,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "menu",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Create menu",
                 "parameters": [
@@ -3830,9 +3667,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "menu",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Get menu",
                 "parameters": [
@@ -3900,9 +3735,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "menu",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Delete menu",
                 "parameters": [
@@ -3942,9 +3775,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "option",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "List options",
                 "parameters": [
@@ -4016,9 +3847,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "option",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Update option",
                 "parameters": [
@@ -4061,9 +3890,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "option",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Create option",
                 "parameters": [
@@ -4105,9 +3932,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "option",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Initialize",
                 "responses": {
@@ -4138,9 +3963,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "option",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Get option",
                 "parameters": [
@@ -4198,9 +4021,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "option",
-                    "sys",
-                    "core domain"
+                    "sys"
                 ],
                 "summary": "Delete option",
                 "parameters": [

@@ -38,7 +38,7 @@ func NewAccountHandler(svc *service.Service) AccountHandlerInterface {
 //
 // @Summary Register
 // @Description Register a new user.
-// @Tags authentication, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param body body structs.RegisterBody true "RegisterBody object"
@@ -65,7 +65,7 @@ func (h *accountHandler) Register(c *gin.Context) {
 //
 // @Summary Login
 // @Description Log in a user.
-// @Tags authentication, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param body body structs.LoginBody true "LoginBody object"
@@ -104,7 +104,7 @@ func (h *accountHandler) Login(c *gin.Context) {
 //
 // @Summary Get current user
 // @Description Retrieve information about the current user.
-// @Tags account, iam, core domain
+// @Tags iam
 // @Produce json
 // @Success 200 {object} structs.AccountMeshes "success"
 // @Failure 400 {object} resp.Exception "bad request"
@@ -123,7 +123,7 @@ func (h *accountHandler) GetMe(c *gin.Context) {
 //
 // @Summary Logout
 // @Description Logout the current user.
-// @Tags authentication, iam, core domain
+// @Tags iam
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Router /iam/logout [post]
@@ -137,7 +137,7 @@ func (h *accountHandler) Logout(c *gin.Context) {
 // //
 // // @Summary Refresh
 // // @Description Refresh the current user's access token.
-// // @Tags authentication, iam, core domain
+// // @Tags iam
 // // @Produce json
 // // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
 // // @Failure 400 {object} resp.Exception "bad request"
@@ -156,7 +156,7 @@ func (h *accountHandler) Logout(c *gin.Context) {
 //
 // @Summary Update user password
 // @Description Update the password of the current user.
-// @Tags account, iam, core domain
+// @Tags iam
 // @Accept json
 // @Produce json
 // @Param body body structs.UserPassword true "UserPassword object"
@@ -186,7 +186,7 @@ func (h *accountHandler) UpdatePassword(c *gin.Context) {
 //
 // @Summary Get current user tenant
 // @Description Retrieve the tenant associated with the current user.
-// @Tags account, iam, core domain
+// @Tags iam
 // @Produce json
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
@@ -205,7 +205,7 @@ func (h *accountHandler) Tenant(c *gin.Context) {
 //
 // @Summary Get current user tenants
 // @Description Retrieve the tenant associated with the current user.
-// @Tags account, iam, core domain
+// @Tags iam
 // @Produce json
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
