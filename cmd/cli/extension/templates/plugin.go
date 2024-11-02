@@ -22,6 +22,8 @@ var (
 	desc         = "%s plugin"
 	version      = "1.0.0"
 	dependencies []string
+	typeStr      = "plugin"
+	group        = "plug"
 )
 
 // Plugin represents the %s plugin.
@@ -121,7 +123,9 @@ func (p *Plugin) GetMetadata() extension.Metadata {
 		Name:         p.Name(),
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),
-		Description:  m.Description(),
+		Description:  p.Description(),
+		Type:         p.Type(),
+		Group:        p.Group(),
 	}
 }
 
@@ -133,6 +137,22 @@ func (p *Plugin) Version() string {
 // Dependencies returns the dependencies of the plugin
 func (p *Plugin) Dependencies() []string {
 	return dependencies
+}
+
+
+// Description returns the description of the plugin
+func (p *Plugin) Description() string {
+	return desc
+}
+
+// Type returns the type of the plugin
+func (p *Plugin) Type() string {
+	return typeStr
+}
+
+// Group returns the domain group of the plugin belongs
+func (p *Plugin) Group() string {
+	return group
 }
 `, name, name, name, name, name, name, name, name, name, name)
 }

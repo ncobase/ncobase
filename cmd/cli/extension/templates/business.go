@@ -22,6 +22,8 @@ var (
 	desc         = "%s module"
 	version      = "1.0.0"
 	dependencies []string
+	typeStr      = "module"
+	group        = ""
 )
 
 // Module represents the %s module.
@@ -122,6 +124,8 @@ func (m *Module) GetMetadata() extension.Metadata {
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
 		Description:  m.Description(),
+		Type:         m.Type(),
+		Group:        m.Group(),
 	}
 }
 
@@ -133,6 +137,20 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
+}
+// Description returns the description of the module
+func (m *Module) Description() string {
+	return desc
+}
+
+// Type returns the type of the module
+func (m *Module) Type() string {
+	return typeStr
+}
+
+// Group returns the domain group of the module belongs
+func (m *Module) Group() string {
+	return group
 }
 `, name, name, name, name, name, name, name, name, name, name)
 }
