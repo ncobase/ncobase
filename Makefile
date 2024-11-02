@@ -7,6 +7,7 @@ CLI_NAME := nco
 CLI_PATH := ./cmd/cli
 OUT := ./bin
 PLUGIN_PATH := ./plugin
+BUSINESS_PATH := ./domain
 
 VERSION := $(shell git describe --tags --match "v*" --always | sed 's/-g[a-z0-9]\{7\}//')
 BRANCH := $(shell git symbolic-ref -q --short HEAD)
@@ -43,7 +44,7 @@ define build_binary
   @CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build $(BUILD_FLAGS) -o $(OUT)/$(APP_NAME)-$(1)$(EXT) $(CMD_PATH)
 endef
 
-.PHONY: install generate copy-config build-multi build-plugins build-plugin build-all swagger build run optimize clean version help
+.PHONY: install generate copy-config build-multi build-plugins build-plugin build-business build-all swagger build run optimize clean version help
 
 install:
 	@go install github.com/swaggo/swag/cmd/swag@latest
@@ -55,12 +56,42 @@ copy-config:
 	@mkdir -p $(OUT)
 	@if [ ! -f "$(OUT)/config.yaml" ]; then cp ./infra/config/config.yaml $(OUT)/config.yaml; fi
 
+check-tools:
+	@which go >/dev/null 2>&1 || (echo "go is required but not installed" && exit 1)
+	@if [ $(APPLE_CHIP) -eq 0 ]; then \
+		which gcc >/dev/null 2>&1 || (echo "gcc is required but not installed" && exit 1); \
+	fi
+
 build-multi: generate
 	@mkdir -p $(OUT)
 	$(foreach platform,$(PLATFORMS),$(call build_binary,$(platform)))
 	@$(MAKE) copy-config
 
-build-plugins:
+build-business: check-tools
+	@mkdir -p $(OUT)/extension
+	@if [ $(APPLE_CHIP) -eq 1 ]; then \
+		echo "Skipping multi-platform extension build on Apple Silicon"; \
+	else \
+		for dir in $(BUSINESS_PATH)/*; do \
+			if [ -d "$$dir" ] && [ -f "$$dir/cmd/main.go" ]; then \
+				BUSINESS_NAME=$$(basename $$dir); \
+				for platform in $(PLATFORMS); do \
+					GOOS=$$(echo $$platform | cut -d'-' -f1); \
+					GOARCH=$$(echo $$platform | cut -d'-' -f2); \
+					case $$GOOS in \
+						windows) EXT="dll" ;; \
+						darwin) EXT="dylib" ;; \
+						*) EXT="so" ;; \
+					esac; \
+					echo "Building extension $$BUSINESS_NAME for $$platform..."; \
+					CGO_ENABLED=1 GOOS=$$GOOS GOARCH=$$GOARCH go build -buildmode=plugin $(BUILD_FLAGS) \
+						-o $(OUT)/extension/$$BUSINESS_NAME-$$platform.$$EXT $$dir/cmd/main.go || exit 1; \
+				done \
+			fi \
+		done \
+	fi
+
+build-plugins: check-tools
 	@mkdir -p $(OUT)/extension/plugins
 	@if [ $(APPLE_CHIP) -eq 1 ]; then \
 		echo "Skipping multi-platform plugin build on Apple Silicon"; \
@@ -73,25 +104,19 @@ build-plugins:
 					GOARCH=$$(echo $$platform | cut -d'-' -f2); \
 					case $$GOOS in \
 						windows) EXT="dll" ;; \
+						darwin) EXT="dylib" ;; \
 						*) EXT="so" ;; \
 					esac; \
 					echo "Building plugin $$PLUGIN_NAME for $$platform..."; \
-					CGO_ENABLED=1 GOOS=$$GOOS GOARCH=$$GOARCH go build -buildmode=plugin $(BUILD_FLAGS) -o $(OUT)/plugins/$$PLUGIN_NAME-$$platform.$$EXT $$dir/cmd/plugin.go || exit 1; \
+					CGO_ENABLED=1 GOOS=$$GOOS GOARCH=$$GOARCH go build -buildmode=plugin $(BUILD_FLAGS) \
+						-o $(OUT)/extension/plugins/$$PLUGIN_NAME-$$platform.$$EXT $$dir/cmd/plugin.go || exit 1; \
 				done \
 			fi \
 		done \
 	fi
 
-build-all: build-multi build-plugins
-
-swagger:
-	@swag init --parseDependency --parseInternal --parseDepth 1 -g $(CMD_PATH)/main.go -o ./docs/swagger
-
-build: generate
-	@go build $(BUILD_FLAGS) -o $(OUT)/$(APP_NAME) $(CMD_PATH)
-
-build-plugin: build
-	@mkdir -p $(OUT)/plugins
+build-plugin: check-tools
+	@mkdir -p $(OUT)/extension/plugins
 	@for dir in $(PLUGIN_PATH)/*; do \
 		if [ -d "$$dir" ] && [ -f "$$dir/cmd/plugin.go" ]; then \
 			echo "Building plugin $$dir for current platform..."; \
@@ -100,12 +125,22 @@ build-plugin: build
 			GOARCH=$$(go env GOARCH); \
 			case $$GOOS in \
 				windows) EXT="dll" ;; \
+				darwin) EXT="dylib" ;; \
 				*) EXT="so" ;; \
 			esac; \
 			echo "Building plugin $$PLUGIN_NAME for $$GOOS/$$GOARCH..."; \
-			go build -buildmode=plugin $(BUILD_FLAGS) -o $(OUT)/plugins/$$PLUGIN_NAME.$$EXT $$dir/cmd/plugin.go || exit 1; \
+			CGO_ENABLED=1 go build -buildmode=plugin $(BUILD_FLAGS) \
+				-o $(OUT)/extension/plugins/$$PLUGIN_NAME.$$EXT $$dir/cmd/plugin.go || exit 1; \
 		fi \
 	done
+
+build-all: check-tools build-multi build-plugins build-business
+
+swagger:
+	@swag init --parseDependency --parseInternal --parseDepth 1 -g $(CMD_PATH)/main.go -o ./docs/swagger
+
+build: generate
+	@go build $(BUILD_FLAGS) -o $(OUT)/$(APP_NAME) $(CMD_PATH)
 
 build-cli:
 	@go build $(BUILD_FLAGS) -o $(OUT)/$(CLI_NAME) $(CLI_PATH)
@@ -136,9 +171,10 @@ version:
 help:
 	@echo "Available targets:"
 	@echo "  build           - Build for the current platform"
-	@echo "  build-plugin    - Build plugins and main application for the current platform"
+	@echo "  build-plugin    - Build plugins for current platform"
 	@echo "  build-multi     - Build for multiple platforms"
 	@echo "  build-plugins   - Build plugins for multiple platforms"
+	@echo "  build-business  - Build business extensions for multiple platforms"
 	@echo "  build-all       - Build main application and plugins"
 	@echo "  clean           - Remove build artifacts"
 	@echo "  optimize        - Compress binaries using UPX"
