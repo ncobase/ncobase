@@ -1,10 +1,12 @@
 package content
 
 import (
+	"context"
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/extension"
+	"ncobase/common/log"
 	"ncobase/common/observes"
 	"ncobase/domain/content/data"
 	"ncobase/domain/content/handler"
@@ -16,12 +18,13 @@ import (
 )
 
 var (
-	name         = "content"
-	desc         = "Content module"
-	version      = "1.0.0"
-	dependencies []string
-	typeStr      = "module"
-	group        = "cms"
+	name             = "content"
+	desc             = "Content module"
+	version          = "1.0.0"
+	dependencies     []string
+	typeStr          = "module"
+	group            = "cms"
+	enabledDiscovery = false
 )
 
 // Module represents the content module
@@ -35,6 +38,15 @@ type Module struct {
 	d           *data.Data
 	tracer      trace.Tracer
 	cleanup     func(name ...string)
+
+	discovery
+}
+
+// discovery represents the service discovery
+type discovery struct {
+	address string
+	tags    []string
+	meta    map[string]string
 }
 
 // Name returns the name of the module
@@ -60,6 +72,13 @@ func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.d, m.cleanup, err = data.New(conf.Data)
 	if err != nil {
 		return err
+	}
+
+	// service discovery
+	if conf.Consul == nil {
+		m.discovery.address = conf.Consul.Address
+		m.discovery.tags = conf.Consul.Discovery.DefaultTags
+		m.discovery.meta = conf.Consul.Discovery.DefaultMeta
 	}
 
 	m.em = em
@@ -190,4 +209,39 @@ func (m *Module) subscribeEvents(_ *extension.Manager) {
 // New creates a new instance of the auth module.
 func New() extension.Interface {
 	return &Module{}
+}
+
+// NeedServiceDiscovery returns if the module needs to be registered as a service
+func (m *Module) NeedServiceDiscovery() bool {
+	return enabledDiscovery
+}
+
+// GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
+func (m *Module) GetServiceInfo() *extension.ServiceInfo {
+	if !m.NeedServiceDiscovery() {
+		return nil
+	}
+
+	log.Infof(context.Background(), "Getting service info for %s with address: %s",
+		m.Name(), m.discovery.address)
+
+	metadata := m.GetMetadata()
+
+	tags := append(m.discovery.tags, metadata.Group, metadata.Type)
+
+	meta := make(map[string]string)
+	for k, v := range m.discovery.meta {
+		meta[k] = v
+	}
+	meta["name"] = metadata.Name
+	meta["version"] = metadata.Version
+	meta["group"] = metadata.Group
+	meta["type"] = metadata.Type
+	meta["description"] = metadata.Description
+
+	return &extension.ServiceInfo{
+		Address: m.discovery.address,
+		Tags:    tags,
+		Meta:    meta,
+	}
 }

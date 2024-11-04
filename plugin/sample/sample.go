@@ -10,12 +10,13 @@ import (
 )
 
 var (
-	name         = "sample"
-	desc         = "Sample plugin"
-	version      = "1.0.0"
-	dependencies []string
-	typeStr      = "plugin"
-	group        = "plug"
+	name             = "sample"
+	desc             = "Sample plugin"
+	version          = "1.0.0"
+	dependencies     []string
+	typeStr          = "plugin"
+	group            = "plug"
+	enabledDiscovery = false
 )
 
 // Plugin represents the sample plugin
@@ -25,6 +26,15 @@ type Plugin struct {
 	em          *extension.Manager
 	conf        *config.Config
 	cleanup     func(name ...string)
+
+	discovery
+}
+
+// discovery represents the service discovery
+type discovery struct {
+	address string
+	tags    []string
+	meta    map[string]string
 }
 
 // Name returns the name of the plugin
@@ -45,6 +55,13 @@ func (p *Plugin) Init(conf *config.Config, em *extension.Manager) (err error) {
 
 	if p.initialized {
 		return fmt.Errorf("sample plugin already initialized")
+	}
+
+	// service discovery
+	if conf.Consul == nil {
+		p.discovery.address = conf.Consul.Address
+		p.discovery.tags = conf.Consul.Discovery.DefaultTags
+		p.discovery.meta = conf.Consul.Discovery.DefaultMeta
 	}
 
 	p.em = em
@@ -155,4 +172,36 @@ func init() {
 		Type:         typeStr,
 		Group:        group,
 	})
+}
+
+// NeedServiceDiscovery returns if the module needs to be registered as a service
+func (p *Plugin) NeedServiceDiscovery() bool {
+	return enabledDiscovery
+}
+
+// GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
+func (p *Plugin) GetServiceInfo() *extension.ServiceInfo {
+	if !p.NeedServiceDiscovery() {
+		return nil
+	}
+
+	metadata := p.GetMetadata()
+
+	tags := append(p.discovery.tags, metadata.Group, metadata.Type)
+
+	meta := make(map[string]string)
+	for k, v := range p.discovery.meta {
+		meta[k] = v
+	}
+	meta["name"] = metadata.Name
+	meta["version"] = metadata.Version
+	meta["group"] = metadata.Group
+	meta["type"] = metadata.Type
+	meta["description"] = metadata.Description
+
+	return &extension.ServiceInfo{
+		Address: p.discovery.address,
+		Tags:    tags,
+		Meta:    meta,
+	}
 }

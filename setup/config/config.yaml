@@ -6,6 +6,16 @@ run_mode: release
 consul:
   address: 127.1:8500
   scheme: http
+  discovery:
+    default_tags:
+      - "t1"
+      - "t2"
+    default_meta:
+      env: development
+      region: private-east-1
+    health_check: false
+    check_interval: "10s"
+    timeout: "5s"
 
 observes:
   tracer:
