@@ -33,18 +33,20 @@ type TopicRepositoryInterface interface {
 
 // topicRepository implements the TopicRepositoryInterface.
 type topicRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Topic]
+	ec  *ent.Client
+	ecr *ent.Client
+	rc  *redis.Client
+	ms  *meili.Client
+	c   *cache.Cache[ent.Topic]
 }
 
 // NewTopicRepository creates a new topic repository.
 func NewTopicRepository(d *data.Data) TopicRepositoryInterface {
 	ec := d.GetEntClient()
+	ecr := d.GetEntClientRead()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &topicRepository{ec, rc, ms, cache.NewCache[ent.Topic](rc, "ncse_topic")}
+	return &topicRepository{ec, ecr, rc, ms, cache.NewCache[ent.Topic](rc, "ncse_topic")}
 }
 
 // Create creates a new topic.
@@ -311,7 +313,7 @@ func (r *topicRepository) Delete(ctx context.Context, slug string) error {
 func (r *topicRepository) FindTopic(ctx context.Context, params *structs.FindTopic) (*ent.Topic, error) {
 
 	// create builder.
-	builder := r.ec.Topic.Query()
+	builder := r.ecr.Topic.Query()
 
 	if validator.IsNotEmpty(params.Topic) {
 		builder = builder.Where(topicEnt.Or(
@@ -335,7 +337,7 @@ func (r *topicRepository) FindTopic(ctx context.Context, params *structs.FindTop
 // ListBuilder creates list builder.
 func (r *topicRepository) ListBuilder(_ context.Context, _ *structs.ListTopicParams) (*ent.TopicQuery, error) {
 	// create builder.
-	builder := r.ec.Topic.Query()
+	builder := r.ecr.Topic.Query()
 
 	return builder, nil
 }

@@ -30,16 +30,18 @@ type TaxonomyRelationsRepositoryInterface interface {
 
 // taxonomyRelationsRepository implements the TaxonomyRelationsRepositoryInterface.
 type taxonomyRelationsRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	c  *cache.Cache[ent.TaxonomyRelation]
+	ec  *ent.Client
+	ecr *ent.Client
+	rc  *redis.Client
+	c   *cache.Cache[ent.TaxonomyRelation]
 }
 
 // NewTaxonomyRelationsRepository creates a new taxonomy relations repository.
 func NewTaxonomyRelationsRepository(d *data.Data) TaxonomyRelationsRepositoryInterface {
 	ec := d.GetEntClient()
+	ecr := d.GetEntClientRead()
 	rc := d.GetRedis()
-	return &taxonomyRelationsRepository{ec, rc, cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations")}
+	return &taxonomyRelationsRepository{ec, ecr, rc, cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations")}
 }
 
 // Create creates a new taxonomy relation.
@@ -119,7 +121,7 @@ func (r *taxonomyRelationsRepository) Update(ctx context.Context, body *structs.
 // List gets a list of taxonomy relations.
 func (r *taxonomyRelationsRepository) List(ctx context.Context, params *structs.ListTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
 	// create builder.
-	builder := r.ec.TaxonomyRelation.
+	builder := r.ecr.TaxonomyRelation.
 		Query().
 		Limit(params.Limit)
 
@@ -175,14 +177,14 @@ func (r *taxonomyRelationsRepository) List(ctx context.Context, params *structs.
 
 // CountX gets a count of taxonomy relations.
 func (r *taxonomyRelationsRepository) CountX(ctx context.Context, _ *structs.ListTaxonomyRelationParams) int {
-	return r.ec.TaxonomyRelation.
+	return r.ecr.TaxonomyRelation.
 		Query().
 		CountX(ctx)
 }
 
 // Delete deletes a taxonomy relation.
 func (r *taxonomyRelationsRepository) Delete(ctx context.Context, object string) error {
-	_, err := r.ec.TaxonomyRelation.
+	_, err := r.ecr.TaxonomyRelation.
 		Delete().
 		Where(taxonomyRelationEnt.IDEQ(object)).
 		Exec(ctx)
@@ -223,7 +225,7 @@ func (r *taxonomyRelationsRepository) BatchCreate(ctx context.Context, bodies []
 func (r *taxonomyRelationsRepository) FindRelations(ctx context.Context, params *structs.FindTaxonomyRelationParams) ([]*ent.TaxonomyRelation, error) {
 
 	// create builder.
-	builder := r.ec.TaxonomyRelation.Query()
+	builder := r.ecr.TaxonomyRelation.Query()
 
 	if validator.IsNotEmpty(params.ObjectID) {
 		builder = builder.Where(taxonomyRelationEnt.IDEQ(params.ObjectID))
@@ -248,7 +250,7 @@ func (r *taxonomyRelationsRepository) FindRelations(ctx context.Context, params 
 func (r *taxonomyRelationsRepository) FindTaxonomyRelation(ctx context.Context, params *structs.FindTaxonomyRelation) (*ent.TaxonomyRelation, error) {
 
 	// create builder.
-	builder := r.ec.TaxonomyRelation.Query()
+	builder := r.ecr.TaxonomyRelation.Query()
 
 	if validator.IsNotEmpty(params.ObjectID) {
 		builder = builder.Where(taxonomyRelationEnt.IDEQ(params.ObjectID))

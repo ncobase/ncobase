@@ -33,18 +33,20 @@ type TaxonomyRepositoryInterface interface {
 
 // taxonomyRepository implements the TaxonomyRepositoryInterface.
 type taxonomyRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Taxonomy]
+	ec  *ent.Client
+	ecr *ent.Client
+	rc  *redis.Client
+	ms  *meili.Client
+	c   *cache.Cache[ent.Taxonomy]
 }
 
 // NewTaxonomyRepository creates a new taxonomy repository.
 func NewTaxonomyRepository(d *data.Data) TaxonomyRepositoryInterface {
 	ec := d.GetEntClient()
+	ecr := d.GetEntClientRead()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &taxonomyRepository{ec, rc, ms, cache.NewCache[ent.Taxonomy](rc, "ncse_taxonomy")}
+	return &taxonomyRepository{ec, ecr, rc, ms, cache.NewCache[ent.Taxonomy](rc, "ncse_taxonomy")}
 }
 
 // Create create taxonomy
@@ -152,7 +154,7 @@ func (r *taxonomyRepository) GetBySlug(ctx context.Context, slug string) (*ent.T
 // GetTree retrieves the taxonomy tree.
 func (r *taxonomyRepository) GetTree(ctx context.Context, params *structs.FindTaxonomy) ([]*ent.Taxonomy, error) {
 	// create builder
-	builder := r.ec.Taxonomy.Query()
+	builder := r.ecr.Taxonomy.Query()
 
 	// set where conditions
 	if validator.IsNotEmpty(params.Tenant) {
@@ -372,7 +374,7 @@ func (r *taxonomyRepository) Delete(ctx context.Context, slug string) error {
 // FindTaxonomy find taxonomy
 func (r *taxonomyRepository) FindTaxonomy(ctx context.Context, params *structs.FindTaxonomy) (*ent.Taxonomy, error) {
 	// create builder.
-	builder := r.ec.Taxonomy.Query()
+	builder := r.ecr.Taxonomy.Query()
 
 	// support slug or ID
 	if validator.IsNotEmpty(params.Taxonomy) {
@@ -397,7 +399,7 @@ func (r *taxonomyRepository) FindTaxonomy(ctx context.Context, params *structs.F
 // listBuilder create list builder
 func (r *taxonomyRepository) listBuilder(_ context.Context, params *structs.ListTaxonomyParams) (*ent.TaxonomyQuery, error) {
 	// create builder.
-	builder := r.ec.Taxonomy.Query()
+	builder := r.ecr.Taxonomy.Query()
 
 	// match parent id.
 	// default is root.

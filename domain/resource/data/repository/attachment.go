@@ -30,18 +30,20 @@ type AttachmentRepositoryInterface interface {
 
 // attachmentRepostory implements the AttachmentRepositoryInterface.
 type attachmentRepostory struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Attachment]
+	ec  *ent.Client
+	ecr *ent.Client
+	rc  *redis.Client
+	ms  *meili.Client
+	c   *cache.Cache[ent.Attachment]
 }
 
 // NewAttachmentRepository creates a new attachment repository.
 func NewAttachmentRepository(d *data.Data) AttachmentRepositoryInterface {
 	ec := d.GetEntClient()
+	ecr := d.GetEntClientRead()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &attachmentRepostory{ec, rc, ms, cache.NewCache[ent.Attachment](rc, "ncse_attachment")}
+	return &attachmentRepostory{ec, ecr, rc, ms, cache.NewCache[ent.Attachment](rc, "ncse_attachment")}
 }
 
 // Create creates an attachment.
@@ -198,7 +200,7 @@ func (r *attachmentRepostory) Delete(ctx context.Context, slug string) error {
 // FindAttachment finds an attachment.
 func (r *attachmentRepostory) FindAttachment(ctx context.Context, params *structs.FindAttachment) (*ent.Attachment, error) {
 	// create builder.
-	builder := r.ec.Attachment.Query()
+	builder := r.ecr.Attachment.Query()
 
 	if validator.IsNotEmpty(params.Attachment) {
 		builder = builder.Where(attachmentEnt.Or(
@@ -278,7 +280,7 @@ func (r *attachmentRepostory) List(ctx context.Context, params *structs.ListAtta
 // ListBuilder creates list builder.
 func (r *attachmentRepostory) ListBuilder(ctx context.Context, params *structs.ListAttachmentParams) (*ent.AttachmentQuery, error) {
 	// create builder.
-	builder := r.ec.Attachment.Query()
+	builder := r.ecr.Attachment.Query()
 
 	// belong tenant
 	if params.Tenant != "" {
