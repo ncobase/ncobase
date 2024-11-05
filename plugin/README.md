@@ -1,6 +1,6 @@
-# Plugins for Ncobase
+# Plugin System
 
-> This is the plug-in in the system.
+> The plugin system provides extensibility and customization capabilities for the Ncobase platform.
 
 ## Structure
 

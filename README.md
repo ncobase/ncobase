@@ -1,16 +1,30 @@
 # Ncobase
 
-## Start
+## Quick Start
 
 ```shell
-# Install dependencies
+# Setup
 go mod tidy
+go work sync
+make install           # Install required tools (swag, etc.)
 
-# Generate necessary files
-make generate
+# Development
+make generate         # Generate code and swagger docs
+make swagger          # Generate swagger documentation
+make run              # Run the application locally
 
-# Run the application
-make run
+# Build
+make build            # Build for current platform
+make build-multi      # Build for multiple platforms (linux/darwin)
+make build-plugin     # Build plugin for current platform
+make build-plugins    # Build plugins for all platforms
+make build-business   # Build business extensions
+make build-all        # Build application and all extensions
+
+# Utils
+make clean            # Clean build artifacts
+make version          # Show version information
+make help             # Show make commands help
 ```
 
 ## Technologies

@@ -1,16 +1,20 @@
-# Extensions for Ncobase
+# Core Domain Modules
 
-> This is the core domain module in the system.
+
+> Core domains provide fundamental infrastructure and services for the entire system.
+
 
 ## Structure
 
 ```plantext
 ├── access/               # Access control and permission management, including role, permission, casbin, role permission
 ├── auth/                 # Authentication and authorization
+├── realtime/             # Real-time management
 ├── space/                # organization structure, and team management, including group, department, member, role
 ├── system/               # Core system functionalities
 ├── tenant/               # Multi-tenancy support
 ├── user/                 # User management and profiles
+├── workflow/             # Workflow management, Used for business process, such as approval, workflow design, etc.
 └── README.md             # This file
 ```
 

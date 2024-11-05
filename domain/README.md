@@ -1,13 +1,13 @@
-# Domains for Ncobase
+# Business Domain Modules
 
-> This is the business domain module in the system.
+> Business domains implement specific business functionalities and features.
+
 
 ## Structure
 
 ```plantext
 ├── assistant/            # Work Assistant, including ai assistant and management
 ├── content/              # Content management
-├── realtime/             # Real-time management
 ├── resource/             # Resource management
 └── README.md             # This file
 ```
