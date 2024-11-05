@@ -24,6 +24,7 @@ var (
 	dependencies []string
 	typeStr      = "plugin"
 	group        = "plug"
+	enabledDiscovery = false
 )
 
 // Plugin represents the %s plugin.
@@ -36,6 +37,15 @@ type Plugin struct {
 	s           *service.Service
 	d           *data.Data
 	cleanup     func(name ...string)
+
+	discovery
+}
+
+// discovery represents the service discovery
+type discovery struct {
+	address string
+	tags    []string
+	meta    map[string]string
 }
 
 // New creates a new instance of the %s plugin.
@@ -61,6 +71,13 @@ func (p *Plugin) Init(conf *config.Config, em *extension.Manager) (err error) {
 	p.d, p.cleanup, err = data.New(conf.Data)
 	if err != nil {
 		return err
+	}
+
+	// service discovery
+	if conf.Consul == nil {
+		p.discovery.address = conf.Consul.Address
+		p.discovery.tags = conf.Consul.Discovery.DefaultTags
+		p.discovery.meta = conf.Consul.Discovery.DefaultMeta
 	}
 
 	p.em = em
@@ -153,6 +170,38 @@ func (p *Plugin) Type() string {
 // Group returns the domain group of the plugin belongs
 func (p *Plugin) Group() string {
 	return group
+}
+
+// NeedServiceDiscovery returns if the module needs to be registered as a service
+func (p *Plugin) NeedServiceDiscovery() bool {
+	return enabledDiscovery
+}
+
+// GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
+func (p *Plugin) GetServiceInfo() *extension.ServiceInfo {
+	if !p.NeedServiceDiscovery() {
+		return nil
+	}
+
+	metadata := p.GetMetadata()
+
+	tags := append(p.discovery.tags, metadata.Group, metadata.Type)
+
+	meta := make(map[string]string)
+	for k, v := range p.discovery.meta {
+		meta[k] = v
+	}
+	meta["name"] = metadata.Name
+	meta["version"] = metadata.Version
+	meta["group"] = metadata.Group
+	meta["type"] = metadata.Type
+	meta["description"] = metadata.Description
+
+	return &extension.ServiceInfo{
+		Address: p.discovery.address,
+		Tags:    tags,
+		Meta:    meta,
+	}
 }
 `, name, name, name, name, name, name, name, name, name, name)
 }

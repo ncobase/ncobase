@@ -2,16 +2,16 @@ package templates
 
 import "fmt"
 
-func CoreTemplate(name string) string {
+func BusinessTemplate(name string) string {
 	return fmt.Sprintf(`package %s
 
 import (
 	"fmt"
 	"ncobase/common/config"
 	"ncobase/common/extension"
-	"ncobase/core/%s/data"
-	"ncobase/core/%s/handler"
-	"ncobase/core/%s/service"
+	"ncobase/domain/%s/data"
+	"ncobase/domain/%s/handler"
+	"ncobase/domain/%s/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -24,6 +24,7 @@ var (
 	dependencies []string
 	typeStr      = "module"
 	group        = ""
+	enabledDiscovery = false
 )
 
 // Module represents the %s module.
@@ -36,6 +37,15 @@ type Module struct {
 	s           *service.Service
 	d           *data.Data
 	cleanup     func(name ...string)
+
+	discovery
+}
+
+// discovery represents the service discovery
+type discovery struct {
+	address string
+	tags    []string
+	meta    map[string]string
 }
 
 // New creates a new instance of the %s module.
@@ -61,6 +71,13 @@ func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.d, m.cleanup, err = data.New(conf.Data)
 	if err != nil {
 		return err
+	}
+
+	// service discovery
+	if conf.Consul == nil {
+		m.discovery.address = conf.Consul.Address
+		m.discovery.tags = conf.Consul.Discovery.DefaultTags
+		m.discovery.meta = conf.Consul.Discovery.DefaultMeta
 	}
 
 	m.em = em
@@ -138,7 +155,6 @@ func (m *Module) Version() string {
 func (m *Module) Dependencies() []string {
 	return dependencies
 }
-
 // Description returns the description of the module
 func (m *Module) Description() string {
 	return desc
@@ -152,6 +168,38 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
+}
+
+// NeedServiceDiscovery returns if the module needs to be registered as a service
+func (m *Module) NeedServiceDiscovery() bool {
+	return enabledDiscovery
+}
+
+// GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
+func (m *Module) GetServiceInfo() *extension.ServiceInfo {
+	if !m.NeedServiceDiscovery() {
+		return nil
+	}
+
+	metadata := m.GetMetadata()
+
+	tags := append(m.discovery.tags, metadata.Group, metadata.Type)
+
+	meta := make(map[string]string)
+	for k, v := range m.discovery.meta {
+		meta[k] = v
+	}
+	meta["name"] = metadata.Name
+	meta["version"] = metadata.Version
+	meta["group"] = metadata.Group
+	meta["type"] = metadata.Type
+	meta["description"] = metadata.Description
+
+	return &extension.ServiceInfo{
+		Address: m.discovery.address,
+		Tags:    tags,
+		Meta:    meta,
+	}
 }
 `, name, name, name, name, name, name, name, name, name, name)
 }
