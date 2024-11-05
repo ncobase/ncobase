@@ -1,4 +1,4 @@
-module ncobase/domain/realtime
+module ncobase/core/realtime
 
 go 1.23.0
 
@@ -7,11 +7,11 @@ toolchain go1.23.1
 replace (
 	ncobase => ./../..
 	ncobase/common => ./../../pkg
-	ncobase/core/access => ./../../core/access
-	ncobase/core/auth => ./../../core/auth
-	ncobase/core/space => ./../../core/space
-	ncobase/core/tenant => ./../../core/tenant
-	ncobase/core/user => ./../../core/user
+	ncobase/core/access => ./../access
+	ncobase/core/auth => ./../auth
+	ncobase/core/space => ./../space
+	ncobase/core/tenant => ./../tenant
+	ncobase/core/user => ./../user
 )
 
 require (

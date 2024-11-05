@@ -8,6 +8,7 @@ toolchain go1.23.1
 replace (
 	ncobase/core/access => ./core/access
 	ncobase/core/auth => ./core/auth
+	ncobase/core/realtime => ./core/realtime
 	ncobase/core/space => ./core/space
 	ncobase/core/system => ./core/system
 	ncobase/core/tenant => ./core/tenant
@@ -17,7 +18,6 @@ replace (
 // business domains
 replace (
 	ncobase/domain/content => ./domain/content
-	ncobase/domain/realtime => ./domain/realtime
 	ncobase/domain/resource => ./domain/resource
 )
 
@@ -39,12 +39,12 @@ require (
 	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
 	ncobase/core/access v0.0.0-00010101000000-000000000000
 	ncobase/core/auth v0.0.0-00010101000000-000000000000
+	ncobase/core/realtime v0.0.0-00010101000000-000000000000
 	ncobase/core/space v0.0.0-00010101000000-000000000000
 	ncobase/core/system v0.0.0-00010101000000-000000000000
 	ncobase/core/tenant v0.0.0-00010101000000-000000000000
 	ncobase/core/user v0.0.0-00010101000000-000000000000
 	ncobase/domain/content v0.0.0-00010101000000-000000000000
-	ncobase/domain/realtime v0.0.0-00010101000000-000000000000
 	ncobase/domain/resource v0.0.0-00010101000000-000000000000
 	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
 )

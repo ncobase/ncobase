@@ -5,8 +5,8 @@ import (
 	"ncobase/common/config"
 	"ncobase/common/extension"
 	"ncobase/common/resp"
-	"ncobase/domain/realtime/handler"
-	"ncobase/domain/realtime/service"
+	"ncobase/core/realtime/handler"
+	"ncobase/core/realtime/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +18,7 @@ var (
 	version          = "1.0.0"
 	dependencies     = []string{"access", "auth", "tenant", "user", "space"}
 	typeStr          = "module"
-	group            = "rt" // belongs to core module
+	group            = "rt" // belongs to core domain module
 	enabledDiscovery = false
 )
 

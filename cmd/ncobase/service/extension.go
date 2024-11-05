@@ -6,12 +6,12 @@ import (
 	"ncobase/common/log"
 	"ncobase/core/access"
 	"ncobase/core/auth"
+	"ncobase/core/realtime"
 	"ncobase/core/space"
 	"ncobase/core/system"
 	"ncobase/core/tenant"
 	"ncobase/core/user"
 	"ncobase/domain/content"
-	"ncobase/domain/realtime"
 	"ncobase/domain/resource"
 	"strings"
 )
