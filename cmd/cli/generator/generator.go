@@ -91,20 +91,28 @@ func createStructure(basePath string, data *templates.Data, mainTemplate func(st
 	}
 
 	// Create files
-	var dataTemplate string
-	if data.UseEnt {
-		dataTemplate = templates.DataTemplateWithEnt(data.Name, data.ModuleType)
-	} else {
-		dataTemplate = templates.DataTemplate(data.Name, data.ModuleType)
+	selectDataTemplate := func(data templates.Data) string {
+		if data.UseEnt {
+			return templates.DataTemplateWithEnt(data.Name, data.ModuleType)
+		}
+		return templates.DataTemplate(data.Name, data.ModuleType)
 	}
+
 	files := map[string]string{
 		fmt.Sprintf("%s.go", data.Name): mainTemplate(data.Name),
-		"data/data.go":                  dataTemplate,
+		// "go.mod":                        templates.ModuleTemplate(data.Name, data.ModuleType),
+		// "generate.go":                   templates.GeneraterTemplate(data.Name, data.ModuleType),
+		"data/data.go":                  selectDataTemplate(*data),
 		"data/repository/repository.go": templates.RepositoryTemplate(data.Name, data.ModuleType),
 		"data/schema/schema.go":         templates.SchemaTemplate(),
 		"handler/handler.go":            templates.HandlerTemplate(data.Name, data.ModuleType),
 		"service/service.go":            templates.ServiceTemplate(data.Name, data.ModuleType),
 		"structs/structs.go":            templates.StructsTemplate(),
+	}
+
+	// Add ent files if required
+	if data.UseEnt {
+		files["generate.go"] = templates.GeneraterTemplate(data.Name, data.ModuleType)
 	}
 
 	// Add test files if required
