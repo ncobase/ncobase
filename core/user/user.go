@@ -17,8 +17,9 @@ var (
 	name             = "user"
 	desc             = "user module"
 	version          = "1.0.0"
-	typeStr          = "module"
 	dependencies     []string
+	typeStr          = "module"
+	group            = "sys"
 	enabledDiscovery = false
 )
 
@@ -173,7 +174,7 @@ func (m *Module) Type() string {
 
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
-	return "iam"
+	return group
 }
 
 // NeedServiceDiscovery returns if the module needs to be registered as a service
