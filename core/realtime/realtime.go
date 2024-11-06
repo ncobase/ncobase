@@ -2,9 +2,10 @@ package realtime
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/extension"
-	"ncobase/common/resp"
+	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/handler"
 	"ncobase/core/realtime/service"
 	"sync"
@@ -14,56 +15,60 @@ import (
 
 var (
 	name             = "realtime"
-	desc             = "Realtime module, provides realtime communication"
+	desc             = "Real-time event and notification module"
 	version          = "1.0.0"
-	dependencies     = []string{"access", "auth", "tenant", "user", "space"}
+	dependencies     []string
 	typeStr          = "module"
-	group            = "rt" // belongs to core domain module
+	group            = "rt" // belongs domain group
 	enabledDiscovery = false
 )
 
-// Module represents the socket
+// Module represents the realtime module
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
 	em          *extension.Manager
 	conf        *config.Config
-	s           *service.Service
 	h           *handler.Handler
+	s           *service.Service
+	d           *data.Data
 	cleanup     func(name ...string)
 
 	discovery
 }
 
-// discovery represents the service discovery
 type discovery struct {
 	address string
 	tags    []string
 	meta    map[string]string
 }
 
-// Name returns the name of the socket
-func (m *Module) Name() string {
-	return name
+// New creates a new instance of the realtime module
+func New() extension.Interface {
+	return &Module{}
 }
 
 // PreInit performs any necessary setup before initialization
 func (m *Module) PreInit() error {
-	// Implement any pre-initialization logic here
 	return nil
 }
 
-// Init initializes the socket
+// Init initializes the realtime module
 func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
 	if m.initialized {
-		return fmt.Errorf("socket already initialized")
+		return fmt.Errorf("realtime module already initialized")
 	}
 
-	// service discovery
-	if conf.Consul == nil {
+	m.d, m.cleanup, err = data.New(conf.Data)
+	if err != nil {
+		return err
+	}
+
+	// Configure service discovery
+	if conf.Consul != nil {
 		m.discovery.address = conf.Consul.Address
 		m.discovery.tags = conf.Consul.Discovery.DefaultTags
 		m.discovery.meta = conf.Consul.Discovery.DefaultMeta
@@ -76,47 +81,81 @@ func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	return nil
 }
 
-// PostInit performs any necessary setup after initialization
+// PostInit performs setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New()
+	m.s = service.New(m.d, m.em)
 	m.h = handler.New(m.s)
-	// Subscribe to relevant events
-	m.subscribeEvents(m.em)
 	return nil
 }
 
-// RegisterRoutes registers routes for the socket
+// RegisterRoutes registers HTTP and WebSocket routes
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Belong domain group
-	r = r.Group("/" + m.Group())
-	// WebSocket endpoints
-	r.GET("/socket", func(c *gin.Context) {
-		m.h.WebSocket.Connect(c.Writer, c.Request)
-	})
+	// Group routes under /realtime
+	rg := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+
+	// WebSocket endpoint
+	rg.GET("/ws", m.h.WebSocket.HandleConnection)
 
 	// Notification endpoints
-	r.GET("/notification", func(c *gin.Context) {
-		resp.Success(c.Writer, nil)
-	})
+	notifications := rg.Group("/notifications")
+	{
+		notifications.GET("", m.h.Notification.List)
+		notifications.POST("", m.h.Notification.Create)
+		notifications.GET("/:id", m.h.Notification.Get)
+		notifications.PUT("/:id", m.h.Notification.Update)
+		notifications.DELETE("/:id", m.h.Notification.Delete)
+		notifications.PUT("/:id/read", m.h.Notification.MarkAsRead)
+		notifications.PUT("/:id/unread", m.h.Notification.MarkAsUnread)
+		notifications.PUT("/read-all", m.h.Notification.MarkAllAsRead)
+		notifications.PUT("/unread-all", m.h.Notification.MarkAllAsUnread)
+	}
+
+	// Channel endpoints
+	channels := rg.Group("/channels")
+	{
+		channels.GET("", m.h.Channel.List)
+		channels.POST("", m.h.Channel.Create)
+		channels.GET("/:id", m.h.Channel.Get)
+		channels.PUT("/:id", m.h.Channel.Update)
+		channels.DELETE("/:id", m.h.Channel.Delete)
+		channels.POST("/:id/subscribe", m.h.Channel.Subscribe)
+		channels.POST("/:id/unsubscribe", m.h.Channel.Unsubscribe)
+		channels.GET("/:id/subscribers", m.h.Channel.GetSubscribers)
+		channels.GET("/:id/user", m.h.Channel.GetUserChannels)
+	}
+
+	// Event endpoints
+	events := rg.Group("/events")
+	{
+		events.GET("", m.h.Event.List)
+		events.GET("/:id", m.h.Event.Get)
+		events.DELETE("/:id", m.h.Event.Delete)
+		events.POST("/publish", m.h.Event.Publish)
+		events.GET("/history", m.h.Event.GetHistory)
+	}
 }
 
-// GetHandlers returns the handlers for the socket
+// Name returns the name of the module
+func (m *Module) Name() string {
+	return name
+}
+
+// GetHandlers returns the handlers
 func (m *Module) GetHandlers() extension.Handler {
 	return m.h
 }
 
-// GetServices returns the services for the socket
+// GetServices returns the services
 func (m *Module) GetServices() extension.Service {
 	return m.s
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
+// PreCleanup performs necessary cleanup before the main cleanup
 func (m *Module) PreCleanup() error {
-	// Implement any pre-cleanup logic here
 	return nil
 }
 
-// Cleanup cleans up the socket
+// Cleanup cleans up resources
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
 		m.cleanup(m.Name())
@@ -124,7 +163,12 @@ func (m *Module) Cleanup() error {
 	return nil
 }
 
-// GetMetadata returns the metadata of the socket
+// Status returns the module status
+func (m *Module) Status() string {
+	return "active"
+}
+
+// GetMetadata returns module metadata
 func (m *Module) GetMetadata() extension.Metadata {
 	return extension.Metadata{
 		Name:         m.Name(),
@@ -136,53 +180,37 @@ func (m *Module) GetMetadata() extension.Metadata {
 	}
 }
 
-// Status returns the status of the socket
-func (m *Module) Status() string {
-	// Implement logic to check the socket status
-	return "active"
-}
-
-// Version returns the version of the socket
+// Version returns the module version
 func (m *Module) Version() string {
 	return version
 }
 
-// Dependencies returns the dependencies of the socket
+// Dependencies returns module dependencies
 func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
-// Description returns the description of the module
+// Description returns the module description
 func (m *Module) Description() string {
 	return desc
 }
 
-// Type returns the type of the module
+// Type returns the module type
 func (m *Module) Type() string {
 	return typeStr
 }
 
-// Group returns the domain group of the module belongs
+// Group returns the module group
 func (m *Module) Group() string {
 	return group
 }
 
-// SubscribeEvents subscribes to relevant events
-func (m *Module) subscribeEvents(_ *extension.Manager) {
-	// Implement any event subscriptions here
-}
-
-// New returns a new socket
-func New() *Module {
-	return &Module{}
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
+// NeedServiceDiscovery returns if service discovery is needed
 func (m *Module) NeedServiceDiscovery() bool {
 	return enabledDiscovery
 }
 
-// GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
+// GetServiceInfo returns service discovery info
 func (m *Module) GetServiceInfo() *extension.ServiceInfo {
 	if !m.NeedServiceDiscovery() {
 		return nil

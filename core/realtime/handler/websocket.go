@@ -1,11 +1,12 @@
 package handler
 
 import (
-	"context"
 	"ncobase/common/log"
+	"ncobase/common/uuid"
 	"ncobase/core/realtime/service"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
@@ -17,46 +18,46 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-// WebSocketHandlerInterface represents the websocket handler interface.
-type WebSocketHandlerInterface interface {
-	Connect(w http.ResponseWriter, r *http.Request)
+type WebSocketHandler interface {
+	HandleConnection(c *gin.Context)
 }
 
-// websocketHandler represents the websocket handler.
-type websocketHandler struct {
-	s *service.Service
+type webSocketHandler struct {
+	ws service.WebSocketService
 }
 
-// NewWebSocketHandler creates a new websocket handler.
-func NewWebSocketHandler(s *service.Service) WebSocketHandlerInterface {
-	return &websocketHandler{
-		s: s,
-	}
+func NewWebSocketHandler(ws service.WebSocketService) WebSocketHandler {
+	return &webSocketHandler{ws: ws}
 }
 
-// Connect handles WebSocket data.
-func (h *websocketHandler) Connect(w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
+// HandleConnection handles WebSocket connections
+//
+// @Summary Handle WebSocket connection
+// @Description Handles WebSocket connection
+// @Tags rt
+// @Router /rt/ws [get]
+// @Security Bearer
+func (h *webSocketHandler) HandleConnection(c *gin.Context) {
+	// Upgrade HTTP connection to WebSocket
+	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
-		log.Errorf(context.Background(), "Failed to set websocket upgrade: %+v", err)
+		log.Errorf(c, "Failed to upgrade connection: %v", err)
 		return
 	}
-	defer func(conn *websocket.Conn) {
-		err := conn.Close()
-		if err != nil {
-			log.Errorf(context.Background(), "Failed to close websocket: %+v", err)
-		}
-	}(conn)
 
-	for {
-		messageType, p, err := conn.ReadMessage()
-		if err != nil {
-			log.Errorf(context.Background(), "Read message error: %+v", err)
-			return
-		}
-		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Errorf(context.Background(), "Write message error: %+v", err)
-			return
-		}
+	// Create new client
+	client := &service.Client{
+		ID:            uuid.New().String(),
+		UserID:        c.GetString("user_id"), // From auth middleware
+		Conn:          conn,
+		Send:          make(chan []byte, 256),
+		Subscriptions: make(map[string]bool),
 	}
+
+	// Register client
+	h.ws.RegisterClient(client)
+
+	// Start read/write pumps
+	go client.ReadPump(h.ws)
+	go client.WritePump()
 }

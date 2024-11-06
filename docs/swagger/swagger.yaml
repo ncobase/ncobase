@@ -73,6 +73,21 @@ definitions:
     - v1
     - v2
     type: object
+  structs.ChannelBody:
+    properties:
+      description:
+        type: string
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      name:
+        type: string
+      status:
+        description: '0: disabled, 1: enabled'
+        type: integer
+      type:
+        description: public/private/direct
+        type: string
+    type: object
   structs.CounterBody:
     properties:
       created_by:
@@ -101,6 +116,21 @@ definitions:
         type: string
       updated_by:
         type: string
+    type: object
+  structs.CreateChannel:
+    properties:
+      channel:
+        $ref: '#/definitions/structs.ChannelBody'
+    type: object
+  structs.CreateEvent:
+    properties:
+      event:
+        $ref: '#/definitions/structs.EventBody'
+    type: object
+  structs.CreateNotification:
+    properties:
+      notification:
+        $ref: '#/definitions/structs.NotificationBody'
     type: object
   structs.CreatePermissionBody:
     properties:
@@ -139,6 +169,11 @@ definitions:
         type: string
       updated_by:
         type: string
+    type: object
+  structs.CreateSubscription:
+    properties:
+      subscription:
+        $ref: '#/definitions/structs.SubscriptionBody'
     type: object
   structs.CreateTaxonomyBody:
     properties:
@@ -260,6 +295,17 @@ definitions:
       value:
         type: string
     type: object
+  structs.EventBody:
+    properties:
+      channel_id:
+        type: string
+      payload:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      type:
+        type: string
+      user_id:
+        type: string
+    type: object
   structs.GroupBody:
     properties:
       created_by:
@@ -328,6 +374,25 @@ definitions:
       type:
         type: string
       updated_by:
+        type: string
+    type: object
+  structs.NotificationBody:
+    properties:
+      channel_id:
+        type: string
+      content:
+        type: string
+      links:
+        items:
+          $ref: '#/definitions/ncobase_common_types.JSON'
+        type: array
+      status:
+        type: integer
+      title:
+        type: string
+      type:
+        type: string
+      user_id:
         type: string
     type: object
   structs.OptionsBody:
@@ -403,6 +468,25 @@ definitions:
       v5:
         type: string
     type: object
+  structs.ReadChannel:
+    properties:
+      created_at:
+        type: integer
+      description:
+        type: string
+      extras:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: integer
+      type:
+        type: string
+      updated_at:
+        type: integer
+    type: object
   structs.ReadCounter:
     properties:
       created_at:
@@ -461,6 +545,21 @@ definitions:
       updated_by:
         type: string
       value:
+        type: string
+    type: object
+  structs.ReadEvent:
+    properties:
+      channel_id:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      payload:
+        $ref: '#/definitions/ncobase_common_types.JSON'
+      type:
+        type: string
+      user_id:
         type: string
     type: object
   structs.ReadGroup:
@@ -539,6 +638,31 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.ReadNotification:
+    properties:
+      channel_id:
+        type: string
+      content:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      links:
+        items:
+          $ref: '#/definitions/ncobase_common_types.JSON'
+        type: array
+      status:
+        type: integer
+      title:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+      user_id:
+        type: string
+    type: object
   structs.ReadOptions:
     properties:
       autoload:
@@ -610,6 +734,21 @@ definitions:
       updated_at:
         type: integer
       updated_by:
+        type: string
+    type: object
+  structs.ReadSubscription:
+    properties:
+      channel_id:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: integer
+      user_id:
         type: string
     type: object
   structs.ReadTaxonomy:
@@ -800,6 +939,16 @@ definitions:
       phone:
         type: string
     type: object
+  structs.SubscriptionBody:
+    properties:
+      channel_id:
+        type: string
+      status:
+        description: '0: disabled, 1: enabled'
+        type: integer
+      user_id:
+        type: string
+    type: object
   structs.UpdateAttachmentBody:
     properties:
       bucket:
@@ -827,6 +976,13 @@ definitions:
       type:
         type: string
       updated_by:
+        type: string
+    type: object
+  structs.UpdateChannel:
+    properties:
+      channel:
+        $ref: '#/definitions/structs.ChannelBody'
+      id:
         type: string
     type: object
   structs.UpdateCounterBody:
@@ -942,6 +1098,13 @@ definitions:
         type: string
       updated_by:
         type: string
+    type: object
+  structs.UpdateNotification:
+    properties:
+      id:
+        type: string
+      notification:
+        $ref: '#/definitions/structs.NotificationBody'
     type: object
   structs.UpdateOptionsBody:
     properties:
@@ -2502,169 +2665,6 @@ paths:
       summary: List tenant users
       tags:
       - iam
-  /iam/users:
-    get:
-      description: List all users with pagination.
-      parameters:
-      - description: Cursor for pagination
-        in: query
-        name: cursor
-        type: string
-      - description: Number of items to return
-        in: query
-        name: limit
-        type: integer
-      - description: Direction of pagination (forward or backward)
-        in: query
-        name: direction
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            items:
-              $ref: '#/definitions/structs.ReadUser'
-            type: array
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: List users
-      tags:
-      - iam
-    post:
-      consumes:
-      - application/json
-      description: Create a new user.
-      parameters:
-      - description: User information
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/structs.UserBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadUser'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Create user
-      tags:
-      - iam
-  /iam/users/{username}:
-    delete:
-      description: Delete an existing user.
-      parameters:
-      - description: Username
-        in: path
-        name: username
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Delete user
-      tags:
-      - iam
-    get:
-      description: Retrieve information about a specific user.
-      parameters:
-      - description: Username
-        in: path
-        name: username
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadUser'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Get user
-      tags:
-      - iam
-    put:
-      consumes:
-      - application/json
-      description: Update an existing user.
-      parameters:
-      - description: Username
-        in: path
-        name: username
-        required: true
-        type: string
-      - description: User information to update
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/ncobase_common_types.JSON'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/structs.ReadUser'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Update user
-      tags:
-      - iam
-  /iam/users/{username}/password:
-    put:
-      consumes:
-      - application/json
-      description: Update an existing user's password.
-      parameters:
-      - description: Username
-        in: path
-        name: username
-        required: true
-        type: string
-      - description: Password information
-        in: body
-        name: password
-        required: true
-        schema:
-          $ref: '#/definitions/structs.UserPassword'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
-      summary: Update user password
-      tags:
-      - iam
   /iam/users/{username}/tenant:
     get:
       description: Retrieve the tenant associated with the specified user.
@@ -3156,6 +3156,674 @@ paths:
       summary: Update attachment
       tags:
       - res
+  /rt/channels:
+    get:
+      description: Retrieve a list of channels based on the provided query parameters
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadChannel'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all channels
+      tags:
+      - rt
+    post:
+      consumes:
+      - application/json
+      description: Create a new channel
+      parameters:
+      - description: Channel data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateChannel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadChannel'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create a new channel
+      tags:
+      - rt
+  /rt/channels/{id}:
+    delete:
+      description: Delete a channel
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadChannel'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a channel
+      tags:
+      - rt
+    get:
+      description: Get a channel by ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadChannel'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a channel by ID
+      tags:
+      - rt
+    put:
+      consumes:
+      - application/json
+      description: Update a channel
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Channel data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateChannel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadChannel'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update a channel
+      tags:
+      - rt
+  /rt/channels/{id}/subscribe:
+    post:
+      consumes:
+      - application/json
+      description: Subscribe to a channel
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Subscription data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateSubscription'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadSubscription'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Subscribe to a channel
+      tags:
+      - rt
+  /rt/channels/{id}/subscribers:
+    get:
+      description: Get subscribers of a channel
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadUser'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get subscribers of a channel
+      tags:
+      - rt
+  /rt/channels/{id}/unsubscribe:
+    post:
+      consumes:
+      - application/json
+      description: Unsubscribe from a channel
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              properties:
+                message:
+                  type: string
+              type: object
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Unsubscribe from a channel
+      tags:
+      - rt
+  /rt/channels/user:
+    get:
+      description: Get channels of a user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadChannel'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get channels of a user
+      tags:
+      - rt
+  /rt/events:
+    get:
+      description: Retrieve a list of events based on the provided query parameters
+      parameters:
+      - in: query
+        name: channel_id
+        type: string
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - collectionFormat: csv
+        in: query
+        items:
+          type: integer
+        name: time_range
+        type: array
+      - in: query
+        name: type
+        type: string
+      - in: query
+        name: user_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadEvent'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all events
+      tags:
+      - rt
+  /rt/events/{id}:
+    delete:
+      description: Delete an event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadEvent'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete an event
+      tags:
+      - rt
+    get:
+      description: Get an event by ID
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadEvent'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get an event by ID
+      tags:
+      - rt
+  /rt/events/history:
+    get:
+      description: Get event history
+      parameters:
+      - description: Channel ID
+        in: query
+        name: channel_id
+        required: true
+        type: string
+      - description: Event type
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadEvent'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get event history
+      tags:
+      - rt
+  /rt/events/publish:
+    post:
+      consumes:
+      - application/json
+      description: Publish a new event
+      parameters:
+      - description: Event data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateEvent'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadEvent'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Publish a new event
+      tags:
+      - rt
+  /rt/notifications:
+    get:
+      description: Retrieve a list of notifications based on the provided query parameters
+      parameters:
+      - in: query
+        name: channel_id
+        type: string
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        name: user_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadNotification'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all notifications
+      tags:
+      - rt
+    post:
+      consumes:
+      - application/json
+      description: Create a new notification
+      parameters:
+      - description: Notification data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateNotification'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadNotification'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create a new notification
+      tags:
+      - rt
+  /rt/notifications/{id}:
+    delete:
+      description: Delete a notification
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadNotification'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a notification
+      tags:
+      - rt
+    get:
+      description: Get a notification by ID
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadNotification'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a notification by ID
+      tags:
+      - rt
+    put:
+      consumes:
+      - application/json
+      description: Update a notification
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Notification data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateNotification'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadNotification'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update a notification
+      tags:
+      - rt
+  /rt/notifications/{id}/read:
+    put:
+      description: Mark a notification as read
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadNotification'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Mark a notification as read
+      tags:
+      - rt
+  /rt/notifications/{id}/unread:
+    put:
+      description: Mark a notification as unread
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadNotification'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Mark a notification as unread
+      tags:
+      - rt
+  /rt/notifications/read-all:
+    put:
+      description: Mark all notifications as read
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              properties:
+                message:
+                  type: string
+              type: object
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Mark all notifications as read
+      tags:
+      - rt
+  /rt/notifications/unread-all:
+    put:
+      description: Mark all notifications as unread
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              properties:
+                message:
+                  type: string
+              type: object
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Mark all notifications as unread
+      tags:
+      - rt
+  /rt/ws:
+    get:
+      description: Handles WebSocket connection
+      responses: {}
+      security:
+      - Bearer: []
+      summary: Handle WebSocket connection
+      tags:
+      - rt
   /sys/dictionarys:
     get:
       description: Retrieve a list or tree structure of dictionarys.
@@ -3650,6 +4318,169 @@ paths:
       security:
       - Bearer: []
       summary: Initialize
+      tags:
+      - sys
+  /sys/users:
+    get:
+      description: List all users with pagination.
+      parameters:
+      - description: Cursor for pagination
+        in: query
+        name: cursor
+        type: string
+      - description: Number of items to return
+        in: query
+        name: limit
+        type: integer
+      - description: Direction of pagination (forward or backward)
+        in: query
+        name: direction
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadUser'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: List users
+      tags:
+      - sys
+    post:
+      consumes:
+      - application/json
+      description: Create a new user.
+      parameters:
+      - description: User information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UserBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadUser'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Create user
+      tags:
+      - sys
+  /sys/users/{username}:
+    delete:
+      description: Delete an existing user.
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Delete user
+      tags:
+      - sys
+    get:
+      description: Retrieve information about a specific user.
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadUser'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Get user
+      tags:
+      - sys
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user.
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: User information to update
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/ncobase_common_types.JSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadUser'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Update user
+      tags:
+      - sys
+  /sys/users/{username}/password:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user's password.
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Password information
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UserPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/ncobase_common_resp.Exception'
+      summary: Update user password
       tags:
       - sys
 securityDefinitions:
