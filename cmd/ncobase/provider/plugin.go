@@ -1,4 +1,4 @@
-package service
+package provider
 
 // Load built-in plugins
 import (

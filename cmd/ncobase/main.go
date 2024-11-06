@@ -12,7 +12,7 @@ import (
 	"syscall"
 	"time"
 
-	"ncobase/cmd/ncobase/service"
+	"ncobase/cmd/ncobase/provider"
 	"ncobase/common/config"
 	"ncobase/common/helper"
 	"ncobase/common/log"
@@ -181,7 +181,7 @@ func initializeLogger(conf *config.Config) func() {
 
 // createServer creates and initializes the server
 func createServer(conf *config.Config) (http.Handler, func(), error) {
-	handler, cleanup, err := service.NewServer(conf)
+	handler, cleanup, err := provider.NewServer(conf)
 	if err != nil {
 		return nil, nil, err
 	}

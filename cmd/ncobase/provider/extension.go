@@ -1,4 +1,4 @@
-package service
+package provider
 
 import (
 	"context"
@@ -21,11 +21,13 @@ func registerExtensions(em *extension.Manager) {
 	// All built-in components
 	// Add more components here, disordered
 	// dependent sorting through the getInitOrder method
-	fs := make([]extension.Interface, 0, 10) // adjust this if you add more extensions
+	fs := make([]extension.Interface, 0)
+
 	// Core extensions
 	fs = append(fs,
 		access.New(),
 		auth.New(),
+		realtime.New(),
 		space.New(),
 		system.New(),
 		tenant.New(),
@@ -35,7 +37,6 @@ func registerExtensions(em *extension.Manager) {
 	// Domain extensions
 	fs = append(fs,
 		resource.New(),
-		realtime.New(),
 		content.New(),
 	)
 

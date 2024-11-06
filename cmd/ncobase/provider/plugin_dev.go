@@ -1,6 +1,6 @@
 //go:build dev || development || c2hlbgo
 
-package service
+package provider
 
 // plugins to be loaded in development mode.
 // import (
