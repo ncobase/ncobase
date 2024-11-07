@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"ncobase/common/entgo/mixin"
+	"ncobase/common/data/entgo/mixin"
 	"strings"
 
 	"entgo.io/ent"

@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/common/data/meili"
 	"ncobase/common/log"
-	"ncobase/common/meili"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
