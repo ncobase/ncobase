@@ -1,8 +1,6 @@
 module ncobase/core/system
 
-go 1.23.0
-
-toolchain go1.23.1
+go 1.23.2
 
 replace (
 	ncobase => ../..

@@ -10,7 +10,7 @@ require (
 	entgo.io/contrib v0.6.0
 	entgo.io/ent v0.14.1
 	github.com/gin-gonic/gin v1.10.0
-	github.com/redis/go-redis/v9 v9.7.0
+	go.mongodb.org/mongo-driver v1.17.1
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/driver/sqlite v1.5.6
@@ -102,6 +102,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/pierrec/lz4/v4 v4.1.21 // indirect
 	github.com/rabbitmq/amqp091-go v1.10.0 // indirect
+	github.com/redis/go-redis/v9 v9.7.0 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	github.com/sagikazarmark/locafero v0.6.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
@@ -127,7 +128,6 @@ require (
 	github.com/xdg-go/stringprep v1.0.4 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
 	github.com/zclconf/go-cty v1.15.0 // indirect
-	go.mongodb.org/mongo-driver v1.17.1 // indirect
 	go.opentelemetry.io/otel v1.31.0 // indirect
 	go.opentelemetry.io/otel/metric v1.31.0 // indirect
 	go.opentelemetry.io/otel/trace v1.31.0 // indirect
