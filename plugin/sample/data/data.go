@@ -6,15 +6,13 @@ import (
 	"fmt"
 	"ncobase/common/config"
 	"ncobase/common/data"
-	"ncobase/common/elastic"
 	"ncobase/common/log"
-	"ncobase/common/meili"
 	"ncobase/plugin/sample/data/ent"
 	"ncobase/plugin/sample/data/ent/migrate"
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
-	"github.com/redis/go-redis/v9"
+	"go.mongodb.org/mongo-driver/mongo"
 	"gorm.io/driver/mysql"
 	_ "gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
@@ -26,10 +24,12 @@ import (
 // Data contains the shared resources and clients.
 type Data struct {
 	*data.Data
-	EC         *ent.Client // master ent client
-	ECRead     *ent.Client // slave ent client for read operations
-	GormClient *gorm.DB    // master gorm client
-	GormRead   *gorm.DB    // slave gorm client for read operations
+	EC         *ent.Client   // master ent client
+	ECRead     *ent.Client   // slave ent client for read operations
+	GormClient *gorm.DB      // master gorm client
+	GormRead   *gorm.DB      // slave gorm client for read operations
+	MC         *mongo.Client // master mongo client
+	MCRead     *mongo.Client // slave mongo client for read operations
 }
 
 // New creates a new Data instance with database connections.
@@ -84,99 +84,32 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 		gormRead = gormClient
 	}
 
+	// get mongo master connection
+	mongoMaster := d.Conn.MGM.Master()
+	if mongoMaster == nil {
+		return nil, nil, fmt.Errorf("mongo master client is nil")
+	}
+
+	// get mongo slave connection
+	mongoSlave, err := d.Conn.MGM.Slave()
+	if err != nil {
+		log.Warnf(context.Background(), "Failed to get read-only mongo client: %v", err)
+	}
+
+	// no slave, use master
+	if mongoSlave == nil {
+		mongoSlave = mongoMaster
+	}
+
 	return &Data{
 		Data:       d,
 		EC:         entClient,
 		ECRead:     entClientRead,
 		GormClient: gormClient,
 		GormRead:   gormRead,
+		MC:         mongoMaster,
+		MCRead:     mongoSlave,
 	}, cleanup, nil
-}
-
-// GetDB get master database for write operations
-func (d *Data) GetDB() *sql.DB {
-	return d.DB()
-}
-
-// GetDBRead get slave database for read operations
-func (d *Data) GetDBRead() (*sql.DB, error) {
-	return d.DBRead()
-}
-
-// GetTx retrieves transaction from context
-func GetTx(ctx context.Context) (*sql.Tx, error) {
-	tx, ok := ctx.Value("tx").(*sql.Tx)
-	if !ok {
-		return nil, fmt.Errorf("transaction not found in context")
-	}
-	return tx, nil
-}
-
-// WithTx wraps a function within a transaction
-func (d *Data) WithTx(ctx context.Context, fn func(ctx context.Context) error) error {
-	db := d.GetDB()
-	if db == nil {
-		return fmt.Errorf("database connection is nil")
-	}
-
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-
-	err = fn(context.WithValue(ctx, "tx", tx))
-	if err != nil {
-		if rbErr := tx.Rollback(); rbErr != nil {
-			return fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
-		}
-		return err
-	}
-
-	return tx.Commit()
-}
-
-// WithTxRead wraps a function within a read-only transaction
-func (d *Data) WithTxRead(ctx context.Context, fn func(ctx context.Context) error) error {
-	dbRead, err := d.GetDBRead()
-	if err != nil {
-		return err
-	}
-
-	tx, err := dbRead.BeginTx(ctx, &sql.TxOptions{
-		ReadOnly: true,
-	})
-	if err != nil {
-		return err
-	}
-
-	err = fn(context.WithValue(ctx, "tx", tx))
-	if err != nil {
-		if rbErr := tx.Rollback(); rbErr != nil {
-			return fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
-		}
-		return err
-	}
-
-	return tx.Commit()
-}
-
-// GetRedis get redis
-func (d *Data) GetRedis() *redis.Client {
-	return d.Conn.RC
-}
-
-// GetMeilisearch get meilisearch
-func (d *Data) GetMeilisearch() *meili.Client {
-	return d.Conn.MS
-}
-
-func (d *Data) GetElasticsearchClient() *elastic.Client {
-	return d.Conn.ES
-}
-
-// Ping checks the database connection
-func (d *Data) Ping(ctx context.Context) error {
-	return d.Conn.Ping(ctx)
 }
 
 // newEntClient creates a new ent client.
@@ -374,6 +307,74 @@ func (d *Data) WithGormTxRead(ctx context.Context, fn func(ctx context.Context, 
 	}
 
 	return sqlTx.Commit()
+}
+
+// GetMongoClient get master mongo client for write operations
+func (d *Data) GetMongoClient() *mongo.Client {
+	return d.MC
+}
+
+// GetMongoClientRead get slave mongo client for read operations
+func (d *Data) GetMongoClientRead() *mongo.Client {
+	if d.MCRead != nil {
+		return d.MCRead
+	}
+	return d.MC // Downgrade, use master
+}
+
+// GetMongoCollection returns a collection from master/slave client
+func (d *Data) GetMongoCollection(dbName, collName string, readOnly bool) *mongo.Collection {
+	if readOnly {
+		return d.MCRead.Database(dbName).Collection(collName)
+	}
+	return d.MC.Database(dbName).Collection(collName)
+}
+
+// GetMongoTx retrieves mongo transaction from context
+func GetMongoTx(ctx context.Context) (mongo.SessionContext, error) {
+	session, ok := ctx.Value("mongoTx").(mongo.SessionContext)
+	if !ok {
+		return nil, fmt.Errorf("mongo session not found in context")
+	}
+	return session, nil
+}
+
+// WithMongoTx wraps a function within a mongo transaction
+func (d *Data) WithMongoTx(ctx context.Context, fn func(mongo.SessionContext) error) error {
+	if d.MC == nil {
+		return fmt.Errorf("mongo client is nil")
+	}
+
+	session, err := d.MC.StartSession()
+	if err != nil {
+		return err
+	}
+	defer session.EndSession(ctx)
+
+	_, err = session.WithTransaction(ctx, func(sessCtx mongo.SessionContext) (interface{}, error) {
+		return nil, fn(sessCtx)
+	})
+	return err
+}
+
+// WithMongoTxRead wraps a function within a read-only mongo transaction
+func (d *Data) WithMongoTxRead(ctx context.Context, fn func(mongo.SessionContext) error) error {
+	client := d.GetMongoClientRead()
+	if client == nil {
+		return fmt.Errorf("mongo read client is nil")
+	}
+
+	session, err := client.StartSession()
+	if err != nil {
+		return err
+	}
+	defer session.EndSession(ctx)
+
+	// MongoDB does not support read-only transaction, so we downgrade to read-write
+	_, err = session.WithTransaction(ctx, func(sessCtx mongo.SessionContext) (interface{}, error) {
+		return nil, fn(sessCtx)
+	})
+	return err
 }
 
 // Close closes all the resources in Data

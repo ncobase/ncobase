@@ -51,7 +51,7 @@ data:
   database:
     # global configuration
     migrate: true  # migrate only support master
-    strategy: round_robin  # slave load balance strategy, round_robin / random
+    strategy: round_robin  # slave load balance strategy, round_robin / random / weight
     max_retry: 3  # max retry
     # master configuration
     master:
@@ -101,9 +101,18 @@ data:
     username:
     password:
   mongodb:
-    uri:
-    username:
-    password:
+    strategy: round_robin  # slave load balance strategy, round_robin / random / weight
+    max_retry: 3  # max retry
+    master:
+      uri: mongodb://user:pass@localhost:27017/dbname?authSource=admin&maxPoolSize=100&minPoolSize=10
+      logging: false
+    slaves:
+      - uri: mongodb://user:pass@localhost:27018/dbname?authSource=admin&maxPoolSize=200&minPoolSize=20
+        logging: false
+        weight: 1
+      - uri: mongodb://user:pass@localhost:27019/dbname?authSource=admin&maxPoolSize=200&minPoolSize=20
+        logging: false
+        weight: 1
   neo4j:
     uri:
     username:

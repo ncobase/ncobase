@@ -2,7 +2,7 @@ package templates
 
 import "fmt"
 
-func ServiceTemplate(name, moduleType string) string {
+func ServiceTemplate(name, extType string) string {
 	return fmt.Sprintf(`package service
 
 import (
@@ -23,5 +23,5 @@ func New(conf *config.Config, d *data.Data) *Service {
 }
 
 // Add your service methods here
-`, moduleType, name, name)
+`, extType, name, name)
 }

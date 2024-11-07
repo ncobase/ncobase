@@ -2,7 +2,7 @@ package templates
 
 import "fmt"
 
-func DataTemplate(name, moduleType string) string {
+func DataTemplate(name, extType string) string {
 	return fmt.Sprintf(`package data
 
 import (
@@ -165,7 +165,7 @@ err := d.WithTxRead(ctx, func(ctx context.Context) error {
 `)
 }
 
-func DataTemplateWithEnt(name, moduleType string) string {
+func DataTemplateWithEnt(name, extType string) string {
 	return fmt.Sprintf(`package data
 
 import (
@@ -299,10 +299,10 @@ err := d.WithEntTx(ctx, func(ctx context.Context, tx *ent.Tx) error {
     return err
 })
 */
-`, moduleType, name, moduleType, name)
+`, extType, name, extType, name)
 }
 
-func DataTemplateWithGorm(name, moduleType string) string {
+func DataTemplateWithGorm(name, extType string) string {
 	return fmt.Sprintf(`package data
 
 import (
@@ -618,7 +618,7 @@ err := d.WithGormTxRead(ctx, func(ctx context.Context, tx *gorm.DB) error {
 `)
 }
 
-func DataTemplateComplete(name, moduleType string) string {
+func DataTemplateComplete(name, extType string) string {
 	return fmt.Sprintf(`package data
 
 import (
@@ -1168,5 +1168,5 @@ func (r *UserRepository) Delete(ctx context.Context, id int64) error {
     })
 }
 */
-`, moduleType, name, moduleType, name)
+`, extType, name, extType, name)
 }

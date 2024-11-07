@@ -12,7 +12,7 @@ func newPluginCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "plugin [name]",
 		Aliases: []string{"p"},
-		Short:   "Create a new plugin",
+		Short:   "Create a new extension in plugin",
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Name = args[0]
@@ -24,7 +24,7 @@ func newPluginCommand() *cobra.Command {
 	cmd.Flags().BoolVar(&opts.UseEnt, "use-ent", false, "use Ent as ORM")
 	cmd.Flags().BoolVar(&opts.UseGorm, "use-gorm", false, "use Gorm as ORM")
 	cmd.Flags().BoolVar(&opts.WithTest, "with-test", false, "generate test files")
-	cmd.Flags().StringVar(&opts.Group, "group", "", "plugin belongs domain group (optional)")
+	cmd.Flags().StringVar(&opts.Group, "group", "", "belongs domain group (optional)")
 
 	return cmd
 }

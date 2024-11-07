@@ -2,7 +2,7 @@ package templates
 
 import "fmt"
 
-func HandlerTemplate(name, moduleType string) string {
+func HandlerTemplate(name, extType string) string {
 	return fmt.Sprintf(`package handler
 
 import "ncobase/%s/%s/service"
@@ -20,5 +20,5 @@ func New(s *service.Service) *Handler {
 }
 
 // Add your handler methods here
-`, moduleType, name, name)
+`, extType, name, name)
 }

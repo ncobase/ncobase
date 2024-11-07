@@ -2,7 +2,7 @@ package templates
 
 import "fmt"
 
-func RepositoryTemplate(name, moduleType string) string {
+func RepositoryTemplate(name, extType string) string {
 	return fmt.Sprintf(`package repository
 
 import "ncobase/%s/%s/data"
@@ -20,5 +20,5 @@ func New(d *data.Data) *Repository {
 }
 
 // Add your repository methods here
-`, moduleType, name, name)
+`, extType, name, name)
 }

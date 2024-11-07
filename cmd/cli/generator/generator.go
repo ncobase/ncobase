@@ -17,6 +17,12 @@ type Options struct {
 	Group    string
 }
 
+var extDescriptions = map[string]string{
+	"core":   "Core Domain",
+	"domain": "Business Domain",
+	"plugin": "Plugin Domain",
+}
+
 // Generate generates code based on options
 func Generate(opts *Options) error {
 	if !utils.ValidateName(opts.Name) {
@@ -24,21 +30,21 @@ func Generate(opts *Options) error {
 	}
 
 	var basePath string
-	var moduleType string
+	var extType string
 	var mainTemplate func(string) string
 
 	switch opts.Type {
 	case "core":
 		basePath = filepath.Join("core", opts.Name)
-		moduleType = "core"
+		extType = "core"
 		mainTemplate = templates.CoreTemplate
-	case "module":
+	case "business":
 		basePath = filepath.Join("domain", opts.Name)
-		moduleType = "domain"
+		extType = "domain"
 		mainTemplate = templates.BusinessTemplate
 	case "plugin":
 		basePath = filepath.Join("plugin", opts.Name)
-		moduleType = "plugin"
+		extType = "plugin"
 		mainTemplate = templates.PluginTemplate
 	default:
 		return fmt.Errorf("unknown type: %s", opts.Type)
@@ -48,7 +54,7 @@ func Generate(opts *Options) error {
 	if exists, err := utils.PathExists(basePath); err != nil {
 		return fmt.Errorf("error checking existence: %v", err)
 	} else if exists {
-		return fmt.Errorf("'%s' already exists in %s", opts.Name, filepath.Dir(basePath))
+		return fmt.Errorf("'%s' already exists in %s", opts.Name, extDescriptions[extType])
 	}
 
 	// Prepare template data
@@ -59,8 +65,8 @@ func Generate(opts *Options) error {
 		UseEnt:      opts.UseEnt,
 		UseGorm:     opts.UseGorm,
 		WithTest:    opts.WithTest,
-		ModuleType:  moduleType,
-		PackagePath: fmt.Sprintf("ncobase/%s/%s", moduleType, opts.Name),
+		ExtType:     extType,
+		PackagePath: fmt.Sprintf("ncobase/%s/%s", extType, opts.Name),
 	}
 
 	return createStructure(basePath, data, mainTemplate)
@@ -95,36 +101,36 @@ func createStructure(basePath string, data *templates.Data, mainTemplate func(st
 	// Create files
 	selectDataTemplate := func(data templates.Data) string {
 		if data.UseEnt {
-			return templates.DataTemplateWithEnt(data.Name, data.ModuleType)
+			return templates.DataTemplateWithEnt(data.Name, data.ExtType)
 		}
 		if data.UseGorm {
-			return templates.DataTemplateWithGorm(data.Name, data.ModuleType)
+			return templates.DataTemplateWithGorm(data.Name, data.ExtType)
 		}
-		return templates.DataTemplate(data.Name, data.ModuleType)
+		return templates.DataTemplate(data.Name, data.ExtType)
 	}
 
 	files := map[string]string{
 		fmt.Sprintf("%s.go", data.Name): mainTemplate(data.Name),
-		// "go.mod":                        templates.ModuleTemplate(data.Name, data.ModuleType),
-		// "generate.go":                   templates.GeneraterTemplate(data.Name, data.ModuleType),
+		// "go.mod":                        templates.ExtTemplate(data.Name, data.ExtType),
+		// "generate.go":                   templates.GeneraterTemplate(data.Name, data.ExtType),
 		"data/data.go":                  selectDataTemplate(*data),
-		"data/repository/repository.go": templates.RepositoryTemplate(data.Name, data.ModuleType),
+		"data/repository/repository.go": templates.RepositoryTemplate(data.Name, data.ExtType),
 		"data/schema/schema.go":         templates.SchemaTemplate(),
-		"handler/handler.go":            templates.HandlerTemplate(data.Name, data.ModuleType),
-		"service/service.go":            templates.ServiceTemplate(data.Name, data.ModuleType),
+		"handler/handler.go":            templates.HandlerTemplate(data.Name, data.ExtType),
+		"service/service.go":            templates.ServiceTemplate(data.Name, data.ExtType),
 		"structs/structs.go":            templates.StructsTemplate(),
 	}
 
 	// Add ent files if required
 	if data.UseEnt {
-		files["generate.go"] = templates.GeneraterTemplate(data.Name, data.ModuleType)
+		files["generate.go"] = templates.GeneraterTemplate(data.Name, data.ExtType)
 	}
 
 	// Add test files if required
 	if data.WithTest {
-		files["tests/module_test.go"] = templates.ModuleTestTemplate(data.Name, data.ModuleType)
-		files["tests/handler_test.go"] = templates.HandlerTestTemplate(data.Name, data.ModuleType)
-		files["tests/service_test.go"] = templates.ServiceTestTemplate(data.Name, data.ModuleType)
+		files["tests/ext_test.go"] = templates.ExtTestTemplate(data.Name, data.ExtType)
+		files["tests/handler_test.go"] = templates.HandlerTestTemplate(data.Name, data.ExtType)
+		files["tests/service_test.go"] = templates.ServiceTestTemplate(data.Name, data.ExtType)
 	}
 
 	// Write files
@@ -138,6 +144,6 @@ func createStructure(basePath string, data *templates.Data, mainTemplate func(st
 		}
 	}
 
-	fmt.Printf("Successfully generated %s '%s'\n", data.ModuleType, data.Name)
+	fmt.Printf("Successfully generated '%s' in %s\n", data.Name, extDescriptions[data.ExtType])
 	return nil
 }

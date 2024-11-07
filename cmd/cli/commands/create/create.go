@@ -8,7 +8,7 @@ func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "create",
 		Aliases: []string{"gen", "generate"},
-		Short:   "Generate new components",
+		Short:   "Generate new extension components",
 		Long:    `Generate new extensions(core, business or plugin).`,
 	}
 

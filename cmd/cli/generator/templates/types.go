@@ -8,6 +8,6 @@ type Data struct {
 	UseEnt      bool   // Whether to use Ent ORM
 	UseGorm     bool   // Whether to use GORM
 	WithTest    bool   // Whether to generate test files
-	ModuleType  string // Module type in path (core/domain/plugin)
+	ExtType     string // extension type in path (core/domain/plugin)
 	PackagePath string // Full package path
 }

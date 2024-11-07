@@ -2,8 +2,8 @@ package templates
 
 import "fmt"
 
-// ModuleTestTemplate generates module test template
-func ModuleTestTemplate(name, moduleType string) string {
+// ExtTestTemplate generates extension test template
+func ExtTestTemplate(name, extType string) string {
 	return fmt.Sprintf(`package tests
 
 import (
@@ -47,11 +47,11 @@ func TestModuleLifecycle(t *testing.T) {
 			t.Errorf("Cleanup failed: %%v", err)
 		}
 	})
-}`, moduleType, name, name, name, name)
+}`, extType, name, name, name, name)
 }
 
 // HandlerTestTemplate generates handler test template
-func HandlerTestTemplate(name, moduleType string) string {
+func HandlerTestTemplate(name, extType string) string {
 	return fmt.Sprintf(`package tests
 
 import (
@@ -81,11 +81,11 @@ func TestHandler(t *testing.T) {
 			t.Errorf("want status 200, got %%d", w.Code)
 		}
 	})
-}`, moduleType, name, moduleType, name)
+}`, extType, name, extType, name)
 }
 
 // ServiceTestTemplate generates service test template
-func ServiceTestTemplate(name, moduleType string) string {
+func ServiceTestTemplate(name, extType string) string {
 	return fmt.Sprintf(`package tests
 
 import (
@@ -103,5 +103,5 @@ func TestService(t *testing.T) {
 			t.Errorf("health check failed: %%v", err)
 		}
 	})
-}`, moduleType, name)
+}`, extType, name)
 }
