@@ -87,7 +87,6 @@ endef
 
 # Build extensions function with enhanced platform check
 define build_extensions
-    @mkdir -p $(OUT)/extension/$(1)
     @echo "- Building $(1) for $(HOST_OS)/$(HOST_ARCH)"
     @if [ "$(HOST_OS)" = "windows" ]; then \
         echo "Warning: Plugin building is not supported on Windows"; \
@@ -97,7 +96,14 @@ define build_extensions
         echo "Error: gcc is required for plugin builds"; \
         exit 1; \
     fi
-    @for dir in $($2)/*; do \
+    @if [ "$(1)" = "plugins" ]; then \
+        mkdir -p $(OUT)/extension/plugins; \
+        OUTPUT_DIR="$(OUT)/extension/plugins"; \
+    else \
+        mkdir -p $(OUT)/extension; \
+        OUTPUT_DIR="$(OUT)/extension"; \
+    fi; \
+    for dir in $($2)/*; do \
         if [ -d "$$dir" ] && [ -f "$$dir/cmd/main.go" ]; then \
             NAME=$$(basename $$dir); \
             case $(HOST_OS) in \
@@ -108,7 +114,7 @@ define build_extensions
             echo "  Building $(1) $$NAME..."; \
             if ! CGO_ENABLED=1 GOOS=$(HOST_OS) GOARCH=$(HOST_ARCH) go build -buildmode=plugin \
                 $(BUILD_FLAGS) \
-                -o $(OUT)/extension/$(1)/$$NAME.$$EXT \
+                -o $$OUTPUT_DIR/$$NAME.$$EXT \
                 $$dir/cmd/main.go; then \
                 echo "Error: Failed to build $$NAME for $(HOST_OS)/$(HOST_ARCH)"; \
                 exit 1; \
