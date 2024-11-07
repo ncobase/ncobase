@@ -221,7 +221,7 @@ build: generate
 	@echo "✓ Build completed"
 
 # Build CLI tool
-build-cli: generate
+build-cli: check-tools
 	@echo "Building CLI Tool"
 	@mkdir -p $(OUT)
 	@CGO_ENABLED=1 go build $(BUILD_FLAGS) -o $(OUT)/$(CLI_NAME) $(CLI_PATH) || \
