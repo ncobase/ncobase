@@ -54,7 +54,7 @@ generate:
 
 copy-config:
 	@mkdir -p $(OUT)
-	@if [ ! -f "$(OUT)/config.yaml" ]; then cp ./infra/config/config.yaml $(OUT)/config.yaml; fi
+	@if [ ! -f "$(OUT)/config.yaml" ]; then cp ./setup/config/config.yaml $(OUT)/config.yaml; fi
 
 check-tools:
 	@which go >/dev/null 2>&1 || (echo "go is required but not installed" && exit 1)
