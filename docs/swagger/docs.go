@@ -643,12 +643,17 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "registered": {
-                                        "type": "boolean"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "registered": {
+                                                "type": "boolean"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },
@@ -689,21 +694,26 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "access_token": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "id": {
-                                        "type": "string"
-                                    },
-                                    "register_token": {
-                                        "type": "string"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "access_token": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "register_token": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },
@@ -744,15 +754,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "string"
-                                    },
-                                    "url": {
-                                        "type": "string"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },
@@ -795,12 +810,17 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "message": {
-                                        "type": "string"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },
@@ -878,15 +898,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "access_token": {
-                                        "type": "string"
-                                    },
-                                    "id": {
-                                        "type": "string"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "access_token": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },
@@ -1433,15 +1458,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "access_token": {
-                                        "type": "string"
-                                    },
-                                    "id": {
-                                        "type": "string"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "access_token": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },
@@ -3403,12 +3433,17 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "message": {
-                                        "type": "string"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },
@@ -3799,12 +3834,17 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "message": {
-                                        "type": "string"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },
@@ -3838,12 +3878,17 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "object",
-                                "properties": {
-                                    "message": {
-                                        "type": "string"
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     },

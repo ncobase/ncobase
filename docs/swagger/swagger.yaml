@@ -1667,16 +1667,18 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                access_token:
-                  type: string
-                email:
-                  type: string
-                id:
-                  type: string
-                register_token:
-                  type: string
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  access_token:
+                    type: string
+                  email:
+                    type: string
+                  id:
+                    type: string
+                  register_token:
+                    type: string
+                type: object
             type: object
         "400":
           description: bad request
@@ -1704,10 +1706,12 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                registered:
-                  type: boolean
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  registered:
+                    type: boolean
+                type: object
             type: object
         "400":
           description: bad request
@@ -1757,12 +1761,14 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                id:
-                  type: string
-                url:
-                  type: string
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  id:
+                    type: string
+                  url:
+                    type: string
+                type: object
             type: object
         "400":
           description: bad request
@@ -1790,10 +1796,12 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                message:
-                  type: string
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  message:
+                    type: string
+                type: object
             type: object
         "400":
           description: bad request
@@ -1821,12 +1829,14 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                access_token:
-                  type: string
-                id:
-                  type: string
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  access_token:
+                    type: string
+                  id:
+                    type: string
+                type: object
             type: object
         "400":
           description: bad request
@@ -2168,12 +2178,14 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                access_token:
-                  type: string
-                id:
-                  type: string
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  access_token:
+                    type: string
+                  id:
+                    type: string
+                type: object
             type: object
         "400":
           description: bad request
@@ -3379,10 +3391,12 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                message:
-                  type: string
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  message:
+                    type: string
+                type: object
             type: object
         "400":
           description: bad request
@@ -3777,10 +3791,12 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                message:
-                  type: string
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  message:
+                    type: string
+                type: object
             type: object
         "400":
           description: bad request
@@ -3801,10 +3817,12 @@ paths:
           description: success
           schema:
             additionalProperties:
-              properties:
-                message:
-                  type: string
-              type: object
+              allOf:
+              - {}
+              - properties:
+                  message:
+                    type: string
+                type: object
             type: object
         "400":
           description: bad request

@@ -6,15 +6,12 @@ import (
 	"fmt"
 	"ncobase/common/config"
 	"ncobase/common/data"
-	"ncobase/common/elastic"
 	"ncobase/common/log"
-	"ncobase/common/meili"
 	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/ent/migrate"
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
-	"github.com/redis/go-redis/v9"
 )
 
 // Data .
@@ -126,99 +123,13 @@ func (d *Data) Close() (errs []error) {
 	return errs
 }
 
-// GetDB get master database for write operations
-func (d *Data) GetDB() *sql.DB {
-	return d.DB()
-}
-
-// GetDBRead get slave database for read operations
-func (d *Data) GetDBRead() (*sql.DB, error) {
-	return d.DBRead()
-}
-
-// GetRedis get redis
-func (d *Data) GetRedis() *redis.Client {
-	return d.Conn.RC
-}
-
-// GetMeilisearch get meilisearch
-func (d *Data) GetMeilisearch() *meili.Client {
-	return d.Conn.MS
-}
-
-func (d *Data) GetElasticsearchClient() *elastic.Client {
-	return d.Conn.ES
-}
-
-// Ping checks the database connection
-func (d *Data) Ping(ctx context.Context) error {
-	return d.Conn.Ping(ctx)
-}
-
-// GetTx retrieves transaction from context
-func GetTx(ctx context.Context) (*sql.Tx, error) {
-	tx, ok := ctx.Value("tx").(*sql.Tx)
-	if !ok {
-		return nil, fmt.Errorf("transaction not found in context")
-	}
-	return tx, nil
-}
-
 // GetEntTx retrieves ent transaction from context
-func GetEntTx(ctx context.Context) (*ent.Tx, error) {
+func (d *Data) GetEntTx(ctx context.Context) (*ent.Tx, error) {
 	tx, ok := ctx.Value("entTx").(*ent.Tx)
 	if !ok {
 		return nil, fmt.Errorf("ent transaction not found in context")
 	}
 	return tx, nil
-}
-
-// WithTx wraps a function within a transaction
-func (d *Data) WithTx(ctx context.Context, fn func(ctx context.Context) error) error {
-	db := d.GetDB()
-	if db == nil {
-		return fmt.Errorf("database connection is nil")
-	}
-
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-
-	err = fn(context.WithValue(ctx, "tx", tx))
-	if err != nil {
-		if rbErr := tx.Rollback(); rbErr != nil {
-			return fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
-		}
-		return err
-	}
-
-	return tx.Commit()
-}
-
-// WithTxRead wraps a function within a read-only transaction
-func (d *Data) WithTxRead(ctx context.Context, fn func(ctx context.Context) error) error {
-	dbRead, err := d.GetDBRead()
-	if err != nil {
-		return err
-	}
-
-	tx, err := dbRead.BeginTx(ctx, &sql.TxOptions{
-		ReadOnly: true,
-	})
-	if err != nil {
-		return err
-	}
-
-	err = fn(context.WithValue(ctx, "tx", tx))
-	if err != nil {
-		if rbErr := tx.Rollback(); rbErr != nil {
-			return fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
-		}
-		return err
-	}
-
-	return tx.Commit()
 }
 
 // WithEntTx wraps a function within an ent transaction for write operations

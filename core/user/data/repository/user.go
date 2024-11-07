@@ -12,8 +12,8 @@ import (
 	"ncobase/core/user/structs"
 	"net/url"
 
-	"ncobase/common/cache"
 	"ncobase/common/crypto"
+	"ncobase/common/data/cache"
 	"ncobase/common/log"
 	"ncobase/common/validator"
 

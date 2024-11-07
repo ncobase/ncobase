@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/common/cache"
+	"ncobase/common/data/cache"
 	"ncobase/common/log"
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/data/ent"

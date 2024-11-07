@@ -156,7 +156,7 @@ func (d *Data) GetEntClientRead() *ent.Client {
 }
 
 // GetEntTx retrieves ent transaction from context
-func GetEntTx(ctx context.Context) (*ent.Tx, error) {
+func (d *Data) GetEntTx(ctx context.Context) (*ent.Tx, error) {
 	tx, ok := ctx.Value("entTx").(*ent.Tx)
 	if !ok {
 		return nil, fmt.Errorf("ent transaction not found in context")

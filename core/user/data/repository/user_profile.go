@@ -9,7 +9,7 @@ import (
 	userProfileEnt "ncobase/core/user/data/ent/userprofile"
 	"ncobase/core/user/structs"
 
-	"ncobase/common/cache"
+	"ncobase/common/data/cache"
 	"ncobase/common/log"
 
 	"github.com/redis/go-redis/v9"

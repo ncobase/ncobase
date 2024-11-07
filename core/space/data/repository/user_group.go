@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"ncobase/common/cache"
+	"ncobase/common/data/cache"
 	"ncobase/common/log"
 	"ncobase/core/space/data"
 	"ncobase/core/space/data/ent"

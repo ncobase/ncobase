@@ -64,7 +64,7 @@ data:
       max_life_time: 7200  # max life time
       max_idle_conn: 8  # max idle connections
       logging: false  # logging
-    # slave configuration, support multiple
+      # slave configuration, support multiple
       slaves:
         - driver:
           source:
@@ -125,7 +125,7 @@ data:
     connection_timeout: 10s
     heartbeat_interval: 15s
   kafka:
-    brokers: []
+    brokers: [ ]
     client_id:
     consumer_group:
     topic:

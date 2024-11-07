@@ -1,8 +1,6 @@
 # Core Domain Modules
 
-
 > Core domains provide fundamental infrastructure and services for the entire system.
-
 
 ## Structure
 

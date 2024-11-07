@@ -2,7 +2,6 @@
 
 > Business domains implement specific business functionalities and features.
 
-
 ## Structure
 
 ```plantext
