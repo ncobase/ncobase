@@ -21,6 +21,7 @@ func newPluginCommand() *cobra.Command {
 		},
 	}
 
+	cmd.Flags().BoolVar(&opts.UseMongo, "use-mongo", false, "use MongoDB")
 	cmd.Flags().BoolVar(&opts.UseEnt, "use-ent", false, "use Ent as ORM")
 	cmd.Flags().BoolVar(&opts.UseGorm, "use-gorm", false, "use Gorm as ORM")
 	cmd.Flags().BoolVar(&opts.WithTest, "with-test", false, "generate test files")
