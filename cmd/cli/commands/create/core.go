@@ -22,6 +22,7 @@ func newCoreCommand() *cobra.Command {
 	}
 
 	cmd.Flags().BoolVar(&opts.UseEnt, "use-ent", false, "use Ent as ORM")
+	cmd.Flags().BoolVar(&opts.UseGorm, "use-gorm", false, "use Gorm as ORM")
 	cmd.Flags().BoolVar(&opts.WithTest, "with-test", false, "generate test files")
 	cmd.Flags().StringVar(&opts.Group, "group", "", "module belongs group (optional)")
 

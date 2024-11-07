@@ -6,6 +6,7 @@ type Data struct {
 	Type        string // Component type (core/module/plugin)
 	Group       string // Optional group name
 	UseEnt      bool   // Whether to use Ent ORM
+	UseGorm     bool   // Whether to use GORM
 	WithTest    bool   // Whether to generate test files
 	ModuleType  string // Module type in path (core/domain/plugin)
 	PackagePath string // Full package path

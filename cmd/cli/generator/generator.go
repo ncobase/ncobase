@@ -12,6 +12,7 @@ type Options struct {
 	Name     string
 	Type     string // core / business / plugin
 	UseEnt   bool
+	UseGorm  bool
 	WithTest bool
 	Group    string
 }
@@ -56,6 +57,7 @@ func Generate(opts *Options) error {
 		Type:        opts.Type,
 		Group:       opts.Group,
 		UseEnt:      opts.UseEnt,
+		UseGorm:     opts.UseGorm,
 		WithTest:    opts.WithTest,
 		ModuleType:  moduleType,
 		PackagePath: fmt.Sprintf("ncobase/%s/%s", moduleType, opts.Name),
@@ -94,6 +96,9 @@ func createStructure(basePath string, data *templates.Data, mainTemplate func(st
 	selectDataTemplate := func(data templates.Data) string {
 		if data.UseEnt {
 			return templates.DataTemplateWithEnt(data.Name, data.ModuleType)
+		}
+		if data.UseGorm {
+			return templates.DataTemplateWithGorm(data.Name, data.ModuleType)
 		}
 		return templates.DataTemplate(data.Name, data.ModuleType)
 	}

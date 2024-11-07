@@ -18,7 +18,6 @@ package ncobase
 
 // Generate plugins
 //go:generate go generate ./plugin/counter
-//go:generate go generate ./plugin/sample
 
 // Generate Swagger documentation
 //go:generate make swagger
