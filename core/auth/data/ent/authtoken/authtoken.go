@@ -20,7 +20,7 @@ const (
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
 	// Table holds the table name of the authtoken in the database.
-	Table = "ncse_auth_token"
+	Table = "ncse_iam_auth_token"
 )
 
 // Columns holds all SQL columns for authtoken fields.

@@ -18,7 +18,7 @@ type Attachment struct {
 
 // Annotations of the Attachment.
 func (Attachment) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "attachment"}, "_")
+	table := strings.Join([]string{"ncse", "res", "attachment"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

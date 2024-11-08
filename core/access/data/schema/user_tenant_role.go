@@ -17,7 +17,7 @@ type UserTenantRole struct {
 
 // Annotations of the UserTenantRole.
 func (UserTenantRole) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "user_tenant_role"}, "_")
+	table := strings.Join([]string{"ncse", "iam", "user_tenant_role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

@@ -17,7 +17,7 @@ type Options struct {
 
 // Annotations of the Options.
 func (Options) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "options"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "options"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

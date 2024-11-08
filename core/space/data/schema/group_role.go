@@ -18,7 +18,7 @@ type GroupRole struct {
 
 // Annotations of the GroupRole.
 func (GroupRole) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "group_role"}, "_")
+	table := strings.Join([]string{"ncse", "org", "group_role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

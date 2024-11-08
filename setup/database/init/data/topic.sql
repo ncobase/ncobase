@@ -1,11 +1,11 @@
 WITH tenant AS
-         (SELECT id FROM ncse_tenant LIMIT 1),
+         (SELECT id FROM ncse_iam_tenant LIMIT 1),
      user_ids AS
-         (SELECT id, username FROM ncse_user),
+         (SELECT id, username FROM ncse_sys_user),
      taxonomy_ids AS
-         (SELECT id, name FROM ncse_taxonomy)
+         (SELECT id, name FROM ncse_cms_taxonomy)
 INSERT
-INTO ncse_topic (id, name, title, slug, content, thumbnail, temp, markdown, private, status,
+INTO ncse_cms_topic (id, name, title, slug, content, thumbnail, temp, markdown, private, status,
                  released, taxonomy_id, tenant_id, created_by, updated_by, created_at, updated_at)
 VALUES
   -- 技术相关的话题

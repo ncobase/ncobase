@@ -18,7 +18,7 @@ type Menu struct {
 
 // Annotations of the Menu.
 func (Menu) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "menu"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "menu"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

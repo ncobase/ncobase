@@ -44,7 +44,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the topic in the database.
-	Table = "ncse_topic"
+	Table = "ncse_cms_topic"
 )
 
 // Columns holds all SQL columns for topic fields.

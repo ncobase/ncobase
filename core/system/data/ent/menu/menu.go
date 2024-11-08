@@ -48,7 +48,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the menu in the database.
-	Table = "ncse_menu"
+	Table = "ncse_sys_menu"
 )
 
 // Columns holds all SQL columns for menu fields.

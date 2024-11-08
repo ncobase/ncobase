@@ -19,7 +19,7 @@ type Taxonomy struct {
 
 // Annotations of the Taxonomy.
 func (Taxonomy) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "taxonomy"}, "_")
+	table := strings.Join([]string{"ncse", "cms", "taxonomy"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.QueryField(),

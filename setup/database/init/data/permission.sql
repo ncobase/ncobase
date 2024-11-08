@@ -1,9 +1,9 @@
 WITH tenant AS
-         (SELECT id FROM ncse_tenant LIMIT 1),
+         (SELECT id FROM ncse_iam_tenant LIMIT 1),
      user_ids AS
-         (SELECT id, username FROM ncse_user)
+         (SELECT id, username FROM ncse_sys_user)
 INSERT
-INTO ncse_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by,
+INTO ncse_iam_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by,
                       created_at, updated_at)
 VALUES
   -- Account related permissions

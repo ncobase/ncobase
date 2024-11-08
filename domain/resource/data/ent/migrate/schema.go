@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseAttachmentColumns holds the columns for the "ncse_attachment" table.
-	NcseAttachmentColumns = []*schema.Column{
+	// NcseResAttachmentColumns holds the columns for the "ncse_res_attachment" table.
+	NcseResAttachmentColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
@@ -27,47 +27,47 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseAttachmentTable holds the schema information for the "ncse_attachment" table.
-	NcseAttachmentTable = &schema.Table{
-		Name:       "ncse_attachment",
-		Columns:    NcseAttachmentColumns,
-		PrimaryKey: []*schema.Column{NcseAttachmentColumns[0]},
+	// NcseResAttachmentTable holds the schema information for the "ncse_res_attachment" table.
+	NcseResAttachmentTable = &schema.Table{
+		Name:       "ncse_res_attachment",
+		Columns:    NcseResAttachmentColumns,
+		PrimaryKey: []*schema.Column{NcseResAttachmentColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "attachment_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseAttachmentColumns[0]},
+				Columns: []*schema.Column{NcseResAttachmentColumns[0]},
 			},
 			{
 				Name:    "attachment_name",
 				Unique:  true,
-				Columns: []*schema.Column{NcseAttachmentColumns[1]},
+				Columns: []*schema.Column{NcseResAttachmentColumns[1]},
 			},
 			{
 				Name:    "attachment_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseAttachmentColumns[8]},
+				Columns: []*schema.Column{NcseResAttachmentColumns[8]},
 			},
 			{
 				Name:    "attachment_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseAttachmentColumns[9]},
+				Columns: []*schema.Column{NcseResAttachmentColumns[9]},
 			},
 			{
 				Name:    "attachment_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseAttachmentColumns[0], NcseAttachmentColumns[13]},
+				Columns: []*schema.Column{NcseResAttachmentColumns[0], NcseResAttachmentColumns[13]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseAttachmentTable,
+		NcseResAttachmentTable,
 	}
 )
 
 func init() {
-	NcseAttachmentTable.Annotation = &entsql.Annotation{
-		Table: "ncse_attachment",
+	NcseResAttachmentTable.Annotation = &entsql.Annotation{
+		Table: "ncse_res_attachment",
 	}
 }

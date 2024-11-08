@@ -32,7 +32,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the dictionary in the database.
-	Table = "ncse_dictionary"
+	Table = "ncse_sys_dictionary"
 )
 
 // Columns holds all SQL columns for dictionary fields.

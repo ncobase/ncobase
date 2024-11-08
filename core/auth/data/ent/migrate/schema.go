@@ -9,39 +9,39 @@ import (
 )
 
 var (
-	// NcseAuthTokenColumns holds the columns for the "ncse_auth_token" table.
-	NcseAuthTokenColumns = []*schema.Column{
+	// NcseIamAuthTokenColumns holds the columns for the "ncse_iam_auth_token" table.
+	NcseIamAuthTokenColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
 	}
-	// NcseAuthTokenTable holds the schema information for the "ncse_auth_token" table.
-	NcseAuthTokenTable = &schema.Table{
-		Name:       "ncse_auth_token",
-		Columns:    NcseAuthTokenColumns,
-		PrimaryKey: []*schema.Column{NcseAuthTokenColumns[0]},
+	// NcseIamAuthTokenTable holds the schema information for the "ncse_iam_auth_token" table.
+	NcseIamAuthTokenTable = &schema.Table{
+		Name:       "ncse_iam_auth_token",
+		Columns:    NcseIamAuthTokenColumns,
+		PrimaryKey: []*schema.Column{NcseIamAuthTokenColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "authtoken_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseAuthTokenColumns[0]},
+				Columns: []*schema.Column{NcseIamAuthTokenColumns[0]},
 			},
 			{
 				Name:    "authtoken_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseAuthTokenColumns[4]},
+				Columns: []*schema.Column{NcseIamAuthTokenColumns[4]},
 			},
 			{
 				Name:    "authtoken_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseAuthTokenColumns[0], NcseAuthTokenColumns[2]},
+				Columns: []*schema.Column{NcseIamAuthTokenColumns[0], NcseIamAuthTokenColumns[2]},
 			},
 		},
 	}
-	// NcseCodeAuthColumns holds the columns for the "ncse_code_auth" table.
-	NcseCodeAuthColumns = []*schema.Column{
+	// NcseIamCodeAuthColumns holds the columns for the "ncse_iam_code_auth" table.
+	NcseIamCodeAuthColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "code"},
 		{Name: "email", Type: field.TypeString, Nullable: true, Comment: "email"},
@@ -49,31 +49,31 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseCodeAuthTable holds the schema information for the "ncse_code_auth" table.
-	NcseCodeAuthTable = &schema.Table{
-		Name:       "ncse_code_auth",
-		Columns:    NcseCodeAuthColumns,
-		PrimaryKey: []*schema.Column{NcseCodeAuthColumns[0]},
+	// NcseIamCodeAuthTable holds the schema information for the "ncse_iam_code_auth" table.
+	NcseIamCodeAuthTable = &schema.Table{
+		Name:       "ncse_iam_code_auth",
+		Columns:    NcseIamCodeAuthColumns,
+		PrimaryKey: []*schema.Column{NcseIamCodeAuthColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "codeauth_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseCodeAuthColumns[0]},
+				Columns: []*schema.Column{NcseIamCodeAuthColumns[0]},
 			},
 			{
 				Name:    "codeauth_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseCodeAuthColumns[0], NcseCodeAuthColumns[4]},
+				Columns: []*schema.Column{NcseIamCodeAuthColumns[0], NcseIamCodeAuthColumns[4]},
 			},
 			{
 				Name:    "codeauth_code",
 				Unique:  false,
-				Columns: []*schema.Column{NcseCodeAuthColumns[1]},
+				Columns: []*schema.Column{NcseIamCodeAuthColumns[1]},
 			},
 		},
 	}
-	// NcseOauthUserColumns holds the columns for the "ncse_oauth_user" table.
-	NcseOauthUserColumns = []*schema.Column{
+	// NcseIamOauthUserColumns holds the columns for the "ncse_iam_oauth_user" table.
+	NcseIamOauthUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "oauth_id", Type: field.TypeString, Nullable: true, Comment: "oauth id"},
 		{Name: "access_token", Type: field.TypeString, Comment: "access token"},
@@ -82,50 +82,50 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseOauthUserTable holds the schema information for the "ncse_oauth_user" table.
-	NcseOauthUserTable = &schema.Table{
-		Name:       "ncse_oauth_user",
-		Columns:    NcseOauthUserColumns,
-		PrimaryKey: []*schema.Column{NcseOauthUserColumns[0]},
+	// NcseIamOauthUserTable holds the schema information for the "ncse_iam_oauth_user" table.
+	NcseIamOauthUserTable = &schema.Table{
+		Name:       "ncse_iam_oauth_user",
+		Columns:    NcseIamOauthUserColumns,
+		PrimaryKey: []*schema.Column{NcseIamOauthUserColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "oauthuser_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOauthUserColumns[0]},
+				Columns: []*schema.Column{NcseIamOauthUserColumns[0]},
 			},
 			{
 				Name:    "oauthuser_oauth_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOauthUserColumns[1]},
+				Columns: []*schema.Column{NcseIamOauthUserColumns[1]},
 			},
 			{
 				Name:    "oauthuser_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOauthUserColumns[4]},
+				Columns: []*schema.Column{NcseIamOauthUserColumns[4]},
 			},
 			{
 				Name:    "oauthuser_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOauthUserColumns[0], NcseOauthUserColumns[5]},
+				Columns: []*schema.Column{NcseIamOauthUserColumns[0], NcseIamOauthUserColumns[5]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseAuthTokenTable,
-		NcseCodeAuthTable,
-		NcseOauthUserTable,
+		NcseIamAuthTokenTable,
+		NcseIamCodeAuthTable,
+		NcseIamOauthUserTable,
 	}
 )
 
 func init() {
-	NcseAuthTokenTable.Annotation = &entsql.Annotation{
-		Table: "ncse_auth_token",
+	NcseIamAuthTokenTable.Annotation = &entsql.Annotation{
+		Table: "ncse_iam_auth_token",
 	}
-	NcseCodeAuthTable.Annotation = &entsql.Annotation{
-		Table: "ncse_code_auth",
+	NcseIamCodeAuthTable.Annotation = &entsql.Annotation{
+		Table: "ncse_iam_code_auth",
 	}
-	NcseOauthUserTable.Annotation = &entsql.Annotation{
-		Table: "ncse_oauth_user",
+	NcseIamOauthUserTable.Annotation = &entsql.Annotation{
+		Table: "ncse_iam_oauth_user",
 	}
 }

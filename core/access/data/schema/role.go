@@ -18,7 +18,7 @@ type Role struct {
 
 // Annotations of the Role.
 func (Role) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "role"}, "_")
+	table := strings.Join([]string{"ncse", "iam", "role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

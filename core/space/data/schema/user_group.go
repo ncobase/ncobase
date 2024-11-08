@@ -17,7 +17,7 @@ type UserGroup struct {
 
 // Annotations of the UserGroup.
 func (UserGroup) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "user_group"}, "_")
+	table := strings.Join([]string{"ncse", "org", "user_group"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

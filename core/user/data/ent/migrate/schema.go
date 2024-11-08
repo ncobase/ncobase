@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseUserColumns holds the columns for the "ncse_user" table.
-	NcseUserColumns = []*schema.Column{
+	// NcseSysUserColumns holds the columns for the "ncse_sys_user" table.
+	NcseSysUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "username", Type: field.TypeString, Unique: true, Nullable: true, Size: 50, Comment: "username"},
 		{Name: "password", Type: field.TypeString, Nullable: true, Comment: "password"},
@@ -23,31 +23,31 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseUserTable holds the schema information for the "ncse_user" table.
-	NcseUserTable = &schema.Table{
-		Name:       "ncse_user",
-		Columns:    NcseUserColumns,
-		PrimaryKey: []*schema.Column{NcseUserColumns[0]},
+	// NcseSysUserTable holds the schema information for the "ncse_sys_user" table.
+	NcseSysUserTable = &schema.Table{
+		Name:       "ncse_sys_user",
+		Columns:    NcseSysUserColumns,
+		PrimaryKey: []*schema.Column{NcseSysUserColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "user_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseUserColumns[0]},
+				Columns: []*schema.Column{NcseSysUserColumns[0]},
 			},
 			{
 				Name:    "user_username",
 				Unique:  true,
-				Columns: []*schema.Column{NcseUserColumns[1]},
+				Columns: []*schema.Column{NcseSysUserColumns[1]},
 			},
 			{
 				Name:    "user_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseUserColumns[0], NcseUserColumns[9]},
+				Columns: []*schema.Column{NcseSysUserColumns[0], NcseSysUserColumns[9]},
 			},
 		},
 	}
-	// NcseUserProfileColumns holds the columns for the "ncse_user_profile" table.
-	NcseUserProfileColumns = []*schema.Column{
+	// NcseSysUserProfileColumns holds the columns for the "ncse_sys_user_profile" table.
+	NcseSysUserProfileColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
 		{Name: "display_name", Type: field.TypeString, Nullable: true, Comment: "display name"},
 		{Name: "short_bio", Type: field.TypeString, Nullable: true, Comment: "short bio"},
@@ -56,31 +56,31 @@ var (
 		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 	}
-	// NcseUserProfileTable holds the schema information for the "ncse_user_profile" table.
-	NcseUserProfileTable = &schema.Table{
-		Name:       "ncse_user_profile",
-		Columns:    NcseUserProfileColumns,
-		PrimaryKey: []*schema.Column{NcseUserProfileColumns[0]},
+	// NcseSysUserProfileTable holds the schema information for the "ncse_sys_user_profile" table.
+	NcseSysUserProfileTable = &schema.Table{
+		Name:       "ncse_sys_user_profile",
+		Columns:    NcseSysUserProfileColumns,
+		PrimaryKey: []*schema.Column{NcseSysUserProfileColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "userprofile_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseUserProfileColumns[0]},
+				Columns: []*schema.Column{NcseSysUserProfileColumns[0]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseUserTable,
-		NcseUserProfileTable,
+		NcseSysUserTable,
+		NcseSysUserProfileTable,
 	}
 )
 
 func init() {
-	NcseUserTable.Annotation = &entsql.Annotation{
-		Table: "ncse_user",
+	NcseSysUserTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_user",
 	}
-	NcseUserProfileTable.Annotation = &entsql.Annotation{
-		Table: "ncse_user_profile",
+	NcseSysUserProfileTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_user_profile",
 	}
 }

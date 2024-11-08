@@ -18,7 +18,7 @@ type Dictionary struct {
 
 // Annotations of the Dictionary.
 func (Dictionary) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "dictionary"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "dictionary"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

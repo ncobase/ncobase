@@ -1,10 +1,10 @@
 -- 插入分类数据
 WITH tenant AS
-         (SELECT id FROM ncse_tenant LIMIT 1),
+         (SELECT id FROM ncse_iam_tenant LIMIT 1),
      user_ids AS
-         (SELECT id, username FROM ncse_user),
+         (SELECT id, username FROM ncse_sys_user),
      taxonomy_data_1 AS (
-       INSERT INTO ncse_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
+       INSERT INTO ncse_cms_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
                                   status,
                                   extras, parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
@@ -48,7 +48,7 @@ WITH tenant AS
             EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000))
          RETURNING id, name),
      taxonomy_data_2 AS (
-       INSERT INTO ncse_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
+       INSERT INTO ncse_cms_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
                                   status,
                                   extras, parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
@@ -112,7 +112,7 @@ WITH tenant AS
             EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000))
          RETURNING id, name),
      taxonomy_data_3 AS (
-       INSERT INTO ncse_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
+       INSERT INTO ncse_cms_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
                                   status,
                                   extras, parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
@@ -145,7 +145,7 @@ WITH tenant AS
                       FROM taxonomy_data_3)
 -- 插入分类关系数据
 INSERT
-INTO ncse_taxonomy_relation (id, object_id, taxonomy_id, type, "order", created_by, created_at)
+INTO ncse_cms_taxonomy_relation (id, object_id, taxonomy_id, type, "order", created_by, created_at)
 VALUES
   -- 技术相关的分类
   (nanoid(), 'object1', (SELECT id FROM taxonomy_ids WHERE name = '技术'), 'topic', 1,

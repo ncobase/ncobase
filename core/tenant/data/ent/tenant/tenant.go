@@ -48,7 +48,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the tenant in the database.
-	Table = "ncse_tenant"
+	Table = "ncse_iam_tenant"
 )
 
 // Columns holds all SQL columns for tenant fields.

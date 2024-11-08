@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseDictionaryColumns holds the columns for the "ncse_dictionary" table.
-	NcseDictionaryColumns = []*schema.Column{
+	// NcseSysDictionaryColumns holds the columns for the "ncse_sys_dictionary" table.
+	NcseSysDictionaryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
@@ -23,31 +23,31 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseDictionaryTable holds the schema information for the "ncse_dictionary" table.
-	NcseDictionaryTable = &schema.Table{
-		Name:       "ncse_dictionary",
-		Columns:    NcseDictionaryColumns,
-		PrimaryKey: []*schema.Column{NcseDictionaryColumns[0]},
+	// NcseSysDictionaryTable holds the schema information for the "ncse_sys_dictionary" table.
+	NcseSysDictionaryTable = &schema.Table{
+		Name:       "ncse_sys_dictionary",
+		Columns:    NcseSysDictionaryColumns,
+		PrimaryKey: []*schema.Column{NcseSysDictionaryColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "dictionary_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseDictionaryColumns[0]},
+				Columns: []*schema.Column{NcseSysDictionaryColumns[0]},
 			},
 			{
 				Name:    "dictionary_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NcseDictionaryColumns[2]},
+				Columns: []*schema.Column{NcseSysDictionaryColumns[2]},
 			},
 			{
 				Name:    "dictionary_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseDictionaryColumns[5]},
+				Columns: []*schema.Column{NcseSysDictionaryColumns[5]},
 			},
 		},
 	}
-	// NcseMenuColumns holds the columns for the "ncse_menu" table.
-	NcseMenuColumns = []*schema.Column{
+	// NcseSysMenuColumns holds the columns for the "ncse_sys_menu" table.
+	NcseSysMenuColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "label", Type: field.TypeString, Nullable: true, Comment: "label"},
@@ -68,41 +68,41 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseMenuTable holds the schema information for the "ncse_menu" table.
-	NcseMenuTable = &schema.Table{
-		Name:       "ncse_menu",
-		Columns:    NcseMenuColumns,
-		PrimaryKey: []*schema.Column{NcseMenuColumns[0]},
+	// NcseSysMenuTable holds the schema information for the "ncse_sys_menu" table.
+	NcseSysMenuTable = &schema.Table{
+		Name:       "ncse_sys_menu",
+		Columns:    NcseSysMenuColumns,
+		PrimaryKey: []*schema.Column{NcseSysMenuColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "menu_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseMenuColumns[0]},
+				Columns: []*schema.Column{NcseSysMenuColumns[0]},
 			},
 			{
 				Name:    "menu_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NcseMenuColumns[3]},
+				Columns: []*schema.Column{NcseSysMenuColumns[3]},
 			},
 			{
 				Name:    "menu_parent_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseMenuColumns[13]},
+				Columns: []*schema.Column{NcseSysMenuColumns[13]},
 			},
 			{
 				Name:    "menu_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseMenuColumns[14]},
+				Columns: []*schema.Column{NcseSysMenuColumns[14]},
 			},
 			{
 				Name:    "menu_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseMenuColumns[0], NcseMenuColumns[17]},
+				Columns: []*schema.Column{NcseSysMenuColumns[0], NcseSysMenuColumns[17]},
 			},
 		},
 	}
-	// NcseOptionsColumns holds the columns for the "ncse_options" table.
-	NcseOptionsColumns = []*schema.Column{
+	// NcseSysOptionsColumns holds the columns for the "ncse_sys_options" table.
+	NcseSysOptionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
@@ -114,45 +114,45 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseOptionsTable holds the schema information for the "ncse_options" table.
-	NcseOptionsTable = &schema.Table{
-		Name:       "ncse_options",
-		Columns:    NcseOptionsColumns,
-		PrimaryKey: []*schema.Column{NcseOptionsColumns[0]},
+	// NcseSysOptionsTable holds the schema information for the "ncse_sys_options" table.
+	NcseSysOptionsTable = &schema.Table{
+		Name:       "ncse_sys_options",
+		Columns:    NcseSysOptionsColumns,
+		PrimaryKey: []*schema.Column{NcseSysOptionsColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "options_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOptionsColumns[0]},
+				Columns: []*schema.Column{NcseSysOptionsColumns[0]},
 			},
 			{
 				Name:    "options_name",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOptionsColumns[1]},
+				Columns: []*schema.Column{NcseSysOptionsColumns[1]},
 			},
 			{
 				Name:    "options_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOptionsColumns[5]},
+				Columns: []*schema.Column{NcseSysOptionsColumns[5]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseDictionaryTable,
-		NcseMenuTable,
-		NcseOptionsTable,
+		NcseSysDictionaryTable,
+		NcseSysMenuTable,
+		NcseSysOptionsTable,
 	}
 )
 
 func init() {
-	NcseDictionaryTable.Annotation = &entsql.Annotation{
-		Table: "ncse_dictionary",
+	NcseSysDictionaryTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_dictionary",
 	}
-	NcseMenuTable.Annotation = &entsql.Annotation{
-		Table: "ncse_menu",
+	NcseSysMenuTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_menu",
 	}
-	NcseOptionsTable.Annotation = &entsql.Annotation{
-		Table: "ncse_options",
+	NcseSysOptionsTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_options",
 	}
 }

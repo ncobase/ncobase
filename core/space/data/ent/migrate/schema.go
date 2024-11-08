@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseGroupColumns holds the columns for the "ncse_group" table.
-	NcseGroupColumns = []*schema.Column{
+	// NcseOrgGroupColumns holds the columns for the "ncse_org_group" table.
+	NcseOrgGroupColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
@@ -25,41 +25,41 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseGroupTable holds the schema information for the "ncse_group" table.
-	NcseGroupTable = &schema.Table{
-		Name:       "ncse_group",
-		Columns:    NcseGroupColumns,
-		PrimaryKey: []*schema.Column{NcseGroupColumns[0]},
+	// NcseOrgGroupTable holds the schema information for the "ncse_org_group" table.
+	NcseOrgGroupTable = &schema.Table{
+		Name:       "ncse_org_group",
+		Columns:    NcseOrgGroupColumns,
+		PrimaryKey: []*schema.Column{NcseOrgGroupColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "group_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseGroupColumns[0]},
+				Columns: []*schema.Column{NcseOrgGroupColumns[0]},
 			},
 			{
 				Name:    "group_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NcseGroupColumns[2]},
+				Columns: []*schema.Column{NcseOrgGroupColumns[2]},
 			},
 			{
 				Name:    "group_parent_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseGroupColumns[7]},
+				Columns: []*schema.Column{NcseOrgGroupColumns[7]},
 			},
 			{
 				Name:    "group_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseGroupColumns[8]},
+				Columns: []*schema.Column{NcseOrgGroupColumns[8]},
 			},
 			{
 				Name:    "group_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseGroupColumns[0], NcseGroupColumns[11]},
+				Columns: []*schema.Column{NcseOrgGroupColumns[0], NcseOrgGroupColumns[11]},
 			},
 		},
 	}
-	// NcseGroupRoleColumns holds the columns for the "ncse_group_role" table.
-	NcseGroupRoleColumns = []*schema.Column{
+	// NcseOrgGroupRoleColumns holds the columns for the "ncse_org_group_role" table.
+	NcseOrgGroupRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "group id"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
@@ -68,41 +68,41 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseGroupRoleTable holds the schema information for the "ncse_group_role" table.
-	NcseGroupRoleTable = &schema.Table{
-		Name:       "ncse_group_role",
-		Columns:    NcseGroupRoleColumns,
-		PrimaryKey: []*schema.Column{NcseGroupRoleColumns[0]},
+	// NcseOrgGroupRoleTable holds the schema information for the "ncse_org_group_role" table.
+	NcseOrgGroupRoleTable = &schema.Table{
+		Name:       "ncse_org_group_role",
+		Columns:    NcseOrgGroupRoleColumns,
+		PrimaryKey: []*schema.Column{NcseOrgGroupRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "grouprole_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseGroupRoleColumns[0]},
+				Columns: []*schema.Column{NcseOrgGroupRoleColumns[0]},
 			},
 			{
 				Name:    "grouprole_group_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseGroupRoleColumns[1]},
+				Columns: []*schema.Column{NcseOrgGroupRoleColumns[1]},
 			},
 			{
 				Name:    "grouprole_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseGroupRoleColumns[2]},
+				Columns: []*schema.Column{NcseOrgGroupRoleColumns[2]},
 			},
 			{
 				Name:    "grouprole_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseGroupRoleColumns[0], NcseGroupRoleColumns[5]},
+				Columns: []*schema.Column{NcseOrgGroupRoleColumns[0], NcseOrgGroupRoleColumns[5]},
 			},
 			{
 				Name:    "grouprole_group_id_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseGroupRoleColumns[1], NcseGroupRoleColumns[2]},
+				Columns: []*schema.Column{NcseOrgGroupRoleColumns[1], NcseOrgGroupRoleColumns[2]},
 			},
 		},
 	}
-	// NcseUserGroupColumns holds the columns for the "ncse_user_group" table.
-	NcseUserGroupColumns = []*schema.Column{
+	// NcseOrgUserGroupColumns holds the columns for the "ncse_org_user_group" table.
+	NcseOrgUserGroupColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
 		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "group id"},
@@ -111,55 +111,55 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseUserGroupTable holds the schema information for the "ncse_user_group" table.
-	NcseUserGroupTable = &schema.Table{
-		Name:       "ncse_user_group",
-		Columns:    NcseUserGroupColumns,
-		PrimaryKey: []*schema.Column{NcseUserGroupColumns[0]},
+	// NcseOrgUserGroupTable holds the schema information for the "ncse_org_user_group" table.
+	NcseOrgUserGroupTable = &schema.Table{
+		Name:       "ncse_org_user_group",
+		Columns:    NcseOrgUserGroupColumns,
+		PrimaryKey: []*schema.Column{NcseOrgUserGroupColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "usergroup_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseUserGroupColumns[0]},
+				Columns: []*schema.Column{NcseOrgUserGroupColumns[0]},
 			},
 			{
 				Name:    "usergroup_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseUserGroupColumns[1]},
+				Columns: []*schema.Column{NcseOrgUserGroupColumns[1]},
 			},
 			{
 				Name:    "usergroup_group_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseUserGroupColumns[2]},
+				Columns: []*schema.Column{NcseOrgUserGroupColumns[2]},
 			},
 			{
 				Name:    "usergroup_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseUserGroupColumns[0], NcseUserGroupColumns[5]},
+				Columns: []*schema.Column{NcseOrgUserGroupColumns[0], NcseOrgUserGroupColumns[5]},
 			},
 			{
 				Name:    "usergroup_user_id_group_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseUserGroupColumns[1], NcseUserGroupColumns[2]},
+				Columns: []*schema.Column{NcseOrgUserGroupColumns[1], NcseOrgUserGroupColumns[2]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseGroupTable,
-		NcseGroupRoleTable,
-		NcseUserGroupTable,
+		NcseOrgGroupTable,
+		NcseOrgGroupRoleTable,
+		NcseOrgUserGroupTable,
 	}
 )
 
 func init() {
-	NcseGroupTable.Annotation = &entsql.Annotation{
-		Table: "ncse_group",
+	NcseOrgGroupTable.Annotation = &entsql.Annotation{
+		Table: "ncse_org_group",
 	}
-	NcseGroupRoleTable.Annotation = &entsql.Annotation{
-		Table: "ncse_group_role",
+	NcseOrgGroupRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_org_group_role",
 	}
-	NcseUserGroupTable.Annotation = &entsql.Annotation{
-		Table: "ncse_user_group",
+	NcseOrgUserGroupTable.Annotation = &entsql.Annotation{
+		Table: "ncse_org_user_group",
 	}
 }

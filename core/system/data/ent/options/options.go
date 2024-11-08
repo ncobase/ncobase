@@ -30,7 +30,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the options in the database.
-	Table = "ncse_options"
+	Table = "ncse_sys_options"
 )
 
 // Columns holds all SQL columns for options fields.

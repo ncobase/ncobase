@@ -1,10 +1,10 @@
 WITH tenant AS
-         (SELECT id FROM ncse_tenant LIMIT 1),
+         (SELECT id FROM ncse_iam_tenant LIMIT 1),
      user_ids AS
-         (SELECT id, username FROM ncse_user),
+         (SELECT id, username FROM ncse_sys_user),
      -- header
      header_1 AS (
-       INSERT INTO ncse_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
+       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
                               parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
            -- dashboard
@@ -34,7 +34,7 @@ WITH tenant AS
          RETURNING id, name, slug),
      -- sidebar
      sidebar_1 AS (
-       INSERT INTO ncse_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
+       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
                               parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
            -- system sidebar
@@ -190,7 +190,7 @@ WITH tenant AS
          RETURNING id, name, slug),
      -- submenu
      submenu_1 AS (
-       INSERT INTO ncse_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
+       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
                               parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
            -- example submenu (card)
@@ -280,7 +280,7 @@ WITH tenant AS
          RETURNING id, name, slug)
 -- standalone
 INSERT
-INTO ncse_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras, parent_id,
+INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras, parent_id,
                 tenant_id, created_by, updated_by, created_at, updated_at)
 VALUES
   -- account

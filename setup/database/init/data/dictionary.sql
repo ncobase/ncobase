@@ -1,9 +1,9 @@
 WITH tenant AS
-         (SELECT id FROM ncse_tenant LIMIT 1),
+         (SELECT id FROM ncse_iam_tenant LIMIT 1),
      user_ids AS
-         (SELECT id, username FROM ncse_user)
+         (SELECT id, username FROM ncse_sys_user)
 INSERT
-INTO ncse_dictionary (id, name, slug, type, value, tenant_id, created_by, created_at, updated_by, updated_at)
+INTO ncse_sys_dictionary (id, name, slug, type, value, tenant_id, created_by, created_at, updated_by, updated_at)
 VALUES
   -- 系统状态
   (nanoid(), '通用状态', 'common_status', 'object', '{"0":"禁用","1":"启用"}', (SELECT id FROM tenant),

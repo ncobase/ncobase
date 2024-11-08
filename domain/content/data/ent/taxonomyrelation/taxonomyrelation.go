@@ -24,7 +24,7 @@ const (
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
 	// Table holds the table name of the taxonomyrelation in the database.
-	Table = "ncse_taxonomy_relation"
+	Table = "ncse_cms_taxonomy_relation"
 )
 
 // Columns holds all SQL columns for taxonomyrelation fields.

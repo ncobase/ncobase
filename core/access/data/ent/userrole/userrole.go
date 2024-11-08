@@ -24,7 +24,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the userrole in the database.
-	Table = "ncse_user_role"
+	Table = "ncse_iam_user_role"
 )
 
 // Columns holds all SQL columns for userrole fields.

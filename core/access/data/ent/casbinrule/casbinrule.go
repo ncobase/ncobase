@@ -34,7 +34,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the casbinrule in the database.
-	Table = "ncse_casbin_rule"
+	Table = "ncse_iam_casbin_rule"
 )
 
 // Columns holds all SQL columns for casbinrule fields.
