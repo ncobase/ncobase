@@ -351,7 +351,7 @@ func (d *Data) WithMongoTx(ctx context.Context, fn func(mongo.SessionContext) er
 	}
 	defer session.EndSession(ctx)
 
-	_, err = session.WithTransaction(ctx, func(sessCtx mongo.SessionContext) (interface{}, error) {
+	_, err = session.WithTransaction(ctx, func(sessCtx mongo.SessionContext) (any, error) {
 		return nil, fn(sessCtx)
 	})
 	return err
@@ -371,7 +371,7 @@ func (d *Data) WithMongoTxRead(ctx context.Context, fn func(mongo.SessionContext
 	defer session.EndSession(ctx)
 
 	// MongoDB does not support read-only transaction, so we downgrade to read-write
-	_, err = session.WithTransaction(ctx, func(sessCtx mongo.SessionContext) (interface{}, error) {
+	_, err = session.WithTransaction(ctx, func(sessCtx mongo.SessionContext) (any, error) {
 		return nil, fn(sessCtx)
 	})
 	return err
