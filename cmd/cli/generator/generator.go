@@ -116,13 +116,11 @@ func createStructure(basePath string, data *templates.Data, mainTemplate func(st
 
 	files := map[string]string{
 		fmt.Sprintf("%s.go", data.Name): mainTemplate(data.Name),
-		// "go.mod":                        templates.ExtTemplate(data.Name, data.ExtType),
-		// "generate.go":                   templates.GeneraterTemplate(data.Name, data.ExtType),
 		"data/data.go":                  selectDataTemplate(*data),
-		"data/repository/repository.go": templates.RepositoryTemplate(data.Name, data.ExtType),
+		"data/repository/provider.go":   templates.RepositoryTemplate(data.Name, data.ExtType),
 		"data/schema/schema.go":         templates.SchemaTemplate(),
-		"handler/handler.go":            templates.HandlerTemplate(data.Name, data.ExtType),
-		"service/service.go":            templates.ServiceTemplate(data.Name, data.ExtType),
+		"handler/provider.go":           templates.HandlerTemplate(data.Name, data.ExtType),
+		"service/provider.go":           templates.ServiceTemplate(data.Name, data.ExtType),
 		"structs/structs.go":            templates.StructsTemplate(),
 	}
 
