@@ -11,6 +11,7 @@ package ncobase
 //go:generate go generate ./core/system
 //go:generate go generate ./core/tenant
 //go:generate go generate ./core/user
+//go:generate go generate ./core/workflow
 
 // Generate business components
 //go:generate go generate ./domain/content

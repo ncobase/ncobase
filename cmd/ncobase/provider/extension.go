@@ -11,6 +11,7 @@ import (
 	"ncobase/core/system"
 	"ncobase/core/tenant"
 	"ncobase/core/user"
+	"ncobase/core/workflow"
 	"ncobase/domain/content"
 	"ncobase/domain/resource"
 	"strings"
@@ -32,6 +33,7 @@ func registerExtensions(em *extension.Manager) {
 		system.New(),
 		tenant.New(),
 		user.New(),
+		workflow.New(),
 	)
 
 	// Domain extensions

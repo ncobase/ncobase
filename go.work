@@ -9,6 +9,7 @@ use (
 	./core/system
 	./core/tenant
 	./core/user
+	./core/workflow
 	./domain/content
 	./domain/resource
 	./pkg

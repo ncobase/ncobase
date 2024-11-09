@@ -11,6 +11,8 @@ replace (
 	ncobase/core/system => ./core/system
 	ncobase/core/tenant => ./core/tenant
 	ncobase/core/user => ./core/user
+	ncobase/core/workflow => ./core/workflow
+
 )
 
 // business domains
@@ -42,6 +44,7 @@ require (
 	ncobase/core/system v0.0.0-00010101000000-000000000000
 	ncobase/core/tenant v0.0.0-00010101000000-000000000000
 	ncobase/core/user v0.0.0-00010101000000-000000000000
+	ncobase/core/workflow v0.0.0-00010101000000-000000000000
 	ncobase/domain/content v0.0.0-00010101000000-000000000000
 	ncobase/domain/resource v0.0.0-00010101000000-000000000000
 	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
