@@ -86,6 +86,7 @@ import (
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/schema"
 )
 
 // Data .
@@ -109,7 +110,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	}
 
 	// create ent client
-	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate) // master support migration
+	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate, conf.Enveronment) // master support migration
 	if err != nil {
 		return nil, nil, err
 	}
@@ -117,7 +118,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	// get slave connection, create ent client
 	var entClientRead *ent.Client
 	if readDB, err := d.DBRead(); err == nil && readDB != nil {
-		entClientRead, err = newEntClient(readDB, conf.Database.Master, false) // slave does not support migration
+		entClientRead, err = newEntClient(readDB, conf.Database.Master, false, conf.Enveronment) // slave does not support migration
 		if err != nil {
 			log.Warnf(context.Background(), "Failed to create read-only ent client: %v", err)
 		}
@@ -136,7 +137,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 }
 
 // newEntClient creates a new ent client.
-func newEntClient(db *sql.DB, conf *config.DBNode, enableMigrate bool) (*ent.Client, error) {
+func newEntClient(db *sql.DB, conf *config.DBNode, enableMigrate bool, env ...string) (*ent.Client, error) {
 	client := ent.NewClient(ent.Driver(dialect.DebugWithContext(
 		entsql.OpenDB(conf.Driver, db),
 		func(ctx context.Context, i ...any) {
@@ -153,11 +154,15 @@ func newEntClient(db *sql.DB, conf *config.DBNode, enableMigrate bool) (*ent.Cli
 
 	// Auto migrate (only for master)
 	if enableMigrate {
-		if err := client.Schema.Create(context.Background(),
+		migrateOpts := []schema.MigrateOption{
 			migrate.WithForeignKeys(false),
-			migrate.WithDropIndex(true),
-			migrate.WithDropColumn(true),
-		); err != nil {
+			// migrate.WithGlobalUniqueID(true),
+		}
+		// Production does not support drop index and drop column
+		if len(env) == 0 || (len(env) > 0 && env[0] != "production") {
+			migrateOpts = append(migrateOpts, migrate.WithDropIndex(true), migrate.WithDropColumn(true))
+		}
+		if err := client.Schema.Create(context.Background(), migrateOpts...); err != nil {
 			return nil, err
 		}
 	}

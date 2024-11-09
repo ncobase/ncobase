@@ -48,6 +48,8 @@ frontend:
   sign_up_url: http://localhost:3000/register
 
 data:
+  # Environment, support development / staging / production
+  environment:
   database:
     # global configuration
     migrate: true  # migrate only support master

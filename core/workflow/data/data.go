@@ -34,7 +34,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	if masterDB == nil {
 		return nil, nil, err
 	}
-	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate) // master support migration
+	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate, conf.Enveronment) // master support migration
 	if err != nil {
 		return nil, nil, err
 	}
@@ -42,7 +42,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	// get slave connection, create ent client
 	var entClientRead *ent.Client
 	if readDB, err := d.DBRead(); err == nil && readDB != nil {
-		entClientRead, err = newEntClient(readDB, conf.Database.Master, false) // slave does not support migration
+		entClientRead, err = newEntClient(readDB, conf.Database.Master, false, conf.Enveronment) // slave does not support migration
 		if err != nil {
 			log.Warnf(context.Background(), "Failed to create read-only ent client: %v", err)
 		}
@@ -82,8 +82,8 @@ func newEntClient(db *sql.DB, conf *config.DBNode, enableMigrate bool, env ...st
 			migrate.WithForeignKeys(false),
 			// migrate.WithGlobalUniqueID(true),
 		}
-		// Release mode does not support drop index and drop column
-		if len(env) == 0 || (len(env) > 0 && env[0] != "release") {
+		// Production does not support drop index and drop column
+		if len(env) == 0 || (len(env) > 0 && env[0] != "production") {
 			migrateOpts = append(migrateOpts, migrate.WithDropIndex(true), migrate.WithDropColumn(true))
 		}
 		if err := client.Schema.Create(context.Background(), migrateOpts...); err != nil {
