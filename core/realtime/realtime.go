@@ -19,7 +19,7 @@ var (
 	version          = "1.0.0"
 	dependencies     []string
 	typeStr          = "module"
-	group            = "rt" // belongs domain group
+	group            = "rt"
 	enabledDiscovery = false
 )
 
