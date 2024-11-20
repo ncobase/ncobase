@@ -479,7 +479,7 @@ func (r *taxonomyRepository) ListWithCount(ctx context.Context, params *structs.
 }
 
 // applySorting applies the specified sorting to the query builder.
-func applySorting(builder *ent.TaxonomyQuery, sortBy types.SortField) *ent.TaxonomyQuery {
+func applySorting(builder *ent.TaxonomyQuery, sortBy string) *ent.TaxonomyQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		return builder.Order(ent.Desc(taxonomyEnt.FieldCreatedAt), ent.Desc(taxonomyEnt.FieldID))
@@ -489,7 +489,7 @@ func applySorting(builder *ent.TaxonomyQuery, sortBy types.SortField) *ent.Taxon
 }
 
 // applyCursorCondition applies the cursor-based condition to the query builder.
-func applyCursorCondition(builder *ent.TaxonomyQuery, id string, value any, direction string, sortBy types.SortField) *ent.TaxonomyQuery {
+func applyCursorCondition(builder *ent.TaxonomyQuery, id string, value any, direction string, sortBy string) *ent.TaxonomyQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)

@@ -249,7 +249,7 @@ func (r *groupRepository) ListWithCount(ctx context.Context, params *structs.Lis
 	return rows, total, nil
 }
 
-func applySorting(builder *ent.GroupQuery, sortBy types.SortField) *ent.GroupQuery {
+func applySorting(builder *ent.GroupQuery, sortBy string) *ent.GroupQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		return builder.Order(ent.Desc(groupEnt.FieldCreatedAt))
@@ -258,7 +258,7 @@ func applySorting(builder *ent.GroupQuery, sortBy types.SortField) *ent.GroupQue
 	}
 }
 
-func applyCursorCondition(builder *ent.GroupQuery, id string, value any, direction string, sortBy types.SortField) *ent.GroupQuery {
+func applyCursorCondition(builder *ent.GroupQuery, id string, value any, direction string, sortBy string) *ent.GroupQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)

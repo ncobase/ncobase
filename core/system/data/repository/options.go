@@ -6,7 +6,6 @@ import (
 	"ncobase/common/data/meili"
 	"ncobase/common/log"
 	"ncobase/common/paging"
-	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
@@ -209,7 +208,7 @@ func (r *optionsRepository) ListWithCount(ctx context.Context, params *structs.L
 }
 
 // applySorting applies the specified sorting to the query builder.
-func applySorting(builder *ent.OptionsQuery, sortBy types.SortField) *ent.OptionsQuery {
+func applySorting(builder *ent.OptionsQuery, sortBy string) *ent.OptionsQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		return builder.Order(ent.Desc(optionsEnt.FieldCreatedAt), ent.Desc(optionsEnt.FieldID))
@@ -221,7 +220,7 @@ func applySorting(builder *ent.OptionsQuery, sortBy types.SortField) *ent.Option
 }
 
 // applyCursorCondition applies the cursor-based condition to the query builder.
-func applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direction string, sortBy types.SortField) *ent.OptionsQuery {
+func applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direction string, sortBy string) *ent.OptionsQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)

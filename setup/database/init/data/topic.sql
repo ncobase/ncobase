@@ -6,7 +6,7 @@ WITH tenant AS
          (SELECT id, name FROM ncse_cms_taxonomy)
 INSERT
 INTO ncse_cms_topic (id, name, title, slug, content, thumbnail, temp, markdown, private, status,
-                 released, taxonomy_id, tenant_id, created_by, updated_by, created_at, updated_at)
+                     released, taxonomy_id, tenant_id, created_by, updated_by, created_at, updated_at)
 VALUES
   -- 技术相关的话题
   (nanoid(), '人工智能简介', '人工智能：改变世界的技术', 'ai-introduction',

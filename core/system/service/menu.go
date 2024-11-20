@@ -156,7 +156,7 @@ func (s *menuService) buildMenuTree(menus []*ent.Menu, sortField string) []*stru
 	return tree
 }
 
-func determineSortField(params *structs.FindMenu) types.SortField {
+func determineSortField(params *structs.FindMenu) string {
 	if params.SortBy != "" {
 		return params.SortBy
 	}

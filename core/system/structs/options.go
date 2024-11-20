@@ -51,7 +51,7 @@ func (r *ReadOptions) GetCursorValue() string {
 
 // GetSortValue get sort value
 func (r *ReadOptions) GetSortValue(field string) any {
-	switch types.SortField(field) {
+	switch field {
 	case SortByCreatedAt:
 		return types.ToValue(r.CreatedAt)
 	case SortByName:
@@ -63,19 +63,19 @@ func (r *ReadOptions) GetSortValue(field string) any {
 
 // FindOptions represents the parameters for finding options.
 type FindOptions struct {
-	Option string          `form:"option,omitempty" json:"option,omitempty"`
-	Tenant string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	Type   string          `form:"type,omitempty" json:"type,omitempty"`
-	SortBy types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Option string `form:"option,omitempty" json:"option,omitempty"`
+	Tenant string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Type   string `form:"type,omitempty" json:"type,omitempty"`
+	SortBy string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
 // ListOptionsParams represents the query parameters for listing options.
 type ListOptionsParams struct {
-	Cursor    string          `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int             `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string          `form:"direction,omitempty" json:"direction,omitempty"`
-	Type      string          `form:"type,omitempty" json:"type,omitempty"`
-	Tenant    string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	Autoload  *bool           `form:"autoload,omitempty" json:"autoload,omitempty"`
-	SortBy    types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	Type      string `form:"type,omitempty" json:"type,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Autoload  *bool  `form:"autoload,omitempty" json:"autoload,omitempty"`
+	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

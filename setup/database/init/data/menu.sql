@@ -4,8 +4,9 @@ WITH tenant AS
          (SELECT id, username FROM ncse_sys_user),
      -- header
      header_1 AS (
-       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
-                              parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
+       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled,
+                                  extras,
+                                  parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
            -- dashboard
            (nanoid(), '控制台', 'dashboard.navigation', 'dashboard', 'header', '/dash', null, 'IconGauge', null, null,
@@ -34,8 +35,9 @@ WITH tenant AS
          RETURNING id, name, slug),
      -- sidebar
      sidebar_1 AS (
-       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
-                              parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
+       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled,
+                                  extras,
+                                  parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
            -- system sidebar
            (nanoid(), '租户', 'system.tenant.navigation', 'system-tenant', 'sidebar', '/system/tenant', null,
@@ -190,8 +192,9 @@ WITH tenant AS
          RETURNING id, name, slug),
      -- submenu
      submenu_1 AS (
-       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
-                              parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
+       INSERT INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled,
+                                  extras,
+                                  parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
          VALUES
            -- example submenu (card)
            (nanoid(), '模型', 'example.card.model.navigation', 'submenu-model-group', 'submenu', '-', null, null, null,
@@ -280,8 +283,9 @@ WITH tenant AS
          RETURNING id, name, slug)
 -- standalone
 INSERT
-INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras, parent_id,
-                tenant_id, created_by, updated_by, created_at, updated_at)
+INTO ncse_sys_menu (id, name, label, slug, type, path, target, icon, perms, hidden, "order", disabled, extras,
+                    parent_id,
+                    tenant_id, created_by, updated_by, created_at, updated_at)
 VALUES
   -- account
   (nanoid(), '我的帐号', 'dropdowns.account.profile.label', 'account-profile', 'account', '/account/profile', null,

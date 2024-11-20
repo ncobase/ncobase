@@ -4,7 +4,7 @@ WITH tenant AS
          (SELECT id, username FROM ncse_sys_user)
 INSERT
 INTO ncse_iam_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by,
-                      created_at, updated_at)
+                          created_at, updated_at)
 VALUES
   -- Account related permissions
   (nanoid(), 'read_account', 'GET', '/v1/account', 'Read account information', false, false, '{}',

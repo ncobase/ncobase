@@ -75,7 +75,7 @@ func (r *ReadGroup) GetCursorValue() string {
 
 // GetSortValue get sort value
 func (r *ReadGroup) GetSortValue(field string) any {
-	switch types.SortField(field) {
+	switch field {
 	case SortByCreatedAt:
 		return types.ToValue(r.CreatedAt)
 	default:
@@ -85,20 +85,20 @@ func (r *ReadGroup) GetSortValue(field string) any {
 
 // FindGroup represents the parameters for finding a group.
 type FindGroup struct {
-	Group    string          `form:"group,omitempty" json:"group,omitempty"`
-	Parent   string          `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant   string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	Children bool            `form:"children,omitempty" json:"children,omitempty"`
-	SortBy   types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Group    string `form:"group,omitempty" json:"group,omitempty"`
+	Parent   string `form:"parent,omitempty" json:"parent,omitempty"`
+	Tenant   string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Children bool   `form:"children,omitempty" json:"children,omitempty"`
+	SortBy   string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
 // ListGroupParams represents the query parameters for listing groups.
 type ListGroupParams struct {
-	Cursor    string          `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int             `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string          `form:"direction,omitempty" json:"direction,omitempty"`
-	Parent    string          `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant    string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	Children  bool            `form:"children,omitempty" json:"children,omitempty"`
-	SortBy    types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
+	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

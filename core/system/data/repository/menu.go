@@ -7,7 +7,6 @@ import (
 	"ncobase/common/data/meili"
 	"ncobase/common/log"
 	"ncobase/common/paging"
-	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
@@ -329,7 +328,7 @@ func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.List
 }
 
 // menuSorting applies the specified sorting to the query builder.
-func menuSorting(builder *ent.MenuQuery, sortBy types.SortField) *ent.MenuQuery {
+func menuSorting(builder *ent.MenuQuery, sortBy string) *ent.MenuQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		return builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
@@ -341,7 +340,7 @@ func menuSorting(builder *ent.MenuQuery, sortBy types.SortField) *ent.MenuQuery 
 }
 
 // menuCondition applies the cursor-based condition to the query builder.
-func menuCondition(builder *ent.MenuQuery, id string, value any, direction string, sortBy types.SortField) *ent.MenuQuery {
+func menuCondition(builder *ent.MenuQuery, id string, value any, direction string, sortBy string) *ent.MenuQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)

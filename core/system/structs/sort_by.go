@@ -1,9 +1,7 @@
 package structs
 
-import "ncobase/common/types"
-
 const (
-	SortByCreatedAt types.SortField = "created_at"
-	SortByOrder     types.SortField = "order"
-	SortByName      types.SortField = "name"
+	SortByCreatedAt string = "created_at"
+	SortByOrder     string = "order"
+	SortByName      string = "name"
 )
