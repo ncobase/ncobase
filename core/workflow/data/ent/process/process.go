@@ -3,8 +3,6 @@
 package process
 
 import (
-	"time"
-
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -177,8 +175,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultStatus holds the default value on creation for the "status" field.
-	DefaultStatus int
 	// DefaultIsDraft holds the default value on creation for the "is_draft" field.
 	DefaultIsDraft bool
 	// DefaultIsTerminated holds the default value on creation for the "is_terminated" field.
@@ -186,7 +182,7 @@ var (
 	// DefaultIsSuspended holds the default value on creation for the "is_suspended" field.
 	DefaultIsSuspended bool
 	// DefaultStartTime holds the default value on creation for the "start_time" field.
-	DefaultStartTime func() time.Time
+	DefaultStartTime func() int64
 	// DefaultPriority holds the default value on creation for the "priority" field.
 	DefaultPriority int
 	// DefaultIsTimeout holds the default value on creation for the "is_timeout" field.

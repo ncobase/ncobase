@@ -3,8 +3,6 @@
 package node
 
 import (
-	"time"
-
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -41,10 +39,8 @@ const (
 	FieldFormPermissions = "form_permissions"
 	// FieldFieldPermissions holds the string denoting the field_permissions field in the database.
 	FieldFieldPermissions = "field_permissions"
-	// FieldAssignee holds the string denoting the assignee field in the database.
-	FieldAssignee = "assignee"
-	// FieldAssigneeDept holds the string denoting the assignee_dept field in the database.
-	FieldAssigneeDept = "assignee_dept"
+	// FieldAssignees holds the string denoting the assignees field in the database.
+	FieldAssignees = "assignees"
 	// FieldCandidates holds the string denoting the candidates field in the database.
 	FieldCandidates = "candidates"
 	// FieldDelegatedFrom holds the string denoting the delegated_from field in the database.
@@ -95,12 +91,18 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
+	// FieldProcessID holds the string denoting the process_id field in the database.
+	FieldProcessID = "process_id"
+	// FieldPermissions holds the string denoting the permissions field in the database.
+	FieldPermissions = "permissions"
 	// FieldPrevNodes holds the string denoting the prev_nodes field in the database.
 	FieldPrevNodes = "prev_nodes"
 	// FieldNextNodes holds the string denoting the next_nodes field in the database.
 	FieldNextNodes = "next_nodes"
 	// FieldParallelNodes holds the string denoting the parallel_nodes field in the database.
 	FieldParallelNodes = "parallel_nodes"
+	// FieldBranchNodes holds the string denoting the branch_nodes field in the database.
+	FieldBranchNodes = "branch_nodes"
 	// FieldConditions holds the string denoting the conditions field in the database.
 	FieldConditions = "conditions"
 	// FieldProperties holds the string denoting the properties field in the database.
@@ -142,8 +144,7 @@ var Columns = []string{
 	FieldFormConfig,
 	FieldFormPermissions,
 	FieldFieldPermissions,
-	FieldAssignee,
-	FieldAssigneeDept,
+	FieldAssignees,
 	FieldCandidates,
 	FieldDelegatedFrom,
 	FieldDelegatedReason,
@@ -169,9 +170,12 @@ var Columns = []string{
 	FieldUpdatedBy,
 	FieldCreatedAt,
 	FieldUpdatedAt,
+	FieldProcessID,
+	FieldPermissions,
 	FieldPrevNodes,
 	FieldNextNodes,
 	FieldParallelNodes,
+	FieldBranchNodes,
 	FieldConditions,
 	FieldProperties,
 	FieldIsCountersign,
@@ -195,8 +199,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultStatus holds the default value on creation for the "status" field.
-	DefaultStatus int
 	// DefaultIsDelegated holds the default value on creation for the "is_delegated" field.
 	DefaultIsDelegated bool
 	// DefaultIsTransferred holds the default value on creation for the "is_transferred" field.
@@ -216,7 +218,7 @@ var (
 	// DefaultStrictMode holds the default value on creation for the "strict_mode" field.
 	DefaultStrictMode bool
 	// DefaultStartTime holds the default value on creation for the "start_time" field.
-	DefaultStartTime func() time.Time
+	DefaultStartTime func() int64
 	// DefaultPriority holds the default value on creation for the "priority" field.
 	DefaultPriority int
 	// DefaultIsTimeout holds the default value on creation for the "is_timeout" field.
@@ -297,16 +299,6 @@ func ByFormCode(opts ...sql.OrderTermOption) OrderOption {
 // ByFormVersion orders the results by the form_version field.
 func ByFormVersion(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldFormVersion, opts...).ToFunc()
-}
-
-// ByAssignee orders the results by the assignee field.
-func ByAssignee(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAssignee, opts...).ToFunc()
-}
-
-// ByAssigneeDept orders the results by the assignee_dept field.
-func ByAssigneeDept(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAssigneeDept, opts...).ToFunc()
 }
 
 // ByDelegatedFrom orders the results by the delegated_from field.
@@ -422,6 +414,11 @@ func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdatedAt orders the results by the updated_at field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
+}
+
+// ByProcessID orders the results by the process_id field.
+func ByProcessID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldProcessID, opts...).ToFunc()
 }
 
 // ByIsCountersign orders the results by the is_countersign field.

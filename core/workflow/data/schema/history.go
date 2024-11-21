@@ -40,8 +40,12 @@ func (History) Mixin() []ent.Mixin {
 
 func (History) Fields() []ent.Field {
 	return []ent.Field{
+		field.String("node_name").Comment("Node name"),
 		field.String("operator").Comment("Operation user"),
 		field.String("operator_dept").Optional().Comment("Operator's department"),
+		field.String("task_id").Optional().Comment("Task ID"),
+		field.JSON("variables", types.JSON{}).Comment("Task variables"),
+		field.JSON("form_data", types.JSON{}).Optional().Comment("Form data"),
 		field.String("action").Comment("Operation action"),
 		field.String("comment").Optional().Comment("Operation comment"),
 		field.JSON("details", types.JSON{}).Optional().Comment("Detailed information"),

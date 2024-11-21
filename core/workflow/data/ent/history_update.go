@@ -232,6 +232,20 @@ func (hu *HistoryUpdate) ClearUpdatedAt() *HistoryUpdate {
 	return hu
 }
 
+// SetNodeName sets the "node_name" field.
+func (hu *HistoryUpdate) SetNodeName(s string) *HistoryUpdate {
+	hu.mutation.SetNodeName(s)
+	return hu
+}
+
+// SetNillableNodeName sets the "node_name" field if the given value is not nil.
+func (hu *HistoryUpdate) SetNillableNodeName(s *string) *HistoryUpdate {
+	if s != nil {
+		hu.SetNodeName(*s)
+	}
+	return hu
+}
+
 // SetOperator sets the "operator" field.
 func (hu *HistoryUpdate) SetOperator(s string) *HistoryUpdate {
 	hu.mutation.SetOperator(s)
@@ -263,6 +277,44 @@ func (hu *HistoryUpdate) SetNillableOperatorDept(s *string) *HistoryUpdate {
 // ClearOperatorDept clears the value of the "operator_dept" field.
 func (hu *HistoryUpdate) ClearOperatorDept() *HistoryUpdate {
 	hu.mutation.ClearOperatorDept()
+	return hu
+}
+
+// SetTaskID sets the "task_id" field.
+func (hu *HistoryUpdate) SetTaskID(s string) *HistoryUpdate {
+	hu.mutation.SetTaskID(s)
+	return hu
+}
+
+// SetNillableTaskID sets the "task_id" field if the given value is not nil.
+func (hu *HistoryUpdate) SetNillableTaskID(s *string) *HistoryUpdate {
+	if s != nil {
+		hu.SetTaskID(*s)
+	}
+	return hu
+}
+
+// ClearTaskID clears the value of the "task_id" field.
+func (hu *HistoryUpdate) ClearTaskID() *HistoryUpdate {
+	hu.mutation.ClearTaskID()
+	return hu
+}
+
+// SetVariables sets the "variables" field.
+func (hu *HistoryUpdate) SetVariables(m map[string]interface{}) *HistoryUpdate {
+	hu.mutation.SetVariables(m)
+	return hu
+}
+
+// SetFormData sets the "form_data" field.
+func (hu *HistoryUpdate) SetFormData(m map[string]interface{}) *HistoryUpdate {
+	hu.mutation.SetFormData(m)
+	return hu
+}
+
+// ClearFormData clears the value of the "form_data" field.
+func (hu *HistoryUpdate) ClearFormData() *HistoryUpdate {
+	hu.mutation.ClearFormData()
 	return hu
 }
 
@@ -454,6 +506,9 @@ func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if hu.mutation.UpdatedAtCleared() {
 		_spec.ClearField(history.FieldUpdatedAt, field.TypeInt64)
 	}
+	if value, ok := hu.mutation.NodeName(); ok {
+		_spec.SetField(history.FieldNodeName, field.TypeString, value)
+	}
 	if value, ok := hu.mutation.Operator(); ok {
 		_spec.SetField(history.FieldOperator, field.TypeString, value)
 	}
@@ -462,6 +517,21 @@ func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if hu.mutation.OperatorDeptCleared() {
 		_spec.ClearField(history.FieldOperatorDept, field.TypeString)
+	}
+	if value, ok := hu.mutation.TaskID(); ok {
+		_spec.SetField(history.FieldTaskID, field.TypeString, value)
+	}
+	if hu.mutation.TaskIDCleared() {
+		_spec.ClearField(history.FieldTaskID, field.TypeString)
+	}
+	if value, ok := hu.mutation.Variables(); ok {
+		_spec.SetField(history.FieldVariables, field.TypeJSON, value)
+	}
+	if value, ok := hu.mutation.FormData(); ok {
+		_spec.SetField(history.FieldFormData, field.TypeJSON, value)
+	}
+	if hu.mutation.FormDataCleared() {
+		_spec.ClearField(history.FieldFormData, field.TypeJSON)
 	}
 	if value, ok := hu.mutation.Action(); ok {
 		_spec.SetField(history.FieldAction, field.TypeString, value)
@@ -703,6 +773,20 @@ func (huo *HistoryUpdateOne) ClearUpdatedAt() *HistoryUpdateOne {
 	return huo
 }
 
+// SetNodeName sets the "node_name" field.
+func (huo *HistoryUpdateOne) SetNodeName(s string) *HistoryUpdateOne {
+	huo.mutation.SetNodeName(s)
+	return huo
+}
+
+// SetNillableNodeName sets the "node_name" field if the given value is not nil.
+func (huo *HistoryUpdateOne) SetNillableNodeName(s *string) *HistoryUpdateOne {
+	if s != nil {
+		huo.SetNodeName(*s)
+	}
+	return huo
+}
+
 // SetOperator sets the "operator" field.
 func (huo *HistoryUpdateOne) SetOperator(s string) *HistoryUpdateOne {
 	huo.mutation.SetOperator(s)
@@ -734,6 +818,44 @@ func (huo *HistoryUpdateOne) SetNillableOperatorDept(s *string) *HistoryUpdateOn
 // ClearOperatorDept clears the value of the "operator_dept" field.
 func (huo *HistoryUpdateOne) ClearOperatorDept() *HistoryUpdateOne {
 	huo.mutation.ClearOperatorDept()
+	return huo
+}
+
+// SetTaskID sets the "task_id" field.
+func (huo *HistoryUpdateOne) SetTaskID(s string) *HistoryUpdateOne {
+	huo.mutation.SetTaskID(s)
+	return huo
+}
+
+// SetNillableTaskID sets the "task_id" field if the given value is not nil.
+func (huo *HistoryUpdateOne) SetNillableTaskID(s *string) *HistoryUpdateOne {
+	if s != nil {
+		huo.SetTaskID(*s)
+	}
+	return huo
+}
+
+// ClearTaskID clears the value of the "task_id" field.
+func (huo *HistoryUpdateOne) ClearTaskID() *HistoryUpdateOne {
+	huo.mutation.ClearTaskID()
+	return huo
+}
+
+// SetVariables sets the "variables" field.
+func (huo *HistoryUpdateOne) SetVariables(m map[string]interface{}) *HistoryUpdateOne {
+	huo.mutation.SetVariables(m)
+	return huo
+}
+
+// SetFormData sets the "form_data" field.
+func (huo *HistoryUpdateOne) SetFormData(m map[string]interface{}) *HistoryUpdateOne {
+	huo.mutation.SetFormData(m)
+	return huo
+}
+
+// ClearFormData clears the value of the "form_data" field.
+func (huo *HistoryUpdateOne) ClearFormData() *HistoryUpdateOne {
+	huo.mutation.ClearFormData()
 	return huo
 }
 
@@ -955,6 +1077,9 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 	if huo.mutation.UpdatedAtCleared() {
 		_spec.ClearField(history.FieldUpdatedAt, field.TypeInt64)
 	}
+	if value, ok := huo.mutation.NodeName(); ok {
+		_spec.SetField(history.FieldNodeName, field.TypeString, value)
+	}
 	if value, ok := huo.mutation.Operator(); ok {
 		_spec.SetField(history.FieldOperator, field.TypeString, value)
 	}
@@ -963,6 +1088,21 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 	}
 	if huo.mutation.OperatorDeptCleared() {
 		_spec.ClearField(history.FieldOperatorDept, field.TypeString)
+	}
+	if value, ok := huo.mutation.TaskID(); ok {
+		_spec.SetField(history.FieldTaskID, field.TypeString, value)
+	}
+	if huo.mutation.TaskIDCleared() {
+		_spec.ClearField(history.FieldTaskID, field.TypeString)
+	}
+	if value, ok := huo.mutation.Variables(); ok {
+		_spec.SetField(history.FieldVariables, field.TypeJSON, value)
+	}
+	if value, ok := huo.mutation.FormData(); ok {
+		_spec.SetField(history.FieldFormData, field.TypeJSON, value)
+	}
+	if huo.mutation.FormDataCleared() {
+		_spec.ClearField(history.FieldFormData, field.TypeJSON)
 	}
 	if value, ok := huo.mutation.Action(); ok {
 		_spec.SetField(history.FieldAction, field.TypeString, value)

@@ -13,7 +13,7 @@ var (
 	NcseFlowBusinessColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "code"},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "status", Type: field.TypeString, Nullable: true, Comment: "Status, text status"},
 		{Name: "form_code", Type: field.TypeString, Comment: "Form type code"},
 		{Name: "form_version", Type: field.TypeString, Nullable: true, Comment: "Form version number"},
 		{Name: "form_config", Type: field.TypeJSON, Nullable: true, Comment: "Form configuration"},
@@ -25,7 +25,7 @@ var (
 		{Name: "origin_data", Type: field.TypeJSON, Comment: "Original form data"},
 		{Name: "current_data", Type: field.TypeJSON, Comment: "Current form data"},
 		{Name: "change_logs", Type: field.TypeJSON, Nullable: true, Comment: "Data change history"},
-		{Name: "last_modified", Type: field.TypeTime, Nullable: true, Comment: "Last modification time"},
+		{Name: "last_modified", Type: field.TypeInt64, Nullable: true, Comment: "Last modification time"},
 		{Name: "last_modifier", Type: field.TypeString, Nullable: true, Comment: "Last modifier"},
 		{Name: "operation_logs", Type: field.TypeJSON, Nullable: true, Comment: "Operation logs"},
 		{Name: "flow_status", Type: field.TypeString, Nullable: true, Comment: "Flow status"},
@@ -87,6 +87,53 @@ var (
 			},
 		},
 	}
+	// NcseFlowDelegationColumns holds the columns for the "ncse_flow_delegation" table.
+	NcseFlowDelegationColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "status", Type: field.TypeString, Nullable: true, Comment: "Status, text status"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "delegator_id", Type: field.TypeString, Comment: "User ID who delegates"},
+		{Name: "delegatee_id", Type: field.TypeString, Comment: "User ID to delegate to"},
+		{Name: "template_id", Type: field.TypeString, Nullable: true, Comment: "Template ID if specific"},
+		{Name: "node_type", Type: field.TypeString, Nullable: true, Comment: "Node type if specific"},
+		{Name: "conditions", Type: field.TypeJSON, Nullable: true, Comment: "Delegation conditions"},
+		{Name: "start_time", Type: field.TypeInt64, Comment: "Delegation start time"},
+		{Name: "end_time", Type: field.TypeInt64, Comment: "Delegation end time"},
+		{Name: "is_enabled", Type: field.TypeBool, Comment: "Whether delegation is enabled", Default: true},
+	}
+	// NcseFlowDelegationTable holds the schema information for the "ncse_flow_delegation" table.
+	NcseFlowDelegationTable = &schema.Table{
+		Name:       "ncse_flow_delegation",
+		Columns:    NcseFlowDelegationColumns,
+		PrimaryKey: []*schema.Column{NcseFlowDelegationColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "delegation_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseFlowDelegationColumns[0]},
+			},
+			{
+				Name:    "delegation_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseFlowDelegationColumns[3]},
+			},
+			{
+				Name:    "delegation_delegator_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseFlowDelegationColumns[8]},
+			},
+			{
+				Name:    "delegation_template_id_node_type",
+				Unique:  false,
+				Columns: []*schema.Column{NcseFlowDelegationColumns[10], NcseFlowDelegationColumns[11]},
+			},
+		},
+	}
 	// NcseFlowHistoryColumns holds the columns for the "ncse_flow_history" table.
 	NcseFlowHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -104,8 +151,12 @@ var (
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "node_name", Type: field.TypeString, Comment: "Node name"},
 		{Name: "operator", Type: field.TypeString, Comment: "Operation user"},
 		{Name: "operator_dept", Type: field.TypeString, Nullable: true, Comment: "Operator's department"},
+		{Name: "task_id", Type: field.TypeString, Nullable: true, Comment: "Task ID"},
+		{Name: "variables", Type: field.TypeJSON, Comment: "Task variables"},
+		{Name: "form_data", Type: field.TypeJSON, Nullable: true, Comment: "Form data"},
 		{Name: "action", Type: field.TypeString, Comment: "Operation action"},
 		{Name: "comment", Type: field.TypeString, Nullable: true, Comment: "Operation comment"},
 		{Name: "details", Type: field.TypeJSON, Nullable: true, Comment: "Detailed information"},
@@ -134,12 +185,12 @@ var (
 			{
 				Name:    "history_operator",
 				Unique:  false,
-				Columns: []*schema.Column{NcseFlowHistoryColumns[15]},
+				Columns: []*schema.Column{NcseFlowHistoryColumns[16]},
 			},
 			{
 				Name:    "history_action",
 				Unique:  false,
-				Columns: []*schema.Column{NcseFlowHistoryColumns[17]},
+				Columns: []*schema.Column{NcseFlowHistoryColumns[21]},
 			},
 		},
 	}
@@ -149,7 +200,7 @@ var (
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "status", Type: field.TypeString, Nullable: true, Comment: "Status, text status"},
 		{Name: "node_key", Type: field.TypeString, Unique: true, Comment: "Unique identifier for the node"},
 		{Name: "node_type", Type: field.TypeString, Comment: "Node type"},
 		{Name: "node_config", Type: field.TypeJSON, Nullable: true, Comment: "Node configuration"},
@@ -160,8 +211,7 @@ var (
 		{Name: "form_config", Type: field.TypeJSON, Nullable: true, Comment: "Form configuration"},
 		{Name: "form_permissions", Type: field.TypeJSON, Nullable: true, Comment: "Form permission settings"},
 		{Name: "field_permissions", Type: field.TypeJSON, Nullable: true, Comment: "Field level permissions"},
-		{Name: "assignee", Type: field.TypeString, Comment: "Task assignee"},
-		{Name: "assignee_dept", Type: field.TypeString, Nullable: true, Comment: "Assignee's department"},
+		{Name: "assignees", Type: field.TypeJSON, Comment: "Task assignees"},
 		{Name: "candidates", Type: field.TypeJSON, Comment: "Candidate assignees"},
 		{Name: "delegated_from", Type: field.TypeString, Nullable: true, Comment: "Delegated from user"},
 		{Name: "delegated_reason", Type: field.TypeString, Nullable: true, Comment: "Delegation reason"},
@@ -174,9 +224,9 @@ var (
 		{Name: "is_draft_enabled", Type: field.TypeBool, Comment: "Whether draft is enabled", Default: true},
 		{Name: "is_auto_start", Type: field.TypeBool, Comment: "Whether auto start is enabled", Default: false},
 		{Name: "strict_mode", Type: field.TypeBool, Comment: "Enable strict mode", Default: false},
-		{Name: "start_time", Type: field.TypeTime, Comment: "Start time"},
-		{Name: "end_time", Type: field.TypeTime, Nullable: true, Comment: "End time"},
-		{Name: "due_time", Type: field.TypeTime, Nullable: true, Comment: "Due time"},
+		{Name: "start_time", Type: field.TypeInt64, Comment: "Start time"},
+		{Name: "end_time", Type: field.TypeInt64, Nullable: true, Comment: "End time"},
+		{Name: "due_time", Type: field.TypeInt64, Nullable: true, Comment: "Due time"},
 		{Name: "duration", Type: field.TypeInt, Nullable: true, Comment: "Duration in seconds"},
 		{Name: "priority", Type: field.TypeInt, Comment: "Priority level", Default: 0},
 		{Name: "is_timeout", Type: field.TypeBool, Comment: "Whether timed out", Default: false},
@@ -187,9 +237,12 @@ var (
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "process_id", Type: field.TypeString, Comment: "Process ID"},
+		{Name: "permissions", Type: field.TypeJSON, Comment: "Permission configs"},
 		{Name: "prev_nodes", Type: field.TypeJSON, Nullable: true, Comment: "Previous nodes"},
 		{Name: "next_nodes", Type: field.TypeJSON, Nullable: true, Comment: "Next nodes"},
 		{Name: "parallel_nodes", Type: field.TypeJSON, Nullable: true, Comment: "Parallel nodes"},
+		{Name: "branch_nodes", Type: field.TypeJSON, Nullable: true, Comment: "Branch nodes"},
 		{Name: "conditions", Type: field.TypeJSON, Nullable: true, Comment: "Transition conditions"},
 		{Name: "properties", Type: field.TypeJSON, Nullable: true, Comment: "Node properties"},
 		{Name: "is_countersign", Type: field.TypeBool, Comment: "Whether requires countersign", Default: false},
@@ -215,7 +268,7 @@ var (
 			{
 				Name:    "node_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseFlowNodeColumns[37]},
+				Columns: []*schema.Column{NcseFlowNodeColumns[36]},
 			},
 			{
 				Name:    "node_node_key",
@@ -232,7 +285,7 @@ var (
 	// NcseFlowProcessColumns holds the columns for the "ncse_flow_process" table.
 	NcseFlowProcessColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "status", Type: field.TypeString, Nullable: true, Comment: "Status, text status"},
 		{Name: "process_id", Type: field.TypeString, Comment: "Process instance ID"},
 		{Name: "template_id", Type: field.TypeString, Comment: "Process template ID"},
 		{Name: "business_key", Type: field.TypeString, Comment: "Business document ID"},
@@ -250,9 +303,9 @@ var (
 		{Name: "is_terminated", Type: field.TypeBool, Comment: "Whether is terminated", Default: false},
 		{Name: "is_suspended", Type: field.TypeBool, Comment: "Whether is suspended", Default: false},
 		{Name: "suspend_reason", Type: field.TypeString, Nullable: true, Comment: "Suspension reason"},
-		{Name: "start_time", Type: field.TypeTime, Comment: "Start time"},
-		{Name: "end_time", Type: field.TypeTime, Nullable: true, Comment: "End time"},
-		{Name: "due_time", Type: field.TypeTime, Nullable: true, Comment: "Due time"},
+		{Name: "start_time", Type: field.TypeInt64, Comment: "Start time"},
+		{Name: "end_time", Type: field.TypeInt64, Nullable: true, Comment: "End time"},
+		{Name: "due_time", Type: field.TypeInt64, Nullable: true, Comment: "Due time"},
 		{Name: "duration", Type: field.TypeInt, Nullable: true, Comment: "Duration in seconds"},
 		{Name: "priority", Type: field.TypeInt, Comment: "Priority level", Default: 0},
 		{Name: "is_timeout", Type: field.TypeBool, Comment: "Whether timed out", Default: false},
@@ -319,12 +372,106 @@ var (
 			},
 		},
 	}
+	// NcseFlowProcessDesignColumns holds the columns for the "ncse_flow_process_design" table.
+	NcseFlowProcessDesignColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "version", Type: field.TypeString, Nullable: true, Comment: "Version"},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "template_id", Type: field.TypeString, Comment: "Template ID"},
+		{Name: "graph_data", Type: field.TypeJSON, Nullable: true, Comment: "Process graph data"},
+		{Name: "node_layouts", Type: field.TypeJSON, Nullable: true, Comment: "Node layout positions"},
+		{Name: "properties", Type: field.TypeJSON, Nullable: true, Comment: "Process design properties"},
+		{Name: "validation_rules", Type: field.TypeJSON, Nullable: true, Comment: "Process validation rules"},
+		{Name: "is_draft", Type: field.TypeBool, Comment: "Whether is draft", Default: false},
+		{Name: "source_version", Type: field.TypeString, Nullable: true, Comment: "Source version"},
+	}
+	// NcseFlowProcessDesignTable holds the schema information for the "ncse_flow_process_design" table.
+	NcseFlowProcessDesignTable = &schema.Table{
+		Name:       "ncse_flow_process_design",
+		Columns:    NcseFlowProcessDesignColumns,
+		PrimaryKey: []*schema.Column{NcseFlowProcessDesignColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "processdesign_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseFlowProcessDesignColumns[0]},
+			},
+			{
+				Name:    "processdesign_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseFlowProcessDesignColumns[4]},
+			},
+			{
+				Name:    "processdesign_template_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseFlowProcessDesignColumns[9]},
+			},
+		},
+	}
+	// NcseFlowRuleColumns holds the columns for the "ncse_flow_rule" table.
+	NcseFlowRuleColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "code"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "status", Type: field.TypeString, Nullable: true, Comment: "Status, text status"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "rule_key", Type: field.TypeString, Unique: true, Comment: "Rule unique key"},
+		{Name: "template_id", Type: field.TypeString, Nullable: true, Comment: "Template ID if template specific"},
+		{Name: "node_key", Type: field.TypeString, Nullable: true, Comment: "Node key if node specific"},
+		{Name: "conditions", Type: field.TypeJSON, Comment: "Rule conditions"},
+		{Name: "actions", Type: field.TypeJSON, Comment: "Rule actions"},
+		{Name: "priority", Type: field.TypeInt, Comment: "Rule priority", Default: 0},
+		{Name: "is_enabled", Type: field.TypeBool, Comment: "Whether rule is enabled", Default: true},
+		{Name: "effective_time", Type: field.TypeInt64, Nullable: true, Comment: "Rule effective time"},
+		{Name: "expire_time", Type: field.TypeInt64, Nullable: true, Comment: "Rule expire time"},
+	}
+	// NcseFlowRuleTable holds the schema information for the "ncse_flow_rule" table.
+	NcseFlowRuleTable = &schema.Table{
+		Name:       "ncse_flow_rule",
+		Columns:    NcseFlowRuleColumns,
+		PrimaryKey: []*schema.Column{NcseFlowRuleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "rule_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseFlowRuleColumns[0]},
+			},
+			{
+				Name:    "rule_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseFlowRuleColumns[7]},
+			},
+			{
+				Name:    "rule_rule_key",
+				Unique:  true,
+				Columns: []*schema.Column{NcseFlowRuleColumns[12]},
+			},
+			{
+				Name:    "rule_template_id_node_key",
+				Unique:  false,
+				Columns: []*schema.Column{NcseFlowRuleColumns[13], NcseFlowRuleColumns[14]},
+			},
+		},
+	}
 	// NcseFlowTaskColumns holds the columns for the "ncse_flow_task" table.
 	NcseFlowTaskColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "status", Type: field.TypeString, Nullable: true, Comment: "Status, text status"},
 		{Name: "process_id", Type: field.TypeString, Comment: "Process instance ID"},
 		{Name: "template_id", Type: field.TypeString, Comment: "Process template ID"},
 		{Name: "business_key", Type: field.TypeString, Comment: "Business document ID"},
@@ -333,16 +480,15 @@ var (
 		{Name: "node_config", Type: field.TypeJSON, Nullable: true, Comment: "Node configuration"},
 		{Name: "node_rules", Type: field.TypeJSON, Nullable: true, Comment: "Node rules"},
 		{Name: "node_events", Type: field.TypeJSON, Nullable: true, Comment: "Node events"},
-		{Name: "assignee", Type: field.TypeString, Comment: "Task assignee"},
-		{Name: "assignee_dept", Type: field.TypeString, Nullable: true, Comment: "Assignee's department"},
+		{Name: "assignees", Type: field.TypeJSON, Comment: "Task assignees"},
 		{Name: "candidates", Type: field.TypeJSON, Comment: "Candidate assignees"},
 		{Name: "delegated_from", Type: field.TypeString, Nullable: true, Comment: "Delegated from user"},
 		{Name: "delegated_reason", Type: field.TypeString, Nullable: true, Comment: "Delegation reason"},
 		{Name: "is_delegated", Type: field.TypeBool, Comment: "Whether task is delegated", Default: false},
 		{Name: "is_transferred", Type: field.TypeBool, Comment: "Whether task is transferred", Default: false},
-		{Name: "start_time", Type: field.TypeTime, Comment: "Start time"},
-		{Name: "end_time", Type: field.TypeTime, Nullable: true, Comment: "End time"},
-		{Name: "due_time", Type: field.TypeTime, Nullable: true, Comment: "Due time"},
+		{Name: "start_time", Type: field.TypeInt64, Comment: "Start time"},
+		{Name: "end_time", Type: field.TypeInt64, Nullable: true, Comment: "End time"},
+		{Name: "due_time", Type: field.TypeInt64, Nullable: true, Comment: "Due time"},
 		{Name: "duration", Type: field.TypeInt, Nullable: true, Comment: "Duration in seconds"},
 		{Name: "priority", Type: field.TypeInt, Comment: "Priority level", Default: 0},
 		{Name: "is_timeout", Type: field.TypeBool, Comment: "Whether timed out", Default: false},
@@ -361,13 +507,15 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "task_key", Type: field.TypeString, Unique: true, Comment: "Task unique identifier"},
+		{Name: "parent_id", Type: field.TypeString, Nullable: true, Comment: "Parent task ID"},
+		{Name: "child_ids", Type: field.TypeJSON, Comment: "Child task IDs"},
 		{Name: "action", Type: field.TypeString, Nullable: true, Comment: "Processing action"},
 		{Name: "comment", Type: field.TypeString, Nullable: true, Comment: "Processing comment"},
 		{Name: "attachments", Type: field.TypeJSON, Nullable: true, Comment: "Attachment information"},
 		{Name: "form_data", Type: field.TypeJSON, Nullable: true, Comment: "Form data"},
 		{Name: "variables", Type: field.TypeJSON, Nullable: true, Comment: "Task variables"},
 		{Name: "is_resubmit", Type: field.TypeBool, Comment: "Whether is resubmitted", Default: false},
-		{Name: "claim_time", Type: field.TypeTime, Nullable: true, Comment: "Claim time"},
+		{Name: "claim_time", Type: field.TypeInt64, Nullable: true, Comment: "Claim time"},
 		{Name: "is_urged", Type: field.TypeBool, Comment: "Whether is urged", Default: false},
 		{Name: "urge_count", Type: field.TypeInt, Comment: "Number of urges", Default: 0},
 	}
@@ -385,22 +533,17 @@ var (
 			{
 				Name:    "task_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseFlowTaskColumns[34]},
+				Columns: []*schema.Column{NcseFlowTaskColumns[33]},
 			},
 			{
 				Name:    "task_task_key",
 				Unique:  true,
-				Columns: []*schema.Column{NcseFlowTaskColumns[39]},
+				Columns: []*schema.Column{NcseFlowTaskColumns[38]},
 			},
 			{
 				Name:    "task_process_id_node_key",
 				Unique:  false,
 				Columns: []*schema.Column{NcseFlowTaskColumns[4], NcseFlowTaskColumns[7]},
-			},
-			{
-				Name:    "task_assignee",
-				Unique:  false,
-				Columns: []*schema.Column{NcseFlowTaskColumns[12]},
 			},
 			{
 				Name:    "task_node_type",
@@ -410,7 +553,7 @@ var (
 			{
 				Name:    "task_due_time",
 				Unique:  false,
-				Columns: []*schema.Column{NcseFlowTaskColumns[21]},
+				Columns: []*schema.Column{NcseFlowTaskColumns[20]},
 			},
 		},
 	}
@@ -422,7 +565,7 @@ var (
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "version", Type: field.TypeString, Nullable: true, Comment: "Version"},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "status", Type: field.TypeString, Nullable: true, Comment: "Status, text status"},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "form_code", Type: field.TypeString, Comment: "Form type code"},
 		{Name: "form_version", Type: field.TypeString, Nullable: true, Comment: "Form version number"},
@@ -462,8 +605,8 @@ var (
 		{Name: "reminder_config", Type: field.TypeJSON, Nullable: true, Comment: "Reminder configuration"},
 		{Name: "source_version", Type: field.TypeString, Nullable: true, Comment: "Source version"},
 		{Name: "is_latest", Type: field.TypeBool, Comment: "Whether is latest version", Default: false},
-		{Name: "effective_time", Type: field.TypeTime, Nullable: true, Comment: "Effective time"},
-		{Name: "expire_time", Type: field.TypeTime, Nullable: true, Comment: "Expire time"},
+		{Name: "effective_time", Type: field.TypeInt64, Nullable: true, Comment: "Effective time"},
+		{Name: "expire_time", Type: field.TypeInt64, Nullable: true, Comment: "Expire time"},
 	}
 	// NcseFlowTemplateTable holds the schema information for the "ncse_flow_template" table.
 	NcseFlowTemplateTable = &schema.Table{
@@ -501,9 +644,12 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		NcseFlowBusinessTable,
+		NcseFlowDelegationTable,
 		NcseFlowHistoryTable,
 		NcseFlowNodeTable,
 		NcseFlowProcessTable,
+		NcseFlowProcessDesignTable,
+		NcseFlowRuleTable,
 		NcseFlowTaskTable,
 		NcseFlowTemplateTable,
 	}
@@ -513,6 +659,9 @@ func init() {
 	NcseFlowBusinessTable.Annotation = &entsql.Annotation{
 		Table: "ncse_flow_business",
 	}
+	NcseFlowDelegationTable.Annotation = &entsql.Annotation{
+		Table: "ncse_flow_delegation",
+	}
 	NcseFlowHistoryTable.Annotation = &entsql.Annotation{
 		Table: "ncse_flow_history",
 	}
@@ -521,6 +670,12 @@ func init() {
 	}
 	NcseFlowProcessTable.Annotation = &entsql.Annotation{
 		Table: "ncse_flow_process",
+	}
+	NcseFlowProcessDesignTable.Annotation = &entsql.Annotation{
+		Table: "ncse_flow_process_design",
+	}
+	NcseFlowRuleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_flow_rule",
 	}
 	NcseFlowTaskTable.Annotation = &entsql.Annotation{
 		Table: "ncse_flow_task",

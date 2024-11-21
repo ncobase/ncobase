@@ -46,10 +46,18 @@ type History struct {
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
 	UpdatedAt int64 `json:"updated_at,omitempty"`
+	// Node name
+	NodeName string `json:"node_name,omitempty"`
 	// Operation user
 	Operator string `json:"operator,omitempty"`
 	// Operator's department
 	OperatorDept string `json:"operator_dept,omitempty"`
+	// Task ID
+	TaskID string `json:"task_id,omitempty"`
+	// Task variables
+	Variables map[string]interface{} `json:"variables,omitempty"`
+	// Form data
+	FormData map[string]interface{} `json:"form_data,omitempty"`
 	// Operation action
 	Action string `json:"action,omitempty"`
 	// Operation comment
@@ -64,11 +72,11 @@ func (*History) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case history.FieldNodeConfig, history.FieldNodeRules, history.FieldNodeEvents, history.FieldDetails:
+		case history.FieldNodeConfig, history.FieldNodeRules, history.FieldNodeEvents, history.FieldVariables, history.FieldFormData, history.FieldDetails:
 			values[i] = new([]byte)
 		case history.FieldCreatedAt, history.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case history.FieldID, history.FieldType, history.FieldProcessID, history.FieldTemplateID, history.FieldBusinessKey, history.FieldNodeKey, history.FieldNodeType, history.FieldTenantID, history.FieldCreatedBy, history.FieldUpdatedBy, history.FieldOperator, history.FieldOperatorDept, history.FieldAction, history.FieldComment:
+		case history.FieldID, history.FieldType, history.FieldProcessID, history.FieldTemplateID, history.FieldBusinessKey, history.FieldNodeKey, history.FieldNodeType, history.FieldTenantID, history.FieldCreatedBy, history.FieldUpdatedBy, history.FieldNodeName, history.FieldOperator, history.FieldOperatorDept, history.FieldTaskID, history.FieldAction, history.FieldComment:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -181,6 +189,12 @@ func (h *History) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				h.UpdatedAt = value.Int64
 			}
+		case history.FieldNodeName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field node_name", values[i])
+			} else if value.Valid {
+				h.NodeName = value.String
+			}
 		case history.FieldOperator:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field operator", values[i])
@@ -192,6 +206,28 @@ func (h *History) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field operator_dept", values[i])
 			} else if value.Valid {
 				h.OperatorDept = value.String
+			}
+		case history.FieldTaskID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field task_id", values[i])
+			} else if value.Valid {
+				h.TaskID = value.String
+			}
+		case history.FieldVariables:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field variables", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &h.Variables); err != nil {
+					return fmt.Errorf("unmarshal field variables: %w", err)
+				}
+			}
+		case history.FieldFormData:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field form_data", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &h.FormData); err != nil {
+					return fmt.Errorf("unmarshal field form_data: %w", err)
+				}
 			}
 		case history.FieldAction:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -291,11 +327,23 @@ func (h *History) String() string {
 	builder.WriteString("updated_at=")
 	builder.WriteString(fmt.Sprintf("%v", h.UpdatedAt))
 	builder.WriteString(", ")
+	builder.WriteString("node_name=")
+	builder.WriteString(h.NodeName)
+	builder.WriteString(", ")
 	builder.WriteString("operator=")
 	builder.WriteString(h.Operator)
 	builder.WriteString(", ")
 	builder.WriteString("operator_dept=")
 	builder.WriteString(h.OperatorDept)
+	builder.WriteString(", ")
+	builder.WriteString("task_id=")
+	builder.WriteString(h.TaskID)
+	builder.WriteString(", ")
+	builder.WriteString("variables=")
+	builder.WriteString(fmt.Sprintf("%v", h.Variables))
+	builder.WriteString(", ")
+	builder.WriteString("form_data=")
+	builder.WriteString(fmt.Sprintf("%v", h.FormData))
 	builder.WriteString(", ")
 	builder.WriteString("action=")
 	builder.WriteString(h.Action)

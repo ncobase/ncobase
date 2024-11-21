@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/business"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -21,8 +20,8 @@ type Business struct {
 	ID string `json:"id,omitempty"`
 	// code
 	Code string `json:"code,omitempty"`
-	// status: 0 activated, 1 unactivated, 2 disabled
-	Status int `json:"status,omitempty"`
+	// Status, text status
+	Status string `json:"status,omitempty"`
 	// Form type code
 	FormCode string `json:"form_code,omitempty"`
 	// Form version number
@@ -46,7 +45,7 @@ type Business struct {
 	// Data change history
 	ChangeLogs []map[string]interface{} `json:"change_logs,omitempty"`
 	// Last modification time
-	LastModified time.Time `json:"last_modified,omitempty"`
+	LastModified int64 `json:"last_modified,omitempty"`
 	// Last modifier
 	LastModifier string `json:"last_modifier,omitempty"`
 	// Operation logs
@@ -64,15 +63,15 @@ type Business struct {
 	// Suspension reason
 	SuspendReason string `json:"suspend_reason,omitempty"`
 	// Business tags
-	BusinessTags []interface{} `json:"business_tags,omitempty"`
+	BusinessTags []string `json:"business_tags,omitempty"`
 	// Module code
 	ModuleCode string `json:"module_code,omitempty"`
 	// Category
 	Category string `json:"category,omitempty"`
 	// Users with view permission
-	Viewers []interface{} `json:"viewers,omitempty"`
+	Viewers []string `json:"viewers,omitempty"`
 	// Users with edit permission
-	Editors []interface{} `json:"editors,omitempty"`
+	Editors []string `json:"editors,omitempty"`
 	// Permission configurations
 	PermissionConfigs map[string]interface{} `json:"permission_configs,omitempty"`
 	// Role configurations
@@ -103,12 +102,10 @@ func (*Business) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case business.FieldIsDraft, business.FieldIsTerminated, business.FieldIsSuspended:
 			values[i] = new(sql.NullBool)
-		case business.FieldStatus, business.FieldCreatedAt, business.FieldUpdatedAt:
+		case business.FieldLastModified, business.FieldCreatedAt, business.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case business.FieldID, business.FieldCode, business.FieldFormCode, business.FieldFormVersion, business.FieldProcessID, business.FieldTemplateID, business.FieldBusinessKey, business.FieldLastModifier, business.FieldFlowStatus, business.FieldSuspendReason, business.FieldModuleCode, business.FieldCategory, business.FieldTenantID, business.FieldCreatedBy, business.FieldUpdatedBy:
+		case business.FieldID, business.FieldCode, business.FieldStatus, business.FieldFormCode, business.FieldFormVersion, business.FieldProcessID, business.FieldTemplateID, business.FieldBusinessKey, business.FieldLastModifier, business.FieldFlowStatus, business.FieldSuspendReason, business.FieldModuleCode, business.FieldCategory, business.FieldTenantID, business.FieldCreatedBy, business.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
-		case business.FieldLastModified:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -137,10 +134,10 @@ func (b *Business) assignValues(columns []string, values []any) error {
 				b.Code = value.String
 			}
 		case business.FieldStatus:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				b.Status = int(value.Int64)
+				b.Status = value.String
 			}
 		case business.FieldFormCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -221,10 +218,10 @@ func (b *Business) assignValues(columns []string, values []any) error {
 				}
 			}
 		case business.FieldLastModified:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field last_modified", values[i])
 			} else if value.Valid {
-				b.LastModified = value.Time
+				b.LastModified = value.Int64
 			}
 		case business.FieldLastModifier:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -416,7 +413,7 @@ func (b *Business) String() string {
 	builder.WriteString(b.Code)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", b.Status))
+	builder.WriteString(b.Status)
 	builder.WriteString(", ")
 	builder.WriteString("form_code=")
 	builder.WriteString(b.FormCode)
@@ -452,7 +449,7 @@ func (b *Business) String() string {
 	builder.WriteString(fmt.Sprintf("%v", b.ChangeLogs))
 	builder.WriteString(", ")
 	builder.WriteString("last_modified=")
-	builder.WriteString(b.LastModified.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", b.LastModified))
 	builder.WriteString(", ")
 	builder.WriteString("last_modifier=")
 	builder.WriteString(b.LastModifier)

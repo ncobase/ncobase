@@ -139,8 +139,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultStatus holds the default value on creation for the "status" field.
-	DefaultStatus int
 	// DefaultIsDraft holds the default value on creation for the "is_draft" field.
 	DefaultIsDraft bool
 	// DefaultIsTerminated holds the default value on creation for the "is_terminated" field.

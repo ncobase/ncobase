@@ -7,25 +7,33 @@ import (
 
 // NodeBody represents a node entity base fields
 type NodeBody struct {
-	Name           string         `json:"name,omitempty"`
-	Type           string         `json:"type,omitempty"`
-	Description    string         `json:"description,omitempty"`
-	Status         string         `json:"status,omitempty"`
-	NodeKey        string         `json:"node_key,omitempty"`
-	ProcessID      string         `json:"process_id,omitempty"`
-	PrevNodes      []string       `json:"prev_nodes,omitempty"`
-	NextNodes      []string       `json:"next_nodes,omitempty"`
-	ParallelNodes  []string       `json:"parallel_nodes,omitempty"`
-	Conditions     []any          `json:"conditions,omitempty"`
-	Properties     map[string]any `json:"properties,omitempty"`
-	FormConfig     map[string]any `json:"form_config,omitempty"`
-	Permissions    map[string]any `json:"permissions,omitempty"`
-	AssigneeConfig map[string]any `json:"assignee_config,omitempty"`
-	Handlers       map[string]any `json:"handlers,omitempty"`
-	RetryTimes     int            `json:"retry_times,omitempty"`
-	RetryInterval  int            `json:"retry_interval,omitempty"`
-	IsWorkingDay   bool           `json:"is_working_day,omitempty"`
-	Extras         map[string]any `json:"extras,omitempty"`
+	Name             string            `json:"name,omitempty"`
+	Type             string            `json:"type,omitempty"`
+	Required         bool              `json:"required,omitempty"`
+	Skippable        bool              `json:"skippable,omitempty"`
+	BranchConditions types.JSONArray   `json:"branch_conditions,omitempty"`
+	DefaultBranch    string            `json:"default_branch,omitempty"`
+	Description      string            `json:"description,omitempty"`
+	Status           string            `json:"status,omitempty"`
+	NodeKey          string            `json:"node_key,omitempty"`
+	ProcessID        string            `json:"process_id,omitempty"`
+	PrevNodes        types.StringArray `json:"prev_nodes,omitempty"`
+	NextNodes        types.StringArray `json:"next_nodes,omitempty"`
+	ParallelNodes    types.StringArray `json:"parallel_nodes,omitempty"`
+	BranchNodes      types.StringArray `json:"branch_nodes,omitempty"`
+	Conditions       types.JSONArray   `json:"conditions,omitempty"`
+	Properties       types.JSON        `json:"properties,omitempty"`
+	FormConfig       types.JSON        `json:"form_config,omitempty"`
+	Permissions      types.JSON        `json:"permissions,omitempty"`
+	Assignees        types.JSON        `json:"assignees,omitempty"`
+	Handlers         types.JSON        `json:"handlers,omitempty"`
+	RetryTimes       int               `json:"retry_times,omitempty"`
+	RetryInterval    int               `json:"retry_interval,omitempty"`
+	IsWorkingDay     bool              `json:"is_working_day,omitempty"`
+	TimeoutConfig    types.JSON        `json:"timeout_config,omitempty"`
+	TimeoutDuration  int               `json:"timeout_duration,omitempty"`
+	TenantID         string            `json:"tenant_id,omitempty"`
+	Extras           types.JSON        `json:"extras,omitempty"`
 }
 
 // CreateNodeBody represents the body for creating node
@@ -42,13 +50,38 @@ type UpdateNodeBody struct {
 
 // ReadNode represents the output schema for retrieving node
 type ReadNode struct {
-	ID string `json:"id"`
-	NodeBody
-	TenantID  string  `json:"tenant_id,omitempty"`
-	CreatedBy *string `json:"created_by,omitempty"`
-	CreatedAt *int64  `json:"created_at,omitempty"`
-	UpdatedBy *string `json:"updated_by,omitempty"`
-	UpdatedAt *int64  `json:"updated_at,omitempty"`
+	ID               string            `json:"id"`
+	Name             string            `json:"name,omitempty"`
+	Type             string            `json:"type,omitempty"`
+	Required         bool              `json:"required,omitempty"`
+	Skippable        bool              `json:"skippable,omitempty"`
+	BranchConditions types.JSONArray   `json:"branch_conditions,omitempty"`
+	DefaultBranch    string            `json:"default_branch,omitempty"`
+	Description      string            `json:"description,omitempty"`
+	Status           string            `json:"status,omitempty"`
+	NodeKey          string            `json:"node_key,omitempty"`
+	ProcessID        string            `json:"process_id,omitempty"`
+	PrevNodes        types.StringArray `json:"prev_nodes,omitempty"`
+	NextNodes        types.StringArray `json:"next_nodes,omitempty"`
+	ParallelNodes    types.StringArray `json:"parallel_nodes,omitempty"`
+	BranchNodes      types.StringArray `json:"branch_nodes,omitempty"`
+	Conditions       types.JSONArray   `json:"conditions,omitempty"`
+	Properties       types.JSON        `json:"properties,omitempty"`
+	FormConfig       types.JSON        `json:"form_config,omitempty"`
+	Permissions      types.JSON        `json:"permissions,omitempty"`
+	Assignees        types.JSONArray   `json:"assignees,omitempty"`
+	Handlers         types.JSON        `json:"handlers,omitempty"`
+	RetryTimes       int               `json:"retry_times,omitempty"`
+	RetryInterval    int               `json:"retry_interval,omitempty"`
+	IsWorkingDay     bool              `json:"is_working_day,omitempty"`
+	TimeoutConfig    types.JSON        `json:"timeout_config,omitempty"`
+	TimeoutDuration  int               `json:"timeout_duration,omitempty"`
+	TenantID         string            `json:"tenant_id,omitempty"`
+	Extras           types.JSON        `json:"extras,omitempty"`
+	CreatedBy        *string           `json:"created_by,omitempty"`
+	CreatedAt        *int64            `json:"created_at,omitempty"`
+	UpdatedBy        *string           `json:"updated_by,omitempty"`
+	UpdatedAt        *int64            `json:"updated_at,omitempty"`
 }
 
 // GetID returns the ID of the node
@@ -63,7 +96,7 @@ func (r *ReadNode) GetCursorValue() string {
 
 // GetSortValue get sort value
 func (r *ReadNode) GetSortValue(field string) any {
-	switch types.SortField(field) {
+	switch field {
 	case SortByCreatedAt:
 		return types.ToValue(r.CreatedAt)
 	case SortByName:
@@ -75,23 +108,23 @@ func (r *ReadNode) GetSortValue(field string) any {
 
 // FindNodeParams represents query parameters for finding nodes
 type FindNodeParams struct {
-	ProcessID string          `form:"process_id,omitempty" json:"process_id,omitempty"`
-	Type      string          `form:"type,omitempty" json:"type,omitempty"`
-	Status    string          `form:"status,omitempty" json:"status,omitempty"`
-	NodeKey   string          `form:"node_key,omitempty" json:"node_key,omitempty"`
-	Name      string          `form:"name,omitempty" json:"name,omitempty"`
-	Tenant    string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy    types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	ProcessID string `form:"process_id,omitempty" json:"process_id,omitempty"`
+	Type      string `form:"type,omitempty" json:"type,omitempty"`
+	Status    string `form:"status,omitempty" json:"status,omitempty"`
+	NodeKey   string `form:"node_key,omitempty" json:"node_key,omitempty"`
+	Name      string `form:"name,omitempty" json:"name,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
 // ListNodeParams represents list parameters for nodes
 type ListNodeParams struct {
-	Cursor    string          `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int             `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string          `form:"direction,omitempty" json:"direction,omitempty"`
-	ProcessID string          `form:"process_id,omitempty" json:"process_id,omitempty"`
-	Type      string          `form:"type,omitempty" json:"type,omitempty"`
-	Status    string          `form:"status,omitempty" json:"status,omitempty"`
-	Tenant    string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy    types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	ProcessID string `form:"process_id,omitempty" json:"process_id,omitempty"`
+	Type      string `form:"type,omitempty" json:"type,omitempty"`
+	Status    string `form:"status,omitempty" json:"status,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

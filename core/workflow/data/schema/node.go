@@ -32,7 +32,7 @@ func (Node) Mixin() []ent.Mixin {
 		mixin.Name,
 		mixin.Description,
 		mixin.Type,
-		mixin.Status,
+		mixin.TextStatus,
 		mixin.NodeBaseMixin{},
 		mixin.FormBaseMixin{},
 		mixin.TaskAssigneeMixin{},
@@ -47,13 +47,16 @@ func (Node) Mixin() []ent.Mixin {
 
 func (Node) Fields() []ent.Field {
 	return []ent.Field{
+		field.String("process_id").Comment("Process ID"),
+		field.JSON("permissions", types.JSON{}).Comment("Permission configs"),
 		// Node relationships
-		field.JSON("prev_nodes", types.Array{}).Optional().Comment("Previous nodes"),
-		field.JSON("next_nodes", types.Array{}).Optional().Comment("Next nodes"),
-		field.JSON("parallel_nodes", types.Array{}).Optional().Comment("Parallel nodes"),
+		field.JSON("prev_nodes", types.StringArray{}).Optional().Comment("Previous nodes"),
+		field.JSON("next_nodes", types.StringArray{}).Optional().Comment("Next nodes"),
+		field.JSON("parallel_nodes", types.StringArray{}).Optional().Comment("Parallel nodes"),
+		field.JSON("branch_nodes", types.StringArray{}).Optional().Comment("Branch nodes"),
 
 		// Node specific configs
-		field.JSON("conditions", types.Array{}).Optional().Comment("Transition conditions"),
+		field.JSON("conditions", types.JSONArray{}).Optional().Comment("Transition conditions"),
 		field.JSON("properties", types.JSON{}).Optional().Comment("Node properties"),
 		field.Bool("is_countersign").Default(false).Comment("Whether requires countersign"),
 		field.String("countersign_rule").Optional().Comment("Countersign rules"),

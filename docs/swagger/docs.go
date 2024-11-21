@@ -475,6 +475,3740 @@ const docTemplate = `{
                 }
             }
         },
+        "/flow/delegations": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List delegation rules with pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "List delegations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "delegator_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_enabled",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "node_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "template_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadDelegation"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new delegation rule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create delegation",
+                "parameters": [
+                    {
+                        "description": "Delegation creation body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.DelegationBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDelegation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/delegations/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get delegation rule details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get delegation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Delegation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDelegation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update delegation rule details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Update delegation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Delegation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Delegation update body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateDelegationBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDelegation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a delegation rule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Delete delegation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Delegation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/delegations/{id}/disable": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Disable a delegation rule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Disable delegation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Delegation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/delegations/{id}/enable": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Enable a delegation rule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Enable delegation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Delegation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/histories": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List history records with pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "List histories",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operator",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "process_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "task_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadHistory"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new history record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create history",
+                "parameters": [
+                    {
+                        "description": "History creation body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.HistoryBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadHistory"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/histories/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get history record details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get history",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "History ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadHistory"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/nodes": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List workflow nodes with pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "List nodes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "process_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadNode"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new workflow node",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create node",
+                "parameters": [
+                    {
+                        "description": "Node creation body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.NodeBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadNode"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/nodes/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get workflow node details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get node",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Node Key",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadNode"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update workflow node details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Update node",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Node ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Node update body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateNodeBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadNode"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a workflow node",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Delete node",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Node Key",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/nodes/{id}/rules": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all rules associated with a node",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get node rules",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Node Key",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadRule"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/nodes/{id}/status": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update workflow node status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Update node status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Node ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "New Status",
+                        "name": "status",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/nodes/{id}/tasks": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all tasks associated with a node",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get node tasks",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Node Key",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadTask"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/nodes/{id}/validate": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Validate configuration of a workflow node",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Validate node config",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Node ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/operators/{operator}/histories": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get complete history of operations by an operator",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get operator history",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Operator ID",
+                        "name": "operator",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadHistory"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/process-designs": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List process designs with pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "List process designs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_draft",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "template_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadProcessDesign"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new process design",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create process design",
+                "parameters": [
+                    {
+                        "description": "Process design creation body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.ProcessDesignBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadProcessDesign"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/process-designs/validate": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Validate process design structure and rules",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Validate design",
+                "parameters": [
+                    {
+                        "description": "Process design data",
+                        "name": "design",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/process-designs/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get process design details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get process design",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Design ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadProcessDesign"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update process design details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Update process design",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Design ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Process design update body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateProcessDesignBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadProcessDesign"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a process design",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Delete process design",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Design ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/process-designs/{id}/drafts": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Save process design as draft",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Save design draft",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Design ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Process design data",
+                        "name": "design",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/process-designs/{id}/export": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Export process design to file",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Export design",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Design ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/process-designs/{id}/publish": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Publish process design draft as official version",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Publish design draft",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Design ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List process instances with pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "List processes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "initiator",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "priority",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadProcess"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new process instance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create process",
+                "parameters": [
+                    {
+                        "description": "Process creation body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.ProcessBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadProcess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/start": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Start a new process instance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Start process",
+                "parameters": [
+                    {
+                        "description": "Process start request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.StartProcessRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.StartProcessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get process instance details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get process",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Key",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadProcess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update process instance details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Update process",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Process update body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateProcessBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadProcess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete process instance",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Delete process",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Key",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/{id}/complete": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Complete a process instance",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Complete process",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/{id}/resume": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Resume a suspended process instance",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Resume process",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/{id}/suspend": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Suspend a process instance",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Suspend process",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Suspension reason",
+                        "name": "reason",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/{id}/terminate": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Terminate a process instance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Terminate process",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Process termination request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.TerminateProcessRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/{process_id}/evaluate-rules": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Evaluate rules for a process instance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Evaluate rules",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "process_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Data for rule evaluation",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/{process_id}/histories": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get complete history of a process instance",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get process history",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "process_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadHistory"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/processes/{process_id}/nodes": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all nodes of a process instance",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get process nodes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "process_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadNode"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/rules": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List workflow rules with pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "List rules",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_enabled",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "node_key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "template_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadRule"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new workflow rule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create rule",
+                "parameters": [
+                    {
+                        "description": "Rule creation body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.RuleBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/rules/active": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get active rules for template or node",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get active rules",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "template_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Node Key",
+                        "name": "node_key",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadRule"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/rules/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get workflow rule details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Rule Key",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update workflow rule details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Update rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Rule update body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateRuleBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a workflow rule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Delete rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/rules/{id}/disable": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Disable a workflow rule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Disable rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/rules/{id}/enable": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Enable a workflow rule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Enable rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/rules/{id}/validate": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Validate a workflow rule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Validate rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List tasks with pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "List tasks",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_timeout",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "node_key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "node_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "priority",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "process_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadTask"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create task",
+                "parameters": [
+                    {
+                        "description": "Task creation body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.TaskBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTask"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get task details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTask"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update task details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Update task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Task update body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateTaskBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTask"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a task",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Delete task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{id}/claim": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Claim an unassigned task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Claim task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Task assignees",
+                        "name": "assignees",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_common_types.JSON"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{id}/complete": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Complete a task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Complete task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Task completion request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CompleteTaskRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.CompleteTaskResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{id}/delegate": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delegate a task to another user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Delegate task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Task delegation request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.DelegateTaskRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{id}/transfer": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Transfer a task to another user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Transfer task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Task transfer request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.TransferTaskRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{id}/urge": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Send urge request for a task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Urge task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Task urge request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UrgeTaskRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{id}/withdraw": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Withdraw a completed task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Withdraw task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Task withdrawal request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.WithdrawTaskRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{task_id}/check-delegation": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if task can be delegated to user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Check delegation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "task_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Assignee ID",
+                        "name": "assignee_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delegatee ID if delegation exists",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/tasks/{task_id}/histories": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get complete history of a task",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get task history",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task ID",
+                        "name": "task_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadHistory"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List workflow templates with pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "List templates",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "form_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_latest",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "module_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadTemplate"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new workflow template",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create template",
+                "parameters": [
+                    {
+                        "description": "Template creation body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.TemplateBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTemplate"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get workflow template details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTemplate"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update workflow template details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Update template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Template update body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateTemplateBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTemplate"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a workflow template",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Delete template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{id}/designs": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get process designs associated with a template",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get template designs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadProcessDesign"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{id}/disable": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Disable a workflow template",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Disable template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{id}/enable": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Enable a workflow template",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Enable template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{id}/rules": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get rules associated with a template",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get template rules",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadRule"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{id}/validate": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Validate a workflow template",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Validate template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{id}/versions": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new version of existing template",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Create template version",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "New Version",
+                        "name": "version",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTemplate"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{id}/versions/latest": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Set a template version as the latest version",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Set latest version",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/templates/{template_id}/designs/import": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Import process design from file",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Import design",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "template_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Process design file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/flow/users/{user_id}/delegations": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get active delegations for a user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flow"
+                ],
+                "summary": "Get active delegations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadDelegation"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_common_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/iam/account": {
             "get": {
                 "security": [
@@ -5230,6 +8964,60 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ActionType": {
+            "type": "string",
+            "enum": [
+                "submit",
+                "save",
+                "revoke",
+                "reassign",
+                "addSign",
+                "remind",
+                "approve",
+                "reject",
+                "delegate",
+                "transfer",
+                "withdraw",
+                "terminate",
+                "suspend",
+                "resume",
+                "urge"
+            ],
+            "x-enum-comments": {
+                "ActionAddSign": "Add countersign",
+                "ActionApprove": "Approve",
+                "ActionDelegate": "Delegate",
+                "ActionReassign": "Reassign task",
+                "ActionReject": "Reject",
+                "ActionRemind": "Send reminder",
+                "ActionResume": "Resume",
+                "ActionRevoke": "Revoke approval",
+                "ActionSave": "Save draft",
+                "ActionSubmit": "Submit form",
+                "ActionSuspend": "Suspend",
+                "ActionTerminate": "Terminate",
+                "ActionTransfer": "Transfer",
+                "ActionUrge": "Urge",
+                "ActionWithdraw": "Withdraw"
+            },
+            "x-enum-varnames": [
+                "ActionSubmit",
+                "ActionSave",
+                "ActionRevoke",
+                "ActionReassign",
+                "ActionAddSign",
+                "ActionRemind",
+                "ActionApprove",
+                "ActionReject",
+                "ActionDelegate",
+                "ActionTransfer",
+                "ActionWithdraw",
+                "ActionTerminate",
+                "ActionSuspend",
+                "ActionResume",
+                "ActionUrge"
+            ]
+        },
         "structs.Captcha": {
             "type": "object",
             "required": [
@@ -5301,6 +9089,60 @@ const docTemplate = `{
                 },
                 "type": {
                     "description": "public/private/direct",
+                    "type": "string"
+                }
+            }
+        },
+        "structs.CompleteTaskRequest": {
+            "type": "object",
+            "required": [
+                "action",
+                "operator",
+                "task_id"
+            ],
+            "properties": {
+                "action": {
+                    "$ref": "#/definitions/structs.ActionType"
+                },
+                "attachments": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
+        "structs.CompleteTaskResponse": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "$ref": "#/definitions/structs.ActionType"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "next_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "task_id": {
                     "type": "string"
                 }
             }
@@ -5592,6 +9434,69 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.DelegateTaskRequest": {
+            "type": "object",
+            "required": [
+                "delegate",
+                "delegator",
+                "task_id"
+            ],
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "delegate": {
+                    "type": "string"
+                },
+                "delegator": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.DelegationBody": {
+            "type": "object",
+            "properties": {
+                "conditions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "delegatee_id": {
+                    "type": "string"
+                },
+                "delegator_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "is_enabled": {
+                    "type": "boolean"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.DictionaryBody": {
             "type": "object",
             "properties": {
@@ -5673,6 +9578,59 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.HistoryBody": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "details": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_id": {
+                    "type": "string"
+                },
+                "node_name": {
+                    "type": "string"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "operator_dept": {
+                    "type": "string"
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
         "structs.LoginBody": {
             "type": "object",
             "required": [
@@ -5744,6 +9702,110 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.NodeBody": {
+            "type": "object",
+            "properties": {
+                "assignees": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "branch_conditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "branch_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "conditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "default_branch": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "handlers": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "is_working_day": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "next_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "parallel_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "permissions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "prev_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "properties": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "retry_interval": {
+                    "type": "integer"
+                },
+                "retry_times": {
+                    "type": "integer"
+                },
+                "skippable": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "timeout_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "timeout_duration": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.NotificationBody": {
             "type": "object",
             "properties": {
@@ -5789,6 +9851,160 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.PriorityStrategy": {
+            "type": "integer",
+            "enum": [
+                0,
+                5,
+                10,
+                15
+            ],
+            "x-enum-varnames": [
+                "PriorityLow",
+                "PriorityNormal",
+                "PriorityHigh",
+                "PriorityUrgent"
+            ]
+        },
+        "structs.ProcessBody": {
+            "type": "object",
+            "properties": {
+                "active_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allow_cancel": {
+                    "type": "boolean"
+                },
+                "allow_urge": {
+                    "type": "boolean"
+                },
+                "business_key": {
+                    "type": "string"
+                },
+                "callbacks": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "current_node": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "end_node_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "flow_status": {
+                    "type": "string"
+                },
+                "form_code": {
+                    "type": "string"
+                },
+                "initiator": {
+                    "type": "string"
+                },
+                "initiator_dept": {
+                    "type": "string"
+                },
+                "is_suspended": {
+                    "type": "boolean"
+                },
+                "max_duration": {
+                    "type": "integer"
+                },
+                "module_code": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "process_code": {
+                    "type": "string"
+                },
+                "process_key": {
+                    "type": "string"
+                },
+                "retryable": {
+                    "type": "boolean"
+                },
+                "start_node_id": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "suspend_reason": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "urge_count": {
+                    "type": "integer"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
+        "structs.ProcessDesignBody": {
+            "type": "object",
+            "properties": {
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "graph_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "is_draft": {
+                    "type": "boolean"
+                },
+                "node_layouts": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "properties": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "source_version": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "validation_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "version": {
                     "type": "string"
                 }
             }
@@ -5966,6 +10182,59 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadDelegation": {
+            "type": "object",
+            "properties": {
+                "conditions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "delegatee_id": {
+                    "type": "string"
+                },
+                "delegator_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_enabled": {
+                    "type": "boolean"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.ReadDictionary": {
             "type": "object",
             "properties": {
@@ -6075,6 +10344,74 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadHistory": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "details": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "node_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_id": {
+                    "type": "string"
+                },
+                "node_name": {
+                    "type": "string"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "operator_dept": {
+                    "type": "string"
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
         "structs.ReadMenu": {
             "type": "object",
             "properties": {
@@ -6129,6 +10466,128 @@ const docTemplate = `{
                 },
                 "tenant_id": {
                     "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.ReadNode": {
+            "type": "object",
+            "properties": {
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "branch_conditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "branch_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "conditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "default_branch": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "handlers": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_working_day": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "next_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "parallel_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "permissions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "prev_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "properties": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "retry_interval": {
+                    "type": "integer"
+                },
+                "retry_times": {
+                    "type": "integer"
+                },
+                "skippable": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "timeout_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "timeout_duration": {
+                    "type": "integer"
                 },
                 "type": {
                     "type": "string"
@@ -6255,6 +10714,175 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadProcess": {
+            "type": "object",
+            "properties": {
+                "active_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allow_cancel": {
+                    "type": "boolean"
+                },
+                "allow_urge": {
+                    "type": "boolean"
+                },
+                "business_key": {
+                    "type": "string"
+                },
+                "callbacks": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "current_node": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "end_node_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "flow_status": {
+                    "type": "string"
+                },
+                "form_code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "initiator": {
+                    "type": "string"
+                },
+                "initiator_dept": {
+                    "type": "string"
+                },
+                "is_suspended": {
+                    "type": "boolean"
+                },
+                "max_duration": {
+                    "type": "integer"
+                },
+                "module_code": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "process_code": {
+                    "type": "string"
+                },
+                "process_key": {
+                    "type": "string"
+                },
+                "retryable": {
+                    "type": "boolean"
+                },
+                "start_node_id": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "suspend_reason": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "urge_count": {
+                    "type": "integer"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
+        "structs.ReadProcessDesign": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "graph_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_draft": {
+                    "type": "boolean"
+                },
+                "node_layouts": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "properties": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "source_version": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "validation_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.ReadRole": {
             "type": "object",
             "properties": {
@@ -6290,6 +10918,74 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadRule": {
+            "type": "object",
+            "properties": {
+                "actions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "conditions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effective_time": {
+                    "type": "integer"
+                },
+                "expire_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_enabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "rule_key": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.ReadSubscription": {
             "type": "object",
             "properties": {
@@ -6310,6 +11006,143 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.ReadTask": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "allowed_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "assign_strategy": {
+                    "type": "string"
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "candidates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "category": {
+                    "type": "string"
+                },
+                "claim_time": {
+                    "type": "integer"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "delegated_from": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "due_time": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_delegated": {
+                    "type": "boolean"
+                },
+                "is_resubmit": {
+                    "type": "boolean"
+                },
+                "is_timeout": {
+                    "type": "boolean"
+                },
+                "is_transferred": {
+                    "type": "boolean"
+                },
+                "is_urged": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "parent_task_id": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "restrictions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "sub_tasks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "task_key": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "urge_count": {
+                    "type": "integer"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "weight": {
+                    "$ref": "#/definitions/structs.PriorityStrategy"
                 }
             }
         },
@@ -6376,6 +11209,134 @@ const docTemplate = `{
                 },
                 "url": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.ReadTemplate": {
+            "type": "object",
+            "properties": {
+                "allow_cancel": {
+                    "type": "boolean"
+                },
+                "allow_delegate": {
+                    "type": "boolean"
+                },
+                "allow_transfer": {
+                    "type": "boolean"
+                },
+                "allow_urge": {
+                    "type": "boolean"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "default_title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "effective_time": {
+                    "type": "integer"
+                },
+                "expire_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_code": {
+                    "type": "string"
+                },
+                "form_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_permissions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_auto_start": {
+                    "type": "boolean"
+                },
+                "is_draft_enabled": {
+                    "type": "boolean"
+                },
+                "is_latest": {
+                    "type": "boolean"
+                },
+                "module_code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_events": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "permission_configs": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "process_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "reminder_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "role_configs": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "source_version": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "strict_mode": {
+                    "type": "boolean"
+                },
+                "template_key": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "timeout_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "visible_range": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 }
             }
         },
@@ -6586,6 +11547,59 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.RuleBody": {
+            "type": "object",
+            "properties": {
+                "actions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "conditions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effective_time": {
+                    "type": "integer"
+                },
+                "expire_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "is_enabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "rule_key": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.SendCodeBody": {
             "type": "object",
             "properties": {
@@ -6596,6 +11610,114 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "structs.StartProcessRequest": {
+            "type": "object",
+            "required": [
+                "business_key",
+                "initiator",
+                "template_id"
+            ],
+            "properties": {
+                "business_key": {
+                    "type": "string"
+                },
+                "form_code": {
+                    "type": "string"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "initiator": {
+                    "type": "string"
+                },
+                "initiator_dept": {
+                    "type": "string"
+                },
+                "module_code": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
+        "structs.StartProcessResponse": {
+            "type": "object",
+            "properties": {
+                "process_id": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.Status"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
+        "structs.Status": {
+            "type": "string",
+            "enum": [
+                "draft",
+                "ready",
+                "active",
+                "pending",
+                "suspended",
+                "processing",
+                "completed",
+                "compensated",
+                "rejected",
+                "cancelled",
+                "terminated",
+                "rollbacked",
+                "withdrawn",
+                "error"
+            ],
+            "x-enum-comments": {
+                "StatusActive": "Active",
+                "StatusCancelled": "Cancelled",
+                "StatusCompensated": "Compensated",
+                "StatusCompleted": "Completed",
+                "StatusDraft": "Draft",
+                "StatusError": "Error",
+                "StatusPending": "Pending",
+                "StatusProcessing": "Processing",
+                "StatusReady": "Ready",
+                "StatusRejected": "Rejected",
+                "StatusRollbacked": "Rollbacked",
+                "StatusSuspended": "Suspended",
+                "StatusTerminated": "Terminated",
+                "StatusWithdrawn": "Withdrawn"
+            },
+            "x-enum-varnames": [
+                "StatusDraft",
+                "StatusReady",
+                "StatusActive",
+                "StatusPending",
+                "StatusSuspended",
+                "StatusProcessing",
+                "StatusCompleted",
+                "StatusCompensated",
+                "StatusRejected",
+                "StatusCancelled",
+                "StatusTerminated",
+                "StatusRollbacked",
+                "StatusWithdrawn",
+                "StatusError"
+            ]
         },
         "structs.SubscriptionBody": {
             "type": "object",
@@ -6608,6 +11730,287 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.TaskBody": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "allowed_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "assign_strategy": {
+                    "type": "string"
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "candidates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "category": {
+                    "type": "string"
+                },
+                "claim_time": {
+                    "type": "integer"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "delegated_from": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "due_time": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "is_delegated": {
+                    "type": "boolean"
+                },
+                "is_resubmit": {
+                    "type": "boolean"
+                },
+                "is_timeout": {
+                    "type": "boolean"
+                },
+                "is_transferred": {
+                    "type": "boolean"
+                },
+                "is_urged": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "parent_task_id": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "restrictions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "sub_tasks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "task_key": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "urge_count": {
+                    "type": "integer"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "weight": {
+                    "$ref": "#/definitions/structs.PriorityStrategy"
+                }
+            }
+        },
+        "structs.TemplateBody": {
+            "type": "object",
+            "properties": {
+                "allow_cancel": {
+                    "type": "boolean"
+                },
+                "allow_delegate": {
+                    "type": "boolean"
+                },
+                "allow_transfer": {
+                    "type": "boolean"
+                },
+                "allow_urge": {
+                    "type": "boolean"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "default_title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "effective_time": {
+                    "type": "integer"
+                },
+                "expire_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_code": {
+                    "type": "string"
+                },
+                "form_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_permissions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "is_auto_start": {
+                    "type": "boolean"
+                },
+                "is_draft_enabled": {
+                    "type": "boolean"
+                },
+                "is_latest": {
+                    "type": "boolean"
+                },
+                "module_code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_events": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "permission_configs": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "process_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "reminder_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "role_configs": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "source_version": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "strict_mode": {
+                    "type": "boolean"
+                },
+                "template_key": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "timeout_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "visible_range": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
+        "structs.TerminateProcessRequest": {
+            "type": "object",
+            "required": [
+                "operator",
+                "process_id"
+            ],
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.TransferTaskRequest": {
+            "type": "object",
+            "required": [
+                "task_id",
+                "transferee",
+                "transferor"
+            ],
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                },
+                "transferee": {
+                    "type": "string"
+                },
+                "transferor": {
                     "type": "string"
                 }
             }
@@ -6710,6 +12113,47 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateDelegationBody": {
+            "type": "object",
+            "properties": {
+                "conditions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "delegatee_id": {
+                    "type": "string"
+                },
+                "delegator_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_enabled": {
+                    "type": "boolean"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
                     "type": "string"
                 }
             }
@@ -6840,6 +12284,113 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.UpdateNodeBody": {
+            "type": "object",
+            "properties": {
+                "assignees": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "branch_conditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "branch_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "conditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "default_branch": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "handlers": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_working_day": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "next_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "parallel_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "permissions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "prev_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "properties": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "retry_interval": {
+                    "type": "integer"
+                },
+                "retry_times": {
+                    "type": "integer"
+                },
+                "skippable": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "timeout_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "timeout_duration": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.UpdateNotification": {
             "type": "object",
             "properties": {
@@ -6871,6 +12422,332 @@ const docTemplate = `{
                 },
                 "value": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.UpdateProcessBody": {
+            "type": "object",
+            "properties": {
+                "active_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allow_cancel": {
+                    "type": "boolean"
+                },
+                "allow_urge": {
+                    "type": "boolean"
+                },
+                "business_key": {
+                    "type": "string"
+                },
+                "callbacks": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "current_node": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "end_node_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "flow_status": {
+                    "type": "string"
+                },
+                "form_code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "initiator": {
+                    "type": "string"
+                },
+                "initiator_dept": {
+                    "type": "string"
+                },
+                "is_suspended": {
+                    "type": "boolean"
+                },
+                "max_duration": {
+                    "type": "integer"
+                },
+                "module_code": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "process_code": {
+                    "type": "string"
+                },
+                "process_key": {
+                    "type": "string"
+                },
+                "retryable": {
+                    "type": "boolean"
+                },
+                "start_node_id": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "suspend_reason": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "urge_count": {
+                    "type": "integer"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
+        "structs.UpdateProcessDesignBody": {
+            "type": "object",
+            "properties": {
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "graph_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_draft": {
+                    "type": "boolean"
+                },
+                "node_layouts": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "properties": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "source_version": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "validation_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateRuleBody": {
+            "type": "object",
+            "properties": {
+                "actions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "conditions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effective_time": {
+                    "type": "integer"
+                },
+                "expire_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_enabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "rule_key": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateTaskBody": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "allowed_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "assign_strategy": {
+                    "type": "string"
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "candidates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                    }
+                },
+                "category": {
+                    "type": "string"
+                },
+                "claim_time": {
+                    "type": "integer"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "delegated_from": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "due_time": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_delegated": {
+                    "type": "boolean"
+                },
+                "is_resubmit": {
+                    "type": "boolean"
+                },
+                "is_timeout": {
+                    "type": "boolean"
+                },
+                "is_transferred": {
+                    "type": "boolean"
+                },
+                "is_urged": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "parent_task_id": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "restrictions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "sub_tasks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "task_key": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "urge_count": {
+                    "type": "integer"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "weight": {
+                    "$ref": "#/definitions/structs.PriorityStrategy"
                 }
             }
         },
@@ -6927,6 +12804,122 @@ const docTemplate = `{
                 },
                 "url": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.UpdateTemplateBody": {
+            "type": "object",
+            "properties": {
+                "allow_cancel": {
+                    "type": "boolean"
+                },
+                "allow_delegate": {
+                    "type": "boolean"
+                },
+                "allow_transfer": {
+                    "type": "boolean"
+                },
+                "allow_urge": {
+                    "type": "boolean"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "default_title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "effective_time": {
+                    "type": "integer"
+                },
+                "expire_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_code": {
+                    "type": "string"
+                },
+                "form_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "form_permissions": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_auto_start": {
+                    "type": "boolean"
+                },
+                "is_draft_enabled": {
+                    "type": "boolean"
+                },
+                "is_latest": {
+                    "type": "boolean"
+                },
+                "module_code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "node_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_events": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "node_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "permission_configs": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "process_rules": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "reminder_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "role_configs": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "source_version": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "strict_mode": {
+                    "type": "boolean"
+                },
+                "template_key": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "timeout_config": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "visible_range": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 }
             }
         },
@@ -7036,6 +13029,27 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.UrgeTaskRequest": {
+            "type": "object",
+            "required": [
+                "operator",
+                "task_id"
+            ],
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                }
+            }
+        },
         "structs.UserBody": {
             "type": "object",
             "properties": {
@@ -7089,6 +13103,27 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.WithdrawTaskRequest": {
+            "type": "object",
+            "required": [
+                "operator",
+                "task_id"
+            ],
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                },
+                "task_id": {
                     "type": "string"
                 }
             }

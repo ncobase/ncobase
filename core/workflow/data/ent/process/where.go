@@ -4,7 +4,6 @@ package process
 
 import (
 	"ncobase/core/workflow/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -65,7 +64,7 @@ func IDContainsFold(id string) predicate.Process {
 }
 
 // Status applies equality check predicate on the "status" field. It's identical to StatusEQ.
-func Status(v int) predicate.Process {
+func Status(v string) predicate.Process {
 	return predicate.Process(sql.FieldEQ(FieldStatus, v))
 }
 
@@ -130,17 +129,17 @@ func SuspendReason(v string) predicate.Process {
 }
 
 // StartTime applies equality check predicate on the "start_time" field. It's identical to StartTimeEQ.
-func StartTime(v time.Time) predicate.Process {
+func StartTime(v int64) predicate.Process {
 	return predicate.Process(sql.FieldEQ(FieldStartTime, v))
 }
 
 // EndTime applies equality check predicate on the "end_time" field. It's identical to EndTimeEQ.
-func EndTime(v time.Time) predicate.Process {
+func EndTime(v int64) predicate.Process {
 	return predicate.Process(sql.FieldEQ(FieldEndTime, v))
 }
 
 // DueTime applies equality check predicate on the "due_time" field. It's identical to DueTimeEQ.
-func DueTime(v time.Time) predicate.Process {
+func DueTime(v int64) predicate.Process {
 	return predicate.Process(sql.FieldEQ(FieldDueTime, v))
 }
 
@@ -255,43 +254,78 @@ func UrgeCount(v int) predicate.Process {
 }
 
 // StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v int) predicate.Process {
+func StatusEQ(v string) predicate.Process {
 	return predicate.Process(sql.FieldEQ(FieldStatus, v))
 }
 
 // StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v int) predicate.Process {
+func StatusNEQ(v string) predicate.Process {
 	return predicate.Process(sql.FieldNEQ(FieldStatus, v))
 }
 
 // StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...int) predicate.Process {
+func StatusIn(vs ...string) predicate.Process {
 	return predicate.Process(sql.FieldIn(FieldStatus, vs...))
 }
 
 // StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...int) predicate.Process {
+func StatusNotIn(vs ...string) predicate.Process {
 	return predicate.Process(sql.FieldNotIn(FieldStatus, vs...))
 }
 
 // StatusGT applies the GT predicate on the "status" field.
-func StatusGT(v int) predicate.Process {
+func StatusGT(v string) predicate.Process {
 	return predicate.Process(sql.FieldGT(FieldStatus, v))
 }
 
 // StatusGTE applies the GTE predicate on the "status" field.
-func StatusGTE(v int) predicate.Process {
+func StatusGTE(v string) predicate.Process {
 	return predicate.Process(sql.FieldGTE(FieldStatus, v))
 }
 
 // StatusLT applies the LT predicate on the "status" field.
-func StatusLT(v int) predicate.Process {
+func StatusLT(v string) predicate.Process {
 	return predicate.Process(sql.FieldLT(FieldStatus, v))
 }
 
 // StatusLTE applies the LTE predicate on the "status" field.
-func StatusLTE(v int) predicate.Process {
+func StatusLTE(v string) predicate.Process {
 	return predicate.Process(sql.FieldLTE(FieldStatus, v))
+}
+
+// StatusContains applies the Contains predicate on the "status" field.
+func StatusContains(v string) predicate.Process {
+	return predicate.Process(sql.FieldContains(FieldStatus, v))
+}
+
+// StatusHasPrefix applies the HasPrefix predicate on the "status" field.
+func StatusHasPrefix(v string) predicate.Process {
+	return predicate.Process(sql.FieldHasPrefix(FieldStatus, v))
+}
+
+// StatusHasSuffix applies the HasSuffix predicate on the "status" field.
+func StatusHasSuffix(v string) predicate.Process {
+	return predicate.Process(sql.FieldHasSuffix(FieldStatus, v))
+}
+
+// StatusIsNil applies the IsNil predicate on the "status" field.
+func StatusIsNil() predicate.Process {
+	return predicate.Process(sql.FieldIsNull(FieldStatus))
+}
+
+// StatusNotNil applies the NotNil predicate on the "status" field.
+func StatusNotNil() predicate.Process {
+	return predicate.Process(sql.FieldNotNull(FieldStatus))
+}
+
+// StatusEqualFold applies the EqualFold predicate on the "status" field.
+func StatusEqualFold(v string) predicate.Process {
+	return predicate.Process(sql.FieldEqualFold(FieldStatus, v))
+}
+
+// StatusContainsFold applies the ContainsFold predicate on the "status" field.
+func StatusContainsFold(v string) predicate.Process {
+	return predicate.Process(sql.FieldContainsFold(FieldStatus, v))
 }
 
 // ProcessIDEQ applies the EQ predicate on the "process_id" field.
@@ -1000,82 +1034,82 @@ func SuspendReasonContainsFold(v string) predicate.Process {
 }
 
 // StartTimeEQ applies the EQ predicate on the "start_time" field.
-func StartTimeEQ(v time.Time) predicate.Process {
+func StartTimeEQ(v int64) predicate.Process {
 	return predicate.Process(sql.FieldEQ(FieldStartTime, v))
 }
 
 // StartTimeNEQ applies the NEQ predicate on the "start_time" field.
-func StartTimeNEQ(v time.Time) predicate.Process {
+func StartTimeNEQ(v int64) predicate.Process {
 	return predicate.Process(sql.FieldNEQ(FieldStartTime, v))
 }
 
 // StartTimeIn applies the In predicate on the "start_time" field.
-func StartTimeIn(vs ...time.Time) predicate.Process {
+func StartTimeIn(vs ...int64) predicate.Process {
 	return predicate.Process(sql.FieldIn(FieldStartTime, vs...))
 }
 
 // StartTimeNotIn applies the NotIn predicate on the "start_time" field.
-func StartTimeNotIn(vs ...time.Time) predicate.Process {
+func StartTimeNotIn(vs ...int64) predicate.Process {
 	return predicate.Process(sql.FieldNotIn(FieldStartTime, vs...))
 }
 
 // StartTimeGT applies the GT predicate on the "start_time" field.
-func StartTimeGT(v time.Time) predicate.Process {
+func StartTimeGT(v int64) predicate.Process {
 	return predicate.Process(sql.FieldGT(FieldStartTime, v))
 }
 
 // StartTimeGTE applies the GTE predicate on the "start_time" field.
-func StartTimeGTE(v time.Time) predicate.Process {
+func StartTimeGTE(v int64) predicate.Process {
 	return predicate.Process(sql.FieldGTE(FieldStartTime, v))
 }
 
 // StartTimeLT applies the LT predicate on the "start_time" field.
-func StartTimeLT(v time.Time) predicate.Process {
+func StartTimeLT(v int64) predicate.Process {
 	return predicate.Process(sql.FieldLT(FieldStartTime, v))
 }
 
 // StartTimeLTE applies the LTE predicate on the "start_time" field.
-func StartTimeLTE(v time.Time) predicate.Process {
+func StartTimeLTE(v int64) predicate.Process {
 	return predicate.Process(sql.FieldLTE(FieldStartTime, v))
 }
 
 // EndTimeEQ applies the EQ predicate on the "end_time" field.
-func EndTimeEQ(v time.Time) predicate.Process {
+func EndTimeEQ(v int64) predicate.Process {
 	return predicate.Process(sql.FieldEQ(FieldEndTime, v))
 }
 
 // EndTimeNEQ applies the NEQ predicate on the "end_time" field.
-func EndTimeNEQ(v time.Time) predicate.Process {
+func EndTimeNEQ(v int64) predicate.Process {
 	return predicate.Process(sql.FieldNEQ(FieldEndTime, v))
 }
 
 // EndTimeIn applies the In predicate on the "end_time" field.
-func EndTimeIn(vs ...time.Time) predicate.Process {
+func EndTimeIn(vs ...int64) predicate.Process {
 	return predicate.Process(sql.FieldIn(FieldEndTime, vs...))
 }
 
 // EndTimeNotIn applies the NotIn predicate on the "end_time" field.
-func EndTimeNotIn(vs ...time.Time) predicate.Process {
+func EndTimeNotIn(vs ...int64) predicate.Process {
 	return predicate.Process(sql.FieldNotIn(FieldEndTime, vs...))
 }
 
 // EndTimeGT applies the GT predicate on the "end_time" field.
-func EndTimeGT(v time.Time) predicate.Process {
+func EndTimeGT(v int64) predicate.Process {
 	return predicate.Process(sql.FieldGT(FieldEndTime, v))
 }
 
 // EndTimeGTE applies the GTE predicate on the "end_time" field.
-func EndTimeGTE(v time.Time) predicate.Process {
+func EndTimeGTE(v int64) predicate.Process {
 	return predicate.Process(sql.FieldGTE(FieldEndTime, v))
 }
 
 // EndTimeLT applies the LT predicate on the "end_time" field.
-func EndTimeLT(v time.Time) predicate.Process {
+func EndTimeLT(v int64) predicate.Process {
 	return predicate.Process(sql.FieldLT(FieldEndTime, v))
 }
 
 // EndTimeLTE applies the LTE predicate on the "end_time" field.
-func EndTimeLTE(v time.Time) predicate.Process {
+func EndTimeLTE(v int64) predicate.Process {
 	return predicate.Process(sql.FieldLTE(FieldEndTime, v))
 }
 
@@ -1090,42 +1124,42 @@ func EndTimeNotNil() predicate.Process {
 }
 
 // DueTimeEQ applies the EQ predicate on the "due_time" field.
-func DueTimeEQ(v time.Time) predicate.Process {
+func DueTimeEQ(v int64) predicate.Process {
 	return predicate.Process(sql.FieldEQ(FieldDueTime, v))
 }
 
 // DueTimeNEQ applies the NEQ predicate on the "due_time" field.
-func DueTimeNEQ(v time.Time) predicate.Process {
+func DueTimeNEQ(v int64) predicate.Process {
 	return predicate.Process(sql.FieldNEQ(FieldDueTime, v))
 }
 
 // DueTimeIn applies the In predicate on the "due_time" field.
-func DueTimeIn(vs ...time.Time) predicate.Process {
+func DueTimeIn(vs ...int64) predicate.Process {
 	return predicate.Process(sql.FieldIn(FieldDueTime, vs...))
 }
 
 // DueTimeNotIn applies the NotIn predicate on the "due_time" field.
-func DueTimeNotIn(vs ...time.Time) predicate.Process {
+func DueTimeNotIn(vs ...int64) predicate.Process {
 	return predicate.Process(sql.FieldNotIn(FieldDueTime, vs...))
 }
 
 // DueTimeGT applies the GT predicate on the "due_time" field.
-func DueTimeGT(v time.Time) predicate.Process {
+func DueTimeGT(v int64) predicate.Process {
 	return predicate.Process(sql.FieldGT(FieldDueTime, v))
 }
 
 // DueTimeGTE applies the GTE predicate on the "due_time" field.
-func DueTimeGTE(v time.Time) predicate.Process {
+func DueTimeGTE(v int64) predicate.Process {
 	return predicate.Process(sql.FieldGTE(FieldDueTime, v))
 }
 
 // DueTimeLT applies the LT predicate on the "due_time" field.
-func DueTimeLT(v time.Time) predicate.Process {
+func DueTimeLT(v int64) predicate.Process {
 	return predicate.Process(sql.FieldLT(FieldDueTime, v))
 }
 
 // DueTimeLTE applies the LTE predicate on the "due_time" field.
-func DueTimeLTE(v time.Time) predicate.Process {
+func DueTimeLTE(v int64) predicate.Process {
 	return predicate.Process(sql.FieldLTE(FieldDueTime, v))
 }
 

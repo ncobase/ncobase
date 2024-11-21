@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/process"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -19,8 +18,8 @@ type Process struct {
 	// ID of the ent.
 	// primary key
 	ID string `json:"id,omitempty"`
-	// status: 0 activated, 1 unactivated, 2 disabled
-	Status int `json:"status,omitempty"`
+	// Status, text status
+	Status string `json:"status,omitempty"`
 	// Process instance ID
 	ProcessID string `json:"process_id,omitempty"`
 	// Process template ID
@@ -38,7 +37,7 @@ type Process struct {
 	// Field level permissions
 	FieldPermissions map[string]interface{} `json:"field_permissions,omitempty"`
 	// Business tags
-	BusinessTags []interface{} `json:"business_tags,omitempty"`
+	BusinessTags []string `json:"business_tags,omitempty"`
 	// Module code
 	ModuleCode string `json:"module_code,omitempty"`
 	// Category
@@ -56,11 +55,11 @@ type Process struct {
 	// Suspension reason
 	SuspendReason string `json:"suspend_reason,omitempty"`
 	// Start time
-	StartTime time.Time `json:"start_time,omitempty"`
+	StartTime int64 `json:"start_time,omitempty"`
 	// End time
-	EndTime *time.Time `json:"end_time,omitempty"`
+	EndTime *int64 `json:"end_time,omitempty"`
 	// Due time
-	DueTime *time.Time `json:"due_time,omitempty"`
+	DueTime *int64 `json:"due_time,omitempty"`
 	// Duration in seconds
 	Duration int `json:"duration,omitempty"`
 	// Priority level
@@ -108,7 +107,7 @@ type Process struct {
 	// Current node
 	CurrentNode string `json:"current_node,omitempty"`
 	// Currently active nodes
-	ActiveNodes []interface{} `json:"active_nodes,omitempty"`
+	ActiveNodes []string `json:"active_nodes,omitempty"`
 	// Process snapshot
 	ProcessSnapshot map[string]interface{} `json:"process_snapshot,omitempty"`
 	// Form snapshot
@@ -127,12 +126,10 @@ func (*Process) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case process.FieldIsDraft, process.FieldIsTerminated, process.FieldIsSuspended, process.FieldIsTimeout, process.FieldAllowCancel, process.FieldAllowUrge, process.FieldAllowDelegate, process.FieldAllowTransfer, process.FieldIsDraftEnabled, process.FieldIsAutoStart, process.FieldStrictMode:
 			values[i] = new(sql.NullBool)
-		case process.FieldStatus, process.FieldDuration, process.FieldPriority, process.FieldReminderCount, process.FieldCreatedAt, process.FieldUpdatedAt, process.FieldUrgeCount:
+		case process.FieldStartTime, process.FieldEndTime, process.FieldDueTime, process.FieldDuration, process.FieldPriority, process.FieldReminderCount, process.FieldCreatedAt, process.FieldUpdatedAt, process.FieldUrgeCount:
 			values[i] = new(sql.NullInt64)
-		case process.FieldID, process.FieldProcessID, process.FieldTemplateID, process.FieldBusinessKey, process.FieldFormCode, process.FieldFormVersion, process.FieldModuleCode, process.FieldCategory, process.FieldFlowStatus, process.FieldSuspendReason, process.FieldTenantID, process.FieldCreatedBy, process.FieldUpdatedBy, process.FieldProcessKey, process.FieldInitiator, process.FieldInitiatorDept, process.FieldProcessCode, process.FieldCurrentNode:
+		case process.FieldID, process.FieldStatus, process.FieldProcessID, process.FieldTemplateID, process.FieldBusinessKey, process.FieldFormCode, process.FieldFormVersion, process.FieldModuleCode, process.FieldCategory, process.FieldFlowStatus, process.FieldSuspendReason, process.FieldTenantID, process.FieldCreatedBy, process.FieldUpdatedBy, process.FieldProcessKey, process.FieldInitiator, process.FieldInitiatorDept, process.FieldProcessCode, process.FieldCurrentNode:
 			values[i] = new(sql.NullString)
-		case process.FieldStartTime, process.FieldEndTime, process.FieldDueTime:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -155,10 +152,10 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 				pr.ID = value.String
 			}
 		case process.FieldStatus:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				pr.Status = int(value.Int64)
+				pr.Status = value.String
 			}
 		case process.FieldProcessID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -273,24 +270,24 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 				pr.SuspendReason = value.String
 			}
 		case process.FieldStartTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field start_time", values[i])
 			} else if value.Valid {
-				pr.StartTime = value.Time
+				pr.StartTime = value.Int64
 			}
 		case process.FieldEndTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field end_time", values[i])
 			} else if value.Valid {
-				pr.EndTime = new(time.Time)
-				*pr.EndTime = value.Time
+				pr.EndTime = new(int64)
+				*pr.EndTime = value.Int64
 			}
 		case process.FieldDueTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field due_time", values[i])
 			} else if value.Valid {
-				pr.DueTime = new(time.Time)
-				*pr.DueTime = value.Time
+				pr.DueTime = new(int64)
+				*pr.DueTime = value.Int64
 			}
 		case process.FieldDuration:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -501,7 +498,7 @@ func (pr *Process) String() string {
 	builder.WriteString("Process(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", pr.ID))
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", pr.Status))
+	builder.WriteString(pr.Status)
 	builder.WriteString(", ")
 	builder.WriteString("process_id=")
 	builder.WriteString(pr.ProcessID)
@@ -555,16 +552,16 @@ func (pr *Process) String() string {
 	builder.WriteString(pr.SuspendReason)
 	builder.WriteString(", ")
 	builder.WriteString("start_time=")
-	builder.WriteString(pr.StartTime.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", pr.StartTime))
 	builder.WriteString(", ")
 	if v := pr.EndTime; v != nil {
 		builder.WriteString("end_time=")
-		builder.WriteString(v.Format(time.ANSIC))
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := pr.DueTime; v != nil {
 		builder.WriteString("due_time=")
-		builder.WriteString(v.Format(time.ANSIC))
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("duration=")

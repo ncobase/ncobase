@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/workflow/data/ent/node"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -63,15 +62,15 @@ func (nc *NodeCreate) SetNillableType(s *string) *NodeCreate {
 }
 
 // SetStatus sets the "status" field.
-func (nc *NodeCreate) SetStatus(i int) *NodeCreate {
-	nc.mutation.SetStatus(i)
+func (nc *NodeCreate) SetStatus(s string) *NodeCreate {
+	nc.mutation.SetStatus(s)
 	return nc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableStatus(i *int) *NodeCreate {
-	if i != nil {
-		nc.SetStatus(*i)
+func (nc *NodeCreate) SetNillableStatus(s *string) *NodeCreate {
+	if s != nil {
+		nc.SetStatus(*s)
 	}
 	return nc
 }
@@ -144,29 +143,15 @@ func (nc *NodeCreate) SetFieldPermissions(m map[string]interface{}) *NodeCreate 
 	return nc
 }
 
-// SetAssignee sets the "assignee" field.
-func (nc *NodeCreate) SetAssignee(s string) *NodeCreate {
-	nc.mutation.SetAssignee(s)
-	return nc
-}
-
-// SetAssigneeDept sets the "assignee_dept" field.
-func (nc *NodeCreate) SetAssigneeDept(s string) *NodeCreate {
-	nc.mutation.SetAssigneeDept(s)
-	return nc
-}
-
-// SetNillableAssigneeDept sets the "assignee_dept" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableAssigneeDept(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetAssigneeDept(*s)
-	}
+// SetAssignees sets the "assignees" field.
+func (nc *NodeCreate) SetAssignees(m []map[string]interface{}) *NodeCreate {
+	nc.mutation.SetAssignees(m)
 	return nc
 }
 
 // SetCandidates sets the "candidates" field.
-func (nc *NodeCreate) SetCandidates(i []interface{}) *NodeCreate {
-	nc.mutation.SetCandidates(i)
+func (nc *NodeCreate) SetCandidates(m []map[string]interface{}) *NodeCreate {
+	nc.mutation.SetCandidates(m)
 	return nc
 }
 
@@ -325,43 +310,43 @@ func (nc *NodeCreate) SetNillableStrictMode(b *bool) *NodeCreate {
 }
 
 // SetStartTime sets the "start_time" field.
-func (nc *NodeCreate) SetStartTime(t time.Time) *NodeCreate {
-	nc.mutation.SetStartTime(t)
+func (nc *NodeCreate) SetStartTime(i int64) *NodeCreate {
+	nc.mutation.SetStartTime(i)
 	return nc
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableStartTime(t *time.Time) *NodeCreate {
-	if t != nil {
-		nc.SetStartTime(*t)
+func (nc *NodeCreate) SetNillableStartTime(i *int64) *NodeCreate {
+	if i != nil {
+		nc.SetStartTime(*i)
 	}
 	return nc
 }
 
 // SetEndTime sets the "end_time" field.
-func (nc *NodeCreate) SetEndTime(t time.Time) *NodeCreate {
-	nc.mutation.SetEndTime(t)
+func (nc *NodeCreate) SetEndTime(i int64) *NodeCreate {
+	nc.mutation.SetEndTime(i)
 	return nc
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableEndTime(t *time.Time) *NodeCreate {
-	if t != nil {
-		nc.SetEndTime(*t)
+func (nc *NodeCreate) SetNillableEndTime(i *int64) *NodeCreate {
+	if i != nil {
+		nc.SetEndTime(*i)
 	}
 	return nc
 }
 
 // SetDueTime sets the "due_time" field.
-func (nc *NodeCreate) SetDueTime(t time.Time) *NodeCreate {
-	nc.mutation.SetDueTime(t)
+func (nc *NodeCreate) SetDueTime(i int64) *NodeCreate {
+	nc.mutation.SetDueTime(i)
 	return nc
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableDueTime(t *time.Time) *NodeCreate {
-	if t != nil {
-		nc.SetDueTime(*t)
+func (nc *NodeCreate) SetNillableDueTime(i *int64) *NodeCreate {
+	if i != nil {
+		nc.SetDueTime(*i)
 	}
 	return nc
 }
@@ -498,27 +483,45 @@ func (nc *NodeCreate) SetNillableUpdatedAt(i *int64) *NodeCreate {
 	return nc
 }
 
+// SetProcessID sets the "process_id" field.
+func (nc *NodeCreate) SetProcessID(s string) *NodeCreate {
+	nc.mutation.SetProcessID(s)
+	return nc
+}
+
+// SetPermissions sets the "permissions" field.
+func (nc *NodeCreate) SetPermissions(m map[string]interface{}) *NodeCreate {
+	nc.mutation.SetPermissions(m)
+	return nc
+}
+
 // SetPrevNodes sets the "prev_nodes" field.
-func (nc *NodeCreate) SetPrevNodes(i []interface{}) *NodeCreate {
-	nc.mutation.SetPrevNodes(i)
+func (nc *NodeCreate) SetPrevNodes(s []string) *NodeCreate {
+	nc.mutation.SetPrevNodes(s)
 	return nc
 }
 
 // SetNextNodes sets the "next_nodes" field.
-func (nc *NodeCreate) SetNextNodes(i []interface{}) *NodeCreate {
-	nc.mutation.SetNextNodes(i)
+func (nc *NodeCreate) SetNextNodes(s []string) *NodeCreate {
+	nc.mutation.SetNextNodes(s)
 	return nc
 }
 
 // SetParallelNodes sets the "parallel_nodes" field.
-func (nc *NodeCreate) SetParallelNodes(i []interface{}) *NodeCreate {
-	nc.mutation.SetParallelNodes(i)
+func (nc *NodeCreate) SetParallelNodes(s []string) *NodeCreate {
+	nc.mutation.SetParallelNodes(s)
+	return nc
+}
+
+// SetBranchNodes sets the "branch_nodes" field.
+func (nc *NodeCreate) SetBranchNodes(s []string) *NodeCreate {
+	nc.mutation.SetBranchNodes(s)
 	return nc
 }
 
 // SetConditions sets the "conditions" field.
-func (nc *NodeCreate) SetConditions(i []interface{}) *NodeCreate {
-	nc.mutation.SetConditions(i)
+func (nc *NodeCreate) SetConditions(m []map[string]interface{}) *NodeCreate {
+	nc.mutation.SetConditions(m)
 	return nc
 }
 
@@ -665,10 +668,6 @@ func (nc *NodeCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (nc *NodeCreate) defaults() {
-	if _, ok := nc.mutation.Status(); !ok {
-		v := node.DefaultStatus
-		nc.mutation.SetStatus(v)
-	}
 	if _, ok := nc.mutation.IsDelegated(); !ok {
 		v := node.DefaultIsDelegated
 		nc.mutation.SetIsDelegated(v)
@@ -757,9 +756,6 @@ func (nc *NodeCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (nc *NodeCreate) check() error {
-	if _, ok := nc.mutation.Status(); !ok {
-		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Node.status"`)}
-	}
 	if _, ok := nc.mutation.NodeKey(); !ok {
 		return &ValidationError{Name: "node_key", err: errors.New(`ent: missing required field "Node.node_key"`)}
 	}
@@ -769,8 +765,8 @@ func (nc *NodeCreate) check() error {
 	if _, ok := nc.mutation.FormCode(); !ok {
 		return &ValidationError{Name: "form_code", err: errors.New(`ent: missing required field "Node.form_code"`)}
 	}
-	if _, ok := nc.mutation.Assignee(); !ok {
-		return &ValidationError{Name: "assignee", err: errors.New(`ent: missing required field "Node.assignee"`)}
+	if _, ok := nc.mutation.Assignees(); !ok {
+		return &ValidationError{Name: "assignees", err: errors.New(`ent: missing required field "Node.assignees"`)}
 	}
 	if _, ok := nc.mutation.Candidates(); !ok {
 		return &ValidationError{Name: "candidates", err: errors.New(`ent: missing required field "Node.candidates"`)}
@@ -828,6 +824,12 @@ func (nc *NodeCreate) check() error {
 		if err := node.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Node.updated_by": %w`, err)}
 		}
+	}
+	if _, ok := nc.mutation.ProcessID(); !ok {
+		return &ValidationError{Name: "process_id", err: errors.New(`ent: missing required field "Node.process_id"`)}
+	}
+	if _, ok := nc.mutation.Permissions(); !ok {
+		return &ValidationError{Name: "permissions", err: errors.New(`ent: missing required field "Node.permissions"`)}
 	}
 	if _, ok := nc.mutation.IsCountersign(); !ok {
 		return &ValidationError{Name: "is_countersign", err: errors.New(`ent: missing required field "Node.is_countersign"`)}
@@ -888,7 +890,7 @@ func (nc *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
 		_node.Type = value
 	}
 	if value, ok := nc.mutation.Status(); ok {
-		_spec.SetField(node.FieldStatus, field.TypeInt, value)
+		_spec.SetField(node.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
 	if value, ok := nc.mutation.NodeKey(); ok {
@@ -931,13 +933,9 @@ func (nc *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
 		_spec.SetField(node.FieldFieldPermissions, field.TypeJSON, value)
 		_node.FieldPermissions = value
 	}
-	if value, ok := nc.mutation.Assignee(); ok {
-		_spec.SetField(node.FieldAssignee, field.TypeString, value)
-		_node.Assignee = value
-	}
-	if value, ok := nc.mutation.AssigneeDept(); ok {
-		_spec.SetField(node.FieldAssigneeDept, field.TypeString, value)
-		_node.AssigneeDept = value
+	if value, ok := nc.mutation.Assignees(); ok {
+		_spec.SetField(node.FieldAssignees, field.TypeJSON, value)
+		_node.Assignees = value
 	}
 	if value, ok := nc.mutation.Candidates(); ok {
 		_spec.SetField(node.FieldCandidates, field.TypeJSON, value)
@@ -988,15 +986,15 @@ func (nc *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
 		_node.StrictMode = value
 	}
 	if value, ok := nc.mutation.StartTime(); ok {
-		_spec.SetField(node.FieldStartTime, field.TypeTime, value)
+		_spec.SetField(node.FieldStartTime, field.TypeInt64, value)
 		_node.StartTime = value
 	}
 	if value, ok := nc.mutation.EndTime(); ok {
-		_spec.SetField(node.FieldEndTime, field.TypeTime, value)
+		_spec.SetField(node.FieldEndTime, field.TypeInt64, value)
 		_node.EndTime = &value
 	}
 	if value, ok := nc.mutation.DueTime(); ok {
-		_spec.SetField(node.FieldDueTime, field.TypeTime, value)
+		_spec.SetField(node.FieldDueTime, field.TypeInt64, value)
 		_node.DueTime = &value
 	}
 	if value, ok := nc.mutation.Duration(); ok {
@@ -1039,6 +1037,14 @@ func (nc *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
 		_spec.SetField(node.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
+	if value, ok := nc.mutation.ProcessID(); ok {
+		_spec.SetField(node.FieldProcessID, field.TypeString, value)
+		_node.ProcessID = value
+	}
+	if value, ok := nc.mutation.Permissions(); ok {
+		_spec.SetField(node.FieldPermissions, field.TypeJSON, value)
+		_node.Permissions = value
+	}
 	if value, ok := nc.mutation.PrevNodes(); ok {
 		_spec.SetField(node.FieldPrevNodes, field.TypeJSON, value)
 		_node.PrevNodes = value
@@ -1050,6 +1056,10 @@ func (nc *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
 	if value, ok := nc.mutation.ParallelNodes(); ok {
 		_spec.SetField(node.FieldParallelNodes, field.TypeJSON, value)
 		_node.ParallelNodes = value
+	}
+	if value, ok := nc.mutation.BranchNodes(); ok {
+		_spec.SetField(node.FieldBranchNodes, field.TypeJSON, value)
+		_node.BranchNodes = value
 	}
 	if value, ok := nc.mutation.Conditions(); ok {
 		_spec.SetField(node.FieldConditions, field.TypeJSON, value)

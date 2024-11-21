@@ -22,6 +22,7 @@ type HistoryBody struct {
 	FormData     types.JSON `json:"form_data,omitempty"`
 	NodeConfig   types.JSON `json:"node_config,omitempty"`
 	Details      types.JSON `json:"details,omitempty"`
+	TenantID     string     `json:"tenant_id,omitempty"`
 }
 
 // CreateHistoryBody represents the body for creating history
@@ -32,13 +33,27 @@ type CreateHistoryBody struct {
 
 // ReadHistory represents the output schema for retrieving history
 type ReadHistory struct {
-	ID string `json:"id"`
-	HistoryBody
-	TenantID  string  `json:"tenant_id,omitempty"`
-	CreatedBy *string `json:"created_by,omitempty"`
-	CreatedAt *int64  `json:"created_at,omitempty"`
-	UpdatedBy *string `json:"updated_by,omitempty"`
-	UpdatedAt *int64  `json:"updated_at,omitempty"`
+	ID           string     `json:"id"`
+	Type         string     `json:"type,omitempty"`
+	ProcessID    string     `json:"process_id,omitempty"`
+	TemplateID   string     `json:"template_id,omitempty"`
+	NodeID       string     `json:"node_id,omitempty"`
+	NodeName     string     `json:"node_name,omitempty"`
+	NodeType     string     `json:"node_type,omitempty"`
+	TaskID       string     `json:"task_id,omitempty"`
+	Operator     string     `json:"operator,omitempty"`
+	OperatorDept string     `json:"operator_dept,omitempty"`
+	Action       string     `json:"action,omitempty"`
+	Comment      string     `json:"comment,omitempty"`
+	Variables    types.JSON `json:"variables,omitempty"`
+	FormData     types.JSON `json:"form_data,omitempty"`
+	NodeConfig   types.JSON `json:"node_config,omitempty"`
+	Details      types.JSON `json:"details,omitempty"`
+	TenantID     string     `json:"tenant_id,omitempty"`
+	CreatedBy    *string    `json:"created_by,omitempty"`
+	CreatedAt    *int64     `json:"created_at,omitempty"`
+	UpdatedBy    *string    `json:"updated_by,omitempty"`
+	UpdatedAt    *int64     `json:"updated_at,omitempty"`
 }
 
 // GetID returns the ID of the history
@@ -53,7 +68,7 @@ func (r *ReadHistory) GetCursorValue() string {
 
 // GetSortValue get sort value
 func (r *ReadHistory) GetSortValue(field string) any {
-	switch types.SortField(field) {
+	switch field {
 	case SortByCreatedAt:
 		return types.ToValue(r.CreatedAt)
 	default:
@@ -63,26 +78,26 @@ func (r *ReadHistory) GetSortValue(field string) any {
 
 // FindHistoryParams represents query parameters for finding histories
 type FindHistoryParams struct {
-	ProcessID  string          `form:"process_id,omitempty" json:"process_id,omitempty"`
-	TemplateID string          `form:"template_id,omitempty" json:"template_id,omitempty"`
-	NodeID     string          `form:"node_id,omitempty" json:"node_id,omitempty"`
-	TaskID     string          `form:"task_id,omitempty" json:"task_id,omitempty"`
-	Operator   string          `form:"operator,omitempty" json:"operator,omitempty"`
-	Action     string          `form:"action,omitempty" json:"action,omitempty"`
-	Type       string          `form:"type,omitempty" json:"type,omitempty"`
-	Tenant     string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy     types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	ProcessID  string `form:"process_id,omitempty" json:"process_id,omitempty"`
+	TemplateID string `form:"template_id,omitempty" json:"template_id,omitempty"`
+	NodeID     string `form:"node_id,omitempty" json:"node_id,omitempty"`
+	TaskID     string `form:"task_id,omitempty" json:"task_id,omitempty"`
+	Operator   string `form:"operator,omitempty" json:"operator,omitempty"`
+	Action     string `form:"action,omitempty" json:"action,omitempty"`
+	Type       string `form:"type,omitempty" json:"type,omitempty"`
+	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SortBy     string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
 // ListHistoryParams represents list parameters for histories
 type ListHistoryParams struct {
-	Cursor    string          `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int             `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string          `form:"direction,omitempty" json:"direction,omitempty"`
-	ProcessID string          `form:"process_id,omitempty" json:"process_id,omitempty"`
-	TaskID    string          `form:"task_id,omitempty" json:"task_id,omitempty"`
-	Operator  string          `form:"operator,omitempty" json:"operator,omitempty"`
-	Type      string          `form:"type,omitempty" json:"type,omitempty"`
-	Tenant    string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy    types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	ProcessID string `form:"process_id,omitempty" json:"process_id,omitempty"`
+	TaskID    string `form:"task_id,omitempty" json:"task_id,omitempty"`
+	Operator  string `form:"operator,omitempty" json:"operator,omitempty"`
+	Type      string `form:"type,omitempty" json:"type,omitempty"`
+	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

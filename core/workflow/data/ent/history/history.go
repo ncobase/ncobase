@@ -39,10 +39,18 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
+	// FieldNodeName holds the string denoting the node_name field in the database.
+	FieldNodeName = "node_name"
 	// FieldOperator holds the string denoting the operator field in the database.
 	FieldOperator = "operator"
 	// FieldOperatorDept holds the string denoting the operator_dept field in the database.
 	FieldOperatorDept = "operator_dept"
+	// FieldTaskID holds the string denoting the task_id field in the database.
+	FieldTaskID = "task_id"
+	// FieldVariables holds the string denoting the variables field in the database.
+	FieldVariables = "variables"
+	// FieldFormData holds the string denoting the form_data field in the database.
+	FieldFormData = "form_data"
 	// FieldAction holds the string denoting the action field in the database.
 	FieldAction = "action"
 	// FieldComment holds the string denoting the comment field in the database.
@@ -70,8 +78,12 @@ var Columns = []string{
 	FieldUpdatedBy,
 	FieldCreatedAt,
 	FieldUpdatedAt,
+	FieldNodeName,
 	FieldOperator,
 	FieldOperatorDept,
+	FieldTaskID,
+	FieldVariables,
+	FieldFormData,
 	FieldAction,
 	FieldComment,
 	FieldDetails,
@@ -169,6 +181,11 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
+// ByNodeName orders the results by the node_name field.
+func ByNodeName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldNodeName, opts...).ToFunc()
+}
+
 // ByOperator orders the results by the operator field.
 func ByOperator(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOperator, opts...).ToFunc()
@@ -177,6 +194,11 @@ func ByOperator(opts ...sql.OrderTermOption) OrderOption {
 // ByOperatorDept orders the results by the operator_dept field.
 func ByOperatorDept(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOperatorDept, opts...).ToFunc()
+}
+
+// ByTaskID orders the results by the task_id field.
+func ByTaskID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTaskID, opts...).ToFunc()
 }
 
 // ByAction orders the results by the action field.

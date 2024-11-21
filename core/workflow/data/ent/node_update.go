@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/node"
 	"ncobase/core/workflow/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -90,23 +89,22 @@ func (nu *NodeUpdate) ClearType() *NodeUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (nu *NodeUpdate) SetStatus(i int) *NodeUpdate {
-	nu.mutation.ResetStatus()
-	nu.mutation.SetStatus(i)
+func (nu *NodeUpdate) SetStatus(s string) *NodeUpdate {
+	nu.mutation.SetStatus(s)
 	return nu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableStatus(i *int) *NodeUpdate {
-	if i != nil {
-		nu.SetStatus(*i)
+func (nu *NodeUpdate) SetNillableStatus(s *string) *NodeUpdate {
+	if s != nil {
+		nu.SetStatus(*s)
 	}
 	return nu
 }
 
-// AddStatus adds i to the "status" field.
-func (nu *NodeUpdate) AddStatus(i int) *NodeUpdate {
-	nu.mutation.AddStatus(i)
+// ClearStatus clears the value of the "status" field.
+func (nu *NodeUpdate) ClearStatus() *NodeUpdate {
+	nu.mutation.ClearStatus()
 	return nu
 }
 
@@ -244,49 +242,27 @@ func (nu *NodeUpdate) ClearFieldPermissions() *NodeUpdate {
 	return nu
 }
 
-// SetAssignee sets the "assignee" field.
-func (nu *NodeUpdate) SetAssignee(s string) *NodeUpdate {
-	nu.mutation.SetAssignee(s)
+// SetAssignees sets the "assignees" field.
+func (nu *NodeUpdate) SetAssignees(m []map[string]interface{}) *NodeUpdate {
+	nu.mutation.SetAssignees(m)
 	return nu
 }
 
-// SetNillableAssignee sets the "assignee" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableAssignee(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetAssignee(*s)
-	}
-	return nu
-}
-
-// SetAssigneeDept sets the "assignee_dept" field.
-func (nu *NodeUpdate) SetAssigneeDept(s string) *NodeUpdate {
-	nu.mutation.SetAssigneeDept(s)
-	return nu
-}
-
-// SetNillableAssigneeDept sets the "assignee_dept" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableAssigneeDept(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetAssigneeDept(*s)
-	}
-	return nu
-}
-
-// ClearAssigneeDept clears the value of the "assignee_dept" field.
-func (nu *NodeUpdate) ClearAssigneeDept() *NodeUpdate {
-	nu.mutation.ClearAssigneeDept()
+// AppendAssignees appends m to the "assignees" field.
+func (nu *NodeUpdate) AppendAssignees(m []map[string]interface{}) *NodeUpdate {
+	nu.mutation.AppendAssignees(m)
 	return nu
 }
 
 // SetCandidates sets the "candidates" field.
-func (nu *NodeUpdate) SetCandidates(i []interface{}) *NodeUpdate {
-	nu.mutation.SetCandidates(i)
+func (nu *NodeUpdate) SetCandidates(m []map[string]interface{}) *NodeUpdate {
+	nu.mutation.SetCandidates(m)
 	return nu
 }
 
-// AppendCandidates appends i to the "candidates" field.
-func (nu *NodeUpdate) AppendCandidates(i []interface{}) *NodeUpdate {
-	nu.mutation.AppendCandidates(i)
+// AppendCandidates appends m to the "candidates" field.
+func (nu *NodeUpdate) AppendCandidates(m []map[string]interface{}) *NodeUpdate {
+	nu.mutation.AppendCandidates(m)
 	return nu
 }
 
@@ -457,30 +433,44 @@ func (nu *NodeUpdate) SetNillableStrictMode(b *bool) *NodeUpdate {
 }
 
 // SetStartTime sets the "start_time" field.
-func (nu *NodeUpdate) SetStartTime(t time.Time) *NodeUpdate {
-	nu.mutation.SetStartTime(t)
+func (nu *NodeUpdate) SetStartTime(i int64) *NodeUpdate {
+	nu.mutation.ResetStartTime()
+	nu.mutation.SetStartTime(i)
 	return nu
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableStartTime(t *time.Time) *NodeUpdate {
-	if t != nil {
-		nu.SetStartTime(*t)
+func (nu *NodeUpdate) SetNillableStartTime(i *int64) *NodeUpdate {
+	if i != nil {
+		nu.SetStartTime(*i)
 	}
+	return nu
+}
+
+// AddStartTime adds i to the "start_time" field.
+func (nu *NodeUpdate) AddStartTime(i int64) *NodeUpdate {
+	nu.mutation.AddStartTime(i)
 	return nu
 }
 
 // SetEndTime sets the "end_time" field.
-func (nu *NodeUpdate) SetEndTime(t time.Time) *NodeUpdate {
-	nu.mutation.SetEndTime(t)
+func (nu *NodeUpdate) SetEndTime(i int64) *NodeUpdate {
+	nu.mutation.ResetEndTime()
+	nu.mutation.SetEndTime(i)
 	return nu
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableEndTime(t *time.Time) *NodeUpdate {
-	if t != nil {
-		nu.SetEndTime(*t)
+func (nu *NodeUpdate) SetNillableEndTime(i *int64) *NodeUpdate {
+	if i != nil {
+		nu.SetEndTime(*i)
 	}
+	return nu
+}
+
+// AddEndTime adds i to the "end_time" field.
+func (nu *NodeUpdate) AddEndTime(i int64) *NodeUpdate {
+	nu.mutation.AddEndTime(i)
 	return nu
 }
 
@@ -491,16 +481,23 @@ func (nu *NodeUpdate) ClearEndTime() *NodeUpdate {
 }
 
 // SetDueTime sets the "due_time" field.
-func (nu *NodeUpdate) SetDueTime(t time.Time) *NodeUpdate {
-	nu.mutation.SetDueTime(t)
+func (nu *NodeUpdate) SetDueTime(i int64) *NodeUpdate {
+	nu.mutation.ResetDueTime()
+	nu.mutation.SetDueTime(i)
 	return nu
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableDueTime(t *time.Time) *NodeUpdate {
-	if t != nil {
-		nu.SetDueTime(*t)
+func (nu *NodeUpdate) SetNillableDueTime(i *int64) *NodeUpdate {
+	if i != nil {
+		nu.SetDueTime(*i)
 	}
+	return nu
+}
+
+// AddDueTime adds i to the "due_time" field.
+func (nu *NodeUpdate) AddDueTime(i int64) *NodeUpdate {
+	nu.mutation.AddDueTime(i)
 	return nu
 }
 
@@ -684,15 +681,35 @@ func (nu *NodeUpdate) ClearUpdatedAt() *NodeUpdate {
 	return nu
 }
 
-// SetPrevNodes sets the "prev_nodes" field.
-func (nu *NodeUpdate) SetPrevNodes(i []interface{}) *NodeUpdate {
-	nu.mutation.SetPrevNodes(i)
+// SetProcessID sets the "process_id" field.
+func (nu *NodeUpdate) SetProcessID(s string) *NodeUpdate {
+	nu.mutation.SetProcessID(s)
 	return nu
 }
 
-// AppendPrevNodes appends i to the "prev_nodes" field.
-func (nu *NodeUpdate) AppendPrevNodes(i []interface{}) *NodeUpdate {
-	nu.mutation.AppendPrevNodes(i)
+// SetNillableProcessID sets the "process_id" field if the given value is not nil.
+func (nu *NodeUpdate) SetNillableProcessID(s *string) *NodeUpdate {
+	if s != nil {
+		nu.SetProcessID(*s)
+	}
+	return nu
+}
+
+// SetPermissions sets the "permissions" field.
+func (nu *NodeUpdate) SetPermissions(m map[string]interface{}) *NodeUpdate {
+	nu.mutation.SetPermissions(m)
+	return nu
+}
+
+// SetPrevNodes sets the "prev_nodes" field.
+func (nu *NodeUpdate) SetPrevNodes(s []string) *NodeUpdate {
+	nu.mutation.SetPrevNodes(s)
+	return nu
+}
+
+// AppendPrevNodes appends s to the "prev_nodes" field.
+func (nu *NodeUpdate) AppendPrevNodes(s []string) *NodeUpdate {
+	nu.mutation.AppendPrevNodes(s)
 	return nu
 }
 
@@ -703,14 +720,14 @@ func (nu *NodeUpdate) ClearPrevNodes() *NodeUpdate {
 }
 
 // SetNextNodes sets the "next_nodes" field.
-func (nu *NodeUpdate) SetNextNodes(i []interface{}) *NodeUpdate {
-	nu.mutation.SetNextNodes(i)
+func (nu *NodeUpdate) SetNextNodes(s []string) *NodeUpdate {
+	nu.mutation.SetNextNodes(s)
 	return nu
 }
 
-// AppendNextNodes appends i to the "next_nodes" field.
-func (nu *NodeUpdate) AppendNextNodes(i []interface{}) *NodeUpdate {
-	nu.mutation.AppendNextNodes(i)
+// AppendNextNodes appends s to the "next_nodes" field.
+func (nu *NodeUpdate) AppendNextNodes(s []string) *NodeUpdate {
+	nu.mutation.AppendNextNodes(s)
 	return nu
 }
 
@@ -721,14 +738,14 @@ func (nu *NodeUpdate) ClearNextNodes() *NodeUpdate {
 }
 
 // SetParallelNodes sets the "parallel_nodes" field.
-func (nu *NodeUpdate) SetParallelNodes(i []interface{}) *NodeUpdate {
-	nu.mutation.SetParallelNodes(i)
+func (nu *NodeUpdate) SetParallelNodes(s []string) *NodeUpdate {
+	nu.mutation.SetParallelNodes(s)
 	return nu
 }
 
-// AppendParallelNodes appends i to the "parallel_nodes" field.
-func (nu *NodeUpdate) AppendParallelNodes(i []interface{}) *NodeUpdate {
-	nu.mutation.AppendParallelNodes(i)
+// AppendParallelNodes appends s to the "parallel_nodes" field.
+func (nu *NodeUpdate) AppendParallelNodes(s []string) *NodeUpdate {
+	nu.mutation.AppendParallelNodes(s)
 	return nu
 }
 
@@ -738,15 +755,33 @@ func (nu *NodeUpdate) ClearParallelNodes() *NodeUpdate {
 	return nu
 }
 
-// SetConditions sets the "conditions" field.
-func (nu *NodeUpdate) SetConditions(i []interface{}) *NodeUpdate {
-	nu.mutation.SetConditions(i)
+// SetBranchNodes sets the "branch_nodes" field.
+func (nu *NodeUpdate) SetBranchNodes(s []string) *NodeUpdate {
+	nu.mutation.SetBranchNodes(s)
 	return nu
 }
 
-// AppendConditions appends i to the "conditions" field.
-func (nu *NodeUpdate) AppendConditions(i []interface{}) *NodeUpdate {
-	nu.mutation.AppendConditions(i)
+// AppendBranchNodes appends s to the "branch_nodes" field.
+func (nu *NodeUpdate) AppendBranchNodes(s []string) *NodeUpdate {
+	nu.mutation.AppendBranchNodes(s)
+	return nu
+}
+
+// ClearBranchNodes clears the value of the "branch_nodes" field.
+func (nu *NodeUpdate) ClearBranchNodes() *NodeUpdate {
+	nu.mutation.ClearBranchNodes()
+	return nu
+}
+
+// SetConditions sets the "conditions" field.
+func (nu *NodeUpdate) SetConditions(m []map[string]interface{}) *NodeUpdate {
+	nu.mutation.SetConditions(m)
+	return nu
+}
+
+// AppendConditions appends m to the "conditions" field.
+func (nu *NodeUpdate) AppendConditions(m []map[string]interface{}) *NodeUpdate {
+	nu.mutation.AppendConditions(m)
 	return nu
 }
 
@@ -998,10 +1033,10 @@ func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(node.FieldType, field.TypeString)
 	}
 	if value, ok := nu.mutation.Status(); ok {
-		_spec.SetField(node.FieldStatus, field.TypeInt, value)
+		_spec.SetField(node.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := nu.mutation.AddedStatus(); ok {
-		_spec.AddField(node.FieldStatus, field.TypeInt, value)
+	if nu.mutation.StatusCleared() {
+		_spec.ClearField(node.FieldStatus, field.TypeString)
 	}
 	if value, ok := nu.mutation.NodeKey(); ok {
 		_spec.SetField(node.FieldNodeKey, field.TypeString, value)
@@ -1054,14 +1089,13 @@ func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nu.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(node.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.Assignee(); ok {
-		_spec.SetField(node.FieldAssignee, field.TypeString, value)
+	if value, ok := nu.mutation.Assignees(); ok {
+		_spec.SetField(node.FieldAssignees, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AssigneeDept(); ok {
-		_spec.SetField(node.FieldAssigneeDept, field.TypeString, value)
-	}
-	if nu.mutation.AssigneeDeptCleared() {
-		_spec.ClearField(node.FieldAssigneeDept, field.TypeString)
+	if value, ok := nu.mutation.AppendedAssignees(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, node.FieldAssignees, value)
+		})
 	}
 	if value, ok := nu.mutation.Candidates(); ok {
 		_spec.SetField(node.FieldCandidates, field.TypeJSON, value)
@@ -1111,19 +1145,28 @@ func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(node.FieldStrictMode, field.TypeBool, value)
 	}
 	if value, ok := nu.mutation.StartTime(); ok {
-		_spec.SetField(node.FieldStartTime, field.TypeTime, value)
+		_spec.SetField(node.FieldStartTime, field.TypeInt64, value)
+	}
+	if value, ok := nu.mutation.AddedStartTime(); ok {
+		_spec.AddField(node.FieldStartTime, field.TypeInt64, value)
 	}
 	if value, ok := nu.mutation.EndTime(); ok {
-		_spec.SetField(node.FieldEndTime, field.TypeTime, value)
+		_spec.SetField(node.FieldEndTime, field.TypeInt64, value)
+	}
+	if value, ok := nu.mutation.AddedEndTime(); ok {
+		_spec.AddField(node.FieldEndTime, field.TypeInt64, value)
 	}
 	if nu.mutation.EndTimeCleared() {
-		_spec.ClearField(node.FieldEndTime, field.TypeTime)
+		_spec.ClearField(node.FieldEndTime, field.TypeInt64)
 	}
 	if value, ok := nu.mutation.DueTime(); ok {
-		_spec.SetField(node.FieldDueTime, field.TypeTime, value)
+		_spec.SetField(node.FieldDueTime, field.TypeInt64, value)
+	}
+	if value, ok := nu.mutation.AddedDueTime(); ok {
+		_spec.AddField(node.FieldDueTime, field.TypeInt64, value)
 	}
 	if nu.mutation.DueTimeCleared() {
-		_spec.ClearField(node.FieldDueTime, field.TypeTime)
+		_spec.ClearField(node.FieldDueTime, field.TypeInt64)
 	}
 	if value, ok := nu.mutation.Duration(); ok {
 		_spec.SetField(node.FieldDuration, field.TypeInt, value)
@@ -1185,6 +1228,12 @@ func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nu.mutation.UpdatedAtCleared() {
 		_spec.ClearField(node.FieldUpdatedAt, field.TypeInt64)
 	}
+	if value, ok := nu.mutation.ProcessID(); ok {
+		_spec.SetField(node.FieldProcessID, field.TypeString, value)
+	}
+	if value, ok := nu.mutation.Permissions(); ok {
+		_spec.SetField(node.FieldPermissions, field.TypeJSON, value)
+	}
 	if value, ok := nu.mutation.PrevNodes(); ok {
 		_spec.SetField(node.FieldPrevNodes, field.TypeJSON, value)
 	}
@@ -1217,6 +1266,17 @@ func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if nu.mutation.ParallelNodesCleared() {
 		_spec.ClearField(node.FieldParallelNodes, field.TypeJSON)
+	}
+	if value, ok := nu.mutation.BranchNodes(); ok {
+		_spec.SetField(node.FieldBranchNodes, field.TypeJSON, value)
+	}
+	if value, ok := nu.mutation.AppendedBranchNodes(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, node.FieldBranchNodes, value)
+		})
+	}
+	if nu.mutation.BranchNodesCleared() {
+		_spec.ClearField(node.FieldBranchNodes, field.TypeJSON)
 	}
 	if value, ok := nu.mutation.Conditions(); ok {
 		_spec.SetField(node.FieldConditions, field.TypeJSON, value)
@@ -1364,23 +1424,22 @@ func (nuo *NodeUpdateOne) ClearType() *NodeUpdateOne {
 }
 
 // SetStatus sets the "status" field.
-func (nuo *NodeUpdateOne) SetStatus(i int) *NodeUpdateOne {
-	nuo.mutation.ResetStatus()
-	nuo.mutation.SetStatus(i)
+func (nuo *NodeUpdateOne) SetStatus(s string) *NodeUpdateOne {
+	nuo.mutation.SetStatus(s)
 	return nuo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableStatus(i *int) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetStatus(*i)
+func (nuo *NodeUpdateOne) SetNillableStatus(s *string) *NodeUpdateOne {
+	if s != nil {
+		nuo.SetStatus(*s)
 	}
 	return nuo
 }
 
-// AddStatus adds i to the "status" field.
-func (nuo *NodeUpdateOne) AddStatus(i int) *NodeUpdateOne {
-	nuo.mutation.AddStatus(i)
+// ClearStatus clears the value of the "status" field.
+func (nuo *NodeUpdateOne) ClearStatus() *NodeUpdateOne {
+	nuo.mutation.ClearStatus()
 	return nuo
 }
 
@@ -1518,49 +1577,27 @@ func (nuo *NodeUpdateOne) ClearFieldPermissions() *NodeUpdateOne {
 	return nuo
 }
 
-// SetAssignee sets the "assignee" field.
-func (nuo *NodeUpdateOne) SetAssignee(s string) *NodeUpdateOne {
-	nuo.mutation.SetAssignee(s)
+// SetAssignees sets the "assignees" field.
+func (nuo *NodeUpdateOne) SetAssignees(m []map[string]interface{}) *NodeUpdateOne {
+	nuo.mutation.SetAssignees(m)
 	return nuo
 }
 
-// SetNillableAssignee sets the "assignee" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableAssignee(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetAssignee(*s)
-	}
-	return nuo
-}
-
-// SetAssigneeDept sets the "assignee_dept" field.
-func (nuo *NodeUpdateOne) SetAssigneeDept(s string) *NodeUpdateOne {
-	nuo.mutation.SetAssigneeDept(s)
-	return nuo
-}
-
-// SetNillableAssigneeDept sets the "assignee_dept" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableAssigneeDept(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetAssigneeDept(*s)
-	}
-	return nuo
-}
-
-// ClearAssigneeDept clears the value of the "assignee_dept" field.
-func (nuo *NodeUpdateOne) ClearAssigneeDept() *NodeUpdateOne {
-	nuo.mutation.ClearAssigneeDept()
+// AppendAssignees appends m to the "assignees" field.
+func (nuo *NodeUpdateOne) AppendAssignees(m []map[string]interface{}) *NodeUpdateOne {
+	nuo.mutation.AppendAssignees(m)
 	return nuo
 }
 
 // SetCandidates sets the "candidates" field.
-func (nuo *NodeUpdateOne) SetCandidates(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.SetCandidates(i)
+func (nuo *NodeUpdateOne) SetCandidates(m []map[string]interface{}) *NodeUpdateOne {
+	nuo.mutation.SetCandidates(m)
 	return nuo
 }
 
-// AppendCandidates appends i to the "candidates" field.
-func (nuo *NodeUpdateOne) AppendCandidates(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.AppendCandidates(i)
+// AppendCandidates appends m to the "candidates" field.
+func (nuo *NodeUpdateOne) AppendCandidates(m []map[string]interface{}) *NodeUpdateOne {
+	nuo.mutation.AppendCandidates(m)
 	return nuo
 }
 
@@ -1731,30 +1768,44 @@ func (nuo *NodeUpdateOne) SetNillableStrictMode(b *bool) *NodeUpdateOne {
 }
 
 // SetStartTime sets the "start_time" field.
-func (nuo *NodeUpdateOne) SetStartTime(t time.Time) *NodeUpdateOne {
-	nuo.mutation.SetStartTime(t)
+func (nuo *NodeUpdateOne) SetStartTime(i int64) *NodeUpdateOne {
+	nuo.mutation.ResetStartTime()
+	nuo.mutation.SetStartTime(i)
 	return nuo
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableStartTime(t *time.Time) *NodeUpdateOne {
-	if t != nil {
-		nuo.SetStartTime(*t)
+func (nuo *NodeUpdateOne) SetNillableStartTime(i *int64) *NodeUpdateOne {
+	if i != nil {
+		nuo.SetStartTime(*i)
 	}
+	return nuo
+}
+
+// AddStartTime adds i to the "start_time" field.
+func (nuo *NodeUpdateOne) AddStartTime(i int64) *NodeUpdateOne {
+	nuo.mutation.AddStartTime(i)
 	return nuo
 }
 
 // SetEndTime sets the "end_time" field.
-func (nuo *NodeUpdateOne) SetEndTime(t time.Time) *NodeUpdateOne {
-	nuo.mutation.SetEndTime(t)
+func (nuo *NodeUpdateOne) SetEndTime(i int64) *NodeUpdateOne {
+	nuo.mutation.ResetEndTime()
+	nuo.mutation.SetEndTime(i)
 	return nuo
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableEndTime(t *time.Time) *NodeUpdateOne {
-	if t != nil {
-		nuo.SetEndTime(*t)
+func (nuo *NodeUpdateOne) SetNillableEndTime(i *int64) *NodeUpdateOne {
+	if i != nil {
+		nuo.SetEndTime(*i)
 	}
+	return nuo
+}
+
+// AddEndTime adds i to the "end_time" field.
+func (nuo *NodeUpdateOne) AddEndTime(i int64) *NodeUpdateOne {
+	nuo.mutation.AddEndTime(i)
 	return nuo
 }
 
@@ -1765,16 +1816,23 @@ func (nuo *NodeUpdateOne) ClearEndTime() *NodeUpdateOne {
 }
 
 // SetDueTime sets the "due_time" field.
-func (nuo *NodeUpdateOne) SetDueTime(t time.Time) *NodeUpdateOne {
-	nuo.mutation.SetDueTime(t)
+func (nuo *NodeUpdateOne) SetDueTime(i int64) *NodeUpdateOne {
+	nuo.mutation.ResetDueTime()
+	nuo.mutation.SetDueTime(i)
 	return nuo
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableDueTime(t *time.Time) *NodeUpdateOne {
-	if t != nil {
-		nuo.SetDueTime(*t)
+func (nuo *NodeUpdateOne) SetNillableDueTime(i *int64) *NodeUpdateOne {
+	if i != nil {
+		nuo.SetDueTime(*i)
 	}
+	return nuo
+}
+
+// AddDueTime adds i to the "due_time" field.
+func (nuo *NodeUpdateOne) AddDueTime(i int64) *NodeUpdateOne {
+	nuo.mutation.AddDueTime(i)
 	return nuo
 }
 
@@ -1958,15 +2016,35 @@ func (nuo *NodeUpdateOne) ClearUpdatedAt() *NodeUpdateOne {
 	return nuo
 }
 
-// SetPrevNodes sets the "prev_nodes" field.
-func (nuo *NodeUpdateOne) SetPrevNodes(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.SetPrevNodes(i)
+// SetProcessID sets the "process_id" field.
+func (nuo *NodeUpdateOne) SetProcessID(s string) *NodeUpdateOne {
+	nuo.mutation.SetProcessID(s)
 	return nuo
 }
 
-// AppendPrevNodes appends i to the "prev_nodes" field.
-func (nuo *NodeUpdateOne) AppendPrevNodes(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.AppendPrevNodes(i)
+// SetNillableProcessID sets the "process_id" field if the given value is not nil.
+func (nuo *NodeUpdateOne) SetNillableProcessID(s *string) *NodeUpdateOne {
+	if s != nil {
+		nuo.SetProcessID(*s)
+	}
+	return nuo
+}
+
+// SetPermissions sets the "permissions" field.
+func (nuo *NodeUpdateOne) SetPermissions(m map[string]interface{}) *NodeUpdateOne {
+	nuo.mutation.SetPermissions(m)
+	return nuo
+}
+
+// SetPrevNodes sets the "prev_nodes" field.
+func (nuo *NodeUpdateOne) SetPrevNodes(s []string) *NodeUpdateOne {
+	nuo.mutation.SetPrevNodes(s)
+	return nuo
+}
+
+// AppendPrevNodes appends s to the "prev_nodes" field.
+func (nuo *NodeUpdateOne) AppendPrevNodes(s []string) *NodeUpdateOne {
+	nuo.mutation.AppendPrevNodes(s)
 	return nuo
 }
 
@@ -1977,14 +2055,14 @@ func (nuo *NodeUpdateOne) ClearPrevNodes() *NodeUpdateOne {
 }
 
 // SetNextNodes sets the "next_nodes" field.
-func (nuo *NodeUpdateOne) SetNextNodes(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.SetNextNodes(i)
+func (nuo *NodeUpdateOne) SetNextNodes(s []string) *NodeUpdateOne {
+	nuo.mutation.SetNextNodes(s)
 	return nuo
 }
 
-// AppendNextNodes appends i to the "next_nodes" field.
-func (nuo *NodeUpdateOne) AppendNextNodes(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.AppendNextNodes(i)
+// AppendNextNodes appends s to the "next_nodes" field.
+func (nuo *NodeUpdateOne) AppendNextNodes(s []string) *NodeUpdateOne {
+	nuo.mutation.AppendNextNodes(s)
 	return nuo
 }
 
@@ -1995,14 +2073,14 @@ func (nuo *NodeUpdateOne) ClearNextNodes() *NodeUpdateOne {
 }
 
 // SetParallelNodes sets the "parallel_nodes" field.
-func (nuo *NodeUpdateOne) SetParallelNodes(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.SetParallelNodes(i)
+func (nuo *NodeUpdateOne) SetParallelNodes(s []string) *NodeUpdateOne {
+	nuo.mutation.SetParallelNodes(s)
 	return nuo
 }
 
-// AppendParallelNodes appends i to the "parallel_nodes" field.
-func (nuo *NodeUpdateOne) AppendParallelNodes(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.AppendParallelNodes(i)
+// AppendParallelNodes appends s to the "parallel_nodes" field.
+func (nuo *NodeUpdateOne) AppendParallelNodes(s []string) *NodeUpdateOne {
+	nuo.mutation.AppendParallelNodes(s)
 	return nuo
 }
 
@@ -2012,15 +2090,33 @@ func (nuo *NodeUpdateOne) ClearParallelNodes() *NodeUpdateOne {
 	return nuo
 }
 
-// SetConditions sets the "conditions" field.
-func (nuo *NodeUpdateOne) SetConditions(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.SetConditions(i)
+// SetBranchNodes sets the "branch_nodes" field.
+func (nuo *NodeUpdateOne) SetBranchNodes(s []string) *NodeUpdateOne {
+	nuo.mutation.SetBranchNodes(s)
 	return nuo
 }
 
-// AppendConditions appends i to the "conditions" field.
-func (nuo *NodeUpdateOne) AppendConditions(i []interface{}) *NodeUpdateOne {
-	nuo.mutation.AppendConditions(i)
+// AppendBranchNodes appends s to the "branch_nodes" field.
+func (nuo *NodeUpdateOne) AppendBranchNodes(s []string) *NodeUpdateOne {
+	nuo.mutation.AppendBranchNodes(s)
+	return nuo
+}
+
+// ClearBranchNodes clears the value of the "branch_nodes" field.
+func (nuo *NodeUpdateOne) ClearBranchNodes() *NodeUpdateOne {
+	nuo.mutation.ClearBranchNodes()
+	return nuo
+}
+
+// SetConditions sets the "conditions" field.
+func (nuo *NodeUpdateOne) SetConditions(m []map[string]interface{}) *NodeUpdateOne {
+	nuo.mutation.SetConditions(m)
+	return nuo
+}
+
+// AppendConditions appends m to the "conditions" field.
+func (nuo *NodeUpdateOne) AppendConditions(m []map[string]interface{}) *NodeUpdateOne {
+	nuo.mutation.AppendConditions(m)
 	return nuo
 }
 
@@ -2302,10 +2398,10 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 		_spec.ClearField(node.FieldType, field.TypeString)
 	}
 	if value, ok := nuo.mutation.Status(); ok {
-		_spec.SetField(node.FieldStatus, field.TypeInt, value)
+		_spec.SetField(node.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := nuo.mutation.AddedStatus(); ok {
-		_spec.AddField(node.FieldStatus, field.TypeInt, value)
+	if nuo.mutation.StatusCleared() {
+		_spec.ClearField(node.FieldStatus, field.TypeString)
 	}
 	if value, ok := nuo.mutation.NodeKey(); ok {
 		_spec.SetField(node.FieldNodeKey, field.TypeString, value)
@@ -2358,14 +2454,13 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 	if nuo.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(node.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.Assignee(); ok {
-		_spec.SetField(node.FieldAssignee, field.TypeString, value)
+	if value, ok := nuo.mutation.Assignees(); ok {
+		_spec.SetField(node.FieldAssignees, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AssigneeDept(); ok {
-		_spec.SetField(node.FieldAssigneeDept, field.TypeString, value)
-	}
-	if nuo.mutation.AssigneeDeptCleared() {
-		_spec.ClearField(node.FieldAssigneeDept, field.TypeString)
+	if value, ok := nuo.mutation.AppendedAssignees(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, node.FieldAssignees, value)
+		})
 	}
 	if value, ok := nuo.mutation.Candidates(); ok {
 		_spec.SetField(node.FieldCandidates, field.TypeJSON, value)
@@ -2415,19 +2510,28 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 		_spec.SetField(node.FieldStrictMode, field.TypeBool, value)
 	}
 	if value, ok := nuo.mutation.StartTime(); ok {
-		_spec.SetField(node.FieldStartTime, field.TypeTime, value)
+		_spec.SetField(node.FieldStartTime, field.TypeInt64, value)
+	}
+	if value, ok := nuo.mutation.AddedStartTime(); ok {
+		_spec.AddField(node.FieldStartTime, field.TypeInt64, value)
 	}
 	if value, ok := nuo.mutation.EndTime(); ok {
-		_spec.SetField(node.FieldEndTime, field.TypeTime, value)
+		_spec.SetField(node.FieldEndTime, field.TypeInt64, value)
+	}
+	if value, ok := nuo.mutation.AddedEndTime(); ok {
+		_spec.AddField(node.FieldEndTime, field.TypeInt64, value)
 	}
 	if nuo.mutation.EndTimeCleared() {
-		_spec.ClearField(node.FieldEndTime, field.TypeTime)
+		_spec.ClearField(node.FieldEndTime, field.TypeInt64)
 	}
 	if value, ok := nuo.mutation.DueTime(); ok {
-		_spec.SetField(node.FieldDueTime, field.TypeTime, value)
+		_spec.SetField(node.FieldDueTime, field.TypeInt64, value)
+	}
+	if value, ok := nuo.mutation.AddedDueTime(); ok {
+		_spec.AddField(node.FieldDueTime, field.TypeInt64, value)
 	}
 	if nuo.mutation.DueTimeCleared() {
-		_spec.ClearField(node.FieldDueTime, field.TypeTime)
+		_spec.ClearField(node.FieldDueTime, field.TypeInt64)
 	}
 	if value, ok := nuo.mutation.Duration(); ok {
 		_spec.SetField(node.FieldDuration, field.TypeInt, value)
@@ -2489,6 +2593,12 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 	if nuo.mutation.UpdatedAtCleared() {
 		_spec.ClearField(node.FieldUpdatedAt, field.TypeInt64)
 	}
+	if value, ok := nuo.mutation.ProcessID(); ok {
+		_spec.SetField(node.FieldProcessID, field.TypeString, value)
+	}
+	if value, ok := nuo.mutation.Permissions(); ok {
+		_spec.SetField(node.FieldPermissions, field.TypeJSON, value)
+	}
 	if value, ok := nuo.mutation.PrevNodes(); ok {
 		_spec.SetField(node.FieldPrevNodes, field.TypeJSON, value)
 	}
@@ -2521,6 +2631,17 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 	}
 	if nuo.mutation.ParallelNodesCleared() {
 		_spec.ClearField(node.FieldParallelNodes, field.TypeJSON)
+	}
+	if value, ok := nuo.mutation.BranchNodes(); ok {
+		_spec.SetField(node.FieldBranchNodes, field.TypeJSON, value)
+	}
+	if value, ok := nuo.mutation.AppendedBranchNodes(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, node.FieldBranchNodes, value)
+		})
+	}
+	if nuo.mutation.BranchNodesCleared() {
+		_spec.ClearField(node.FieldBranchNodes, field.TypeJSON)
 	}
 	if value, ok := nuo.mutation.Conditions(); ok {
 		_spec.SetField(node.FieldConditions, field.TypeJSON, value)

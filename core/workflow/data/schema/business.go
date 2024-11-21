@@ -28,8 +28,8 @@ func (Business) Annotations() []schema.Annotation {
 func (Business) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey,
-		mixin.Code,   // Business code
-		mixin.Status, // Business status
+		mixin.Code,       // Business code
+		mixin.TextStatus, // Business status
 		mixin.FormBaseMixin{},
 		mixin.ProcessRefMixin{},
 		mixin.DataTrackingMixin{},

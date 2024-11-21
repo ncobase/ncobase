@@ -4,7 +4,6 @@ package business
 
 import (
 	"ncobase/core/workflow/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -70,7 +69,7 @@ func Code(v string) predicate.Business {
 }
 
 // Status applies equality check predicate on the "status" field. It's identical to StatusEQ.
-func Status(v int) predicate.Business {
+func Status(v string) predicate.Business {
 	return predicate.Business(sql.FieldEQ(FieldStatus, v))
 }
 
@@ -100,7 +99,7 @@ func BusinessKey(v string) predicate.Business {
 }
 
 // LastModified applies equality check predicate on the "last_modified" field. It's identical to LastModifiedEQ.
-func LastModified(v time.Time) predicate.Business {
+func LastModified(v int64) predicate.Business {
 	return predicate.Business(sql.FieldEQ(FieldLastModified, v))
 }
 
@@ -245,43 +244,78 @@ func CodeContainsFold(v string) predicate.Business {
 }
 
 // StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v int) predicate.Business {
+func StatusEQ(v string) predicate.Business {
 	return predicate.Business(sql.FieldEQ(FieldStatus, v))
 }
 
 // StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v int) predicate.Business {
+func StatusNEQ(v string) predicate.Business {
 	return predicate.Business(sql.FieldNEQ(FieldStatus, v))
 }
 
 // StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...int) predicate.Business {
+func StatusIn(vs ...string) predicate.Business {
 	return predicate.Business(sql.FieldIn(FieldStatus, vs...))
 }
 
 // StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...int) predicate.Business {
+func StatusNotIn(vs ...string) predicate.Business {
 	return predicate.Business(sql.FieldNotIn(FieldStatus, vs...))
 }
 
 // StatusGT applies the GT predicate on the "status" field.
-func StatusGT(v int) predicate.Business {
+func StatusGT(v string) predicate.Business {
 	return predicate.Business(sql.FieldGT(FieldStatus, v))
 }
 
 // StatusGTE applies the GTE predicate on the "status" field.
-func StatusGTE(v int) predicate.Business {
+func StatusGTE(v string) predicate.Business {
 	return predicate.Business(sql.FieldGTE(FieldStatus, v))
 }
 
 // StatusLT applies the LT predicate on the "status" field.
-func StatusLT(v int) predicate.Business {
+func StatusLT(v string) predicate.Business {
 	return predicate.Business(sql.FieldLT(FieldStatus, v))
 }
 
 // StatusLTE applies the LTE predicate on the "status" field.
-func StatusLTE(v int) predicate.Business {
+func StatusLTE(v string) predicate.Business {
 	return predicate.Business(sql.FieldLTE(FieldStatus, v))
+}
+
+// StatusContains applies the Contains predicate on the "status" field.
+func StatusContains(v string) predicate.Business {
+	return predicate.Business(sql.FieldContains(FieldStatus, v))
+}
+
+// StatusHasPrefix applies the HasPrefix predicate on the "status" field.
+func StatusHasPrefix(v string) predicate.Business {
+	return predicate.Business(sql.FieldHasPrefix(FieldStatus, v))
+}
+
+// StatusHasSuffix applies the HasSuffix predicate on the "status" field.
+func StatusHasSuffix(v string) predicate.Business {
+	return predicate.Business(sql.FieldHasSuffix(FieldStatus, v))
+}
+
+// StatusIsNil applies the IsNil predicate on the "status" field.
+func StatusIsNil() predicate.Business {
+	return predicate.Business(sql.FieldIsNull(FieldStatus))
+}
+
+// StatusNotNil applies the NotNil predicate on the "status" field.
+func StatusNotNil() predicate.Business {
+	return predicate.Business(sql.FieldNotNull(FieldStatus))
+}
+
+// StatusEqualFold applies the EqualFold predicate on the "status" field.
+func StatusEqualFold(v string) predicate.Business {
+	return predicate.Business(sql.FieldEqualFold(FieldStatus, v))
+}
+
+// StatusContainsFold applies the ContainsFold predicate on the "status" field.
+func StatusContainsFold(v string) predicate.Business {
+	return predicate.Business(sql.FieldContainsFold(FieldStatus, v))
 }
 
 // FormCodeEQ applies the EQ predicate on the "form_code" field.
@@ -660,42 +694,42 @@ func ChangeLogsNotNil() predicate.Business {
 }
 
 // LastModifiedEQ applies the EQ predicate on the "last_modified" field.
-func LastModifiedEQ(v time.Time) predicate.Business {
+func LastModifiedEQ(v int64) predicate.Business {
 	return predicate.Business(sql.FieldEQ(FieldLastModified, v))
 }
 
 // LastModifiedNEQ applies the NEQ predicate on the "last_modified" field.
-func LastModifiedNEQ(v time.Time) predicate.Business {
+func LastModifiedNEQ(v int64) predicate.Business {
 	return predicate.Business(sql.FieldNEQ(FieldLastModified, v))
 }
 
 // LastModifiedIn applies the In predicate on the "last_modified" field.
-func LastModifiedIn(vs ...time.Time) predicate.Business {
+func LastModifiedIn(vs ...int64) predicate.Business {
 	return predicate.Business(sql.FieldIn(FieldLastModified, vs...))
 }
 
 // LastModifiedNotIn applies the NotIn predicate on the "last_modified" field.
-func LastModifiedNotIn(vs ...time.Time) predicate.Business {
+func LastModifiedNotIn(vs ...int64) predicate.Business {
 	return predicate.Business(sql.FieldNotIn(FieldLastModified, vs...))
 }
 
 // LastModifiedGT applies the GT predicate on the "last_modified" field.
-func LastModifiedGT(v time.Time) predicate.Business {
+func LastModifiedGT(v int64) predicate.Business {
 	return predicate.Business(sql.FieldGT(FieldLastModified, v))
 }
 
 // LastModifiedGTE applies the GTE predicate on the "last_modified" field.
-func LastModifiedGTE(v time.Time) predicate.Business {
+func LastModifiedGTE(v int64) predicate.Business {
 	return predicate.Business(sql.FieldGTE(FieldLastModified, v))
 }
 
 // LastModifiedLT applies the LT predicate on the "last_modified" field.
-func LastModifiedLT(v time.Time) predicate.Business {
+func LastModifiedLT(v int64) predicate.Business {
 	return predicate.Business(sql.FieldLT(FieldLastModified, v))
 }
 
 // LastModifiedLTE applies the LTE predicate on the "last_modified" field.
-func LastModifiedLTE(v time.Time) predicate.Business {
+func LastModifiedLTE(v int64) predicate.Business {
 	return predicate.Business(sql.FieldLTE(FieldLastModified, v))
 }
 

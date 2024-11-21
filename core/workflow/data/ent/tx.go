@@ -14,12 +14,18 @@ type Tx struct {
 	config
 	// Business is the client for interacting with the Business builders.
 	Business *BusinessClient
+	// Delegation is the client for interacting with the Delegation builders.
+	Delegation *DelegationClient
 	// History is the client for interacting with the History builders.
 	History *HistoryClient
 	// Node is the client for interacting with the Node builders.
 	Node *NodeClient
 	// Process is the client for interacting with the Process builders.
 	Process *ProcessClient
+	// ProcessDesign is the client for interacting with the ProcessDesign builders.
+	ProcessDesign *ProcessDesignClient
+	// Rule is the client for interacting with the Rule builders.
+	Rule *RuleClient
 	// Task is the client for interacting with the Task builders.
 	Task *TaskClient
 	// Template is the client for interacting with the Template builders.
@@ -156,9 +162,12 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Business = NewBusinessClient(tx.config)
+	tx.Delegation = NewDelegationClient(tx.config)
 	tx.History = NewHistoryClient(tx.config)
 	tx.Node = NewNodeClient(tx.config)
 	tx.Process = NewProcessClient(tx.config)
+	tx.ProcessDesign = NewProcessDesignClient(tx.config)
+	tx.Rule = NewRuleClient(tx.config)
 	tx.Task = NewTaskClient(tx.config)
 	tx.Template = NewTemplateClient(tx.config)
 }

@@ -12,9 +12,12 @@ import (
 	"ncobase/core/workflow/data/ent/migrate"
 
 	"ncobase/core/workflow/data/ent/business"
+	"ncobase/core/workflow/data/ent/delegation"
 	"ncobase/core/workflow/data/ent/history"
 	"ncobase/core/workflow/data/ent/node"
 	"ncobase/core/workflow/data/ent/process"
+	"ncobase/core/workflow/data/ent/processdesign"
+	"ncobase/core/workflow/data/ent/rule"
 	"ncobase/core/workflow/data/ent/task"
 	"ncobase/core/workflow/data/ent/template"
 
@@ -30,12 +33,18 @@ type Client struct {
 	Schema *migrate.Schema
 	// Business is the client for interacting with the Business builders.
 	Business *BusinessClient
+	// Delegation is the client for interacting with the Delegation builders.
+	Delegation *DelegationClient
 	// History is the client for interacting with the History builders.
 	History *HistoryClient
 	// Node is the client for interacting with the Node builders.
 	Node *NodeClient
 	// Process is the client for interacting with the Process builders.
 	Process *ProcessClient
+	// ProcessDesign is the client for interacting with the ProcessDesign builders.
+	ProcessDesign *ProcessDesignClient
+	// Rule is the client for interacting with the Rule builders.
+	Rule *RuleClient
 	// Task is the client for interacting with the Task builders.
 	Task *TaskClient
 	// Template is the client for interacting with the Template builders.
@@ -52,9 +61,12 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Business = NewBusinessClient(c.config)
+	c.Delegation = NewDelegationClient(c.config)
 	c.History = NewHistoryClient(c.config)
 	c.Node = NewNodeClient(c.config)
 	c.Process = NewProcessClient(c.config)
+	c.ProcessDesign = NewProcessDesignClient(c.config)
+	c.Rule = NewRuleClient(c.config)
 	c.Task = NewTaskClient(c.config)
 	c.Template = NewTemplateClient(c.config)
 }
@@ -147,14 +159,17 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:      ctx,
-		config:   cfg,
-		Business: NewBusinessClient(cfg),
-		History:  NewHistoryClient(cfg),
-		Node:     NewNodeClient(cfg),
-		Process:  NewProcessClient(cfg),
-		Task:     NewTaskClient(cfg),
-		Template: NewTemplateClient(cfg),
+		ctx:           ctx,
+		config:        cfg,
+		Business:      NewBusinessClient(cfg),
+		Delegation:    NewDelegationClient(cfg),
+		History:       NewHistoryClient(cfg),
+		Node:          NewNodeClient(cfg),
+		Process:       NewProcessClient(cfg),
+		ProcessDesign: NewProcessDesignClient(cfg),
+		Rule:          NewRuleClient(cfg),
+		Task:          NewTaskClient(cfg),
+		Template:      NewTemplateClient(cfg),
 	}, nil
 }
 
@@ -172,14 +187,17 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:      ctx,
-		config:   cfg,
-		Business: NewBusinessClient(cfg),
-		History:  NewHistoryClient(cfg),
-		Node:     NewNodeClient(cfg),
-		Process:  NewProcessClient(cfg),
-		Task:     NewTaskClient(cfg),
-		Template: NewTemplateClient(cfg),
+		ctx:           ctx,
+		config:        cfg,
+		Business:      NewBusinessClient(cfg),
+		Delegation:    NewDelegationClient(cfg),
+		History:       NewHistoryClient(cfg),
+		Node:          NewNodeClient(cfg),
+		Process:       NewProcessClient(cfg),
+		ProcessDesign: NewProcessDesignClient(cfg),
+		Rule:          NewRuleClient(cfg),
+		Task:          NewTaskClient(cfg),
+		Template:      NewTemplateClient(cfg),
 	}, nil
 }
 
@@ -209,7 +227,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.Business, c.History, c.Node, c.Process, c.Task, c.Template,
+		c.Business, c.Delegation, c.History, c.Node, c.Process, c.ProcessDesign, c.Rule,
+		c.Task, c.Template,
 	} {
 		n.Use(hooks...)
 	}
@@ -219,7 +238,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.Business, c.History, c.Node, c.Process, c.Task, c.Template,
+		c.Business, c.Delegation, c.History, c.Node, c.Process, c.ProcessDesign, c.Rule,
+		c.Task, c.Template,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -230,12 +250,18 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *BusinessMutation:
 		return c.Business.mutate(ctx, m)
+	case *DelegationMutation:
+		return c.Delegation.mutate(ctx, m)
 	case *HistoryMutation:
 		return c.History.mutate(ctx, m)
 	case *NodeMutation:
 		return c.Node.mutate(ctx, m)
 	case *ProcessMutation:
 		return c.Process.mutate(ctx, m)
+	case *ProcessDesignMutation:
+		return c.ProcessDesign.mutate(ctx, m)
+	case *RuleMutation:
+		return c.Rule.mutate(ctx, m)
 	case *TaskMutation:
 		return c.Task.mutate(ctx, m)
 	case *TemplateMutation:
@@ -375,6 +401,139 @@ func (c *BusinessClient) mutate(ctx context.Context, m *BusinessMutation) (Value
 		return (&BusinessDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Business mutation op: %q", m.Op())
+	}
+}
+
+// DelegationClient is a client for the Delegation schema.
+type DelegationClient struct {
+	config
+}
+
+// NewDelegationClient returns a client for the Delegation from the given config.
+func NewDelegationClient(c config) *DelegationClient {
+	return &DelegationClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `delegation.Hooks(f(g(h())))`.
+func (c *DelegationClient) Use(hooks ...Hook) {
+	c.hooks.Delegation = append(c.hooks.Delegation, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `delegation.Intercept(f(g(h())))`.
+func (c *DelegationClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Delegation = append(c.inters.Delegation, interceptors...)
+}
+
+// Create returns a builder for creating a Delegation entity.
+func (c *DelegationClient) Create() *DelegationCreate {
+	mutation := newDelegationMutation(c.config, OpCreate)
+	return &DelegationCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Delegation entities.
+func (c *DelegationClient) CreateBulk(builders ...*DelegationCreate) *DelegationCreateBulk {
+	return &DelegationCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *DelegationClient) MapCreateBulk(slice any, setFunc func(*DelegationCreate, int)) *DelegationCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &DelegationCreateBulk{err: fmt.Errorf("calling to DelegationClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*DelegationCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &DelegationCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Delegation.
+func (c *DelegationClient) Update() *DelegationUpdate {
+	mutation := newDelegationMutation(c.config, OpUpdate)
+	return &DelegationUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *DelegationClient) UpdateOne(d *Delegation) *DelegationUpdateOne {
+	mutation := newDelegationMutation(c.config, OpUpdateOne, withDelegation(d))
+	return &DelegationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *DelegationClient) UpdateOneID(id string) *DelegationUpdateOne {
+	mutation := newDelegationMutation(c.config, OpUpdateOne, withDelegationID(id))
+	return &DelegationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Delegation.
+func (c *DelegationClient) Delete() *DelegationDelete {
+	mutation := newDelegationMutation(c.config, OpDelete)
+	return &DelegationDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *DelegationClient) DeleteOne(d *Delegation) *DelegationDeleteOne {
+	return c.DeleteOneID(d.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *DelegationClient) DeleteOneID(id string) *DelegationDeleteOne {
+	builder := c.Delete().Where(delegation.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &DelegationDeleteOne{builder}
+}
+
+// Query returns a query builder for Delegation.
+func (c *DelegationClient) Query() *DelegationQuery {
+	return &DelegationQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeDelegation},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Delegation entity by its id.
+func (c *DelegationClient) Get(ctx context.Context, id string) (*Delegation, error) {
+	return c.Query().Where(delegation.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *DelegationClient) GetX(ctx context.Context, id string) *Delegation {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *DelegationClient) Hooks() []Hook {
+	return c.hooks.Delegation
+}
+
+// Interceptors returns the client interceptors.
+func (c *DelegationClient) Interceptors() []Interceptor {
+	return c.inters.Delegation
+}
+
+func (c *DelegationClient) mutate(ctx context.Context, m *DelegationMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&DelegationCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&DelegationUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&DelegationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&DelegationDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Delegation mutation op: %q", m.Op())
 	}
 }
 
@@ -777,6 +936,272 @@ func (c *ProcessClient) mutate(ctx context.Context, m *ProcessMutation) (Value, 
 	}
 }
 
+// ProcessDesignClient is a client for the ProcessDesign schema.
+type ProcessDesignClient struct {
+	config
+}
+
+// NewProcessDesignClient returns a client for the ProcessDesign from the given config.
+func NewProcessDesignClient(c config) *ProcessDesignClient {
+	return &ProcessDesignClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `processdesign.Hooks(f(g(h())))`.
+func (c *ProcessDesignClient) Use(hooks ...Hook) {
+	c.hooks.ProcessDesign = append(c.hooks.ProcessDesign, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `processdesign.Intercept(f(g(h())))`.
+func (c *ProcessDesignClient) Intercept(interceptors ...Interceptor) {
+	c.inters.ProcessDesign = append(c.inters.ProcessDesign, interceptors...)
+}
+
+// Create returns a builder for creating a ProcessDesign entity.
+func (c *ProcessDesignClient) Create() *ProcessDesignCreate {
+	mutation := newProcessDesignMutation(c.config, OpCreate)
+	return &ProcessDesignCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of ProcessDesign entities.
+func (c *ProcessDesignClient) CreateBulk(builders ...*ProcessDesignCreate) *ProcessDesignCreateBulk {
+	return &ProcessDesignCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *ProcessDesignClient) MapCreateBulk(slice any, setFunc func(*ProcessDesignCreate, int)) *ProcessDesignCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &ProcessDesignCreateBulk{err: fmt.Errorf("calling to ProcessDesignClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*ProcessDesignCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &ProcessDesignCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for ProcessDesign.
+func (c *ProcessDesignClient) Update() *ProcessDesignUpdate {
+	mutation := newProcessDesignMutation(c.config, OpUpdate)
+	return &ProcessDesignUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *ProcessDesignClient) UpdateOne(pd *ProcessDesign) *ProcessDesignUpdateOne {
+	mutation := newProcessDesignMutation(c.config, OpUpdateOne, withProcessDesign(pd))
+	return &ProcessDesignUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *ProcessDesignClient) UpdateOneID(id string) *ProcessDesignUpdateOne {
+	mutation := newProcessDesignMutation(c.config, OpUpdateOne, withProcessDesignID(id))
+	return &ProcessDesignUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for ProcessDesign.
+func (c *ProcessDesignClient) Delete() *ProcessDesignDelete {
+	mutation := newProcessDesignMutation(c.config, OpDelete)
+	return &ProcessDesignDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *ProcessDesignClient) DeleteOne(pd *ProcessDesign) *ProcessDesignDeleteOne {
+	return c.DeleteOneID(pd.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *ProcessDesignClient) DeleteOneID(id string) *ProcessDesignDeleteOne {
+	builder := c.Delete().Where(processdesign.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &ProcessDesignDeleteOne{builder}
+}
+
+// Query returns a query builder for ProcessDesign.
+func (c *ProcessDesignClient) Query() *ProcessDesignQuery {
+	return &ProcessDesignQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeProcessDesign},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a ProcessDesign entity by its id.
+func (c *ProcessDesignClient) Get(ctx context.Context, id string) (*ProcessDesign, error) {
+	return c.Query().Where(processdesign.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *ProcessDesignClient) GetX(ctx context.Context, id string) *ProcessDesign {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *ProcessDesignClient) Hooks() []Hook {
+	return c.hooks.ProcessDesign
+}
+
+// Interceptors returns the client interceptors.
+func (c *ProcessDesignClient) Interceptors() []Interceptor {
+	return c.inters.ProcessDesign
+}
+
+func (c *ProcessDesignClient) mutate(ctx context.Context, m *ProcessDesignMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&ProcessDesignCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&ProcessDesignUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&ProcessDesignUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&ProcessDesignDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown ProcessDesign mutation op: %q", m.Op())
+	}
+}
+
+// RuleClient is a client for the Rule schema.
+type RuleClient struct {
+	config
+}
+
+// NewRuleClient returns a client for the Rule from the given config.
+func NewRuleClient(c config) *RuleClient {
+	return &RuleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `rule.Hooks(f(g(h())))`.
+func (c *RuleClient) Use(hooks ...Hook) {
+	c.hooks.Rule = append(c.hooks.Rule, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `rule.Intercept(f(g(h())))`.
+func (c *RuleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Rule = append(c.inters.Rule, interceptors...)
+}
+
+// Create returns a builder for creating a Rule entity.
+func (c *RuleClient) Create() *RuleCreate {
+	mutation := newRuleMutation(c.config, OpCreate)
+	return &RuleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Rule entities.
+func (c *RuleClient) CreateBulk(builders ...*RuleCreate) *RuleCreateBulk {
+	return &RuleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *RuleClient) MapCreateBulk(slice any, setFunc func(*RuleCreate, int)) *RuleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &RuleCreateBulk{err: fmt.Errorf("calling to RuleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*RuleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &RuleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Rule.
+func (c *RuleClient) Update() *RuleUpdate {
+	mutation := newRuleMutation(c.config, OpUpdate)
+	return &RuleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *RuleClient) UpdateOne(r *Rule) *RuleUpdateOne {
+	mutation := newRuleMutation(c.config, OpUpdateOne, withRule(r))
+	return &RuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *RuleClient) UpdateOneID(id string) *RuleUpdateOne {
+	mutation := newRuleMutation(c.config, OpUpdateOne, withRuleID(id))
+	return &RuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Rule.
+func (c *RuleClient) Delete() *RuleDelete {
+	mutation := newRuleMutation(c.config, OpDelete)
+	return &RuleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *RuleClient) DeleteOne(r *Rule) *RuleDeleteOne {
+	return c.DeleteOneID(r.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *RuleClient) DeleteOneID(id string) *RuleDeleteOne {
+	builder := c.Delete().Where(rule.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &RuleDeleteOne{builder}
+}
+
+// Query returns a query builder for Rule.
+func (c *RuleClient) Query() *RuleQuery {
+	return &RuleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeRule},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Rule entity by its id.
+func (c *RuleClient) Get(ctx context.Context, id string) (*Rule, error) {
+	return c.Query().Where(rule.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *RuleClient) GetX(ctx context.Context, id string) *Rule {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *RuleClient) Hooks() []Hook {
+	return c.hooks.Rule
+}
+
+// Interceptors returns the client interceptors.
+func (c *RuleClient) Interceptors() []Interceptor {
+	return c.inters.Rule
+}
+
+func (c *RuleClient) mutate(ctx context.Context, m *RuleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&RuleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&RuleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&RuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&RuleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Rule mutation op: %q", m.Op())
+	}
+}
+
 // TaskClient is a client for the Task schema.
 type TaskClient struct {
 	config
@@ -1046,9 +1471,11 @@ func (c *TemplateClient) mutate(ctx context.Context, m *TemplateMutation) (Value
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Business, History, Node, Process, Task, Template []ent.Hook
+		Business, Delegation, History, Node, Process, ProcessDesign, Rule, Task,
+		Template []ent.Hook
 	}
 	inters struct {
-		Business, History, Node, Process, Task, Template []ent.Interceptor
+		Business, Delegation, History, Node, Process, ProcessDesign, Rule, Task,
+		Template []ent.Interceptor
 	}
 )

@@ -3,30 +3,45 @@ package structs
 import (
 	"fmt"
 	"ncobase/common/types"
-	"time"
 )
 
 // TaskBody represents a task entity base fields
 type TaskBody struct {
-	Name         string         `json:"name,omitempty"`
-	Description  string         `json:"description,omitempty"`
-	Status       string         `json:"status,omitempty"`
-	TaskKey      string         `json:"task_key,omitempty"`
-	ProcessID    string         `json:"process_id,omitempty"`
-	NodeKey      string         `json:"node_key,omitempty"`
-	NodeType     string         `json:"node_type,omitempty"`
-	Assignee     string         `json:"assignee,omitempty"`
-	AssigneeDept string         `json:"assignee_dept,omitempty"`
-	Candidates   []string       `json:"candidates,omitempty"`
-	Action       string         `json:"action,omitempty"`
-	Comment      string         `json:"comment,omitempty"`
-	FormData     map[string]any `json:"form_data,omitempty"`
-	Variables    map[string]any `json:"variables,omitempty"`
-	Priority     int            `json:"priority,omitempty"`
-	IsUrged      bool           `json:"is_urged,omitempty"`
-	UrgeCount    int            `json:"urge_count,omitempty"`
-	IsTimeout    bool           `json:"is_timeout,omitempty"`
-	Extras       map[string]any `json:"extras,omitempty"`
+	Name           string            `json:"name,omitempty"`
+	Category       CategoryType      `json:"category,omitempty"`
+	Weight         PriorityStrategy  `json:"weight,omitempty"`
+	ParentTaskID   string            `json:"parent_task_id,omitempty"`
+	SubTasks       types.StringArray `json:"sub_tasks,omitempty"`
+	AllowedActions types.StringArray `json:"allowed_actions,omitempty"`
+	Restrictions   types.JSON        `json:"restrictions,omitempty"`
+	Description    string            `json:"description,omitempty"`
+	Status         string            `json:"status,omitempty"`
+	TaskKey        string            `json:"task_key,omitempty"`
+	ProcessID      string            `json:"process_id,omitempty"`
+	NodeKey        string            `json:"node_key,omitempty"`
+	NodeType       string            `json:"node_type,omitempty"`
+	Assignees      types.JSONArray   `json:"assignees,omitempty"`
+	Candidates     types.JSONArray   `json:"candidates,omitempty"`
+	Action         string            `json:"action,omitempty"`
+	Comment        string            `json:"comment,omitempty"`
+	FormData       types.JSON        `json:"form_data,omitempty"`
+	Variables      types.JSON        `json:"variables,omitempty"`
+	Priority       int               `json:"priority,omitempty"`
+	IsUrged        bool              `json:"is_urged,omitempty"`
+	UrgeCount      int               `json:"urge_count,omitempty"`
+	IsTransferred  bool              `json:"is_transferred,omitempty"`
+	IsResubmit     bool              `json:"is_resubmit,omitempty"`
+	IsDelegated    bool              `json:"is_delegated,omitempty"`
+	DelegatedFrom  types.JSON        `json:"delegated_from,omitempty"`
+	IsTimeout      bool              `json:"is_timeout,omitempty"`
+	TenantID       string            `json:"tenant_id,omitempty"`
+	StartTime      *int64            `json:"start_time,omitempty"`
+	ClaimTime      *int64            `json:"claim_time,omitempty"`
+	AssignStrategy string            `json:"assign_strategy,omitempty"`
+	EndTime        *int64            `json:"end_time,omitempty"`
+	DueTime        *int64            `json:"due_time,omitempty"`
+	Duration       *int              `json:"duration,omitempty"`
+	Extras         types.JSON        `json:"extras,omitempty"`
 }
 
 // CreateTaskBody represents the body for creating task
@@ -43,18 +58,46 @@ type UpdateTaskBody struct {
 
 // ReadTask represents the output schema for retrieving task
 type ReadTask struct {
-	ID string `json:"id"`
-	TaskBody
-	TenantID  string     `json:"tenant_id,omitempty"`
-	StartTime *time.Time `json:"start_time,omitempty"`
-	ClaimTime *time.Time `json:"claim_time,omitempty"`
-	EndTime   *time.Time `json:"end_time,omitempty"`
-	DueTime   *time.Time `json:"due_time,omitempty"`
-	Duration  *int       `json:"duration,omitempty"`
-	CreatedBy *string    `json:"created_by,omitempty"`
-	CreatedAt *int64     `json:"created_at,omitempty"`
-	UpdatedBy *string    `json:"updated_by,omitempty"`
-	UpdatedAt *int64     `json:"updated_at,omitempty"`
+	ID             string            `json:"id"`
+	Name           string            `json:"name,omitempty"`
+	Category       CategoryType      `json:"category,omitempty"`
+	Weight         PriorityStrategy  `json:"weight,omitempty"`
+	ParentTaskID   string            `json:"parent_task_id,omitempty"`
+	SubTasks       types.StringArray `json:"sub_tasks,omitempty"`
+	AllowedActions types.StringArray `json:"allowed_actions,omitempty"`
+	Restrictions   types.JSON        `json:"restrictions,omitempty"`
+	Description    string            `json:"description,omitempty"`
+	Status         string            `json:"status,omitempty"`
+	TaskKey        string            `json:"task_key,omitempty"`
+	ProcessID      string            `json:"process_id,omitempty"`
+	NodeKey        string            `json:"node_key,omitempty"`
+	NodeType       string            `json:"node_type,omitempty"`
+	Assignees      types.JSONArray   `json:"assignees,omitempty"`
+	Candidates     types.JSONArray   `json:"candidates,omitempty"`
+	Action         string            `json:"action,omitempty"`
+	Comment        string            `json:"comment,omitempty"`
+	FormData       types.JSON        `json:"form_data,omitempty"`
+	Variables      types.JSON        `json:"variables,omitempty"`
+	Priority       int               `json:"priority,omitempty"`
+	IsUrged        bool              `json:"is_urged,omitempty"`
+	UrgeCount      int               `json:"urge_count,omitempty"`
+	IsTransferred  bool              `json:"is_transferred,omitempty"`
+	IsResubmit     bool              `json:"is_resubmit,omitempty"`
+	IsDelegated    bool              `json:"is_delegated,omitempty"`
+	DelegatedFrom  types.JSON        `json:"delegated_from,omitempty"`
+	IsTimeout      bool              `json:"is_timeout,omitempty"`
+	TenantID       string            `json:"tenant_id,omitempty"`
+	StartTime      *int64            `json:"start_time,omitempty"`
+	ClaimTime      *int64            `json:"claim_time,omitempty"`
+	AssignStrategy string            `json:"assign_strategy,omitempty"`
+	EndTime        *int64            `json:"end_time,omitempty"`
+	DueTime        *int64            `json:"due_time,omitempty"`
+	Duration       *int              `json:"duration,omitempty"`
+	Extras         types.JSON        `json:"extras,omitempty"`
+	CreatedBy      *string           `json:"created_by,omitempty"`
+	CreatedAt      *int64            `json:"created_at,omitempty"`
+	UpdatedBy      *string           `json:"updated_by,omitempty"`
+	UpdatedAt      *int64            `json:"updated_at,omitempty"`
 }
 
 // GetID returns the ID of the task
@@ -69,7 +112,7 @@ func (r *ReadTask) GetCursorValue() string {
 
 // GetSortValue get sort value
 func (r *ReadTask) GetSortValue(field string) any {
-	switch types.SortField(field) {
+	switch field {
 	case SortByCreatedAt:
 		return types.ToValue(r.CreatedAt)
 	case SortByPriority:
@@ -87,14 +130,31 @@ type FindTaskParams struct {
 	NodeKey     string          `form:"node_key,omitempty" json:"node_key,omitempty"`
 	NodeType    string          `form:"node_type,omitempty" json:"node_type,omitempty"`
 	Status      string          `form:"status,omitempty" json:"status,omitempty"`
-	Assignee    string          `form:"assignee,omitempty" json:"assignee,omitempty"`
+	Assignees   types.JSONArray `form:"assignees,omitempty" json:"assignees,omitempty"`
 	IsUrged     *bool           `form:"is_urged,omitempty" json:"is_urged,omitempty"`
 	IsTimeout   *bool           `form:"is_timeout,omitempty" json:"is_timeout,omitempty"`
 	Priority    *int            `form:"priority,omitempty" json:"priority,omitempty"`
-	DueTimeFrom *time.Time      `form:"due_time_from,omitempty" json:"due_time_from,omitempty"`
-	DueTimeTo   *time.Time      `form:"due_time_to,omitempty" json:"due_time_to,omitempty"`
+	DueTimeFrom *int64          `form:"due_time_from,omitempty" json:"due_time_from,omitempty"`
+	DueTimeTo   *int64          `form:"due_time_to,omitempty" json:"due_time_to,omitempty"`
 	Tenant      string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy      types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	SortBy      string          `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+}
+
+// TaskCondition represents the condition for finding tasks
+type TaskCondition struct {
+	ProcessIDs []string `json:"process_ids,omitempty"`
+	NodeTypes  []string `json:"node_types,omitempty"`
+	Statuses   []string `json:"statuses,omitempty"`
+	Assignees  []string `json:"assignees,omitempty"`
+	Priority   *int     `json:"priority,omitempty"`
+	StartTime  *int64   `json:"start_time,omitempty"`
+	EndTime    *int64   `json:"end_time,omitempty"`
+	IsTimeout  *bool    `json:"is_timeout,omitempty"`
+	IsUrged    *bool    `json:"is_urged,omitempty"`
+	SortBy     []string `json:"sort_by,omitempty"`
+	OrderBy    []string `json:"order_by,omitempty"`
+	Limit      int      `json:"limit,omitempty"`
+	Offset     int      `json:"offset,omitempty"`
 }
 
 // ListTaskParams represents list parameters for tasks
@@ -104,10 +164,11 @@ type ListTaskParams struct {
 	Direction string          `form:"direction,omitempty" json:"direction,omitempty"`
 	ProcessID string          `form:"process_id,omitempty" json:"process_id,omitempty"`
 	NodeType  string          `form:"node_type,omitempty" json:"node_type,omitempty"`
+	NodeKey   string          `form:"node_key,omitempty" json:"node_key,omitempty"`
 	Status    string          `form:"status,omitempty" json:"status,omitempty"`
-	Assignee  string          `form:"assignee,omitempty" json:"assignee,omitempty"`
+	Assignees types.JSONArray `form:"assignees,omitempty" json:"assignees,omitempty"`
 	IsTimeout *bool           `form:"is_timeout,omitempty" json:"is_timeout,omitempty"`
 	Priority  *int            `form:"priority,omitempty" json:"priority,omitempty"`
 	Tenant    string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy    types.SortField `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	SortBy    string          `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

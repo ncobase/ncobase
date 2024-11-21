@@ -151,6 +151,12 @@ func (hc *HistoryCreate) SetNillableUpdatedAt(i *int64) *HistoryCreate {
 	return hc
 }
 
+// SetNodeName sets the "node_name" field.
+func (hc *HistoryCreate) SetNodeName(s string) *HistoryCreate {
+	hc.mutation.SetNodeName(s)
+	return hc
+}
+
 // SetOperator sets the "operator" field.
 func (hc *HistoryCreate) SetOperator(s string) *HistoryCreate {
 	hc.mutation.SetOperator(s)
@@ -168,6 +174,32 @@ func (hc *HistoryCreate) SetNillableOperatorDept(s *string) *HistoryCreate {
 	if s != nil {
 		hc.SetOperatorDept(*s)
 	}
+	return hc
+}
+
+// SetTaskID sets the "task_id" field.
+func (hc *HistoryCreate) SetTaskID(s string) *HistoryCreate {
+	hc.mutation.SetTaskID(s)
+	return hc
+}
+
+// SetNillableTaskID sets the "task_id" field if the given value is not nil.
+func (hc *HistoryCreate) SetNillableTaskID(s *string) *HistoryCreate {
+	if s != nil {
+		hc.SetTaskID(*s)
+	}
+	return hc
+}
+
+// SetVariables sets the "variables" field.
+func (hc *HistoryCreate) SetVariables(m map[string]interface{}) *HistoryCreate {
+	hc.mutation.SetVariables(m)
+	return hc
+}
+
+// SetFormData sets the "form_data" field.
+func (hc *HistoryCreate) SetFormData(m map[string]interface{}) *HistoryCreate {
+	hc.mutation.SetFormData(m)
 	return hc
 }
 
@@ -292,8 +324,14 @@ func (hc *HistoryCreate) check() error {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "History.updated_by": %w`, err)}
 		}
 	}
+	if _, ok := hc.mutation.NodeName(); !ok {
+		return &ValidationError{Name: "node_name", err: errors.New(`ent: missing required field "History.node_name"`)}
+	}
 	if _, ok := hc.mutation.Operator(); !ok {
 		return &ValidationError{Name: "operator", err: errors.New(`ent: missing required field "History.operator"`)}
+	}
+	if _, ok := hc.mutation.Variables(); !ok {
+		return &ValidationError{Name: "variables", err: errors.New(`ent: missing required field "History.variables"`)}
 	}
 	if _, ok := hc.mutation.Action(); !ok {
 		return &ValidationError{Name: "action", err: errors.New(`ent: missing required field "History.action"`)}
@@ -394,6 +432,10 @@ func (hc *HistoryCreate) createSpec() (*History, *sqlgraph.CreateSpec) {
 		_spec.SetField(history.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
+	if value, ok := hc.mutation.NodeName(); ok {
+		_spec.SetField(history.FieldNodeName, field.TypeString, value)
+		_node.NodeName = value
+	}
 	if value, ok := hc.mutation.Operator(); ok {
 		_spec.SetField(history.FieldOperator, field.TypeString, value)
 		_node.Operator = value
@@ -401,6 +443,18 @@ func (hc *HistoryCreate) createSpec() (*History, *sqlgraph.CreateSpec) {
 	if value, ok := hc.mutation.OperatorDept(); ok {
 		_spec.SetField(history.FieldOperatorDept, field.TypeString, value)
 		_node.OperatorDept = value
+	}
+	if value, ok := hc.mutation.TaskID(); ok {
+		_spec.SetField(history.FieldTaskID, field.TypeString, value)
+		_node.TaskID = value
+	}
+	if value, ok := hc.mutation.Variables(); ok {
+		_spec.SetField(history.FieldVariables, field.TypeJSON, value)
+		_node.Variables = value
+	}
+	if value, ok := hc.mutation.FormData(); ok {
+		_spec.SetField(history.FieldFormData, field.TypeJSON, value)
+		_node.FormData = value
 	}
 	if value, ok := hc.mutation.Action(); ok {
 		_spec.SetField(history.FieldAction, field.TypeString, value)

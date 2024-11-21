@@ -4,7 +4,6 @@ package node
 
 import (
 	"ncobase/core/workflow/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -80,7 +79,7 @@ func Type(v string) predicate.Node {
 }
 
 // Status applies equality check predicate on the "status" field. It's identical to StatusEQ.
-func Status(v int) predicate.Node {
+func Status(v string) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldStatus, v))
 }
 
@@ -102,16 +101,6 @@ func FormCode(v string) predicate.Node {
 // FormVersion applies equality check predicate on the "form_version" field. It's identical to FormVersionEQ.
 func FormVersion(v string) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldFormVersion, v))
-}
-
-// Assignee applies equality check predicate on the "assignee" field. It's identical to AssigneeEQ.
-func Assignee(v string) predicate.Node {
-	return predicate.Node(sql.FieldEQ(FieldAssignee, v))
-}
-
-// AssigneeDept applies equality check predicate on the "assignee_dept" field. It's identical to AssigneeDeptEQ.
-func AssigneeDept(v string) predicate.Node {
-	return predicate.Node(sql.FieldEQ(FieldAssigneeDept, v))
 }
 
 // DelegatedFrom applies equality check predicate on the "delegated_from" field. It's identical to DelegatedFromEQ.
@@ -170,17 +159,17 @@ func StrictMode(v bool) predicate.Node {
 }
 
 // StartTime applies equality check predicate on the "start_time" field. It's identical to StartTimeEQ.
-func StartTime(v time.Time) predicate.Node {
+func StartTime(v int64) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldStartTime, v))
 }
 
 // EndTime applies equality check predicate on the "end_time" field. It's identical to EndTimeEQ.
-func EndTime(v time.Time) predicate.Node {
+func EndTime(v int64) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldEndTime, v))
 }
 
 // DueTime applies equality check predicate on the "due_time" field. It's identical to DueTimeEQ.
-func DueTime(v time.Time) predicate.Node {
+func DueTime(v int64) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldDueTime, v))
 }
 
@@ -227,6 +216,11 @@ func CreatedAt(v int64) predicate.Node {
 // UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v int64) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// ProcessID applies equality check predicate on the "process_id" field. It's identical to ProcessIDEQ.
+func ProcessID(v string) predicate.Node {
+	return predicate.Node(sql.FieldEQ(FieldProcessID, v))
 }
 
 // IsCountersign applies equality check predicate on the "is_countersign" field. It's identical to IsCountersignEQ.
@@ -480,43 +474,78 @@ func TypeContainsFold(v string) predicate.Node {
 }
 
 // StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v int) predicate.Node {
+func StatusEQ(v string) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldStatus, v))
 }
 
 // StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v int) predicate.Node {
+func StatusNEQ(v string) predicate.Node {
 	return predicate.Node(sql.FieldNEQ(FieldStatus, v))
 }
 
 // StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...int) predicate.Node {
+func StatusIn(vs ...string) predicate.Node {
 	return predicate.Node(sql.FieldIn(FieldStatus, vs...))
 }
 
 // StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...int) predicate.Node {
+func StatusNotIn(vs ...string) predicate.Node {
 	return predicate.Node(sql.FieldNotIn(FieldStatus, vs...))
 }
 
 // StatusGT applies the GT predicate on the "status" field.
-func StatusGT(v int) predicate.Node {
+func StatusGT(v string) predicate.Node {
 	return predicate.Node(sql.FieldGT(FieldStatus, v))
 }
 
 // StatusGTE applies the GTE predicate on the "status" field.
-func StatusGTE(v int) predicate.Node {
+func StatusGTE(v string) predicate.Node {
 	return predicate.Node(sql.FieldGTE(FieldStatus, v))
 }
 
 // StatusLT applies the LT predicate on the "status" field.
-func StatusLT(v int) predicate.Node {
+func StatusLT(v string) predicate.Node {
 	return predicate.Node(sql.FieldLT(FieldStatus, v))
 }
 
 // StatusLTE applies the LTE predicate on the "status" field.
-func StatusLTE(v int) predicate.Node {
+func StatusLTE(v string) predicate.Node {
 	return predicate.Node(sql.FieldLTE(FieldStatus, v))
+}
+
+// StatusContains applies the Contains predicate on the "status" field.
+func StatusContains(v string) predicate.Node {
+	return predicate.Node(sql.FieldContains(FieldStatus, v))
+}
+
+// StatusHasPrefix applies the HasPrefix predicate on the "status" field.
+func StatusHasPrefix(v string) predicate.Node {
+	return predicate.Node(sql.FieldHasPrefix(FieldStatus, v))
+}
+
+// StatusHasSuffix applies the HasSuffix predicate on the "status" field.
+func StatusHasSuffix(v string) predicate.Node {
+	return predicate.Node(sql.FieldHasSuffix(FieldStatus, v))
+}
+
+// StatusIsNil applies the IsNil predicate on the "status" field.
+func StatusIsNil() predicate.Node {
+	return predicate.Node(sql.FieldIsNull(FieldStatus))
+}
+
+// StatusNotNil applies the NotNil predicate on the "status" field.
+func StatusNotNil() predicate.Node {
+	return predicate.Node(sql.FieldNotNull(FieldStatus))
+}
+
+// StatusEqualFold applies the EqualFold predicate on the "status" field.
+func StatusEqualFold(v string) predicate.Node {
+	return predicate.Node(sql.FieldEqualFold(FieldStatus, v))
+}
+
+// StatusContainsFold applies the ContainsFold predicate on the "status" field.
+func StatusContainsFold(v string) predicate.Node {
+	return predicate.Node(sql.FieldContainsFold(FieldStatus, v))
 }
 
 // NodeKeyEQ applies the EQ predicate on the "node_key" field.
@@ -849,146 +878,6 @@ func FieldPermissionsNotNil() predicate.Node {
 	return predicate.Node(sql.FieldNotNull(FieldFieldPermissions))
 }
 
-// AssigneeEQ applies the EQ predicate on the "assignee" field.
-func AssigneeEQ(v string) predicate.Node {
-	return predicate.Node(sql.FieldEQ(FieldAssignee, v))
-}
-
-// AssigneeNEQ applies the NEQ predicate on the "assignee" field.
-func AssigneeNEQ(v string) predicate.Node {
-	return predicate.Node(sql.FieldNEQ(FieldAssignee, v))
-}
-
-// AssigneeIn applies the In predicate on the "assignee" field.
-func AssigneeIn(vs ...string) predicate.Node {
-	return predicate.Node(sql.FieldIn(FieldAssignee, vs...))
-}
-
-// AssigneeNotIn applies the NotIn predicate on the "assignee" field.
-func AssigneeNotIn(vs ...string) predicate.Node {
-	return predicate.Node(sql.FieldNotIn(FieldAssignee, vs...))
-}
-
-// AssigneeGT applies the GT predicate on the "assignee" field.
-func AssigneeGT(v string) predicate.Node {
-	return predicate.Node(sql.FieldGT(FieldAssignee, v))
-}
-
-// AssigneeGTE applies the GTE predicate on the "assignee" field.
-func AssigneeGTE(v string) predicate.Node {
-	return predicate.Node(sql.FieldGTE(FieldAssignee, v))
-}
-
-// AssigneeLT applies the LT predicate on the "assignee" field.
-func AssigneeLT(v string) predicate.Node {
-	return predicate.Node(sql.FieldLT(FieldAssignee, v))
-}
-
-// AssigneeLTE applies the LTE predicate on the "assignee" field.
-func AssigneeLTE(v string) predicate.Node {
-	return predicate.Node(sql.FieldLTE(FieldAssignee, v))
-}
-
-// AssigneeContains applies the Contains predicate on the "assignee" field.
-func AssigneeContains(v string) predicate.Node {
-	return predicate.Node(sql.FieldContains(FieldAssignee, v))
-}
-
-// AssigneeHasPrefix applies the HasPrefix predicate on the "assignee" field.
-func AssigneeHasPrefix(v string) predicate.Node {
-	return predicate.Node(sql.FieldHasPrefix(FieldAssignee, v))
-}
-
-// AssigneeHasSuffix applies the HasSuffix predicate on the "assignee" field.
-func AssigneeHasSuffix(v string) predicate.Node {
-	return predicate.Node(sql.FieldHasSuffix(FieldAssignee, v))
-}
-
-// AssigneeEqualFold applies the EqualFold predicate on the "assignee" field.
-func AssigneeEqualFold(v string) predicate.Node {
-	return predicate.Node(sql.FieldEqualFold(FieldAssignee, v))
-}
-
-// AssigneeContainsFold applies the ContainsFold predicate on the "assignee" field.
-func AssigneeContainsFold(v string) predicate.Node {
-	return predicate.Node(sql.FieldContainsFold(FieldAssignee, v))
-}
-
-// AssigneeDeptEQ applies the EQ predicate on the "assignee_dept" field.
-func AssigneeDeptEQ(v string) predicate.Node {
-	return predicate.Node(sql.FieldEQ(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptNEQ applies the NEQ predicate on the "assignee_dept" field.
-func AssigneeDeptNEQ(v string) predicate.Node {
-	return predicate.Node(sql.FieldNEQ(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptIn applies the In predicate on the "assignee_dept" field.
-func AssigneeDeptIn(vs ...string) predicate.Node {
-	return predicate.Node(sql.FieldIn(FieldAssigneeDept, vs...))
-}
-
-// AssigneeDeptNotIn applies the NotIn predicate on the "assignee_dept" field.
-func AssigneeDeptNotIn(vs ...string) predicate.Node {
-	return predicate.Node(sql.FieldNotIn(FieldAssigneeDept, vs...))
-}
-
-// AssigneeDeptGT applies the GT predicate on the "assignee_dept" field.
-func AssigneeDeptGT(v string) predicate.Node {
-	return predicate.Node(sql.FieldGT(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptGTE applies the GTE predicate on the "assignee_dept" field.
-func AssigneeDeptGTE(v string) predicate.Node {
-	return predicate.Node(sql.FieldGTE(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptLT applies the LT predicate on the "assignee_dept" field.
-func AssigneeDeptLT(v string) predicate.Node {
-	return predicate.Node(sql.FieldLT(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptLTE applies the LTE predicate on the "assignee_dept" field.
-func AssigneeDeptLTE(v string) predicate.Node {
-	return predicate.Node(sql.FieldLTE(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptContains applies the Contains predicate on the "assignee_dept" field.
-func AssigneeDeptContains(v string) predicate.Node {
-	return predicate.Node(sql.FieldContains(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptHasPrefix applies the HasPrefix predicate on the "assignee_dept" field.
-func AssigneeDeptHasPrefix(v string) predicate.Node {
-	return predicate.Node(sql.FieldHasPrefix(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptHasSuffix applies the HasSuffix predicate on the "assignee_dept" field.
-func AssigneeDeptHasSuffix(v string) predicate.Node {
-	return predicate.Node(sql.FieldHasSuffix(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptIsNil applies the IsNil predicate on the "assignee_dept" field.
-func AssigneeDeptIsNil() predicate.Node {
-	return predicate.Node(sql.FieldIsNull(FieldAssigneeDept))
-}
-
-// AssigneeDeptNotNil applies the NotNil predicate on the "assignee_dept" field.
-func AssigneeDeptNotNil() predicate.Node {
-	return predicate.Node(sql.FieldNotNull(FieldAssigneeDept))
-}
-
-// AssigneeDeptEqualFold applies the EqualFold predicate on the "assignee_dept" field.
-func AssigneeDeptEqualFold(v string) predicate.Node {
-	return predicate.Node(sql.FieldEqualFold(FieldAssigneeDept, v))
-}
-
-// AssigneeDeptContainsFold applies the ContainsFold predicate on the "assignee_dept" field.
-func AssigneeDeptContainsFold(v string) predicate.Node {
-	return predicate.Node(sql.FieldContainsFold(FieldAssigneeDept, v))
-}
-
 // DelegatedFromEQ applies the EQ predicate on the "delegated_from" field.
 func DelegatedFromEQ(v string) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldDelegatedFrom, v))
@@ -1230,82 +1119,82 @@ func StrictModeNEQ(v bool) predicate.Node {
 }
 
 // StartTimeEQ applies the EQ predicate on the "start_time" field.
-func StartTimeEQ(v time.Time) predicate.Node {
+func StartTimeEQ(v int64) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldStartTime, v))
 }
 
 // StartTimeNEQ applies the NEQ predicate on the "start_time" field.
-func StartTimeNEQ(v time.Time) predicate.Node {
+func StartTimeNEQ(v int64) predicate.Node {
 	return predicate.Node(sql.FieldNEQ(FieldStartTime, v))
 }
 
 // StartTimeIn applies the In predicate on the "start_time" field.
-func StartTimeIn(vs ...time.Time) predicate.Node {
+func StartTimeIn(vs ...int64) predicate.Node {
 	return predicate.Node(sql.FieldIn(FieldStartTime, vs...))
 }
 
 // StartTimeNotIn applies the NotIn predicate on the "start_time" field.
-func StartTimeNotIn(vs ...time.Time) predicate.Node {
+func StartTimeNotIn(vs ...int64) predicate.Node {
 	return predicate.Node(sql.FieldNotIn(FieldStartTime, vs...))
 }
 
 // StartTimeGT applies the GT predicate on the "start_time" field.
-func StartTimeGT(v time.Time) predicate.Node {
+func StartTimeGT(v int64) predicate.Node {
 	return predicate.Node(sql.FieldGT(FieldStartTime, v))
 }
 
 // StartTimeGTE applies the GTE predicate on the "start_time" field.
-func StartTimeGTE(v time.Time) predicate.Node {
+func StartTimeGTE(v int64) predicate.Node {
 	return predicate.Node(sql.FieldGTE(FieldStartTime, v))
 }
 
 // StartTimeLT applies the LT predicate on the "start_time" field.
-func StartTimeLT(v time.Time) predicate.Node {
+func StartTimeLT(v int64) predicate.Node {
 	return predicate.Node(sql.FieldLT(FieldStartTime, v))
 }
 
 // StartTimeLTE applies the LTE predicate on the "start_time" field.
-func StartTimeLTE(v time.Time) predicate.Node {
+func StartTimeLTE(v int64) predicate.Node {
 	return predicate.Node(sql.FieldLTE(FieldStartTime, v))
 }
 
 // EndTimeEQ applies the EQ predicate on the "end_time" field.
-func EndTimeEQ(v time.Time) predicate.Node {
+func EndTimeEQ(v int64) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldEndTime, v))
 }
 
 // EndTimeNEQ applies the NEQ predicate on the "end_time" field.
-func EndTimeNEQ(v time.Time) predicate.Node {
+func EndTimeNEQ(v int64) predicate.Node {
 	return predicate.Node(sql.FieldNEQ(FieldEndTime, v))
 }
 
 // EndTimeIn applies the In predicate on the "end_time" field.
-func EndTimeIn(vs ...time.Time) predicate.Node {
+func EndTimeIn(vs ...int64) predicate.Node {
 	return predicate.Node(sql.FieldIn(FieldEndTime, vs...))
 }
 
 // EndTimeNotIn applies the NotIn predicate on the "end_time" field.
-func EndTimeNotIn(vs ...time.Time) predicate.Node {
+func EndTimeNotIn(vs ...int64) predicate.Node {
 	return predicate.Node(sql.FieldNotIn(FieldEndTime, vs...))
 }
 
 // EndTimeGT applies the GT predicate on the "end_time" field.
-func EndTimeGT(v time.Time) predicate.Node {
+func EndTimeGT(v int64) predicate.Node {
 	return predicate.Node(sql.FieldGT(FieldEndTime, v))
 }
 
 // EndTimeGTE applies the GTE predicate on the "end_time" field.
-func EndTimeGTE(v time.Time) predicate.Node {
+func EndTimeGTE(v int64) predicate.Node {
 	return predicate.Node(sql.FieldGTE(FieldEndTime, v))
 }
 
 // EndTimeLT applies the LT predicate on the "end_time" field.
-func EndTimeLT(v time.Time) predicate.Node {
+func EndTimeLT(v int64) predicate.Node {
 	return predicate.Node(sql.FieldLT(FieldEndTime, v))
 }
 
 // EndTimeLTE applies the LTE predicate on the "end_time" field.
-func EndTimeLTE(v time.Time) predicate.Node {
+func EndTimeLTE(v int64) predicate.Node {
 	return predicate.Node(sql.FieldLTE(FieldEndTime, v))
 }
 
@@ -1320,42 +1209,42 @@ func EndTimeNotNil() predicate.Node {
 }
 
 // DueTimeEQ applies the EQ predicate on the "due_time" field.
-func DueTimeEQ(v time.Time) predicate.Node {
+func DueTimeEQ(v int64) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldDueTime, v))
 }
 
 // DueTimeNEQ applies the NEQ predicate on the "due_time" field.
-func DueTimeNEQ(v time.Time) predicate.Node {
+func DueTimeNEQ(v int64) predicate.Node {
 	return predicate.Node(sql.FieldNEQ(FieldDueTime, v))
 }
 
 // DueTimeIn applies the In predicate on the "due_time" field.
-func DueTimeIn(vs ...time.Time) predicate.Node {
+func DueTimeIn(vs ...int64) predicate.Node {
 	return predicate.Node(sql.FieldIn(FieldDueTime, vs...))
 }
 
 // DueTimeNotIn applies the NotIn predicate on the "due_time" field.
-func DueTimeNotIn(vs ...time.Time) predicate.Node {
+func DueTimeNotIn(vs ...int64) predicate.Node {
 	return predicate.Node(sql.FieldNotIn(FieldDueTime, vs...))
 }
 
 // DueTimeGT applies the GT predicate on the "due_time" field.
-func DueTimeGT(v time.Time) predicate.Node {
+func DueTimeGT(v int64) predicate.Node {
 	return predicate.Node(sql.FieldGT(FieldDueTime, v))
 }
 
 // DueTimeGTE applies the GTE predicate on the "due_time" field.
-func DueTimeGTE(v time.Time) predicate.Node {
+func DueTimeGTE(v int64) predicate.Node {
 	return predicate.Node(sql.FieldGTE(FieldDueTime, v))
 }
 
 // DueTimeLT applies the LT predicate on the "due_time" field.
-func DueTimeLT(v time.Time) predicate.Node {
+func DueTimeLT(v int64) predicate.Node {
 	return predicate.Node(sql.FieldLT(FieldDueTime, v))
 }
 
 // DueTimeLTE applies the LTE predicate on the "due_time" field.
-func DueTimeLTE(v time.Time) predicate.Node {
+func DueTimeLTE(v int64) predicate.Node {
 	return predicate.Node(sql.FieldLTE(FieldDueTime, v))
 }
 
@@ -1844,6 +1733,71 @@ func UpdatedAtNotNil() predicate.Node {
 	return predicate.Node(sql.FieldNotNull(FieldUpdatedAt))
 }
 
+// ProcessIDEQ applies the EQ predicate on the "process_id" field.
+func ProcessIDEQ(v string) predicate.Node {
+	return predicate.Node(sql.FieldEQ(FieldProcessID, v))
+}
+
+// ProcessIDNEQ applies the NEQ predicate on the "process_id" field.
+func ProcessIDNEQ(v string) predicate.Node {
+	return predicate.Node(sql.FieldNEQ(FieldProcessID, v))
+}
+
+// ProcessIDIn applies the In predicate on the "process_id" field.
+func ProcessIDIn(vs ...string) predicate.Node {
+	return predicate.Node(sql.FieldIn(FieldProcessID, vs...))
+}
+
+// ProcessIDNotIn applies the NotIn predicate on the "process_id" field.
+func ProcessIDNotIn(vs ...string) predicate.Node {
+	return predicate.Node(sql.FieldNotIn(FieldProcessID, vs...))
+}
+
+// ProcessIDGT applies the GT predicate on the "process_id" field.
+func ProcessIDGT(v string) predicate.Node {
+	return predicate.Node(sql.FieldGT(FieldProcessID, v))
+}
+
+// ProcessIDGTE applies the GTE predicate on the "process_id" field.
+func ProcessIDGTE(v string) predicate.Node {
+	return predicate.Node(sql.FieldGTE(FieldProcessID, v))
+}
+
+// ProcessIDLT applies the LT predicate on the "process_id" field.
+func ProcessIDLT(v string) predicate.Node {
+	return predicate.Node(sql.FieldLT(FieldProcessID, v))
+}
+
+// ProcessIDLTE applies the LTE predicate on the "process_id" field.
+func ProcessIDLTE(v string) predicate.Node {
+	return predicate.Node(sql.FieldLTE(FieldProcessID, v))
+}
+
+// ProcessIDContains applies the Contains predicate on the "process_id" field.
+func ProcessIDContains(v string) predicate.Node {
+	return predicate.Node(sql.FieldContains(FieldProcessID, v))
+}
+
+// ProcessIDHasPrefix applies the HasPrefix predicate on the "process_id" field.
+func ProcessIDHasPrefix(v string) predicate.Node {
+	return predicate.Node(sql.FieldHasPrefix(FieldProcessID, v))
+}
+
+// ProcessIDHasSuffix applies the HasSuffix predicate on the "process_id" field.
+func ProcessIDHasSuffix(v string) predicate.Node {
+	return predicate.Node(sql.FieldHasSuffix(FieldProcessID, v))
+}
+
+// ProcessIDEqualFold applies the EqualFold predicate on the "process_id" field.
+func ProcessIDEqualFold(v string) predicate.Node {
+	return predicate.Node(sql.FieldEqualFold(FieldProcessID, v))
+}
+
+// ProcessIDContainsFold applies the ContainsFold predicate on the "process_id" field.
+func ProcessIDContainsFold(v string) predicate.Node {
+	return predicate.Node(sql.FieldContainsFold(FieldProcessID, v))
+}
+
 // PrevNodesIsNil applies the IsNil predicate on the "prev_nodes" field.
 func PrevNodesIsNil() predicate.Node {
 	return predicate.Node(sql.FieldIsNull(FieldPrevNodes))
@@ -1872,6 +1826,16 @@ func ParallelNodesIsNil() predicate.Node {
 // ParallelNodesNotNil applies the NotNil predicate on the "parallel_nodes" field.
 func ParallelNodesNotNil() predicate.Node {
 	return predicate.Node(sql.FieldNotNull(FieldParallelNodes))
+}
+
+// BranchNodesIsNil applies the IsNil predicate on the "branch_nodes" field.
+func BranchNodesIsNil() predicate.Node {
+	return predicate.Node(sql.FieldIsNull(FieldBranchNodes))
+}
+
+// BranchNodesNotNil applies the NotNil predicate on the "branch_nodes" field.
+func BranchNodesNotNil() predicate.Node {
+	return predicate.Node(sql.FieldNotNull(FieldBranchNodes))
 }
 
 // ConditionsIsNil applies the IsNil predicate on the "conditions" field.

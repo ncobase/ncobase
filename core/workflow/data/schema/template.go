@@ -34,7 +34,7 @@ func (Template) Mixin() []ent.Mixin {
 		mixin.Description,
 		mixin.Type,
 		mixin.Version,
-		mixin.Status,
+		mixin.TextStatus,
 		mixin.Disabled,
 		mixin.FormBaseMixin{},
 		mixin.NodeBaseMixin{},
@@ -61,8 +61,8 @@ func (Template) Fields() []ent.Field {
 		// Version control
 		field.String("source_version").Optional().Comment("Source version"),
 		field.Bool("is_latest").Default(false).Comment("Whether is latest version"),
-		field.Time("effective_time").Optional().Comment("Effective time"),
-		field.Time("expire_time").Optional().Comment("Expire time"),
+		field.Int64("effective_time").Optional().Comment("Effective time"),
+		field.Int64("expire_time").Optional().Comment("Expire time"),
 	}
 }
 

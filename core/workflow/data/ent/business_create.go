@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/workflow/data/ent/business"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -35,15 +34,15 @@ func (bc *BusinessCreate) SetNillableCode(s *string) *BusinessCreate {
 }
 
 // SetStatus sets the "status" field.
-func (bc *BusinessCreate) SetStatus(i int) *BusinessCreate {
-	bc.mutation.SetStatus(i)
+func (bc *BusinessCreate) SetStatus(s string) *BusinessCreate {
+	bc.mutation.SetStatus(s)
 	return bc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableStatus(i *int) *BusinessCreate {
-	if i != nil {
-		bc.SetStatus(*i)
+func (bc *BusinessCreate) SetNillableStatus(s *string) *BusinessCreate {
+	if s != nil {
+		bc.SetStatus(*s)
 	}
 	return bc
 }
@@ -123,15 +122,15 @@ func (bc *BusinessCreate) SetChangeLogs(m []map[string]interface{}) *BusinessCre
 }
 
 // SetLastModified sets the "last_modified" field.
-func (bc *BusinessCreate) SetLastModified(t time.Time) *BusinessCreate {
-	bc.mutation.SetLastModified(t)
+func (bc *BusinessCreate) SetLastModified(i int64) *BusinessCreate {
+	bc.mutation.SetLastModified(i)
 	return bc
 }
 
 // SetNillableLastModified sets the "last_modified" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableLastModified(t *time.Time) *BusinessCreate {
-	if t != nil {
-		bc.SetLastModified(*t)
+func (bc *BusinessCreate) SetNillableLastModified(i *int64) *BusinessCreate {
+	if i != nil {
+		bc.SetLastModified(*i)
 	}
 	return bc
 }
@@ -233,8 +232,8 @@ func (bc *BusinessCreate) SetNillableSuspendReason(s *string) *BusinessCreate {
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (bc *BusinessCreate) SetBusinessTags(i []interface{}) *BusinessCreate {
-	bc.mutation.SetBusinessTags(i)
+func (bc *BusinessCreate) SetBusinessTags(s []string) *BusinessCreate {
+	bc.mutation.SetBusinessTags(s)
 	return bc
 }
 
@@ -259,14 +258,14 @@ func (bc *BusinessCreate) SetNillableCategory(s *string) *BusinessCreate {
 }
 
 // SetViewers sets the "viewers" field.
-func (bc *BusinessCreate) SetViewers(i []interface{}) *BusinessCreate {
-	bc.mutation.SetViewers(i)
+func (bc *BusinessCreate) SetViewers(s []string) *BusinessCreate {
+	bc.mutation.SetViewers(s)
 	return bc
 }
 
 // SetEditors sets the "editors" field.
-func (bc *BusinessCreate) SetEditors(i []interface{}) *BusinessCreate {
-	bc.mutation.SetEditors(i)
+func (bc *BusinessCreate) SetEditors(s []string) *BusinessCreate {
+	bc.mutation.SetEditors(s)
 	return bc
 }
 
@@ -413,10 +412,6 @@ func (bc *BusinessCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (bc *BusinessCreate) defaults() {
-	if _, ok := bc.mutation.Status(); !ok {
-		v := business.DefaultStatus
-		bc.mutation.SetStatus(v)
-	}
 	if _, ok := bc.mutation.IsDraft(); !ok {
 		v := business.DefaultIsDraft
 		bc.mutation.SetIsDraft(v)
@@ -449,9 +444,6 @@ func (bc *BusinessCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (bc *BusinessCreate) check() error {
-	if _, ok := bc.mutation.Status(); !ok {
-		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Business.status"`)}
-	}
 	if _, ok := bc.mutation.FormCode(); !ok {
 		return &ValidationError{Name: "form_code", err: errors.New(`ent: missing required field "Business.form_code"`)}
 	}
@@ -542,7 +534,7 @@ func (bc *BusinessCreate) createSpec() (*Business, *sqlgraph.CreateSpec) {
 		_node.Code = value
 	}
 	if value, ok := bc.mutation.Status(); ok {
-		_spec.SetField(business.FieldStatus, field.TypeInt, value)
+		_spec.SetField(business.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
 	if value, ok := bc.mutation.FormCode(); ok {
@@ -590,7 +582,7 @@ func (bc *BusinessCreate) createSpec() (*Business, *sqlgraph.CreateSpec) {
 		_node.ChangeLogs = value
 	}
 	if value, ok := bc.mutation.LastModified(); ok {
-		_spec.SetField(business.FieldLastModified, field.TypeTime, value)
+		_spec.SetField(business.FieldLastModified, field.TypeInt64, value)
 		_node.LastModified = value
 	}
 	if value, ok := bc.mutation.LastModifier(); ok {

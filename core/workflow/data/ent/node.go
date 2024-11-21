@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/node"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -25,8 +24,8 @@ type Node struct {
 	Description string `json:"description,omitempty"`
 	// type
 	Type string `json:"type,omitempty"`
-	// status: 0 activated, 1 unactivated, 2 disabled
-	Status int `json:"status,omitempty"`
+	// Status, text status
+	Status string `json:"status,omitempty"`
 	// Unique identifier for the node
 	NodeKey string `json:"node_key,omitempty"`
 	// Node type
@@ -47,12 +46,10 @@ type Node struct {
 	FormPermissions map[string]interface{} `json:"form_permissions,omitempty"`
 	// Field level permissions
 	FieldPermissions map[string]interface{} `json:"field_permissions,omitempty"`
-	// Task assignee
-	Assignee string `json:"assignee,omitempty"`
-	// Assignee's department
-	AssigneeDept string `json:"assignee_dept,omitempty"`
+	// Task assignees
+	Assignees []map[string]interface{} `json:"assignees,omitempty"`
 	// Candidate assignees
-	Candidates []interface{} `json:"candidates,omitempty"`
+	Candidates []map[string]interface{} `json:"candidates,omitempty"`
 	// Delegated from user
 	DelegatedFrom string `json:"delegated_from,omitempty"`
 	// Delegation reason
@@ -76,11 +73,11 @@ type Node struct {
 	// Enable strict mode
 	StrictMode bool `json:"strict_mode,omitempty"`
 	// Start time
-	StartTime time.Time `json:"start_time,omitempty"`
+	StartTime int64 `json:"start_time,omitempty"`
 	// End time
-	EndTime *time.Time `json:"end_time,omitempty"`
+	EndTime *int64 `json:"end_time,omitempty"`
 	// Due time
-	DueTime *time.Time `json:"due_time,omitempty"`
+	DueTime *int64 `json:"due_time,omitempty"`
 	// Duration in seconds
 	Duration int `json:"duration,omitempty"`
 	// Priority level
@@ -101,14 +98,20 @@ type Node struct {
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
 	UpdatedAt int64 `json:"updated_at,omitempty"`
+	// Process ID
+	ProcessID string `json:"process_id,omitempty"`
+	// Permission configs
+	Permissions map[string]interface{} `json:"permissions,omitempty"`
 	// Previous nodes
-	PrevNodes []interface{} `json:"prev_nodes,omitempty"`
+	PrevNodes []string `json:"prev_nodes,omitempty"`
 	// Next nodes
-	NextNodes []interface{} `json:"next_nodes,omitempty"`
+	NextNodes []string `json:"next_nodes,omitempty"`
 	// Parallel nodes
-	ParallelNodes []interface{} `json:"parallel_nodes,omitempty"`
+	ParallelNodes []string `json:"parallel_nodes,omitempty"`
+	// Branch nodes
+	BranchNodes []string `json:"branch_nodes,omitempty"`
 	// Transition conditions
-	Conditions []interface{} `json:"conditions,omitempty"`
+	Conditions []map[string]interface{} `json:"conditions,omitempty"`
 	// Node properties
 	Properties map[string]interface{} `json:"properties,omitempty"`
 	// Whether requires countersign
@@ -135,16 +138,14 @@ func (*Node) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case node.FieldNodeConfig, node.FieldNodeRules, node.FieldNodeEvents, node.FieldFormConfig, node.FieldFormPermissions, node.FieldFieldPermissions, node.FieldCandidates, node.FieldExtras, node.FieldPrevNodes, node.FieldNextNodes, node.FieldParallelNodes, node.FieldConditions, node.FieldProperties, node.FieldHandlers, node.FieldListeners, node.FieldHooks:
+		case node.FieldNodeConfig, node.FieldNodeRules, node.FieldNodeEvents, node.FieldFormConfig, node.FieldFormPermissions, node.FieldFieldPermissions, node.FieldAssignees, node.FieldCandidates, node.FieldExtras, node.FieldPermissions, node.FieldPrevNodes, node.FieldNextNodes, node.FieldParallelNodes, node.FieldBranchNodes, node.FieldConditions, node.FieldProperties, node.FieldHandlers, node.FieldListeners, node.FieldHooks:
 			values[i] = new([]byte)
 		case node.FieldIsDelegated, node.FieldIsTransferred, node.FieldAllowCancel, node.FieldAllowUrge, node.FieldAllowDelegate, node.FieldAllowTransfer, node.FieldIsDraftEnabled, node.FieldIsAutoStart, node.FieldStrictMode, node.FieldIsTimeout, node.FieldIsCountersign, node.FieldIsWorkingDay:
 			values[i] = new(sql.NullBool)
-		case node.FieldStatus, node.FieldDuration, node.FieldPriority, node.FieldReminderCount, node.FieldCreatedAt, node.FieldUpdatedAt, node.FieldRetryTimes, node.FieldRetryInterval:
+		case node.FieldStartTime, node.FieldEndTime, node.FieldDueTime, node.FieldDuration, node.FieldPriority, node.FieldReminderCount, node.FieldCreatedAt, node.FieldUpdatedAt, node.FieldRetryTimes, node.FieldRetryInterval:
 			values[i] = new(sql.NullInt64)
-		case node.FieldID, node.FieldName, node.FieldDescription, node.FieldType, node.FieldNodeKey, node.FieldNodeType, node.FieldFormCode, node.FieldFormVersion, node.FieldAssignee, node.FieldAssigneeDept, node.FieldDelegatedFrom, node.FieldDelegatedReason, node.FieldTenantID, node.FieldCreatedBy, node.FieldUpdatedBy, node.FieldCountersignRule:
+		case node.FieldID, node.FieldName, node.FieldDescription, node.FieldType, node.FieldStatus, node.FieldNodeKey, node.FieldNodeType, node.FieldFormCode, node.FieldFormVersion, node.FieldDelegatedFrom, node.FieldDelegatedReason, node.FieldTenantID, node.FieldCreatedBy, node.FieldUpdatedBy, node.FieldProcessID, node.FieldCountersignRule:
 			values[i] = new(sql.NullString)
-		case node.FieldStartTime, node.FieldEndTime, node.FieldDueTime:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -185,10 +186,10 @@ func (n *Node) assignValues(columns []string, values []any) error {
 				n.Type = value.String
 			}
 		case node.FieldStatus:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				n.Status = int(value.Int64)
+				n.Status = value.String
 			}
 		case node.FieldNodeKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -262,17 +263,13 @@ func (n *Node) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field field_permissions: %w", err)
 				}
 			}
-		case node.FieldAssignee:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field assignee", values[i])
-			} else if value.Valid {
-				n.Assignee = value.String
-			}
-		case node.FieldAssigneeDept:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field assignee_dept", values[i])
-			} else if value.Valid {
-				n.AssigneeDept = value.String
+		case node.FieldAssignees:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field assignees", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &n.Assignees); err != nil {
+					return fmt.Errorf("unmarshal field assignees: %w", err)
+				}
 			}
 		case node.FieldCandidates:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -349,24 +346,24 @@ func (n *Node) assignValues(columns []string, values []any) error {
 				n.StrictMode = value.Bool
 			}
 		case node.FieldStartTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field start_time", values[i])
 			} else if value.Valid {
-				n.StartTime = value.Time
+				n.StartTime = value.Int64
 			}
 		case node.FieldEndTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field end_time", values[i])
 			} else if value.Valid {
-				n.EndTime = new(time.Time)
-				*n.EndTime = value.Time
+				n.EndTime = new(int64)
+				*n.EndTime = value.Int64
 			}
 		case node.FieldDueTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field due_time", values[i])
 			} else if value.Valid {
-				n.DueTime = new(time.Time)
-				*n.DueTime = value.Time
+				n.DueTime = new(int64)
+				*n.DueTime = value.Int64
 			}
 		case node.FieldDuration:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -430,6 +427,20 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				n.UpdatedAt = value.Int64
 			}
+		case node.FieldProcessID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field process_id", values[i])
+			} else if value.Valid {
+				n.ProcessID = value.String
+			}
+		case node.FieldPermissions:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field permissions", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &n.Permissions); err != nil {
+					return fmt.Errorf("unmarshal field permissions: %w", err)
+				}
+			}
 		case node.FieldPrevNodes:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field prev_nodes", values[i])
@@ -452,6 +463,14 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			} else if value != nil && len(*value) > 0 {
 				if err := json.Unmarshal(*value, &n.ParallelNodes); err != nil {
 					return fmt.Errorf("unmarshal field parallel_nodes: %w", err)
+				}
+			}
+		case node.FieldBranchNodes:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field branch_nodes", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &n.BranchNodes); err != nil {
+					return fmt.Errorf("unmarshal field branch_nodes: %w", err)
 				}
 			}
 		case node.FieldConditions:
@@ -570,7 +589,7 @@ func (n *Node) String() string {
 	builder.WriteString(n.Type)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", n.Status))
+	builder.WriteString(n.Status)
 	builder.WriteString(", ")
 	builder.WriteString("node_key=")
 	builder.WriteString(n.NodeKey)
@@ -602,11 +621,8 @@ func (n *Node) String() string {
 	builder.WriteString("field_permissions=")
 	builder.WriteString(fmt.Sprintf("%v", n.FieldPermissions))
 	builder.WriteString(", ")
-	builder.WriteString("assignee=")
-	builder.WriteString(n.Assignee)
-	builder.WriteString(", ")
-	builder.WriteString("assignee_dept=")
-	builder.WriteString(n.AssigneeDept)
+	builder.WriteString("assignees=")
+	builder.WriteString(fmt.Sprintf("%v", n.Assignees))
 	builder.WriteString(", ")
 	builder.WriteString("candidates=")
 	builder.WriteString(fmt.Sprintf("%v", n.Candidates))
@@ -645,16 +661,16 @@ func (n *Node) String() string {
 	builder.WriteString(fmt.Sprintf("%v", n.StrictMode))
 	builder.WriteString(", ")
 	builder.WriteString("start_time=")
-	builder.WriteString(n.StartTime.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", n.StartTime))
 	builder.WriteString(", ")
 	if v := n.EndTime; v != nil {
 		builder.WriteString("end_time=")
-		builder.WriteString(v.Format(time.ANSIC))
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := n.DueTime; v != nil {
 		builder.WriteString("due_time=")
-		builder.WriteString(v.Format(time.ANSIC))
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("duration=")
@@ -687,6 +703,12 @@ func (n *Node) String() string {
 	builder.WriteString("updated_at=")
 	builder.WriteString(fmt.Sprintf("%v", n.UpdatedAt))
 	builder.WriteString(", ")
+	builder.WriteString("process_id=")
+	builder.WriteString(n.ProcessID)
+	builder.WriteString(", ")
+	builder.WriteString("permissions=")
+	builder.WriteString(fmt.Sprintf("%v", n.Permissions))
+	builder.WriteString(", ")
 	builder.WriteString("prev_nodes=")
 	builder.WriteString(fmt.Sprintf("%v", n.PrevNodes))
 	builder.WriteString(", ")
@@ -695,6 +717,9 @@ func (n *Node) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("parallel_nodes=")
 	builder.WriteString(fmt.Sprintf("%v", n.ParallelNodes))
+	builder.WriteString(", ")
+	builder.WriteString("branch_nodes=")
+	builder.WriteString(fmt.Sprintf("%v", n.BranchNodes))
 	builder.WriteString(", ")
 	builder.WriteString("conditions=")
 	builder.WriteString(fmt.Sprintf("%v", n.Conditions))

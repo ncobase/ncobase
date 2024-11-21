@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/workflow/data/ent/process"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -21,15 +20,15 @@ type ProcessCreate struct {
 }
 
 // SetStatus sets the "status" field.
-func (pc *ProcessCreate) SetStatus(i int) *ProcessCreate {
-	pc.mutation.SetStatus(i)
+func (pc *ProcessCreate) SetStatus(s string) *ProcessCreate {
+	pc.mutation.SetStatus(s)
 	return pc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableStatus(i *int) *ProcessCreate {
-	if i != nil {
-		pc.SetStatus(*i)
+func (pc *ProcessCreate) SetNillableStatus(s *string) *ProcessCreate {
+	if s != nil {
+		pc.SetStatus(*s)
 	}
 	return pc
 }
@@ -91,8 +90,8 @@ func (pc *ProcessCreate) SetFieldPermissions(m map[string]interface{}) *ProcessC
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (pc *ProcessCreate) SetBusinessTags(i []interface{}) *ProcessCreate {
-	pc.mutation.SetBusinessTags(i)
+func (pc *ProcessCreate) SetBusinessTags(s []string) *ProcessCreate {
+	pc.mutation.SetBusinessTags(s)
 	return pc
 }
 
@@ -193,43 +192,43 @@ func (pc *ProcessCreate) SetNillableSuspendReason(s *string) *ProcessCreate {
 }
 
 // SetStartTime sets the "start_time" field.
-func (pc *ProcessCreate) SetStartTime(t time.Time) *ProcessCreate {
-	pc.mutation.SetStartTime(t)
+func (pc *ProcessCreate) SetStartTime(i int64) *ProcessCreate {
+	pc.mutation.SetStartTime(i)
 	return pc
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableStartTime(t *time.Time) *ProcessCreate {
-	if t != nil {
-		pc.SetStartTime(*t)
+func (pc *ProcessCreate) SetNillableStartTime(i *int64) *ProcessCreate {
+	if i != nil {
+		pc.SetStartTime(*i)
 	}
 	return pc
 }
 
 // SetEndTime sets the "end_time" field.
-func (pc *ProcessCreate) SetEndTime(t time.Time) *ProcessCreate {
-	pc.mutation.SetEndTime(t)
+func (pc *ProcessCreate) SetEndTime(i int64) *ProcessCreate {
+	pc.mutation.SetEndTime(i)
 	return pc
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableEndTime(t *time.Time) *ProcessCreate {
-	if t != nil {
-		pc.SetEndTime(*t)
+func (pc *ProcessCreate) SetNillableEndTime(i *int64) *ProcessCreate {
+	if i != nil {
+		pc.SetEndTime(*i)
 	}
 	return pc
 }
 
 // SetDueTime sets the "due_time" field.
-func (pc *ProcessCreate) SetDueTime(t time.Time) *ProcessCreate {
-	pc.mutation.SetDueTime(t)
+func (pc *ProcessCreate) SetDueTime(i int64) *ProcessCreate {
+	pc.mutation.SetDueTime(i)
 	return pc
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableDueTime(t *time.Time) *ProcessCreate {
-	if t != nil {
-		pc.SetDueTime(*t)
+func (pc *ProcessCreate) SetNillableDueTime(i *int64) *ProcessCreate {
+	if i != nil {
+		pc.SetDueTime(*i)
 	}
 	return pc
 }
@@ -517,8 +516,8 @@ func (pc *ProcessCreate) SetNillableCurrentNode(s *string) *ProcessCreate {
 }
 
 // SetActiveNodes sets the "active_nodes" field.
-func (pc *ProcessCreate) SetActiveNodes(i []interface{}) *ProcessCreate {
-	pc.mutation.SetActiveNodes(i)
+func (pc *ProcessCreate) SetActiveNodes(s []string) *ProcessCreate {
+	pc.mutation.SetActiveNodes(s)
 	return pc
 }
 
@@ -597,10 +596,6 @@ func (pc *ProcessCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (pc *ProcessCreate) defaults() {
-	if _, ok := pc.mutation.Status(); !ok {
-		v := process.DefaultStatus
-		pc.mutation.SetStatus(v)
-	}
 	if _, ok := pc.mutation.IsDraft(); !ok {
 		v := process.DefaultIsDraft
 		pc.mutation.SetIsDraft(v)
@@ -681,9 +676,6 @@ func (pc *ProcessCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (pc *ProcessCreate) check() error {
-	if _, ok := pc.mutation.Status(); !ok {
-		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Process.status"`)}
-	}
 	if _, ok := pc.mutation.ProcessID(); !ok {
 		return &ValidationError{Name: "process_id", err: errors.New(`ent: missing required field "Process.process_id"`)}
 	}
@@ -812,7 +804,7 @@ func (pc *ProcessCreate) createSpec() (*Process, *sqlgraph.CreateSpec) {
 		_spec.ID.Value = id
 	}
 	if value, ok := pc.mutation.Status(); ok {
-		_spec.SetField(process.FieldStatus, field.TypeInt, value)
+		_spec.SetField(process.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
 	if value, ok := pc.mutation.ProcessID(); ok {
@@ -884,15 +876,15 @@ func (pc *ProcessCreate) createSpec() (*Process, *sqlgraph.CreateSpec) {
 		_node.SuspendReason = value
 	}
 	if value, ok := pc.mutation.StartTime(); ok {
-		_spec.SetField(process.FieldStartTime, field.TypeTime, value)
+		_spec.SetField(process.FieldStartTime, field.TypeInt64, value)
 		_node.StartTime = value
 	}
 	if value, ok := pc.mutation.EndTime(); ok {
-		_spec.SetField(process.FieldEndTime, field.TypeTime, value)
+		_spec.SetField(process.FieldEndTime, field.TypeInt64, value)
 		_node.EndTime = &value
 	}
 	if value, ok := pc.mutation.DueTime(); ok {
-		_spec.SetField(process.FieldDueTime, field.TypeTime, value)
+		_spec.SetField(process.FieldDueTime, field.TypeInt64, value)
 		_node.DueTime = &value
 	}
 	if value, ok := pc.mutation.Duration(); ok {

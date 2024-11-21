@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/business"
 	"ncobase/core/workflow/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -50,23 +49,22 @@ func (bu *BusinessUpdate) ClearCode() *BusinessUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (bu *BusinessUpdate) SetStatus(i int) *BusinessUpdate {
-	bu.mutation.ResetStatus()
-	bu.mutation.SetStatus(i)
+func (bu *BusinessUpdate) SetStatus(s string) *BusinessUpdate {
+	bu.mutation.SetStatus(s)
 	return bu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableStatus(i *int) *BusinessUpdate {
-	if i != nil {
-		bu.SetStatus(*i)
+func (bu *BusinessUpdate) SetNillableStatus(s *string) *BusinessUpdate {
+	if s != nil {
+		bu.SetStatus(*s)
 	}
 	return bu
 }
 
-// AddStatus adds i to the "status" field.
-func (bu *BusinessUpdate) AddStatus(i int) *BusinessUpdate {
-	bu.mutation.AddStatus(i)
+// ClearStatus clears the value of the "status" field.
+func (bu *BusinessUpdate) ClearStatus() *BusinessUpdate {
+	bu.mutation.ClearStatus()
 	return bu
 }
 
@@ -213,16 +211,23 @@ func (bu *BusinessUpdate) ClearChangeLogs() *BusinessUpdate {
 }
 
 // SetLastModified sets the "last_modified" field.
-func (bu *BusinessUpdate) SetLastModified(t time.Time) *BusinessUpdate {
-	bu.mutation.SetLastModified(t)
+func (bu *BusinessUpdate) SetLastModified(i int64) *BusinessUpdate {
+	bu.mutation.ResetLastModified()
+	bu.mutation.SetLastModified(i)
 	return bu
 }
 
 // SetNillableLastModified sets the "last_modified" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableLastModified(t *time.Time) *BusinessUpdate {
-	if t != nil {
-		bu.SetLastModified(*t)
+func (bu *BusinessUpdate) SetNillableLastModified(i *int64) *BusinessUpdate {
+	if i != nil {
+		bu.SetLastModified(*i)
 	}
+	return bu
+}
+
+// AddLastModified adds i to the "last_modified" field.
+func (bu *BusinessUpdate) AddLastModified(i int64) *BusinessUpdate {
+	bu.mutation.AddLastModified(i)
 	return bu
 }
 
@@ -365,14 +370,14 @@ func (bu *BusinessUpdate) ClearSuspendReason() *BusinessUpdate {
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (bu *BusinessUpdate) SetBusinessTags(i []interface{}) *BusinessUpdate {
-	bu.mutation.SetBusinessTags(i)
+func (bu *BusinessUpdate) SetBusinessTags(s []string) *BusinessUpdate {
+	bu.mutation.SetBusinessTags(s)
 	return bu
 }
 
-// AppendBusinessTags appends i to the "business_tags" field.
-func (bu *BusinessUpdate) AppendBusinessTags(i []interface{}) *BusinessUpdate {
-	bu.mutation.AppendBusinessTags(i)
+// AppendBusinessTags appends s to the "business_tags" field.
+func (bu *BusinessUpdate) AppendBusinessTags(s []string) *BusinessUpdate {
+	bu.mutation.AppendBusinessTags(s)
 	return bu
 }
 
@@ -417,14 +422,14 @@ func (bu *BusinessUpdate) ClearCategory() *BusinessUpdate {
 }
 
 // SetViewers sets the "viewers" field.
-func (bu *BusinessUpdate) SetViewers(i []interface{}) *BusinessUpdate {
-	bu.mutation.SetViewers(i)
+func (bu *BusinessUpdate) SetViewers(s []string) *BusinessUpdate {
+	bu.mutation.SetViewers(s)
 	return bu
 }
 
-// AppendViewers appends i to the "viewers" field.
-func (bu *BusinessUpdate) AppendViewers(i []interface{}) *BusinessUpdate {
-	bu.mutation.AppendViewers(i)
+// AppendViewers appends s to the "viewers" field.
+func (bu *BusinessUpdate) AppendViewers(s []string) *BusinessUpdate {
+	bu.mutation.AppendViewers(s)
 	return bu
 }
 
@@ -435,14 +440,14 @@ func (bu *BusinessUpdate) ClearViewers() *BusinessUpdate {
 }
 
 // SetEditors sets the "editors" field.
-func (bu *BusinessUpdate) SetEditors(i []interface{}) *BusinessUpdate {
-	bu.mutation.SetEditors(i)
+func (bu *BusinessUpdate) SetEditors(s []string) *BusinessUpdate {
+	bu.mutation.SetEditors(s)
 	return bu
 }
 
-// AppendEditors appends i to the "editors" field.
-func (bu *BusinessUpdate) AppendEditors(i []interface{}) *BusinessUpdate {
-	bu.mutation.AppendEditors(i)
+// AppendEditors appends s to the "editors" field.
+func (bu *BusinessUpdate) AppendEditors(s []string) *BusinessUpdate {
+	bu.mutation.AppendEditors(s)
 	return bu
 }
 
@@ -659,10 +664,10 @@ func (bu *BusinessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(business.FieldCode, field.TypeString)
 	}
 	if value, ok := bu.mutation.Status(); ok {
-		_spec.SetField(business.FieldStatus, field.TypeInt, value)
+		_spec.SetField(business.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := bu.mutation.AddedStatus(); ok {
-		_spec.AddField(business.FieldStatus, field.TypeInt, value)
+	if bu.mutation.StatusCleared() {
+		_spec.ClearField(business.FieldStatus, field.TypeString)
 	}
 	if value, ok := bu.mutation.FormCode(); ok {
 		_spec.SetField(business.FieldFormCode, field.TypeString, value)
@@ -718,10 +723,13 @@ func (bu *BusinessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(business.FieldChangeLogs, field.TypeJSON)
 	}
 	if value, ok := bu.mutation.LastModified(); ok {
-		_spec.SetField(business.FieldLastModified, field.TypeTime, value)
+		_spec.SetField(business.FieldLastModified, field.TypeInt64, value)
+	}
+	if value, ok := bu.mutation.AddedLastModified(); ok {
+		_spec.AddField(business.FieldLastModified, field.TypeInt64, value)
 	}
 	if bu.mutation.LastModifiedCleared() {
-		_spec.ClearField(business.FieldLastModified, field.TypeTime)
+		_spec.ClearField(business.FieldLastModified, field.TypeInt64)
 	}
 	if value, ok := bu.mutation.LastModifier(); ok {
 		_spec.SetField(business.FieldLastModifier, field.TypeString, value)
@@ -904,23 +912,22 @@ func (buo *BusinessUpdateOne) ClearCode() *BusinessUpdateOne {
 }
 
 // SetStatus sets the "status" field.
-func (buo *BusinessUpdateOne) SetStatus(i int) *BusinessUpdateOne {
-	buo.mutation.ResetStatus()
-	buo.mutation.SetStatus(i)
+func (buo *BusinessUpdateOne) SetStatus(s string) *BusinessUpdateOne {
+	buo.mutation.SetStatus(s)
 	return buo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableStatus(i *int) *BusinessUpdateOne {
-	if i != nil {
-		buo.SetStatus(*i)
+func (buo *BusinessUpdateOne) SetNillableStatus(s *string) *BusinessUpdateOne {
+	if s != nil {
+		buo.SetStatus(*s)
 	}
 	return buo
 }
 
-// AddStatus adds i to the "status" field.
-func (buo *BusinessUpdateOne) AddStatus(i int) *BusinessUpdateOne {
-	buo.mutation.AddStatus(i)
+// ClearStatus clears the value of the "status" field.
+func (buo *BusinessUpdateOne) ClearStatus() *BusinessUpdateOne {
+	buo.mutation.ClearStatus()
 	return buo
 }
 
@@ -1067,16 +1074,23 @@ func (buo *BusinessUpdateOne) ClearChangeLogs() *BusinessUpdateOne {
 }
 
 // SetLastModified sets the "last_modified" field.
-func (buo *BusinessUpdateOne) SetLastModified(t time.Time) *BusinessUpdateOne {
-	buo.mutation.SetLastModified(t)
+func (buo *BusinessUpdateOne) SetLastModified(i int64) *BusinessUpdateOne {
+	buo.mutation.ResetLastModified()
+	buo.mutation.SetLastModified(i)
 	return buo
 }
 
 // SetNillableLastModified sets the "last_modified" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableLastModified(t *time.Time) *BusinessUpdateOne {
-	if t != nil {
-		buo.SetLastModified(*t)
+func (buo *BusinessUpdateOne) SetNillableLastModified(i *int64) *BusinessUpdateOne {
+	if i != nil {
+		buo.SetLastModified(*i)
 	}
+	return buo
+}
+
+// AddLastModified adds i to the "last_modified" field.
+func (buo *BusinessUpdateOne) AddLastModified(i int64) *BusinessUpdateOne {
+	buo.mutation.AddLastModified(i)
 	return buo
 }
 
@@ -1219,14 +1233,14 @@ func (buo *BusinessUpdateOne) ClearSuspendReason() *BusinessUpdateOne {
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (buo *BusinessUpdateOne) SetBusinessTags(i []interface{}) *BusinessUpdateOne {
-	buo.mutation.SetBusinessTags(i)
+func (buo *BusinessUpdateOne) SetBusinessTags(s []string) *BusinessUpdateOne {
+	buo.mutation.SetBusinessTags(s)
 	return buo
 }
 
-// AppendBusinessTags appends i to the "business_tags" field.
-func (buo *BusinessUpdateOne) AppendBusinessTags(i []interface{}) *BusinessUpdateOne {
-	buo.mutation.AppendBusinessTags(i)
+// AppendBusinessTags appends s to the "business_tags" field.
+func (buo *BusinessUpdateOne) AppendBusinessTags(s []string) *BusinessUpdateOne {
+	buo.mutation.AppendBusinessTags(s)
 	return buo
 }
 
@@ -1271,14 +1285,14 @@ func (buo *BusinessUpdateOne) ClearCategory() *BusinessUpdateOne {
 }
 
 // SetViewers sets the "viewers" field.
-func (buo *BusinessUpdateOne) SetViewers(i []interface{}) *BusinessUpdateOne {
-	buo.mutation.SetViewers(i)
+func (buo *BusinessUpdateOne) SetViewers(s []string) *BusinessUpdateOne {
+	buo.mutation.SetViewers(s)
 	return buo
 }
 
-// AppendViewers appends i to the "viewers" field.
-func (buo *BusinessUpdateOne) AppendViewers(i []interface{}) *BusinessUpdateOne {
-	buo.mutation.AppendViewers(i)
+// AppendViewers appends s to the "viewers" field.
+func (buo *BusinessUpdateOne) AppendViewers(s []string) *BusinessUpdateOne {
+	buo.mutation.AppendViewers(s)
 	return buo
 }
 
@@ -1289,14 +1303,14 @@ func (buo *BusinessUpdateOne) ClearViewers() *BusinessUpdateOne {
 }
 
 // SetEditors sets the "editors" field.
-func (buo *BusinessUpdateOne) SetEditors(i []interface{}) *BusinessUpdateOne {
-	buo.mutation.SetEditors(i)
+func (buo *BusinessUpdateOne) SetEditors(s []string) *BusinessUpdateOne {
+	buo.mutation.SetEditors(s)
 	return buo
 }
 
-// AppendEditors appends i to the "editors" field.
-func (buo *BusinessUpdateOne) AppendEditors(i []interface{}) *BusinessUpdateOne {
-	buo.mutation.AppendEditors(i)
+// AppendEditors appends s to the "editors" field.
+func (buo *BusinessUpdateOne) AppendEditors(s []string) *BusinessUpdateOne {
+	buo.mutation.AppendEditors(s)
 	return buo
 }
 
@@ -1543,10 +1557,10 @@ func (buo *BusinessUpdateOne) sqlSave(ctx context.Context) (_node *Business, err
 		_spec.ClearField(business.FieldCode, field.TypeString)
 	}
 	if value, ok := buo.mutation.Status(); ok {
-		_spec.SetField(business.FieldStatus, field.TypeInt, value)
+		_spec.SetField(business.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := buo.mutation.AddedStatus(); ok {
-		_spec.AddField(business.FieldStatus, field.TypeInt, value)
+	if buo.mutation.StatusCleared() {
+		_spec.ClearField(business.FieldStatus, field.TypeString)
 	}
 	if value, ok := buo.mutation.FormCode(); ok {
 		_spec.SetField(business.FieldFormCode, field.TypeString, value)
@@ -1602,10 +1616,13 @@ func (buo *BusinessUpdateOne) sqlSave(ctx context.Context) (_node *Business, err
 		_spec.ClearField(business.FieldChangeLogs, field.TypeJSON)
 	}
 	if value, ok := buo.mutation.LastModified(); ok {
-		_spec.SetField(business.FieldLastModified, field.TypeTime, value)
+		_spec.SetField(business.FieldLastModified, field.TypeInt64, value)
+	}
+	if value, ok := buo.mutation.AddedLastModified(); ok {
+		_spec.AddField(business.FieldLastModified, field.TypeInt64, value)
 	}
 	if buo.mutation.LastModifiedCleared() {
-		_spec.ClearField(business.FieldLastModified, field.TypeTime)
+		_spec.ClearField(business.FieldLastModified, field.TypeInt64)
 	}
 	if value, ok := buo.mutation.LastModifier(); ok {
 		_spec.SetField(business.FieldLastModifier, field.TypeString, value)

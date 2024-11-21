@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/template"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -29,8 +28,8 @@ type Template struct {
 	Type string `json:"type,omitempty"`
 	// Version
 	Version string `json:"version,omitempty"`
-	// status: 0 activated, 1 unactivated, 2 disabled
-	Status int `json:"status,omitempty"`
+	// Status, text status
+	Status string `json:"status,omitempty"`
 	// is disabled
 	Disabled bool `json:"disabled,omitempty"`
 	// Form type code
@@ -54,7 +53,7 @@ type Template struct {
 	// Node events
 	NodeEvents map[string]interface{} `json:"node_events,omitempty"`
 	// Business tags
-	BusinessTags []interface{} `json:"business_tags,omitempty"`
+	BusinessTags []string `json:"business_tags,omitempty"`
 	// Module code
 	ModuleCode string `json:"module_code,omitempty"`
 	// Category
@@ -74,9 +73,9 @@ type Template struct {
 	// Enable strict mode
 	StrictMode bool `json:"strict_mode,omitempty"`
 	// Users with view permission
-	Viewers []interface{} `json:"viewers,omitempty"`
+	Viewers []string `json:"viewers,omitempty"`
 	// Users with edit permission
-	Editors []interface{} `json:"editors,omitempty"`
+	Editors []string `json:"editors,omitempty"`
 	// Permission configurations
 	PermissionConfigs map[string]interface{} `json:"permission_configs,omitempty"`
 	// Role configurations
@@ -110,9 +109,9 @@ type Template struct {
 	// Whether is latest version
 	IsLatest bool `json:"is_latest,omitempty"`
 	// Effective time
-	EffectiveTime time.Time `json:"effective_time,omitempty"`
+	EffectiveTime int64 `json:"effective_time,omitempty"`
 	// Expire time
-	ExpireTime   time.Time `json:"expire_time,omitempty"`
+	ExpireTime   int64 `json:"expire_time,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -125,12 +124,10 @@ func (*Template) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case template.FieldDisabled, template.FieldAllowCancel, template.FieldAllowUrge, template.FieldAllowDelegate, template.FieldAllowTransfer, template.FieldIsDraftEnabled, template.FieldIsAutoStart, template.FieldStrictMode, template.FieldIsLatest:
 			values[i] = new(sql.NullBool)
-		case template.FieldStatus, template.FieldCreatedAt, template.FieldUpdatedAt:
+		case template.FieldCreatedAt, template.FieldUpdatedAt, template.FieldEffectiveTime, template.FieldExpireTime:
 			values[i] = new(sql.NullInt64)
-		case template.FieldID, template.FieldName, template.FieldCode, template.FieldDescription, template.FieldType, template.FieldVersion, template.FieldFormCode, template.FieldFormVersion, template.FieldNodeKey, template.FieldNodeType, template.FieldModuleCode, template.FieldCategory, template.FieldTenantID, template.FieldCreatedBy, template.FieldUpdatedBy, template.FieldTemplateKey, template.FieldSourceVersion:
+		case template.FieldID, template.FieldName, template.FieldCode, template.FieldDescription, template.FieldType, template.FieldVersion, template.FieldStatus, template.FieldFormCode, template.FieldFormVersion, template.FieldNodeKey, template.FieldNodeType, template.FieldModuleCode, template.FieldCategory, template.FieldTenantID, template.FieldCreatedBy, template.FieldUpdatedBy, template.FieldTemplateKey, template.FieldSourceVersion:
 			values[i] = new(sql.NullString)
-		case template.FieldEffectiveTime, template.FieldExpireTime:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -183,10 +180,10 @@ func (t *Template) assignValues(columns []string, values []any) error {
 				t.Version = value.String
 			}
 		case template.FieldStatus:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				t.Status = int(value.Int64)
+				t.Status = value.String
 			}
 		case template.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -457,16 +454,16 @@ func (t *Template) assignValues(columns []string, values []any) error {
 				t.IsLatest = value.Bool
 			}
 		case template.FieldEffectiveTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field effective_time", values[i])
 			} else if value.Valid {
-				t.EffectiveTime = value.Time
+				t.EffectiveTime = value.Int64
 			}
 		case template.FieldExpireTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field expire_time", values[i])
 			} else if value.Valid {
-				t.ExpireTime = value.Time
+				t.ExpireTime = value.Int64
 			}
 		default:
 			t.selectValues.Set(columns[i], values[i])
@@ -520,7 +517,7 @@ func (t *Template) String() string {
 	builder.WriteString(t.Version)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", t.Status))
+	builder.WriteString(t.Status)
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
 	builder.WriteString(fmt.Sprintf("%v", t.Disabled))
@@ -640,10 +637,10 @@ func (t *Template) String() string {
 	builder.WriteString(fmt.Sprintf("%v", t.IsLatest))
 	builder.WriteString(", ")
 	builder.WriteString("effective_time=")
-	builder.WriteString(t.EffectiveTime.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.EffectiveTime))
 	builder.WriteString(", ")
 	builder.WriteString("expire_time=")
-	builder.WriteString(t.ExpireTime.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.ExpireTime))
 	builder.WriteByte(')')
 	return builder.String()
 }

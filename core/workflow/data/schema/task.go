@@ -31,7 +31,7 @@ func (Task) Mixin() []ent.Mixin {
 		mixin.PrimaryKey,
 		mixin.Name,
 		mixin.Description,
-		mixin.Status,
+		mixin.TextStatus,
 		mixin.ProcessRefMixin{},
 		mixin.NodeBaseMixin{},
 		mixin.TaskAssigneeMixin{},
@@ -47,7 +47,8 @@ func (Task) Mixin() []ent.Mixin {
 func (Task) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("task_key").Unique().Comment("Task unique identifier"),
-
+		field.String("parent_id").Optional().Comment("Parent task ID"),
+		field.JSON("child_ids", []string{}).Default([]string{}).Comment("Child task IDs"),
 		// Task processing
 		field.String("action").Optional().Comment("Processing action"),
 		field.String("comment").Optional().Comment("Processing comment"),
@@ -57,7 +58,7 @@ func (Task) Fields() []ent.Field {
 		field.Bool("is_resubmit").Default(false).Comment("Whether is resubmitted"),
 
 		// Task tracking
-		field.Time("claim_time").Optional().Nillable().Comment("Claim time"),
+		field.Int64("claim_time").Optional().Nillable().Comment("Claim time"),
 		field.Bool("is_urged").Default(false).Comment("Whether is urged"),
 		field.Int("urge_count").Default(0).Comment("Number of urges"),
 	}
@@ -67,7 +68,6 @@ func (Task) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("task_key").Unique(),
 		index.Fields("process_id", "node_key"),
-		index.Fields("assignee"),
 		index.Fields("node_type"),
 		index.Fields("due_time"),
 	}

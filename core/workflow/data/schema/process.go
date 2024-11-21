@@ -29,7 +29,7 @@ func (Process) Annotations() []schema.Annotation {
 func (Process) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey,
-		mixin.Status,
+		mixin.TextStatus,
 		mixin.ProcessRefMixin{},
 		mixin.FormBaseMixin{},
 		mixin.BusinessTagMixin{},
@@ -51,7 +51,7 @@ func (Process) Fields() []ent.Field {
 		field.String("process_code").Comment("Process code"),
 		field.JSON("variables", types.JSON{}).Comment("Process variables"),
 		field.String("current_node").Optional().Comment("Current node"),
-		field.JSON("active_nodes", types.Array{}).Optional().Comment("Currently active nodes"),
+		field.JSON("active_nodes", types.StringArray{}).Optional().Comment("Currently active nodes"),
 
 		// Process snapshots
 		field.JSON("process_snapshot", types.JSON{}).Optional().Comment("Process snapshot"),

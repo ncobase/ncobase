@@ -7,9 +7,12 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/workflow/data/ent/business"
+	"ncobase/core/workflow/data/ent/delegation"
 	"ncobase/core/workflow/data/ent/history"
 	"ncobase/core/workflow/data/ent/node"
 	"ncobase/core/workflow/data/ent/process"
+	"ncobase/core/workflow/data/ent/processdesign"
+	"ncobase/core/workflow/data/ent/rule"
 	"ncobase/core/workflow/data/ent/task"
 	"ncobase/core/workflow/data/ent/template"
 	"reflect"
@@ -78,12 +81,15 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			business.Table: business.ValidColumn,
-			history.Table:  history.ValidColumn,
-			node.Table:     node.ValidColumn,
-			process.Table:  process.ValidColumn,
-			task.Table:     task.ValidColumn,
-			template.Table: template.ValidColumn,
+			business.Table:      business.ValidColumn,
+			delegation.Table:    delegation.ValidColumn,
+			history.Table:       history.ValidColumn,
+			node.Table:          node.ValidColumn,
+			process.Table:       process.ValidColumn,
+			processdesign.Table: processdesign.ValidColumn,
+			rule.Table:          rule.ValidColumn,
+			task.Table:          task.ValidColumn,
+			template.Table:      template.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

@@ -262,7 +262,7 @@ func (pq *ProcessQuery) Clone() *ProcessQuery {
 // Example:
 //
 //	var v []struct {
-//		Status int `json:"status,omitempty"`
+//		Status string `json:"status,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -285,7 +285,7 @@ func (pq *ProcessQuery) GroupBy(field string, fields ...string) *ProcessGroupBy 
 // Example:
 //
 //	var v []struct {
-//		Status int `json:"status,omitempty"`
+//		Status string `json:"status,omitempty"`
 //	}
 //
 //	client.Process.Query().

@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/workflow/data/ent/task"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -49,15 +48,15 @@ func (tc *TaskCreate) SetNillableDescription(s *string) *TaskCreate {
 }
 
 // SetStatus sets the "status" field.
-func (tc *TaskCreate) SetStatus(i int) *TaskCreate {
-	tc.mutation.SetStatus(i)
+func (tc *TaskCreate) SetStatus(s string) *TaskCreate {
+	tc.mutation.SetStatus(s)
 	return tc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableStatus(i *int) *TaskCreate {
-	if i != nil {
-		tc.SetStatus(*i)
+func (tc *TaskCreate) SetNillableStatus(s *string) *TaskCreate {
+	if s != nil {
+		tc.SetStatus(*s)
 	}
 	return tc
 }
@@ -110,29 +109,15 @@ func (tc *TaskCreate) SetNodeEvents(m map[string]interface{}) *TaskCreate {
 	return tc
 }
 
-// SetAssignee sets the "assignee" field.
-func (tc *TaskCreate) SetAssignee(s string) *TaskCreate {
-	tc.mutation.SetAssignee(s)
-	return tc
-}
-
-// SetAssigneeDept sets the "assignee_dept" field.
-func (tc *TaskCreate) SetAssigneeDept(s string) *TaskCreate {
-	tc.mutation.SetAssigneeDept(s)
-	return tc
-}
-
-// SetNillableAssigneeDept sets the "assignee_dept" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableAssigneeDept(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetAssigneeDept(*s)
-	}
+// SetAssignees sets the "assignees" field.
+func (tc *TaskCreate) SetAssignees(m []map[string]interface{}) *TaskCreate {
+	tc.mutation.SetAssignees(m)
 	return tc
 }
 
 // SetCandidates sets the "candidates" field.
-func (tc *TaskCreate) SetCandidates(i []interface{}) *TaskCreate {
-	tc.mutation.SetCandidates(i)
+func (tc *TaskCreate) SetCandidates(m []map[string]interface{}) *TaskCreate {
+	tc.mutation.SetCandidates(m)
 	return tc
 }
 
@@ -193,43 +178,43 @@ func (tc *TaskCreate) SetNillableIsTransferred(b *bool) *TaskCreate {
 }
 
 // SetStartTime sets the "start_time" field.
-func (tc *TaskCreate) SetStartTime(t time.Time) *TaskCreate {
-	tc.mutation.SetStartTime(t)
+func (tc *TaskCreate) SetStartTime(i int64) *TaskCreate {
+	tc.mutation.SetStartTime(i)
 	return tc
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableStartTime(t *time.Time) *TaskCreate {
-	if t != nil {
-		tc.SetStartTime(*t)
+func (tc *TaskCreate) SetNillableStartTime(i *int64) *TaskCreate {
+	if i != nil {
+		tc.SetStartTime(*i)
 	}
 	return tc
 }
 
 // SetEndTime sets the "end_time" field.
-func (tc *TaskCreate) SetEndTime(t time.Time) *TaskCreate {
-	tc.mutation.SetEndTime(t)
+func (tc *TaskCreate) SetEndTime(i int64) *TaskCreate {
+	tc.mutation.SetEndTime(i)
 	return tc
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableEndTime(t *time.Time) *TaskCreate {
-	if t != nil {
-		tc.SetEndTime(*t)
+func (tc *TaskCreate) SetNillableEndTime(i *int64) *TaskCreate {
+	if i != nil {
+		tc.SetEndTime(*i)
 	}
 	return tc
 }
 
 // SetDueTime sets the "due_time" field.
-func (tc *TaskCreate) SetDueTime(t time.Time) *TaskCreate {
-	tc.mutation.SetDueTime(t)
+func (tc *TaskCreate) SetDueTime(i int64) *TaskCreate {
+	tc.mutation.SetDueTime(i)
 	return tc
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableDueTime(t *time.Time) *TaskCreate {
-	if t != nil {
-		tc.SetDueTime(*t)
+func (tc *TaskCreate) SetNillableDueTime(i *int64) *TaskCreate {
+	if i != nil {
+		tc.SetDueTime(*i)
 	}
 	return tc
 }
@@ -470,6 +455,26 @@ func (tc *TaskCreate) SetTaskKey(s string) *TaskCreate {
 	return tc
 }
 
+// SetParentID sets the "parent_id" field.
+func (tc *TaskCreate) SetParentID(s string) *TaskCreate {
+	tc.mutation.SetParentID(s)
+	return tc
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (tc *TaskCreate) SetNillableParentID(s *string) *TaskCreate {
+	if s != nil {
+		tc.SetParentID(*s)
+	}
+	return tc
+}
+
+// SetChildIds sets the "child_ids" field.
+func (tc *TaskCreate) SetChildIds(s []string) *TaskCreate {
+	tc.mutation.SetChildIds(s)
+	return tc
+}
+
 // SetAction sets the "action" field.
 func (tc *TaskCreate) SetAction(s string) *TaskCreate {
 	tc.mutation.SetAction(s)
@@ -531,15 +536,15 @@ func (tc *TaskCreate) SetNillableIsResubmit(b *bool) *TaskCreate {
 }
 
 // SetClaimTime sets the "claim_time" field.
-func (tc *TaskCreate) SetClaimTime(t time.Time) *TaskCreate {
-	tc.mutation.SetClaimTime(t)
+func (tc *TaskCreate) SetClaimTime(i int64) *TaskCreate {
+	tc.mutation.SetClaimTime(i)
 	return tc
 }
 
 // SetNillableClaimTime sets the "claim_time" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableClaimTime(t *time.Time) *TaskCreate {
-	if t != nil {
-		tc.SetClaimTime(*t)
+func (tc *TaskCreate) SetNillableClaimTime(i *int64) *TaskCreate {
+	if i != nil {
+		tc.SetClaimTime(*i)
 	}
 	return tc
 }
@@ -621,10 +626,6 @@ func (tc *TaskCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (tc *TaskCreate) defaults() {
-	if _, ok := tc.mutation.Status(); !ok {
-		v := task.DefaultStatus
-		tc.mutation.SetStatus(v)
-	}
 	if _, ok := tc.mutation.IsDelegated(); !ok {
 		v := task.DefaultIsDelegated
 		tc.mutation.SetIsDelegated(v)
@@ -689,6 +690,10 @@ func (tc *TaskCreate) defaults() {
 		v := task.DefaultUpdatedAt()
 		tc.mutation.SetUpdatedAt(v)
 	}
+	if _, ok := tc.mutation.ChildIds(); !ok {
+		v := task.DefaultChildIds
+		tc.mutation.SetChildIds(v)
+	}
 	if _, ok := tc.mutation.IsResubmit(); !ok {
 		v := task.DefaultIsResubmit
 		tc.mutation.SetIsResubmit(v)
@@ -709,9 +714,6 @@ func (tc *TaskCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tc *TaskCreate) check() error {
-	if _, ok := tc.mutation.Status(); !ok {
-		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Task.status"`)}
-	}
 	if _, ok := tc.mutation.ProcessID(); !ok {
 		return &ValidationError{Name: "process_id", err: errors.New(`ent: missing required field "Task.process_id"`)}
 	}
@@ -727,8 +729,8 @@ func (tc *TaskCreate) check() error {
 	if _, ok := tc.mutation.NodeType(); !ok {
 		return &ValidationError{Name: "node_type", err: errors.New(`ent: missing required field "Task.node_type"`)}
 	}
-	if _, ok := tc.mutation.Assignee(); !ok {
-		return &ValidationError{Name: "assignee", err: errors.New(`ent: missing required field "Task.assignee"`)}
+	if _, ok := tc.mutation.Assignees(); !ok {
+		return &ValidationError{Name: "assignees", err: errors.New(`ent: missing required field "Task.assignees"`)}
 	}
 	if _, ok := tc.mutation.Candidates(); !ok {
 		return &ValidationError{Name: "candidates", err: errors.New(`ent: missing required field "Task.candidates"`)}
@@ -790,6 +792,9 @@ func (tc *TaskCreate) check() error {
 	if _, ok := tc.mutation.TaskKey(); !ok {
 		return &ValidationError{Name: "task_key", err: errors.New(`ent: missing required field "Task.task_key"`)}
 	}
+	if _, ok := tc.mutation.ChildIds(); !ok {
+		return &ValidationError{Name: "child_ids", err: errors.New(`ent: missing required field "Task.child_ids"`)}
+	}
 	if _, ok := tc.mutation.IsResubmit(); !ok {
 		return &ValidationError{Name: "is_resubmit", err: errors.New(`ent: missing required field "Task.is_resubmit"`)}
 	}
@@ -848,7 +853,7 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_node.Description = value
 	}
 	if value, ok := tc.mutation.Status(); ok {
-		_spec.SetField(task.FieldStatus, field.TypeInt, value)
+		_spec.SetField(task.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
 	if value, ok := tc.mutation.ProcessID(); ok {
@@ -883,13 +888,9 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_spec.SetField(task.FieldNodeEvents, field.TypeJSON, value)
 		_node.NodeEvents = value
 	}
-	if value, ok := tc.mutation.Assignee(); ok {
-		_spec.SetField(task.FieldAssignee, field.TypeString, value)
-		_node.Assignee = value
-	}
-	if value, ok := tc.mutation.AssigneeDept(); ok {
-		_spec.SetField(task.FieldAssigneeDept, field.TypeString, value)
-		_node.AssigneeDept = value
+	if value, ok := tc.mutation.Assignees(); ok {
+		_spec.SetField(task.FieldAssignees, field.TypeJSON, value)
+		_node.Assignees = value
 	}
 	if value, ok := tc.mutation.Candidates(); ok {
 		_spec.SetField(task.FieldCandidates, field.TypeJSON, value)
@@ -912,15 +913,15 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_node.IsTransferred = value
 	}
 	if value, ok := tc.mutation.StartTime(); ok {
-		_spec.SetField(task.FieldStartTime, field.TypeTime, value)
+		_spec.SetField(task.FieldStartTime, field.TypeInt64, value)
 		_node.StartTime = value
 	}
 	if value, ok := tc.mutation.EndTime(); ok {
-		_spec.SetField(task.FieldEndTime, field.TypeTime, value)
+		_spec.SetField(task.FieldEndTime, field.TypeInt64, value)
 		_node.EndTime = &value
 	}
 	if value, ok := tc.mutation.DueTime(); ok {
-		_spec.SetField(task.FieldDueTime, field.TypeTime, value)
+		_spec.SetField(task.FieldDueTime, field.TypeInt64, value)
 		_node.DueTime = &value
 	}
 	if value, ok := tc.mutation.Duration(); ok {
@@ -995,6 +996,14 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_spec.SetField(task.FieldTaskKey, field.TypeString, value)
 		_node.TaskKey = value
 	}
+	if value, ok := tc.mutation.ParentID(); ok {
+		_spec.SetField(task.FieldParentID, field.TypeString, value)
+		_node.ParentID = value
+	}
+	if value, ok := tc.mutation.ChildIds(); ok {
+		_spec.SetField(task.FieldChildIds, field.TypeJSON, value)
+		_node.ChildIds = value
+	}
 	if value, ok := tc.mutation.Action(); ok {
 		_spec.SetField(task.FieldAction, field.TypeString, value)
 		_node.Action = value
@@ -1020,7 +1029,7 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_node.IsResubmit = value
 	}
 	if value, ok := tc.mutation.ClaimTime(); ok {
-		_spec.SetField(task.FieldClaimTime, field.TypeTime, value)
+		_spec.SetField(task.FieldClaimTime, field.TypeInt64, value)
 		_node.ClaimTime = &value
 	}
 	if value, ok := tc.mutation.IsUrged(); ok {

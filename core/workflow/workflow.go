@@ -2,6 +2,7 @@ package workflow
 
 import (
 	"fmt"
+	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/extension"
 	"ncobase/core/workflow/data"
@@ -78,7 +79,7 @@ func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New(m.conf, m.d)
+	m.s = service.New(m.d, m.em)
 	m.h = handler.New(m.s)
 
 	return nil
@@ -91,7 +92,9 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Implement your route registration logic here
+	// Belong domain group
+	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+	m.h.RegisterRoutes(r)
 }
 
 // GetHandlers returns the handlers for the module

@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/workflow/data/ent/template"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -91,15 +90,15 @@ func (tc *TemplateCreate) SetNillableVersion(s *string) *TemplateCreate {
 }
 
 // SetStatus sets the "status" field.
-func (tc *TemplateCreate) SetStatus(i int) *TemplateCreate {
-	tc.mutation.SetStatus(i)
+func (tc *TemplateCreate) SetStatus(s string) *TemplateCreate {
+	tc.mutation.SetStatus(s)
 	return tc
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableStatus(i *int) *TemplateCreate {
-	if i != nil {
-		tc.SetStatus(*i)
+func (tc *TemplateCreate) SetNillableStatus(s *string) *TemplateCreate {
+	if s != nil {
+		tc.SetStatus(*s)
 	}
 	return tc
 }
@@ -187,8 +186,8 @@ func (tc *TemplateCreate) SetNodeEvents(m map[string]interface{}) *TemplateCreat
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (tc *TemplateCreate) SetBusinessTags(i []interface{}) *TemplateCreate {
-	tc.mutation.SetBusinessTags(i)
+func (tc *TemplateCreate) SetBusinessTags(s []string) *TemplateCreate {
+	tc.mutation.SetBusinessTags(s)
 	return tc
 }
 
@@ -311,14 +310,14 @@ func (tc *TemplateCreate) SetNillableStrictMode(b *bool) *TemplateCreate {
 }
 
 // SetViewers sets the "viewers" field.
-func (tc *TemplateCreate) SetViewers(i []interface{}) *TemplateCreate {
-	tc.mutation.SetViewers(i)
+func (tc *TemplateCreate) SetViewers(s []string) *TemplateCreate {
+	tc.mutation.SetViewers(s)
 	return tc
 }
 
 // SetEditors sets the "editors" field.
-func (tc *TemplateCreate) SetEditors(i []interface{}) *TemplateCreate {
-	tc.mutation.SetEditors(i)
+func (tc *TemplateCreate) SetEditors(s []string) *TemplateCreate {
+	tc.mutation.SetEditors(s)
 	return tc
 }
 
@@ -475,29 +474,29 @@ func (tc *TemplateCreate) SetNillableIsLatest(b *bool) *TemplateCreate {
 }
 
 // SetEffectiveTime sets the "effective_time" field.
-func (tc *TemplateCreate) SetEffectiveTime(t time.Time) *TemplateCreate {
-	tc.mutation.SetEffectiveTime(t)
+func (tc *TemplateCreate) SetEffectiveTime(i int64) *TemplateCreate {
+	tc.mutation.SetEffectiveTime(i)
 	return tc
 }
 
 // SetNillableEffectiveTime sets the "effective_time" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableEffectiveTime(t *time.Time) *TemplateCreate {
-	if t != nil {
-		tc.SetEffectiveTime(*t)
+func (tc *TemplateCreate) SetNillableEffectiveTime(i *int64) *TemplateCreate {
+	if i != nil {
+		tc.SetEffectiveTime(*i)
 	}
 	return tc
 }
 
 // SetExpireTime sets the "expire_time" field.
-func (tc *TemplateCreate) SetExpireTime(t time.Time) *TemplateCreate {
-	tc.mutation.SetExpireTime(t)
+func (tc *TemplateCreate) SetExpireTime(i int64) *TemplateCreate {
+	tc.mutation.SetExpireTime(i)
 	return tc
 }
 
 // SetNillableExpireTime sets the "expire_time" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableExpireTime(t *time.Time) *TemplateCreate {
-	if t != nil {
-		tc.SetExpireTime(*t)
+func (tc *TemplateCreate) SetNillableExpireTime(i *int64) *TemplateCreate {
+	if i != nil {
+		tc.SetExpireTime(*i)
 	}
 	return tc
 }
@@ -551,10 +550,6 @@ func (tc *TemplateCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (tc *TemplateCreate) defaults() {
-	if _, ok := tc.mutation.Status(); !ok {
-		v := template.DefaultStatus
-		tc.mutation.SetStatus(v)
-	}
 	if _, ok := tc.mutation.Disabled(); !ok {
 		v := template.DefaultDisabled
 		tc.mutation.SetDisabled(v)
@@ -611,9 +606,6 @@ func (tc *TemplateCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tc *TemplateCreate) check() error {
-	if _, ok := tc.mutation.Status(); !ok {
-		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Template.status"`)}
-	}
 	if _, ok := tc.mutation.FormCode(); !ok {
 		return &ValidationError{Name: "form_code", err: errors.New(`ent: missing required field "Template.form_code"`)}
 	}
@@ -729,7 +721,7 @@ func (tc *TemplateCreate) createSpec() (*Template, *sqlgraph.CreateSpec) {
 		_node.Version = value
 	}
 	if value, ok := tc.mutation.Status(); ok {
-		_spec.SetField(template.FieldStatus, field.TypeInt, value)
+		_spec.SetField(template.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
 	if value, ok := tc.mutation.Disabled(); ok {
@@ -889,11 +881,11 @@ func (tc *TemplateCreate) createSpec() (*Template, *sqlgraph.CreateSpec) {
 		_node.IsLatest = value
 	}
 	if value, ok := tc.mutation.EffectiveTime(); ok {
-		_spec.SetField(template.FieldEffectiveTime, field.TypeTime, value)
+		_spec.SetField(template.FieldEffectiveTime, field.TypeInt64, value)
 		_node.EffectiveTime = value
 	}
 	if value, ok := tc.mutation.ExpireTime(); ok {
-		_spec.SetField(template.FieldExpireTime, field.TypeTime, value)
+		_spec.SetField(template.FieldExpireTime, field.TypeInt64, value)
 		_node.ExpireTime = value
 	}
 	return _node, _spec

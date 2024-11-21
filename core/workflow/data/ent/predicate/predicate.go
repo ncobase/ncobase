@@ -9,6 +9,9 @@ import (
 // Business is the predicate function for business builders.
 type Business func(*sql.Selector)
 
+// Delegation is the predicate function for delegation builders.
+type Delegation func(*sql.Selector)
+
 // History is the predicate function for history builders.
 type History func(*sql.Selector)
 
@@ -17,6 +20,12 @@ type Node func(*sql.Selector)
 
 // Process is the predicate function for process builders.
 type Process func(*sql.Selector)
+
+// ProcessDesign is the predicate function for processdesign builders.
+type ProcessDesign func(*sql.Selector)
+
+// Rule is the predicate function for rule builders.
+type Rule func(*sql.Selector)
 
 // Task is the predicate function for task builders.
 type Task func(*sql.Selector)

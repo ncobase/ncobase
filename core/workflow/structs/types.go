@@ -1,7 +1,5 @@
 package structs
 
-import "ncobase/common/types"
-
 // Error codes
 const (
 	ErrCodeInvalidParam = "INVALID_PARAM"
@@ -13,14 +11,50 @@ const (
 	ErrCodeBizError     = "BIZ_ERROR"
 )
 
-// ProcessPriority represents process priority levels
-type ProcessPriority int
+// AssigneeType represents assignee types
+type AssigneeType string
 
 const (
-	PriorityLow    ProcessPriority = 0
-	PriorityNormal ProcessPriority = 1
-	PriorityHigh   ProcessPriority = 2
-	PriorityUrgent ProcessPriority = 3
+	AssigneeUser  AssigneeType = "user"
+	AssigneeRole  AssigneeType = "role"
+	AssigneeDept  AssigneeType = "dept"
+	AssigneeGroup AssigneeType = "group"
+)
+
+// Assignee represents assignee
+type Assignee struct {
+	ID   string       `json:"id"`
+	Name string       `json:"name"`
+	Type AssigneeType `json:"type"`
+}
+
+// AssignStrategy represents assign strategy
+type AssignStrategy string
+
+const (
+	AssignStrategyAuto   = "auto"
+	AssignStrategyClaim  = "claim"
+	AssignStrategyManual = "manual"
+)
+
+// PriorityStrategy represents priority handling strategies
+type PriorityStrategy int
+
+const (
+	PriorityLow    PriorityStrategy = 0
+	PriorityNormal PriorityStrategy = 5
+	PriorityHigh   PriorityStrategy = 10
+	PriorityUrgent PriorityStrategy = 15
+)
+
+// CategoryType represents category types
+type CategoryType string
+
+const (
+	CategoryProcess = "process"
+	CategoryNode    = "node"
+	CategoryTask    = "task"
+	CategorySystem  = "system"
 )
 
 // TimeoutStrategy represents timeout handling strategies
@@ -46,15 +80,20 @@ const (
 type Status string
 
 const (
-	StatusDraft      Status = "draft"      // Draft
-	StatusActive     Status = "active"     // Active
-	StatusPending    Status = "pending"    // Pending
-	StatusProcessing Status = "processing" // Processing
-	StatusCompleted  Status = "completed"  // Completed
-	StatusRejected   Status = "rejected"   // Rejected
-	StatusCancelled  Status = "cancelled"  // Cancelled
-	StatusTerminated Status = "terminated" // Terminated
-	StatusError      Status = "error"      // Error
+	StatusDraft       Status = "draft"       // Draft
+	StatusReady       Status = "ready"       // Ready
+	StatusActive      Status = "active"      // Active
+	StatusPending     Status = "pending"     // Pending
+	StatusSuspended   Status = "suspended"   // Suspended
+	StatusProcessing  Status = "processing"  // Processing
+	StatusCompleted   Status = "completed"   // Completed
+	StatusCompensated Status = "compensated" // Compensated
+	StatusRejected    Status = "rejected"    // Rejected
+	StatusCancelled   Status = "cancelled"   // Cancelled
+	StatusTerminated  Status = "terminated"  // Terminated
+	StatusRollbacked  Status = "rollbacked"  // Rollbacked
+	StatusWithdrawn   Status = "withdrawn"   // Withdrawn
+	StatusError       Status = "error"       // Error
 )
 
 // NodeType represents workflow node types
@@ -127,8 +166,8 @@ const (
 
 // SortField represents sort fields
 const (
-	SortByCreatedAt types.SortField = "created_at"
-	SortByPriority  types.SortField = "priority"
-	SortByDueTime   types.SortField = "due_time"
-	SortByName      types.SortField = "name"
+	SortByCreatedAt string = "created_at"
+	SortByPriority  string = "priority"
+	SortByDueTime   string = "due_time"
+	SortByName      string = "name"
 )

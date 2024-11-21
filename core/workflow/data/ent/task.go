@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/task"
 	"strings"
-	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -23,8 +22,8 @@ type Task struct {
 	Name string `json:"name,omitempty"`
 	// description
 	Description string `json:"description,omitempty"`
-	// status: 0 activated, 1 unactivated, 2 disabled
-	Status int `json:"status,omitempty"`
+	// Status, text status
+	Status string `json:"status,omitempty"`
 	// Process instance ID
 	ProcessID string `json:"process_id,omitempty"`
 	// Process template ID
@@ -41,12 +40,10 @@ type Task struct {
 	NodeRules map[string]interface{} `json:"node_rules,omitempty"`
 	// Node events
 	NodeEvents map[string]interface{} `json:"node_events,omitempty"`
-	// Task assignee
-	Assignee string `json:"assignee,omitempty"`
-	// Assignee's department
-	AssigneeDept string `json:"assignee_dept,omitempty"`
+	// Task assignees
+	Assignees []map[string]interface{} `json:"assignees,omitempty"`
 	// Candidate assignees
-	Candidates []interface{} `json:"candidates,omitempty"`
+	Candidates []map[string]interface{} `json:"candidates,omitempty"`
 	// Delegated from user
 	DelegatedFrom string `json:"delegated_from,omitempty"`
 	// Delegation reason
@@ -56,11 +53,11 @@ type Task struct {
 	// Whether task is transferred
 	IsTransferred bool `json:"is_transferred,omitempty"`
 	// Start time
-	StartTime time.Time `json:"start_time,omitempty"`
+	StartTime int64 `json:"start_time,omitempty"`
 	// End time
-	EndTime *time.Time `json:"end_time,omitempty"`
+	EndTime *int64 `json:"end_time,omitempty"`
 	// Due time
-	DueTime *time.Time `json:"due_time,omitempty"`
+	DueTime *int64 `json:"due_time,omitempty"`
 	// Duration in seconds
 	Duration int `json:"duration,omitempty"`
 	// Priority level
@@ -97,6 +94,10 @@ type Task struct {
 	UpdatedAt int64 `json:"updated_at,omitempty"`
 	// Task unique identifier
 	TaskKey string `json:"task_key,omitempty"`
+	// Parent task ID
+	ParentID string `json:"parent_id,omitempty"`
+	// Child task IDs
+	ChildIds []string `json:"child_ids,omitempty"`
 	// Processing action
 	Action string `json:"action,omitempty"`
 	// Processing comment
@@ -110,7 +111,7 @@ type Task struct {
 	// Whether is resubmitted
 	IsResubmit bool `json:"is_resubmit,omitempty"`
 	// Claim time
-	ClaimTime *time.Time `json:"claim_time,omitempty"`
+	ClaimTime *int64 `json:"claim_time,omitempty"`
 	// Whether is urged
 	IsUrged bool `json:"is_urged,omitempty"`
 	// Number of urges
@@ -123,16 +124,14 @@ func (*Task) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case task.FieldNodeConfig, task.FieldNodeRules, task.FieldNodeEvents, task.FieldCandidates, task.FieldExtras, task.FieldAttachments, task.FieldFormData, task.FieldVariables:
+		case task.FieldNodeConfig, task.FieldNodeRules, task.FieldNodeEvents, task.FieldAssignees, task.FieldCandidates, task.FieldExtras, task.FieldChildIds, task.FieldAttachments, task.FieldFormData, task.FieldVariables:
 			values[i] = new([]byte)
 		case task.FieldIsDelegated, task.FieldIsTransferred, task.FieldIsTimeout, task.FieldAllowCancel, task.FieldAllowUrge, task.FieldAllowDelegate, task.FieldAllowTransfer, task.FieldIsDraftEnabled, task.FieldIsAutoStart, task.FieldStrictMode, task.FieldIsResubmit, task.FieldIsUrged:
 			values[i] = new(sql.NullBool)
-		case task.FieldStatus, task.FieldDuration, task.FieldPriority, task.FieldReminderCount, task.FieldCreatedAt, task.FieldUpdatedAt, task.FieldUrgeCount:
+		case task.FieldStartTime, task.FieldEndTime, task.FieldDueTime, task.FieldDuration, task.FieldPriority, task.FieldReminderCount, task.FieldCreatedAt, task.FieldUpdatedAt, task.FieldClaimTime, task.FieldUrgeCount:
 			values[i] = new(sql.NullInt64)
-		case task.FieldID, task.FieldName, task.FieldDescription, task.FieldProcessID, task.FieldTemplateID, task.FieldBusinessKey, task.FieldNodeKey, task.FieldNodeType, task.FieldAssignee, task.FieldAssigneeDept, task.FieldDelegatedFrom, task.FieldDelegatedReason, task.FieldTenantID, task.FieldCreatedBy, task.FieldUpdatedBy, task.FieldTaskKey, task.FieldAction, task.FieldComment:
+		case task.FieldID, task.FieldName, task.FieldDescription, task.FieldStatus, task.FieldProcessID, task.FieldTemplateID, task.FieldBusinessKey, task.FieldNodeKey, task.FieldNodeType, task.FieldDelegatedFrom, task.FieldDelegatedReason, task.FieldTenantID, task.FieldCreatedBy, task.FieldUpdatedBy, task.FieldTaskKey, task.FieldParentID, task.FieldAction, task.FieldComment:
 			values[i] = new(sql.NullString)
-		case task.FieldStartTime, task.FieldEndTime, task.FieldDueTime, task.FieldClaimTime:
-			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -167,10 +166,10 @@ func (t *Task) assignValues(columns []string, values []any) error {
 				t.Description = value.String
 			}
 		case task.FieldStatus:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				t.Status = int(value.Int64)
+				t.Status = value.String
 			}
 		case task.FieldProcessID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -226,17 +225,13 @@ func (t *Task) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field node_events: %w", err)
 				}
 			}
-		case task.FieldAssignee:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field assignee", values[i])
-			} else if value.Valid {
-				t.Assignee = value.String
-			}
-		case task.FieldAssigneeDept:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field assignee_dept", values[i])
-			} else if value.Valid {
-				t.AssigneeDept = value.String
+		case task.FieldAssignees:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field assignees", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &t.Assignees); err != nil {
+					return fmt.Errorf("unmarshal field assignees: %w", err)
+				}
 			}
 		case task.FieldCandidates:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -271,24 +266,24 @@ func (t *Task) assignValues(columns []string, values []any) error {
 				t.IsTransferred = value.Bool
 			}
 		case task.FieldStartTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field start_time", values[i])
 			} else if value.Valid {
-				t.StartTime = value.Time
+				t.StartTime = value.Int64
 			}
 		case task.FieldEndTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field end_time", values[i])
 			} else if value.Valid {
-				t.EndTime = new(time.Time)
-				*t.EndTime = value.Time
+				t.EndTime = new(int64)
+				*t.EndTime = value.Int64
 			}
 		case task.FieldDueTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field due_time", values[i])
 			} else if value.Valid {
-				t.DueTime = new(time.Time)
-				*t.DueTime = value.Time
+				t.DueTime = new(int64)
+				*t.DueTime = value.Int64
 			}
 		case task.FieldDuration:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -400,6 +395,20 @@ func (t *Task) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.TaskKey = value.String
 			}
+		case task.FieldParentID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
+			} else if value.Valid {
+				t.ParentID = value.String
+			}
+		case task.FieldChildIds:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field child_ids", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &t.ChildIds); err != nil {
+					return fmt.Errorf("unmarshal field child_ids: %w", err)
+				}
+			}
 		case task.FieldAction:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field action", values[i])
@@ -443,11 +452,11 @@ func (t *Task) assignValues(columns []string, values []any) error {
 				t.IsResubmit = value.Bool
 			}
 		case task.FieldClaimTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field claim_time", values[i])
 			} else if value.Valid {
-				t.ClaimTime = new(time.Time)
-				*t.ClaimTime = value.Time
+				t.ClaimTime = new(int64)
+				*t.ClaimTime = value.Int64
 			}
 		case task.FieldIsUrged:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -504,7 +513,7 @@ func (t *Task) String() string {
 	builder.WriteString(t.Description)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", t.Status))
+	builder.WriteString(t.Status)
 	builder.WriteString(", ")
 	builder.WriteString("process_id=")
 	builder.WriteString(t.ProcessID)
@@ -530,11 +539,8 @@ func (t *Task) String() string {
 	builder.WriteString("node_events=")
 	builder.WriteString(fmt.Sprintf("%v", t.NodeEvents))
 	builder.WriteString(", ")
-	builder.WriteString("assignee=")
-	builder.WriteString(t.Assignee)
-	builder.WriteString(", ")
-	builder.WriteString("assignee_dept=")
-	builder.WriteString(t.AssigneeDept)
+	builder.WriteString("assignees=")
+	builder.WriteString(fmt.Sprintf("%v", t.Assignees))
 	builder.WriteString(", ")
 	builder.WriteString("candidates=")
 	builder.WriteString(fmt.Sprintf("%v", t.Candidates))
@@ -552,16 +558,16 @@ func (t *Task) String() string {
 	builder.WriteString(fmt.Sprintf("%v", t.IsTransferred))
 	builder.WriteString(", ")
 	builder.WriteString("start_time=")
-	builder.WriteString(t.StartTime.Format(time.ANSIC))
+	builder.WriteString(fmt.Sprintf("%v", t.StartTime))
 	builder.WriteString(", ")
 	if v := t.EndTime; v != nil {
 		builder.WriteString("end_time=")
-		builder.WriteString(v.Format(time.ANSIC))
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := t.DueTime; v != nil {
 		builder.WriteString("due_time=")
-		builder.WriteString(v.Format(time.ANSIC))
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("duration=")
@@ -618,6 +624,12 @@ func (t *Task) String() string {
 	builder.WriteString("task_key=")
 	builder.WriteString(t.TaskKey)
 	builder.WriteString(", ")
+	builder.WriteString("parent_id=")
+	builder.WriteString(t.ParentID)
+	builder.WriteString(", ")
+	builder.WriteString("child_ids=")
+	builder.WriteString(fmt.Sprintf("%v", t.ChildIds))
+	builder.WriteString(", ")
 	builder.WriteString("action=")
 	builder.WriteString(t.Action)
 	builder.WriteString(", ")
@@ -638,7 +650,7 @@ func (t *Task) String() string {
 	builder.WriteString(", ")
 	if v := t.ClaimTime; v != nil {
 		builder.WriteString("claim_time=")
-		builder.WriteString(v.Format(time.ANSIC))
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("is_urged=")

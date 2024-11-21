@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/predicate"
 	"ncobase/core/workflow/data/ent/process"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -30,23 +29,22 @@ func (pu *ProcessUpdate) Where(ps ...predicate.Process) *ProcessUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (pu *ProcessUpdate) SetStatus(i int) *ProcessUpdate {
-	pu.mutation.ResetStatus()
-	pu.mutation.SetStatus(i)
+func (pu *ProcessUpdate) SetStatus(s string) *ProcessUpdate {
+	pu.mutation.SetStatus(s)
 	return pu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableStatus(i *int) *ProcessUpdate {
-	if i != nil {
-		pu.SetStatus(*i)
+func (pu *ProcessUpdate) SetNillableStatus(s *string) *ProcessUpdate {
+	if s != nil {
+		pu.SetStatus(*s)
 	}
 	return pu
 }
 
-// AddStatus adds i to the "status" field.
-func (pu *ProcessUpdate) AddStatus(i int) *ProcessUpdate {
-	pu.mutation.AddStatus(i)
+// ClearStatus clears the value of the "status" field.
+func (pu *ProcessUpdate) ClearStatus() *ProcessUpdate {
+	pu.mutation.ClearStatus()
 	return pu
 }
 
@@ -163,14 +161,14 @@ func (pu *ProcessUpdate) ClearFieldPermissions() *ProcessUpdate {
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (pu *ProcessUpdate) SetBusinessTags(i []interface{}) *ProcessUpdate {
-	pu.mutation.SetBusinessTags(i)
+func (pu *ProcessUpdate) SetBusinessTags(s []string) *ProcessUpdate {
+	pu.mutation.SetBusinessTags(s)
 	return pu
 }
 
-// AppendBusinessTags appends i to the "business_tags" field.
-func (pu *ProcessUpdate) AppendBusinessTags(i []interface{}) *ProcessUpdate {
-	pu.mutation.AppendBusinessTags(i)
+// AppendBusinessTags appends s to the "business_tags" field.
+func (pu *ProcessUpdate) AppendBusinessTags(s []string) *ProcessUpdate {
+	pu.mutation.AppendBusinessTags(s)
 	return pu
 }
 
@@ -309,30 +307,44 @@ func (pu *ProcessUpdate) ClearSuspendReason() *ProcessUpdate {
 }
 
 // SetStartTime sets the "start_time" field.
-func (pu *ProcessUpdate) SetStartTime(t time.Time) *ProcessUpdate {
-	pu.mutation.SetStartTime(t)
+func (pu *ProcessUpdate) SetStartTime(i int64) *ProcessUpdate {
+	pu.mutation.ResetStartTime()
+	pu.mutation.SetStartTime(i)
 	return pu
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableStartTime(t *time.Time) *ProcessUpdate {
-	if t != nil {
-		pu.SetStartTime(*t)
+func (pu *ProcessUpdate) SetNillableStartTime(i *int64) *ProcessUpdate {
+	if i != nil {
+		pu.SetStartTime(*i)
 	}
+	return pu
+}
+
+// AddStartTime adds i to the "start_time" field.
+func (pu *ProcessUpdate) AddStartTime(i int64) *ProcessUpdate {
+	pu.mutation.AddStartTime(i)
 	return pu
 }
 
 // SetEndTime sets the "end_time" field.
-func (pu *ProcessUpdate) SetEndTime(t time.Time) *ProcessUpdate {
-	pu.mutation.SetEndTime(t)
+func (pu *ProcessUpdate) SetEndTime(i int64) *ProcessUpdate {
+	pu.mutation.ResetEndTime()
+	pu.mutation.SetEndTime(i)
 	return pu
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableEndTime(t *time.Time) *ProcessUpdate {
-	if t != nil {
-		pu.SetEndTime(*t)
+func (pu *ProcessUpdate) SetNillableEndTime(i *int64) *ProcessUpdate {
+	if i != nil {
+		pu.SetEndTime(*i)
 	}
+	return pu
+}
+
+// AddEndTime adds i to the "end_time" field.
+func (pu *ProcessUpdate) AddEndTime(i int64) *ProcessUpdate {
+	pu.mutation.AddEndTime(i)
 	return pu
 }
 
@@ -343,16 +355,23 @@ func (pu *ProcessUpdate) ClearEndTime() *ProcessUpdate {
 }
 
 // SetDueTime sets the "due_time" field.
-func (pu *ProcessUpdate) SetDueTime(t time.Time) *ProcessUpdate {
-	pu.mutation.SetDueTime(t)
+func (pu *ProcessUpdate) SetDueTime(i int64) *ProcessUpdate {
+	pu.mutation.ResetDueTime()
+	pu.mutation.SetDueTime(i)
 	return pu
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableDueTime(t *time.Time) *ProcessUpdate {
-	if t != nil {
-		pu.SetDueTime(*t)
+func (pu *ProcessUpdate) SetNillableDueTime(i *int64) *ProcessUpdate {
+	if i != nil {
+		pu.SetDueTime(*i)
 	}
+	return pu
+}
+
+// AddDueTime adds i to the "due_time" field.
+func (pu *ProcessUpdate) AddDueTime(i int64) *ProcessUpdate {
+	pu.mutation.AddDueTime(i)
 	return pu
 }
 
@@ -723,14 +742,14 @@ func (pu *ProcessUpdate) ClearCurrentNode() *ProcessUpdate {
 }
 
 // SetActiveNodes sets the "active_nodes" field.
-func (pu *ProcessUpdate) SetActiveNodes(i []interface{}) *ProcessUpdate {
-	pu.mutation.SetActiveNodes(i)
+func (pu *ProcessUpdate) SetActiveNodes(s []string) *ProcessUpdate {
+	pu.mutation.SetActiveNodes(s)
 	return pu
 }
 
-// AppendActiveNodes appends i to the "active_nodes" field.
-func (pu *ProcessUpdate) AppendActiveNodes(i []interface{}) *ProcessUpdate {
-	pu.mutation.AppendActiveNodes(i)
+// AppendActiveNodes appends s to the "active_nodes" field.
+func (pu *ProcessUpdate) AppendActiveNodes(s []string) *ProcessUpdate {
+	pu.mutation.AppendActiveNodes(s)
 	return pu
 }
 
@@ -859,10 +878,10 @@ func (pu *ProcessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 	}
 	if value, ok := pu.mutation.Status(); ok {
-		_spec.SetField(process.FieldStatus, field.TypeInt, value)
+		_spec.SetField(process.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.AddedStatus(); ok {
-		_spec.AddField(process.FieldStatus, field.TypeInt, value)
+	if pu.mutation.StatusCleared() {
+		_spec.ClearField(process.FieldStatus, field.TypeString)
 	}
 	if value, ok := pu.mutation.ProcessID(); ok {
 		_spec.SetField(process.FieldProcessID, field.TypeString, value)
@@ -948,19 +967,28 @@ func (pu *ProcessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(process.FieldSuspendReason, field.TypeString)
 	}
 	if value, ok := pu.mutation.StartTime(); ok {
-		_spec.SetField(process.FieldStartTime, field.TypeTime, value)
+		_spec.SetField(process.FieldStartTime, field.TypeInt64, value)
+	}
+	if value, ok := pu.mutation.AddedStartTime(); ok {
+		_spec.AddField(process.FieldStartTime, field.TypeInt64, value)
 	}
 	if value, ok := pu.mutation.EndTime(); ok {
-		_spec.SetField(process.FieldEndTime, field.TypeTime, value)
+		_spec.SetField(process.FieldEndTime, field.TypeInt64, value)
+	}
+	if value, ok := pu.mutation.AddedEndTime(); ok {
+		_spec.AddField(process.FieldEndTime, field.TypeInt64, value)
 	}
 	if pu.mutation.EndTimeCleared() {
-		_spec.ClearField(process.FieldEndTime, field.TypeTime)
+		_spec.ClearField(process.FieldEndTime, field.TypeInt64)
 	}
 	if value, ok := pu.mutation.DueTime(); ok {
-		_spec.SetField(process.FieldDueTime, field.TypeTime, value)
+		_spec.SetField(process.FieldDueTime, field.TypeInt64, value)
+	}
+	if value, ok := pu.mutation.AddedDueTime(); ok {
+		_spec.AddField(process.FieldDueTime, field.TypeInt64, value)
 	}
 	if pu.mutation.DueTimeCleared() {
-		_spec.ClearField(process.FieldDueTime, field.TypeTime)
+		_spec.ClearField(process.FieldDueTime, field.TypeInt64)
 	}
 	if value, ok := pu.mutation.Duration(); ok {
 		_spec.SetField(process.FieldDuration, field.TypeInt, value)
@@ -1117,23 +1145,22 @@ type ProcessUpdateOne struct {
 }
 
 // SetStatus sets the "status" field.
-func (puo *ProcessUpdateOne) SetStatus(i int) *ProcessUpdateOne {
-	puo.mutation.ResetStatus()
-	puo.mutation.SetStatus(i)
+func (puo *ProcessUpdateOne) SetStatus(s string) *ProcessUpdateOne {
+	puo.mutation.SetStatus(s)
 	return puo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableStatus(i *int) *ProcessUpdateOne {
-	if i != nil {
-		puo.SetStatus(*i)
+func (puo *ProcessUpdateOne) SetNillableStatus(s *string) *ProcessUpdateOne {
+	if s != nil {
+		puo.SetStatus(*s)
 	}
 	return puo
 }
 
-// AddStatus adds i to the "status" field.
-func (puo *ProcessUpdateOne) AddStatus(i int) *ProcessUpdateOne {
-	puo.mutation.AddStatus(i)
+// ClearStatus clears the value of the "status" field.
+func (puo *ProcessUpdateOne) ClearStatus() *ProcessUpdateOne {
+	puo.mutation.ClearStatus()
 	return puo
 }
 
@@ -1250,14 +1277,14 @@ func (puo *ProcessUpdateOne) ClearFieldPermissions() *ProcessUpdateOne {
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (puo *ProcessUpdateOne) SetBusinessTags(i []interface{}) *ProcessUpdateOne {
-	puo.mutation.SetBusinessTags(i)
+func (puo *ProcessUpdateOne) SetBusinessTags(s []string) *ProcessUpdateOne {
+	puo.mutation.SetBusinessTags(s)
 	return puo
 }
 
-// AppendBusinessTags appends i to the "business_tags" field.
-func (puo *ProcessUpdateOne) AppendBusinessTags(i []interface{}) *ProcessUpdateOne {
-	puo.mutation.AppendBusinessTags(i)
+// AppendBusinessTags appends s to the "business_tags" field.
+func (puo *ProcessUpdateOne) AppendBusinessTags(s []string) *ProcessUpdateOne {
+	puo.mutation.AppendBusinessTags(s)
 	return puo
 }
 
@@ -1396,30 +1423,44 @@ func (puo *ProcessUpdateOne) ClearSuspendReason() *ProcessUpdateOne {
 }
 
 // SetStartTime sets the "start_time" field.
-func (puo *ProcessUpdateOne) SetStartTime(t time.Time) *ProcessUpdateOne {
-	puo.mutation.SetStartTime(t)
+func (puo *ProcessUpdateOne) SetStartTime(i int64) *ProcessUpdateOne {
+	puo.mutation.ResetStartTime()
+	puo.mutation.SetStartTime(i)
 	return puo
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableStartTime(t *time.Time) *ProcessUpdateOne {
-	if t != nil {
-		puo.SetStartTime(*t)
+func (puo *ProcessUpdateOne) SetNillableStartTime(i *int64) *ProcessUpdateOne {
+	if i != nil {
+		puo.SetStartTime(*i)
 	}
+	return puo
+}
+
+// AddStartTime adds i to the "start_time" field.
+func (puo *ProcessUpdateOne) AddStartTime(i int64) *ProcessUpdateOne {
+	puo.mutation.AddStartTime(i)
 	return puo
 }
 
 // SetEndTime sets the "end_time" field.
-func (puo *ProcessUpdateOne) SetEndTime(t time.Time) *ProcessUpdateOne {
-	puo.mutation.SetEndTime(t)
+func (puo *ProcessUpdateOne) SetEndTime(i int64) *ProcessUpdateOne {
+	puo.mutation.ResetEndTime()
+	puo.mutation.SetEndTime(i)
 	return puo
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableEndTime(t *time.Time) *ProcessUpdateOne {
-	if t != nil {
-		puo.SetEndTime(*t)
+func (puo *ProcessUpdateOne) SetNillableEndTime(i *int64) *ProcessUpdateOne {
+	if i != nil {
+		puo.SetEndTime(*i)
 	}
+	return puo
+}
+
+// AddEndTime adds i to the "end_time" field.
+func (puo *ProcessUpdateOne) AddEndTime(i int64) *ProcessUpdateOne {
+	puo.mutation.AddEndTime(i)
 	return puo
 }
 
@@ -1430,16 +1471,23 @@ func (puo *ProcessUpdateOne) ClearEndTime() *ProcessUpdateOne {
 }
 
 // SetDueTime sets the "due_time" field.
-func (puo *ProcessUpdateOne) SetDueTime(t time.Time) *ProcessUpdateOne {
-	puo.mutation.SetDueTime(t)
+func (puo *ProcessUpdateOne) SetDueTime(i int64) *ProcessUpdateOne {
+	puo.mutation.ResetDueTime()
+	puo.mutation.SetDueTime(i)
 	return puo
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableDueTime(t *time.Time) *ProcessUpdateOne {
-	if t != nil {
-		puo.SetDueTime(*t)
+func (puo *ProcessUpdateOne) SetNillableDueTime(i *int64) *ProcessUpdateOne {
+	if i != nil {
+		puo.SetDueTime(*i)
 	}
+	return puo
+}
+
+// AddDueTime adds i to the "due_time" field.
+func (puo *ProcessUpdateOne) AddDueTime(i int64) *ProcessUpdateOne {
+	puo.mutation.AddDueTime(i)
 	return puo
 }
 
@@ -1810,14 +1858,14 @@ func (puo *ProcessUpdateOne) ClearCurrentNode() *ProcessUpdateOne {
 }
 
 // SetActiveNodes sets the "active_nodes" field.
-func (puo *ProcessUpdateOne) SetActiveNodes(i []interface{}) *ProcessUpdateOne {
-	puo.mutation.SetActiveNodes(i)
+func (puo *ProcessUpdateOne) SetActiveNodes(s []string) *ProcessUpdateOne {
+	puo.mutation.SetActiveNodes(s)
 	return puo
 }
 
-// AppendActiveNodes appends i to the "active_nodes" field.
-func (puo *ProcessUpdateOne) AppendActiveNodes(i []interface{}) *ProcessUpdateOne {
-	puo.mutation.AppendActiveNodes(i)
+// AppendActiveNodes appends s to the "active_nodes" field.
+func (puo *ProcessUpdateOne) AppendActiveNodes(s []string) *ProcessUpdateOne {
+	puo.mutation.AppendActiveNodes(s)
 	return puo
 }
 
@@ -1976,10 +2024,10 @@ func (puo *ProcessUpdateOne) sqlSave(ctx context.Context) (_node *Process, err e
 		}
 	}
 	if value, ok := puo.mutation.Status(); ok {
-		_spec.SetField(process.FieldStatus, field.TypeInt, value)
+		_spec.SetField(process.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.AddedStatus(); ok {
-		_spec.AddField(process.FieldStatus, field.TypeInt, value)
+	if puo.mutation.StatusCleared() {
+		_spec.ClearField(process.FieldStatus, field.TypeString)
 	}
 	if value, ok := puo.mutation.ProcessID(); ok {
 		_spec.SetField(process.FieldProcessID, field.TypeString, value)
@@ -2065,19 +2113,28 @@ func (puo *ProcessUpdateOne) sqlSave(ctx context.Context) (_node *Process, err e
 		_spec.ClearField(process.FieldSuspendReason, field.TypeString)
 	}
 	if value, ok := puo.mutation.StartTime(); ok {
-		_spec.SetField(process.FieldStartTime, field.TypeTime, value)
+		_spec.SetField(process.FieldStartTime, field.TypeInt64, value)
+	}
+	if value, ok := puo.mutation.AddedStartTime(); ok {
+		_spec.AddField(process.FieldStartTime, field.TypeInt64, value)
 	}
 	if value, ok := puo.mutation.EndTime(); ok {
-		_spec.SetField(process.FieldEndTime, field.TypeTime, value)
+		_spec.SetField(process.FieldEndTime, field.TypeInt64, value)
+	}
+	if value, ok := puo.mutation.AddedEndTime(); ok {
+		_spec.AddField(process.FieldEndTime, field.TypeInt64, value)
 	}
 	if puo.mutation.EndTimeCleared() {
-		_spec.ClearField(process.FieldEndTime, field.TypeTime)
+		_spec.ClearField(process.FieldEndTime, field.TypeInt64)
 	}
 	if value, ok := puo.mutation.DueTime(); ok {
-		_spec.SetField(process.FieldDueTime, field.TypeTime, value)
+		_spec.SetField(process.FieldDueTime, field.TypeInt64, value)
+	}
+	if value, ok := puo.mutation.AddedDueTime(); ok {
+		_spec.AddField(process.FieldDueTime, field.TypeInt64, value)
 	}
 	if puo.mutation.DueTimeCleared() {
-		_spec.ClearField(process.FieldDueTime, field.TypeTime)
+		_spec.ClearField(process.FieldDueTime, field.TypeInt64)
 	}
 	if value, ok := puo.mutation.Duration(); ok {
 		_spec.SetField(process.FieldDuration, field.TypeInt, value)

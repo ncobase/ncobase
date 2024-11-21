@@ -20,6 +20,18 @@ func (f BusinessFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, er
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BusinessMutation", m)
 }
 
+// The DelegationFunc type is an adapter to allow the use of ordinary
+// function as Delegation mutator.
+type DelegationFunc func(context.Context, *ent.DelegationMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f DelegationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DelegationMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DelegationMutation", m)
+}
+
 // The HistoryFunc type is an adapter to allow the use of ordinary
 // function as History mutator.
 type HistoryFunc func(context.Context, *ent.HistoryMutation) (ent.Value, error)
@@ -54,6 +66,30 @@ func (f ProcessFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, err
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ProcessMutation", m)
+}
+
+// The ProcessDesignFunc type is an adapter to allow the use of ordinary
+// function as ProcessDesign mutator.
+type ProcessDesignFunc func(context.Context, *ent.ProcessDesignMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ProcessDesignFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ProcessDesignMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ProcessDesignMutation", m)
+}
+
+// The RuleFunc type is an adapter to allow the use of ordinary
+// function as Rule mutator.
+type RuleFunc func(context.Context, *ent.RuleMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f RuleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.RuleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.RuleMutation", m)
 }
 
 // The TaskFunc type is an adapter to allow the use of ordinary

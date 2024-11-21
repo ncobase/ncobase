@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/core/workflow/data/ent/predicate"
 	"ncobase/core/workflow/data/ent/template"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -130,23 +129,22 @@ func (tu *TemplateUpdate) ClearVersion() *TemplateUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (tu *TemplateUpdate) SetStatus(i int) *TemplateUpdate {
-	tu.mutation.ResetStatus()
-	tu.mutation.SetStatus(i)
+func (tu *TemplateUpdate) SetStatus(s string) *TemplateUpdate {
+	tu.mutation.SetStatus(s)
 	return tu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableStatus(i *int) *TemplateUpdate {
-	if i != nil {
-		tu.SetStatus(*i)
+func (tu *TemplateUpdate) SetNillableStatus(s *string) *TemplateUpdate {
+	if s != nil {
+		tu.SetStatus(*s)
 	}
 	return tu
 }
 
-// AddStatus adds i to the "status" field.
-func (tu *TemplateUpdate) AddStatus(i int) *TemplateUpdate {
-	tu.mutation.AddStatus(i)
+// ClearStatus clears the value of the "status" field.
+func (tu *TemplateUpdate) ClearStatus() *TemplateUpdate {
+	tu.mutation.ClearStatus()
 	return tu
 }
 
@@ -305,14 +303,14 @@ func (tu *TemplateUpdate) ClearNodeEvents() *TemplateUpdate {
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (tu *TemplateUpdate) SetBusinessTags(i []interface{}) *TemplateUpdate {
-	tu.mutation.SetBusinessTags(i)
+func (tu *TemplateUpdate) SetBusinessTags(s []string) *TemplateUpdate {
+	tu.mutation.SetBusinessTags(s)
 	return tu
 }
 
-// AppendBusinessTags appends i to the "business_tags" field.
-func (tu *TemplateUpdate) AppendBusinessTags(i []interface{}) *TemplateUpdate {
-	tu.mutation.AppendBusinessTags(i)
+// AppendBusinessTags appends s to the "business_tags" field.
+func (tu *TemplateUpdate) AppendBusinessTags(s []string) *TemplateUpdate {
+	tu.mutation.AppendBusinessTags(s)
 	return tu
 }
 
@@ -455,14 +453,14 @@ func (tu *TemplateUpdate) SetNillableStrictMode(b *bool) *TemplateUpdate {
 }
 
 // SetViewers sets the "viewers" field.
-func (tu *TemplateUpdate) SetViewers(i []interface{}) *TemplateUpdate {
-	tu.mutation.SetViewers(i)
+func (tu *TemplateUpdate) SetViewers(s []string) *TemplateUpdate {
+	tu.mutation.SetViewers(s)
 	return tu
 }
 
-// AppendViewers appends i to the "viewers" field.
-func (tu *TemplateUpdate) AppendViewers(i []interface{}) *TemplateUpdate {
-	tu.mutation.AppendViewers(i)
+// AppendViewers appends s to the "viewers" field.
+func (tu *TemplateUpdate) AppendViewers(s []string) *TemplateUpdate {
+	tu.mutation.AppendViewers(s)
 	return tu
 }
 
@@ -473,14 +471,14 @@ func (tu *TemplateUpdate) ClearViewers() *TemplateUpdate {
 }
 
 // SetEditors sets the "editors" field.
-func (tu *TemplateUpdate) SetEditors(i []interface{}) *TemplateUpdate {
-	tu.mutation.SetEditors(i)
+func (tu *TemplateUpdate) SetEditors(s []string) *TemplateUpdate {
+	tu.mutation.SetEditors(s)
 	return tu
 }
 
-// AppendEditors appends i to the "editors" field.
-func (tu *TemplateUpdate) AppendEditors(i []interface{}) *TemplateUpdate {
-	tu.mutation.AppendEditors(i)
+// AppendEditors appends s to the "editors" field.
+func (tu *TemplateUpdate) AppendEditors(s []string) *TemplateUpdate {
+	tu.mutation.AppendEditors(s)
 	return tu
 }
 
@@ -714,16 +712,23 @@ func (tu *TemplateUpdate) SetNillableIsLatest(b *bool) *TemplateUpdate {
 }
 
 // SetEffectiveTime sets the "effective_time" field.
-func (tu *TemplateUpdate) SetEffectiveTime(t time.Time) *TemplateUpdate {
-	tu.mutation.SetEffectiveTime(t)
+func (tu *TemplateUpdate) SetEffectiveTime(i int64) *TemplateUpdate {
+	tu.mutation.ResetEffectiveTime()
+	tu.mutation.SetEffectiveTime(i)
 	return tu
 }
 
 // SetNillableEffectiveTime sets the "effective_time" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableEffectiveTime(t *time.Time) *TemplateUpdate {
-	if t != nil {
-		tu.SetEffectiveTime(*t)
+func (tu *TemplateUpdate) SetNillableEffectiveTime(i *int64) *TemplateUpdate {
+	if i != nil {
+		tu.SetEffectiveTime(*i)
 	}
+	return tu
+}
+
+// AddEffectiveTime adds i to the "effective_time" field.
+func (tu *TemplateUpdate) AddEffectiveTime(i int64) *TemplateUpdate {
+	tu.mutation.AddEffectiveTime(i)
 	return tu
 }
 
@@ -734,16 +739,23 @@ func (tu *TemplateUpdate) ClearEffectiveTime() *TemplateUpdate {
 }
 
 // SetExpireTime sets the "expire_time" field.
-func (tu *TemplateUpdate) SetExpireTime(t time.Time) *TemplateUpdate {
-	tu.mutation.SetExpireTime(t)
+func (tu *TemplateUpdate) SetExpireTime(i int64) *TemplateUpdate {
+	tu.mutation.ResetExpireTime()
+	tu.mutation.SetExpireTime(i)
 	return tu
 }
 
 // SetNillableExpireTime sets the "expire_time" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableExpireTime(t *time.Time) *TemplateUpdate {
-	if t != nil {
-		tu.SetExpireTime(*t)
+func (tu *TemplateUpdate) SetNillableExpireTime(i *int64) *TemplateUpdate {
+	if i != nil {
+		tu.SetExpireTime(*i)
 	}
+	return tu
+}
+
+// AddExpireTime adds i to the "expire_time" field.
+func (tu *TemplateUpdate) AddExpireTime(i int64) *TemplateUpdate {
+	tu.mutation.AddExpireTime(i)
 	return tu
 }
 
@@ -857,10 +869,10 @@ func (tu *TemplateUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(template.FieldVersion, field.TypeString)
 	}
 	if value, ok := tu.mutation.Status(); ok {
-		_spec.SetField(template.FieldStatus, field.TypeInt, value)
+		_spec.SetField(template.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.AddedStatus(); ok {
-		_spec.AddField(template.FieldStatus, field.TypeInt, value)
+	if tu.mutation.StatusCleared() {
+		_spec.ClearField(template.FieldStatus, field.TypeString)
 	}
 	if value, ok := tu.mutation.Disabled(); ok {
 		_spec.SetField(template.FieldDisabled, field.TypeBool, value)
@@ -1073,16 +1085,22 @@ func (tu *TemplateUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(template.FieldIsLatest, field.TypeBool, value)
 	}
 	if value, ok := tu.mutation.EffectiveTime(); ok {
-		_spec.SetField(template.FieldEffectiveTime, field.TypeTime, value)
+		_spec.SetField(template.FieldEffectiveTime, field.TypeInt64, value)
+	}
+	if value, ok := tu.mutation.AddedEffectiveTime(); ok {
+		_spec.AddField(template.FieldEffectiveTime, field.TypeInt64, value)
 	}
 	if tu.mutation.EffectiveTimeCleared() {
-		_spec.ClearField(template.FieldEffectiveTime, field.TypeTime)
+		_spec.ClearField(template.FieldEffectiveTime, field.TypeInt64)
 	}
 	if value, ok := tu.mutation.ExpireTime(); ok {
-		_spec.SetField(template.FieldExpireTime, field.TypeTime, value)
+		_spec.SetField(template.FieldExpireTime, field.TypeInt64, value)
+	}
+	if value, ok := tu.mutation.AddedExpireTime(); ok {
+		_spec.AddField(template.FieldExpireTime, field.TypeInt64, value)
 	}
 	if tu.mutation.ExpireTimeCleared() {
-		_spec.ClearField(template.FieldExpireTime, field.TypeTime)
+		_spec.ClearField(template.FieldExpireTime, field.TypeInt64)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -1205,23 +1223,22 @@ func (tuo *TemplateUpdateOne) ClearVersion() *TemplateUpdateOne {
 }
 
 // SetStatus sets the "status" field.
-func (tuo *TemplateUpdateOne) SetStatus(i int) *TemplateUpdateOne {
-	tuo.mutation.ResetStatus()
-	tuo.mutation.SetStatus(i)
+func (tuo *TemplateUpdateOne) SetStatus(s string) *TemplateUpdateOne {
+	tuo.mutation.SetStatus(s)
 	return tuo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableStatus(i *int) *TemplateUpdateOne {
-	if i != nil {
-		tuo.SetStatus(*i)
+func (tuo *TemplateUpdateOne) SetNillableStatus(s *string) *TemplateUpdateOne {
+	if s != nil {
+		tuo.SetStatus(*s)
 	}
 	return tuo
 }
 
-// AddStatus adds i to the "status" field.
-func (tuo *TemplateUpdateOne) AddStatus(i int) *TemplateUpdateOne {
-	tuo.mutation.AddStatus(i)
+// ClearStatus clears the value of the "status" field.
+func (tuo *TemplateUpdateOne) ClearStatus() *TemplateUpdateOne {
+	tuo.mutation.ClearStatus()
 	return tuo
 }
 
@@ -1380,14 +1397,14 @@ func (tuo *TemplateUpdateOne) ClearNodeEvents() *TemplateUpdateOne {
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (tuo *TemplateUpdateOne) SetBusinessTags(i []interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetBusinessTags(i)
+func (tuo *TemplateUpdateOne) SetBusinessTags(s []string) *TemplateUpdateOne {
+	tuo.mutation.SetBusinessTags(s)
 	return tuo
 }
 
-// AppendBusinessTags appends i to the "business_tags" field.
-func (tuo *TemplateUpdateOne) AppendBusinessTags(i []interface{}) *TemplateUpdateOne {
-	tuo.mutation.AppendBusinessTags(i)
+// AppendBusinessTags appends s to the "business_tags" field.
+func (tuo *TemplateUpdateOne) AppendBusinessTags(s []string) *TemplateUpdateOne {
+	tuo.mutation.AppendBusinessTags(s)
 	return tuo
 }
 
@@ -1530,14 +1547,14 @@ func (tuo *TemplateUpdateOne) SetNillableStrictMode(b *bool) *TemplateUpdateOne 
 }
 
 // SetViewers sets the "viewers" field.
-func (tuo *TemplateUpdateOne) SetViewers(i []interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetViewers(i)
+func (tuo *TemplateUpdateOne) SetViewers(s []string) *TemplateUpdateOne {
+	tuo.mutation.SetViewers(s)
 	return tuo
 }
 
-// AppendViewers appends i to the "viewers" field.
-func (tuo *TemplateUpdateOne) AppendViewers(i []interface{}) *TemplateUpdateOne {
-	tuo.mutation.AppendViewers(i)
+// AppendViewers appends s to the "viewers" field.
+func (tuo *TemplateUpdateOne) AppendViewers(s []string) *TemplateUpdateOne {
+	tuo.mutation.AppendViewers(s)
 	return tuo
 }
 
@@ -1548,14 +1565,14 @@ func (tuo *TemplateUpdateOne) ClearViewers() *TemplateUpdateOne {
 }
 
 // SetEditors sets the "editors" field.
-func (tuo *TemplateUpdateOne) SetEditors(i []interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetEditors(i)
+func (tuo *TemplateUpdateOne) SetEditors(s []string) *TemplateUpdateOne {
+	tuo.mutation.SetEditors(s)
 	return tuo
 }
 
-// AppendEditors appends i to the "editors" field.
-func (tuo *TemplateUpdateOne) AppendEditors(i []interface{}) *TemplateUpdateOne {
-	tuo.mutation.AppendEditors(i)
+// AppendEditors appends s to the "editors" field.
+func (tuo *TemplateUpdateOne) AppendEditors(s []string) *TemplateUpdateOne {
+	tuo.mutation.AppendEditors(s)
 	return tuo
 }
 
@@ -1789,16 +1806,23 @@ func (tuo *TemplateUpdateOne) SetNillableIsLatest(b *bool) *TemplateUpdateOne {
 }
 
 // SetEffectiveTime sets the "effective_time" field.
-func (tuo *TemplateUpdateOne) SetEffectiveTime(t time.Time) *TemplateUpdateOne {
-	tuo.mutation.SetEffectiveTime(t)
+func (tuo *TemplateUpdateOne) SetEffectiveTime(i int64) *TemplateUpdateOne {
+	tuo.mutation.ResetEffectiveTime()
+	tuo.mutation.SetEffectiveTime(i)
 	return tuo
 }
 
 // SetNillableEffectiveTime sets the "effective_time" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableEffectiveTime(t *time.Time) *TemplateUpdateOne {
-	if t != nil {
-		tuo.SetEffectiveTime(*t)
+func (tuo *TemplateUpdateOne) SetNillableEffectiveTime(i *int64) *TemplateUpdateOne {
+	if i != nil {
+		tuo.SetEffectiveTime(*i)
 	}
+	return tuo
+}
+
+// AddEffectiveTime adds i to the "effective_time" field.
+func (tuo *TemplateUpdateOne) AddEffectiveTime(i int64) *TemplateUpdateOne {
+	tuo.mutation.AddEffectiveTime(i)
 	return tuo
 }
 
@@ -1809,16 +1833,23 @@ func (tuo *TemplateUpdateOne) ClearEffectiveTime() *TemplateUpdateOne {
 }
 
 // SetExpireTime sets the "expire_time" field.
-func (tuo *TemplateUpdateOne) SetExpireTime(t time.Time) *TemplateUpdateOne {
-	tuo.mutation.SetExpireTime(t)
+func (tuo *TemplateUpdateOne) SetExpireTime(i int64) *TemplateUpdateOne {
+	tuo.mutation.ResetExpireTime()
+	tuo.mutation.SetExpireTime(i)
 	return tuo
 }
 
 // SetNillableExpireTime sets the "expire_time" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableExpireTime(t *time.Time) *TemplateUpdateOne {
-	if t != nil {
-		tuo.SetExpireTime(*t)
+func (tuo *TemplateUpdateOne) SetNillableExpireTime(i *int64) *TemplateUpdateOne {
+	if i != nil {
+		tuo.SetExpireTime(*i)
 	}
+	return tuo
+}
+
+// AddExpireTime adds i to the "expire_time" field.
+func (tuo *TemplateUpdateOne) AddExpireTime(i int64) *TemplateUpdateOne {
+	tuo.mutation.AddExpireTime(i)
 	return tuo
 }
 
@@ -1962,10 +1993,10 @@ func (tuo *TemplateUpdateOne) sqlSave(ctx context.Context) (_node *Template, err
 		_spec.ClearField(template.FieldVersion, field.TypeString)
 	}
 	if value, ok := tuo.mutation.Status(); ok {
-		_spec.SetField(template.FieldStatus, field.TypeInt, value)
+		_spec.SetField(template.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.AddedStatus(); ok {
-		_spec.AddField(template.FieldStatus, field.TypeInt, value)
+	if tuo.mutation.StatusCleared() {
+		_spec.ClearField(template.FieldStatus, field.TypeString)
 	}
 	if value, ok := tuo.mutation.Disabled(); ok {
 		_spec.SetField(template.FieldDisabled, field.TypeBool, value)
@@ -2178,16 +2209,22 @@ func (tuo *TemplateUpdateOne) sqlSave(ctx context.Context) (_node *Template, err
 		_spec.SetField(template.FieldIsLatest, field.TypeBool, value)
 	}
 	if value, ok := tuo.mutation.EffectiveTime(); ok {
-		_spec.SetField(template.FieldEffectiveTime, field.TypeTime, value)
+		_spec.SetField(template.FieldEffectiveTime, field.TypeInt64, value)
+	}
+	if value, ok := tuo.mutation.AddedEffectiveTime(); ok {
+		_spec.AddField(template.FieldEffectiveTime, field.TypeInt64, value)
 	}
 	if tuo.mutation.EffectiveTimeCleared() {
-		_spec.ClearField(template.FieldEffectiveTime, field.TypeTime)
+		_spec.ClearField(template.FieldEffectiveTime, field.TypeInt64)
 	}
 	if value, ok := tuo.mutation.ExpireTime(); ok {
-		_spec.SetField(template.FieldExpireTime, field.TypeTime, value)
+		_spec.SetField(template.FieldExpireTime, field.TypeInt64, value)
+	}
+	if value, ok := tuo.mutation.AddedExpireTime(); ok {
+		_spec.AddField(template.FieldExpireTime, field.TypeInt64, value)
 	}
 	if tuo.mutation.ExpireTimeCleared() {
-		_spec.ClearField(template.FieldExpireTime, field.TypeTime)
+		_spec.ClearField(template.FieldExpireTime, field.TypeInt64)
 	}
 	_node = &Template{config: tuo.config}
 	_spec.Assign = _node.assignValues

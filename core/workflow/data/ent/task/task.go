@@ -3,8 +3,6 @@
 package task
 
 import (
-	"time"
-
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -35,10 +33,8 @@ const (
 	FieldNodeRules = "node_rules"
 	// FieldNodeEvents holds the string denoting the node_events field in the database.
 	FieldNodeEvents = "node_events"
-	// FieldAssignee holds the string denoting the assignee field in the database.
-	FieldAssignee = "assignee"
-	// FieldAssigneeDept holds the string denoting the assignee_dept field in the database.
-	FieldAssigneeDept = "assignee_dept"
+	// FieldAssignees holds the string denoting the assignees field in the database.
+	FieldAssignees = "assignees"
 	// FieldCandidates holds the string denoting the candidates field in the database.
 	FieldCandidates = "candidates"
 	// FieldDelegatedFrom holds the string denoting the delegated_from field in the database.
@@ -91,6 +87,10 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// FieldTaskKey holds the string denoting the task_key field in the database.
 	FieldTaskKey = "task_key"
+	// FieldParentID holds the string denoting the parent_id field in the database.
+	FieldParentID = "parent_id"
+	// FieldChildIds holds the string denoting the child_ids field in the database.
+	FieldChildIds = "child_ids"
 	// FieldAction holds the string denoting the action field in the database.
 	FieldAction = "action"
 	// FieldComment holds the string denoting the comment field in the database.
@@ -127,8 +127,7 @@ var Columns = []string{
 	FieldNodeConfig,
 	FieldNodeRules,
 	FieldNodeEvents,
-	FieldAssignee,
-	FieldAssigneeDept,
+	FieldAssignees,
 	FieldCandidates,
 	FieldDelegatedFrom,
 	FieldDelegatedReason,
@@ -155,6 +154,8 @@ var Columns = []string{
 	FieldCreatedAt,
 	FieldUpdatedAt,
 	FieldTaskKey,
+	FieldParentID,
+	FieldChildIds,
 	FieldAction,
 	FieldComment,
 	FieldAttachments,
@@ -177,14 +178,12 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultStatus holds the default value on creation for the "status" field.
-	DefaultStatus int
 	// DefaultIsDelegated holds the default value on creation for the "is_delegated" field.
 	DefaultIsDelegated bool
 	// DefaultIsTransferred holds the default value on creation for the "is_transferred" field.
 	DefaultIsTransferred bool
 	// DefaultStartTime holds the default value on creation for the "start_time" field.
-	DefaultStartTime func() time.Time
+	DefaultStartTime func() int64
 	// DefaultPriority holds the default value on creation for the "priority" field.
 	DefaultPriority int
 	// DefaultIsTimeout holds the default value on creation for the "is_timeout" field.
@@ -219,6 +218,8 @@ var (
 	DefaultUpdatedAt func() int64
 	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
 	UpdateDefaultUpdatedAt func() int64
+	// DefaultChildIds holds the default value on creation for the "child_ids" field.
+	DefaultChildIds []string
 	// DefaultIsResubmit holds the default value on creation for the "is_resubmit" field.
 	DefaultIsResubmit bool
 	// DefaultIsUrged holds the default value on creation for the "is_urged" field.
@@ -277,16 +278,6 @@ func ByNodeKey(opts ...sql.OrderTermOption) OrderOption {
 // ByNodeType orders the results by the node_type field.
 func ByNodeType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldNodeType, opts...).ToFunc()
-}
-
-// ByAssignee orders the results by the assignee field.
-func ByAssignee(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAssignee, opts...).ToFunc()
-}
-
-// ByAssigneeDept orders the results by the assignee_dept field.
-func ByAssigneeDept(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAssigneeDept, opts...).ToFunc()
 }
 
 // ByDelegatedFrom orders the results by the delegated_from field.
@@ -407,6 +398,11 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByTaskKey orders the results by the task_key field.
 func ByTaskKey(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTaskKey, opts...).ToFunc()
+}
+
+// ByParentID orders the results by the parent_id field.
+func ByParentID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldParentID, opts...).ToFunc()
 }
 
 // ByAction orders the results by the action field.

@@ -4,7 +4,6 @@ package template
 
 import (
 	"ncobase/core/workflow/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -90,7 +89,7 @@ func Version(v string) predicate.Template {
 }
 
 // Status applies equality check predicate on the "status" field. It's identical to StatusEQ.
-func Status(v int) predicate.Template {
+func Status(v string) predicate.Template {
 	return predicate.Template(sql.FieldEQ(FieldStatus, v))
 }
 
@@ -205,12 +204,12 @@ func IsLatest(v bool) predicate.Template {
 }
 
 // EffectiveTime applies equality check predicate on the "effective_time" field. It's identical to EffectiveTimeEQ.
-func EffectiveTime(v time.Time) predicate.Template {
+func EffectiveTime(v int64) predicate.Template {
 	return predicate.Template(sql.FieldEQ(FieldEffectiveTime, v))
 }
 
 // ExpireTime applies equality check predicate on the "expire_time" field. It's identical to ExpireTimeEQ.
-func ExpireTime(v time.Time) predicate.Template {
+func ExpireTime(v int64) predicate.Template {
 	return predicate.Template(sql.FieldEQ(FieldExpireTime, v))
 }
 
@@ -590,43 +589,78 @@ func VersionContainsFold(v string) predicate.Template {
 }
 
 // StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v int) predicate.Template {
+func StatusEQ(v string) predicate.Template {
 	return predicate.Template(sql.FieldEQ(FieldStatus, v))
 }
 
 // StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v int) predicate.Template {
+func StatusNEQ(v string) predicate.Template {
 	return predicate.Template(sql.FieldNEQ(FieldStatus, v))
 }
 
 // StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...int) predicate.Template {
+func StatusIn(vs ...string) predicate.Template {
 	return predicate.Template(sql.FieldIn(FieldStatus, vs...))
 }
 
 // StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...int) predicate.Template {
+func StatusNotIn(vs ...string) predicate.Template {
 	return predicate.Template(sql.FieldNotIn(FieldStatus, vs...))
 }
 
 // StatusGT applies the GT predicate on the "status" field.
-func StatusGT(v int) predicate.Template {
+func StatusGT(v string) predicate.Template {
 	return predicate.Template(sql.FieldGT(FieldStatus, v))
 }
 
 // StatusGTE applies the GTE predicate on the "status" field.
-func StatusGTE(v int) predicate.Template {
+func StatusGTE(v string) predicate.Template {
 	return predicate.Template(sql.FieldGTE(FieldStatus, v))
 }
 
 // StatusLT applies the LT predicate on the "status" field.
-func StatusLT(v int) predicate.Template {
+func StatusLT(v string) predicate.Template {
 	return predicate.Template(sql.FieldLT(FieldStatus, v))
 }
 
 // StatusLTE applies the LTE predicate on the "status" field.
-func StatusLTE(v int) predicate.Template {
+func StatusLTE(v string) predicate.Template {
 	return predicate.Template(sql.FieldLTE(FieldStatus, v))
+}
+
+// StatusContains applies the Contains predicate on the "status" field.
+func StatusContains(v string) predicate.Template {
+	return predicate.Template(sql.FieldContains(FieldStatus, v))
+}
+
+// StatusHasPrefix applies the HasPrefix predicate on the "status" field.
+func StatusHasPrefix(v string) predicate.Template {
+	return predicate.Template(sql.FieldHasPrefix(FieldStatus, v))
+}
+
+// StatusHasSuffix applies the HasSuffix predicate on the "status" field.
+func StatusHasSuffix(v string) predicate.Template {
+	return predicate.Template(sql.FieldHasSuffix(FieldStatus, v))
+}
+
+// StatusIsNil applies the IsNil predicate on the "status" field.
+func StatusIsNil() predicate.Template {
+	return predicate.Template(sql.FieldIsNull(FieldStatus))
+}
+
+// StatusNotNil applies the NotNil predicate on the "status" field.
+func StatusNotNil() predicate.Template {
+	return predicate.Template(sql.FieldNotNull(FieldStatus))
+}
+
+// StatusEqualFold applies the EqualFold predicate on the "status" field.
+func StatusEqualFold(v string) predicate.Template {
+	return predicate.Template(sql.FieldEqualFold(FieldStatus, v))
+}
+
+// StatusContainsFold applies the ContainsFold predicate on the "status" field.
+func StatusContainsFold(v string) predicate.Template {
+	return predicate.Template(sql.FieldContainsFold(FieldStatus, v))
 }
 
 // DisabledEQ applies the EQ predicate on the "disabled" field.
@@ -1775,42 +1809,42 @@ func IsLatestNEQ(v bool) predicate.Template {
 }
 
 // EffectiveTimeEQ applies the EQ predicate on the "effective_time" field.
-func EffectiveTimeEQ(v time.Time) predicate.Template {
+func EffectiveTimeEQ(v int64) predicate.Template {
 	return predicate.Template(sql.FieldEQ(FieldEffectiveTime, v))
 }
 
 // EffectiveTimeNEQ applies the NEQ predicate on the "effective_time" field.
-func EffectiveTimeNEQ(v time.Time) predicate.Template {
+func EffectiveTimeNEQ(v int64) predicate.Template {
 	return predicate.Template(sql.FieldNEQ(FieldEffectiveTime, v))
 }
 
 // EffectiveTimeIn applies the In predicate on the "effective_time" field.
-func EffectiveTimeIn(vs ...time.Time) predicate.Template {
+func EffectiveTimeIn(vs ...int64) predicate.Template {
 	return predicate.Template(sql.FieldIn(FieldEffectiveTime, vs...))
 }
 
 // EffectiveTimeNotIn applies the NotIn predicate on the "effective_time" field.
-func EffectiveTimeNotIn(vs ...time.Time) predicate.Template {
+func EffectiveTimeNotIn(vs ...int64) predicate.Template {
 	return predicate.Template(sql.FieldNotIn(FieldEffectiveTime, vs...))
 }
 
 // EffectiveTimeGT applies the GT predicate on the "effective_time" field.
-func EffectiveTimeGT(v time.Time) predicate.Template {
+func EffectiveTimeGT(v int64) predicate.Template {
 	return predicate.Template(sql.FieldGT(FieldEffectiveTime, v))
 }
 
 // EffectiveTimeGTE applies the GTE predicate on the "effective_time" field.
-func EffectiveTimeGTE(v time.Time) predicate.Template {
+func EffectiveTimeGTE(v int64) predicate.Template {
 	return predicate.Template(sql.FieldGTE(FieldEffectiveTime, v))
 }
 
 // EffectiveTimeLT applies the LT predicate on the "effective_time" field.
-func EffectiveTimeLT(v time.Time) predicate.Template {
+func EffectiveTimeLT(v int64) predicate.Template {
 	return predicate.Template(sql.FieldLT(FieldEffectiveTime, v))
 }
 
 // EffectiveTimeLTE applies the LTE predicate on the "effective_time" field.
-func EffectiveTimeLTE(v time.Time) predicate.Template {
+func EffectiveTimeLTE(v int64) predicate.Template {
 	return predicate.Template(sql.FieldLTE(FieldEffectiveTime, v))
 }
 
@@ -1825,42 +1859,42 @@ func EffectiveTimeNotNil() predicate.Template {
 }
 
 // ExpireTimeEQ applies the EQ predicate on the "expire_time" field.
-func ExpireTimeEQ(v time.Time) predicate.Template {
+func ExpireTimeEQ(v int64) predicate.Template {
 	return predicate.Template(sql.FieldEQ(FieldExpireTime, v))
 }
 
 // ExpireTimeNEQ applies the NEQ predicate on the "expire_time" field.
-func ExpireTimeNEQ(v time.Time) predicate.Template {
+func ExpireTimeNEQ(v int64) predicate.Template {
 	return predicate.Template(sql.FieldNEQ(FieldExpireTime, v))
 }
 
 // ExpireTimeIn applies the In predicate on the "expire_time" field.
-func ExpireTimeIn(vs ...time.Time) predicate.Template {
+func ExpireTimeIn(vs ...int64) predicate.Template {
 	return predicate.Template(sql.FieldIn(FieldExpireTime, vs...))
 }
 
 // ExpireTimeNotIn applies the NotIn predicate on the "expire_time" field.
-func ExpireTimeNotIn(vs ...time.Time) predicate.Template {
+func ExpireTimeNotIn(vs ...int64) predicate.Template {
 	return predicate.Template(sql.FieldNotIn(FieldExpireTime, vs...))
 }
 
 // ExpireTimeGT applies the GT predicate on the "expire_time" field.
-func ExpireTimeGT(v time.Time) predicate.Template {
+func ExpireTimeGT(v int64) predicate.Template {
 	return predicate.Template(sql.FieldGT(FieldExpireTime, v))
 }
 
 // ExpireTimeGTE applies the GTE predicate on the "expire_time" field.
-func ExpireTimeGTE(v time.Time) predicate.Template {
+func ExpireTimeGTE(v int64) predicate.Template {
 	return predicate.Template(sql.FieldGTE(FieldExpireTime, v))
 }
 
 // ExpireTimeLT applies the LT predicate on the "expire_time" field.
-func ExpireTimeLT(v time.Time) predicate.Template {
+func ExpireTimeLT(v int64) predicate.Template {
 	return predicate.Template(sql.FieldLT(FieldExpireTime, v))
 }
 
 // ExpireTimeLTE applies the LTE predicate on the "expire_time" field.
-func ExpireTimeLTE(v time.Time) predicate.Template {
+func ExpireTimeLTE(v int64) predicate.Template {
 	return predicate.Template(sql.FieldLTE(FieldExpireTime, v))
 }
 
