@@ -6,7 +6,6 @@ import (
 	"ncobase/common/log"
 	"ncobase/common/resp"
 	"ncobase/common/types"
-	"ncobase/common/util"
 	"ncobase/common/validator"
 	"ncobase/core/access/service"
 	"ncobase/core/access/structs"
@@ -85,7 +84,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			return
 		}
 
-		roles = util.RemoveDuplicates(roleIDs)
+		roles = types.RemoveDuplicates(roleIDs)
 		var permissions []*structs.ReadPermission
 
 		// Retrieve role permissions from service

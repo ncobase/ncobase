@@ -57,7 +57,7 @@ func main() {
 	cleanupLogger := initializeLogger(conf)
 	defer cleanupLogger()
 
-	log.Infof(context.Background(), "Starting: %s", appName)
+	log.Infof(context.Background(), "Starting %s", appName)
 
 	if err := runServer(conf); err != nil {
 		log.Fatalf(context.Background(), "Server error: %v", err)
