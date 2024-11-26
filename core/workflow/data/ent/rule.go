@@ -47,7 +47,7 @@ type Rule struct {
 	// Node key if node specific
 	NodeKey string `json:"node_key,omitempty"`
 	// Rule conditions
-	Conditions map[string]interface{} `json:"conditions,omitempty"`
+	Conditions []string `json:"conditions,omitempty"`
 	// Rule actions
 	Actions map[string]interface{} `json:"actions,omitempty"`
 	// Rule priority

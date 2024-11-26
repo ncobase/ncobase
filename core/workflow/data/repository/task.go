@@ -6,7 +6,6 @@ import (
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
 	"ncobase/common/log"
-	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
@@ -32,7 +31,7 @@ type TaskRepositoryInterface interface {
 	RemoveChildTask(ctx context.Context, parentID string, childID string) error
 
 	UpdateStatus(context.Context, string, string) error
-	UpdateAssignee(context.Context, string, types.JSONArray) error
+	UpdateAssignee(context.Context, string, []string) error
 	IncreaseUrgeCount(context.Context, string) error
 	MarkTimeout(context.Context, string) error
 }
@@ -525,7 +524,7 @@ func (r *taskRepository) UpdateStatus(ctx context.Context, taskID string, status
 }
 
 // UpdateAssignee updates task assignee
-func (r *taskRepository) UpdateAssignee(ctx context.Context, taskID string, assignees types.JSONArray) error {
+func (r *taskRepository) UpdateAssignee(ctx context.Context, taskID string, assignees []string) error {
 	builder := r.ec.Task.UpdateOneID(taskID)
 
 	if len(assignees) > 0 {

@@ -41,9 +41,9 @@ type Task struct {
 	// Node events
 	NodeEvents map[string]interface{} `json:"node_events,omitempty"`
 	// Task assignees
-	Assignees []map[string]interface{} `json:"assignees,omitempty"`
+	Assignees []string `json:"assignees,omitempty"`
 	// Candidate assignees
-	Candidates []map[string]interface{} `json:"candidates,omitempty"`
+	Candidates []string `json:"candidates,omitempty"`
 	// Delegated from user
 	DelegatedFrom string `json:"delegated_from,omitempty"`
 	// Delegation reason

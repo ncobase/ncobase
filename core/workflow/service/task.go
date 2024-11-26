@@ -25,7 +25,7 @@ type TaskServiceInterface interface {
 	Transfer(ctx context.Context, req *structs.TransferTaskRequest) error
 	Withdraw(ctx context.Context, req *structs.WithdrawTaskRequest) error
 	Urge(ctx context.Context, req *structs.UrgeTaskRequest) error
-	Claim(ctx context.Context, taskID string, assignees *types.JSONArray) error
+	Claim(ctx context.Context, taskID string, assignees *types.StringArray) error
 }
 
 type taskService struct {
@@ -83,7 +83,7 @@ func (s *taskService) Complete(ctx context.Context, req *structs.CompleteTaskReq
 
 	// Verify operator
 	for _, assignee := range task.Assignees {
-		if assignee["id"] == req.Operator {
+		if assignee == req.Operator {
 			break
 		}
 		return nil, errors.New("task assignee mismatch")
@@ -149,7 +149,7 @@ func (s *taskService) Delegate(ctx context.Context, req *structs.DelegateTaskReq
 
 	// Verify delegator
 	for _, assignee := range task.Assignees {
-		if assignee["id"] == req.Delegator {
+		if assignee == req.Delegator {
 			break
 		}
 		return errors.New("task delegator mismatch")
@@ -159,7 +159,7 @@ func (s *taskService) Delegate(ctx context.Context, req *structs.DelegateTaskReq
 	_, err = s.taskRepo.Update(ctx, &structs.UpdateTaskBody{
 		ID: task.ID,
 		TaskBody: structs.TaskBody{
-			Assignees:     types.JSONArray{types.JSON{"delegate": req.Delegate}},
+			Assignees:     []string{req.Delegate},
 			IsDelegated:   true,
 			DelegatedFrom: types.JSON{"delegate": req.Delegator},
 		},
@@ -212,7 +212,7 @@ func (s *taskService) Transfer(ctx context.Context, req *structs.TransferTaskReq
 
 	// Verify transferor
 	for _, assignee := range task.Assignees {
-		if assignee["id"] == req.Transferor {
+		if assignee == req.Transferor {
 			break
 		}
 		return errors.New("task transferor mismatch")
@@ -222,7 +222,7 @@ func (s *taskService) Transfer(ctx context.Context, req *structs.TransferTaskReq
 	_, err = s.taskRepo.Update(ctx, &structs.UpdateTaskBody{
 		ID: task.ID,
 		TaskBody: structs.TaskBody{
-			Assignees:     types.JSONArray{types.JSON{"transferee": req.Transferee}},
+			Assignees:     types.StringArray{req.Transferee},
 			IsTransferred: true,
 		},
 	})
@@ -351,7 +351,7 @@ func (s *taskService) Urge(ctx context.Context, req *structs.UrgeTaskRequest) er
 }
 
 // Claim claims a task
-func (s *taskService) Claim(ctx context.Context, taskID string, assignees *types.JSONArray) error {
+func (s *taskService) Claim(ctx context.Context, taskID string, assignees *types.StringArray) error {
 	// Get task
 	task, err := s.taskRepo.Get(ctx, &structs.FindTaskParams{
 		ProcessID: taskID,

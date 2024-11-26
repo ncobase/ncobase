@@ -20,8 +20,8 @@ type TaskBody struct {
 	ProcessID      string            `json:"process_id,omitempty"`
 	NodeKey        string            `json:"node_key,omitempty"`
 	NodeType       string            `json:"node_type,omitempty"`
-	Assignees      types.JSONArray   `json:"assignees,omitempty"`
-	Candidates     types.JSONArray   `json:"candidates,omitempty"`
+	Assignees      types.StringArray `json:"assignees,omitempty"`
+	Candidates     types.StringArray `json:"candidates,omitempty"`
 	Action         string            `json:"action,omitempty"`
 	Comment        string            `json:"comment,omitempty"`
 	FormData       types.JSON        `json:"form_data,omitempty"`
@@ -72,8 +72,8 @@ type ReadTask struct {
 	ProcessID      string            `json:"process_id,omitempty"`
 	NodeKey        string            `json:"node_key,omitempty"`
 	NodeType       string            `json:"node_type,omitempty"`
-	Assignees      types.JSONArray   `json:"assignees,omitempty"`
-	Candidates     types.JSONArray   `json:"candidates,omitempty"`
+	Assignees      types.StringArray `json:"assignees,omitempty"`
+	Candidates     types.StringArray `json:"candidates,omitempty"`
 	Action         string            `json:"action,omitempty"`
 	Comment        string            `json:"comment,omitempty"`
 	FormData       types.JSON        `json:"form_data,omitempty"`
@@ -126,18 +126,19 @@ func (r *ReadTask) GetSortValue(field string) any {
 
 // FindTaskParams represents query parameters for finding tasks
 type FindTaskParams struct {
-	ProcessID   string          `form:"process_id,omitempty" json:"process_id,omitempty"`
-	NodeKey     string          `form:"node_key,omitempty" json:"node_key,omitempty"`
-	NodeType    string          `form:"node_type,omitempty" json:"node_type,omitempty"`
-	Status      string          `form:"status,omitempty" json:"status,omitempty"`
-	Assignees   types.JSONArray `form:"assignees,omitempty" json:"assignees,omitempty"`
-	IsUrged     *bool           `form:"is_urged,omitempty" json:"is_urged,omitempty"`
-	IsTimeout   *bool           `form:"is_timeout,omitempty" json:"is_timeout,omitempty"`
-	Priority    *int            `form:"priority,omitempty" json:"priority,omitempty"`
-	DueTimeFrom *int64          `form:"due_time_from,omitempty" json:"due_time_from,omitempty"`
-	DueTimeTo   *int64          `form:"due_time_to,omitempty" json:"due_time_to,omitempty"`
-	Tenant      string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy      string          `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	ID          string            `form:"id,omitempty" json:"id,omitempty"`
+	ProcessID   string            `form:"process_id,omitempty" json:"process_id,omitempty"`
+	NodeKey     string            `form:"node_key,omitempty" json:"node_key,omitempty"`
+	NodeType    string            `form:"node_type,omitempty" json:"node_type,omitempty"`
+	Status      string            `form:"status,omitempty" json:"status,omitempty"`
+	Assignees   types.StringArray `form:"assignees,omitempty" json:"assignees,omitempty"`
+	IsUrged     *bool             `form:"is_urged,omitempty" json:"is_urged,omitempty"`
+	IsTimeout   *bool             `form:"is_timeout,omitempty" json:"is_timeout,omitempty"`
+	Priority    *int              `form:"priority,omitempty" json:"priority,omitempty"`
+	DueTimeFrom *int64            `form:"due_time_from,omitempty" json:"due_time_from,omitempty"`
+	DueTimeTo   *int64            `form:"due_time_to,omitempty" json:"due_time_to,omitempty"`
+	Tenant      string            `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SortBy      string            `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
 // TaskCondition represents the condition for finding tasks
@@ -159,16 +160,16 @@ type TaskCondition struct {
 
 // ListTaskParams represents list parameters for tasks
 type ListTaskParams struct {
-	Cursor    string          `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int             `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string          `form:"direction,omitempty" json:"direction,omitempty"`
-	ProcessID string          `form:"process_id,omitempty" json:"process_id,omitempty"`
-	NodeType  string          `form:"node_type,omitempty" json:"node_type,omitempty"`
-	NodeKey   string          `form:"node_key,omitempty" json:"node_key,omitempty"`
-	Status    string          `form:"status,omitempty" json:"status,omitempty"`
-	Assignees types.JSONArray `form:"assignees,omitempty" json:"assignees,omitempty"`
-	IsTimeout *bool           `form:"is_timeout,omitempty" json:"is_timeout,omitempty"`
-	Priority  *int            `form:"priority,omitempty" json:"priority,omitempty"`
-	Tenant    string          `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy    string          `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Cursor    string            `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int               `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction string            `form:"direction,omitempty" json:"direction,omitempty"`
+	ProcessID string            `form:"process_id,omitempty" json:"process_id,omitempty"`
+	NodeType  string            `form:"node_type,omitempty" json:"node_type,omitempty"`
+	NodeKey   string            `form:"node_key,omitempty" json:"node_key,omitempty"`
+	Status    string            `form:"status,omitempty" json:"status,omitempty"`
+	Assignees types.StringArray `form:"assignees,omitempty" json:"assignees,omitempty"`
+	IsTimeout *bool             `form:"is_timeout,omitempty" json:"is_timeout,omitempty"`
+	Priority  *int              `form:"priority,omitempty" json:"priority,omitempty"`
+	Tenant    string            `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SortBy    string            `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

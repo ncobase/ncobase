@@ -243,26 +243,26 @@ func (nu *NodeUpdate) ClearFieldPermissions() *NodeUpdate {
 }
 
 // SetAssignees sets the "assignees" field.
-func (nu *NodeUpdate) SetAssignees(m []map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetAssignees(m)
+func (nu *NodeUpdate) SetAssignees(s []string) *NodeUpdate {
+	nu.mutation.SetAssignees(s)
 	return nu
 }
 
-// AppendAssignees appends m to the "assignees" field.
-func (nu *NodeUpdate) AppendAssignees(m []map[string]interface{}) *NodeUpdate {
-	nu.mutation.AppendAssignees(m)
+// AppendAssignees appends s to the "assignees" field.
+func (nu *NodeUpdate) AppendAssignees(s []string) *NodeUpdate {
+	nu.mutation.AppendAssignees(s)
 	return nu
 }
 
 // SetCandidates sets the "candidates" field.
-func (nu *NodeUpdate) SetCandidates(m []map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetCandidates(m)
+func (nu *NodeUpdate) SetCandidates(s []string) *NodeUpdate {
+	nu.mutation.SetCandidates(s)
 	return nu
 }
 
-// AppendCandidates appends m to the "candidates" field.
-func (nu *NodeUpdate) AppendCandidates(m []map[string]interface{}) *NodeUpdate {
-	nu.mutation.AppendCandidates(m)
+// AppendCandidates appends s to the "candidates" field.
+func (nu *NodeUpdate) AppendCandidates(s []string) *NodeUpdate {
+	nu.mutation.AppendCandidates(s)
 	return nu
 }
 
@@ -774,14 +774,14 @@ func (nu *NodeUpdate) ClearBranchNodes() *NodeUpdate {
 }
 
 // SetConditions sets the "conditions" field.
-func (nu *NodeUpdate) SetConditions(m []map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetConditions(m)
+func (nu *NodeUpdate) SetConditions(s []string) *NodeUpdate {
+	nu.mutation.SetConditions(s)
 	return nu
 }
 
-// AppendConditions appends m to the "conditions" field.
-func (nu *NodeUpdate) AppendConditions(m []map[string]interface{}) *NodeUpdate {
-	nu.mutation.AppendConditions(m)
+// AppendConditions appends s to the "conditions" field.
+func (nu *NodeUpdate) AppendConditions(s []string) *NodeUpdate {
+	nu.mutation.AppendConditions(s)
 	return nu
 }
 
@@ -870,6 +870,18 @@ func (nu *NodeUpdate) SetHooks(m map[string]interface{}) *NodeUpdate {
 // ClearHooks clears the value of the "hooks" field.
 func (nu *NodeUpdate) ClearHooks() *NodeUpdate {
 	nu.mutation.ClearHooks()
+	return nu
+}
+
+// SetVariables sets the "variables" field.
+func (nu *NodeUpdate) SetVariables(m map[string]interface{}) *NodeUpdate {
+	nu.mutation.SetVariables(m)
+	return nu
+}
+
+// ClearVariables clears the value of the "variables" field.
+func (nu *NodeUpdate) ClearVariables() *NodeUpdate {
+	nu.mutation.ClearVariables()
 	return nu
 }
 
@@ -1322,6 +1334,12 @@ func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nu.mutation.HooksCleared() {
 		_spec.ClearField(node.FieldHooks, field.TypeJSON)
 	}
+	if value, ok := nu.mutation.Variables(); ok {
+		_spec.SetField(node.FieldVariables, field.TypeJSON, value)
+	}
+	if nu.mutation.VariablesCleared() {
+		_spec.ClearField(node.FieldVariables, field.TypeJSON)
+	}
 	if value, ok := nu.mutation.RetryTimes(); ok {
 		_spec.SetField(node.FieldRetryTimes, field.TypeInt, value)
 	}
@@ -1578,26 +1596,26 @@ func (nuo *NodeUpdateOne) ClearFieldPermissions() *NodeUpdateOne {
 }
 
 // SetAssignees sets the "assignees" field.
-func (nuo *NodeUpdateOne) SetAssignees(m []map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetAssignees(m)
+func (nuo *NodeUpdateOne) SetAssignees(s []string) *NodeUpdateOne {
+	nuo.mutation.SetAssignees(s)
 	return nuo
 }
 
-// AppendAssignees appends m to the "assignees" field.
-func (nuo *NodeUpdateOne) AppendAssignees(m []map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.AppendAssignees(m)
+// AppendAssignees appends s to the "assignees" field.
+func (nuo *NodeUpdateOne) AppendAssignees(s []string) *NodeUpdateOne {
+	nuo.mutation.AppendAssignees(s)
 	return nuo
 }
 
 // SetCandidates sets the "candidates" field.
-func (nuo *NodeUpdateOne) SetCandidates(m []map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetCandidates(m)
+func (nuo *NodeUpdateOne) SetCandidates(s []string) *NodeUpdateOne {
+	nuo.mutation.SetCandidates(s)
 	return nuo
 }
 
-// AppendCandidates appends m to the "candidates" field.
-func (nuo *NodeUpdateOne) AppendCandidates(m []map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.AppendCandidates(m)
+// AppendCandidates appends s to the "candidates" field.
+func (nuo *NodeUpdateOne) AppendCandidates(s []string) *NodeUpdateOne {
+	nuo.mutation.AppendCandidates(s)
 	return nuo
 }
 
@@ -2109,14 +2127,14 @@ func (nuo *NodeUpdateOne) ClearBranchNodes() *NodeUpdateOne {
 }
 
 // SetConditions sets the "conditions" field.
-func (nuo *NodeUpdateOne) SetConditions(m []map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetConditions(m)
+func (nuo *NodeUpdateOne) SetConditions(s []string) *NodeUpdateOne {
+	nuo.mutation.SetConditions(s)
 	return nuo
 }
 
-// AppendConditions appends m to the "conditions" field.
-func (nuo *NodeUpdateOne) AppendConditions(m []map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.AppendConditions(m)
+// AppendConditions appends s to the "conditions" field.
+func (nuo *NodeUpdateOne) AppendConditions(s []string) *NodeUpdateOne {
+	nuo.mutation.AppendConditions(s)
 	return nuo
 }
 
@@ -2205,6 +2223,18 @@ func (nuo *NodeUpdateOne) SetHooks(m map[string]interface{}) *NodeUpdateOne {
 // ClearHooks clears the value of the "hooks" field.
 func (nuo *NodeUpdateOne) ClearHooks() *NodeUpdateOne {
 	nuo.mutation.ClearHooks()
+	return nuo
+}
+
+// SetVariables sets the "variables" field.
+func (nuo *NodeUpdateOne) SetVariables(m map[string]interface{}) *NodeUpdateOne {
+	nuo.mutation.SetVariables(m)
+	return nuo
+}
+
+// ClearVariables clears the value of the "variables" field.
+func (nuo *NodeUpdateOne) ClearVariables() *NodeUpdateOne {
+	nuo.mutation.ClearVariables()
 	return nuo
 }
 
@@ -2686,6 +2716,12 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 	}
 	if nuo.mutation.HooksCleared() {
 		_spec.ClearField(node.FieldHooks, field.TypeJSON)
+	}
+	if value, ok := nuo.mutation.Variables(); ok {
+		_spec.SetField(node.FieldVariables, field.TypeJSON, value)
+	}
+	if nuo.mutation.VariablesCleared() {
+		_spec.ClearField(node.FieldVariables, field.TypeJSON)
 	}
 	if value, ok := nuo.mutation.RetryTimes(); ok {
 		_spec.SetField(node.FieldRetryTimes, field.TypeInt, value)

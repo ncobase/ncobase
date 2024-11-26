@@ -47,9 +47,9 @@ type Node struct {
 	// Field level permissions
 	FieldPermissions map[string]interface{} `json:"field_permissions,omitempty"`
 	// Task assignees
-	Assignees []map[string]interface{} `json:"assignees,omitempty"`
+	Assignees []string `json:"assignees,omitempty"`
 	// Candidate assignees
-	Candidates []map[string]interface{} `json:"candidates,omitempty"`
+	Candidates []string `json:"candidates,omitempty"`
 	// Delegated from user
 	DelegatedFrom string `json:"delegated_from,omitempty"`
 	// Delegation reason
@@ -111,7 +111,7 @@ type Node struct {
 	// Branch nodes
 	BranchNodes []string `json:"branch_nodes,omitempty"`
 	// Transition conditions
-	Conditions []map[string]interface{} `json:"conditions,omitempty"`
+	Conditions []string `json:"conditions,omitempty"`
 	// Node properties
 	Properties map[string]interface{} `json:"properties,omitempty"`
 	// Whether requires countersign
@@ -124,6 +124,8 @@ type Node struct {
 	Listeners map[string]interface{} `json:"listeners,omitempty"`
 	// Hook configurations
 	Hooks map[string]interface{} `json:"hooks,omitempty"`
+	// Node variables
+	Variables map[string]interface{} `json:"variables,omitempty"`
 	// Number of retries
 	RetryTimes int `json:"retry_times,omitempty"`
 	// Retry interval in seconds
@@ -138,7 +140,7 @@ func (*Node) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case node.FieldNodeConfig, node.FieldNodeRules, node.FieldNodeEvents, node.FieldFormConfig, node.FieldFormPermissions, node.FieldFieldPermissions, node.FieldAssignees, node.FieldCandidates, node.FieldExtras, node.FieldPermissions, node.FieldPrevNodes, node.FieldNextNodes, node.FieldParallelNodes, node.FieldBranchNodes, node.FieldConditions, node.FieldProperties, node.FieldHandlers, node.FieldListeners, node.FieldHooks:
+		case node.FieldNodeConfig, node.FieldNodeRules, node.FieldNodeEvents, node.FieldFormConfig, node.FieldFormPermissions, node.FieldFieldPermissions, node.FieldAssignees, node.FieldCandidates, node.FieldExtras, node.FieldPermissions, node.FieldPrevNodes, node.FieldNextNodes, node.FieldParallelNodes, node.FieldBranchNodes, node.FieldConditions, node.FieldProperties, node.FieldHandlers, node.FieldListeners, node.FieldHooks, node.FieldVariables:
 			values[i] = new([]byte)
 		case node.FieldIsDelegated, node.FieldIsTransferred, node.FieldAllowCancel, node.FieldAllowUrge, node.FieldAllowDelegate, node.FieldAllowTransfer, node.FieldIsDraftEnabled, node.FieldIsAutoStart, node.FieldStrictMode, node.FieldIsTimeout, node.FieldIsCountersign, node.FieldIsWorkingDay:
 			values[i] = new(sql.NullBool)
@@ -525,6 +527,14 @@ func (n *Node) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field hooks: %w", err)
 				}
 			}
+		case node.FieldVariables:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field variables", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &n.Variables); err != nil {
+					return fmt.Errorf("unmarshal field variables: %w", err)
+				}
+			}
 		case node.FieldRetryTimes:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field retry_times", values[i])
@@ -741,6 +751,9 @@ func (n *Node) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("hooks=")
 	builder.WriteString(fmt.Sprintf("%v", n.Hooks))
+	builder.WriteString(", ")
+	builder.WriteString("variables=")
+	builder.WriteString(fmt.Sprintf("%v", n.Variables))
 	builder.WriteString(", ")
 	builder.WriteString("retry_times=")
 	builder.WriteString(fmt.Sprintf("%v", n.RetryTimes))

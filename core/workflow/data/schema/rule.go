@@ -47,7 +47,7 @@ func (Rule) Fields() []ent.Field {
 		field.String("rule_key").Unique().Comment("Rule unique key"),
 		field.String("template_id").Optional().Comment("Template ID if template specific"),
 		field.String("node_key").Optional().Comment("Node key if node specific"),
-		field.JSON("conditions", types.JSON{}).Comment("Rule conditions"),
+		field.JSON("conditions", types.StringArray{}).Comment("Rule conditions"),
 		field.JSON("actions", types.JSON{}).Comment("Rule actions"),
 		field.Int("priority").Default(0).Comment("Rule priority"),
 		field.Bool("is_enabled").Default(true).Comment("Whether rule is enabled"),

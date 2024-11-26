@@ -11,6 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 )
 
@@ -273,8 +274,14 @@ func (ru *RuleUpdate) ClearNodeKey() *RuleUpdate {
 }
 
 // SetConditions sets the "conditions" field.
-func (ru *RuleUpdate) SetConditions(m map[string]interface{}) *RuleUpdate {
-	ru.mutation.SetConditions(m)
+func (ru *RuleUpdate) SetConditions(s []string) *RuleUpdate {
+	ru.mutation.SetConditions(s)
+	return ru
+}
+
+// AppendConditions appends s to the "conditions" field.
+func (ru *RuleUpdate) AppendConditions(s []string) *RuleUpdate {
+	ru.mutation.AppendConditions(s)
 	return ru
 }
 
@@ -529,6 +536,11 @@ func (ru *RuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := ru.mutation.Conditions(); ok {
 		_spec.SetField(rule.FieldConditions, field.TypeJSON, value)
+	}
+	if value, ok := ru.mutation.AppendedConditions(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, rule.FieldConditions, value)
+		})
 	}
 	if value, ok := ru.mutation.Actions(); ok {
 		_spec.SetField(rule.FieldActions, field.TypeJSON, value)
@@ -826,8 +838,14 @@ func (ruo *RuleUpdateOne) ClearNodeKey() *RuleUpdateOne {
 }
 
 // SetConditions sets the "conditions" field.
-func (ruo *RuleUpdateOne) SetConditions(m map[string]interface{}) *RuleUpdateOne {
-	ruo.mutation.SetConditions(m)
+func (ruo *RuleUpdateOne) SetConditions(s []string) *RuleUpdateOne {
+	ruo.mutation.SetConditions(s)
+	return ruo
+}
+
+// AppendConditions appends s to the "conditions" field.
+func (ruo *RuleUpdateOne) AppendConditions(s []string) *RuleUpdateOne {
+	ruo.mutation.AppendConditions(s)
 	return ruo
 }
 
@@ -1112,6 +1130,11 @@ func (ruo *RuleUpdateOne) sqlSave(ctx context.Context) (_node *Rule, err error) 
 	}
 	if value, ok := ruo.mutation.Conditions(); ok {
 		_spec.SetField(rule.FieldConditions, field.TypeJSON, value)
+	}
+	if value, ok := ruo.mutation.AppendedConditions(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, rule.FieldConditions, value)
+		})
 	}
 	if value, ok := ruo.mutation.Actions(); ok {
 		_spec.SetField(rule.FieldActions, field.TypeJSON, value)

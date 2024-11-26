@@ -110,14 +110,14 @@ func (tc *TaskCreate) SetNodeEvents(m map[string]interface{}) *TaskCreate {
 }
 
 // SetAssignees sets the "assignees" field.
-func (tc *TaskCreate) SetAssignees(m []map[string]interface{}) *TaskCreate {
-	tc.mutation.SetAssignees(m)
+func (tc *TaskCreate) SetAssignees(s []string) *TaskCreate {
+	tc.mutation.SetAssignees(s)
 	return tc
 }
 
 // SetCandidates sets the "candidates" field.
-func (tc *TaskCreate) SetCandidates(m []map[string]interface{}) *TaskCreate {
-	tc.mutation.SetCandidates(m)
+func (tc *TaskCreate) SetCandidates(s []string) *TaskCreate {
+	tc.mutation.SetCandidates(s)
 	return tc
 }
 

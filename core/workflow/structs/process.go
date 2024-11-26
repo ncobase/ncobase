@@ -39,6 +39,7 @@ type ProcessBody struct {
 	EndTime       *int64            `json:"end_time,omitempty"`
 	DueDate       *int64            `json:"due_date,omitempty"`
 	Duration      *int              `json:"duration,omitempty"`
+	ParentID      *string           `json:"parent_id,omitempty"`
 	Extras        types.JSON        `json:"extras,omitempty"`
 }
 
@@ -88,6 +89,7 @@ type ReadProcess struct {
 	EndTime       *int64            `json:"end_time,omitempty"`
 	DueDate       *int64            `json:"due_date,omitempty"`
 	Duration      *int              `json:"duration,omitempty"`
+	ParentID      *string           `json:"parent_id,omitempty"`
 	Extras        types.JSON        `json:"extras,omitempty"`
 	CreatedBy     *string           `json:"created_by,omitempty"`
 	CreatedAt     *int64            `json:"created_at,omitempty"`

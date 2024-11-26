@@ -1973,6 +1973,16 @@ func HooksNotNil() predicate.Node {
 	return predicate.Node(sql.FieldNotNull(FieldHooks))
 }
 
+// VariablesIsNil applies the IsNil predicate on the "variables" field.
+func VariablesIsNil() predicate.Node {
+	return predicate.Node(sql.FieldIsNull(FieldVariables))
+}
+
+// VariablesNotNil applies the NotNil predicate on the "variables" field.
+func VariablesNotNil() predicate.Node {
+	return predicate.Node(sql.FieldNotNull(FieldVariables))
+}
+
 // RetryTimesEQ applies the EQ predicate on the "retry_times" field.
 func RetryTimesEQ(v int) predicate.Node {
 	return predicate.Node(sql.FieldEQ(FieldRetryTimes, v))

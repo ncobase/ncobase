@@ -200,8 +200,8 @@ func (rc *RuleCreate) SetNillableNodeKey(s *string) *RuleCreate {
 }
 
 // SetConditions sets the "conditions" field.
-func (rc *RuleCreate) SetConditions(m map[string]interface{}) *RuleCreate {
-	rc.mutation.SetConditions(m)
+func (rc *RuleCreate) SetConditions(s []string) *RuleCreate {
+	rc.mutation.SetConditions(s)
 	return rc
 }
 

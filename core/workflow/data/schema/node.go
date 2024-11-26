@@ -56,7 +56,7 @@ func (Node) Fields() []ent.Field {
 		field.JSON("branch_nodes", types.StringArray{}).Optional().Comment("Branch nodes"),
 
 		// Node specific configs
-		field.JSON("conditions", types.JSONArray{}).Optional().Comment("Transition conditions"),
+		field.JSON("conditions", types.StringArray{}).Optional().Comment("Transition conditions"),
 		field.JSON("properties", types.JSON{}).Optional().Comment("Node properties"),
 		field.Bool("is_countersign").Default(false).Comment("Whether requires countersign"),
 		field.String("countersign_rule").Optional().Comment("Countersign rules"),
@@ -65,6 +65,8 @@ func (Node) Fields() []ent.Field {
 		field.JSON("handlers", types.JSON{}).Optional().Comment("Handler configurations"),
 		field.JSON("listeners", types.JSON{}).Optional().Comment("Listener configurations"),
 		field.JSON("hooks", types.JSON{}).Optional().Comment("Hook configurations"),
+
+		field.JSON("variables", types.JSON{}).Optional().Comment("Node variables"),
 
 		// Retry settings
 		field.Int("retry_times").Optional().Default(0).Comment("Number of retries"),

@@ -2954,32 +2954,33 @@ func (m *BusinessMutation) ResetEdge(name string) error {
 // DelegationMutation represents an operation that mutates the Delegation nodes in the graph.
 type DelegationMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *string
-	status        *string
-	extras        *map[string]interface{}
-	tenant_id     *string
-	created_by    *string
-	updated_by    *string
-	created_at    *int64
-	addcreated_at *int64
-	updated_at    *int64
-	addupdated_at *int64
-	delegator_id  *string
-	delegatee_id  *string
-	template_id   *string
-	node_type     *string
-	conditions    *map[string]interface{}
-	start_time    *int64
-	addstart_time *int64
-	end_time      *int64
-	addend_time   *int64
-	is_enabled    *bool
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Delegation, error)
-	predicates    []predicate.Delegation
+	op               Op
+	typ              string
+	id               *string
+	status           *string
+	extras           *map[string]interface{}
+	tenant_id        *string
+	created_by       *string
+	updated_by       *string
+	created_at       *int64
+	addcreated_at    *int64
+	updated_at       *int64
+	addupdated_at    *int64
+	delegator_id     *string
+	delegatee_id     *string
+	template_id      *string
+	node_type        *string
+	conditions       *[]string
+	appendconditions []string
+	start_time       *int64
+	addstart_time    *int64
+	end_time         *int64
+	addend_time      *int64
+	is_enabled       *bool
+	clearedFields    map[string]struct{}
+	done             bool
+	oldValue         func(context.Context) (*Delegation, error)
+	predicates       []predicate.Delegation
 }
 
 var _ ent.Mutation = (*DelegationMutation)(nil)
@@ -3642,12 +3643,13 @@ func (m *DelegationMutation) ResetNodeType() {
 }
 
 // SetConditions sets the "conditions" field.
-func (m *DelegationMutation) SetConditions(value map[string]interface{}) {
-	m.conditions = &value
+func (m *DelegationMutation) SetConditions(s []string) {
+	m.conditions = &s
+	m.appendconditions = nil
 }
 
 // Conditions returns the value of the "conditions" field in the mutation.
-func (m *DelegationMutation) Conditions() (r map[string]interface{}, exists bool) {
+func (m *DelegationMutation) Conditions() (r []string, exists bool) {
 	v := m.conditions
 	if v == nil {
 		return
@@ -3658,7 +3660,7 @@ func (m *DelegationMutation) Conditions() (r map[string]interface{}, exists bool
 // OldConditions returns the old "conditions" field's value of the Delegation entity.
 // If the Delegation object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DelegationMutation) OldConditions(ctx context.Context) (v map[string]interface{}, err error) {
+func (m *DelegationMutation) OldConditions(ctx context.Context) (v []string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldConditions is only allowed on UpdateOne operations")
 	}
@@ -3672,9 +3674,23 @@ func (m *DelegationMutation) OldConditions(ctx context.Context) (v map[string]in
 	return oldValue.Conditions, nil
 }
 
+// AppendConditions adds s to the "conditions" field.
+func (m *DelegationMutation) AppendConditions(s []string) {
+	m.appendconditions = append(m.appendconditions, s...)
+}
+
+// AppendedConditions returns the list of values that were appended to the "conditions" field in this mutation.
+func (m *DelegationMutation) AppendedConditions() ([]string, bool) {
+	if len(m.appendconditions) == 0 {
+		return nil, false
+	}
+	return m.appendconditions, true
+}
+
 // ClearConditions clears the value of the "conditions" field.
 func (m *DelegationMutation) ClearConditions() {
 	m.conditions = nil
+	m.appendconditions = nil
 	m.clearedFields[delegation.FieldConditions] = struct{}{}
 }
 
@@ -3687,6 +3703,7 @@ func (m *DelegationMutation) ConditionsCleared() bool {
 // ResetConditions resets all changes to the "conditions" field.
 func (m *DelegationMutation) ResetConditions() {
 	m.conditions = nil
+	m.appendconditions = nil
 	delete(m.clearedFields, delegation.FieldConditions)
 }
 
@@ -4082,7 +4099,7 @@ func (m *DelegationMutation) SetField(name string, value ent.Value) error {
 		m.SetNodeType(v)
 		return nil
 	case delegation.FieldConditions:
-		v, ok := value.(map[string]interface{})
+		v, ok := value.([]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -6249,10 +6266,10 @@ type NodeMutation struct {
 	form_config          *map[string]interface{}
 	form_permissions     *map[string]interface{}
 	field_permissions    *map[string]interface{}
-	assignees            *[]map[string]interface{}
-	appendassignees      []map[string]interface{}
-	candidates           *[]map[string]interface{}
-	appendcandidates     []map[string]interface{}
+	assignees            *[]string
+	appendassignees      []string
+	candidates           *[]string
+	appendcandidates     []string
 	delegated_from       *string
 	delegated_reason     *string
 	is_delegated         *bool
@@ -6295,14 +6312,15 @@ type NodeMutation struct {
 	appendparallel_nodes []string
 	branch_nodes         *[]string
 	appendbranch_nodes   []string
-	conditions           *[]map[string]interface{}
-	appendconditions     []map[string]interface{}
+	conditions           *[]string
+	appendconditions     []string
 	properties           *map[string]interface{}
 	is_countersign       *bool
 	countersign_rule     *string
 	handlers             *map[string]interface{}
 	listeners            *map[string]interface{}
 	_hooks               *map[string]interface{}
+	variables            *map[string]interface{}
 	retry_times          *int
 	addretry_times       *int
 	retry_interval       *int
@@ -7066,13 +7084,13 @@ func (m *NodeMutation) ResetFieldPermissions() {
 }
 
 // SetAssignees sets the "assignees" field.
-func (m *NodeMutation) SetAssignees(value []map[string]interface{}) {
-	m.assignees = &value
+func (m *NodeMutation) SetAssignees(s []string) {
+	m.assignees = &s
 	m.appendassignees = nil
 }
 
 // Assignees returns the value of the "assignees" field in the mutation.
-func (m *NodeMutation) Assignees() (r []map[string]interface{}, exists bool) {
+func (m *NodeMutation) Assignees() (r []string, exists bool) {
 	v := m.assignees
 	if v == nil {
 		return
@@ -7083,7 +7101,7 @@ func (m *NodeMutation) Assignees() (r []map[string]interface{}, exists bool) {
 // OldAssignees returns the old "assignees" field's value of the Node entity.
 // If the Node object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *NodeMutation) OldAssignees(ctx context.Context) (v []map[string]interface{}, err error) {
+func (m *NodeMutation) OldAssignees(ctx context.Context) (v []string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAssignees is only allowed on UpdateOne operations")
 	}
@@ -7097,13 +7115,13 @@ func (m *NodeMutation) OldAssignees(ctx context.Context) (v []map[string]interfa
 	return oldValue.Assignees, nil
 }
 
-// AppendAssignees adds value to the "assignees" field.
-func (m *NodeMutation) AppendAssignees(value []map[string]interface{}) {
-	m.appendassignees = append(m.appendassignees, value...)
+// AppendAssignees adds s to the "assignees" field.
+func (m *NodeMutation) AppendAssignees(s []string) {
+	m.appendassignees = append(m.appendassignees, s...)
 }
 
 // AppendedAssignees returns the list of values that were appended to the "assignees" field in this mutation.
-func (m *NodeMutation) AppendedAssignees() ([]map[string]interface{}, bool) {
+func (m *NodeMutation) AppendedAssignees() ([]string, bool) {
 	if len(m.appendassignees) == 0 {
 		return nil, false
 	}
@@ -7117,13 +7135,13 @@ func (m *NodeMutation) ResetAssignees() {
 }
 
 // SetCandidates sets the "candidates" field.
-func (m *NodeMutation) SetCandidates(value []map[string]interface{}) {
-	m.candidates = &value
+func (m *NodeMutation) SetCandidates(s []string) {
+	m.candidates = &s
 	m.appendcandidates = nil
 }
 
 // Candidates returns the value of the "candidates" field in the mutation.
-func (m *NodeMutation) Candidates() (r []map[string]interface{}, exists bool) {
+func (m *NodeMutation) Candidates() (r []string, exists bool) {
 	v := m.candidates
 	if v == nil {
 		return
@@ -7134,7 +7152,7 @@ func (m *NodeMutation) Candidates() (r []map[string]interface{}, exists bool) {
 // OldCandidates returns the old "candidates" field's value of the Node entity.
 // If the Node object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *NodeMutation) OldCandidates(ctx context.Context) (v []map[string]interface{}, err error) {
+func (m *NodeMutation) OldCandidates(ctx context.Context) (v []string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCandidates is only allowed on UpdateOne operations")
 	}
@@ -7148,13 +7166,13 @@ func (m *NodeMutation) OldCandidates(ctx context.Context) (v []map[string]interf
 	return oldValue.Candidates, nil
 }
 
-// AppendCandidates adds value to the "candidates" field.
-func (m *NodeMutation) AppendCandidates(value []map[string]interface{}) {
-	m.appendcandidates = append(m.appendcandidates, value...)
+// AppendCandidates adds s to the "candidates" field.
+func (m *NodeMutation) AppendCandidates(s []string) {
+	m.appendcandidates = append(m.appendcandidates, s...)
 }
 
 // AppendedCandidates returns the list of values that were appended to the "candidates" field in this mutation.
-func (m *NodeMutation) AppendedCandidates() ([]map[string]interface{}, bool) {
+func (m *NodeMutation) AppendedCandidates() ([]string, bool) {
 	if len(m.appendcandidates) == 0 {
 		return nil, false
 	}
@@ -8672,13 +8690,13 @@ func (m *NodeMutation) ResetBranchNodes() {
 }
 
 // SetConditions sets the "conditions" field.
-func (m *NodeMutation) SetConditions(value []map[string]interface{}) {
-	m.conditions = &value
+func (m *NodeMutation) SetConditions(s []string) {
+	m.conditions = &s
 	m.appendconditions = nil
 }
 
 // Conditions returns the value of the "conditions" field in the mutation.
-func (m *NodeMutation) Conditions() (r []map[string]interface{}, exists bool) {
+func (m *NodeMutation) Conditions() (r []string, exists bool) {
 	v := m.conditions
 	if v == nil {
 		return
@@ -8689,7 +8707,7 @@ func (m *NodeMutation) Conditions() (r []map[string]interface{}, exists bool) {
 // OldConditions returns the old "conditions" field's value of the Node entity.
 // If the Node object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *NodeMutation) OldConditions(ctx context.Context) (v []map[string]interface{}, err error) {
+func (m *NodeMutation) OldConditions(ctx context.Context) (v []string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldConditions is only allowed on UpdateOne operations")
 	}
@@ -8703,13 +8721,13 @@ func (m *NodeMutation) OldConditions(ctx context.Context) (v []map[string]interf
 	return oldValue.Conditions, nil
 }
 
-// AppendConditions adds value to the "conditions" field.
-func (m *NodeMutation) AppendConditions(value []map[string]interface{}) {
-	m.appendconditions = append(m.appendconditions, value...)
+// AppendConditions adds s to the "conditions" field.
+func (m *NodeMutation) AppendConditions(s []string) {
+	m.appendconditions = append(m.appendconditions, s...)
 }
 
 // AppendedConditions returns the list of values that were appended to the "conditions" field in this mutation.
-func (m *NodeMutation) AppendedConditions() ([]map[string]interface{}, bool) {
+func (m *NodeMutation) AppendedConditions() ([]string, bool) {
 	if len(m.appendconditions) == 0 {
 		return nil, false
 	}
@@ -9017,6 +9035,55 @@ func (m *NodeMutation) ResetHooks() {
 	delete(m.clearedFields, node.FieldHooks)
 }
 
+// SetVariables sets the "variables" field.
+func (m *NodeMutation) SetVariables(value map[string]interface{}) {
+	m.variables = &value
+}
+
+// Variables returns the value of the "variables" field in the mutation.
+func (m *NodeMutation) Variables() (r map[string]interface{}, exists bool) {
+	v := m.variables
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldVariables returns the old "variables" field's value of the Node entity.
+// If the Node object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *NodeMutation) OldVariables(ctx context.Context) (v map[string]interface{}, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldVariables is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldVariables requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldVariables: %w", err)
+	}
+	return oldValue.Variables, nil
+}
+
+// ClearVariables clears the value of the "variables" field.
+func (m *NodeMutation) ClearVariables() {
+	m.variables = nil
+	m.clearedFields[node.FieldVariables] = struct{}{}
+}
+
+// VariablesCleared returns if the "variables" field was cleared in this mutation.
+func (m *NodeMutation) VariablesCleared() bool {
+	_, ok := m.clearedFields[node.FieldVariables]
+	return ok
+}
+
+// ResetVariables resets all changes to the "variables" field.
+func (m *NodeMutation) ResetVariables() {
+	m.variables = nil
+	delete(m.clearedFields, node.FieldVariables)
+}
+
 // SetRetryTimes sets the "retry_times" field.
 func (m *NodeMutation) SetRetryTimes(i int) {
 	m.retry_times = &i
@@ -9227,7 +9294,7 @@ func (m *NodeMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *NodeMutation) Fields() []string {
-	fields := make([]string, 0, 56)
+	fields := make([]string, 0, 57)
 	if m.name != nil {
 		fields = append(fields, node.FieldName)
 	}
@@ -9387,6 +9454,9 @@ func (m *NodeMutation) Fields() []string {
 	if m._hooks != nil {
 		fields = append(fields, node.FieldHooks)
 	}
+	if m.variables != nil {
+		fields = append(fields, node.FieldVariables)
+	}
 	if m.retry_times != nil {
 		fields = append(fields, node.FieldRetryTimes)
 	}
@@ -9510,6 +9580,8 @@ func (m *NodeMutation) Field(name string) (ent.Value, bool) {
 		return m.Listeners()
 	case node.FieldHooks:
 		return m.Hooks()
+	case node.FieldVariables:
+		return m.Variables()
 	case node.FieldRetryTimes:
 		return m.RetryTimes()
 	case node.FieldRetryInterval:
@@ -9631,6 +9703,8 @@ func (m *NodeMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldListeners(ctx)
 	case node.FieldHooks:
 		return m.OldHooks(ctx)
+	case node.FieldVariables:
+		return m.OldVariables(ctx)
 	case node.FieldRetryTimes:
 		return m.OldRetryTimes(ctx)
 	case node.FieldRetryInterval:
@@ -9745,14 +9819,14 @@ func (m *NodeMutation) SetField(name string, value ent.Value) error {
 		m.SetFieldPermissions(v)
 		return nil
 	case node.FieldAssignees:
-		v, ok := value.([]map[string]interface{})
+		v, ok := value.([]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAssignees(v)
 		return nil
 	case node.FieldCandidates:
-		v, ok := value.([]map[string]interface{})
+		v, ok := value.([]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -9969,7 +10043,7 @@ func (m *NodeMutation) SetField(name string, value ent.Value) error {
 		m.SetBranchNodes(v)
 		return nil
 	case node.FieldConditions:
-		v, ok := value.([]map[string]interface{})
+		v, ok := value.([]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -10016,6 +10090,13 @@ func (m *NodeMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetHooks(v)
+		return nil
+	case node.FieldVariables:
+		v, ok := value.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetVariables(v)
 		return nil
 	case node.FieldRetryTimes:
 		v, ok := value.(int)
@@ -10287,6 +10368,9 @@ func (m *NodeMutation) ClearedFields() []string {
 	if m.FieldCleared(node.FieldHooks) {
 		fields = append(fields, node.FieldHooks)
 	}
+	if m.FieldCleared(node.FieldVariables) {
+		fields = append(fields, node.FieldVariables)
+	}
 	if m.FieldCleared(node.FieldRetryTimes) {
 		fields = append(fields, node.FieldRetryTimes)
 	}
@@ -10402,6 +10486,9 @@ func (m *NodeMutation) ClearField(name string) error {
 		return nil
 	case node.FieldHooks:
 		m.ClearHooks()
+		return nil
+	case node.FieldVariables:
+		m.ClearVariables()
 		return nil
 	case node.FieldRetryTimes:
 		m.ClearRetryTimes()
@@ -10575,6 +10662,9 @@ func (m *NodeMutation) ResetField(name string) error {
 		return nil
 	case node.FieldHooks:
 		m.ResetHooks()
+		return nil
+	case node.FieldVariables:
+		m.ResetVariables()
 		return nil
 	case node.FieldRetryTimes:
 		m.ResetRetryTimes()
@@ -15736,7 +15826,8 @@ type RuleMutation struct {
 	rule_key          *string
 	template_id       *string
 	node_key          *string
-	conditions        *map[string]interface{}
+	conditions        *[]string
+	appendconditions  []string
 	actions           *map[string]interface{}
 	priority          *int
 	addpriority       *int
@@ -16571,12 +16662,13 @@ func (m *RuleMutation) ResetNodeKey() {
 }
 
 // SetConditions sets the "conditions" field.
-func (m *RuleMutation) SetConditions(value map[string]interface{}) {
-	m.conditions = &value
+func (m *RuleMutation) SetConditions(s []string) {
+	m.conditions = &s
+	m.appendconditions = nil
 }
 
 // Conditions returns the value of the "conditions" field in the mutation.
-func (m *RuleMutation) Conditions() (r map[string]interface{}, exists bool) {
+func (m *RuleMutation) Conditions() (r []string, exists bool) {
 	v := m.conditions
 	if v == nil {
 		return
@@ -16587,7 +16679,7 @@ func (m *RuleMutation) Conditions() (r map[string]interface{}, exists bool) {
 // OldConditions returns the old "conditions" field's value of the Rule entity.
 // If the Rule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RuleMutation) OldConditions(ctx context.Context) (v map[string]interface{}, err error) {
+func (m *RuleMutation) OldConditions(ctx context.Context) (v []string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldConditions is only allowed on UpdateOne operations")
 	}
@@ -16601,9 +16693,23 @@ func (m *RuleMutation) OldConditions(ctx context.Context) (v map[string]interfac
 	return oldValue.Conditions, nil
 }
 
+// AppendConditions adds s to the "conditions" field.
+func (m *RuleMutation) AppendConditions(s []string) {
+	m.appendconditions = append(m.appendconditions, s...)
+}
+
+// AppendedConditions returns the list of values that were appended to the "conditions" field in this mutation.
+func (m *RuleMutation) AppendedConditions() ([]string, bool) {
+	if len(m.appendconditions) == 0 {
+		return nil, false
+	}
+	return m.appendconditions, true
+}
+
 // ResetConditions resets all changes to the "conditions" field.
 func (m *RuleMutation) ResetConditions() {
 	m.conditions = nil
+	m.appendconditions = nil
 }
 
 // SetActions sets the "actions" field.
@@ -17174,7 +17280,7 @@ func (m *RuleMutation) SetField(name string, value ent.Value) error {
 		m.SetNodeKey(v)
 		return nil
 	case rule.FieldConditions:
-		v, ok := value.(map[string]interface{})
+		v, ok := value.([]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -17549,10 +17655,10 @@ type TaskMutation struct {
 	node_config       *map[string]interface{}
 	node_rules        *map[string]interface{}
 	node_events       *map[string]interface{}
-	assignees         *[]map[string]interface{}
-	appendassignees   []map[string]interface{}
-	candidates        *[]map[string]interface{}
-	appendcandidates  []map[string]interface{}
+	assignees         *[]string
+	appendassignees   []string
+	candidates        *[]string
+	appendcandidates  []string
 	delegated_from    *string
 	delegated_reason  *string
 	is_delegated      *bool
@@ -18185,13 +18291,13 @@ func (m *TaskMutation) ResetNodeEvents() {
 }
 
 // SetAssignees sets the "assignees" field.
-func (m *TaskMutation) SetAssignees(value []map[string]interface{}) {
-	m.assignees = &value
+func (m *TaskMutation) SetAssignees(s []string) {
+	m.assignees = &s
 	m.appendassignees = nil
 }
 
 // Assignees returns the value of the "assignees" field in the mutation.
-func (m *TaskMutation) Assignees() (r []map[string]interface{}, exists bool) {
+func (m *TaskMutation) Assignees() (r []string, exists bool) {
 	v := m.assignees
 	if v == nil {
 		return
@@ -18202,7 +18308,7 @@ func (m *TaskMutation) Assignees() (r []map[string]interface{}, exists bool) {
 // OldAssignees returns the old "assignees" field's value of the Task entity.
 // If the Task object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldAssignees(ctx context.Context) (v []map[string]interface{}, err error) {
+func (m *TaskMutation) OldAssignees(ctx context.Context) (v []string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAssignees is only allowed on UpdateOne operations")
 	}
@@ -18216,13 +18322,13 @@ func (m *TaskMutation) OldAssignees(ctx context.Context) (v []map[string]interfa
 	return oldValue.Assignees, nil
 }
 
-// AppendAssignees adds value to the "assignees" field.
-func (m *TaskMutation) AppendAssignees(value []map[string]interface{}) {
-	m.appendassignees = append(m.appendassignees, value...)
+// AppendAssignees adds s to the "assignees" field.
+func (m *TaskMutation) AppendAssignees(s []string) {
+	m.appendassignees = append(m.appendassignees, s...)
 }
 
 // AppendedAssignees returns the list of values that were appended to the "assignees" field in this mutation.
-func (m *TaskMutation) AppendedAssignees() ([]map[string]interface{}, bool) {
+func (m *TaskMutation) AppendedAssignees() ([]string, bool) {
 	if len(m.appendassignees) == 0 {
 		return nil, false
 	}
@@ -18236,13 +18342,13 @@ func (m *TaskMutation) ResetAssignees() {
 }
 
 // SetCandidates sets the "candidates" field.
-func (m *TaskMutation) SetCandidates(value []map[string]interface{}) {
-	m.candidates = &value
+func (m *TaskMutation) SetCandidates(s []string) {
+	m.candidates = &s
 	m.appendcandidates = nil
 }
 
 // Candidates returns the value of the "candidates" field in the mutation.
-func (m *TaskMutation) Candidates() (r []map[string]interface{}, exists bool) {
+func (m *TaskMutation) Candidates() (r []string, exists bool) {
 	v := m.candidates
 	if v == nil {
 		return
@@ -18253,7 +18359,7 @@ func (m *TaskMutation) Candidates() (r []map[string]interface{}, exists bool) {
 // OldCandidates returns the old "candidates" field's value of the Task entity.
 // If the Task object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldCandidates(ctx context.Context) (v []map[string]interface{}, err error) {
+func (m *TaskMutation) OldCandidates(ctx context.Context) (v []string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCandidates is only allowed on UpdateOne operations")
 	}
@@ -18267,13 +18373,13 @@ func (m *TaskMutation) OldCandidates(ctx context.Context) (v []map[string]interf
 	return oldValue.Candidates, nil
 }
 
-// AppendCandidates adds value to the "candidates" field.
-func (m *TaskMutation) AppendCandidates(value []map[string]interface{}) {
-	m.appendcandidates = append(m.appendcandidates, value...)
+// AppendCandidates adds s to the "candidates" field.
+func (m *TaskMutation) AppendCandidates(s []string) {
+	m.appendcandidates = append(m.appendcandidates, s...)
 }
 
 // AppendedCandidates returns the list of values that were appended to the "candidates" field in this mutation.
-func (m *TaskMutation) AppendedCandidates() ([]map[string]interface{}, bool) {
+func (m *TaskMutation) AppendedCandidates() ([]string, bool) {
 	if len(m.appendcandidates) == 0 {
 		return nil, false
 	}
@@ -20519,14 +20625,14 @@ func (m *TaskMutation) SetField(name string, value ent.Value) error {
 		m.SetNodeEvents(v)
 		return nil
 	case task.FieldAssignees:
-		v, ok := value.([]map[string]interface{})
+		v, ok := value.([]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAssignees(v)
 		return nil
 	case task.FieldCandidates:
-		v, ok := value.([]map[string]interface{})
+		v, ok := value.([]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

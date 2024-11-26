@@ -44,7 +44,7 @@ func (Delegation) Fields() []ent.Field {
 		field.String("delegatee_id").Comment("User ID to delegate to"),
 		field.String("template_id").Optional().Comment("Template ID if specific"),
 		field.String("node_type").Optional().Comment("Node type if specific"),
-		field.JSON("conditions", types.JSON{}).Optional().Comment("Delegation conditions"),
+		field.JSON("conditions", types.StringArray{}).Optional().Comment("Delegation conditions"),
 		field.Int64("start_time").Comment("Delegation start time"),
 		field.Int64("end_time").Comment("Delegation end time"),
 		field.Bool("is_enabled").Default(true).Comment("Whether delegation is enabled"),

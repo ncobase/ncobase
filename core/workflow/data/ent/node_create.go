@@ -144,14 +144,14 @@ func (nc *NodeCreate) SetFieldPermissions(m map[string]interface{}) *NodeCreate 
 }
 
 // SetAssignees sets the "assignees" field.
-func (nc *NodeCreate) SetAssignees(m []map[string]interface{}) *NodeCreate {
-	nc.mutation.SetAssignees(m)
+func (nc *NodeCreate) SetAssignees(s []string) *NodeCreate {
+	nc.mutation.SetAssignees(s)
 	return nc
 }
 
 // SetCandidates sets the "candidates" field.
-func (nc *NodeCreate) SetCandidates(m []map[string]interface{}) *NodeCreate {
-	nc.mutation.SetCandidates(m)
+func (nc *NodeCreate) SetCandidates(s []string) *NodeCreate {
+	nc.mutation.SetCandidates(s)
 	return nc
 }
 
@@ -520,8 +520,8 @@ func (nc *NodeCreate) SetBranchNodes(s []string) *NodeCreate {
 }
 
 // SetConditions sets the "conditions" field.
-func (nc *NodeCreate) SetConditions(m []map[string]interface{}) *NodeCreate {
-	nc.mutation.SetConditions(m)
+func (nc *NodeCreate) SetConditions(s []string) *NodeCreate {
+	nc.mutation.SetConditions(s)
 	return nc
 }
 
@@ -574,6 +574,12 @@ func (nc *NodeCreate) SetListeners(m map[string]interface{}) *NodeCreate {
 // SetHooks sets the "hooks" field.
 func (nc *NodeCreate) SetHooks(m map[string]interface{}) *NodeCreate {
 	nc.mutation.SetHooks(m)
+	return nc
+}
+
+// SetVariables sets the "variables" field.
+func (nc *NodeCreate) SetVariables(m map[string]interface{}) *NodeCreate {
+	nc.mutation.SetVariables(m)
 	return nc
 }
 
@@ -1088,6 +1094,10 @@ func (nc *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
 	if value, ok := nc.mutation.Hooks(); ok {
 		_spec.SetField(node.FieldHooks, field.TypeJSON, value)
 		_node.Hooks = value
+	}
+	if value, ok := nc.mutation.Variables(); ok {
+		_spec.SetField(node.FieldVariables, field.TypeJSON, value)
+		_node.Variables = value
 	}
 	if value, ok := nc.mutation.RetryTimes(); ok {
 		_spec.SetField(node.FieldRetryTimes, field.TypeInt, value)

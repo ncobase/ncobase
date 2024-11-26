@@ -2895,6 +2895,15 @@
                 "summary": "List tasks",
                 "parameters": [
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "assignees",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "name": "cursor",
                         "in": "query"
@@ -9455,7 +9464,10 @@
             "type": "object",
             "properties": {
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "delegatee_id": {
                     "type": "string"
@@ -9703,7 +9715,7 @@
                 "branch_conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "branch_nodes": {
@@ -9715,7 +9727,7 @@
                 "conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "default_branch": {
@@ -9784,6 +9796,9 @@
                 "status": {
                     "type": "string"
                 },
+                "template_id": {
+                    "type": "string"
+                },
                 "tenant_id": {
                     "type": "string"
                 },
@@ -9795,6 +9810,9 @@
                 },
                 "type": {
                     "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 }
             }
         },
@@ -9923,6 +9941,9 @@
                     "type": "integer"
                 },
                 "module_code": {
+                    "type": "string"
+                },
+                "parent_id": {
                     "type": "string"
                 },
                 "priority": {
@@ -10178,7 +10199,10 @@
             "type": "object",
             "properties": {
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "created_at": {
                     "type": "integer"
@@ -10476,13 +10500,13 @@
                 "assignees": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "branch_conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "branch_nodes": {
@@ -10494,7 +10518,7 @@
                 "conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "created_at": {
@@ -10572,6 +10596,9 @@
                 "status": {
                     "type": "string"
                 },
+                "template_id": {
+                    "type": "string"
+                },
                 "tenant_id": {
                     "type": "string"
                 },
@@ -10589,6 +10616,9 @@
                 },
                 "updated_by": {
                     "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 }
             }
         },
@@ -10778,6 +10808,9 @@
                 "module_code": {
                     "type": "string"
                 },
+                "parent_id": {
+                    "type": "string"
+                },
                 "priority": {
                     "type": "integer"
                 },
@@ -10920,7 +10953,10 @@
                     "type": "string"
                 },
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "created_at": {
                     "type": "integer"
@@ -11019,13 +11055,13 @@
                 "assignees": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "candidates": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "category": {
@@ -11549,7 +11585,10 @@
                     "type": "string"
                 },
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "description": {
                     "type": "string"
@@ -11744,13 +11783,13 @@
                 "assignees": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "candidates": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "category": {
@@ -12113,7 +12152,10 @@
             "type": "object",
             "properties": {
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "delegatee_id": {
                     "type": "string"
@@ -12285,7 +12327,7 @@
                 "branch_conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "branch_nodes": {
@@ -12297,7 +12339,7 @@
                 "conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "default_branch": {
@@ -12369,6 +12411,9 @@
                 "status": {
                     "type": "string"
                 },
+                "template_id": {
+                    "type": "string"
+                },
                 "tenant_id": {
                     "type": "string"
                 },
@@ -12380,6 +12425,9 @@
                 },
                 "type": {
                     "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 }
             }
         },
@@ -12483,6 +12531,9 @@
                 "module_code": {
                     "type": "string"
                 },
+                "parent_id": {
+                    "type": "string"
+                },
                 "priority": {
                     "type": "integer"
                 },
@@ -12572,7 +12623,10 @@
                     "type": "string"
                 },
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "description": {
                     "type": "string"
@@ -12636,13 +12690,13 @@
                 "assignees": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "candidates": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "category": {

@@ -11,6 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 )
 
@@ -207,8 +208,14 @@ func (du *DelegationUpdate) ClearNodeType() *DelegationUpdate {
 }
 
 // SetConditions sets the "conditions" field.
-func (du *DelegationUpdate) SetConditions(m map[string]interface{}) *DelegationUpdate {
-	du.mutation.SetConditions(m)
+func (du *DelegationUpdate) SetConditions(s []string) *DelegationUpdate {
+	du.mutation.SetConditions(s)
+	return du
+}
+
+// AppendConditions appends s to the "conditions" field.
+func (du *DelegationUpdate) AppendConditions(s []string) *DelegationUpdate {
+	du.mutation.AppendConditions(s)
 	return du
 }
 
@@ -409,6 +416,11 @@ func (du *DelegationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := du.mutation.Conditions(); ok {
 		_spec.SetField(delegation.FieldConditions, field.TypeJSON, value)
+	}
+	if value, ok := du.mutation.AppendedConditions(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, delegation.FieldConditions, value)
+		})
 	}
 	if du.mutation.ConditionsCleared() {
 		_spec.ClearField(delegation.FieldConditions, field.TypeJSON)
@@ -628,8 +640,14 @@ func (duo *DelegationUpdateOne) ClearNodeType() *DelegationUpdateOne {
 }
 
 // SetConditions sets the "conditions" field.
-func (duo *DelegationUpdateOne) SetConditions(m map[string]interface{}) *DelegationUpdateOne {
-	duo.mutation.SetConditions(m)
+func (duo *DelegationUpdateOne) SetConditions(s []string) *DelegationUpdateOne {
+	duo.mutation.SetConditions(s)
+	return duo
+}
+
+// AppendConditions appends s to the "conditions" field.
+func (duo *DelegationUpdateOne) AppendConditions(s []string) *DelegationUpdateOne {
+	duo.mutation.AppendConditions(s)
 	return duo
 }
 
@@ -860,6 +878,11 @@ func (duo *DelegationUpdateOne) sqlSave(ctx context.Context) (_node *Delegation,
 	}
 	if value, ok := duo.mutation.Conditions(); ok {
 		_spec.SetField(delegation.FieldConditions, field.TypeJSON, value)
+	}
+	if value, ok := duo.mutation.AppendedConditions(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, delegation.FieldConditions, value)
+		})
 	}
 	if duo.mutation.ConditionsCleared() {
 		_spec.ClearField(delegation.FieldConditions, field.TypeJSON)

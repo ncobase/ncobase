@@ -7,17 +7,17 @@ import (
 
 // DelegationBody represents a delegation entity base fields
 type DelegationBody struct {
-	DelegatorID string     `json:"delegator_id,omitempty"`
-	DelegateeID string     `json:"delegatee_id,omitempty"`
-	TemplateID  string     `json:"template_id,omitempty"`
-	NodeType    string     `json:"node_type,omitempty"`
-	Conditions  types.JSON `json:"conditions,omitempty"`
-	StartTime   int64      `json:"start_time,omitempty"`
-	EndTime     int64      `json:"end_time,omitempty"`
-	IsEnabled   bool       `json:"is_enabled,omitempty"`
-	Status      string     `json:"status,omitempty"`
-	TenantID    string     `json:"tenant_id,omitempty"`
-	Extras      types.JSON `json:"extras,omitempty"`
+	DelegatorID string            `json:"delegator_id,omitempty"`
+	DelegateeID string            `json:"delegatee_id,omitempty"`
+	TemplateID  string            `json:"template_id,omitempty"`
+	NodeType    string            `json:"node_type,omitempty"`
+	Conditions  types.StringArray `json:"conditions,omitempty"`
+	StartTime   int64             `json:"start_time,omitempty"`
+	EndTime     int64             `json:"end_time,omitempty"`
+	IsEnabled   bool              `json:"is_enabled,omitempty"`
+	Status      string            `json:"status,omitempty"`
+	TenantID    string            `json:"tenant_id,omitempty"`
+	Extras      types.JSON        `json:"extras,omitempty"`
 }
 
 // CreateDelegationBody represents body for creating delegation
@@ -34,22 +34,22 @@ type UpdateDelegationBody struct {
 
 // ReadDelegation represents output schema for retrieving delegation
 type ReadDelegation struct {
-	ID          string     `json:"id"`
-	DelegatorID string     `json:"delegator_id,omitempty"`
-	DelegateeID string     `json:"delegatee_id,omitempty"`
-	TemplateID  string     `json:"template_id,omitempty"`
-	NodeType    string     `json:"node_type,omitempty"`
-	Conditions  types.JSON `json:"conditions,omitempty"`
-	StartTime   int64      `json:"start_time,omitempty"`
-	EndTime     int64      `json:"end_time,omitempty"`
-	IsEnabled   bool       `json:"is_enabled,omitempty"`
-	Status      string     `json:"status,omitempty"`
-	TenantID    string     `json:"tenant_id,omitempty"`
-	Extras      types.JSON `json:"extras,omitempty"`
-	CreatedBy   *string    `json:"created_by,omitempty"`
-	CreatedAt   *int64     `json:"created_at,omitempty"`
-	UpdatedBy   *string    `json:"updated_by,omitempty"`
-	UpdatedAt   *int64     `json:"updated_at,omitempty"`
+	ID          string            `json:"id"`
+	DelegatorID string            `json:"delegator_id,omitempty"`
+	DelegateeID string            `json:"delegatee_id,omitempty"`
+	TemplateID  string            `json:"template_id,omitempty"`
+	NodeType    string            `json:"node_type,omitempty"`
+	Conditions  types.StringArray `json:"conditions,omitempty"`
+	StartTime   int64             `json:"start_time,omitempty"`
+	EndTime     int64             `json:"end_time,omitempty"`
+	IsEnabled   bool              `json:"is_enabled,omitempty"`
+	Status      string            `json:"status,omitempty"`
+	TenantID    string            `json:"tenant_id,omitempty"`
+	Extras      types.JSON        `json:"extras,omitempty"`
+	CreatedBy   *string           `json:"created_by,omitempty"`
+	CreatedAt   *int64            `json:"created_at,omitempty"`
+	UpdatedBy   *string           `json:"updated_by,omitempty"`
+	UpdatedAt   *int64            `json:"updated_at,omitempty"`
 }
 
 // GetID returns ID of the delegation

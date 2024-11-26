@@ -195,26 +195,26 @@ func (tu *TaskUpdate) ClearNodeEvents() *TaskUpdate {
 }
 
 // SetAssignees sets the "assignees" field.
-func (tu *TaskUpdate) SetAssignees(m []map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetAssignees(m)
+func (tu *TaskUpdate) SetAssignees(s []string) *TaskUpdate {
+	tu.mutation.SetAssignees(s)
 	return tu
 }
 
-// AppendAssignees appends m to the "assignees" field.
-func (tu *TaskUpdate) AppendAssignees(m []map[string]interface{}) *TaskUpdate {
-	tu.mutation.AppendAssignees(m)
+// AppendAssignees appends s to the "assignees" field.
+func (tu *TaskUpdate) AppendAssignees(s []string) *TaskUpdate {
+	tu.mutation.AppendAssignees(s)
 	return tu
 }
 
 // SetCandidates sets the "candidates" field.
-func (tu *TaskUpdate) SetCandidates(m []map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetCandidates(m)
+func (tu *TaskUpdate) SetCandidates(s []string) *TaskUpdate {
+	tu.mutation.SetCandidates(s)
 	return tu
 }
 
-// AppendCandidates appends m to the "candidates" field.
-func (tu *TaskUpdate) AppendCandidates(m []map[string]interface{}) *TaskUpdate {
-	tu.mutation.AppendCandidates(m)
+// AppendCandidates appends s to the "candidates" field.
+func (tu *TaskUpdate) AppendCandidates(s []string) *TaskUpdate {
+	tu.mutation.AppendCandidates(s)
 	return tu
 }
 
@@ -1349,26 +1349,26 @@ func (tuo *TaskUpdateOne) ClearNodeEvents() *TaskUpdateOne {
 }
 
 // SetAssignees sets the "assignees" field.
-func (tuo *TaskUpdateOne) SetAssignees(m []map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetAssignees(m)
+func (tuo *TaskUpdateOne) SetAssignees(s []string) *TaskUpdateOne {
+	tuo.mutation.SetAssignees(s)
 	return tuo
 }
 
-// AppendAssignees appends m to the "assignees" field.
-func (tuo *TaskUpdateOne) AppendAssignees(m []map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.AppendAssignees(m)
+// AppendAssignees appends s to the "assignees" field.
+func (tuo *TaskUpdateOne) AppendAssignees(s []string) *TaskUpdateOne {
+	tuo.mutation.AppendAssignees(s)
 	return tuo
 }
 
 // SetCandidates sets the "candidates" field.
-func (tuo *TaskUpdateOne) SetCandidates(m []map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetCandidates(m)
+func (tuo *TaskUpdateOne) SetCandidates(s []string) *TaskUpdateOne {
+	tuo.mutation.SetCandidates(s)
 	return tuo
 }
 
-// AppendCandidates appends m to the "candidates" field.
-func (tuo *TaskUpdateOne) AppendCandidates(m []map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.AppendCandidates(m)
+// AppendCandidates appends s to the "candidates" field.
+func (tuo *TaskUpdateOne) AppendCandidates(s []string) *TaskUpdateOne {
+	tuo.mutation.AppendCandidates(s)
 	return tuo
 }
 

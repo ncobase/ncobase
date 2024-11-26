@@ -269,7 +269,7 @@ func (s *ruleService) evaluateRule(rule *structs.ReadRule, data map[string]any) 
 	return nil
 }
 
-func (s *ruleService) evaluateConditions(conditions types.JSON, data map[string]any) (bool, error) {
+func (s *ruleService) evaluateConditions(conditions types.StringArray, data map[string]any) (bool, error) {
 	// TODO: Implement condition evaluation logic
 	return false, nil
 }

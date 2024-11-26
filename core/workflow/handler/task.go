@@ -4,7 +4,6 @@ import (
 	"ncobase/common/ecode"
 	"ncobase/common/helper"
 	"ncobase/common/resp"
-	"ncobase/common/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
 
@@ -339,14 +338,14 @@ func (h *TaskHandler) Urge(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Task ID"
-// @Param assignees body types.JSONArray true "Task assignees"
+// @Param assignees body []string true "Task assignees"
 // @Success 200 {object} resp.Exception
 // @Failure 400 {object} resp.Exception
 // @Router /flow/tasks/{id}/claim [post]
 // @Security Bearer
 func (h *TaskHandler) Claim(c *gin.Context) {
 	taskID := c.Param("id")
-	var assignees types.JSONArray
+	var assignees []string
 	if err := c.ShouldBindJSON(&assignees); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

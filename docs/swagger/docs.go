@@ -2903,6 +2903,15 @@ const docTemplate = `{
                 "summary": "List tasks",
                 "parameters": [
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "assignees",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "name": "cursor",
                         "in": "query"
@@ -9463,7 +9472,10 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "delegatee_id": {
                     "type": "string"
@@ -9711,7 +9723,7 @@ const docTemplate = `{
                 "branch_conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "branch_nodes": {
@@ -9723,7 +9735,7 @@ const docTemplate = `{
                 "conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "default_branch": {
@@ -9792,6 +9804,9 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
+                "template_id": {
+                    "type": "string"
+                },
                 "tenant_id": {
                     "type": "string"
                 },
@@ -9803,6 +9818,9 @@ const docTemplate = `{
                 },
                 "type": {
                     "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 }
             }
         },
@@ -9931,6 +9949,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "module_code": {
+                    "type": "string"
+                },
+                "parent_id": {
                     "type": "string"
                 },
                 "priority": {
@@ -10186,7 +10207,10 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "created_at": {
                     "type": "integer"
@@ -10484,13 +10508,13 @@ const docTemplate = `{
                 "assignees": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "branch_conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "branch_nodes": {
@@ -10502,7 +10526,7 @@ const docTemplate = `{
                 "conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "created_at": {
@@ -10580,6 +10604,9 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
+                "template_id": {
+                    "type": "string"
+                },
                 "tenant_id": {
                     "type": "string"
                 },
@@ -10597,6 +10624,9 @@ const docTemplate = `{
                 },
                 "updated_by": {
                     "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 }
             }
         },
@@ -10786,6 +10816,9 @@ const docTemplate = `{
                 "module_code": {
                     "type": "string"
                 },
+                "parent_id": {
+                    "type": "string"
+                },
                 "priority": {
                     "type": "integer"
                 },
@@ -10928,7 +10961,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "created_at": {
                     "type": "integer"
@@ -11027,13 +11063,13 @@ const docTemplate = `{
                 "assignees": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "candidates": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "category": {
@@ -11557,7 +11593,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "description": {
                     "type": "string"
@@ -11752,13 +11791,13 @@ const docTemplate = `{
                 "assignees": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "candidates": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "category": {
@@ -12121,7 +12160,10 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "delegatee_id": {
                     "type": "string"
@@ -12293,7 +12335,7 @@ const docTemplate = `{
                 "branch_conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "branch_nodes": {
@@ -12305,7 +12347,7 @@ const docTemplate = `{
                 "conditions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "default_branch": {
@@ -12377,6 +12419,9 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
+                "template_id": {
+                    "type": "string"
+                },
                 "tenant_id": {
                     "type": "string"
                 },
@@ -12388,6 +12433,9 @@ const docTemplate = `{
                 },
                 "type": {
                     "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/ncobase_common_types.JSON"
                 }
             }
         },
@@ -12491,6 +12539,9 @@ const docTemplate = `{
                 "module_code": {
                     "type": "string"
                 },
+                "parent_id": {
+                    "type": "string"
+                },
                 "priority": {
                     "type": "integer"
                 },
@@ -12580,7 +12631,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "conditions": {
-                    "$ref": "#/definitions/ncobase_common_types.JSON"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "description": {
                     "type": "string"
@@ -12644,13 +12698,13 @@ const docTemplate = `{
                 "assignees": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "candidates": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_common_types.JSON"
+                        "type": "string"
                     }
                 },
                 "category": {

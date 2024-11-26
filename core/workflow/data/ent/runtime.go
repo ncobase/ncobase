@@ -268,15 +268,15 @@ func init() {
 	// node.DefaultIsCountersign holds the default value on creation for the is_countersign field.
 	node.DefaultIsCountersign = nodeDescIsCountersign.Default.(bool)
 	// nodeDescRetryTimes is the schema descriptor for retry_times field.
-	nodeDescRetryTimes := nodeFields[13].Descriptor()
+	nodeDescRetryTimes := nodeFields[14].Descriptor()
 	// node.DefaultRetryTimes holds the default value on creation for the retry_times field.
 	node.DefaultRetryTimes = nodeDescRetryTimes.Default.(int)
 	// nodeDescRetryInterval is the schema descriptor for retry_interval field.
-	nodeDescRetryInterval := nodeFields[14].Descriptor()
+	nodeDescRetryInterval := nodeFields[15].Descriptor()
 	// node.DefaultRetryInterval holds the default value on creation for the retry_interval field.
 	node.DefaultRetryInterval = nodeDescRetryInterval.Default.(int)
 	// nodeDescIsWorkingDay is the schema descriptor for is_working_day field.
-	nodeDescIsWorkingDay := nodeFields[15].Descriptor()
+	nodeDescIsWorkingDay := nodeFields[16].Descriptor()
 	// node.DefaultIsWorkingDay holds the default value on creation for the is_working_day field.
 	node.DefaultIsWorkingDay = nodeDescIsWorkingDay.Default.(bool)
 	// nodeDescID is the schema descriptor for id field.

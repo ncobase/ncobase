@@ -150,8 +150,8 @@ func (dc *DelegationCreate) SetNillableNodeType(s *string) *DelegationCreate {
 }
 
 // SetConditions sets the "conditions" field.
-func (dc *DelegationCreate) SetConditions(m map[string]interface{}) *DelegationCreate {
-	dc.mutation.SetConditions(m)
+func (dc *DelegationCreate) SetConditions(s []string) *DelegationCreate {
+	dc.mutation.SetConditions(s)
 	return dc
 }
 

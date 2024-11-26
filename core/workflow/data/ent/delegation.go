@@ -41,7 +41,7 @@ type Delegation struct {
 	// Node type if specific
 	NodeType string `json:"node_type,omitempty"`
 	// Delegation conditions
-	Conditions map[string]interface{} `json:"conditions,omitempty"`
+	Conditions []string `json:"conditions,omitempty"`
 	// Delegation start time
 	StartTime int64 `json:"start_time,omitempty"`
 	// Delegation end time

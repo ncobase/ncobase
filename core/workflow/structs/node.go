@@ -11,17 +11,18 @@ type NodeBody struct {
 	Type             string            `json:"type,omitempty"`
 	Required         bool              `json:"required,omitempty"`
 	Skippable        bool              `json:"skippable,omitempty"`
-	BranchConditions types.JSONArray   `json:"branch_conditions,omitempty"`
+	BranchConditions []string          `json:"branch_conditions,omitempty"`
 	DefaultBranch    string            `json:"default_branch,omitempty"`
 	Description      string            `json:"description,omitempty"`
 	Status           string            `json:"status,omitempty"`
 	NodeKey          string            `json:"node_key,omitempty"`
 	ProcessID        string            `json:"process_id,omitempty"`
+	TemplateID       string            `json:"template_id,omitempty"`
 	PrevNodes        types.StringArray `json:"prev_nodes,omitempty"`
 	NextNodes        types.StringArray `json:"next_nodes,omitempty"`
 	ParallelNodes    types.StringArray `json:"parallel_nodes,omitempty"`
 	BranchNodes      types.StringArray `json:"branch_nodes,omitempty"`
-	Conditions       types.JSONArray   `json:"conditions,omitempty"`
+	Conditions       types.StringArray `json:"conditions,omitempty"`
 	Properties       types.JSON        `json:"properties,omitempty"`
 	FormConfig       types.JSON        `json:"form_config,omitempty"`
 	Permissions      types.JSON        `json:"permissions,omitempty"`
@@ -33,6 +34,7 @@ type NodeBody struct {
 	TimeoutConfig    types.JSON        `json:"timeout_config,omitempty"`
 	TimeoutDuration  int               `json:"timeout_duration,omitempty"`
 	TenantID         string            `json:"tenant_id,omitempty"`
+	Variables        types.JSON        `json:"variables,omitempty"`
 	Extras           types.JSON        `json:"extras,omitempty"`
 }
 
@@ -55,21 +57,22 @@ type ReadNode struct {
 	Type             string            `json:"type,omitempty"`
 	Required         bool              `json:"required,omitempty"`
 	Skippable        bool              `json:"skippable,omitempty"`
-	BranchConditions types.JSONArray   `json:"branch_conditions,omitempty"`
+	BranchConditions types.StringArray `json:"branch_conditions,omitempty"`
 	DefaultBranch    string            `json:"default_branch,omitempty"`
 	Description      string            `json:"description,omitempty"`
 	Status           string            `json:"status,omitempty"`
 	NodeKey          string            `json:"node_key,omitempty"`
 	ProcessID        string            `json:"process_id,omitempty"`
+	TemplateID       string            `json:"template_id,omitempty"`
 	PrevNodes        types.StringArray `json:"prev_nodes,omitempty"`
 	NextNodes        types.StringArray `json:"next_nodes,omitempty"`
 	ParallelNodes    types.StringArray `json:"parallel_nodes,omitempty"`
 	BranchNodes      types.StringArray `json:"branch_nodes,omitempty"`
-	Conditions       types.JSONArray   `json:"conditions,omitempty"`
+	Conditions       types.StringArray `json:"conditions,omitempty"`
 	Properties       types.JSON        `json:"properties,omitempty"`
 	FormConfig       types.JSON        `json:"form_config,omitempty"`
 	Permissions      types.JSON        `json:"permissions,omitempty"`
-	Assignees        types.JSONArray   `json:"assignees,omitempty"`
+	Assignees        types.StringArray `json:"assignees,omitempty"`
 	Handlers         types.JSON        `json:"handlers,omitempty"`
 	RetryTimes       int               `json:"retry_times,omitempty"`
 	RetryInterval    int               `json:"retry_interval,omitempty"`
@@ -77,6 +80,7 @@ type ReadNode struct {
 	TimeoutConfig    types.JSON        `json:"timeout_config,omitempty"`
 	TimeoutDuration  int               `json:"timeout_duration,omitempty"`
 	TenantID         string            `json:"tenant_id,omitempty"`
+	Variables        types.JSON        `json:"variables,omitempty"`
 	Extras           types.JSON        `json:"extras,omitempty"`
 	CreatedBy        *string           `json:"created_by,omitempty"`
 	CreatedAt        *int64            `json:"created_at,omitempty"`
@@ -108,13 +112,14 @@ func (r *ReadNode) GetSortValue(field string) any {
 
 // FindNodeParams represents query parameters for finding nodes
 type FindNodeParams struct {
-	ProcessID string `form:"process_id,omitempty" json:"process_id,omitempty"`
-	Type      string `form:"type,omitempty" json:"type,omitempty"`
-	Status    string `form:"status,omitempty" json:"status,omitempty"`
-	NodeKey   string `form:"node_key,omitempty" json:"node_key,omitempty"`
-	Name      string `form:"name,omitempty" json:"name,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
-	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	TemplateID string `form:"template_id,omitempty" json:"template_id,omitempty"`
+	ProcessID  string `form:"process_id,omitempty" json:"process_id,omitempty"`
+	Type       string `form:"type,omitempty" json:"type,omitempty"`
+	Status     string `form:"status,omitempty" json:"status,omitempty"`
+	NodeKey    string `form:"node_key,omitempty" json:"node_key,omitempty"`
+	Name       string `form:"name,omitempty" json:"name,omitempty"`
+	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SortBy     string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
 // ListNodeParams represents list parameters for nodes

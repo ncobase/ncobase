@@ -126,6 +126,7 @@ func (r *ReadTemplate) GetSortValue(field string) any {
 
 // FindTemplateParams represents query parameters for finding templates
 type FindTemplateParams struct {
+	ID         string `form:"id,omitempty" json:"id,omitempty"`
 	Code       string `form:"code,omitempty" json:"code,omitempty"`
 	ModuleCode string `form:"module_code,omitempty" json:"module_code,omitempty"`
 	FormCode   string `form:"form_code,omitempty" json:"form_code,omitempty"`

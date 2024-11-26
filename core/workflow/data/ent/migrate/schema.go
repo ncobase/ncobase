@@ -250,6 +250,7 @@ var (
 		{Name: "handlers", Type: field.TypeJSON, Nullable: true, Comment: "Handler configurations"},
 		{Name: "listeners", Type: field.TypeJSON, Nullable: true, Comment: "Listener configurations"},
 		{Name: "hooks", Type: field.TypeJSON, Nullable: true, Comment: "Hook configurations"},
+		{Name: "variables", Type: field.TypeJSON, Nullable: true, Comment: "Node variables"},
 		{Name: "retry_times", Type: field.TypeInt, Nullable: true, Comment: "Number of retries", Default: 0},
 		{Name: "retry_interval", Type: field.TypeInt, Nullable: true, Comment: "Retry interval in seconds", Default: 0},
 		{Name: "is_working_day", Type: field.TypeBool, Comment: "Whether to count working days only", Default: true},

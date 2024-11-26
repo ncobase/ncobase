@@ -117,6 +117,8 @@ const (
 	FieldListeners = "listeners"
 	// FieldHooks holds the string denoting the hooks field in the database.
 	FieldHooks = "hooks"
+	// FieldVariables holds the string denoting the variables field in the database.
+	FieldVariables = "variables"
 	// FieldRetryTimes holds the string denoting the retry_times field in the database.
 	FieldRetryTimes = "retry_times"
 	// FieldRetryInterval holds the string denoting the retry_interval field in the database.
@@ -183,6 +185,7 @@ var Columns = []string{
 	FieldHandlers,
 	FieldListeners,
 	FieldHooks,
+	FieldVariables,
 	FieldRetryTimes,
 	FieldRetryInterval,
 	FieldIsWorkingDay,
