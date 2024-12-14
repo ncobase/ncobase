@@ -1,5 +1,5 @@
 [Unit]
-Description=ncobase backend service
+Description=Ncobase backend service
 After=network.target
 
 [Service]
