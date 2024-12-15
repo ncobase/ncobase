@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
@@ -54,7 +54,7 @@ func (s *rolePermissionService) RemovePermissionFromRole(ctx context.Context, ro
 func (s *rolePermissionService) GetRolePermissions(ctx context.Context, r string) ([]*structs.ReadPermission, error) {
 	permissions, err := s.rolePermission.GetPermissionsByRoleID(ctx, r)
 	if err != nil {
-		log.Errorf(ctx, "rolePermissionRepo.GetRolePermissions error: %v", err)
+		logger.Errorf(ctx, "rolePermissionRepo.GetRolePermissions error: %v", err)
 		return nil, err
 	}
 

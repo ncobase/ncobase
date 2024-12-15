@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/common/config"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
@@ -88,25 +88,25 @@ func (s *casbinAdapterService) InitEnforcer() (*casbin.Enforcer, error) {
 
 	m, err := s.initModel()
 	if err != nil {
-		log.Errorf(ctx, "failed to initialize model: %v", err)
+		logger.Errorf(ctx, "failed to initialize model: %v", err)
 		return nil, err
 	}
 
 	// Create the enforcer
 	e, err := casbin.NewEnforcer(m, s)
 	if err != nil {
-		log.Errorf(ctx, "failed to create enforcer: %v", err)
+		logger.Errorf(ctx, "failed to create enforcer: %v", err)
 		return nil, err
 	}
 
 	// Load policies from db
 	err = e.LoadPolicy()
 	if err != nil {
-		log.Errorf(ctx, "failed to load policies: %v", err)
+		logger.Errorf(ctx, "failed to load policies: %v", err)
 		return nil, err
 	}
 
-	log.Infof(ctx, "Enforcer initialized and policies loaded successfully")
+	logger.Infof(ctx, "Enforcer initialized and policies loaded successfully")
 	return e, nil
 }
 
@@ -115,7 +115,7 @@ func (s *casbinAdapterService) LoadPolicy(model model.Model) error {
 	ctx := context.Background()
 	rules, err := s.casbin.Find(ctx, &structs.ListCasbinRuleParams{})
 	if err != nil {
-		log.Errorf(ctx, "failed to load policies: %v", err)
+		logger.Errorf(ctx, "failed to load policies: %v", err)
 		return err
 	}
 
@@ -123,7 +123,7 @@ func (s *casbinAdapterService) LoadPolicy(model model.Model) error {
 		line := strings.Join([]string{rule.PType, rule.V0, rule.V1, rule.V2, rule.V3, rule.V4, rule.V5}, ", ")
 		err := persist.LoadPolicyLine(line, model)
 		if err != nil {
-			log.Errorf(ctx, "failed to load policy line: %v", err)
+			logger.Errorf(ctx, "failed to load policy line: %v", err)
 			return err
 		}
 	}
@@ -134,7 +134,7 @@ func (s *casbinAdapterService) LoadPolicy(model model.Model) error {
 func (s *casbinAdapterService) SavePolicy(model model.Model) error {
 	ctx := context.Background()
 	if err := s.casbin.Delete(ctx, ""); err != nil {
-		log.Errorf(ctx, "failed to delete policy: %v", err)
+		logger.Errorf(ctx, "failed to delete policy: %v", err)
 		return err
 	}
 
@@ -150,7 +150,7 @@ func (s *casbinAdapterService) SavePolicy(model model.Model) error {
 				V5:    &rule[5],
 			}
 			if _, err := s.casbin.Create(ctx, ruleBody); err != nil {
-				log.Errorf(ctx, "failed to save policy line: %v", err)
+				logger.Errorf(ctx, "failed to save policy line: %v", err)
 				return err
 			}
 		}

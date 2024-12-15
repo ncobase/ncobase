@@ -94,6 +94,7 @@ type ListHistoryParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	NodeID    string `form:"node_id,omitempty" json:"node_id,omitempty"`
 	ProcessID string `form:"process_id,omitempty" json:"process_id,omitempty"`
 	TaskID    string `form:"task_id,omitempty" json:"task_id,omitempty"`
 	Operator  string `form:"operator,omitempty" json:"operator,omitempty"`

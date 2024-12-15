@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/common/data/cache"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
@@ -55,7 +55,7 @@ func NewNotificationRepository(d *data.Data) NotificationRepositoryInterface {
 func (r *notificationRepository) Create(ctx context.Context, notification *ent.NotificationCreate) (*ent.Notification, error) {
 	row, err := notification.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "notificationRepo.Create error: %v", err)
+		logger.Errorf(ctx, "notificationRepo.Create error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -77,7 +77,7 @@ func (r *notificationRepository) Get(ctx context.Context, id string) (*ent.Notif
 
 	// Set cache
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Warnf(ctx, "Failed to set notification cache: %v", err)
+		logger.Warnf(ctx, "Failed to set notification cache: %v", err)
 	}
 
 	return row, nil
@@ -87,14 +87,14 @@ func (r *notificationRepository) Get(ctx context.Context, id string) (*ent.Notif
 func (r *notificationRepository) Update(ctx context.Context, id string, notification *ent.NotificationUpdateOne) (*ent.Notification, error) {
 	row, err := notification.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "notificationRepo.Update error: %v", err)
+		logger.Errorf(ctx, "notificationRepo.Update error: %v", err)
 		return nil, err
 	}
 
 	// Invalidate cache
 	cacheKey := fmt.Sprintf("notification:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete notification cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete notification cache: %v", err)
 	}
 
 	return row, nil
@@ -104,14 +104,14 @@ func (r *notificationRepository) Update(ctx context.Context, id string, notifica
 func (r *notificationRepository) Delete(ctx context.Context, id string) error {
 	err := r.ec.Notification.DeleteOneID(id).Exec(ctx)
 	if err != nil {
-		log.Errorf(ctx, "notificationRepo.Delete error: %v", err)
+		logger.Errorf(ctx, "notificationRepo.Delete error: %v", err)
 		return err
 	}
 
 	// Invalidate cache
 	cacheKey := fmt.Sprintf("notification:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete notification cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete notification cache: %v", err)
 	}
 
 	return nil
@@ -211,7 +211,7 @@ func (r *notificationRepository) UpdateStatus(ctx context.Context, id string, st
 	// Invalidate cache
 	cacheKey := fmt.Sprintf("notification:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete notification cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete notification cache: %v", err)
 	}
 
 	return nil

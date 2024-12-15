@@ -5,7 +5,7 @@ import (
 	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -124,7 +124,7 @@ func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) 
 			if ent.IsNotFound(err) {
 				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 			}
-			log.Errorf(ctx, "Error listing menus: %v", err)
+			logger.Errorf(ctx, "Error listing menus: %v", err)
 			return nil, 0, err
 		}
 

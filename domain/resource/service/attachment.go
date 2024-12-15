@@ -7,7 +7,7 @@ import (
 	"io"
 	"ncobase/common/ecode"
 	"ncobase/common/helper"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/domain/resource/data"
@@ -54,7 +54,7 @@ func (s *attachmentService) Create(ctx context.Context, body *structs.CreateAtta
 	// Handle file storage
 	_, err := storage.Put(body.Path, body.File)
 	if err != nil {
-		log.Errorf(ctx, "Error storing file: %v", err)
+		logger.Errorf(ctx, "Error storing file: %v", err)
 		return nil, errors.New("failed to store file")
 	}
 	defer func() {
@@ -76,7 +76,7 @@ func (s *attachmentService) Create(ctx context.Context, body *structs.CreateAtta
 	// Create the attachment using the repository
 	row, err := s.attachment.Create(ctx, body)
 	if err != nil {
-		log.Errorf(ctx, "Error creating attachment: %v", err)
+		logger.Errorf(ctx, "Error creating attachment: %v", err)
 		return nil, errors.New("failed to create attachment")
 	}
 
@@ -103,7 +103,7 @@ func (s *attachmentService) Update(ctx context.Context, slug string, updates map
 		// Check if the file content is included in the updates
 		if file, ok := updates["file"].(io.Reader); ok {
 			if _, err := storage.Put(path, file); err != nil {
-				log.Errorf(ctx, "Error updating file: %v", err)
+				logger.Errorf(ctx, "Error updating file: %v", err)
 				return nil, errors.New("error updating file")
 			}
 			// update storage
@@ -119,7 +119,7 @@ func (s *attachmentService) Update(ctx context.Context, slug string, updates map
 				updates["updated_by"] = helper.GetUserID(ctx)
 			}
 		} else {
-			log.Warnf(ctx, "File content is missing, skipping file update")
+			logger.Warnf(ctx, "File content is missing, skipping file update")
 		}
 	}
 
@@ -146,20 +146,20 @@ func (s *attachmentService) Get(ctx context.Context, slug string) (*structs.Read
 		if ent.IsNotFound(err) {
 			return nil, errors.New(ecode.NotExist(fmt.Sprintf("Attachment %s", slug)))
 		}
-		log.Errorf(ctx, "Error retrieving attachment: %v", err)
+		logger.Errorf(ctx, "Error retrieving attachment: %v", err)
 		return nil, errors.New("error retrieving attachment")
 	}
 
 	// Fetch file from storage
 	file, err := storage.Get(row.Path)
 	if err != nil {
-		log.Errorf(ctx, "Error retrieving file: %v", err)
+		logger.Errorf(ctx, "Error retrieving file: %v", err)
 		return nil, errors.New("error retrieving file")
 	}
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			log.Errorf(ctx, "Error closing file: %v", err)
+			logger.Errorf(ctx, "Error closing file: %v", err)
 		}
 	}(file)
 
@@ -178,19 +178,19 @@ func (s *attachmentService) Delete(ctx context.Context, slug string) error {
 
 	row, err := s.attachment.GetByID(ctx, slug)
 	if err != nil {
-		log.Errorf(ctx, "Error retrieving attachment: %v", err)
+		logger.Errorf(ctx, "Error retrieving attachment: %v", err)
 		return errors.New("error retrieving attachment")
 	}
 
 	err = s.attachment.Delete(ctx, slug)
 	if err != nil {
-		log.Errorf(ctx, "Error deleting attachment: %v", err)
+		logger.Errorf(ctx, "Error deleting attachment: %v", err)
 		return errors.New("error deleting attachment")
 	}
 
 	// Delete the file from storage
 	if err := storage.Delete(row.Path); err != nil {
-		log.Errorf(ctx, "Error deleting file: %v", err)
+		logger.Errorf(ctx, "Error deleting file: %v", err)
 		return errors.New("error deleting file")
 	}
 
@@ -216,7 +216,7 @@ func (s *attachmentService) List(ctx context.Context, params *structs.ListAttach
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing attachments: %v", err)
+			logger.Errorf(ctx, "Error listing attachments: %v", err)
 			return nil, 0, err
 		}
 
@@ -242,14 +242,14 @@ func (s *attachmentService) GetFileStream(ctx context.Context, slug string) (io.
 		if ent.IsNotFound(err) {
 			return nil, nil, errors.New(ecode.NotExist(fmt.Sprintf("Attachment %s", slug)))
 		}
-		log.Errorf(ctx, "Error retrieving attachment: %v", err)
+		logger.Errorf(ctx, "Error retrieving attachment: %v", err)
 		return nil, nil, errors.New("error retrieving attachment")
 	}
 
 	// Fetch file stream from storage
 	fileStream, err := storage.GetStream(row.Path)
 	if err != nil {
-		log.Errorf(ctx, "Error retrieving file stream: %v", err)
+		logger.Errorf(ctx, "Error retrieving file stream: %v", err)
 		return nil, nil, errors.New("error retrieving file stream")
 	}
 

@@ -6,7 +6,7 @@ import (
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/common/config"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/observes"
 	"ncobase/domain/content/data"
 	"ncobase/domain/content/handler"
@@ -222,7 +222,7 @@ func (m *Module) GetServiceInfo() *extension.ServiceInfo {
 		return nil
 	}
 
-	log.Infof(context.Background(), "Getting service info for %s with address: %s",
+	logger.Infof(context.Background(), "Getting service info for %s with address: %s",
 		m.Name(), m.discovery.address)
 
 	metadata := m.GetMetadata()

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
@@ -117,13 +117,13 @@ func (r *nodeRepository) Create(ctx context.Context, body *structs.NodeBody) (*e
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "nodeRepo.Create error: %v", err)
+		logger.Errorf(ctx, "nodeRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("nodes", row); err != nil {
-		log.Errorf(ctx, "nodeRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "nodeRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil
@@ -287,7 +287,7 @@ func (r *nodeRepository) GetNodePath(ctx context.Context, fromNode, toNode strin
 				nodeEnt.ProcessIDEQ(startNode.ProcessID),
 			).All(ctx)
 		if err != nil {
-			log.Warnf(ctx, "Failed to get next nodes for %s: %v", currentNode.ID, err)
+			logger.Warnf(ctx, "Failed to get next nodes for %s: %v", currentNode.ID, err)
 			continue
 		}
 
@@ -371,7 +371,7 @@ func (r *nodeRepository) GetNodeRelations(ctx context.Context, nodeID string) (*
 				nodeEnt.IDNEQ(node.ID),
 			).All(ctx)
 		if err != nil {
-			log.Warnf(ctx, "Failed to get process nodes: %v", err)
+			logger.Warnf(ctx, "Failed to get process nodes: %v", err)
 		} else {
 			prevNodesSet := make(map[string]bool)
 			for _, id := range node.PrevNodes {

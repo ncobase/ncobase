@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
@@ -112,13 +112,13 @@ func (r *processRepository) Create(ctx context.Context, body *structs.ProcessBod
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "processRepo.Create error: %v", err)
+		logger.Errorf(ctx, "processRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("processes", row); err != nil {
-		log.Errorf(ctx, "processRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "processRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil
@@ -273,7 +273,7 @@ func (r *processRepository) CreateSnapshot(ctx context.Context, processID string
 		return fmt.Errorf("failed to save snapshot: %w", err)
 	}
 
-	log.Infof(ctx, "Created snapshot for process %s", processID)
+	logger.Infof(ctx, "Created snapshot for process %s", processID)
 	return nil
 }
 
@@ -345,7 +345,7 @@ func (r *processRepository) RestoreSnapshot(ctx context.Context, snapshotID stri
 		return fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
-	log.Infof(ctx, "Restored snapshot %s for process %s", snapshotID, snapshot.ProcessID)
+	logger.Infof(ctx, "Restored snapshot %s for process %s", snapshotID, snapshot.ProcessID)
 	return nil
 }
 
@@ -383,7 +383,7 @@ func (r *processRepository) CleanupProcesses(ctx context.Context, before int64) 
 	for _, process := range processes {
 		// create snapshot
 		if err := r.CreateSnapshot(ctx, process.ID); err != nil {
-			log.Warnf(ctx, "Failed to create snapshot for process %s: %v", process.ID, err)
+			logger.Warnf(ctx, "Failed to create snapshot for process %s: %v", process.ID, err)
 			continue
 		}
 
@@ -392,7 +392,7 @@ func (r *processRepository) CleanupProcesses(ctx context.Context, before int64) 
 			Where(taskEnt.ProcessIDEQ(process.ID)).
 			Exec(ctx)
 		if err != nil {
-			log.Warnf(ctx, "Failed to delete tasks for process %s: %v", process.ID, err)
+			logger.Warnf(ctx, "Failed to delete tasks for process %s: %v", process.ID, err)
 		}
 
 		// remove nodes
@@ -400,13 +400,13 @@ func (r *processRepository) CleanupProcesses(ctx context.Context, before int64) 
 			Where(nodeEnt.ProcessIDEQ(process.ID)).
 			Exec(ctx)
 		if err != nil {
-			log.Warnf(ctx, "Failed to delete nodes for process %s: %v", process.ID, err)
+			logger.Warnf(ctx, "Failed to delete nodes for process %s: %v", process.ID, err)
 		}
 
 		// remove process itself
 		err = tx.Process.DeleteOne(process).Exec(ctx)
 		if err != nil {
-			log.Warnf(ctx, "Failed to delete process %s: %v", process.ID, err)
+			logger.Warnf(ctx, "Failed to delete process %s: %v", process.ID, err)
 		}
 	}
 
@@ -415,7 +415,7 @@ func (r *processRepository) CleanupProcesses(ctx context.Context, before int64) 
 		return fmt.Errorf("failed to commit cleanup transaction: %w", err)
 	}
 
-	log.Infof(ctx, "Cleaned up %d processes before %v", len(processes), before)
+	logger.Infof(ctx, "Cleaned up %d processes before %v", len(processes), before)
 	return nil
 }
 

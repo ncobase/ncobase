@@ -4,7 +4,7 @@ import (
 	"context"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
@@ -96,13 +96,13 @@ func (r *ruleRepository) Create(ctx context.Context, body *structs.RuleBody) (*e
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "ruleRepo.Create error: %v", err)
+		logger.Errorf(ctx, "ruleRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("rules", row); err != nil {
-		log.Errorf(ctx, "ruleRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "ruleRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil

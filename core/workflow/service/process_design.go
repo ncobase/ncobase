@@ -5,7 +5,7 @@ import (
 	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/workflow/data/ent"
@@ -124,7 +124,7 @@ func (s *processDesignService) List(ctx context.Context, params *structs.ListPro
 
 		designs, err := s.processDesignRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing process designs: %v", err)
+			logger.Errorf(ctx, "Error listing process designs: %v", err)
 			return nil, 0, err
 		}
 

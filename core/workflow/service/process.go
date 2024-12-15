@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
@@ -158,7 +158,7 @@ func (s *processService) List(ctx context.Context, params *structs.ListProcessPa
 
 		processes, err := s.processRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing processes: %v", err)
+			logger.Errorf(ctx, "Error listing processes: %v", err)
 			return nil, 0, err
 		}
 
@@ -225,7 +225,7 @@ func (s *processService) Terminate(ctx context.Context, req *structs.TerminatePr
 		Comment:   req.Comment,
 	})
 	if err != nil {
-		log.Errorf(ctx, "Error creating termination history: %v", err)
+		logger.Errorf(ctx, "Error creating termination history: %v", err)
 	}
 
 	return nil

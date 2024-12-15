@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
@@ -73,7 +73,7 @@ func (s *historyService) List(ctx context.Context, params *structs.ListHistoryPa
 
 		histories, err := s.historyRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing histories: %v", err)
+			logger.Errorf(ctx, "Error listing histories: %v", err)
 			return nil, 0, err
 		}
 

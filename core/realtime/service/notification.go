@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/realtime/data"
@@ -60,7 +60,7 @@ func (s *notificationService) Create(ctx context.Context, body *structs.CreateNo
 	)
 
 	if err != nil {
-		log.Errorf(ctx, "Failed to create notification: %v", err)
+		logger.Errorf(ctx, "Failed to create notification: %v", err)
 		return nil, fmt.Errorf("failed to create notification: %w", err)
 	}
 
@@ -138,7 +138,7 @@ func (s *notificationService) List(ctx context.Context, params *structs.ListNoti
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing permissions: %v", err)
+			logger.Errorf(ctx, "Error listing permissions: %v", err)
 			return nil, 0, err
 		}
 
@@ -211,12 +211,12 @@ func (s *notificationService) sendRealtimeNotification(n *structs.ReadNotificati
 	if n.ChannelID != "" {
 		err := s.ws.BroadcastToChannel(n.ChannelID, message)
 		if err != nil {
-			log.Errorf(context.Background(), "Failed to broadcast notification to channel: %v", err)
+			logger.Errorf(context.Background(), "Failed to broadcast notification to channel: %v", err)
 		}
 	} else {
 		err := s.ws.BroadcastToUser(n.UserID, message)
 		if err != nil {
-			log.Errorf(context.Background(), "Failed to send notification to user: %v", err)
+			logger.Errorf(context.Background(), "Failed to send notification to user: %v", err)
 		}
 	}
 }
@@ -230,6 +230,6 @@ func (s *notificationService) sendStatusChangeNotification(n *structs.ReadNotifi
 
 	err := s.ws.BroadcastToUser(n.UserID, message)
 	if err != nil {
-		log.Errorf(context.Background(), "Failed to send status change notification: %v", err)
+		logger.Errorf(context.Background(), "Failed to send status change notification: %v", err)
 	}
 }

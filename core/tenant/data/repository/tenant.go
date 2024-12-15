@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
 	"ncobase/common/types"
@@ -77,13 +77,13 @@ func (r *tenantRepository) Create(ctx context.Context, body *structs.CreateTenan
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "tenantRepo.Create error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Create the tenant in Meilisearch index
 	if err = r.ms.IndexDocuments("tenants", row); err != nil {
-		log.Errorf(ctx, "tenantRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Create error creating Meilisearch index: %v", err)
 		// return nil, err
 	}
 
@@ -108,14 +108,14 @@ func (r *tenantRepository) GetBySlug(ctx context.Context, id string) (*ent.Tenan
 	row, err := r.FindTenant(ctx, &structs.FindTenant{Slug: id})
 
 	if err != nil {
-		log.Errorf(ctx, " tenantRepo.GetByID error: %v", err)
+		logger.Errorf(ctx, " tenantRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "tenantRepo.GetByID cache error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.GetByID cache error: %v", err)
 	}
 
 	return row, nil
@@ -139,14 +139,14 @@ func (r *tenantRepository) GetByUser(ctx context.Context, userID string) (*ent.T
 	row, err := r.FindTenant(ctx, &structs.FindTenant{User: userID})
 
 	if err != nil {
-		log.Errorf(ctx, " tenantRepo.GetByUser error: %v", err)
+		logger.Errorf(ctx, " tenantRepo.GetByUser error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "tenantRepo.GetByUser cache error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.GetByUser cache error: %v", err)
 	}
 
 	return row, nil
@@ -160,7 +160,7 @@ func (r *tenantRepository) GetIDByUser(ctx context.Context, userID string) (stri
 		OnlyID(ctx)
 
 	if err != nil {
-		log.Errorf(ctx, " tenantRepo.FindTenantIDByUserID error: %v", err)
+		logger.Errorf(ctx, " tenantRepo.FindTenantIDByUserID error: %v", err)
 		return "", err
 	}
 
@@ -217,7 +217,7 @@ func (r *tenantRepository) Update(ctx context.Context, slug string, updates type
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "tenantRepo.Update error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Update error: %v", err)
 		return nil, err
 	}
 
@@ -225,17 +225,17 @@ func (r *tenantRepository) Update(ctx context.Context, slug string, updates type
 	cacheKey := fmt.Sprintf("%s", tenant.ID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
-		log.Errorf(ctx, "tenantRepo.Update cache error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Update cache error: %v", err)
 	}
 	cacheUserKey := fmt.Sprintf("user:%s", tenant.CreatedBy)
 	err = r.c.Delete(ctx, cacheUserKey)
 	if err != nil {
-		log.Errorf(ctx, "tenantRepo.Update cache error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Update cache error: %v", err)
 	}
 
 	// Update Meilisearch index
 	if err = r.ms.UpdateDocuments("topics", row, row.ID); err != nil {
-		log.Errorf(ctx, "tenantRepo.Update error updating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Update error updating Meilisearch index: %v", err)
 	}
 
 	return row, nil
@@ -295,7 +295,7 @@ func (r *tenantRepository) List(ctx context.Context, params *structs.ListTenantP
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, " tenantRepo.GetTenantList error: %v", err)
+		logger.Errorf(ctx, " tenantRepo.GetTenantList error: %v", err)
 		return nil, err
 	}
 
@@ -314,7 +314,7 @@ func (r *tenantRepository) Delete(ctx context.Context, id string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(tenantEnt.IDEQ(id)).Exec(ctx); err == nil {
-		log.Errorf(ctx, "tenantRepo.Delete error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Delete error: %v", err)
 		return err
 	}
 
@@ -322,12 +322,12 @@ func (r *tenantRepository) Delete(ctx context.Context, id string) error {
 	cacheKey := fmt.Sprintf("%s", tenant.ID)
 	err = r.c.Delete(ctx, cacheKey)
 	if err != nil {
-		log.Errorf(ctx, "tenantRepo.Delete cache error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Delete cache error: %v", err)
 	}
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("tenants", tenant.ID); err != nil {
-		log.Errorf(ctx, "tenantRepo.Delete index error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.Delete index error: %v", err)
 		// return nil, err
 	}
 
@@ -341,7 +341,7 @@ func (r *tenantRepository) DeleteByUser(ctx context.Context, userID string) erro
 	builder := r.ec.Tenant.Delete()
 
 	if _, err := builder.Where(tenantEnt.CreatedByEQ(userID)).Exec(ctx); err == nil {
-		log.Errorf(ctx, "tenantRepo.DeleteByUser error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.DeleteByUser error: %v", err)
 		return err
 	}
 
@@ -349,12 +349,12 @@ func (r *tenantRepository) DeleteByUser(ctx context.Context, userID string) erro
 	cacheUserKey := fmt.Sprintf("user:%s", userID)
 	err := r.c.Delete(ctx, cacheUserKey)
 	if err != nil {
-		log.Errorf(ctx, "tenantRepo.DeleteByUser cache error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.DeleteByUser cache error: %v", err)
 	}
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("tenants", userID); err != nil {
-		log.Errorf(ctx, "tenantRepo.DeleteByUser index error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.DeleteByUser index error: %v", err)
 		// return nil, err
 	}
 

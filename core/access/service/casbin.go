@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -104,7 +104,7 @@ func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRule
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing casbin rules: %v", err)
+			logger.Errorf(ctx, "Error listing casbin rules: %v", err)
 			return nil, 0, err
 		}
 

@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"context"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	accessStructs "ncobase/core/access/structs"
 )
 
@@ -64,20 +64,20 @@ func (s *Service) initPermissions(ctx context.Context) error {
 
 	for _, permission := range permissions {
 		if _, err := s.acs.Permission.Create(ctx, &permission); err != nil {
-			log.Errorf(ctx, "initPermissions error on create permission: %v", err)
+			logger.Errorf(ctx, "initPermissions error on create permission: %v", err)
 			return err
 		}
 	}
 
 	allPermissions, err := s.acs.Permission.List(ctx, &accessStructs.ListPermissionParams{})
 	if err != nil {
-		log.Errorf(ctx, "initPermissions error on list permissions: %v", err)
+		logger.Errorf(ctx, "initPermissions error on list permissions: %v", err)
 		return err
 	}
 
 	roles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{})
 	if err != nil {
-		log.Errorf(ctx, "initPermissions error on list roles: %v", err)
+		logger.Errorf(ctx, "initPermissions error on list roles: %v", err)
 		return err
 	}
 
@@ -104,7 +104,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 
 			if assignPermission {
 				if _, err := s.acs.RolePermission.AddPermissionToRole(ctx, role.ID, perm.ID); err != nil {
-					log.Errorf(ctx, "initPermissions error on create role-permission: %v", err)
+					logger.Errorf(ctx, "initPermissions error on create role-permission: %v", err)
 					return err
 				}
 			}
@@ -112,7 +112,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 	}
 
 	count := s.acs.Permission.CountX(ctx, &accessStructs.ListPermissionParams{})
-	log.Infof(ctx, "-------- initPermissions done, created %d permissions", count)
+	logger.Infof(ctx, "-------- initPermissions done, created %d permissions", count)
 
 	return nil
 }

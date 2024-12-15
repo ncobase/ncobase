@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/data/ent"
@@ -73,7 +73,7 @@ func (s *eventService) Publish(ctx context.Context, body *structs.CreateEvent) (
 	)
 
 	if err != nil {
-		log.Errorf(ctx, "Failed to publish event: %v", err)
+		logger.Errorf(ctx, "Failed to publish event: %v", err)
 		return nil, fmt.Errorf("failed to publish event: %w", err)
 	}
 
@@ -119,7 +119,7 @@ func (s *eventService) List(ctx context.Context, params *structs.ListEventParams
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing permissions: %v", err)
+			logger.Errorf(ctx, "Error listing permissions: %v", err)
 			return nil, 0, err
 		}
 
@@ -239,6 +239,6 @@ func (s *eventService) broadcastEvent(e *structs.ReadEvent) {
 
 	err := s.ws.BroadcastToChannel(e.ChannelID, message)
 	if err != nil {
-		log.Errorf(context.Background(), "Failed to broadcast event: %v", err)
+		logger.Errorf(context.Background(), "Failed to broadcast event: %v", err)
 	}
 }

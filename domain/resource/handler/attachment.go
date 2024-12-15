@@ -13,7 +13,7 @@ import (
 	"strings"
 
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/resp"
 	"ncobase/common/storage"
 	"ncobase/common/types"
@@ -85,7 +85,7 @@ func (h *attachmentHandler) handleFormDataUpload(c *gin.Context) {
 		defer func(file multipart.File) {
 			err := file.Close()
 			if err != nil {
-				log.Errorf(c, "Error closing file: %v", err)
+				logger.Errorf(c, "Error closing file: %v", err)
 			}
 		}(file)
 		body, err := processFile(c, header, file)
@@ -127,7 +127,7 @@ func (h *attachmentHandler) handleFormDataUpload(c *gin.Context) {
 		defer func(file multipart.File) {
 			err := file.Close()
 			if err != nil {
-				log.Errorf(c, "Error closing file: %v", err)
+				logger.Errorf(c, "Error closing file: %v", err)
 			}
 		}(file)
 

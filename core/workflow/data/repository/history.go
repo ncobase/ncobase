@@ -4,7 +4,7 @@ import (
 	"context"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
 	historyEnt "ncobase/core/workflow/data/ent/history"
@@ -82,13 +82,13 @@ func (r *historyRepository) Create(ctx context.Context, body *structs.HistoryBod
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "historyRepo.Create error: %v", err)
+		logger.Errorf(ctx, "historyRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("histories", row); err != nil {
-		log.Errorf(ctx, "historyRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "historyRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil

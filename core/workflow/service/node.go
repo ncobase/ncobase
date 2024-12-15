@@ -5,7 +5,7 @@ import (
 	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data/ent"
@@ -98,7 +98,7 @@ func (s *nodeService) List(ctx context.Context, params *structs.ListNodeParams) 
 
 		nodes, err := s.nodeRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing nodes: %v", err)
+			logger.Errorf(ctx, "Error listing nodes: %v", err)
 			return nil, 0, err
 		}
 

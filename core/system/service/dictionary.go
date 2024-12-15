@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/core/system/data"
@@ -101,7 +101,7 @@ func (s *dictionaryService) List(ctx context.Context, params *structs.ListDictio
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing dictionarys: %v", err)
+			logger.Errorf(ctx, "Error listing dictionarys: %v", err)
 			return nil, 0, err
 		}
 

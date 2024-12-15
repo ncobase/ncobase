@@ -4,7 +4,7 @@ import (
 	"context"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
@@ -121,13 +121,13 @@ func (r *templateRepository) Create(ctx context.Context, body *structs.TemplateB
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "templateRepo.Create error: %v", err)
+		logger.Errorf(ctx, "templateRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("templates", row); err != nil {
-		log.Errorf(ctx, "templateRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "templateRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil

@@ -3,7 +3,7 @@ package middleware
 import (
 	"ncobase/common/ecode"
 	"ncobase/common/helper"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/resp"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -101,7 +101,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			permissions = append(permissions, rolePermissions...)
 		}
 
-		log.EntryWithFields(ctx,
+		logger.WithFields(ctx,
 			logrus.Fields{
 				"user_id":     currentUser,
 				"tenant_id":   currentTenant,
@@ -121,7 +121,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 		}
 
 		if !ok {
-			log.EntryWithFields(ctx, logrus.Fields{
+			logger.WithFields(ctx, logrus.Fields{
 				"user_id":   currentUser,
 				"tenant_id": currentTenant,
 				"object":    obj,
@@ -133,7 +133,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			c.Abort()
 			return
 		}
-		log.EntryWithFields(ctx, logrus.Fields{
+		logger.WithFields(ctx, logrus.Fields{
 			"user_id":   currentUser,
 			"tenant_id": currentTenant,
 			"object":    obj,

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/domain/content/data"
 	"ncobase/domain/content/data/ent"
@@ -91,7 +91,7 @@ func (s *taxonomyRelationService) List(ctx context.Context, params *structs.List
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing taxonomy relations: %v", err)
+			logger.Errorf(ctx, "Error listing taxonomy relations: %v", err)
 			return nil, 0, err
 		}
 

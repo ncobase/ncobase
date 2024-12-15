@@ -4,7 +4,7 @@ import (
 	"context"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
@@ -79,13 +79,13 @@ func (r *delegationRepository) Create(ctx context.Context, body *structs.Delegat
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "delegationRepo.Create error: %v", err)
+		logger.Errorf(ctx, "delegationRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("delegations", row); err != nil {
-		log.Errorf(ctx, "delegationRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "delegationRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil

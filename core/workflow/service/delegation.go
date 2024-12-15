@@ -5,7 +5,7 @@ import (
 	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data/ent"
@@ -116,7 +116,7 @@ func (s *delegationService) List(ctx context.Context, params *structs.ListDelega
 
 		delegations, err := s.delegationRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing delegations: %v", err)
+			logger.Errorf(ctx, "Error listing delegations: %v", err)
 			return nil, 0, err
 		}
 

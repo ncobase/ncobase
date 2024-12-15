@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/data/ent"
@@ -71,7 +71,7 @@ func (s *channelService) Create(ctx context.Context, body *structs.CreateChannel
 	)
 
 	if err != nil {
-		log.Errorf(ctx, "Failed to create channel: %v", err)
+		logger.Errorf(ctx, "Failed to create channel: %v", err)
 		return nil, fmt.Errorf("failed to create channel: %w", err)
 	}
 
@@ -158,7 +158,7 @@ func (s *channelService) List(ctx context.Context, params *structs.ListChannelPa
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing permissions: %v", err)
+			logger.Errorf(ctx, "Error listing permissions: %v", err)
 			return nil, 0, err
 		}
 
@@ -340,6 +340,6 @@ func (s *channelService) broadcastChannelEvent(eventType string, data any) {
 		Data: data,
 	}
 	if err := s.ws.BroadcastToAll(message); err != nil {
-		log.Errorf(context.Background(), "Failed to broadcast channel event: %v", err)
+		logger.Errorf(context.Background(), "Failed to broadcast channel event: %v", err)
 	}
 }

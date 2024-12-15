@@ -7,7 +7,7 @@ import (
 	"ncobase/common/email"
 	"ncobase/common/helper"
 	"ncobase/common/jwt"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/nanoid"
 	"ncobase/common/types"
 	"ncobase/core/auth/data"
@@ -126,7 +126,7 @@ func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBo
 		if err := tx.Rollback(); err != nil {
 			return nil, err
 		}
-		log.Errorf(ctx, "send mail error: %v", err)
+		logger.Errorf(ctx, "send mail error: %v", err)
 		return nil, errors.New("send mail failed, please try again or contact support")
 	}
 

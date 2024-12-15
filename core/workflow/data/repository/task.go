@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
@@ -106,13 +106,13 @@ func (r *taskRepository) Create(ctx context.Context, body *structs.TaskBody) (*e
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "taskRepo.Create error: %v", err)
+		logger.Errorf(ctx, "taskRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("tasks", row); err != nil {
-		log.Errorf(ctx, "taskRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "taskRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil
@@ -337,7 +337,7 @@ func (r *taskRepository) CountByStatus(ctx context.Context, processID string) (m
 			Count(ctx)
 
 		if err != nil {
-			log.Warnf(ctx, "Failed to count tasks with status %s: %v", status, err)
+			logger.Warnf(ctx, "Failed to count tasks with status %s: %v", status, err)
 			continue
 		}
 
@@ -352,7 +352,7 @@ func (r *taskRepository) CountByStatus(ctx context.Context, processID string) (m
 		Count(ctx)
 
 	if err != nil {
-		log.Warnf(ctx, "Failed to count total tasks: %v", err)
+		logger.Warnf(ctx, "Failed to count total tasks: %v", err)
 	} else {
 		result["total"] = total
 	}
@@ -374,7 +374,7 @@ func (r *taskRepository) GetTaskChain(ctx context.Context, taskID string) ([]*en
 	if task.ParentID != "" {
 		parentChain, err := r.getParentChain(ctx, task.ParentID)
 		if err != nil {
-			log.Warnf(ctx, "Failed to get parent chain: %v", err)
+			logger.Warnf(ctx, "Failed to get parent chain: %v", err)
 		} else {
 			tasks = append(tasks, parentChain...)
 		}
@@ -386,7 +386,7 @@ func (r *taskRepository) GetTaskChain(ctx context.Context, taskID string) ([]*en
 	// get child tasks
 	childChain, err := r.getChildChain(ctx, task.ChildIds)
 	if err != nil {
-		log.Warnf(ctx, "Failed to get child chain: %v", err)
+		logger.Warnf(ctx, "Failed to get child chain: %v", err)
 	} else {
 		tasks = append(tasks, childChain...)
 	}

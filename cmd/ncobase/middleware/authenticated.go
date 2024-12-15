@@ -3,7 +3,7 @@ package middleware
 import (
 	"ncobase/common/ecode"
 	"ncobase/common/helper"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/resp"
 	"ncobase/common/validator"
 
@@ -16,7 +16,7 @@ func AuthenticatedTenant(c *gin.Context) {
 	tenantID := helper.GetTenantID(ctx)
 
 	if validator.IsEmpty(tenantID) {
-		log.Warn(ctx, "Tenant authentication failed")
+		logger.Warn(ctx, "Tenant authentication failed")
 		resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
 		c.Abort()
 		return
@@ -31,7 +31,7 @@ func AuthenticatedUser(c *gin.Context) {
 	userID := helper.GetUserID(ctx)
 
 	if validator.IsEmpty(userID) {
-		log.Warn(ctx, "User authentication failed")
+		logger.Warn(ctx, "User authentication failed")
 		resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
 		c.Abort()
 		return

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"ncobase/common/crypto"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/user/data"
@@ -70,7 +70,7 @@ func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPass
 		if v.Valid == false {
 			return errors.New(v.Error)
 		} else if v.Valid && v.NeedsPasswordSet == true { // print a log for user's first password setting
-			log.Infof(ctx, "User %s is setting password for the first time", body.User)
+			logger.Infof(ctx, "User %s is setting password for the first time", body.User)
 		}
 	case error:
 		return v
@@ -179,7 +179,7 @@ func (s *userService) VerifyPassword(ctx context.Context, u string, password str
 func (s *userService) updatePassword(ctx context.Context, body *structs.UserPassword) error {
 	err := s.user.UpdatePassword(ctx, body)
 	if err != nil {
-		log.Infof(ctx, "Error updating password for user %s: %v", body.User, err)
+		logger.Infof(ctx, "Error updating password for user %s: %v", body.User, err)
 	}
 
 	return err
@@ -204,7 +204,7 @@ func (s *userService) List(ctx context.Context, params *structs.ListUserParams) 
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing users: %v", err)
+			logger.Errorf(ctx, "Error listing users: %v", err)
 			return nil, 0, err
 		}
 

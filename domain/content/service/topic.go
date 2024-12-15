@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/slug"
 	"ncobase/common/types"
@@ -108,7 +108,7 @@ func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing topics: %v", err)
+			logger.Errorf(ctx, "Error listing topics: %v", err)
 			return nil, 0, err
 		}
 

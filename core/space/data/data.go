@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"ncobase/common/config"
 	"ncobase/common/data"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/ent/migrate"
 
@@ -44,7 +44,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	if readDB, err := d.DBRead(); err == nil && readDB != nil {
 		entClientRead, err = newEntClient(readDB, conf.Database.Master, false, conf.Enveronment) // slave does not support migration
 		if err != nil {
-			log.Warnf(context.Background(), "Failed to create read-only ent client: %v", err)
+			logger.Warnf(context.Background(), "Failed to create read-only ent client: %v", err)
 		}
 	}
 
@@ -66,7 +66,7 @@ func newEntClient(db *sql.DB, conf *config.DBNode, enableMigrate bool, env ...st
 		entsql.OpenDB(conf.Driver, db),
 		func(ctx context.Context, i ...any) {
 			if conf.Logging {
-				log.Infof(ctx, "%v", i)
+				logger.Infof(ctx, "%v", i)
 			}
 		},
 	)))

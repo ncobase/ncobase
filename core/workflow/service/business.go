@@ -5,7 +5,7 @@ import (
 	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/workflow/data/ent"
@@ -128,7 +128,7 @@ func (s *businessService) List(ctx context.Context, params *structs.ListBusiness
 
 		businesses, err := s.businessRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing businesses: %v", err)
+			logger.Errorf(ctx, "Error listing businesses: %v", err)
 			return nil, 0, err
 		}
 

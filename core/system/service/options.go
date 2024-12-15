@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/core/system/config"
@@ -38,7 +38,7 @@ func NewOptionsService(d *data.Data) OptionsServiceInterface {
 
 // Initialize initializes the system with default options
 func (s *optionsService) Initialize(ctx context.Context) error {
-	log.Infof(ctx, "Initializing system options...")
+	logger.Infof(ctx, "Initializing system options...")
 
 	for _, option := range config.SystemDefaultOptions {
 		existing, err := s.options.Get(ctx, &structs.FindOptions{
@@ -46,25 +46,25 @@ func (s *optionsService) Initialize(ctx context.Context) error {
 		})
 
 		if err != nil && !ent.IsNotFound(err) {
-			log.Errorf(ctx, "Error checking existing option %s: %v", option.Name, err)
+			logger.Errorf(ctx, "Error checking existing option %s: %v", option.Name, err)
 			return err
 		}
 
 		if existing != nil {
-			log.Infof(ctx, "Option %s already exists, skipping...", option.Name)
+			logger.Infof(ctx, "Option %s already exists, skipping...", option.Name)
 			continue
 		}
 
 		_, err = s.Create(ctx, &option)
 		if err != nil {
-			log.Errorf(ctx, "Error creating option %s: %v", option.Name, err)
+			logger.Errorf(ctx, "Error creating option %s: %v", option.Name, err)
 			return err
 		}
 
-		log.Infof(ctx, "Created option: %s", option.Name)
+		logger.Infof(ctx, "Created option: %s", option.Name)
 	}
 
-	log.Infof(ctx, "System options initialization completed")
+	logger.Infof(ctx, "System options initialization completed")
 	return nil
 }
 
@@ -131,7 +131,7 @@ func (s *optionsService) List(ctx context.Context, params *structs.ListOptionsPa
 			if ent.IsNotFound(err) {
 				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 			}
-			log.Errorf(ctx, "Error listing options: %v", err)
+			logger.Errorf(ctx, "Error listing options: %v", err)
 			return nil, 0, err
 		}
 

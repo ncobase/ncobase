@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"context"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	tenantStructs "ncobase/core/tenant/structs"
 )
 
@@ -30,12 +30,12 @@ func (s *Service) initTenants(ctx context.Context) error {
 
 	for _, tenant := range tenants {
 		if _, err := s.ts.Tenant.Create(ctx, &tenant); err != nil {
-			log.Errorf(ctx, "initTenants error on create domain: %v", err)
+			logger.Errorf(ctx, "initTenants error on create domain: %v", err)
 			return err
 		}
 	}
 
-	log.Infof(ctx, "-------- initTenants done, created %d domains", len(tenants))
+	logger.Infof(ctx, "-------- initTenants done, created %d domains", len(tenants))
 
 	return nil
 }

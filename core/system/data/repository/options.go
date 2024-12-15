@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/core/system/data"
@@ -67,12 +67,12 @@ func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBod
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "optionsRepo.Create error: %v", err)
+		logger.Errorf(ctx, "optionsRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	if err = r.ms.IndexDocuments("options", row); err != nil {
-		log.Errorf(ctx, "optionsRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "optionsRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil
@@ -82,7 +82,7 @@ func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBod
 func (r *optionsRepository) Get(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
 	row, err := r.getOption(ctx, params)
 	if err != nil {
-		log.Errorf(ctx, "optionsRepo.Get error: %v", err)
+		logger.Errorf(ctx, "optionsRepo.Get error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -117,7 +117,7 @@ func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOpti
 
 	row, err = builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "optionsRepo.Update error: %v", err)
+		logger.Errorf(ctx, "optionsRepo.Update error: %v", err)
 		return nil, err
 	}
 
@@ -171,7 +171,7 @@ func (r *optionsRepository) List(ctx context.Context, params *structs.ListOption
 func (r *optionsRepository) CountX(ctx context.Context, params *structs.ListOptionsParams) int {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
-		log.Errorf(ctx, "Error building count query: %v", err)
+		logger.Errorf(ctx, "Error building count query: %v", err)
 		return 0
 	}
 	return builder.CountX(ctx)
@@ -225,7 +225,7 @@ func applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direc
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)
 		if !ok {
-			log.Errorf(context.Background(), "Invalid timestamp value for cursor")
+			logger.Errorf(context.Background(), "Invalid timestamp value for cursor")
 			return builder
 		}
 		if direction == "backward" {
@@ -251,7 +251,7 @@ func applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direc
 	case structs.SortByName:
 		name, ok := value.(string)
 		if !ok {
-			log.Errorf(context.Background(), "Invalid name value for cursor")
+			logger.Errorf(context.Background(), "Invalid name value for cursor")
 			return builder
 		}
 		if direction == "backward" {
@@ -325,7 +325,7 @@ func (r *optionsRepository) getOption(ctx context.Context, params *structs.FindO
 func (r *optionsRepository) executeArrayQuery(ctx context.Context, builder *ent.OptionsQuery) ([]*ent.Options, error) {
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "optionsRepo.executeArrayQuery error: %v", err)
+		logger.Errorf(ctx, "optionsRepo.executeArrayQuery error: %v", err)
 		return nil, err
 	}
 	return rows, nil

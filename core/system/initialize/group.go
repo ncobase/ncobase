@@ -3,7 +3,7 @@ package initialize
 import (
 	"context"
 	"fmt"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	accessStructs "ncobase/core/access/structs"
 	spaceStructs "ncobase/core/space/structs"
 	userStructs "ncobase/core/user/structs"
@@ -61,7 +61,7 @@ func (s *Service) initOrganizationStructure(ctx context.Context) error {
 		return err
 	}
 
-	log.Infof(ctx, "Organization structure initialization completed successfully")
+	logger.Infof(ctx, "Organization structure initialization completed successfully")
 	return nil
 }
 

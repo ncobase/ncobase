@@ -6,7 +6,7 @@ import (
 	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/helper"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/tenant/data"
@@ -227,7 +227,7 @@ func (s *tenantService) List(ctx context.Context, params *structs.ListTenantPara
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing tenants: %v", err)
+			logger.Errorf(ctx, "Error listing tenants: %v", err)
 			return nil, 0, err
 		}
 

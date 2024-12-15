@@ -4,7 +4,7 @@ import (
 	"context"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/types"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data"
@@ -97,13 +97,13 @@ func (r *businessRepository) Create(ctx context.Context, body *structs.BusinessB
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "businessRepo.Create error: %v", err)
+		logger.Errorf(ctx, "businessRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("businesses", row); err != nil {
-		log.Errorf(ctx, "businessRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "businessRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil

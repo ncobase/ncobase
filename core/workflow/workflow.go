@@ -6,6 +6,7 @@ import (
 	"ncobase/common/config"
 	"ncobase/common/extension"
 	"ncobase/core/workflow/data"
+	we "ncobase/core/workflow/engine/core"
 	"ncobase/core/workflow/handler"
 	"ncobase/core/workflow/service"
 	"sync"
@@ -29,6 +30,7 @@ type Module struct {
 	mu          sync.RWMutex
 	em          *extension.Manager
 	conf        *config.Config
+	we          *we.Engine
 	h           *handler.Handler
 	s           *service.Service
 	d           *data.Data
@@ -73,6 +75,13 @@ func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
 	m.em = em
 	m.conf = conf
 	m.initialized = true
+
+	// Initialize workflow engine
+	// TODO: Global config support
+	m.we, err = we.NewEngine(nil, m.s, m.em)
+	if err != nil {
+		return fmt.Errorf("failed to create workflow engine: %w", err)
+	}
 
 	return nil
 }

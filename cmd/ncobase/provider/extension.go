@@ -3,7 +3,7 @@ package provider
 import (
 	"context"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/core/access"
 	"ncobase/core/auth"
 	"ncobase/core/realtime"
@@ -49,7 +49,7 @@ func registerExtensions(em *extension.Manager) {
 
 	for _, f := range fs {
 		if err := em.Register(f); err != nil {
-			log.Errorf(context.Background(), "Failed to register extension %s: %v", f.Name(), err)
+			logger.Errorf(context.Background(), "Failed to register extension %s: %v", f.Name(), err)
 			continue // Skip this extension and try to register the next one
 		}
 		// log.Infof(context.Background(), "Successfully registered extension %s", f.Name())
@@ -58,17 +58,17 @@ func registerExtensions(em *extension.Manager) {
 	}
 
 	if len(registered) == 0 {
-		log.Errorf(context.Background(), "No extensions were successfully registered.")
+		logger.Errorf(context.Background(), "No extensions were successfully registered.")
 		return
 	}
 
 	// log.Infof(context.Background(), "Successfully registered %d extensions", len(registered))
-	log.Infof(context.Background(), "Successfully registered %d extensions, [%s]",
+	logger.Infof(context.Background(), "Successfully registered %d extensions, [%s]",
 		len(registered),
 		strings.Join(extensionNames, ", "))
 
 	if err := em.InitExtensions(); err != nil {
-		log.Errorf(context.Background(), "Failed to initialize extensions: %v", err)
+		logger.Errorf(context.Background(), "Failed to initialize extensions: %v", err)
 		return
 	}
 	// log.Infof(context.Background(), "All extensions initialized successfully")

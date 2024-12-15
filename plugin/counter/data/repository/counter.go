@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
 	"ncobase/common/types"
@@ -94,13 +94,13 @@ func (r *counterRepository) Create(ctx context.Context, body *structs.CreateCoun
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "counterRepo.Create error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Create the counter in Meilisearch index
 	if err = r.ms.IndexDocuments("counters", row); err != nil {
-		log.Errorf(context.Background(), "counterRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Create error creating Meilisearch index: %v", err)
 		// return nil, err
 	}
 
@@ -124,14 +124,14 @@ func (r *counterRepository) GetByID(ctx context.Context, id string) (*ent.Counte
 	// If not found in cache, query the database
 	row, err := r.FindCounter(ctx, &structs.FindCounter{Counter: id})
 	if err != nil {
-		log.Errorf(context.Background(), "counterRepo.GetByID error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(context.Background(), "counterRepo.GetByID cache error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.GetByID cache error: %v", err)
 	}
 
 	return row, nil
@@ -147,7 +147,7 @@ func (r *counterRepository) GetByIDs(ctx context.Context, counterIDs []string) (
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "counterRepo.GetByIDs error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.GetByIDs error: %v", err)
 		return nil, err
 	}
 
@@ -195,7 +195,7 @@ func (r *counterRepository) Update(ctx context.Context, slug string, updates typ
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "counterRepo.Update error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Update error: %v", err)
 		return nil, err
 	}
 
@@ -204,16 +204,16 @@ func (r *counterRepository) Update(ctx context.Context, slug string, updates typ
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, counter.ID)
 	if err != nil {
-		log.Errorf(context.Background(), "counterRepo.Update cache error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Update cache error: %v", err)
 	}
 
 	// Update the counter in Meilisearch index
 	if err = r.ms.DeleteDocuments("counters", slug); err != nil {
-		log.Errorf(context.Background(), "counterRepo.Update error deleting Meilisearch index: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Update error deleting Meilisearch index: %v", err)
 		// return nil, err
 	}
 	if err = r.ms.IndexDocuments("counters", row); err != nil {
-		log.Errorf(context.Background(), "counterRepo.Update error updating Meilisearch index: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Update error updating Meilisearch index: %v", err)
 		// return nil, err
 	}
 
@@ -276,7 +276,7 @@ func (r *counterRepository) List(ctx context.Context, params *structs.ListCounte
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(context.Background(), "counterRepo.List error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.List error: %v", err)
 		return nil, err
 	}
 
@@ -295,7 +295,7 @@ func (r *counterRepository) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(counterEnt.IDEQ(counter.ID)).Exec(ctx); err != nil {
-		log.Errorf(context.Background(), "counterRepo.Delete error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Delete error: %v", err)
 		return err
 	}
 
@@ -304,12 +304,12 @@ func (r *counterRepository) Delete(ctx context.Context, slug string) error {
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("counter:slug:%s", counter.ID))
 	if err != nil {
-		log.Errorf(context.Background(), "counterRepo.Delete cache error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Delete cache error: %v", err)
 	}
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("counters", counter.ID); err != nil {
-		log.Errorf(context.Background(), "counterRepo.Delete index error: %v", err)
+		logger.Errorf(context.Background(), "counterRepo.Delete index error: %v", err)
 		// return nil, err
 	}
 

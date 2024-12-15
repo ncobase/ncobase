@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/slug"
 	"ncobase/common/types"
@@ -125,7 +125,7 @@ func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomy
 			if ent.IsNotFound(err) {
 				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 			}
-			log.Errorf(ctx, "Error listing taxonomies: %v", err)
+			logger.Errorf(ctx, "Error listing taxonomies: %v", err)
 			return nil, 0, err
 		}
 

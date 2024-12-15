@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/workflow/data/ent"
@@ -114,7 +114,7 @@ func (s *ruleService) List(ctx context.Context, params *structs.ListRuleParams) 
 
 		rules, err := s.ruleRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing rules: %v", err)
+			logger.Errorf(ctx, "Error listing rules: %v", err)
 			return nil, 0, err
 		}
 
@@ -184,7 +184,7 @@ func (s *ruleService) EvaluateRules(ctx context.Context, processID string, data 
 	// Evaluate rules
 	for _, rule := range rules {
 		if err := s.evaluateRule(rule, data); err != nil {
-			log.Errorf(ctx, "Failed to evaluate rule %s: %v", rule.ID, err)
+			logger.Errorf(ctx, "Failed to evaluate rule %s: %v", rule.ID, err)
 			continue
 		}
 	}

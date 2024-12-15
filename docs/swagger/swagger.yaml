@@ -3371,6 +3371,9 @@ paths:
         name: limit
         type: integer
       - in: query
+        name: node_id
+        type: string
+      - in: query
         name: operator
         type: string
       - in: query
@@ -4843,7 +4846,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/ncobase_common_types.JSON'
+            type: string
           type: array
       produces:
       - application/json

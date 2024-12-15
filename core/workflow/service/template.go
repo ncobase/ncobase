@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/core/workflow/data/ent"
@@ -109,7 +109,7 @@ func (s *templateService) CreateVersion(ctx context.Context, templateID string, 
 			},
 		})
 		if err != nil {
-			log.Errorf(ctx, "Failed to update old version latest flag: %v", err)
+			logger.Errorf(ctx, "Failed to update old version latest flag: %v", err)
 		}
 	}
 
@@ -239,7 +239,7 @@ func (s *templateService) List(ctx context.Context, params *structs.ListTemplate
 
 		templates, err := s.templateRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing templates: %v", err)
+			logger.Errorf(ctx, "Error listing templates: %v", err)
 			return nil, 0, err
 		}
 

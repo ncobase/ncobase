@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/access/data"
@@ -123,7 +123,7 @@ func (s *permissionService) List(ctx context.Context, params *structs.ListPermis
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			log.Errorf(ctx, "Error listing permissions: %v", err)
+			logger.Errorf(ctx, "Error listing permissions: %v", err)
 			return nil, 0, err
 		}
 

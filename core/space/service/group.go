@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"ncobase/common/ecode"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/space/data"
@@ -120,7 +120,7 @@ func (s *spaceService) List(ctx context.Context, params *structs.ListGroupParams
 			if ent.IsNotFound(err) {
 				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 			}
-			log.Errorf(ctx, "Error listing groups: %v", err)
+			logger.Errorf(ctx, "Error listing groups: %v", err)
 			return nil, 0, err
 		}
 

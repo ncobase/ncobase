@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"ncobase/common/helper"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"net/http"
 	"strings"
 	"sync"
@@ -68,7 +68,7 @@ func Logger(c *gin.Context) {
 	if c.Request.Body != nil {
 		bodyBytes, err := io.ReadAll(c.Request.Body)
 		if err != nil {
-			log.Errorf(ctx, "Failed to read request body: %v", err)
+			logger.Errorf(ctx, "Failed to read request body: %v", err)
 		} else {
 			c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 			requestBody = processBody(bodyBytes, c.ContentType(), c.Request.URL.Path)
@@ -110,7 +110,7 @@ func Logger(c *gin.Context) {
 	}
 
 	// Log request
-	l := log.EntryWithFields(ctx, entry)
+	l := logger.WithFields(ctx, entry)
 	switch {
 	case c.Writer.Status() >= http.StatusInternalServerError:
 		l.Error("Internal Server Error")

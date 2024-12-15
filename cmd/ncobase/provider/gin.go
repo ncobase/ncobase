@@ -6,7 +6,7 @@ import (
 	"ncobase/common/config"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/resp"
 	accessService "ncobase/core/access/service"
 	tenantService "ncobase/core/tenant/service"
@@ -93,14 +93,14 @@ func tenantMiddleware(conf *config.Config, engine *gin.Engine, em *extension.Man
 	// get tenant service
 	ft, err := em.GetService("tenant")
 	if err != nil {
-		log.Errorf(context.Background(), "failed to get tenant service: %v", err.Error())
+		logger.Errorf(context.Background(), "failed to get tenant service: %v", err.Error())
 		return
 	}
 
 	// get tenant service
 	ts, ok := ft.(*tenantService.Service)
 	if !ok {
-		log.Errorf(context.Background(), "tenant service does not implement")
+		logger.Errorf(context.Background(), "tenant service does not implement")
 		return
 	}
 	if ts == nil {
@@ -114,13 +114,13 @@ func casbinMiddleware(conf *config.Config, engine *gin.Engine, em *extension.Man
 	// get access service
 	fa, err := em.GetService("access")
 	if err != nil {
-		log.Errorf(context.Background(), "failed to get access service: %v", err.Error())
+		logger.Errorf(context.Background(), "failed to get access service: %v", err.Error())
 		return
 	}
 	// get access service
 	as, ok := fa.(*accessService.Service)
 	if !ok {
-		log.Errorf(context.Background(), "access service does not implement")
+		logger.Errorf(context.Background(), "access service does not implement")
 		return
 	}
 	if as == nil {

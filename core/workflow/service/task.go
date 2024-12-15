@@ -5,7 +5,7 @@ import (
 	"errors"
 	"ncobase/common/ecode"
 	"ncobase/common/extension"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/core/workflow/data/ent"
@@ -116,7 +116,7 @@ func (s *taskService) Complete(ctx context.Context, req *structs.CompleteTaskReq
 		FormData:  req.FormData,
 	})
 	if err != nil {
-		log.Errorf(ctx, "Error creating task completion history: %v", err)
+		logger.Errorf(ctx, "Error creating task completion history: %v", err)
 	}
 
 	// Get next nodes
@@ -184,7 +184,7 @@ func (s *taskService) Delegate(ctx context.Context, req *structs.DelegateTaskReq
 		},
 	})
 	if err != nil {
-		log.Errorf(ctx, "Error creating task delegation history: %v", err)
+		logger.Errorf(ctx, "Error creating task delegation history: %v", err)
 	}
 
 	// Publish event
@@ -246,7 +246,7 @@ func (s *taskService) Transfer(ctx context.Context, req *structs.TransferTaskReq
 		},
 	})
 	if err != nil {
-		log.Errorf(ctx, "Error creating task transfer history: %v", err)
+		logger.Errorf(ctx, "Error creating task transfer history: %v", err)
 	}
 
 	// Publish event
@@ -299,7 +299,7 @@ func (s *taskService) Withdraw(ctx context.Context, req *structs.WithdrawTaskReq
 		},
 	})
 	if err != nil {
-		log.Errorf(ctx, "Error creating task withdrawal history: %v", err)
+		logger.Errorf(ctx, "Error creating task withdrawal history: %v", err)
 	}
 
 	return nil
@@ -334,7 +334,7 @@ func (s *taskService) Urge(ctx context.Context, req *structs.UrgeTaskRequest) er
 		Variables: req.Variables,
 	})
 	if err != nil {
-		log.Errorf(ctx, "Error creating task urge history: %v", err)
+		logger.Errorf(ctx, "Error creating task urge history: %v", err)
 	}
 
 	// Publish event
@@ -423,7 +423,7 @@ func (s *taskService) List(ctx context.Context, params *structs.ListTaskParams) 
 
 		tasks, err := s.taskRepo.List(ctx, &lp)
 		if err != nil {
-			log.Errorf(ctx, "Error listing tasks: %v", err)
+			logger.Errorf(ctx, "Error listing tasks: %v", err)
 			return nil, 0, err
 		}
 

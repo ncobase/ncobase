@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/core/system/data"
@@ -74,13 +74,13 @@ func (r *dictionaryRepository) Create(ctx context.Context, body *structs.Diction
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "dictionaryRepo.Create error: %v", err)
+		logger.Errorf(ctx, "dictionaryRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Create the dictionary in Meilisearch index
 	if err = r.ms.IndexDocuments("dictionarys", row); err != nil {
-		log.Errorf(ctx, "dictionaryRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "dictionaryRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	// delete cached dictionary tree
@@ -99,12 +99,12 @@ func (r *dictionaryRepository) Get(ctx context.Context, params *structs.FindDict
 
 	row, err := r.getDictionary(ctx, params)
 	if err != nil {
-		log.Errorf(ctx, "dictionaryRepo.Get error: %`v", err)
+		logger.Errorf(ctx, "dictionaryRepo.Get error: %`v", err)
 		return nil, err
 	}
 
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Errorf(ctx, "dictionaryRepo.Get cache error: %v", err)
+		logger.Errorf(ctx, "dictionaryRepo.Get cache error: %v", err)
 	}
 
 	return row, nil
@@ -145,14 +145,14 @@ func (r *dictionaryRepository) Update(ctx context.Context, body *structs.UpdateD
 
 	row, err = builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "dictionaryRepo.Update error: %v", err)
+		logger.Errorf(ctx, "dictionaryRepo.Update error: %v", err)
 		return nil, err
 	}
 
 	// update cache
 	cacheKey := fmt.Sprintf("%s", row.ID)
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Errorf(ctx, "dictionaryRepo.Update cache error: %v", err)
+		logger.Errorf(ctx, "dictionaryRepo.Update cache error: %v", err)
 	}
 
 	// delete dictionary tree cache
@@ -187,7 +187,7 @@ func (r *dictionaryRepository) Delete(ctx context.Context, params *structs.FindD
 
 	cacheKey := fmt.Sprintf("%s", params.Dictionary)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Errorf(ctx, "dictionaryRepo.Delete cache error: %v", err)
+		logger.Errorf(ctx, "dictionaryRepo.Delete cache error: %v", err)
 	}
 
 	return nil
@@ -300,7 +300,7 @@ func (r *dictionaryRepository) getDictionary(ctx context.Context, params *struct
 func (r *dictionaryRepository) executeArrayQuery(ctx context.Context, builder *ent.DictionaryQuery) ([]*ent.Dictionary, error) {
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "dictionaryRepo.executeArrayQuery error: %v", err)
+		logger.Errorf(ctx, "dictionaryRepo.executeArrayQuery error: %v", err)
 		return nil, err
 	}
 	return rows, nil

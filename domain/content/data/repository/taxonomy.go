@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/types"
 	"ncobase/common/validator"
@@ -76,13 +76,13 @@ func (r *taxonomyRepository) Create(ctx context.Context, body *structs.CreateTax
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.Create error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Create the taxonomy in Meilisearch index
 	if err = r.ms.IndexDocuments("taxonomies", row); err != nil {
-		log.Errorf(ctx, "taxonomyRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.Create error creating Meilisearch index: %v", err)
 		// return nil, err
 	}
 
@@ -107,14 +107,14 @@ func (r *taxonomyRepository) GetByID(ctx context.Context, id string) (*ent.Taxon
 	row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Taxonomy: id})
 
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.GetByID error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.GetByID cache error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.GetByID cache error: %v", err)
 	}
 
 	return row, nil
@@ -138,14 +138,14 @@ func (r *taxonomyRepository) GetBySlug(ctx context.Context, slug string) (*ent.T
 	row, err := r.FindTaxonomy(ctx, &structs.FindTaxonomy{Taxonomy: slug})
 
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.GetBySlug error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.GetBySlug error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.GetBySlug cache error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.GetBySlug cache error: %v", err)
 	}
 
 	return row, nil
@@ -216,7 +216,7 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.Update error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.Update error: %v", err)
 		return nil, err
 	}
 
@@ -225,16 +225,16 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, taxonomy.Slug)
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.Update cache error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.Update cache error: %v", err)
 	}
 
 	// Update the taxonomy in Meilisearch
 	if err = r.ms.DeleteDocuments("taxonomies", slug); err != nil {
-		log.Errorf(ctx, "taxonomyRepo.Update error deleting Meilisearch index: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.Update error deleting Meilisearch index: %v", err)
 		// return nil, err
 	}
 	if err = r.ms.IndexDocuments("taxonomies", row, row.ID); err != nil {
-		log.Errorf(ctx, "taxonomyRepo.Update error updating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.Update error updating Meilisearch index: %v", err)
 		// return nil, err
 	}
 
@@ -351,7 +351,7 @@ func (r *taxonomyRepository) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(taxonomyEnt.IDEQ(taxonomy.ID)).Exec(ctx); err == nil {
-		log.Errorf(ctx, "taxonomyRepo.Delete error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.Delete error: %v", err)
 		return err
 	}
 
@@ -359,12 +359,12 @@ func (r *taxonomyRepository) Delete(ctx context.Context, slug string) error {
 	err = r.c.Delete(ctx, taxonomy.ID)
 	err = r.c.Delete(ctx, slug)
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.Delete cache error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.Delete cache error: %v", err)
 	}
 
 	// delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("taxonomies", taxonomy.ID); err != nil {
-		log.Errorf(ctx, "topicRepo.Delete index error: %v", err)
+		logger.Errorf(ctx, "topicRepo.Delete index error: %v", err)
 		// return nil, err
 	}
 
@@ -442,7 +442,7 @@ func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxon
 func (r *taxonomyRepository) CountX(ctx context.Context, params *structs.ListTaxonomyParams) int {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
-		log.Errorf(ctx, "Error building count query: %v", err)
+		logger.Errorf(ctx, "Error building count query: %v", err)
 		return 0
 	}
 	return builder.CountX(ctx)
@@ -494,7 +494,7 @@ func applyCursorCondition(builder *ent.TaxonomyQuery, id string, value any, dire
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)
 		if !ok {
-			log.Errorf(context.Background(), "Invalid timestamp value for cursor")
+			logger.Errorf(context.Background(), "Invalid timestamp value for cursor")
 			return builder
 		}
 		if direction == "backward" {
@@ -540,7 +540,7 @@ func (r *taxonomyRepository) getSubTaxonomy(ctx context.Context, rootID string, 
 func (r *taxonomyRepository) executeArrayQuery(ctx context.Context, builder *ent.TaxonomyQuery) ([]*ent.Taxonomy, error) {
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "taxonomyRepo.executeArrayQuery error: %v", err)
+		logger.Errorf(ctx, "taxonomyRepo.executeArrayQuery error: %v", err)
 		return nil, err
 	}
 	return rows, nil

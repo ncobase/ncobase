@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/common/data/cache"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
@@ -55,7 +55,7 @@ func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
 func (r *channelRepository) Create(ctx context.Context, channel *ent.ChannelCreate) (*ent.Channel, error) {
 	row, err := channel.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "channelRepo.Create error: %v", err)
+		logger.Errorf(ctx, "channelRepo.Create error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -74,7 +74,7 @@ func (r *channelRepository) Get(ctx context.Context, id string) (*ent.Channel, e
 	}
 
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Warnf(ctx, "Failed to set channel cache: %v", err)
+		logger.Warnf(ctx, "Failed to set channel cache: %v", err)
 	}
 
 	return row, nil
@@ -98,13 +98,13 @@ func (r *channelRepository) FindByName(ctx context.Context, name string) (*ent.C
 func (r *channelRepository) Update(ctx context.Context, id string, channel *ent.ChannelUpdateOne) (*ent.Channel, error) {
 	row, err := channel.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "channelRepo.Update error: %v", err)
+		logger.Errorf(ctx, "channelRepo.Update error: %v", err)
 		return nil, err
 	}
 
 	cacheKey := fmt.Sprintf("channel:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete channel cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete channel cache: %v", err)
 	}
 
 	return row, nil
@@ -148,7 +148,7 @@ func (r *channelRepository) Delete(ctx context.Context, id string) error {
 	// Clear cache
 	cacheKey := fmt.Sprintf("channel:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete channel cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete channel cache: %v", err)
 	}
 
 	return nil
@@ -304,7 +304,7 @@ func (r *channelRepository) UpdateStatus(ctx context.Context, id string, status 
 
 	cacheKey := fmt.Sprintf("channel:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete channel cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete channel cache: %v", err)
 	}
 
 	return nil

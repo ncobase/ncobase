@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/common/data/cache"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
 	"ncobase/common/types"
@@ -62,7 +62,7 @@ func (r *roleRepository) Create(ctx context.Context, body *structs.CreateRoleBod
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.Create error: %v", err)
+		logger.Errorf(ctx, "roleRepo.Create error: %v", err)
 		return nil, err
 	}
 
@@ -80,14 +80,14 @@ func (r *roleRepository) GetByID(ctx context.Context, id string) (*ent.Role, err
 	// If not found in cache, query the database
 	row, err := r.FindRole(ctx, &structs.FindRole{ID: id})
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.GetByID error: %v", err)
+		logger.Errorf(ctx, "roleRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.GetByID cache error: %v", err)
+		logger.Errorf(ctx, "roleRepo.GetByID cache error: %v", err)
 	}
 
 	return row, nil
@@ -102,7 +102,7 @@ func (r *roleRepository) GetByIDs(ctx context.Context, ids []string) ([]*ent.Rol
 	// execute the builder.
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.GetByIDs error: %v", err)
+		logger.Errorf(ctx, "roleRepo.GetByIDs error: %v", err)
 		return nil, err
 	}
 	return rows, nil
@@ -119,14 +119,14 @@ func (r *roleRepository) GetBySlug(ctx context.Context, slug string) (*ent.Role,
 	// If not found in cache, query the database
 	row, err := r.FindRole(ctx, &structs.FindRole{Slug: slug})
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.GetBySlug error: %v", err)
+		logger.Errorf(ctx, "roleRepo.GetBySlug error: %v", err)
 		return nil, err
 	}
 
 	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.GetBySlug cache error: %v", err)
+		logger.Errorf(ctx, "roleRepo.GetBySlug cache error: %v", err)
 	}
 
 	return row, nil
@@ -161,7 +161,7 @@ func (r *roleRepository) Update(ctx context.Context, slug string, updates types.
 	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.Update error: %v", err)
+		logger.Errorf(ctx, "roleRepo.Update error: %v", err)
 		return nil, err
 	}
 
@@ -170,7 +170,7 @@ func (r *roleRepository) Update(ctx context.Context, slug string, updates types.
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("role:slug:%s", role.Slug))
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.Update cache error: %v", err)
+		logger.Errorf(ctx, "roleRepo.Update cache error: %v", err)
 	}
 
 	return row, nil
@@ -226,7 +226,7 @@ func (r *roleRepository) List(ctx context.Context, params *structs.ListRoleParam
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.List error: %v", err)
+		logger.Errorf(ctx, "roleRepo.List error: %v", err)
 		return nil, err
 	}
 
@@ -245,7 +245,7 @@ func (r *roleRepository) Delete(ctx context.Context, slug string) error {
 
 	// execute the builder and verify the result.
 	if _, err = builder.Where(roleEnt.IDEQ(role.ID)).Exec(ctx); err != nil {
-		log.Errorf(ctx, "roleRepo.Delete error: %v", err)
+		logger.Errorf(ctx, "roleRepo.Delete error: %v", err)
 		return err
 	}
 
@@ -254,7 +254,7 @@ func (r *roleRepository) Delete(ctx context.Context, slug string) error {
 	err = r.c.Delete(ctx, cacheKey)
 	err = r.c.Delete(ctx, fmt.Sprintf("role:slug:%s", role.Slug))
 	if err != nil {
-		log.Errorf(ctx, "roleRepo.Delete cache error: %v", err)
+		logger.Errorf(ctx, "roleRepo.Delete cache error: %v", err)
 	}
 
 	return nil

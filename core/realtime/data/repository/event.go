@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/common/data/cache"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/nanoid"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
@@ -53,7 +53,7 @@ func NewEventRepository(d *data.Data) EventRepositoryInterface {
 func (r *eventRepository) Create(ctx context.Context, event *ent.EventCreate) (*ent.Event, error) {
 	row, err := event.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "eventRepo.Create error: %v", err)
+		logger.Errorf(ctx, "eventRepo.Create error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -72,7 +72,7 @@ func (r *eventRepository) Get(ctx context.Context, id string) (*ent.Event, error
 	}
 
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Warnf(ctx, "Failed to set event cache: %v", err)
+		logger.Warnf(ctx, "Failed to set event cache: %v", err)
 	}
 
 	return row, nil
@@ -82,13 +82,13 @@ func (r *eventRepository) Get(ctx context.Context, id string) (*ent.Event, error
 func (r *eventRepository) Update(ctx context.Context, id string, event *ent.EventUpdateOne) (*ent.Event, error) {
 	row, err := event.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "eventRepo.Update error: %v", err)
+		logger.Errorf(ctx, "eventRepo.Update error: %v", err)
 		return nil, err
 	}
 
 	cacheKey := fmt.Sprintf("event:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete event cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete event cache: %v", err)
 	}
 
 	return row, nil
@@ -103,7 +103,7 @@ func (r *eventRepository) Delete(ctx context.Context, id string) error {
 
 	cacheKey := fmt.Sprintf("event:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete event cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete event cache: %v", err)
 	}
 
 	return nil

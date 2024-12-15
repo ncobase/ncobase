@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/common/data/cache"
 	"ncobase/common/data/meili"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/paging"
 	"ncobase/common/validator"
 	"ncobase/core/system/data"
@@ -100,13 +100,13 @@ func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*e
 
 	row, err := builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "menuRepo.Create error: %v", err)
+		logger.Errorf(ctx, "menuRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Create the menu in Meilisearch index
 	if err = r.ms.IndexDocuments("menus", row); err != nil {
-		log.Errorf(ctx, "menuRepo.Create error creating Meilisearch index: %v", err)
+		logger.Errorf(ctx, "menuRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	// delete cached menu tree
@@ -147,12 +147,12 @@ func (r *menuRepository) Get(ctx context.Context, params *structs.FindMenu) (*en
 
 	row, err := r.getMenu(ctx, params)
 	if err != nil {
-		log.Errorf(ctx, "menuRepo.Get error: %v", err)
+		logger.Errorf(ctx, "menuRepo.Get error: %v", err)
 		return nil, err
 	}
 
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Errorf(ctx, "menuRepo.Get cache error: %v", err)
+		logger.Errorf(ctx, "menuRepo.Get cache error: %v", err)
 	}
 
 	return row, nil
@@ -217,14 +217,14 @@ func (r *menuRepository) Update(ctx context.Context, body *structs.UpdateMenuBod
 
 	row, err = builder.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "menuRepo.Update error: %v", err)
+		logger.Errorf(ctx, "menuRepo.Update error: %v", err)
 		return nil, err
 	}
 
 	// update cache
 	cacheKey := fmt.Sprintf("%s", row.ID)
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Errorf(ctx, "menuRepo.Update cache error: %v", err)
+		logger.Errorf(ctx, "menuRepo.Update cache error: %v", err)
 	}
 
 	// delete menu tree cache
@@ -259,7 +259,7 @@ func (r *menuRepository) Delete(ctx context.Context, params *structs.FindMenu) e
 
 	cacheKey := fmt.Sprintf("%s", params.Menu)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Errorf(ctx, "menuRepo.Delete cache error: %v", err)
+		logger.Errorf(ctx, "menuRepo.Delete cache error: %v", err)
 	}
 
 	return nil
@@ -291,7 +291,7 @@ func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParam
 func (r *menuRepository) CountX(ctx context.Context, params *structs.ListMenuParams) int {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
-		log.Errorf(ctx, "Error building count query: %v", err)
+		logger.Errorf(ctx, "Error building count query: %v", err)
 		return 0
 	}
 	return builder.CountX(ctx)
@@ -345,7 +345,7 @@ func menuCondition(builder *ent.MenuQuery, id string, value any, direction strin
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)
 		if !ok {
-			log.Errorf(context.Background(), "Invalid timestamp value for cursor")
+			logger.Errorf(context.Background(), "Invalid timestamp value for cursor")
 			return builder
 		}
 		if direction == "backward" {
@@ -371,7 +371,7 @@ func menuCondition(builder *ent.MenuQuery, id string, value any, direction strin
 	case structs.SortByOrder:
 		order, ok := value.(int)
 		if !ok {
-			log.Errorf(context.Background(), "Invalid order value for cursor")
+			logger.Errorf(context.Background(), "Invalid order value for cursor")
 			return builder
 		}
 		if direction == "backward" {
@@ -478,7 +478,7 @@ func (r *menuRepository) getSubMenu(ctx context.Context, rootID string, builder 
 func (r *menuRepository) executeArrayQuery(ctx context.Context, builder *ent.MenuQuery) ([]*ent.Menu, error) {
 	rows, err := builder.All(ctx)
 	if err != nil {
-		log.Errorf(ctx, "menuRepo.executeArrayQuery error: %v", err)
+		logger.Errorf(ctx, "menuRepo.executeArrayQuery error: %v", err)
 		return nil, err
 	}
 	return rows, nil

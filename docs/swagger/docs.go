@@ -840,6 +840,11 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "node_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "operator",
                         "in": "query"
                     },
@@ -3191,7 +3196,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_common_types.JSON"
+                                "type": "string"
                             }
                         }
                     }

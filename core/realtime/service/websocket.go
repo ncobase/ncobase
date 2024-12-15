@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/core/realtime/data"
 	"sync"
 	"time"
@@ -109,7 +109,7 @@ func (ws *webSocketService) handleRegister(client *Client) {
 		ws.users[client.UserID][client.ID] = client
 	}
 
-	log.Infof(context.Background(), "Client %s registered (User: %s)", client.ID, client.UserID)
+	logger.Infof(context.Background(), "Client %s registered (User: %s)", client.ID, client.UserID)
 }
 
 // handleUnregister unregisters a client
@@ -140,7 +140,7 @@ func (ws *webSocketService) handleUnregister(client *Client) {
 		close(client.Send)
 		delete(ws.clients, client.ID)
 
-		log.Infof(context.Background(), "Client %s unregistered", client.ID)
+		logger.Infof(context.Background(), "Client %s unregistered", client.ID)
 	}
 }
 
@@ -148,7 +148,7 @@ func (ws *webSocketService) handleUnregister(client *Client) {
 func (ws *webSocketService) handleBroadcast(msg *WebSocketMessage) {
 	d, err := json.Marshal(msg)
 	if err != nil {
-		log.Errorf(context.Background(), "Failed to marshal broadcast message: %v", err)
+		logger.Errorf(context.Background(), "Failed to marshal broadcast message: %v", err)
 		return
 	}
 
@@ -295,7 +295,7 @@ func (ws *webSocketService) SubscribeToChannel(clientID, channel string) error {
 	client.Subscriptions[channel] = true
 	client.mu.Unlock()
 
-	log.Infof(context.Background(), "Client %s subscribed to channel %s", clientID, channel)
+	logger.Infof(context.Background(), "Client %s subscribed to channel %s", clientID, channel)
 	return nil
 }
 
@@ -319,7 +319,7 @@ func (ws *webSocketService) UnsubscribeFromChannel(clientID, channel string) err
 		client.mu.Unlock()
 	}
 
-	log.Infof(context.Background(), "Client %s unsubscribed from channel %s", clientID, channel)
+	logger.Infof(context.Background(), "Client %s unsubscribed from channel %s", clientID, channel)
 	return nil
 }
 
@@ -357,7 +357,7 @@ func (ws *webSocketService) performMaintenance() {
 	for id, client := range ws.clients {
 		// Check for stale connections
 		if now.Sub(client.lastPing) > 2*time.Minute {
-			log.Infof(context.Background(), "Removing stale client %s", id)
+			logger.Infof(context.Background(), "Removing stale client %s", id)
 			ws.unregister <- client
 		}
 	}
@@ -393,7 +393,7 @@ func (c *Client) ReadPump(ws WebSocketService) {
 		_, message, err := c.Conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				log.Errorf(context.Background(), "WebSocket read error: %v", err)
+				logger.Errorf(context.Background(), "WebSocket read error: %v", err)
 			}
 			break
 		}
@@ -401,7 +401,7 @@ func (c *Client) ReadPump(ws WebSocketService) {
 		// Handle incoming message
 		var msg WebSocketMessage
 		if err := json.Unmarshal(message, &msg); err != nil {
-			log.Errorf(context.Background(), "Failed to parse WebSocket message: %v", err)
+			logger.Errorf(context.Background(), "Failed to parse WebSocket message: %v", err)
 			continue
 		}
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/common/data/cache"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/data/ent"
 	subscriptionEnt "ncobase/core/realtime/data/ent/subscription"
@@ -72,7 +72,7 @@ func (r *subscriptionRepository) Create(ctx context.Context, subscription *ent.S
 
 	row, err := subscription.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "subscriptionRepo.Create error: %v", err)
+		logger.Errorf(ctx, "subscriptionRepo.Create error: %v", err)
 		return nil, err
 	}
 	return row, nil
@@ -91,7 +91,7 @@ func (r *subscriptionRepository) Get(ctx context.Context, id string) (*ent.Subsc
 	}
 
 	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		log.Warnf(ctx, "Failed to set subscription cache: %v", err)
+		logger.Warnf(ctx, "Failed to set subscription cache: %v", err)
 	}
 
 	return row, nil
@@ -101,13 +101,13 @@ func (r *subscriptionRepository) Get(ctx context.Context, id string) (*ent.Subsc
 func (r *subscriptionRepository) Update(ctx context.Context, id string, subscription *ent.SubscriptionUpdateOne) (*ent.Subscription, error) {
 	row, err := subscription.Save(ctx)
 	if err != nil {
-		log.Errorf(ctx, "subscriptionRepo.Update error: %v", err)
+		logger.Errorf(ctx, "subscriptionRepo.Update error: %v", err)
 		return nil, err
 	}
 
 	cacheKey := fmt.Sprintf("subscription:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete subscription cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete subscription cache: %v", err)
 	}
 
 	return row, nil
@@ -122,7 +122,7 @@ func (r *subscriptionRepository) Delete(ctx context.Context, id string) error {
 
 	cacheKey := fmt.Sprintf("subscription:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete subscription cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete subscription cache: %v", err)
 	}
 
 	return nil
@@ -250,7 +250,7 @@ func (r *subscriptionRepository) UpdateStatus(ctx context.Context, id string, st
 
 	cacheKey := fmt.Sprintf("subscription:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		log.Warnf(ctx, "Failed to delete subscription cache: %v", err)
+		logger.Warnf(ctx, "Failed to delete subscription cache: %v", err)
 	}
 
 	return nil

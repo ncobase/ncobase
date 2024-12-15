@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/uuid"
 	"ncobase/core/realtime/service"
 	"net/http"
@@ -41,7 +41,7 @@ func (h *webSocketHandler) HandleConnection(c *gin.Context) {
 	// Upgrade HTTP connection to WebSocket
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
-		log.Errorf(c, "Failed to upgrade connection: %v", err)
+		logger.Errorf(c, "Failed to upgrade connection: %v", err)
 		return
 	}
 

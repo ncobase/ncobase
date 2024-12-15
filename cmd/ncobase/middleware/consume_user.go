@@ -9,7 +9,7 @@ import (
 	"ncobase/common/ecode"
 	"ncobase/common/helper"
 	"ncobase/common/jwt"
-	"ncobase/common/log"
+	"ncobase/common/logger"
 	"ncobase/common/resp"
 	"net/http"
 	"strings"
@@ -110,7 +110,7 @@ func handleTokenError(c *gin.Context, err error) {
 	)
 	ctx := helper.FromGinContext(c)
 	// Logging the error
-	log.Errorf(ctx, "Error: %v", err)
+	logger.Errorf(ctx, "Error: %v", err)
 
 	switch {
 	case strings.Contains(err.Error(), "token is expired"):
