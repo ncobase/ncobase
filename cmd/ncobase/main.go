@@ -221,8 +221,6 @@ func gracefulShutdown(srv *http.Server, errChan chan error) error {
 		return fmt.Errorf("server error: %w", err)
 
 	case <-quit:
-		logger.Infof(context.Background(), "Graceful shutdown in progress...")
-
 		ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
 		defer cancel()
 
@@ -240,7 +238,6 @@ func gracefulShutdown(srv *http.Server, errChan chan error) error {
 			logger.Infof(context.Background(), "Shutdown completed within %s", shutdownTimeout)
 		}
 
-		logger.Infof(context.Background(), "Server exiting")
 		return nil
 	}
 }
