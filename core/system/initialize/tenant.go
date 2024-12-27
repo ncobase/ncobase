@@ -35,7 +35,7 @@ func (s *Service) initTenants(ctx context.Context) error {
 		}
 	}
 
-	logger.Infof(ctx, "-------- initTenants done, created %d domains", len(tenants))
+	logger.Debugf(ctx, "-------- initTenants done, created %d domains", len(tenants))
 
 	return nil
 }

@@ -233,9 +233,9 @@ func gracefulShutdown(srv *http.Server, errChan chan error) error {
 		// wait for server to shutdown
 		<-ctx.Done()
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			logger.Warnf(context.Background(), "Shutdown timed out after %s", shutdownTimeout)
+			logger.Debugf(context.Background(), "Shutdown timed out after %s", shutdownTimeout)
 		} else {
-			logger.Infof(context.Background(), "Shutdown completed within %s", shutdownTimeout)
+			logger.Debugf(context.Background(), "Shutdown completed within %s", shutdownTimeout)
 		}
 
 		return nil

@@ -63,7 +63,7 @@ func registerExtensions(em *extension.Manager) {
 	}
 
 	// log.Infof(context.Background(), "Successfully registered %d extensions", len(registered))
-	logger.Infof(context.Background(), "Successfully registered %d extensions, [%s]",
+	logger.Debugf(context.Background(), "Successfully registered %d extensions, [%s]",
 		len(registered),
 		strings.Join(extensionNames, ", "))
 

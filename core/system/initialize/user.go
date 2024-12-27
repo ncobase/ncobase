@@ -121,7 +121,7 @@ func (s *Service) initUsers(ctx context.Context) error {
 		}
 	}
 
-	logger.Infof(ctx, "-------- initUsers done, created %d users", len(users))
+	logger.Debugf(ctx, "-------- initUsers done, created %d users", len(users))
 
 	return nil
 }

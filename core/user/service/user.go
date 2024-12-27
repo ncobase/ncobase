@@ -70,7 +70,7 @@ func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPass
 		if v.Valid == false {
 			return errors.New(v.Error)
 		} else if v.Valid && v.NeedsPasswordSet == true { // print a log for user's first password setting
-			logger.Infof(ctx, "User %s is setting password for the first time", body.User)
+			logger.Warnf(ctx, "User %s is setting password for the first time", body.User)
 		}
 	case error:
 		return v
@@ -179,7 +179,7 @@ func (s *userService) VerifyPassword(ctx context.Context, u string, password str
 func (s *userService) updatePassword(ctx context.Context, body *structs.UserPassword) error {
 	err := s.user.UpdatePassword(ctx, body)
 	if err != nil {
-		logger.Infof(ctx, "Error updating password for user %s: %v", body.User, err)
+		logger.Errorf(ctx, "Error updating password for user %s: %v", body.User, err)
 	}
 
 	return err

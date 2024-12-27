@@ -19,7 +19,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	gl "gorm.io/gorm/logger"
 )
 
 // Data contains the shared resources and clients.
@@ -233,11 +233,11 @@ func newGormClient(db *sql.DB, conf *config.DBNode) (*gorm.DB, error) {
 	}
 
 	gormConfig := &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Silent),
+		Logger: gl.Default.LogMode(1),
 	}
 
 	if conf.Logging {
-		gormConfig.Logger = logger.Default.LogMode(logger.Info)
+		gormConfig.Logger = gl.Default.LogMode(4)
 	}
 
 	return gorm.Open(dialector, gormConfig)

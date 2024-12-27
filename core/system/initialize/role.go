@@ -57,7 +57,7 @@ func (s *Service) initRoles(ctx context.Context) error {
 	}
 
 	count := s.acs.Role.CountX(ctx, &accessStructs.ListRoleParams{})
-	logger.Infof(ctx, "-------- initRoles done, created %d roles", count)
+	logger.Debugf(ctx, "-------- initRoles done, created %d roles", count)
 
 	return nil
 }

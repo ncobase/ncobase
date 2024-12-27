@@ -106,7 +106,7 @@ func (s *casbinAdapterService) InitEnforcer() (*casbin.Enforcer, error) {
 		return nil, err
 	}
 
-	logger.Infof(ctx, "Enforcer initialized and policies loaded successfully")
+	logger.Debugf(ctx, "Enforcer initialized and policies loaded successfully")
 	return e, nil
 }
 

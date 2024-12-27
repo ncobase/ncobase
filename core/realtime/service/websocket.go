@@ -109,7 +109,7 @@ func (ws *webSocketService) handleRegister(client *Client) {
 		ws.users[client.UserID][client.ID] = client
 	}
 
-	logger.Infof(context.Background(), "Client %s registered (User: %s)", client.ID, client.UserID)
+	logger.Debugf(context.Background(), "Client %s registered (User: %s)", client.ID, client.UserID)
 }
 
 // handleUnregister unregisters a client

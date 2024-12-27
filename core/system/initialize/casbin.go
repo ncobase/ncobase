@@ -63,7 +63,7 @@ func (s *Service) initCasbinPolicies(ctx context.Context) error {
 	}
 
 	count := s.acs.Casbin.CountX(ctx, &accessStructs.ListCasbinRuleParams{})
-	logger.Infof(ctx, "-------- initCasbinPolicies done, created %d policies", count)
+	logger.Debugf(ctx, "-------- initCasbinPolicies done, created %d policies", count)
 
 	return nil
 }

@@ -112,7 +112,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 	}
 
 	count := s.acs.Permission.CountX(ctx, &accessStructs.ListPermissionParams{})
-	logger.Infof(ctx, "-------- initPermissions done, created %d permissions", count)
+	logger.Debugf(ctx, "-------- initPermissions done, created %d permissions", count)
 
 	return nil
 }
