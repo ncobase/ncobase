@@ -15,7 +15,7 @@ import (
 
 var (
 	name             = "auth"
-	desc             = "auth module"
+	desc             = "Auth module"
 	version          = "1.0.0"
 	dependencies     = []string{"access", "tenant", "user"}
 	typeStr          = "module"

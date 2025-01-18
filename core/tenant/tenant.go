@@ -15,7 +15,7 @@ import (
 
 var (
 	name             = "tenant"
-	desc             = "tenant module"
+	desc             = "Tenant module"
 	version          = "1.0.0"
 	dependencies     []string
 	typeStr          = "module"

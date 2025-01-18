@@ -4,6 +4,7 @@ use (
 	.
 	./core/access
 	./core/auth
+	./core/payment
 	./core/realtime
 	./core/space
 	./core/system

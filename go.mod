@@ -6,6 +6,7 @@ go 1.23.2
 replace (
 	ncobase/core/access => ./core/access
 	ncobase/core/auth => ./core/auth
+	ncobase/core/payment => ./core/payment
 	ncobase/core/realtime => ./core/realtime
 	ncobase/core/space => ./core/space
 	ncobase/core/system => ./core/system

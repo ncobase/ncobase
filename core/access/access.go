@@ -15,7 +15,7 @@ import (
 
 var (
 	name             = "access"
-	desc             = "access module"
+	desc             = "Access module"
 	version          = "1.0.0"
 	dependencies     []string
 	typeStr          = "module"

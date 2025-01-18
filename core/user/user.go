@@ -15,7 +15,7 @@ import (
 
 var (
 	name             = "user"
-	desc             = "user module"
+	desc             = "User module"
 	version          = "1.0.0"
 	dependencies     []string
 	typeStr          = "module"
