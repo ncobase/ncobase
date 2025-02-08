@@ -43,3 +43,7 @@ visit [https://docs.nocobase.com](https://docs.nocobase.com).
 ## Maintainers
 
 [@Shen](https://github.com/haiyon)
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
