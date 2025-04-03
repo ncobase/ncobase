@@ -2,7 +2,7 @@ module ncobase/plugin/sample
 
 go 1.23.0
 
-toolchain go1.23.1
+toolchain go1.24.1
 
 replace ncobase/ncore => ../../pkg
 
@@ -54,7 +54,7 @@ require (
 	github.com/go-sql-driver/mysql v1.9.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.1 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
