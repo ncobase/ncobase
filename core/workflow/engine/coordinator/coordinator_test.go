@@ -2,10 +2,10 @@ package coordinator
 
 import (
 	"context"
+	"ncobase/common/extension"
 	"testing"
 	"time"
 
-	"ncobase/common/extension"
 	"ncobase/core/workflow/service"
 
 	"github.com/hashicorp/consul/api"
