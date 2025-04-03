@@ -2,8 +2,8 @@ package initialize
 
 import (
 	"context"
-	"ncobase/common/logger"
 	accessStructs "ncobase/core/access/structs"
+	"ncobase/ncore/logger"
 )
 
 // checkPermissionsInitialized checks if permissions are already initialized.

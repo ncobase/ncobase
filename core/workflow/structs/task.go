@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncobase/common/types"
+	"ncobase/ncore/types"
 )
 
 // TaskBody represents a task entity base fields

@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"ncobase/common/config"
-	"ncobase/common/data"
-	"ncobase/common/logger"
+	"ncobase/ncore/config"
+	"ncobase/ncore/data"
+	"ncobase/ncore/logger"
 	"ncobase/plugin/counter/data/ent"
 	"ncobase/plugin/counter/data/ent/migrate"
 

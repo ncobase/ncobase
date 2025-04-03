@@ -3,8 +3,8 @@ package counter
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/extension"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"ncobase/plugin/counter/data"
 	"ncobase/plugin/counter/data/repository"
 	"ncobase/plugin/counter/handler"

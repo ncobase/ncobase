@@ -3,12 +3,12 @@ package handler
 import (
 	"context"
 	"fmt"
-	"ncobase/common/extension"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/extension"
 	"sort"
 	"sync"
 	"time"

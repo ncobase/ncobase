@@ -3,7 +3,7 @@ package structs
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/common/types"
+	"ncobase/ncore/types"
 )
 
 // DictionaryBody represents a dictionary.

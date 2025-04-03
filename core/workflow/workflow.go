@@ -3,12 +3,12 @@ package workflow
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/extension"
 	"ncobase/core/workflow/data"
 	we "ncobase/core/workflow/engine/core"
 	"ncobase/core/workflow/handler"
 	"ncobase/core/workflow/service"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"sync"
 
 	"github.com/gin-gonic/gin"

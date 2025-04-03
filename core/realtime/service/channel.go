@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/common/ecode"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/data/ent"
 	"ncobase/core/realtime/data/repository"
 	"ncobase/core/realtime/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
 )
 
 type ChannelService interface {

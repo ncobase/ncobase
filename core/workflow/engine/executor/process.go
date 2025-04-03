@@ -3,11 +3,11 @@ package executor
 import (
 	"context"
 	"fmt"
-	"ncobase/common/expression"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
-	"ncobase/common/uuid"
 	"ncobase/core/workflow/engine/config"
+	"ncobase/ncore/expression"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/uuid"
 	"sync"
 	"time"
 

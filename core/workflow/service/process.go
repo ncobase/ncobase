@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/common/ecode"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
 )
 
 type ProcessServiceInterface interface {

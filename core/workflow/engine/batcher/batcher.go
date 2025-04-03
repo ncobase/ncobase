@@ -3,9 +3,9 @@ package batcher
 import (
 	"context"
 	"fmt"
-	"ncobase/common/extension"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/extension"
 	"sort"
 	"sync"
 	"sync/atomic"

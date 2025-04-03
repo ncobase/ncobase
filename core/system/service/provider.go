@@ -1,8 +1,8 @@
 package service
 
 import (
-	"ncobase/common/extension"
 	"ncobase/core/system/data"
+	"ncobase/ncore/extension"
 )
 
 // Service represents the system service.

@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/jwt"
-	"ncobase/common/logger"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/core/auth/data/ent"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/jwt"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/types"
+	"ncobase/ncore/validator"
 	"time"
 )
 

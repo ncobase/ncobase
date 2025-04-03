@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/logger"
-	"ncobase/common/validator"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/validator"
 	"ncobase/plugin/counter/data/ent"
 )
 

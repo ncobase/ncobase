@@ -2,11 +2,11 @@ package handler
 
 import (
 	"context"
-	"ncobase/common/extension"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/extension"
 	"time"
 )
 

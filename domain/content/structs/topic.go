@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncobase/common/types"
+	"ncobase/ncore/types"
 )
 
 // FindTopic represents the parameters for finding a topic.

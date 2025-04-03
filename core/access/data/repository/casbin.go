@@ -3,15 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/common/logger"
-	"ncobase/common/nanoid"
-	"ncobase/common/paging"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/ent"
 	casbinRuleEnt "ncobase/core/access/data/ent/casbinrule"
 	"ncobase/core/access/structs"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/nanoid"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/types"
+	"ncobase/ncore/validator"
 )
 
 // CasbinRuleRepositoryInterface represents the Casbin rule repository interface.

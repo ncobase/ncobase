@@ -2,15 +2,15 @@ package handler
 
 //
 // import (
-// 	"ncobase/common/cookie"
+// 	"ncobase/ncore/cookie"
 // 	"ncobase/core/auth/service"
 // 	"ncobase/core/auth/structs"
 // 	"ncobase/helper"
 // 	"net/http"
 //
-// 	"ncobase/common/oauth"
-// 	"ncobase/common/resp"
-// 	"ncobase/common/types"
+// 	"ncobase/ncore/oauth"
+// 	"ncobase/ncore/resp"
+// 	"ncobase/ncore/types"
 //
 // 	"github.com/gin-gonic/gin"
 // )

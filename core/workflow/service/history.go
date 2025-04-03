@@ -2,12 +2,12 @@ package service
 
 import (
 	"context"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
 )
 
 type HistoryServiceInterface interface {

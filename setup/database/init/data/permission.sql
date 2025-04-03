@@ -1,7 +1,8 @@
 WITH tenant AS
          (SELECT id FROM ncse_iam_tenant LIMIT 1),
      user_ids AS
-         (SELECT id, username FROM ncse_sys_user)
+       (SELECT id, username
+        FROM ncse_sys_user)
 INSERT
 INTO ncse_iam_permission (id, name, action, subject, description, "default", disabled, extras, created_by, updated_by,
                           created_at, updated_at)
@@ -45,8 +46,7 @@ VALUES
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
   (nanoid(), 'delete_attachment', 'DELETE', '/v1/attachments/{slug}', 'Delete a specific attachment', false, false,
-   '{}',
-   (SELECT id FROM user_ids WHERE username = 'admin'), (SELECT id FROM user_ids WHERE username = 'admin'),
+   '{}', (SELECT id FROM user_ids WHERE username = 'admin'), (SELECT id FROM user_ids WHERE username = 'admin'),
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
   -- Authorization permissions
@@ -215,9 +215,8 @@ VALUES
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
   (nanoid(), 'manage_tenant_attachments', 'POST', '/v1/tenants/{slug}/attachments',
-   'Manage attachments for a specific tenant', false,
-   false, '{}', (SELECT id FROM user_ids WHERE username = 'admin'), (SELECT id FROM user_ids WHERE username = 'admin'),
-   EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
+   'Manage attachments for a specific tenant', false, false, '{}', (SELECT id FROM user_ids WHERE username = 'admin'),
+   (SELECT id FROM user_ids WHERE username = 'admin'), EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
   (nanoid(), 'manage_tenant_groups', 'POST', '/v1/tenants/{slug}/groups', 'Manage groups for a specific tenant', false,
    false, '{}', (SELECT id FROM user_ids WHERE username = 'admin'), (SELECT id FROM user_ids WHERE username = 'admin'),
@@ -302,8 +301,7 @@ VALUES
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
   (nanoid(), 'manage_attachments', '*', '/v1/attachments*', 'Full access to attachment-related endpoints', false, false,
-   '{}',
-   (SELECT id FROM user_ids WHERE username = 'admin'), (SELECT id FROM user_ids WHERE username = 'admin'),
+   '{}', (SELECT id FROM user_ids WHERE username = 'admin'), (SELECT id FROM user_ids WHERE username = 'admin'),
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
    EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
   (nanoid(), 'manage_authorization', '*', '/v1/authorize*', 'Full access to authorization-related endpoints', false,

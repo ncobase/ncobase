@@ -8,8 +8,8 @@ func ExtTestTemplate(name, extType string) string {
 
 import (
 	"testing"
-	"ncobase/common/config"
-	"ncobase/common/extension"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"ncobase/%s/%s"
 )
 

@@ -2,13 +2,13 @@ package config
 
 import (
 	"fmt"
-	"ncobase/common/expression"
-	"ncobase/common/queue"
-	"ncobase/common/worker"
 	"ncobase/core/workflow/engine/batcher"
 	"ncobase/core/workflow/engine/coordinator"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/scheduler"
+	"ncobase/ncore/expression"
+	"ncobase/ncore/queue"
+	"ncobase/ncore/worker"
 )
 
 // Config represents the complete engine configuration

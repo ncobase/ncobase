@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"ncobase/common/types"
+	"ncobase/ncore/types"
 )
 
 // StartProcessRequest represents process start request

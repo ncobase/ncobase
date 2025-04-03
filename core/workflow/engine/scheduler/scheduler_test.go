@@ -4,7 +4,7 @@ package scheduler
 // import (
 // 	"context"
 // 	"fmt"
-// 	"ncobase/common/extension"
+// 	"ncobase/ncore/extension"
 // 	"ncobase/core/workflow/service"
 // 	"ncobase/core/workflow/structs"
 // 	"testing"

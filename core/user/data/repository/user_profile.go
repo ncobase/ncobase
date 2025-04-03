@@ -3,14 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/common/types"
 	"ncobase/core/user/data"
 	"ncobase/core/user/data/ent"
 	userProfileEnt "ncobase/core/user/data/ent/userprofile"
 	"ncobase/core/user/structs"
+	"ncobase/ncore/types"
 
-	"ncobase/common/data/cache"
-	"ncobase/common/logger"
+	"ncobase/ncore/data/cache"
+	"ncobase/ncore/logger"
 
 	"github.com/redis/go-redis/v9"
 )

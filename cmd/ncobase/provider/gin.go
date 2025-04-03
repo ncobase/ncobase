@@ -3,13 +3,13 @@ package provider
 import (
 	"context"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/ecode"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
-	"ncobase/common/resp"
 	accessService "ncobase/core/access/service"
 	tenantService "ncobase/core/tenant/service"
+	"ncobase/ncore/config"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/resp"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

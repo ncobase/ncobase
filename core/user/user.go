@@ -3,11 +3,11 @@ package user
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/extension"
 	"ncobase/core/user/data"
 	"ncobase/core/user/handler"
 	"ncobase/core/user/service"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"sync"
 
 	"github.com/gin-gonic/gin"

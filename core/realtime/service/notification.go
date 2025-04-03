@@ -4,14 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/common/ecode"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
-	"ncobase/common/types"
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/data/ent"
 	"ncobase/core/realtime/data/repository"
 	"ncobase/core/realtime/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/types"
 )
 
 type NotificationService interface {

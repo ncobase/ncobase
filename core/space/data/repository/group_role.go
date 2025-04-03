@@ -2,13 +2,13 @@ package repository
 
 import (
 	"context"
-	"ncobase/common/data/cache"
-	"ncobase/common/logger"
 	"ncobase/core/space/data"
 	"ncobase/core/space/data/ent"
 	groupEnt "ncobase/core/space/data/ent/group"
 	groupRoleEnt "ncobase/core/space/data/ent/grouprole"
 	"ncobase/core/space/structs"
+	"ncobase/ncore/data/cache"
+	"ncobase/ncore/logger"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"ncobase/common/helper"
-	"ncobase/common/resp"
-	"ncobase/common/types"
+	"ncobase/ncore/helper"
+	"ncobase/ncore/resp"
+	"ncobase/ncore/types"
 	"ncobase/plugin/counter/service"
 	"ncobase/plugin/counter/structs"
 

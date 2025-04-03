@@ -3,11 +3,11 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/common/data/cache"
-	"ncobase/common/logger"
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/data/ent"
 	subscriptionEnt "ncobase/core/realtime/data/ent/subscription"
+	"ncobase/ncore/data/cache"
+	"ncobase/ncore/logger"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -1,14 +1,14 @@
 package middleware
 
 import (
-	"ncobase/common/ecode"
-	"ncobase/common/helper"
-	"ncobase/common/logger"
-	"ncobase/common/resp"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/core/access/service"
 	"ncobase/core/access/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/helper"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/resp"
+	"ncobase/ncore/types"
+	"ncobase/ncore/validator"
 	"strings"
 
 	"github.com/casbin/casbin/v2"

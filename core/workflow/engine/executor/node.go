@@ -3,18 +3,18 @@ package executor
 import (
 	"context"
 	"fmt"
-	"ncobase/common/expression"
-	"ncobase/common/extension"
 	"ncobase/core/workflow/engine/config"
+	"ncobase/ncore/expression"
+	"ncobase/ncore/extension"
 	"sync"
 	"time"
 
-	"ncobase/common/logger"
 	"ncobase/core/workflow/engine/handler"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/logger"
 
 	"github.com/jinzhu/copier"
 )

@@ -9,8 +9,8 @@ import (
 	rolePermissionEnt "ncobase/core/access/data/ent/rolepermission"
 	"ncobase/core/access/structs"
 
-	"ncobase/common/data/cache"
-	"ncobase/common/logger"
+	"ncobase/ncore/data/cache"
+	"ncobase/ncore/logger"
 
 	"github.com/redis/go-redis/v9"
 )

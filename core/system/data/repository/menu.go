@@ -3,15 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/common/data/cache"
-	"ncobase/common/data/meili"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
-	"ncobase/common/validator"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
 	menuEnt "ncobase/core/system/data/ent/menu"
 	"ncobase/core/system/structs"
+	"ncobase/ncore/data/cache"
+	"ncobase/ncore/data/meili"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/validator"
 
 	"github.com/redis/go-redis/v9"
 )

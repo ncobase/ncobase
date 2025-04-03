@@ -1,5 +1,5 @@
 definitions:
-  ncobase_common_resp.Exception:
+  ncobase_ncore_resp.Exception:
     properties:
       code:
         description: Business code
@@ -15,7 +15,7 @@ definitions:
         description: HTTP status
         type: integer
     type: object
-  ncobase_common_types.JSON:
+  ncobase_ncore_types.JSON:
     additionalProperties: {}
     type: object
   structs.AccountMeshes:
@@ -128,7 +128,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       name:
         type: string
       status:
@@ -143,17 +143,17 @@ definitions:
       action:
         $ref: '#/definitions/structs.ActionType'
       attachments:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       comment:
         type: string
       form_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       operator:
         type: string
       task_id:
         type: string
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     required:
     - action
     - operator
@@ -231,7 +231,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       name:
         type: string
       subject:
@@ -248,7 +248,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       name:
         type: string
       slug:
@@ -272,7 +272,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       icon:
         type: string
       keywords:
@@ -309,7 +309,7 @@ definitions:
       expired_at:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       keywords:
         type: string
       logo:
@@ -392,7 +392,7 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       is_enabled:
         type: boolean
       node_type:
@@ -430,7 +430,7 @@ definitions:
       channel_id:
         type: string
       payload:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       type:
         type: string
       user_id:
@@ -445,9 +445,9 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       leader:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       name:
         type: string
       parent_id:
@@ -466,11 +466,11 @@ definitions:
       comment:
         type: string
       details:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_id:
         type: string
       node_name:
@@ -492,7 +492,7 @@ definitions:
       type:
         type: string
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.LoginBody:
     properties:
@@ -513,7 +513,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       hidden:
         type: boolean
       icon:
@@ -544,7 +544,7 @@ definitions:
   structs.NodeBody:
     properties:
       assignees:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       branch_conditions:
         items:
           type: string
@@ -562,11 +562,11 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       handlers:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       is_working_day:
         type: boolean
       name:
@@ -582,7 +582,7 @@ definitions:
           type: string
         type: array
       permissions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       prev_nodes:
         items:
           type: string
@@ -590,7 +590,7 @@ definitions:
       process_id:
         type: string
       properties:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       required:
         type: boolean
       retry_interval:
@@ -606,13 +606,13 @@ definitions:
       tenant_id:
         type: string
       timeout_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       timeout_duration:
         type: integer
       type:
         type: string
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.NotificationBody:
     properties:
@@ -622,7 +622,7 @@ definitions:
         type: string
       links:
         items:
-          $ref: '#/definitions/ncobase_common_types.JSON'
+          $ref: '#/definitions/ncobase_ncore_types.JSON'
         type: array
       status:
         type: integer
@@ -671,7 +671,7 @@ definitions:
       business_key:
         type: string
       callbacks:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       category:
         type: string
       current_node:
@@ -685,7 +685,7 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       flow_status:
         type: string
       form_code:
@@ -727,20 +727,20 @@ definitions:
       urge_count:
         type: integer
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.ProcessDesignBody:
     properties:
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       graph_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       is_draft:
         type: boolean
       node_layouts:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       properties:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       source_version:
         type: string
       template_id:
@@ -748,7 +748,7 @@ definitions:
       tenant_id:
         type: string
       validation_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       version:
         type: string
     type: object
@@ -763,7 +763,7 @@ definitions:
       endpoint:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       name:
@@ -819,7 +819,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       name:
@@ -883,7 +883,7 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_enabled:
@@ -937,7 +937,7 @@ definitions:
       id:
         type: string
       payload:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       type:
         type: string
       user_id:
@@ -957,11 +957,11 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       leader:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       name:
         type: string
       parent_id:
@@ -986,13 +986,13 @@ definitions:
       created_by:
         type: string
       details:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       node_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_id:
         type: string
       node_name:
@@ -1018,7 +1018,7 @@ definitions:
       updated_by:
         type: string
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.ReadMenu:
     properties:
@@ -1032,7 +1032,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       hidden:
         type: boolean
       icon:
@@ -1091,11 +1091,11 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       handlers:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_working_day:
@@ -1113,7 +1113,7 @@ definitions:
           type: string
         type: array
       permissions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       prev_nodes:
         items:
           type: string
@@ -1121,7 +1121,7 @@ definitions:
       process_id:
         type: string
       properties:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       required:
         type: boolean
       retry_interval:
@@ -1137,7 +1137,7 @@ definitions:
       tenant_id:
         type: string
       timeout_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       timeout_duration:
         type: integer
       type:
@@ -1147,7 +1147,7 @@ definitions:
       updated_by:
         type: string
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.ReadNotification:
     properties:
@@ -1161,7 +1161,7 @@ definitions:
         type: string
       links:
         items:
-          $ref: '#/definitions/ncobase_common_types.JSON'
+          $ref: '#/definitions/ncobase_ncore_types.JSON'
         type: array
       status:
         type: integer
@@ -1212,7 +1212,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       name:
@@ -1237,7 +1237,7 @@ definitions:
       business_key:
         type: string
       callbacks:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       category:
         type: string
       created_at:
@@ -1255,7 +1255,7 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       flow_status:
         type: string
       form_code:
@@ -1303,7 +1303,7 @@ definitions:
       urge_count:
         type: integer
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.ReadProcessDesign:
     properties:
@@ -1312,17 +1312,17 @@ definitions:
       created_by:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       graph_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_draft:
         type: boolean
       node_layouts:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       properties:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       source_version:
         type: string
       template_id:
@@ -1334,7 +1334,7 @@ definitions:
       updated_by:
         type: string
       validation_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       version:
         type: string
     type: object
@@ -1349,7 +1349,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       name:
@@ -1364,7 +1364,7 @@ definitions:
   structs.ReadRule:
     properties:
       actions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       code:
         type: string
       conditions:
@@ -1382,7 +1382,7 @@ definitions:
       expire_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_enabled:
@@ -1452,7 +1452,7 @@ definitions:
       created_by:
         type: string
       delegated_from:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       description:
         type: string
       due_time:
@@ -1462,9 +1462,9 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_delegated:
@@ -1490,7 +1490,7 @@ definitions:
       process_id:
         type: string
       restrictions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       start_time:
         type: integer
       status:
@@ -1510,7 +1510,7 @@ definitions:
       urge_count:
         type: integer
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       weight:
         $ref: '#/definitions/structs.PriorityStrategy'
     type: object
@@ -1530,7 +1530,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       icon:
         type: string
       id:
@@ -1587,13 +1587,13 @@ definitions:
       expire_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_code:
         type: string
       form_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_permissions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_auto_start:
@@ -1607,19 +1607,19 @@ definitions:
       name:
         type: string
       node_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_events:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       permission_configs:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       process_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       reminder_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       role_configs:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       source_version:
         type: string
       status:
@@ -1631,7 +1631,7 @@ definitions:
       tenant_id:
         type: string
       timeout_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       type:
         type: string
       updated_at:
@@ -1641,7 +1641,7 @@ definitions:
       version:
         type: string
       visible_range:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.ReadTenant:
     properties:
@@ -1658,7 +1658,7 @@ definitions:
       expired_at:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       keywords:
@@ -1728,7 +1728,7 @@ definitions:
       email:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_admin:
@@ -1751,10 +1751,10 @@ definitions:
       display_name:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       links:
         items:
-          $ref: '#/definitions/ncobase_common_types.JSON'
+          $ref: '#/definitions/ncobase_ncore_types.JSON'
         type: array
       short_bio:
         type: string
@@ -1783,7 +1783,7 @@ definitions:
   structs.RuleBody:
     properties:
       actions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       code:
         type: string
       conditions:
@@ -1797,7 +1797,7 @@ definitions:
       expire_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       is_enabled:
         type: boolean
       name:
@@ -1831,7 +1831,7 @@ definitions:
       form_code:
         type: string
       form_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       initiator:
         type: string
       initiator_dept:
@@ -1845,7 +1845,7 @@ definitions:
       tenant_id:
         type: string
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     required:
     - business_key
     - initiator
@@ -1860,7 +1860,7 @@ definitions:
       status:
         $ref: '#/definitions/structs.Status'
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.Status:
     enum:
@@ -1944,7 +1944,7 @@ definitions:
       comment:
         type: string
       delegated_from:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       description:
         type: string
       due_time:
@@ -1954,9 +1954,9 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       is_delegated:
         type: boolean
       is_resubmit:
@@ -1980,7 +1980,7 @@ definitions:
       process_id:
         type: string
       restrictions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       start_time:
         type: integer
       status:
@@ -1996,7 +1996,7 @@ definitions:
       urge_count:
         type: integer
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       weight:
         $ref: '#/definitions/structs.PriorityStrategy'
     type: object
@@ -2025,13 +2025,13 @@ definitions:
       expire_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_code:
         type: string
       form_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_permissions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       is_auto_start:
         type: boolean
       is_draft_enabled:
@@ -2043,19 +2043,19 @@ definitions:
       name:
         type: string
       node_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_events:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       permission_configs:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       process_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       reminder_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       role_configs:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       source_version:
         type: string
       status:
@@ -2067,13 +2067,13 @@ definitions:
       tenant_id:
         type: string
       timeout_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       type:
         type: string
       version:
         type: string
       visible_range:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.TerminateProcessRequest:
     properties:
@@ -2115,7 +2115,7 @@ definitions:
       endpoint:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       name:
@@ -2186,7 +2186,7 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_enabled:
@@ -2232,11 +2232,11 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       leader:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       name:
         type: string
       parent_id:
@@ -2255,7 +2255,7 @@ definitions:
       disabled:
         type: boolean
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       hidden:
         type: boolean
       icon:
@@ -2288,7 +2288,7 @@ definitions:
   structs.UpdateNodeBody:
     properties:
       assignees:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       branch_conditions:
         items:
           type: string
@@ -2306,11 +2306,11 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       handlers:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_working_day:
@@ -2328,7 +2328,7 @@ definitions:
           type: string
         type: array
       permissions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       prev_nodes:
         items:
           type: string
@@ -2336,7 +2336,7 @@ definitions:
       process_id:
         type: string
       properties:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       required:
         type: boolean
       retry_interval:
@@ -2352,13 +2352,13 @@ definitions:
       tenant_id:
         type: string
       timeout_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       timeout_duration:
         type: integer
       type:
         type: string
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.UpdateNotification:
     properties:
@@ -2395,7 +2395,7 @@ definitions:
       business_key:
         type: string
       callbacks:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       category:
         type: string
       current_node:
@@ -2409,7 +2409,7 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       flow_status:
         type: string
       form_code:
@@ -2453,22 +2453,22 @@ definitions:
       urge_count:
         type: integer
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.UpdateProcessDesignBody:
     properties:
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       graph_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_draft:
         type: boolean
       node_layouts:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       properties:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       source_version:
         type: string
       template_id:
@@ -2476,14 +2476,14 @@ definitions:
       tenant_id:
         type: string
       validation_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       version:
         type: string
     type: object
   structs.UpdateRuleBody:
     properties:
       actions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       code:
         type: string
       conditions:
@@ -2497,7 +2497,7 @@ definitions:
       expire_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_enabled:
@@ -2544,7 +2544,7 @@ definitions:
       comment:
         type: string
       delegated_from:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       description:
         type: string
       due_time:
@@ -2554,9 +2554,9 @@ definitions:
       end_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_data:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_delegated:
@@ -2582,7 +2582,7 @@ definitions:
       process_id:
         type: string
       restrictions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       start_time:
         type: integer
       status:
@@ -2598,7 +2598,7 @@ definitions:
       urge_count:
         type: integer
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       weight:
         $ref: '#/definitions/structs.PriorityStrategy'
     type: object
@@ -2613,7 +2613,7 @@ definitions:
       description:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       icon:
         type: string
       id:
@@ -2664,13 +2664,13 @@ definitions:
       expire_time:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_code:
         type: string
       form_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       form_permissions:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_auto_start:
@@ -2684,19 +2684,19 @@ definitions:
       name:
         type: string
       node_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_events:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       node_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       permission_configs:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       process_rules:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       reminder_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       role_configs:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       source_version:
         type: string
       status:
@@ -2708,13 +2708,13 @@ definitions:
       tenant_id:
         type: string
       timeout_config:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       type:
         type: string
       version:
         type: string
       visible_range:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     type: object
   structs.UpdateTenantBody:
     properties:
@@ -2729,7 +2729,7 @@ definitions:
       expired_at:
         type: integer
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       keywords:
@@ -2795,7 +2795,7 @@ definitions:
       task_id:
         type: string
       variables:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
     required:
     - operator
     - task_id
@@ -2807,7 +2807,7 @@ definitions:
       email:
         type: string
       extras:
-        $ref: '#/definitions/ncobase_common_types.JSON'
+        $ref: '#/definitions/ncobase_ncore_types.JSON'
       id:
         type: string
       is_admin:
@@ -2899,7 +2899,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: List taxonomies
       tags:
       - cms
@@ -2924,7 +2924,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create taxonomy
@@ -2945,11 +2945,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete taxonomy
@@ -2973,7 +2973,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Get taxonomy
       tags:
       - cms
@@ -3003,7 +3003,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update taxonomy
@@ -3040,7 +3040,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: List topics
       tags:
       - cms
@@ -3065,7 +3065,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create topic
@@ -3086,11 +3086,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete topic
@@ -3114,7 +3114,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Get topic
       tags:
       - cms
@@ -3144,7 +3144,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update topic
@@ -3193,7 +3193,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List delegations
@@ -3220,7 +3220,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create delegation
@@ -3241,11 +3241,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete delegation
@@ -3269,7 +3269,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get delegation
@@ -3301,7 +3301,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update delegation
@@ -3322,11 +3322,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Disable delegation
@@ -3347,11 +3347,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Enable delegation
@@ -3403,7 +3403,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List histories
@@ -3430,7 +3430,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create history
@@ -3455,7 +3455,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get history
@@ -3501,7 +3501,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List nodes
@@ -3528,7 +3528,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create node
@@ -3549,11 +3549,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete node
@@ -3577,7 +3577,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get node
@@ -3609,7 +3609,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update node
@@ -3636,7 +3636,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get node rules
@@ -3664,11 +3664,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update node status
@@ -3695,7 +3695,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get node tasks
@@ -3716,11 +3716,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Validate node config
@@ -3747,7 +3747,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get operator history
@@ -3787,7 +3787,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List process designs
@@ -3814,7 +3814,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create process design
@@ -3835,11 +3835,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete process design
@@ -3863,7 +3863,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get process design
@@ -3895,7 +3895,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update process design
@@ -3926,11 +3926,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Save design draft
@@ -3955,7 +3955,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Export design
@@ -3976,11 +3976,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Publish design draft
@@ -4006,11 +4006,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Validate design
@@ -4056,7 +4056,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List processes
@@ -4083,7 +4083,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create process
@@ -4104,11 +4104,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete process
@@ -4132,7 +4132,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get process
@@ -4164,7 +4164,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update process
@@ -4185,11 +4185,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Complete process
@@ -4210,11 +4210,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Resume process
@@ -4239,11 +4239,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Suspend process
@@ -4272,11 +4272,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Terminate process
@@ -4306,11 +4306,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Evaluate rules
@@ -4337,7 +4337,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get process history
@@ -4364,7 +4364,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get process nodes
@@ -4392,7 +4392,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Start process
@@ -4441,7 +4441,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List rules
@@ -4468,7 +4468,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create rule
@@ -4489,11 +4489,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete rule
@@ -4517,7 +4517,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get rule
@@ -4549,7 +4549,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update rule
@@ -4570,11 +4570,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Disable rule
@@ -4595,11 +4595,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Enable rule
@@ -4620,11 +4620,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Validate rule
@@ -4654,7 +4654,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get active rules
@@ -4715,7 +4715,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List tasks
@@ -4742,7 +4742,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create task
@@ -4763,11 +4763,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete task
@@ -4791,7 +4791,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get task
@@ -4823,7 +4823,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update task
@@ -4854,11 +4854,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Claim task
@@ -4891,7 +4891,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Complete task
@@ -4920,11 +4920,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delegate task
@@ -4953,11 +4953,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Transfer task
@@ -4986,11 +4986,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Urge task
@@ -5019,11 +5019,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Withdraw task
@@ -5053,7 +5053,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Check delegation
@@ -5080,7 +5080,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get task history
@@ -5138,7 +5138,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List templates
@@ -5165,7 +5165,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create template
@@ -5186,11 +5186,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete template
@@ -5214,7 +5214,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get template
@@ -5246,7 +5246,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update template
@@ -5273,7 +5273,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get template designs
@@ -5294,11 +5294,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Disable template
@@ -5319,11 +5319,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Enable template
@@ -5350,7 +5350,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get template rules
@@ -5371,11 +5371,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Validate template
@@ -5407,7 +5407,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create template version
@@ -5428,11 +5428,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Set latest version
@@ -5460,11 +5460,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Import design
@@ -5491,7 +5491,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get active delegations
@@ -5510,7 +5510,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get current user
@@ -5534,11 +5534,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update user password
@@ -5557,7 +5557,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get current user tenant
@@ -5576,7 +5576,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get current user tenants
@@ -5616,7 +5616,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Verify code
       tags:
       - iam
@@ -5649,7 +5649,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Send verification code
       tags:
       - iam
@@ -5672,7 +5672,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Stream captcha
       tags:
       - iam
@@ -5706,7 +5706,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Generate captcha
       tags:
       - iam
@@ -5739,7 +5739,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Validate captcha
       tags:
       - iam
@@ -5774,7 +5774,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Login
       tags:
       - iam
@@ -5787,7 +5787,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Logout
@@ -5818,7 +5818,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List all permissions
@@ -5845,7 +5845,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create a new permission
@@ -5870,7 +5870,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete a permission by slug or ID
@@ -5894,7 +5894,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get a permission by slug or ID
@@ -5915,7 +5915,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/ncobase_common_types.JSON'
+          $ref: '#/definitions/ncobase_ncore_types.JSON'
       produces:
       - application/json
       responses:
@@ -5926,7 +5926,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update an existing permission
@@ -5978,7 +5978,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List Casbin rules
@@ -6005,7 +6005,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create Casbin rule
@@ -6026,11 +6026,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete Casbin rule
@@ -6054,7 +6054,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get Casbin rule
@@ -6086,7 +6086,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update Casbin rule
@@ -6123,7 +6123,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Register
       tags:
       - iam
@@ -6152,7 +6152,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List all roles
@@ -6179,7 +6179,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create a new role
@@ -6204,7 +6204,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete a role by slug or ID
@@ -6228,7 +6228,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get a role by slug or ID
@@ -6249,7 +6249,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/ncobase_common_types.JSON'
+          $ref: '#/definitions/ncobase_ncore_types.JSON'
       produces:
       - application/json
       responses:
@@ -6260,7 +6260,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update an existing role
@@ -6287,7 +6287,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List permissions for a role
@@ -6321,7 +6321,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List tenants
@@ -6348,7 +6348,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create tenant
@@ -6380,7 +6380,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update tenant
@@ -6401,11 +6401,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete tenant
@@ -6429,7 +6429,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get tenant
@@ -6450,11 +6450,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant attachments
@@ -6475,11 +6475,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant groups
@@ -6500,11 +6500,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get tenant menu
@@ -6525,11 +6525,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant roles
@@ -6550,11 +6550,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get tenant setting
@@ -6575,11 +6575,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant settings
@@ -6600,11 +6600,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List tenant users
@@ -6629,7 +6629,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get user owned tenant
@@ -6672,7 +6672,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List groups
@@ -6699,7 +6699,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create group
@@ -6726,7 +6726,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update group
@@ -6747,11 +6747,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete group
@@ -6790,7 +6790,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get group
@@ -6827,7 +6827,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List counters
@@ -6854,7 +6854,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create counter
@@ -6881,7 +6881,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update counter
@@ -6902,11 +6902,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete counter
@@ -6930,7 +6930,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get counter
@@ -6978,7 +6978,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: List attachments
       tags:
       - res
@@ -7014,7 +7014,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create attachments
@@ -7037,7 +7037,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete attachment
@@ -7065,7 +7065,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Get attachment
       tags:
       - res
@@ -7095,7 +7095,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update attachment
@@ -7132,7 +7132,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List all channels
@@ -7159,7 +7159,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create a new channel
@@ -7184,7 +7184,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete a channel
@@ -7208,7 +7208,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get a channel by ID
@@ -7240,7 +7240,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update a channel
@@ -7273,7 +7273,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Subscribe to a channel
@@ -7300,7 +7300,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get subscribers of a channel
@@ -7334,7 +7334,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Unsubscribe from a channel
@@ -7355,7 +7355,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get channels of a user
@@ -7401,7 +7401,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List all events
@@ -7426,7 +7426,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete an event
@@ -7450,7 +7450,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get an event by ID
@@ -7482,7 +7482,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get event history
@@ -7510,7 +7510,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Publish a new event
@@ -7550,7 +7550,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List all notifications
@@ -7577,7 +7577,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create a new notification
@@ -7602,7 +7602,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete a notification
@@ -7626,7 +7626,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get a notification by ID
@@ -7658,7 +7658,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update a notification
@@ -7683,7 +7683,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Mark a notification as read
@@ -7708,7 +7708,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Mark a notification as unread
@@ -7734,7 +7734,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Mark all notifications as read
@@ -7760,7 +7760,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Mark all notifications as unread
@@ -7806,7 +7806,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List dictionarys
@@ -7833,7 +7833,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create dictionary
@@ -7860,7 +7860,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update dictionary
@@ -7881,11 +7881,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete dictionary
@@ -7918,7 +7918,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get dictionary
@@ -7967,7 +7967,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List menus
@@ -7994,7 +7994,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create menu
@@ -8021,7 +8021,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update menu
@@ -8042,11 +8042,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete menu
@@ -8088,7 +8088,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get menu
@@ -8131,7 +8131,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: List options
@@ -8158,7 +8158,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Create option
@@ -8185,7 +8185,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Update option
@@ -8206,11 +8206,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Delete option
@@ -8246,7 +8246,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Get option
@@ -8261,11 +8261,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       security:
       - Bearer: []
       summary: Initialize
@@ -8299,7 +8299,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: List users
       tags:
       - sys
@@ -8324,7 +8324,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Create user
       tags:
       - sys
@@ -8343,11 +8343,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Delete user
       tags:
       - sys
@@ -8369,7 +8369,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Get user
       tags:
       - sys
@@ -8388,7 +8388,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/ncobase_common_types.JSON'
+          $ref: '#/definitions/ncobase_ncore_types.JSON'
       produces:
       - application/json
       responses:
@@ -8399,7 +8399,7 @@ paths:
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Update user
       tags:
       - sys
@@ -8426,11 +8426,11 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
         "400":
           description: bad request
           schema:
-            $ref: '#/definitions/ncobase_common_resp.Exception'
+            $ref: '#/definitions/ncobase_ncore_resp.Exception'
       summary: Update user password
       tags:
       - sys

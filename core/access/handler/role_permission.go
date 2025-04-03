@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"ncobase/common/ecode"
-	"ncobase/common/resp"
 	"ncobase/core/access/service"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/resp"
 
 	"github.com/gin-gonic/gin"
 )

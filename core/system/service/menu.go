@@ -3,16 +3,16 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/types"
+	"ncobase/ncore/validator"
 )
 
 // MenuServiceInterface represents the menu service interface.

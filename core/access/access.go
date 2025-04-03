@@ -3,11 +3,11 @@ package access
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/extension"
 	"ncobase/core/access/data"
 	"ncobase/core/access/handler"
 	"ncobase/core/access/service"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"sync"
 
 	"github.com/gin-gonic/gin"

@@ -4,7 +4,7 @@ go 1.23.0
 
 toolchain go1.23.1
 
-replace ncobase/common => ../../pkg
+replace ncobase/ncore => ../../pkg
 
 require (
 	entgo.io/contrib v0.6.0
@@ -15,7 +15,7 @@ require (
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/driver/sqlite v1.5.6
 	gorm.io/gorm v1.25.11
-	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
+	ncobase/ncore v0.0.0-20240620085017-efb5e6e972fa
 )
 
 require (

@@ -4,7 +4,7 @@ go 1.23.2
 
 replace (
 	ncobase => ../..
-	ncobase/common => ../../pkg
+	ncobase/ncore => ../../pkg
 	ncobase/core/tenant => ../tenant
 )
 
@@ -15,7 +15,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/redis/go-redis/v9 v9.7.3
 	ncobase v0.0.0-00010101000000-000000000000
-	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
+	ncobase/ncore v0.0.0-20240620085017-efb5e6e972fa
 )
 
 require (

@@ -2,8 +2,6 @@ package provider
 
 import (
 	"context"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
 	"ncobase/core/access"
 	"ncobase/core/auth"
 	"ncobase/core/realtime"
@@ -14,6 +12,8 @@ import (
 	"ncobase/core/workflow"
 	"ncobase/domain/content"
 	"ncobase/domain/resource"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
 	"strings"
 )
 

@@ -2,12 +2,12 @@ package repository
 
 import (
 	"context"
-	"ncobase/common/data/cache"
-	"ncobase/common/logger"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/ent"
 	userTenantRoleEnt "ncobase/core/access/data/ent/usertenantrole"
 	"ncobase/core/access/structs"
+	"ncobase/ncore/data/cache"
+	"ncobase/ncore/logger"
 
 	"github.com/redis/go-redis/v9"
 )

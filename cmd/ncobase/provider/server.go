@@ -2,9 +2,9 @@ package provider
 
 import (
 	"context"
-	"ncobase/common/config"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
 	"net/http"
 )
 

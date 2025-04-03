@@ -3,15 +3,15 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/types"
+	"ncobase/ncore/validator"
 )
 
 // CasbinServiceInterface is the interface for the service.

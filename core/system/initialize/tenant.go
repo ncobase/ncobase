@@ -2,8 +2,8 @@ package initialize
 
 import (
 	"context"
-	"ncobase/common/logger"
 	tenantStructs "ncobase/core/tenant/structs"
+	"ncobase/ncore/logger"
 )
 
 // checkTenantsInitialized checks if domains are already initialized.

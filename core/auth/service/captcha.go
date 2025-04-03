@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/types"
 	"ncobase/core/auth/data"
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/types"
 
 	"github.com/dchest/captcha"
 )

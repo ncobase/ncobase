@@ -3,9 +3,9 @@ package coordinator
 import (
 	"context"
 	"fmt"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
 	"ncobase/core/workflow/service"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
 	"sync"
 	"time"
 

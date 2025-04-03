@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"ncobase/common/helper"
-	"ncobase/common/resp"
 	"ncobase/core/auth/service"
 	"ncobase/core/auth/structs"
+	"ncobase/ncore/helper"
+	"ncobase/ncore/resp"
 
 	"github.com/gin-gonic/gin"
 )

@@ -2,14 +2,14 @@ package repository
 
 import (
 	"context"
-	"ncobase/common/data/cache"
-	"ncobase/common/data/meili"
-	"ncobase/common/logger"
-	"ncobase/common/types"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/ent"
 	processDesignEnt "ncobase/core/workflow/data/ent/processdesign"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/data/cache"
+	"ncobase/ncore/data/meili"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/types"
 
 	"github.com/redis/go-redis/v9"
 )

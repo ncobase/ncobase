@@ -3,14 +3,14 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
-	"ncobase/common/types"
 	"ncobase/core/space/data"
 	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/types"
 )
 
 // GroupServiceInterface is the interface for the service.

@@ -6,7 +6,7 @@ toolchain go1.23.1
 
 replace (
 	ncobase => ../..
-	ncobase/common => ../../pkg
+	ncobase/ncore => ../../pkg
 )
 
 require (
@@ -14,7 +14,7 @@ require (
 	entgo.io/ent v0.14.4
 	github.com/gin-gonic/gin v1.10.0
 	github.com/redis/go-redis/v9 v9.7.3
-	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
+	ncobase/ncore v0.0.0-20240620085017-efb5e6e972fa
 )
 
 require (

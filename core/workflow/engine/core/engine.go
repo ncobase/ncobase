@@ -3,15 +3,15 @@ package core
 import (
 	"context"
 	"fmt"
-	"ncobase/common/extension"
-	"ncobase/common/logger"
-	"ncobase/common/types"
 	"ncobase/core/workflow/engine/config"
 	wec "ncobase/core/workflow/engine/context"
 	"ncobase/core/workflow/engine/executor"
 	wet "ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/types"
 	"runtime"
 	"time"
 )

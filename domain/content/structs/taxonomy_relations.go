@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncobase/common/types"
+	"ncobase/ncore/types"
 )
 
 // TaxonomyRelationBody represents the common fields for creating and updating a taxonomy relation.

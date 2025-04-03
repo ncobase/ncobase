@@ -3,15 +3,15 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
-	"ncobase/common/validator"
 	"ncobase/core/system/config"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/validator"
 )
 
 // OptionsServiceInterface represents the options service interface.

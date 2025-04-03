@@ -1,8 +1,8 @@
 package service
 
 import (
-	"ncobase/common/config"
 	"ncobase/core/payment/data"
+	"ncobase/ncore/config"
 )
 
 // Service represents the payment service.

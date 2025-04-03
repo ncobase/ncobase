@@ -7,8 +7,8 @@ func PluginTemplate(name string) string {
 
 import (
 	"fmt"
-	"ncobase/common/config"
-	"ncobase/common/extension"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"ncobase/plugin/%s/data"
 	"ncobase/plugin/%s/handler"
 	"ncobase/plugin/%s/service"

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"ncobase/common/extension"
 	"ncobase/core/realtime/data"
+	"ncobase/ncore/extension"
 )
 
 // Service represents all services for the realtime module

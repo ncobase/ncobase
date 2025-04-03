@@ -6,7 +6,7 @@ func ServiceTemplate(name, extType string) string {
 	return fmt.Sprintf(`package service
 
 import (
-	"ncobase/common/config"
+	"ncobase/ncore/config"
 	"ncobase/%s/%s/data"
 )
 

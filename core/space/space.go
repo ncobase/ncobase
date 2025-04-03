@@ -3,11 +3,11 @@ package space
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/extension"
 	"ncobase/core/space/data"
 	"ncobase/core/space/handler"
 	"ncobase/core/space/service"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"sync"
 
 	"github.com/gin-gonic/gin"

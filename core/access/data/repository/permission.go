@@ -3,16 +3,16 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/common/data/cache"
-	"ncobase/common/logger"
-	"ncobase/common/nanoid"
-	"ncobase/common/paging"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/ent"
 	permissionEnt "ncobase/core/access/data/ent/permission"
 	"ncobase/core/access/structs"
+	"ncobase/ncore/data/cache"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/nanoid"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/types"
+	"ncobase/ncore/validator"
 
 	"github.com/redis/go-redis/v9"
 )

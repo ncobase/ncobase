@@ -2,7 +2,7 @@ package coordinator
 
 import (
 	"context"
-	"ncobase/common/extension"
+	"ncobase/ncore/extension"
 	"testing"
 	"time"
 

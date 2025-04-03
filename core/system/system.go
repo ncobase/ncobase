@@ -3,13 +3,13 @@ package system
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/extension"
-	"ncobase/common/resp"
 	"ncobase/core/system/data"
 	"ncobase/core/system/handler"
 	"ncobase/core/system/initialize"
 	"ncobase/core/system/service"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
+	"ncobase/ncore/resp"
 	"sync"
 
 	"github.com/gin-gonic/gin"

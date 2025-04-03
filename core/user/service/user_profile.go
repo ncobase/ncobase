@@ -3,13 +3,13 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/core/user/data"
 	"ncobase/core/user/data/ent"
 	"ncobase/core/user/data/repository"
 	"ncobase/core/user/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/types"
+	"ncobase/ncore/validator"
 )
 
 // UserProfileServiceInterface is the interface for the service.

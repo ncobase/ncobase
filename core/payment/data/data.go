@@ -1,8 +1,8 @@
 package data
 
 import (
-	"ncobase/common/config"
-	"ncobase/common/data"
+	"ncobase/ncore/config"
+	"ncobase/ncore/data"
 )
 
 // Data .

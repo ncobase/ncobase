@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/common/config"
-	"ncobase/common/logger"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
+	"ncobase/ncore/config"
+	"ncobase/ncore/logger"
 	"os"
 	"strings"
 

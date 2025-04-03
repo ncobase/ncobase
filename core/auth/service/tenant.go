@@ -3,13 +3,13 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/slug"
 	accessService "ncobase/core/access/service"
 	"ncobase/core/auth/data"
 	tenantService "ncobase/core/tenant/service"
 	tenantStructs "ncobase/core/tenant/structs"
 	userService "ncobase/core/user/service"
 	userStructs "ncobase/core/user/structs"
+	"ncobase/ncore/slug"
 )
 
 // AuthTenantServiceInterface is the interface for the service.

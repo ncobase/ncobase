@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"io"
 	"mime/multipart"
-	"ncobase/common/ecode"
-	"ncobase/common/helper"
-	"ncobase/common/resp"
-	"ncobase/common/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/helper"
+	"ncobase/ncore/resp"
+	"ncobase/ncore/types"
 
 	"github.com/gin-gonic/gin"
 )

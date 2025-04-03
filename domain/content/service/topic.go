@@ -3,16 +3,16 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/common/ecode"
-	"ncobase/common/logger"
-	"ncobase/common/paging"
-	"ncobase/common/slug"
-	"ncobase/common/types"
-	"ncobase/common/validator"
 	"ncobase/domain/content/data"
 	"ncobase/domain/content/data/ent"
 	"ncobase/domain/content/data/repository"
 	"ncobase/domain/content/structs"
+	"ncobase/ncore/ecode"
+	"ncobase/ncore/logger"
+	"ncobase/ncore/paging"
+	"ncobase/ncore/slug"
+	"ncobase/ncore/types"
+	"ncobase/ncore/validator"
 )
 
 // TopicServiceInterface is the interface for the service.

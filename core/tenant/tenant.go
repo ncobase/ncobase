@@ -3,11 +3,11 @@ package tenant
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/extension"
 	"ncobase/core/tenant/data"
 	"ncobase/core/tenant/handler"
 	"ncobase/core/tenant/service"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"sync"
 
 	"github.com/gin-gonic/gin"

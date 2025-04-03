@@ -3,11 +3,11 @@ package resource
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/common/config"
-	"ncobase/common/extension"
 	"ncobase/domain/resource/data"
 	"ncobase/domain/resource/handler"
 	"ncobase/domain/resource/service"
+	"ncobase/ncore/config"
+	"ncobase/ncore/extension"
 	"sync"
 
 	"github.com/gin-gonic/gin"

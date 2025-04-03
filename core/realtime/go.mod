@@ -4,7 +4,7 @@ go 1.23.2
 
 replace (
 	ncobase => ./../..
-	ncobase/common => ./../../pkg
+	ncobase/ncore => ./../../pkg
 	ncobase/core/access => ./../access
 	ncobase/core/auth => ./../auth
 	ncobase/core/space => ./../space
@@ -19,7 +19,7 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/redis/go-redis/v9 v9.7.3
 	ncobase v0.0.0-00010101000000-000000000000
-	ncobase/common v0.0.0-20240620085017-efb5e6e972fa
+	ncobase/ncore v0.0.0-20240620085017-efb5e6e972fa
 	ncobase/core/access v0.0.0-00010101000000-000000000000
 	ncobase/core/auth v0.0.0-00010101000000-000000000000
 	ncobase/core/space v0.0.0-00010101000000-000000000000

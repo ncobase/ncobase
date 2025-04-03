@@ -17,7 +17,7 @@ REVISION := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 BUILT_AT := $(shell date +%FT%T%z)
 
 # Build flags
-BUILD_VARS := ncobase/common/helper
+BUILD_VARS := ncobase/ncore/helper
 LDFLAGS := -X $(BUILD_VARS).Version=$(VERSION) \
            -X $(BUILD_VARS).Branch=$(BRANCH) \
            -X $(BUILD_VARS).Revision=$(REVISION) \
