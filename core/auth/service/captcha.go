@@ -6,8 +6,8 @@ import (
 	"ncobase/core/auth/data"
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/types"
+	"ncore/pkg/ecode"
+	"ncore/pkg/types"
 
 	"github.com/dchest/captcha"
 )

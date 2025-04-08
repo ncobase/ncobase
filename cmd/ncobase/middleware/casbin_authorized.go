@@ -3,12 +3,12 @@ package middleware
 import (
 	"ncobase/core/access/service"
 	"ncobase/core/access/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/resp"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/ecode"
+	"ncore/pkg/helper"
+	"ncore/pkg/logger"
+	"ncore/pkg/resp"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 	"strings"
 
 	"github.com/casbin/casbin/v2"

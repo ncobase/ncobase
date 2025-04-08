@@ -2,7 +2,7 @@ package service
 
 import (
 	"ncobase/core/access/data"
-	"ncobase/ncore/config"
+	"ncore/pkg/config"
 )
 
 // Service represents the auth service.

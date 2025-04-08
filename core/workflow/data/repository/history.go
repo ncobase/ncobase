@@ -6,9 +6,9 @@ import (
 	"ncobase/core/workflow/data/ent"
 	historyEnt "ncobase/core/workflow/data/ent/history"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/data/cache"
-	"ncobase/ncore/data/meili"
-	"ncobase/ncore/logger"
+	"ncore/pkg/data/cache"
+	"ncore/pkg/data/meili"
+	"ncore/pkg/logger"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -3,7 +3,7 @@ package initialize
 import (
 	"context"
 	accessStructs "ncobase/core/access/structs"
-	"ncobase/ncore/logger"
+	"ncore/pkg/logger"
 )
 
 // checkRolesInitialized checks if roles are already initialized.

@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncobase/ncore/types"
+	"ncore/pkg/types"
 )
 
 // TemplateBody represents a template entity base fields

@@ -6,8 +6,8 @@ import (
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
-	"ncobase/ncore/extension"
-	"ncobase/ncore/logger"
+	"ncore/extension"
+	"ncore/pkg/logger"
 	"sync"
 )
 

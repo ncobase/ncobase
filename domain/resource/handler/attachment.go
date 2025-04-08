@@ -8,16 +8,16 @@ import (
 	"mime/multipart"
 	"ncobase/domain/resource/service"
 	"ncobase/domain/resource/structs"
-	"ncobase/ncore/helper"
+	"ncore/pkg/helper"
 	"net/http"
 	"strings"
 
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/resp"
-	"ncobase/ncore/storage"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
+	"ncore/pkg/resp"
+	"ncore/pkg/storage"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )

@@ -7,11 +7,11 @@ import (
 	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 )
 
 // CasbinServiceInterface is the interface for the service.

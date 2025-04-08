@@ -8,10 +8,10 @@ import (
 	"ncobase/core/realtime/data/ent"
 	"ncobase/core/realtime/data/repository"
 	"ncobase/core/realtime/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
 )
 
 type NotificationService interface {

@@ -3,9 +3,9 @@ package handler
 import (
 	"ncobase/core/tenant/service"
 	"ncobase/core/tenant/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/resp"
+	"ncore/pkg/ecode"
+	"ncore/pkg/helper"
+	"ncore/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )

@@ -7,12 +7,12 @@ import (
 	"ncobase/domain/content/data/ent"
 	"ncobase/domain/content/data/repository"
 	"ncobase/domain/content/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/slug"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/slug"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 )
 
 // TaxonomyServiceInterface is the interface for the service.

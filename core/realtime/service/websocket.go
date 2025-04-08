@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"ncobase/core/realtime/data"
-	"ncobase/ncore/logger"
+	"ncore/pkg/logger"
 	"sync"
 	"time"
 

@@ -7,11 +7,11 @@ import (
 	"ncobase/domain/content/data/ent"
 	taxonomyRelationEnt "ncobase/domain/content/data/ent/taxonomyrelation"
 	"ncobase/domain/content/structs"
-	"ncobase/ncore/data/cache"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/nanoid"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/validator"
+	"ncore/pkg/data/cache"
+	"ncore/pkg/logger"
+	"ncore/pkg/nanoid"
+	"ncore/pkg/paging"
+	"ncore/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )

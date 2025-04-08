@@ -7,8 +7,8 @@ import (
 	groupEnt "ncobase/core/space/data/ent/group"
 	groupRoleEnt "ncobase/core/space/data/ent/grouprole"
 	"ncobase/core/space/structs"
-	"ncobase/ncore/data/cache"
-	"ncobase/ncore/logger"
+	"ncore/pkg/data/cache"
+	"ncore/pkg/logger"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -6,8 +6,8 @@ import (
 	"io"
 	"ncobase/core/auth/service"
 	"ncobase/core/auth/structs"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/resp"
+	"ncore/pkg/helper"
+	"ncore/pkg/resp"
 	"path/filepath"
 	"strings"
 

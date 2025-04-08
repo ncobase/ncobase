@@ -8,9 +8,9 @@ import (
 	"ncobase/core/realtime/data/ent"
 	"ncobase/core/realtime/data/repository"
 	"ncobase/core/realtime/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
 	"time"
 )
 

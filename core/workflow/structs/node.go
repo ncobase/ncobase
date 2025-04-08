@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncobase/ncore/types"
+	"ncore/pkg/types"
 )
 
 // NodeBody represents a node entity base fields

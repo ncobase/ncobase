@@ -3,7 +3,7 @@ package structs
 import (
 	"fmt"
 	"mime/multipart"
-	"ncobase/ncore/types"
+	"ncore/pkg/types"
 )
 
 // FindAttachment represents the parameters for finding an attachment.

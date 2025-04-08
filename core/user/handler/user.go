@@ -5,9 +5,9 @@ package handler
 import (
 	"ncobase/core/user/service"
 	"ncobase/core/user/structs"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/resp"
-	"ncobase/ncore/types"
+	"ncore/pkg/helper"
+	"ncore/pkg/resp"
+	"ncore/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )

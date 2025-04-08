@@ -3,9 +3,9 @@ package handler
 import (
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/resp"
+	"ncore/pkg/ecode"
+	"ncore/pkg/helper"
+	"ncore/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )

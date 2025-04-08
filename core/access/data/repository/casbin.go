@@ -7,11 +7,11 @@ import (
 	"ncobase/core/access/data/ent"
 	casbinRuleEnt "ncobase/core/access/data/ent/casbinrule"
 	"ncobase/core/access/structs"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/nanoid"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/logger"
+	"ncore/pkg/nanoid"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 )
 
 // CasbinRuleRepositoryInterface represents the Casbin rule repository interface.

@@ -12,8 +12,8 @@ import (
 	"ncobase/core/workflow"
 	"ncobase/domain/content"
 	"ncobase/domain/resource"
-	"ncobase/ncore/extension"
-	"ncobase/ncore/logger"
+	"ncore/extension"
+	"ncore/pkg/logger"
 	"strings"
 )
 

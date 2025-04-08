@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/workflow/data/ent"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/logger"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
 )
 
 // handleEntError is a helper function to handle errors in a consistent manner

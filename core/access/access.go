@@ -6,8 +6,8 @@ import (
 	"ncobase/core/access/data"
 	"ncobase/core/access/handler"
 	"ncobase/core/access/service"
-	"ncobase/ncore/config"
-	"ncobase/ncore/extension"
+	"ncore/extension"
+	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

@@ -7,11 +7,11 @@ import (
 	"ncobase/core/system/data/ent"
 	menuEnt "ncobase/core/system/data/ent/menu"
 	"ncobase/core/system/structs"
-	"ncobase/ncore/data/cache"
-	"ncobase/ncore/data/meili"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/validator"
+	"ncore/pkg/data/cache"
+	"ncore/pkg/data/meili"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )

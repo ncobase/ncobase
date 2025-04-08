@@ -3,11 +3,11 @@ package handler
 import (
 	"ncobase/domain/content/service"
 	"ncobase/domain/content/structs"
-	"ncobase/ncore/helper"
+	"ncore/pkg/helper"
 
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/resp"
-	"ncobase/ncore/types"
+	"ncore/pkg/ecode"
+	"ncore/pkg/resp"
+	"ncore/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )

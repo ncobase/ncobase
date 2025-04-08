@@ -5,9 +5,9 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/extension"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
+	"ncore/extension"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
 )
 
 type HistoryServiceInterface interface {

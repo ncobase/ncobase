@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/extension"
+	"ncore/extension"
 	"sort"
 	"sync"
 	"sync/atomic"

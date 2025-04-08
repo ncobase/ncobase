@@ -6,8 +6,8 @@ import (
 	"ncobase/core/access/data/ent"
 	userTenantRoleEnt "ncobase/core/access/data/ent/usertenantrole"
 	"ncobase/core/access/structs"
-	"ncobase/ncore/data/cache"
-	"ncobase/ncore/logger"
+	"ncore/pkg/data/cache"
+	"ncore/pkg/logger"
 
 	"github.com/redis/go-redis/v9"
 )

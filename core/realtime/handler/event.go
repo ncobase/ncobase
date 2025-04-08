@@ -3,8 +3,8 @@ package handler
 import (
 	"ncobase/core/realtime/service"
 	"ncobase/core/realtime/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/resp"
+	"ncore/pkg/ecode"
+	"ncore/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )

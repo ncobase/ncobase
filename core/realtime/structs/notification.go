@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncobase/ncore/types"
+	"ncore/pkg/types"
 )
 
 // FindNotification defines the parameters for finding a notification

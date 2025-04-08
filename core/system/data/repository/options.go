@@ -7,10 +7,10 @@ import (
 	"ncobase/core/system/data/ent"
 	optionsEnt "ncobase/core/system/data/ent/options"
 	"ncobase/core/system/structs"
-	"ncobase/ncore/data/meili"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/validator"
+	"ncore/pkg/data/meili"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -8,11 +8,11 @@ import (
 	"ncobase/core/tenant/data/ent"
 	"ncobase/core/tenant/data/repository"
 	"ncobase/core/tenant/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
+	"ncore/pkg/ecode"
+	"ncore/pkg/helper"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
 )
 
 // TenantServiceInterface is the interface for the service.

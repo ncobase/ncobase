@@ -9,9 +9,9 @@ import (
 	wet "ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/extension"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/types"
+	"ncore/extension"
+	"ncore/pkg/logger"
+	"ncore/pkg/types"
 	"runtime"
 	"time"
 )

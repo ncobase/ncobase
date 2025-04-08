@@ -7,8 +7,8 @@ func BusinessTemplate(name string) string {
 
 import (
 	"fmt"
-	"ncobase/ncore/config"
-	"ncobase/ncore/extension"
+	"ncore/pkg/config"
+	"ncore/extension"
 	"ncobase/domain/%s/data"
 	"ncobase/domain/%s/handler"
 	"ncobase/domain/%s/service"

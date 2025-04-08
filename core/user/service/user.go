@@ -8,11 +8,11 @@ import (
 	"ncobase/core/user/data/ent"
 	"ncobase/core/user/data/repository"
 	"ncobase/core/user/structs"
-	"ncobase/ncore/crypto"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
+	"ncore/pkg/crypto"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
 )
 
 // UserServiceInterface is the interface for the service.

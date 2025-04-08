@@ -26,7 +26,7 @@ replace (
 replace ncobase/plugin/counter => ./plugin/counter
 
 // pkg
-replace ncobase/ncore => ./pkg
+replace ncore => ./pkg
 
 require (
 	github.com/casbin/casbin/v2 v2.104.0
@@ -47,8 +47,8 @@ require (
 	ncobase/core/workflow v0.0.0-00010101000000-000000000000
 	ncobase/domain/content v0.0.0-00010101000000-000000000000
 	ncobase/domain/resource v0.0.0-00010101000000-000000000000
-	ncobase/ncore v0.0.0-20240620085017-efb5e6e972fa
 	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
+	ncore v0.0.0-20240620085017-efb5e6e972fa
 )
 
 require (

@@ -2,8 +2,8 @@ package sample
 
 import (
 	"fmt"
-	"ncobase/ncore/config"
-	"ncobase/ncore/extension"
+	"ncore/extension"
+	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

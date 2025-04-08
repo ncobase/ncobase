@@ -6,11 +6,11 @@ import (
 	"ncobase/core/workflow/data/ent"
 	businessEnt "ncobase/core/workflow/data/ent/business"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/data/cache"
-	"ncobase/ncore/data/meili"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/data/cache"
+	"ncore/pkg/data/meili"
+	"ncore/pkg/logger"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )

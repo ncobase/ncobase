@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"ncobase/core/workflow/service"
-	"ncobase/ncore/extension"
-	"ncobase/ncore/logger"
+	"ncore/extension"
+	"ncore/pkg/logger"
 	"sync"
 	"time"
 

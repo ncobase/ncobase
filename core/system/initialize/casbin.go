@@ -3,8 +3,8 @@ package initialize
 import (
 	"context"
 	accessStructs "ncobase/core/access/structs"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/types"
+	"ncore/pkg/logger"
+	"ncore/pkg/types"
 )
 
 // checkCasbinPoliciesInitialized checks if Casbin policies are already initialized.

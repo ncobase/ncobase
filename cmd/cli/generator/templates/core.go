@@ -7,8 +7,8 @@ func CoreTemplate(name string) string {
 
 import (
 	"fmt"
-	"ncobase/ncore/config"
-	"ncobase/ncore/extension"
+	"ncore/pkg/config"
+	"ncore/extension"
 	"ncobase/core/%s/data"
 	"ncobase/core/%s/handler"
 	"ncobase/core/%s/service"

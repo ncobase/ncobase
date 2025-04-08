@@ -7,12 +7,12 @@ import (
 	"ncobase/domain/content/data/ent"
 	taxonomyEnt "ncobase/domain/content/data/ent/taxonomy"
 	"ncobase/domain/content/structs"
-	"ncobase/ncore/data/cache"
-	"ncobase/ncore/data/meili"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/data/cache"
+	"ncore/pkg/data/meili"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )

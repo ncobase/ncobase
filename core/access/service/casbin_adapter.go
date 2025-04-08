@@ -6,8 +6,8 @@ import (
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
-	"ncobase/ncore/config"
-	"ncobase/ncore/logger"
+	"ncore/pkg/config"
+	"ncore/pkg/logger"
 	"os"
 	"strings"
 

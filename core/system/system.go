@@ -7,9 +7,9 @@ import (
 	"ncobase/core/system/handler"
 	"ncobase/core/system/initialize"
 	"ncobase/core/system/service"
-	"ncobase/ncore/config"
-	"ncobase/ncore/extension"
-	"ncobase/ncore/resp"
+	"ncore/extension"
+	"ncore/pkg/config"
+	"ncore/pkg/resp"
 	"sync"
 
 	"github.com/gin-gonic/gin"

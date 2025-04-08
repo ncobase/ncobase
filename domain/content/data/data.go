@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"ncobase/domain/content/data/ent"
 	"ncobase/domain/content/data/ent/migrate"
-	"ncobase/ncore/config"
-	"ncobase/ncore/data"
-	"ncobase/ncore/logger"
+	"ncore/pkg/config"
+	"ncore/pkg/data"
+	"ncore/pkg/logger"
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"

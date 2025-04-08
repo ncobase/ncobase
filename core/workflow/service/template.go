@@ -7,11 +7,11 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/extension"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/validator"
+	"ncore/extension"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/validator"
 
 	"github.com/jinzhu/copier"
 )

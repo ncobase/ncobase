@@ -1,10 +1,10 @@
 package provider
 
 import (
-	"ncobase/ncore/helper"
+	"ncore/pkg/helper"
 	"net/http"
 
-	"ncobase/ncore/config"
+	"ncore/pkg/config"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

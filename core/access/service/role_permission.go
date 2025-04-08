@@ -6,7 +6,7 @@ import (
 	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
-	"ncobase/ncore/logger"
+	"ncore/pkg/logger"
 )
 
 // RolePermissionServiceInterface is the interface for the service.

@@ -7,12 +7,12 @@ import (
 	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/extension"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/extension"
+	"ncore/pkg/ecode"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 )
 
 // MenuServiceInterface represents the menu service interface.

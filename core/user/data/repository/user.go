@@ -7,15 +7,15 @@ import (
 	"ncobase/core/user/data/ent"
 	userEnt "ncobase/core/user/data/ent/user"
 	"ncobase/core/user/structs"
-	"ncobase/ncore/nanoid"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
+	"ncore/pkg/nanoid"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
 	"net/url"
 
-	"ncobase/ncore/crypto"
-	"ncobase/ncore/data/cache"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/validator"
+	"ncore/pkg/crypto"
+	"ncore/pkg/data/cache"
+	"ncore/pkg/logger"
+	"ncore/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )

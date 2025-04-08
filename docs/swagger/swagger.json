@@ -73,7 +73,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -116,7 +116,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -151,7 +151,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -201,7 +201,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -233,13 +233,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -295,7 +295,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -338,7 +338,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -373,7 +373,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -423,7 +423,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -455,13 +455,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -542,7 +542,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -585,7 +585,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -625,7 +625,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -675,7 +675,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -707,13 +707,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -747,13 +747,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -787,13 +787,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -879,7 +879,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -922,7 +922,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -962,7 +962,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1038,7 +1038,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1081,7 +1081,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1121,7 +1121,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1171,7 +1171,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1203,13 +1203,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1252,7 +1252,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1296,13 +1296,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1345,7 +1345,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1379,13 +1379,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1428,7 +1428,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1494,7 +1494,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1537,7 +1537,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1579,13 +1579,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1625,7 +1625,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1675,7 +1675,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1707,13 +1707,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1762,13 +1762,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1808,7 +1808,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1842,13 +1842,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1924,7 +1924,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -1967,7 +1967,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2012,7 +2012,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2052,7 +2052,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2102,7 +2102,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2134,13 +2134,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2174,13 +2174,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2214,13 +2214,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2260,13 +2260,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2312,13 +2312,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2365,13 +2365,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2414,7 +2414,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2457,7 +2457,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2538,7 +2538,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2581,7 +2581,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2629,7 +2629,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2669,7 +2669,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2719,7 +2719,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2751,13 +2751,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2791,13 +2791,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2831,13 +2831,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2871,13 +2871,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -2977,7 +2977,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3020,7 +3020,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3060,7 +3060,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3110,7 +3110,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3142,13 +3142,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3197,13 +3197,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3255,7 +3255,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3301,13 +3301,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3353,13 +3353,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3405,13 +3405,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3457,13 +3457,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3510,7 +3510,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3553,7 +3553,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3649,7 +3649,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3692,7 +3692,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3732,7 +3732,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3782,7 +3782,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3814,13 +3814,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3863,7 +3863,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3897,13 +3897,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3937,13 +3937,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -3986,7 +3986,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4020,13 +4020,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4076,7 +4076,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4110,13 +4110,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4160,13 +4160,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4209,7 +4209,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4240,7 +4240,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4279,13 +4279,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4316,7 +4316,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4347,7 +4347,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4400,7 +4400,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4460,7 +4460,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4514,7 +4514,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4567,7 +4567,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4602,7 +4602,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4658,7 +4658,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4683,7 +4683,7 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4734,7 +4734,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4777,7 +4777,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4817,7 +4817,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4853,7 +4853,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                            "$ref": "#/definitions/ncore_pkg_types.JSON"
                         }
                     }
                 ],
@@ -4867,7 +4867,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4905,7 +4905,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -4991,7 +4991,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5034,7 +5034,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5074,7 +5074,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5124,7 +5124,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5156,13 +5156,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5218,7 +5218,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5269,7 +5269,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5312,7 +5312,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5352,7 +5352,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5388,7 +5388,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                            "$ref": "#/definitions/ncore_pkg_types.JSON"
                         }
                     }
                 ],
@@ -5402,7 +5402,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5440,7 +5440,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5483,7 +5483,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5539,7 +5539,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5589,7 +5589,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5632,7 +5632,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5672,7 +5672,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5704,13 +5704,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5744,13 +5744,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5784,13 +5784,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5824,13 +5824,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5864,13 +5864,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5904,13 +5904,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5944,13 +5944,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -5984,13 +5984,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6030,7 +6030,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6101,7 +6101,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6144,7 +6144,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6187,7 +6187,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6252,7 +6252,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6284,13 +6284,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6351,7 +6351,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6394,7 +6394,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6437,7 +6437,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6477,7 +6477,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6509,13 +6509,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6588,7 +6588,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6647,7 +6647,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6688,7 +6688,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6738,7 +6738,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6773,7 +6773,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6834,7 +6834,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6877,7 +6877,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6911,7 +6911,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -6951,7 +6951,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7001,7 +7001,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7039,7 +7039,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7091,7 +7091,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7134,7 +7134,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7190,7 +7190,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7265,7 +7265,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7315,7 +7315,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7360,7 +7360,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7400,7 +7400,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7438,7 +7438,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7504,7 +7504,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7547,7 +7547,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7591,7 +7591,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7635,7 +7635,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7675,7 +7675,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7725,7 +7725,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7763,7 +7763,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7803,7 +7803,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7843,7 +7843,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7919,7 +7919,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -7962,7 +7962,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8005,7 +8005,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8060,7 +8060,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8092,13 +8092,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8179,7 +8179,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8222,7 +8222,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8265,7 +8265,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8335,7 +8335,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8367,13 +8367,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8444,7 +8444,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8487,7 +8487,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8530,7 +8530,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8555,13 +8555,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8621,7 +8621,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8653,13 +8653,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8708,7 +8708,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8746,7 +8746,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8781,7 +8781,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8812,7 +8812,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                            "$ref": "#/definitions/ncore_pkg_types.JSON"
                         }
                     }
                 ],
@@ -8826,7 +8826,7 @@
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8853,13 +8853,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8900,13 +8900,13 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_ncore_resp.Exception"
+                            "$ref": "#/definitions/ncore_pkg_resp.Exception"
                         }
                     }
                 }
@@ -8914,7 +8914,7 @@
         }
     },
     "definitions": {
-        "ncobase_ncore_resp.Exception": {
+        "ncore_pkg_resp.Exception": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8937,7 +8937,7 @@
                 }
             }
         },
-        "ncobase_ncore_types.JSON": {
+        "ncore_pkg_types.JSON": {
             "type": "object",
             "additionalProperties": {}
         },
@@ -9084,7 +9084,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -9111,13 +9111,13 @@
                     "$ref": "#/definitions/structs.ActionType"
                 },
                 "attachments": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "comment": {
                     "type": "string"
                 },
                 "form_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "operator": {
                     "type": "string"
@@ -9126,7 +9126,7 @@
                     "type": "string"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -9240,7 +9240,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -9266,7 +9266,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -9303,7 +9303,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -9359,7 +9359,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "keywords": {
                     "type": "string"
@@ -9484,7 +9484,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "is_enabled": {
                     "type": "boolean"
@@ -9542,7 +9542,7 @@
                     "type": "string"
                 },
                 "payload": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "type": {
                     "type": "string"
@@ -9565,10 +9565,10 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "leader": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -9597,13 +9597,13 @@
                     "type": "string"
                 },
                 "details": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_id": {
                     "type": "string"
@@ -9636,7 +9636,7 @@
                     "type": "string"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -9668,7 +9668,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "hidden": {
                     "type": "boolean"
@@ -9715,7 +9715,7 @@
             "type": "object",
             "properties": {
                 "assignees": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "branch_conditions": {
                     "type": "array",
@@ -9742,13 +9742,13 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "handlers": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "is_working_day": {
                     "type": "boolean"
@@ -9772,7 +9772,7 @@
                     }
                 },
                 "permissions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "prev_nodes": {
                     "type": "array",
@@ -9784,7 +9784,7 @@
                     "type": "string"
                 },
                 "properties": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "required": {
                     "type": "boolean"
@@ -9808,7 +9808,7 @@
                     "type": "string"
                 },
                 "timeout_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "timeout_duration": {
                     "type": "integer"
@@ -9817,7 +9817,7 @@
                     "type": "string"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -9833,7 +9833,7 @@
                 "links": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                        "$ref": "#/definitions/ncore_pkg_types.JSON"
                     }
                 },
                 "status": {
@@ -9904,7 +9904,7 @@
                     "type": "string"
                 },
                 "callbacks": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "category": {
                     "type": "string"
@@ -9925,7 +9925,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "flow_status": {
                     "type": "string"
@@ -9988,7 +9988,7 @@
                     "type": "integer"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -9996,19 +9996,19 @@
             "type": "object",
             "properties": {
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "graph_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "is_draft": {
                     "type": "boolean"
                 },
                 "node_layouts": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "properties": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "source_version": {
                     "type": "string"
@@ -10020,7 +10020,7 @@
                     "type": "string"
                 },
                 "validation_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "version": {
                     "type": "string"
@@ -10043,7 +10043,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -10128,7 +10128,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -10225,7 +10225,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -10307,7 +10307,7 @@
                     "type": "string"
                 },
                 "payload": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "type": {
                     "type": "string"
@@ -10337,13 +10337,13 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
                 },
                 "leader": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -10381,16 +10381,16 @@
                     "type": "string"
                 },
                 "details": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
                 },
                 "node_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_id": {
                     "type": "string"
@@ -10429,7 +10429,7 @@
                     "type": "string"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -10450,7 +10450,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "hidden": {
                     "type": "boolean"
@@ -10539,13 +10539,13 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "handlers": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -10572,7 +10572,7 @@
                     }
                 },
                 "permissions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "prev_nodes": {
                     "type": "array",
@@ -10584,7 +10584,7 @@
                     "type": "string"
                 },
                 "properties": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "required": {
                     "type": "boolean"
@@ -10608,7 +10608,7 @@
                     "type": "string"
                 },
                 "timeout_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "timeout_duration": {
                     "type": "integer"
@@ -10623,7 +10623,7 @@
                     "type": "string"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -10645,7 +10645,7 @@
                 "links": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                        "$ref": "#/definitions/ncore_pkg_types.JSON"
                     }
                 },
                 "status": {
@@ -10722,7 +10722,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -10760,7 +10760,7 @@
                     "type": "string"
                 },
                 "callbacks": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "category": {
                     "type": "string"
@@ -10787,7 +10787,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "flow_status": {
                     "type": "string"
@@ -10859,7 +10859,7 @@
                     "type": "integer"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -10873,10 +10873,10 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "graph_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -10885,10 +10885,10 @@
                     "type": "boolean"
                 },
                 "node_layouts": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "properties": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "source_version": {
                     "type": "string"
@@ -10906,7 +10906,7 @@
                     "type": "string"
                 },
                 "validation_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "version": {
                     "type": "string"
@@ -10929,7 +10929,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -10952,7 +10952,7 @@
             "type": "object",
             "properties": {
                 "actions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "code": {
                     "type": "string"
@@ -10979,7 +10979,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -11085,7 +11085,7 @@
                     "type": "string"
                 },
                 "delegated_from": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "description": {
                     "type": "string"
@@ -11100,10 +11100,10 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -11142,7 +11142,7 @@
                     "type": "string"
                 },
                 "restrictions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "start_time": {
                     "type": "integer"
@@ -11172,7 +11172,7 @@
                     "type": "integer"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "weight": {
                     "$ref": "#/definitions/structs.PriorityStrategy"
@@ -11202,7 +11202,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -11288,16 +11288,16 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_code": {
                     "type": "string"
                 },
                 "form_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_permissions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -11318,25 +11318,25 @@
                     "type": "string"
                 },
                 "node_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_events": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "permission_configs": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "process_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "reminder_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "role_configs": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "source_version": {
                     "type": "string"
@@ -11354,7 +11354,7 @@
                     "type": "string"
                 },
                 "timeout_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "type": {
                     "type": "string"
@@ -11369,7 +11369,7 @@
                     "type": "string"
                 },
                 "visible_range": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -11395,7 +11395,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -11501,7 +11501,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -11536,12 +11536,12 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "links": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                        "$ref": "#/definitions/ncore_pkg_types.JSON"
                     }
                 },
                 "short_bio": {
@@ -11584,7 +11584,7 @@
             "type": "object",
             "properties": {
                 "actions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "code": {
                     "type": "string"
@@ -11605,7 +11605,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "is_enabled": {
                     "type": "boolean"
@@ -11662,7 +11662,7 @@
                     "type": "string"
                 },
                 "form_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "initiator": {
                     "type": "string"
@@ -11683,7 +11683,7 @@
                     "type": "string"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -11700,7 +11700,7 @@
                     "$ref": "#/definitions/structs.Status"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -11807,7 +11807,7 @@
                     "type": "string"
                 },
                 "delegated_from": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "description": {
                     "type": "string"
@@ -11822,10 +11822,10 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "is_delegated": {
                     "type": "boolean"
@@ -11861,7 +11861,7 @@
                     "type": "string"
                 },
                 "restrictions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "start_time": {
                     "type": "integer"
@@ -11885,7 +11885,7 @@
                     "type": "integer"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "weight": {
                     "$ref": "#/definitions/structs.PriorityStrategy"
@@ -11929,16 +11929,16 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_code": {
                     "type": "string"
                 },
                 "form_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_permissions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "is_auto_start": {
                     "type": "boolean"
@@ -11956,25 +11956,25 @@
                     "type": "string"
                 },
                 "node_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_events": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "permission_configs": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "process_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "reminder_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "role_configs": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "source_version": {
                     "type": "string"
@@ -11992,7 +11992,7 @@
                     "type": "string"
                 },
                 "timeout_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "type": {
                     "type": "string"
@@ -12001,7 +12001,7 @@
                     "type": "string"
                 },
                 "visible_range": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -12064,7 +12064,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -12172,7 +12172,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -12242,13 +12242,13 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
                 },
                 "leader": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -12277,7 +12277,7 @@
                     "type": "boolean"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "hidden": {
                     "type": "boolean"
@@ -12327,7 +12327,7 @@
             "type": "object",
             "properties": {
                 "assignees": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "branch_conditions": {
                     "type": "array",
@@ -12354,13 +12354,13 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "handlers": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -12387,7 +12387,7 @@
                     }
                 },
                 "permissions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "prev_nodes": {
                     "type": "array",
@@ -12399,7 +12399,7 @@
                     "type": "string"
                 },
                 "properties": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "required": {
                     "type": "boolean"
@@ -12423,7 +12423,7 @@
                     "type": "string"
                 },
                 "timeout_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "timeout_duration": {
                     "type": "integer"
@@ -12432,7 +12432,7 @@
                     "type": "string"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -12489,7 +12489,7 @@
                     "type": "string"
                 },
                 "callbacks": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "category": {
                     "type": "string"
@@ -12510,7 +12510,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "flow_status": {
                     "type": "string"
@@ -12576,7 +12576,7 @@
                     "type": "integer"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -12584,10 +12584,10 @@
             "type": "object",
             "properties": {
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "graph_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -12596,10 +12596,10 @@
                     "type": "boolean"
                 },
                 "node_layouts": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "properties": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "source_version": {
                     "type": "string"
@@ -12611,7 +12611,7 @@
                     "type": "string"
                 },
                 "validation_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "version": {
                     "type": "string"
@@ -12622,7 +12622,7 @@
             "type": "object",
             "properties": {
                 "actions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "code": {
                     "type": "string"
@@ -12643,7 +12643,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -12714,7 +12714,7 @@
                     "type": "string"
                 },
                 "delegated_from": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "description": {
                     "type": "string"
@@ -12729,10 +12729,10 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_data": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -12771,7 +12771,7 @@
                     "type": "string"
                 },
                 "restrictions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "start_time": {
                     "type": "integer"
@@ -12795,7 +12795,7 @@
                     "type": "integer"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "weight": {
                     "$ref": "#/definitions/structs.PriorityStrategy"
@@ -12818,7 +12818,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "icon": {
                     "type": "string"
@@ -12895,16 +12895,16 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_code": {
                     "type": "string"
                 },
                 "form_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "form_permissions": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -12925,25 +12925,25 @@
                     "type": "string"
                 },
                 "node_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_events": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "node_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "permission_configs": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "process_rules": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "reminder_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "role_configs": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "source_version": {
                     "type": "string"
@@ -12961,7 +12961,7 @@
                     "type": "string"
                 },
                 "timeout_config": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "type": {
                     "type": "string"
@@ -12970,7 +12970,7 @@
                     "type": "string"
                 },
                 "visible_range": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -12993,7 +12993,7 @@
                     "type": "integer"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"
@@ -13097,7 +13097,7 @@
                     "type": "string"
                 },
                 "variables": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 }
             }
         },
@@ -13111,7 +13111,7 @@
                     "type": "string"
                 },
                 "extras": {
-                    "$ref": "#/definitions/ncobase_ncore_types.JSON"
+                    "$ref": "#/definitions/ncore_pkg_types.JSON"
                 },
                 "id": {
                     "type": "string"

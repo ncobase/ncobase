@@ -3,12 +3,12 @@ package counter
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/ncore/config"
-	"ncobase/ncore/extension"
 	"ncobase/plugin/counter/data"
 	"ncobase/plugin/counter/data/repository"
 	"ncobase/plugin/counter/handler"
 	"ncobase/plugin/counter/service"
+	"ncore/extension"
+	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

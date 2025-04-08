@@ -3,8 +3,8 @@ package handler
 import (
 	"ncobase/core/system/service"
 	"ncobase/core/system/structs"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/resp"
+	"ncore/pkg/helper"
+	"ncore/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )

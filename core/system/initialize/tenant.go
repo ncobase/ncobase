@@ -3,7 +3,7 @@ package initialize
 import (
 	"context"
 	tenantStructs "ncobase/core/tenant/structs"
-	"ncobase/ncore/logger"
+	"ncore/pkg/logger"
 )
 
 // checkTenantsInitialized checks if domains are already initialized.

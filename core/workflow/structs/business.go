@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncobase/ncore/types"
+	"ncore/pkg/types"
 )
 
 // BusinessBody represents a business entity base fields

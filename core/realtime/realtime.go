@@ -6,8 +6,8 @@ import (
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/handler"
 	"ncobase/core/realtime/service"
-	"ncobase/ncore/config"
-	"ncobase/ncore/extension"
+	"ncore/extension"
+	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

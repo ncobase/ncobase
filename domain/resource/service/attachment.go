@@ -9,11 +9,11 @@ import (
 	"ncobase/domain/resource/data/ent"
 	"ncobase/domain/resource/data/repository"
 	"ncobase/domain/resource/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/validator"
+	"ncore/pkg/ecode"
+	"ncore/pkg/helper"
+	"ncore/pkg/logger"
+	"ncore/pkg/paging"
+	"ncore/pkg/validator"
 	"os"
 )
 

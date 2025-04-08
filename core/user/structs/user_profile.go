@@ -1,6 +1,6 @@
 package structs
 
-import "ncobase/ncore/types"
+import "ncore/pkg/types"
 
 // UserProfileBody represents the user profile schema.
 type UserProfileBody struct {

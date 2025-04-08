@@ -3,7 +3,7 @@ package service
 import (
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/repository"
-	"ncobase/ncore/extension"
+	"ncore/extension"
 )
 
 // Service represents the workflow service

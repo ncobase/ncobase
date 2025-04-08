@@ -10,7 +10,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/extension"
+	"ncore/extension"
 	"sync"
 	"sync/atomic"
 	"text/template/parse"

@@ -8,7 +8,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/extension"
+	"ncore/extension"
 	"regexp"
 	"runtime"
 	"strings"

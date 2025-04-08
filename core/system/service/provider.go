@@ -2,7 +2,7 @@ package service
 
 import (
 	"ncobase/core/system/data"
-	"ncobase/ncore/extension"
+	"ncore/extension"
 )
 
 // Service represents the system service.

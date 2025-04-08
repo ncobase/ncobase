@@ -13,11 +13,11 @@ import (
 	tenantStructs "ncobase/core/tenant/structs"
 	userService "ncobase/core/user/service"
 	userStructs "ncobase/core/user/structs"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/jwt"
-	"ncobase/ncore/paging"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/helper"
+	"ncore/pkg/jwt"
+	"ncore/pkg/paging"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 )
 
 // AccountServiceInterface is the interface for the service.

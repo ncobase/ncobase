@@ -7,8 +7,8 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/expression"
-	"ncobase/ncore/extension"
+	"ncore/extension"
+	"ncore/pkg/expression"
 	"sort"
 	"time"
 )

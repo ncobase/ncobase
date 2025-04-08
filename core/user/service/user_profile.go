@@ -7,9 +7,9 @@ import (
 	"ncobase/core/user/data/ent"
 	"ncobase/core/user/data/repository"
 	"ncobase/core/user/structs"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/ecode"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 )
 
 // UserProfileServiceInterface is the interface for the service.

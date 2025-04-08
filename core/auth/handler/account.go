@@ -4,9 +4,9 @@ import (
 	"ncobase/core/auth/service"
 	"ncobase/core/auth/structs"
 	userStructs "ncobase/core/user/structs"
-	"ncobase/ncore/cookie"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/resp"
+	"ncore/pkg/cookie"
+	"ncore/pkg/helper"
+	"ncore/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )

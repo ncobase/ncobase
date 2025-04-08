@@ -12,7 +12,7 @@ import (
 	"ncobase/core/workflow/engine/utils"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/extension"
+	"ncore/extension"
 	"net"
 	"net/http"
 	"net/url"

@@ -16,13 +16,13 @@ package service
 // 	"ncobase/helper"
 // 	"net/http"
 //
-// 	"ncobase/ncore/cookie"
-// 	"ncobase/ncore/ecode"
-// 	"ncobase/ncore/jwt"
-// 	"ncobase/ncore/oauth"
-// 	"ncobase/ncore/resp"
-// 	"ncobase/ncore/types"
-// 	"ncobase/ncore/validator"
+// 	"ncore/cookie"
+// 	"ncore/pkg/ecode"
+// 	"ncore/pkg/jwt"
+// 	"ncore/pkg/oauth"
+// 	"ncore/pkg/resp"
+// 	"ncore/pkg/types"
+// 	"ncore/pkg/validator"
 //
 // 	match "github.com/alexpantyukhin/go-pattern-match"
 // )

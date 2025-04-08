@@ -2,8 +2,8 @@ package handler
 
 import (
 	"ncobase/core/realtime/service"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/uuid"
+	"ncore/pkg/logger"
+	"ncore/pkg/uuid"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/auth/data/ent"
-	"ncobase/ncore/ecode"
-	"ncobase/ncore/jwt"
-	"ncobase/ncore/logger"
-	"ncobase/ncore/types"
-	"ncobase/ncore/validator"
+	"ncore/pkg/ecode"
+	"ncore/pkg/jwt"
+	"ncore/pkg/logger"
+	"ncore/pkg/types"
+	"ncore/pkg/validator"
 	"time"
 )
 

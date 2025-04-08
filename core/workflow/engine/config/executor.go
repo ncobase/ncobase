@@ -5,7 +5,7 @@ import (
 	"ncobase/core/workflow/engine/scheduler"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/queue"
+	"ncore/pkg/queue"
 	"time"
 )
 

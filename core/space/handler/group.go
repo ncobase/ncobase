@@ -3,9 +3,9 @@ package handler
 import (
 	"ncobase/core/space/service"
 	"ncobase/core/space/structs"
-	"ncobase/ncore/helper"
-	"ncobase/ncore/resp"
-	"ncobase/ncore/types"
+	"ncore/pkg/helper"
+	"ncore/pkg/resp"
+	"ncore/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )

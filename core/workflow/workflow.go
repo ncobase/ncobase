@@ -7,8 +7,8 @@ import (
 	we "ncobase/core/workflow/engine/core"
 	"ncobase/core/workflow/handler"
 	"ncobase/core/workflow/service"
-	"ncobase/ncore/config"
-	"ncobase/ncore/extension"
+	"ncore/extension"
+	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

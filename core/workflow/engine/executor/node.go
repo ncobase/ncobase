@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"ncobase/core/workflow/engine/config"
-	"ncobase/ncore/expression"
-	"ncobase/ncore/extension"
+	"ncore/extension"
+	"ncore/pkg/expression"
 	"sync"
 	"time"
 
@@ -14,7 +14,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncobase/ncore/logger"
+	"ncore/pkg/logger"
 
 	"github.com/jinzhu/copier"
 )
