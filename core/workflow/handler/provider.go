@@ -1,4 +1,3 @@
-// ./core/workflow/handler/handler.go
 package handler
 
 import (

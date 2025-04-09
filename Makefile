@@ -4,8 +4,8 @@
 GO111MODULE := on
 APP_NAME := ncobase
 CMD_PATH := ./cmd/ncobase
-CLI_NAME := nco
-CLI_PATH := ./cmd/cli
+CLI_NAME := ncore
+CLI_PATH := ./pkg/cmd
 OUT := ./bin
 PLUGIN_PATH := ./plugin
 BUSINESS_PATH := ./domain
