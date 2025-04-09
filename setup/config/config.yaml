@@ -4,7 +4,7 @@ app_name: application
 run_mode: release
 
 consul:
-  address: 127.1:8500
+  address: 127.0.0.1:8500
   scheme: http
   discovery:
     default_tags:
@@ -29,7 +29,7 @@ server:
   # Running domain
   domain: localhost
   # Application running address (localhost: 127.0.0.1, all addresses: 0.0.0.0)
-  host: 127.1
+  host: 127.0.0.1
   # Application running port
   port: 3000
 
