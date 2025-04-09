@@ -10,7 +10,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"sync"
 	"sync/atomic"
 	"text/template/parse"
@@ -135,7 +135,7 @@ type NotificationMetrics struct {
 }
 
 // NewNotificationHandler creates a new notification handler
-func NewNotificationHandler(svc *service.Service, em *extension.Manager, cfg *config.Config) *NotificationHandler {
+func NewNotificationHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *NotificationHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

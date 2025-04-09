@@ -2,7 +2,7 @@ package service
 
 import (
 	"ncobase/core/system/data"
-	"ncore/extension"
+	nec "ncore/ext/core"
 )
 
 // Service represents the system service.
@@ -10,11 +10,11 @@ type Service struct {
 	Menu       MenuServiceInterface
 	Dictionary DictionaryServiceInterface
 	Options    OptionsServiceInterface
-	em         *extension.Manager
+	em         nec.ManagerInterface
 }
 
 // New creates a new service.
-func New(d *data.Data, em *extension.Manager) *Service {
+func New(d *data.Data, em nec.ManagerInterface) *Service {
 	return &Service{
 		Menu:       NewMenuService(d, em),
 		Dictionary: NewDictionaryService(d),

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"sort"
 	"sync"
 	"sync/atomic"
@@ -48,7 +48,7 @@ type BatchItem struct {
 // Batcher handles batch processing of tasks
 type Batcher struct {
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	config   *Config
 
 	items   chan *BatchItem
@@ -100,7 +100,7 @@ type BatcherMetrics struct {
 //
 // // Stop batcher
 // batcher.Stop()
-func NewBatcher(svc *service.Service, em *extension.Manager, cfg *Config) *Batcher {
+func NewBatcher(svc *service.Service, em nec.ManagerInterface, cfg *Config) *Batcher {
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}

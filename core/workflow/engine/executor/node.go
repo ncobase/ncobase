@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/core/workflow/engine/config"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/expression"
 	"sync"
 	"time"
@@ -25,7 +25,7 @@ type NodeExecutor struct {
 
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	handlers *handler.Manager
 	logger   logger.Logger
 
@@ -73,7 +73,7 @@ type JoinContext struct {
 }
 
 // NewNodeExecutor creates a new node executor
-func NewNodeExecutor(svc *service.Service, em *extension.Manager, cfg *config.Config) (*NodeExecutor, error) {
+func NewNodeExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*NodeExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

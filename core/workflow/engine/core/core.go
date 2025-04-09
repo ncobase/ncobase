@@ -11,7 +11,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/concurrency"
 	"ncore/pkg/expression"
 	"ncore/pkg/logger"
@@ -25,7 +25,7 @@ type Core struct {
 	// Services
 	services *service.Service
 	// Extension manager
-	em *extension.Manager
+	em nec.ManagerInterface
 
 	// Metrics
 	metrics *metrics.Collector
@@ -61,7 +61,7 @@ type Core struct {
 }
 
 // NewCore creates a new workflow engine core
-func NewCore(cfg *config.Config, svc *service.Service, em *extension.Manager) (*Core, error) {
+func NewCore(cfg *config.Config, svc *service.Service, em nec.ManagerInterface) (*Core, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

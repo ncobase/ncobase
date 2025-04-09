@@ -12,17 +12,17 @@ import (
 	"ncobase/core/workflow"
 	"ncobase/domain/content"
 	"ncobase/domain/resource"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"strings"
 )
 
 // registerExtensions registers all built-in extensions
-func registerExtensions(em *extension.Manager) {
+func registerExtensions(em nec.ManagerInterface) {
 	// All built-in components
 	// Add more components here, disordered
 	// dependent sorting through the getInitOrder method
-	fs := make([]extension.Interface, 0)
+	fs := make([]nec.Interface, 0)
 
 	// Core extensions
 	fs = append(fs,
@@ -43,7 +43,7 @@ func registerExtensions(em *extension.Manager) {
 	)
 
 	// Registered extensions
-	registered := make([]extension.Interface, 0, len(fs))
+	registered := make([]nec.Interface, 0, len(fs))
 	// Get extension names
 	extensionNames := make([]string, 0, len(registered))
 

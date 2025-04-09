@@ -5,7 +5,7 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"ncore/pkg/paging"
 )
@@ -24,10 +24,10 @@ type HistoryServiceInterface interface {
 
 type historyService struct {
 	historyRepo repository.HistoryRepositoryInterface
-	em          *extension.Manager
+	em          nec.ManagerInterface
 }
 
-func NewHistoryService(repo repository.Repository, em *extension.Manager) HistoryServiceInterface {
+func NewHistoryService(repo repository.Repository, em nec.ManagerInterface) HistoryServiceInterface {
 	return &historyService{
 		historyRepo: repo.GetHistory(),
 		em:          em,

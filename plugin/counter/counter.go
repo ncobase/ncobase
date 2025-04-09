@@ -7,7 +7,8 @@ import (
 	"ncobase/plugin/counter/data/repository"
 	"ncobase/plugin/counter/handler"
 	"ncobase/plugin/counter/service"
-	"ncore/extension"
+	nec "ncore/ext/core"
+	nep "ncore/ext/plugin"
 	"ncore/pkg/config"
 	"sync"
 
@@ -28,7 +29,7 @@ var (
 type Plugin struct {
 	initialized bool
 	mu          sync.RWMutex
-	em          *extension.Manager
+	em          nec.ManagerInterface
 	conf        *config.Config
 	d           *data.Data
 	r           *repository.Repository
@@ -58,7 +59,7 @@ func (p *Plugin) PreInit() error {
 }
 
 // Init initializes the plugin
-func (p *Plugin) Init(conf *config.Config, em *extension.Manager) (err error) {
+func (p *Plugin) Init(conf *config.Config, em nec.ManagerInterface) (err error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
@@ -111,12 +112,12 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the plugin
-func (p *Plugin) GetHandlers() extension.Handler {
+func (p *Plugin) GetHandlers() nec.Handler {
 	return p.h
 }
 
 // GetServices returns the services for the plugin
-func (p *Plugin) GetServices() extension.Service {
+func (p *Plugin) GetServices() nec.Service {
 	return p.s
 }
 
@@ -135,8 +136,8 @@ func (p *Plugin) Cleanup() error {
 }
 
 // GetMetadata returns the metadata of the plugin
-func (p *Plugin) GetMetadata() extension.Metadata {
-	return extension.Metadata{
+func (p *Plugin) GetMetadata() nec.Metadata {
+	return nec.Metadata{
 		Name:         p.Name(),
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),
@@ -178,12 +179,12 @@ func (p *Plugin) Group() string {
 }
 
 // SubscribeEvents subscribes to relevant events
-func (p *Plugin) subscribeEvents(_ *extension.Manager) {
+func (p *Plugin) subscribeEvents(_ nec.ManagerInterface) {
 	// Implement any event subscriptions here
 }
 
 func init() {
-	extension.RegisterPlugin(&Plugin{}, extension.Metadata{
+	nep.RegisterPlugin(&Plugin{}, nec.Metadata{
 		Name:         name,
 		Version:      version,
 		Dependencies: dependencies,
@@ -199,7 +200,7 @@ func (p *Plugin) NeedServiceDiscovery() bool {
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
-func (p *Plugin) GetServiceInfo() *extension.ServiceInfo {
+func (p *Plugin) GetServiceInfo() *nec.ServiceInfo {
 	if !p.NeedServiceDiscovery() {
 		return nil
 	}
@@ -218,7 +219,7 @@ func (p *Plugin) GetServiceInfo() *extension.ServiceInfo {
 	meta["type"] = metadata.Type
 	meta["description"] = metadata.Description
 
-	return &extension.ServiceInfo{
+	return &nec.ServiceInfo{
 		Address: p.discovery.address,
 		Tags:    tags,
 		Meta:    meta,

@@ -6,7 +6,7 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/ecode"
 	"ncore/pkg/logger"
 	"ncore/pkg/paging"
@@ -32,10 +32,10 @@ type taskService struct {
 	taskRepo    repository.TaskRepositoryInterface
 	historyRepo repository.HistoryRepositoryInterface
 	nodeRepo    repository.NodeRepositoryInterface
-	em          *extension.Manager
+	em          nec.ManagerInterface
 }
 
-func NewTaskService(repo repository.Repository, em *extension.Manager) TaskServiceInterface {
+func NewTaskService(repo repository.Repository, em nec.ManagerInterface) TaskServiceInterface {
 	return &taskService{
 		taskRepo:    repo.GetTask(),
 		historyRepo: repo.GetHistory(),

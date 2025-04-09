@@ -8,7 +8,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"regexp"
 	"runtime"
 	"strings"
@@ -30,7 +30,7 @@ type ScriptHandler struct {
 }
 
 // NewScriptHandler creates a new script handler
-func NewScriptHandler(svc *service.Service, em *extension.Manager, cfg *config.Config) *ScriptHandler {
+func NewScriptHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *ScriptHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

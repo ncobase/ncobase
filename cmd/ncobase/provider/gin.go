@@ -5,7 +5,7 @@ import (
 	"ncobase/cmd/ncobase/middleware"
 	accessService "ncobase/core/access/service"
 	tenantService "ncobase/core/tenant/service"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/config"
 	"ncore/pkg/ecode"
 	"ncore/pkg/logger"
@@ -16,7 +16,7 @@ import (
 )
 
 // ginServer creates and initializes the server.
-func ginServer(conf *config.Config, em *extension.Manager) (*gin.Engine, error) {
+func ginServer(conf *config.Config, em nec.ManagerInterface) (*gin.Engine, error) {
 	// Set gin mode
 	if conf.RunMode == "" {
 		conf.RunMode = gin.ReleaseMode
@@ -69,7 +69,7 @@ func ginServer(conf *config.Config, em *extension.Manager) (*gin.Engine, error) 
 }
 
 // register user middleware
-func userMiddleware(conf *config.Config, engine *gin.Engine, _ *extension.Manager) {
+func userMiddleware(conf *config.Config, engine *gin.Engine, _ nec.ManagerInterface) {
 	// get user service
 	// fu, err := em.GetService("user")
 	// if err != nil {
@@ -89,7 +89,7 @@ func userMiddleware(conf *config.Config, engine *gin.Engine, _ *extension.Manage
 }
 
 // register Tenant middleware
-func tenantMiddleware(conf *config.Config, engine *gin.Engine, em *extension.Manager) {
+func tenantMiddleware(conf *config.Config, engine *gin.Engine, em nec.ManagerInterface) {
 	// get tenant service
 	ft, err := em.GetService("tenant")
 	if err != nil {
@@ -110,7 +110,7 @@ func tenantMiddleware(conf *config.Config, engine *gin.Engine, em *extension.Man
 }
 
 // register casbin middleware
-func casbinMiddleware(conf *config.Config, engine *gin.Engine, em *extension.Manager) {
+func casbinMiddleware(conf *config.Config, engine *gin.Engine, em nec.ManagerInterface) {
 	// get access service
 	fa, err := em.GetService("access")
 	if err != nil {

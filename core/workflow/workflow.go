@@ -7,7 +7,7 @@ import (
 	we "ncobase/core/workflow/engine/core"
 	"ncobase/core/workflow/handler"
 	"ncobase/core/workflow/service"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/config"
 	"sync"
 
@@ -25,10 +25,10 @@ var (
 
 // Module represents the workflow module.
 type Module struct {
-	extension.OptionalImpl
+	nec.OptionalImpl
 	initialized bool
 	mu          sync.RWMutex
-	em          *extension.Manager
+	em          nec.ManagerInterface
 	conf        *config.Config
 	we          *we.Engine
 	h           *handler.Handler
@@ -47,12 +47,12 @@ type discovery struct {
 }
 
 // New creates a new instance of the workflow module.
-func New() extension.Interface {
+func New() nec.Interface {
 	return &Module{}
 }
 
 // Init initializes the workflow module with the given config object
-func (m *Module) Init(conf *config.Config, em *extension.Manager) (err error) {
+func (m *Module) Init(conf *config.Config, em nec.ManagerInterface) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -107,12 +107,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() extension.Handler {
+func (m *Module) GetHandlers() nec.Handler {
 	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() extension.Service {
+func (m *Module) GetServices() nec.Service {
 	return m.s
 }
 
@@ -125,8 +125,8 @@ func (m *Module) Cleanup() error {
 }
 
 // GetMetadata returns the metadata of the module
-func (m *Module) GetMetadata() extension.Metadata {
-	return extension.Metadata{
+func (m *Module) GetMetadata() nec.Metadata {
+	return nec.Metadata{
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
@@ -162,7 +162,7 @@ func (m *Module) Group() string {
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
-func (m *Module) GetServiceInfo() *extension.ServiceInfo {
+func (m *Module) GetServiceInfo() *nec.ServiceInfo {
 	if !m.NeedServiceDiscovery() {
 		return nil
 	}
@@ -181,7 +181,7 @@ func (m *Module) GetServiceInfo() *extension.ServiceInfo {
 	meta["type"] = metadata.Type
 	meta["description"] = metadata.Description
 
-	return &extension.ServiceInfo{
+	return &nec.ServiceInfo{
 		Address: m.discovery.address,
 		Tags:    tags,
 		Meta:    meta,

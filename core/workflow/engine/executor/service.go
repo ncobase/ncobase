@@ -9,7 +9,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"sync"
 	"sync/atomic"
@@ -25,7 +25,7 @@ type ServiceExecutor struct {
 
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	logger   logger.Logger
 
 	// Components
@@ -76,7 +76,7 @@ type ServiceProvider interface {
 }
 
 // NewServiceExecutor creates a new service executor
-func NewServiceExecutor(svc *service.Service, em *extension.Manager, cfg *config.Config) (*ServiceExecutor, error) {
+func NewServiceExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*ServiceExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

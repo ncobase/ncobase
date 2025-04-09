@@ -8,7 +8,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"time"
 
 	"github.com/robfig/cron/v3"
@@ -25,7 +25,7 @@ type TimerHandler struct {
 }
 
 // NewTimerHandler creates a new timer handler
-func NewTimerHandler(svc *service.Service, em *extension.Manager, cfg *config.Config) *TimerHandler {
+func NewTimerHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *TimerHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

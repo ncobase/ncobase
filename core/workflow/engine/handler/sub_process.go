@@ -6,7 +6,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"time"
 )
 
@@ -19,7 +19,7 @@ type SubprocessHandler struct {
 }
 
 // NewSubprocessHandler creates a new subprocess handler
-func NewSubprocessHandler(svc *service.Service, em *extension.Manager, cfg *config.Config) *SubprocessHandler {
+func NewSubprocessHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *SubprocessHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

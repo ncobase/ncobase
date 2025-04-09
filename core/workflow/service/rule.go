@@ -7,7 +7,7 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/ecode"
 	"ncore/pkg/logger"
 	"ncore/pkg/paging"
@@ -34,10 +34,10 @@ type RuleServiceInterface interface {
 type ruleService struct {
 	processRepo repository.ProcessRepositoryInterface
 	ruleRepo    repository.RuleRepositoryInterface
-	em          *extension.Manager
+	em          nec.ManagerInterface
 }
 
-func NewRuleService(repo repository.Repository, em *extension.Manager) RuleServiceInterface {
+func NewRuleService(repo repository.Repository, em nec.ManagerInterface) RuleServiceInterface {
 	return &ruleService{
 		processRepo: repo.GetProcess(),
 		ruleRepo:    repo.GetRule(),

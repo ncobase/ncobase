@@ -6,7 +6,7 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/ecode"
 	"ncore/pkg/logger"
 	"ncore/pkg/paging"
@@ -31,10 +31,10 @@ type BusinessServiceInterface interface {
 
 type businessService struct {
 	businessRepo repository.BusinessRepositoryInterface
-	em           *extension.Manager
+	em           nec.ManagerInterface
 }
 
-func NewBusinessService(repo repository.Repository, em *extension.Manager) BusinessServiceInterface {
+func NewBusinessService(repo repository.Repository, em nec.ManagerInterface) BusinessServiceInterface {
 	return &businessService{
 		businessRepo: repo.GetBusiness(),
 		em:           em,

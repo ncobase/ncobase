@@ -8,7 +8,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"sort"
 	"sync"
 	"time"
@@ -66,7 +66,7 @@ type ApprovalStrategy interface {
 }
 
 // NewApprovalHandler creates a new approval handler
-func NewApprovalHandler(svc *service.Service, em *extension.Manager, cfg *config.Config) (*ApprovalHandler, error) {
+func NewApprovalHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*ApprovalHandler, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

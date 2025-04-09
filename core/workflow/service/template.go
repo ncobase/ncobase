@@ -7,7 +7,7 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/ecode"
 	"ncore/pkg/logger"
 	"ncore/pkg/paging"
@@ -34,10 +34,10 @@ type TemplateServiceInterface interface {
 
 type templateService struct {
 	templateRepo repository.TemplateRepositoryInterface
-	em           *extension.Manager
+	em           nec.ManagerInterface
 }
 
-func NewTemplateService(repo repository.Repository, em *extension.Manager) TemplateServiceInterface {
+func NewTemplateService(repo repository.Repository, em nec.ManagerInterface) TemplateServiceInterface {
 	return &templateService{
 		templateRepo: repo.GetTemplate(),
 		em:           em,

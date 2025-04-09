@@ -2,7 +2,7 @@ package coordinator
 
 import (
 	"context"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"testing"
 	"time"
 
@@ -16,7 +16,7 @@ import (
 func setupTestCoordinator() (*Coordinator, func()) {
 	// Mock dependencies
 	svc := &service.Service{}
-	em, _ := extension.NewManager(nil)
+	em, _ := nec.NewManager(nil)
 	client, _ := api.NewClient(api.DefaultConfig())
 	cfg := DefaultConfig()
 

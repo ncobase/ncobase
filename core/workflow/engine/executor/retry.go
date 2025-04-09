@@ -10,7 +10,7 @@ import (
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"sync"
 	"sync/atomic"
@@ -23,7 +23,7 @@ type RetryExecutor struct {
 
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	logger   logger.Logger
 
 	// Runtime components
@@ -81,7 +81,7 @@ type RetryStats struct {
 }
 
 // NewRetryExecutor creates a new retry executor
-func NewRetryExecutor(svc *service.Service, em *extension.Manager, cfg *config.Config) (*RetryExecutor, error) {
+func NewRetryExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*RetryExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

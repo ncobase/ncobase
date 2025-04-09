@@ -6,7 +6,7 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/ecode"
 	"ncore/pkg/logger"
 	"ncore/pkg/paging"
@@ -31,10 +31,10 @@ type DelegationServiceInterface interface {
 type delegationService struct {
 	taskRepo       repository.TaskRepositoryInterface
 	delegationRepo repository.DelegationRepositoryInterface
-	em             *extension.Manager
+	em             nec.ManagerInterface
 }
 
-func NewDelegationService(repo repository.Repository, em *extension.Manager) DelegationServiceInterface {
+func NewDelegationService(repo repository.Repository, em nec.ManagerInterface) DelegationServiceInterface {
 	return &delegationService{
 		taskRepo:       repo.GetTask(),
 		delegationRepo: repo.GetDelegation(),

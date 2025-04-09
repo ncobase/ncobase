@@ -7,7 +7,7 @@ import (
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/ecode"
 	"ncore/pkg/logger"
 	"ncore/pkg/paging"
@@ -33,10 +33,10 @@ type processService struct {
 	processRepo  repository.ProcessRepositoryInterface
 	templateRepo repository.TemplateRepositoryInterface
 	historyRepo  repository.HistoryRepositoryInterface
-	em           *extension.Manager
+	em           nec.ManagerInterface
 }
 
-func NewProcessService(repo repository.Repository, em *extension.Manager) ProcessServiceInterface {
+func NewProcessService(repo repository.Repository, em nec.ManagerInterface) ProcessServiceInterface {
 	return &processService{
 		processRepo:  repo.GetProcess(),
 		templateRepo: repo.GetTemplate(),

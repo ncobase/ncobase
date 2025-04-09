@@ -4,7 +4,7 @@ package scheduler
 // import (
 // 	"context"
 // 	"fmt"
-// 	"ncore/extension"
+// 	nec "ncore/ext/core"
 // 	"ncobase/core/workflow/service"
 // 	"ncobase/core/workflow/structs"
 // 	"testing"
@@ -242,7 +242,7 @@ package scheduler
 // 		Node: &mockNodeService{},
 // 		Task: &mockTaskService{},
 // 	}
-// 	em := &extension.Manager{}
+// 	em := &nec.ManagerInterface{}
 // 	cfg := DefaultConfig()
 // 	return NewScheduler(svc, em, cfg)
 // }

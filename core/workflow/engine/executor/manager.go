@@ -6,7 +6,7 @@ import (
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"sync"
 )
@@ -18,7 +18,7 @@ type Manager struct {
 
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	logger   logger.Logger
 	cfg      *config.Config
 
@@ -29,7 +29,7 @@ type Manager struct {
 }
 
 // NewManager creates a new executor manager
-func NewManager(cfg *config.Config, svc *service.Service, em *extension.Manager) (*Manager, error) {
+func NewManager(cfg *config.Config, svc *service.Service, em nec.ManagerInterface) (*Manager, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

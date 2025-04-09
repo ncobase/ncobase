@@ -7,7 +7,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/expression"
 	"sort"
 	"time"
@@ -24,7 +24,7 @@ type ExclusiveHandler struct {
 }
 
 // NewExclusiveHandler creates a new exclusive handler
-func NewExclusiveHandler(svc *service.Service, em *extension.Manager, expr *expression.Expression, cfg *config.Config) *ExclusiveHandler {
+func NewExclusiveHandler(svc *service.Service, em nec.ManagerInterface, expr *expression.Expression, cfg *config.Config) *ExclusiveHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

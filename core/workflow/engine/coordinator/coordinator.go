@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/core/workflow/service"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"sync"
 	"time"
@@ -37,7 +37,7 @@ func DefaultConfig() *Config {
 // Coordinator represents a workflow coordinator
 type Coordinator struct {
 	services  *service.Service
-	em        *extension.Manager
+	em        nec.ManagerInterface
 	consul    *api.Client
 	config    *Config
 	logger    logger.Logger
@@ -52,7 +52,7 @@ type Coordinator struct {
 }
 
 // NewCoordinator creates a new workflow coordinator
-func NewCoordinator(svc *service.Service, em *extension.Manager, consulClient *api.Client, cfg *Config) *Coordinator {
+func NewCoordinator(svc *service.Service, em nec.ManagerInterface, consulClient *api.Client, cfg *Config) *Coordinator {
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}

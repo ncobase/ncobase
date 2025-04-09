@@ -12,7 +12,7 @@ import (
 	"ncobase/core/workflow/engine/utils"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"net"
 	"net/http"
 	"net/url"
@@ -187,7 +187,7 @@ type ServiceMetrics struct {
 }
 
 // NewServiceHandler creates a new service handler
-func NewServiceHandler(svc *service.Service, em *extension.Manager, cfg *config.Config) (*ServiceHandler, error) {
+func NewServiceHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*ServiceHandler, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

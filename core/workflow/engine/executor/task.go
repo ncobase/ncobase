@@ -10,7 +10,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/expression"
 	"ncore/pkg/logger"
 	"sort"
@@ -24,7 +24,7 @@ type TaskExecutor struct {
 
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	logger   logger.Logger
 
 	// Runtime components
@@ -84,7 +84,7 @@ type AssignmentRule struct {
 }
 
 // NewTaskExecutor creates a new task executor
-func NewTaskExecutor(svc *service.Service, em *extension.Manager, cfg *config.Config) (*TaskExecutor, error) {
+func NewTaskExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*TaskExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

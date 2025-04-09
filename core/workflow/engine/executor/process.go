@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ncobase/core/workflow/engine/config"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/expression"
 	"ncore/pkg/logger"
 	"ncore/pkg/uuid"
@@ -22,7 +22,7 @@ type ProcessExecutor struct {
 
 	// Services & components
 	services   *service.Service
-	em         *extension.Manager
+	em         nec.ManagerInterface
 	expression *expression.Expression
 
 	// Dependent executors
@@ -52,7 +52,7 @@ type ProcessInfo struct {
 }
 
 // NewProcessExecutor creates a new process executor
-func NewProcessExecutor(svc *service.Service, em *extension.Manager, cfg *config.Config) (*ProcessExecutor, error) {
+func NewProcessExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*ProcessExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

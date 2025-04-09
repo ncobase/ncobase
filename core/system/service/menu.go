@@ -7,7 +7,7 @@ import (
 	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/ecode"
 	"ncore/pkg/logger"
 	"ncore/pkg/paging"
@@ -28,11 +28,11 @@ type MenuServiceInterface interface {
 // MenuService represents the menu service.
 type menuService struct {
 	menu repository.MenuRepositoryInterface
-	em   *extension.Manager
+	em   nec.ManagerInterface
 }
 
 // NewMenuService creates a new menu service.
-func NewMenuService(d *data.Data, em *extension.Manager) MenuServiceInterface {
+func NewMenuService(d *data.Data, em nec.ManagerInterface) MenuServiceInterface {
 	return &menuService{
 		menu: repository.NewMenuRepository(d),
 		em:   em,

@@ -7,7 +7,7 @@ import (
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"sync"
 	"time"
@@ -17,7 +17,7 @@ import (
 type Manager struct {
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	logger   logger.Logger
 
 	// Runtime components
@@ -54,7 +54,7 @@ type HandlerInfo struct {
 }
 
 // NewManager creates a new handler manager
-func NewManager(svc *service.Service, em *extension.Manager, cfg *config.Config) *Manager {
+func NewManager(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *Manager {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

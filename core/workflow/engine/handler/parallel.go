@@ -7,7 +7,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"sort"
 	"strings"
 	"sync"
@@ -34,7 +34,7 @@ type ParallelHandler struct {
 }
 
 // NewParallelHandler creates a new parallel handler
-func NewParallelHandler(svc *service.Service, em *extension.Manager, cfg *config.Config) *ParallelHandler {
+func NewParallelHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *ParallelHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

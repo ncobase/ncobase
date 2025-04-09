@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/types"
 	"sync"
 	"sync/atomic"
@@ -66,7 +66,7 @@ type Task struct {
 type Scheduler struct {
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	config   *Config
 
 	// Task queues
@@ -90,7 +90,7 @@ type Scheduler struct {
 //
 //	// Create a new scheduler
 //	svc := &service.Service{...}  // Provide necessary services
-//	em := &extension.Manager{...} // Provide an extension manager
+//	em := &nec.ManagerInterface{...} // Provide an extension manager
 //	cfg := scheduler.DefaultConfig() // Use default configuration or create a custom one
 //	s := scheduler.NewScheduler(svc, em, cfg)
 //
@@ -130,7 +130,7 @@ type Scheduler struct {
 //
 //	// Stop the scheduler
 //	s.Stop()
-func NewScheduler(svc *service.Service, em *extension.Manager, cfg *Config) *Scheduler {
+func NewScheduler(svc *service.Service, em nec.ManagerInterface, cfg *Config) *Scheduler {
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}

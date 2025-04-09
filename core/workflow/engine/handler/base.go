@@ -8,7 +8,7 @@ import (
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"ncore/pkg/queue"
 	"ncore/pkg/worker"
@@ -44,7 +44,7 @@ type BaseHandler struct {
 
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	logger   logger.Logger
 
 	// Components
@@ -77,7 +77,7 @@ type BaseHandler struct {
 }
 
 // NewBaseHandler creates a new base handler
-func NewBaseHandler(handlerType types.HandlerType, name string, svc *service.Service, em *extension.Manager, cfg *config.BaseHandlerConfig) *BaseHandler {
+func NewBaseHandler(handlerType types.HandlerType, name string, svc *service.Service, em nec.ManagerInterface, cfg *config.BaseHandlerConfig) *BaseHandler {
 	if cfg == nil {
 		cfg = config.DefaultBaseHandlerConfig()
 	}

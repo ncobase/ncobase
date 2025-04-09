@@ -9,7 +9,7 @@ import (
 	wet "ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/logger"
 	"ncore/pkg/types"
 	"runtime"
@@ -24,7 +24,7 @@ type Engine struct {
 
 	// Dependencies
 	services *service.Service
-	em       *extension.Manager
+	em       nec.ManagerInterface
 	config   *config.Config
 
 	// Engine state
@@ -34,7 +34,7 @@ type Engine struct {
 }
 
 // NewEngine creates a new workflow engine
-func NewEngine(cfg *config.Config, svc *service.Service, em *extension.Manager) (*Engine, error) {
+func NewEngine(cfg *config.Config, svc *service.Service, em nec.ManagerInterface) (*Engine, error) {
 	// Initialize core engine
 	c, err := NewCore(cfg, svc, em)
 	if err != nil {

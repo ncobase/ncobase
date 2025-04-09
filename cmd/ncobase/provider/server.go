@@ -2,7 +2,7 @@ package provider
 
 import (
 	"context"
-	"ncore/extension"
+	nem "ncore/ext/manager"
 	"ncore/pkg/config"
 	"ncore/pkg/logger"
 	"net/http"
@@ -12,7 +12,7 @@ import (
 func NewServer(conf *config.Config) (http.Handler, func(), error) {
 
 	// Initialize Extension Manager
-	em, err := extension.NewManager(conf)
+	em, err := nem.NewManager(conf)
 	if err != nil {
 		logger.Fatalf(context.Background(), "Failed initializing extension manager: %+v", err)
 		return nil, nil, err

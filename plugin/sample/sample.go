@@ -2,7 +2,7 @@ package sample
 
 import (
 	"fmt"
-	"ncore/extension"
+	nec "ncore/ext/core"
 	"ncore/pkg/config"
 	"sync"
 
@@ -23,7 +23,7 @@ var (
 type Plugin struct {
 	initialized bool
 	mu          sync.RWMutex
-	em          *extension.Manager
+	em          nec.ManagerInterface
 	conf        *config.Config
 	cleanup     func(name ...string)
 
@@ -49,7 +49,7 @@ func (p *Plugin) PreInit() error {
 }
 
 // Init initializes the plugin
-func (p *Plugin) Init(conf *config.Config, em *extension.Manager) (err error) {
+func (p *Plugin) Init(conf *config.Config, em nec.ManagerInterface) (err error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
@@ -159,7 +159,7 @@ func (p *Plugin) Group() string {
 }
 
 // SubscribeEvents subscribes to relevant events
-func (p *Plugin) subscribeEvents(_ *extension.Manager) {
+func (p *Plugin) subscribeEvents(_ nec.ManagerInterface) {
 	// Implement any event subscriptions here
 }
 
