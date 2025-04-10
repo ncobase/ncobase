@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
+	extm "github.com/ncobase/ncore/ext/manager"
 
 	"ncobase/core/workflow/service"
 
@@ -17,7 +17,7 @@ import (
 func setupTestCoordinator() (*Coordinator, func()) {
 	// Mock dependencies
 	svc := &service.Service{}
-	em, _ := ext.NewManager(nil)
+	em, _ := extm.NewManager(nil)
 	client, _ := api.NewClient(api.DefaultConfig())
 	cfg := DefaultConfig()
 
