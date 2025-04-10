@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncore/pkg/types"
+	"github.com/ncobase/ncore/pkg/types"
 )
 
 // RuleBody represents a rule entity base fields

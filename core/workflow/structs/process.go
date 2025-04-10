@@ -3,7 +3,7 @@ package structs
 import (
 	"encoding/json"
 	"fmt"
-	"ncore/pkg/types"
+	"github.com/ncobase/ncore/pkg/types"
 )
 
 // ProcessBody represents a process entity base fields

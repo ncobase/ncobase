@@ -3,19 +3,19 @@ package repository
 import (
 	"context"
 	"fmt"
+	"github.com/ncobase/ncore/pkg/nanoid"
+	"github.com/ncobase/ncore/pkg/paging"
+	"github.com/ncobase/ncore/pkg/types"
 	"ncobase/core/user/data"
 	"ncobase/core/user/data/ent"
 	userEnt "ncobase/core/user/data/ent/user"
 	"ncobase/core/user/structs"
-	"ncore/pkg/nanoid"
-	"ncore/pkg/paging"
-	"ncore/pkg/types"
 	"net/url"
 
-	"ncore/pkg/crypto"
-	"ncore/pkg/data/cache"
-	"ncore/pkg/logger"
-	"ncore/pkg/validator"
+	"github.com/ncobase/ncore/pkg/crypto"
+	"github.com/ncobase/ncore/pkg/data/cache"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )

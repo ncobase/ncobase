@@ -3,14 +3,14 @@ package content
 import (
 	"context"
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/observes"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/domain/content/data"
 	"ncobase/domain/content/handler"
 	"ncobase/domain/content/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
-	"ncore/pkg/logger"
-	"ncore/pkg/observes"
 	"sync"
 
 	"github.com/gin-gonic/gin"

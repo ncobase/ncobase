@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"ncore/pkg/resp"
+	"github.com/ncobase/ncore/pkg/resp"
 	"strconv"
 	"time"
 

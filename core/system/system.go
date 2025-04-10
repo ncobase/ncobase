@@ -2,14 +2,14 @@ package system
 
 import (
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/pkg/resp"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/core/system/data"
 	"ncobase/core/system/handler"
 	"ncobase/core/system/initialize"
 	"ncobase/core/system/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
-	"ncore/pkg/resp"
 	"sync"
 
 	"github.com/gin-gonic/gin"

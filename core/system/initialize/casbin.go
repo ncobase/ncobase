@@ -2,9 +2,9 @@ package initialize
 
 import (
 	"context"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/types"
 	accessStructs "ncobase/core/access/structs"
-	"ncore/pkg/logger"
-	"ncore/pkg/types"
 )
 
 // checkCasbinPoliciesInitialized checks if Casbin policies are already initialized.

@@ -2,7 +2,7 @@ package structs
 
 import (
 	"fmt"
-	"ncore/pkg/types"
+	"github.com/ncobase/ncore/pkg/types"
 )
 
 // TenantBody represents common fields for a tenant.

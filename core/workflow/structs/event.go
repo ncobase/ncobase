@@ -1,6 +1,6 @@
 package structs
 
-import "ncore/pkg/types"
+import "github.com/ncobase/ncore/pkg/types"
 
 // WorkflowEvent represents workflow event constants
 const (

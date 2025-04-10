@@ -2,12 +2,12 @@ package service
 
 import (
 	"context"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
-	nec "ncore/ext/core"
-	"ncore/pkg/logger"
-	"ncore/pkg/paging"
 )
 
 type HistoryServiceInterface interface {

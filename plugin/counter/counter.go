@@ -2,14 +2,14 @@ package counter
 
 import (
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	nep "github.com/ncobase/ncore/ext/plugin"
+	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/plugin/counter/data"
 	"ncobase/plugin/counter/data/repository"
 	"ncobase/plugin/counter/handler"
 	"ncobase/plugin/counter/service"
-	nec "ncore/ext/core"
-	nep "ncore/ext/plugin"
-	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

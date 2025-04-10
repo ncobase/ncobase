@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
+	"github.com/ncobase/ncore/pkg/logger"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
-	"ncore/pkg/logger"
 )
 
 // RolePermissionServiceInterface is the interface for the service.

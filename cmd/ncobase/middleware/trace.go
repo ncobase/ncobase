@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"context"
-	"ncore/pkg/consts"
-	"ncore/pkg/helper"
-	"ncore/pkg/observes"
+	"github.com/ncobase/ncore/pkg/consts"
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/observes"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

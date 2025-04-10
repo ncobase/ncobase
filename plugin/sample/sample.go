@@ -2,9 +2,11 @@ package sample
 
 import (
 	"fmt"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
 	"sync"
+
+	nec "github.com/ncobase/ncore/ext/core"
+	nep "github.com/ncobase/ncore/ext/plugin"
+	"github.com/ncobase/ncore/pkg/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -92,12 +94,12 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the plugin
-func (p *Plugin) GetHandlers() extension.Handler {
+func (p *Plugin) GetHandlers() nec.Handler {
 	return nil
 }
 
 // GetServices returns the services for the plugin
-func (p *Plugin) GetServices() extension.Service {
+func (p *Plugin) GetServices() nec.Service {
 	return nil
 }
 
@@ -116,8 +118,8 @@ func (p *Plugin) Cleanup() error {
 }
 
 // GetMetadata returns the metadata of the plugin
-func (p *Plugin) GetMetadata() extension.Metadata {
-	return extension.Metadata{
+func (p *Plugin) GetMetadata() nec.Metadata {
+	return nec.Metadata{
 		Name:         p.Name(),
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),
@@ -164,7 +166,7 @@ func (p *Plugin) subscribeEvents(_ nec.ManagerInterface) {
 }
 
 func init() {
-	extension.RegisterPlugin(&Plugin{}, extension.Metadata{
+	nep.RegisterPlugin(&Plugin{}, nec.Metadata{
 		Name:         name + "-development",
 		Version:      version,
 		Dependencies: dependencies,
@@ -180,7 +182,7 @@ func (p *Plugin) NeedServiceDiscovery() bool {
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
-func (p *Plugin) GetServiceInfo() *extension.ServiceInfo {
+func (p *Plugin) GetServiceInfo() *nec.ServiceInfo {
 	if !p.NeedServiceDiscovery() {
 		return nil
 	}
@@ -199,7 +201,7 @@ func (p *Plugin) GetServiceInfo() *extension.ServiceInfo {
 	meta["type"] = metadata.Type
 	meta["description"] = metadata.Description
 
-	return &extension.ServiceInfo{
+	return &nec.ServiceInfo{
 		Address: p.discovery.address,
 		Tags:    tags,
 		Meta:    meta,

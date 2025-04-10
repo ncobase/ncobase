@@ -8,8 +8,8 @@ import (
 	userTenantEnt "ncobase/core/tenant/data/ent/usertenant"
 	"ncobase/core/tenant/structs"
 
-	"ncore/pkg/data/cache"
-	"ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/data/cache"
+	"github.com/ncobase/ncore/pkg/logger"
 
 	"github.com/redis/go-redis/v9"
 )

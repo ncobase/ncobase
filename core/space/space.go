@@ -2,12 +2,12 @@ package space
 
 import (
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/core/space/data"
 	"ncobase/core/space/handler"
 	"ncobase/core/space/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

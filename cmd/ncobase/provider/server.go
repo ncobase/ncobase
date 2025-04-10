@@ -2,9 +2,9 @@ package provider
 
 import (
 	"context"
-	nem "ncore/ext/manager"
-	"ncore/pkg/config"
-	"ncore/pkg/logger"
+	nem "github.com/ncobase/ncore/ext/manager"
+	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/pkg/logger"
 	"net/http"
 )
 

@@ -2,12 +2,12 @@ package tenant
 
 import (
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/core/tenant/data"
 	"ncobase/core/tenant/handler"
 	"ncobase/core/tenant/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

@@ -1,8 +1,8 @@
 package service
 
 import (
+	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/system/data"
-	nec "ncore/ext/core"
 )
 
 // Service represents the system service.

@@ -2,12 +2,12 @@ package resource
 
 import (
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/domain/resource/data"
 	"ncobase/domain/resource/handler"
 	"ncobase/domain/resource/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

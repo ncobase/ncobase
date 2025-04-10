@@ -1,13 +1,13 @@
 package handler
 
 import (
+	"github.com/ncobase/ncore/pkg/helper"
 	"ncobase/domain/content/service"
 	"ncobase/domain/content/structs"
-	"ncore/pkg/helper"
 
-	"ncore/pkg/ecode"
-	"ncore/pkg/resp"
-	"ncore/pkg/types"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )

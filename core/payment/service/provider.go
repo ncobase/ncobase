@@ -1,8 +1,8 @@
 package service
 
 import (
+	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/core/payment/data"
-	"ncore/pkg/config"
 )
 
 // Service represents the payment service.

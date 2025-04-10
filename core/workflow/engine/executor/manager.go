@@ -3,11 +3,11 @@ package executor
 import (
 	"context"
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/logger"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/logger"
 	"sync"
 )
 

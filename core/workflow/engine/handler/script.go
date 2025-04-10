@@ -3,12 +3,12 @@ package handler
 import (
 	"context"
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
 	"math"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	nec "ncore/ext/core"
 	"regexp"
 	"runtime"
 	"strings"

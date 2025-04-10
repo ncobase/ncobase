@@ -4,15 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
+	"github.com/ncobase/ncore/pkg/types"
 	"ncobase/core/tenant/data"
 	"ncobase/core/tenant/data/ent"
 	"ncobase/core/tenant/data/repository"
 	"ncobase/core/tenant/structs"
-	"ncore/pkg/ecode"
-	"ncore/pkg/helper"
-	"ncore/pkg/logger"
-	"ncore/pkg/paging"
-	"ncore/pkg/types"
 )
 
 // TenantServiceInterface is the interface for the service.

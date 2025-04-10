@@ -3,14 +3,14 @@ package service
 import (
 	"context"
 	"errors"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
+	"github.com/ncobase/ncore/pkg/validator"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
-	"ncore/pkg/ecode"
-	"ncore/pkg/logger"
-	"ncore/pkg/paging"
-	"ncore/pkg/validator"
 )
 
 // DictionaryServiceInterface represents the dictionary service interface.

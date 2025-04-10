@@ -1,9 +1,9 @@
 package service
 
 import (
+	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/repository"
-	nec "ncore/ext/core"
 )
 
 // Service represents the workflow service

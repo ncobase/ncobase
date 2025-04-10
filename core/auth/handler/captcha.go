@@ -3,11 +3,11 @@ package handler
 import (
 	"bytes"
 	"fmt"
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/resp"
 	"io"
 	"ncobase/core/auth/service"
 	"ncobase/core/auth/structs"
-	"ncore/pkg/helper"
-	"ncore/pkg/resp"
 	"path/filepath"
 	"strings"
 

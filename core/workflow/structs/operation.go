@@ -1,7 +1,7 @@
 package structs
 
 import (
-	"ncore/pkg/types"
+	"github.com/ncobase/ncore/pkg/types"
 )
 
 // StartProcessRequest represents process start request

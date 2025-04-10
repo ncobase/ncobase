@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"errors"
+	"github.com/ncobase/ncore/pkg/ecode"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
-	"ncore/pkg/ecode"
 )
 
 // UserRoleServiceInterface is the interface for the service.

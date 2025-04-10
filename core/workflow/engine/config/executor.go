@@ -2,10 +2,10 @@ package config
 
 import (
 	"context"
+	"github.com/ncobase/ncore/pkg/queue"
 	"ncobase/core/workflow/engine/scheduler"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/structs"
-	"ncore/pkg/queue"
 	"time"
 )
 

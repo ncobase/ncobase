@@ -2,11 +2,11 @@ package payment
 
 import (
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/core/payment/data"
 	"ncobase/core/payment/handler"
 	"ncobase/core/payment/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

@@ -2,13 +2,13 @@ package workflow
 
 import (
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/core/workflow/data"
 	we "ncobase/core/workflow/engine/core"
 	"ncobase/core/workflow/handler"
 	"ncobase/core/workflow/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
 	"sync"
 
 	"github.com/gin-gonic/gin"

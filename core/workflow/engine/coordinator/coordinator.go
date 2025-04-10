@@ -3,9 +3,9 @@ package coordinator
 import (
 	"context"
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/logger"
 	"ncobase/core/workflow/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/logger"
 	"sync"
 	"time"
 

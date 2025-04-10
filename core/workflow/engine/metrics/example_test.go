@@ -4,7 +4,7 @@ package metrics_test
 // import (
 // 	"context"
 // 	"fmt"
-// 	"ncore/metrics"
+// 	"github.com/ncobase/ncore/metrics"
 // 	"time"
 // )
 //

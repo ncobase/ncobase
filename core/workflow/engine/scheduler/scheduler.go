@@ -3,10 +3,10 @@ package scheduler
 import (
 	"context"
 	"fmt"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	nec "ncore/ext/core"
-	"ncore/pkg/types"
 	"sync"
 	"sync/atomic"
 	"time"

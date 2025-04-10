@@ -1,11 +1,11 @@
 package middleware
 
 import (
-	"ncore/pkg/ecode"
-	"ncore/pkg/helper"
-	"ncore/pkg/logger"
-	"ncore/pkg/resp"
-	"ncore/pkg/validator"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )

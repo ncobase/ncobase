@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"errors"
+	"github.com/ncobase/ncore/pkg/ecode"
 	"ncobase/core/tenant/data"
 	"ncobase/core/tenant/data/ent"
 	"ncobase/core/tenant/data/repository"
 	"ncobase/core/tenant/structs"
-	"ncore/pkg/ecode"
 )
 
 // UserTenantServiceInterface is the interface for the service.

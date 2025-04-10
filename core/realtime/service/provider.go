@@ -1,8 +1,8 @@
 package service
 
 import (
+	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/realtime/data"
-	nec "ncore/ext/core"
 )
 
 // Service represents all services for the realtime module

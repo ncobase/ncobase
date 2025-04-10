@@ -2,7 +2,7 @@ package coordinator
 
 import (
 	"context"
-	nec "ncore/ext/core"
+	nec "github.com/ncobase/ncore/ext/core"
 	"testing"
 	"time"
 

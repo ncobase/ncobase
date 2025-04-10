@@ -2,14 +2,14 @@ package provider
 
 import (
 	"context"
+	nec "github.com/ncobase/ncore/ext/core"
+	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/resp"
 	"ncobase/cmd/ncobase/middleware"
 	accessService "ncobase/core/access/service"
 	tenantService "ncobase/core/tenant/service"
-	nec "ncore/ext/core"
-	"ncore/pkg/config"
-	"ncore/pkg/ecode"
-	"ncore/pkg/logger"
-	"ncore/pkg/resp"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

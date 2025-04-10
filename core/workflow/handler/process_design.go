@@ -2,14 +2,14 @@ package handler
 
 import (
 	"encoding/json"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/pkg/types"
 	"io"
 	"mime/multipart"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
-	"ncore/pkg/ecode"
-	"ncore/pkg/helper"
-	"ncore/pkg/resp"
-	"ncore/pkg/types"
 
 	"github.com/gin-gonic/gin"
 )
