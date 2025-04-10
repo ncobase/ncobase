@@ -3,16 +3,17 @@ package service
 import (
 	"context"
 	"errors"
+	"ncobase/domain/content/data"
+	"ncobase/domain/content/data/ent"
+	"ncobase/domain/content/data/repository"
+	"ncobase/domain/content/structs"
+
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/slug"
 	"github.com/ncobase/ncore/pkg/types"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/domain/content/data"
-	"ncobase/domain/content/data/ent"
-	"ncobase/domain/content/data/repository"
-	"ncobase/domain/content/structs"
 )
 
 // TaxonomyServiceInterface is the interface for the service.

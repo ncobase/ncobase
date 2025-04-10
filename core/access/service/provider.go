@@ -1,8 +1,9 @@
 package service
 
 import (
-	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/core/access/data"
+
+	"github.com/ncobase/ncore/pkg/config"
 )
 
 // Service represents the auth service.

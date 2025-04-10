@@ -4,8 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/logger"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
@@ -14,6 +12,9 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/logger"
 
 	"github.com/robfig/cron/v3"
 	"github.com/sony/gobreaker"
@@ -25,7 +26,7 @@ type ServiceExecutor struct {
 
 	// Dependencies
 	services *service.Service
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 	logger   logger.Logger
 
 	// Components
@@ -76,7 +77,7 @@ type ServiceProvider interface {
 }
 
 // NewServiceExecutor creates a new service executor
-func NewServiceExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*ServiceExecutor, error) {
+func NewServiceExecutor(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) (*ServiceExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

@@ -3,10 +3,11 @@ package initialize
 import (
 	"context"
 	"fmt"
-	"github.com/ncobase/ncore/pkg/logger"
 	accessStructs "ncobase/core/access/structs"
 	spaceStructs "ncobase/core/space/structs"
 	userStructs "ncobase/core/user/structs"
+
+	"github.com/ncobase/ncore/pkg/logger"
 )
 
 // checkGroupsInitialized checks if groups are already initialized.

@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/uuid"
 	"ncobase/core/realtime/service"
 	"net/http"
+
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/uuid"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"

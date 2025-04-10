@@ -3,13 +3,14 @@ package service
 import (
 	"context"
 	"errors"
+	"ncobase/core/auth/data/ent"
+	"time"
+
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/jwt"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/types"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/core/auth/data/ent"
-	"time"
 )
 
 // generateUserToken generates user access and refresh tokens.

@@ -3,11 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/ncobase/ncore/pkg/types"
 	"ncobase/core/user/data"
 	"ncobase/core/user/data/ent"
 	userProfileEnt "ncobase/core/user/data/ent/userprofile"
 	"ncobase/core/user/structs"
+
+	"github.com/ncobase/ncore/pkg/types"
 
 	"github.com/ncobase/ncore/pkg/data/cache"
 	"github.com/ncobase/ncore/pkg/logger"

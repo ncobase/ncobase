@@ -3,14 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/ncobase/ncore/pkg/data/meili"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/validator"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
 	optionsEnt "ncobase/core/system/data/ent/options"
 	"ncobase/core/system/structs"
+
+	"github.com/ncobase/ncore/pkg/data/meili"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
+	"github.com/ncobase/ncore/pkg/validator"
 
 	"github.com/redis/go-redis/v9"
 )

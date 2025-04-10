@@ -242,7 +242,7 @@ package scheduler
 // 		Node: &mockNodeService{},
 // 		Task: &mockTaskService{},
 // 	}
-// 	em := &nec.ManagerInterface{}
+// 	em := &ext.ManagerInterface{}
 // 	cfg := DefaultConfig()
 // 	return NewScheduler(svc, em, cfg)
 // }

@@ -3,13 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/email"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/jwt"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/nanoid"
-	"github.com/ncobase/ncore/pkg/types"
 	"ncobase/core/auth/data"
 	"ncobase/core/auth/data/ent"
 	codeAuthEnt "ncobase/core/auth/data/ent/codeauth"
@@ -18,6 +11,14 @@ import (
 	userStructs "ncobase/core/user/structs"
 	"strings"
 	"time"
+
+	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/pkg/email"
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/jwt"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/nanoid"
+	"github.com/ncobase/ncore/pkg/types"
 )
 
 // CodeAuthServiceInterface is the interface for the service.

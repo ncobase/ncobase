@@ -2,9 +2,10 @@ package initialize
 
 import (
 	"context"
-	"github.com/ncobase/ncore/pkg/logger"
 	tenantStructs "ncobase/core/tenant/structs"
 	userStructs "ncobase/core/user/structs"
+
+	"github.com/ncobase/ncore/pkg/logger"
 )
 
 // checkUsersInitialized checks if users are already initialized.

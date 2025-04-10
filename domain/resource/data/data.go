@@ -4,11 +4,12 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"ncobase/domain/resource/data/ent"
+	"ncobase/domain/resource/data/ent/migrate"
+
 	"github.com/ncobase/ncore/pkg/config"
 	"github.com/ncobase/ncore/pkg/data"
 	"github.com/ncobase/ncore/pkg/logger"
-	"ncobase/domain/resource/data/ent"
-	"ncobase/domain/resource/data/ent/migrate"
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"

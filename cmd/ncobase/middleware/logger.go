@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/logger"
 	"io"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"

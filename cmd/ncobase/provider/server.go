@@ -2,17 +2,18 @@ package provider
 
 import (
 	"context"
-	nem "github.com/ncobase/ncore/ext/manager"
+	"net/http"
+
+	extm "github.com/ncobase/ncore/ext/manager"
 	"github.com/ncobase/ncore/pkg/config"
 	"github.com/ncobase/ncore/pkg/logger"
-	"net/http"
 )
 
 // NewServer creates a new server.
 func NewServer(conf *config.Config) (http.Handler, func(), error) {
 
 	// Initialize Extension Manager
-	em, err := nem.NewManager(conf)
+	em, err := extm.NewManager(conf)
 	if err != nil {
 		logger.Fatalf(context.Background(), "Failed initializing extension manager: %+v", err)
 		return nil, nil, err

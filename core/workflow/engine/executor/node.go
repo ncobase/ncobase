@@ -3,18 +3,20 @@ package executor
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/expression"
 	"ncobase/core/workflow/engine/config"
 	"sync"
 	"time"
 
-	"github.com/ncobase/ncore/pkg/logger"
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/expression"
+
 	"ncobase/core/workflow/engine/handler"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
+
+	"github.com/ncobase/ncore/pkg/logger"
 
 	"github.com/jinzhu/copier"
 )
@@ -25,7 +27,7 @@ type NodeExecutor struct {
 
 	// Dependencies
 	services *service.Service
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 	handlers *handler.Manager
 	logger   logger.Logger
 
@@ -73,7 +75,7 @@ type JoinContext struct {
 }
 
 // NewNodeExecutor creates a new node executor
-func NewNodeExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*NodeExecutor, error) {
+func NewNodeExecutor(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) (*NodeExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

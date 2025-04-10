@@ -2,12 +2,13 @@ package service
 
 import (
 	"context"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
 )
 
 type HistoryServiceInterface interface {
@@ -24,10 +25,10 @@ type HistoryServiceInterface interface {
 
 type historyService struct {
 	historyRepo repository.HistoryRepositoryInterface
-	em          nec.ManagerInterface
+	em          ext.ManagerInterface
 }
 
-func NewHistoryService(repo repository.Repository, em nec.ManagerInterface) HistoryServiceInterface {
+func NewHistoryService(repo repository.Repository, em ext.ManagerInterface) HistoryServiceInterface {
 	return &historyService{
 		historyRepo: repo.GetHistory(),
 		em:          em,

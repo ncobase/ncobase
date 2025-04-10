@@ -3,14 +3,15 @@ package service
 import (
 	"context"
 	"errors"
-	nec "github.com/ncobase/ncore/ext/core"
+	"ncobase/core/workflow/data/ent"
+	"ncobase/core/workflow/data/repository"
+	"ncobase/core/workflow/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/types"
-	"ncobase/core/workflow/data/ent"
-	"ncobase/core/workflow/data/repository"
-	"ncobase/core/workflow/structs"
 )
 
 type ProcessDesignServiceInterface interface {
@@ -32,10 +33,10 @@ type ProcessDesignServiceInterface interface {
 type processDesignService struct {
 	processDesignRepo repository.ProcessDesignRepositoryInterface
 	templateRepo      repository.TemplateRepositoryInterface
-	em                nec.ManagerInterface
+	em                ext.ManagerInterface
 }
 
-func NewProcessDesignService(repo repository.Repository, em nec.ManagerInterface) ProcessDesignServiceInterface {
+func NewProcessDesignService(repo repository.Repository, em ext.ManagerInterface) ProcessDesignServiceInterface {
 	return &processDesignService{
 		processDesignRepo: repo.GetProcessDesign(),
 		templateRepo:      repo.GetTemplate(),

@@ -4,15 +4,16 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/types"
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
+	"github.com/ncobase/ncore/pkg/types"
 )
 
 type RuleServiceInterface interface {
@@ -34,10 +35,10 @@ type RuleServiceInterface interface {
 type ruleService struct {
 	processRepo repository.ProcessRepositoryInterface
 	ruleRepo    repository.RuleRepositoryInterface
-	em          nec.ManagerInterface
+	em          ext.ManagerInterface
 }
 
-func NewRuleService(repo repository.Repository, em nec.ManagerInterface) RuleServiceInterface {
+func NewRuleService(repo repository.Repository, em ext.ManagerInterface) RuleServiceInterface {
 	return &ruleService{
 		processRepo: repo.GetProcess(),
 		ruleRepo:    repo.GetRule(),

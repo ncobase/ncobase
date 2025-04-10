@@ -3,14 +3,15 @@ package service
 import (
 	"context"
 	"errors"
-	nec "github.com/ncobase/ncore/ext/core"
+	"ncobase/core/workflow/data/ent"
+	"ncobase/core/workflow/data/repository"
+	"ncobase/core/workflow/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/types"
-	"ncobase/core/workflow/data/ent"
-	"ncobase/core/workflow/data/repository"
-	"ncobase/core/workflow/structs"
 )
 
 type TaskServiceInterface interface {
@@ -32,10 +33,10 @@ type taskService struct {
 	taskRepo    repository.TaskRepositoryInterface
 	historyRepo repository.HistoryRepositoryInterface
 	nodeRepo    repository.NodeRepositoryInterface
-	em          nec.ManagerInterface
+	em          ext.ManagerInterface
 }
 
-func NewTaskService(repo repository.Repository, em nec.ManagerInterface) TaskServiceInterface {
+func NewTaskService(repo repository.Repository, em ext.ManagerInterface) TaskServiceInterface {
 	return &taskService{
 		taskRepo:    repo.GetTask(),
 		historyRepo: repo.GetHistory(),

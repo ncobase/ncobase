@@ -3,21 +3,22 @@ package handler
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/logger"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"sync"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/logger"
 )
 
 // Manager manages workflow handlers
 type Manager struct {
 	// Dependencies
 	services *service.Service
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 	logger   logger.Logger
 
 	// Runtime components
@@ -54,7 +55,7 @@ type HandlerInfo struct {
 }
 
 // NewManager creates a new handler manager
-func NewManager(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *Manager {
+func NewManager(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) *Manager {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

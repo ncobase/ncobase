@@ -3,16 +3,17 @@ package service
 import (
 	"context"
 	"errors"
-	nec "github.com/ncobase/ncore/ext/core"
+	"ncobase/core/system/data"
+	"ncobase/core/system/data/ent"
+	"ncobase/core/system/data/repository"
+	"ncobase/core/system/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/types"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/core/system/data"
-	"ncobase/core/system/data/ent"
-	"ncobase/core/system/data/repository"
-	"ncobase/core/system/structs"
 )
 
 // MenuServiceInterface represents the menu service interface.
@@ -28,11 +29,11 @@ type MenuServiceInterface interface {
 // MenuService represents the menu service.
 type menuService struct {
 	menu repository.MenuRepositoryInterface
-	em   nec.ManagerInterface
+	em   ext.ManagerInterface
 }
 
 // NewMenuService creates a new menu service.
-func NewMenuService(d *data.Data, em nec.ManagerInterface) MenuServiceInterface {
+func NewMenuService(d *data.Data, em ext.ManagerInterface) MenuServiceInterface {
 	return &menuService{
 		menu: repository.NewMenuRepository(d),
 		em:   em,

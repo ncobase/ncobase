@@ -2,12 +2,13 @@ package handler
 
 import (
 	"context"
-	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
 )
 
 // SubprocessHandler handles subprocess nodes
@@ -19,7 +20,7 @@ type SubprocessHandler struct {
 }
 
 // NewSubprocessHandler creates a new subprocess handler
-func NewSubprocessHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *SubprocessHandler {
+func NewSubprocessHandler(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) *SubprocessHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

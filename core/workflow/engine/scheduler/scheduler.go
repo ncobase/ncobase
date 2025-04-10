@@ -3,13 +3,14 @@ package scheduler
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/types"
 
 	"github.com/robfig/cron/v3"
 )
@@ -66,7 +67,7 @@ type Task struct {
 type Scheduler struct {
 	// Dependencies
 	services *service.Service
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 	config   *Config
 
 	// Task queues
@@ -90,7 +91,7 @@ type Scheduler struct {
 //
 //	// Create a new scheduler
 //	svc := &service.Service{...}  // Provide necessary services
-//	em := &nec.ManagerInterface{...} // Provide an extension manager
+//	em := &ext.ManagerInterface{...} // Provide an extension manager
 //	cfg := scheduler.DefaultConfig() // Use default configuration or create a custom one
 //	s := scheduler.NewScheduler(svc, em, cfg)
 //
@@ -130,7 +131,7 @@ type Scheduler struct {
 //
 //	// Stop the scheduler
 //	s.Stop()
-func NewScheduler(svc *service.Service, em nec.ManagerInterface, cfg *Config) *Scheduler {
+func NewScheduler(svc *service.Service, em ext.ManagerInterface, cfg *Config) *Scheduler {
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}

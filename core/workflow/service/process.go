@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
 	"ncobase/core/workflow/data/ent"
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
 )
 
 type ProcessServiceInterface interface {
@@ -33,10 +34,10 @@ type processService struct {
 	processRepo  repository.ProcessRepositoryInterface
 	templateRepo repository.TemplateRepositoryInterface
 	historyRepo  repository.HistoryRepositoryInterface
-	em           nec.ManagerInterface
+	em           ext.ManagerInterface
 }
 
-func NewProcessService(repo repository.Repository, em nec.ManagerInterface) ProcessServiceInterface {
+func NewProcessService(repo repository.Repository, em ext.ManagerInterface) ProcessServiceInterface {
 	return &processService{
 		processRepo:  repo.GetProcess(),
 		templateRepo: repo.GetTemplate(),

@@ -2,9 +2,10 @@ package coordinator
 
 import (
 	"context"
-	nec "github.com/ncobase/ncore/ext/core"
 	"testing"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
 
 	"ncobase/core/workflow/service"
 
@@ -16,7 +17,7 @@ import (
 func setupTestCoordinator() (*Coordinator, func()) {
 	// Mock dependencies
 	svc := &service.Service{}
-	em, _ := nec.NewManager(nil)
+	em, _ := ext.NewManager(nil)
 	client, _ := api.NewClient(api.DefaultConfig())
 	cfg := DefaultConfig()
 

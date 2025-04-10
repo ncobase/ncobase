@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
 	"html/template"
 	"log"
 	"ncobase/core/workflow/engine/config"
@@ -15,6 +14,8 @@ import (
 	"sync/atomic"
 	"text/template/parse"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
 )
 
 // NotificationHandler handles notification nodes
@@ -135,7 +136,7 @@ type NotificationMetrics struct {
 }
 
 // NewNotificationHandler creates a new notification handler
-func NewNotificationHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *NotificationHandler {
+func NewNotificationHandler(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) *NotificationHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

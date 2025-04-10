@@ -4,14 +4,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
+	"ncobase/core/workflow/data/ent"
+	"ncobase/core/workflow/data/repository"
+	"ncobase/core/workflow/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/core/workflow/data/ent"
-	"ncobase/core/workflow/data/repository"
-	"ncobase/core/workflow/structs"
 
 	"github.com/jinzhu/copier"
 )
@@ -34,10 +35,10 @@ type TemplateServiceInterface interface {
 
 type templateService struct {
 	templateRepo repository.TemplateRepositoryInterface
-	em           nec.ManagerInterface
+	em           ext.ManagerInterface
 }
 
-func NewTemplateService(repo repository.Repository, em nec.ManagerInterface) TemplateServiceInterface {
+func NewTemplateService(repo repository.Repository, em ext.ManagerInterface) TemplateServiceInterface {
 	return &templateService{
 		templateRepo: repo.GetTemplate(),
 		em:           em,

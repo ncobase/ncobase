@@ -3,9 +3,6 @@ package executor
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/expression"
-	"github.com/ncobase/ncore/pkg/logger"
 	"math"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/metrics"
@@ -16,6 +13,10 @@ import (
 	"sort"
 	"sync"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/expression"
+	"github.com/ncobase/ncore/pkg/logger"
 )
 
 // TaskExecutor handles task execution
@@ -24,7 +25,7 @@ type TaskExecutor struct {
 
 	// Dependencies
 	services *service.Service
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 	logger   logger.Logger
 
 	// Runtime components
@@ -84,7 +85,7 @@ type AssignmentRule struct {
 }
 
 // NewTaskExecutor creates a new task executor
-func NewTaskExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*TaskExecutor, error) {
+func NewTaskExecutor(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) (*TaskExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
@@ -12,6 +11,8 @@ import (
 	"sort"
 	"sync"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
 )
 
 // ApprovalHandler handles approval nodes in workflow
@@ -66,7 +67,7 @@ type ApprovalStrategy interface {
 }
 
 // NewApprovalHandler creates a new approval handler
-func NewApprovalHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*ApprovalHandler, error) {
+func NewApprovalHandler(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) (*ApprovalHandler, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

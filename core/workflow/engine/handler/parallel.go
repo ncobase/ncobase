@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
@@ -12,6 +11,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
 )
 
 // BranchStatus represents branch execution status
@@ -34,7 +35,7 @@ type ParallelHandler struct {
 }
 
 // NewParallelHandler creates a new parallel handler
-func NewParallelHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *ParallelHandler {
+func NewParallelHandler(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) *ParallelHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"github.com/ncobase/ncore/pkg/resp"
 	"strconv"
 	"time"
+
+	"github.com/ncobase/ncore/pkg/resp"
 
 	"github.com/gin-gonic/gin"
 )

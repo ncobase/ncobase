@@ -1,9 +1,10 @@
 package service
 
 import (
-	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/repository"
+
+	ext "github.com/ncobase/ncore/ext/types"
 )
 
 // Service represents the workflow service
@@ -20,7 +21,7 @@ type Service struct {
 }
 
 // New creates a new workflow service
-func New(d *data.Data, em nec.ManagerInterface) *Service {
+func New(d *data.Data, em ext.ManagerInterface) *Service {
 	// Create repositories
 	repo := repository.New(d)
 

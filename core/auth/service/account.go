@@ -4,11 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/jwt"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/types"
-	"github.com/ncobase/ncore/pkg/validator"
 	accessService "ncobase/core/access/service"
 	"ncobase/core/auth/data"
 	"ncobase/core/auth/data/ent"
@@ -18,6 +13,12 @@ import (
 	tenantStructs "ncobase/core/tenant/structs"
 	userService "ncobase/core/user/service"
 	userStructs "ncobase/core/user/structs"
+
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/jwt"
+	"github.com/ncobase/ncore/pkg/paging"
+	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/pkg/validator"
 )
 
 // AccountServiceInterface is the interface for the service.

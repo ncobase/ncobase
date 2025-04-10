@@ -3,14 +3,15 @@ package handler
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/expression"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
 	"sort"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/expression"
 )
 
 // ExclusiveHandler handles exclusive gateway nodes
@@ -24,7 +25,7 @@ type ExclusiveHandler struct {
 }
 
 // NewExclusiveHandler creates a new exclusive handler
-func NewExclusiveHandler(svc *service.Service, em nec.ManagerInterface, expr *expression.Expression, cfg *config.Config) *ExclusiveHandler {
+func NewExclusiveHandler(svc *service.Service, em ext.ManagerInterface, expr *expression.Expression, cfg *config.Config) *ExclusiveHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

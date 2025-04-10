@@ -3,13 +3,14 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/logger"
 	"ncobase/core/access/data"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
 	"os"
 	"strings"
+
+	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/pkg/logger"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"

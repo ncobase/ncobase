@@ -4,8 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/logger"
 	"math"
 	"math/rand"
 	"ncobase/core/workflow/engine/config"
@@ -15,6 +13,9 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/logger"
 )
 
 // RetryExecutor handles retry operations
@@ -23,7 +24,7 @@ type RetryExecutor struct {
 
 	// Dependencies
 	services *service.Service
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 	logger   logger.Logger
 
 	// Runtime components
@@ -81,7 +82,7 @@ type RetryStats struct {
 }
 
 // NewRetryExecutor creates a new retry executor
-func NewRetryExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*RetryExecutor, error) {
+func NewRetryExecutor(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) (*RetryExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

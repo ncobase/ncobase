@@ -3,10 +3,6 @@ package core
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/concurrency"
-	"github.com/ncobase/ncore/pkg/expression"
-	"github.com/ncobase/ncore/pkg/logger"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/coordinator"
 	"ncobase/core/workflow/engine/executor"
@@ -18,6 +14,11 @@ import (
 	"runtime"
 	"sync"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/concurrency"
+	"github.com/ncobase/ncore/pkg/expression"
+	"github.com/ncobase/ncore/pkg/logger"
 )
 
 // Core represents the workflow engine core
@@ -25,7 +26,7 @@ type Core struct {
 	// Services
 	services *service.Service
 	// Extension manager
-	em nec.ManagerInterface
+	em ext.ManagerInterface
 
 	// Metrics
 	metrics *metrics.Collector
@@ -61,7 +62,7 @@ type Core struct {
 }
 
 // NewCore creates a new workflow engine core
-func NewCore(cfg *config.Config, svc *service.Service, em nec.ManagerInterface) (*Core, error) {
+func NewCore(cfg *config.Config, svc *service.Service, em ext.ManagerInterface) (*Core, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

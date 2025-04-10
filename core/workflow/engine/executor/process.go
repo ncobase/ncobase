@@ -3,13 +3,14 @@ package executor
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/expression"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/uuid"
 	"ncobase/core/workflow/engine/config"
 	"sync"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/expression"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/uuid"
 
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
@@ -22,7 +23,7 @@ type ProcessExecutor struct {
 
 	// Services & components
 	services   *service.Service
-	em         nec.ManagerInterface
+	em         ext.ManagerInterface
 	expression *expression.Expression
 
 	// Dependent executors
@@ -52,7 +53,7 @@ type ProcessInfo struct {
 }
 
 // NewProcessExecutor creates a new process executor
-func NewProcessExecutor(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*ProcessExecutor, error) {
+func NewProcessExecutor(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) (*ProcessExecutor, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

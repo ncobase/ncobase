@@ -2,21 +2,22 @@ package provider
 
 import (
 	"context"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/resp"
 	"ncobase/cmd/ncobase/middleware"
 	accessService "ncobase/core/access/service"
 	tenantService "ncobase/core/tenant/service"
 	"net/http"
 
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/resp"
+
 	"github.com/gin-gonic/gin"
 )
 
 // ginServer creates and initializes the server.
-func ginServer(conf *config.Config, em nec.ManagerInterface) (*gin.Engine, error) {
+func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error) {
 	// Set gin mode
 	if conf.RunMode == "" {
 		conf.RunMode = gin.ReleaseMode
@@ -69,7 +70,7 @@ func ginServer(conf *config.Config, em nec.ManagerInterface) (*gin.Engine, error
 }
 
 // register user middleware
-func userMiddleware(conf *config.Config, engine *gin.Engine, _ nec.ManagerInterface) {
+func userMiddleware(conf *config.Config, engine *gin.Engine, _ ext.ManagerInterface) {
 	// get user service
 	// fu, err := em.GetService("user")
 	// if err != nil {
@@ -89,7 +90,7 @@ func userMiddleware(conf *config.Config, engine *gin.Engine, _ nec.ManagerInterf
 }
 
 // register Tenant middleware
-func tenantMiddleware(conf *config.Config, engine *gin.Engine, em nec.ManagerInterface) {
+func tenantMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) {
 	// get tenant service
 	ft, err := em.GetService("tenant")
 	if err != nil {
@@ -110,7 +111,7 @@ func tenantMiddleware(conf *config.Config, engine *gin.Engine, em nec.ManagerInt
 }
 
 // register casbin middleware
-func casbinMiddleware(conf *config.Config, engine *gin.Engine, em nec.ManagerInterface) {
+func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) {
 	// get access service
 	fa, err := em.GetService("access")
 	if err != nil {

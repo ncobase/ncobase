@@ -3,16 +3,17 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/domain/content/data"
+	"ncobase/domain/content/data/ent"
+	taxonomyEnt "ncobase/domain/content/data/ent/taxonomy"
+	"ncobase/domain/content/structs"
+
 	"github.com/ncobase/ncore/pkg/data/cache"
 	"github.com/ncobase/ncore/pkg/data/meili"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/types"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/domain/content/data"
-	"ncobase/domain/content/data/ent"
-	taxonomyEnt "ncobase/domain/content/data/ent/taxonomy"
-	"ncobase/domain/content/structs"
 
 	"github.com/redis/go-redis/v9"
 )

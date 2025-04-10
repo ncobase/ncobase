@@ -1,15 +1,16 @@
 package middleware
 
 import (
+	"ncobase/core/access/service"
+	"ncobase/core/access/structs"
+	"strings"
+
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/helper"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/resp"
 	"github.com/ncobase/ncore/pkg/types"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/core/access/service"
-	"ncobase/core/access/structs"
-	"strings"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"

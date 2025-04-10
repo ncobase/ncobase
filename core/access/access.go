@@ -2,13 +2,14 @@ package access
 
 import (
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/core/access/data"
 	"ncobase/core/access/handler"
 	"ncobase/core/access/service"
 	"sync"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +28,7 @@ var (
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
-	em          nec.ManagerInterface
+	em          ext.ManagerInterface
 	conf        *config.Config
 	h           *handler.Handler
 	s           *service.Service
@@ -45,7 +46,7 @@ type discovery struct {
 }
 
 // New creates a new instance of the access module.
-func New() nec.Interface {
+func New() ext.Interface {
 	return &Module{}
 }
 
@@ -56,7 +57,7 @@ func (m *Module) PreInit() error {
 }
 
 // Init initializes the access module with the given config object
-func (m *Module) Init(conf *config.Config, em nec.ManagerInterface) (err error) {
+func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -133,12 +134,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() nec.Handler {
+func (m *Module) GetHandlers() ext.Handler {
 	return m.h
 }
 
 // GetServices returns the services for the module
-func (m *Module) GetServices() nec.Service {
+func (m *Module) GetServices() ext.Service {
 	return m.s
 }
 
@@ -162,8 +163,8 @@ func (m *Module) Status() string {
 }
 
 // GetMetadata returns the metadata of the module
-func (m *Module) GetMetadata() nec.Metadata {
-	return nec.Metadata{
+func (m *Module) GetMetadata() ext.Metadata {
+	return ext.Metadata{
 		Name:         m.Name(),
 		Version:      m.Version(),
 		Dependencies: m.Dependencies(),
@@ -204,7 +205,7 @@ func (m *Module) NeedServiceDiscovery() bool {
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
-func (m *Module) GetServiceInfo() *nec.ServiceInfo {
+func (m *Module) GetServiceInfo() *ext.ServiceInfo {
 	if !m.NeedServiceDiscovery() {
 		return nil
 	}
@@ -223,7 +224,7 @@ func (m *Module) GetServiceInfo() *nec.ServiceInfo {
 	meta["type"] = metadata.Type
 	meta["description"] = metadata.Description
 
-	return &nec.ServiceInfo{
+	return &ext.ServiceInfo{
 		Address: m.discovery.address,
 		Tags:    tags,
 		Meta:    meta,

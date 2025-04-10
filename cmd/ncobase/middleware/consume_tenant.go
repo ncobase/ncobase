@@ -1,10 +1,11 @@
 package middleware
 
 import (
+	tenantService "ncobase/core/tenant/service"
+
 	"github.com/ncobase/ncore/pkg/consts"
 	"github.com/ncobase/ncore/pkg/helper"
 	"github.com/ncobase/ncore/pkg/logger"
-	tenantService "ncobase/core/tenant/service"
 
 	"github.com/gin-gonic/gin"
 )

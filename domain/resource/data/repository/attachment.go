@@ -3,6 +3,11 @@ package repository
 import (
 	"context"
 	"fmt"
+	"ncobase/domain/resource/data"
+	"ncobase/domain/resource/data/ent"
+	attachmentEnt "ncobase/domain/resource/data/ent/attachment"
+	"ncobase/domain/resource/structs"
+
 	"github.com/ncobase/ncore/pkg/data/cache"
 	"github.com/ncobase/ncore/pkg/data/meili"
 	"github.com/ncobase/ncore/pkg/logger"
@@ -10,10 +15,6 @@ import (
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/types"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/domain/resource/data"
-	"ncobase/domain/resource/data/ent"
-	attachmentEnt "ncobase/domain/resource/data/ent/attachment"
-	"ncobase/domain/resource/structs"
 
 	"github.com/redis/go-redis/v9"
 )

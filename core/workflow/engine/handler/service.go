@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
 	"io"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
@@ -23,6 +22,8 @@ import (
 	"sync/atomic"
 	"syscall"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
 )
 
 // ServiceHandler handles service node execution
@@ -187,7 +188,7 @@ type ServiceMetrics struct {
 }
 
 // NewServiceHandler creates a new service handler
-func NewServiceHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) (*ServiceHandler, error) {
+func NewServiceHandler(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) (*ServiceHandler, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

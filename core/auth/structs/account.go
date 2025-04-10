@@ -1,11 +1,12 @@
 package structs
 
 import (
-	"github.com/ncobase/ncore/pkg/oauth"
 	accessStructs "ncobase/core/access/structs"
 	spaceStructs "ncobase/core/space/structs"
 	tenantStructs "ncobase/core/tenant/structs"
 	userStructs "ncobase/core/user/structs"
+
+	"github.com/ncobase/ncore/pkg/oauth"
 )
 
 // SendCodeBody Send verify code body

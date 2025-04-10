@@ -2,15 +2,16 @@ package counter
 
 import (
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	nep "github.com/ncobase/ncore/ext/plugin"
-	"github.com/ncobase/ncore/pkg/config"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/plugin/counter/data"
 	"ncobase/plugin/counter/data/repository"
 	"ncobase/plugin/counter/handler"
 	"ncobase/plugin/counter/service"
 	"sync"
+
+	extp "github.com/ncobase/ncore/ext/plugin"
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +30,7 @@ var (
 type Plugin struct {
 	initialized bool
 	mu          sync.RWMutex
-	em          nec.ManagerInterface
+	em          ext.ManagerInterface
 	conf        *config.Config
 	d           *data.Data
 	r           *repository.Repository
@@ -59,7 +60,7 @@ func (p *Plugin) PreInit() error {
 }
 
 // Init initializes the plugin
-func (p *Plugin) Init(conf *config.Config, em nec.ManagerInterface) (err error) {
+func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
@@ -112,12 +113,12 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 // GetHandlers returns the handlers for the plugin
-func (p *Plugin) GetHandlers() nec.Handler {
+func (p *Plugin) GetHandlers() ext.Handler {
 	return p.h
 }
 
 // GetServices returns the services for the plugin
-func (p *Plugin) GetServices() nec.Service {
+func (p *Plugin) GetServices() ext.Service {
 	return p.s
 }
 
@@ -136,8 +137,8 @@ func (p *Plugin) Cleanup() error {
 }
 
 // GetMetadata returns the metadata of the plugin
-func (p *Plugin) GetMetadata() nec.Metadata {
-	return nec.Metadata{
+func (p *Plugin) GetMetadata() ext.Metadata {
+	return ext.Metadata{
 		Name:         p.Name(),
 		Version:      p.Version(),
 		Dependencies: p.Dependencies(),
@@ -179,12 +180,12 @@ func (p *Plugin) Group() string {
 }
 
 // SubscribeEvents subscribes to relevant events
-func (p *Plugin) subscribeEvents(_ nec.ManagerInterface) {
+func (p *Plugin) subscribeEvents(_ ext.ManagerInterface) {
 	// Implement any event subscriptions here
 }
 
 func init() {
-	nep.RegisterPlugin(&Plugin{}, nec.Metadata{
+	extp.RegisterPlugin(&Plugin{}, ext.Metadata{
 		Name:         name,
 		Version:      version,
 		Dependencies: dependencies,
@@ -200,7 +201,7 @@ func (p *Plugin) NeedServiceDiscovery() bool {
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
-func (p *Plugin) GetServiceInfo() *nec.ServiceInfo {
+func (p *Plugin) GetServiceInfo() *ext.ServiceInfo {
 	if !p.NeedServiceDiscovery() {
 		return nil
 	}
@@ -219,7 +220,7 @@ func (p *Plugin) GetServiceInfo() *nec.ServiceInfo {
 	meta["type"] = metadata.Type
 	meta["description"] = metadata.Description
 
-	return &nec.ServiceInfo{
+	return &ext.ServiceInfo{
 		Address: p.discovery.address,
 		Tags:    tags,
 		Meta:    meta,

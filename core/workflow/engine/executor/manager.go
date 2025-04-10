@@ -3,12 +3,13 @@ package executor
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/logger"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"sync"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/logger"
 )
 
 // Manager manages all executors
@@ -18,7 +19,7 @@ type Manager struct {
 
 	// Dependencies
 	services *service.Service
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 	logger   logger.Logger
 	cfg      *config.Config
 
@@ -29,7 +30,7 @@ type Manager struct {
 }
 
 // NewManager creates a new executor manager
-func NewManager(cfg *config.Config, svc *service.Service, em nec.ManagerInterface) (*Manager, error) {
+func NewManager(cfg *config.Config, svc *service.Service, em ext.ManagerInterface) (*Manager, error) {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

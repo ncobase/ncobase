@@ -1,8 +1,9 @@
 package service
 
 import (
-	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/realtime/data"
+
+	ext "github.com/ncobase/ncore/ext/types"
 )
 
 // Service represents all services for the realtime module
@@ -11,11 +12,11 @@ type Service struct {
 	Notification NotificationService
 	Event        EventService
 	Channel      ChannelService
-	em           nec.ManagerInterface
+	em           ext.ManagerInterface
 }
 
 // New creates a new service provider instance
-func New(d *data.Data, em nec.ManagerInterface) *Service {
+func New(d *data.Data, em ext.ManagerInterface) *Service {
 	// Initialize WebSocket service, Other service depends on it
 	wsService := NewWebSocketService(d)
 	return &Service{

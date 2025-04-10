@@ -3,13 +3,14 @@ package handler
 import (
 	"bytes"
 	"fmt"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
 	"io"
 	"ncobase/core/auth/service"
 	"ncobase/core/auth/structs"
 	"path/filepath"
 	"strings"
+
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/resp"
 
 	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"

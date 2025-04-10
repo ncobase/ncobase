@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"ncobase/core/tenant/service"
+	"ncobase/core/tenant/structs"
+
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/helper"
 	"github.com/ncobase/ncore/pkg/resp"
-	"ncobase/core/tenant/service"
-	"ncobase/core/tenant/structs"
 
 	"github.com/gin-gonic/gin"
 )

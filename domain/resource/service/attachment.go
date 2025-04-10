@@ -4,17 +4,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/validator"
 	"io"
 	"ncobase/domain/resource/data"
 	"ncobase/domain/resource/data/ent"
 	"ncobase/domain/resource/data/repository"
 	"ncobase/domain/resource/structs"
 	"os"
+
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
+	"github.com/ncobase/ncore/pkg/validator"
 )
 
 // AttachmentServiceInterface represents the attachment service interface.

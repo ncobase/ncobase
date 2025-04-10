@@ -3,10 +3,6 @@ package handler
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/queue"
-	"github.com/ncobase/ncore/pkg/worker"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/types"
@@ -16,6 +12,11 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/queue"
+	"github.com/ncobase/ncore/pkg/worker"
 )
 
 // TaskInfo tracks task execution state
@@ -44,7 +45,7 @@ type BaseHandler struct {
 
 	// Dependencies
 	services *service.Service
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 	logger   logger.Logger
 
 	// Components
@@ -77,7 +78,7 @@ type BaseHandler struct {
 }
 
 // NewBaseHandler creates a new base handler
-func NewBaseHandler(handlerType types.HandlerType, name string, svc *service.Service, em nec.ManagerInterface, cfg *config.BaseHandlerConfig) *BaseHandler {
+func NewBaseHandler(handlerType types.HandlerType, name string, svc *service.Service, em ext.ManagerInterface, cfg *config.BaseHandlerConfig) *BaseHandler {
 	if cfg == nil {
 		cfg = config.DefaultBaseHandlerConfig()
 	}

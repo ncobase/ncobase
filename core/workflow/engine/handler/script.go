@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
 	"math"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/types"
@@ -14,6 +13,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
 
 	"github.com/dop251/goja"
 )
@@ -30,7 +31,7 @@ type ScriptHandler struct {
 }
 
 // NewScriptHandler creates a new script handler
-func NewScriptHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *ScriptHandler {
+func NewScriptHandler(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) *ScriptHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

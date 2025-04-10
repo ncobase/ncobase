@@ -3,13 +3,14 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
 	"ncobase/domain/content/data"
 	"ncobase/domain/content/data/ent"
 	"ncobase/domain/content/data/repository"
 	"ncobase/domain/content/structs"
+
+	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/pkg/paging"
 )
 
 // TaxonomyRelationServiceInterface is the interface for the service.

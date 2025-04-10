@@ -3,14 +3,15 @@ package service
 import (
 	"context"
 	"errors"
-	nec "github.com/ncobase/ncore/ext/core"
+	"ncobase/core/workflow/data/ent"
+	"ncobase/core/workflow/data/repository"
+	"ncobase/core/workflow/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/types"
-	"ncobase/core/workflow/data/ent"
-	"ncobase/core/workflow/data/repository"
-	"ncobase/core/workflow/structs"
 )
 
 type BusinessServiceInterface interface {
@@ -31,10 +32,10 @@ type BusinessServiceInterface interface {
 
 type businessService struct {
 	businessRepo repository.BusinessRepositoryInterface
-	em           nec.ManagerInterface
+	em           ext.ManagerInterface
 }
 
-func NewBusinessService(repo repository.Repository, em nec.ManagerInterface) BusinessServiceInterface {
+func NewBusinessService(repo repository.Repository, em ext.ManagerInterface) BusinessServiceInterface {
 	return &businessService{
 		businessRepo: repo.GetBusiness(),
 		em:           em,

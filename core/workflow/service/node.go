@@ -3,14 +3,15 @@ package service
 import (
 	"context"
 	"errors"
-	nec "github.com/ncobase/ncore/ext/core"
+	"ncobase/core/workflow/data/ent"
+	"ncobase/core/workflow/data/repository"
+	"ncobase/core/workflow/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/core/workflow/data/ent"
-	"ncobase/core/workflow/data/repository"
-	"ncobase/core/workflow/structs"
 )
 
 type NodeServiceInterface interface {
@@ -29,10 +30,10 @@ type NodeServiceInterface interface {
 
 type nodeService struct {
 	nodeRepo repository.NodeRepositoryInterface
-	em       nec.ManagerInterface
+	em       ext.ManagerInterface
 }
 
-func NewNodeService(repo repository.Repository, em nec.ManagerInterface) NodeServiceInterface {
+func NewNodeService(repo repository.Repository, em ext.ManagerInterface) NodeServiceInterface {
 	return &nodeService{
 		nodeRepo: repo.GetNode(),
 		em:       em,

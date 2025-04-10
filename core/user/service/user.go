@@ -4,15 +4,16 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/core/user/data"
+	"ncobase/core/user/data/ent"
+	"ncobase/core/user/data/repository"
+	"ncobase/core/user/structs"
+
 	"github.com/ncobase/ncore/pkg/crypto"
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/types"
-	"ncobase/core/user/data"
-	"ncobase/core/user/data/ent"
-	"ncobase/core/user/data/repository"
-	"ncobase/core/user/structs"
 )
 
 // UserServiceInterface is the interface for the service.

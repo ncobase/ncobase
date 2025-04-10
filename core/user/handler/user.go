@@ -3,11 +3,12 @@
 package handler
 
 import (
+	"ncobase/core/user/service"
+	"ncobase/core/user/structs"
+
 	"github.com/ncobase/ncore/pkg/helper"
 	"github.com/ncobase/ncore/pkg/resp"
 	"github.com/ncobase/ncore/pkg/types"
-	"ncobase/core/user/service"
-	"ncobase/core/user/structs"
 
 	"github.com/gin-gonic/gin"
 )

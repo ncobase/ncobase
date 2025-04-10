@@ -2,13 +2,14 @@ package config
 
 import (
 	"fmt"
-	"github.com/ncobase/ncore/pkg/expression"
-	"github.com/ncobase/ncore/pkg/queue"
-	"github.com/ncobase/ncore/pkg/worker"
 	"ncobase/core/workflow/engine/batcher"
 	"ncobase/core/workflow/engine/coordinator"
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/scheduler"
+
+	"github.com/ncobase/ncore/pkg/expression"
+	"github.com/ncobase/ncore/pkg/queue"
+	"github.com/ncobase/ncore/pkg/worker"
 )
 
 // Config represents the complete engine configuration

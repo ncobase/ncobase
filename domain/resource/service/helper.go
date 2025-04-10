@@ -3,10 +3,11 @@ package service
 import (
 	"context"
 	"errors"
+	"ncobase/domain/resource/data/ent"
+
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/domain/resource/data/ent"
 )
 
 // handleEntError is a helper function to handle errors in a consistent manner.

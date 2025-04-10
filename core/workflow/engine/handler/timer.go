@@ -3,13 +3,14 @@ package handler
 import (
 	"context"
 	"fmt"
-	nec "github.com/ncobase/ncore/ext/core"
 	"ncobase/core/workflow/engine/config"
 	"ncobase/core/workflow/engine/scheduler"
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
 	"time"
+
+	ext "github.com/ncobase/ncore/ext/types"
 
 	"github.com/robfig/cron/v3"
 )
@@ -25,7 +26,7 @@ type TimerHandler struct {
 }
 
 // NewTimerHandler creates a new timer handler
-func NewTimerHandler(svc *service.Service, em nec.ManagerInterface, cfg *config.Config) *TimerHandler {
+func NewTimerHandler(svc *service.Service, em ext.ManagerInterface, cfg *config.Config) *TimerHandler {
 	if cfg == nil {
 		cfg = config.DefaultConfig()
 	}

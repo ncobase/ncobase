@@ -2,10 +2,11 @@ package middleware
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/ncobase/ncore/pkg/consts"
 	"github.com/ncobase/ncore/pkg/helper"
 	"github.com/ncobase/ncore/pkg/observes"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"

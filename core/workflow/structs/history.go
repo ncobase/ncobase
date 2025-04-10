@@ -2,6 +2,7 @@ package structs
 
 import (
 	"fmt"
+
 	"github.com/ncobase/ncore/pkg/types"
 )
 

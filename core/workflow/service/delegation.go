@@ -3,14 +3,15 @@ package service
 import (
 	"context"
 	"errors"
-	nec "github.com/ncobase/ncore/ext/core"
+	"ncobase/core/workflow/data/ent"
+	"ncobase/core/workflow/data/repository"
+	"ncobase/core/workflow/structs"
+
+	ext "github.com/ncobase/ncore/ext/types"
 	"github.com/ncobase/ncore/pkg/ecode"
 	"github.com/ncobase/ncore/pkg/logger"
 	"github.com/ncobase/ncore/pkg/paging"
 	"github.com/ncobase/ncore/pkg/validator"
-	"ncobase/core/workflow/data/ent"
-	"ncobase/core/workflow/data/repository"
-	"ncobase/core/workflow/structs"
 )
 
 type DelegationServiceInterface interface {
@@ -31,10 +32,10 @@ type DelegationServiceInterface interface {
 type delegationService struct {
 	taskRepo       repository.TaskRepositoryInterface
 	delegationRepo repository.DelegationRepositoryInterface
-	em             nec.ManagerInterface
+	em             ext.ManagerInterface
 }
 
-func NewDelegationService(repo repository.Repository, em nec.ManagerInterface) DelegationServiceInterface {
+func NewDelegationService(repo repository.Repository, em ext.ManagerInterface) DelegationServiceInterface {
 	return &delegationService{
 		taskRepo:       repo.GetTask(),
 		delegationRepo: repo.GetDelegation(),

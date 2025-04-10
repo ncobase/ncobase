@@ -3,6 +3,7 @@ package structs
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/ncobase/ncore/pkg/types"
 )
 
