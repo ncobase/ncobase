@@ -15,13 +15,15 @@ VERSION := $(shell git describe --tags --match "v*" --always 2>/dev/null || echo
 BRANCH := $(shell git symbolic-ref -q --short HEAD 2>/dev/null || echo "unknown")
 REVISION := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 BUILT_AT := $(shell date +%FT%T%z)
+GO_VERSION=$(shell go version | awk '{print $$3}')
 
 # Build flags
-BUILD_VARS := ncobase/ncore/helper
+BUILD_VARS := ncobase/ncore/version
 LDFLAGS := -X $(BUILD_VARS).Version=$(VERSION) \
            -X $(BUILD_VARS).Branch=$(BRANCH) \
            -X $(BUILD_VARS).Revision=$(REVISION) \
            -X $(BUILD_VARS).BuiltAt=$(BUILT_AT) \
+           -X $(BUILD_VARS).GoVersion=$(GO_VERSION) \
            -s -w -buildid=
 
 BUILD_FLAGS := -trimpath -ldflags "$(LDFLAGS)"
