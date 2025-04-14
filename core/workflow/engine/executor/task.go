@@ -14,9 +14,9 @@ import (
 	"sync"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/expression"
-	"github.com/ncobase/ncore/pkg/logger"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/validation/expression"
 )
 
 // TaskExecutor handles task execution

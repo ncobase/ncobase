@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
+	ext "github.com/ncobase/ncore/extension/types"
 )
 
 // ApprovalHandler handles approval nodes in workflow

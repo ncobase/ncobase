@@ -4,9 +4,9 @@ import (
 	"ncobase/core/tenant/service"
 	"ncobase/core/tenant/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -53,7 +53,7 @@ func NewTenantHandler(svc *service.Service) TenantHandlerInterface {
 // @Security Bearer
 func (h *TenantHandler) Create(c *gin.Context) {
 	body := &structs.CreateTenantBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -109,7 +109,7 @@ func (h *TenantHandler) Update(c *gin.Context) {
 		return
 	}
 	body := &structs.UpdateTenantBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -217,7 +217,7 @@ func (h *TenantHandler) Delete(c *gin.Context) {
 // @Security Bearer
 func (h *TenantHandler) List(c *gin.Context) {
 	params := &structs.ListTenantParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"mime/multipart"
 
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/types"
 )
 
 // FindAttachment represents the parameters for finding an attachment.

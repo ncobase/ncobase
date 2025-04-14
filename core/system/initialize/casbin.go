@@ -4,8 +4,8 @@ import (
 	"context"
 	accessStructs "ncobase/core/access/structs"
 
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
 )
 
 // checkCasbinPoliciesInitialized checks if Casbin policies are already initialized.

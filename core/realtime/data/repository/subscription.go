@@ -7,8 +7,8 @@ import (
 	"ncobase/core/realtime/data/ent"
 	subscriptionEnt "ncobase/core/realtime/data/ent/subscription"
 
-	"github.com/ncobase/ncore/pkg/data/cache"
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/redis/go-redis/v9"
 )

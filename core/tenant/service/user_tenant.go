@@ -8,7 +8,7 @@ import (
 	"ncobase/core/tenant/data/repository"
 	"ncobase/core/tenant/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/ecode"
 )
 
 // UserTenantServiceInterface is the interface for the service.

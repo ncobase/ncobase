@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/gorilla/websocket"
 )

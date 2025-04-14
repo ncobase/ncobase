@@ -14,8 +14,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/logger"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 // RetryExecutor handles retry operations

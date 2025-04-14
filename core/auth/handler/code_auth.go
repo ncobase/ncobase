@@ -4,8 +4,8 @@ import (
 	"ncobase/core/auth/service"
 	"ncobase/core/auth/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -41,7 +41,7 @@ func NewCodeAuthHandler(svc *service.Service) CodeAuthHandlerInterface {
 // @Router /iam/authorize/send [post]
 func (h *codeAuthHandler) SendCode(c *gin.Context) {
 	body := &structs.SendCodeBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

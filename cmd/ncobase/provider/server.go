@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	extm "github.com/ncobase/ncore/ext/manager"
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/config"
+	extm "github.com/ncobase/ncore/extension/manager"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 // NewServer creates a new server.

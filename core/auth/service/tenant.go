@@ -10,7 +10,7 @@ import (
 	userService "ncobase/core/user/service"
 	userStructs "ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/pkg/slug"
+	"github.com/ncobase/ncore/utils/slug"
 )
 
 // AuthTenantServiceInterface is the interface for the service.

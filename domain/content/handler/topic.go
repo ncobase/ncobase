@@ -4,11 +4,11 @@ import (
 	"ncobase/domain/content/service"
 	"ncobase/domain/content/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/validation"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/resp"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/types"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,7 +48,7 @@ func NewTopicHandler(s *service.Service) TopicHandlerInterface {
 // @Security Bearer
 func (h *topicHandler) Create(c *gin.Context) {
 	body := &structs.CreateTopicBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -86,7 +86,7 @@ func (h *topicHandler) Update(c *gin.Context) {
 	}
 
 	updates := &types.JSON{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, updates); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -167,7 +167,7 @@ func (h *topicHandler) Delete(c *gin.Context) {
 // @Router /cms/topics [get]
 func (h *topicHandler) List(c *gin.Context) {
 	params := &structs.ListTopicParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

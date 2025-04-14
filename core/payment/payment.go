@@ -7,8 +7,8 @@ import (
 	"ncobase/core/payment/service"
 	"sync"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/config"
+	ext "github.com/ncobase/ncore/extension/types"
 
 	"github.com/gin-gonic/gin"
 )

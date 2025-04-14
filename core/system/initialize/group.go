@@ -7,7 +7,7 @@ import (
 	spaceStructs "ncobase/core/space/structs"
 	userStructs "ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 // checkGroupsInitialized checks if groups are already initialized.

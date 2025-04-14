@@ -11,14 +11,14 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ncobase/ncore/pkg/helper"
+	"github.com/ncobase/ncore/validation"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/resp"
-	"github.com/ncobase/ncore/pkg/storage"
-	"github.com/ncobase/ncore/pkg/types"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/data/storage"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -389,7 +389,7 @@ func (h *attachmentHandler) Delete(c *gin.Context) {
 // @Router /res/attachments [get]
 func (h *attachmentHandler) List(c *gin.Context) {
 	params := &structs.ListAttachmentParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

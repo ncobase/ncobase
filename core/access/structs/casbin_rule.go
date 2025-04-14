@@ -3,7 +3,7 @@ package structs
 import (
 	"fmt"
 
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/types"
 )
 
 // CasbinRuleBody defines the structure for request body used to create or update Casbin rules.

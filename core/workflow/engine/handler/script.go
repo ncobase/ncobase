@@ -14,7 +14,7 @@ import (
 	"sync"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
+	ext "github.com/ncobase/ncore/extension/types"
 
 	"github.com/dop251/goja"
 )

@@ -8,10 +8,10 @@ import (
 	userProfileEnt "ncobase/core/user/data/ent/userprofile"
 	"ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/types"
 
-	"github.com/ncobase/ncore/pkg/data/cache"
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -5,9 +5,9 @@ import (
 	"ncobase/core/auth/structs"
 	userStructs "ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/pkg/cookie"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/net/cookie"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,7 +48,7 @@ func NewAccountHandler(svc *service.Service) AccountHandlerInterface {
 // @Router /iam/register [post]
 func (h *accountHandler) Register(c *gin.Context) {
 	body := &structs.RegisterBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -75,7 +75,7 @@ func (h *accountHandler) Register(c *gin.Context) {
 // @Router /iam/login [post]
 func (h *accountHandler) Login(c *gin.Context) {
 	body := &structs.LoginBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -167,7 +167,7 @@ func (h *accountHandler) Logout(c *gin.Context) {
 // @Security Bearer
 func (h *accountHandler) UpdatePassword(c *gin.Context) {
 	body := &userStructs.UserPassword{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

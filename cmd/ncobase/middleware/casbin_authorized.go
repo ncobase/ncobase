@@ -5,12 +5,12 @@ import (
 	"ncobase/core/access/structs"
 	"strings"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/resp"
-	"github.com/ncobase/ncore/pkg/types"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
@@ -37,10 +37,10 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			return
 		}
 
-		ctx := helper.FromGinContext(c)
+		ctx := ctxutil.FromGinContext(c)
 
-		currentUser := helper.GetUserID(ctx)
-		currentTenant := helper.GetTenantID(ctx)
+		currentUser := ctxutil.GetUserID(ctx)
+		currentTenant := ctxutil.GetTenantID(ctx)
 
 		// Check if user ID or tenant ID is empty
 		if validator.IsEmpty(currentUser) || validator.IsEmpty(currentTenant) {

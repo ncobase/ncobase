@@ -3,8 +3,8 @@ package schema
 import (
 	"strings"
 
-	"github.com/ncobase/ncore/pkg/data/entgo/mixin"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/data/databases/entgo/mixin"
+	"github.com/ncobase/ncore/types"
 
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"

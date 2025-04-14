@@ -4,7 +4,7 @@ import (
 	"context"
 	tenantStructs "ncobase/core/tenant/structs"
 
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 // checkTenantsInitialized checks if domains are already initialized.

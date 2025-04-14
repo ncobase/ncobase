@@ -8,7 +8,7 @@ import (
 	"ncobase/core/workflow/structs"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
+	ext "github.com/ncobase/ncore/extension/types"
 )
 
 // SubprocessHandler handles subprocess nodes

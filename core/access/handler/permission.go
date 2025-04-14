@@ -4,10 +4,10 @@ import (
 	"ncobase/core/access/service"
 	"ncobase/core/access/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -47,7 +47,7 @@ func NewPermissionHandler(svc *service.Service) PermissionHandlerInterface {
 // @Security Bearer
 func (h *permissionHandler) Create(c *gin.Context) {
 	body := &structs.CreatePermissionBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -112,7 +112,7 @@ func (h *permissionHandler) Update(c *gin.Context) {
 	}
 
 	updates := &types.JSON{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, updates); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, updates); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -168,7 +168,7 @@ func (h *permissionHandler) Delete(c *gin.Context) {
 // @Security Bearer
 func (h *permissionHandler) List(c *gin.Context) {
 	params := &structs.ListPermissionParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

@@ -7,11 +7,11 @@ import (
 	"ncobase/core/workflow/data/repository"
 	"ncobase/core/workflow/structs"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/ecode"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/validation/validator"
 )
 
 type DelegationServiceInterface interface {

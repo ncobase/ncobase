@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	extm "github.com/ncobase/ncore/ext/manager"
+	extm "github.com/ncobase/ncore/extension/manager"
 
 	"ncobase/core/workflow/service"
 

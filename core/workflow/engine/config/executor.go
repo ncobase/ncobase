@@ -7,7 +7,7 @@ import (
 	"ncobase/core/workflow/structs"
 	"time"
 
-	"github.com/ncobase/ncore/pkg/queue"
+	"github.com/ncobase/ncore/messaging/queue"
 )
 
 // ExecutorConfig represents configuration for all executors

@@ -12,9 +12,9 @@ import (
 	"runtime"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/types"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
 )
 
 // Engine implements the workflow engine Interface

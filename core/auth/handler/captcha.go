@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
@@ -76,7 +76,7 @@ func (h *captchaHandler) GenerateCaptcha(c *gin.Context) {
 // @Router /iam/captcha/validate [post]
 func (h *captchaHandler) ValidateCaptcha(c *gin.Context) {
 	body := &structs.Captcha{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

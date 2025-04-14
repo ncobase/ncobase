@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/net/resp"
 
 	"github.com/gin-gonic/gin"
 )

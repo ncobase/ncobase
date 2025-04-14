@@ -4,7 +4,7 @@ import (
 	"context"
 	accessStructs "ncobase/core/access/structs"
 
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 // checkPermissionsInitialized checks if permissions are already initialized.

@@ -6,9 +6,9 @@ import (
 	"ncobase/core/user/service"
 	"ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -154,7 +154,7 @@ func (h *userHandler) Delete(c *gin.Context) {
 // @Router /sys/users [get]
 func (h *userHandler) List(c *gin.Context) {
 	params := &structs.ListUserParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

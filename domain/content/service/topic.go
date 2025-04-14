@@ -8,12 +8,12 @@ import (
 	"ncobase/domain/content/data/repository"
 	"ncobase/domain/content/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/slug"
-	"github.com/ncobase/ncore/pkg/types"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/slug"
+	"github.com/ncobase/ncore/validation/validator"
 )
 
 // TopicServiceInterface is the interface for the service.

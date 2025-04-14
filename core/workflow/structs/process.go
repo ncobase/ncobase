@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/types"
 )
 
 // ProcessBody represents a process entity base fields

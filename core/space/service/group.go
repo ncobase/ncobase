@@ -8,10 +8,10 @@ import (
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
 )
 
 // GroupServiceInterface is the interface for the service.

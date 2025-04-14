@@ -6,7 +6,7 @@ import (
 	tenantStructs "ncobase/core/tenant/structs"
 	userStructs "ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/pkg/oauth"
+	"github.com/ncobase/ncore/security/oauth"
 )
 
 // SendCodeBody Send verify code body

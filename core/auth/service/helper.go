@@ -6,11 +6,11 @@ import (
 	"ncobase/core/auth/data/ent"
 	"time"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/jwt"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/types"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/security/jwt"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/validation/validator"
 )
 
 // generateUserToken generates user access and refresh tokens.

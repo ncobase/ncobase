@@ -4,9 +4,9 @@ import (
 	"ncobase/core/space/service"
 	"ncobase/core/space/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -46,7 +46,7 @@ func NewGroupHandler(svc *service.Service) GroupHandlerInterface {
 // @Security Bearer
 func (h *groupHandler) Create(c *gin.Context) {
 	body := &structs.CreateGroupBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -76,7 +76,7 @@ func (h *groupHandler) Create(c *gin.Context) {
 // @Security Bearer
 func (h *groupHandler) Update(c *gin.Context) {
 	body := types.JSON{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -107,7 +107,7 @@ func (h *groupHandler) Update(c *gin.Context) {
 func (h *groupHandler) Get(c *gin.Context) {
 	params := &structs.FindGroup{Group: c.Param("slug")}
 
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -157,7 +157,7 @@ func (h *groupHandler) Delete(c *gin.Context) {
 // @Security Bearer
 func (h *groupHandler) List(c *gin.Context) {
 	params := &structs.ListGroupParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

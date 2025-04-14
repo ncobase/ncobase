@@ -10,8 +10,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -56,7 +56,7 @@ var (
 // Logger is a middleware for logging
 func Logger(c *gin.Context) {
 	start := time.Now()
-	ctx := helper.FromGinContext(c)
+	ctx := ctxutil.FromGinContext(c)
 
 	// Check if the path should be skipped
 	if shouldSkipPath(c.Request, skippedPaths) {

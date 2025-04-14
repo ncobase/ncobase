@@ -4,9 +4,9 @@ import (
 	"ncobase/plugin/counter/service"
 	"ncobase/plugin/counter/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -46,7 +46,7 @@ func NewCounterHandler(svc *service.Service) CounterHandlerInterface {
 // @Security Bearer
 func (h *counterHandler) Create(c *gin.Context) {
 	body := &structs.CreateCounterBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -76,7 +76,7 @@ func (h *counterHandler) Create(c *gin.Context) {
 // @Security Bearer
 func (h *counterHandler) Update(c *gin.Context) {
 	body := types.JSON{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -106,7 +106,7 @@ func (h *counterHandler) Update(c *gin.Context) {
 func (h *counterHandler) Get(c *gin.Context) {
 	params := &structs.FindCounter{Counter: c.Param("id")}
 
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -156,7 +156,7 @@ func (h *counterHandler) Delete(c *gin.Context) {
 // @Security Bearer
 func (h *counterHandler) List(c *gin.Context) {
 	params := &structs.ListCounterParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

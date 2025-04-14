@@ -9,10 +9,10 @@ import (
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/validation/validator"
 )
 
 // OptionsServiceInterface represents the options service interface.

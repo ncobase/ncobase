@@ -8,13 +8,13 @@ import (
 	topicEnt "ncobase/domain/content/data/ent/topic"
 	"ncobase/domain/content/structs"
 
-	"github.com/ncobase/ncore/pkg/data/cache"
-	"github.com/ncobase/ncore/pkg/data/meili"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/nanoid"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/types"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/data/search/meili"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/nanoid"
+	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
 )

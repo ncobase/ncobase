@@ -15,10 +15,10 @@ import (
 	"sync"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/concurrency"
-	"github.com/ncobase/ncore/pkg/expression"
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/concurrency"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/validation/expression"
 )
 
 // Core represents the workflow engine core

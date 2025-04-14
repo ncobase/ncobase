@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
+	ext "github.com/ncobase/ncore/extension/types"
 )
 
 // Config represents batcher configuration

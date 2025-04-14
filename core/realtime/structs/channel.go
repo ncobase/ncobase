@@ -3,7 +3,7 @@ package structs
 import (
 	"fmt"
 
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/types"
 )
 
 // FindChannel defines parameters for finding a channel

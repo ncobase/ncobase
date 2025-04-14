@@ -8,10 +8,10 @@ import (
 	taskEnt "ncobase/core/workflow/data/ent/task"
 	"ncobase/core/workflow/structs"
 
-	"github.com/ncobase/ncore/pkg/data/cache"
-	"github.com/ncobase/ncore/pkg/data/meili"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/search/meili"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
 )

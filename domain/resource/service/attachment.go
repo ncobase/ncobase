@@ -11,11 +11,11 @@ import (
 	"ncobase/domain/resource/structs"
 	"os"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/validation/validator"
 )
 
 // AttachmentServiceInterface represents the attachment service interface.
@@ -50,7 +50,7 @@ func (s *attachmentService) Create(ctx context.Context, body *structs.CreateAtta
 		return nil, errors.New(ecode.FieldIsRequired("belongsTo tenant"))
 	}
 	// get storage interface
-	storage, storageConfig := helper.GetStorage(ctx)
+	storage, storageConfig := ctxutil.GetStorage(ctx)
 
 	// Handle file storage
 	_, err := storage.Put(body.Path, body.File)
@@ -71,7 +71,7 @@ func (s *attachmentService) Create(ctx context.Context, body *structs.CreateAtta
 	// set endpoint
 	body.Endpoint = storageConfig.Endpoint
 	// set created by
-	userID := helper.GetUserID(ctx)
+	userID := ctxutil.GetUserID(ctx)
 	body.CreatedBy = &userID
 
 	// Create the attachment using the repository
@@ -97,7 +97,7 @@ func (s *attachmentService) Update(ctx context.Context, slug string, updates map
 	}
 
 	// Get storage interface
-	storage, storageConfig := helper.GetStorage(ctx)
+	storage, storageConfig := ctxutil.GetStorage(ctx)
 
 	// Handle file update if path is included in updates
 	if path, ok := updates["path"].(string); ok {
@@ -117,7 +117,7 @@ func (s *attachmentService) Update(ctx context.Context, slug string, updates map
 			delete(updates, "file")
 			// set updated by
 			if _, ok := updates["updated_by"].(string); !ok {
-				updates["updated_by"] = helper.GetUserID(ctx)
+				updates["updated_by"] = ctxutil.GetUserID(ctx)
 			}
 		} else {
 			logger.Warnf(ctx, "File content is missing, skipping file update")
@@ -140,7 +140,7 @@ func (s *attachmentService) Get(ctx context.Context, slug string) (*structs.Read
 	}
 
 	// get storage interface
-	storage, _ := helper.GetStorage(ctx)
+	storage, _ := ctxutil.GetStorage(ctx)
 
 	row, err := s.attachment.GetByID(ctx, slug)
 	if err != nil {
@@ -175,7 +175,7 @@ func (s *attachmentService) Delete(ctx context.Context, slug string) error {
 	}
 
 	// get storage interface
-	storage, _ := helper.GetStorage(ctx)
+	storage, _ := ctxutil.GetStorage(ctx)
 
 	row, err := s.attachment.GetByID(ctx, slug)
 	if err != nil {
@@ -235,7 +235,7 @@ func (s *attachmentService) GetFileStream(ctx context.Context, slug string) (io.
 	}
 
 	// Get storage interface
-	storage, _ := helper.GetStorage(ctx)
+	storage, _ := ctxutil.GetStorage(ctx)
 
 	// Retrieve attachment by ID
 	row, err := s.attachment.GetByID(ctx, slug)

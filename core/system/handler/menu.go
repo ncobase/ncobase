@@ -4,8 +4,8 @@ import (
 	"ncobase/core/system/service"
 	"ncobase/core/system/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -45,7 +45,7 @@ func NewMenuHandler(svc *service.Service) MenuHandlerInterface {
 // @Security Bearer
 func (h *menuHandler) Create(c *gin.Context) {
 	body := &structs.MenuBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -75,7 +75,7 @@ func (h *menuHandler) Create(c *gin.Context) {
 // @Security Bearer
 func (h *menuHandler) Update(c *gin.Context) {
 	body := &structs.UpdateMenuBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -106,7 +106,7 @@ func (h *menuHandler) Update(c *gin.Context) {
 func (h *menuHandler) Get(c *gin.Context) {
 	params := &structs.FindMenu{Menu: c.Param("slug")}
 
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -156,7 +156,7 @@ func (h *menuHandler) Delete(c *gin.Context) {
 // @Security Bearer
 func (h *menuHandler) List(c *gin.Context) {
 	params := &structs.ListMenuParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

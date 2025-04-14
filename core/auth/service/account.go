@@ -14,11 +14,11 @@ import (
 	userService "ncobase/core/user/service"
 	userStructs "ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/jwt"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/types"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/security/jwt"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/validation/validator"
 )
 
 // AccountServiceInterface is the interface for the service.
@@ -55,7 +55,7 @@ func NewAccountService(d *data.Data, cas CodeAuthServiceInterface, ats AuthTenan
 
 // Login login service
 func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error) {
-	conf := helper.GetConfig(ctx)
+	conf := ctxutil.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	user, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
@@ -88,7 +88,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 
 // Register register service
 func (s *accountService) Register(ctx context.Context, body *structs.RegisterBody) (*types.JSON, error) {
-	conf := helper.GetConfig(ctx)
+	conf := ctxutil.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	// Decode register token
@@ -221,7 +221,7 @@ func createAuthToken(ctx context.Context, tx *ent.Tx, userID string) (*ent.AuthT
 
 // GetMe get current user service
 func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, error) {
-	user, err := s.us.User.GetByID(ctx, helper.GetUserID(ctx))
+	user, err := s.us.User.GetByID(ctx, ctxutil.GetUserID(ctx))
 	if err != nil {
 		return nil, err
 	}
@@ -231,7 +231,7 @@ func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, err
 
 // UpdatePassword update user password service
 func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error {
-	body.User = helper.GetUserID(ctx)
+	body.User = ctxutil.GetUserID(ctx)
 	return s.us.User.UpdatePassword(ctx, body)
 }
 
@@ -311,7 +311,7 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 
 // Tenant retrieves the tenant associated with the user's account.
 func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error) {
-	userID := helper.GetUserID(ctx)
+	userID := ctxutil.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
 	}
@@ -327,7 +327,7 @@ func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant,
 
 // Tenants retrieves the tenant associated with the user's account.
 func (s *accountService) Tenants(ctx context.Context) (paging.Result[*tenantStructs.ReadTenant], error) {
-	userID := helper.GetUserID(ctx)
+	userID := ctxutil.GetUserID(ctx)
 	if userID == "" {
 		return paging.Result[*tenantStructs.ReadTenant]{}, errors.New("invalid user ID")
 	}

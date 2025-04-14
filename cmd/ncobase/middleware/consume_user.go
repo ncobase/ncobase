@@ -8,13 +8,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ncobase/ncore/pkg/consts"
-	"github.com/ncobase/ncore/pkg/cookie"
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/jwt"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/consts"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/net/cookie"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/security/jwt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -82,8 +82,8 @@ func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
 			handleTokenError(c, errors.New("user_id not found in token payload"))
 			return
 		}
-		ctx := helper.WithGinContext(context.Background(), c)
-		helper.SetUserID(ctx, userID)
+		ctx := ctxutil.WithGinContext(context.Background(), c)
+		ctxutil.SetUserID(ctx, userID)
 		c.Request = c.Request.WithContext(ctx)
 
 		// Check if token is expiring soon, and refresh if necessary
@@ -109,7 +109,7 @@ func handleTokenError(c *gin.Context, err error) {
 		code    int
 		message string
 	)
-	ctx := helper.FromGinContext(c)
+	ctx := ctxutil.FromGinContext(c)
 	// Logging the error
 	logger.Errorf(ctx, "Error: %v", err)
 

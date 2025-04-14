@@ -15,7 +15,7 @@ import (
 	"text/template/parse"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
+	ext "github.com/ncobase/ncore/extension/types"
 )
 
 // NotificationHandler handles notification nodes

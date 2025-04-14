@@ -5,7 +5,7 @@ import (
 	tenantStructs "ncobase/core/tenant/structs"
 	userStructs "ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 // checkUsersInitialized checks if users are already initialized.

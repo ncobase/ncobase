@@ -1,8 +1,8 @@
 package data
 
 import (
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/data"
+	"github.com/ncobase/ncore/config"
+	"github.com/ncobase/ncore/data"
 )
 
 // Data .

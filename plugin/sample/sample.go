@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	extp "github.com/ncobase/ncore/ext/plugin"
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/config"
+	"github.com/ncobase/ncore/config"
+	extp "github.com/ncobase/ncore/extension/plugin"
+	ext "github.com/ncobase/ncore/extension/types"
 
 	"github.com/gin-gonic/gin"
 )

@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/expression"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/uuid"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/utils/uuid"
+	"github.com/ncobase/ncore/validation/expression"
 
 	"ncobase/core/workflow/engine/types"
 	"ncobase/core/workflow/service"

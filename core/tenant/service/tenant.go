@@ -9,11 +9,11 @@ import (
 	"ncobase/core/tenant/data/repository"
 	"ncobase/core/tenant/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
 )
 
 // TenantServiceInterface is the interface for the service.
@@ -63,7 +63,7 @@ func (s *tenantService) UserOwn(ctx context.Context, uid string) (*structs.ReadT
 // Create creates a tenant service.
 func (s *tenantService) Create(ctx context.Context, body *structs.CreateTenantBody) (*structs.ReadTenant, error) {
 	if body.CreatedBy == nil {
-		body.CreatedBy = types.ToPointer(helper.GetUserID(ctx))
+		body.CreatedBy = types.ToPointer(ctxutil.GetUserID(ctx))
 	}
 
 	// Create the tenant
@@ -77,7 +77,7 @@ func (s *tenantService) Create(ctx context.Context, body *structs.CreateTenantBo
 
 // Update updates tenant service (full and partial).
 func (s *tenantService) Update(ctx context.Context, body *structs.UpdateTenantBody) (*structs.ReadTenant, error) {
-	userID := helper.GetUserID(ctx)
+	userID := ctxutil.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
 	}
@@ -136,7 +136,7 @@ func (s *tenantService) Update(ctx context.Context, body *structs.UpdateTenantBo
 
 // Get reads tenant service.
 func (s *tenantService) Get(ctx context.Context, id string) (*structs.ReadTenant, error) {
-	userID := helper.GetUserID(ctx)
+	userID := ctxutil.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
 	}

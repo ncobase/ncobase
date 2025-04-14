@@ -8,10 +8,10 @@ import (
 	optionsEnt "ncobase/core/system/data/ent/options"
 	"ncobase/core/system/structs"
 
-	"github.com/ncobase/ncore/pkg/data/meili"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/paging"
-	"github.com/ncobase/ncore/pkg/validator"
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/data/search/meili"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
 )

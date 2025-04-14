@@ -4,8 +4,8 @@ import (
 	"ncobase/core/system/service"
 	"ncobase/core/system/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -46,7 +46,7 @@ func NewOptionsHandler(svc *service.Service) OptionsHandlerInterface {
 // @Security Bearer
 func (h *optionsHandler) Create(c *gin.Context) {
 	body := &structs.OptionsBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -76,7 +76,7 @@ func (h *optionsHandler) Create(c *gin.Context) {
 // @Security Bearer
 func (h *optionsHandler) Update(c *gin.Context) {
 	body := &structs.UpdateOptionsBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -107,7 +107,7 @@ func (h *optionsHandler) Update(c *gin.Context) {
 func (h *optionsHandler) Get(c *gin.Context) {
 	params := &structs.FindOptions{Option: c.Param("option")}
 
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -157,7 +157,7 @@ func (h *optionsHandler) Delete(c *gin.Context) {
 // @Security Bearer
 func (h *optionsHandler) List(c *gin.Context) {
 	params := &structs.ListOptionsParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

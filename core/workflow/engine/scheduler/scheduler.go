@@ -9,8 +9,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/types"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/types"
 
 	"github.com/robfig/cron/v3"
 )

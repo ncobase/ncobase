@@ -23,7 +23,7 @@ import (
 	"syscall"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
+	ext "github.com/ncobase/ncore/extension/types"
 )
 
 // ServiceHandler handles service node execution

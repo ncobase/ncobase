@@ -12,13 +12,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/email"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/jwt"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/nanoid"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/config"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/messaging/email"
+	"github.com/ncobase/ncore/security/jwt"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/nanoid"
 )
 
 // CodeAuthServiceInterface is the interface for the service.
@@ -43,7 +43,7 @@ func NewCodeAuthService(d *data.Data, us *userService.Service) CodeAuthServiceIn
 
 // CodeAuth code auth service
 func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSON, error) {
-	conf := helper.GetConfig(ctx)
+	conf := ctxutil.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	codeAuth, err := client.CodeAuth.Query().Where(codeAuthEnt.CodeEQ(code)).Only(ctx)
@@ -136,7 +136,7 @@ func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBo
 
 // Helper functions for SendCode
 func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
-	conf := helper.GetConfig(ctx)
+	conf := ctxutil.GetConfig(ctx)
 	template := email.AuthEmailTemplate{
 		Subject:  "Email authentication",
 		Template: "auth-email",
@@ -148,6 +148,6 @@ func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
 		template.Keyword = "Sign Up"
 		template.URL = conf.Frontend.SignUpURL + "?code=" + code
 	}
-	_, err := helper.SendEmailWithTemplate(ctx, e, template)
+	_, err := ctxutil.SendEmailWithTemplate(ctx, e, template)
 	return err
 }

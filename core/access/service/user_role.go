@@ -8,7 +8,7 @@ import (
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
+	"github.com/ncobase/ncore/ecode"
 )
 
 // UserRoleServiceInterface is the interface for the service.

@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/ncobase/ncore/pkg/consts"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/observes"
+	"github.com/ncobase/ncore/consts"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/logging/observes"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
@@ -15,22 +15,22 @@ import (
 
 // Trace is a middleware for tracing
 func Trace(c *gin.Context) {
-	ctx := helper.FromGinContext(c)
+	ctx := ctxutil.FromGinContext(c)
 
 	// Check for trace ID in the request header
 	traceID := c.GetHeader(consts.TraceKey)
 
 	if traceID == "" {
-		ctx, traceID = helper.EnsureTraceID(ctx)
+		ctx, traceID = ctxutil.EnsureTraceID(ctx)
 	} else {
-		ctx = helper.SetTraceID(ctx, traceID)
+		ctx = ctxutil.SetTraceID(ctx, traceID)
 	}
 
 	// Update the request context
 	c.Request = c.Request.WithContext(ctx)
 
 	// Set trace ID in Gin's context for easy access in handlers
-	c.Set(helper.TraceIDKey, traceID)
+	c.Set(ctxutil.TraceIDKey, traceID)
 
 	// Set trace header in the response
 	c.Writer.Header().Set(consts.TraceKey, traceID)
@@ -64,13 +64,13 @@ func Trace(c *gin.Context) {
 
 // OtelTrace is a middleware for OpenTelemetry trace
 func OtelTrace(c *gin.Context) {
-	ctx := helper.FromGinContext(c)
+	ctx := ctxutil.FromGinContext(c)
 	path := c.Request.URL.Path
 	if path == "" {
 		path = c.FullPath()
 	}
 
-	traceID := helper.GetTraceID(ctx)
+	traceID := ctxutil.GetTraceID(ctx)
 	tc := observes.NewTracingContext(ctx, path, 100)
 	defer tc.End()
 

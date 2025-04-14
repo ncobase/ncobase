@@ -4,7 +4,7 @@ import (
 	"ncobase/core/workflow/data"
 	"ncobase/core/workflow/data/repository"
 
-	ext "github.com/ncobase/ncore/ext/types"
+	ext "github.com/ncobase/ncore/extension/types"
 )
 
 // Service represents the workflow service

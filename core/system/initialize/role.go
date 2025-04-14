@@ -4,7 +4,7 @@ import (
 	"context"
 	accessStructs "ncobase/core/access/structs"
 
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 // checkRolesInitialized checks if roles are already initialized.

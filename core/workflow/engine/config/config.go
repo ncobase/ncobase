@@ -7,9 +7,9 @@ import (
 	"ncobase/core/workflow/engine/metrics"
 	"ncobase/core/workflow/engine/scheduler"
 
-	"github.com/ncobase/ncore/pkg/expression"
-	"github.com/ncobase/ncore/pkg/queue"
-	"github.com/ncobase/ncore/pkg/worker"
+	"github.com/ncobase/ncore/concurrency/worker"
+	"github.com/ncobase/ncore/messaging/queue"
+	"github.com/ncobase/ncore/validation/expression"
 )
 
 // Config represents the complete engine configuration

@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/expression"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/validation/expression"
 
 	"ncobase/core/workflow/engine/handler"
 	"ncobase/core/workflow/engine/metrics"
@@ -16,7 +16,7 @@ import (
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
 
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/jinzhu/copier"
 )

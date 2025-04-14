@@ -4,8 +4,8 @@ import (
 	"ncobase/core/realtime/service"
 	"net/http"
 
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/uuid"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/utils/uuid"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"

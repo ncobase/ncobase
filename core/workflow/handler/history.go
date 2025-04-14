@@ -4,8 +4,8 @@ import (
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
 
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -45,7 +45,7 @@ func NewHistoryHandler(svc *service.Service) HistoryHandlerInterface {
 // @Security Bearer
 func (h *HistoryHandler) Create(c *gin.Context) {
 	body := &structs.HistoryBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -96,7 +96,7 @@ func (h *HistoryHandler) Get(c *gin.Context) {
 // @Security Bearer
 func (h *HistoryHandler) List(c *gin.Context) {
 	params := &structs.ListHistoryParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

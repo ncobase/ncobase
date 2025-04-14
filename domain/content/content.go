@@ -9,10 +9,10 @@ import (
 	"ncobase/domain/content/service"
 	"sync"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/observes"
+	"github.com/ncobase/ncore/config"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/logging/observes"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/trace"

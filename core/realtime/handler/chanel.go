@@ -4,8 +4,8 @@ import (
 	"ncobase/core/realtime/service"
 	"ncobase/core/realtime/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/net/resp"
 
 	"github.com/gin-gonic/gin"
 )

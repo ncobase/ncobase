@@ -9,8 +9,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/config"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"

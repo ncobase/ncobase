@@ -10,8 +10,8 @@ import (
 	"sort"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/expression"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/validation/expression"
 )
 
 // ExclusiveHandler handles exclusive gateway nodes

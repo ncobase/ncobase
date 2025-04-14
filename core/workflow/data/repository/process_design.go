@@ -7,10 +7,10 @@ import (
 	processDesignEnt "ncobase/core/workflow/data/ent/processdesign"
 	"ncobase/core/workflow/structs"
 
-	"github.com/ncobase/ncore/pkg/data/cache"
-	"github.com/ncobase/ncore/pkg/data/meili"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/types"
+	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/search/meili"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
 
 	"github.com/redis/go-redis/v9"
 )

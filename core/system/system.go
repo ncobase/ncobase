@@ -9,9 +9,9 @@ import (
 	"ncobase/core/system/service"
 	"sync"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/config"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/net/resp"
 
 	"github.com/gin-gonic/gin"
 )

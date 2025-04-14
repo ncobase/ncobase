@@ -7,9 +7,9 @@ import (
 	"ncobase/plugin/sample/data/ent"
 	"ncobase/plugin/sample/data/ent/migrate"
 
-	"github.com/ncobase/ncore/pkg/config"
-	"github.com/ncobase/ncore/pkg/data"
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/config"
+	"github.com/ncobase/ncore/data"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"

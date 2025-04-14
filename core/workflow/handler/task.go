@@ -4,9 +4,9 @@ import (
 	"ncobase/core/workflow/service"
 	"ncobase/core/workflow/structs"
 
-	"github.com/ncobase/ncore/pkg/ecode"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/resp"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/validation"
 
 	"github.com/gin-gonic/gin"
 )
@@ -51,7 +51,7 @@ func NewTaskHandler(svc *service.Service) TaskHandlerInterface {
 // @Security Bearer
 func (h *TaskHandler) Create(c *gin.Context) {
 	body := &structs.TaskBody{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -110,7 +110,7 @@ func (h *TaskHandler) Update(c *gin.Context) {
 	}
 
 	body := &structs.UpdateTaskBody{ID: taskID}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -160,7 +160,7 @@ func (h *TaskHandler) Delete(c *gin.Context) {
 // @Security Bearer
 func (h *TaskHandler) List(c *gin.Context) {
 	params := &structs.ListTaskParams{}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, params); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -192,7 +192,7 @@ func (h *TaskHandler) Complete(c *gin.Context) {
 	req := &structs.CompleteTaskRequest{
 		TaskID: c.Param("id"),
 	}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, req); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, req); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -224,7 +224,7 @@ func (h *TaskHandler) Delegate(c *gin.Context) {
 	req := &structs.DelegateTaskRequest{
 		TaskID: c.Param("id"),
 	}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, req); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, req); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -255,7 +255,7 @@ func (h *TaskHandler) Transfer(c *gin.Context) {
 	req := &structs.TransferTaskRequest{
 		TaskID: c.Param("id"),
 	}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, req); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, req); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -286,7 +286,7 @@ func (h *TaskHandler) Withdraw(c *gin.Context) {
 	req := &structs.WithdrawTaskRequest{
 		TaskID: c.Param("id"),
 	}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, req); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, req); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {
@@ -317,7 +317,7 @@ func (h *TaskHandler) Urge(c *gin.Context) {
 	req := &structs.UrgeTaskRequest{
 		TaskID: c.Param("id"),
 	}
-	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, req); err != nil {
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, req); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	} else if len(validationErrors) > 0 {

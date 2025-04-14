@@ -3,9 +3,9 @@ package middleware
 import (
 	tenantService "ncobase/core/tenant/service"
 
-	"github.com/ncobase/ncore/pkg/consts"
-	"github.com/ncobase/ncore/pkg/helper"
-	"github.com/ncobase/ncore/pkg/logger"
+	"github.com/ncobase/ncore/consts"
+	"github.com/ncobase/ncore/ctxutil"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,15 +17,15 @@ func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFun
 			c.Next()
 			return
 		}
-		ctx := helper.FromGinContext(c)
+		ctx := ctxutil.FromGinContext(c)
 		// Retrieve user ID from context
-		userID := helper.GetUserID(ctx)
+		userID := ctxutil.GetUserID(ctx)
 		// Retrieve tenant ID from request header
 		tenantID := c.GetHeader(consts.TenantKey)
 		// If tenant ID is not provided in the header, try to fetch from other sources
 		if tenantID == "" && userID != "" {
 			// Get tenant ID
-			tenantID = helper.GetTenantID(ctx)
+			tenantID = ctxutil.GetTenantID(ctx)
 			if tenantID == "" {
 				logger.Warn(ctx, "tenant not found, try to fetch from user tenants")
 				// Fetch user tenants
@@ -41,7 +41,7 @@ func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFun
 
 		// Set tenant ID to context if it exists
 		if tenantID != "" {
-			helper.SetTenantID(ctx, tenantID)
+			ctxutil.SetTenantID(ctx, tenantID)
 		}
 
 		// Continue to next middleware or handler

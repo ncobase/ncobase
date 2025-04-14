@@ -13,10 +13,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	ext "github.com/ncobase/ncore/ext/types"
-	"github.com/ncobase/ncore/pkg/logger"
-	"github.com/ncobase/ncore/pkg/queue"
-	"github.com/ncobase/ncore/pkg/worker"
+	"github.com/ncobase/ncore/concurrency/worker"
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/messaging/queue"
 )
 
 // TaskInfo tracks task execution state
