@@ -61,6 +61,11 @@ type LoginBody struct {
 	Captcha  *Captcha `json:"captcha,omitempty"`
 }
 
+// RefreshTokenBody contains the refresh token
+type RefreshTokenBody struct {
+	RefreshToken string `json:"refresh_token" validate:"required"`
+}
+
 // AccountMeshes represents the account meshes.
 type AccountMeshes struct {
 	User    *userStructs.ReadUser        `json:"user,omitempty"`

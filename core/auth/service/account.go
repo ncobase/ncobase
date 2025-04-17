@@ -29,6 +29,7 @@ type AccountServiceInterface interface {
 	UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error
 	Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error)
 	Tenants(ctx context.Context) (paging.Result[*tenantStructs.ReadTenant], error)
+	RefreshToken(ctx context.Context, refreshToken string) (*types.JSON, error)
 }
 
 // accountService is the struct for the service.
@@ -84,6 +85,67 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 	}
 
 	return generateTokensForUser(ctx, conf, client, user)
+}
+
+// RefreshToken refreshes the access token using a refresh token
+func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) (*types.JSON, error) {
+	conf := ctxutil.GetConfig(ctx)
+	client := s.d.GetEntClient()
+
+	// Verify the refresh token
+	payload, err := jwt.DecodeToken(conf.Auth.JWT.Secret, refreshToken)
+	if err != nil {
+		return nil, errors.New("invalid refresh token")
+	}
+
+	// Check if the token is a refresh token
+	if payload["sub"] != "refresh" {
+		return nil, errors.New("invalid token type")
+	}
+
+	// Extract user ID from payload
+	payloadData, ok := payload["payload"].(map[string]interface{})
+	if !ok {
+		return nil, errors.New("invalid token payload")
+	}
+
+	userID, ok := payloadData["user_id"].(string)
+	if !ok || userID == "" {
+		return nil, errors.New("invalid user information in token")
+	}
+
+	// Validate user exists
+	user, err := s.us.User.GetByID(ctx, userID)
+	if err != nil {
+		return nil, errors.New("user not found")
+	}
+
+	// Create a new auth token entry
+	tx, err := client.Tx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	authToken, err := createAuthToken(ctx, tx, user.ID)
+	if err != nil {
+		if rbErr := tx.Rollback(); rbErr != nil {
+			return nil, fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
+		}
+		return nil, err
+	}
+
+	// Generate new access and refresh tokens
+	accessToken, newRefreshToken := generateUserToken(conf.Auth.JWT.Secret, user.ID, authToken.ID)
+
+	if err := tx.Commit(); err != nil {
+		return nil, err
+	}
+
+	return &types.JSON{
+		"id":            user.ID,
+		"access_token":  accessToken,
+		"refresh_token": newRefreshToken,
+	}, nil
 }
 
 // Register register service

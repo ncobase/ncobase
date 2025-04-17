@@ -17,13 +17,16 @@ import (
 func generateUserToken(signingKey, userID, tokenID string) (string, string) {
 	accessPayload := types.JSON{
 		"user_id": userID,
+		// We can add more data here like roles and permissions
+		// These would need to be passed as parameters to this function
 	}
 	refreshPayload := types.JSON{
 		"user_id": userID,
 	}
 
-	accessToken, _ := jwt.GenerateAccessToken(signingKey, tokenID, accessPayload)
-	refreshToken, _ := jwt.GenerateRefreshToken(signingKey, tokenID, refreshPayload)
+	// Use shorter expiry for access token (2 hours) and longer for refresh (7 days)
+	accessToken, _ := jwt.GenerateAccessTokenWithExpiry(signingKey, tokenID, accessPayload, 2*time.Hour)
+	refreshToken, _ := jwt.GenerateRefreshTokenWithExpiry(signingKey, tokenID, refreshPayload, 7*24*time.Hour)
 
 	return accessToken, refreshToken
 }

@@ -136,6 +136,10 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		account.GET("/tenant", m.h.Account.Tenant)
 		account.GET("/tenants", m.h.Account.Tenants)
 	}
+
+	// Token endpoints
+	r.POST("/refresh-token", m.h.Account.RefreshToken)
+	r.GET("/token-status", m.h.Account.TokenStatus)
 }
 
 // GetHandlers returns the handlers for the module

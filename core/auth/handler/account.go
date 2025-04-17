@@ -5,6 +5,7 @@ import (
 	"ncobase/core/auth/structs"
 	userStructs "ncobase/core/user/structs"
 
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/net/cookie"
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/validation"
@@ -21,6 +22,8 @@ type AccountHandlerInterface interface {
 	UpdatePassword(c *gin.Context)
 	Tenant(c *gin.Context)
 	Tenants(c *gin.Context)
+	RefreshToken(c *gin.Context)
+	TokenStatus(c *gin.Context)
 }
 
 // accountHandler represents the handler.
@@ -134,24 +137,59 @@ func (h *accountHandler) Logout(c *gin.Context) {
 	resp.Success(c.Writer)
 }
 
-// // Refresh handles user token refresh.
-// //
-// // @Summary Refresh
-// // @Description Refresh the current user's access token.
-// // @Tags iam
-// // @Produce json
-// // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
-// // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /iam/refresh [post]
-// // @Security Bearer
-// func (h *Handler) Refresh(c *gin.Context) {
-// 	result, err := h.svc.RefreshServicec.Request.Context()
-// 	if err != nil {
-// 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-// 		return
-// 	}
-// 	resp.Success(c.Writer, result)
-// }
+// RefreshToken handles token refresh.
+//
+// @Summary RefreshToken token
+// @Description Refresh the current user's access token.
+// @Tags iam
+// @Accept json
+// @Produce json
+// @Param body body structs.RefreshTokenBody true "Refresh token"
+// @Success 200 {object} map[string]any{id=string,access_token=string,refresh_token=string} "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /iam/refresh [post]
+func (h *accountHandler) RefreshToken(c *gin.Context) {
+	body := &structs.RefreshTokenBody{}
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
+		return
+	}
+
+	result, err := h.s.Account.RefreshToken(c.Request.Context(), body.RefreshToken)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	_ = cookie.SetTokensFromResult(c.Writer, c.Request, result)
+	resp.Success(c.Writer, result)
+}
+
+// TokenStatus checks token status without exposing sensitive information.
+//
+// @Summary Token status
+// @Description Get the current token status.
+// @Tags iam
+// @Produce json
+// @Success 200 {object} map[string]any{is_authenticated=bool} "success"
+// @Failure 401 {object} resp.Exception "unauthorized"
+// @Router /iam/token-status [get]
+func (h *accountHandler) TokenStatus(c *gin.Context) {
+	// Get user ID from context (set by authentication middleware)
+	userID := ctxutil.GetUserID(c.Request.Context())
+	if userID == "" {
+		resp.Fail(c.Writer, resp.UnAuthorized("Not authenticated"))
+		return
+	}
+
+	// Return basic authentication status
+	resp.Success(c.Writer, map[string]any{
+		"is_authenticated": true,
+	})
+}
 
 // UpdatePassword handles updating user password.
 //

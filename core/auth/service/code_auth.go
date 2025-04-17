@@ -99,8 +99,9 @@ func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent
 		return nil, errors.New("authorize is not created")
 	}
 	return &types.JSON{
-		"id":           user.ID,
-		"access_token": accessToken,
+		"id":            user.ID,
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
 	}, tx.Commit()
 }
 
