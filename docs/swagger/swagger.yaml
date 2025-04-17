@@ -1761,6 +1761,13 @@ definitions:
       thumbnail:
         type: string
     type: object
+  structs.RefreshTokenBody:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
   structs.RegisterBody:
     properties:
       display_name:
@@ -6092,6 +6099,43 @@ paths:
       summary: Update Casbin rule
       tags:
       - iam
+  /iam/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh the current user's access token.
+      parameters:
+      - description: Refresh token
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.RefreshTokenBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              allOf:
+              - {}
+              - properties:
+                  access_token:
+                    type: string
+                  id:
+                    type: string
+                  refresh_token:
+                    type: string
+                type: object
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: RefreshToken token
+      tags:
+      - iam
   /iam/register:
     post:
       consumes:
@@ -6608,6 +6652,30 @@ paths:
       security:
       - Bearer: []
       summary: List tenant users
+      tags:
+      - iam
+  /iam/token-status:
+    get:
+      description: Get the current token status.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              allOf:
+              - {}
+              - properties:
+                  is_authenticated:
+                    type: boolean
+                type: object
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: Token status
       tags:
       - iam
   /iam/users/{username}/tenant:

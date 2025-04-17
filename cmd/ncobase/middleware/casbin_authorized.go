@@ -10,6 +10,7 @@ import (
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/casbin/casbin/v2"
@@ -85,7 +86,7 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 			return
 		}
 
-		roles = types.RemoveDuplicates(roleIDs)
+		roles = utils.RemoveDuplicates(roleIDs)
 		var permissions []*structs.ReadPermission
 
 		// Retrieve role permissions from service

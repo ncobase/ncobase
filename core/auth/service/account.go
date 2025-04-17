@@ -35,6 +35,7 @@ type AccountServiceInterface interface {
 // accountService is the struct for the service.
 type accountService struct {
 	d   *data.Data
+	jtm *jwt.TokenManager
 	cas CodeAuthServiceInterface
 	ats AuthTenantServiceInterface
 	us  *userService.Service
@@ -43,9 +44,10 @@ type accountService struct {
 }
 
 // NewAccountService creates a new service.
-func NewAccountService(d *data.Data, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface, us *userService.Service, as *accessService.Service, ts *tenantService.Service) AccountServiceInterface {
+func NewAccountService(d *data.Data, jtm *jwt.TokenManager, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface, us *userService.Service, as *accessService.Service, ts *tenantService.Service) AccountServiceInterface {
 	return &accountService{
 		d:   d,
+		jtm: jtm,
 		cas: cas,
 		ats: ats,
 		us:  us,
@@ -56,11 +58,10 @@ func NewAccountService(d *data.Data, cas CodeAuthServiceInterface, ats AuthTenan
 
 // Login login service
 func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error) {
-	conf := ctxutil.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	user, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
-	if err := handleEntError(ctx, "User", err); err != nil {
+	if err = handleEntError(ctx, "User", err); err != nil {
 		return nil, err
 	}
 
@@ -74,7 +75,6 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		if v.Valid == false {
 			return nil, errors.New(v.Error)
 		} else if v.Valid && v.NeedsPasswordSet == true {
-			// The user has not set a password and the mailbox is empty
 			if validator.IsEmpty(user.Email) {
 				return nil, errors.New("has not set a password, and the mailbox is empty, please contact the administrator")
 			}
@@ -84,16 +84,25 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		return nil, v
 	}
 
-	return generateTokensForUser(ctx, conf, client, user)
+	tenantID, roleSlugs, permissionCodes, isAdmin, _ := GetUserTenantsRolesPermissions(ctx, s.as, user.ID)
+
+	payload := types.JSON{
+		"user_id":     user.ID,
+		"roles":       roleSlugs,
+		"permissions": permissionCodes,
+		"is_admin":    isAdmin,
+		"tenant_id":   tenantID,
+	}
+
+	return generateTokensForUser(ctx, s.jtm, client, payload)
 }
 
 // RefreshToken refreshes the access token using a refresh token
 func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) (*types.JSON, error) {
-	conf := ctxutil.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	// Verify the refresh token
-	payload, err := jwt.DecodeToken(conf.Auth.JWT.Secret, refreshToken)
+	payload, err := s.jtm.DecodeToken(refreshToken)
 	if err != nil {
 		return nil, errors.New("invalid refresh token")
 	}
@@ -104,7 +113,7 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Extract user ID from payload
-	payloadData, ok := payload["payload"].(map[string]interface{})
+	payloadData, ok := payload["payload"].(map[string]any)
 	if !ok {
 		return nil, errors.New("invalid token payload")
 	}
@@ -135,14 +144,13 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Generate new access and refresh tokens
-	accessToken, newRefreshToken := generateUserToken(conf.Auth.JWT.Secret, user.ID, authToken.ID)
+	accessToken, newRefreshToken := generateUserToken(s.jtm, types.JSON{"user_id": user.ID}, authToken.ID)
 
 	if err := tx.Commit(); err != nil {
 		return nil, err
 	}
 
 	return &types.JSON{
-		"id":            user.ID,
 		"access_token":  accessToken,
 		"refresh_token": newRefreshToken,
 	}, nil
@@ -150,11 +158,10 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 
 // Register register service
 func (s *accountService) Register(ctx context.Context, body *structs.RegisterBody) (*types.JSON, error) {
-	conf := ctxutil.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	// Decode register token
-	payload, err := decodeRegisterToken(conf.Auth.JWT.Secret, body.RegisterToken)
+	payload, err := decodeRegisterToken(s.jtm, body.RegisterToken)
 	if err != nil {
 		return nil, errors.New("register token decode failed")
 	}
@@ -174,7 +181,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Disable code
-	if err := disableCodeAuth(ctx, client, payload["id"].(string)); err != nil {
+	if err = disableCodeAuth(ctx, client, payload["id"].(string)); err != nil {
 		return nil, err
 	}
 
@@ -186,7 +193,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 
 	rst, err := createUserAndProfile(ctx, s, body, payload)
 	if err != nil {
-		if err := tx.Rollback(); err != nil {
+		if err = tx.Rollback(); err != nil {
 			return nil, err
 		}
 		return nil, err
@@ -194,10 +201,10 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 
 	user := rst["user"].(*userStructs.ReadUser)
 
-	if _, err := s.ats.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
+	if _, err = s.ats.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
 		TenantBody: tenantStructs.TenantBody{Name: body.Tenant, CreatedBy: &user.ID, UpdatedBy: &user.ID},
 	}); err != nil {
-		if err := tx.Rollback(); err != nil {
+		if err = tx.Rollback(); err != nil {
 			return nil, err
 		}
 		return nil, err
@@ -205,13 +212,13 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 
 	authToken, err := createAuthToken(ctx, tx, user.ID)
 	if err != nil {
-		if err := tx.Rollback(); err != nil {
+		if err = tx.Rollback(); err != nil {
 			return nil, err
 		}
 		return nil, err
 	}
 
-	accessToken, refreshToken := generateUserToken(conf.Auth.JWT.Secret, user.ID, authToken.ID)
+	accessToken, refreshToken := generateUserToken(s.jtm, types.JSON{"user_id": user.ID}, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		if err := tx.Rollback(); err != nil {
 			return nil, err
@@ -220,14 +227,14 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	return &types.JSON{
-		"id":           user.ID,
-		"access_token": accessToken,
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
 	}, tx.Commit()
 }
 
 // Helper functions for Register
-func decodeRegisterToken(secret, token string) (types.JSON, error) {
-	decoded, err := jwt.DecodeToken(secret, token)
+func decodeRegisterToken(jtm *jwt.TokenManager, token string) (types.JSON, error) {
+	decoded, err := jtm.DecodeToken(token)
 	if err != nil {
 		return nil, err
 	}
@@ -380,7 +387,7 @@ func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant,
 
 	// Retrieve the tenant associated with the user
 	row, err := s.ts.Tenant.GetByUser(ctx, userID)
-	if err := handleEntError(ctx, "Tenant", err); err != nil {
+	if err = handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
 
@@ -397,7 +404,7 @@ func (s *accountService) Tenants(ctx context.Context) (paging.Result[*tenantStru
 	rows, err := s.ts.Tenant.List(ctx, &tenantStructs.ListTenantParams{
 		User: userID,
 	})
-	if err := handleEntError(ctx, "Tenants", err); err != nil {
+	if err = handleEntError(ctx, "Tenants", err); err != nil {
 		return paging.Result[*tenantStructs.ReadTenant]{}, err
 	}
 

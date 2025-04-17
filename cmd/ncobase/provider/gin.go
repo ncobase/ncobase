@@ -12,6 +12,7 @@ import (
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/security/jwt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -86,7 +87,7 @@ func userMiddleware(conf *config.Config, engine *gin.Engine, _ ext.ManagerInterf
 	// if us == nil {
 	// 	return
 	// }
-	engine.Use(middleware.ConsumeUser(conf.Auth.JWT.Secret, conf.Auth.Whitelist))
+	engine.Use(middleware.ConsumeUser(jwt.NewTokenManager(conf.Auth.JWT.Secret), conf.Auth.Whitelist))
 }
 
 // register Tenant middleware

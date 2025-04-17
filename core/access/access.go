@@ -102,19 +102,20 @@ func (m *Module) Name() string {
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
 	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
-	// Role endpoints
+
+	// Role endpoints with permission requirements
 	roles := r.Group("/roles")
 	{
-		roles.GET("", m.h.Role.List)
-		roles.POST("", m.h.Role.Create)
-		roles.GET("/:slug", m.h.Role.Get)
-		roles.PUT("/:slug", m.h.Role.Update)
-		roles.DELETE("/:slug", m.h.Role.Delete)
-		roles.GET("/:slug/permissions", m.h.RolePermission.ListRolePermission)
-		// roles.GET("/:slug/users", m.h.Role.ListUser)
+		roles.GET("", middleware.HasPermission("read:role"), m.h.Role.List)
+		roles.POST("", middleware.HasPermission("create:role"), m.h.Role.Create)
+		roles.GET("/:slug", middleware.HasPermission("read:role"), m.h.Role.Get)
+		roles.PUT("/:slug", middleware.HasPermission("update:role"), m.h.Role.Update)
+		roles.DELETE("/:slug", middleware.HasPermission("delete:role"), m.h.Role.Delete)
+		roles.GET("/:slug/permissions", middleware.HasPermission("read:role_permission"), m.h.RolePermission.ListRolePermission)
 	}
-	// Permission endpoints
-	permissions := r.Group("/permissions")
+
+	// Permission endpoints with specific role requirement
+	permissions := r.Group("/permissions", middleware.HasRole("admin"))
 	{
 		permissions.GET("", m.h.Permission.List)
 		permissions.POST("", m.h.Permission.Create)
@@ -122,8 +123,9 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		permissions.PUT("/:slug", m.h.Permission.Update)
 		permissions.DELETE("/:slug", m.h.Permission.Delete)
 	}
-	// Casbin Rule endpoints
-	policies := r.Group("/policies")
+
+	// Casbin Rule endpoints with admin role requirement
+	policies := r.Group("/policies", middleware.HasRole("super-admin"))
 	{
 		policies.GET("", m.h.Casbin.List)
 		policies.POST("", m.h.Casbin.Create)

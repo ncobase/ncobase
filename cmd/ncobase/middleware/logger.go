@@ -123,7 +123,7 @@ func Logger(c *gin.Context) {
 }
 
 // processBody processes the body of the request or response
-func processBody(body []byte, contentType, path string) any {
+func processBody(body []byte, contentType, _ string) any {
 	if len(body) == 0 {
 		return nil
 	}

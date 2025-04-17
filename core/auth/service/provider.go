@@ -5,6 +5,8 @@ import (
 	"ncobase/core/auth/data"
 	tenantService "ncobase/core/tenant/service"
 	userService "ncobase/core/user/service"
+
+	"github.com/ncobase/ncore/security/jwt"
 )
 
 // Service represents the auth service.
@@ -17,11 +19,11 @@ type Service struct {
 }
 
 // New creates a new service.
-func New(d *data.Data, us *userService.Service, as *accessService.Service, ts *tenantService.Service) *Service {
-	cas := NewCodeAuthService(d, us)
+func New(d *data.Data, jtm *jwt.TokenManager, us *userService.Service, as *accessService.Service, ts *tenantService.Service) *Service {
+	cas := NewCodeAuthService(d, jtm, as, us)
 	ats := NewAuthTenantService(d, us, as, ts)
 	return &Service{
-		Account:    NewAccountService(d, cas, ats, us, as, ts),
+		Account:    NewAccountService(d, jtm, cas, ats, us, as, ts),
 		AuthTenant: ats,
 		CodeAuth:   cas,
 		Captcha:    NewCaptchaService(d),

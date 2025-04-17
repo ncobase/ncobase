@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	accessService "ncobase/core/access/service"
 	"ncobase/core/auth/data"
 	"ncobase/core/auth/data/ent"
 	codeAuthEnt "ncobase/core/auth/data/ent/codeauth"
@@ -12,10 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ncobase/ncore/config"
-	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/messaging/email"
 	"github.com/ncobase/ncore/security/jwt"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -29,25 +27,28 @@ type CodeAuthServiceInterface interface {
 
 // codeAuth is the struct for the service.
 type codeAuthService struct {
-	d  *data.Data
-	us *userService.Service
+	d   *data.Data
+	jtm *jwt.TokenManager
+	as  *accessService.Service
+	us  *userService.Service
 }
 
 // NewCodeAuthService creates a new service.
-func NewCodeAuthService(d *data.Data, us *userService.Service) CodeAuthServiceInterface {
+func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, as *accessService.Service, us *userService.Service) CodeAuthServiceInterface {
 	return &codeAuthService{
-		d:  d,
-		us: us,
+		d:   d,
+		jtm: jtm,
+		as:  as,
+		us:  us,
 	}
 }
 
 // CodeAuth code auth service
 func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSON, error) {
-	conf := ctxutil.GetConfig(ctx)
 	client := s.d.GetEntClient()
 
 	codeAuth, err := client.CodeAuth.Query().Where(codeAuthEnt.CodeEQ(code)).Only(ctx)
-	if err := handleEntError(ctx, "Code", err); err != nil {
+	if err = handleEntError(ctx, "Code", err); err != nil {
 		return nil, err
 	}
 	if codeAuth.Logged || isCodeExpired(codeAuth.CreatedAt) {
@@ -56,10 +57,20 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 
 	user, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
 	if ent.IsNotFound(err) {
-		return sendRegisterMail(ctx, conf, codeAuth)
+		return sendRegisterMail(ctx, s.jtm, codeAuth)
 	}
 
-	return generateTokensForUser(ctx, conf, client, user)
+	tenantID, roleSlugs, permissionCodes, isAdmin, _ := GetUserTenantsRolesPermissions(ctx, s.as, user.ID)
+
+	payload := types.JSON{
+		"user_id":     user.ID,
+		"roles":       roleSlugs,
+		"permissions": permissionCodes,
+		"is_admin":    isAdmin,
+		"tenant_id":   tenantID,
+	}
+
+	return generateTokensForUser(ctx, s.jtm, client, payload)
 }
 
 // Helper functions for codeAuthService
@@ -67,42 +78,6 @@ func isCodeExpired(createdAt int64) bool {
 	createdTime := time.UnixMilli(createdAt)
 	expirationTime := createdTime.Add(24 * time.Hour)
 	return time.Now().After(expirationTime)
-}
-
-func sendRegisterMail(_ context.Context, conf *config.Config, codeAuth *ent.CodeAuth) (*types.JSON, error) {
-	subject := "email-register"
-	payload := types.JSON{"email": codeAuth.Email, "id": codeAuth.ID}
-	registerToken, err := jwt.GenerateRegisterToken(conf.Auth.JWT.Secret, codeAuth.ID, payload, subject)
-	if err != nil {
-		return nil, err
-	}
-	return &types.JSON{"email": codeAuth.Email, "register_token": registerToken}, nil
-}
-
-func generateTokensForUser(ctx context.Context, conf *config.Config, client *ent.Client, user *userStructs.ReadUser) (*types.JSON, error) {
-	tx, err := client.Tx(ctx)
-	if err != nil {
-		return nil, err
-	}
-	authToken, err := createAuthToken(ctx, tx, user.ID)
-	if err != nil {
-		if err := tx.Rollback(); err != nil {
-			return nil, err
-		}
-		return nil, err
-	}
-	accessToken, refreshToken := generateUserToken(conf.Auth.JWT.Secret, user.ID, authToken.ID)
-	if accessToken == "" || refreshToken == "" {
-		if err := tx.Rollback(); err != nil {
-			return nil, err
-		}
-		return nil, errors.New("authorize is not created")
-	}
-	return &types.JSON{
-		"id":            user.ID,
-		"access_token":  accessToken,
-		"refresh_token": refreshToken,
-	}, tx.Commit()
 }
 
 // SendCode send code service
@@ -118,14 +93,14 @@ func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBo
 	authCode := nanoid.String(6)
 	_, err = tx.CodeAuth.Create().SetEmail(strings.ToLower(body.Email)).SetCode(authCode).Save(ctx)
 	if err != nil {
-		if err := tx.Rollback(); err != nil {
+		if err = tx.Rollback(); err != nil {
 			return nil, err
 		}
 		return nil, err
 	}
 
 	if err := sendAuthEmail(ctx, body.Email, authCode, user != nil); err != nil {
-		if err := tx.Rollback(); err != nil {
+		if err = tx.Rollback(); err != nil {
 			return nil, err
 		}
 		logger.Errorf(ctx, "send mail error: %v", err)
@@ -133,22 +108,4 @@ func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBo
 	}
 
 	return &types.JSON{"registered": user != nil}, tx.Commit()
-}
-
-// Helper functions for SendCode
-func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
-	conf := ctxutil.GetConfig(ctx)
-	template := email.AuthEmailTemplate{
-		Subject:  "Email authentication",
-		Template: "auth-email",
-		Keyword:  "Sign in",
-	}
-	if registered {
-		template.URL = conf.Frontend.SignInURL + "?code=" + code
-	} else {
-		template.Keyword = "Sign Up"
-		template.URL = conf.Frontend.SignUpURL + "?code=" + code
-	}
-	_, err := ctxutil.SendEmailWithTemplate(ctx, e, template)
-	return err
 }

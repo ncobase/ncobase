@@ -10,6 +10,7 @@ import (
 
 	"github.com/ncobase/ncore/config"
 	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/security/jwt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,6 +33,7 @@ type Module struct {
 	h           *handler.Handler
 	s           *service.Service
 	d           *data.Data
+	jtm         *jwt.TokenManager
 	cleanup     func(name ...string)
 
 	discovery
@@ -76,6 +78,9 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 		m.discovery.meta = conf.Consul.Discovery.DefaultMeta
 	}
 
+	// token manager
+	m.jtm = jwt.NewTokenManager(conf.Auth.JWT.Secret)
+
 	m.em = em
 	m.initialized = true
 
@@ -96,7 +101,7 @@ func (m *Module) PostInit() error {
 	if err != nil {
 		return err
 	}
-	m.s = service.New(m.d, us, as, ts)
+	m.s = service.New(m.d, m.jtm, us, as, ts)
 	m.h = handler.New(m.s)
 	return nil
 }

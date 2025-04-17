@@ -35,12 +35,13 @@ func isTokenExpiring(tokenData map[string]any) bool {
 }
 
 // ConsumeUser consumes user authentication information.
-func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
+func ConsumeUser(jtm *jwt.TokenManager, whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if shouldSkipPath(c.Request, whiteList) {
 			c.Next()
 			return
 		}
+
 		var token string
 		// Retrieve token from request header, query, or cookie
 		if authHeader := c.GetHeader(consts.AuthorizationKey); authHeader != "" {
@@ -63,7 +64,7 @@ func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
 		}
 
 		// Decode token
-		tokenData, err := jwt.DecodeToken(signingKey, token)
+		tokenData, err := jtm.DecodeToken(token)
 		if err != nil {
 			handleTokenError(c, fmt.Errorf("failed to decode token: %v", err))
 			return
@@ -76,15 +77,40 @@ func ConsumeUser(signingKey string, whiteList []string) gin.HandlerFunc {
 			return
 		}
 
+		// Create context with gin
+		ctx := ctxutil.WithGinContext(context.Background(), c)
+
 		// Set user ID to context
 		userID, ok := payload["user_id"].(string)
 		if !ok || userID == "" {
 			handleTokenError(c, errors.New("user_id not found in token payload"))
 			return
 		}
-		ctx := ctxutil.WithGinContext(context.Background(), c)
 		ctxutil.SetUserID(ctx, userID)
+
+		// Extract and set tenant ID
+		tenantID := jwt.GetTenantIDFromToken(tokenData)
+		if tenantID != "" {
+			ctxutil.SetTenantID(ctx, tenantID)
+		}
+
+		// Extract roles and permissions
+		roles := jwt.GetRolesFromToken(tokenData)
+		permissions := jwt.GetPermissionsFromToken(tokenData)
+		isAdmin := jwt.IsAdminFromToken(tokenData)
+
+		// Store in context for use by other middleware/handlers
+		ctx = context.WithValue(ctx, "token_roles", roles)
+		ctx = context.WithValue(ctx, "token_permissions", permissions)
+		ctx = context.WithValue(ctx, "token_is_admin", isAdmin)
+
+		// Update request context
 		c.Request = c.Request.WithContext(ctx)
+
+		// Set values in Gin context for easy access
+		c.Set("roles", roles)
+		c.Set("permissions", permissions)
+		c.Set("is_admin", isAdmin)
 
 		// Check if token is expiring soon, and refresh if necessary
 		if isTokenExpiring(tokenData) {

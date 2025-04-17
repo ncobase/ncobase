@@ -5176,6 +5176,65 @@ const docTemplate = `{
                 }
             }
         },
+        "/iam/refresh": {
+            "post": {
+                "description": "Refresh the current user's access token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "iam"
+                ],
+                "summary": "RefreshToken token",
+                "parameters": [
+                    {
+                        "description": "Refresh token",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.RefreshTokenBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "access_token": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "refresh_token": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/iam/register": {
             "post": {
                 "description": "Register a new user.",
@@ -5997,6 +6056,45 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/token-status": {
+            "get": {
+                "description": "Get the current token status.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "iam"
+                ],
+                "summary": "Token status",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "is_authenticated": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
@@ -11556,6 +11654,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "thumbnail": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.RefreshTokenBody": {
+            "type": "object",
+            "required": [
+                "refresh_token"
+            ],
+            "properties": {
+                "refresh_token": {
                     "type": "string"
                 }
             }
