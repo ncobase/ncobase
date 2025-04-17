@@ -84,7 +84,17 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		return nil, v
 	}
 
-	tenantID, roleSlugs, permissionCodes, isAdmin, _ := GetUserTenantsRolesPermissions(ctx, s.as, user.ID)
+	// Get user's default tenant
+	defaultTenant, _ := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
+	var tenantID string
+	if defaultTenant != nil {
+		tenantID = defaultTenant.ID
+		// Set the tenant ID in the context
+		ctx = ctxutil.SetTenantID(ctx, tenantID)
+	}
+
+	// Get roles and permissions with the updated context
+	_, roleSlugs, permissionCodes, isAdmin, _ := GetUserTenantsRolesPermissions(ctx, s.as, user.ID)
 
 	payload := types.JSON{
 		"user_id":     user.ID,

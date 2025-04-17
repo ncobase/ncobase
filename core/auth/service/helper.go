@@ -27,6 +27,19 @@ func GetUserTenantsRolesPermissions(
 ) (tenantID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
 	tenantID = ctxutil.GetTenantID(ctx)
 
+	// If tenant ID is not in context, try to get user's default tenant
+	if tenantID == "" {
+		// Get user's tenants
+		userTenants, err := as.UserTenantRole.GetUserRolesInTenant(ctx, userID, "")
+		if err == nil && len(userTenants) > 0 {
+			// Get the first tenant as default
+			tenantRoles, err := as.UserTenantRole.GetUserRolesInTenant(ctx, userID, userTenants[0])
+			if err == nil && len(tenantRoles) > 0 {
+				tenantID = userTenants[0]
+			}
+		}
+	}
+
 	var roles []*accessStructs.ReadRole
 
 	if len(tenantID) > 0 {

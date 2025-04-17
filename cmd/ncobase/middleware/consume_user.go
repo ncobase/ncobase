@@ -15,13 +15,50 @@ import (
 	"github.com/ncobase/ncore/net/cookie"
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/security/jwt"
+	"github.com/ncobase/ncore/types"
 
 	"github.com/gin-gonic/gin"
 )
 
-// refreshToken TODO refresh token
-func refreshToken(oldToken string) (string, error) {
-	return oldToken, nil
+// refreshToken refreshes an access token if it's about to expire
+func refreshToken(jtm *jwt.TokenManager, oldToken string) (string, error) {
+	// Decode the token to get the payload
+	tokenData, err := jtm.DecodeToken(oldToken)
+	if err != nil {
+		return "", fmt.Errorf("failed to decode token: %v", err)
+	}
+
+	// Extract payload and user ID
+	payload, ok := tokenData["payload"].(map[string]any)
+	if !ok {
+		return "", errors.New("invalid token payload format")
+	}
+
+	userID, ok := payload["user_id"].(string)
+	if !ok || userID == "" {
+		return "", errors.New("user_id not found in token payload")
+	}
+
+	// Extract tenant ID and other information
+	tenantID, _ := payload["tenant_id"].(string)
+	roles, _ := payload["roles"].([]string)
+	permissions, _ := payload["permissions"].([]string)
+	isAdmin, _ := payload["is_admin"].(bool)
+
+	// Create updated payload
+	newPayload := types.JSON{
+		"user_id":     userID,
+		"tenant_id":   tenantID,
+		"roles":       roles,
+		"permissions": permissions,
+		"is_admin":    isAdmin,
+	}
+
+	// Generate only a new access token (keep the same refresh token)
+	tokenID := tokenData["jti"].(string)
+	accessToken, _ := jtm.GenerateAccessToken(tokenID, newPayload)
+
+	return accessToken, nil
 }
 
 // isTokenExpiring checks if the token is expiring soon.
@@ -114,7 +151,7 @@ func ConsumeUser(jtm *jwt.TokenManager, whiteList []string) gin.HandlerFunc {
 
 		// Check if token is expiring soon, and refresh if necessary
 		if isTokenExpiring(tokenData) {
-			newToken, err := refreshToken(token)
+			newToken, err := refreshToken(jtm, token)
 			if err != nil {
 				handleTokenError(c, fmt.Errorf("failed to refresh token: %v", err))
 				return

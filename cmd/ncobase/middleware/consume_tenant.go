@@ -24,14 +24,20 @@ func ConsumeTenant(ts *tenantService.Service, whiteList []string) gin.HandlerFun
 		tenantID := c.GetHeader(consts.TenantKey)
 		// If tenant ID is not provided in the header, try to fetch from other sources
 		if tenantID == "" && userID != "" {
-			// Get tenant ID
+			// Get tenant ID from context
 			tenantID = ctxutil.GetTenantID(ctx)
 			if tenantID == "" {
 				logger.Warn(ctx, "tenant not found, try to fetch from user tenants")
-				// Fetch user tenants
+				// Fetch user's default tenant
 				tenant, err := ts.UserTenant.UserBelongTenant(c, userID)
 				if err != nil {
 					logger.Errorf(ctx, "failed to fetch user belong tenant: %v", err.Error())
+					// If no default tenant found, try to get any tenant associated with the user
+					tenants, err := ts.UserTenant.UserBelongTenants(c, userID)
+					if err == nil && len(tenants) > 0 {
+						// Use the first tenant as default
+						tenant = tenants[0]
+					}
 				}
 				if tenant != nil {
 					tenantID = tenant.ID

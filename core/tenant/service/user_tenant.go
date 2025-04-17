@@ -39,9 +39,17 @@ func (s *userTenantService) UserBelongTenant(ctx context.Context, uid string) (*
 		return nil, errors.New(ecode.FieldIsInvalid("User ID"))
 	}
 
+	// Try to get tenant from user-tenant relationship
 	userTenant, err := s.userTenant.GetByUserID(ctx, uid)
-	if err := handleEntError(ctx, "UserTenant", err); err != nil {
-		return nil, err
+	if err != nil {
+		// If no specific tenant found, try to get the first available tenant for the user
+		tenants, err := s.userTenant.GetTenantsByUserID(ctx, uid)
+		if err != nil || len(tenants) == 0 {
+			// If user doesn't belong to any tenant, check if they created a tenant
+			return s.ts.GetByUser(ctx, uid)
+		}
+		// Return the first tenant
+		return s.ts.Serialize(tenants[0]), nil
 	}
 
 	row, err := s.ts.Find(ctx, userTenant.TenantID)
