@@ -17,6 +17,7 @@ type UserTenantServiceInterface interface {
 	UserBelongTenants(ctx context.Context, uid string) ([]*structs.ReadTenant, error)
 	AddUserToTenant(ctx context.Context, u string, t string) (*structs.UserTenant, error)
 	RemoveUserFromTenant(ctx context.Context, u string, t string) error
+	IsTenantInUser(ctx context.Context, u string, t string) (bool, error)
 }
 
 // userTenantService is the struct for the service.
@@ -99,6 +100,16 @@ func (s *userTenantService) RemoveUserFromTenant(ctx context.Context, u string, 
 		return err
 	}
 	return nil
+}
+
+// IsTenantInUser checks if a tenant is in a user.
+func (s *userTenantService) IsTenantInUser(ctx context.Context, u string, t string) (bool, error) {
+	isValid, err := s.userTenant.IsTenantInUser(ctx, u, t)
+	if err = handleEntError(ctx, "UserTenant", err); err != nil {
+		return false, err
+
+	}
+	return isValid, nil
 }
 
 // Serializes serializes user tenants.

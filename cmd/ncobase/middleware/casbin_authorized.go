@@ -1,8 +1,9 @@
 package middleware
 
 import (
-	"ncobase/core/access/service"
+	accessService "ncobase/core/access/service"
 	"ncobase/core/access/structs"
+	tenantService "ncobase/core/tenant/service"
 	"strings"
 
 	"github.com/ncobase/ncore/ctxutil"
@@ -31,7 +32,7 @@ func handleException(c *gin.Context, exception *resp.Exception, err error, messa
 }
 
 // CasbinAuthorized is a middleware that checks if the user has permission to access the resource
-func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *service.Service) gin.HandlerFunc {
+func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, as *accessService.Service, ts *tenantService.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if shouldSkipPath(c.Request, whiteList) {
 			c.Next()
@@ -43,8 +44,8 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 		currentUser := ctxutil.GetUserID(ctx)
 		currentTenant := ctxutil.GetTenantID(ctx)
 
-		// Check if user ID or tenant ID is empty
-		if validator.IsEmpty(currentUser) || validator.IsEmpty(currentTenant) {
+		// Check if user ID is empty
+		if validator.IsEmpty(currentUser) {
 			// Respond with unauthorized error
 			resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
 			c.Abort()
@@ -54,44 +55,59 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 		obj := c.Request.URL.Path
 		act := c.Request.Method
 
-		// Retrieve user roles from service
-		userRoles, err := svc.UserRole.GetUserRoles(ctx, currentUser)
+		// If tenant ID is empty but user is authenticated, try to get a default tenant
+		if validator.IsEmpty(currentTenant) {
+			tenant, err := ts.UserTenant.UserBelongTenant(ctx, currentUser)
+			if err == nil && tenant != nil {
+				currentTenant = tenant.ID
+				// Update context with the resolved tenant
+				ctx = ctxutil.SetTenantID(ctx, currentTenant)
+				c.Request = c.Request.WithContext(ctx)
+			}
+			// Continue even if no tenant is found - we'll check permissions without tenant context
+		}
+
+		// Retrieve user roles - both global and tenant-specific
+		var roles []string
+
+		// Get global roles
+		userRoles, err := as.UserRole.GetUserRoles(ctx, currentUser)
 		if err != nil {
 			handleException(c, nil, err, "Error retrieving user roles")
 			return
 		}
-		if c.IsAborted() {
-			return
+
+		if len(userRoles) > 0 {
+			for _, r := range userRoles {
+				roles = append(roles, r.Slug)
+			}
 		}
 
-		if len(userRoles) == 0 {
+		// Get tenant-specific roles if a tenant is available
+		if currentTenant != "" {
+			roleIDs, err := as.UserTenantRole.GetUserRolesInTenant(ctx, currentUser, currentTenant)
+			if err != nil {
+				handleException(c, nil, err, "Error retrieving user roles in tenant")
+				return
+			}
+
+			if len(roleIDs) > 0 {
+				roles = append(roles, roleIDs...)
+			}
+		}
+
+		// If user has no roles at all, deny access
+		if len(roles) == 0 {
 			handleException(c, resp.Forbidden("User has no roles, please contact your administrator"), nil, "")
 			return
 		}
 
-		var roles []string
-		for _, r := range userRoles {
-			roles = append(roles, r.Slug)
-		}
-
-		// Query current user roles of the current tenant
-		roleIDs, err := svc.UserTenantRole.GetUserRolesInTenant(ctx, currentUser, currentTenant)
-		if err != nil {
-			handleException(c, nil, err, "Error retrieving user roles in tenant")
-			return
-		}
-
-		if len(roleIDs) == 0 {
-			handleException(c, resp.Forbidden("User has no roles in the current tenant, please contact your administrator"), nil, "")
-			return
-		}
-
-		roles = utils.RemoveDuplicates(roleIDs)
+		roles = utils.RemoveDuplicates(roles)
 		var permissions []*structs.ReadPermission
 
 		// Retrieve role permissions from service
 		for _, role := range roles {
-			rolePermissions, err := svc.RolePermission.GetRolePermissions(ctx, role)
+			rolePermissions, err := as.RolePermission.GetRolePermissions(ctx, role)
 			if err != nil {
 				handleException(c, nil, err, "Error retrieving role permissions")
 				return
@@ -147,15 +163,39 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, svc *servic
 }
 
 // checkPermission checks if the user has permission to access the resource based on roles and permissions
-func checkPermission(enforcer *casbin.Enforcer, user_id string, obj string, act string, roles []string, permissions []*structs.ReadPermission, tenantID string) (bool, error) {
-	// First, check role-based permissions
-	for _, role := range roles {
-		ok, err := enforcer.Enforce(role, tenantID, obj, act, nil, nil)
-		if err != nil {
-			return false, err
+func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act string, roles []string, permissions []*structs.ReadPermission, tenantID string) (bool, error) {
+	// Special case: if no tenant is specified, try to enforce with empty tenant
+	if tenantID == "" {
+		// Try to enforce with no tenant context (global permissions)
+		for _, role := range roles {
+			ok, err := enforcer.Enforce(role, "", obj, act, nil, nil)
+			if err != nil {
+				return false, err
+			}
+			if ok {
+				return true, nil
+			}
 		}
-		if ok {
-			return true, nil
+	} else {
+		// First, check tenant-specific role permissions
+		for _, role := range roles {
+			// Try exact tenant match
+			ok, err := enforcer.Enforce(role, tenantID, obj, act, tenantID, nil)
+			if err != nil {
+				return false, err
+			}
+			if ok {
+				return true, nil
+			}
+
+			// Try wildcard tenant (policies that apply to all tenants)
+			ok, err = enforcer.Enforce(role, "*", obj, act, tenantID, nil)
+			if err != nil {
+				return false, err
+			}
+			if ok {
+				return true, nil
+			}
 		}
 	}
 
@@ -165,27 +205,50 @@ func checkPermission(enforcer *casbin.Enforcer, user_id string, obj string, act 
 			continue // Skip disabled permissions
 		}
 
-		// Check for exact match
-		if permission.Subject == obj && (permission.Action == act || permission.Action == "*") {
-			return true, nil
+		// Check if this permission applies to current tenant
+		isTenantSpecific := false
+		if extras := types.ToValue(permission.Extras); extras != nil {
+			if tenantIDs, ok := extras["tenant_ids"].([]string); ok {
+				isTenantSpecific = true
+				if tenantID == "" || !utils.Contains(tenantIDs, tenantID) {
+					continue // Skip if permission doesn't apply to this tenant
+				}
+			}
 		}
 
-		// Check for wildcard permissions
-		if permission.Subject == "*" && (permission.Action == act || permission.Action == "*") {
-			return true, nil
-		}
-
-		// Check for partial wildcard matches (e.g., /v1/tenants/* should match /v1/tenants/{slug}/users)
-		if strings.HasSuffix(permission.Subject, "*") {
-			prefix := strings.TrimSuffix(permission.Subject, "*")
-			if strings.HasPrefix(obj, prefix) && (permission.Action == act || permission.Action == "*") {
+		// If permission is not tenant-specific or it applies to current tenant
+		if !isTenantSpecific || len(tenantID) == 0 {
+			// Check for exact match
+			if permission.Subject == obj && (permission.Action == act || permission.Action == "*") {
 				return true, nil
+			}
+
+			// Check for wildcard permissions
+			if permission.Subject == "*" && (permission.Action == act || permission.Action == "*") {
+				return true, nil
+			}
+
+			// Check for partial wildcard matches (e.g., /v1/tenants/* should match /v1/tenants/{slug}/users)
+			if strings.HasSuffix(permission.Subject, "*") {
+				prefix := strings.TrimSuffix(permission.Subject, "*")
+				if strings.HasPrefix(obj, prefix) && (permission.Action == act || permission.Action == "*") {
+					return true, nil
+				}
 			}
 		}
 	}
 
 	// If no matching permission is found, check if the user has a wildcard permission
-	ok, err := enforcer.Enforce(user_id, tenantID, "*", "*", nil, nil)
+	ok, err := enforcer.Enforce(userID, tenantID, "*", "*", tenantID, nil)
+	if err != nil {
+		return false, err
+	}
+	if ok {
+		return true, nil
+	}
+
+	// Check global wildcard as last resort
+	ok, err = enforcer.Enforce(userID, "*", "*", "*", "*", nil)
 	if err != nil {
 		return false, err
 	}

@@ -84,27 +84,48 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		return nil, v
 	}
 
-	// Get user's default tenant
-	defaultTenant, _ := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
-	var tenantID string
-	if defaultTenant != nil {
+	// Get the user's default tenant
+	tenantID := ""
+	defaultTenant, err := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
+	if err == nil && defaultTenant != nil {
 		tenantID = defaultTenant.ID
-		// Set the tenant ID in the context
+		// Set tenant ID in context for later use
 		ctx = ctxutil.SetTenantID(ctx, tenantID)
 	}
 
-	// Get roles and permissions with the updated context
-	_, roleSlugs, permissionCodes, isAdmin, _ := GetUserTenantsRolesPermissions(ctx, s.as, user.ID)
+	// Get all tenants the user belongs to
+	userTenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
+	var tenantIDs []string
+	if len(userTenants) > 0 {
+		for _, t := range userTenants {
+			tenantIDs = append(tenantIDs, t.ID)
+		}
+	}
 
+	// Get roles and permissions
+	tenantID, roleSlugs, permissionCodes, isAdmin, _ := GetUserTenantsRolesPermissions(ctx, s.as, user.ID)
+
+	// Include more information in the payload
 	payload := types.JSON{
 		"user_id":     user.ID,
 		"roles":       roleSlugs,
 		"permissions": permissionCodes,
 		"is_admin":    isAdmin,
 		"tenant_id":   tenantID,
+		"tenant_ids":  tenantIDs,
 	}
 
-	return generateTokensForUser(ctx, s.jtm, client, payload)
+	tokens, err := generateTokensForUser(ctx, s.jtm, client, payload)
+	if err != nil {
+		return nil, err
+	}
+
+	// Include tenant information in the response
+	(*tokens)["tenant_id"] = tenantID
+	(*tokens)["tenant_ids"] = tenantIDs
+	(*tokens)["default_tenant"] = defaultTenant
+
+	return tokens, nil
 }
 
 // RefreshToken refreshes the access token using a refresh token

@@ -119,7 +119,6 @@ func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInt
 		logger.Errorf(context.Background(), "failed to get access service: %v", err.Error())
 		return
 	}
-	// get access service
 	as, ok := fa.(*accessService.Service)
 	if !ok {
 		logger.Errorf(context.Background(), "access service does not implement")
@@ -129,9 +128,21 @@ func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInt
 		return
 	}
 
+	// get tenant service
+	ft, err := em.GetService("tenant")
+	if err != nil {
+		logger.Errorf(context.Background(), "failed to get tenant service: %v", err.Error())
+		return
+	}
+	ts, ok := ft.(*tenantService.Service)
+	if !ok {
+		logger.Errorf(context.Background(), "tenant service does not implement")
+		return
+	}
+
 	enforcer, err := as.CasbinAdapter.InitEnforcer()
 	if err != nil {
 		panic(err)
 	}
-	engine.Use(middleware.CasbinAuthorized(enforcer, conf.Auth.Whitelist, as))
+	engine.Use(middleware.CasbinAuthorized(enforcer, conf.Auth.Whitelist, as, ts))
 }
