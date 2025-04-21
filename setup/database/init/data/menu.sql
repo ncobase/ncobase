@@ -28,6 +28,12 @@ WITH tenant AS
               (SELECT id FROM user_ids WHERE username = 'admin'),
               EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
               EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
+             -- builder
+             (nanoid(), '构建器', 'builder.navigation', 'builder', 'header', '/builder/form', null, 'IconBraces', null, null,
+              1, false, '{}', null, (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
+              (SELECT id FROM user_ids WHERE username = 'admin'),
+              EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
+              EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
              -- example
              (nanoid(), '示例', 'example.navigation', 'example', 'header', '/example/card', null, null, null, false, 0,
               false, '{}', null, (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
@@ -154,6 +160,19 @@ WITH tenant AS
              (nanoid(), 'divide', null, null, 'sidebar', '-', null, null, null, false, 97, false, '{}',
               (SELECT id FROM header_1 WHERE slug = 'content'), (SELECT id FROM tenant),
               (SELECT id FROM user_ids WHERE username = 'admin'), (SELECT id FROM user_ids WHERE username = 'admin'),
+              EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
+              EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
+             -- build sidebar
+             (nanoid(), '表单', 'builder.form.navigation', 'builder-form', 'sidebar', '/builder/form',
+              null, 'IconBraces', null, null, 99, false, '{}', (SELECT id FROM header_1 WHERE slug = 'builder'),
+              (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
+              (SELECT id FROM user_ids WHERE username = 'admin'),
+              EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
+              EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
+             (nanoid(), '功能', 'builder.feature.navigation', 'builder-feature', 'sidebar', '/builder/form',
+              null, 'IconApps', null, null, 1, false, '{}', (SELECT id FROM header_1 WHERE slug = 'builder'),
+              (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
+              (SELECT id FROM user_ids WHERE username = 'admin'),
               EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
               EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
              -- example sidebar
