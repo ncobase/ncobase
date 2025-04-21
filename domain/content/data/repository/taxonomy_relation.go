@@ -193,7 +193,7 @@ func (r *taxonomyRelationsRepository) Delete(ctx context.Context, object string)
 	if err == nil {
 		// remove from cache
 		cacheKey := fmt.Sprintf("%s", object)
-		err := r.c.Delete(ctx, cacheKey)
+		err = r.c.Delete(ctx, cacheKey)
 		if err != nil {
 			logger.Errorf(ctx, "taxonomyRelationsRepo.Delete cache error: %v", err)
 		}

@@ -125,7 +125,7 @@ func (r *topicRepository) GetBySlug(ctx context.Context, slug string) (*ent.Topi
 	// 	}
 	// }
 	// check cache
-	cacheKey := fmt.Sprintf("%s", slug)
+	cacheKey := fmt.Sprintf("slug:%s", slug)
 	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
