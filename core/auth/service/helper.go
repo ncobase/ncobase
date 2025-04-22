@@ -76,6 +76,34 @@ func GetUserTenantsRolesPermissions(
 	return
 }
 
+// CreateUserTokenPayload creates token payload for a user
+func CreateUserTokenPayload(
+	ctx context.Context,
+	as *accessService.Service,
+	userID string,
+	tenantIDs []string,
+) (types.JSON, error) {
+	if userID == "" {
+		return nil, errors.New("userID is required")
+	}
+
+	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, as, userID)
+	if err != nil {
+		logger.Errorf(ctx, "Failed to get user roles and permissions: %v", err)
+		// Continue with empty roles and permissions rather than failing
+	}
+
+	// Include all required information in the payload
+	return types.JSON{
+		"user_id":     userID,
+		"roles":       roleSlugs,
+		"permissions": permissionCodes,
+		"is_admin":    isAdmin,
+		"tenant_id":   tenantID,
+		"tenant_ids":  tenantIDs,
+	}, nil
+}
+
 // generateUserToken generates user access and refresh tokens.
 func generateUserToken(jtm *jwt.TokenManager, payload map[string]any, tokenID string) (string, string) {
 	// Get user ID from payload
@@ -91,6 +119,43 @@ func generateUserToken(jtm *jwt.TokenManager, payload map[string]any, tokenID st
 	}, 7*24*time.Hour)
 
 	return accessToken, refreshToken
+}
+
+// generateTokensForUser generates tokens for a user.
+func generateTokensForUser(ctx context.Context, jtm *jwt.TokenManager, client *ent.Client, payload map[string]any) (*types.JSON, error) {
+	tx, err := client.Tx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	userID, ok := payload["user_id"].(string)
+	if !ok || userID == "" {
+		return nil, errors.New("user_id is not found")
+	}
+
+	authToken, err := createAuthToken(ctx, tx, userID)
+	if err != nil {
+		if err = tx.Rollback(); err != nil {
+			return nil, err
+		}
+		return nil, err
+	}
+	accessToken, refreshToken := generateUserToken(jtm, payload, authToken.ID)
+	if accessToken == "" || refreshToken == "" {
+		if err := tx.Rollback(); err != nil {
+			return nil, err
+		}
+		return nil, errors.New("authorize is not created")
+	}
+	return &types.JSON{
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
+	}, tx.Commit()
+}
+
+// createAuthToken creates a new auth token for a user.
+func createAuthToken(ctx context.Context, tx *ent.Tx, userID string) (*ent.AuthToken, error) {
+	return tx.AuthToken.Create().SetUserID(userID).Save(ctx)
 }
 
 // RefreshUserToken refreshes user access and refresh tokens.
@@ -162,36 +227,4 @@ func sendRegisterMail(_ context.Context, jtm *jwt.TokenManager, codeAuth *ent.Co
 		return nil, err
 	}
 	return &types.JSON{"email": codeAuth.Email, "register_token": registerToken}, nil
-}
-
-// generateTokensForUser generates tokens for a user.
-func generateTokensForUser(ctx context.Context, jtm *jwt.TokenManager, client *ent.Client, payload map[string]any) (*types.JSON, error) {
-	tx, err := client.Tx(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	userID, ok := payload["user_id"].(string)
-	if !ok || userID == "" {
-		return nil, errors.New("user_id is not found")
-	}
-
-	authToken, err := createAuthToken(ctx, tx, userID)
-	if err != nil {
-		if err = tx.Rollback(); err != nil {
-			return nil, err
-		}
-		return nil, err
-	}
-	accessToken, refreshToken := generateUserToken(jtm, payload, authToken.ID)
-	if accessToken == "" || refreshToken == "" {
-		if err := tx.Rollback(); err != nil {
-			return nil, err
-		}
-		return nil, errors.New("authorize is not created")
-	}
-	return &types.JSON{
-		"access_token":  accessToken,
-		"refresh_token": refreshToken,
-	}, tx.Commit()
 }

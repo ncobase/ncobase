@@ -8,11 +8,13 @@ import (
 	"ncobase/core/auth/data/ent"
 	codeAuthEnt "ncobase/core/auth/data/ent/codeauth"
 	"ncobase/core/auth/structs"
+	tenantService "ncobase/core/tenant/service"
 	userService "ncobase/core/user/service"
 	userStructs "ncobase/core/user/structs"
 	"strings"
 	"time"
 
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/security/jwt"
 	"github.com/ncobase/ncore/types"
@@ -31,15 +33,17 @@ type codeAuthService struct {
 	jtm *jwt.TokenManager
 	as  *accessService.Service
 	us  *userService.Service
+	ts  *tenantService.Service
 }
 
 // NewCodeAuthService creates a new service.
-func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, as *accessService.Service, us *userService.Service) CodeAuthServiceInterface {
+func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, as *accessService.Service, us *userService.Service, ts *tenantService.Service) CodeAuthServiceInterface {
 	return &codeAuthService{
 		d:   d,
 		jtm: jtm,
 		as:  as,
 		us:  us,
+		ts:  ts,
 	}
 }
 
@@ -60,17 +64,37 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 		return sendRegisterMail(ctx, s.jtm, codeAuth)
 	}
 
-	tenantID, roleSlugs, permissionCodes, isAdmin, _ := GetUserTenantsRolesPermissions(ctx, s.as, user.ID)
-
-	payload := types.JSON{
-		"user_id":     user.ID,
-		"roles":       roleSlugs,
-		"permissions": permissionCodes,
-		"is_admin":    isAdmin,
-		"tenant_id":   tenantID,
+	// Get all tenants the user belongs to
+	userTenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
+	var tenantIDs []string
+	if len(userTenants) > 0 {
+		for _, t := range userTenants {
+			tenantIDs = append(tenantIDs, t.ID)
+		}
 	}
 
-	return generateTokensForUser(ctx, s.jtm, client, payload)
+	// Set tenant ID in context if there's a default tenant
+	defaultTenant, err := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
+	if err == nil && defaultTenant != nil {
+		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
+	}
+
+	// Create token payload
+	payload, err := CreateUserTokenPayload(ctx, s.as, user.ID, tenantIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	tokens, err := generateTokensForUser(ctx, s.jtm, client, payload)
+	if err != nil {
+		return nil, err
+	}
+
+	// Include tenant information in the response
+	(*tokens)["tenant_ids"] = tenantIDs
+	(*tokens)["default_tenant"] = defaultTenant
+
+	return tokens, nil
 }
 
 // Helper functions for codeAuthService

@@ -84,15 +84,6 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		return nil, v
 	}
 
-	// Get the user's default tenant
-	tenantID := ""
-	defaultTenant, err := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
-	if err == nil && defaultTenant != nil {
-		tenantID = defaultTenant.ID
-		// Set tenant ID in context for later use
-		ctx = ctxutil.SetTenantID(ctx, tenantID)
-	}
-
 	// Get all tenants the user belongs to
 	userTenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
 	var tenantIDs []string
@@ -102,17 +93,16 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		}
 	}
 
-	// Get roles and permissions
-	tenantID, roleSlugs, permissionCodes, isAdmin, _ := GetUserTenantsRolesPermissions(ctx, s.as, user.ID)
+	// Set tenant ID in context if there's a default tenant
+	defaultTenant, err := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
+	if err == nil && defaultTenant != nil {
+		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
+	}
 
-	// Include more information in the payload
-	payload := types.JSON{
-		"user_id":     user.ID,
-		"roles":       roleSlugs,
-		"permissions": permissionCodes,
-		"is_admin":    isAdmin,
-		"tenant_id":   tenantID,
-		"tenant_ids":  tenantIDs,
+	// Create token payload
+	payload, err := CreateUserTokenPayload(ctx, s.as, user.ID, tenantIDs)
+	if err != nil {
+		return nil, err
 	}
 
 	tokens, err := generateTokensForUser(ctx, s.jtm, client, payload)
@@ -121,7 +111,6 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 	}
 
 	// Include tenant information in the response
-	(*tokens)["tenant_id"] = tenantID
 	(*tokens)["tenant_ids"] = tenantIDs
 	(*tokens)["default_tenant"] = defaultTenant
 
@@ -160,6 +149,27 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 		return nil, errors.New("user not found")
 	}
 
+	// Get all tenants the user belongs to
+	userTenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
+	var tenantIDs []string
+	if len(userTenants) > 0 {
+		for _, t := range userTenants {
+			tenantIDs = append(tenantIDs, t.ID)
+		}
+	}
+
+	// Set tenant ID in context if there's a default tenant
+	defaultTenant, err := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
+	if err == nil && defaultTenant != nil {
+		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
+	}
+
+	// Create token payload
+	tokenPayload, err := CreateUserTokenPayload(ctx, s.as, user.ID, tenantIDs)
+	if err != nil {
+		return nil, err
+	}
+
 	// Create a new auth token entry
 	tx, err := client.Tx(ctx)
 	if err != nil {
@@ -174,16 +184,18 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 		return nil, err
 	}
 
-	// Generate new access and refresh tokens
-	accessToken, newRefreshToken := generateUserToken(s.jtm, types.JSON{"user_id": user.ID}, authToken.ID)
+	// Generate new access and refresh tokens with full payload
+	accessToken, newRefreshToken := generateUserToken(s.jtm, tokenPayload, authToken.ID)
 
 	if err := tx.Commit(); err != nil {
 		return nil, err
 	}
 
 	return &types.JSON{
-		"access_token":  accessToken,
-		"refresh_token": newRefreshToken,
+		"access_token":   accessToken,
+		"refresh_token":  newRefreshToken,
+		"tenant_ids":     tenantIDs,
+		"default_tenant": defaultTenant,
 	}, nil
 }
 
@@ -232,9 +244,28 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 
 	user := rst["user"].(*userStructs.ReadUser)
 
-	if _, err = s.ats.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
+	// Create tenant
+	tenant, err := s.ats.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
 		TenantBody: tenantStructs.TenantBody{Name: body.Tenant, CreatedBy: &user.ID, UpdatedBy: &user.ID},
-	}); err != nil {
+	})
+	if err != nil {
+		if err = tx.Rollback(); err != nil {
+			return nil, err
+		}
+		return nil, err
+	}
+
+	// Get tenant IDs
+	var tenantIDs []string
+	if tenant != nil {
+		tenantIDs = append(tenantIDs, tenant.ID)
+		// Set tenant in context for role assignment
+		ctx = ctxutil.SetTenantID(ctx, tenant.ID)
+	}
+
+	// Create token payload
+	tokenPayload, err := CreateUserTokenPayload(ctx, s.as, user.ID, tenantIDs)
+	if err != nil {
 		if err = tx.Rollback(); err != nil {
 			return nil, err
 		}
@@ -249,7 +280,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, err
 	}
 
-	accessToken, refreshToken := generateUserToken(s.jtm, types.JSON{"user_id": user.ID}, authToken.ID)
+	accessToken, refreshToken := generateUserToken(s.jtm, tokenPayload, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		if err := tx.Rollback(); err != nil {
 			return nil, err
@@ -258,8 +289,10 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	return &types.JSON{
-		"access_token":  accessToken,
-		"refresh_token": refreshToken,
+		"access_token":   accessToken,
+		"refresh_token":  refreshToken,
+		"tenant_ids":     tenantIDs,
+		"default_tenant": tenant,
 	}, tx.Commit()
 }
 
@@ -313,10 +346,6 @@ func createUserAndProfile(ctx context.Context, svc *accountService, body *struct
 		return nil, err
 	}
 	return types.JSON{"user": user, "profile": userProfile}, nil
-}
-
-func createAuthToken(ctx context.Context, tx *ent.Tx, userID string) (*ent.AuthToken, error) {
-	return tx.AuthToken.Create().SetUserID(userID).Save(ctx)
 }
 
 // GetMe get current user service

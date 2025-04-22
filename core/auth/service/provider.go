@@ -20,7 +20,7 @@ type Service struct {
 
 // New creates a new service.
 func New(d *data.Data, jtm *jwt.TokenManager, us *userService.Service, as *accessService.Service, ts *tenantService.Service) *Service {
-	cas := NewCodeAuthService(d, jtm, as, us)
+	cas := NewCodeAuthService(d, jtm, as, us, ts)
 	ats := NewAuthTenantService(d, us, as, ts)
 	return &Service{
 		Account:    NewAccountService(d, jtm, cas, ats, us, as, ts),
