@@ -208,6 +208,57 @@ definitions:
       channel:
         $ref: '#/definitions/structs.ChannelBody'
     type: object
+  structs.CreateEndpointBody:
+    properties:
+      auth_config:
+        type: string
+      auth_type:
+        enum:
+        - None
+        - Basic
+        - Bearer
+        - OAuth
+        - ApiKey
+        type: string
+      base_url:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      log_requests:
+        type: boolean
+      log_responses:
+        type: boolean
+      name:
+        type: string
+      protocol:
+        enum:
+        - HTTP
+        - HTTPS
+        - WS
+        - WSS
+        - TCP
+        - UDP
+        type: string
+      retry_count:
+        type: integer
+      timeout:
+        type: integer
+      updated_by:
+        type: string
+      use_circuit_breaker:
+        type: boolean
+      validate_ssl:
+        type: boolean
+    required:
+    - base_url
+    - name
+    type: object
   structs.CreateEvent:
     properties:
       event:
@@ -255,6 +306,47 @@ definitions:
         type: string
       updated_by:
         type: string
+    type: object
+  structs.CreateRouteBody:
+    properties:
+      cache_enabled:
+        type: boolean
+      cache_ttl:
+        type: integer
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      endpoint_id:
+        type: string
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      input_transformer_id:
+        type: string
+      method:
+        type: string
+      name:
+        type: string
+      output_transformer_id:
+        type: string
+      path_pattern:
+        type: string
+      rate_limit:
+        type: string
+      strip_auth_header:
+        type: boolean
+      target_path:
+        type: string
+      updated_by:
+        type: string
+    required:
+    - endpoint_id
+    - method
+    - name
+    - path_pattern
+    - target_path
     type: object
   structs.CreateSubscription:
     properties:
@@ -361,6 +453,36 @@ definitions:
         type: string
       updated_by:
         type: string
+    type: object
+  structs.CreateTransformerBody:
+    properties:
+      content:
+        type: string
+      content_type:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      name:
+        type: string
+      type:
+        enum:
+        - template
+        - script
+        - mapping
+        type: string
+      updated_by:
+        type: string
+    required:
+    - content
+    - content_type
+    - name
+    - type
     type: object
   structs.DelegateTaskRequest:
     properties:
@@ -928,6 +1050,47 @@ definitions:
       value:
         type: string
     type: object
+  structs.ReadEndpoint:
+    properties:
+      auth_config:
+        type: string
+      auth_type:
+        type: string
+      base_url:
+        type: string
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      id:
+        type: string
+      log_requests:
+        type: boolean
+      log_responses:
+        type: boolean
+      name:
+        type: string
+      protocol:
+        type: string
+      retry_count:
+        type: integer
+      timeout:
+        type: integer
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+      use_circuit_breaker:
+        type: boolean
+      validate_ssl:
+        type: boolean
+    type: object
   structs.ReadEvent:
     properties:
       channel_id:
@@ -1361,6 +1524,47 @@ definitions:
       updated_by:
         type: string
     type: object
+  structs.ReadRoute:
+    properties:
+      cache_enabled:
+        type: boolean
+      cache_ttl:
+        type: integer
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      endpoint_id:
+        type: string
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      id:
+        type: string
+      input_transformer_id:
+        type: string
+      method:
+        type: string
+      name:
+        type: string
+      output_transformer_id:
+        type: string
+      path_pattern:
+        type: string
+      rate_limit:
+        type: string
+      strip_auth_header:
+        type: boolean
+      target_path:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+    type: object
   structs.ReadRule:
     properties:
       actions:
@@ -1715,6 +1919,33 @@ definitions:
       thumbnail:
         type: string
       title:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+    type: object
+  structs.ReadTransformer:
+    properties:
+      content:
+        type: string
+      content_type:
+        type: string
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      description:
+        type: string
+      disabled:
+        type: boolean
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      type:
         type: string
       updated_at:
         type: integer
@@ -8502,6 +8733,456 @@ paths:
       summary: Update user password
       tags:
       - sys
+  /tbp/endpoints:
+    get:
+      description: Retrieve a list of endpoints based on the provided query parameters
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: disabled
+        type: boolean
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
+        type: string
+      - in: query
+        name: protocol
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadEndpoint'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all endpoints
+      tags:
+      - proxy
+    post:
+      consumes:
+      - application/json
+      description: Create a new third-party API endpoint
+      parameters:
+      - description: Endpoint data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateEndpointBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadEndpoint'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create API endpoint
+      tags:
+      - proxy
+  /tbp/endpoints/{id}:
+    delete:
+      description: Delete an endpoint by its ID
+      parameters:
+      - description: Endpoint ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete an endpoint by ID
+      tags:
+      - proxy
+    get:
+      description: Retrieve an endpoint by its ID
+      parameters:
+      - description: Endpoint ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadEndpoint'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get an endpoint by ID
+      tags:
+      - proxy
+    put:
+      consumes:
+      - application/json
+      description: Update an existing endpoint with the provided data
+      parameters:
+      - description: Endpoint ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Endpoint data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadEndpoint'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update an existing endpoint
+      tags:
+      - proxy
+  /tbp/routes:
+    get:
+      description: Retrieve a list of routes based on the provided query parameters
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: disabled
+        type: boolean
+      - in: query
+        name: endpoint_id
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: method
+        type: string
+      - in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadRoute'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all routes
+      tags:
+      - proxy
+    post:
+      consumes:
+      - application/json
+      description: Create a new proxy route for a third-party API endpoint
+      parameters:
+      - description: Route data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateRouteBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRoute'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create API route
+      tags:
+      - proxy
+  /tbp/routes/{id}:
+    delete:
+      description: Delete a route by its ID
+      parameters:
+      - description: Route ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a route by ID
+      tags:
+      - proxy
+    get:
+      description: Retrieve a route by its ID
+      parameters:
+      - description: Route ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRoute'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a route by ID
+      tags:
+      - proxy
+    put:
+      consumes:
+      - application/json
+      description: Update an existing route with the provided data
+      parameters:
+      - description: Route ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Route data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadRoute'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update an existing route
+      tags:
+      - proxy
+  /tbp/transformers:
+    get:
+      description: Retrieve a list of transformers based on the provided query parameters
+      parameters:
+      - in: query
+        name: content_type
+        type: string
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: disabled
+        type: boolean
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadTransformer'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List all transformers
+      tags:
+      - proxy
+    post:
+      consumes:
+      - application/json
+      description: Create a new data transformer for API requests/responses
+      parameters:
+      - description: Transformer data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTransformerBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTransformer'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create data transformer
+      tags:
+      - proxy
+  /tbp/transformers/{id}:
+    delete:
+      description: Delete a transformer by its ID
+      parameters:
+      - description: Transformer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete a transformer by ID
+      tags:
+      - proxy
+    get:
+      description: Retrieve a transformer by its ID
+      parameters:
+      - description: Transformer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTransformer'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get a transformer by ID
+      tags:
+      - proxy
+    put:
+      consumes:
+      - application/json
+      description: Update an existing transformer with the provided data
+      parameters:
+      - description: Transformer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Transformer data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTransformer'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update an existing transformer
+      tags:
+      - proxy
 securityDefinitions:
   Bearer:
     description: Type "Bearer" followed by a space and JWT token.

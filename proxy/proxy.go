@@ -1,10 +1,10 @@
-package payment
+package proxy
 
 import (
 	"fmt"
-	"ncobase/core/payment/data"
-	"ncobase/core/payment/handler"
-	"ncobase/core/payment/service"
+	"ncobase/proxy/data"
+	"ncobase/proxy/handler"
+	"ncobase/proxy/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"
@@ -14,16 +14,16 @@ import (
 )
 
 var (
-	name             = "payment"
-	desc             = "Payment module"
+	name             = "proxy"
+	desc             = "Proxy module for third-party APIs"
 	version          = "1.0.0"
 	dependencies     []string
 	typeStr          = "module"
-	group            = "pay"
+	group            = "tbp"
 	enabledDiscovery = false
 )
 
-// Module represents the payment module.
+// Module represents the proxy module.
 type Module struct {
 	initialized bool
 	mu          sync.RWMutex
@@ -44,7 +44,7 @@ type discovery struct {
 	meta    map[string]string
 }
 
-// New creates a new instance of the payment module.
+// New creates a new instance of the proxy module.
 func New() ext.Interface {
 	return &Module{}
 }
@@ -55,13 +55,13 @@ func (m *Module) PreInit() error {
 	return nil
 }
 
-// Init initializes the payment module with the given config object
+// Init initializes the proxy module with the given config object
 func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
 	if m.initialized {
-		return fmt.Errorf("payment module already initialized")
+		return fmt.Errorf("proxy module already initialized")
 	}
 
 	m.d, m.cleanup, err = data.New(conf.Data)
@@ -70,7 +70,7 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 	}
 
 	// service discovery
-	if conf.Consul == nil {
+	if conf.Consul != nil {
 		m.discovery.address = conf.Consul.Address
 		m.discovery.tags = conf.Consul.Discovery.DefaultTags
 		m.discovery.meta = conf.Consul.Discovery.DefaultMeta
@@ -98,7 +98,37 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Implement your route registration logic here
+	// Proxy domain group
+	proxyGroup := r.Group("/" + m.Group())
+
+	// Proxy endpoints
+	proxyGroup.GET("/endpoints", m.h.Endpoint.List)
+	proxyGroup.POST("/endpoints", m.h.Endpoint.Create)
+	proxyGroup.GET("/endpoints/:id", m.h.Endpoint.Get)
+	proxyGroup.PUT("/endpoints/:id", m.h.Endpoint.Update)
+	proxyGroup.DELETE("/endpoints/:id", m.h.Endpoint.Delete)
+
+	// Proxy route management
+	proxyGroup.GET("/routes", m.h.Route.List)
+	proxyGroup.POST("/routes", m.h.Route.Create)
+	proxyGroup.GET("/routes/:id", m.h.Route.Get)
+	proxyGroup.PUT("/routes/:id", m.h.Route.Update)
+	proxyGroup.DELETE("/routes/:id", m.h.Route.Delete)
+
+	// Proxy transformers
+	proxyGroup.GET("/transformers", m.h.Transformer.List)
+	proxyGroup.POST("/transformers", m.h.Transformer.Create)
+	proxyGroup.GET("/transformers/:id", m.h.Transformer.Get)
+	proxyGroup.PUT("/transformers/:id", m.h.Transformer.Update)
+	proxyGroup.DELETE("/transformers/:id", m.h.Transformer.Delete)
+
+	// Dynamic proxy routes - these will be registered based on configured endpoints
+	dynGroup := r.Group("/proxy")
+	m.h.Dynamic.RegisterDynamicRoutes(dynGroup)
+
+	// WebSocket proxy endpoints
+	wsGroup := r.Group("/ws")
+	m.h.WebSocket.RegisterWebSocketRoutes(wsGroup)
 }
 
 // GetHandlers returns the handlers for the module

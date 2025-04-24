@@ -12,6 +12,7 @@ import (
 	"ncobase/core/workflow"
 	"ncobase/domain/content"
 	"ncobase/domain/resource"
+	"ncobase/proxy"
 	"strings"
 
 	ext "github.com/ncobase/ncore/extension/types"
@@ -27,6 +28,7 @@ func registerExtensions(em ext.ManagerInterface) {
 
 	// Core extensions
 	fs = append(fs,
+		proxy.New(),
 		access.New(),
 		auth.New(),
 		realtime.New(),

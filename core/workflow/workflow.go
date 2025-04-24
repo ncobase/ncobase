@@ -16,12 +16,13 @@ import (
 )
 
 var (
-	name         = "workflow"
-	desc         = "Workflow module"
-	version      = "1.0.0"
-	dependencies []string
-	typeStr      = "module"
-	group        = "flow"
+	name             = "workflow"
+	desc             = "Workflow module"
+	version          = "1.0.0"
+	dependencies     []string
+	typeStr          = "module"
+	group            = "flow"
+	enabledDiscovery = false
 )
 
 // Module represents the workflow module.
@@ -160,6 +161,11 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
+}
+
+// NeedServiceDiscovery returns if the module needs to be registered as a service
+func (m *Module) NeedServiceDiscovery() bool {
+	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

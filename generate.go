@@ -18,6 +18,8 @@ package ncobase
 //go:generate go generate ./domain/content
 //go:generate go generate ./domain/resource
 
+//go:generate go generate ./proxy
+
 // Generate plugins
 //go:generate go generate ./plugin/counter
 
