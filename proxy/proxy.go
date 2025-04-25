@@ -1,14 +1,21 @@
 package proxy
 
 import (
+	"context"
 	"fmt"
 	"ncobase/proxy/data"
 	"ncobase/proxy/handler"
 	"ncobase/proxy/service"
 	"sync"
 
+	accessService "ncobase/core/access/service"
+	spaceService "ncobase/core/space/service"
+	tenantService "ncobase/core/tenant/service"
+	userService "ncobase/core/user/service"
+
 	"github.com/ncobase/ncore/config"
 	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/gin-gonic/gin"
 )
@@ -33,6 +40,12 @@ type Module struct {
 	s           *service.Service
 	d           *data.Data
 	cleanup     func(name ...string)
+
+	// Internal services
+	userService   *userService.Service
+	tenantService *tenantService.Service
+	spaceService  *spaceService.Service
+	accessService *accessService.Service
 
 	discovery
 }
@@ -85,25 +98,51 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	// Service interaction
-	_, err := m.getUserService()
+	// Get internal services
+	var err error
+
+	// Get user service
+	m.userService, err = m.getUserService()
 	if err != nil {
 		return err
 	}
-	_, err = m.getTenantService()
+
+	// Get tenant service
+	m.tenantService, err = m.getTenantService()
 	if err != nil {
 		return err
 	}
-	_, err = m.getSpaceService()
+
+	// Get space service
+	m.spaceService, err = m.getSpaceService()
 	if err != nil {
 		return err
 	}
-	_, err = m.getAccessService()
+
+	// Get access service
+	m.accessService, err = m.getAccessService()
 	if err != nil {
 		return err
 	}
-	m.s = service.New(m.conf, m.d)
+
+	// Initialize services with internal services
+	m.s = service.New(m.conf, m.d, m.userService, m.tenantService, m.spaceService, m.accessService)
 	m.h = handler.New(m.s)
+
+	// Register default hooks for processing
+	err = m.RegisterDefaultHooks()
+	if err != nil {
+		logger.Warnf(context.Background(), "Failed to register default processing hooks: %v", err)
+		// Continue initialization even if hook registration fails
+	}
+
+	// Initialize event system
+	err = m.InitializeEventSystem()
+	if err != nil {
+		logger.Warnf(context.Background(), "Failed to initialize event system: %v", err)
+		// Continue initialization even if event system initialization fails
+	}
+
 	return nil
 }
 

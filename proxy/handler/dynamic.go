@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"io"
@@ -12,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/types"
@@ -23,6 +25,40 @@ import (
 type DynamicHandlerInterface interface {
 	RegisterDynamicRoutes(r *gin.RouterGroup)
 	ProxyRequest(c *gin.Context)
+	SetExtensionManager(manager ext.ManagerInterface)
+}
+
+// dynamicHandler represents the dynamic handler.
+type dynamicHandler struct {
+	s                *service.Service
+	circuitBreakers  map[string]*gobreaker.CircuitBreaker
+	httpClient       *http.Client
+	transformerCache map[string]service.TransformerFunc
+	manager          ext.ManagerInterface
+}
+
+// NewDynamicHandler creates a new dynamic handler.
+func NewDynamicHandler(svc *service.Service) DynamicHandlerInterface {
+	return &dynamicHandler{
+		s:               svc,
+		circuitBreakers: make(map[string]*gobreaker.CircuitBreaker),
+		httpClient: &http.Client{
+			Timeout: time.Second * 30,
+			Transport: &http.Transport{
+				MaxIdleConns:        100,
+				MaxConnsPerHost:     100,
+				MaxIdleConnsPerHost: 100,
+				IdleConnTimeout:     90 * time.Second,
+			},
+		},
+		transformerCache: make(map[string]service.TransformerFunc),
+		manager:          nil, // Will be set later via SetManager
+	}
+}
+
+// SetExtensionManager sets the extension manager for event publishing
+func (h *dynamicHandler) SetExtensionManager(manager ext.ManagerInterface) {
+	h.manager = manager
 }
 
 // ProxyRequest handles the proxying of requests to third-party APIs.
@@ -53,11 +89,28 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 		return
 	}
 
+	// Create event data for tracking this request
+	eventData := &service.ProxyEventData{
+		Timestamp:   time.Now(),
+		EndpointID:  endpoint.ID,
+		EndpointURL: endpoint.BaseURL,
+		RouteID:     route.ID,
+		RoutePath:   routePath,
+		Method:      method,
+		Metadata:    make(map[string]any),
+	}
+
+	// Publish request received event if manager is available
+	if h.manager != nil {
+		h.s.Processor.PublishEvent(h.manager, service.EventRequestReceived, eventData)
+	}
+
 	// Construct target URL
 	targetURL, err := url.Parse(endpoint.BaseURL)
 	if err != nil {
 		logger.Errorf(ctx, "Invalid endpoint URL %s: %v", endpoint.BaseURL, err)
 		resp.Fail(c.Writer, resp.InternalServer("Invalid endpoint configuration"))
+		h.handleRequestError(ctx, eventData, err)
 		return
 	}
 
@@ -65,6 +118,8 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 	targetPath := route.TargetPath
 	for _, param := range c.Params {
 		targetPath = strings.Replace(targetPath, ":"+param.Key, param.Value, -1)
+		// Add parameters to event metadata for easier tracking
+		eventData.Metadata[param.Key] = param.Value
 	}
 
 	targetURL.Path = targetPath
@@ -74,6 +129,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 	if err != nil {
 		logger.Errorf(ctx, "Failed to create request: %v", err)
 		resp.Fail(c.Writer, resp.InternalServer("Failed to create request"))
+		h.handleRequestError(ctx, eventData, err)
 		return
 	}
 
@@ -107,40 +163,73 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 		}
 	}
 
-	// Apply input transformer if configured
+	// Read and store the original request body for potential pre-processing
 	var requestBody []byte
+	if c.Request.Body != nil {
+		requestBody, err = io.ReadAll(c.Request.Body)
+		if err != nil {
+			logger.Errorf(ctx, "Failed to read request body: %v", err)
+			resp.Fail(c.Writer, resp.InternalServer("Failed to read request body"))
+			h.handleRequestError(ctx, eventData, err)
+			return
+		}
+
+		// Close and reset the body
+		c.Request.Body.Close()
+		c.Request.Body = io.NopCloser(strings.NewReader(string(requestBody)))
+	}
+
+	// Apply input transformer if configured
 	if validator.IsNotEmpty(route.InputTransformerID) {
 		transformer, exists := h.transformerCache[types.ToString(route.InputTransformerID)]
-		if exists {
-			// Read request body
-			if c.Request.Body != nil {
-				requestBody, err = io.ReadAll(c.Request.Body)
-				if err != nil {
-					logger.Errorf(ctx, "Failed to read request body: %v", err)
-					resp.Fail(c.Writer, resp.InternalServer("Failed to read request body"))
-					return
-				}
-
-				// Close and reset the body
-				c.Request.Body.Close()
-				c.Request.Body = io.NopCloser(strings.NewReader(string(requestBody)))
-
-				// Apply transformer
-				transformedBody, err := transformer(requestBody)
-				if err != nil {
-					logger.Errorf(ctx, "Failed to transform request: %v", err)
-					resp.Fail(c.Writer, resp.InternalServer("Failed to transform request"))
-					return
-				}
-
-				// Replace request body with transformed version
-				proxyReq.Body = io.NopCloser(strings.NewReader(string(transformedBody)))
-				proxyReq.ContentLength = int64(len(transformedBody))
-				proxyReq.Header.Set("Content-Length", fmt.Sprintf("%d", len(transformedBody)))
+		if exists && requestBody != nil {
+			// Apply transformer
+			transformedBody, err := transformer(requestBody)
+			if err != nil {
+				logger.Errorf(ctx, "Failed to transform request: %v", err)
+				resp.Fail(c.Writer, resp.InternalServer("Failed to transform request"))
+				h.handleRequestError(ctx, eventData, err)
+				return
 			}
-		} else {
+
+			requestBody = transformedBody
+
+			// Publish event for request transformation
+			if h.manager != nil {
+				h.s.Processor.PublishEvent(h.manager, service.EventRequestTransformed, eventData)
+			}
+		} else if !exists {
 			logger.Warnf(ctx, "Input transformer %s not found in cache", route.InputTransformerID)
 		}
+	}
+
+	// Pre-process the request body with the processor service
+	if requestBody != nil {
+		processedBody, err := h.s.Processor.PreProcess(ctx, endpoint, route, requestBody)
+		if err != nil {
+			logger.Errorf(ctx, "Failed to pre-process request: %v", err)
+			resp.Fail(c.Writer, resp.InternalServer("Failed to pre-process request"))
+			h.handleRequestError(ctx, eventData, err)
+			return
+		}
+
+		// Replace request body with processed version if it changed
+		if !bytes.Equal(requestBody, processedBody) {
+			requestBody = processedBody
+			proxyReq.Body = io.NopCloser(strings.NewReader(string(requestBody)))
+			proxyReq.ContentLength = int64(len(requestBody))
+			proxyReq.Header.Set("Content-Length", fmt.Sprintf("%d", len(requestBody)))
+
+			// Publish event for request pre-processing
+			if h.manager != nil {
+				h.s.Processor.PublishEvent(h.manager, service.EventRequestPreProcessed, eventData)
+			}
+		}
+	}
+
+	// Publish event for request being sent
+	if h.manager != nil {
+		h.s.Processor.PublishEvent(h.manager, service.EventRequestSent, eventData)
 	}
 
 	// Execute the request, potentially through a circuit breaker
@@ -155,6 +244,11 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 			if err != nil {
 				circuitErr = err
+
+				// If circuit breaker was tripped, publish an event
+				if h.manager != nil && strings.Contains(err.Error(), "circuit breaker is open") {
+					h.s.Processor.PublishEvent(h.manager, service.EventCircuitBreakerTripped, eventData)
+				}
 			} else {
 				stdResp = result.(*http.Response)
 			}
@@ -171,6 +265,10 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 	if circuitErr != nil {
 		logger.Errorf(ctx, "Circuit breaker error: %v", circuitErr)
 		resp.Fail(c.Writer, resp.InternalServer("Service unavailable: circuit breaker open"))
+
+		eventData.Error = circuitErr.Error()
+		eventData.StatusCode = http.StatusServiceUnavailable
+		h.handleRequestError(ctx, eventData, circuitErr)
 
 		// Log the failed request
 		h.s.Log.Create(ctx, &structs.CreateLogBody{
@@ -195,6 +293,10 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 		logger.Errorf(ctx, "Request failed: %v", err)
 		resp.Fail(c.Writer, resp.InternalServer("Request to third-party API failed"))
 
+		eventData.Error = err.Error()
+		eventData.StatusCode = http.StatusInternalServerError
+		h.handleRequestError(ctx, eventData, err)
+
 		// Log the failed request
 		h.s.Log.Create(ctx, &structs.CreateLogBody{
 			LogBody: structs.LogBody{
@@ -216,11 +318,22 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 	defer stdResp.Body.Close()
 
+	// Update event data with response info
+	eventData.StatusCode = stdResp.StatusCode
+
+	// Publish response received event
+	if h.manager != nil {
+		h.s.Processor.PublishEvent(h.manager, service.EventResponseReceived, eventData)
+	}
+
 	// Read the response body
 	responseBody, err := io.ReadAll(stdResp.Body)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to read response body: %v", err)
 		resp.Fail(c.Writer, resp.InternalServer("Failed to read response from third-party API"))
+
+		eventData.Error = err.Error()
+		h.handleRequestError(ctx, eventData, err)
 		return
 	}
 
@@ -232,11 +345,40 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 			if err != nil {
 				logger.Errorf(ctx, "Failed to transform response: %v", err)
 				resp.Fail(c.Writer, resp.InternalServer("Failed to transform response"))
+
+				eventData.Error = err.Error()
+				h.handleRequestError(ctx, eventData, err)
 				return
 			}
 			responseBody = transformedBody
+
+			// Publish event for response transformation
+			if h.manager != nil {
+				h.s.Processor.PublishEvent(h.manager, service.EventResponseTransformed, eventData)
+			}
 		} else {
 			logger.Warnf(ctx, "Output transformer %s not found in cache", route.OutputTransformerID)
+		}
+	}
+
+	// Post-process the response body with the processor service
+	processedResponseBody, err := h.s.Processor.PostProcess(ctx, endpoint, route, responseBody)
+	if err != nil {
+		logger.Errorf(ctx, "Failed to post-process response: %v", err)
+		resp.Fail(c.Writer, resp.InternalServer("Failed to post-process response"))
+
+		eventData.Error = err.Error()
+		h.handleRequestError(ctx, eventData, err)
+		return
+	}
+
+	// Only publish event if the response was actually changed by post-processing
+	if !bytes.Equal(responseBody, processedResponseBody) {
+		responseBody = processedResponseBody
+
+		// Publish event for response post-processing
+		if h.manager != nil {
+			h.s.Processor.PublishEvent(h.manager, service.EventResponsePostProcessed, eventData)
 		}
 	}
 
@@ -250,6 +392,14 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 	// Set status code and write response body
 	c.Writer.WriteHeader(stdResp.StatusCode)
 	c.Writer.Write(responseBody)
+
+	// Update event data with final timing
+	eventData.Duration = int(time.Since(startTime).Milliseconds())
+
+	// Publish response sent event
+	if h.manager != nil {
+		h.s.Processor.PublishEvent(h.manager, service.EventResponseSent, eventData)
+	}
 
 	// Log the successful request if logging is enabled
 	if endpoint.LogRequests || endpoint.LogResponses {
@@ -282,29 +432,13 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 	}
 }
 
-// dynamicHandler represents the dynamic handler.
-type dynamicHandler struct {
-	s                *service.Service
-	circuitBreakers  map[string]*gobreaker.CircuitBreaker
-	httpClient       *http.Client
-	transformerCache map[string]service.TransformerFunc
-}
+// handleRequestError handles errors and publishes appropriate events
+func (h *dynamicHandler) handleRequestError(ctx context.Context, eventData *service.ProxyEventData, err error) {
+	eventData.Error = err.Error()
 
-// NewDynamicHandler creates a new dynamic handler.
-func NewDynamicHandler(svc *service.Service) DynamicHandlerInterface {
-	return &dynamicHandler{
-		s:               svc,
-		circuitBreakers: make(map[string]*gobreaker.CircuitBreaker),
-		httpClient: &http.Client{
-			Timeout: time.Second * 30,
-			Transport: &http.Transport{
-				MaxIdleConns:        100,
-				MaxConnsPerHost:     100,
-				MaxIdleConnsPerHost: 100,
-				IdleConnTimeout:     90 * time.Second,
-			},
-		},
-		transformerCache: make(map[string]service.TransformerFunc),
+	// Publish error event if manager is available
+	if h.manager != nil {
+		h.s.Processor.PublishEvent(h.manager, service.EventRequestError, eventData)
 	}
 }
 
@@ -321,6 +455,25 @@ func (h *dynamicHandler) registerCircuitBreaker(endpointID, endpointName string)
 		},
 		OnStateChange: func(name string, from gobreaker.State, to gobreaker.State) {
 			logger.Infof(context.Background(), "Circuit breaker %s state changed from %s to %s", name, from, to)
+
+			// If circuit breaker state changes, publish an event
+			if h.manager != nil {
+				eventData := &service.ProxyEventData{
+					Timestamp:  time.Now(),
+					EndpointID: endpointID,
+					Method:     "STATE_CHANGE",
+					Metadata: map[string]any{
+						"from_state": from.String(),
+						"to_state":   to.String(),
+					},
+				}
+
+				if to == gobreaker.StateOpen {
+					h.s.Processor.PublishEvent(h.manager, service.EventCircuitBreakerTripped, eventData)
+				} else if from == gobreaker.StateOpen {
+					h.s.Processor.PublishEvent(h.manager, service.EventCircuitBreakerReset, eventData)
+				}
+			}
 		},
 	})
 	h.circuitBreakers[endpointID] = cb
