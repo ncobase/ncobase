@@ -85,9 +85,25 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
+	// Service interaction
+	_, err := m.getUserService()
+	if err != nil {
+		return err
+	}
+	_, err = m.getTenantService()
+	if err != nil {
+		return err
+	}
+	_, err = m.getSpaceService()
+	if err != nil {
+		return err
+	}
+	_, err = m.getAccessService()
+	if err != nil {
+		return err
+	}
 	m.s = service.New(m.conf, m.d)
 	m.h = handler.New(m.s)
-
 	return nil
 }
 
