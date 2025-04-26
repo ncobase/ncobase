@@ -1,7 +1,6 @@
 package proxy
 
 import (
-	"context"
 	"fmt"
 	"ncobase/proxy/data"
 	"ncobase/proxy/handler"
@@ -13,11 +12,9 @@ import (
 	tenantService "ncobase/core/tenant/service"
 	userService "ncobase/core/user/service"
 
+	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/config"
 	ext "github.com/ncobase/ncore/extension/types"
-	"github.com/ncobase/ncore/logging/logger"
-
-	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -129,19 +126,19 @@ func (m *Module) PostInit() error {
 	m.s = service.New(m.conf, m.d, m.userService, m.tenantService, m.spaceService, m.accessService)
 	m.h = handler.New(m.s)
 
-	// Register default hooks for processing
-	err = m.RegisterDefaultHooks()
-	if err != nil {
-		logger.Warnf(context.Background(), "Failed to register default processing hooks: %v", err)
-		// Continue initialization even if hook registration fails
-	}
-
-	// Initialize event system
-	err = m.InitializeEventSystem()
-	if err != nil {
-		logger.Warnf(context.Background(), "Failed to initialize event system: %v", err)
-		// Continue initialization even if event system initialization fails
-	}
+	// // Register default hooks for processing
+	// err = m.RegisterDefaultHooks()
+	// if err != nil {
+	// 	logger.Warnf(context.Background(), "Failed to register default processing hooks: %v", err)
+	// 	// Continue initialization even if hook registration fails
+	// }
+	//
+	// // Initialize event system
+	// err = m.InitializeEventSystem()
+	// if err != nil {
+	// 	logger.Warnf(context.Background(), "Failed to initialize event system: %v", err)
+	// 	// Continue initialization even if event system initialization fails
+	// }
 
 	return nil
 }
