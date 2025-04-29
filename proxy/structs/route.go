@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // RouteBody defines the structure for recording proxy routes.
@@ -62,7 +63,7 @@ type ReadRoute struct {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadRoute) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // ListRouteParams represents the query parameters for listing proxy routes.

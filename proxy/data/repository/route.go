@@ -13,6 +13,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -213,17 +214,17 @@ func (r *routeRepository) Update(ctx context.Context, id string, updates types.J
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "description":
-			builder.SetNillableDescription(types.ToPointer(value.(string)))
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "endpoint_id":
-			builder.SetNillableEndpointID(types.ToPointer(value.(string)))
+			builder.SetNillableEndpointID(convert.ToPointer(value.(string)))
 		case "path_pattern":
-			builder.SetNillablePathPattern(types.ToPointer(value.(string)))
+			builder.SetNillablePathPattern(convert.ToPointer(value.(string)))
 		case "target_path":
-			builder.SetNillableTargetPath(types.ToPointer(value.(string)))
+			builder.SetNillableTargetPath(convert.ToPointer(value.(string)))
 		case "method":
-			builder.SetNillableMethod(types.ToPointer(value.(string)))
+			builder.SetNillableMethod(convert.ToPointer(value.(string)))
 		case "input_transformer_id":
 			if value == nil {
 				builder.ClearInputTransformerID()

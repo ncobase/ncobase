@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // LogBody defines the structure for recording proxy logs.
@@ -50,7 +50,7 @@ type ReadLog struct {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadLog) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // ListLogParams represents the query parameters for listing proxy logs.

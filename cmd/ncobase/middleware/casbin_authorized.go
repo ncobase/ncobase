@@ -10,8 +10,8 @@ import (
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
-	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/casbin/casbin/v2"
@@ -201,13 +201,13 @@ func checkPermission(enforcer *casbin.Enforcer, userID string, obj string, act s
 
 	// Then, check user-specific permissions
 	for _, permission := range permissions {
-		if types.ToValue(permission.Disabled) {
+		if convert.ToValue(permission.Disabled) {
 			continue // Skip disabled permissions
 		}
 
 		// Check if this permission applies to current tenant
 		isTenantSpecific := false
-		if extras := types.ToValue(permission.Extras); extras != nil {
+		if extras := convert.ToValue(permission.Extras); extras != nil {
 			if tenantIDs, ok := extras["tenant_ids"].([]string); ok {
 				isTenantSpecific = true
 				if tenantID == "" || !utils.Contains(tenantIDs, tenantID) {

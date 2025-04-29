@@ -16,7 +16,7 @@ import (
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/validation/validator"
 	"github.com/sony/gobreaker"
 )
@@ -181,7 +181,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 	// Apply input transformer if configured
 	if validator.IsNotEmpty(route.InputTransformerID) {
-		transformer, exists := h.transformerCache[types.ToString(route.InputTransformerID)]
+		transformer, exists := h.transformerCache[convert.ToString(route.InputTransformerID)]
 		if exists && requestBody != nil {
 			// Apply transformer
 			transformedBody, err := transformer(requestBody)
@@ -339,7 +339,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 	// Apply output transformer if configured
 	if validator.IsNotEmpty(route.OutputTransformerID) {
-		transformer, exists := h.transformerCache[types.ToString(route.OutputTransformerID)]
+		transformer, exists := h.transformerCache[convert.ToString(route.OutputTransformerID)]
 		if exists {
 			transformedBody, err := transformer(responseBody)
 			if err != nil {

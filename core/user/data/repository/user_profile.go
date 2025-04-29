@@ -9,6 +9,7 @@ import (
 	"ncobase/core/user/structs"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/logging/logger"
@@ -51,11 +52,11 @@ func (r *userProfileRepository) Create(ctx context.Context, body *structs.UserPr
 	builder.SetNillableThumbnail(body.Thumbnail)
 
 	if body.Links != nil {
-		builder.SetLinks(types.ToValue(body.Links))
+		builder.SetLinks(convert.ToValue(body.Links))
 	}
 
 	if body.Extras != nil {
-		builder.SetExtras(types.ToValue(body.Extras))
+		builder.SetExtras(convert.ToValue(body.Extras))
 	}
 
 	// execute the builder.
@@ -83,13 +84,13 @@ func (r *userProfileRepository) Update(ctx context.Context, id string, updates t
 	for field, value := range updates {
 		switch field {
 		case "display_name":
-			builder.SetNillableDisplayName(types.ToPointer(value.(string)))
+			builder.SetNillableDisplayName(convert.ToPointer(value.(string)))
 		case "short_bio":
-			builder.SetNillableShortBio(types.ToPointer(value.(string)))
+			builder.SetNillableShortBio(convert.ToPointer(value.(string)))
 		case "about":
-			builder.SetNillableAbout(types.ToPointer(value.(string)))
+			builder.SetNillableAbout(convert.ToPointer(value.(string)))
 		case "thumbnail":
-			builder.SetNillableThumbnail(types.ToPointer(value.(string)))
+			builder.SetNillableThumbnail(convert.ToPointer(value.(string)))
 		case "links":
 			builder.SetLinks(value.([]types.JSON))
 		case "extras":

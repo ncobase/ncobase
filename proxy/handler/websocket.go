@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/validation/validator"
 )
 
@@ -241,7 +241,7 @@ func (h *webSocketHandler) proxyClientToServer(ctx context.Context, clientConn, 
 
 			// Apply input transformer if configured
 			if validator.IsNotEmpty(route.InputTransformerID) {
-				transformer, exists := h.transformerCache[types.ToString(route.InputTransformerID)]
+				transformer, exists := h.transformerCache[convert.ToString(route.InputTransformerID)]
 				if exists {
 					transformedMessage, err := transformer(message)
 					if err != nil {
@@ -277,7 +277,7 @@ func (h *webSocketHandler) proxyServerToClient(ctx context.Context, serverConn, 
 
 			// Apply output transformer if configured
 			if validator.IsNotEmpty(route.OutputTransformerID) {
-				transformer, exists := h.transformerCache[types.ToString(route.OutputTransformerID)]
+				transformer, exists := h.transformerCache[convert.ToString(route.OutputTransformerID)]
 				if exists {
 					transformedMessage, err := transformer(message)
 					if err != nil {

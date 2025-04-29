@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // DictionaryBody represents a dictionary.
@@ -47,7 +47,7 @@ type ReadDictionary struct {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadDictionary) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // ParseValue parses the value based on the type.

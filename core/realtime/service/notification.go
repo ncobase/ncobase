@@ -12,7 +12,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 type NotificationService interface {
@@ -173,7 +173,7 @@ func (s *notificationService) MarkAllAsUnread(ctx context.Context, userID string
 func (s *notificationService) GetUnreadCount(ctx context.Context, userID string) (int, error) {
 	return s.repo.Count(ctx, &structs.ListNotificationParams{
 		UserID: userID,
-		Status: types.ToPointer(0), // 0 unread
+		Status: convert.ToPointer(0), // 0 unread
 	})
 }
 

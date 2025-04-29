@@ -13,6 +13,7 @@ import (
 	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -123,25 +124,25 @@ func (r *attachmentRepostory) Update(ctx context.Context, slug string, updates t
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "path":
-			builder.SetNillablePath(types.ToPointer(value.(string)))
+			builder.SetNillablePath(convert.ToPointer(value.(string)))
 		case "type":
-			builder.SetNillableType(types.ToPointer(value.(string)))
+			builder.SetNillableType(convert.ToPointer(value.(string)))
 		case "size":
-			builder.SetNillableSize(types.ToPointer(value.(int)))
+			builder.SetNillableSize(convert.ToPointer(value.(int)))
 		case "storage":
-			builder.SetNillableStorage(types.ToPointer(value.(string)))
+			builder.SetNillableStorage(convert.ToPointer(value.(string)))
 		case "endpoint":
-			builder.SetNillableEndpoint(types.ToPointer(value.(string)))
+			builder.SetNillableEndpoint(convert.ToPointer(value.(string)))
 		case "object_id":
-			builder.SetNillableObjectID(types.ToPointer(value.(string)))
+			builder.SetNillableObjectID(convert.ToPointer(value.(string)))
 		case "tenant_id":
-			builder.SetNillableTenantID(types.ToPointer(value.(string)))
+			builder.SetNillableTenantID(convert.ToPointer(value.(string)))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "updated_by":
-			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
 	}
 

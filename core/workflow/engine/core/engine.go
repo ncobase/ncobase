@@ -14,7 +14,7 @@ import (
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // Engine implements the workflow engine Interface
@@ -142,7 +142,7 @@ func (e *Engine) StartProcess(ctx context.Context, req *structs.StartProcessRequ
 	return &structs.StartProcessResponse{
 		ProcessID: process.ID,
 		Status:    structs.Status(process.Status),
-		StartTime: types.ToPointer(time.Now().UnixMilli()),
+		StartTime: convert.ToPointer(time.Now().UnixMilli()),
 		Variables: process.Variables,
 	}, nil
 }

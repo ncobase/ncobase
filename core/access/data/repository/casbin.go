@@ -11,6 +11,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 )
@@ -85,21 +86,21 @@ func (r *casbinRuleRepository) Update(ctx context.Context, id string, updates ty
 	for field, value := range updates {
 		switch field {
 		case "p_type":
-			builder = builder.SetNillablePType(types.ToPointer(value.(string)))
+			builder = builder.SetNillablePType(convert.ToPointer(value.(string)))
 		case "v0":
-			builder = builder.SetNillableV0(types.ToPointer(value.(string)))
+			builder = builder.SetNillableV0(convert.ToPointer(value.(string)))
 		case "v1":
-			builder = builder.SetNillableV1(types.ToPointer(value.(string)))
+			builder = builder.SetNillableV1(convert.ToPointer(value.(string)))
 		case "v2":
-			builder = builder.SetNillableV2(types.ToPointer(value.(string)))
+			builder = builder.SetNillableV2(convert.ToPointer(value.(string)))
 		case "v3":
-			builder = builder.SetNillableV3(types.ToPointer(value.(string)))
+			builder = builder.SetNillableV3(convert.ToPointer(value.(string)))
 		case "v4":
-			builder = builder.SetNillableV4(types.ToPointer(value.(string)))
+			builder = builder.SetNillableV4(convert.ToPointer(value.(string)))
 		case "v5":
-			builder = builder.SetNillableV5(types.ToPointer(value.(string)))
+			builder = builder.SetNillableV5(convert.ToPointer(value.(string)))
 		case "updated_by":
-			builder = builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+			builder = builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
 	}
 

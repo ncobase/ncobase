@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // DelegationBody represents a delegation entity base fields
@@ -60,7 +61,7 @@ func (r *ReadDelegation) GetID() string {
 
 // GetCursorValue returns cursor value
 func (r *ReadDelegation) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // FindDelegationParams represents query parameters for finding delegations

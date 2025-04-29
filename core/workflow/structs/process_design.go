@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // ProcessDesignBody represents a process design entity base fields
@@ -58,7 +59,7 @@ func (r *ReadProcessDesign) GetID() string {
 
 // GetCursorValue returns cursor value
 func (r *ReadProcessDesign) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // FindProcessDesignParams represents query parameters for finding process designs

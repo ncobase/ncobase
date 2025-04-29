@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // TaskBody represents a task entity base fields
@@ -108,20 +109,20 @@ func (r *ReadTask) GetID() string {
 
 // GetCursorValue returns the cursor value
 func (r *ReadTask) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // GetSortValue get sort value
 func (r *ReadTask) GetSortValue(field string) any {
 	switch field {
 	case SortByCreatedAt:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	case SortByPriority:
 		return r.Priority
 	case SortByDueTime:
 		return r.DueTime
 	default:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	}
 }
 

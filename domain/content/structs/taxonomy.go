@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // FindTaxonomy represents the parameters for finding a taxonomy.
@@ -77,7 +78,7 @@ func (r *ReadTaxonomy) GetID() string {
 
 // GetParentID returns the parent ID of the taxonomy.
 func (r *ReadTaxonomy) GetParentID() string {
-	return types.ToValue(r.ParentID)
+	return convert.ToValue(r.ParentID)
 }
 
 // SetChildren sets the children of the taxonomy.
@@ -92,16 +93,16 @@ func (r *ReadTaxonomy) GetChildren() []types.TreeNode {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadTaxonomy) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // GetSortValue get sort value
 func (r *ReadTaxonomy) GetSortValue(field string) any {
 	switch field {
 	case SortByCreatedAt:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	default:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	}
 }
 

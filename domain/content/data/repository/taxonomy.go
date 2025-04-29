@@ -13,6 +13,7 @@ import (
 	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
@@ -184,33 +185,33 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "type":
-			builder.SetNillableType(types.ToPointer(value.(string)))
+			builder.SetNillableType(convert.ToPointer(value.(string)))
 		case "slug":
-			builder.SetNillableSlug(types.ToPointer(value.(string)))
+			builder.SetNillableSlug(convert.ToPointer(value.(string)))
 		case "cover":
-			builder.SetNillableCover(types.ToPointer(value.(string)))
+			builder.SetNillableCover(convert.ToPointer(value.(string)))
 		case "thumbnail":
-			builder.SetNillableThumbnail(types.ToPointer(value.(string)))
+			builder.SetNillableThumbnail(convert.ToPointer(value.(string)))
 		case "color":
-			builder.SetNillableColor(types.ToPointer(value.(string)))
+			builder.SetNillableColor(convert.ToPointer(value.(string)))
 		case "icon":
-			builder.SetNillableIcon(types.ToPointer(value.(string)))
+			builder.SetNillableIcon(convert.ToPointer(value.(string)))
 		case "url":
-			builder.SetNillableURL(types.ToPointer(value.(string)))
+			builder.SetNillableURL(convert.ToPointer(value.(string)))
 		case "keywords":
-			builder.SetNillableKeywords(types.ToPointer(value.(string)))
+			builder.SetNillableKeywords(convert.ToPointer(value.(string)))
 		case "description":
-			builder.SetNillableDescription(types.ToPointer(value.(string)))
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "status":
 			builder.SetStatus(value.(int))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "parent_id":
-			builder.SetNillableParentID(types.ToPointer(value.(string)))
+			builder.SetNillableParentID(convert.ToPointer(value.(string)))
 		case "updated_by":
-			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
 	}
 

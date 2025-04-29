@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // GroupBody represents a group entity.
@@ -56,7 +57,7 @@ func (r *ReadGroup) GetID() string {
 
 // GetParentID returns the parent ID of the group.
 func (r *ReadGroup) GetParentID() string {
-	return types.ToValue(r.ParentID)
+	return convert.ToValue(r.ParentID)
 }
 
 // SetChildren sets the children of the group.
@@ -71,16 +72,16 @@ func (r *ReadGroup) GetChildren() []types.TreeNode {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadGroup) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // GetSortValue get sort value
 func (r *ReadGroup) GetSortValue(field string) any {
 	switch field {
 	case SortByCreatedAt:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	default:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	}
 }
 

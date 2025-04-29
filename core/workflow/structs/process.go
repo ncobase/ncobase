@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // ProcessBody represents a process entity base fields
@@ -105,18 +106,18 @@ func (r *ReadProcess) GetID() string {
 
 // GetCursorValue returns the cursor value
 func (r *ReadProcess) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // GetSortValue get sort value
 func (r *ReadProcess) GetSortValue(field string) any {
 	switch field {
 	case SortByCreatedAt:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	case SortByPriority:
 		return r.Priority
 	default:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	}
 }
 

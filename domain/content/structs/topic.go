@@ -3,7 +3,7 @@ package structs
 import (
 	"fmt"
 
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // FindTopic represents the parameters for finding a topic.
@@ -65,7 +65,7 @@ type ReadTopic struct {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadTopic) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // ListTopicParams represents the parameters for listing topics.

@@ -13,6 +13,7 @@ import (
 	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -167,29 +168,29 @@ func (r *counterRepository) Update(ctx context.Context, slug string, updates typ
 	for field, value := range updates {
 		switch field {
 		case "identifier":
-			builder.SetNillableIdentifier(types.ToPointer(value.(string)))
+			builder.SetNillableIdentifier(convert.ToPointer(value.(string)))
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "prefix":
-			builder.SetNillablePrefix(types.ToPointer(value.(string)))
+			builder.SetNillablePrefix(convert.ToPointer(value.(string)))
 		case "suffix":
-			builder.SetNillableSuffix(types.ToPointer(value.(string)))
+			builder.SetNillableSuffix(convert.ToPointer(value.(string)))
 		case "start_value":
-			builder.SetNillableStartValue(types.ToPointer(value.(int)))
+			builder.SetNillableStartValue(convert.ToPointer(value.(int)))
 		case "increment_step":
-			builder.SetNillableIncrementStep(types.ToPointer(value.(int)))
+			builder.SetNillableIncrementStep(convert.ToPointer(value.(int)))
 		case "date_format":
-			builder.SetNillableDateFormat(types.ToPointer(value.(string)))
+			builder.SetNillableDateFormat(convert.ToPointer(value.(string)))
 		case "current_value":
-			builder.SetNillableCurrentValue(types.ToPointer(value.(int)))
+			builder.SetNillableCurrentValue(convert.ToPointer(value.(int)))
 		case "disabled":
-			builder.SetNillableDisabled(types.ToPointer(value.(bool)))
+			builder.SetNillableDisabled(convert.ToPointer(value.(bool)))
 		case "description":
-			builder.SetNillableDescription(types.ToPointer(value.(string)))
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "tenant_id":
-			builder.SetNillableTenantID(types.ToPointer(value.(string)))
+			builder.SetNillableTenantID(convert.ToPointer(value.(string)))
 		case "updated_by":
-			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
 	}
 

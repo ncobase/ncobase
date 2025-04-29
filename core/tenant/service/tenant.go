@@ -14,6 +14,7 @@ import (
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // TenantServiceInterface is the interface for the service.
@@ -63,7 +64,7 @@ func (s *tenantService) UserOwn(ctx context.Context, uid string) (*structs.ReadT
 // Create creates a tenant service.
 func (s *tenantService) Create(ctx context.Context, body *structs.CreateTenantBody) (*structs.ReadTenant, error) {
 	if body.CreatedBy == nil {
-		body.CreatedBy = types.ToPointer(ctxutil.GetUserID(ctx))
+		body.CreatedBy = convert.ToPointer(ctxutil.GetUserID(ctx))
 	}
 
 	// Create the tenant
@@ -106,7 +107,7 @@ func (s *tenantService) Update(ctx context.Context, body *structs.UpdateTenantBo
 	if err := handleEntError(ctx, "UserTenant", err); err != nil {
 		return nil, err
 	}
-	if types.ToValue(row.CreatedBy) != userID && ut.TenantID != row.ID {
+	if convert.ToValue(row.CreatedBy) != userID && ut.TenantID != row.ID {
 		return nil, errors.New("this tenant is not yours or your not belong to this tenant")
 	}
 
@@ -157,7 +158,7 @@ func (s *tenantService) Get(ctx context.Context, id string) (*structs.ReadTenant
 	if err := handleEntError(ctx, "UserTenant", err); err != nil {
 		return nil, err
 	}
-	if types.ToValue(row.CreatedBy) != userID && ut.TenantID != row.ID {
+	if convert.ToValue(row.CreatedBy) != userID && ut.TenantID != row.ID {
 		return nil, errors.New("this tenant is not yours or your not belong to this tenant")
 	}
 

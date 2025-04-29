@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // TenantBody represents common fields for a tenant.
@@ -62,7 +63,7 @@ type ReadTenant struct {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadTenant) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // FindTenant represents the parameters for finding a tenant.

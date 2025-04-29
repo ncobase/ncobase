@@ -13,6 +13,7 @@ import (
 	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -182,25 +183,25 @@ func (r *tenantRepository) Update(ctx context.Context, slug string, updates type
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "slug":
-			builder.SetNillableSlug(types.ToPointer(value.(string)))
+			builder.SetNillableSlug(convert.ToPointer(value.(string)))
 		case "type":
-			builder.SetNillableType(types.ToPointer(value.(string)))
+			builder.SetNillableType(convert.ToPointer(value.(string)))
 		case "title":
-			builder.SetNillableTitle(types.ToPointer(value.(string)))
+			builder.SetNillableTitle(convert.ToPointer(value.(string)))
 		case "url":
-			builder.SetNillableURL(types.ToPointer(value.(string)))
+			builder.SetNillableURL(convert.ToPointer(value.(string)))
 		case "logo":
-			builder.SetNillableLogo(types.ToPointer(value.(string)))
+			builder.SetNillableLogo(convert.ToPointer(value.(string)))
 		case "logo_alt":
-			builder.SetNillableLogoAlt(types.ToPointer(value.(string)))
+			builder.SetNillableLogoAlt(convert.ToPointer(value.(string)))
 		case "keywords":
-			builder.SetNillableKeywords(types.ToPointer(value.(string)))
+			builder.SetNillableKeywords(convert.ToPointer(value.(string)))
 		case "copyright":
-			builder.SetNillableCopyright(types.ToPointer(value.(string)))
+			builder.SetNillableCopyright(convert.ToPointer(value.(string)))
 		case "description":
-			builder.SetNillableDescription(types.ToPointer(value.(string)))
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "disabled":
 			builder.SetDisabled(value.(bool))
 		case "order":
@@ -208,9 +209,9 @@ func (r *tenantRepository) Update(ctx context.Context, slug string, updates type
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "updated_by":
-			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		case "expired_at":
-			adjustedTime, _ := types.AdjustToEndOfDay(value)
+			adjustedTime, _ := convert.AdjustToEndOfDay(value)
 			builder.SetNillableExpiredAt(&adjustedTime)
 		}
 	}

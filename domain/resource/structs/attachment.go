@@ -5,6 +5,7 @@ import (
 	"mime/multipart"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // FindAttachment represents the parameters for finding an attachment.
@@ -63,7 +64,7 @@ type ReadAttachment struct {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadAttachment) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // ListAttachmentParams represents the parameters for listing attachments.

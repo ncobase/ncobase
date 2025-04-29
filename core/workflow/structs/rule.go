@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // RuleBody represents a rule entity base fields
@@ -70,7 +71,7 @@ func (r *ReadRule) GetID() string {
 
 // GetCursorValue returns cursor value
 func (r *ReadRule) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // FindRuleParams represents query parameters for finding rules

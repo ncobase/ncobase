@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // MenuBody represents a menu entity.
@@ -83,18 +84,18 @@ func (r *ReadMenu) GetChildren() []types.TreeNode {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadMenu) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // GetSortValue get sort value
 func (r *ReadMenu) GetSortValue(field string) any {
 	switch field {
 	case SortByCreatedAt:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	case SortByOrder:
 		return r.Order
 	default:
-		return types.ToValue(r.CreatedAt)
+		return convert.ToValue(r.CreatedAt)
 	}
 }
 

@@ -5,7 +5,7 @@ import (
 	accessStructs "ncobase/core/access/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // checkCasbinPoliciesInitialized checks if Casbin policies are already initialized.
@@ -49,10 +49,10 @@ func (s *Service) initCasbinPolicies(ctx context.Context) error {
 
 			policy := accessStructs.CasbinRuleBody{
 				PType: "p",
-				V0:    role.Slug,                          // sub
-				V1:    defaultTenant.ID,                   // dom
-				V2:    permission.Subject,                 // obj
-				V3:    types.ToPointer(permission.Action), // act
+				V0:    role.Slug,                            // sub
+				V1:    defaultTenant.ID,                     // dom
+				V2:    permission.Subject,                   // obj
+				V3:    convert.ToPointer(permission.Action), // act
 				// V4, V5 are not used
 			}
 

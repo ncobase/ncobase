@@ -13,6 +13,7 @@ import (
 	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -158,15 +159,15 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "title":
-			builder.SetNillableTitle(types.ToPointer(value.(string)))
+			builder.SetNillableTitle(convert.ToPointer(value.(string)))
 		case "slug":
-			builder.SetNillableSlug(types.ToPointer(value.(string)))
+			builder.SetNillableSlug(convert.ToPointer(value.(string)))
 		case "content":
-			builder.SetNillableContent(types.ToPointer(value.(string)))
+			builder.SetNillableContent(convert.ToPointer(value.(string)))
 		case "thumbnail":
-			builder.SetNillableThumbnail(types.ToPointer(value.(string)))
+			builder.SetNillableThumbnail(convert.ToPointer(value.(string)))
 		case "temp":
 			builder.SetTemp(value.(bool))
 		case "markdown":
@@ -176,13 +177,13 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 		case "status":
 			builder.SetStatus(value.(int))
 		case "released":
-			builder.SetNillableReleased(types.ToPointer(value.(int64)))
+			builder.SetNillableReleased(convert.ToPointer(value.(int64)))
 		case "taxonomy_id":
-			builder.SetNillableTaxonomyID(types.ToPointer(value.(string)))
+			builder.SetNillableTaxonomyID(convert.ToPointer(value.(string)))
 		case "tenant_id":
-			builder.SetNillableTenantID(types.ToPointer(value.(string)))
+			builder.SetNillableTenantID(convert.ToPointer(value.(string)))
 		case "updated_by":
-			builder.SetNillableUpdatedBy(types.ToPointer(value.(string)))
+			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
 	}
 

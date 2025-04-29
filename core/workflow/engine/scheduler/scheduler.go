@@ -11,6 +11,7 @@ import (
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 
 	"github.com/robfig/cron/v3"
 )
@@ -497,7 +498,7 @@ func (s *Scheduler) findAndScheduleTimeouts() error {
 
 	for _, task := range tasks.Items {
 		if task.DueTime != nil && time.Now().UnixMilli() > *task.DueTime {
-			if err := s.ScheduleTimeout(task.ProcessID, task.NodeKey, types.ToValue(types.UnixMilliToTime(task.DueTime))); err != nil {
+			if err := s.ScheduleTimeout(task.ProcessID, task.NodeKey, convert.ToValue(convert.UnixMilliToTime(task.DueTime))); err != nil {
 				// Log error but continue processing other tasks
 				s.em.PublishEvent(structs.EventTaskError, &structs.EventData{
 					ProcessID: task.ProcessID,

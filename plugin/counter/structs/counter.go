@@ -3,7 +3,7 @@ package structs
 import (
 	"fmt"
 
-	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // CounterBody represents a counter entity.
@@ -56,7 +56,7 @@ type ReadCounter struct {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadCounter) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // FindCounter represents the parameters for finding a counter.

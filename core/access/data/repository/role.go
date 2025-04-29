@@ -12,6 +12,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -145,13 +146,13 @@ func (r *roleRepository) Update(ctx context.Context, slug string, updates types.
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "slug":
-			builder.SetNillableSlug(types.ToPointer(value.(string)))
+			builder.SetNillableSlug(convert.ToPointer(value.(string)))
 		case "disabled":
 			builder.SetDisabled(value.(bool))
 		case "description":
-			builder.SetNillableDescription(types.ToPointer(value.(string)))
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "extra_props":
 			builder.SetExtras(value.(types.JSON))
 		case "updated_by":

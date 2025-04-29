@@ -12,6 +12,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
@@ -156,11 +157,11 @@ func (r *groupRepository) Update(ctx context.Context, slug string, updates types
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "slug":
-			builder.SetNillableSlug(types.ToPointer(value.(string)))
+			builder.SetNillableSlug(convert.ToPointer(value.(string)))
 		case "description":
-			builder.SetNillableDescription(types.ToPointer(value.(string)))
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "leader":
 			builder.SetLeader(value.(types.JSON))
 		case "disabled":

@@ -13,6 +13,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -148,15 +149,15 @@ func (r *transformerRepository) Update(ctx context.Context, id string, updates t
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "description":
-			builder.SetNillableDescription(types.ToPointer(value.(string)))
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "type":
-			builder.SetNillableType(types.ToPointer(value.(string)))
+			builder.SetNillableType(convert.ToPointer(value.(string)))
 		case "content":
-			builder.SetNillableContent(types.ToPointer(value.(string)))
+			builder.SetNillableContent(convert.ToPointer(value.(string)))
 		case "content_type":
-			builder.SetNillableContentType(types.ToPointer(value.(string)))
+			builder.SetNillableContentType(convert.ToPointer(value.(string)))
 		case "disabled":
 			builder.SetDisabled(value.(bool))
 		case "extras":

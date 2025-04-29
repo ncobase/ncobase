@@ -12,6 +12,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -159,15 +160,15 @@ func (r *endpointRepository) Update(ctx context.Context, id string, updates type
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(types.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "description":
-			builder.SetNillableDescription(types.ToPointer(value.(string)))
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "base_url":
-			builder.SetNillableBaseURL(types.ToPointer(value.(string)))
+			builder.SetNillableBaseURL(convert.ToPointer(value.(string)))
 		case "protocol":
-			builder.SetNillableProtocol(types.ToPointer(value.(string)))
+			builder.SetNillableProtocol(convert.ToPointer(value.(string)))
 		case "auth_type":
-			builder.SetNillableAuthType(types.ToPointer(value.(string)))
+			builder.SetNillableAuthType(convert.ToPointer(value.(string)))
 		case "auth_config":
 			builder.SetAuthConfig(value.(string))
 		case "timeout":

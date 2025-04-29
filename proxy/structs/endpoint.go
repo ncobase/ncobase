@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // EndpointBody defines the structure for request body used to create or update endpoints.
@@ -62,7 +63,7 @@ type ReadEndpoint struct {
 
 // GetCursorValue returns the cursor value.
 func (r *ReadEndpoint) GetCursorValue() string {
-	return fmt.Sprintf("%s:%d", r.ID, types.ToValue(r.CreatedAt))
+	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // ListEndpointParams represents the query parameters for listing endpoints.
