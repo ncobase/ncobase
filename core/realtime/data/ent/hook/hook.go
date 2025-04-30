@@ -8,18 +8,6 @@ import (
 	"ncobase/core/realtime/data/ent"
 )
 
-// The ChannelFunc type is an adapter to allow the use of ordinary
-// function as Channel mutator.
-type ChannelFunc func(context.Context, *ent.ChannelMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f ChannelFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.ChannelMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ChannelMutation", m)
-}
-
 // The EventFunc type is an adapter to allow the use of ordinary
 // function as Event mutator.
 type EventFunc func(context.Context, *ent.EventMutation) (ent.Value, error)
@@ -42,6 +30,18 @@ func (f NotificationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.NotificationMutation", m)
+}
+
+// The RTChannelFunc type is an adapter to allow the use of ordinary
+// function as RTChannel mutator.
+type RTChannelFunc func(context.Context, *ent.RTChannelMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f RTChannelFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.RTChannelMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.RTChannelMutation", m)
 }
 
 // The SubscriptionFunc type is an adapter to allow the use of ordinary

@@ -9,30 +9,6 @@ import (
 )
 
 var (
-	// NcseRtChannelColumns holds the columns for the "ncse_rt_channel" table.
-	NcseRtChannelColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
-		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
-		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
-	}
-	// NcseRtChannelTable holds the schema information for the "ncse_rt_channel" table.
-	NcseRtChannelTable = &schema.Table{
-		Name:       "ncse_rt_channel",
-		Columns:    NcseRtChannelColumns,
-		PrimaryKey: []*schema.Column{NcseRtChannelColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "channel_id",
-				Unique:  true,
-				Columns: []*schema.Column{NcseRtChannelColumns[0]},
-			},
-		},
-	}
 	// NcseRtEventColumns holds the columns for the "ncse_rt_event" table.
 	NcseRtEventColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -101,6 +77,30 @@ var (
 			},
 		},
 	}
+	// NcseRtChannelColumns holds the columns for the "ncse_rt_channel" table.
+	NcseRtChannelColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseRtChannelTable holds the schema information for the "ncse_rt_channel" table.
+	NcseRtChannelTable = &schema.Table{
+		Name:       "ncse_rt_channel",
+		Columns:    NcseRtChannelColumns,
+		PrimaryKey: []*schema.Column{NcseRtChannelColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "rtchannel_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseRtChannelColumns[0]},
+			},
+		},
+	}
 	// NcseRtSubscriptionColumns holds the columns for the "ncse_rt_subscription" table.
 	NcseRtSubscriptionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -135,22 +135,22 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseRtChannelTable,
 		NcseRtEventTable,
 		NcseRtNotificationTable,
+		NcseRtChannelTable,
 		NcseRtSubscriptionTable,
 	}
 )
 
 func init() {
-	NcseRtChannelTable.Annotation = &entsql.Annotation{
-		Table: "ncse_rt_channel",
-	}
 	NcseRtEventTable.Annotation = &entsql.Annotation{
 		Table: "ncse_rt_event",
 	}
 	NcseRtNotificationTable.Annotation = &entsql.Annotation{
 		Table: "ncse_rt_notification",
+	}
+	NcseRtChannelTable.Annotation = &entsql.Annotation{
+		Table: "ncse_rt_channel",
 	}
 	NcseRtSubscriptionTable.Annotation = &entsql.Annotation{
 		Table: "ncse_rt_subscription",

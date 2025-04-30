@@ -11,13 +11,13 @@ import (
 	"entgo.io/ent/schema"
 )
 
-// Channel holds the schema definition for the Channel entity.
-type Channel struct {
+// RTChannel holds the schema definition for the  RTChannel entity.
+type RTChannel struct {
 	ent.Schema
 }
 
-// Annotations of the Channel.
-func (Channel) Annotations() []schema.Annotation {
+// Annotations of the  RTChannel.
+func (RTChannel) Annotations() []schema.Annotation {
 	table := strings.Join([]string{"ncse", "rt", "channel"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
@@ -26,8 +26,8 @@ func (Channel) Annotations() []schema.Annotation {
 	}
 }
 
-// Mixin of the Channel.
-func (Channel) Mixin() []ent.Mixin {
+// Mixin of the  RTChannel.
+func (RTChannel) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey,
 		mixin.Name,
@@ -39,17 +39,17 @@ func (Channel) Mixin() []ent.Mixin {
 	}
 }
 
-// Fields of the Channel.
-func (Channel) Fields() []ent.Field {
+// Fields of the  RTChannel.
+func (RTChannel) Fields() []ent.Field {
 	return nil
 }
 
-// Edges of the Channel.
-func (Channel) Edges() []ent.Edge {
+// Edges of the  RTChannel.
+func (RTChannel) Edges() []ent.Edge {
 	return nil
 }
 
-// Indexes of the Channel.
-func (Channel) Indexes() []ent.Index {
+// Indexes of the  RTChannel.
+func (RTChannel) Indexes() []ent.Index {
 	return []ent.Index{}
 }

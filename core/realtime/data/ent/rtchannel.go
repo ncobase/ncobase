@@ -5,15 +5,15 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/core/realtime/data/ent/channel"
+	"ncobase/core/realtime/data/ent/rtchannel"
 	"strings"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 )
 
-// Channel is the model entity for the Channel schema.
-type Channel struct {
+// RTChannel is the model entity for the RTChannel schema.
+type RTChannel struct {
 	config `json:"-"`
 	// ID of the ent.
 	// primary key
@@ -36,15 +36,15 @@ type Channel struct {
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*Channel) scanValues(columns []string) ([]any, error) {
+func (*RTChannel) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case channel.FieldExtras:
+		case rtchannel.FieldExtras:
 			values[i] = new([]byte)
-		case channel.FieldStatus, channel.FieldCreatedAt, channel.FieldUpdatedAt:
+		case rtchannel.FieldStatus, rtchannel.FieldCreatedAt, rtchannel.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case channel.FieldID, channel.FieldName, channel.FieldDescription, channel.FieldType:
+		case rtchannel.FieldID, rtchannel.FieldName, rtchannel.FieldDescription, rtchannel.FieldType:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -54,122 +54,122 @@ func (*Channel) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the Channel fields.
-func (c *Channel) assignValues(columns []string, values []any) error {
+// to the RTChannel fields.
+func (rc *RTChannel) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case channel.FieldID:
+		case rtchannel.FieldID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				c.ID = value.String
+				rc.ID = value.String
 			}
-		case channel.FieldName:
+		case rtchannel.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				c.Name = value.String
+				rc.Name = value.String
 			}
-		case channel.FieldDescription:
+		case rtchannel.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				c.Description = value.String
+				rc.Description = value.String
 			}
-		case channel.FieldType:
+		case rtchannel.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				c.Type = value.String
+				rc.Type = value.String
 			}
-		case channel.FieldStatus:
+		case rtchannel.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				c.Status = int(value.Int64)
+				rc.Status = int(value.Int64)
 			}
-		case channel.FieldExtras:
+		case rtchannel.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &c.Extras); err != nil {
+				if err := json.Unmarshal(*value, &rc.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case channel.FieldCreatedAt:
+		case rtchannel.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				c.CreatedAt = value.Int64
+				rc.CreatedAt = value.Int64
 			}
-		case channel.FieldUpdatedAt:
+		case rtchannel.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				c.UpdatedAt = value.Int64
+				rc.UpdatedAt = value.Int64
 			}
 		default:
-			c.selectValues.Set(columns[i], values[i])
+			rc.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the Channel.
+// Value returns the ent.Value that was dynamically selected and assigned to the RTChannel.
 // This includes values selected through modifiers, order, etc.
-func (c *Channel) Value(name string) (ent.Value, error) {
-	return c.selectValues.Get(name)
+func (rc *RTChannel) Value(name string) (ent.Value, error) {
+	return rc.selectValues.Get(name)
 }
 
-// Update returns a builder for updating this Channel.
-// Note that you need to call Channel.Unwrap() before calling this method if this Channel
+// Update returns a builder for updating this RTChannel.
+// Note that you need to call RTChannel.Unwrap() before calling this method if this RTChannel
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (c *Channel) Update() *ChannelUpdateOne {
-	return NewChannelClient(c.config).UpdateOne(c)
+func (rc *RTChannel) Update() *RTChannelUpdateOne {
+	return NewRTChannelClient(rc.config).UpdateOne(rc)
 }
 
-// Unwrap unwraps the Channel entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the RTChannel entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (c *Channel) Unwrap() *Channel {
-	_tx, ok := c.config.driver.(*txDriver)
+func (rc *RTChannel) Unwrap() *RTChannel {
+	_tx, ok := rc.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: Channel is not a transactional entity")
+		panic("ent: RTChannel is not a transactional entity")
 	}
-	c.config.driver = _tx.drv
-	return c
+	rc.config.driver = _tx.drv
+	return rc
 }
 
 // String implements the fmt.Stringer.
-func (c *Channel) String() string {
+func (rc *RTChannel) String() string {
 	var builder strings.Builder
-	builder.WriteString("Channel(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", c.ID))
+	builder.WriteString("RTChannel(")
+	builder.WriteString(fmt.Sprintf("id=%v, ", rc.ID))
 	builder.WriteString("name=")
-	builder.WriteString(c.Name)
+	builder.WriteString(rc.Name)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(c.Description)
+	builder.WriteString(rc.Description)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(c.Type)
+	builder.WriteString(rc.Type)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", c.Status))
+	builder.WriteString(fmt.Sprintf("%v", rc.Status))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", c.Extras))
+	builder.WriteString(fmt.Sprintf("%v", rc.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", c.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", rc.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", c.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", rc.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
-// Channels is a parsable slice of Channel.
-type Channels []*Channel
+// RTChannels is a parsable slice of RTChannel.
+type RTChannels []*RTChannel

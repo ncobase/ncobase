@@ -11,9 +11,9 @@ import (
 
 	"ncobase/core/realtime/data/ent/migrate"
 
-	"ncobase/core/realtime/data/ent/channel"
 	"ncobase/core/realtime/data/ent/event"
 	"ncobase/core/realtime/data/ent/notification"
+	"ncobase/core/realtime/data/ent/rtchannel"
 	"ncobase/core/realtime/data/ent/subscription"
 
 	"entgo.io/ent"
@@ -26,12 +26,12 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
-	// Channel is the client for interacting with the Channel builders.
-	Channel *ChannelClient
 	// Event is the client for interacting with the Event builders.
 	Event *EventClient
 	// Notification is the client for interacting with the Notification builders.
 	Notification *NotificationClient
+	// RTChannel is the client for interacting with the RTChannel builders.
+	RTChannel *RTChannelClient
 	// Subscription is the client for interacting with the Subscription builders.
 	Subscription *SubscriptionClient
 }
@@ -45,9 +45,9 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
-	c.Channel = NewChannelClient(c.config)
 	c.Event = NewEventClient(c.config)
 	c.Notification = NewNotificationClient(c.config)
+	c.RTChannel = NewRTChannelClient(c.config)
 	c.Subscription = NewSubscriptionClient(c.config)
 }
 
@@ -141,9 +141,9 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	return &Tx{
 		ctx:          ctx,
 		config:       cfg,
-		Channel:      NewChannelClient(cfg),
 		Event:        NewEventClient(cfg),
 		Notification: NewNotificationClient(cfg),
+		RTChannel:    NewRTChannelClient(cfg),
 		Subscription: NewSubscriptionClient(cfg),
 	}, nil
 }
@@ -164,9 +164,9 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	return &Tx{
 		ctx:          ctx,
 		config:       cfg,
-		Channel:      NewChannelClient(cfg),
 		Event:        NewEventClient(cfg),
 		Notification: NewNotificationClient(cfg),
+		RTChannel:    NewRTChannelClient(cfg),
 		Subscription: NewSubscriptionClient(cfg),
 	}, nil
 }
@@ -174,7 +174,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Channel.
+//		Event.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -196,167 +196,34 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Channel.Use(hooks...)
 	c.Event.Use(hooks...)
 	c.Notification.Use(hooks...)
+	c.RTChannel.Use(hooks...)
 	c.Subscription.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.Channel.Intercept(interceptors...)
 	c.Event.Intercept(interceptors...)
 	c.Notification.Intercept(interceptors...)
+	c.RTChannel.Intercept(interceptors...)
 	c.Subscription.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
-	case *ChannelMutation:
-		return c.Channel.mutate(ctx, m)
 	case *EventMutation:
 		return c.Event.mutate(ctx, m)
 	case *NotificationMutation:
 		return c.Notification.mutate(ctx, m)
+	case *RTChannelMutation:
+		return c.RTChannel.mutate(ctx, m)
 	case *SubscriptionMutation:
 		return c.Subscription.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
-	}
-}
-
-// ChannelClient is a client for the Channel schema.
-type ChannelClient struct {
-	config
-}
-
-// NewChannelClient returns a client for the Channel from the given config.
-func NewChannelClient(c config) *ChannelClient {
-	return &ChannelClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `channel.Hooks(f(g(h())))`.
-func (c *ChannelClient) Use(hooks ...Hook) {
-	c.hooks.Channel = append(c.hooks.Channel, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `channel.Intercept(f(g(h())))`.
-func (c *ChannelClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Channel = append(c.inters.Channel, interceptors...)
-}
-
-// Create returns a builder for creating a Channel entity.
-func (c *ChannelClient) Create() *ChannelCreate {
-	mutation := newChannelMutation(c.config, OpCreate)
-	return &ChannelCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of Channel entities.
-func (c *ChannelClient) CreateBulk(builders ...*ChannelCreate) *ChannelCreateBulk {
-	return &ChannelCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *ChannelClient) MapCreateBulk(slice any, setFunc func(*ChannelCreate, int)) *ChannelCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &ChannelCreateBulk{err: fmt.Errorf("calling to ChannelClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*ChannelCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &ChannelCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for Channel.
-func (c *ChannelClient) Update() *ChannelUpdate {
-	mutation := newChannelMutation(c.config, OpUpdate)
-	return &ChannelUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *ChannelClient) UpdateOne(ch *Channel) *ChannelUpdateOne {
-	mutation := newChannelMutation(c.config, OpUpdateOne, withChannel(ch))
-	return &ChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *ChannelClient) UpdateOneID(id string) *ChannelUpdateOne {
-	mutation := newChannelMutation(c.config, OpUpdateOne, withChannelID(id))
-	return &ChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for Channel.
-func (c *ChannelClient) Delete() *ChannelDelete {
-	mutation := newChannelMutation(c.config, OpDelete)
-	return &ChannelDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *ChannelClient) DeleteOne(ch *Channel) *ChannelDeleteOne {
-	return c.DeleteOneID(ch.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *ChannelClient) DeleteOneID(id string) *ChannelDeleteOne {
-	builder := c.Delete().Where(channel.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &ChannelDeleteOne{builder}
-}
-
-// Query returns a query builder for Channel.
-func (c *ChannelClient) Query() *ChannelQuery {
-	return &ChannelQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeChannel},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a Channel entity by its id.
-func (c *ChannelClient) Get(ctx context.Context, id string) (*Channel, error) {
-	return c.Query().Where(channel.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *ChannelClient) GetX(ctx context.Context, id string) *Channel {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *ChannelClient) Hooks() []Hook {
-	return c.hooks.Channel
-}
-
-// Interceptors returns the client interceptors.
-func (c *ChannelClient) Interceptors() []Interceptor {
-	return c.inters.Channel
-}
-
-func (c *ChannelClient) mutate(ctx context.Context, m *ChannelMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&ChannelCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&ChannelUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&ChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&ChannelDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown Channel mutation op: %q", m.Op())
 	}
 }
 
@@ -626,6 +493,139 @@ func (c *NotificationClient) mutate(ctx context.Context, m *NotificationMutation
 	}
 }
 
+// RTChannelClient is a client for the RTChannel schema.
+type RTChannelClient struct {
+	config
+}
+
+// NewRTChannelClient returns a client for the RTChannel from the given config.
+func NewRTChannelClient(c config) *RTChannelClient {
+	return &RTChannelClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `rtchannel.Hooks(f(g(h())))`.
+func (c *RTChannelClient) Use(hooks ...Hook) {
+	c.hooks.RTChannel = append(c.hooks.RTChannel, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `rtchannel.Intercept(f(g(h())))`.
+func (c *RTChannelClient) Intercept(interceptors ...Interceptor) {
+	c.inters.RTChannel = append(c.inters.RTChannel, interceptors...)
+}
+
+// Create returns a builder for creating a RTChannel entity.
+func (c *RTChannelClient) Create() *RTChannelCreate {
+	mutation := newRTChannelMutation(c.config, OpCreate)
+	return &RTChannelCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of RTChannel entities.
+func (c *RTChannelClient) CreateBulk(builders ...*RTChannelCreate) *RTChannelCreateBulk {
+	return &RTChannelCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *RTChannelClient) MapCreateBulk(slice any, setFunc func(*RTChannelCreate, int)) *RTChannelCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &RTChannelCreateBulk{err: fmt.Errorf("calling to RTChannelClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*RTChannelCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &RTChannelCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for RTChannel.
+func (c *RTChannelClient) Update() *RTChannelUpdate {
+	mutation := newRTChannelMutation(c.config, OpUpdate)
+	return &RTChannelUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *RTChannelClient) UpdateOne(rc *RTChannel) *RTChannelUpdateOne {
+	mutation := newRTChannelMutation(c.config, OpUpdateOne, withRTChannel(rc))
+	return &RTChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *RTChannelClient) UpdateOneID(id string) *RTChannelUpdateOne {
+	mutation := newRTChannelMutation(c.config, OpUpdateOne, withRTChannelID(id))
+	return &RTChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for RTChannel.
+func (c *RTChannelClient) Delete() *RTChannelDelete {
+	mutation := newRTChannelMutation(c.config, OpDelete)
+	return &RTChannelDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *RTChannelClient) DeleteOne(rc *RTChannel) *RTChannelDeleteOne {
+	return c.DeleteOneID(rc.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *RTChannelClient) DeleteOneID(id string) *RTChannelDeleteOne {
+	builder := c.Delete().Where(rtchannel.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &RTChannelDeleteOne{builder}
+}
+
+// Query returns a query builder for RTChannel.
+func (c *RTChannelClient) Query() *RTChannelQuery {
+	return &RTChannelQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeRTChannel},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a RTChannel entity by its id.
+func (c *RTChannelClient) Get(ctx context.Context, id string) (*RTChannel, error) {
+	return c.Query().Where(rtchannel.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *RTChannelClient) GetX(ctx context.Context, id string) *RTChannel {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *RTChannelClient) Hooks() []Hook {
+	return c.hooks.RTChannel
+}
+
+// Interceptors returns the client interceptors.
+func (c *RTChannelClient) Interceptors() []Interceptor {
+	return c.inters.RTChannel
+}
+
+func (c *RTChannelClient) mutate(ctx context.Context, m *RTChannelMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&RTChannelCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&RTChannelUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&RTChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&RTChannelDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown RTChannel mutation op: %q", m.Op())
+	}
+}
+
 // SubscriptionClient is a client for the Subscription schema.
 type SubscriptionClient struct {
 	config
@@ -762,9 +762,9 @@ func (c *SubscriptionClient) mutate(ctx context.Context, m *SubscriptionMutation
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Channel, Event, Notification, Subscription []ent.Hook
+		Event, Notification, RTChannel, Subscription []ent.Hook
 	}
 	inters struct {
-		Channel, Event, Notification, Subscription []ent.Interceptor
+		Event, Notification, RTChannel, Subscription []ent.Interceptor
 	}
 )

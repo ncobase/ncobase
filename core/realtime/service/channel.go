@@ -63,7 +63,7 @@ func (s *channelService) Create(ctx context.Context, body *structs.CreateChannel
 		return nil, fmt.Errorf("channel with name %s already exists", ch.Name)
 	}
 
-	channel, err := s.channelRepo.Create(ctx, s.data.EC.Channel.Create().
+	channel, err := s.channelRepo.Create(ctx, s.data.EC.RTChannel.Create().
 		SetName(ch.Name).
 		SetDescription(ch.Description).
 		SetType(ch.Type).
@@ -106,7 +106,7 @@ func (s *channelService) Update(ctx context.Context, body *structs.UpdateChannel
 		}
 	}
 
-	update := s.data.EC.Channel.UpdateOneID(body.ID).
+	update := s.data.EC.RTChannel.UpdateOneID(body.ID).
 		SetName(ch.Name).
 		SetDescription(ch.Description).
 		SetType(ch.Type).
@@ -302,7 +302,7 @@ func (s *channelService) IsSubscribed(ctx context.Context, userID string, channe
 }
 
 // Serialization helpers
-func (s *channelService) serializeChannel(ch *ent.Channel) *structs.ReadChannel {
+func (s *channelService) serializeChannel(ch *ent.RTChannel) *structs.ReadChannel {
 	return &structs.ReadChannel{
 		ID:          ch.ID,
 		Name:        ch.Name,
@@ -315,7 +315,7 @@ func (s *channelService) serializeChannel(ch *ent.Channel) *structs.ReadChannel 
 	}
 }
 
-func (s *channelService) serializeChannels(channels []*ent.Channel) []*structs.ReadChannel {
+func (s *channelService) serializeChannels(channels []*ent.RTChannel) []*structs.ReadChannel {
 	result := make([]*structs.ReadChannel, len(channels))
 	for i, ch := range channels {
 		result[i] = s.serializeChannel(ch)

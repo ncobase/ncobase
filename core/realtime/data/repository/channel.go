@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ncobase/core/realtime/data"
 	"ncobase/core/realtime/data/ent"
-	channelEnt "ncobase/core/realtime/data/ent/channel"
+	channelEnt "ncobase/core/realtime/data/ent/rtchannel"
 	subscriptionEnt "ncobase/core/realtime/data/ent/subscription"
 	"ncobase/core/realtime/structs"
 
@@ -20,18 +20,18 @@ import (
 
 // ChannelRepositoryInterface defines channel repository operations
 type ChannelRepositoryInterface interface {
-	Create(ctx context.Context, channel *ent.ChannelCreate) (*ent.Channel, error)
-	Get(ctx context.Context, id string) (*ent.Channel, error)
-	Update(ctx context.Context, id string, channel *ent.ChannelUpdateOne) (*ent.Channel, error)
+	Create(ctx context.Context, channel *ent.RTChannelCreate) (*ent.RTChannel, error)
+	Get(ctx context.Context, id string) (*ent.RTChannel, error)
+	Update(ctx context.Context, id string, channel *ent.RTChannelUpdateOne) (*ent.RTChannel, error)
 	Delete(ctx context.Context, id string) error
 
-	FindByID(ctx context.Context, id string) (*ent.Channel, error)
-	FindByName(ctx context.Context, name string) (*ent.Channel, error)
-	List(ctx context.Context, params *structs.ListChannelParams) ([]*ent.Channel, error)
+	FindByID(ctx context.Context, id string) (*ent.RTChannel, error)
+	FindByName(ctx context.Context, name string) (*ent.RTChannel, error)
+	List(ctx context.Context, params *structs.ListChannelParams) ([]*ent.RTChannel, error)
 	Count(ctx context.Context, params *structs.ListChannelParams) (int, error)
 	CountX(ctx context.Context, params *structs.ListChannelParams) int
 
-	CreateBatch(ctx context.Context, channels []*ent.ChannelCreate) ([]*ent.Channel, error)
+	CreateBatch(ctx context.Context, channels []*ent.RTChannelCreate) ([]*ent.RTChannel, error)
 	DeleteBatch(ctx context.Context, ids []string) error
 
 	UpdateStatus(ctx context.Context, id string, status int) error
@@ -41,19 +41,19 @@ type ChannelRepositoryInterface interface {
 type channelRepository struct {
 	ec *ent.Client
 	rc *redis.Client
-	c  *cache.Cache[ent.Channel]
+	c  *cache.Cache[ent.RTChannel]
 }
 
 func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
 	return &channelRepository{
 		ec: d.GetEntClient(),
 		rc: d.GetRedis(),
-		c:  cache.NewCache[ent.Channel](d.GetRedis(), "rt_channel"),
+		c:  cache.NewCache[ent.RTChannel](d.GetRedis(), "rt_channel"),
 	}
 }
 
 // Create creates a new channel
-func (r *channelRepository) Create(ctx context.Context, channel *ent.ChannelCreate) (*ent.Channel, error) {
+func (r *channelRepository) Create(ctx context.Context, channel *ent.RTChannelCreate) (*ent.RTChannel, error) {
 	row, err := channel.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "channelRepo.Create error: %v", err)
@@ -63,7 +63,7 @@ func (r *channelRepository) Create(ctx context.Context, channel *ent.ChannelCrea
 }
 
 // Get gets a channel by ID with cache
-func (r *channelRepository) Get(ctx context.Context, id string) (*ent.Channel, error) {
+func (r *channelRepository) Get(ctx context.Context, id string) (*ent.RTChannel, error) {
 	cacheKey := fmt.Sprintf("channel:%s", id)
 	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
@@ -82,21 +82,21 @@ func (r *channelRepository) Get(ctx context.Context, id string) (*ent.Channel, e
 }
 
 // FindByID finds a channel by ID
-func (r *channelRepository) FindByID(ctx context.Context, id string) (*ent.Channel, error) {
-	return r.ec.Channel.Query().
+func (r *channelRepository) FindByID(ctx context.Context, id string) (*ent.RTChannel, error) {
+	return r.ec.RTChannel.Query().
 		Where(channelEnt.ID(id)).
 		Only(ctx)
 }
 
 // FindByName finds a channel by name
-func (r *channelRepository) FindByName(ctx context.Context, name string) (*ent.Channel, error) {
-	return r.ec.Channel.Query().
+func (r *channelRepository) FindByName(ctx context.Context, name string) (*ent.RTChannel, error) {
+	return r.ec.RTChannel.Query().
 		Where(channelEnt.Name(name)).
 		Only(ctx)
 }
 
 // Update updates a channel
-func (r *channelRepository) Update(ctx context.Context, id string, channel *ent.ChannelUpdateOne) (*ent.Channel, error) {
+func (r *channelRepository) Update(ctx context.Context, id string, channel *ent.RTChannelUpdateOne) (*ent.RTChannel, error) {
 	row, err := channel.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "channelRepo.Update error: %v", err)
@@ -135,7 +135,7 @@ func (r *channelRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Then delete the channel
-	err = tx.Channel.DeleteOneID(id).Exec(ctx)
+	err = tx.RTChannel.DeleteOneID(id).Exec(ctx)
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -156,7 +156,7 @@ func (r *channelRepository) Delete(ctx context.Context, id string) error {
 }
 
 // List lists channels with pagination and filters
-func (r *channelRepository) List(ctx context.Context, params *structs.ListChannelParams) ([]*ent.Channel, error) {
+func (r *channelRepository) List(ctx context.Context, params *structs.ListChannelParams) ([]*ent.RTChannel, error) {
 	builder, err := r.buildQuery(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
@@ -230,8 +230,8 @@ func (r *channelRepository) CountX(ctx context.Context, params *structs.ListChan
 }
 
 // CreateBatch creates multiple channels in a transaction
-func (r *channelRepository) CreateBatch(ctx context.Context, channels []*ent.ChannelCreate) ([]*ent.Channel, error) {
-	var results []*ent.Channel
+func (r *channelRepository) CreateBatch(ctx context.Context, channels []*ent.RTChannelCreate) ([]*ent.RTChannel, error) {
+	var results []*ent.RTChannel
 
 	tx, err := r.ec.Tx(ctx)
 	if err != nil {
@@ -283,7 +283,7 @@ func (r *channelRepository) DeleteBatch(ctx context.Context, ids []string) error
 	}
 
 	// Then delete channels
-	_, err = tx.Channel.Delete().
+	_, err = tx.RTChannel.Delete().
 		Where(channelEnt.IDIn(ids...)).
 		Exec(ctx)
 	if err != nil {
@@ -296,7 +296,7 @@ func (r *channelRepository) DeleteBatch(ctx context.Context, ids []string) error
 
 // UpdateStatus updates a channel's status
 func (r *channelRepository) UpdateStatus(ctx context.Context, id string, status int) error {
-	err := r.ec.Channel.UpdateOneID(id).
+	err := r.ec.RTChannel.UpdateOneID(id).
 		SetStatus(status).
 		Exec(ctx)
 	if err != nil {
@@ -324,7 +324,7 @@ func (r *channelRepository) UpdateStatusBatch(ctx context.Context, ids []string,
 		}
 	}()
 
-	_, err = tx.Channel.Update().
+	_, err = tx.RTChannel.Update().
 		Where(channelEnt.IDIn(ids...)).
 		SetStatus(status).
 		Save(ctx)
@@ -337,8 +337,8 @@ func (r *channelRepository) UpdateStatusBatch(ctx context.Context, ids []string,
 }
 
 // buildQuery creates list builder.
-func (r *channelRepository) buildQuery(ctx context.Context, params *structs.ListChannelParams) (*ent.ChannelQuery, error) {
+func (r *channelRepository) buildQuery(ctx context.Context, params *structs.ListChannelParams) (*ent.RTChannelQuery, error) {
 	// create builder.
-	builder := r.ec.Channel.Query()
+	builder := r.ec.RTChannel.Query()
 	return builder, nil
 }

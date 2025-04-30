@@ -6,9 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/realtime/data/ent/channel"
 	"ncobase/core/realtime/data/ent/event"
 	"ncobase/core/realtime/data/ent/notification"
+	"ncobase/core/realtime/data/ent/rtchannel"
 	"ncobase/core/realtime/data/ent/subscription"
 	"reflect"
 	"sync"
@@ -76,9 +76,9 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			channel.Table:      channel.ValidColumn,
 			event.Table:        event.ValidColumn,
 			notification.Table: notification.ValidColumn,
+			rtchannel.Table:    rtchannel.ValidColumn,
 			subscription.Table: subscription.ValidColumn,
 		})
 	})
