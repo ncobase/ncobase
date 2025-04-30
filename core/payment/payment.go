@@ -43,9 +43,6 @@ type Module struct {
 	userService   *userService.Service
 	tenantService *tenantService.Service
 
-	// Event system
-	eventFactory *event.Factory
-
 	discovery
 }
 
@@ -58,9 +55,7 @@ type discovery struct {
 
 // New creates a new instance of the payment module.
 func New() ext.Interface {
-	return &Module{
-		eventFactory: event.NewFactory(),
-	}
+	return &Module{}
 }
 
 // PreInit performs any necessary setup before initialization
@@ -119,7 +114,7 @@ func (m *Module) PostInit() error {
 	}
 
 	// Create event publisher
-	publisher := m.eventFactory.CreatePublisher(m.em)
+	publisher := event.NewPublisher(m.em)
 
 	// Initialize services
 	m.s = service.New(m.d, publisher)
@@ -127,7 +122,7 @@ func (m *Module) PostInit() error {
 	// Register event handlers
 	if m.em != nil {
 		handlerProvider := service.NewEventProvider(m.s, m.userService, m.tenantService)
-		registrar := m.eventFactory.CreateRegistrar(m.em)
+		registrar := event.NewRegistrar(m.em)
 		registrar.RegisterHandlers(handlerProvider)
 	}
 

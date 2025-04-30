@@ -23,84 +23,41 @@ func NewRegistrar(manager ext.ManagerInterface) *Registrar {
 func (r *Registrar) RegisterHandlers(provider HandlerProvider) {
 	handlers := provider.GetHandlers()
 
-	// Payment events
-	if handler, ok := handlers["payment_created"]; ok {
-		r.manager.SubscribeEvent(PaymentCreated, handler)
+	// Define a mapping between handler keys and event types
+	eventMapping := map[string]string{
+		// Payment events
+		"payment_created":   PaymentCreated,
+		"payment_succeeded": PaymentSucceeded,
+		"payment_failed":    PaymentFailed,
+		"payment_cancelled": PaymentCancelled,
+		"payment_expired":   PaymentExpired,
+		"payment_refunded":  PaymentRefunded,
+
+		// Subscription events
+		"subscription_created":   SubscriptionCreated,
+		"subscription_renewed":   SubscriptionRenewed,
+		"subscription_updated":   SubscriptionUpdated,
+		"subscription_cancelled": SubscriptionCancelled,
+		"subscription_expired":   SubscriptionExpired,
+
+		// Product events
+		"product_created": ProductCreated,
+		"product_updated": ProductUpdated,
+		"product_deleted": ProductDeleted,
+
+		// Channel events
+		"channel_created":   ChannelCreated,
+		"channel_updated":   ChannelUpdated,
+		"channel_deleted":   ChannelDeleted,
+		"channel_activated": ChannelActivated,
+		"channel_disabled":  ChannelDisabled,
 	}
 
-	if handler, ok := handlers["payment_succeeded"]; ok {
-		r.manager.SubscribeEvent(PaymentSucceeded, handler)
-	}
-
-	if handler, ok := handlers["payment_failed"]; ok {
-		r.manager.SubscribeEvent(PaymentFailed, handler)
-	}
-
-	if handler, ok := handlers["payment_cancelled"]; ok {
-		r.manager.SubscribeEvent(PaymentCancelled, handler)
-	}
-
-	if handler, ok := handlers["payment_expired"]; ok {
-		r.manager.SubscribeEvent(PaymentExpired, handler)
-	}
-
-	if handler, ok := handlers["payment_refunded"]; ok {
-		r.manager.SubscribeEvent(PaymentRefunded, handler)
-	}
-
-	// Subscription events
-	if handler, ok := handlers["subscription_created"]; ok {
-		r.manager.SubscribeEvent(SubscriptionCreated, handler)
-	}
-
-	if handler, ok := handlers["subscription_renewed"]; ok {
-		r.manager.SubscribeEvent(SubscriptionRenewed, handler)
-	}
-
-	if handler, ok := handlers["subscription_updated"]; ok {
-		r.manager.SubscribeEvent(SubscriptionUpdated, handler)
-	}
-
-	if handler, ok := handlers["subscription_cancelled"]; ok {
-		r.manager.SubscribeEvent(SubscriptionCancelled, handler)
-	}
-
-	if handler, ok := handlers["subscription_expired"]; ok {
-		r.manager.SubscribeEvent(SubscriptionExpired, handler)
-	}
-
-	// Product events
-	if handler, ok := handlers["product_created"]; ok {
-		r.manager.SubscribeEvent(ProductCreated, handler)
-	}
-
-	if handler, ok := handlers["product_updated"]; ok {
-		r.manager.SubscribeEvent(ProductUpdated, handler)
-	}
-
-	if handler, ok := handlers["product_deleted"]; ok {
-		r.manager.SubscribeEvent(ProductDeleted, handler)
-	}
-
-	// Channel events
-	if handler, ok := handlers["channel_created"]; ok {
-		r.manager.SubscribeEvent(ChannelCreated, handler)
-	}
-
-	if handler, ok := handlers["channel_updated"]; ok {
-		r.manager.SubscribeEvent(ChannelUpdated, handler)
-	}
-
-	if handler, ok := handlers["channel_deleted"]; ok {
-		r.manager.SubscribeEvent(ChannelDeleted, handler)
-	}
-
-	if handler, ok := handlers["channel_activated"]; ok {
-		r.manager.SubscribeEvent(ChannelActivated, handler)
-	}
-
-	if handler, ok := handlers["channel_disabled"]; ok {
-		r.manager.SubscribeEvent(ChannelDisabled, handler)
+	// Register handlers using the mapping
+	for handlerKey, handler := range handlers {
+		if eventType, exists := eventMapping[handlerKey]; exists {
+			r.manager.SubscribeEvent(string(eventType), handler)
+		}
 	}
 
 	logger.Info(context.Background(), "Payment event handlers registered")

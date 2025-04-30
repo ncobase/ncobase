@@ -4,7 +4,6 @@ import (
 	"context"
 )
 
-// Event names for payment module
 const (
 	// Payment events
 
@@ -39,7 +38,7 @@ const (
 )
 
 // Publisher defines an interface for publishing events
-type Publisher interface {
+type PublisherInterface interface {
 	// Payment events
 
 	PublishPaymentCreated(ctx context.Context, data *PaymentEventData)

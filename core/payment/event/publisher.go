@@ -2,111 +2,127 @@ package event
 
 import (
 	"context"
+
+	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
-// DefaultPublisher provides methods to publish payment-related events
-type DefaultPublisher struct {
-	em *Manager
+// provides methods to publish payment-related events
+type publisher struct {
+	em ext.ManagerInterface
 }
 
 // NewPublisher creates a new event publisher
-func NewPublisher(manager *Manager) Publisher {
-	return &DefaultPublisher{
-		em: manager,
+func NewPublisher(em ext.ManagerInterface) PublisherInterface {
+	return &publisher{
+		em: em,
 	}
 }
 
-// PublishPaymentCreated publishes a payment.created event
-func (p *DefaultPublisher) PublishPaymentCreated(ctx context.Context, data *PaymentEventData) {
-	p.em.PublishPaymentEvent(ctx, PaymentCreated, data)
+// Generic publish method
+func (p *publisher) publish(ctx context.Context, t string, data any) {
+	// Log the event based on its type
+	switch d := data.(type) {
+	case *PaymentEventData:
+		logger.Infof(ctx, "Publishing payment event: %s, order: %s, status: %s",
+			t, d.OrderID, d.Status)
+	case *SubscriptionEventData:
+		logger.Infof(ctx, "Publishing subscription event: %s, subscription: %s, status: %s",
+			t, d.SubscriptionID, d.Status)
+	case *ChannelEventData:
+		logger.Infof(ctx, "Publishing channel event: %s, channel: %s, provider: %s",
+			t, d.ChannelID, d.Provider)
+	case *ProductEventData:
+		logger.Infof(ctx, "Publishing product event: %s, product: %s, status: %s",
+			t, d.ProductID, d.Status)
+	}
+
+	// Publish the event through the extension manager
+	if p.em != nil {
+		p.em.PublishEvent(string(t), data)
+	}
 }
 
-// PublishPaymentSucceeded publishes a payment.succeeded event
-func (p *DefaultPublisher) PublishPaymentSucceeded(ctx context.Context, data *PaymentEventData) {
-	p.em.PublishPaymentEvent(ctx, PaymentSucceeded, data)
+// Payment event publishing methods
+
+func (p *publisher) PublishPaymentCreated(ctx context.Context, data *PaymentEventData) {
+	p.publish(ctx, PaymentCreated, data)
 }
 
-// PublishPaymentFailed publishes a payment.failed event
-func (p *DefaultPublisher) PublishPaymentFailed(ctx context.Context, data *PaymentEventData) {
-	p.em.PublishPaymentEvent(ctx, PaymentFailed, data)
+func (p *publisher) PublishPaymentSucceeded(ctx context.Context, data *PaymentEventData) {
+	p.publish(ctx, PaymentSucceeded, data)
 }
 
-// PublishPaymentCancelled publishes a payment.cancelled event
-func (p *DefaultPublisher) PublishPaymentCancelled(ctx context.Context, data *PaymentEventData) {
-	p.em.PublishPaymentEvent(ctx, PaymentCancelled, data)
+func (p *publisher) PublishPaymentFailed(ctx context.Context, data *PaymentEventData) {
+	p.publish(ctx, PaymentFailed, data)
 }
 
-// PublishPaymentExpired publishes a payment.expired event
-func (p *DefaultPublisher) PublishPaymentExpired(ctx context.Context, data *PaymentEventData) {
-	p.em.PublishPaymentEvent(ctx, PaymentExpired, data)
+func (p *publisher) PublishPaymentCancelled(ctx context.Context, data *PaymentEventData) {
+	p.publish(ctx, PaymentCancelled, data)
 }
 
-// PublishPaymentRefunded publishes a payment.refunded event
-func (p *DefaultPublisher) PublishPaymentRefunded(ctx context.Context, data *PaymentEventData) {
-	p.em.PublishPaymentEvent(ctx, PaymentRefunded, data)
+func (p *publisher) PublishPaymentExpired(ctx context.Context, data *PaymentEventData) {
+	p.publish(ctx, PaymentExpired, data)
 }
 
-// PublishSubscriptionCreated publishes a subscription.created event
-func (p *DefaultPublisher) PublishSubscriptionCreated(ctx context.Context, data *SubscriptionEventData) {
-	p.em.PublishSubscriptionEvent(ctx, SubscriptionCreated, data)
+func (p *publisher) PublishPaymentRefunded(ctx context.Context, data *PaymentEventData) {
+	p.publish(ctx, PaymentRefunded, data)
 }
 
-// PublishSubscriptionRenewed publishes a subscription.renewed event
-func (p *DefaultPublisher) PublishSubscriptionRenewed(ctx context.Context, data *SubscriptionEventData) {
-	p.em.PublishSubscriptionEvent(ctx, SubscriptionRenewed, data)
+// Subscription event publishing methods
+
+func (p *publisher) PublishSubscriptionCreated(ctx context.Context, data *SubscriptionEventData) {
+	p.publish(ctx, SubscriptionCreated, data)
 }
 
-// PublishSubscriptionUpdated publishes a subscription.updated event
-func (p *DefaultPublisher) PublishSubscriptionUpdated(ctx context.Context, data *SubscriptionEventData) {
-	p.em.PublishSubscriptionEvent(ctx, SubscriptionUpdated, data)
+func (p *publisher) PublishSubscriptionRenewed(ctx context.Context, data *SubscriptionEventData) {
+	p.publish(ctx, SubscriptionRenewed, data)
 }
 
-// PublishSubscriptionCancelled publishes a subscription.cancelled event
-func (p *DefaultPublisher) PublishSubscriptionCancelled(ctx context.Context, data *SubscriptionEventData) {
-	p.em.PublishSubscriptionEvent(ctx, SubscriptionCancelled, data)
+func (p *publisher) PublishSubscriptionUpdated(ctx context.Context, data *SubscriptionEventData) {
+	p.publish(ctx, SubscriptionUpdated, data)
 }
 
-// PublishSubscriptionExpired publishes a subscription.expired event
-func (p *DefaultPublisher) PublishSubscriptionExpired(ctx context.Context, data *SubscriptionEventData) {
-	p.em.PublishSubscriptionEvent(ctx, SubscriptionExpired, data)
+func (p *publisher) PublishSubscriptionCancelled(ctx context.Context, data *SubscriptionEventData) {
+	p.publish(ctx, SubscriptionCancelled, data)
 }
 
-// PublishProductCreated publishes a product.created event
-func (p *DefaultPublisher) PublishProductCreated(ctx context.Context, data *ProductEventData) {
-	p.em.PublishProductEvent(ctx, ProductCreated, data)
+func (p *publisher) PublishSubscriptionExpired(ctx context.Context, data *SubscriptionEventData) {
+	p.publish(ctx, SubscriptionExpired, data)
 }
 
-// PublishProductUpdated publishes a product.updated event
-func (p *DefaultPublisher) PublishProductUpdated(ctx context.Context, data *ProductEventData) {
-	p.em.PublishProductEvent(ctx, ProductUpdated, data)
+// Product event publishing methods
+
+func (p *publisher) PublishProductCreated(ctx context.Context, data *ProductEventData) {
+	p.publish(ctx, ProductCreated, data)
 }
 
-// PublishProductDeleted publishes a product.deleted event
-func (p *DefaultPublisher) PublishProductDeleted(ctx context.Context, data *ProductEventData) {
-	p.em.PublishProductEvent(ctx, ProductDeleted, data)
+func (p *publisher) PublishProductUpdated(ctx context.Context, data *ProductEventData) {
+	p.publish(ctx, ProductUpdated, data)
 }
 
-// PublishChannelCreated publishes a payment_channel.created event
-func (p *DefaultPublisher) PublishChannelCreated(ctx context.Context, data *ChannelEventData) {
-	p.em.PublishChannelEvent(ctx, ChannelCreated, data)
+func (p *publisher) PublishProductDeleted(ctx context.Context, data *ProductEventData) {
+	p.publish(ctx, ProductDeleted, data)
 }
 
-// PublishChannelUpdated publishes a payment_channel.updated event
-func (p *DefaultPublisher) PublishChannelUpdated(ctx context.Context, data *ChannelEventData) {
-	p.em.PublishChannelEvent(ctx, ChannelUpdated, data)
+// Channel event publishing methods
+
+func (p *publisher) PublishChannelCreated(ctx context.Context, data *ChannelEventData) {
+	p.publish(ctx, ChannelCreated, data)
 }
 
-// PublishChannelDeleted publishes a payment_channel.deleted event
-func (p *DefaultPublisher) PublishChannelDeleted(ctx context.Context, data *ChannelEventData) {
-	p.em.PublishChannelEvent(ctx, ChannelDeleted, data)
+func (p *publisher) PublishChannelUpdated(ctx context.Context, data *ChannelEventData) {
+	p.publish(ctx, ChannelUpdated, data)
 }
 
-// PublishChannelActivated publishes a payment_channel.activated event
-func (p *DefaultPublisher) PublishChannelActivated(ctx context.Context, data *ChannelEventData) {
-	p.em.PublishChannelEvent(ctx, ChannelActivated, data)
+func (p *publisher) PublishChannelDeleted(ctx context.Context, data *ChannelEventData) {
+	p.publish(ctx, ChannelDeleted, data)
 }
 
-// PublishChannelDisabled publishes a payment_channel.disabled event
-func (p *DefaultPublisher) PublishChannelDisabled(ctx context.Context, data *ChannelEventData) {
-	p.em.PublishChannelEvent(ctx, ChannelDisabled, data)
+func (p *publisher) PublishChannelActivated(ctx context.Context, data *ChannelEventData) {
+	p.publish(ctx, ChannelActivated, data)
+}
+
+func (p *publisher) PublishChannelDisabled(ctx context.Context, data *ChannelEventData) {
+	p.publish(ctx, ChannelDisabled, data)
 }
