@@ -1,4 +1,3 @@
-// ./payment/handler/product.go
 package handler
 
 import (

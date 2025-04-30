@@ -1,4 +1,3 @@
-// ./payment/handler/subscription.go
 package handler
 
 import (

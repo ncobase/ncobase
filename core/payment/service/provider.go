@@ -131,7 +131,7 @@ type Service struct {
 }
 
 // New creates a new payment service
-func New(d *data.Data, publisher event.Publisher) *Service {
+func New(d *data.Data, publisher event.PublisherInterface) *Service {
 	// Repositories
 	channelRepo := repository.NewChannelRepository(d)
 	orderRepo := repository.NewOrderRepository(d)

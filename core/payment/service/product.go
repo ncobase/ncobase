@@ -26,11 +26,11 @@ type ProductServiceInterface interface {
 // productService provides operations for products
 type productService struct {
 	repo      repository.ProductRepositoryInterface
-	publisher event.Publisher
+	publisher event.PublisherInterface
 }
 
 // NewProductService creates a new product service
-func NewProductService(repo repository.ProductRepositoryInterface, publisher event.Publisher) ProductServiceInterface {
+func NewProductService(repo repository.ProductRepositoryInterface, publisher event.PublisherInterface) ProductServiceInterface {
 	return &productService{
 		repo:      repo,
 		publisher: publisher,

@@ -33,7 +33,7 @@ type orderService struct {
 	repo        repository.OrderRepositoryInterface
 	channelRepo repository.ChannelRepositoryInterface
 	logRepo     repository.LogRepositoryInterface
-	publisher   event.Publisher
+	publisher   event.PublisherInterface
 	providerSvc ProviderServiceInterface
 }
 
@@ -42,7 +42,7 @@ func NewOrderService(
 	repo repository.OrderRepositoryInterface,
 	channelRepo repository.ChannelRepositoryInterface,
 	logRepo repository.LogRepositoryInterface,
-	publisher event.Publisher,
+	publisher event.PublisherInterface,
 	providerSvc ProviderServiceInterface,
 ) OrderServiceInterface {
 	return &orderService{

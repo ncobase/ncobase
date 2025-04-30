@@ -1,4 +1,3 @@
-// ./payment/handler/channel.go
 package handler
 
 import (

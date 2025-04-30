@@ -29,11 +29,11 @@ type ChannelServiceInterface interface {
 // channelService provides operations for payment channels
 type channelService struct {
 	repo      repository.ChannelRepositoryInterface
-	publisher event.Publisher
+	publisher event.PublisherInterface
 }
 
 // NewChannelService creates a new channel service
-func NewChannelService(repo repository.ChannelRepositoryInterface, publisher event.Publisher) ChannelServiceInterface {
+func NewChannelService(repo repository.ChannelRepositoryInterface, publisher event.PublisherInterface) ChannelServiceInterface {
 	return &channelService{
 		repo:      repo,
 		publisher: publisher,

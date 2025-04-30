@@ -36,7 +36,7 @@ type subscriptionService struct {
 	productRepo repository.ProductRepositoryInterface
 	channelRepo repository.ChannelRepositoryInterface
 	orderRepo   repository.OrderRepositoryInterface
-	publisher   event.Publisher
+	publisher   event.PublisherInterface
 	providerSvc ProviderServiceInterface
 }
 
@@ -46,7 +46,7 @@ func NewSubscriptionService(
 	productRepo repository.ProductRepositoryInterface,
 	channelRepo repository.ChannelRepositoryInterface,
 	orderRepo repository.OrderRepositoryInterface,
-	publisher event.Publisher,
+	publisher event.PublisherInterface,
 	providerSvc ProviderServiceInterface,
 ) SubscriptionServiceInterface {
 	return &subscriptionService{
