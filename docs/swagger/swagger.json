@@ -6394,6 +6394,2033 @@
                 }
             }
         },
+        "/pay/channels": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a paginated list of payment channels",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "channels"
+                ],
+                "summary": "List payment channels",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by provider",
+                        "name": "provider",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by tenant ID",
+                        "name": "tenant_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Page size",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.Channel"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new payment channel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "channels"
+                ],
+                "summary": "Create payment channel",
+                "parameters": [
+                    {
+                        "description": "Channel data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateChannelInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Channel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/channels/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a payment channel by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "channels"
+                ],
+                "summary": "Get payment channel",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Channel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing payment channel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "channels"
+                ],
+                "summary": "Update payment channel",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updates",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateChannelInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Channel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a payment channel by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "channels"
+                ],
+                "summary": "Delete payment channel",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/channels/{id}/status": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Change the status of a payment channel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "channels"
+                ],
+                "summary": "Change channel status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Status data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Channel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/logs": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a paginated list of payment logs",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "logs"
+                ],
+                "summary": "List payment logs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by order ID",
+                        "name": "order_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by channel ID",
+                        "name": "channel_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by log type",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Filter by has error",
+                        "name": "has_error",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter by start date (Unix timestamp)",
+                        "name": "start_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter by end date (Unix timestamp)",
+                        "name": "end_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by user ID",
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Page size",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.Log"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/logs/order/{orderId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get payment logs for a specific order",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "logs"
+                ],
+                "summary": "Get logs by order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order ID",
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Page size",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.Log"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/logs/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a payment log by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "logs"
+                ],
+                "summary": "Get payment log",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Log ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Log"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/orders": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a paginated list of payment orders",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "orders"
+                ],
+                "summary": "List payment orders",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by type",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by channel ID",
+                        "name": "channel_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by user ID",
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by tenant ID",
+                        "name": "tenant_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by product ID",
+                        "name": "product_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by subscription ID",
+                        "name": "subscription_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter by start date (Unix timestamp)",
+                        "name": "start_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter by end date (Unix timestamp)",
+                        "name": "end_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Page size",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.Order"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new payment order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "orders"
+                ],
+                "summary": "Create payment order",
+                "parameters": [
+                    {
+                        "description": "Order data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateOrderInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Order"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/orders/number/{orderNumber}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a payment order by order number",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "orders"
+                ],
+                "summary": "Get order by number",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order Number",
+                        "name": "orderNumber",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Order"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/orders/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a payment order by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "orders"
+                ],
+                "summary": "Get payment order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Order"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/orders/{id}/payment-url": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Generate a payment URL for a payment order",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "orders"
+                ],
+                "summary": "Generate payment URL",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "additionalProperties": true
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/orders/{id}/refund": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Request a refund for a payment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "orders"
+                ],
+                "summary": "Refund payment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Refund data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.RefundOrderInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Order"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/orders/{id}/verify": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Verify a payment with the payment provider",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "orders"
+                ],
+                "summary": "Verify payment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Verification data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Order"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/products": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a paginated list of products",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "products"
+                ],
+                "summary": "List products",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by pricing type",
+                        "name": "pricing_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by tenant ID",
+                        "name": "tenant_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Page size",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.Product"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "products"
+                ],
+                "summary": "Create product",
+                "parameters": [
+                    {
+                        "description": "Product data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateProductInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Product"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/products/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a product by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "products"
+                ],
+                "summary": "Get product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Product"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "products"
+                ],
+                "summary": "Update product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updates",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateProductInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Product"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a product by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "products"
+                ],
+                "summary": "Delete product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/providers": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a list of all available payment providers",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment"
+                ],
+                "summary": "List payment providers",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/structs.PaymentProvider"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/stats": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get payment statistics and metrics",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Get payment statistics",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "additionalProperties": true
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/subscriptions": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a paginated list of subscriptions",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "subscriptions"
+                ],
+                "summary": "List subscriptions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by user ID",
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by tenant ID",
+                        "name": "tenant_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by product ID",
+                        "name": "product_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by channel ID",
+                        "name": "channel_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Filter by active status",
+                        "name": "active",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Page size",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.Subscription"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "subscriptions"
+                ],
+                "summary": "Create subscription",
+                "parameters": [
+                    {
+                        "description": "Subscription data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateSubscriptionInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Subscription"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/subscriptions/user/{userId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get subscriptions for a specific user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "subscriptions"
+                ],
+                "summary": "Get user subscriptions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Filter by active status",
+                        "name": "active",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Page size",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.Subscription"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/subscriptions/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a subscription by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "subscriptions"
+                ],
+                "summary": "Get subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Subscription ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Subscription"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "subscriptions"
+                ],
+                "summary": "Update subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Subscription ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updates",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Subscription"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/subscriptions/{id}/cancel": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Cancel an existing subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment",
+                    "subscriptions"
+                ],
+                "summary": "Cancel subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Subscription ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Cancel options",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CancelSubscriptionInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Subscription"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay/webhooks/{channel}": {
+            "post": {
+                "description": "Process webhook notifications from payment providers",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Process payment webhook",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Payment channel ID",
+                        "name": "channel",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/plug/counters": {
             "get": {
                 "security": [
@@ -9843,6 +11870,32 @@
                 "ActionUrge"
             ]
         },
+        "structs.BillingInterval": {
+            "type": "string",
+            "enum": [
+                "daily",
+                "weekly",
+                "monthly",
+                "yearly"
+            ],
+            "x-enum-varnames": [
+                "BillingIntervalDaily",
+                "BillingIntervalWeekly",
+                "BillingIntervalMonthly",
+                "BillingIntervalYearly"
+            ]
+        },
+        "structs.CancelSubscriptionInput": {
+            "type": "object",
+            "properties": {
+                "immediate": {
+                    "type": "boolean"
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.Captcha": {
             "type": "object",
             "required": [
@@ -9896,6 +11949,48 @@
                 }
             }
         },
+        "structs.Channel": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/structs.ProviderConfig"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_default": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "provider": {
+                    "$ref": "#/definitions/structs.PaymentProvider"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.ChannelStatus"
+                },
+                "supported_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.PaymentType"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
         "structs.ChannelBody": {
             "type": "object",
             "properties": {
@@ -9917,6 +12012,19 @@
                     "type": "string"
                 }
             }
+        },
+        "structs.ChannelStatus": {
+            "type": "string",
+            "enum": [
+                "active",
+                "disabled",
+                "testing"
+            ],
+            "x-enum-varnames": [
+                "ChannelStatusActive",
+                "ChannelStatusDisabled",
+                "ChannelStatusTesting"
+            ]
         },
         "structs.CompleteTaskRequest": {
             "type": "object",
@@ -10024,6 +12132,46 @@
                 }
             }
         },
+        "structs.CreateChannelInput": {
+            "type": "object",
+            "required": [
+                "config",
+                "name",
+                "provider",
+                "status",
+                "supported_types"
+            ],
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/structs.ProviderConfig"
+                },
+                "is_default": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "provider": {
+                    "$ref": "#/definitions/structs.PaymentProvider"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.ChannelStatus"
+                },
+                "supported_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.PaymentType"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.CreateEndpointBody": {
             "type": "object",
             "required": [
@@ -10112,6 +12260,57 @@
                 }
             }
         },
+        "structs.CreateOrderInput": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "currency": {
+                    "$ref": "#/definitions/structs.CurrencyCode"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "order_number": {
+                    "type": "string"
+                },
+                "paid_at": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "provider_ref": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.PaymentStatus"
+                },
+                "subscription_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/structs.PaymentType"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.CreatePermissionBody": {
             "type": "object",
             "properties": {
@@ -10141,6 +12340,56 @@
                 },
                 "updated_by": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.CreateProductInput": {
+            "type": "object",
+            "required": [
+                "currency",
+                "description",
+                "name",
+                "price",
+                "pricing_type",
+                "status"
+            ],
+            "properties": {
+                "billing_interval": {
+                    "$ref": "#/definitions/structs.BillingInterval"
+                },
+                "currency": {
+                    "$ref": "#/definitions/structs.CurrencyCode"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "pricing_type": {
+                    "$ref": "#/definitions/structs.PricingType"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.ProductStatus"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "trial_days": {
+                    "type": "integer"
                 }
             }
         },
@@ -10235,6 +12484,35 @@
             "properties": {
                 "subscription": {
                     "$ref": "#/definitions/structs.SubscriptionBody"
+                }
+            }
+        },
+        "structs.CreateSubscriptionInput": {
+            "type": "object",
+            "required": [
+                "channel_id",
+                "product_id",
+                "user_id"
+            ],
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "trial_days": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },
@@ -10433,6 +12711,23 @@
                     "type": "string"
                 }
             }
+        },
+        "structs.CurrencyCode": {
+            "type": "string",
+            "enum": [
+                "USD",
+                "EUR",
+                "GBP",
+                "CNY",
+                "JPY"
+            ],
+            "x-enum-varnames": [
+                "CurrencyUSD",
+                "CurrencyEUR",
+                "CurrencyGBP",
+                "CurrencyCNY",
+                "CurrencyJPY"
+            ]
         },
         "structs.DelegateTaskRequest": {
             "type": "object",
@@ -10633,6 +12928,78 @@
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 }
             }
+        },
+        "structs.Log": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "error": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "order_id": {
+                    "type": "string"
+                },
+                "request_data": {
+                    "type": "string"
+                },
+                "response_data": {
+                    "type": "string"
+                },
+                "status_after": {
+                    "$ref": "#/definitions/structs.PaymentStatus"
+                },
+                "status_before": {
+                    "$ref": "#/definitions/structs.PaymentStatus"
+                },
+                "type": {
+                    "$ref": "#/definitions/structs.LogType"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.LogType": {
+            "type": "string",
+            "enum": [
+                "create",
+                "update",
+                "verify",
+                "callback",
+                "notify",
+                "refund",
+                "error"
+            ],
+            "x-enum-varnames": [
+                "LogTypeCreate",
+                "LogTypeUpdate",
+                "LogTypeVerify",
+                "LogTypeCallback",
+                "LogTypeNotify",
+                "LogTypeRefund",
+                "LogTypeError"
+            ]
         },
         "structs.LoginBody": {
             "type": "object",
@@ -10864,6 +13231,126 @@
                 }
             }
         },
+        "structs.Order": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "currency": {
+                    "$ref": "#/definitions/structs.CurrencyCode"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "order_number": {
+                    "type": "string"
+                },
+                "paid_at": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "provider_ref": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.PaymentStatus"
+                },
+                "subscription_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/structs.PaymentType"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.PaymentProvider": {
+            "type": "string",
+            "enum": [
+                "stripe",
+                "paypal",
+                "alipay",
+                "wechatpay"
+            ],
+            "x-enum-varnames": [
+                "PaymentProviderStripe",
+                "PaymentProviderPayPal",
+                "PaymentProviderAlipay",
+                "PaymentProviderWeChatPay"
+            ]
+        },
+        "structs.PaymentStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "completed",
+                "failed",
+                "refunded",
+                "cancelled"
+            ],
+            "x-enum-varnames": [
+                "PaymentStatusPending",
+                "PaymentStatusCompleted",
+                "PaymentStatusFailed",
+                "PaymentStatusRefunded",
+                "PaymentStatusCancelled"
+            ]
+        },
+        "structs.PaymentType": {
+            "type": "string",
+            "enum": [
+                "one_time",
+                "subscription",
+                "recurring"
+            ],
+            "x-enum-varnames": [
+                "PaymentTypeOneTime",
+                "PaymentTypeSubscription",
+                "PaymentTypeRecurring"
+            ]
+        },
+        "structs.PricingType": {
+            "type": "string",
+            "enum": [
+                "one_time",
+                "recurring",
+                "usage_based",
+                "tiered_usage"
+            ],
+            "x-enum-varnames": [
+                "PricingTypeOneTime",
+                "PricingTypeRecurring",
+                "PricingTypeUsageBased",
+                "PricingTypeTieredUsage"
+            ]
+        },
         "structs.PriorityStrategy": {
             "type": "integer",
             "enum": [
@@ -11020,6 +13507,74 @@
                     "type": "string"
                 }
             }
+        },
+        "structs.Product": {
+            "type": "object",
+            "properties": {
+                "billing_interval": {
+                    "$ref": "#/definitions/structs.BillingInterval"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "currency": {
+                    "$ref": "#/definitions/structs.CurrencyCode"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "pricing_type": {
+                    "$ref": "#/definitions/structs.PricingType"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.ProductStatus"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "trial_days": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "structs.ProductStatus": {
+            "type": "string",
+            "enum": [
+                "active",
+                "disabled",
+                "draft"
+            ],
+            "x-enum-varnames": [
+                "ProductStatusActive",
+                "ProductStatusDisabled",
+                "ProductStatusDraft"
+            ]
+        },
+        "structs.ProviderConfig": {
+            "type": "object",
+            "additionalProperties": {}
         },
         "structs.ReadAttachment": {
             "type": "object",
@@ -12722,6 +15277,18 @@
                 }
             }
         },
+        "structs.RefundOrderInput": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.RegisterBody": {
             "type": "object",
             "required": [
@@ -12925,6 +15492,60 @@
                 "StatusError"
             ]
         },
+        "structs.Subscription": {
+            "type": "object",
+            "properties": {
+                "cancel_at": {
+                    "type": "string"
+                },
+                "cancelled_at": {
+                    "type": "string"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "current_period_end": {
+                    "type": "string"
+                },
+                "current_period_start": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "provider_ref": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.SubscriptionStatus"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "trial_end": {
+                    "type": "string"
+                },
+                "trial_start": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.SubscriptionBody": {
             "type": "object",
             "properties": {
@@ -12939,6 +15560,23 @@
                     "type": "string"
                 }
             }
+        },
+        "structs.SubscriptionStatus": {
+            "type": "string",
+            "enum": [
+                "active",
+                "trialing",
+                "cancelled",
+                "expired",
+                "past_due"
+            ],
+            "x-enum-varnames": [
+                "SubscriptionStatusActive",
+                "SubscriptionStatusTrialing",
+                "SubscriptionStatusCancelled",
+                "SubscriptionStatusExpired",
+                "SubscriptionStatusPastDue"
+            ]
         },
         "structs.TaskBody": {
             "type": "object",
@@ -13272,6 +15910,42 @@
                     "$ref": "#/definitions/structs.ChannelBody"
                 },
                 "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateChannelInput": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/structs.ProviderConfig"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_default": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "provider": {
+                    "$ref": "#/definitions/structs.PaymentProvider"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.ChannelStatus"
+                },
+                "supported_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.PaymentType"
+                    }
+                },
+                "tenant_id": {
                     "type": "string"
                 }
             }
@@ -13785,6 +16459,42 @@
                 },
                 "version": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.UpdateProductInput": {
+            "type": "object",
+            "properties": {
+                "billing_interval": {
+                    "$ref": "#/definitions/structs.BillingInterval"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "status": {
+                    "$ref": "#/definitions/structs.ProductStatus"
+                },
+                "trial_days": {
+                    "type": "integer"
                 }
             }
         },

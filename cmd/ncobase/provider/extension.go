@@ -4,6 +4,7 @@ import (
 	"context"
 	"ncobase/core/access"
 	"ncobase/core/auth"
+	"ncobase/core/payment"
 	"ncobase/core/realtime"
 	"ncobase/core/space"
 	"ncobase/core/system"
@@ -29,6 +30,7 @@ func registerExtensions(em ext.ManagerInterface) {
 	// Core extensions
 	fs = append(fs,
 		proxy.New(),
+		payment.New(),
 		access.New(),
 		auth.New(),
 		realtime.New(),

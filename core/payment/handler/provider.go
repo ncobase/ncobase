@@ -1,17 +1,29 @@
 package handler
 
-import "ncobase/core/payment/service"
+import (
+	"ncobase/core/payment/service"
+)
 
-// Handler represents the payment handler.
+// Handler represents the payment handler provider
 type Handler struct {
-	// Add your handler fields here
+	Channel      ChannelHandlerInterface
+	Order        OrderHandlerInterface
+	Product      ProductHandlerInterface
+	Subscription SubscriptionHandlerInterface
+	Log          LogHandlerInterface
+	Webhook      WebhookHandlerInterface
+	Utility      UtilityHandlerInterface
 }
 
-// New creates a new handler.
+// New creates a new handler provider
 func New(s *service.Service) *Handler {
 	return &Handler{
-		// Initialize your handler fields here
+		Channel:      NewChannelHandler(s.Channel),
+		Order:        NewOrderHandler(s.Order),
+		Product:      NewProductHandler(s.Product),
+		Subscription: NewSubscriptionHandler(s.Subscription),
+		Log:          NewLogHandler(s.Log),
+		Webhook:      NewWebhookHandler(s.Order),
+		Utility:      NewUtilityHandler(s.Provider),
 	}
 }
-
-// Add your handler methods here

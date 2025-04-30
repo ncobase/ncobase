@@ -87,6 +87,25 @@ definitions:
     - ActionSuspend
     - ActionResume
     - ActionUrge
+  structs.BillingInterval:
+    enum:
+    - daily
+    - weekly
+    - monthly
+    - yearly
+    type: string
+    x-enum-varnames:
+    - BillingIntervalDaily
+    - BillingIntervalWeekly
+    - BillingIntervalMonthly
+    - BillingIntervalYearly
+  structs.CancelSubscriptionInput:
+    properties:
+      immediate:
+        type: boolean
+      reason:
+        type: string
+    type: object
   structs.Captcha:
     properties:
       id:
@@ -123,6 +142,34 @@ definitions:
     - v1
     - v2
     type: object
+  structs.Channel:
+    properties:
+      config:
+        $ref: '#/definitions/structs.ProviderConfig'
+      created_at:
+        type: integer
+      id:
+        type: string
+      is_default:
+        type: boolean
+      metadata:
+        additionalProperties: {}
+        type: object
+      name:
+        type: string
+      provider:
+        $ref: '#/definitions/structs.PaymentProvider'
+      status:
+        $ref: '#/definitions/structs.ChannelStatus'
+      supported_types:
+        items:
+          $ref: '#/definitions/structs.PaymentType'
+        type: array
+      tenant_id:
+        type: string
+      updated_at:
+        type: integer
+    type: object
   structs.ChannelBody:
     properties:
       description:
@@ -138,6 +185,16 @@ definitions:
         description: public/private/direct
         type: string
     type: object
+  structs.ChannelStatus:
+    enum:
+    - active
+    - disabled
+    - testing
+    type: string
+    x-enum-varnames:
+    - ChannelStatusActive
+    - ChannelStatusDisabled
+    - ChannelStatusTesting
   structs.CompleteTaskRequest:
     properties:
       action:
@@ -208,6 +265,34 @@ definitions:
       channel:
         $ref: '#/definitions/structs.ChannelBody'
     type: object
+  structs.CreateChannelInput:
+    properties:
+      config:
+        $ref: '#/definitions/structs.ProviderConfig'
+      is_default:
+        type: boolean
+      metadata:
+        additionalProperties: {}
+        type: object
+      name:
+        type: string
+      provider:
+        $ref: '#/definitions/structs.PaymentProvider'
+      status:
+        $ref: '#/definitions/structs.ChannelStatus'
+      supported_types:
+        items:
+          $ref: '#/definitions/structs.PaymentType'
+        type: array
+      tenant_id:
+        type: string
+    required:
+    - config
+    - name
+    - provider
+    - status
+    - supported_types
+    type: object
   structs.CreateEndpointBody:
     properties:
       auth_config:
@@ -269,6 +354,40 @@ definitions:
       notification:
         $ref: '#/definitions/structs.NotificationBody'
     type: object
+  structs.CreateOrderInput:
+    properties:
+      amount:
+        type: number
+      channel_id:
+        type: string
+      currency:
+        $ref: '#/definitions/structs.CurrencyCode'
+      description:
+        type: string
+      expires_at:
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      order_number:
+        type: string
+      paid_at:
+        type: string
+      product_id:
+        type: string
+      provider_ref:
+        type: string
+      status:
+        $ref: '#/definitions/structs.PaymentStatus'
+      subscription_id:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        $ref: '#/definitions/structs.PaymentType'
+      user_id:
+        type: string
+    type: object
   structs.CreatePermissionBody:
     properties:
       action:
@@ -289,6 +408,41 @@ definitions:
         type: string
       updated_by:
         type: string
+    type: object
+  structs.CreateProductInput:
+    properties:
+      billing_interval:
+        $ref: '#/definitions/structs.BillingInterval'
+      currency:
+        $ref: '#/definitions/structs.CurrencyCode'
+      description:
+        type: string
+      features:
+        items:
+          type: string
+        type: array
+      metadata:
+        additionalProperties: {}
+        type: object
+      name:
+        type: string
+      price:
+        type: number
+      pricing_type:
+        $ref: '#/definitions/structs.PricingType'
+      status:
+        $ref: '#/definitions/structs.ProductStatus'
+      tenant_id:
+        type: string
+      trial_days:
+        type: integer
+    required:
+    - currency
+    - description
+    - name
+    - price
+    - pricing_type
+    - status
     type: object
   structs.CreateRoleBody:
     properties:
@@ -352,6 +506,26 @@ definitions:
     properties:
       subscription:
         $ref: '#/definitions/structs.SubscriptionBody'
+    type: object
+  structs.CreateSubscriptionInput:
+    properties:
+      channel_id:
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      product_id:
+        type: string
+      tenant_id:
+        type: string
+      trial_days:
+        type: integer
+      user_id:
+        type: string
+    required:
+    - channel_id
+    - product_id
+    - user_id
     type: object
   structs.CreateTaxonomyBody:
     properties:
@@ -484,6 +658,20 @@ definitions:
     - name
     - type
     type: object
+  structs.CurrencyCode:
+    enum:
+    - USD
+    - EUR
+    - GBP
+    - CNY
+    - JPY
+    type: string
+    x-enum-varnames:
+    - CurrencyUSD
+    - CurrencyEUR
+    - CurrencyGBP
+    - CurrencyCNY
+    - CurrencyJPY
   structs.DelegateTaskRequest:
     properties:
       comment:
@@ -616,6 +804,58 @@ definitions:
       variables:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
     type: object
+  structs.Log:
+    properties:
+      channel_id:
+        type: string
+      created_at:
+        type: integer
+      error:
+        type: string
+      id:
+        type: string
+      ip:
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      order_id:
+        type: string
+      request_data:
+        type: string
+      response_data:
+        type: string
+      status_after:
+        $ref: '#/definitions/structs.PaymentStatus'
+      status_before:
+        $ref: '#/definitions/structs.PaymentStatus'
+      type:
+        $ref: '#/definitions/structs.LogType'
+      updated_at:
+        type: integer
+      user_agent:
+        type: string
+      user_id:
+        type: string
+    type: object
+  structs.LogType:
+    enum:
+    - create
+    - update
+    - verify
+    - callback
+    - notify
+    - refund
+    - error
+    type: string
+    x-enum-varnames:
+    - LogTypeCreate
+    - LogTypeUpdate
+    - LogTypeVerify
+    - LogTypeCallback
+    - LogTypeNotify
+    - LogTypeRefund
+    - LogTypeError
   structs.LoginBody:
     properties:
       captcha:
@@ -768,6 +1008,94 @@ definitions:
       value:
         type: string
     type: object
+  structs.Order:
+    properties:
+      amount:
+        type: number
+      channel_id:
+        type: string
+      created_at:
+        type: integer
+      currency:
+        $ref: '#/definitions/structs.CurrencyCode'
+      description:
+        type: string
+      expires_at:
+        type: string
+      id:
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      order_number:
+        type: string
+      paid_at:
+        type: string
+      product_id:
+        type: string
+      provider_ref:
+        type: string
+      status:
+        $ref: '#/definitions/structs.PaymentStatus'
+      subscription_id:
+        type: string
+      tenant_id:
+        type: string
+      type:
+        $ref: '#/definitions/structs.PaymentType'
+      updated_at:
+        type: integer
+      user_id:
+        type: string
+    type: object
+  structs.PaymentProvider:
+    enum:
+    - stripe
+    - paypal
+    - alipay
+    - wechatpay
+    type: string
+    x-enum-varnames:
+    - PaymentProviderStripe
+    - PaymentProviderPayPal
+    - PaymentProviderAlipay
+    - PaymentProviderWeChatPay
+  structs.PaymentStatus:
+    enum:
+    - pending
+    - completed
+    - failed
+    - refunded
+    - cancelled
+    type: string
+    x-enum-varnames:
+    - PaymentStatusPending
+    - PaymentStatusCompleted
+    - PaymentStatusFailed
+    - PaymentStatusRefunded
+    - PaymentStatusCancelled
+  structs.PaymentType:
+    enum:
+    - one_time
+    - subscription
+    - recurring
+    type: string
+    x-enum-varnames:
+    - PaymentTypeOneTime
+    - PaymentTypeSubscription
+    - PaymentTypeRecurring
+  structs.PricingType:
+    enum:
+    - one_time
+    - recurring
+    - usage_based
+    - tiered_usage
+    type: string
+    x-enum-varnames:
+    - PricingTypeOneTime
+    - PricingTypeRecurring
+    - PricingTypeUsageBased
+    - PricingTypeTieredUsage
   structs.PriorityStrategy:
     enum:
     - 0
@@ -873,6 +1201,53 @@ definitions:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
       version:
         type: string
+    type: object
+  structs.Product:
+    properties:
+      billing_interval:
+        $ref: '#/definitions/structs.BillingInterval'
+      created_at:
+        type: integer
+      currency:
+        $ref: '#/definitions/structs.CurrencyCode'
+      description:
+        type: string
+      features:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      name:
+        type: string
+      price:
+        type: number
+      pricing_type:
+        $ref: '#/definitions/structs.PricingType'
+      status:
+        $ref: '#/definitions/structs.ProductStatus'
+      tenant_id:
+        type: string
+      trial_days:
+        type: integer
+      updated_at:
+        type: integer
+    type: object
+  structs.ProductStatus:
+    enum:
+    - active
+    - disabled
+    - draft
+    type: string
+    x-enum-varnames:
+    - ProductStatusActive
+    - ProductStatusDisabled
+    - ProductStatusDraft
+  structs.ProviderConfig:
+    additionalProperties: {}
     type: object
   structs.ReadAttachment:
     properties:
@@ -1999,6 +2374,14 @@ definitions:
     required:
     - refresh_token
     type: object
+  structs.RefundOrderInput:
+    properties:
+      amount:
+        minimum: 0
+        type: number
+      reason:
+        type: string
+    type: object
   structs.RegisterBody:
     properties:
       display_name:
@@ -2147,6 +2530,42 @@ definitions:
     - StatusRollbacked
     - StatusWithdrawn
     - StatusError
+  structs.Subscription:
+    properties:
+      cancel_at:
+        type: string
+      cancelled_at:
+        type: string
+      channel_id:
+        type: string
+      created_at:
+        type: integer
+      current_period_end:
+        type: string
+      current_period_start:
+        type: string
+      id:
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      product_id:
+        type: string
+      provider_ref:
+        type: string
+      status:
+        $ref: '#/definitions/structs.SubscriptionStatus'
+      tenant_id:
+        type: string
+      trial_end:
+        type: string
+      trial_start:
+        type: string
+      updated_at:
+        type: integer
+      user_id:
+        type: string
+    type: object
   structs.SubscriptionBody:
     properties:
       channel_id:
@@ -2157,6 +2576,20 @@ definitions:
       user_id:
         type: string
     type: object
+  structs.SubscriptionStatus:
+    enum:
+    - active
+    - trialing
+    - cancelled
+    - expired
+    - past_due
+    type: string
+    x-enum-varnames:
+    - SubscriptionStatusActive
+    - SubscriptionStatusTrialing
+    - SubscriptionStatusCancelled
+    - SubscriptionStatusExpired
+    - SubscriptionStatusPastDue
   structs.TaskBody:
     properties:
       action:
@@ -2378,6 +2811,30 @@ definitions:
       channel:
         $ref: '#/definitions/structs.ChannelBody'
       id:
+        type: string
+    type: object
+  structs.UpdateChannelInput:
+    properties:
+      config:
+        $ref: '#/definitions/structs.ProviderConfig'
+      id:
+        type: string
+      is_default:
+        type: boolean
+      metadata:
+        additionalProperties: {}
+        type: object
+      name:
+        type: string
+      provider:
+        $ref: '#/definitions/structs.PaymentProvider'
+      status:
+        $ref: '#/definitions/structs.ChannelStatus'
+      supported_types:
+        items:
+          $ref: '#/definitions/structs.PaymentType'
+        type: array
+      tenant_id:
         type: string
     type: object
   structs.UpdateCounterBody:
@@ -2717,6 +3174,30 @@ definitions:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
       version:
         type: string
+    type: object
+  structs.UpdateProductInput:
+    properties:
+      billing_interval:
+        $ref: '#/definitions/structs.BillingInterval'
+      description:
+        type: string
+      features:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      name:
+        type: string
+      price:
+        type: number
+      status:
+        $ref: '#/definitions/structs.ProductStatus'
+      trial_days:
+        type: integer
     type: object
   structs.UpdateRuleBody:
     properties:
@@ -7095,6 +7576,1256 @@ paths:
       summary: Get group
       tags:
       - org
+  /pay/channels:
+    get:
+      description: Get a paginated list of payment channels
+      parameters:
+      - description: Filter by provider
+        in: query
+        name: provider
+        type: string
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Filter by tenant ID
+        in: query
+        name: tenant_id
+        type: string
+      - description: Cursor for pagination
+        in: query
+        name: cursor
+        type: string
+      - default: 20
+        description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.Channel'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List payment channels
+      tags:
+      - payment
+      - channels
+    post:
+      consumes:
+      - application/json
+      description: Create a new payment channel
+      parameters:
+      - description: Channel data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateChannelInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Channel'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create payment channel
+      tags:
+      - payment
+      - channels
+  /pay/channels/{id}:
+    delete:
+      description: Delete a payment channel by ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete payment channel
+      tags:
+      - payment
+      - channels
+    get:
+      description: Get a payment channel by ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Channel'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get payment channel
+      tags:
+      - payment
+      - channels
+    put:
+      consumes:
+      - application/json
+      description: Update an existing payment channel
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updates
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateChannelInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Channel'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update payment channel
+      tags:
+      - payment
+      - channels
+  /pay/channels/{id}/status:
+    put:
+      consumes:
+      - application/json
+      description: Change the status of a payment channel
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Status data
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Channel'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Change channel status
+      tags:
+      - payment
+      - channels
+  /pay/logs:
+    get:
+      description: Get a paginated list of payment logs
+      parameters:
+      - description: Filter by order ID
+        in: query
+        name: order_id
+        type: string
+      - description: Filter by channel ID
+        in: query
+        name: channel_id
+        type: string
+      - description: Filter by log type
+        in: query
+        name: type
+        type: string
+      - description: Filter by has error
+        in: query
+        name: has_error
+        type: boolean
+      - description: Filter by start date (Unix timestamp)
+        in: query
+        name: start_date
+        type: integer
+      - description: Filter by end date (Unix timestamp)
+        in: query
+        name: end_date
+        type: integer
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: string
+      - description: Cursor for pagination
+        in: query
+        name: cursor
+        type: string
+      - default: 20
+        description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.Log'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List payment logs
+      tags:
+      - payment
+      - logs
+  /pay/logs/{id}:
+    get:
+      description: Get a payment log by ID
+      parameters:
+      - description: Log ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Log'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get payment log
+      tags:
+      - payment
+      - logs
+  /pay/logs/order/{orderId}:
+    get:
+      description: Get payment logs for a specific order
+      parameters:
+      - description: Order ID
+        in: path
+        name: orderId
+        required: true
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.Log'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get logs by order
+      tags:
+      - payment
+      - logs
+  /pay/orders:
+    get:
+      description: Get a paginated list of payment orders
+      parameters:
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Filter by type
+        in: query
+        name: type
+        type: string
+      - description: Filter by channel ID
+        in: query
+        name: channel_id
+        type: string
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: string
+      - description: Filter by tenant ID
+        in: query
+        name: tenant_id
+        type: string
+      - description: Filter by product ID
+        in: query
+        name: product_id
+        type: string
+      - description: Filter by subscription ID
+        in: query
+        name: subscription_id
+        type: string
+      - description: Filter by start date (Unix timestamp)
+        in: query
+        name: start_date
+        type: integer
+      - description: Filter by end date (Unix timestamp)
+        in: query
+        name: end_date
+        type: integer
+      - description: Cursor for pagination
+        in: query
+        name: cursor
+        type: string
+      - default: 20
+        description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.Order'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List payment orders
+      tags:
+      - payment
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Create a new payment order
+      parameters:
+      - description: Order data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateOrderInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Order'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create payment order
+      tags:
+      - payment
+      - orders
+  /pay/orders/{id}:
+    get:
+      description: Get a payment order by ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Order'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get payment order
+      tags:
+      - payment
+      - orders
+  /pay/orders/{id}/payment-url:
+    post:
+      description: Generate a payment URL for a payment order
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Generate payment URL
+      tags:
+      - payment
+      - orders
+  /pay/orders/{id}/refund:
+    post:
+      consumes:
+      - application/json
+      description: Request a refund for a payment
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Refund data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.RefundOrderInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Order'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Refund payment
+      tags:
+      - payment
+      - orders
+  /pay/orders/{id}/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify a payment with the payment provider
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Verification data
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Order'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Verify payment
+      tags:
+      - payment
+      - orders
+  /pay/orders/number/{orderNumber}:
+    get:
+      description: Get a payment order by order number
+      parameters:
+      - description: Order Number
+        in: path
+        name: orderNumber
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Order'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get order by number
+      tags:
+      - payment
+      - orders
+  /pay/products:
+    get:
+      description: Get a paginated list of products
+      parameters:
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Filter by pricing type
+        in: query
+        name: pricing_type
+        type: string
+      - description: Filter by tenant ID
+        in: query
+        name: tenant_id
+        type: string
+      - description: Cursor for pagination
+        in: query
+        name: cursor
+        type: string
+      - default: 20
+        description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.Product'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List products
+      tags:
+      - payment
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Create a new product
+      parameters:
+      - description: Product data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateProductInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Product'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create product
+      tags:
+      - payment
+      - products
+  /pay/products/{id}:
+    delete:
+      description: Delete a product by ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete product
+      tags:
+      - payment
+      - products
+    get:
+      description: Get a product by ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Product'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get product
+      tags:
+      - payment
+      - products
+    put:
+      consumes:
+      - application/json
+      description: Update an existing product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updates
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateProductInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Product'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update product
+      tags:
+      - payment
+      - products
+  /pay/providers:
+    get:
+      description: Get a list of all available payment providers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/structs.PaymentProvider'
+                  type: array
+              type: object
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List payment providers
+      tags:
+      - payment
+  /pay/stats:
+    get:
+      description: Get payment statistics and metrics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get payment statistics
+      tags:
+      - payment
+  /pay/subscriptions:
+    get:
+      description: Get a paginated list of subscriptions
+      parameters:
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: string
+      - description: Filter by tenant ID
+        in: query
+        name: tenant_id
+        type: string
+      - description: Filter by product ID
+        in: query
+        name: product_id
+        type: string
+      - description: Filter by channel ID
+        in: query
+        name: channel_id
+        type: string
+      - description: Filter by active status
+        in: query
+        name: active
+        type: boolean
+      - description: Cursor for pagination
+        in: query
+        name: cursor
+        type: string
+      - default: 20
+        description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.Subscription'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List subscriptions
+      tags:
+      - payment
+      - subscriptions
+    post:
+      consumes:
+      - application/json
+      description: Create a new subscription
+      parameters:
+      - description: Subscription data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateSubscriptionInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Subscription'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create subscription
+      tags:
+      - payment
+      - subscriptions
+  /pay/subscriptions/{id}:
+    get:
+      description: Get a subscription by ID
+      parameters:
+      - description: Subscription ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Subscription'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get subscription
+      tags:
+      - payment
+      - subscriptions
+    put:
+      consumes:
+      - application/json
+      description: Update an existing subscription
+      parameters:
+      - description: Subscription ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updates
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Subscription'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update subscription
+      tags:
+      - payment
+      - subscriptions
+  /pay/subscriptions/{id}/cancel:
+    post:
+      consumes:
+      - application/json
+      description: Cancel an existing subscription
+      parameters:
+      - description: Subscription ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Cancel options
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CancelSubscriptionInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+            - properties:
+                data:
+                  $ref: '#/definitions/structs.Subscription'
+              type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Cancel subscription
+      tags:
+      - payment
+      - subscriptions
+  /pay/subscriptions/user/{userId}:
+    get:
+      description: Get subscriptions for a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Filter by active status
+        in: query
+        name: active
+        type: boolean
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.Subscription'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get user subscriptions
+      tags:
+      - payment
+      - subscriptions
+  /pay/webhooks/{channel}:
+    post:
+      consumes:
+      - application/json
+      description: Process webhook notifications from payment providers
+      parameters:
+      - description: Payment channel ID
+        in: path
+        name: channel
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: Process payment webhook
+      tags:
+      - payment
   /plug/counters:
     get:
       description: Retrieve a list or tree structure of counters.

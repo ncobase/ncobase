@@ -1,17 +1,25 @@
 package repository
 
-import "ncobase/core/payment/data"
+import (
+	"ncobase/core/payment/data"
+)
 
-// Repository represents the payment repository.
+// Repository represents the payment repository collection
 type Repository struct {
-	// Add your repository fields here
+	Channel      ChannelRepositoryInterface
+	Order        OrderRepositoryInterface
+	Log          LogRepositoryInterface
+	Product      ProductRepositoryInterface
+	Subscription SubscriptionRepositoryInterface
 }
 
-// New creates a new repository.
+// New creates a new repository provider
 func New(d *data.Data) *Repository {
 	return &Repository{
-		// Initialize your repository fields here
+		Channel:      NewChannelRepository(d),
+		Order:        NewOrderRepository(d),
+		Log:          NewLogRepository(d),
+		Product:      NewProductRepository(d),
+		Subscription: NewSubscriptionRepository(d),
 	}
 }
-
-// Add your repository methods here
