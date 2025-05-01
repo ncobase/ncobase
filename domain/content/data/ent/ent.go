@@ -6,9 +6,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/domain/content/data/ent/cmschannel"
+	"ncobase/domain/content/data/ent/distribution"
+	"ncobase/domain/content/data/ent/media"
 	"ncobase/domain/content/data/ent/taxonomy"
 	"ncobase/domain/content/data/ent/taxonomyrelation"
 	"ncobase/domain/content/data/ent/topic"
+	"ncobase/domain/content/data/ent/topicmedia"
 	"reflect"
 	"sync"
 
@@ -75,9 +79,13 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
+			cmschannel.Table:       cmschannel.ValidColumn,
+			distribution.Table:     distribution.ValidColumn,
+			media.Table:            media.ValidColumn,
 			taxonomy.Table:         taxonomy.ValidColumn,
 			taxonomyrelation.Table: taxonomyrelation.ValidColumn,
 			topic.Table:            topic.ValidColumn,
+			topicmedia.Table:       topicmedia.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

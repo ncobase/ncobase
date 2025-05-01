@@ -6,6 +6,15 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// CMSChannel is the predicate function for cmschannel builders.
+type CMSChannel func(*sql.Selector)
+
+// Distribution is the predicate function for distribution builders.
+type Distribution func(*sql.Selector)
+
+// Media is the predicate function for media builders.
+type Media func(*sql.Selector)
+
 // Taxonomy is the predicate function for taxonomy builders.
 type Taxonomy func(*sql.Selector)
 
@@ -14,3 +23,6 @@ type TaxonomyRelation func(*sql.Selector)
 
 // Topic is the predicate function for topic builders.
 type Topic func(*sql.Selector)
+
+// TopicMedia is the predicate function for topicmedia builders.
+type TopicMedia func(*sql.Selector)

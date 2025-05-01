@@ -35,6 +35,8 @@ const (
 	FieldTaxonomyID = "taxonomy_id"
 	// FieldTenantID holds the string denoting the tenant_id field in the database.
 	FieldTenantID = "tenant_id"
+	// FieldExtras holds the string denoting the extras field in the database.
+	FieldExtras = "extras"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
 	FieldCreatedBy = "created_by"
 	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
@@ -43,6 +45,24 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
+	// FieldVersion holds the string denoting the version field in the database.
+	FieldVersion = "version"
+	// FieldContentType holds the string denoting the content_type field in the database.
+	FieldContentType = "content_type"
+	// FieldSeoTitle holds the string denoting the seo_title field in the database.
+	FieldSeoTitle = "seo_title"
+	// FieldSeoDescription holds the string denoting the seo_description field in the database.
+	FieldSeoDescription = "seo_description"
+	// FieldSeoKeywords holds the string denoting the seo_keywords field in the database.
+	FieldSeoKeywords = "seo_keywords"
+	// FieldExcerptAuto holds the string denoting the excerpt_auto field in the database.
+	FieldExcerptAuto = "excerpt_auto"
+	// FieldExcerpt holds the string denoting the excerpt field in the database.
+	FieldExcerpt = "excerpt"
+	// FieldFeaturedMedia holds the string denoting the featured_media field in the database.
+	FieldFeaturedMedia = "featured_media"
+	// FieldTags holds the string denoting the tags field in the database.
+	FieldTags = "tags"
 	// Table holds the table name of the topic in the database.
 	Table = "ncse_cms_topic"
 )
@@ -62,10 +82,20 @@ var Columns = []string{
 	FieldReleased,
 	FieldTaxonomyID,
 	FieldTenantID,
+	FieldExtras,
 	FieldCreatedBy,
 	FieldUpdatedBy,
 	FieldCreatedAt,
 	FieldUpdatedAt,
+	FieldVersion,
+	FieldContentType,
+	FieldSeoTitle,
+	FieldSeoDescription,
+	FieldSeoKeywords,
+	FieldExcerptAuto,
+	FieldExcerpt,
+	FieldFeaturedMedia,
+	FieldTags,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -91,6 +121,8 @@ var (
 	TaxonomyIDValidator func(string) error
 	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	TenantIDValidator func(string) error
+	// DefaultExtras holds the default value on creation for the "extras" field.
+	DefaultExtras map[string]interface{}
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	CreatedByValidator func(string) error
 	// UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
@@ -101,6 +133,12 @@ var (
 	DefaultUpdatedAt func() int64
 	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
 	UpdateDefaultUpdatedAt func() int64
+	// DefaultVersion holds the default value on creation for the "version" field.
+	DefaultVersion int
+	// DefaultContentType holds the default value on creation for the "content_type" field.
+	DefaultContentType string
+	// DefaultExcerptAuto holds the default value on creation for the "excerpt_auto" field.
+	DefaultExcerptAuto bool
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -193,4 +231,44 @@ func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdatedAt orders the results by the updated_at field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
+}
+
+// ByVersion orders the results by the version field.
+func ByVersion(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldVersion, opts...).ToFunc()
+}
+
+// ByContentType orders the results by the content_type field.
+func ByContentType(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldContentType, opts...).ToFunc()
+}
+
+// BySeoTitle orders the results by the seo_title field.
+func BySeoTitle(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSeoTitle, opts...).ToFunc()
+}
+
+// BySeoDescription orders the results by the seo_description field.
+func BySeoDescription(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSeoDescription, opts...).ToFunc()
+}
+
+// BySeoKeywords orders the results by the seo_keywords field.
+func BySeoKeywords(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSeoKeywords, opts...).ToFunc()
+}
+
+// ByExcerptAuto orders the results by the excerpt_auto field.
+func ByExcerptAuto(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldExcerptAuto, opts...).ToFunc()
+}
+
+// ByExcerpt orders the results by the excerpt field.
+func ByExcerpt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldExcerpt, opts...).ToFunc()
+}
+
+// ByFeaturedMedia orders the results by the featured_media field.
+func ByFeaturedMedia(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFeaturedMedia, opts...).ToFunc()
 }

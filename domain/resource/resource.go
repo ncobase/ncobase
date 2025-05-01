@@ -1,15 +1,19 @@
 package resource
 
 import (
+	"context"
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/domain/resource/data"
+	"ncobase/domain/resource/event"
 	"ncobase/domain/resource/handler"
 	"ncobase/domain/resource/service"
 	"sync"
+	"time"
 
 	"github.com/ncobase/ncore/config"
 	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/gin-gonic/gin"
 )
@@ -33,6 +37,7 @@ type Module struct {
 	h           *handler.Handler
 	d           *data.Data
 	cleanup     func(name ...string)
+	config      *Config
 
 	discovery
 }
@@ -51,7 +56,7 @@ func (m *Module) Name() string {
 
 // PreInit performs any necessary setup before initialization
 func (m *Module) PreInit() error {
-	// Implement any pre-initialization logic here
+	m.config = m.GetDefaultConfig()
 	return nil
 }
 
@@ -70,10 +75,15 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 	}
 
 	// service discovery
-	if conf.Consul == nil {
+	if conf.Consul != nil {
 		m.discovery.address = conf.Consul.Address
 		m.discovery.tags = conf.Consul.Discovery.DefaultTags
 		m.discovery.meta = conf.Consul.Discovery.DefaultMeta
+	}
+
+	// Load config from configuration file if available
+	if conf.Viper != nil {
+		m.GetConfigFromFile(conf.Viper)
 	}
 
 	m.em = em
@@ -84,25 +94,90 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New(m.d)
+	// Create event publisher
+	publisher := event.NewPublisher(m.em)
+
+	// Create services
+	m.s = service.New(m.d, publisher)
+
+	// Create handlers
 	m.h = handler.New(m.s)
-	// Subscribe to relevant events
-	m.subscribeEvents(m.em)
+
+	// Start quota monitor if enabled
+	if m.config.QuotaManagement.EnableQuotas {
+		go m.startQuotaMonitor(m.s.Quota, m.config.QuotaManagement.QuotaCheckInterval)
+	}
+
+	// Subscribe to events
+	m.subscribeEvents()
+
 	return nil
+}
+
+// startQuotaMonitor starts a background goroutine to monitor storage quotas
+func (m *Module) startQuotaMonitor(quotaService service.QuotaServiceInterface, intervalStr string) {
+	ctx := context.Background()
+
+	// Parse check interval
+	interval, err := time.ParseDuration(intervalStr)
+	if err != nil {
+		logger.Warnf(ctx, "Invalid quota check interval, using default 24h: %v", err)
+		interval = 24 * time.Hour
+	}
+
+	ticker := time.NewTicker(interval)
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				if err := quotaService.MonitorQuota(ctx); err != nil {
+					logger.Errorf(ctx, "Error in quota monitoring: %v", err)
+				}
+			}
+		}
+	}()
+
+	logger.Info(ctx, "Started resource quota monitor with interval %s", interval.String())
 }
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Belong domain group
-	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
-	// Attachment endpoints
-	attachments := r.Group("/attachments")
+	// Base domain group
+	resGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+
+	resGroup.GET("", m.h.File.List)
+	resGroup.POST("", m.h.File.Create)
+	resGroup.GET("/:slug", m.h.File.Get)
+	resGroup.PUT("/:slug", m.h.File.Update)
+	resGroup.DELETE("/:slug", m.h.File.Delete)
+
+	// Advanced endpoints
+	resGroup.GET("/search", m.h.File.Search)
+	resGroup.GET("/categories", m.h.File.ListCategories)
+	resGroup.GET("/tags", m.h.File.ListTags)
+	resGroup.GET("/stats", m.h.File.GetStorageStats)
+
+	// Version and thumbnail operations
+	resGroup.GET("/:slug/versions", m.h.File.GetVersions)
+	resGroup.POST("/:slug/versions", m.h.File.CreateVersion)
+	resGroup.POST("/:slug/thumbnail", m.h.File.CreateThumbnail)
+	resGroup.PUT("/:slug/access", m.h.File.SetAccessLevel)
+	resGroup.POST("/:slug/share", m.h.File.GenerateShareURL)
+
+	// Batch operations
+	batch := resGroup.Group("/batch")
 	{
-		attachments.GET("", m.h.Attachment.List)
-		attachments.POST("", m.h.Attachment.Create)
-		attachments.GET("/:slug", m.h.Attachment.Get)
-		attachments.PUT("/:slug", m.h.Attachment.Update)
-		attachments.DELETE("/:slug", m.h.Attachment.Delete)
+		batch.POST("/upload", m.h.Batch.BatchUpload)
+		batch.POST("/process", m.h.Batch.BatchProcess)
+	}
+
+	// Quota management
+	quotas := resGroup.Group("/quotas")
+	{
+		quotas.GET("", m.h.Quota.GetQuota)
+		quotas.PUT("", m.h.Quota.SetQuota)
+		quotas.GET("/usage", m.h.Quota.GetUsage)
 	}
 }
 
@@ -173,23 +248,62 @@ func (m *Module) Group() string {
 	return group
 }
 
-// SubscribeEvents subscribes to relevant events
-func (m *Module) subscribeEvents(_ ext.ManagerInterface) {
-	// Implement any event subscriptions here
+// SubscribeEvents subscribes to events for the module
+func (m *Module) subscribeEvents() {
+	if m.em == nil {
+		return
+	}
+
+	// Subscribe to relevant events
+	m.em.SubscribeEvent(event.FileCreated, m.handleFileCreated)
+	m.em.SubscribeEvent(event.FileDeleted, m.handleFileDeleted)
+	m.em.SubscribeEvent(event.StorageQuotaWarning, m.handleQuotaWarning)
+	m.em.SubscribeEvent(event.StorageQuotaExceeded, m.handleQuotaExceeded)
 }
 
-// func init() {
-// 	extension.RegisterModule(&Module{}, extension.Metadata{
-// 		Name:         name + "-development",
-// 		Version:      version,
-// 		Dependencies: dependencies,
-// 		Description:  m.Description(),
-// 	})
-// }
+// Event handlers
+func (m *Module) handleFileCreated(data any) {
+	eventData, ok := data.(*event.FileEventData)
+	if !ok {
+		return
+	}
 
-// New creates a new instance of the auth module.
-func New() ext.Interface {
-	return &Module{}
+	logger.Infof(context.Background(), "File created: %s, size: %d bytes, tenant: %s",
+		eventData.Name, eventData.Size, eventData.TenantID)
+}
+
+func (m *Module) handleFileDeleted(data any) {
+	eventData, ok := data.(*event.FileEventData)
+	if !ok {
+		return
+	}
+
+	logger.Infof(context.Background(), "File deleted: %s, tenant: %s",
+		eventData.Name, eventData.TenantID)
+}
+
+func (m *Module) handleQuotaWarning(data any) {
+	eventData, ok := data.(*event.StorageQuotaEventData)
+	if !ok {
+		return
+	}
+
+	logger.Warnf(context.Background(), "Storage quota warning: tenant %s at %.2f%% (%d/%d bytes)",
+		eventData.TenantID, eventData.UsagePercent, eventData.CurrentUsage, eventData.Quota)
+
+	// In a real implementation, you might send notifications to admins or users
+}
+
+func (m *Module) handleQuotaExceeded(data any) {
+	eventData, ok := data.(*event.StorageQuotaEventData)
+	if !ok {
+		return
+	}
+
+	logger.Errorf(context.Background(), "Storage quota exceeded: tenant %s at %.2f%% (%d/%d bytes)",
+		eventData.TenantID, eventData.UsagePercent, eventData.CurrentUsage, eventData.Quota)
+
+	// In a real implementation, you might send urgent notifications or implement cleanup procedures
 }
 
 // NeedServiceDiscovery returns if the module needs to be registered as a service
@@ -222,4 +336,9 @@ func (m *Module) GetServiceInfo() *ext.ServiceInfo {
 		Tags:    tags,
 		Meta:    meta,
 	}
+}
+
+// New creates a new instance of the resource module.
+func New() ext.Interface {
+	return &Module{}
 }

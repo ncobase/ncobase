@@ -143,6 +143,46 @@ func UpdatedAt(v int64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
+// Version applies equality check predicate on the "version" field. It's identical to VersionEQ.
+func Version(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldVersion, v))
+}
+
+// ContentType applies equality check predicate on the "content_type" field. It's identical to ContentTypeEQ.
+func ContentType(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldContentType, v))
+}
+
+// SeoTitle applies equality check predicate on the "seo_title" field. It's identical to SeoTitleEQ.
+func SeoTitle(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldSeoTitle, v))
+}
+
+// SeoDescription applies equality check predicate on the "seo_description" field. It's identical to SeoDescriptionEQ.
+func SeoDescription(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldSeoDescription, v))
+}
+
+// SeoKeywords applies equality check predicate on the "seo_keywords" field. It's identical to SeoKeywordsEQ.
+func SeoKeywords(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldSeoKeywords, v))
+}
+
+// ExcerptAuto applies equality check predicate on the "excerpt_auto" field. It's identical to ExcerptAutoEQ.
+func ExcerptAuto(v bool) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldExcerptAuto, v))
+}
+
+// Excerpt applies equality check predicate on the "excerpt" field. It's identical to ExcerptEQ.
+func Excerpt(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldExcerpt, v))
+}
+
+// FeaturedMedia applies equality check predicate on the "featured_media" field. It's identical to FeaturedMediaEQ.
+func FeaturedMedia(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldFeaturedMedia, v))
+}
+
 // NameEQ applies the EQ predicate on the "name" field.
 func NameEQ(v string) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldName, v))
@@ -818,6 +858,16 @@ func TenantIDContainsFold(v string) predicate.Topic {
 	return predicate.Topic(sql.FieldContainsFold(FieldTenantID, v))
 }
 
+// ExtrasIsNil applies the IsNil predicate on the "extras" field.
+func ExtrasIsNil() predicate.Topic {
+	return predicate.Topic(sql.FieldIsNull(FieldExtras))
+}
+
+// ExtrasNotNil applies the NotNil predicate on the "extras" field.
+func ExtrasNotNil() predicate.Topic {
+	return predicate.Topic(sql.FieldNotNull(FieldExtras))
+}
+
 // CreatedByEQ applies the EQ predicate on the "created_by" field.
 func CreatedByEQ(v string) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldCreatedBy, v))
@@ -1066,6 +1116,506 @@ func UpdatedAtIsNil() predicate.Topic {
 // UpdatedAtNotNil applies the NotNil predicate on the "updated_at" field.
 func UpdatedAtNotNil() predicate.Topic {
 	return predicate.Topic(sql.FieldNotNull(FieldUpdatedAt))
+}
+
+// VersionEQ applies the EQ predicate on the "version" field.
+func VersionEQ(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldVersion, v))
+}
+
+// VersionNEQ applies the NEQ predicate on the "version" field.
+func VersionNEQ(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldVersion, v))
+}
+
+// VersionIn applies the In predicate on the "version" field.
+func VersionIn(vs ...int) predicate.Topic {
+	return predicate.Topic(sql.FieldIn(FieldVersion, vs...))
+}
+
+// VersionNotIn applies the NotIn predicate on the "version" field.
+func VersionNotIn(vs ...int) predicate.Topic {
+	return predicate.Topic(sql.FieldNotIn(FieldVersion, vs...))
+}
+
+// VersionGT applies the GT predicate on the "version" field.
+func VersionGT(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldGT(FieldVersion, v))
+}
+
+// VersionGTE applies the GTE predicate on the "version" field.
+func VersionGTE(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldGTE(FieldVersion, v))
+}
+
+// VersionLT applies the LT predicate on the "version" field.
+func VersionLT(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldLT(FieldVersion, v))
+}
+
+// VersionLTE applies the LTE predicate on the "version" field.
+func VersionLTE(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldLTE(FieldVersion, v))
+}
+
+// ContentTypeEQ applies the EQ predicate on the "content_type" field.
+func ContentTypeEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldContentType, v))
+}
+
+// ContentTypeNEQ applies the NEQ predicate on the "content_type" field.
+func ContentTypeNEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldContentType, v))
+}
+
+// ContentTypeIn applies the In predicate on the "content_type" field.
+func ContentTypeIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldIn(FieldContentType, vs...))
+}
+
+// ContentTypeNotIn applies the NotIn predicate on the "content_type" field.
+func ContentTypeNotIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldNotIn(FieldContentType, vs...))
+}
+
+// ContentTypeGT applies the GT predicate on the "content_type" field.
+func ContentTypeGT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGT(FieldContentType, v))
+}
+
+// ContentTypeGTE applies the GTE predicate on the "content_type" field.
+func ContentTypeGTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGTE(FieldContentType, v))
+}
+
+// ContentTypeLT applies the LT predicate on the "content_type" field.
+func ContentTypeLT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLT(FieldContentType, v))
+}
+
+// ContentTypeLTE applies the LTE predicate on the "content_type" field.
+func ContentTypeLTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLTE(FieldContentType, v))
+}
+
+// ContentTypeContains applies the Contains predicate on the "content_type" field.
+func ContentTypeContains(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContains(FieldContentType, v))
+}
+
+// ContentTypeHasPrefix applies the HasPrefix predicate on the "content_type" field.
+func ContentTypeHasPrefix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasPrefix(FieldContentType, v))
+}
+
+// ContentTypeHasSuffix applies the HasSuffix predicate on the "content_type" field.
+func ContentTypeHasSuffix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasSuffix(FieldContentType, v))
+}
+
+// ContentTypeEqualFold applies the EqualFold predicate on the "content_type" field.
+func ContentTypeEqualFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEqualFold(FieldContentType, v))
+}
+
+// ContentTypeContainsFold applies the ContainsFold predicate on the "content_type" field.
+func ContentTypeContainsFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContainsFold(FieldContentType, v))
+}
+
+// SeoTitleEQ applies the EQ predicate on the "seo_title" field.
+func SeoTitleEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldSeoTitle, v))
+}
+
+// SeoTitleNEQ applies the NEQ predicate on the "seo_title" field.
+func SeoTitleNEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldSeoTitle, v))
+}
+
+// SeoTitleIn applies the In predicate on the "seo_title" field.
+func SeoTitleIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldIn(FieldSeoTitle, vs...))
+}
+
+// SeoTitleNotIn applies the NotIn predicate on the "seo_title" field.
+func SeoTitleNotIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldNotIn(FieldSeoTitle, vs...))
+}
+
+// SeoTitleGT applies the GT predicate on the "seo_title" field.
+func SeoTitleGT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGT(FieldSeoTitle, v))
+}
+
+// SeoTitleGTE applies the GTE predicate on the "seo_title" field.
+func SeoTitleGTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGTE(FieldSeoTitle, v))
+}
+
+// SeoTitleLT applies the LT predicate on the "seo_title" field.
+func SeoTitleLT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLT(FieldSeoTitle, v))
+}
+
+// SeoTitleLTE applies the LTE predicate on the "seo_title" field.
+func SeoTitleLTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLTE(FieldSeoTitle, v))
+}
+
+// SeoTitleContains applies the Contains predicate on the "seo_title" field.
+func SeoTitleContains(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContains(FieldSeoTitle, v))
+}
+
+// SeoTitleHasPrefix applies the HasPrefix predicate on the "seo_title" field.
+func SeoTitleHasPrefix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasPrefix(FieldSeoTitle, v))
+}
+
+// SeoTitleHasSuffix applies the HasSuffix predicate on the "seo_title" field.
+func SeoTitleHasSuffix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasSuffix(FieldSeoTitle, v))
+}
+
+// SeoTitleIsNil applies the IsNil predicate on the "seo_title" field.
+func SeoTitleIsNil() predicate.Topic {
+	return predicate.Topic(sql.FieldIsNull(FieldSeoTitle))
+}
+
+// SeoTitleNotNil applies the NotNil predicate on the "seo_title" field.
+func SeoTitleNotNil() predicate.Topic {
+	return predicate.Topic(sql.FieldNotNull(FieldSeoTitle))
+}
+
+// SeoTitleEqualFold applies the EqualFold predicate on the "seo_title" field.
+func SeoTitleEqualFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEqualFold(FieldSeoTitle, v))
+}
+
+// SeoTitleContainsFold applies the ContainsFold predicate on the "seo_title" field.
+func SeoTitleContainsFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContainsFold(FieldSeoTitle, v))
+}
+
+// SeoDescriptionEQ applies the EQ predicate on the "seo_description" field.
+func SeoDescriptionEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldSeoDescription, v))
+}
+
+// SeoDescriptionNEQ applies the NEQ predicate on the "seo_description" field.
+func SeoDescriptionNEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldSeoDescription, v))
+}
+
+// SeoDescriptionIn applies the In predicate on the "seo_description" field.
+func SeoDescriptionIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldIn(FieldSeoDescription, vs...))
+}
+
+// SeoDescriptionNotIn applies the NotIn predicate on the "seo_description" field.
+func SeoDescriptionNotIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldNotIn(FieldSeoDescription, vs...))
+}
+
+// SeoDescriptionGT applies the GT predicate on the "seo_description" field.
+func SeoDescriptionGT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGT(FieldSeoDescription, v))
+}
+
+// SeoDescriptionGTE applies the GTE predicate on the "seo_description" field.
+func SeoDescriptionGTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGTE(FieldSeoDescription, v))
+}
+
+// SeoDescriptionLT applies the LT predicate on the "seo_description" field.
+func SeoDescriptionLT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLT(FieldSeoDescription, v))
+}
+
+// SeoDescriptionLTE applies the LTE predicate on the "seo_description" field.
+func SeoDescriptionLTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLTE(FieldSeoDescription, v))
+}
+
+// SeoDescriptionContains applies the Contains predicate on the "seo_description" field.
+func SeoDescriptionContains(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContains(FieldSeoDescription, v))
+}
+
+// SeoDescriptionHasPrefix applies the HasPrefix predicate on the "seo_description" field.
+func SeoDescriptionHasPrefix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasPrefix(FieldSeoDescription, v))
+}
+
+// SeoDescriptionHasSuffix applies the HasSuffix predicate on the "seo_description" field.
+func SeoDescriptionHasSuffix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasSuffix(FieldSeoDescription, v))
+}
+
+// SeoDescriptionIsNil applies the IsNil predicate on the "seo_description" field.
+func SeoDescriptionIsNil() predicate.Topic {
+	return predicate.Topic(sql.FieldIsNull(FieldSeoDescription))
+}
+
+// SeoDescriptionNotNil applies the NotNil predicate on the "seo_description" field.
+func SeoDescriptionNotNil() predicate.Topic {
+	return predicate.Topic(sql.FieldNotNull(FieldSeoDescription))
+}
+
+// SeoDescriptionEqualFold applies the EqualFold predicate on the "seo_description" field.
+func SeoDescriptionEqualFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEqualFold(FieldSeoDescription, v))
+}
+
+// SeoDescriptionContainsFold applies the ContainsFold predicate on the "seo_description" field.
+func SeoDescriptionContainsFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContainsFold(FieldSeoDescription, v))
+}
+
+// SeoKeywordsEQ applies the EQ predicate on the "seo_keywords" field.
+func SeoKeywordsEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsNEQ applies the NEQ predicate on the "seo_keywords" field.
+func SeoKeywordsNEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsIn applies the In predicate on the "seo_keywords" field.
+func SeoKeywordsIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldIn(FieldSeoKeywords, vs...))
+}
+
+// SeoKeywordsNotIn applies the NotIn predicate on the "seo_keywords" field.
+func SeoKeywordsNotIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldNotIn(FieldSeoKeywords, vs...))
+}
+
+// SeoKeywordsGT applies the GT predicate on the "seo_keywords" field.
+func SeoKeywordsGT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGT(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsGTE applies the GTE predicate on the "seo_keywords" field.
+func SeoKeywordsGTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGTE(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsLT applies the LT predicate on the "seo_keywords" field.
+func SeoKeywordsLT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLT(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsLTE applies the LTE predicate on the "seo_keywords" field.
+func SeoKeywordsLTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLTE(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsContains applies the Contains predicate on the "seo_keywords" field.
+func SeoKeywordsContains(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContains(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsHasPrefix applies the HasPrefix predicate on the "seo_keywords" field.
+func SeoKeywordsHasPrefix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasPrefix(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsHasSuffix applies the HasSuffix predicate on the "seo_keywords" field.
+func SeoKeywordsHasSuffix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasSuffix(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsIsNil applies the IsNil predicate on the "seo_keywords" field.
+func SeoKeywordsIsNil() predicate.Topic {
+	return predicate.Topic(sql.FieldIsNull(FieldSeoKeywords))
+}
+
+// SeoKeywordsNotNil applies the NotNil predicate on the "seo_keywords" field.
+func SeoKeywordsNotNil() predicate.Topic {
+	return predicate.Topic(sql.FieldNotNull(FieldSeoKeywords))
+}
+
+// SeoKeywordsEqualFold applies the EqualFold predicate on the "seo_keywords" field.
+func SeoKeywordsEqualFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEqualFold(FieldSeoKeywords, v))
+}
+
+// SeoKeywordsContainsFold applies the ContainsFold predicate on the "seo_keywords" field.
+func SeoKeywordsContainsFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContainsFold(FieldSeoKeywords, v))
+}
+
+// ExcerptAutoEQ applies the EQ predicate on the "excerpt_auto" field.
+func ExcerptAutoEQ(v bool) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldExcerptAuto, v))
+}
+
+// ExcerptAutoNEQ applies the NEQ predicate on the "excerpt_auto" field.
+func ExcerptAutoNEQ(v bool) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldExcerptAuto, v))
+}
+
+// ExcerptEQ applies the EQ predicate on the "excerpt" field.
+func ExcerptEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldExcerpt, v))
+}
+
+// ExcerptNEQ applies the NEQ predicate on the "excerpt" field.
+func ExcerptNEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldExcerpt, v))
+}
+
+// ExcerptIn applies the In predicate on the "excerpt" field.
+func ExcerptIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldIn(FieldExcerpt, vs...))
+}
+
+// ExcerptNotIn applies the NotIn predicate on the "excerpt" field.
+func ExcerptNotIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldNotIn(FieldExcerpt, vs...))
+}
+
+// ExcerptGT applies the GT predicate on the "excerpt" field.
+func ExcerptGT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGT(FieldExcerpt, v))
+}
+
+// ExcerptGTE applies the GTE predicate on the "excerpt" field.
+func ExcerptGTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGTE(FieldExcerpt, v))
+}
+
+// ExcerptLT applies the LT predicate on the "excerpt" field.
+func ExcerptLT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLT(FieldExcerpt, v))
+}
+
+// ExcerptLTE applies the LTE predicate on the "excerpt" field.
+func ExcerptLTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLTE(FieldExcerpt, v))
+}
+
+// ExcerptContains applies the Contains predicate on the "excerpt" field.
+func ExcerptContains(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContains(FieldExcerpt, v))
+}
+
+// ExcerptHasPrefix applies the HasPrefix predicate on the "excerpt" field.
+func ExcerptHasPrefix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasPrefix(FieldExcerpt, v))
+}
+
+// ExcerptHasSuffix applies the HasSuffix predicate on the "excerpt" field.
+func ExcerptHasSuffix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasSuffix(FieldExcerpt, v))
+}
+
+// ExcerptIsNil applies the IsNil predicate on the "excerpt" field.
+func ExcerptIsNil() predicate.Topic {
+	return predicate.Topic(sql.FieldIsNull(FieldExcerpt))
+}
+
+// ExcerptNotNil applies the NotNil predicate on the "excerpt" field.
+func ExcerptNotNil() predicate.Topic {
+	return predicate.Topic(sql.FieldNotNull(FieldExcerpt))
+}
+
+// ExcerptEqualFold applies the EqualFold predicate on the "excerpt" field.
+func ExcerptEqualFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEqualFold(FieldExcerpt, v))
+}
+
+// ExcerptContainsFold applies the ContainsFold predicate on the "excerpt" field.
+func ExcerptContainsFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContainsFold(FieldExcerpt, v))
+}
+
+// FeaturedMediaEQ applies the EQ predicate on the "featured_media" field.
+func FeaturedMediaEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaNEQ applies the NEQ predicate on the "featured_media" field.
+func FeaturedMediaNEQ(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaIn applies the In predicate on the "featured_media" field.
+func FeaturedMediaIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldIn(FieldFeaturedMedia, vs...))
+}
+
+// FeaturedMediaNotIn applies the NotIn predicate on the "featured_media" field.
+func FeaturedMediaNotIn(vs ...string) predicate.Topic {
+	return predicate.Topic(sql.FieldNotIn(FieldFeaturedMedia, vs...))
+}
+
+// FeaturedMediaGT applies the GT predicate on the "featured_media" field.
+func FeaturedMediaGT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGT(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaGTE applies the GTE predicate on the "featured_media" field.
+func FeaturedMediaGTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldGTE(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaLT applies the LT predicate on the "featured_media" field.
+func FeaturedMediaLT(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLT(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaLTE applies the LTE predicate on the "featured_media" field.
+func FeaturedMediaLTE(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldLTE(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaContains applies the Contains predicate on the "featured_media" field.
+func FeaturedMediaContains(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContains(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaHasPrefix applies the HasPrefix predicate on the "featured_media" field.
+func FeaturedMediaHasPrefix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasPrefix(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaHasSuffix applies the HasSuffix predicate on the "featured_media" field.
+func FeaturedMediaHasSuffix(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldHasSuffix(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaIsNil applies the IsNil predicate on the "featured_media" field.
+func FeaturedMediaIsNil() predicate.Topic {
+	return predicate.Topic(sql.FieldIsNull(FieldFeaturedMedia))
+}
+
+// FeaturedMediaNotNil applies the NotNil predicate on the "featured_media" field.
+func FeaturedMediaNotNil() predicate.Topic {
+	return predicate.Topic(sql.FieldNotNull(FieldFeaturedMedia))
+}
+
+// FeaturedMediaEqualFold applies the EqualFold predicate on the "featured_media" field.
+func FeaturedMediaEqualFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldEqualFold(FieldFeaturedMedia, v))
+}
+
+// FeaturedMediaContainsFold applies the ContainsFold predicate on the "featured_media" field.
+func FeaturedMediaContainsFold(v string) predicate.Topic {
+	return predicate.Topic(sql.FieldContainsFold(FieldFeaturedMedia, v))
+}
+
+// TagsIsNil applies the IsNil predicate on the "tags" field.
+func TagsIsNil() predicate.Topic {
+	return predicate.Topic(sql.FieldIsNull(FieldTags))
+}
+
+// TagsNotNil applies the NotNil predicate on the "tags" field.
+func TagsNotNil() predicate.Topic {
+	return predicate.Topic(sql.FieldNotNull(FieldTags))
 }
 
 // And groups predicates with the AND operator between them.

@@ -11,6 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 )
 
@@ -275,6 +276,18 @@ func (tu *TopicUpdate) ClearTenantID() *TopicUpdate {
 	return tu
 }
 
+// SetExtras sets the "extras" field.
+func (tu *TopicUpdate) SetExtras(m map[string]interface{}) *TopicUpdate {
+	tu.mutation.SetExtras(m)
+	return tu
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (tu *TopicUpdate) ClearExtras() *TopicUpdate {
+	tu.mutation.ClearExtras()
+	return tu
+}
+
 // SetCreatedBy sets the "created_by" field.
 func (tu *TopicUpdate) SetCreatedBy(s string) *TopicUpdate {
 	tu.mutation.SetCreatedBy(s)
@@ -331,6 +344,173 @@ func (tu *TopicUpdate) AddUpdatedAt(i int64) *TopicUpdate {
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (tu *TopicUpdate) ClearUpdatedAt() *TopicUpdate {
 	tu.mutation.ClearUpdatedAt()
+	return tu
+}
+
+// SetVersion sets the "version" field.
+func (tu *TopicUpdate) SetVersion(i int) *TopicUpdate {
+	tu.mutation.ResetVersion()
+	tu.mutation.SetVersion(i)
+	return tu
+}
+
+// SetNillableVersion sets the "version" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableVersion(i *int) *TopicUpdate {
+	if i != nil {
+		tu.SetVersion(*i)
+	}
+	return tu
+}
+
+// AddVersion adds i to the "version" field.
+func (tu *TopicUpdate) AddVersion(i int) *TopicUpdate {
+	tu.mutation.AddVersion(i)
+	return tu
+}
+
+// SetContentType sets the "content_type" field.
+func (tu *TopicUpdate) SetContentType(s string) *TopicUpdate {
+	tu.mutation.SetContentType(s)
+	return tu
+}
+
+// SetNillableContentType sets the "content_type" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableContentType(s *string) *TopicUpdate {
+	if s != nil {
+		tu.SetContentType(*s)
+	}
+	return tu
+}
+
+// SetSeoTitle sets the "seo_title" field.
+func (tu *TopicUpdate) SetSeoTitle(s string) *TopicUpdate {
+	tu.mutation.SetSeoTitle(s)
+	return tu
+}
+
+// SetNillableSeoTitle sets the "seo_title" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableSeoTitle(s *string) *TopicUpdate {
+	if s != nil {
+		tu.SetSeoTitle(*s)
+	}
+	return tu
+}
+
+// ClearSeoTitle clears the value of the "seo_title" field.
+func (tu *TopicUpdate) ClearSeoTitle() *TopicUpdate {
+	tu.mutation.ClearSeoTitle()
+	return tu
+}
+
+// SetSeoDescription sets the "seo_description" field.
+func (tu *TopicUpdate) SetSeoDescription(s string) *TopicUpdate {
+	tu.mutation.SetSeoDescription(s)
+	return tu
+}
+
+// SetNillableSeoDescription sets the "seo_description" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableSeoDescription(s *string) *TopicUpdate {
+	if s != nil {
+		tu.SetSeoDescription(*s)
+	}
+	return tu
+}
+
+// ClearSeoDescription clears the value of the "seo_description" field.
+func (tu *TopicUpdate) ClearSeoDescription() *TopicUpdate {
+	tu.mutation.ClearSeoDescription()
+	return tu
+}
+
+// SetSeoKeywords sets the "seo_keywords" field.
+func (tu *TopicUpdate) SetSeoKeywords(s string) *TopicUpdate {
+	tu.mutation.SetSeoKeywords(s)
+	return tu
+}
+
+// SetNillableSeoKeywords sets the "seo_keywords" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableSeoKeywords(s *string) *TopicUpdate {
+	if s != nil {
+		tu.SetSeoKeywords(*s)
+	}
+	return tu
+}
+
+// ClearSeoKeywords clears the value of the "seo_keywords" field.
+func (tu *TopicUpdate) ClearSeoKeywords() *TopicUpdate {
+	tu.mutation.ClearSeoKeywords()
+	return tu
+}
+
+// SetExcerptAuto sets the "excerpt_auto" field.
+func (tu *TopicUpdate) SetExcerptAuto(b bool) *TopicUpdate {
+	tu.mutation.SetExcerptAuto(b)
+	return tu
+}
+
+// SetNillableExcerptAuto sets the "excerpt_auto" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableExcerptAuto(b *bool) *TopicUpdate {
+	if b != nil {
+		tu.SetExcerptAuto(*b)
+	}
+	return tu
+}
+
+// SetExcerpt sets the "excerpt" field.
+func (tu *TopicUpdate) SetExcerpt(s string) *TopicUpdate {
+	tu.mutation.SetExcerpt(s)
+	return tu
+}
+
+// SetNillableExcerpt sets the "excerpt" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableExcerpt(s *string) *TopicUpdate {
+	if s != nil {
+		tu.SetExcerpt(*s)
+	}
+	return tu
+}
+
+// ClearExcerpt clears the value of the "excerpt" field.
+func (tu *TopicUpdate) ClearExcerpt() *TopicUpdate {
+	tu.mutation.ClearExcerpt()
+	return tu
+}
+
+// SetFeaturedMedia sets the "featured_media" field.
+func (tu *TopicUpdate) SetFeaturedMedia(s string) *TopicUpdate {
+	tu.mutation.SetFeaturedMedia(s)
+	return tu
+}
+
+// SetNillableFeaturedMedia sets the "featured_media" field if the given value is not nil.
+func (tu *TopicUpdate) SetNillableFeaturedMedia(s *string) *TopicUpdate {
+	if s != nil {
+		tu.SetFeaturedMedia(*s)
+	}
+	return tu
+}
+
+// ClearFeaturedMedia clears the value of the "featured_media" field.
+func (tu *TopicUpdate) ClearFeaturedMedia() *TopicUpdate {
+	tu.mutation.ClearFeaturedMedia()
+	return tu
+}
+
+// SetTags sets the "tags" field.
+func (tu *TopicUpdate) SetTags(s []string) *TopicUpdate {
+	tu.mutation.SetTags(s)
+	return tu
+}
+
+// AppendTags appends s to the "tags" field.
+func (tu *TopicUpdate) AppendTags(s []string) *TopicUpdate {
+	tu.mutation.AppendTags(s)
+	return tu
+}
+
+// ClearTags clears the value of the "tags" field.
+func (tu *TopicUpdate) ClearTags() *TopicUpdate {
+	tu.mutation.ClearTags()
 	return tu
 }
 
@@ -487,6 +667,12 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if tu.mutation.TenantIDCleared() {
 		_spec.ClearField(topic.FieldTenantID, field.TypeString)
 	}
+	if value, ok := tu.mutation.Extras(); ok {
+		_spec.SetField(topic.FieldExtras, field.TypeJSON, value)
+	}
+	if tu.mutation.ExtrasCleared() {
+		_spec.ClearField(topic.FieldExtras, field.TypeJSON)
+	}
 	if value, ok := tu.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)
 	}
@@ -510,6 +696,59 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if tu.mutation.UpdatedAtCleared() {
 		_spec.ClearField(topic.FieldUpdatedAt, field.TypeInt64)
+	}
+	if value, ok := tu.mutation.Version(); ok {
+		_spec.SetField(topic.FieldVersion, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.AddedVersion(); ok {
+		_spec.AddField(topic.FieldVersion, field.TypeInt, value)
+	}
+	if value, ok := tu.mutation.ContentType(); ok {
+		_spec.SetField(topic.FieldContentType, field.TypeString, value)
+	}
+	if value, ok := tu.mutation.SeoTitle(); ok {
+		_spec.SetField(topic.FieldSeoTitle, field.TypeString, value)
+	}
+	if tu.mutation.SeoTitleCleared() {
+		_spec.ClearField(topic.FieldSeoTitle, field.TypeString)
+	}
+	if value, ok := tu.mutation.SeoDescription(); ok {
+		_spec.SetField(topic.FieldSeoDescription, field.TypeString, value)
+	}
+	if tu.mutation.SeoDescriptionCleared() {
+		_spec.ClearField(topic.FieldSeoDescription, field.TypeString)
+	}
+	if value, ok := tu.mutation.SeoKeywords(); ok {
+		_spec.SetField(topic.FieldSeoKeywords, field.TypeString, value)
+	}
+	if tu.mutation.SeoKeywordsCleared() {
+		_spec.ClearField(topic.FieldSeoKeywords, field.TypeString)
+	}
+	if value, ok := tu.mutation.ExcerptAuto(); ok {
+		_spec.SetField(topic.FieldExcerptAuto, field.TypeBool, value)
+	}
+	if value, ok := tu.mutation.Excerpt(); ok {
+		_spec.SetField(topic.FieldExcerpt, field.TypeString, value)
+	}
+	if tu.mutation.ExcerptCleared() {
+		_spec.ClearField(topic.FieldExcerpt, field.TypeString)
+	}
+	if value, ok := tu.mutation.FeaturedMedia(); ok {
+		_spec.SetField(topic.FieldFeaturedMedia, field.TypeString, value)
+	}
+	if tu.mutation.FeaturedMediaCleared() {
+		_spec.ClearField(topic.FieldFeaturedMedia, field.TypeString)
+	}
+	if value, ok := tu.mutation.Tags(); ok {
+		_spec.SetField(topic.FieldTags, field.TypeJSON, value)
+	}
+	if value, ok := tu.mutation.AppendedTags(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, topic.FieldTags, value)
+		})
+	}
+	if tu.mutation.TagsCleared() {
+		_spec.ClearField(topic.FieldTags, field.TypeJSON)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -779,6 +1018,18 @@ func (tuo *TopicUpdateOne) ClearTenantID() *TopicUpdateOne {
 	return tuo
 }
 
+// SetExtras sets the "extras" field.
+func (tuo *TopicUpdateOne) SetExtras(m map[string]interface{}) *TopicUpdateOne {
+	tuo.mutation.SetExtras(m)
+	return tuo
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (tuo *TopicUpdateOne) ClearExtras() *TopicUpdateOne {
+	tuo.mutation.ClearExtras()
+	return tuo
+}
+
 // SetCreatedBy sets the "created_by" field.
 func (tuo *TopicUpdateOne) SetCreatedBy(s string) *TopicUpdateOne {
 	tuo.mutation.SetCreatedBy(s)
@@ -835,6 +1086,173 @@ func (tuo *TopicUpdateOne) AddUpdatedAt(i int64) *TopicUpdateOne {
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (tuo *TopicUpdateOne) ClearUpdatedAt() *TopicUpdateOne {
 	tuo.mutation.ClearUpdatedAt()
+	return tuo
+}
+
+// SetVersion sets the "version" field.
+func (tuo *TopicUpdateOne) SetVersion(i int) *TopicUpdateOne {
+	tuo.mutation.ResetVersion()
+	tuo.mutation.SetVersion(i)
+	return tuo
+}
+
+// SetNillableVersion sets the "version" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableVersion(i *int) *TopicUpdateOne {
+	if i != nil {
+		tuo.SetVersion(*i)
+	}
+	return tuo
+}
+
+// AddVersion adds i to the "version" field.
+func (tuo *TopicUpdateOne) AddVersion(i int) *TopicUpdateOne {
+	tuo.mutation.AddVersion(i)
+	return tuo
+}
+
+// SetContentType sets the "content_type" field.
+func (tuo *TopicUpdateOne) SetContentType(s string) *TopicUpdateOne {
+	tuo.mutation.SetContentType(s)
+	return tuo
+}
+
+// SetNillableContentType sets the "content_type" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableContentType(s *string) *TopicUpdateOne {
+	if s != nil {
+		tuo.SetContentType(*s)
+	}
+	return tuo
+}
+
+// SetSeoTitle sets the "seo_title" field.
+func (tuo *TopicUpdateOne) SetSeoTitle(s string) *TopicUpdateOne {
+	tuo.mutation.SetSeoTitle(s)
+	return tuo
+}
+
+// SetNillableSeoTitle sets the "seo_title" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableSeoTitle(s *string) *TopicUpdateOne {
+	if s != nil {
+		tuo.SetSeoTitle(*s)
+	}
+	return tuo
+}
+
+// ClearSeoTitle clears the value of the "seo_title" field.
+func (tuo *TopicUpdateOne) ClearSeoTitle() *TopicUpdateOne {
+	tuo.mutation.ClearSeoTitle()
+	return tuo
+}
+
+// SetSeoDescription sets the "seo_description" field.
+func (tuo *TopicUpdateOne) SetSeoDescription(s string) *TopicUpdateOne {
+	tuo.mutation.SetSeoDescription(s)
+	return tuo
+}
+
+// SetNillableSeoDescription sets the "seo_description" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableSeoDescription(s *string) *TopicUpdateOne {
+	if s != nil {
+		tuo.SetSeoDescription(*s)
+	}
+	return tuo
+}
+
+// ClearSeoDescription clears the value of the "seo_description" field.
+func (tuo *TopicUpdateOne) ClearSeoDescription() *TopicUpdateOne {
+	tuo.mutation.ClearSeoDescription()
+	return tuo
+}
+
+// SetSeoKeywords sets the "seo_keywords" field.
+func (tuo *TopicUpdateOne) SetSeoKeywords(s string) *TopicUpdateOne {
+	tuo.mutation.SetSeoKeywords(s)
+	return tuo
+}
+
+// SetNillableSeoKeywords sets the "seo_keywords" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableSeoKeywords(s *string) *TopicUpdateOne {
+	if s != nil {
+		tuo.SetSeoKeywords(*s)
+	}
+	return tuo
+}
+
+// ClearSeoKeywords clears the value of the "seo_keywords" field.
+func (tuo *TopicUpdateOne) ClearSeoKeywords() *TopicUpdateOne {
+	tuo.mutation.ClearSeoKeywords()
+	return tuo
+}
+
+// SetExcerptAuto sets the "excerpt_auto" field.
+func (tuo *TopicUpdateOne) SetExcerptAuto(b bool) *TopicUpdateOne {
+	tuo.mutation.SetExcerptAuto(b)
+	return tuo
+}
+
+// SetNillableExcerptAuto sets the "excerpt_auto" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableExcerptAuto(b *bool) *TopicUpdateOne {
+	if b != nil {
+		tuo.SetExcerptAuto(*b)
+	}
+	return tuo
+}
+
+// SetExcerpt sets the "excerpt" field.
+func (tuo *TopicUpdateOne) SetExcerpt(s string) *TopicUpdateOne {
+	tuo.mutation.SetExcerpt(s)
+	return tuo
+}
+
+// SetNillableExcerpt sets the "excerpt" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableExcerpt(s *string) *TopicUpdateOne {
+	if s != nil {
+		tuo.SetExcerpt(*s)
+	}
+	return tuo
+}
+
+// ClearExcerpt clears the value of the "excerpt" field.
+func (tuo *TopicUpdateOne) ClearExcerpt() *TopicUpdateOne {
+	tuo.mutation.ClearExcerpt()
+	return tuo
+}
+
+// SetFeaturedMedia sets the "featured_media" field.
+func (tuo *TopicUpdateOne) SetFeaturedMedia(s string) *TopicUpdateOne {
+	tuo.mutation.SetFeaturedMedia(s)
+	return tuo
+}
+
+// SetNillableFeaturedMedia sets the "featured_media" field if the given value is not nil.
+func (tuo *TopicUpdateOne) SetNillableFeaturedMedia(s *string) *TopicUpdateOne {
+	if s != nil {
+		tuo.SetFeaturedMedia(*s)
+	}
+	return tuo
+}
+
+// ClearFeaturedMedia clears the value of the "featured_media" field.
+func (tuo *TopicUpdateOne) ClearFeaturedMedia() *TopicUpdateOne {
+	tuo.mutation.ClearFeaturedMedia()
+	return tuo
+}
+
+// SetTags sets the "tags" field.
+func (tuo *TopicUpdateOne) SetTags(s []string) *TopicUpdateOne {
+	tuo.mutation.SetTags(s)
+	return tuo
+}
+
+// AppendTags appends s to the "tags" field.
+func (tuo *TopicUpdateOne) AppendTags(s []string) *TopicUpdateOne {
+	tuo.mutation.AppendTags(s)
+	return tuo
+}
+
+// ClearTags clears the value of the "tags" field.
+func (tuo *TopicUpdateOne) ClearTags() *TopicUpdateOne {
+	tuo.mutation.ClearTags()
 	return tuo
 }
 
@@ -1021,6 +1439,12 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 	if tuo.mutation.TenantIDCleared() {
 		_spec.ClearField(topic.FieldTenantID, field.TypeString)
 	}
+	if value, ok := tuo.mutation.Extras(); ok {
+		_spec.SetField(topic.FieldExtras, field.TypeJSON, value)
+	}
+	if tuo.mutation.ExtrasCleared() {
+		_spec.ClearField(topic.FieldExtras, field.TypeJSON)
+	}
 	if value, ok := tuo.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)
 	}
@@ -1044,6 +1468,59 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 	}
 	if tuo.mutation.UpdatedAtCleared() {
 		_spec.ClearField(topic.FieldUpdatedAt, field.TypeInt64)
+	}
+	if value, ok := tuo.mutation.Version(); ok {
+		_spec.SetField(topic.FieldVersion, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.AddedVersion(); ok {
+		_spec.AddField(topic.FieldVersion, field.TypeInt, value)
+	}
+	if value, ok := tuo.mutation.ContentType(); ok {
+		_spec.SetField(topic.FieldContentType, field.TypeString, value)
+	}
+	if value, ok := tuo.mutation.SeoTitle(); ok {
+		_spec.SetField(topic.FieldSeoTitle, field.TypeString, value)
+	}
+	if tuo.mutation.SeoTitleCleared() {
+		_spec.ClearField(topic.FieldSeoTitle, field.TypeString)
+	}
+	if value, ok := tuo.mutation.SeoDescription(); ok {
+		_spec.SetField(topic.FieldSeoDescription, field.TypeString, value)
+	}
+	if tuo.mutation.SeoDescriptionCleared() {
+		_spec.ClearField(topic.FieldSeoDescription, field.TypeString)
+	}
+	if value, ok := tuo.mutation.SeoKeywords(); ok {
+		_spec.SetField(topic.FieldSeoKeywords, field.TypeString, value)
+	}
+	if tuo.mutation.SeoKeywordsCleared() {
+		_spec.ClearField(topic.FieldSeoKeywords, field.TypeString)
+	}
+	if value, ok := tuo.mutation.ExcerptAuto(); ok {
+		_spec.SetField(topic.FieldExcerptAuto, field.TypeBool, value)
+	}
+	if value, ok := tuo.mutation.Excerpt(); ok {
+		_spec.SetField(topic.FieldExcerpt, field.TypeString, value)
+	}
+	if tuo.mutation.ExcerptCleared() {
+		_spec.ClearField(topic.FieldExcerpt, field.TypeString)
+	}
+	if value, ok := tuo.mutation.FeaturedMedia(); ok {
+		_spec.SetField(topic.FieldFeaturedMedia, field.TypeString, value)
+	}
+	if tuo.mutation.FeaturedMediaCleared() {
+		_spec.ClearField(topic.FieldFeaturedMedia, field.TypeString)
+	}
+	if value, ok := tuo.mutation.Tags(); ok {
+		_spec.SetField(topic.FieldTags, field.TypeJSON, value)
+	}
+	if value, ok := tuo.mutation.AppendedTags(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, topic.FieldTags, value)
+		})
+	}
+	if tuo.mutation.TagsCleared() {
+		_spec.ClearField(topic.FieldTags, field.TypeJSON)
 	}
 	_node = &Topic{config: tuo.config}
 	_spec.Assign = _node.assignValues

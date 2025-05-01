@@ -12,12 +12,20 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// CMSChannel is the client for interacting with the CMSChannel builders.
+	CMSChannel *CMSChannelClient
+	// Distribution is the client for interacting with the Distribution builders.
+	Distribution *DistributionClient
+	// Media is the client for interacting with the Media builders.
+	Media *MediaClient
 	// Taxonomy is the client for interacting with the Taxonomy builders.
 	Taxonomy *TaxonomyClient
 	// TaxonomyRelation is the client for interacting with the TaxonomyRelation builders.
 	TaxonomyRelation *TaxonomyRelationClient
 	// Topic is the client for interacting with the Topic builders.
 	Topic *TopicClient
+	// TopicMedia is the client for interacting with the TopicMedia builders.
+	TopicMedia *TopicMediaClient
 
 	// lazily loaded.
 	client     *Client
@@ -149,9 +157,13 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.CMSChannel = NewCMSChannelClient(tx.config)
+	tx.Distribution = NewDistributionClient(tx.config)
+	tx.Media = NewMediaClient(tx.config)
 	tx.Taxonomy = NewTaxonomyClient(tx.config)
 	tx.TaxonomyRelation = NewTaxonomyRelationClient(tx.config)
 	tx.Topic = NewTopicClient(tx.config)
+	tx.TopicMedia = NewTopicMediaClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -161,7 +173,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: Taxonomy.QueryXXX(), the query will be executed
+// applies a query, for example: CMSChannel.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

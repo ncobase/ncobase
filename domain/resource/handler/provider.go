@@ -6,12 +6,16 @@ import (
 
 // Handler represents the resource handler.
 type Handler struct {
-	Attachment AttachmentHandlerInterface
+	File  FileHandlerInterface
+	Batch BatchHandlerInterface
+	Quota QuotaHandlerInterface
 }
 
 // New creates new resource handler.
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		Attachment: NewAttachmentHandler(svc),
+		File:  NewFileHandler(svc),
+		Batch: NewBatchHandler(svc.File, svc.Batch),
+		Quota: NewQuotaHandler(svc.Quota),
 	}
 }

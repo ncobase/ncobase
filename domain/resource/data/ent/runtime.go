@@ -3,7 +3,7 @@
 package ent
 
 import (
-	"ncobase/domain/resource/data/ent/attachment"
+	"ncobase/domain/resource/data/ent/file"
 	"ncobase/domain/resource/data/schema"
 )
 
@@ -11,67 +11,79 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
-	attachmentMixin := schema.Attachment{}.Mixin()
-	attachmentMixinFields0 := attachmentMixin[0].Fields()
-	_ = attachmentMixinFields0
-	attachmentMixinFields1 := attachmentMixin[1].Fields()
-	_ = attachmentMixinFields1
-	attachmentMixinFields4 := attachmentMixin[4].Fields()
-	_ = attachmentMixinFields4
-	attachmentMixinFields8 := attachmentMixin[8].Fields()
-	_ = attachmentMixinFields8
-	attachmentMixinFields9 := attachmentMixin[9].Fields()
-	_ = attachmentMixinFields9
-	attachmentMixinFields10 := attachmentMixin[10].Fields()
-	_ = attachmentMixinFields10
-	attachmentMixinFields11 := attachmentMixin[11].Fields()
-	_ = attachmentMixinFields11
-	attachmentMixinFields12 := attachmentMixin[12].Fields()
-	_ = attachmentMixinFields12
-	attachmentFields := schema.Attachment{}.Fields()
-	_ = attachmentFields
-	// attachmentDescName is the schema descriptor for name field.
-	attachmentDescName := attachmentMixinFields1[0].Descriptor()
-	// attachment.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	attachment.NameValidator = attachmentDescName.Validators[0].(func(string) error)
-	// attachmentDescSize is the schema descriptor for size field.
-	attachmentDescSize := attachmentMixinFields4[0].Descriptor()
-	// attachment.DefaultSize holds the default value on creation for the size field.
-	attachment.DefaultSize = attachmentDescSize.Default.(int)
-	// attachmentDescObjectID is the schema descriptor for object_id field.
-	attachmentDescObjectID := attachmentMixinFields8[0].Descriptor()
-	// attachment.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
-	attachment.ObjectIDValidator = attachmentDescObjectID.Validators[0].(func(string) error)
-	// attachmentDescTenantID is the schema descriptor for tenant_id field.
-	attachmentDescTenantID := attachmentMixinFields9[0].Descriptor()
-	// attachment.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	attachment.TenantIDValidator = attachmentDescTenantID.Validators[0].(func(string) error)
-	// attachmentDescExtras is the schema descriptor for extras field.
-	attachmentDescExtras := attachmentMixinFields10[0].Descriptor()
-	// attachment.DefaultExtras holds the default value on creation for the extras field.
-	attachment.DefaultExtras = attachmentDescExtras.Default.(map[string]interface{})
-	// attachmentDescCreatedBy is the schema descriptor for created_by field.
-	attachmentDescCreatedBy := attachmentMixinFields11[0].Descriptor()
-	// attachment.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	attachment.CreatedByValidator = attachmentDescCreatedBy.Validators[0].(func(string) error)
-	// attachmentDescUpdatedBy is the schema descriptor for updated_by field.
-	attachmentDescUpdatedBy := attachmentMixinFields11[1].Descriptor()
-	// attachment.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	attachment.UpdatedByValidator = attachmentDescUpdatedBy.Validators[0].(func(string) error)
-	// attachmentDescCreatedAt is the schema descriptor for created_at field.
-	attachmentDescCreatedAt := attachmentMixinFields12[0].Descriptor()
-	// attachment.DefaultCreatedAt holds the default value on creation for the created_at field.
-	attachment.DefaultCreatedAt = attachmentDescCreatedAt.Default.(func() int64)
-	// attachmentDescUpdatedAt is the schema descriptor for updated_at field.
-	attachmentDescUpdatedAt := attachmentMixinFields12[1].Descriptor()
-	// attachment.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	attachment.DefaultUpdatedAt = attachmentDescUpdatedAt.Default.(func() int64)
-	// attachment.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	attachment.UpdateDefaultUpdatedAt = attachmentDescUpdatedAt.UpdateDefault.(func() int64)
-	// attachmentDescID is the schema descriptor for id field.
-	attachmentDescID := attachmentMixinFields0[0].Descriptor()
-	// attachment.DefaultID holds the default value on creation for the id field.
-	attachment.DefaultID = attachmentDescID.Default.(func() string)
-	// attachment.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	attachment.IDValidator = attachmentDescID.Validators[0].(func(string) error)
+	fileMixin := schema.File{}.Mixin()
+	fileMixinFields0 := fileMixin[0].Fields()
+	_ = fileMixinFields0
+	fileMixinFields1 := fileMixin[1].Fields()
+	_ = fileMixinFields1
+	fileMixinFields4 := fileMixin[4].Fields()
+	_ = fileMixinFields4
+	fileMixinFields8 := fileMixin[8].Fields()
+	_ = fileMixinFields8
+	fileMixinFields9 := fileMixin[9].Fields()
+	_ = fileMixinFields9
+	fileMixinFields10 := fileMixin[10].Fields()
+	_ = fileMixinFields10
+	fileMixinFields11 := fileMixin[11].Fields()
+	_ = fileMixinFields11
+	fileMixinFields12 := fileMixin[12].Fields()
+	_ = fileMixinFields12
+	fileFields := schema.File{}.Fields()
+	_ = fileFields
+	// fileDescName is the schema descriptor for name field.
+	fileDescName := fileMixinFields1[0].Descriptor()
+	// file.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	file.NameValidator = fileDescName.Validators[0].(func(string) error)
+	// fileDescSize is the schema descriptor for size field.
+	fileDescSize := fileMixinFields4[0].Descriptor()
+	// file.DefaultSize holds the default value on creation for the size field.
+	file.DefaultSize = fileDescSize.Default.(int)
+	// fileDescObjectID is the schema descriptor for object_id field.
+	fileDescObjectID := fileMixinFields8[0].Descriptor()
+	// file.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
+	file.ObjectIDValidator = fileDescObjectID.Validators[0].(func(string) error)
+	// fileDescTenantID is the schema descriptor for tenant_id field.
+	fileDescTenantID := fileMixinFields9[0].Descriptor()
+	// file.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	file.TenantIDValidator = fileDescTenantID.Validators[0].(func(string) error)
+	// fileDescExtras is the schema descriptor for extras field.
+	fileDescExtras := fileMixinFields10[0].Descriptor()
+	// file.DefaultExtras holds the default value on creation for the extras field.
+	file.DefaultExtras = fileDescExtras.Default.(map[string]interface{})
+	// fileDescCreatedBy is the schema descriptor for created_by field.
+	fileDescCreatedBy := fileMixinFields11[0].Descriptor()
+	// file.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	file.CreatedByValidator = fileDescCreatedBy.Validators[0].(func(string) error)
+	// fileDescUpdatedBy is the schema descriptor for updated_by field.
+	fileDescUpdatedBy := fileMixinFields11[1].Descriptor()
+	// file.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	file.UpdatedByValidator = fileDescUpdatedBy.Validators[0].(func(string) error)
+	// fileDescCreatedAt is the schema descriptor for created_at field.
+	fileDescCreatedAt := fileMixinFields12[0].Descriptor()
+	// file.DefaultCreatedAt holds the default value on creation for the created_at field.
+	file.DefaultCreatedAt = fileDescCreatedAt.Default.(func() int64)
+	// fileDescUpdatedAt is the schema descriptor for updated_at field.
+	fileDescUpdatedAt := fileMixinFields12[1].Descriptor()
+	// file.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	file.DefaultUpdatedAt = fileDescUpdatedAt.Default.(func() int64)
+	// file.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	file.UpdateDefaultUpdatedAt = fileDescUpdatedAt.UpdateDefault.(func() int64)
+	// fileDescAccessLevel is the schema descriptor for access_level field.
+	fileDescAccessLevel := fileFields[1].Descriptor()
+	// file.DefaultAccessLevel holds the default value on creation for the access_level field.
+	file.DefaultAccessLevel = fileDescAccessLevel.Default.(string)
+	// fileDescIsPublic is the schema descriptor for is_public field.
+	fileDescIsPublic := fileFields[5].Descriptor()
+	// file.DefaultIsPublic holds the default value on creation for the is_public field.
+	file.DefaultIsPublic = fileDescIsPublic.Default.(bool)
+	// fileDescCategory is the schema descriptor for category field.
+	fileDescCategory := fileFields[11].Descriptor()
+	// file.DefaultCategory holds the default value on creation for the category field.
+	file.DefaultCategory = fileDescCategory.Default.(string)
+	// fileDescID is the schema descriptor for id field.
+	fileDescID := fileMixinFields0[0].Descriptor()
+	// file.DefaultID holds the default value on creation for the id field.
+	file.DefaultID = fileDescID.Default.(func() string)
+	// file.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	file.IDValidator = fileDescID.Validators[0].(func(string) error)
 }

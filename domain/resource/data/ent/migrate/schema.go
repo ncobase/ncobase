@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseResAttachmentColumns holds the columns for the "ncse_res_attachment" table.
-	NcseResAttachmentColumns = []*schema.Column{
+	// NcseResFileColumns holds the columns for the "ncse_res_file" table.
+	NcseResFileColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
@@ -26,48 +26,81 @@ var (
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "folder_path", Type: field.TypeString, Nullable: true, Comment: "Virtual folder path for organization"},
+		{Name: "access_level", Type: field.TypeString, Comment: "Access level: public, private, shared", Default: "private"},
+		{Name: "expires_at", Type: field.TypeInt64, Nullable: true, Comment: "Expiration timestamp"},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true, Comment: "Extended file metadata"},
+		{Name: "tags", Type: field.TypeJSON, Nullable: true, Comment: "Tags for categorization"},
+		{Name: "is_public", Type: field.TypeBool, Comment: "Publicly accessible flag", Default: false},
+		{Name: "versions", Type: field.TypeJSON, Nullable: true, Comment: "IDs of previous versions"},
+		{Name: "thumbnail_path", Type: field.TypeString, Nullable: true, Comment: "Path to thumbnail if available"},
+		{Name: "width", Type: field.TypeInt, Nullable: true, Comment: "Width for image files"},
+		{Name: "height", Type: field.TypeInt, Nullable: true, Comment: "Height for image files"},
+		{Name: "duration", Type: field.TypeFloat64, Nullable: true, Comment: "Duration for audio/video files in seconds"},
+		{Name: "category", Type: field.TypeString, Comment: "File category: image, document, video, audio, archive, other", Default: "other"},
+		{Name: "processing_result", Type: field.TypeJSON, Nullable: true, Comment: "Results from any processing operations"},
 	}
-	// NcseResAttachmentTable holds the schema information for the "ncse_res_attachment" table.
-	NcseResAttachmentTable = &schema.Table{
-		Name:       "ncse_res_attachment",
-		Columns:    NcseResAttachmentColumns,
-		PrimaryKey: []*schema.Column{NcseResAttachmentColumns[0]},
+	// NcseResFileTable holds the schema information for the "ncse_res_file" table.
+	NcseResFileTable = &schema.Table{
+		Name:       "ncse_res_file",
+		Columns:    NcseResFileColumns,
+		PrimaryKey: []*schema.Column{NcseResFileColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "attachment_id",
+				Name:    "file_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseResAttachmentColumns[0]},
+				Columns: []*schema.Column{NcseResFileColumns[0]},
 			},
 			{
-				Name:    "attachment_name",
+				Name:    "file_name",
 				Unique:  true,
-				Columns: []*schema.Column{NcseResAttachmentColumns[1]},
+				Columns: []*schema.Column{NcseResFileColumns[1]},
 			},
 			{
-				Name:    "attachment_object_id",
+				Name:    "file_object_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseResAttachmentColumns[8]},
+				Columns: []*schema.Column{NcseResFileColumns[8]},
 			},
 			{
-				Name:    "attachment_tenant_id",
+				Name:    "file_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseResAttachmentColumns[9]},
+				Columns: []*schema.Column{NcseResFileColumns[9]},
 			},
 			{
-				Name:    "attachment_id_created_at",
+				Name:    "file_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseResAttachmentColumns[0], NcseResAttachmentColumns[13]},
+				Columns: []*schema.Column{NcseResFileColumns[0], NcseResFileColumns[13]},
+			},
+			{
+				Name:    "file_folder_path",
+				Unique:  false,
+				Columns: []*schema.Column{NcseResFileColumns[15]},
+			},
+			{
+				Name:    "file_is_public",
+				Unique:  false,
+				Columns: []*schema.Column{NcseResFileColumns[20]},
+			},
+			{
+				Name:    "file_category",
+				Unique:  false,
+				Columns: []*schema.Column{NcseResFileColumns[26]},
+			},
+			{
+				Name:    "file_tags",
+				Unique:  false,
+				Columns: []*schema.Column{NcseResFileColumns[19]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseResAttachmentTable,
+		NcseResFileTable,
 	}
 )
 
 func init() {
-	NcseResAttachmentTable.Annotation = &entsql.Annotation{
-		Table: "ncse_res_attachment",
+	NcseResFileTable.Annotation = &entsql.Annotation{
+		Table: "ncse_res_file",
 	}
 }

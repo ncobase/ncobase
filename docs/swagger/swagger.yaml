@@ -18,6 +18,95 @@ definitions:
   github_com_ncobase_ncore_types.JSON:
     additionalProperties: {}
     type: object
+  ncobase_core_realtime_structs.ChannelBody:
+    properties:
+      description:
+        type: string
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      name:
+        type: string
+      status:
+        description: '0: disabled, 1: enabled'
+        type: integer
+      type:
+        description: public/private/direct
+        type: string
+    type: object
+  ncobase_core_realtime_structs.ReadChannel:
+    properties:
+      created_at:
+        type: integer
+      description:
+        type: string
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: integer
+      type:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  ncobase_domain_content_structs.ReadChannel:
+    properties:
+      allowed_types:
+        items:
+          type: string
+        type: array
+      auto_publish:
+        type: boolean
+      config:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+      require_review:
+        type: boolean
+      slug:
+        type: string
+      status:
+        type: integer
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+      webhook_url:
+        type: string
+    type: object
+  structs.AccessLevel:
+    enum:
+    - public
+    - private
+    - shared
+    type: string
+    x-enum-comments:
+      AccessLevelPrivate: Only accessible to owner
+      AccessLevelPublic: Accessible to anyone
+      AccessLevelShared: Shared with specific users/groups
+    x-enum-varnames:
+    - AccessLevelPublic
+    - AccessLevelPrivate
+    - AccessLevelShared
   structs.AccountMeshes:
     properties:
       groups:
@@ -87,6 +176,29 @@ definitions:
     - ActionSuspend
     - ActionResume
     - ActionUrge
+  structs.BatchUploadResult:
+    properties:
+      errors:
+        items:
+          type: string
+        type: array
+      failed_files:
+        items:
+          type: string
+        type: array
+      failure_count:
+        type: integer
+      files:
+        items:
+          $ref: '#/definitions/structs.ReadFile'
+        type: array
+      operation_id:
+        type: string
+      success_count:
+        type: integer
+      total_files:
+        type: integer
+    type: object
   structs.BillingInterval:
     enum:
     - daily
@@ -170,21 +282,6 @@ definitions:
       updated_at:
         type: integer
     type: object
-  structs.ChannelBody:
-    properties:
-      description:
-        type: string
-      extras:
-        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
-      name:
-        type: string
-      status:
-        description: '0: disabled, 1: enabled'
-        type: integer
-      type:
-        description: public/private/direct
-        type: string
-    type: object
   structs.ChannelStatus:
     enum:
     - active
@@ -263,7 +360,48 @@ definitions:
   structs.CreateChannel:
     properties:
       channel:
-        $ref: '#/definitions/structs.ChannelBody'
+        $ref: '#/definitions/ncobase_core_realtime_structs.ChannelBody'
+    type: object
+  structs.CreateChannelBody:
+    properties:
+      allowed_types:
+        description: article, video, image, audio, mixed
+        items:
+          type: string
+        type: array
+      auto_publish:
+        type: boolean
+      config:
+        allOf:
+        - $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+        description: API keys, secrets, endpoints, etc.
+      created_by:
+        type: string
+      description:
+        type: string
+      icon:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+      require_review:
+        type: boolean
+      slug:
+        type: string
+      status:
+        description: '0: active, 1: inactive'
+        type: integer
+      tenant_id:
+        type: string
+      type:
+        description: website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook,
+          custom
+        type: string
+      updated_by:
+        type: string
+      webhook_url:
+        type: string
     type: object
   structs.CreateChannelInput:
     properties:
@@ -292,6 +430,43 @@ definitions:
     - provider
     - status
     - supported_types
+    type: object
+  structs.CreateDistributionBody:
+    properties:
+      channel_id:
+        type: string
+      created_by:
+        type: string
+      custom_data:
+        allOf:
+        - $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+        description: Custom data for the distribution
+      error_details:
+        description: Error details if distribution failed
+        type: string
+      external_id:
+        description: ID on the external platform
+        type: string
+      external_url:
+        description: URL on the external platform
+        type: string
+      meta_data:
+        allOf:
+        - $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+        description: Platform-specific data
+      published_at:
+        type: integer
+      scheduled_at:
+        type: integer
+      status:
+        description: '0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled'
+        type: integer
+      tenant_id:
+        type: string
+      topic_id:
+        type: string
+      updated_by:
+        type: string
     type: object
   structs.CreateEndpointBody:
     properties:
@@ -348,6 +523,40 @@ definitions:
     properties:
       event:
         $ref: '#/definitions/structs.EventBody'
+    type: object
+  structs.CreateMediaBody:
+    properties:
+      alt:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      duration:
+        type: number
+      height:
+        type: integer
+      metadata:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      mime_type:
+        type: string
+      path:
+        type: string
+      size:
+        type: integer
+      tenant_id:
+        type: string
+      title:
+        type: string
+      type:
+        description: image, video, audio, file
+        type: string
+      updated_by:
+        type: string
+      url:
+        type: string
+      width:
+        type: integer
     type: object
   structs.CreateNotification:
     properties:
@@ -601,20 +810,41 @@ definitions:
     properties:
       content:
         type: string
+      content_type:
+        description: article, video, etc.
+        type: string
       created_by:
+        type: string
+      excerpt:
+        type: string
+      excerpt_auto:
+        type: boolean
+      featured_media:
         type: string
       markdown:
         type: boolean
+      metadata:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
       name:
         type: string
       private:
         type: boolean
       released:
         type: integer
+      seo_description:
+        type: string
+      seo_keywords:
+        type: string
+      seo_title:
+        type: string
       slug:
         type: string
       status:
         type: integer
+      tags:
+        items:
+          type: string
+        type: array
       taxonomy_id:
         type: string
       temp:
@@ -626,6 +856,22 @@ definitions:
       title:
         type: string
       updated_by:
+        type: string
+      version:
+        type: integer
+    type: object
+  structs.CreateTopicMediaBody:
+    properties:
+      created_by:
+        type: string
+      media_id:
+        type: string
+      order:
+        type: integer
+      topic_id:
+        type: string
+      type:
+        description: featured, gallery, attachment, etc.
         type: string
     type: object
   structs.CreateTransformerBody:
@@ -745,6 +991,62 @@ definitions:
         type: string
       user_id:
         type: string
+    type: object
+  structs.FileCategory:
+    enum:
+    - image
+    - document
+    - video
+    - audio
+    - archive
+    - other
+    type: string
+    x-enum-varnames:
+    - FileCategoryImage
+    - FileCategoryDocument
+    - FileCategoryVideo
+    - FileCategoryAudio
+    - FileCategoryArchive
+    - FileCategoryOther
+  structs.FileMetadata:
+    properties:
+      author:
+        description: Content author
+        type: string
+      category:
+        allOf:
+        - $ref: '#/definitions/structs.FileCategory'
+        description: File category
+      creation_date:
+        description: Original file creation date
+        type: string
+      custom_fields:
+        additionalProperties: {}
+        description: User-defined metadata
+        type: object
+      description:
+        description: Content description
+        type: string
+      duration:
+        description: For audio/video in seconds
+        type: number
+      height:
+        description: For images
+        type: integer
+      keywords:
+        description: Content keywords
+        items:
+          type: string
+        type: array
+      modified_date:
+        description: Last modification date
+        type: string
+      title:
+        description: Content title
+        type: string
+      width:
+        description: For images
+        type: integer
     type: object
   structs.GroupBody:
     properties:
@@ -1202,6 +1504,25 @@ definitions:
       version:
         type: string
     type: object
+  structs.ProcessingOptions:
+    properties:
+      compress_image:
+        type: boolean
+      compression_quality:
+        description: 1-100
+        type: integer
+      convert_format:
+        description: Target format
+        type: string
+      create_thumbnail:
+        type: boolean
+      max_height:
+        type: integer
+      max_width:
+        type: integer
+      resize_image:
+        type: boolean
+    type: object
   structs.Product:
     properties:
       billing_interval:
@@ -1249,39 +1570,6 @@ definitions:
   structs.ProviderConfig:
     additionalProperties: {}
     type: object
-  structs.ReadAttachment:
-    properties:
-      bucket:
-        type: string
-      created_at:
-        type: integer
-      created_by:
-        type: string
-      endpoint:
-        type: string
-      extras:
-        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
-      id:
-        type: string
-      name:
-        type: string
-      object_id:
-        type: string
-      path:
-        type: string
-      size:
-        type: integer
-      storage:
-        type: string
-      tenant_id:
-        type: string
-      type:
-        type: string
-      updated_at:
-        type: integer
-      updated_by:
-        type: string
-    type: object
   structs.ReadCasbinRule:
     properties:
       created_at:
@@ -1308,25 +1596,6 @@ definitions:
         type: string
       v5:
         type: string
-    type: object
-  structs.ReadChannel:
-    properties:
-      created_at:
-        type: integer
-      description:
-        type: string
-      extras:
-        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
-      id:
-        type: string
-      name:
-        type: string
-      status:
-        type: integer
-      type:
-        type: string
-      updated_at:
-        type: integer
     type: object
   structs.ReadCounter:
     properties:
@@ -1425,6 +1694,45 @@ definitions:
       value:
         type: string
     type: object
+  structs.ReadDistribution:
+    properties:
+      channel:
+        $ref: '#/definitions/ncobase_domain_content_structs.ReadChannel'
+      channel_id:
+        type: string
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      custom_data:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      error_details:
+        type: string
+      external_id:
+        type: string
+      external_url:
+        type: string
+      id:
+        type: string
+      meta_data:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      published_at:
+        type: integer
+      scheduled_at:
+        type: integer
+      status:
+        type: integer
+      tenant_id:
+        type: string
+      topic:
+        $ref: '#/definitions/structs.ReadTopic'
+      topic_id:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+    type: object
   structs.ReadEndpoint:
     properties:
       auth_config:
@@ -1480,6 +1788,63 @@ definitions:
         type: string
       user_id:
         type: string
+    type: object
+  structs.ReadFile:
+    properties:
+      access_level:
+        $ref: '#/definitions/structs.AccessLevel'
+      bucket:
+        type: string
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      download_url:
+        type: string
+      endpoint:
+        type: string
+      expires_at:
+        type: integer
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      folder_path:
+        type: string
+      id:
+        type: string
+      is_expired:
+        type: boolean
+      is_public:
+        type: boolean
+      metadata:
+        $ref: '#/definitions/structs.FileMetadata'
+      name:
+        type: string
+      object_id:
+        type: string
+      path:
+        type: string
+      size:
+        type: integer
+      storage:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      tenant_id:
+        type: string
+      thumbnail_url:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+      versions:
+        items:
+          type: string
+        type: array
     type: object
   structs.ReadGroup:
     properties:
@@ -1557,6 +1922,45 @@ definitions:
         type: string
       variables:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+    type: object
+  structs.ReadMedia:
+    properties:
+      alt:
+        type: string
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      description:
+        type: string
+      duration:
+        type: number
+      height:
+        type: integer
+      id:
+        type: string
+      metadata:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      mime_type:
+        type: string
+      path:
+        type: string
+      size:
+        type: integer
+      tenant_id:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+      url:
+        type: string
+      width:
+        type: integer
     type: object
   structs.ReadMenu:
     properties:
@@ -2267,24 +2671,50 @@ definitions:
     properties:
       content:
         type: string
+      content_type:
+        type: string
       created_at:
         type: integer
       created_by:
+        type: string
+      excerpt:
+        type: string
+      excerpt_auto:
+        type: boolean
+      featured_media:
         type: string
       id:
         type: string
       markdown:
         type: boolean
+      media:
+        items:
+          $ref: '#/definitions/structs.ReadMedia'
+        type: array
+      metadata:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
       name:
         type: string
       private:
         type: boolean
       released:
         type: integer
+      seo_description:
+        type: string
+      seo_keywords:
+        type: string
+      seo_title:
+        type: string
       slug:
         type: string
       status:
         type: integer
+      tags:
+        items:
+          type: string
+        type: array
+      taxonomy:
+        $ref: '#/definitions/structs.ReadTaxonomy'
       taxonomy_id:
         type: string
       temp:
@@ -2294,6 +2724,31 @@ definitions:
       thumbnail:
         type: string
       title:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+      version:
+        type: integer
+    type: object
+  structs.ReadTopicMedia:
+    properties:
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      id:
+        type: string
+      media:
+        $ref: '#/definitions/structs.ReadMedia'
+      media_id:
+        type: string
+      order:
+        type: integer
+      topic_id:
+        type: string
+      type:
         type: string
       updated_at:
         type: integer
@@ -2777,40 +3232,54 @@ definitions:
     - transferee
     - transferor
     type: object
-  structs.UpdateAttachmentBody:
-    properties:
-      bucket:
-        type: string
-      created_by:
-        type: string
-      endpoint:
-        type: string
-      extras:
-        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
-      id:
-        type: string
-      name:
-        type: string
-      object_id:
-        type: string
-      path:
-        type: string
-      size:
-        type: integer
-      storage:
-        type: string
-      tenant_id:
-        type: string
-      type:
-        type: string
-      updated_by:
-        type: string
-    type: object
   structs.UpdateChannel:
     properties:
       channel:
-        $ref: '#/definitions/structs.ChannelBody'
+        $ref: '#/definitions/ncobase_core_realtime_structs.ChannelBody'
       id:
+        type: string
+    type: object
+  structs.UpdateChannelBody:
+    properties:
+      allowed_types:
+        description: article, video, image, audio, mixed
+        items:
+          type: string
+        type: array
+      auto_publish:
+        type: boolean
+      config:
+        allOf:
+        - $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+        description: API keys, secrets, endpoints, etc.
+      created_by:
+        type: string
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+      require_review:
+        type: boolean
+      slug:
+        type: string
+      status:
+        description: '0: active, 1: inactive'
+        type: integer
+      tenant_id:
+        type: string
+      type:
+        description: website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook,
+          custom
+        type: string
+      updated_by:
+        type: string
+      webhook_url:
         type: string
     type: object
   structs.UpdateChannelInput:
@@ -2918,6 +3387,105 @@ definitions:
       value:
         type: string
     type: object
+  structs.UpdateDistributionBody:
+    properties:
+      channel_id:
+        type: string
+      created_by:
+        type: string
+      custom_data:
+        allOf:
+        - $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+        description: Custom data for the distribution
+      error_details:
+        description: Error details if distribution failed
+        type: string
+      external_id:
+        description: ID on the external platform
+        type: string
+      external_url:
+        description: URL on the external platform
+        type: string
+      id:
+        type: string
+      meta_data:
+        allOf:
+        - $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+        description: Platform-specific data
+      published_at:
+        type: integer
+      scheduled_at:
+        type: integer
+      status:
+        description: '0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled'
+        type: integer
+      tenant_id:
+        type: string
+      topic_id:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  structs.UpdateFileBody:
+    properties:
+      access_level:
+        allOf:
+        - $ref: '#/definitions/structs.AccessLevel'
+        description: Access level
+      bucket:
+        type: string
+      created_by:
+        type: string
+      endpoint:
+        type: string
+      expires_at:
+        description: Expiration timestamp
+        type: integer
+      extras:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      folder_path:
+        description: Virtual folder path
+        type: string
+      id:
+        type: string
+      is_public:
+        description: Publicly accessible flag
+        type: boolean
+      metadata:
+        allOf:
+        - $ref: '#/definitions/structs.FileMetadata'
+        description: metadata
+      name:
+        type: string
+      object_id:
+        type: string
+      path:
+        type: string
+      processing_options:
+        allOf:
+        - $ref: '#/definitions/structs.ProcessingOptions'
+        description: Processing options
+      size:
+        type: integer
+      storage:
+        type: string
+      tags:
+        description: Tags for categorization
+        items:
+          type: string
+        type: array
+      tenant_id:
+        type: string
+      type:
+        type: string
+      updated_by:
+        type: string
+      versions:
+        description: Previous versions IDs
+        items:
+          type: string
+        type: array
+    type: object
   structs.UpdateGroupBody:
     properties:
       created_by:
@@ -2942,6 +3510,42 @@ definitions:
         type: string
       updated_by:
         type: string
+    type: object
+  structs.UpdateMediaBody:
+    properties:
+      alt:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      duration:
+        type: number
+      height:
+        type: integer
+      id:
+        type: string
+      metadata:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
+      mime_type:
+        type: string
+      path:
+        type: string
+      size:
+        type: integer
+      tenant_id:
+        type: string
+      title:
+        type: string
+      type:
+        description: image, video, audio, file
+        type: string
+      updated_by:
+        type: string
+      url:
+        type: string
+      width:
+        type: integer
     type: object
   structs.UpdateMenuBody:
     properties:
@@ -3476,22 +4080,43 @@ definitions:
     properties:
       content:
         type: string
+      content_type:
+        description: article, video, etc.
+        type: string
       created_by:
+        type: string
+      excerpt:
+        type: string
+      excerpt_auto:
+        type: boolean
+      featured_media:
         type: string
       id:
         type: string
       markdown:
         type: boolean
+      metadata:
+        $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
       name:
         type: string
       private:
         type: boolean
       released:
         type: integer
+      seo_description:
+        type: string
+      seo_keywords:
+        type: string
+      seo_title:
+        type: string
       slug:
         type: string
       status:
         type: integer
+      tags:
+        items:
+          type: string
+        type: array
       taxonomy_id:
         type: string
       temp:
@@ -3504,6 +4129,8 @@ definitions:
         type: string
       updated_by:
         type: string
+      version:
+        type: integer
     type: object
   structs.UrgeTaskRequest:
     properties:
@@ -3577,6 +4204,505 @@ info:
   title: Ncobase
   version: 0.1.0
 paths:
+  /cms/channels:
+    get:
+      description: Retrieve a list of distribution channels.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/ncobase_domain_content_structs.ReadChannel'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: List channels
+      tags:
+      - cms
+    post:
+      consumes:
+      - application/json
+      description: Create a new distribution channel.
+      parameters:
+      - description: CreateChannelBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateChannelBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_domain_content_structs.ReadChannel'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create channel
+      tags:
+      - cms
+  /cms/channels/{slug}:
+    delete:
+      description: Delete an existing distribution channel.
+      parameters:
+      - description: Channel slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete channel
+      tags:
+      - cms
+    get:
+      description: Retrieve details of a distribution channel.
+      parameters:
+      - description: Channel slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_domain_content_structs.ReadChannel'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: Get channel
+      tags:
+      - cms
+    put:
+      consumes:
+      - application/json
+      description: Update an existing distribution channel.
+      parameters:
+      - description: Channel slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: UpdateChannelBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateChannelBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_domain_content_structs.ReadChannel'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update channel
+      tags:
+      - cms
+  /cms/distributions:
+    get:
+      description: Retrieve a list of content distributions.
+      parameters:
+      - in: query
+        name: channel_id
+        type: string
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: topic_id
+        type: string
+      - in: query
+        name: with_channel
+        type: boolean
+      - in: query
+        name: with_topic
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadDistribution'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: List distributions
+      tags:
+      - cms
+    post:
+      consumes:
+      - application/json
+      description: Create a new content distribution.
+      parameters:
+      - description: CreateDistributionBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateDistributionBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDistribution'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create distribution
+      tags:
+      - cms
+  /cms/distributions/{id}:
+    delete:
+      description: Delete an existing content distribution.
+      parameters:
+      - description: Distribution ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete distribution
+      tags:
+      - cms
+    get:
+      description: Retrieve details of a content distribution.
+      parameters:
+      - description: Distribution ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDistribution'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: Get distribution
+      tags:
+      - cms
+    put:
+      consumes:
+      - application/json
+      description: Update an existing content distribution.
+      parameters:
+      - description: Distribution ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: UpdateDistributionBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateDistributionBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDistribution'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update distribution
+      tags:
+      - cms
+  /cms/distributions/{id}/cancel:
+    post:
+      consumes:
+      - application/json
+      description: Cancel a scheduled content distribution.
+      parameters:
+      - description: Distribution ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Reason for cancellation
+        in: body
+        name: reason
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDistribution'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Cancel distribution
+      tags:
+      - cms
+  /cms/distributions/{id}/publish:
+    post:
+      description: Publish a content distribution immediately.
+      parameters:
+      - description: Distribution ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadDistribution'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Publish distribution
+      tags:
+      - cms
+  /cms/media:
+    get:
+      description: Retrieve a list of media resources.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: search
+        type: string
+      - in: query
+        name: tenant
+        type: string
+      - in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadMedia'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: List media
+      tags:
+      - cms
+    post:
+      consumes:
+      - application/json
+      description: Create a new media resource.
+      parameters:
+      - description: CreateMediaBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateMediaBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadMedia'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create media
+      tags:
+      - cms
+  /cms/media/{id}:
+    delete:
+      description: Delete an existing media resource.
+      parameters:
+      - description: Media ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete media
+      tags:
+      - cms
+    get:
+      description: Retrieve details of a media resource.
+      parameters:
+      - description: Media ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadMedia'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: Get media
+      tags:
+      - cms
+    put:
+      consumes:
+      - application/json
+      description: Update an existing media resource.
+      parameters:
+      - description: Media ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: UpdateMediaBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.UpdateMediaBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadMedia'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update media
+      tags:
+      - cms
   /cms/taxonomies:
     get:
       description: Retrieve a list of taxonomies.
@@ -3726,6 +4852,214 @@ paths:
       security:
       - Bearer: []
       summary: Update taxonomy
+      tags:
+      - cms
+  /cms/topic-media:
+    get:
+      description: Retrieve a list of topic media relations.
+      parameters:
+      - in: query
+        name: cursor
+        type: string
+      - in: query
+        name: direction
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: media_id
+        type: string
+      - in: query
+        name: topic_id
+        type: string
+      - in: query
+        name: type
+        type: string
+      - in: query
+        name: with_media
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadTopicMedia'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: List topic media relations
+      tags:
+      - cms
+    post:
+      consumes:
+      - application/json
+      description: Create a new relation between a topic and a media resource.
+      parameters:
+      - description: CreateTopicMediaBody object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.CreateTopicMediaBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopicMedia'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create topic media relation
+      tags:
+      - cms
+  /cms/topic-media/{id}:
+    delete:
+      description: Delete an existing topic media relation.
+      parameters:
+      - description: Topic Media ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Delete topic media relation
+      tags:
+      - cms
+    get:
+      description: Retrieve details of a topic media relation.
+      parameters:
+      - description: Topic Media ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopicMedia'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: Get topic media relation
+      tags:
+      - cms
+    put:
+      consumes:
+      - application/json
+      description: Update an existing relation between a topic and media.
+      parameters:
+      - description: Topic Media ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update parameters
+        in: body
+        name: body
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopicMedia'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update topic media relation
+      tags:
+      - cms
+  /cms/topic-media/by-topic-and-media:
+    get:
+      description: Retrieve a topic media relation by topic ID and media ID.
+      parameters:
+      - description: Topic ID
+        in: query
+        name: topicId
+        required: true
+        type: string
+      - description: Media ID
+        in: query
+        name: mediaId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadTopicMedia'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: Get by topic and media
+      tags:
+      - cms
+  /cms/topic-media/by-topic/{topicId}:
+    get:
+      description: Retrieve all media relations for a specific topic.
+      parameters:
+      - description: Topic ID
+        in: path
+        name: topicId
+        required: true
+        type: string
+      - description: Media Type
+        enum:
+        - featured
+        - gallery
+        - attachment
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadTopicMedia'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      summary: List by topic
       tags:
       - cms
   /cms/topics:
@@ -8966,10 +10300,48 @@ paths:
       summary: Get counter
       tags:
       - plug
-  /res/attachments:
+  /res:
     get:
-      description: List attachments based on specified parameters.
+      description: List files based on specified parameters.
       parameters:
+      - enum:
+        - public
+        - private
+        - shared
+        in: query
+        name: access_level
+        type: string
+        x-enum-comments:
+          AccessLevelPrivate: Only accessible to owner
+          AccessLevelPublic: Accessible to anyone
+          AccessLevelShared: Shared with specific users/groups
+        x-enum-varnames:
+        - AccessLevelPublic
+        - AccessLevelPrivate
+        - AccessLevelShared
+      - enum:
+        - image
+        - document
+        - video
+        - audio
+        - archive
+        - other
+        in: query
+        name: category
+        type: string
+        x-enum-varnames:
+        - FileCategoryImage
+        - FileCategoryDocument
+        - FileCategoryVideo
+        - FileCategoryAudio
+        - FileCategoryArchive
+        - FileCategoryOther
+      - in: query
+        name: created_after
+        type: integer
+      - in: query
+        name: created_before
+        type: integer
       - in: query
         name: cursor
         type: string
@@ -8977,14 +10349,34 @@ paths:
         name: direction
         type: string
       - in: query
+        name: folder_path
+        type: string
+      - in: query
+        name: is_public
+        type: boolean
+      - in: query
         name: limit
         type: integer
       - in: query
         name: object
         required: true
         type: string
+      - description: Full-text search
+        in: query
+        name: q
+        type: string
+      - in: query
+        name: size_max
+        type: integer
+      - in: query
+        name: size_min
+        type: integer
       - in: query
         name: storage
+        type: string
+      - description: Comma-separated tags
+        in: query
+        name: tags
         type: string
       - in: query
         name: tenant
@@ -9003,34 +10395,34 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/structs.ReadAttachment'
+              $ref: '#/definitions/structs.ReadFile'
             type: array
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
-      summary: List attachments
+      summary: List files
       tags:
       - res
     post:
       consumes:
       - multipart/form-data
-      description: Create one or multiple attachments.
+      description: Create one or multiple files.
       parameters:
       - description: File to upload
         in: formData
         name: file
         required: true
         type: file
-      - description: Object ID associated with the attachment
+      - description: Object ID associated with the file
         in: formData
         name: object_id
         type: string
-      - description: Tenant ID associated with the attachment
+      - description: Tenant ID associated with the file
         in: formData
         name: tenant_id
         type: string
-      - description: Additional properties associated with the attachment (JSON format)
+      - description: Additional properties associated with the file (JSON format)
         in: formData
         name: extras
         type: string
@@ -9040,21 +10432,21 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadAttachment'
+            $ref: '#/definitions/structs.ReadFile'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
       - Bearer: []
-      summary: Create attachments
+      summary: Create files
       tags:
       - res
-  /res/attachments/{slug}:
+  /res/{slug}:
     delete:
-      description: Delete a specific attachment.
+      description: Delete a specific file.
       parameters:
-      - description: Slug of the attachment to delete
+      - description: Slug of the file to delete
         in: path
         name: slug
         required: true
@@ -9063,20 +10455,20 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadAttachment'
+            $ref: '#/definitions/structs.ReadFile'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
       - Bearer: []
-      summary: Delete attachment
+      summary: Delete file
       tags:
       - res
     get:
-      description: Get details of a specific attachment.
+      description: Get details of a specific file.
       parameters:
-      - description: Slug of the attachment to retrieve
+      - description: Slug of the file to retrieve
         in: path
         name: slug
         required: true
@@ -9091,44 +10483,513 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadAttachment'
+            $ref: '#/definitions/structs.ReadFile'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
-      summary: Get attachment
+      summary: Get file
       tags:
       - res
     put:
       consumes:
       - multipart/form-data
-      description: Update an existing attachment.
+      description: Update an existing file.
       parameters:
-      - description: Slug of the attachment to update
+      - description: Slug of the file to update
         in: path
         name: slug
         required: true
         type: string
-      - description: Attachment details
+      - description: File details
         in: body
-        name: attachment
+        name: file
         required: true
         schema:
-          $ref: '#/definitions/structs.UpdateAttachmentBody'
+          $ref: '#/definitions/structs.UpdateFileBody'
       produces:
       - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadAttachment'
+            $ref: '#/definitions/structs.ReadFile'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
       - Bearer: []
-      summary: Update attachment
+      summary: Update file
+      tags:
+      - res
+  /res/{slug}/access:
+    put:
+      consumes:
+      - application/json
+      description: Set the access level for an file
+      parameters:
+      - description: File slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Access level
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadFile'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Set access level
+      tags:
+      - res
+  /res/{slug}/share:
+    post:
+      consumes:
+      - application/json
+      description: Generate a shareable URL for an file
+      parameters:
+      - description: File slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Expiration time in hours
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties:
+            type: integer
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Generate share URL
+      tags:
+      - res
+  /res/{slug}/thumbnail:
+    post:
+      consumes:
+      - application/json
+      description: Create a thumbnail for an image file
+      parameters:
+      - description: File slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: Processing options
+        in: body
+        name: options
+        required: true
+        schema:
+          $ref: '#/definitions/structs.ProcessingOptions'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadFile'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create thumbnail
+      tags:
+      - res
+  /res/{slug}/versions:
+    get:
+      description: Get all versions of an file
+      parameters:
+      - description: File slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadFile'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get file versions
+      tags:
+      - res
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new version of an existing file
+      parameters:
+      - description: File slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: New version file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.ReadFile'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Create file version
+      tags:
+      - res
+  /res/batch/process:
+    post:
+      consumes:
+      - application/json
+      description: Process multiple files in a batch
+      parameters:
+      - description: Processing parameters
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadFile'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Batch process
+      tags:
+      - res
+  /res/batch/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload multiple files in a batch
+      parameters:
+      - description: Files to upload
+        in: formData
+        name: files
+        required: true
+        type: file
+      - description: Tenant ID
+        in: formData
+        name: tenant_id
+        required: true
+        type: string
+      - description: Object ID
+        in: formData
+        name: object_id
+        required: true
+        type: string
+      - description: Virtual folder path
+        in: formData
+        name: folder_path
+        type: string
+      - description: Access level
+        in: formData
+        name: access_level
+        type: string
+      - description: Comma-separated tags
+        in: formData
+        name: tags
+        type: string
+      - description: Additional metadata (JSON)
+        in: formData
+        name: extras
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.BatchUploadResult'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Batch upload
+      tags:
+      - res
+  /res/categories:
+    get:
+      description: List all available file categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              type: string
+            type: array
+      security:
+      - Bearer: []
+      summary: List file categories
+      tags:
+      - res
+  /res/quotas:
+    get:
+      description: Get the storage quota for a tenant
+      parameters:
+      - description: Tenant ID
+        in: query
+        name: tenant_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              type: integer
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get storage quota
+      tags:
+      - res
+    put:
+      consumes:
+      - application/json
+      description: Set the storage quota for a tenant
+      parameters:
+      - description: Quota information
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              type: integer
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Set storage quota
+      tags:
+      - res
+  /res/quotas/usage:
+    get:
+      description: Get the current storage usage for a tenant
+      parameters:
+      - description: Tenant ID
+        in: query
+        name: tenant_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get storage usage
+      tags:
+      - res
+  /res/search:
+    get:
+      consumes:
+      - application/json
+      description: Search files by various criteria
+      parameters:
+      - description: Tenant ID
+        in: query
+        name: tenant
+        required: true
+        type: string
+      - description: Search query
+        in: query
+        name: q
+        type: string
+      - description: File category
+        in: query
+        name: category
+        type: string
+      - description: Comma-separated tags
+        in: query
+        name: tags
+        type: string
+      - description: Folder path
+        in: query
+        name: folder_path
+        type: string
+      - description: Public flag
+        in: query
+        name: is_public
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.ReadFile'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Search files
+      tags:
+      - res
+  /res/stats:
+    get:
+      description: Get storage usage statistics for a tenant
+      parameters:
+      - description: Tenant ID
+        in: query
+        name: tenant_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get storage statistics
+      tags:
+      - res
+  /res/tags:
+    get:
+      description: List all tags used in files for a tenant
+      parameters:
+      - description: Tenant ID
+        in: query
+        name: tenant_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: List file tags
       tags:
       - res
   /rt/channels:
@@ -9157,7 +11018,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/structs.ReadChannel'
+              $ref: '#/definitions/ncobase_core_realtime_structs.ReadChannel'
             type: array
         "400":
           description: bad request
@@ -9185,7 +11046,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadChannel'
+            $ref: '#/definitions/ncobase_core_realtime_structs.ReadChannel'
         "400":
           description: bad request
           schema:
@@ -9210,7 +11071,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadChannel'
+            $ref: '#/definitions/ncobase_core_realtime_structs.ReadChannel'
         "400":
           description: bad request
           schema:
@@ -9234,7 +11095,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadChannel'
+            $ref: '#/definitions/ncobase_core_realtime_structs.ReadChannel'
         "400":
           description: bad request
           schema:
@@ -9266,7 +11127,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/structs.ReadChannel'
+            $ref: '#/definitions/ncobase_core_realtime_structs.ReadChannel'
         "400":
           description: bad request
           schema:
@@ -9380,7 +11241,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/structs.ReadChannel'
+              $ref: '#/definitions/ncobase_core_realtime_structs.ReadChannel'
             type: array
         "400":
           description: bad request

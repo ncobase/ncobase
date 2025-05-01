@@ -11,13 +11,18 @@ import (
 
 	"ncobase/domain/content/data/ent/migrate"
 
+	"ncobase/domain/content/data/ent/cmschannel"
+	"ncobase/domain/content/data/ent/distribution"
+	"ncobase/domain/content/data/ent/media"
 	"ncobase/domain/content/data/ent/taxonomy"
 	"ncobase/domain/content/data/ent/taxonomyrelation"
 	"ncobase/domain/content/data/ent/topic"
+	"ncobase/domain/content/data/ent/topicmedia"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 // Client is the client that holds all ent builders.
@@ -25,12 +30,20 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// CMSChannel is the client for interacting with the CMSChannel builders.
+	CMSChannel *CMSChannelClient
+	// Distribution is the client for interacting with the Distribution builders.
+	Distribution *DistributionClient
+	// Media is the client for interacting with the Media builders.
+	Media *MediaClient
 	// Taxonomy is the client for interacting with the Taxonomy builders.
 	Taxonomy *TaxonomyClient
 	// TaxonomyRelation is the client for interacting with the TaxonomyRelation builders.
 	TaxonomyRelation *TaxonomyRelationClient
 	// Topic is the client for interacting with the Topic builders.
 	Topic *TopicClient
+	// TopicMedia is the client for interacting with the TopicMedia builders.
+	TopicMedia *TopicMediaClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -42,9 +55,13 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.CMSChannel = NewCMSChannelClient(c.config)
+	c.Distribution = NewDistributionClient(c.config)
+	c.Media = NewMediaClient(c.config)
 	c.Taxonomy = NewTaxonomyClient(c.config)
 	c.TaxonomyRelation = NewTaxonomyRelationClient(c.config)
 	c.Topic = NewTopicClient(c.config)
+	c.TopicMedia = NewTopicMediaClient(c.config)
 }
 
 type (
@@ -137,9 +154,13 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	return &Tx{
 		ctx:              ctx,
 		config:           cfg,
+		CMSChannel:       NewCMSChannelClient(cfg),
+		Distribution:     NewDistributionClient(cfg),
+		Media:            NewMediaClient(cfg),
 		Taxonomy:         NewTaxonomyClient(cfg),
 		TaxonomyRelation: NewTaxonomyRelationClient(cfg),
 		Topic:            NewTopicClient(cfg),
+		TopicMedia:       NewTopicMediaClient(cfg),
 	}, nil
 }
 
@@ -159,16 +180,20 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	return &Tx{
 		ctx:              ctx,
 		config:           cfg,
+		CMSChannel:       NewCMSChannelClient(cfg),
+		Distribution:     NewDistributionClient(cfg),
+		Media:            NewMediaClient(cfg),
 		Taxonomy:         NewTaxonomyClient(cfg),
 		TaxonomyRelation: NewTaxonomyRelationClient(cfg),
 		Topic:            NewTopicClient(cfg),
+		TopicMedia:       NewTopicMediaClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Taxonomy.
+//		CMSChannel.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -190,30 +215,475 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Taxonomy.Use(hooks...)
-	c.TaxonomyRelation.Use(hooks...)
-	c.Topic.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.CMSChannel, c.Distribution, c.Media, c.Taxonomy, c.TaxonomyRelation, c.Topic,
+		c.TopicMedia,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.Taxonomy.Intercept(interceptors...)
-	c.TaxonomyRelation.Intercept(interceptors...)
-	c.Topic.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.CMSChannel, c.Distribution, c.Media, c.Taxonomy, c.TaxonomyRelation, c.Topic,
+		c.TopicMedia,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
+	case *CMSChannelMutation:
+		return c.CMSChannel.mutate(ctx, m)
+	case *DistributionMutation:
+		return c.Distribution.mutate(ctx, m)
+	case *MediaMutation:
+		return c.Media.mutate(ctx, m)
 	case *TaxonomyMutation:
 		return c.Taxonomy.mutate(ctx, m)
 	case *TaxonomyRelationMutation:
 		return c.TaxonomyRelation.mutate(ctx, m)
 	case *TopicMutation:
 		return c.Topic.mutate(ctx, m)
+	case *TopicMediaMutation:
+		return c.TopicMedia.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
+	}
+}
+
+// CMSChannelClient is a client for the CMSChannel schema.
+type CMSChannelClient struct {
+	config
+}
+
+// NewCMSChannelClient returns a client for the CMSChannel from the given config.
+func NewCMSChannelClient(c config) *CMSChannelClient {
+	return &CMSChannelClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `cmschannel.Hooks(f(g(h())))`.
+func (c *CMSChannelClient) Use(hooks ...Hook) {
+	c.hooks.CMSChannel = append(c.hooks.CMSChannel, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `cmschannel.Intercept(f(g(h())))`.
+func (c *CMSChannelClient) Intercept(interceptors ...Interceptor) {
+	c.inters.CMSChannel = append(c.inters.CMSChannel, interceptors...)
+}
+
+// Create returns a builder for creating a CMSChannel entity.
+func (c *CMSChannelClient) Create() *CMSChannelCreate {
+	mutation := newCMSChannelMutation(c.config, OpCreate)
+	return &CMSChannelCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of CMSChannel entities.
+func (c *CMSChannelClient) CreateBulk(builders ...*CMSChannelCreate) *CMSChannelCreateBulk {
+	return &CMSChannelCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *CMSChannelClient) MapCreateBulk(slice any, setFunc func(*CMSChannelCreate, int)) *CMSChannelCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &CMSChannelCreateBulk{err: fmt.Errorf("calling to CMSChannelClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*CMSChannelCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &CMSChannelCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for CMSChannel.
+func (c *CMSChannelClient) Update() *CMSChannelUpdate {
+	mutation := newCMSChannelMutation(c.config, OpUpdate)
+	return &CMSChannelUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *CMSChannelClient) UpdateOne(cc *CMSChannel) *CMSChannelUpdateOne {
+	mutation := newCMSChannelMutation(c.config, OpUpdateOne, withCMSChannel(cc))
+	return &CMSChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *CMSChannelClient) UpdateOneID(id string) *CMSChannelUpdateOne {
+	mutation := newCMSChannelMutation(c.config, OpUpdateOne, withCMSChannelID(id))
+	return &CMSChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for CMSChannel.
+func (c *CMSChannelClient) Delete() *CMSChannelDelete {
+	mutation := newCMSChannelMutation(c.config, OpDelete)
+	return &CMSChannelDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *CMSChannelClient) DeleteOne(cc *CMSChannel) *CMSChannelDeleteOne {
+	return c.DeleteOneID(cc.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *CMSChannelClient) DeleteOneID(id string) *CMSChannelDeleteOne {
+	builder := c.Delete().Where(cmschannel.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &CMSChannelDeleteOne{builder}
+}
+
+// Query returns a query builder for CMSChannel.
+func (c *CMSChannelClient) Query() *CMSChannelQuery {
+	return &CMSChannelQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeCMSChannel},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a CMSChannel entity by its id.
+func (c *CMSChannelClient) Get(ctx context.Context, id string) (*CMSChannel, error) {
+	return c.Query().Where(cmschannel.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *CMSChannelClient) GetX(ctx context.Context, id string) *CMSChannel {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *CMSChannelClient) Hooks() []Hook {
+	return c.hooks.CMSChannel
+}
+
+// Interceptors returns the client interceptors.
+func (c *CMSChannelClient) Interceptors() []Interceptor {
+	return c.inters.CMSChannel
+}
+
+func (c *CMSChannelClient) mutate(ctx context.Context, m *CMSChannelMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&CMSChannelCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&CMSChannelUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&CMSChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&CMSChannelDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown CMSChannel mutation op: %q", m.Op())
+	}
+}
+
+// DistributionClient is a client for the Distribution schema.
+type DistributionClient struct {
+	config
+}
+
+// NewDistributionClient returns a client for the Distribution from the given config.
+func NewDistributionClient(c config) *DistributionClient {
+	return &DistributionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `distribution.Hooks(f(g(h())))`.
+func (c *DistributionClient) Use(hooks ...Hook) {
+	c.hooks.Distribution = append(c.hooks.Distribution, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `distribution.Intercept(f(g(h())))`.
+func (c *DistributionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Distribution = append(c.inters.Distribution, interceptors...)
+}
+
+// Create returns a builder for creating a Distribution entity.
+func (c *DistributionClient) Create() *DistributionCreate {
+	mutation := newDistributionMutation(c.config, OpCreate)
+	return &DistributionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Distribution entities.
+func (c *DistributionClient) CreateBulk(builders ...*DistributionCreate) *DistributionCreateBulk {
+	return &DistributionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *DistributionClient) MapCreateBulk(slice any, setFunc func(*DistributionCreate, int)) *DistributionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &DistributionCreateBulk{err: fmt.Errorf("calling to DistributionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*DistributionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &DistributionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Distribution.
+func (c *DistributionClient) Update() *DistributionUpdate {
+	mutation := newDistributionMutation(c.config, OpUpdate)
+	return &DistributionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *DistributionClient) UpdateOne(d *Distribution) *DistributionUpdateOne {
+	mutation := newDistributionMutation(c.config, OpUpdateOne, withDistribution(d))
+	return &DistributionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *DistributionClient) UpdateOneID(id string) *DistributionUpdateOne {
+	mutation := newDistributionMutation(c.config, OpUpdateOne, withDistributionID(id))
+	return &DistributionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Distribution.
+func (c *DistributionClient) Delete() *DistributionDelete {
+	mutation := newDistributionMutation(c.config, OpDelete)
+	return &DistributionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *DistributionClient) DeleteOne(d *Distribution) *DistributionDeleteOne {
+	return c.DeleteOneID(d.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *DistributionClient) DeleteOneID(id string) *DistributionDeleteOne {
+	builder := c.Delete().Where(distribution.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &DistributionDeleteOne{builder}
+}
+
+// Query returns a query builder for Distribution.
+func (c *DistributionClient) Query() *DistributionQuery {
+	return &DistributionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeDistribution},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Distribution entity by its id.
+func (c *DistributionClient) Get(ctx context.Context, id string) (*Distribution, error) {
+	return c.Query().Where(distribution.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *DistributionClient) GetX(ctx context.Context, id string) *Distribution {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryTopic queries the topic edge of a Distribution.
+func (c *DistributionClient) QueryTopic(d *Distribution) *TopicQuery {
+	query := (&TopicClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := d.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(distribution.Table, distribution.FieldID, id),
+			sqlgraph.To(topic.Table, topic.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, distribution.TopicTable, distribution.TopicColumn),
+		)
+		fromV = sqlgraph.Neighbors(d.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryChannel queries the channel edge of a Distribution.
+func (c *DistributionClient) QueryChannel(d *Distribution) *CMSChannelQuery {
+	query := (&CMSChannelClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := d.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(distribution.Table, distribution.FieldID, id),
+			sqlgraph.To(cmschannel.Table, cmschannel.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, distribution.ChannelTable, distribution.ChannelColumn),
+		)
+		fromV = sqlgraph.Neighbors(d.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *DistributionClient) Hooks() []Hook {
+	return c.hooks.Distribution
+}
+
+// Interceptors returns the client interceptors.
+func (c *DistributionClient) Interceptors() []Interceptor {
+	return c.inters.Distribution
+}
+
+func (c *DistributionClient) mutate(ctx context.Context, m *DistributionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&DistributionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&DistributionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&DistributionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&DistributionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Distribution mutation op: %q", m.Op())
+	}
+}
+
+// MediaClient is a client for the Media schema.
+type MediaClient struct {
+	config
+}
+
+// NewMediaClient returns a client for the Media from the given config.
+func NewMediaClient(c config) *MediaClient {
+	return &MediaClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `media.Hooks(f(g(h())))`.
+func (c *MediaClient) Use(hooks ...Hook) {
+	c.hooks.Media = append(c.hooks.Media, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `media.Intercept(f(g(h())))`.
+func (c *MediaClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Media = append(c.inters.Media, interceptors...)
+}
+
+// Create returns a builder for creating a Media entity.
+func (c *MediaClient) Create() *MediaCreate {
+	mutation := newMediaMutation(c.config, OpCreate)
+	return &MediaCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Media entities.
+func (c *MediaClient) CreateBulk(builders ...*MediaCreate) *MediaCreateBulk {
+	return &MediaCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *MediaClient) MapCreateBulk(slice any, setFunc func(*MediaCreate, int)) *MediaCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &MediaCreateBulk{err: fmt.Errorf("calling to MediaClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*MediaCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &MediaCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Media.
+func (c *MediaClient) Update() *MediaUpdate {
+	mutation := newMediaMutation(c.config, OpUpdate)
+	return &MediaUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *MediaClient) UpdateOne(m *Media) *MediaUpdateOne {
+	mutation := newMediaMutation(c.config, OpUpdateOne, withMedia(m))
+	return &MediaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *MediaClient) UpdateOneID(id string) *MediaUpdateOne {
+	mutation := newMediaMutation(c.config, OpUpdateOne, withMediaID(id))
+	return &MediaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Media.
+func (c *MediaClient) Delete() *MediaDelete {
+	mutation := newMediaMutation(c.config, OpDelete)
+	return &MediaDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *MediaClient) DeleteOne(m *Media) *MediaDeleteOne {
+	return c.DeleteOneID(m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *MediaClient) DeleteOneID(id string) *MediaDeleteOne {
+	builder := c.Delete().Where(media.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &MediaDeleteOne{builder}
+}
+
+// Query returns a query builder for Media.
+func (c *MediaClient) Query() *MediaQuery {
+	return &MediaQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeMedia},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Media entity by its id.
+func (c *MediaClient) Get(ctx context.Context, id string) (*Media, error) {
+	return c.Query().Where(media.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *MediaClient) GetX(ctx context.Context, id string) *Media {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *MediaClient) Hooks() []Hook {
+	return c.hooks.Media
+}
+
+// Interceptors returns the client interceptors.
+func (c *MediaClient) Interceptors() []Interceptor {
+	return c.inters.Media
+}
+
+func (c *MediaClient) mutate(ctx context.Context, m *MediaMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&MediaCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&MediaUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&MediaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&MediaDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Media mutation op: %q", m.Op())
 	}
 }
 
@@ -616,12 +1086,179 @@ func (c *TopicClient) mutate(ctx context.Context, m *TopicMutation) (Value, erro
 	}
 }
 
+// TopicMediaClient is a client for the TopicMedia schema.
+type TopicMediaClient struct {
+	config
+}
+
+// NewTopicMediaClient returns a client for the TopicMedia from the given config.
+func NewTopicMediaClient(c config) *TopicMediaClient {
+	return &TopicMediaClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `topicmedia.Hooks(f(g(h())))`.
+func (c *TopicMediaClient) Use(hooks ...Hook) {
+	c.hooks.TopicMedia = append(c.hooks.TopicMedia, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `topicmedia.Intercept(f(g(h())))`.
+func (c *TopicMediaClient) Intercept(interceptors ...Interceptor) {
+	c.inters.TopicMedia = append(c.inters.TopicMedia, interceptors...)
+}
+
+// Create returns a builder for creating a TopicMedia entity.
+func (c *TopicMediaClient) Create() *TopicMediaCreate {
+	mutation := newTopicMediaMutation(c.config, OpCreate)
+	return &TopicMediaCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of TopicMedia entities.
+func (c *TopicMediaClient) CreateBulk(builders ...*TopicMediaCreate) *TopicMediaCreateBulk {
+	return &TopicMediaCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *TopicMediaClient) MapCreateBulk(slice any, setFunc func(*TopicMediaCreate, int)) *TopicMediaCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &TopicMediaCreateBulk{err: fmt.Errorf("calling to TopicMediaClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*TopicMediaCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &TopicMediaCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for TopicMedia.
+func (c *TopicMediaClient) Update() *TopicMediaUpdate {
+	mutation := newTopicMediaMutation(c.config, OpUpdate)
+	return &TopicMediaUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *TopicMediaClient) UpdateOne(tm *TopicMedia) *TopicMediaUpdateOne {
+	mutation := newTopicMediaMutation(c.config, OpUpdateOne, withTopicMedia(tm))
+	return &TopicMediaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *TopicMediaClient) UpdateOneID(id string) *TopicMediaUpdateOne {
+	mutation := newTopicMediaMutation(c.config, OpUpdateOne, withTopicMediaID(id))
+	return &TopicMediaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for TopicMedia.
+func (c *TopicMediaClient) Delete() *TopicMediaDelete {
+	mutation := newTopicMediaMutation(c.config, OpDelete)
+	return &TopicMediaDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *TopicMediaClient) DeleteOne(tm *TopicMedia) *TopicMediaDeleteOne {
+	return c.DeleteOneID(tm.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *TopicMediaClient) DeleteOneID(id string) *TopicMediaDeleteOne {
+	builder := c.Delete().Where(topicmedia.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &TopicMediaDeleteOne{builder}
+}
+
+// Query returns a query builder for TopicMedia.
+func (c *TopicMediaClient) Query() *TopicMediaQuery {
+	return &TopicMediaQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeTopicMedia},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a TopicMedia entity by its id.
+func (c *TopicMediaClient) Get(ctx context.Context, id string) (*TopicMedia, error) {
+	return c.Query().Where(topicmedia.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *TopicMediaClient) GetX(ctx context.Context, id string) *TopicMedia {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryMedia queries the media edge of a TopicMedia.
+func (c *TopicMediaClient) QueryMedia(tm *TopicMedia) *MediaQuery {
+	query := (&MediaClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := tm.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(topicmedia.Table, topicmedia.FieldID, id),
+			sqlgraph.To(media.Table, media.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, topicmedia.MediaTable, topicmedia.MediaColumn),
+		)
+		fromV = sqlgraph.Neighbors(tm.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryTopic queries the topic edge of a TopicMedia.
+func (c *TopicMediaClient) QueryTopic(tm *TopicMedia) *TopicQuery {
+	query := (&TopicClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := tm.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(topicmedia.Table, topicmedia.FieldID, id),
+			sqlgraph.To(topic.Table, topic.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, topicmedia.TopicTable, topicmedia.TopicColumn),
+		)
+		fromV = sqlgraph.Neighbors(tm.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *TopicMediaClient) Hooks() []Hook {
+	return c.hooks.TopicMedia
+}
+
+// Interceptors returns the client interceptors.
+func (c *TopicMediaClient) Interceptors() []Interceptor {
+	return c.inters.TopicMedia
+}
+
+func (c *TopicMediaClient) mutate(ctx context.Context, m *TopicMediaMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&TopicMediaCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&TopicMediaUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&TopicMediaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&TopicMediaDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown TopicMedia mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Taxonomy, TaxonomyRelation, Topic []ent.Hook
+		CMSChannel, Distribution, Media, Taxonomy, TaxonomyRelation, Topic,
+		TopicMedia []ent.Hook
 	}
 	inters struct {
-		Taxonomy, TaxonomyRelation, Topic []ent.Interceptor
+		CMSChannel, Distribution, Media, Taxonomy, TaxonomyRelation, Topic,
+		TopicMedia []ent.Interceptor
 	}
 )

@@ -3,9 +3,13 @@
 package ent
 
 import (
+	"ncobase/domain/content/data/ent/cmschannel"
+	"ncobase/domain/content/data/ent/distribution"
+	"ncobase/domain/content/data/ent/media"
 	"ncobase/domain/content/data/ent/taxonomy"
 	"ncobase/domain/content/data/ent/taxonomyrelation"
 	"ncobase/domain/content/data/ent/topic"
+	"ncobase/domain/content/data/ent/topicmedia"
 	"ncobase/domain/content/data/schema"
 )
 
@@ -13,6 +17,183 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	cmschannelMixin := schema.CMSChannel{}.Mixin()
+	cmschannelMixinFields0 := cmschannelMixin[0].Fields()
+	_ = cmschannelMixinFields0
+	cmschannelMixinFields5 := cmschannelMixin[5].Fields()
+	_ = cmschannelMixinFields5
+	cmschannelMixinFields6 := cmschannelMixin[6].Fields()
+	_ = cmschannelMixinFields6
+	cmschannelMixinFields7 := cmschannelMixin[7].Fields()
+	_ = cmschannelMixinFields7
+	cmschannelMixinFields8 := cmschannelMixin[8].Fields()
+	_ = cmschannelMixinFields8
+	cmschannelMixinFields9 := cmschannelMixin[9].Fields()
+	_ = cmschannelMixinFields9
+	cmschannelFields := schema.CMSChannel{}.Fields()
+	_ = cmschannelFields
+	// cmschannelDescStatus is the schema descriptor for status field.
+	cmschannelDescStatus := cmschannelMixinFields5[0].Descriptor()
+	// cmschannel.DefaultStatus holds the default value on creation for the status field.
+	cmschannel.DefaultStatus = cmschannelDescStatus.Default.(int)
+	// cmschannelDescExtras is the schema descriptor for extras field.
+	cmschannelDescExtras := cmschannelMixinFields6[0].Descriptor()
+	// cmschannel.DefaultExtras holds the default value on creation for the extras field.
+	cmschannel.DefaultExtras = cmschannelDescExtras.Default.(map[string]interface{})
+	// cmschannelDescTenantID is the schema descriptor for tenant_id field.
+	cmschannelDescTenantID := cmschannelMixinFields7[0].Descriptor()
+	// cmschannel.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	cmschannel.TenantIDValidator = cmschannelDescTenantID.Validators[0].(func(string) error)
+	// cmschannelDescCreatedBy is the schema descriptor for created_by field.
+	cmschannelDescCreatedBy := cmschannelMixinFields8[0].Descriptor()
+	// cmschannel.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	cmschannel.CreatedByValidator = cmschannelDescCreatedBy.Validators[0].(func(string) error)
+	// cmschannelDescUpdatedBy is the schema descriptor for updated_by field.
+	cmschannelDescUpdatedBy := cmschannelMixinFields8[1].Descriptor()
+	// cmschannel.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	cmschannel.UpdatedByValidator = cmschannelDescUpdatedBy.Validators[0].(func(string) error)
+	// cmschannelDescCreatedAt is the schema descriptor for created_at field.
+	cmschannelDescCreatedAt := cmschannelMixinFields9[0].Descriptor()
+	// cmschannel.DefaultCreatedAt holds the default value on creation for the created_at field.
+	cmschannel.DefaultCreatedAt = cmschannelDescCreatedAt.Default.(func() int64)
+	// cmschannelDescUpdatedAt is the schema descriptor for updated_at field.
+	cmschannelDescUpdatedAt := cmschannelMixinFields9[1].Descriptor()
+	// cmschannel.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	cmschannel.DefaultUpdatedAt = cmschannelDescUpdatedAt.Default.(func() int64)
+	// cmschannel.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	cmschannel.UpdateDefaultUpdatedAt = cmschannelDescUpdatedAt.UpdateDefault.(func() int64)
+	// cmschannelDescAutoPublish is the schema descriptor for auto_publish field.
+	cmschannelDescAutoPublish := cmschannelFields[4].Descriptor()
+	// cmschannel.DefaultAutoPublish holds the default value on creation for the auto_publish field.
+	cmschannel.DefaultAutoPublish = cmschannelDescAutoPublish.Default.(bool)
+	// cmschannelDescRequireReview is the schema descriptor for require_review field.
+	cmschannelDescRequireReview := cmschannelFields[5].Descriptor()
+	// cmschannel.DefaultRequireReview holds the default value on creation for the require_review field.
+	cmschannel.DefaultRequireReview = cmschannelDescRequireReview.Default.(bool)
+	// cmschannelDescID is the schema descriptor for id field.
+	cmschannelDescID := cmschannelMixinFields0[0].Descriptor()
+	// cmschannel.DefaultID holds the default value on creation for the id field.
+	cmschannel.DefaultID = cmschannelDescID.Default.(func() string)
+	// cmschannel.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	cmschannel.IDValidator = cmschannelDescID.Validators[0].(func(string) error)
+	distributionMixin := schema.Distribution{}.Mixin()
+	distributionMixinFields0 := distributionMixin[0].Fields()
+	_ = distributionMixinFields0
+	distributionMixinFields1 := distributionMixin[1].Fields()
+	_ = distributionMixinFields1
+	distributionMixinFields2 := distributionMixin[2].Fields()
+	_ = distributionMixinFields2
+	distributionMixinFields3 := distributionMixin[3].Fields()
+	_ = distributionMixinFields3
+	distributionMixinFields4 := distributionMixin[4].Fields()
+	_ = distributionMixinFields4
+	distributionFields := schema.Distribution{}.Fields()
+	_ = distributionFields
+	// distributionDescExtras is the schema descriptor for extras field.
+	distributionDescExtras := distributionMixinFields1[0].Descriptor()
+	// distribution.DefaultExtras holds the default value on creation for the extras field.
+	distribution.DefaultExtras = distributionDescExtras.Default.(map[string]interface{})
+	// distributionDescTenantID is the schema descriptor for tenant_id field.
+	distributionDescTenantID := distributionMixinFields2[0].Descriptor()
+	// distribution.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	distribution.TenantIDValidator = distributionDescTenantID.Validators[0].(func(string) error)
+	// distributionDescCreatedBy is the schema descriptor for created_by field.
+	distributionDescCreatedBy := distributionMixinFields3[0].Descriptor()
+	// distribution.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	distribution.CreatedByValidator = distributionDescCreatedBy.Validators[0].(func(string) error)
+	// distributionDescUpdatedBy is the schema descriptor for updated_by field.
+	distributionDescUpdatedBy := distributionMixinFields3[1].Descriptor()
+	// distribution.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	distribution.UpdatedByValidator = distributionDescUpdatedBy.Validators[0].(func(string) error)
+	// distributionDescCreatedAt is the schema descriptor for created_at field.
+	distributionDescCreatedAt := distributionMixinFields4[0].Descriptor()
+	// distribution.DefaultCreatedAt holds the default value on creation for the created_at field.
+	distribution.DefaultCreatedAt = distributionDescCreatedAt.Default.(func() int64)
+	// distributionDescUpdatedAt is the schema descriptor for updated_at field.
+	distributionDescUpdatedAt := distributionMixinFields4[1].Descriptor()
+	// distribution.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	distribution.DefaultUpdatedAt = distributionDescUpdatedAt.Default.(func() int64)
+	// distribution.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	distribution.UpdateDefaultUpdatedAt = distributionDescUpdatedAt.UpdateDefault.(func() int64)
+	// distributionDescTopicID is the schema descriptor for topic_id field.
+	distributionDescTopicID := distributionFields[0].Descriptor()
+	// distribution.TopicIDValidator is a validator for the "topic_id" field. It is called by the builders before save.
+	distribution.TopicIDValidator = distributionDescTopicID.Validators[0].(func(string) error)
+	// distributionDescChannelID is the schema descriptor for channel_id field.
+	distributionDescChannelID := distributionFields[1].Descriptor()
+	// distribution.ChannelIDValidator is a validator for the "channel_id" field. It is called by the builders before save.
+	distribution.ChannelIDValidator = distributionDescChannelID.Validators[0].(func(string) error)
+	// distributionDescStatus is the schema descriptor for status field.
+	distributionDescStatus := distributionFields[2].Descriptor()
+	// distribution.DefaultStatus holds the default value on creation for the status field.
+	distribution.DefaultStatus = distributionDescStatus.Default.(int)
+	// distributionDescID is the schema descriptor for id field.
+	distributionDescID := distributionMixinFields0[0].Descriptor()
+	// distribution.DefaultID holds the default value on creation for the id field.
+	distribution.DefaultID = distributionDescID.Default.(func() string)
+	// distribution.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	distribution.IDValidator = distributionDescID.Validators[0].(func(string) error)
+	mediaMixin := schema.Media{}.Mixin()
+	mediaMixinFields0 := mediaMixin[0].Fields()
+	_ = mediaMixinFields0
+	mediaMixinFields4 := mediaMixin[4].Fields()
+	_ = mediaMixinFields4
+	mediaMixinFields5 := mediaMixin[5].Fields()
+	_ = mediaMixinFields5
+	mediaMixinFields6 := mediaMixin[6].Fields()
+	_ = mediaMixinFields6
+	mediaMixinFields7 := mediaMixin[7].Fields()
+	_ = mediaMixinFields7
+	mediaFields := schema.Media{}.Fields()
+	_ = mediaFields
+	// mediaDescExtras is the schema descriptor for extras field.
+	mediaDescExtras := mediaMixinFields4[0].Descriptor()
+	// media.DefaultExtras holds the default value on creation for the extras field.
+	media.DefaultExtras = mediaDescExtras.Default.(map[string]interface{})
+	// mediaDescTenantID is the schema descriptor for tenant_id field.
+	mediaDescTenantID := mediaMixinFields5[0].Descriptor()
+	// media.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	media.TenantIDValidator = mediaDescTenantID.Validators[0].(func(string) error)
+	// mediaDescCreatedBy is the schema descriptor for created_by field.
+	mediaDescCreatedBy := mediaMixinFields6[0].Descriptor()
+	// media.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	media.CreatedByValidator = mediaDescCreatedBy.Validators[0].(func(string) error)
+	// mediaDescUpdatedBy is the schema descriptor for updated_by field.
+	mediaDescUpdatedBy := mediaMixinFields6[1].Descriptor()
+	// media.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	media.UpdatedByValidator = mediaDescUpdatedBy.Validators[0].(func(string) error)
+	// mediaDescCreatedAt is the schema descriptor for created_at field.
+	mediaDescCreatedAt := mediaMixinFields7[0].Descriptor()
+	// media.DefaultCreatedAt holds the default value on creation for the created_at field.
+	media.DefaultCreatedAt = mediaDescCreatedAt.Default.(func() int64)
+	// mediaDescUpdatedAt is the schema descriptor for updated_at field.
+	mediaDescUpdatedAt := mediaMixinFields7[1].Descriptor()
+	// media.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	media.DefaultUpdatedAt = mediaDescUpdatedAt.Default.(func() int64)
+	// media.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	media.UpdateDefaultUpdatedAt = mediaDescUpdatedAt.UpdateDefault.(func() int64)
+	// mediaDescSize is the schema descriptor for size field.
+	mediaDescSize := mediaFields[2].Descriptor()
+	// media.DefaultSize holds the default value on creation for the size field.
+	media.DefaultSize = mediaDescSize.Default.(int64)
+	// mediaDescWidth is the schema descriptor for width field.
+	mediaDescWidth := mediaFields[3].Descriptor()
+	// media.DefaultWidth holds the default value on creation for the width field.
+	media.DefaultWidth = mediaDescWidth.Default.(int)
+	// mediaDescHeight is the schema descriptor for height field.
+	mediaDescHeight := mediaFields[4].Descriptor()
+	// media.DefaultHeight holds the default value on creation for the height field.
+	media.DefaultHeight = mediaDescHeight.Default.(int)
+	// mediaDescDuration is the schema descriptor for duration field.
+	mediaDescDuration := mediaFields[5].Descriptor()
+	// media.DefaultDuration holds the default value on creation for the duration field.
+	media.DefaultDuration = mediaDescDuration.Default.(float64)
+	// mediaDescID is the schema descriptor for id field.
+	mediaDescID := mediaMixinFields0[0].Descriptor()
+	// media.DefaultID holds the default value on creation for the id field.
+	media.DefaultID = mediaDescID.Default.(func() string)
+	// media.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	media.IDValidator = mediaDescID.Validators[0].(func(string) error)
 	taxonomyMixin := schema.Taxonomy{}.Mixin()
 	taxonomyMixinFields0 := taxonomyMixin[0].Fields()
 	_ = taxonomyMixinFields0
@@ -130,6 +311,8 @@ func init() {
 	_ = topicMixinFields13
 	topicMixinFields14 := topicMixin[14].Fields()
 	_ = topicMixinFields14
+	topicMixinFields15 := topicMixin[15].Fields()
+	_ = topicMixinFields15
 	topicFields := schema.Topic{}.Fields()
 	_ = topicFields
 	// topicDescTemp is the schema descriptor for temp field.
@@ -156,28 +339,91 @@ func init() {
 	topicDescTenantID := topicMixinFields12[0].Descriptor()
 	// topic.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	topic.TenantIDValidator = topicDescTenantID.Validators[0].(func(string) error)
+	// topicDescExtras is the schema descriptor for extras field.
+	topicDescExtras := topicMixinFields13[0].Descriptor()
+	// topic.DefaultExtras holds the default value on creation for the extras field.
+	topic.DefaultExtras = topicDescExtras.Default.(map[string]interface{})
 	// topicDescCreatedBy is the schema descriptor for created_by field.
-	topicDescCreatedBy := topicMixinFields13[0].Descriptor()
+	topicDescCreatedBy := topicMixinFields14[0].Descriptor()
 	// topic.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	topic.CreatedByValidator = topicDescCreatedBy.Validators[0].(func(string) error)
 	// topicDescUpdatedBy is the schema descriptor for updated_by field.
-	topicDescUpdatedBy := topicMixinFields13[1].Descriptor()
+	topicDescUpdatedBy := topicMixinFields14[1].Descriptor()
 	// topic.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	topic.UpdatedByValidator = topicDescUpdatedBy.Validators[0].(func(string) error)
 	// topicDescCreatedAt is the schema descriptor for created_at field.
-	topicDescCreatedAt := topicMixinFields14[0].Descriptor()
+	topicDescCreatedAt := topicMixinFields15[0].Descriptor()
 	// topic.DefaultCreatedAt holds the default value on creation for the created_at field.
 	topic.DefaultCreatedAt = topicDescCreatedAt.Default.(func() int64)
 	// topicDescUpdatedAt is the schema descriptor for updated_at field.
-	topicDescUpdatedAt := topicMixinFields14[1].Descriptor()
+	topicDescUpdatedAt := topicMixinFields15[1].Descriptor()
 	// topic.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	topic.DefaultUpdatedAt = topicDescUpdatedAt.Default.(func() int64)
 	// topic.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	topic.UpdateDefaultUpdatedAt = topicDescUpdatedAt.UpdateDefault.(func() int64)
+	// topicDescVersion is the schema descriptor for version field.
+	topicDescVersion := topicFields[0].Descriptor()
+	// topic.DefaultVersion holds the default value on creation for the version field.
+	topic.DefaultVersion = topicDescVersion.Default.(int)
+	// topicDescContentType is the schema descriptor for content_type field.
+	topicDescContentType := topicFields[1].Descriptor()
+	// topic.DefaultContentType holds the default value on creation for the content_type field.
+	topic.DefaultContentType = topicDescContentType.Default.(string)
+	// topicDescExcerptAuto is the schema descriptor for excerpt_auto field.
+	topicDescExcerptAuto := topicFields[5].Descriptor()
+	// topic.DefaultExcerptAuto holds the default value on creation for the excerpt_auto field.
+	topic.DefaultExcerptAuto = topicDescExcerptAuto.Default.(bool)
 	// topicDescID is the schema descriptor for id field.
 	topicDescID := topicMixinFields0[0].Descriptor()
 	// topic.DefaultID holds the default value on creation for the id field.
 	topic.DefaultID = topicDescID.Default.(func() string)
 	// topic.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	topic.IDValidator = topicDescID.Validators[0].(func(string) error)
+	topicmediaMixin := schema.TopicMedia{}.Mixin()
+	topicmediaMixinFields0 := topicmediaMixin[0].Fields()
+	_ = topicmediaMixinFields0
+	topicmediaMixinFields2 := topicmediaMixin[2].Fields()
+	_ = topicmediaMixinFields2
+	topicmediaMixinFields3 := topicmediaMixin[3].Fields()
+	_ = topicmediaMixinFields3
+	topicmediaMixinFields4 := topicmediaMixin[4].Fields()
+	_ = topicmediaMixinFields4
+	topicmediaFields := schema.TopicMedia{}.Fields()
+	_ = topicmediaFields
+	// topicmediaDescOrder is the schema descriptor for order field.
+	topicmediaDescOrder := topicmediaMixinFields2[0].Descriptor()
+	// topicmedia.DefaultOrder holds the default value on creation for the order field.
+	topicmedia.DefaultOrder = topicmediaDescOrder.Default.(int)
+	// topicmediaDescCreatedBy is the schema descriptor for created_by field.
+	topicmediaDescCreatedBy := topicmediaMixinFields3[0].Descriptor()
+	// topicmedia.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	topicmedia.CreatedByValidator = topicmediaDescCreatedBy.Validators[0].(func(string) error)
+	// topicmediaDescUpdatedBy is the schema descriptor for updated_by field.
+	topicmediaDescUpdatedBy := topicmediaMixinFields3[1].Descriptor()
+	// topicmedia.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	topicmedia.UpdatedByValidator = topicmediaDescUpdatedBy.Validators[0].(func(string) error)
+	// topicmediaDescCreatedAt is the schema descriptor for created_at field.
+	topicmediaDescCreatedAt := topicmediaMixinFields4[0].Descriptor()
+	// topicmedia.DefaultCreatedAt holds the default value on creation for the created_at field.
+	topicmedia.DefaultCreatedAt = topicmediaDescCreatedAt.Default.(func() int64)
+	// topicmediaDescUpdatedAt is the schema descriptor for updated_at field.
+	topicmediaDescUpdatedAt := topicmediaMixinFields4[1].Descriptor()
+	// topicmedia.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	topicmedia.DefaultUpdatedAt = topicmediaDescUpdatedAt.Default.(func() int64)
+	// topicmedia.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	topicmedia.UpdateDefaultUpdatedAt = topicmediaDescUpdatedAt.UpdateDefault.(func() int64)
+	// topicmediaDescTopicID is the schema descriptor for topic_id field.
+	topicmediaDescTopicID := topicmediaFields[0].Descriptor()
+	// topicmedia.TopicIDValidator is a validator for the "topic_id" field. It is called by the builders before save.
+	topicmedia.TopicIDValidator = topicmediaDescTopicID.Validators[0].(func(string) error)
+	// topicmediaDescMediaID is the schema descriptor for media_id field.
+	topicmediaDescMediaID := topicmediaFields[1].Descriptor()
+	// topicmedia.MediaIDValidator is a validator for the "media_id" field. It is called by the builders before save.
+	topicmedia.MediaIDValidator = topicmediaDescMediaID.Validators[0].(func(string) error)
+	// topicmediaDescID is the schema descriptor for id field.
+	topicmediaDescID := topicmediaMixinFields0[0].Descriptor()
+	// topicmedia.DefaultID holds the default value on creation for the id field.
+	topicmedia.DefaultID = topicmediaDescID.Default.(func() string)
+	// topicmedia.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	topicmedia.IDValidator = topicmediaDescID.Validators[0].(func(string) error)
 }

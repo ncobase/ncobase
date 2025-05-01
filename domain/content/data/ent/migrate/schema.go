@@ -9,6 +9,159 @@ import (
 )
 
 var (
+	// NcseCmsChannelColumns holds the columns for the "ncse_cms_channel" table.
+	NcseCmsChannelColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "icon", Type: field.TypeString, Nullable: true, Comment: "icon"},
+		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "allowed_types", Type: field.TypeJSON, Nullable: true, Comment: "Allowed content types for this channel"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "Channel description"},
+		{Name: "logo", Type: field.TypeString, Nullable: true, Comment: "Channel logo URL"},
+		{Name: "webhook_url", Type: field.TypeString, Nullable: true, Comment: "Webhook URL for notifications"},
+		{Name: "auto_publish", Type: field.TypeBool, Comment: "Auto publish content to this channel", Default: false},
+		{Name: "require_review", Type: field.TypeBool, Comment: "Require review before publishing", Default: false},
+	}
+	// NcseCmsChannelTable holds the schema information for the "ncse_cms_channel" table.
+	NcseCmsChannelTable = &schema.Table{
+		Name:       "ncse_cms_channel",
+		Columns:    NcseCmsChannelColumns,
+		PrimaryKey: []*schema.Column{NcseCmsChannelColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "cmschannel_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsChannelColumns[0]},
+			},
+			{
+				Name:    "cmschannel_slug",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsChannelColumns[3]},
+			},
+			{
+				Name:    "cmschannel_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseCmsChannelColumns[7]},
+			},
+			{
+				Name:    "cmschannel_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsChannelColumns[0], NcseCmsChannelColumns[10]},
+			},
+		},
+	}
+	// NcseCmsDistributionColumns holds the columns for the "ncse_cms_distribution" table.
+	NcseCmsDistributionColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "status", Type: field.TypeInt, Comment: "Distribution status: 0:draft, 1:scheduled, 2:published, 3:failed, 4:cancelled", Default: 0},
+		{Name: "scheduled_at", Type: field.TypeInt64, Nullable: true, Comment: "Scheduled publish time"},
+		{Name: "published_at", Type: field.TypeInt64, Nullable: true, Comment: "Actual publish time"},
+		{Name: "external_id", Type: field.TypeString, Nullable: true, Comment: "External ID on the platform"},
+		{Name: "external_url", Type: field.TypeString, Nullable: true, Comment: "URL on the external platform"},
+		{Name: "error_details", Type: field.TypeString, Nullable: true, Comment: "Error details if distribution failed"},
+		{Name: "topic_id", Type: field.TypeString, Size: 16, Comment: "Topic ID"},
+		{Name: "channel_id", Type: field.TypeString, Size: 16, Comment: "Channel ID"},
+	}
+	// NcseCmsDistributionTable holds the schema information for the "ncse_cms_distribution" table.
+	NcseCmsDistributionTable = &schema.Table{
+		Name:       "ncse_cms_distribution",
+		Columns:    NcseCmsDistributionColumns,
+		PrimaryKey: []*schema.Column{NcseCmsDistributionColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "ncse_cms_distribution_ncse_cms_topic_topic",
+				Columns:    []*schema.Column{NcseCmsDistributionColumns[13]},
+				RefColumns: []*schema.Column{NcseCmsTopicColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "ncse_cms_distribution_ncse_cms_channel_channel",
+				Columns:    []*schema.Column{NcseCmsDistributionColumns[14]},
+				RefColumns: []*schema.Column{NcseCmsChannelColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "distribution_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsDistributionColumns[0]},
+			},
+			{
+				Name:    "distribution_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseCmsDistributionColumns[2]},
+			},
+			{
+				Name:    "distribution_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsDistributionColumns[0], NcseCmsDistributionColumns[5]},
+			},
+			{
+				Name:    "distribution_topic_id_channel_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsDistributionColumns[13], NcseCmsDistributionColumns[14]},
+			},
+		},
+	}
+	// NcseCmsMediaColumns holds the columns for the "ncse_cms_media" table.
+	NcseCmsMediaColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "File path"},
+		{Name: "mime_type", Type: field.TypeString, Nullable: true, Comment: "MIME type"},
+		{Name: "size", Type: field.TypeInt64, Comment: "File size in bytes", Default: 0},
+		{Name: "width", Type: field.TypeInt, Comment: "Image/video width", Default: 0},
+		{Name: "height", Type: field.TypeInt, Comment: "Image/video height", Default: 0},
+		{Name: "duration", Type: field.TypeFloat64, Comment: "Audio/video duration in seconds", Default: 0},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "Media description"},
+		{Name: "alt", Type: field.TypeString, Nullable: true, Comment: "Alternative text for accessibility"},
+	}
+	// NcseCmsMediaTable holds the schema information for the "ncse_cms_media" table.
+	NcseCmsMediaTable = &schema.Table{
+		Name:       "ncse_cms_media",
+		Columns:    NcseCmsMediaColumns,
+		PrimaryKey: []*schema.Column{NcseCmsMediaColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "media_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsMediaColumns[0]},
+			},
+			{
+				Name:    "media_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseCmsMediaColumns[5]},
+			},
+			{
+				Name:    "media_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsMediaColumns[0], NcseCmsMediaColumns[8]},
+			},
+		},
+	}
 	// NcseCmsTaxonomyColumns holds the columns for the "ncse_cms_taxonomy" table.
 	NcseCmsTaxonomyColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -117,10 +270,20 @@ var (
 		{Name: "released", Type: field.TypeInt64, Nullable: true, Comment: "released"},
 		{Name: "taxonomy_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "taxonomy id"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "version", Type: field.TypeInt, Comment: "Content version", Default: 1},
+		{Name: "content_type", Type: field.TypeString, Comment: "Content type: article, video, etc.", Default: "article"},
+		{Name: "seo_title", Type: field.TypeString, Nullable: true, Comment: "SEO title"},
+		{Name: "seo_description", Type: field.TypeString, Nullable: true, Comment: "SEO description"},
+		{Name: "seo_keywords", Type: field.TypeString, Nullable: true, Comment: "SEO keywords"},
+		{Name: "excerpt_auto", Type: field.TypeBool, Comment: "Auto generate excerpt", Default: true},
+		{Name: "excerpt", Type: field.TypeString, Nullable: true, Comment: "Manual excerpt"},
+		{Name: "featured_media", Type: field.TypeString, Nullable: true, Comment: "Featured media ID"},
+		{Name: "tags", Type: field.TypeJSON, Nullable: true, Comment: "Content tags"},
 	}
 	// NcseCmsTopicTable holds the schema information for the "ncse_cms_topic" table.
 	NcseCmsTopicTable = &schema.Table{
@@ -151,19 +314,83 @@ var (
 			{
 				Name:    "topic_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseCmsTopicColumns[0], NcseCmsTopicColumns[15]},
+				Columns: []*schema.Column{NcseCmsTopicColumns[0], NcseCmsTopicColumns[16]},
+			},
+		},
+	}
+	// NcseCmsTopicMediaColumns holds the columns for the "ncse_cms_topic_media" table.
+	NcseCmsTopicMediaColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "media_id", Type: field.TypeString, Size: 16, Comment: "Media ID"},
+		{Name: "topic_id", Type: field.TypeString, Size: 16, Comment: "Topic ID"},
+	}
+	// NcseCmsTopicMediaTable holds the schema information for the "ncse_cms_topic_media" table.
+	NcseCmsTopicMediaTable = &schema.Table{
+		Name:       "ncse_cms_topic_media",
+		Columns:    NcseCmsTopicMediaColumns,
+		PrimaryKey: []*schema.Column{NcseCmsTopicMediaColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "ncse_cms_topic_media_ncse_cms_media_media",
+				Columns:    []*schema.Column{NcseCmsTopicMediaColumns[7]},
+				RefColumns: []*schema.Column{NcseCmsMediaColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "ncse_cms_topic_media_ncse_cms_topic_topic",
+				Columns:    []*schema.Column{NcseCmsTopicMediaColumns[8]},
+				RefColumns: []*schema.Column{NcseCmsTopicColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "topicmedia_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsTopicMediaColumns[0]},
+			},
+			{
+				Name:    "topicmedia_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsTopicMediaColumns[0], NcseCmsTopicMediaColumns[5]},
+			},
+			{
+				Name:    "topicmedia_topic_id_media_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseCmsTopicMediaColumns[8], NcseCmsTopicMediaColumns[7]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		NcseCmsChannelTable,
+		NcseCmsDistributionTable,
+		NcseCmsMediaTable,
 		NcseCmsTaxonomyTable,
 		NcseCmsTaxonomyRelationTable,
 		NcseCmsTopicTable,
+		NcseCmsTopicMediaTable,
 	}
 )
 
 func init() {
+	NcseCmsChannelTable.Annotation = &entsql.Annotation{
+		Table: "ncse_cms_channel",
+	}
+	NcseCmsDistributionTable.ForeignKeys[0].RefTable = NcseCmsTopicTable
+	NcseCmsDistributionTable.ForeignKeys[1].RefTable = NcseCmsChannelTable
+	NcseCmsDistributionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_cms_distribution",
+	}
+	NcseCmsMediaTable.Annotation = &entsql.Annotation{
+		Table: "ncse_cms_media",
+	}
 	NcseCmsTaxonomyTable.Annotation = &entsql.Annotation{
 		Table: "ncse_cms_taxonomy",
 	}
@@ -172,5 +399,10 @@ func init() {
 	}
 	NcseCmsTopicTable.Annotation = &entsql.Annotation{
 		Table: "ncse_cms_topic",
+	}
+	NcseCmsTopicMediaTable.ForeignKeys[0].RefTable = NcseCmsMediaTable
+	NcseCmsTopicMediaTable.ForeignKeys[1].RefTable = NcseCmsTopicTable
+	NcseCmsTopicMediaTable.Annotation = &entsql.Annotation{
+		Table: "ncse_cms_topic_media",
 	}
 }

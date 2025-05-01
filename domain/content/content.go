@@ -76,7 +76,7 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 	}
 
 	// service discovery
-	if conf.Consul == nil {
+	if conf.Consul != nil {
 		m.discovery.address = conf.Consul.Address
 		m.discovery.tags = conf.Consul.Discovery.DefaultTags
 		m.discovery.meta = conf.Consul.Discovery.DefaultMeta
@@ -115,6 +115,7 @@ func (m *Module) PostInit() error {
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
 	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+
 	// Taxonomy endpoints
 	taxonomies := r.Group("/taxonomies")
 	{
@@ -124,6 +125,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		taxonomies.PUT("/:slug", m.h.Taxonomy.Update)
 		taxonomies.DELETE("/:slug", m.h.Taxonomy.Delete)
 	}
+
 	// Topic endpoints
 	topics := r.Group("/topics")
 	{
@@ -132,6 +134,50 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		topics.GET("/:slug", m.h.Topic.Get)
 		topics.PUT("/:slug", m.h.Topic.Update)
 		topics.DELETE("/:slug", m.h.Topic.Delete)
+	}
+
+	// Channel endpoints
+	channels := r.Group("/channels")
+	{
+		channels.GET("", m.h.Channel.List)
+		channels.POST("", m.h.Channel.Create)
+		channels.GET("/:slug", m.h.Channel.Get)
+		channels.PUT("/:slug", m.h.Channel.Update)
+		channels.DELETE("/:slug", m.h.Channel.Delete)
+	}
+
+	// Distribution endpoints
+	distributions := r.Group("/distributions")
+	{
+		distributions.GET("", m.h.Distribution.List)
+		distributions.POST("", m.h.Distribution.Create)
+		distributions.GET("/:id", m.h.Distribution.Get)
+		distributions.PUT("/:id", m.h.Distribution.Update)
+		distributions.DELETE("/:id", m.h.Distribution.Delete)
+		distributions.POST("/:id/publish", m.h.Distribution.Publish)
+		distributions.POST("/:id/cancel", m.h.Distribution.Cancel)
+	}
+
+	// Media endpoints
+	media := r.Group("/media")
+	{
+		media.GET("", m.h.Media.List)
+		media.POST("", m.h.Media.Create)
+		media.GET("/:id", m.h.Media.Get)
+		media.PUT("/:id", m.h.Media.Update)
+		media.DELETE("/:id", m.h.Media.Delete)
+	}
+
+	// Topic Media endpoints
+	topicMedia := r.Group("/topic-media")
+	{
+		topicMedia.GET("", m.h.TopicMedia.List)
+		topicMedia.POST("", m.h.TopicMedia.Create)
+		topicMedia.GET("/:id", m.h.TopicMedia.Get)
+		topicMedia.PUT("/:id", m.h.TopicMedia.Update)
+		topicMedia.DELETE("/:id", m.h.TopicMedia.Delete)
+		topicMedia.GET("/by-topic-and-media", m.h.TopicMedia.GetByTopicAndMedia)
+		topicMedia.GET("/by-topic/:topicId", m.h.TopicMedia.ListByTopic)
 	}
 }
 

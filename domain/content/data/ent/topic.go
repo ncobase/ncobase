@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"encoding/json"
 	"fmt"
 	"ncobase/domain/content/data/ent/topic"
 	"strings"
@@ -41,6 +42,8 @@ type Topic struct {
 	TaxonomyID string `json:"taxonomy_id,omitempty"`
 	// tenant id
 	TenantID string `json:"tenant_id,omitempty"`
+	// Extend properties
+	Extras map[string]interface{} `json:"extras,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -48,7 +51,25 @@ type Topic struct {
 	// created at
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    int64 `json:"updated_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
+	// Content version
+	Version int `json:"version,omitempty"`
+	// Content type: article, video, etc.
+	ContentType string `json:"content_type,omitempty"`
+	// SEO title
+	SeoTitle string `json:"seo_title,omitempty"`
+	// SEO description
+	SeoDescription string `json:"seo_description,omitempty"`
+	// SEO keywords
+	SeoKeywords string `json:"seo_keywords,omitempty"`
+	// Auto generate excerpt
+	ExcerptAuto bool `json:"excerpt_auto,omitempty"`
+	// Manual excerpt
+	Excerpt string `json:"excerpt,omitempty"`
+	// Featured media ID
+	FeaturedMedia string `json:"featured_media,omitempty"`
+	// Content tags
+	Tags         []string `json:"tags,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -57,11 +78,13 @@ func (*Topic) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case topic.FieldTemp, topic.FieldMarkdown, topic.FieldPrivate:
+		case topic.FieldExtras, topic.FieldTags:
+			values[i] = new([]byte)
+		case topic.FieldTemp, topic.FieldMarkdown, topic.FieldPrivate, topic.FieldExcerptAuto:
 			values[i] = new(sql.NullBool)
-		case topic.FieldStatus, topic.FieldReleased, topic.FieldCreatedAt, topic.FieldUpdatedAt:
+		case topic.FieldStatus, topic.FieldReleased, topic.FieldCreatedAt, topic.FieldUpdatedAt, topic.FieldVersion:
 			values[i] = new(sql.NullInt64)
-		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldTenantID, topic.FieldCreatedBy, topic.FieldUpdatedBy:
+		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldTenantID, topic.FieldCreatedBy, topic.FieldUpdatedBy, topic.FieldContentType, topic.FieldSeoTitle, topic.FieldSeoDescription, topic.FieldSeoKeywords, topic.FieldExcerpt, topic.FieldFeaturedMedia:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -156,6 +179,14 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.TenantID = value.String
 			}
+		case topic.FieldExtras:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field extras", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &t.Extras); err != nil {
+					return fmt.Errorf("unmarshal field extras: %w", err)
+				}
+			}
 		case topic.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
@@ -179,6 +210,62 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
 				t.UpdatedAt = value.Int64
+			}
+		case topic.FieldVersion:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field version", values[i])
+			} else if value.Valid {
+				t.Version = int(value.Int64)
+			}
+		case topic.FieldContentType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field content_type", values[i])
+			} else if value.Valid {
+				t.ContentType = value.String
+			}
+		case topic.FieldSeoTitle:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field seo_title", values[i])
+			} else if value.Valid {
+				t.SeoTitle = value.String
+			}
+		case topic.FieldSeoDescription:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field seo_description", values[i])
+			} else if value.Valid {
+				t.SeoDescription = value.String
+			}
+		case topic.FieldSeoKeywords:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field seo_keywords", values[i])
+			} else if value.Valid {
+				t.SeoKeywords = value.String
+			}
+		case topic.FieldExcerptAuto:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field excerpt_auto", values[i])
+			} else if value.Valid {
+				t.ExcerptAuto = value.Bool
+			}
+		case topic.FieldExcerpt:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field excerpt", values[i])
+			} else if value.Valid {
+				t.Excerpt = value.String
+			}
+		case topic.FieldFeaturedMedia:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field featured_media", values[i])
+			} else if value.Valid {
+				t.FeaturedMedia = value.String
+			}
+		case topic.FieldTags:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field tags", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &t.Tags); err != nil {
+					return fmt.Errorf("unmarshal field tags: %w", err)
+				}
 			}
 		default:
 			t.selectValues.Set(columns[i], values[i])
@@ -252,6 +339,9 @@ func (t *Topic) String() string {
 	builder.WriteString("tenant_id=")
 	builder.WriteString(t.TenantID)
 	builder.WriteString(", ")
+	builder.WriteString("extras=")
+	builder.WriteString(fmt.Sprintf("%v", t.Extras))
+	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(t.CreatedBy)
 	builder.WriteString(", ")
@@ -263,6 +353,33 @@ func (t *Topic) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(fmt.Sprintf("%v", t.UpdatedAt))
+	builder.WriteString(", ")
+	builder.WriteString("version=")
+	builder.WriteString(fmt.Sprintf("%v", t.Version))
+	builder.WriteString(", ")
+	builder.WriteString("content_type=")
+	builder.WriteString(t.ContentType)
+	builder.WriteString(", ")
+	builder.WriteString("seo_title=")
+	builder.WriteString(t.SeoTitle)
+	builder.WriteString(", ")
+	builder.WriteString("seo_description=")
+	builder.WriteString(t.SeoDescription)
+	builder.WriteString(", ")
+	builder.WriteString("seo_keywords=")
+	builder.WriteString(t.SeoKeywords)
+	builder.WriteString(", ")
+	builder.WriteString("excerpt_auto=")
+	builder.WriteString(fmt.Sprintf("%v", t.ExcerptAuto))
+	builder.WriteString(", ")
+	builder.WriteString("excerpt=")
+	builder.WriteString(t.Excerpt)
+	builder.WriteString(", ")
+	builder.WriteString("featured_media=")
+	builder.WriteString(t.FeaturedMedia)
+	builder.WriteString(", ")
+	builder.WriteString("tags=")
+	builder.WriteString(fmt.Sprintf("%v", t.Tags))
 	builder.WriteByte(')')
 	return builder.String()
 }

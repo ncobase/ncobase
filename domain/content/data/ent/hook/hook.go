@@ -8,6 +8,42 @@ import (
 	"ncobase/domain/content/data/ent"
 )
 
+// The CMSChannelFunc type is an adapter to allow the use of ordinary
+// function as CMSChannel mutator.
+type CMSChannelFunc func(context.Context, *ent.CMSChannelMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CMSChannelFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.CMSChannelMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CMSChannelMutation", m)
+}
+
+// The DistributionFunc type is an adapter to allow the use of ordinary
+// function as Distribution mutator.
+type DistributionFunc func(context.Context, *ent.DistributionMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f DistributionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DistributionMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DistributionMutation", m)
+}
+
+// The MediaFunc type is an adapter to allow the use of ordinary
+// function as Media mutator.
+type MediaFunc func(context.Context, *ent.MediaMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f MediaFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.MediaMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.MediaMutation", m)
+}
+
 // The TaxonomyFunc type is an adapter to allow the use of ordinary
 // function as Taxonomy mutator.
 type TaxonomyFunc func(context.Context, *ent.TaxonomyMutation) (ent.Value, error)
@@ -42,6 +78,18 @@ func (f TopicFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TopicMutation", m)
+}
+
+// The TopicMediaFunc type is an adapter to allow the use of ordinary
+// function as TopicMedia mutator.
+type TopicMediaFunc func(context.Context, *ent.TopicMediaMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TopicMediaFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TopicMediaMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TopicMediaMutation", m)
 }
 
 // Condition is a hook condition function.

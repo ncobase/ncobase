@@ -15,6 +15,794 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/cms/channels": {
+            "get": {
+                "description": "Retrieve a list of distribution channels.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "List channels",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new distribution channel.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Create channel",
+                "parameters": [
+                    {
+                        "description": "CreateChannelBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateChannelBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/channels/{slug}": {
+            "get": {
+                "description": "Retrieve details of a distribution channel.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Get channel",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing distribution channel.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Update channel",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "UpdateChannelBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateChannelBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete an existing distribution channel.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Delete channel",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/distributions": {
+            "get": {
+                "description": "Retrieve a list of content distributions.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "List distributions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "channel_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "topic_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "with_channel",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "with_topic",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadDistribution"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new content distribution.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Create distribution",
+                "parameters": [
+                    {
+                        "description": "CreateDistributionBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateDistributionBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDistribution"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/distributions/{id}": {
+            "get": {
+                "description": "Retrieve details of a content distribution.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Get distribution",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Distribution ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDistribution"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing content distribution.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Update distribution",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Distribution ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "UpdateDistributionBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateDistributionBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDistribution"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete an existing content distribution.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Delete distribution",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Distribution ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/distributions/{id}/cancel": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Cancel a scheduled content distribution.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Cancel distribution",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Distribution ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Reason for cancellation",
+                        "name": "reason",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDistribution"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/distributions/{id}/publish": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Publish a content distribution immediately.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Publish distribution",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Distribution ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadDistribution"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/media": {
+            "get": {
+                "description": "Retrieve a list of media resources.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "List media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadMedia"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new media resource.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Create media",
+                "parameters": [
+                    {
+                        "description": "CreateMediaBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateMediaBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/media/{id}": {
+            "get": {
+                "description": "Retrieve details of a media resource.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Get media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Media ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing media resource.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Update media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Media ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "UpdateMediaBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.UpdateMediaBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete an existing media resource.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Delete media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Media ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/cms/taxonomies": {
             "get": {
                 "description": "Retrieve a list of taxonomies.",
@@ -233,6 +1021,329 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Taxonomy slug",
                         "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/topic-media": {
+            "get": {
+                "description": "Retrieve a list of topic media relations.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "List topic media relations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "media_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "topic_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "with_media",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadTopicMedia"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new relation between a topic and a media resource.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Create topic media relation",
+                "parameters": [
+                    {
+                        "description": "CreateTopicMediaBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.CreateTopicMediaBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTopicMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/topic-media/by-topic-and-media": {
+            "get": {
+                "description": "Retrieve a topic media relation by topic ID and media ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Get by topic and media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Topic ID",
+                        "name": "topicId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Media ID",
+                        "name": "mediaId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTopicMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/topic-media/by-topic/{topicId}": {
+            "get": {
+                "description": "Retrieve all media relations for a specific topic.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "List by topic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Topic ID",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "featured",
+                            "gallery",
+                            "attachment"
+                        ],
+                        "type": "string",
+                        "description": "Media Type",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadTopicMedia"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/topic-media/{id}": {
+            "get": {
+                "description": "Retrieve details of a topic media relation.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Get topic media relation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Topic Media ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTopicMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing relation between a topic and media.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Update topic media relation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Topic Media ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update parameters",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadTopicMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete an existing topic media relation.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Delete topic media relation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Topic Media ID",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -8654,17 +9765,68 @@ const docTemplate = `{
                 }
             }
         },
-        "/res/attachments": {
+        "/res": {
             "get": {
-                "description": "List attachments based on specified parameters.",
+                "description": "List files based on specified parameters.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "res"
                 ],
-                "summary": "List attachments",
+                "summary": "List files",
                 "parameters": [
+                    {
+                        "enum": [
+                            "public",
+                            "private",
+                            "shared"
+                        ],
+                        "type": "string",
+                        "x-enum-comments": {
+                            "AccessLevelPrivate": "Only accessible to owner",
+                            "AccessLevelPublic": "Accessible to anyone",
+                            "AccessLevelShared": "Shared with specific users/groups"
+                        },
+                        "x-enum-varnames": [
+                            "AccessLevelPublic",
+                            "AccessLevelPrivate",
+                            "AccessLevelShared"
+                        ],
+                        "name": "access_level",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "image",
+                            "document",
+                            "video",
+                            "audio",
+                            "archive",
+                            "other"
+                        ],
+                        "type": "string",
+                        "x-enum-varnames": [
+                            "FileCategoryImage",
+                            "FileCategoryDocument",
+                            "FileCategoryVideo",
+                            "FileCategoryAudio",
+                            "FileCategoryArchive",
+                            "FileCategoryOther"
+                        ],
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "created_after",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "created_before",
+                        "in": "query"
+                    },
                     {
                         "type": "string",
                         "name": "cursor",
@@ -8673,6 +9835,16 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "folder_path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_public",
                         "in": "query"
                     },
                     {
@@ -8688,7 +9860,29 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "description": "Full-text search",
+                        "name": "q",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size_max",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size_min",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "storage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Comma-separated tags",
+                        "name": "tags",
                         "in": "query"
                     },
                     {
@@ -8714,7 +9908,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadAttachment"
+                                "$ref": "#/definitions/structs.ReadFile"
                             }
                         }
                     },
@@ -8732,7 +9926,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Create one or multiple attachments.",
+                "description": "Create one or multiple files.",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -8742,7 +9936,7 @@ const docTemplate = `{
                 "tags": [
                     "res"
                 ],
-                "summary": "Create attachments",
+                "summary": "Create files",
                 "parameters": [
                     {
                         "type": "file",
@@ -8753,19 +9947,19 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Object ID associated with the attachment",
+                        "description": "Object ID associated with the file",
                         "name": "object_id",
                         "in": "formData"
                     },
                     {
                         "type": "string",
-                        "description": "Tenant ID associated with the attachment",
+                        "description": "Tenant ID associated with the file",
                         "name": "tenant_id",
                         "in": "formData"
                     },
                     {
                         "type": "string",
-                        "description": "Additional properties associated with the attachment (JSON format)",
+                        "description": "Additional properties associated with the file (JSON format)",
                         "name": "extras",
                         "in": "formData"
                     }
@@ -8774,7 +9968,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadAttachment"
+                            "$ref": "#/definitions/structs.ReadFile"
                         }
                     },
                     "400": {
@@ -8786,36 +9980,196 @@ const docTemplate = `{
                 }
             }
         },
-        "/res/attachments/{slug}": {
-            "get": {
-                "description": "Get details of a specific attachment.",
+        "/res/batch/process": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Process multiple files in a batch",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "res"
                 ],
-                "summary": "Get attachment",
+                "summary": "Batch process",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Slug of the attachment to retrieve",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Type of retrieval ('download' or 'stream')",
-                        "name": "type",
-                        "in": "query"
+                        "description": "Processing parameters",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadAttachment"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadFile"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/batch/upload": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Upload multiple files in a batch",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Batch upload",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Files to upload",
+                        "name": "files",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenant_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Object ID",
+                        "name": "object_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Virtual folder path",
+                        "name": "folder_path",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access level",
+                        "name": "access_level",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Comma-separated tags",
+                        "name": "tags",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Additional metadata (JSON)",
+                        "name": "extras",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.BatchUploadResult"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/categories": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List all available file categories",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "List file categories",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/res/quotas": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get the storage quota for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Get storage quota",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenant_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
                         }
                     },
                     "400": {
@@ -8832,7 +10186,296 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Update an existing attachment.",
+                "description": "Set the storage quota for a tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Set storage quota",
+                "parameters": [
+                    {
+                        "description": "Quota information",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/quotas/usage": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get the current storage usage for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Get storage usage",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenant_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/search": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Search files by various criteria",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Search files",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenant",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search query",
+                        "name": "q",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "File category",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Comma-separated tags",
+                        "name": "tags",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Folder path",
+                        "name": "folder_path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Public flag",
+                        "name": "is_public",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadFile"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/stats": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get storage usage statistics for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Get storage statistics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenant_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/tags": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List all tags used in files for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "List file tags",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenant_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/{slug}": {
+            "get": {
+                "description": "Get details of a specific file.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Get file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Slug of the file to retrieve",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Type of retrieval ('download' or 'stream')",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadFile"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing file.",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -8842,22 +10485,22 @@ const docTemplate = `{
                 "tags": [
                     "res"
                 ],
-                "summary": "Update attachment",
+                "summary": "Update file",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Slug of the attachment to update",
+                        "description": "Slug of the file to update",
                         "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Attachment details",
-                        "name": "attachment",
+                        "description": "File details",
+                        "name": "file",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateAttachmentBody"
+                            "$ref": "#/definitions/structs.UpdateFileBody"
                         }
                     }
                 ],
@@ -8865,7 +10508,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadAttachment"
+                            "$ref": "#/definitions/structs.ReadFile"
                         }
                     },
                     "400": {
@@ -8882,15 +10525,15 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete a specific attachment.",
+                "description": "Delete a specific file.",
                 "tags": [
                     "res"
                 ],
-                "summary": "Delete attachment",
+                "summary": "Delete file",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Slug of the attachment to delete",
+                        "description": "Slug of the file to delete",
                         "name": "slug",
                         "in": "path",
                         "required": true
@@ -8900,11 +10543,297 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadAttachment"
+                            "$ref": "#/definitions/structs.ReadFile"
                         }
                     },
                     "400": {
                         "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/{slug}/access": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Set the access level for an file",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Set access level",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Access level",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadFile"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/{slug}/share": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Generate a shareable URL for an file",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Generate share URL",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Expiration time in hours",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/{slug}/thumbnail": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a thumbnail for an image file",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Create thumbnail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Processing options",
+                        "name": "options",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.ProcessingOptions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadFile"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/{slug}/versions": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all versions of an file",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Get file versions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.ReadFile"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new version of an existing file",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "res"
+                ],
+                "summary": "Create file version",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "New version file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ReadFile"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
@@ -8960,7 +10889,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadChannel"
+                                "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
                             }
                         }
                     },
@@ -9004,7 +10933,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -9037,7 +10966,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadChannel"
+                                "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
                             }
                         }
                     },
@@ -9078,7 +11007,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -9128,7 +11057,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -9166,7 +11095,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -11795,6 +13724,137 @@ const docTemplate = `{
             "type": "object",
             "additionalProperties": {}
         },
+        "ncobase_core_realtime_structs.ChannelBody": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "0: disabled, 1: enabled",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "public/private/direct",
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_core_realtime_structs.ReadChannel": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_domain_content_structs.ReadChannel": {
+            "type": "object",
+            "properties": {
+                "allowed_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "auto_publish": {
+                    "type": "boolean"
+                },
+                "config": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "require_review": {
+                    "type": "boolean"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "webhook_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.AccessLevel": {
+            "type": "string",
+            "enum": [
+                "public",
+                "private",
+                "shared"
+            ],
+            "x-enum-comments": {
+                "AccessLevelPrivate": "Only accessible to owner",
+                "AccessLevelPublic": "Accessible to anyone",
+                "AccessLevelShared": "Shared with specific users/groups"
+            },
+            "x-enum-varnames": [
+                "AccessLevelPublic",
+                "AccessLevelPrivate",
+                "AccessLevelShared"
+            ]
+        },
         "structs.AccountMeshes": {
             "type": "object",
             "properties": {
@@ -11877,6 +13937,41 @@ const docTemplate = `{
                 "ActionResume",
                 "ActionUrge"
             ]
+        },
+        "structs.BatchUploadResult": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "failed_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "failure_count": {
+                    "type": "integer"
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadFile"
+                    }
+                },
+                "operation_id": {
+                    "type": "string"
+                },
+                "success_count": {
+                    "type": "integer"
+                },
+                "total_files": {
+                    "type": "integer"
+                }
+            }
         },
         "structs.BillingInterval": {
             "type": "string",
@@ -11999,28 +14094,6 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ChannelBody": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "status": {
-                    "description": "0: disabled, 1: enabled",
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "public/private/direct",
-                    "type": "string"
-                }
-            }
-        },
         "structs.ChannelStatus": {
             "type": "string",
             "enum": [
@@ -12136,7 +14209,68 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "channel": {
-                    "$ref": "#/definitions/structs.ChannelBody"
+                    "$ref": "#/definitions/ncobase_core_realtime_structs.ChannelBody"
+                }
+            }
+        },
+        "structs.CreateChannelBody": {
+            "type": "object",
+            "properties": {
+                "allowed_types": {
+                    "description": "article, video, image, audio, mixed",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "auto_publish": {
+                    "type": "boolean"
+                },
+                "config": {
+                    "description": "API keys, secrets, endpoints, etc.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "require_review": {
+                    "type": "boolean"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "0: active, 1: inactive",
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook, custom",
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "webhook_url": {
+                    "type": "string"
                 }
             }
         },
@@ -12176,6 +14310,64 @@ const docTemplate = `{
                     }
                 },
                 "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.CreateDistributionBody": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "custom_data": {
+                    "description": "Custom data for the distribution",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
+                },
+                "error_details": {
+                    "description": "Error details if distribution failed",
+                    "type": "string"
+                },
+                "external_id": {
+                    "description": "ID on the external platform",
+                    "type": "string"
+                },
+                "external_url": {
+                    "description": "URL on the external platform",
+                    "type": "string"
+                },
+                "meta_data": {
+                    "description": "Platform-specific data",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
+                },
+                "published_at": {
+                    "type": "integer"
+                },
+                "scheduled_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled",
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "updated_by": {
                     "type": "string"
                 }
             }
@@ -12257,6 +14449,57 @@ const docTemplate = `{
             "properties": {
                 "event": {
                     "$ref": "#/definitions/structs.EventBody"
+                }
+            }
+        },
+        "structs.CreateMediaBody": {
+            "type": "object",
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "mime_type": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "image, video, audio, file",
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
                 }
             }
         },
@@ -12636,11 +14879,27 @@ const docTemplate = `{
                 "content": {
                     "type": "string"
                 },
+                "content_type": {
+                    "description": "article, video, etc.",
+                    "type": "string"
+                },
                 "created_by": {
+                    "type": "string"
+                },
+                "excerpt": {
+                    "type": "string"
+                },
+                "excerpt_auto": {
+                    "type": "boolean"
+                },
+                "featured_media": {
                     "type": "string"
                 },
                 "markdown": {
                     "type": "boolean"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -12651,11 +14910,26 @@ const docTemplate = `{
                 "released": {
                     "type": "integer"
                 },
+                "seo_description": {
+                    "type": "string"
+                },
+                "seo_keywords": {
+                    "type": "string"
+                },
+                "seo_title": {
+                    "type": "string"
+                },
                 "slug": {
                     "type": "string"
                 },
                 "status": {
                     "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "taxonomy_id": {
                     "type": "string"
@@ -12673,6 +14947,30 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_by": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "integer"
+                }
+            }
+        },
+        "structs.CreateTopicMediaBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "media_id": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "featured, gallery, attachment, etc.",
                     "type": "string"
                 }
             }
@@ -12846,6 +15144,82 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.FileCategory": {
+            "type": "string",
+            "enum": [
+                "image",
+                "document",
+                "video",
+                "audio",
+                "archive",
+                "other"
+            ],
+            "x-enum-varnames": [
+                "FileCategoryImage",
+                "FileCategoryDocument",
+                "FileCategoryVideo",
+                "FileCategoryAudio",
+                "FileCategoryArchive",
+                "FileCategoryOther"
+            ]
+        },
+        "structs.FileMetadata": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "description": "Content author",
+                    "type": "string"
+                },
+                "category": {
+                    "description": "File category",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/structs.FileCategory"
+                        }
+                    ]
+                },
+                "creation_date": {
+                    "description": "Original file creation date",
+                    "type": "string"
+                },
+                "custom_fields": {
+                    "description": "User-defined metadata",
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "description": {
+                    "description": "Content description",
+                    "type": "string"
+                },
+                "duration": {
+                    "description": "For audio/video in seconds",
+                    "type": "number"
+                },
+                "height": {
+                    "description": "For images",
+                    "type": "integer"
+                },
+                "keywords": {
+                    "description": "Content keywords",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "modified_date": {
+                    "description": "Last modification date",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Content title",
+                    "type": "string"
+                },
+                "width": {
+                    "description": "For images",
+                    "type": "integer"
                 }
             }
         },
@@ -13516,6 +15890,34 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ProcessingOptions": {
+            "type": "object",
+            "properties": {
+                "compress_image": {
+                    "type": "boolean"
+                },
+                "compression_quality": {
+                    "description": "1-100",
+                    "type": "integer"
+                },
+                "convert_format": {
+                    "description": "Target format",
+                    "type": "string"
+                },
+                "create_thumbnail": {
+                    "type": "boolean"
+                },
+                "max_height": {
+                    "type": "integer"
+                },
+                "max_width": {
+                    "type": "integer"
+                },
+                "resize_image": {
+                    "type": "boolean"
+                }
+            }
+        },
         "structs.Product": {
             "type": "object",
             "properties": {
@@ -13584,56 +15986,6 @@ const docTemplate = `{
             "type": "object",
             "additionalProperties": {}
         },
-        "structs.ReadAttachment": {
-            "type": "object",
-            "properties": {
-                "bucket": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "endpoint": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "object_id": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "storage": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
         "structs.ReadCasbinRule": {
             "type": "object",
             "properties": {
@@ -13672,35 +16024,6 @@ const docTemplate = `{
                 },
                 "v5": {
                     "type": "string"
-                }
-            }
-        },
-        "structs.ReadChannel": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
                 }
             }
         },
@@ -13851,6 +16174,65 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.ReadDistribution": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "custom_data": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "error_details": {
+                    "type": "string"
+                },
+                "external_id": {
+                    "type": "string"
+                },
+                "external_url": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "meta_data": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "published_at": {
+                    "type": "integer"
+                },
+                "scheduled_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "topic": {
+                    "$ref": "#/definitions/structs.ReadTopic"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.ReadEndpoint": {
             "type": "object",
             "properties": {
@@ -13933,6 +16315,92 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.ReadFile": {
+            "type": "object",
+            "properties": {
+                "access_level": {
+                    "$ref": "#/definitions/structs.AccessLevel"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "download_url": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "folder_path": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_expired": {
+                    "type": "boolean"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/structs.FileMetadata"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "object_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "storage": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "versions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -14049,6 +16517,65 @@ const docTemplate = `{
                 },
                 "variables": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "structs.ReadMedia": {
+            "type": "object",
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "mime_type": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
                 }
             }
         },
@@ -15122,10 +17649,22 @@ const docTemplate = `{
                 "content": {
                     "type": "string"
                 },
+                "content_type": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "integer"
                 },
                 "created_by": {
+                    "type": "string"
+                },
+                "excerpt": {
+                    "type": "string"
+                },
+                "excerpt_auto": {
+                    "type": "boolean"
+                },
+                "featured_media": {
                     "type": "string"
                 },
                 "id": {
@@ -15133,6 +17672,15 @@ const docTemplate = `{
                 },
                 "markdown": {
                     "type": "boolean"
+                },
+                "media": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadMedia"
+                    }
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -15143,11 +17691,29 @@ const docTemplate = `{
                 "released": {
                     "type": "integer"
                 },
+                "seo_description": {
+                    "type": "string"
+                },
+                "seo_keywords": {
+                    "type": "string"
+                },
+                "seo_title": {
+                    "type": "string"
+                },
                 "slug": {
                     "type": "string"
                 },
                 "status": {
                     "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "taxonomy": {
+                    "$ref": "#/definitions/structs.ReadTaxonomy"
                 },
                 "taxonomy_id": {
                     "type": "string"
@@ -15162,6 +17728,44 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "integer"
+                }
+            }
+        },
+        "structs.ReadTopicMedia": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "media": {
+                    "$ref": "#/definitions/structs.ReadMedia"
+                },
+                "media_id": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -15867,57 +18471,77 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateAttachmentBody": {
+        "structs.UpdateChannel": {
             "type": "object",
             "properties": {
-                "bucket": {
+                "channel": {
+                    "$ref": "#/definitions/ncobase_core_realtime_structs.ChannelBody"
+                },
+                "id": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.UpdateChannelBody": {
+            "type": "object",
+            "properties": {
+                "allowed_types": {
+                    "description": "article, video, image, audio, mixed",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "auto_publish": {
+                    "type": "boolean"
+                },
+                "config": {
+                    "description": "API keys, secrets, endpoints, etc.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
                 },
                 "created_by": {
                     "type": "string"
                 },
-                "endpoint": {
+                "description": {
                     "type": "string"
                 },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                "icon": {
+                    "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "logo": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "object_id": {
+                "require_review": {
+                    "type": "boolean"
+                },
+                "slug": {
                     "type": "string"
                 },
-                "path": {
-                    "type": "string"
-                },
-                "size": {
+                "status": {
+                    "description": "0: active, 1: inactive",
                     "type": "integer"
-                },
-                "storage": {
-                    "type": "string"
                 },
                 "tenant_id": {
                     "type": "string"
                 },
                 "type": {
+                    "description": "website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook, custom",
                     "type": "string"
                 },
                 "updated_by": {
                     "type": "string"
-                }
-            }
-        },
-        "structs.UpdateChannel": {
-            "type": "object",
-            "properties": {
-                "channel": {
-                    "$ref": "#/definitions/structs.ChannelBody"
                 },
-                "id": {
+                "webhook_url": {
                     "type": "string"
                 }
             }
@@ -16081,6 +18705,161 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.UpdateDistributionBody": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "custom_data": {
+                    "description": "Custom data for the distribution",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
+                },
+                "error_details": {
+                    "description": "Error details if distribution failed",
+                    "type": "string"
+                },
+                "external_id": {
+                    "description": "ID on the external platform",
+                    "type": "string"
+                },
+                "external_url": {
+                    "description": "URL on the external platform",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "meta_data": {
+                    "description": "Platform-specific data",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
+                },
+                "published_at": {
+                    "type": "integer"
+                },
+                "scheduled_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled",
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.UpdateFileBody": {
+            "type": "object",
+            "properties": {
+                "access_level": {
+                    "description": "Access level",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/structs.AccessLevel"
+                        }
+                    ]
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "description": "Expiration timestamp",
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "folder_path": {
+                    "description": "Virtual folder path",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_public": {
+                    "description": "Publicly accessible flag",
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "description": "metadata",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/structs.FileMetadata"
+                        }
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "object_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "processing_options": {
+                    "description": "Processing options",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/structs.ProcessingOptions"
+                        }
+                    ]
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "storage": {
+                    "type": "string"
+                },
+                "tags": {
+                    "description": "Tags for categorization",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "versions": {
+                    "description": "Previous versions IDs",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "structs.UpdateGroupBody": {
             "type": "object",
             "properties": {
@@ -16116,6 +18895,60 @@ const docTemplate = `{
                 },
                 "updated_by": {
                     "type": "string"
+                }
+            }
+        },
+        "structs.UpdateMediaBody": {
+            "type": "object",
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "mime_type": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "image, video, audio, file",
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
                 }
             }
         },
@@ -16924,7 +19757,20 @@ const docTemplate = `{
                 "content": {
                     "type": "string"
                 },
+                "content_type": {
+                    "description": "article, video, etc.",
+                    "type": "string"
+                },
                 "created_by": {
+                    "type": "string"
+                },
+                "excerpt": {
+                    "type": "string"
+                },
+                "excerpt_auto": {
+                    "type": "boolean"
+                },
+                "featured_media": {
                     "type": "string"
                 },
                 "id": {
@@ -16932,6 +19778,9 @@ const docTemplate = `{
                 },
                 "markdown": {
                     "type": "boolean"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "name": {
                     "type": "string"
@@ -16942,11 +19791,26 @@ const docTemplate = `{
                 "released": {
                     "type": "integer"
                 },
+                "seo_description": {
+                    "type": "string"
+                },
+                "seo_keywords": {
+                    "type": "string"
+                },
+                "seo_title": {
+                    "type": "string"
+                },
                 "slug": {
                     "type": "string"
                 },
                 "status": {
                     "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "taxonomy_id": {
                     "type": "string"
@@ -16965,6 +19829,9 @@ const docTemplate = `{
                 },
                 "updated_by": {
                     "type": "string"
+                },
+                "version": {
+                    "type": "integer"
                 }
             }
         },

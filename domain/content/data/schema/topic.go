@@ -3,6 +3,7 @@ package schema
 import (
 	"strings"
 
+	"entgo.io/ent/schema/field"
 	"github.com/ncobase/ncore/data/databases/entgo/mixin"
 
 	"entgo.io/contrib/entgql"
@@ -40,10 +41,11 @@ func (Topic) Mixin() []ent.Mixin {
 		mixin.Temp,
 		mixin.Markdown,
 		mixin.Private,
-		mixin.Status, // status, 0: draft, 1: published, 2: trashed, 3: temp, ...
+		mixin.Status,
 		mixin.Released,
 		mixin.TaxonomyID,
 		mixin.TenantID,
+		mixin.ExtraProps,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}
@@ -51,7 +53,35 @@ func (Topic) Mixin() []ent.Mixin {
 
 // Fields of the Topic.
 func (Topic) Fields() []ent.Field {
-	return []ent.Field{}
+	return []ent.Field{
+		field.Int("version").
+			Default(1).
+			Comment("Content version"),
+		field.String("content_type").
+			Default("article").
+			Comment("Content type: article, video, etc."),
+		field.String("seo_title").
+			Optional().
+			Comment("SEO title"),
+		field.String("seo_description").
+			Optional().
+			Comment("SEO description"),
+		field.String("seo_keywords").
+			Optional().
+			Comment("SEO keywords"),
+		field.Bool("excerpt_auto").
+			Default(true).
+			Comment("Auto generate excerpt"),
+		field.String("excerpt").
+			Optional().
+			Comment("Manual excerpt"),
+		field.String("featured_media").
+			Optional().
+			Comment("Featured media ID"),
+		field.Strings("tags").
+			Optional().
+			Comment("Content tags"),
+	}
 }
 
 // Edges of the Topic.

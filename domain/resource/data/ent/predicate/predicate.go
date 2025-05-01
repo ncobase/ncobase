@@ -6,5 +6,5 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Attachment is the predicate function for attachment builders.
-type Attachment func(*sql.Selector)
+// File is the predicate function for file builders.
+type File func(*sql.Selector)

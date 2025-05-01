@@ -187,6 +187,12 @@ func (tc *TopicCreate) SetNillableTenantID(s *string) *TopicCreate {
 	return tc
 }
 
+// SetExtras sets the "extras" field.
+func (tc *TopicCreate) SetExtras(m map[string]interface{}) *TopicCreate {
+	tc.mutation.SetExtras(m)
+	return tc
+}
+
 // SetCreatedBy sets the "created_by" field.
 func (tc *TopicCreate) SetCreatedBy(s string) *TopicCreate {
 	tc.mutation.SetCreatedBy(s)
@@ -240,6 +246,124 @@ func (tc *TopicCreate) SetNillableUpdatedAt(i *int64) *TopicCreate {
 	if i != nil {
 		tc.SetUpdatedAt(*i)
 	}
+	return tc
+}
+
+// SetVersion sets the "version" field.
+func (tc *TopicCreate) SetVersion(i int) *TopicCreate {
+	tc.mutation.SetVersion(i)
+	return tc
+}
+
+// SetNillableVersion sets the "version" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableVersion(i *int) *TopicCreate {
+	if i != nil {
+		tc.SetVersion(*i)
+	}
+	return tc
+}
+
+// SetContentType sets the "content_type" field.
+func (tc *TopicCreate) SetContentType(s string) *TopicCreate {
+	tc.mutation.SetContentType(s)
+	return tc
+}
+
+// SetNillableContentType sets the "content_type" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableContentType(s *string) *TopicCreate {
+	if s != nil {
+		tc.SetContentType(*s)
+	}
+	return tc
+}
+
+// SetSeoTitle sets the "seo_title" field.
+func (tc *TopicCreate) SetSeoTitle(s string) *TopicCreate {
+	tc.mutation.SetSeoTitle(s)
+	return tc
+}
+
+// SetNillableSeoTitle sets the "seo_title" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableSeoTitle(s *string) *TopicCreate {
+	if s != nil {
+		tc.SetSeoTitle(*s)
+	}
+	return tc
+}
+
+// SetSeoDescription sets the "seo_description" field.
+func (tc *TopicCreate) SetSeoDescription(s string) *TopicCreate {
+	tc.mutation.SetSeoDescription(s)
+	return tc
+}
+
+// SetNillableSeoDescription sets the "seo_description" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableSeoDescription(s *string) *TopicCreate {
+	if s != nil {
+		tc.SetSeoDescription(*s)
+	}
+	return tc
+}
+
+// SetSeoKeywords sets the "seo_keywords" field.
+func (tc *TopicCreate) SetSeoKeywords(s string) *TopicCreate {
+	tc.mutation.SetSeoKeywords(s)
+	return tc
+}
+
+// SetNillableSeoKeywords sets the "seo_keywords" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableSeoKeywords(s *string) *TopicCreate {
+	if s != nil {
+		tc.SetSeoKeywords(*s)
+	}
+	return tc
+}
+
+// SetExcerptAuto sets the "excerpt_auto" field.
+func (tc *TopicCreate) SetExcerptAuto(b bool) *TopicCreate {
+	tc.mutation.SetExcerptAuto(b)
+	return tc
+}
+
+// SetNillableExcerptAuto sets the "excerpt_auto" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableExcerptAuto(b *bool) *TopicCreate {
+	if b != nil {
+		tc.SetExcerptAuto(*b)
+	}
+	return tc
+}
+
+// SetExcerpt sets the "excerpt" field.
+func (tc *TopicCreate) SetExcerpt(s string) *TopicCreate {
+	tc.mutation.SetExcerpt(s)
+	return tc
+}
+
+// SetNillableExcerpt sets the "excerpt" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableExcerpt(s *string) *TopicCreate {
+	if s != nil {
+		tc.SetExcerpt(*s)
+	}
+	return tc
+}
+
+// SetFeaturedMedia sets the "featured_media" field.
+func (tc *TopicCreate) SetFeaturedMedia(s string) *TopicCreate {
+	tc.mutation.SetFeaturedMedia(s)
+	return tc
+}
+
+// SetNillableFeaturedMedia sets the "featured_media" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableFeaturedMedia(s *string) *TopicCreate {
+	if s != nil {
+		tc.SetFeaturedMedia(*s)
+	}
+	return tc
+}
+
+// SetTags sets the "tags" field.
+func (tc *TopicCreate) SetTags(s []string) *TopicCreate {
+	tc.mutation.SetTags(s)
 	return tc
 }
 
@@ -308,6 +432,10 @@ func (tc *TopicCreate) defaults() {
 		v := topic.DefaultStatus
 		tc.mutation.SetStatus(v)
 	}
+	if _, ok := tc.mutation.Extras(); !ok {
+		v := topic.DefaultExtras
+		tc.mutation.SetExtras(v)
+	}
 	if _, ok := tc.mutation.CreatedAt(); !ok {
 		v := topic.DefaultCreatedAt()
 		tc.mutation.SetCreatedAt(v)
@@ -315,6 +443,18 @@ func (tc *TopicCreate) defaults() {
 	if _, ok := tc.mutation.UpdatedAt(); !ok {
 		v := topic.DefaultUpdatedAt()
 		tc.mutation.SetUpdatedAt(v)
+	}
+	if _, ok := tc.mutation.Version(); !ok {
+		v := topic.DefaultVersion
+		tc.mutation.SetVersion(v)
+	}
+	if _, ok := tc.mutation.ContentType(); !ok {
+		v := topic.DefaultContentType
+		tc.mutation.SetContentType(v)
+	}
+	if _, ok := tc.mutation.ExcerptAuto(); !ok {
+		v := topic.DefaultExcerptAuto
+		tc.mutation.SetExcerptAuto(v)
 	}
 	if _, ok := tc.mutation.ID(); !ok {
 		v := topic.DefaultID()
@@ -346,6 +486,15 @@ func (tc *TopicCreate) check() error {
 		if err := topic.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Topic.updated_by": %w`, err)}
 		}
+	}
+	if _, ok := tc.mutation.Version(); !ok {
+		return &ValidationError{Name: "version", err: errors.New(`ent: missing required field "Topic.version"`)}
+	}
+	if _, ok := tc.mutation.ContentType(); !ok {
+		return &ValidationError{Name: "content_type", err: errors.New(`ent: missing required field "Topic.content_type"`)}
+	}
+	if _, ok := tc.mutation.ExcerptAuto(); !ok {
+		return &ValidationError{Name: "excerpt_auto", err: errors.New(`ent: missing required field "Topic.excerpt_auto"`)}
 	}
 	if v, ok := tc.mutation.ID(); ok {
 		if err := topic.IDValidator(v); err != nil {
@@ -435,6 +584,10 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_spec.SetField(topic.FieldTenantID, field.TypeString, value)
 		_node.TenantID = value
 	}
+	if value, ok := tc.mutation.Extras(); ok {
+		_spec.SetField(topic.FieldExtras, field.TypeJSON, value)
+		_node.Extras = value
+	}
 	if value, ok := tc.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
@@ -450,6 +603,42 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.UpdatedAt(); ok {
 		_spec.SetField(topic.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
+	}
+	if value, ok := tc.mutation.Version(); ok {
+		_spec.SetField(topic.FieldVersion, field.TypeInt, value)
+		_node.Version = value
+	}
+	if value, ok := tc.mutation.ContentType(); ok {
+		_spec.SetField(topic.FieldContentType, field.TypeString, value)
+		_node.ContentType = value
+	}
+	if value, ok := tc.mutation.SeoTitle(); ok {
+		_spec.SetField(topic.FieldSeoTitle, field.TypeString, value)
+		_node.SeoTitle = value
+	}
+	if value, ok := tc.mutation.SeoDescription(); ok {
+		_spec.SetField(topic.FieldSeoDescription, field.TypeString, value)
+		_node.SeoDescription = value
+	}
+	if value, ok := tc.mutation.SeoKeywords(); ok {
+		_spec.SetField(topic.FieldSeoKeywords, field.TypeString, value)
+		_node.SeoKeywords = value
+	}
+	if value, ok := tc.mutation.ExcerptAuto(); ok {
+		_spec.SetField(topic.FieldExcerptAuto, field.TypeBool, value)
+		_node.ExcerptAuto = value
+	}
+	if value, ok := tc.mutation.Excerpt(); ok {
+		_spec.SetField(topic.FieldExcerpt, field.TypeString, value)
+		_node.Excerpt = value
+	}
+	if value, ok := tc.mutation.FeaturedMedia(); ok {
+		_spec.SetField(topic.FieldFeaturedMedia, field.TypeString, value)
+		_node.FeaturedMedia = value
+	}
+	if value, ok := tc.mutation.Tags(); ok {
+		_spec.SetField(topic.FieldTags, field.TypeJSON, value)
+		_node.Tags = value
 	}
 	return _node, _spec
 }
