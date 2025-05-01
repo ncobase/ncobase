@@ -1213,8 +1213,7 @@ func (p *HTTPServiceProvider) shouldRetry(err error) bool {
 	return false
 }
 
-// Helper functions
-
+// flattenHeaders flattens HTTP headers into a map[string]string
 func flattenHeaders(headers http.Header) map[string]string {
 	result := make(map[string]string)
 	for k, v := range headers {

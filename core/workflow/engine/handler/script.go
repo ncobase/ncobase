@@ -323,8 +323,6 @@ func (e *ScriptEngine) Validate(script string) error {
 	return nil
 }
 
-// Helper functions
-
 // parseScriptConfig parses script configuration
 func (h *ScriptHandler) parseScriptConfig(node *structs.ReadNode) (*config.ScriptHandlerConfig, error) {
 	c, ok := node.Properties["scriptConfig"].(map[string]any)

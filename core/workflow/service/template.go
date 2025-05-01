@@ -164,8 +164,7 @@ func (s *templateService) ValidateTemplate(ctx context.Context, templateID strin
 	return s.validateTemplateDefinition(tb)
 }
 
-// Helper functions
-
+// validateTemplateDefinition validates a template definition
 func (s *templateService) validateTemplateDefinition(body *structs.TemplateBody) error {
 	if body.Name == "" {
 		return errors.New("template name is required")
@@ -190,6 +189,7 @@ func (s *templateService) validateTemplateDefinition(body *structs.TemplateBody)
 	return nil
 }
 
+// validateNodeConnections validates node connections
 func (s *templateService) validateNodeConnections(nodeConfig any) error {
 	// TODO: Implement node connection verification logic
 	// 1. Make sure there is a start node
@@ -199,32 +199,36 @@ func (s *templateService) validateNodeConnections(nodeConfig any) error {
 	return nil
 }
 
+// Get retrieves a template
 func (s *templateService) Get(ctx context.Context, params *structs.FindTemplateParams) (*structs.ReadTemplate, error) {
 	template, err := s.templateRepo.Get(ctx, params)
-	if err := handleEntError(ctx, "Template", err); err != nil {
+	if err = handleEntError(ctx, "Template", err); err != nil {
 		return nil, err
 	}
 
 	return s.serialize(template), nil
 }
 
+// Update updates a template
 func (s *templateService) Update(ctx context.Context, body *structs.UpdateTemplateBody) (*structs.ReadTemplate, error) {
 	if body.ID == "" {
 		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
 	template, err := s.templateRepo.Update(ctx, body)
-	if err := handleEntError(ctx, "Template", err); err != nil {
+	if err = handleEntError(ctx, "Template", err); err != nil {
 		return nil, err
 	}
 
 	return s.serialize(template), nil
 }
 
+// Delete deletes a template
 func (s *templateService) Delete(ctx context.Context, params *structs.FindTemplateParams) error {
 	return handleEntError(ctx, "Template", s.templateRepo.Delete(ctx, params))
 }
 
+// List retrieves a list of templates
 func (s *templateService) List(ctx context.Context, params *structs.ListTemplateParams) (paging.Result[*structs.ReadTemplate], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

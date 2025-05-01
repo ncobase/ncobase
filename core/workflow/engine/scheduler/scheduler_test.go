@@ -236,7 +236,7 @@ package scheduler
 // 	}, nil
 // }
 //
-// // Helper functions
+// // New test scheduler
 // func newTestScheduler() *Scheduler {
 // 	svc := &service.Service{
 // 		Node: &mockNodeService{},

@@ -37,7 +37,7 @@ const (
 	ChannelDisabled  = "payment_channel.disabled"
 )
 
-// Publisher defines an interface for publishing events
+// PublisherInterface defines an interface for publishing events
 type PublisherInterface interface {
 	// Payment events
 

@@ -60,7 +60,7 @@ func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 	}
 
 	// service discovery
-	if conf.Consul == nil {
+	if conf.Consul != nil {
 		p.discovery.address = conf.Consul.Address
 		p.discovery.tags = conf.Consul.Discovery.DefaultTags
 		p.discovery.meta = conf.Consul.Discovery.DefaultMeta

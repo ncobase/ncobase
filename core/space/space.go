@@ -70,7 +70,7 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 	}
 
 	// service discovery
-	if conf.Consul == nil {
+	if conf.Consul != nil {
 		m.discovery.address = conf.Consul.Address
 		m.discovery.tags = conf.Consul.Discovery.DefaultTags
 		m.discovery.meta = conf.Consul.Discovery.DefaultMeta

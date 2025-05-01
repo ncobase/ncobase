@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Helper functions for setup and teardown
+// TestCoordinator tests the Coordinator struct and its methods
 func setupTestCoordinator() (*Coordinator, func()) {
 	// Mock dependencies
 	svc := &service.Service{}

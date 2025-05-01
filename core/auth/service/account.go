@@ -296,7 +296,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}, tx.Commit()
 }
 
-// Helper functions for Register
+// decodeRegisterToken decodes the register token
 func decodeRegisterToken(jtm *jwt.TokenManager, token string) (types.JSON, error) {
 	decoded, err := jtm.DecodeToken(token)
 	if err != nil {

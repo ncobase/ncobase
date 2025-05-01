@@ -97,7 +97,7 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 	return tokens, nil
 }
 
-// Helper functions for codeAuthService
+// isCodeExpired checks if the code has expired
 func isCodeExpired(createdAt int64) bool {
 	createdTime := time.UnixMilli(createdAt)
 	expirationTime := createdTime.Add(24 * time.Hour)
