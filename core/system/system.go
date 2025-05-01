@@ -3,6 +3,7 @@ package system
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
+	sysConfig "ncobase/core/system/config"
 	"ncobase/core/system/data"
 	"ncobase/core/system/handler"
 	"ncobase/core/system/initialize"
@@ -32,6 +33,7 @@ type Module struct {
 	mu          sync.RWMutex
 	em          ext.ManagerInterface
 	conf        *config.Config
+	sysConf     *sysConfig.Config
 	h           *handler.Handler
 	s           *service.Service
 	i           *initialize.Service
@@ -68,6 +70,11 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 		return fmt.Errorf("system module already initialized")
 	}
 
+	m.sysConf = sysConfig.GetDefaultConfig()
+	if conf.Viper != nil {
+		m.sysConf = sysConfig.GetConfigFromFile(m.sysConf, conf.Viper)
+	}
+
 	m.d, m.cleanup, err = data.New(conf.Data)
 	if err != nil {
 		return err
@@ -82,7 +89,6 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 	m.em = em
 	m.initialized = true
-	m.conf = conf
 
 	return nil
 }
@@ -126,44 +132,70 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Belong domain group
-	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
-	// System initialization, roles, permissions, Casbin policies...
-	r.POST("/initialize", func(c *gin.Context) {
-		err := m.i.Execute()
+	// Public initialization endpoint
+	r.POST("/"+m.Group()+"/initialize", func(c *gin.Context) {
+		// Check initialization token if configured
+		if m.sysConf.Initialization.InitToken != "" {
+			initToken := c.GetHeader("X-Init-Token")
+			if initToken != m.sysConf.Initialization.InitToken {
+				resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
+				return
+			}
+		}
+
+		// Execute initialization
+		state, err := m.i.Execute(c.Request.Context(), m.sysConf.Initialization.AllowReinitialization)
 		if err != nil {
-			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+			// Special case for "already initialized" error
+			if err.Error() == "system is already initialized" {
+				resp.Fail(c.Writer, resp.BadRequest("System is already initialized"))
+				return
+			}
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 			return
 		}
-		resp.Success(c.Writer)
+		resp.Success(c.Writer, state)
 	})
+
+	// Public endpoint to check initialization status
+	r.GET("/"+m.Group()+"/initialize/status", func(c *gin.Context) {
+		resp.Success(c.Writer, m.i.GetState())
+	})
+
+	// Authenticated routes
+	baseGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+
 	// Menu endpoints
-	menus := r.Group("/menus")
+	menus := baseGroup.Group("/menus")
 	{
 		menus.GET("", m.h.Menu.List)
 		menus.POST("", m.h.Menu.Create)
+		menus.PUT("", m.h.Menu.Update)
 		menus.GET("/:slug", m.h.Menu.Get)
-		menus.PUT("/:slug", m.h.Menu.Update)
 		menus.DELETE("/:slug", m.h.Menu.Delete)
 	}
+
 	// Dictionary endpoints
-	dictionaries := r.Group("/dictionaries")
+	dictionaries := baseGroup.Group("/dictionaries")
 	{
 		dictionaries.GET("", m.h.Dictionary.List)
 		dictionaries.POST("", m.h.Dictionary.Create)
+		dictionaries.PUT("", m.h.Dictionary.Update)
 		dictionaries.GET("/:slug", m.h.Dictionary.Get)
-		dictionaries.PUT("/:slug", m.h.Dictionary.Update)
 		dictionaries.DELETE("/:slug", m.h.Dictionary.Delete)
 	}
+
 	// Options endpoints
-	options := r.Group("/options")
+	options := baseGroup.Group("/options")
 	{
-		options.POST("/initialize", m.h.Options.Initialize)
 		options.GET("", m.h.Options.List)
 		options.POST("", m.h.Options.Create)
-		options.GET("/:slug", m.h.Options.Get)
-		options.PUT("/:slug", m.h.Options.Update)
-		options.DELETE("/:slug", m.h.Options.Delete)
+		options.PUT("", m.h.Options.Update)
+		options.GET("/:option", m.h.Options.Get)
+		options.DELETE("/:option", m.h.Options.Delete)
+
+		// Special operations
+		options.POST("/initialize", m.h.Options.Initialize)
 	}
 }
 

@@ -100,7 +100,7 @@ func (r *dictionaryRepository) Get(ctx context.Context, params *structs.FindDict
 
 	row, err := r.getDictionary(ctx, params)
 	if err != nil {
-		logger.Errorf(ctx, "dictionaryRepo.Get error: %`v", err)
+		logger.Errorf(ctx, "dictionaryRepo.Get error: %v", err)
 		return nil, err
 	}
 
