@@ -23,6 +23,7 @@ type MenuServiceInterface interface {
 	Get(ctx context.Context, params *structs.FindMenu) (any, error)
 	Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error)
 	List(ctx context.Context, params *structs.ListMenuParams) (paging.Result[*structs.ReadMenu], error)
+	CountX(ctx context.Context, params *structs.ListMenuParams) int
 	GetTree(ctx context.Context, params *structs.FindMenu) (paging.Result[*structs.ReadMenu], error)
 }
 
@@ -131,6 +132,11 @@ func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) 
 
 		return s.Serializes(rows), total, nil
 	})
+}
+
+// CountX gets a count of menus.
+func (s *menuService) CountX(ctx context.Context, params *structs.ListMenuParams) int {
+	return s.menu.CountX(ctx, params)
 }
 
 // GetTree retrieves the menu tree.

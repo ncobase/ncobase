@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/core/system/config"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
+	configData "ncobase/core/system/initialize/data"
 	"ncobase/core/system/structs"
 
 	"github.com/ncobase/ncore/data/paging"
@@ -41,7 +41,7 @@ func NewOptionsService(d *data.Data) OptionsServiceInterface {
 func (s *optionsService) Initialize(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system options...")
 
-	for _, option := range config.SystemDefaultOptions {
+	for _, option := range configData.SystemDefaultOptions {
 		existing, err := s.options.Get(ctx, &structs.FindOptions{
 			Option: option.Name,
 		})

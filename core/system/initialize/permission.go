@@ -3,6 +3,7 @@ package initialize
 import (
 	"context"
 	accessStructs "ncobase/core/access/structs"
+	"ncobase/core/system/initialize/data"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
@@ -18,102 +19,79 @@ func (s *Service) checkPermissionsInitialized(ctx context.Context) error {
 	return nil
 }
 
-// initPermissions initializes permissions and their relationships.
+// initPermissions initializes permissions from configuration.
 func (s *Service) initPermissions(ctx context.Context) error {
-	permissions := []accessStructs.CreatePermissionBody{
-		{
-			PermissionBody: accessStructs.PermissionBody{
-				Name:        "All",
-				Action:      "*",
-				Subject:     "*",
-				Description: "Full access to all resources",
-			},
-		},
-		{
-			PermissionBody: accessStructs.PermissionBody{
-				Name:        "Read all",
-				Action:      "GET",
-				Subject:     "*",
-				Description: "Read access to all resources",
-			},
-		},
-		{
-			PermissionBody: accessStructs.PermissionBody{
-				Name:        "Write all",
-				Action:      "POST",
-				Subject:     "*",
-				Description: "Write access to all resources",
-			},
-		},
-		{
-			PermissionBody: accessStructs.PermissionBody{
-				Name:        "Update all",
-				Action:      "PUT",
-				Subject:     "*",
-				Description: "Update access to all resources",
-			},
-		},
-		{
-			PermissionBody: accessStructs.PermissionBody{
-				Name:        "Delete all",
-				Action:      "DELETE",
-				Subject:     "*",
-				Description: "Delete access to all resources",
-			},
-		},
-	}
+	logger.Infof(ctx, "Initializing system permissions...")
 
-	for _, permission := range permissions {
+	// Create standard system permissions
+	for _, permission := range data.SystemDefaultPermissions {
 		if _, err := s.acs.Permission.Create(ctx, &permission); err != nil {
-			logger.Errorf(ctx, "initPermissions error on create permission: %v", err)
+			logger.Errorf(ctx, "Error creating permission %s: %v", permission.Name, err)
 			return err
 		}
+		logger.Debugf(ctx, "Created permission: %s", permission.Name)
 	}
 
+	// Create organization-specific permissions
+	for _, permission := range data.OrganizationPermissions {
+		createPermission := accessStructs.CreatePermissionBody{
+			PermissionBody: permission,
+		}
+		if _, err := s.acs.Permission.Create(ctx, &createPermission); err != nil {
+			logger.Errorf(ctx, "Error creating organization permission %s: %v", permission.Name, err)
+			return err
+		}
+		logger.Debugf(ctx, "Created organization permission: %s", permission.Name)
+	}
+
+	// Assign permissions to roles based on mapping
 	allPermissions, err := s.acs.Permission.List(ctx, &accessStructs.ListPermissionParams{})
 	if err != nil {
-		logger.Errorf(ctx, "initPermissions error on list permissions: %v", err)
+		logger.Errorf(ctx, "Error listing permissions: %v", err)
 		return err
 	}
 
 	roles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{})
 	if err != nil {
-		logger.Errorf(ctx, "initPermissions error on list roles: %v", err)
+		logger.Errorf(ctx, "Error listing roles: %v", err)
 		return err
 	}
 
+	// Map permissions to roles
 	for _, role := range roles.Items {
-		for _, perm := range allPermissions.Items {
-			var assignPermission bool
-			switch role.Slug {
-			case "super-admin":
-				// Super Admin gets all permissions
-				if perm.Action == "*" && perm.Subject == "*" {
-					assignPermission = true
-				}
-			case "admin":
-				// Admin gets read and write permissions
-				if perm.Action == "GET" || perm.Action == "POST" || perm.Action == "PUT" || perm.Action == "DELETE" {
-					assignPermission = true
-				}
-			case "user":
-				// User gets read permissions only
-				if perm.Action == "GET" {
-					assignPermission = true
+		// Get permissions for this role from config
+		permissionNames, ok := data.RolePermissionMapping[role.Slug]
+		if !ok {
+			logger.Debugf(ctx, "No permission mapping configured for role: %s", role.Slug)
+			continue
+		}
+
+		// Add each configured permission to role
+		for _, permName := range permissionNames {
+			// Find permission by name
+			var permToAdd *accessStructs.ReadPermission
+			for _, perm := range allPermissions.Items {
+				if perm.Name == permName {
+					permToAdd = perm
+					break
 				}
 			}
 
-			if assignPermission {
-				if _, err := s.acs.RolePermission.AddPermissionToRole(ctx, role.ID, perm.ID); err != nil {
-					logger.Errorf(ctx, "initPermissions error on create role-permission: %v", err)
-					return err
-				}
+			if permToAdd == nil {
+				logger.Warnf(ctx, "Permission %s not found for role %s", permName, role.Slug)
+				continue
 			}
+
+			if _, err := s.acs.RolePermission.AddPermissionToRole(ctx, role.ID, permToAdd.ID); err != nil {
+				logger.Errorf(ctx, "Error adding permission %s to role %s: %v", permName, role.Slug, err)
+				return err
+			}
+			logger.Debugf(ctx, "Added permission %s to role %s", permName, role.Slug)
 		}
 	}
 
 	count := s.acs.Permission.CountX(ctx, &accessStructs.ListPermissionParams{})
-	logger.Debugf(ctx, "-------- initPermissions done, created %d permissions", count)
+	logger.Infof(ctx, "Permission initialization completed, created %d permissions", count)
 
 	return nil
 }

@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"context"
+	"ncobase/core/system/initialize/data"
 	tenantStructs "ncobase/core/tenant/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
@@ -27,17 +28,9 @@ func (s *Service) checkTenantsInitialized(ctx context.Context) error {
 
 // initTenants initializes the domains (tenants).
 func (s *Service) initTenants(ctx context.Context) error {
-	tenants := []tenantStructs.CreateTenantBody{
-		{
-			TenantBody: tenantStructs.TenantBody{
-				Name:      "Ncobase Co, Ltd.",
-				Slug:      "ncobase",
-				CreatedBy: nil,
-			},
-		},
-	}
+	logger.Infof(ctx, "Initializing system tenants...")
 
-	for _, tenant := range tenants {
+	for _, tenant := range data.SystemDefaultTenants {
 		existing, err := s.ts.Tenant.GetBySlug(ctx, tenant.Slug)
 		if err == nil && existing != nil {
 			logger.Infof(ctx, "Tenant %s already exists, skipping", tenant.Slug)
@@ -45,11 +38,13 @@ func (s *Service) initTenants(ctx context.Context) error {
 		}
 
 		if _, err := s.ts.Tenant.Create(ctx, &tenant); err != nil {
-			logger.Errorf(ctx, "initTenants error on create domain: %v", err)
+			logger.Errorf(ctx, "Error creating tenant %s: %v", tenant.Name, err)
 			return err
 		}
+		logger.Debugf(ctx, "Created tenant: %s", tenant.Name)
 	}
 
-	logger.Debugf(ctx, "-------- initTenants done, created %d domains", len(tenants))
+	count := s.ts.Tenant.CountX(ctx, &tenantStructs.ListTenantParams{})
+	logger.Infof(ctx, "Tenant initialization completed, created %d tenants", count)
 	return nil
 }

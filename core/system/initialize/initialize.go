@@ -6,6 +6,7 @@ import (
 	accessService "ncobase/core/access/service"
 	authService "ncobase/core/auth/service"
 	spaceService "ncobase/core/space/service"
+	"ncobase/core/system/service"
 	tenantService "ncobase/core/tenant/service"
 	userService "ncobase/core/user/service"
 	"time"
@@ -29,6 +30,7 @@ type InitState struct {
 
 // Service is the struct for the initialization service.
 type Service struct {
+	menu  service.MenuServiceInterface
 	as    *authService.Service
 	us    *userService.Service
 	ts    *tenantService.Service
@@ -38,13 +40,14 @@ type Service struct {
 }
 
 // New creates a new initDataService.
-func New(as *authService.Service, us *userService.Service, ts *tenantService.Service, ss *spaceService.Service, acs *accessService.Service) *Service {
+func New(menu service.MenuServiceInterface, as *authService.Service, us *userService.Service, ts *tenantService.Service, ss *spaceService.Service, acs *accessService.Service) *Service {
 	return &Service{
-		as:  as,
-		us:  us,
-		ts:  ts,
-		ss:  ss,
-		acs: acs,
+		menu: menu,
+		as:   as,
+		us:   us,
+		ts:   ts,
+		ss:   ss,
+		acs:  acs,
 		state: &InitState{
 			IsInitialized: false,
 			Statuses:      make([]InitStatus, 0),
@@ -87,6 +90,7 @@ func (s *Service) Execute(ctx context.Context, allowReinitialization bool) (*Ini
 		{"permissions", s.checkPermissionsInitialized},
 		{"tenants", s.checkTenantsInitialized},
 		{"users", s.checkUsersInitialized},
+		{"menus", s.checkMenusInitialized},
 		{"casbin_policies", s.checkCasbinPoliciesInitialized},
 		{"organizational_structure", s.checkGroupsInitialized},
 	}

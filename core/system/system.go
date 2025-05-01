@@ -3,7 +3,6 @@ package system
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	sysConfig "ncobase/core/system/config"
 	"ncobase/core/system/data"
 	"ncobase/core/system/handler"
 	"ncobase/core/system/initialize"
@@ -32,13 +31,12 @@ type Module struct {
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface
-	conf        *config.Config
-	sysConf     *sysConfig.Config
 	h           *handler.Handler
 	s           *service.Service
 	i           *initialize.Service
 	d           *data.Data
 	cleanup     func(name ...string)
+	config      *Config
 
 	discovery
 }
@@ -70,9 +68,9 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 		return fmt.Errorf("system module already initialized")
 	}
 
-	m.sysConf = sysConfig.GetDefaultConfig()
+	m.config = GetDefaultConfig()
 	if conf.Viper != nil {
-		m.sysConf = sysConfig.GetConfigFromFile(m.sysConf, conf.Viper)
+		m.config = GetConfigFromFile(m.config, conf.Viper)
 	}
 
 	m.d, m.cleanup, err = data.New(conf.Data)
@@ -121,7 +119,7 @@ func (m *Module) PostInit() error {
 		return err
 	}
 	// initialize
-	m.i = initialize.New(as, us, ts, ss, acs)
+	m.i = initialize.New(m.s.Menu, as, us, ts, ss, acs)
 	return nil
 }
 
@@ -135,16 +133,16 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Public initialization endpoint
 	r.POST("/"+m.Group()+"/initialize", func(c *gin.Context) {
 		// Check initialization token if configured
-		if m.sysConf.Initialization.InitToken != "" {
+		if m.config.Initialization.InitToken != "" {
 			initToken := c.GetHeader("X-Init-Token")
-			if initToken != m.sysConf.Initialization.InitToken {
+			if initToken != m.config.Initialization.InitToken {
 				resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
 				return
 			}
 		}
 
 		// Execute initialization
-		state, err := m.i.Execute(c.Request.Context(), m.sysConf.Initialization.AllowReinitialization)
+		state, err := m.i.Execute(c.Request.Context(), m.config.Initialization.AllowReinitialization)
 		if err != nil {
 			// Special case for "already initialized" error
 			if err.Error() == "system is already initialized" {

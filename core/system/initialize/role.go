@@ -3,6 +3,7 @@ package initialize
 import (
 	"context"
 	accessStructs "ncobase/core/access/structs"
+	"ncobase/core/system/initialize/data"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
@@ -20,45 +21,18 @@ func (s *Service) checkRolesInitialized(ctx context.Context) error {
 
 // initRoles initializes roles.
 func (s *Service) initRoles(ctx context.Context) error {
-	roles := []*accessStructs.CreateRoleBody{
-		{
-			RoleBody: accessStructs.RoleBody{
-				Name:        "Super Admin",
-				Slug:        "super-admin",
-				Disabled:    false,
-				Description: "Super Administrator role with all permissions",
-				Extras:      nil,
-			},
-		},
-		{
-			RoleBody: accessStructs.RoleBody{
-				Name:        "Admin",
-				Slug:        "admin",
-				Disabled:    false,
-				Description: "Administrator role with some permissions",
-				Extras:      nil,
-			},
-		},
-		{
-			RoleBody: accessStructs.RoleBody{
-				Name:        "User",
-				Slug:        "user",
-				Disabled:    false,
-				Description: "User role with some permissions",
-				Extras:      nil,
-			},
-		},
-	}
+	logger.Infof(ctx, "Initializing system roles...")
 
-	for _, role := range roles {
-		if _, err := s.acs.Role.Create(ctx, role); err != nil {
-			logger.Errorf(ctx, "initRoles error on create role: %v", err)
+	for _, role := range data.SystemDefaultRoles {
+		if _, err := s.acs.Role.Create(ctx, &role); err != nil {
+			logger.Errorf(ctx, "Error creating role %s: %v", role.Name, err)
 			return err
 		}
+		logger.Debugf(ctx, "Created role: %s", role.Name)
 	}
 
 	count := s.acs.Role.CountX(ctx, &accessStructs.ListRoleParams{})
-	logger.Debugf(ctx, "-------- initRoles done, created %d roles", count)
+	logger.Infof(ctx, "Role initialization completed, created %d roles", count)
 
 	return nil
 }
