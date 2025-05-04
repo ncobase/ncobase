@@ -298,7 +298,7 @@ var SystemDefaultMenus = struct {
 			Label:    "builder.feature.navigation",
 			Slug:     "builder-feature",
 			Type:     "sidebar",
-			Path:     "/builder/form",
+			Path:     "/builder/feature",
 			Icon:     "IconApps",
 			Order:    convert.ToPointer(1),
 			Hidden:   convert.ToPointer(false),
