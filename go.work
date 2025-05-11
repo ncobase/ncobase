@@ -15,7 +15,7 @@ use (
 	./core/workflow
 	./domain/content
 	./domain/resource
-	./pkg
+	./ncore
 	./plugin/counter
 	./plugin/sample
 	./proxy

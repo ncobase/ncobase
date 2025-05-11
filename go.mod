@@ -23,8 +23,8 @@ replace (
 // plugins
 replace ncobase/plugin/counter => ./plugin/counter
 
-// pkg
-replace github.com/ncobase/ncore => ./pkg
+// ncore
+replace github.com/ncobase/ncore => ./ncore
 
 require (
 	github.com/casbin/casbin/v2 v2.104.0
