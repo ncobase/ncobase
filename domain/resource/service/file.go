@@ -110,6 +110,11 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 		if closer, ok := body.File.(io.Closer); ok {
 			defer closer.Close()
 		}
+
+		// Create a new reader for storage
+		body.File = &readCloser{bytes.NewReader(fileBytes)}
+	} else {
+		return nil, errors.New("file content is required")
 	}
 
 	// Handle file storage
@@ -130,9 +135,17 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	}
 
 	// Set file category based on extension if not provided
-	if body.Metadata != nil && body.Metadata.Category == "" {
-		ext := filepath.Ext(body.Path)
-		body.Metadata.Category = structs.GetFileCategory(ext)
+	if body.Metadata == nil {
+		body.Metadata = &structs.FileMetadata{
+			Category:     structs.GetFileCategory(filepath.Ext(body.Path)),
+			CustomFields: make(map[string]any),
+		}
+	} else if body.Metadata.Category == "" {
+		body.Metadata.Category = structs.GetFileCategory(filepath.Ext(body.Path))
+	}
+
+	if body.Metadata.CustomFields == nil {
+		body.Metadata.CustomFields = make(map[string]any)
 	}
 
 	// Assign storage provider info
@@ -146,44 +159,49 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 
 	// Process image if needed and it's an image file
 	thumbnailPath := ""
-	if len(fileBytes) > 0 && validator.IsImageFile(body.Path) && s.imageProcessor != nil && body.ProcessingOptions != nil {
+	if len(fileBytes) > 0 && validator.IsImageFile(body.Path) && s.imageProcessor != nil {
+		// Create default processing options if not provided
+		if body.ProcessingOptions == nil {
+			body.ProcessingOptions = &structs.ProcessingOptions{
+				CreateThumbnail: true,
+				MaxWidth:        300,
+				MaxHeight:       300,
+			}
+		}
+
+		// Always create thumbnail for images
+		body.ProcessingOptions.CreateThumbnail = true
+
 		// Create a reader for the file
-		fileReader := bytes.NewReader(fileBytes)
+		// fileReader := bytes.NewReader(fileBytes)
 
-		// Create thumbnail if requested
-		if body.ProcessingOptions.CreateThumbnail {
-			maxWidth := body.ProcessingOptions.MaxWidth
-			if maxWidth <= 0 {
-				maxWidth = 300 // Default thumbnail width
-			}
+		// Get image dimensions
+		width, height, err := s.imageProcessor.GetImageDimensions(ctx, bytes.NewReader(fileBytes), body.Name)
+		if err == nil && body.Metadata != nil {
+			body.Metadata.Width = &width
+			body.Metadata.Height = &height
+		}
 
-			maxHeight := body.ProcessingOptions.MaxHeight
-			if maxHeight <= 0 {
-				maxHeight = 300 // Default thumbnail height
-			}
+		// Create thumbnail
+		thumbnailBytes, err := s.imageProcessor.CreateThumbnail(
+			ctx,
+			bytes.NewReader(fileBytes),
+			body.Name,
+			body.ProcessingOptions.MaxWidth,
+			body.ProcessingOptions.MaxHeight,
+		)
 
-			thumbnailBytes, err := s.imageProcessor.CreateThumbnail(ctx, fileReader, body.Name, maxWidth, maxHeight)
+		if err != nil {
+			logger.Warnf(ctx, "Error creating thumbnail: %v", err)
+		} else {
+			// Store the thumbnail
+			thumbnailPath = fmt.Sprintf("thumbnails/%s", body.Path)
+			_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
 			if err != nil {
-				logger.Warnf(ctx, "Error creating thumbnail: %v", err)
+				logger.Warnf(ctx, "Error storing thumbnail: %v", err)
+				thumbnailPath = ""
 			} else {
-				// Store the thumbnail
-				thumbnailPath = fmt.Sprintf("thumbnails/%s", body.Path)
-				_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
-				if err != nil {
-					logger.Warnf(ctx, "Error storing thumbnail: %v", err)
-					thumbnailPath = ""
-				}
-
 				// Update metadata
-				if body.Metadata == nil {
-					body.Metadata = &structs.FileMetadata{
-						Category: structs.GetFileCategory(filepath.Ext(body.Path)),
-					}
-				}
-
-				if body.Metadata.CustomFields == nil {
-					body.Metadata.CustomFields = make(map[string]any)
-				}
 				body.Metadata.CustomFields["has_thumbnail"] = true
 				body.Metadata.CustomFields["thumbnail_path"] = thumbnailPath
 			}
@@ -282,11 +300,13 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 	storage, storageConfig := ctxutil.GetStorage(ctx)
 
 	// Handle file update if path is included in updates
+	fileBytes := []byte{}
+	thumbnailPath := ""
 	if path, ok := updates["path"].(string); ok {
 		// Check if the file content is included in the updates
 		if fileReader, ok := updates["file"].(io.Reader); ok {
 			// Read the entire file content
-			fileBytes, err := io.ReadAll(fileReader)
+			fileBytes, err = io.ReadAll(fileReader)
 			if err != nil {
 				logger.Errorf(ctx, "Error reading file: %v", err)
 				return nil, errors.New("error reading uploaded file")
@@ -325,11 +345,9 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 				return nil, errors.New("error updating file")
 			}
 
-			// Update storage
+			// Update storage details
 			updates["storage"] = storageConfig.Provider
-			// Update bucket
 			updates["bucket"] = storageConfig.Bucket
-			// Update endpoint
 			updates["endpoint"] = storageConfig.Endpoint
 
 			// Process image if it's an image file
@@ -347,25 +365,76 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 					}
 				}
 
-				// Create thumbnail
-				if options.CreateThumbnail {
-					thumbnailBytes, err := s.imageProcessor.CreateThumbnail(ctx, bytes.NewReader(fileBytes), path, options.MaxWidth, options.MaxHeight)
-					if err != nil {
-						logger.Warnf(ctx, "Error creating thumbnail: %v", err)
-					} else {
-						// Store the thumbnail
-						thumbnailPath := fmt.Sprintf("thumbnails/%s", path)
-						_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
-						if err != nil {
-							logger.Warnf(ctx, "Error storing thumbnail: %v", err)
-						} else {
-							// Update extras with thumbnail path
-							extras := getExtrasFromFile(existing)
-							extras["thumbnail_path"] = thumbnailPath
-							updates["extras"] = extras
-						}
+				// Always create thumbnail for images
+				options.CreateThumbnail = true
+
+				// Get image dimensions
+				width, height, err := s.imageProcessor.GetImageDimensions(
+					ctx,
+					bytes.NewReader(fileBytes),
+					path,
+				)
+
+				// Update metadata with dimensions
+				extras := getExtrasFromFile(existing)
+				var metadata *structs.FileMetadata
+
+				if meta, ok := extras["metadata"].(*structs.FileMetadata); ok {
+					metadata = meta
+				} else if metaMap, ok := extras["metadata"].(map[string]any); ok {
+					metadata = &structs.FileMetadata{
+						Category:     structs.FileCategoryOther,
+						CustomFields: make(map[string]any),
+					}
+
+					if cat, ok := metaMap["category"].(string); ok {
+						metadata.Category = structs.FileCategory(cat)
+					}
+
+					if custom, ok := metaMap["custom_fields"].(map[string]any); ok {
+						metadata.CustomFields = custom
+					}
+				} else {
+					metadata = &structs.FileMetadata{
+						Category:     structs.GetFileCategory(filepath.Ext(path)),
+						CustomFields: make(map[string]any),
 					}
 				}
+
+				if err == nil {
+					metadata.Width = &width
+					metadata.Height = &height
+				}
+
+				extras["metadata"] = metadata
+
+				// Create and store thumbnail
+				thumbnailBytes, err := s.imageProcessor.CreateThumbnail(
+					ctx,
+					bytes.NewReader(fileBytes),
+					path,
+					options.MaxWidth,
+					options.MaxHeight,
+				)
+
+				if err != nil {
+					logger.Warnf(ctx, "Error creating thumbnail: %v", err)
+				} else {
+					// Store the thumbnail
+					thumbnailPath = fmt.Sprintf("thumbnails/%s", path)
+					_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
+					if err != nil {
+						logger.Warnf(ctx, "Error storing thumbnail: %v", err)
+					} else {
+						// Update metadata with thumbnail path
+						metadata.CustomFields["has_thumbnail"] = true
+						metadata.CustomFields["thumbnail_path"] = thumbnailPath
+						extras["thumbnail_path"] = thumbnailPath
+					}
+				}
+
+				// Add updated extras
+				updates["extras"] = extras
 			}
 
 			// Remove file from updates after storing to avoid saving the file object itself in DB
@@ -376,49 +445,61 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 				updates["size"] = len(fileBytes)
 			}
 		}
+	} else {
+		// If no new file, check if we need to extract the current thumbnail path
+		extras := getExtrasFromFile(existing)
+		if tp, ok := extras["thumbnail_path"].(string); ok {
+			thumbnailPath = tp
+		} else if metadata, ok := extras["metadata"].(*structs.FileMetadata); ok && metadata.CustomFields != nil {
+			if tp, ok := metadata.CustomFields["thumbnail_path"].(string); ok {
+				thumbnailPath = tp
+			}
+		}
 	}
 
-	// Update extended properties
-	extras := getExtrasFromFile(existing)
+	// Update extended properties if no file update is happening
+	if len(fileBytes) == 0 {
+		extras := getExtrasFromFile(existing)
 
-	// Update folder path if provided
-	if folderPath, ok := updates["folder_path"].(string); ok {
-		extras["folder_path"] = folderPath
-		delete(updates, "folder_path")
+		// Update folder path if provided
+		if folderPath, ok := updates["folder_path"].(string); ok {
+			extras["folder_path"] = folderPath
+			delete(updates, "folder_path")
+		}
+
+		// Update access level if provided
+		if accessLevel, ok := updates["access_level"].(structs.AccessLevel); ok {
+			extras["access_level"] = string(accessLevel)
+			delete(updates, "access_level")
+		}
+
+		// Update expires_at if provided
+		if expiresAt, ok := updates["expires_at"].(*int64); ok {
+			extras["expires_at"] = *expiresAt
+			delete(updates, "expires_at")
+		}
+
+		// Update metadata if provided
+		if metadata, ok := updates["metadata"].(*structs.FileMetadata); ok {
+			extras["metadata"] = metadata
+			delete(updates, "metadata")
+		}
+
+		// Update tags if provided
+		if tags, ok := updates["tags"].([]string); ok {
+			extras["tags"] = tags
+			delete(updates, "tags")
+		}
+
+		// Update isPublic if provided
+		if isPublic, ok := updates["is_public"].(bool); ok {
+			extras["is_public"] = isPublic
+			delete(updates, "is_public")
+		}
+
+		// Add extras back to updates
+		updates["extras"] = extras
 	}
-
-	// Update access level if provided
-	if accessLevel, ok := updates["access_level"].(structs.AccessLevel); ok {
-		extras["access_level"] = string(accessLevel)
-		delete(updates, "access_level")
-	}
-
-	// Update expires_at if provided
-	if expiresAt, ok := updates["expires_at"].(*int64); ok {
-		extras["expires_at"] = *expiresAt
-		delete(updates, "expires_at")
-	}
-
-	// Update metadata if provided
-	if metadata, ok := updates["metadata"].(*structs.FileMetadata); ok {
-		extras["metadata"] = metadata
-		delete(updates, "metadata")
-	}
-
-	// Update tags if provided
-	if tags, ok := updates["tags"].([]string); ok {
-		extras["tags"] = tags
-		delete(updates, "tags")
-	}
-
-	// Update isPublic if provided
-	if isPublic, ok := updates["is_public"].(bool); ok {
-		extras["is_public"] = isPublic
-		delete(updates, "is_public")
-	}
-
-	// Add extras back to updates
-	updates["extras"] = extras
 
 	// Set updated by
 	userID := ctxutil.GetUserID(ctx)
@@ -449,7 +530,12 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 	}
 
 	// Extract extended properties
-	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath := extractExtendedProperties(row)
+	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, extractedThumbnailPath := extractExtendedProperties(row)
+
+	// Use the thumbnail path from the operation if available, otherwise use the extracted one
+	if thumbnailPath == "" {
+		thumbnailPath = extractedThumbnailPath
+	}
 
 	// Return extended file
 	return s.Serialize(row, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath), nil
@@ -990,6 +1076,9 @@ func (s *fileService) CreateThumbnail(
 			MaxWidth:        300,
 			MaxHeight:       300,
 		}
+	} else {
+		// Ensure thumbnail creation is enabled
+		options.CreateThumbnail = true
 	}
 
 	// Get storage interface
@@ -1029,9 +1118,11 @@ func (s *fileService) CreateThumbnail(
 
 	// Update extras
 	extras := getExtrasFromFile(row)
+
+	// Store thumbnail path in both locations for backward compatibility
 	extras["thumbnail_path"] = thumbnailPath
 
-	// Update metadata
+	// Get and update metadata
 	var metadata *structs.FileMetadata
 	if meta, ok := extras["metadata"].(*structs.FileMetadata); ok {
 		metadata = meta
@@ -1047,14 +1138,16 @@ func (s *fileService) CreateThumbnail(
 
 		if width, ok := metaMap["width"].(int); ok {
 			metadata.Width = &width
+		} else if width, ok := metaMap["width"].(float64); ok {
+			widthInt := int(width)
+			metadata.Width = &widthInt
 		}
 
 		if height, ok := metaMap["height"].(int); ok {
 			metadata.Height = &height
-		}
-
-		if duration, ok := metaMap["duration"].(float64); ok {
-			metadata.Duration = &duration
+		} else if height, ok := metaMap["height"].(float64); ok {
+			heightInt := int(height)
+			metadata.Height = &heightInt
 		}
 
 		if custom, ok := metaMap["custom_fields"].(map[string]any); ok {
@@ -1063,15 +1156,31 @@ func (s *fileService) CreateThumbnail(
 			metadata.CustomFields = make(map[string]any)
 		}
 	} else {
+		// Create new metadata
 		metadata = &structs.FileMetadata{
 			Category:     structs.GetFileCategory(filepath.Ext(row.Path)),
 			CustomFields: make(map[string]any),
 		}
+
+		// Try to get dimensions
+		width, height, err := s.imageProcessor.GetImageDimensions(
+			ctx,
+			bytes.NewReader(fileBytes),
+			row.Name,
+		)
+		if err == nil {
+			metadata.Width = &width
+			metadata.Height = &height
+		}
+	}
+
+	// Ensure custom fields exist
+	if metadata.CustomFields == nil {
+		metadata.CustomFields = make(map[string]any)
 	}
 
 	metadata.CustomFields["has_thumbnail"] = true
 	metadata.CustomFields["thumbnail_path"] = thumbnailPath
-
 	extras["metadata"] = metadata
 
 	// Update file
@@ -1214,7 +1323,8 @@ func extractExtendedProperties(file *ent.File) (
 	} else if metaMap, ok := extras["metadata"].(map[string]any); ok {
 		// Convert map to FileMetadata
 		metadata = &structs.FileMetadata{
-			Category: structs.FileCategoryOther,
+			Category:     structs.FileCategoryOther,
+			CustomFields: make(map[string]any),
 		}
 
 		if cat, ok := metaMap["category"].(string); ok {
@@ -1241,13 +1351,16 @@ func extractExtendedProperties(file *ent.File) (
 
 		if custom, ok := metaMap["custom_fields"].(map[string]any); ok {
 			metadata.CustomFields = custom
+		} else {
+			metadata.CustomFields = make(map[string]any)
 		}
 	}
 
 	// Default metadata if not present
 	if metadata == nil {
 		metadata = &structs.FileMetadata{
-			Category: structs.GetFileCategory(filepath.Ext(file.Path)),
+			Category:     structs.GetFileCategory(filepath.Ext(file.Path)),
+			CustomFields: make(map[string]any),
 		}
 	}
 
@@ -1268,7 +1381,7 @@ func extractExtendedProperties(file *ent.File) (
 		isPublic = ip
 	}
 
-	// Get thumbnail path
+	// Get thumbnail path - check both locations
 	if tp, ok := extras["thumbnail_path"].(string); ok {
 		thumbnailPath = tp
 	} else if metadata != nil && metadata.CustomFields != nil {

@@ -48,7 +48,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	}
 
 	// create ent client
-	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate, conf.Enveronment) // master support migration
+	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate, conf.Environment) // master support migration
 	if err != nil {
 		return nil, nil, err
 	}
@@ -56,7 +56,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	// get slave connection, create ent client
 	var entClientRead *ent.Client
 	if readDB, err := d.DBRead(); err == nil && readDB != nil {
-		entClientRead, err = newEntClient(readDB, conf.Database.Master, false, conf.Enveronment) // slave does not support migration
+		entClientRead, err = newEntClient(readDB, conf.Database.Master, false, conf.Environment) // slave does not support migration
 		if err != nil {
 			logger.Warnf(context.Background(), "Failed to create read-only ent client: %v", err)
 		}
