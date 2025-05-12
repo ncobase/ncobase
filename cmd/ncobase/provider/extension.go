@@ -23,8 +23,7 @@ import (
 // registerExtensions registers all built-in extensions
 func registerExtensions(em ext.ManagerInterface) {
 	// All built-in components
-	// Add more components here, disordered
-	// dependent sorting through the getInitOrder method
+	// Add more components here
 	fs := make([]ext.Interface, 0)
 
 	// Core extensions

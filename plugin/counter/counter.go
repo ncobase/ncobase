@@ -164,6 +164,11 @@ func (p *Plugin) Dependencies() []string {
 	return dependencies
 }
 
+// GetAllDependencies returns all dependencies with their types
+func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
+	return []ext.DependencyEntry{}
+}
+
 // Description returns the description of the plugin
 func (p *Plugin) Description() string {
 	return desc

@@ -163,6 +163,11 @@ func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
+// GetAllDependencies returns all dependencies with their types
+func (m *Module) GetAllDependencies() []ext.DependencyEntry {
+	return []ext.DependencyEntry{}
+}
+
 // Description returns the description of the module
 func (m *Module) Description() string {
 	return desc
