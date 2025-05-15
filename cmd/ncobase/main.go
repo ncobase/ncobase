@@ -118,6 +118,20 @@ func createListener(conf *config.Config) (net.Listener, error) {
 
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
+		// If port is in use, try to find a random available port
+		if strings.Contains(err.Error(), "address already in use") && conf.Port != 0 {
+			// Try with port 0 to let system assign a random port
+			originalPort := conf.Port
+			tmpAddr := fmt.Sprintf("%s:0", conf.Host)
+			listener, err = net.Listen("tcp", tmpAddr)
+			if err != nil {
+				return nil, fmt.Errorf("error starting server with random port: %w", err)
+			}
+			// Update config with the new port
+			conf.Port = listener.Addr().(*net.TCPAddr).Port
+			logger.Infof(context.Background(), "Port %d was in use, switched to port %d", originalPort, conf.Port)
+			return listener, nil
+		}
 		return nil, fmt.Errorf("error starting server: %w", err)
 	}
 
