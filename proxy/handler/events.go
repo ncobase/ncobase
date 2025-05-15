@@ -1,48 +1,42 @@
-package proxy
+package handler
 
-import (
-	"context"
+import "ncobase/proxy/event"
 
-	"github.com/ncobase/ncore/logging/logger"
-)
-
-// InitializeEventSystem sets up the event system integration
-func (m *Module) InitializeEventSystem() error {
-	// Set the manager in the dynamic handler for event support
-	m.h.Dynamic.SetExtensionManager(m.em)
-
-	// Initialize event support in the processor service
-	m.s.Processor.InitializeEventSupport(m.em)
-
-	// Subscribe to relevant module events
-	m.registerSystemEventHandlers()
-
-	logger.Infof(context.Background(), "Proxy module event system initialized")
-	return nil
+// EventHandlerInterface defines the interface for event handler operations
+type EventHandlerInterface interface {
+	GetHandlers() map[string]event.Handler
 }
 
-// registerSystemEventHandlers subscribes to system-wide events
-func (m *Module) registerSystemEventHandlers() {
-	// Subscribe to user-related events that might affect proxy operations
-	m.em.SubscribeEvent("user.created", m.handleUserCreated)
-	m.em.SubscribeEvent("user.updated", m.handleUserUpdated)
-	m.em.SubscribeEvent("user.deleted", m.handleUserDeleted)
+// eventHandler provides event handlers for the auditing module
+type eventHandler struct {
+}
 
-	// Subscribe to tenant-related events that might affect proxy operations
-	m.em.SubscribeEvent("tenant.created", m.handleTenantCreated)
-	m.em.SubscribeEvent("tenant.updated", m.handleTenantUpdated)
-	m.em.SubscribeEvent("tenant.deleted", m.handleTenantDeleted)
+// NewEventProvider creates a new event handler provider
+func NewEventProvider() EventHandlerInterface {
+	return &eventHandler{}
+}
 
-	// Subscribe to space-related events
-	m.em.SubscribeEvent("space.created", m.handleSpaceCreated)
-	m.em.SubscribeEvent("space.updated", m.handleSpaceUpdated)
-	m.em.SubscribeEvent("space.deleted", m.handleSpaceDeleted)
+// GetHandlers returns a map of event handlers
+func (e *eventHandler) GetHandlers() map[string]event.Handler {
+	return map[string]event.Handler{
+		"user.created": e.handleUserCreated,
+		"user.updated": e.handleUserUpdated,
+		"user.deleted": e.handleUserDeleted,
 
-	logger.Info(context.Background(), "Proxy module subscribed to system events")
+		// Subscribe to tenant-related events that might affect proxy operations
+		"tenant.created": e.handleTenantCreated,
+		"tenant.updated": e.handleTenantUpdated,
+		"tenant.deleted": e.handleTenantDeleted,
+
+		// Subscribe to space-related events
+		"space.created": e.handleSpaceCreated,
+		"space.updated": e.handleSpaceUpdated,
+		"space.deleted": e.handleSpaceDeleted,
+	}
 }
 
 // handleUserCreated processes user creation events
-func (m *Module) handleUserCreated(data any) {
+func (e *eventHandler) handleUserCreated(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")
@@ -52,7 +46,7 @@ func (m *Module) handleUserCreated(data any) {
 	// logger.Debugf(context.Background(), "Processing user.created event for proxy module")
 
 	// Example: Accessing Event Data
-	// userID, _ := eventData.Payload["userID"].(string) // 假设 Payload 是 map[string]any
+	// userID, _ := eventData.Payload["userID"].(string)
 	// logger.Debugf(context.Background(), "User created with ID: %s", userID)
 
 	// Handle integration with external user management systems
@@ -60,7 +54,7 @@ func (m *Module) handleUserCreated(data any) {
 }
 
 // handleUserUpdated processes user update events
-func (m *Module) handleUserUpdated(data any) {
+func (e *eventHandler) handleUserUpdated(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")
@@ -79,7 +73,7 @@ func (m *Module) handleUserUpdated(data any) {
 }
 
 // handleUserDeleted processes user deletion events
-func (m *Module) handleUserDeleted(data any) {
+func (e *eventHandler) handleUserDeleted(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")
@@ -97,7 +91,7 @@ func (m *Module) handleUserDeleted(data any) {
 }
 
 // handleTenantCreated processes tenant creation events
-func (m *Module) handleTenantCreated(data any) {
+func (e *eventHandler) handleTenantCreated(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")
@@ -115,7 +109,7 @@ func (m *Module) handleTenantCreated(data any) {
 }
 
 // handleTenantUpdated processes tenant update events
-func (m *Module) handleTenantUpdated(data any) {
+func (e *eventHandler) handleTenantUpdated(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")
@@ -133,7 +127,7 @@ func (m *Module) handleTenantUpdated(data any) {
 }
 
 // handleTenantDeleted processes tenant deletion events
-func (m *Module) handleTenantDeleted(data any) {
+func (e *eventHandler) handleTenantDeleted(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")
@@ -151,7 +145,7 @@ func (m *Module) handleTenantDeleted(data any) {
 }
 
 // handleSpaceCreated processes space creation events
-func (m *Module) handleSpaceCreated(data any) {
+func (e *eventHandler) handleSpaceCreated(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")
@@ -170,7 +164,7 @@ func (m *Module) handleSpaceCreated(data any) {
 }
 
 // handleSpaceUpdated processes space update events
-func (m *Module) handleSpaceUpdated(data any) {
+func (e *eventHandler) handleSpaceUpdated(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")
@@ -188,7 +182,7 @@ func (m *Module) handleSpaceUpdated(data any) {
 }
 
 // handleSpaceDeleted processes space deletion events
-func (m *Module) handleSpaceDeleted(data any) {
+func (e *eventHandler) handleSpaceDeleted(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")

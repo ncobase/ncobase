@@ -1,8 +1,10 @@
 package proxy
 
 import (
+	"context"
 	"fmt"
 	"ncobase/proxy/data"
+	"ncobase/proxy/event"
 	"ncobase/proxy/handler"
 	"ncobase/proxy/service"
 	"sync"
@@ -14,7 +16,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/config"
+	exr "github.com/ncobase/ncore/extension/registry"
 	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 var (
@@ -44,6 +48,12 @@ type Module struct {
 	spaceService  *spaceService.Service
 	accessService *accessService.Service
 
+	// Event components
+	eventPublisher  *event.Publisher
+	eventSubscriber *event.Subscriber
+	eventRegistrar  *event.Registrar
+	eventHandlers   event.HandlerProvider
+
 	discovery
 }
 
@@ -52,6 +62,11 @@ type discovery struct {
 	address string
 	tags    []string
 	meta    map[string]string
+}
+
+// init registers the module
+func init() {
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
 }
 
 // New creates a new instance of the proxy module.
@@ -122,25 +137,54 @@ func (m *Module) PostInit() error {
 		return err
 	}
 
-	// Initialize services with internal services
-	m.s = service.New(m.conf, m.d, m.userService, m.tenantService, m.spaceService, m.accessService)
+	// Setup event system
+	m.setupEventSystem()
+
+	// Initialize services
+	m.s = service.New(m.d)
+
+	// Set event publisher in processor service
+	if processorSvc, ok := m.s.Processor.(service.ProcessorServiceInterface); ok {
+		processorSvc.SetEventPublisher(m.eventPublisher)
+	}
+
 	m.h = handler.New(m.s)
 
-	// // Register default hooks for processing
-	// err = m.RegisterDefaultHooks()
-	// if err != nil {
-	// 	logger.Warnf(context.Background(), "Failed to register default processing hooks: %v", err)
-	// 	// Continue initialization even if hook registration fails
-	// }
-	//
-	// // Initialize event system
-	// err = m.InitializeEventSystem()
-	// if err != nil {
-	// 	logger.Warnf(context.Background(), "Failed to initialize event system: %v", err)
-	// 	// Continue initialization even if event system initialization fails
-	// }
+	// Register event handlers
+	m.registerEventHandlers()
+
+	// Initialize event subscribers
+	if m.eventSubscriber != nil {
+		m.eventSubscriber.Initialize(m.em)
+	}
 
 	return nil
+}
+
+// setupEventSystem initializes event system components
+func (m *Module) setupEventSystem() {
+	// Create event components
+	m.eventPublisher = event.NewPublisher(m.em)
+	m.eventRegistrar = event.NewRegistrar(m.em)
+	m.eventSubscriber = event.NewSubscriber(
+		m.userService,
+		m.tenantService,
+		m.spaceService,
+		m.accessService,
+		m.eventPublisher,
+	)
+
+	// Initialize event handlers
+	m.eventHandlers = handler.NewEventProvider()
+
+	logger.Info(context.Background(), "Event system initialized for proxy module")
+}
+
+// registerEventHandlers registers event handlers with the event system
+func (m *Module) registerEventHandlers() {
+	if m.eventRegistrar != nil && m.eventHandlers != nil {
+		m.eventRegistrar.RegisterHandlers(m.eventHandlers)
+	}
 }
 
 // Name returns the name of the module

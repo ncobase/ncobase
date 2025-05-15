@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"ncobase/proxy/event"
 	"ncobase/proxy/service"
 	"ncobase/proxy/structs"
 	"net/http"
@@ -90,7 +91,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 	}
 
 	// Create event data for tracking this request
-	eventData := &service.ProxyEventData{
+	eventData := &event.ProxyEventData{
 		Timestamp:   time.Now(),
 		EndpointID:  endpoint.ID,
 		EndpointURL: endpoint.BaseURL,
@@ -102,7 +103,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 	// Publish request received event if manager is available
 	if h.manager != nil {
-		h.s.Processor.PublishEvent(h.manager, service.EventRequestReceived, eventData)
+		h.s.Processor.PublishEvent(h.manager, event.EventRequestReceived, eventData)
 	}
 
 	// Construct target URL
@@ -196,7 +197,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 			// Publish event for request transformation
 			if h.manager != nil {
-				h.s.Processor.PublishEvent(h.manager, service.EventRequestTransformed, eventData)
+				h.s.Processor.PublishEvent(h.manager, event.EventRequestTransformed, eventData)
 			}
 		} else if !exists {
 			logger.Warnf(ctx, "Input transformer %s not found in cache", route.InputTransformerID)
@@ -222,14 +223,14 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 			// Publish event for request pre-processing
 			if h.manager != nil {
-				h.s.Processor.PublishEvent(h.manager, service.EventRequestPreProcessed, eventData)
+				h.s.Processor.PublishEvent(h.manager, event.EventRequestPreProcessed, eventData)
 			}
 		}
 	}
 
 	// Publish event for request being sent
 	if h.manager != nil {
-		h.s.Processor.PublishEvent(h.manager, service.EventRequestSent, eventData)
+		h.s.Processor.PublishEvent(h.manager, event.EventRequestSent, eventData)
 	}
 
 	// Execute the request, potentially through a circuit breaker
@@ -247,7 +248,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 				// If circuit breaker was tripped, publish an event
 				if h.manager != nil && strings.Contains(err.Error(), "circuit breaker is open") {
-					h.s.Processor.PublishEvent(h.manager, service.EventCircuitBreakerTripped, eventData)
+					h.s.Processor.PublishEvent(h.manager, event.EventCircuitBreakerTripped, eventData)
 				}
 			} else {
 				stdResp = result.(*http.Response)
@@ -323,7 +324,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 	// Publish response received event
 	if h.manager != nil {
-		h.s.Processor.PublishEvent(h.manager, service.EventResponseReceived, eventData)
+		h.s.Processor.PublishEvent(h.manager, event.EventResponseReceived, eventData)
 	}
 
 	// Read the response body
@@ -354,7 +355,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 			// Publish event for response transformation
 			if h.manager != nil {
-				h.s.Processor.PublishEvent(h.manager, service.EventResponseTransformed, eventData)
+				h.s.Processor.PublishEvent(h.manager, event.EventResponseTransformed, eventData)
 			}
 		} else {
 			logger.Warnf(ctx, "Output transformer %s not found in cache", route.OutputTransformerID)
@@ -378,7 +379,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 		// Publish event for response post-processing
 		if h.manager != nil {
-			h.s.Processor.PublishEvent(h.manager, service.EventResponsePostProcessed, eventData)
+			h.s.Processor.PublishEvent(h.manager, event.EventResponsePostProcessed, eventData)
 		}
 	}
 
@@ -398,7 +399,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 
 	// Publish response sent event
 	if h.manager != nil {
-		h.s.Processor.PublishEvent(h.manager, service.EventResponseSent, eventData)
+		h.s.Processor.PublishEvent(h.manager, event.EventResponseSent, eventData)
 	}
 
 	// Log the successful request if logging is enabled
@@ -433,12 +434,12 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 }
 
 // handleRequestError handles errors and publishes appropriate events
-func (h *dynamicHandler) handleRequestError(ctx context.Context, eventData *service.ProxyEventData, err error) {
+func (h *dynamicHandler) handleRequestError(ctx context.Context, eventData *event.ProxyEventData, err error) {
 	eventData.Error = err.Error()
 
 	// Publish error event if manager is available
 	if h.manager != nil {
-		h.s.Processor.PublishEvent(h.manager, service.EventRequestError, eventData)
+		h.s.Processor.PublishEvent(h.manager, event.EventRequestError, eventData)
 	}
 }
 
@@ -458,7 +459,7 @@ func (h *dynamicHandler) registerCircuitBreaker(endpointID, endpointName string)
 
 			// If circuit breaker state changes, publish an event
 			if h.manager != nil {
-				eventData := &service.ProxyEventData{
+				eventData := &event.ProxyEventData{
 					Timestamp:  time.Now(),
 					EndpointID: endpointID,
 					Method:     "STATE_CHANGE",
@@ -469,9 +470,9 @@ func (h *dynamicHandler) registerCircuitBreaker(endpointID, endpointName string)
 				}
 
 				if to == gobreaker.StateOpen {
-					h.s.Processor.PublishEvent(h.manager, service.EventCircuitBreakerTripped, eventData)
+					h.s.Processor.PublishEvent(h.manager, event.EventCircuitBreakerTripped, eventData)
 				} else if from == gobreaker.StateOpen {
-					h.s.Processor.PublishEvent(h.manager, service.EventCircuitBreakerReset, eventData)
+					h.s.Processor.PublishEvent(h.manager, event.EventCircuitBreakerReset, eventData)
 				}
 			}
 		},
