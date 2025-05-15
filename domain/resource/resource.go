@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/ncobase/ncore/config"
+	exr "github.com/ncobase/ncore/extension/registry"
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 
@@ -341,6 +342,11 @@ func (m *Module) GetServiceInfo() *ext.ServiceInfo {
 		Tags:    tags,
 		Meta:    meta,
 	}
+}
+
+// init registers the module
+func init() {
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
 }
 
 // New creates a new instance of the resource module.

@@ -10,6 +10,7 @@ import (
 	"sync"
 
 	"github.com/ncobase/ncore/config"
+	exr "github.com/ncobase/ncore/extension/registry"
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/logging/observes"
@@ -256,6 +257,11 @@ func (m *Module) Group() string {
 // RegisterEvents registers events for the module
 func (m *Module) subscribeEvents(_ ext.ManagerInterface) {
 	// Implement any event subscriptions here
+}
+
+// init registers the module
+func init() {
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
 }
 
 // New creates a new instance of the auth module.

@@ -69,6 +69,11 @@ func init() {
 	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
 }
 
+// init registers the module
+func init() {
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
+}
+
 // New creates a new instance of the proxy module.
 func New() ext.Interface {
 	return &Module{}
