@@ -1,6 +1,6 @@
 module ncobase/space
 
-go 1.23.2
+go 1.24
 
 replace (
 	ncobase => ../..
@@ -14,7 +14,7 @@ require (
 	entgo.io/ent v0.14.4
 	github.com/gin-gonic/gin v1.10.0
 	github.com/ncobase/ncore v0.1.1
-	github.com/redis/go-redis/v9 v9.7.3
+	github.com/redis/go-redis/v9 v9.8.0
 	ncobase v0.0.0-00010101000000-000000000000
 )
 

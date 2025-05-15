@@ -1,6 +1,6 @@
 module ncobase/auth
 
-go 1.23.2
+go 1.24
 
 replace (
 	ncobase => ../..
@@ -17,7 +17,7 @@ require (
 	github.com/dchest/captcha v1.1.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/ncobase/ncore v0.1.1
-	github.com/redis/go-redis/v9 v9.7.3
+	github.com/redis/go-redis/v9 v9.8.0
 	ncobase v0.0.0-00010101000000-000000000000
 	ncobase/access v0.0.0-00010101000000-000000000000
 	ncobase/space v0.0.0-00010101000000-000000000000

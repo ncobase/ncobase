@@ -1,6 +1,6 @@
 module ncobase
 
-go 1.23.2
+go 1.24
 
 // core domains
 replace (
@@ -37,15 +37,15 @@ require (
 	go.opentelemetry.io/otel v1.35.0
 	ncobase/access v0.0.0-00010101000000-000000000000
 	ncobase/auth v0.0.0-00010101000000-000000000000
+	ncobase/content v0.0.0-00010101000000-000000000000
+	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
 	ncobase/realtime v0.0.0-00010101000000-000000000000
+	ncobase/resource v0.0.0-00010101000000-000000000000
 	ncobase/space v0.0.0-00010101000000-000000000000
 	ncobase/system v0.0.0-00010101000000-000000000000
 	ncobase/tenant v0.0.0-00010101000000-000000000000
 	ncobase/user v0.0.0-00010101000000-000000000000
 	ncobase/workflow v0.0.0-00010101000000-000000000000
-	ncobase/content v0.0.0-00010101000000-000000000000
-	ncobase/resource v0.0.0-00010101000000-000000000000
-	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -154,7 +154,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
 	github.com/rabbitmq/amqp091-go v1.10.0 // indirect
-	github.com/redis/go-redis/v9 v9.7.3 // indirect
+	github.com/redis/go-redis/v9 v9.8.0 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/sagikazarmark/locafero v0.9.0 // indirect
 	github.com/segmentio/kafka-go v0.4.47 // indirect
