@@ -3,7 +3,7 @@ package coordinator
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/service"
+	"ncobase/workflow/service"
 	"sync"
 	"time"
 

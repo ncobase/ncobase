@@ -3,7 +3,7 @@
 package tenant
 
 import (
-	"ncobase/core/tenant/data/ent/predicate"
+	"ncobase/tenant/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

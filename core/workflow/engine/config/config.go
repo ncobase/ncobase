@@ -2,10 +2,10 @@ package config
 
 import (
 	"fmt"
-	"ncobase/core/workflow/engine/batcher"
-	"ncobase/core/workflow/engine/coordinator"
-	"ncobase/core/workflow/engine/metrics"
-	"ncobase/core/workflow/engine/scheduler"
+	"ncobase/workflow/engine/batcher"
+	"ncobase/workflow/engine/coordinator"
+	"ncobase/workflow/engine/metrics"
+	"ncobase/workflow/engine/scheduler"
 
 	"github.com/ncobase/ncore/concurrency/worker"
 	"github.com/ncobase/ncore/messaging/queue"

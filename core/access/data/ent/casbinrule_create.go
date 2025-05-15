@@ -5,7 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
-	"ncobase/core/access/data/ent/casbinrule"
+	"ncobase/access/data/ent/casbinrule"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

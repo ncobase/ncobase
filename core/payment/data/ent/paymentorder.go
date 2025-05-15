@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/core/payment/data/ent/paymentorder"
+	"ncobase/payment/data/ent/paymentorder"
 	"strings"
 	"time"
 

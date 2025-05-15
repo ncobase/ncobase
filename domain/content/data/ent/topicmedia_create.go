@@ -6,9 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/domain/content/data/ent/media"
-	"ncobase/domain/content/data/ent/topic"
-	"ncobase/domain/content/data/ent/topicmedia"
+	"ncobase/content/data/ent/media"
+	"ncobase/content/data/ent/topic"
+	"ncobase/content/data/ent/topicmedia"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

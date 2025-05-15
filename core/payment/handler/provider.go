@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/core/payment/service"
+	"ncobase/payment/service"
 )
 
 // Handler represents the payment handler provider

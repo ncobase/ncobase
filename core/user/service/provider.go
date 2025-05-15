@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ncobase/core/user/data"
+	"ncobase/user/data"
 )
 
 // Service represents the user service.

@@ -1,10 +1,10 @@
 package structs
 
 import (
-	accessStructs "ncobase/core/access/structs"
-	spaceStructs "ncobase/core/space/structs"
-	tenantStructs "ncobase/core/tenant/structs"
-	userStructs "ncobase/core/user/structs"
+	accessStructs "ncobase/access/structs"
+	spaceStructs "ncobase/space/structs"
+	tenantStructs "ncobase/tenant/structs"
+	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/security/oauth"
 )

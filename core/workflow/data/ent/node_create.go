@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/workflow/data/ent/node"
+	"ncobase/workflow/data/ent/node"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

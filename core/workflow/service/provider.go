@@ -1,8 +1,8 @@
 package service
 
 import (
-	"ncobase/core/workflow/data"
-	"ncobase/core/workflow/data/repository"
+	"ncobase/workflow/data"
+	"ncobase/workflow/data/repository"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

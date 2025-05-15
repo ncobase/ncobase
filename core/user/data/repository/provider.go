@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/core/user/data"
+	"ncobase/user/data"
 )
 
 // Repository represents the user repository.

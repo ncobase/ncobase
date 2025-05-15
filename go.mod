@@ -4,20 +4,20 @@ go 1.23.2
 
 // core domains
 replace (
-	ncobase/core/access => ./core/access
-	ncobase/core/auth => ./core/auth
-	ncobase/core/realtime => ./core/realtime
-	ncobase/core/space => ./core/space
-	ncobase/core/system => ./core/system
-	ncobase/core/tenant => ./core/tenant
-	ncobase/core/user => ./core/user
-	ncobase/core/workflow => ./core/workflow
+	ncobase/access => ./core/access
+	ncobase/auth => ./core/auth
+	ncobase/realtime => ./core/realtime
+	ncobase/space => ./core/space
+	ncobase/system => ./core/system
+	ncobase/tenant => ./core/tenant
+	ncobase/user => ./core/user
+	ncobase/workflow => ./core/workflow
 )
 
 // business domains
 replace (
-	ncobase/domain/content => ./domain/content
-	ncobase/domain/resource => ./domain/resource
+	ncobase/content => ./domain/content
+	ncobase/resource => ./domain/resource
 )
 
 // plugins
@@ -35,16 +35,16 @@ require (
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.4
 	go.opentelemetry.io/otel v1.35.0
-	ncobase/core/access v0.0.0-00010101000000-000000000000
-	ncobase/core/auth v0.0.0-00010101000000-000000000000
-	ncobase/core/realtime v0.0.0-00010101000000-000000000000
-	ncobase/core/space v0.0.0-00010101000000-000000000000
-	ncobase/core/system v0.0.0-00010101000000-000000000000
-	ncobase/core/tenant v0.0.0-00010101000000-000000000000
-	ncobase/core/user v0.0.0-00010101000000-000000000000
-	ncobase/core/workflow v0.0.0-00010101000000-000000000000
-	ncobase/domain/content v0.0.0-00010101000000-000000000000
-	ncobase/domain/resource v0.0.0-00010101000000-000000000000
+	ncobase/access v0.0.0-00010101000000-000000000000
+	ncobase/auth v0.0.0-00010101000000-000000000000
+	ncobase/realtime v0.0.0-00010101000000-000000000000
+	ncobase/space v0.0.0-00010101000000-000000000000
+	ncobase/system v0.0.0-00010101000000-000000000000
+	ncobase/tenant v0.0.0-00010101000000-000000000000
+	ncobase/user v0.0.0-00010101000000-000000000000
+	ncobase/workflow v0.0.0-00010101000000-000000000000
+	ncobase/content v0.0.0-00010101000000-000000000000
+	ncobase/resource v0.0.0-00010101000000-000000000000
 	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
 )
 

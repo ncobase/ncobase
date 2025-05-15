@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/core/auth/data/ent/authtoken"
-	"ncobase/core/auth/data/ent/predicate"
+	"ncobase/auth/data/ent/authtoken"
+	"ncobase/auth/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

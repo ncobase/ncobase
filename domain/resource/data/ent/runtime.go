@@ -3,8 +3,8 @@
 package ent
 
 import (
-	"ncobase/domain/resource/data/ent/file"
-	"ncobase/domain/resource/data/schema"
+	"ncobase/resource/data/ent/file"
+	"ncobase/resource/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	accessService "ncobase/core/access/service"
-	accessStructs "ncobase/core/access/structs"
-	"ncobase/core/auth/data/ent"
+	accessService "ncobase/access/service"
+	accessStructs "ncobase/access/structs"
+	"ncobase/auth/data/ent"
 	"time"
 
 	"github.com/ncobase/ncore/ctxutil"

@@ -9,9 +9,9 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/domain/resource/data/ent/migrate"
+	"ncobase/resource/data/ent/migrate"
 
-	"ncobase/domain/resource/data/ent/file"
+	"ncobase/resource/data/ent/file"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

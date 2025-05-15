@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/payment/data/ent/paymentproduct"
-	"ncobase/core/payment/data/ent/paymentsubscription"
+	"ncobase/payment/data/ent/paymentproduct"
+	"ncobase/payment/data/ent/paymentsubscription"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

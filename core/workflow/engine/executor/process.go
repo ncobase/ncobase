@@ -3,7 +3,7 @@ package executor
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/engine/config"
+	"ncobase/workflow/engine/config"
 	"sync"
 	"time"
 
@@ -12,9 +12,9 @@ import (
 	"github.com/ncobase/ncore/utils/uuid"
 	"github.com/ncobase/ncore/validation/expression"
 
-	"ncobase/core/workflow/engine/types"
-	"ncobase/core/workflow/service"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/engine/types"
+	"ncobase/workflow/service"
+	"ncobase/workflow/structs"
 )
 
 // ProcessExecutor handles process execution

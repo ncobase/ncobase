@@ -1,4 +1,4 @@
-module ncobase/core/workflow
+module ncobase/workflow
 
 go 1.23.2
 

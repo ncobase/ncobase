@@ -3,10 +3,10 @@
 package ent
 
 import (
-	"ncobase/core/space/data/ent/group"
-	"ncobase/core/space/data/ent/grouprole"
-	"ncobase/core/space/data/ent/usergroup"
-	"ncobase/core/space/data/schema"
+	"ncobase/space/data/ent/group"
+	"ncobase/space/data/ent/grouprole"
+	"ncobase/space/data/ent/usergroup"
+	"ncobase/space/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

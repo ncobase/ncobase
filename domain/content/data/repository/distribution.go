@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/domain/content/data"
-	"ncobase/domain/content/data/ent"
-	distributionEnt "ncobase/domain/content/data/ent/distribution"
-	"ncobase/domain/content/structs"
+	"ncobase/content/data"
+	"ncobase/content/data/ent"
+	distributionEnt "ncobase/content/data/ent/distribution"
+	"ncobase/content/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"

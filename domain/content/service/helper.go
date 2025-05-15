@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/domain/content/data/ent"
+	"ncobase/content/data/ent"
 
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"

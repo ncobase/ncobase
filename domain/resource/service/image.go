@@ -9,7 +9,7 @@ import (
 	"image/jpeg"
 	"image/png"
 	"io"
-	"ncobase/domain/resource/structs"
+	"ncobase/resource/structs"
 	"strings"
 
 	"github.com/disintegration/imaging"

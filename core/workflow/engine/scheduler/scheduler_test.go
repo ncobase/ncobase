@@ -5,8 +5,8 @@ package scheduler
 // 	"context"
 // 	"fmt"
 // 	nec "github.com/ncobase/ncore/ext/core"
-// 	"ncobase/core/workflow/service"
-// 	"ncobase/core/workflow/structs"
+// 	"ncobase/workflow/service"
+// 	"ncobase/workflow/structs"
 // 	"testing"
 // 	"time"
 //

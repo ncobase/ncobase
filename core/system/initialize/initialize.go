@@ -3,12 +3,12 @@ package initialize
 import (
 	"context"
 	"fmt"
-	accessService "ncobase/core/access/service"
-	authService "ncobase/core/auth/service"
-	spaceService "ncobase/core/space/service"
-	"ncobase/core/system/service"
-	tenantService "ncobase/core/tenant/service"
-	userService "ncobase/core/user/service"
+	accessService "ncobase/access/service"
+	authService "ncobase/auth/service"
+	spaceService "ncobase/space/service"
+	"ncobase/system/service"
+	tenantService "ncobase/tenant/service"
+	userService "ncobase/user/service"
 	"time"
 
 	"github.com/ncobase/ncore/logging/logger"

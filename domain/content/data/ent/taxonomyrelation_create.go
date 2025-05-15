@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/domain/content/data/ent/taxonomyrelation"
+	"ncobase/content/data/ent/taxonomyrelation"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

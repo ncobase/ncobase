@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/core/workflow/service"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/service"
+	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/net/resp"

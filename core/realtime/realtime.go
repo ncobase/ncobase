@@ -3,9 +3,9 @@ package realtime
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/core/realtime/data"
-	"ncobase/core/realtime/handler"
-	"ncobase/core/realtime/service"
+	"ncobase/realtime/data"
+	"ncobase/realtime/handler"
+	"ncobase/realtime/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

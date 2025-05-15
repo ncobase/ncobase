@@ -7,7 +7,7 @@ import (
 
 	extm "github.com/ncobase/ncore/extension/manager"
 
-	"ncobase/core/workflow/service"
+	"ncobase/workflow/service"
 
 	"github.com/hashicorp/consul/api"
 	"github.com/stretchr/testify/assert"

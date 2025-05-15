@@ -2,8 +2,8 @@ package handler
 
 import (
 	"encoding/json"
-	"ncobase/domain/resource/service"
-	"ncobase/domain/resource/structs"
+	"ncobase/resource/service"
+	"ncobase/resource/structs"
 	"strings"
 
 	"github.com/gin-gonic/gin"

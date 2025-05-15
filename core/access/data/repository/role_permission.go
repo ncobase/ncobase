@@ -2,12 +2,12 @@ package repository
 
 import (
 	"context"
-	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
-	permissionEnt "ncobase/core/access/data/ent/permission"
-	roleEnt "ncobase/core/access/data/ent/role"
-	rolePermissionEnt "ncobase/core/access/data/ent/rolepermission"
-	"ncobase/core/access/structs"
+	"ncobase/access/data"
+	"ncobase/access/data/ent"
+	permissionEnt "ncobase/access/data/ent/permission"
+	roleEnt "ncobase/access/data/ent/role"
+	rolePermissionEnt "ncobase/access/data/ent/rolepermission"
+	"ncobase/access/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/logging/logger"

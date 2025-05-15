@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
-	"ncobase/core/workflow/data"
-	"ncobase/core/workflow/data/ent"
-	delegationEnt "ncobase/core/workflow/data/ent/delegation"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/data"
+	"ncobase/workflow/data/ent"
+	delegationEnt "ncobase/workflow/data/ent/delegation"
+	"ncobase/workflow/structs"
 	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"

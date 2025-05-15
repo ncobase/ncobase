@@ -3,12 +3,12 @@ package payment
 import (
 	"context"
 	"fmt"
-	"ncobase/core/payment/data"
-	"ncobase/core/payment/event"
-	"ncobase/core/payment/handler"
-	"ncobase/core/payment/service"
-	tenantService "ncobase/core/tenant/service"
-	userService "ncobase/core/user/service"
+	"ncobase/payment/data"
+	"ncobase/payment/event"
+	"ncobase/payment/handler"
+	"ncobase/payment/service"
+	tenantService "ncobase/tenant/service"
+	userService "ncobase/user/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

@@ -5,7 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
-	"ncobase/core/realtime/data/ent/event"
+	"ncobase/realtime/data/ent/event"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

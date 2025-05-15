@@ -1,6 +1,6 @@
 package handler
 
-import "ncobase/core/tenant/service"
+import "ncobase/tenant/service"
 
 // Handler represents the tenant handler.
 type Handler struct {

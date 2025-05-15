@@ -2,8 +2,8 @@ package config
 
 import (
 	"context"
-	"ncobase/core/workflow/engine/types"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/engine/types"
+	"ncobase/workflow/structs"
 	"time"
 )
 

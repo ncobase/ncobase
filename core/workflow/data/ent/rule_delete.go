@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/core/workflow/data/ent/predicate"
-	"ncobase/core/workflow/data/ent/rule"
+	"ncobase/workflow/data/ent/predicate"
+	"ncobase/workflow/data/ent/rule"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

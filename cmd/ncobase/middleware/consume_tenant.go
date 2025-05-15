@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	tenantService "ncobase/core/tenant/service"
+	tenantService "ncobase/tenant/service"
 
 	"github.com/ncobase/ncore/consts"
 	"github.com/ncobase/ncore/ctxutil"

@@ -2,9 +2,9 @@ package provider
 
 import (
 	"context"
+	accessService "ncobase/access/service"
 	"ncobase/cmd/ncobase/middleware"
-	accessService "ncobase/core/access/service"
-	tenantService "ncobase/core/tenant/service"
+	tenantService "ncobase/tenant/service"
 	"net/http"
 
 	"github.com/ncobase/ncore/config"

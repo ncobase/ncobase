@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
-	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
-	userTenantRoleEnt "ncobase/core/access/data/ent/usertenantrole"
-	"ncobase/core/access/structs"
+	"ncobase/access/data"
+	"ncobase/access/data/ent"
+	userTenantRoleEnt "ncobase/access/data/ent/usertenantrole"
+	"ncobase/access/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/logging/logger"

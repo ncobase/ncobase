@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/core/auth/data/ent"
+	"ncobase/auth/data/ent"
 )
 
 // The AuthTokenFunc type is an adapter to allow the use of ordinary

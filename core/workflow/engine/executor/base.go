@@ -4,14 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/workflow/engine/config"
+	"ncobase/workflow/engine/config"
 	"runtime"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"ncobase/core/workflow/engine/metrics"
-	"ncobase/core/workflow/engine/types"
+	"ncobase/workflow/engine/metrics"
+	"ncobase/workflow/engine/types"
 )
 
 // BaseExecutor provides base implementation for executors

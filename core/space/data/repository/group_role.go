@@ -2,11 +2,11 @@ package repository
 
 import (
 	"context"
-	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
-	groupEnt "ncobase/core/space/data/ent/group"
-	groupRoleEnt "ncobase/core/space/data/ent/grouprole"
-	"ncobase/core/space/structs"
+	"ncobase/space/data"
+	"ncobase/space/data/ent"
+	groupEnt "ncobase/space/data/ent/group"
+	groupRoleEnt "ncobase/space/data/ent/grouprole"
+	"ncobase/space/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/logging/logger"

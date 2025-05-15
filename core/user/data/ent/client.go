@@ -9,10 +9,10 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/core/user/data/ent/migrate"
+	"ncobase/user/data/ent/migrate"
 
-	"ncobase/core/user/data/ent/user"
-	"ncobase/core/user/data/ent/userprofile"
+	"ncobase/user/data/ent/user"
+	"ncobase/user/data/ent/userprofile"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

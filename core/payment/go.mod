@@ -1,4 +1,4 @@
-module ncobase/core/payment
+module ncobase/payment
 
 go 1.23.0
 

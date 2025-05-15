@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/core/tenant/data"
+	"ncobase/tenant/data"
 )
 
 // Repository represents the tenant repository.

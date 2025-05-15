@@ -1,7 +1,7 @@
 package event
 
 import (
-	"ncobase/core/payment/structs"
+	"ncobase/payment/structs"
 	"time"
 )
 

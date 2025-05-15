@@ -3,7 +3,7 @@
 package paymentproduct
 
 import (
-	"ncobase/core/payment/data/ent/predicate"
+	"ncobase/payment/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

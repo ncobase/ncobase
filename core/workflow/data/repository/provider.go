@@ -1,6 +1,6 @@
 package repository
 
-import "ncobase/core/workflow/data"
+import "ncobase/workflow/data"
 
 // Repository represents the collection of all repositories
 type Repository interface {

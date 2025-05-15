@@ -2,14 +2,14 @@ package event
 
 import (
 	"context"
-	spaceStructs "ncobase/core/space/structs"
-	tenantStructs "ncobase/core/tenant/structs"
-	userStructs "ncobase/core/user/structs"
+	spaceStructs "ncobase/space/structs"
+	tenantStructs "ncobase/tenant/structs"
+	userStructs "ncobase/user/structs"
 
-	accessService "ncobase/core/access/service"
-	spaceService "ncobase/core/space/service"
-	tenantService "ncobase/core/tenant/service"
-	userService "ncobase/core/user/service"
+	accessService "ncobase/access/service"
+	spaceService "ncobase/space/service"
+	tenantService "ncobase/tenant/service"
+	userService "ncobase/user/service"
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"

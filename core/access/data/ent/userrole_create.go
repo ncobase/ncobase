@@ -5,7 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
-	"ncobase/core/access/data/ent/userrole"
+	"ncobase/access/data/ent/userrole"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

@@ -1,6 +1,6 @@
 package data
 
-import "ncobase/core/system/structs"
+import "ncobase/system/structs"
 
 // SystemDefaultOptions defines the default system configuration options
 var SystemDefaultOptions = []structs.OptionsBody{

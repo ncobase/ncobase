@@ -3,11 +3,11 @@ package handler
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/engine/config"
-	"ncobase/core/workflow/engine/scheduler"
-	"ncobase/core/workflow/engine/types"
-	"ncobase/core/workflow/service"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/engine/config"
+	"ncobase/workflow/engine/scheduler"
+	"ncobase/workflow/engine/types"
+	"ncobase/workflow/service"
+	"ncobase/workflow/structs"
 	"time"
 
 	ext "github.com/ncobase/ncore/extension/types"

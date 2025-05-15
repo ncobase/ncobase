@@ -3,10 +3,10 @@ package handler
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/engine/config"
-	"ncobase/core/workflow/engine/metrics"
-	"ncobase/core/workflow/engine/types"
-	"ncobase/core/workflow/service"
+	"ncobase/workflow/engine/config"
+	"ncobase/workflow/engine/metrics"
+	"ncobase/workflow/engine/types"
+	"ncobase/workflow/service"
 	"sync"
 	"time"
 

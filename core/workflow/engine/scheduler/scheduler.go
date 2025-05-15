@@ -3,8 +3,8 @@ package scheduler
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/service"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/service"
+	"ncobase/workflow/structs"
 	"sync"
 	"sync/atomic"
 	"time"

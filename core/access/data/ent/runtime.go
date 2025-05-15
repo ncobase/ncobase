@@ -3,13 +3,13 @@
 package ent
 
 import (
-	"ncobase/core/access/data/ent/casbinrule"
-	"ncobase/core/access/data/ent/permission"
-	"ncobase/core/access/data/ent/role"
-	"ncobase/core/access/data/ent/rolepermission"
-	"ncobase/core/access/data/ent/userrole"
-	"ncobase/core/access/data/ent/usertenantrole"
-	"ncobase/core/access/data/schema"
+	"ncobase/access/data/ent/casbinrule"
+	"ncobase/access/data/ent/permission"
+	"ncobase/access/data/ent/role"
+	"ncobase/access/data/ent/rolepermission"
+	"ncobase/access/data/ent/userrole"
+	"ncobase/access/data/ent/usertenantrole"
+	"ncobase/access/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

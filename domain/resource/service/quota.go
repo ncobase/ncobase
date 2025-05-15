@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/domain/resource/data"
-	"ncobase/domain/resource/data/repository"
-	"ncobase/domain/resource/event"
+	"ncobase/resource/data"
+	"ncobase/resource/data/repository"
+	"ncobase/resource/event"
 	"sync"
 	"time"
 

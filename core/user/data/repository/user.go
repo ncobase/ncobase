@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/user/data"
-	"ncobase/core/user/data/ent"
-	userEnt "ncobase/core/user/data/ent/user"
-	"ncobase/core/user/structs"
+	"ncobase/user/data"
+	"ncobase/user/data/ent"
+	userEnt "ncobase/user/data/ent/user"
+	"ncobase/user/structs"
 	"net/url"
 
 	"github.com/ncobase/ncore/data/paging"

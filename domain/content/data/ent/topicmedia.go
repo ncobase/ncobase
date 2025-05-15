@@ -4,9 +4,9 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/domain/content/data/ent/media"
-	"ncobase/domain/content/data/ent/topic"
-	"ncobase/domain/content/data/ent/topicmedia"
+	"ncobase/content/data/ent/media"
+	"ncobase/content/data/ent/topic"
+	"ncobase/content/data/ent/topicmedia"
 	"strings"
 
 	"entgo.io/ent"

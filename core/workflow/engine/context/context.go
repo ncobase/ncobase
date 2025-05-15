@@ -3,7 +3,7 @@ package context
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/structs"
 	"sync"
 	"time"
 )

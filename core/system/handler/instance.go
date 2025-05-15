@@ -1,6 +1,6 @@
 package handler
 
-import "ncobase/core/system/service"
+import "ncobase/system/service"
 
 // InstanceHandlerInterface represents the instance handler interface.
 type InstanceHandlerInterface any

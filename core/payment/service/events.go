@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"ncobase/core/payment/event"
-	tenantService "ncobase/core/tenant/service"
-	userService "ncobase/core/user/service"
+	"ncobase/payment/event"
+	tenantService "ncobase/tenant/service"
+	userService "ncobase/user/service"
 
 	"github.com/ncobase/ncore/logging/logger"
 )

@@ -5,11 +5,11 @@ package enttest
 import (
 	"context"
 
-	"ncobase/core/payment/data/ent"
+	"ncobase/payment/data/ent"
 	// required by schema hooks.
-	_ "ncobase/core/payment/data/ent/runtime"
+	_ "ncobase/payment/data/ent/runtime"
 
-	"ncobase/core/payment/data/ent/migrate"
+	"ncobase/payment/data/ent/migrate"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

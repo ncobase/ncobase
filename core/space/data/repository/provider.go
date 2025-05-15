@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/core/space/data"
+	"ncobase/space/data"
 )
 
 // Repository represents the group repository.

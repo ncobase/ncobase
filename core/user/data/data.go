@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"ncobase/core/user/data/ent"
-	"ncobase/core/user/data/ent/migrate"
+	"ncobase/user/data/ent"
+	"ncobase/user/data/ent/migrate"
 
 	"github.com/ncobase/ncore/config"
 	"github.com/ncobase/ncore/data"

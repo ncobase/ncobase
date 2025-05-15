@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"ncobase/core/auth/data"
+	"ncobase/auth/data"
 	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"

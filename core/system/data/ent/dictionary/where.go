@@ -3,7 +3,7 @@
 package dictionary
 
 import (
-	"ncobase/core/system/data/ent/predicate"
+	"ncobase/system/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

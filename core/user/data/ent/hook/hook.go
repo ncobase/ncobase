@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/core/user/data/ent"
+	"ncobase/user/data/ent"
 )
 
 // The UserFunc type is an adapter to allow the use of ordinary

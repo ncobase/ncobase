@@ -9,12 +9,12 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/core/realtime/data/ent/migrate"
+	"ncobase/realtime/data/ent/migrate"
 
-	"ncobase/core/realtime/data/ent/event"
-	"ncobase/core/realtime/data/ent/notification"
-	"ncobase/core/realtime/data/ent/rtchannel"
-	"ncobase/core/realtime/data/ent/subscription"
+	"ncobase/realtime/data/ent/event"
+	"ncobase/realtime/data/ent/notification"
+	"ncobase/realtime/data/ent/rtchannel"
+	"ncobase/realtime/data/ent/subscription"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

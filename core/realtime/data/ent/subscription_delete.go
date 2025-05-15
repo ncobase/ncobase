@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/core/realtime/data/ent/predicate"
-	"ncobase/core/realtime/data/ent/subscription"
+	"ncobase/realtime/data/ent/predicate"
+	"ncobase/realtime/data/ent/subscription"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

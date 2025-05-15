@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/domain/content/data/ent/predicate"
-	"ncobase/domain/content/data/ent/taxonomyrelation"
+	"ncobase/content/data/ent/predicate"
+	"ncobase/content/data/ent/taxonomyrelation"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

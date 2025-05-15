@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/core/payment/data/repository"
-	"ncobase/core/payment/structs"
+	"ncobase/payment/data/repository"
+	"ncobase/payment/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"

@@ -1,6 +1,6 @@
 package service
 
-import "ncobase/domain/content/data"
+import "ncobase/content/data"
 
 // Service represents the content service.
 type Service struct {

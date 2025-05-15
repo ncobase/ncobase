@@ -3,7 +3,7 @@
 package paymentchannel
 
 import (
-	"ncobase/core/payment/data/ent/predicate"
+	"ncobase/payment/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

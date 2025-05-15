@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	accessService "ncobase/core/access/service"
-	"ncobase/core/access/structs"
-	tenantService "ncobase/core/tenant/service"
+	accessService "ncobase/access/service"
+	"ncobase/access/structs"
+	tenantService "ncobase/tenant/service"
 	"strings"
 
 	"github.com/ncobase/ncore/ctxutil"

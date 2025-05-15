@@ -9,11 +9,11 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/core/space/data/ent/migrate"
+	"ncobase/space/data/ent/migrate"
 
-	"ncobase/core/space/data/ent/group"
-	"ncobase/core/space/data/ent/grouprole"
-	"ncobase/core/space/data/ent/usergroup"
+	"ncobase/space/data/ent/group"
+	"ncobase/space/data/ent/grouprole"
+	"ncobase/space/data/ent/usergroup"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

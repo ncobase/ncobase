@@ -1,6 +1,6 @@
 package service
 
-import "ncobase/core/space/data"
+import "ncobase/space/data"
 
 // Service represents the space service.
 type Service struct {

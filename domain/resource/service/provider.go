@@ -1,8 +1,8 @@
 package service
 
 import (
-	"ncobase/domain/resource/data"
-	"ncobase/domain/resource/event"
+	"ncobase/resource/data"
+	"ncobase/resource/event"
 )
 
 // Service is the struct for the resource service.

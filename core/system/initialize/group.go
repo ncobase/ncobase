@@ -3,10 +3,10 @@ package initialize
 import (
 	"context"
 	"fmt"
-	accessStructs "ncobase/core/access/structs"
-	spaceStructs "ncobase/core/space/structs"
-	"ncobase/core/system/initialize/data"
-	userStructs "ncobase/core/user/structs"
+	accessStructs "ncobase/access/structs"
+	spaceStructs "ncobase/space/structs"
+	"ncobase/system/initialize/data"
+	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 )

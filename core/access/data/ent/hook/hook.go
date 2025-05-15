@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/core/access/data/ent"
+	"ncobase/access/data/ent"
 )
 
 // The CasbinRuleFunc type is an adapter to allow the use of ordinary

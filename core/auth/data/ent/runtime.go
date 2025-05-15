@@ -3,10 +3,10 @@
 package ent
 
 import (
-	"ncobase/core/auth/data/ent/authtoken"
-	"ncobase/core/auth/data/ent/codeauth"
-	"ncobase/core/auth/data/ent/oauthuser"
-	"ncobase/core/auth/data/schema"
+	"ncobase/auth/data/ent/authtoken"
+	"ncobase/auth/data/ent/codeauth"
+	"ncobase/auth/data/ent/oauthuser"
+	"ncobase/auth/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

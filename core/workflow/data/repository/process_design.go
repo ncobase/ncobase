@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
-	"ncobase/core/workflow/data"
-	"ncobase/core/workflow/data/ent"
-	processDesignEnt "ncobase/core/workflow/data/ent/processdesign"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/data"
+	"ncobase/workflow/data/ent"
+	processDesignEnt "ncobase/workflow/data/ent/processdesign"
+	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/search/meili"

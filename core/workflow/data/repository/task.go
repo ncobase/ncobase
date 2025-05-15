@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/data"
-	"ncobase/core/workflow/data/ent"
-	taskEnt "ncobase/core/workflow/data/ent/task"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/data"
+	"ncobase/workflow/data/ent"
+	taskEnt "ncobase/workflow/data/ent/task"
+	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/search/meili"

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/core/workflow/service"
+	"ncobase/workflow/service"
 
 	"github.com/gin-gonic/gin"
 )

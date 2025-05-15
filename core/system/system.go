@@ -3,10 +3,10 @@ package system
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/core/system/data"
-	"ncobase/core/system/handler"
-	"ncobase/core/system/initialize"
-	"ncobase/core/system/service"
+	"ncobase/system/data"
+	"ncobase/system/handler"
+	"ncobase/system/initialize"
+	"ncobase/system/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

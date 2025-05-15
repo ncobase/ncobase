@@ -5,11 +5,11 @@ package enttest
 import (
 	"context"
 
-	"ncobase/core/tenant/data/ent"
+	"ncobase/tenant/data/ent"
 	// required by schema hooks.
-	_ "ncobase/core/tenant/data/ent/runtime"
+	_ "ncobase/tenant/data/ent/runtime"
 
-	"ncobase/core/tenant/data/ent/migrate"
+	"ncobase/tenant/data/ent/migrate"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

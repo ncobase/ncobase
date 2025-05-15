@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/domain/content/data/ent"
+	"ncobase/content/data/ent"
 )
 
 // The CMSChannelFunc type is an adapter to allow the use of ordinary

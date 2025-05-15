@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"ncobase/core/auth/service"
-	"ncobase/core/auth/structs"
-	userStructs "ncobase/core/user/structs"
+	"ncobase/auth/service"
+	"ncobase/auth/structs"
+	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/net/cookie"

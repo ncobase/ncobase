@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/domain/resource/service"
+	"ncobase/resource/service"
 )
 
 // Handler represents the resource handler.

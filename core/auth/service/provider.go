@@ -1,10 +1,10 @@
 package service
 
 import (
-	accessService "ncobase/core/access/service"
-	"ncobase/core/auth/data"
-	tenantService "ncobase/core/tenant/service"
-	userService "ncobase/core/user/service"
+	accessService "ncobase/access/service"
+	"ncobase/auth/data"
+	tenantService "ncobase/tenant/service"
+	userService "ncobase/user/service"
 
 	"github.com/ncobase/ncore/security/jwt"
 )

@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
-	permissionEnt "ncobase/core/access/data/ent/permission"
-	"ncobase/core/access/structs"
+	"ncobase/access/data"
+	"ncobase/access/data/ent"
+	permissionEnt "ncobase/access/data/ent/permission"
+	"ncobase/access/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"

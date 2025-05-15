@@ -3,7 +3,7 @@
 package delegation
 
 import (
-	"ncobase/core/workflow/data/ent/predicate"
+	"ncobase/workflow/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

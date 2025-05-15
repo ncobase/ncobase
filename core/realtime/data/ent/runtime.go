@@ -3,11 +3,11 @@
 package ent
 
 import (
-	"ncobase/core/realtime/data/ent/event"
-	"ncobase/core/realtime/data/ent/notification"
-	"ncobase/core/realtime/data/ent/rtchannel"
-	"ncobase/core/realtime/data/ent/subscription"
-	"ncobase/core/realtime/data/schema"
+	"ncobase/realtime/data/ent/event"
+	"ncobase/realtime/data/ent/notification"
+	"ncobase/realtime/data/ent/rtchannel"
+	"ncobase/realtime/data/ent/subscription"
+	"ncobase/realtime/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

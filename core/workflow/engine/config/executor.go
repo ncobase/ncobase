@@ -2,9 +2,9 @@ package config
 
 import (
 	"context"
-	"ncobase/core/workflow/engine/scheduler"
-	"ncobase/core/workflow/engine/types"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/engine/scheduler"
+	"ncobase/workflow/engine/types"
+	"ncobase/workflow/structs"
 	"time"
 
 	"github.com/ncobase/ncore/messaging/queue"

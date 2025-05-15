@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/core/auth/data/ent/codeauth"
+	"ncobase/auth/data/ent/codeauth"
 	"strings"
 
 	"entgo.io/ent"

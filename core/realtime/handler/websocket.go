@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/core/realtime/service"
+	"ncobase/realtime/service"
 	"net/http"
 
 	"github.com/ncobase/ncore/logging/logger"

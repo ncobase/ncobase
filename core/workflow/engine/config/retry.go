@@ -1,7 +1,7 @@
 package config
 
 import (
-	"ncobase/core/workflow/engine/types"
+	"ncobase/workflow/engine/types"
 	"time"
 )
 

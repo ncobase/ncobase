@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
-	"ncobase/core/space/data/repository"
-	"ncobase/core/space/structs"
+	"ncobase/space/data"
+	"ncobase/space/data/ent"
+	"ncobase/space/data/repository"
+	"ncobase/space/structs"
 )
 
 // UserGroupServiceInterface is the interface for the service.

@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/core/workflow/data/ent/rule"
+	"ncobase/workflow/data/ent/rule"
 	"strings"
 
 	"entgo.io/ent"

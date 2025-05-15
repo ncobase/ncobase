@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/core/system/data/ent/dictionary"
+	"ncobase/system/data/ent/dictionary"
 	"strings"
 
 	"entgo.io/ent"

@@ -3,7 +3,7 @@
 package permission
 
 import (
-	"ncobase/core/access/data/ent/predicate"
+	"ncobase/access/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

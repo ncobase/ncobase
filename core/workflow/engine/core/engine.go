@@ -3,12 +3,12 @@ package core
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/engine/config"
-	wec "ncobase/core/workflow/engine/context"
-	"ncobase/core/workflow/engine/executor"
-	wet "ncobase/core/workflow/engine/types"
-	"ncobase/core/workflow/service"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/engine/config"
+	wec "ncobase/workflow/engine/context"
+	"ncobase/workflow/engine/executor"
+	wet "ncobase/workflow/engine/types"
+	"ncobase/workflow/service"
+	"ncobase/workflow/structs"
 	"runtime"
 	"time"
 

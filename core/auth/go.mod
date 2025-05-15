@@ -1,13 +1,13 @@
-module ncobase/core/auth
+module ncobase/auth
 
 go 1.23.2
 
 replace (
 	ncobase => ../..
-	ncobase/core/access => ../access
-	ncobase/core/space => ../space
-	ncobase/core/tenant => ../tenant
-	ncobase/core/user => ../user
+	ncobase/access => ../access
+	ncobase/space => ../space
+	ncobase/tenant => ../tenant
+	ncobase/user => ../user
 	ncore => ../../pkg
 )
 
@@ -19,10 +19,10 @@ require (
 	github.com/ncobase/ncore v0.1.1
 	github.com/redis/go-redis/v9 v9.7.3
 	ncobase v0.0.0-00010101000000-000000000000
-	ncobase/core/access v0.0.0-00010101000000-000000000000
-	ncobase/core/space v0.0.0-00010101000000-000000000000
-	ncobase/core/tenant v0.0.0-00010101000000-000000000000
-	ncobase/core/user v0.0.0-00010101000000-000000000000
+	ncobase/access v0.0.0-00010101000000-000000000000
+	ncobase/space v0.0.0-00010101000000-000000000000
+	ncobase/tenant v0.0.0-00010101000000-000000000000
+	ncobase/user v0.0.0-00010101000000-000000000000
 )
 
 require (

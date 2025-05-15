@@ -1,6 +1,6 @@
 package data
 
-import "ncobase/core/tenant/structs"
+import "ncobase/tenant/structs"
 
 // SystemDefaultTenants defines the default tenants
 var SystemDefaultTenants = []structs.CreateTenantBody{

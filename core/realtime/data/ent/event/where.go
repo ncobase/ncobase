@@ -3,7 +3,7 @@
 package event
 
 import (
-	"ncobase/core/realtime/data/ent/predicate"
+	"ncobase/realtime/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

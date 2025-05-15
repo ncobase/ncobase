@@ -3,7 +3,7 @@
 package file
 
 import (
-	"ncobase/domain/resource/data/ent/predicate"
+	"ncobase/resource/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

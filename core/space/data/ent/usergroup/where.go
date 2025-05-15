@@ -3,7 +3,7 @@
 package usergroup
 
 import (
-	"ncobase/core/space/data/ent/predicate"
+	"ncobase/space/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

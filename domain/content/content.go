@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/domain/content/data"
-	"ncobase/domain/content/handler"
-	"ncobase/domain/content/service"
+	"ncobase/content/data"
+	"ncobase/content/handler"
+	"ncobase/content/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

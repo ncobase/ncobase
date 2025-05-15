@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/core/tenant/data/ent"
+	"ncobase/tenant/data/ent"
 )
 
 // The TenantFunc type is an adapter to allow the use of ordinary

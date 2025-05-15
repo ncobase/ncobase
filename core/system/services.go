@@ -2,11 +2,11 @@ package system
 
 import (
 	"fmt"
-	accessService "ncobase/core/access/service"
-	authService "ncobase/core/auth/service"
-	spaceService "ncobase/core/space/service"
-	tenantService "ncobase/core/tenant/service"
-	userService "ncobase/core/user/service"
+	accessService "ncobase/access/service"
+	authService "ncobase/auth/service"
+	spaceService "ncobase/space/service"
+	tenantService "ncobase/tenant/service"
+	userService "ncobase/user/service"
 )
 
 // GetUserService returns the user service

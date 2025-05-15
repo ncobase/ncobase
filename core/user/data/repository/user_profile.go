@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/user/data"
-	"ncobase/core/user/data/ent"
-	userProfileEnt "ncobase/core/user/data/ent/userprofile"
-	"ncobase/core/user/structs"
+	"ncobase/user/data"
+	"ncobase/user/data/ent"
+	userProfileEnt "ncobase/user/data/ent/userprofile"
+	"ncobase/user/structs"
 
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/convert"

@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/core/access/data/ent/rolepermission"
+	"ncobase/access/data/ent/rolepermission"
 	"strings"
 
 	"entgo.io/ent"

@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/payment/data/ent/paymentlog"
-	"ncobase/core/payment/data/ent/paymentorder"
+	"ncobase/payment/data/ent/paymentlog"
+	"ncobase/payment/data/ent/paymentorder"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"

@@ -3,9 +3,9 @@ package space
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/core/space/data"
-	"ncobase/core/space/handler"
-	"ncobase/core/space/service"
+	"ncobase/space/data"
+	"ncobase/space/handler"
+	"ncobase/space/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

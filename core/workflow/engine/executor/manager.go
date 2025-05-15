@@ -3,9 +3,9 @@ package executor
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/engine/config"
-	"ncobase/core/workflow/engine/types"
-	"ncobase/core/workflow/service"
+	"ncobase/workflow/engine/config"
+	"ncobase/workflow/engine/types"
+	"ncobase/workflow/service"
 	"sync"
 
 	ext "github.com/ncobase/ncore/extension/types"

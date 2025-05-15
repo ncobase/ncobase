@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/core/auth/data"
+	"ncobase/auth/data"
 )
 
 // Repository represents the auth repository.

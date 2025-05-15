@@ -1,6 +1,6 @@
 package data
 
-import accessStructs "ncobase/core/access/structs"
+import accessStructs "ncobase/access/structs"
 
 // SystemDefaultRoles defines the system default roles
 var SystemDefaultRoles = []accessStructs.CreateRoleBody{

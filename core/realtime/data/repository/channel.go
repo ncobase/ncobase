@@ -3,11 +3,11 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/realtime/data"
-	"ncobase/core/realtime/data/ent"
-	channelEnt "ncobase/core/realtime/data/ent/rtchannel"
-	subscriptionEnt "ncobase/core/realtime/data/ent/subscription"
-	"ncobase/core/realtime/structs"
+	"ncobase/realtime/data"
+	"ncobase/realtime/data/ent"
+	channelEnt "ncobase/realtime/data/ent/rtchannel"
+	subscriptionEnt "ncobase/realtime/data/ent/subscription"
+	"ncobase/realtime/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"

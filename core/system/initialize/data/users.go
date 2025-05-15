@@ -1,6 +1,6 @@
 package data
 
-import userStructs "ncobase/core/user/structs"
+import userStructs "ncobase/user/structs"
 
 // SystemDefaultUsers defines the default system users
 var SystemDefaultUsers = []UserCreationInfo{

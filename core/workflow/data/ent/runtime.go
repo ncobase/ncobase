@@ -3,16 +3,16 @@
 package ent
 
 import (
-	"ncobase/core/workflow/data/ent/business"
-	"ncobase/core/workflow/data/ent/delegation"
-	"ncobase/core/workflow/data/ent/history"
-	"ncobase/core/workflow/data/ent/node"
-	"ncobase/core/workflow/data/ent/process"
-	"ncobase/core/workflow/data/ent/processdesign"
-	"ncobase/core/workflow/data/ent/rule"
-	"ncobase/core/workflow/data/ent/task"
-	"ncobase/core/workflow/data/ent/template"
-	"ncobase/core/workflow/data/schema"
+	"ncobase/workflow/data/ent/business"
+	"ncobase/workflow/data/ent/delegation"
+	"ncobase/workflow/data/ent/history"
+	"ncobase/workflow/data/ent/node"
+	"ncobase/workflow/data/ent/process"
+	"ncobase/workflow/data/ent/processdesign"
+	"ncobase/workflow/data/ent/rule"
+	"ncobase/workflow/data/ent/task"
+	"ncobase/workflow/data/ent/template"
+	"ncobase/workflow/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

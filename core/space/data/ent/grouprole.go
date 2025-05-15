@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/core/space/data/ent/grouprole"
+	"ncobase/space/data/ent/grouprole"
 	"strings"
 
 	"entgo.io/ent"

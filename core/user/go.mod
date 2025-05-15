@@ -1,4 +1,4 @@
-module ncobase/core/user
+module ncobase/user
 
 go 1.23.0
 

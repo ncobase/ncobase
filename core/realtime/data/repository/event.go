@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/realtime/data"
-	"ncobase/core/realtime/data/ent"
-	eventEnt "ncobase/core/realtime/data/ent/event"
-	"ncobase/core/realtime/structs"
+	"ncobase/realtime/data"
+	"ncobase/realtime/data/ent"
+	eventEnt "ncobase/realtime/data/ent/event"
+	"ncobase/realtime/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"

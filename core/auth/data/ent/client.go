@@ -9,11 +9,11 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/core/auth/data/ent/migrate"
+	"ncobase/auth/data/ent/migrate"
 
-	"ncobase/core/auth/data/ent/authtoken"
-	"ncobase/core/auth/data/ent/codeauth"
-	"ncobase/core/auth/data/ent/oauthuser"
+	"ncobase/auth/data/ent/authtoken"
+	"ncobase/auth/data/ent/codeauth"
+	"ncobase/auth/data/ent/oauthuser"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

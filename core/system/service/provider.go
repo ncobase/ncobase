@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ncobase/core/system/data"
+	"ncobase/system/data"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

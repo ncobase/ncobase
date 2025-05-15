@@ -3,10 +3,10 @@ package workflow
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/core/workflow/data"
-	we "ncobase/core/workflow/engine/core"
-	"ncobase/core/workflow/handler"
-	"ncobase/core/workflow/service"
+	"ncobase/workflow/data"
+	we "ncobase/workflow/engine/core"
+	"ncobase/workflow/handler"
+	"ncobase/workflow/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

@@ -2,7 +2,7 @@ package provider
 
 import (
 	"fmt"
-	"ncobase/core/payment/structs"
+	"ncobase/payment/structs"
 	"sync"
 )
 

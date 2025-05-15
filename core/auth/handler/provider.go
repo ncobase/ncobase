@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/core/auth/service"
+	"ncobase/auth/service"
 )
 
 // Handler represents the auth handler.

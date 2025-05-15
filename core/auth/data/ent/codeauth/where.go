@@ -3,7 +3,7 @@
 package codeauth
 
 import (
-	"ncobase/core/auth/data/ent/predicate"
+	"ncobase/auth/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

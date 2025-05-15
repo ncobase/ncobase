@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
-	"ncobase/core/workflow/engine/config"
-	"ncobase/core/workflow/engine/types"
+	"ncobase/workflow/engine/config"
+	"ncobase/workflow/engine/types"
 	"time"
 )
 

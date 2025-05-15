@@ -1,6 +1,6 @@
 package repository
 
-import "ncobase/core/access/data"
+import "ncobase/access/data"
 
 // Repository represents the access repository.
 type Repository struct {

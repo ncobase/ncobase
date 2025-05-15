@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/workflow/data/ent"
-	"ncobase/core/workflow/data/repository"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/data/ent"
+	"ncobase/workflow/data/repository"
+	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"

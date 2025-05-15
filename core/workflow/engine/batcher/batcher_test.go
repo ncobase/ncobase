@@ -4,8 +4,8 @@ package batcher
 // import (
 // 	"context"
 // 	"fmt"
-// 	"ncobase/core/workflow/service"
-// 	"ncobase/core/workflow/structs"
+// 	"ncobase/workflow/service"
+// 	"ncobase/workflow/structs"
 // 	"testing"
 // 	"time"
 // )

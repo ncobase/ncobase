@@ -1,6 +1,6 @@
 package service
 
-import "ncobase/core/system/data"
+import "ncobase/system/data"
 
 // InstanceServiceInterface is the interface for the service.
 type InstanceServiceInterface any

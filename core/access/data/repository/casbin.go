@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
-	casbinRuleEnt "ncobase/core/access/data/ent/casbinrule"
-	"ncobase/core/access/structs"
+	"ncobase/access/data"
+	"ncobase/access/data/ent"
+	casbinRuleEnt "ncobase/access/data/ent/casbinrule"
+	"ncobase/access/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"

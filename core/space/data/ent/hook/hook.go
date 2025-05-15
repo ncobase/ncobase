@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/core/space/data/ent"
+	"ncobase/space/data/ent"
 )
 
 // The GroupFunc type is an adapter to allow the use of ordinary

@@ -1,11 +1,11 @@
-module ncobase/core/system
+module ncobase/system
 
 go 1.23.2
 
 replace (
 	ncobase => ../..
-	ncobase/core/access => ../access
-	ncobase/core/tenant => ../tenant
+	ncobase/access => ../access
+	ncobase/tenant => ../tenant
 	ncore => ../../pkg
 )
 
@@ -17,8 +17,8 @@ require (
 	github.com/redis/go-redis/v9 v9.7.3
 	github.com/spf13/viper v1.20.1
 	ncobase v0.0.0-00010101000000-000000000000
-	ncobase/core/access v0.0.0-00010101000000-000000000000
-	ncobase/core/tenant v0.0.0-00010101000000-000000000000
+	ncobase/access v0.0.0-00010101000000-000000000000
+	ncobase/tenant v0.0.0-00010101000000-000000000000
 )
 
 require (

@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/domain/resource/data"
-	"ncobase/domain/resource/data/ent"
-	fileEnt "ncobase/domain/resource/data/ent/file"
-	"ncobase/domain/resource/structs"
+	"ncobase/resource/data"
+	"ncobase/resource/data/ent"
+	fileEnt "ncobase/resource/data/ent/file"
+	"ncobase/resource/structs"
 	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"

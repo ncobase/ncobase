@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	spaceStructs "ncobase/core/space/structs"
-	userStructs "ncobase/core/user/structs"
+	spaceStructs "ncobase/space/structs"
+	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 )

@@ -1,8 +1,8 @@
 package data
 
 import (
-	accessStructs "ncobase/core/access/structs"
-	"ncobase/core/space/structs"
+	accessStructs "ncobase/access/structs"
+	"ncobase/space/structs"
 )
 
 // OrganizationStructure defines the company hierarchical structure

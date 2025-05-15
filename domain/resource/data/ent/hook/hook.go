@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/domain/resource/data/ent"
+	"ncobase/resource/data/ent"
 )
 
 // The FileFunc type is an adapter to allow the use of ordinary

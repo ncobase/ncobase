@@ -2,7 +2,7 @@ package handler
 
 import (
 	"io"
-	"ncobase/core/payment/service"
+	"ncobase/payment/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/logging/logger"

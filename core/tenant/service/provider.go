@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ncobase/core/tenant/data"
+	"ncobase/tenant/data"
 )
 
 // Service represents the tenant service.

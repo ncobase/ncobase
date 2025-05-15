@@ -1,10 +1,10 @@
-module ncobase/core/access
+module ncobase/access
 
 go 1.23.2
 
 replace (
 	ncobase => ../..
-	ncobase/core/tenant => ../tenant
+	ncobase/tenant => ../tenant
 	ncore => ../../pkg
 )
 
@@ -152,5 +152,5 @@ require (
 	google.golang.org/grpc v1.71.1 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	ncobase/core/tenant v0.0.0-00010101000000-000000000000 // indirect
+	ncobase/tenant v0.0.0-00010101000000-000000000000 // indirect
 )

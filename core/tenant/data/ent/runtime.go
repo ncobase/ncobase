@@ -3,9 +3,9 @@
 package ent
 
 import (
-	"ncobase/core/tenant/data/ent/tenant"
-	"ncobase/core/tenant/data/ent/usertenant"
-	"ncobase/core/tenant/data/schema"
+	"ncobase/tenant/data/ent/tenant"
+	"ncobase/tenant/data/ent/usertenant"
+	"ncobase/tenant/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

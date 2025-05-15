@@ -2,9 +2,9 @@ package provider
 
 //
 // import (
-// 	"ncobase/core/graphql/generated"
-// 	graph "ncobase/core/graphql/resolvers"
-// 	"ncobase/core/service"
+// 	"ncobase/graphql/generated"
+// 	graph "ncobase/graphql/resolvers"
+// 	"ncobase/service"
 // 	"net/http"
 //
 // 	"strings"

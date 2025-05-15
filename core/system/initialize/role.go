@@ -2,8 +2,8 @@ package initialize
 
 import (
 	"context"
-	accessStructs "ncobase/core/access/structs"
-	"ncobase/core/system/initialize/data"
+	accessStructs "ncobase/access/structs"
+	"ncobase/system/initialize/data"
 
 	"github.com/ncobase/ncore/logging/logger"
 )

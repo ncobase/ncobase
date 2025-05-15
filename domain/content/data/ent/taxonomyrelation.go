@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/domain/content/data/ent/taxonomyrelation"
+	"ncobase/content/data/ent/taxonomyrelation"
 	"strings"
 
 	"entgo.io/ent"

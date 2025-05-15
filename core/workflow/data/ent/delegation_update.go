@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/workflow/data/ent/delegation"
-	"ncobase/core/workflow/data/ent/predicate"
+	"ncobase/workflow/data/ent/delegation"
+	"ncobase/workflow/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

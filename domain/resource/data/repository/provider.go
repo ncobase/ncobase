@@ -1,6 +1,6 @@
 package repository
 
-import "ncobase/domain/resource/data"
+import "ncobase/resource/data"
 
 // Repository represents the resource repository.
 type Repository struct {

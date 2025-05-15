@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"ncobase/core/realtime/data"
+	"ncobase/realtime/data"
 	"sync"
 	"time"
 

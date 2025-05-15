@@ -3,7 +3,7 @@ package types
 import (
 	"context"
 	"encoding/json"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/structs"
 	"time"
 )
 

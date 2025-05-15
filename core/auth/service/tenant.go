@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"errors"
-	accessService "ncobase/core/access/service"
-	"ncobase/core/auth/data"
-	tenantService "ncobase/core/tenant/service"
-	tenantStructs "ncobase/core/tenant/structs"
-	userService "ncobase/core/user/service"
-	userStructs "ncobase/core/user/structs"
+	accessService "ncobase/access/service"
+	"ncobase/auth/data"
+	tenantService "ncobase/tenant/service"
+	tenantStructs "ncobase/tenant/structs"
+	userService "ncobase/user/service"
+	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/utils/slug"
 )

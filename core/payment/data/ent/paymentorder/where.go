@@ -3,7 +3,7 @@
 package paymentorder
 
 import (
-	"ncobase/core/payment/data/ent/predicate"
+	"ncobase/payment/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

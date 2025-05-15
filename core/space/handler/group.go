@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/core/space/service"
-	"ncobase/core/space/structs"
+	"ncobase/space/service"
+	"ncobase/space/structs"
 
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/types"

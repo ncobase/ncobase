@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"io"
 	"mime/multipart"
-	"ncobase/domain/resource/event"
-	"ncobase/domain/resource/structs"
+	"ncobase/resource/event"
+	"ncobase/resource/structs"
 	"sync"
 	"time"
 

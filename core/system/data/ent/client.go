@@ -9,11 +9,11 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/core/system/data/ent/migrate"
+	"ncobase/system/data/ent/migrate"
 
-	"ncobase/core/system/data/ent/dictionary"
-	"ncobase/core/system/data/ent/menu"
-	"ncobase/core/system/data/ent/options"
+	"ncobase/system/data/ent/dictionary"
+	"ncobase/system/data/ent/menu"
+	"ncobase/system/data/ent/options"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

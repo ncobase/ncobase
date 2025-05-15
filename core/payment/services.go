@@ -2,8 +2,8 @@ package payment
 
 import (
 	"fmt"
-	tenantService "ncobase/core/tenant/service"
-	userService "ncobase/core/user/service"
+	tenantService "ncobase/tenant/service"
+	userService "ncobase/user/service"
 )
 
 // GetUserService returns the user service

@@ -9,13 +9,13 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/core/payment/data/ent/migrate"
+	"ncobase/payment/data/ent/migrate"
 
-	"ncobase/core/payment/data/ent/paymentchannel"
-	"ncobase/core/payment/data/ent/paymentlog"
-	"ncobase/core/payment/data/ent/paymentorder"
-	"ncobase/core/payment/data/ent/paymentproduct"
-	"ncobase/core/payment/data/ent/paymentsubscription"
+	"ncobase/payment/data/ent/paymentchannel"
+	"ncobase/payment/data/ent/paymentlog"
+	"ncobase/payment/data/ent/paymentorder"
+	"ncobase/payment/data/ent/paymentproduct"
+	"ncobase/payment/data/ent/paymentsubscription"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

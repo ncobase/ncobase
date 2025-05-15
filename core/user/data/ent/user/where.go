@@ -3,7 +3,7 @@
 package user
 
 import (
-	"ncobase/core/user/data/ent/predicate"
+	"ncobase/user/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/core/user/data/ent/userprofile"
+	"ncobase/user/data/ent/userprofile"
 	"strings"
 
 	"entgo.io/ent"

@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"ncobase/core/workflow/data/ent/predicate"
-	"ncobase/core/workflow/data/ent/template"
+	"ncobase/workflow/data/ent/predicate"
+	"ncobase/workflow/data/ent/template"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"

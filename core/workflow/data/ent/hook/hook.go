@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/data/ent"
+	"ncobase/workflow/data/ent"
 )
 
 // The BusinessFunc type is an adapter to allow the use of ordinary

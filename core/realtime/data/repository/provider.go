@@ -1,6 +1,6 @@
 package repository
 
-import "ncobase/core/realtime/data"
+import "ncobase/realtime/data"
 
 // Repository represents the realtime repository provider
 type Repository struct {

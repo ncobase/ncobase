@@ -3,8 +3,8 @@
 package handler
 
 import (
-	"ncobase/core/user/service"
-	"ncobase/core/user/structs"
+	"ncobase/user/service"
+	"ncobase/user/structs"
 
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/types"

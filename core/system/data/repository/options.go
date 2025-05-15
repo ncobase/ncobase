@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/system/data"
-	"ncobase/core/system/data/ent"
-	optionsEnt "ncobase/core/system/data/ent/options"
-	"ncobase/core/system/structs"
+	"ncobase/system/data"
+	"ncobase/system/data/ent"
+	optionsEnt "ncobase/system/data/ent/options"
+	"ncobase/system/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/data/search/meili"

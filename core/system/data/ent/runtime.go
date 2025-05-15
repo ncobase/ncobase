@@ -3,10 +3,10 @@
 package ent
 
 import (
-	"ncobase/core/system/data/ent/dictionary"
-	"ncobase/core/system/data/ent/menu"
-	"ncobase/core/system/data/ent/options"
-	"ncobase/core/system/data/schema"
+	"ncobase/system/data/ent/dictionary"
+	"ncobase/system/data/ent/menu"
+	"ncobase/system/data/ent/options"
+	"ncobase/system/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

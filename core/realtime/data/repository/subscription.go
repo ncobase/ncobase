@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/core/realtime/data"
-	"ncobase/core/realtime/data/ent"
-	subscriptionEnt "ncobase/core/realtime/data/ent/subscription"
+	"ncobase/realtime/data"
+	"ncobase/realtime/data/ent"
+	subscriptionEnt "ncobase/realtime/data/ent/subscription"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/logging/logger"

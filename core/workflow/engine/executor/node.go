@@ -3,18 +3,18 @@ package executor
 import (
 	"context"
 	"fmt"
-	"ncobase/core/workflow/engine/config"
+	"ncobase/workflow/engine/config"
 	"sync"
 	"time"
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/validation/expression"
 
-	"ncobase/core/workflow/engine/handler"
-	"ncobase/core/workflow/engine/metrics"
-	"ncobase/core/workflow/engine/types"
-	"ncobase/core/workflow/service"
-	"ncobase/core/workflow/structs"
+	"ncobase/workflow/engine/handler"
+	"ncobase/workflow/engine/metrics"
+	"ncobase/workflow/engine/types"
+	"ncobase/workflow/service"
+	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 

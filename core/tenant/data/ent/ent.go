@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/tenant/data/ent/tenant"
-	"ncobase/core/tenant/data/ent/usertenant"
+	"ncobase/tenant/data/ent/tenant"
+	"ncobase/tenant/data/ent/usertenant"
 	"reflect"
 	"sync"
 

@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
-	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
-	userGroupEnt "ncobase/core/space/data/ent/usergroup"
-	"ncobase/core/space/structs"
+	"ncobase/space/data"
+	"ncobase/space/data/ent"
+	userGroupEnt "ncobase/space/data/ent/usergroup"
+	"ncobase/space/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/logging/logger"

@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/core/payment/service"
-	"ncobase/core/payment/structs"
+	"ncobase/payment/service"
+	"ncobase/payment/structs"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/ecode"

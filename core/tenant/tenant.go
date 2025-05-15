@@ -3,9 +3,9 @@ package tenant
 import (
 	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	"ncobase/core/tenant/data"
-	"ncobase/core/tenant/handler"
-	"ncobase/core/tenant/service"
+	"ncobase/tenant/data"
+	"ncobase/tenant/handler"
+	"ncobase/tenant/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ncobase/core/access/data"
+	"ncobase/access/data"
 
 	"github.com/ncobase/ncore/config"
 )

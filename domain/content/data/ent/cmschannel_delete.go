@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/domain/content/data/ent/cmschannel"
-	"ncobase/domain/content/data/ent/predicate"
+	"ncobase/content/data/ent/cmschannel"
+	"ncobase/content/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

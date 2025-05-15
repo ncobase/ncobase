@@ -1,7 +1,7 @@
 package data
 
 import (
-	"ncobase/core/system/structs"
+	"ncobase/system/structs"
 
 	"github.com/ncobase/ncore/utils/convert"
 )
