@@ -15,13 +15,12 @@ import (
 )
 
 var (
-	name             = "system"
-	desc             = "System module"
-	version          = "1.0.0"
-	dependencies     = []string{"access", "auth", "tenant", "user"}
-	typeStr          = "module"
-	group            = "sys"
-	enabledDiscovery = false
+	name         = "system"
+	desc         = "System module"
+	version      = "1.0.0"
+	dependencies = []string{"access", "auth", "tenant", "user"}
+	typeStr      = "module"
+	group        = "sys"
 )
 
 // Module represents the system module.
@@ -31,11 +30,11 @@ type Module struct {
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface
-	h           *handler.Handler
-	s           *service.Service
-	d           *data.Data
 	cleanup     func(name ...string)
-	config      *Config
+
+	h *handler.Handler
+	s *service.Service
+	d *data.Data
 
 	discovery
 }
@@ -70,11 +69,6 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 	if m.initialized {
 		return fmt.Errorf("system module already initialized")
-	}
-
-	m.config = GetDefaultConfig()
-	if conf.Viper != nil {
-		m.config = GetConfigFromFile(m.config, conf.Viper)
 	}
 
 	m.d, m.cleanup, err = data.New(conf.Data)
@@ -186,11 +180,6 @@ func (m *Module) Cleanup() error {
 	return nil
 }
 
-// Status returns the status of the module
-func (m *Module) Status() string {
-	return "active"
-}
-
 // GetMetadata returns the metadata of the module
 func (m *Module) GetMetadata() ext.Metadata {
 	return ext.Metadata{
@@ -206,11 +195,6 @@ func (m *Module) GetMetadata() ext.Metadata {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
-}
-
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
 }
 
 // Description returns the description of the module
