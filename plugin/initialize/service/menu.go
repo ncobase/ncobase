@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"ncobase/initialize/data"
 	"ncobase/system/structs"
 
@@ -21,9 +22,42 @@ func (s *Service) checkMenusInitialized(ctx context.Context) error {
 	return s.initMenus(ctx)
 }
 
+// verifyMenuData validates menu data before initialization
+func (s *Service) verifyMenuData(ctx context.Context) error {
+	// Check headers
+	if len(data.SystemDefaultMenus.Headers) == 0 {
+		return fmt.Errorf("no header menus defined")
+	}
+
+	// Check for required header slugs
+	requiredHeaders := map[string]bool{
+		"dashboard": false,
+		"system":    false,
+	}
+
+	for _, header := range data.SystemDefaultMenus.Headers {
+		if _, ok := requiredHeaders[header.Slug]; ok {
+			requiredHeaders[header.Slug] = true
+		}
+	}
+
+	for slug, found := range requiredHeaders {
+		if !found {
+			return fmt.Errorf("required header menu '%s' not defined", slug)
+		}
+	}
+
+	return nil
+}
+
 // Initialize default menu structure
 func (s *Service) initMenus(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing default menus...")
+
+	// Verify menu data integrity
+	if err := s.verifyMenuData(ctx); err != nil {
+		return fmt.Errorf("menu data verification failed: %w", err)
+	}
 
 	// Get default tenant and admin
 	tenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
@@ -40,6 +74,9 @@ func (s *Service) initMenus(ctx context.Context) error {
 
 	defaultExtras := make(types.JSON)
 
+	// Transaction count for monitoring
+	var createdMenus int
+
 	// Create header menus and map IDs
 	headerIDMap := make(map[string]string)
 	for _, header := range data.SystemDefaultMenus.Headers {
@@ -53,9 +90,15 @@ func (s *Service) initMenus(ctx context.Context) error {
 		createdMenu, err := s.sys.Menu.Create(ctx, &menuBody)
 		if err != nil {
 			logger.Errorf(ctx, "Error creating header menu %s: %v", menuBody.Name, err)
-			return err
+			return fmt.Errorf("failed to create header menu '%s': %w", menuBody.Name, err)
 		}
 		headerIDMap[menuBody.Slug] = createdMenu.ID
+		createdMenus++
+	}
+
+	// Validate that all header menus were created
+	for slug := range headerIDMap {
+		logger.Debugf(ctx, "Created header menu with slug: %s", slug)
 	}
 
 	// Create sidebar menus and map IDs
@@ -64,9 +107,14 @@ func (s *Service) initMenus(ctx context.Context) error {
 		menuBody := sidebar // Copy to avoid modifying original
 
 		// Map parent ID from header slug
-		parentID := menuBody.ParentID
-		if id, ok := headerIDMap[parentID]; ok {
-			menuBody.ParentID = id
+		if menuBody.ParentID != "" {
+			if id, ok := headerIDMap[menuBody.ParentID]; ok {
+				menuBody.ParentID = id
+			} else {
+				logger.Warnf(ctx, "Parent header '%s' not found for sidebar '%s', skipping",
+					menuBody.ParentID, menuBody.Name)
+				continue
+			}
 		}
 
 		menuBody.TenantID = tenant.ID
@@ -78,12 +126,13 @@ func (s *Service) initMenus(ctx context.Context) error {
 		createdMenu, err := s.sys.Menu.Create(ctx, &menuBody)
 		if err != nil {
 			logger.Errorf(ctx, "Error creating sidebar menu %s: %v", menuBody.Name, err)
-			return err
+			return fmt.Errorf("failed to create sidebar menu '%s': %w", menuBody.Name, err)
 		}
 
 		if menuBody.Slug != "" {
 			sidebarIDMap[menuBody.Slug] = createdMenu.ID
 		}
+		createdMenus++
 	}
 
 	// Create submenus
@@ -91,9 +140,14 @@ func (s *Service) initMenus(ctx context.Context) error {
 		menuBody := submenu // Copy to avoid modifying original
 
 		// Map parent ID from sidebar slug
-		parentID := menuBody.ParentID
-		if id, ok := sidebarIDMap[parentID]; ok {
-			menuBody.ParentID = id
+		if menuBody.ParentID != "" {
+			if id, ok := sidebarIDMap[menuBody.ParentID]; ok {
+				menuBody.ParentID = id
+			} else {
+				logger.Warnf(ctx, "Parent sidebar '%s' not found for submenu '%s', skipping",
+					menuBody.ParentID, menuBody.Name)
+				continue
+			}
 		}
 
 		menuBody.TenantID = tenant.ID
@@ -104,8 +158,9 @@ func (s *Service) initMenus(ctx context.Context) error {
 		logger.Debugf(ctx, "Creating submenu: %s", menuBody.Name)
 		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
 			logger.Errorf(ctx, "Error creating submenu %s: %v", menuBody.Name, err)
-			return err
+			return fmt.Errorf("failed to create submenu '%s': %w", menuBody.Name, err)
 		}
+		createdMenus++
 	}
 
 	// Create account menus
@@ -119,8 +174,9 @@ func (s *Service) initMenus(ctx context.Context) error {
 		logger.Debugf(ctx, "Creating account menu: %s", menuBody.Name)
 		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
 			logger.Errorf(ctx, "Error creating account menu %s: %v", menuBody.Name, err)
-			return err
+			return fmt.Errorf("failed to create account menu '%s': %w", menuBody.Name, err)
 		}
+		createdMenus++
 	}
 
 	// Create tenant menus
@@ -134,10 +190,17 @@ func (s *Service) initMenus(ctx context.Context) error {
 		logger.Debugf(ctx, "Creating tenant menu: %s", menuBody.Name)
 		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
 			logger.Errorf(ctx, "Error creating tenant menu %s: %v", menuBody.Name, err)
-			return err
+			return fmt.Errorf("failed to create tenant menu '%s': %w", menuBody.Name, err)
 		}
+		createdMenus++
 	}
 
-	logger.Infof(ctx, "Menu initialization completed successfully")
+	// Verify menu count
+	finalCount := s.sys.Menu.CountX(ctx, &structs.ListMenuParams{})
+	if finalCount != createdMenus {
+		logger.Warnf(ctx, "Menu count mismatch. Expected %d, got %d", createdMenus, finalCount)
+	}
+
+	logger.Infof(ctx, "Menu initialization completed successfully. Created %d menus", createdMenus)
 	return nil
 }

@@ -14,6 +14,7 @@ type InitializeHandlerInterface interface {
 	GetStatus(c *gin.Context)
 	InitializeOrganizations(c *gin.Context)
 	InitializeUsers(c *gin.Context)
+	ResetInitialization(c *gin.Context)
 }
 
 // initializeHandler represents the initialize handler.
@@ -38,6 +39,7 @@ func NewInitializeHandler(svc *service.Service) InitializeHandlerInterface {
 // @Param X-Init-Token header string false "Initialization Token"
 // @Success 200 {object} service.InitState "success"
 // @Failure 400 {object} resp.Exception "bad request"
+// @Failure 401 {object} resp.Exception "unauthorized"
 // @Router /sys/initialize [post]
 // @Security Bearer
 func (h *initializeHandler) Execute(c *gin.Context) {
@@ -70,6 +72,7 @@ func (h *initializeHandler) Execute(c *gin.Context) {
 // @Param X-Init-Token header string false "Initialization Token"
 // @Success 200 {object} service.InitState "success"
 // @Failure 400 {object} resp.Exception "bad request"
+// @Failure 401 {object} resp.Exception "unauthorized"
 // @Router /sys/initialize/organizations [post]
 // @Security Bearer
 func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
@@ -98,6 +101,7 @@ func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
 // @Param X-Init-Token header string false "Initialization Token"
 // @Success 200 {object} service.InitState "success"
 // @Failure 400 {object} resp.Exception "bad request"
+// @Failure 401 {object} resp.Exception "unauthorized"
 // @Router /sys/initialize/users [post]
 // @Security Bearer
 func (h *initializeHandler) InitializeUsers(c *gin.Context) {
@@ -127,4 +131,39 @@ func (h *initializeHandler) InitializeUsers(c *gin.Context) {
 // @Security Bearer
 func (h *initializeHandler) GetStatus(c *gin.Context) {
 	resp.Success(c.Writer, h.s.GetState())
+}
+
+// ResetInitialization handles resetting the system initialization state.
+//
+// @Summary Reset initialization
+// @Description Reset the system initialization state (if allowed in config)
+// @Tags system
+// @Accept json
+// @Produce json
+// @Param X-Init-Token header string true "Initialization Token"
+// @Success 200 {object} service.InitState "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Failure 401 {object} resp.Exception "unauthorized"
+// @Router /sys/initialize/reset [post]
+// @Security Bearer
+func (h *initializeHandler) ResetInitialization(c *gin.Context) {
+	// Validate initialization token (required for reset)
+	initToken := c.GetHeader("X-Init-Token")
+	if initToken != h.s.GetInitToken() {
+		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
+		return
+	}
+
+	// Check if reinitialization is allowed
+	if !h.s.AllowReinitialization() {
+		resp.Fail(c.Writer, resp.BadRequest("Reinitialization is not allowed in configuration"))
+		return
+	}
+
+	state, err := h.s.ResetInitialization(c.Request.Context())
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	resp.Success(c.Writer, state)
 }

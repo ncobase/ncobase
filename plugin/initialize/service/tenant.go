@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"ncobase/initialize/data"
 	tenantStructs "ncobase/tenant/structs"
 
@@ -30,6 +31,7 @@ func (s *Service) checkTenantsInitialized(ctx context.Context) error {
 func (s *Service) initTenants(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system tenants...")
 
+	var createdCount int
 	for _, tenant := range data.SystemDefaultTenants {
 		existing, err := s.ts.Tenant.GetBySlug(ctx, tenant.Slug)
 		if err == nil && existing != nil {
@@ -39,9 +41,22 @@ func (s *Service) initTenants(ctx context.Context) error {
 
 		if _, err := s.ts.Tenant.Create(ctx, &tenant); err != nil {
 			logger.Errorf(ctx, "Error creating tenant %s: %v", tenant.Name, err)
-			return err
+			return fmt.Errorf("failed to create tenant '%s': %w", tenant.Name, err)
 		}
 		logger.Debugf(ctx, "Created tenant: %s", tenant.Name)
+		createdCount++
+	}
+
+	// Verify at least one tenant was created
+	if createdCount == 0 {
+		logger.Warnf(ctx, "No tenants were created during initialization")
+	}
+
+	// Verify the default tenant exists
+	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
+	if err != nil || defaultTenant == nil {
+		logger.Errorf(ctx, "Default tenant 'ncobase' does not exist after initialization")
+		return fmt.Errorf("default tenant 'ncobase' not found after initialization: %w", err)
 	}
 
 	count := s.ts.Tenant.CountX(ctx, &tenantStructs.ListTenantParams{})

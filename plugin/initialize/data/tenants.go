@@ -6,7 +6,7 @@ import "ncobase/tenant/structs"
 var SystemDefaultTenants = []structs.CreateTenantBody{
 	{
 		TenantBody: structs.TenantBody{
-			Name:      "Ncobase Corporation",
+			Name:      "Ncobase LLC.",
 			Slug:      "ncobase",
 			CreatedBy: nil, // Will be set during initialization
 		},

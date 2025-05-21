@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 	accessStructs "ncobase/access/structs"
 	"ncobase/initialize/data"
 
@@ -42,8 +43,8 @@ func (s *Service) initRoles(ctx context.Context) error {
 				continue
 			}
 
-			logger.Warnf(ctx, "Error creating role %s: %v", role.Name, err)
-			continue // Skip this role but continue with others
+			logger.Errorf(ctx, "Error creating role %s: %v", role.Name, err)
+			return fmt.Errorf("failed to create role '%s': %w", role.Name, err)
 		}
 		logger.Debugf(ctx, "Created role: %s", role.Name)
 	}
@@ -67,14 +68,24 @@ func (s *Service) initRoles(ctx context.Context) error {
 				continue
 			}
 
-			logger.Warnf(ctx, "Error creating organization role %s: %v", role.Role.Name, err)
-			continue // Skip this role but continue with others
+			logger.Errorf(ctx, "Error creating organization role %s: %v", role.Role.Name, err)
+			return fmt.Errorf("failed to create organization role '%s': %w", role.Role.Name, err)
 		}
 		logger.Debugf(ctx, "Created organization role: %s", role.Role.Name)
 	}
 
 	count := s.acs.Role.CountX(ctx, &accessStructs.ListRoleParams{})
 	logger.Infof(ctx, "Role initialization completed, %d roles now in system", count)
+
+	// Validate essential roles exist
+	essential := []string{"super-admin", "admin", "user"}
+	for _, slug := range essential {
+		role, err := s.acs.Role.GetBySlug(ctx, slug)
+		if err != nil || role == nil {
+			logger.Errorf(ctx, "Essential role '%s' was not created", slug)
+			return fmt.Errorf("essential role '%s' was not created during initialization", slug)
+		}
+	}
 
 	return nil
 }

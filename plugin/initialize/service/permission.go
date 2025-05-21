@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	accessStructs "ncobase/access/structs"
 	"ncobase/initialize/data"
 
@@ -27,7 +28,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 	for _, permission := range data.SystemDefaultPermissions {
 		if _, err := s.acs.Permission.Create(ctx, &permission); err != nil {
 			logger.Errorf(ctx, "Error creating permission %s: %v", permission.Name, err)
-			return err
+			return fmt.Errorf("failed to create permission '%s': %w", permission.Name, err)
 		}
 		logger.Debugf(ctx, "Created permission: %s", permission.Name)
 	}
@@ -39,7 +40,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 		}
 		if _, err := s.acs.Permission.Create(ctx, &createPermission); err != nil {
 			logger.Errorf(ctx, "Error creating organization permission %s: %v", permission.Name, err)
-			return err
+			return fmt.Errorf("failed to create organization permission '%s': %w", permission.Name, err)
 		}
 		logger.Debugf(ctx, "Created organization permission: %s", permission.Name)
 	}
@@ -48,13 +49,13 @@ func (s *Service) initPermissions(ctx context.Context) error {
 	allPermissions, err := s.acs.Permission.List(ctx, &accessStructs.ListPermissionParams{})
 	if err != nil {
 		logger.Errorf(ctx, "Error listing permissions: %v", err)
-		return err
+		return fmt.Errorf("failed to list permissions for role assignment: %w", err)
 	}
 
 	roles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{})
 	if err != nil {
 		logger.Errorf(ctx, "Error listing roles: %v", err)
-		return err
+		return fmt.Errorf("failed to list roles for permission assignment: %w", err)
 	}
 
 	// Map permissions to roles
@@ -84,7 +85,7 @@ func (s *Service) initPermissions(ctx context.Context) error {
 
 			if _, err := s.acs.RolePermission.AddPermissionToRole(ctx, role.ID, permToAdd.ID); err != nil {
 				logger.Errorf(ctx, "Error adding permission %s to role %s: %v", permName, role.Slug, err)
-				return err
+				return fmt.Errorf("failed to add permission '%s' to role '%s': %w", permName, role.Slug, err)
 			}
 			logger.Debugf(ctx, "Added permission %s to role %s", permName, role.Slug)
 		}

@@ -8,6 +8,7 @@ import (
 type Config struct {
 	Initialization *InitConfig `json:"initialization"`
 	Security       *SecConfig  `json:"security"`
+	Logging        *LogConfig  `json:"logging"`
 }
 
 // InitConfig holds configuration for system initialization
@@ -15,11 +16,17 @@ type InitConfig struct {
 	AllowReinitialization bool   `json:"allow_reinitialization"`
 	InitToken             string `json:"init_token"`
 	TokenExpiry           string `json:"token_expiry"`
+	PersistState          bool   `json:"persist_state"`
 }
 
 // SecConfig holds security configuration for the system
 type SecConfig struct {
 	DefaultPasswordPolicy *PasswordPolicy `json:"default_password_policy"`
+}
+
+// LogConfig holds logging configuration
+type LogConfig struct {
+	EnableDebug bool `json:"enable_debug"`
 }
 
 // PasswordPolicy defines password requirements
@@ -39,6 +46,7 @@ func GetDefaultConfig() *Config {
 			AllowReinitialization: false,
 			InitToken:             "Ac231", // Empty means no token required
 			TokenExpiry:           "24h",
+			PersistState:          true,
 		},
 		Security: &SecConfig{
 			DefaultPasswordPolicy: &PasswordPolicy{
@@ -49,6 +57,9 @@ func GetDefaultConfig() *Config {
 				RequireSpecial:     false,
 				ExpirePasswordDays: 90,
 			},
+		},
+		Logging: &LogConfig{
+			EnableDebug: false,
 		},
 	}
 }
@@ -73,6 +84,10 @@ func GetConfigFromFile(config *Config, viper *viper.Viper) *Config {
 		config.Security = &SecConfig{}
 	}
 
+	if config.Logging == nil {
+		config.Logging = &LogConfig{}
+	}
+
 	// Initialization settings
 	if viper.IsSet("system.initialization.allow_reinitialization") {
 		config.Initialization.AllowReinitialization = viper.GetBool("system.initialization.allow_reinitialization")
@@ -84,6 +99,15 @@ func GetConfigFromFile(config *Config, viper *viper.Viper) *Config {
 
 	if viper.IsSet("system.initialization.token_expiry") {
 		config.Initialization.TokenExpiry = viper.GetString("system.initialization.token_expiry")
+	}
+
+	if viper.IsSet("system.initialization.persist_state") {
+		config.Initialization.PersistState = viper.GetBool("system.initialization.persist_state")
+	}
+
+	// Logging settings
+	if viper.IsSet("system.logging.enable_debug") {
+		config.Logging.EnableDebug = viper.GetBool("system.logging.enable_debug")
 	}
 
 	// Security settings

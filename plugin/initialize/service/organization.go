@@ -40,6 +40,9 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 		return fmt.Errorf("failed to get admin user: %v", err)
 	}
 
+	// Track the number of organizations created
+	var groupCount int
+
 	// Step 1: Create the main group
 	mainGroup := data.OrganizationStructure.MainGroup
 	mainGroup.TenantID = &tenant.ID
@@ -53,6 +56,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 		return fmt.Errorf("failed to create main group: %v", err)
 	}
 	logger.Debugf(ctx, "Created main group: %s", mainGroup.Name)
+	groupCount++
 
 	// Step 2: Create group-level departments
 	for _, dept := range data.OrganizationStructure.GroupDepartments {
@@ -68,6 +72,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 			return fmt.Errorf("failed to create group department %s: %v", dept.Name, err)
 		}
 		logger.Debugf(ctx, "Created group department: %s", dept.Name)
+		groupCount++
 	}
 
 	// Step 3: Create companies
@@ -86,6 +91,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 		}
 		companies = append(companies, createdCompany)
 		logger.Debugf(ctx, "Created company: %s", company.Name)
+		groupCount++
 	}
 
 	// Step 4: Create departments and teams for each company
@@ -112,6 +118,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 				return fmt.Errorf("failed to create department %s: %v", deptInfo.Name, err)
 			}
 			logger.Debugf(ctx, "Created department: %s", deptInfo.Name)
+			groupCount++
 
 			// Create teams for this department
 			for _, team := range dept.Teams {
@@ -127,6 +134,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 					return fmt.Errorf("failed to create team %s: %v", team.Name, err)
 				}
 				logger.Debugf(ctx, "Created team: %s", team.Name)
+				groupCount++
 			}
 		}
 
@@ -147,6 +155,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 				return fmt.Errorf("failed to create common department %s: %v", deptInfo.Name, err)
 			}
 			logger.Debugf(ctx, "Created common department: %s", deptInfo.Name)
+			groupCount++
 
 			// Create teams for this department
 			for _, team := range commonDept.Teams {
@@ -164,6 +173,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 					return fmt.Errorf("failed to create team %s: %v", team.Name, err)
 				}
 				logger.Debugf(ctx, "Created team: %s", team.Name)
+				groupCount++
 			}
 		}
 	}
@@ -182,18 +192,28 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 			return fmt.Errorf("failed to create temporary organization %s: %v", tempOrg.Name, err)
 		}
 		logger.Debugf(ctx, "Created temporary organization: %s", tempOrg.Name)
+		groupCount++
 	}
 
-	// Step 6: Create organization-specific roles and permissions
+	// Step 6: Create organization-specific roles and permissions if they don't exist
+	var roleCount int
 	for _, orgRole := range data.OrganizationStructure.OrganizationRoles {
+		// Check if role already exists
+		existingRole, err := s.acs.Role.GetBySlug(ctx, orgRole.Role.Slug)
+		if err == nil && existingRole != nil {
+			logger.Debugf(ctx, "Organization role %s already exists, skipping", orgRole.Role.Slug)
+			continue
+		}
+
 		// Create role
-		_, err := s.acs.Role.Create(ctx, &accessStructs.CreateRoleBody{
+		_, err = s.acs.Role.Create(ctx, &accessStructs.CreateRoleBody{
 			RoleBody: orgRole.Role,
 		})
 		if err != nil {
 			return fmt.Errorf("failed to create organization role %s: %v", orgRole.Role.Name, err)
 		}
 		logger.Debugf(ctx, "Created organization role: %s", orgRole.Role.Name)
+		roleCount++
 	}
 
 	// Step 7: Associate users with groups and roles
@@ -230,8 +250,15 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 		logger.Debugf(ctx, "Associated user %s with organization role: %s", user.Username, roleSlug)
 	}
 
-	count := s.ss.Group.CountX(ctx, &spaceStructs.ListGroupParams{})
-	logger.Infof(ctx, "Organization structure initialization completed, created %d groups", count)
+	// Verify organizations were created
+	finalCount := s.ss.Group.CountX(ctx, &spaceStructs.ListGroupParams{})
+	if finalCount == 0 {
+		logger.Errorf(ctx, "No groups were created during organization initialization")
+		return fmt.Errorf("organization initialization failed to create any groups")
+	}
+
+	logger.Infof(ctx, "Organization structure initialization completed, created %d groups and %d roles",
+		groupCount, roleCount)
 
 	return nil
 }
@@ -265,6 +292,14 @@ func (s *Service) InitializeOrganizations(ctx context.Context) (*InitState, erro
 	logger.Infof(ctx, "Successfully initialized organizations")
 
 	s.state.LastRunTime = time.Now().UnixMilli()
+
+	// Persist state if configured
+	if s.c.Initialization.PersistState {
+		if err := s.SaveState(ctx); err != nil {
+			logger.Warnf(ctx, "Failed to save initialization state: %v", err)
+		}
+	}
+
 	logger.Infof(ctx, "Organization initialization completed successfully")
 	return s.state, nil
 }
