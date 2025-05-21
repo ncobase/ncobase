@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 	"ncobase/system/data"
 	"ncobase/system/data/ent"
 	"ncobase/system/data/repository"
@@ -19,8 +20,19 @@ type DictionaryServiceInterface interface {
 	Create(ctx context.Context, body *structs.DictionaryBody) (*structs.ReadDictionary, error)
 	Update(ctx context.Context, updates *structs.UpdateDictionaryBody) (*structs.ReadDictionary, error)
 	Get(ctx context.Context, params *structs.FindDictionary) (any, error)
+	GetByType(ctx context.Context, typeName string) ([]*structs.ReadDictionary, error)
+	GetBySlug(ctx context.Context, slug string) (*structs.ReadDictionary, error)
+	GetValueBySlug(ctx context.Context, slug string) (interface{}, error)
+	GetObjectBySlug(ctx context.Context, slug string) (map[string]interface{}, error)
+	GetEnumBySlug(ctx context.Context, slug string) (map[string]string, error)
+	GetEnumOptions(ctx context.Context, slug string) ([]map[string]interface{}, error)
+	GetNestedEnumBySlug(ctx context.Context, slug string) (map[string]map[string]interface{}, error)
+	ValidateEnumValue(ctx context.Context, slug string, value string) (bool, error)
+	GetEnumValueLabel(ctx context.Context, slug string, value string) (string, error)
+	BatchGetBySlug(ctx context.Context, slugs []string) (map[string]*structs.ReadDictionary, error)
 	Delete(ctx context.Context, params *structs.FindDictionary) (*structs.ReadDictionary, error)
 	List(ctx context.Context, params *structs.ListDictionaryParams) (paging.Result[*structs.ReadDictionary], error)
+	CountX(ctx context.Context, params *structs.ListDictionaryParams) int
 }
 
 // DictionaryService represents the dictionary service.
@@ -49,13 +61,9 @@ func (s *dictionaryService) Create(ctx context.Context, body *structs.Dictionary
 	return s.Serialize(row), nil
 }
 
-// Update updates an existing dictionary (full and partial).
-func (s *dictionaryService) Update(ctx context.Context, updates *structs.UpdateDictionaryBody) (*structs.ReadDictionary, error) {
-	if validator.IsEmpty(updates.ID) {
-		return nil, errors.New(ecode.FieldIsRequired("id"))
-	}
-
-	row, err := s.dictionary.Update(ctx, updates)
+// Get retrieves a dictionary by ID.
+func (s *dictionaryService) Get(ctx context.Context, params *structs.FindDictionary) (any, error) {
+	row, err := s.dictionary.Get(ctx, params)
 	if err := handleEntError(ctx, "Dictionary", err); err != nil {
 		return nil, err
 	}
@@ -63,9 +71,177 @@ func (s *dictionaryService) Update(ctx context.Context, updates *structs.UpdateD
 	return s.Serialize(row), nil
 }
 
-// Get retrieves a dictionary by ID.
-func (s *dictionaryService) Get(ctx context.Context, params *structs.FindDictionary) (any, error) {
-	row, err := s.dictionary.Get(ctx, params)
+// GetByType retrieves dictionaries by type.
+func (s *dictionaryService) GetByType(ctx context.Context, typeName string) ([]*structs.ReadDictionary, error) {
+	if validator.IsEmpty(typeName) {
+		return nil, errors.New(ecode.FieldIsRequired("type"))
+	}
+
+	params := &structs.ListDictionaryParams{
+		Type: typeName,
+	}
+
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Items, nil
+}
+
+// GetBySlug retrieves a dictionary by its slug.
+func (s *dictionaryService) GetBySlug(ctx context.Context, slug string) (*structs.ReadDictionary, error) {
+	if validator.IsEmpty(slug) {
+		return nil, errors.New(ecode.FieldIsRequired("slug"))
+	}
+
+	params := &structs.FindDictionary{
+		Dictionary: slug,
+	}
+
+	result, err := s.Get(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	dictionary, ok := result.(*structs.ReadDictionary)
+	if !ok {
+		return nil, errors.New(ecode.AssertionFailed("dictionary"))
+	}
+
+	return dictionary, nil
+}
+
+// GetValueBySlug retrieves and parses a dictionary's value by slug.
+func (s *dictionaryService) GetValueBySlug(ctx context.Context, slug string) (interface{}, error) {
+	dict, err := s.GetBySlug(ctx, slug)
+	if err != nil {
+		return nil, err
+	}
+
+	return dict.ParseValue()
+}
+
+// GetObjectBySlug retrieves a dictionary value as object/map by slug.
+func (s *dictionaryService) GetObjectBySlug(ctx context.Context, slug string) (map[string]interface{}, error) {
+	value, err := s.GetValueBySlug(ctx, slug)
+	if err != nil {
+		return nil, err
+	}
+
+	obj, ok := value.(map[string]interface{})
+	if !ok {
+		return nil, errors.New(ecode.TypeMismatch("object"))
+	}
+
+	return obj, nil
+}
+
+// GetEnumBySlug retrieves a dictionary as enum (simple key-value object) by slug.
+func (s *dictionaryService) GetEnumBySlug(ctx context.Context, slug string) (map[string]string, error) {
+	obj, err := s.GetObjectBySlug(ctx, slug)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[string]string)
+	for key, value := range obj {
+		strValue, ok := value.(string)
+		if !ok {
+			continue // Skip non-string values
+		}
+		result[key] = strValue
+	}
+
+	return result, nil
+}
+
+// GetEnumOptions retrieves a dictionary as options array for UI select components.
+func (s *dictionaryService) GetEnumOptions(ctx context.Context, slug string) ([]map[string]interface{}, error) {
+	enum, err := s.GetEnumBySlug(ctx, slug)
+	if err != nil {
+		return nil, err
+	}
+
+	options := make([]map[string]interface{}, 0, len(enum))
+	for key, value := range enum {
+		options = append(options, map[string]interface{}{
+			"value": key,
+			"label": value,
+		})
+	}
+
+	return options, nil
+}
+
+// GetNestedEnumBySlug retrieves a dictionary as nested enum (complex object with sub-properties) by slug.
+func (s *dictionaryService) GetNestedEnumBySlug(ctx context.Context, slug string) (map[string]map[string]interface{}, error) {
+	obj, err := s.GetObjectBySlug(ctx, slug)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[string]map[string]interface{})
+	for key, value := range obj {
+		nestedObj, ok := value.(map[string]interface{})
+		if !ok {
+			continue // Skip non-object values
+		}
+		result[key] = nestedObj
+	}
+
+	return result, nil
+}
+
+// ValidateEnumValue checks if a value is valid for a given dictionary enum.
+func (s *dictionaryService) ValidateEnumValue(ctx context.Context, slug string, value string) (bool, error) {
+	enum, err := s.GetEnumBySlug(ctx, slug)
+	if err != nil {
+		return false, err
+	}
+
+	_, exists := enum[value]
+	return exists, nil
+}
+
+// GetEnumValueLabel gets the label for a value in a dictionary enum.
+func (s *dictionaryService) GetEnumValueLabel(ctx context.Context, slug string, value string) (string, error) {
+	enum, err := s.GetEnumBySlug(ctx, slug)
+	if err != nil {
+		return "", err
+	}
+
+	label, exists := enum[value]
+	if !exists {
+		return "", errors.New(ecode.NotExist(fmt.Sprintf("Value '%s' in dictionary '%s'", value, slug)))
+	}
+
+	return label, nil
+}
+
+// BatchGetBySlug retrieves multiple dictionaries by their slugs.
+func (s *dictionaryService) BatchGetBySlug(ctx context.Context, slugs []string) (map[string]*structs.ReadDictionary, error) {
+	result := make(map[string]*structs.ReadDictionary)
+
+	for _, slug := range slugs {
+		dict, err := s.GetBySlug(ctx, slug)
+		if err != nil {
+			logger.Warnf(ctx, "Failed to get dictionary %s: %v", slug, err)
+			continue
+		}
+		result[slug] = dict
+	}
+
+	return result, nil
+}
+
+// Update updates an existing dictionary (full and partial).
+func (s *dictionaryService) Update(ctx context.Context, updates *structs.UpdateDictionaryBody) (*structs.ReadDictionary, error) {
+	if validator.IsEmpty(updates.ID) {
+		return nil, errors.New(ecode.FieldIsRequired("id"))
+	}
+
+	row, err := s.dictionary.Update(ctx, updates)
 	if err := handleEntError(ctx, "Dictionary", err); err != nil {
 		return nil, err
 	}
@@ -110,6 +286,11 @@ func (s *dictionaryService) List(ctx context.Context, params *structs.ListDictio
 
 		return s.Serializes(rows), total, nil
 	})
+}
+
+// CountX counts dictionarys.
+func (s *dictionaryService) CountX(ctx context.Context, params *structs.ListDictionaryParams) int {
+	return s.dictionary.CountX(ctx, params)
 }
 
 // Serializes dictionarys.

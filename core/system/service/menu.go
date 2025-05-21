@@ -21,6 +21,22 @@ type MenuServiceInterface interface {
 	Create(ctx context.Context, body *structs.MenuBody) (*structs.ReadMenu, error)
 	Update(ctx context.Context, updates *structs.UpdateMenuBody) (*structs.ReadMenu, error)
 	Get(ctx context.Context, params *structs.FindMenu) (any, error)
+	GetByType(ctx context.Context, menuType string) ([]*structs.ReadMenu, error)
+	GetBySlug(ctx context.Context, slug string) (*structs.ReadMenu, error)
+	GetHeaderMenus(ctx context.Context) ([]*structs.ReadMenu, error)
+	GetSidebarMenus(ctx context.Context, parentID string) ([]*structs.ReadMenu, error)
+	GetMenuByPerms(ctx context.Context, perms string) ([]*structs.ReadMenu, error)
+	GetActiveMenus(ctx context.Context) ([]*structs.ReadMenu, error)
+	GetMenuByPath(ctx context.Context, path string) (*structs.ReadMenu, error)
+	MoveMenu(ctx context.Context, menuID string, newParentID string, newOrder int) (*structs.ReadMenu, error)
+	EnableMenu(ctx context.Context, menuID string) (*structs.ReadMenu, error)
+	DisableMenu(ctx context.Context, menuID string) (*structs.ReadMenu, error)
+	ShowMenu(ctx context.Context, menuID string) (*structs.ReadMenu, error)
+	HideMenu(ctx context.Context, menuID string) (*structs.ReadMenu, error)
+	GetDefaultMenuTree(ctx context.Context) (map[string][]*structs.ReadMenu, error)
+	GetUserAuthorizedMenus(ctx context.Context, userID string) ([]*structs.ReadMenu, error)
+	BatchGetByID(ctx context.Context, menuIDs []string) (map[string]*structs.ReadMenu, error)
+	ReorderMenus(ctx context.Context, menuIDs []string) error
 	Delete(ctx context.Context, params *structs.FindMenu) (*structs.ReadMenu, error)
 	List(ctx context.Context, params *structs.ListMenuParams) (paging.Result[*structs.ReadMenu], error)
 	CountX(ctx context.Context, params *structs.ListMenuParams) int
@@ -85,6 +101,432 @@ func (s *menuService) Get(ctx context.Context, params *structs.FindMenu) (any, e
 	}
 
 	return s.Serialize(row), nil
+}
+
+// GetByType retrieves menus by type.
+func (s *menuService) GetByType(ctx context.Context, menuType string) ([]*structs.ReadMenu, error) {
+	if validator.IsEmpty(menuType) {
+		return nil, errors.New(ecode.FieldIsRequired("type"))
+	}
+
+	params := &structs.ListMenuParams{
+		Type: menuType,
+	}
+
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Items, nil
+}
+
+// GetBySlug retrieves a menu by slug.
+func (s *menuService) GetBySlug(ctx context.Context, slug string) (*structs.ReadMenu, error) {
+	if validator.IsEmpty(slug) {
+		return nil, errors.New(ecode.FieldIsRequired("slug"))
+	}
+
+	params := &structs.FindMenu{
+		Menu: slug,
+	}
+
+	result, err := s.Get(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	menu, ok := result.(*structs.ReadMenu)
+	if !ok {
+		return nil, errors.New(ecode.AssertionFailed("menu"))
+	}
+
+	return menu, nil
+}
+
+// GetHeaderMenus retrieves all header menus.
+func (s *menuService) GetHeaderMenus(ctx context.Context) ([]*structs.ReadMenu, error) {
+	return s.GetByType(ctx, "header")
+}
+
+// GetSidebarMenus retrieves all sidebar menus for a given parent.
+func (s *menuService) GetSidebarMenus(ctx context.Context, parentID string) ([]*structs.ReadMenu, error) {
+	params := &structs.ListMenuParams{
+		Type:   "sidebar",
+		Parent: parentID,
+	}
+
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Items, nil
+}
+
+// GetMenuByPerms retrieves menus by permission code.
+func (s *menuService) GetMenuByPerms(ctx context.Context, perms string) ([]*structs.ReadMenu, error) {
+	if validator.IsEmpty(perms) {
+		return nil, errors.New(ecode.FieldIsRequired("perms"))
+	}
+
+	params := &structs.ListMenuParams{
+		Perms: perms,
+	}
+
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Items, nil
+}
+
+// GetActiveMenus retrieves all non-disabled, non-hidden menus.
+func (s *menuService) GetActiveMenus(ctx context.Context) ([]*structs.ReadMenu, error) {
+	// We'll need to enhance the repository to filter by hidden and disabled
+	// For now, we'll filter the results in memory
+	params := &structs.ListMenuParams{
+		Limit: 1000, // Use a reasonable limit
+	}
+
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	activeMenus := make([]*structs.ReadMenu, 0, len(result.Items))
+	for _, menu := range result.Items {
+		if !menu.Hidden && !menu.Disabled {
+			activeMenus = append(activeMenus, menu)
+		}
+	}
+
+	return activeMenus, nil
+}
+
+// GetMenuByPath retrieves menus by path.
+func (s *menuService) GetMenuByPath(ctx context.Context, path string) (*structs.ReadMenu, error) {
+	if validator.IsEmpty(path) {
+		return nil, errors.New(ecode.FieldIsRequired("path"))
+	}
+
+	// Note: This would ideally be implemented at the repository level
+	// For now, we'll use List and filter
+	params := &structs.ListMenuParams{
+		Limit: 1000, // Use a reasonable limit
+	}
+
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, menu := range result.Items {
+		if menu.Path == path {
+			return menu, nil
+		}
+	}
+
+	return nil, errors.New(ecode.NotExist("Menu with path " + path))
+}
+
+// MoveMenu moves a menu to a new parent and/or changes its order.
+func (s *menuService) MoveMenu(ctx context.Context, menuID string, newParentID string, newOrder int) (*structs.ReadMenu, error) {
+	// Find the menu first
+	params := &structs.FindMenu{
+		Menu: menuID,
+	}
+
+	result, err := s.Get(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	menu, ok := result.(*structs.ReadMenu)
+	if !ok {
+		return nil, errors.New(ecode.AssertionFailed("menu"))
+	}
+
+	// Create update body
+	updateBody := &structs.UpdateMenuBody{
+		ID: menu.ID,
+		MenuBody: structs.MenuBody{
+			ParentID: newParentID,
+			Order:    &newOrder,
+		},
+	}
+
+	return s.Update(ctx, updateBody)
+}
+
+// EnableMenu enables a disabled menu.
+func (s *menuService) EnableMenu(ctx context.Context, menuID string) (*structs.ReadMenu, error) {
+	// Find the menu first
+	params := &structs.FindMenu{
+		Menu: menuID,
+	}
+
+	result, err := s.Get(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	menu, ok := result.(*structs.ReadMenu)
+	if !ok {
+		return nil, errors.New(ecode.AssertionFailed("menu"))
+	}
+
+	// Skip if already enabled
+	if !menu.Disabled {
+		return menu, nil
+	}
+
+	// Create update body
+	disabled := false
+	updateBody := &structs.UpdateMenuBody{
+		ID: menu.ID,
+		MenuBody: structs.MenuBody{
+			Disabled: &disabled,
+		},
+	}
+
+	return s.Update(ctx, updateBody)
+}
+
+// DisableMenu disables a menu.
+func (s *menuService) DisableMenu(ctx context.Context, menuID string) (*structs.ReadMenu, error) {
+	// Find the menu first
+	params := &structs.FindMenu{
+		Menu: menuID,
+	}
+
+	result, err := s.Get(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	menu, ok := result.(*structs.ReadMenu)
+	if !ok {
+		return nil, errors.New(ecode.AssertionFailed("menu"))
+	}
+
+	// Skip if already disabled
+	if menu.Disabled {
+		return menu, nil
+	}
+
+	// Create update body
+	disabled := true
+	updateBody := &structs.UpdateMenuBody{
+		ID: menu.ID,
+		MenuBody: structs.MenuBody{
+			Disabled: &disabled,
+		},
+	}
+
+	return s.Update(ctx, updateBody)
+}
+
+// ShowMenu makes a hidden menu visible.
+func (s *menuService) ShowMenu(ctx context.Context, menuID string) (*structs.ReadMenu, error) {
+	// Find the menu first
+	params := &structs.FindMenu{
+		Menu: menuID,
+	}
+
+	result, err := s.Get(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	menu, ok := result.(*structs.ReadMenu)
+	if !ok {
+		return nil, errors.New(ecode.AssertionFailed("menu"))
+	}
+
+	// Skip if already visible
+	if !menu.Hidden {
+		return menu, nil
+	}
+
+	// Create update body
+	hidden := false
+	updateBody := &structs.UpdateMenuBody{
+		ID: menu.ID,
+		MenuBody: structs.MenuBody{
+			Hidden: &hidden,
+		},
+	}
+
+	return s.Update(ctx, updateBody)
+}
+
+// HideMenu hides a menu.
+func (s *menuService) HideMenu(ctx context.Context, menuID string) (*structs.ReadMenu, error) {
+	// Find the menu first
+	params := &structs.FindMenu{
+		Menu: menuID,
+	}
+
+	result, err := s.Get(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	menu, ok := result.(*structs.ReadMenu)
+	if !ok {
+		return nil, errors.New(ecode.AssertionFailed("menu"))
+	}
+
+	// Skip if already hidden
+	if menu.Hidden {
+		return menu, nil
+	}
+
+	// Create update body
+	hidden := true
+	updateBody := &structs.UpdateMenuBody{
+		ID: menu.ID,
+		MenuBody: structs.MenuBody{
+			Hidden: &hidden,
+		},
+	}
+
+	return s.Update(ctx, updateBody)
+}
+
+// GetDefaultMenuTree retrieves the complete menu tree with proper structure.
+// This can be used to get the full navigation structure for a UI.
+func (s *menuService) GetDefaultMenuTree(ctx context.Context) (map[string][]*structs.ReadMenu, error) {
+	// Get all headers
+	headers, err := s.GetHeaderMenus(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[string][]*structs.ReadMenu)
+	result["headers"] = headers
+
+	// For each header, get its sidebars
+	sidebars := make([]*structs.ReadMenu, 0)
+	for _, header := range headers {
+		headerSidebars, err := s.GetSidebarMenus(ctx, header.ID)
+		if err != nil {
+			logger.Warnf(ctx, "Error getting sidebars for header %s: %v", header.ID, err)
+			continue
+		}
+		sidebars = append(sidebars, headerSidebars...)
+	}
+	result["sidebars"] = sidebars
+
+	// Get account menus
+	accountMenus, err := s.GetByType(ctx, "account")
+	if err != nil {
+		logger.Warnf(ctx, "Error getting account menus: %v", err)
+	} else {
+		result["accounts"] = accountMenus
+	}
+
+	// Get tenant menus
+	tenantMenus, err := s.GetByType(ctx, "tenant")
+	if err != nil {
+		logger.Warnf(ctx, "Error getting tenant menus: %v", err)
+	} else {
+		result["tenants"] = tenantMenus
+	}
+
+	return result, nil
+}
+
+// GetUserAuthorizedMenus retrieves menus that a user is authorized to see.
+// This requires integration with the access control system.
+func (s *menuService) GetUserAuthorizedMenus(ctx context.Context, userID string) ([]*structs.ReadMenu, error) {
+	if validator.IsEmpty(userID) {
+		return nil, errors.New(ecode.FieldIsRequired("userID"))
+	}
+
+	// This is a placeholder. The actual implementation would:
+	// 1. Get the user's roles
+	// 2. Get permissions associated with those roles
+	// 3. Filter menus by those permissions
+
+	// For now, we'll just get all active menus
+	return s.GetActiveMenus(ctx)
+}
+
+// BatchGetByID retrieves multiple menus by their IDs.
+func (s *menuService) BatchGetByID(ctx context.Context, menuIDs []string) (map[string]*structs.ReadMenu, error) {
+	if len(menuIDs) == 0 {
+		return make(map[string]*structs.ReadMenu), nil
+	}
+
+	result := make(map[string]*structs.ReadMenu)
+
+	for _, id := range menuIDs {
+		params := &structs.FindMenu{
+			Menu: id,
+		}
+
+		menuResult, err := s.Get(ctx, params)
+		if err != nil {
+			logger.Warnf(ctx, "Failed to get menu %s: %v", id, err)
+			continue
+		}
+
+		menu, ok := menuResult.(*structs.ReadMenu)
+		if !ok {
+			logger.Warnf(ctx, "Type assertion failed for menu %s", id)
+			continue
+		}
+
+		result[id] = menu
+	}
+
+	return result, nil
+}
+
+// ReorderMenus reorders a set of sibling menus.
+func (s *menuService) ReorderMenus(ctx context.Context, menuIDs []string) error {
+	if len(menuIDs) == 0 {
+		return nil
+	}
+
+	// Get all the menus first to validate they exist
+	menus, err := s.BatchGetByID(ctx, menuIDs)
+	if err != nil {
+		return err
+	}
+
+	// Check that we got all menus
+	if len(menus) != len(menuIDs) {
+		return errors.New("not all menu IDs were found")
+	}
+
+	// Update each menu with its new order
+	for i, id := range menuIDs {
+		menu := menus[id]
+
+		// Skip if order is already correct
+		if menu.Order == i {
+			continue
+		}
+
+		order := i
+		updateBody := &structs.UpdateMenuBody{
+			ID: id,
+			MenuBody: structs.MenuBody{
+				Order: &order,
+			},
+		}
+
+		if _, err := s.Update(ctx, updateBody); err != nil {
+			logger.Errorf(ctx, "Failed to update order for menu %s: %v", id, err)
+			return err
+		}
+	}
+
+	return nil
 }
 
 // Delete deletes a menu by ID.

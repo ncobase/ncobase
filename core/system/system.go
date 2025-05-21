@@ -5,16 +5,13 @@ import (
 	"ncobase/cmd/ncobase/middleware"
 	"ncobase/system/data"
 	"ncobase/system/handler"
-	"ncobase/system/initialize"
 	"ncobase/system/service"
 	"sync"
 
+	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/config"
 	exr "github.com/ncobase/ncore/extension/registry"
 	ext "github.com/ncobase/ncore/extension/types"
-	"github.com/ncobase/ncore/net/resp"
-
-	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -29,6 +26,8 @@ var (
 
 // Module represents the system module.
 type Module struct {
+	ext.OptionalImpl
+
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface
@@ -102,28 +101,6 @@ func (m *Module) PostInit() error {
 	m.h = handler.New(m.s)
 	// Subscribe to relevant events
 	m.subscribeEvents(m.em)
-	// get dependencies services
-	as, err := m.getAuthService()
-	if err != nil {
-		return err
-	}
-	us, err := m.getUserService()
-	if err != nil {
-		return err
-	}
-	ts, err := m.getTenantService()
-	if err != nil {
-		return err
-	}
-	ss, err := m.getSpaceService()
-	if err != nil {
-		return err
-	}
-	acs, err := m.getAccessService()
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -134,70 +111,54 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Public initialization endpoint
-	r.POST("/"+m.Group()+"/initialize", func(c *gin.Context) {
-		// Check initialization token if configured
-		if m.config.Initialization.InitToken != "" {
-			initToken := c.GetHeader("X-Init-Token")
-			if initToken != m.config.Initialization.InitToken {
-				resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
-				return
-			}
-		}
-
-		// Execute initialization
-		state, err := m.i.Execute(c.Request.Context(), m.config.Initialization.AllowReinitialization)
-		if err != nil {
-			// Special case for "already initialized" error
-			if err.Error() == "system is already initialized" {
-				resp.Fail(c.Writer, resp.BadRequest("System is already initialized"))
-				return
-			}
-			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
-			return
-		}
-		resp.Success(c.Writer, state)
-	})
-
-	// Public endpoint to check initialization status
-	r.GET("/"+m.Group()+"/initialize/status", func(c *gin.Context) {
-		resp.Success(c.Writer, m.i.GetState())
-	})
-
 	// Authenticated routes
-	baseGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+	sysGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
 
 	// Menu endpoints
-	menus := baseGroup.Group("/menus")
+	menus := sysGroup.Group("/menus")
 	{
 		menus.GET("", m.h.Menu.List)
 		menus.POST("", m.h.Menu.Create)
 		menus.PUT("", m.h.Menu.Update)
 		menus.GET("/:slug", m.h.Menu.Get)
 		menus.DELETE("/:slug", m.h.Menu.Delete)
+		menus.GET("/slug/:slug", m.h.Menu.GetBySlug)
+		menus.GET("/tree", m.h.Menu.GetDefaultMenuTree)
+		menus.GET("/authorized/:user_id", m.h.Menu.GetUserAuthorizedMenus)
+		menus.PUT("/:id/move", m.h.Menu.MoveMenu)
+		menus.POST("/reorder", m.h.Menu.ReorderMenus)
+		menus.PUT("/:id/enable", m.h.Menu.EnableMenu)
+		menus.PUT("/:id/disable", m.h.Menu.DisableMenu)
+		menus.PUT("/:id/show", m.h.Menu.ShowMenu)
+		menus.PUT("/:id/hide", m.h.Menu.HideMenu)
 	}
 
 	// Dictionary endpoints
-	dictionaries := baseGroup.Group("/dictionaries")
+	dictionaries := sysGroup.Group("/dictionaries")
 	{
 		dictionaries.GET("", m.h.Dictionary.List)
 		dictionaries.POST("", m.h.Dictionary.Create)
 		dictionaries.PUT("", m.h.Dictionary.Update)
 		dictionaries.GET("/:slug", m.h.Dictionary.Get)
 		dictionaries.DELETE("/:slug", m.h.Dictionary.Delete)
+		dictionaries.GET("/slug/:slug", m.h.Dictionary.GetBySlug)
+		dictionaries.GET("/options/:slug", m.h.Dictionary.GetEnumOptions)
+		dictionaries.GET("/validate/:slug", m.h.Dictionary.ValidateEnumValue)
+		dictionaries.POST("/batch", m.h.Dictionary.BatchGetBySlug)
 	}
 
 	// Options endpoints
-	options := baseGroup.Group("/options")
+	options := sysGroup.Group("/options")
 	{
 		options.GET("", m.h.Options.List)
 		options.POST("", m.h.Options.Create)
 		options.PUT("", m.h.Options.Update)
 		options.GET("/:option", m.h.Options.Get)
 		options.DELETE("/:option", m.h.Options.Delete)
-
-		// Special operations
-		options.POST("/initialize", m.h.Options.Initialize)
+		options.GET("/name/:name", m.h.Options.GetByName)
+		options.GET("/type/:type", m.h.Options.GetByType)
+		options.POST("/batch", m.h.Options.BatchGetByNames)
+		options.DELETE("/prefix", m.h.Options.DeleteByPrefix)
 	}
 }
 
@@ -275,11 +236,6 @@ func (m *Module) Group() string {
 // SubscribeEvents subscribes to relevant events
 func (m *Module) subscribeEvents(_ ext.ManagerInterface) {
 	// Implement any event subscriptions here
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

@@ -15,9 +15,12 @@ type OptionsHandlerInterface interface {
 	Create(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
+	GetByName(c *gin.Context)
+	GetByType(c *gin.Context)
+	BatchGetByNames(c *gin.Context)
 	Delete(c *gin.Context)
+	DeleteByPrefix(c *gin.Context)
 	List(c *gin.Context)
-	Initialize(c *gin.Context)
 }
 
 // optionsHandler represents the options handler.
@@ -123,6 +126,80 @@ func (h *optionsHandler) Get(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
+// GetByName handles retrieving an option by name.
+//
+// @Summary Get option by name
+// @Description Retrieve an option by its name.
+// @Tags sys
+// @Produce json
+// @Param name path string true "Option name"
+// @Success 200 {object} structs.ReadOptions "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/options/name/{name} [get]
+// @Security Bearer
+func (h *optionsHandler) GetByName(c *gin.Context) {
+	name := c.Param("name")
+
+	result, err := h.s.Options.GetByName(c.Request.Context(), name)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// GetByType handles retrieving options by type.
+//
+// @Summary Get options by type
+// @Description Retrieve options by their type.
+// @Tags sys
+// @Produce json
+// @Param type path string true "Option type"
+// @Success 200 {array} structs.ReadOptions "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/options/type/{type} [get]
+// @Security Bearer
+func (h *optionsHandler) GetByType(c *gin.Context) {
+	typeName := c.Param("type")
+
+	result, err := h.s.Options.GetByType(c.Request.Context(), typeName)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// BatchGetByNames handles retrieving multiple options by their names.
+//
+// @Summary Batch get options
+// @Description Retrieve multiple options by their names.
+// @Tags sys
+// @Accept json
+// @Produce json
+// @Param body body []string true "Array of option names"
+// @Success 200 {object} map[string]structs.ReadOptions "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/options/batch [post]
+// @Security Bearer
+func (h *optionsHandler) BatchGetByNames(c *gin.Context) {
+	var names []string
+	if err := c.ShouldBindJSON(&names); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	result, err := h.s.Options.BatchGetByNames(c.Request.Context(), names)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
 // Delete handles deleting an option by ID or name.
 //
 // @Summary Delete option
@@ -141,6 +218,34 @@ func (h *optionsHandler) Delete(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
+	resp.Success(c.Writer, nil)
+}
+
+// DeleteByPrefix handles deleting options by prefix.
+//
+// @Summary Delete options by prefix
+// @Description Delete options matching a prefix pattern.
+// @Tags sys
+// @Accept json
+// @Produce json
+// @Param prefix query string true "Name prefix pattern"
+// @Success 200 {object} resp.Exception "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/options/prefix [delete]
+// @Security Bearer
+func (h *optionsHandler) DeleteByPrefix(c *gin.Context) {
+	prefix := c.Query("prefix")
+	if prefix == "" {
+		resp.Fail(c.Writer, resp.BadRequest("prefix is required"))
+		return
+	}
+
+	err := h.s.Options.DeleteByPrefix(c.Request.Context(), prefix)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+
 	resp.Success(c.Writer, nil)
 }
 
@@ -172,23 +277,4 @@ func (h *optionsHandler) List(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, result)
-}
-
-// Initialize initializes the system with default options
-//
-// @Summary Initialize
-// @Description Initialize the system with default options
-// @Tags sys
-// @Produce json
-// @Success 200 {object} resp.Exception "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Router /sys/options/initialize [post]
-// @Security Bearer
-func (h *optionsHandler) Initialize(c *gin.Context) {
-	err := h.s.Options.Initialize(c.Request.Context())
-	if err != nil {
-		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
-		return
-	}
-	resp.Success(c.Writer, nil)
 }

@@ -23,6 +23,8 @@ var (
 
 // Plugin represents the sample plugin
 type Plugin struct {
+	ext.OptionalImpl
+
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface

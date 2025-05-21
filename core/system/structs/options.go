@@ -79,4 +79,5 @@ type ListOptionsParams struct {
 	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Autoload  *bool  `form:"autoload,omitempty" json:"autoload,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Prefix    string `form:"prefix,omitempty" json:"prefix,omitempty"`
 }

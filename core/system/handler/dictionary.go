@@ -15,6 +15,10 @@ type DictionaryHandlerInterface interface {
 	Create(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
+	GetBySlug(c *gin.Context)
+	GetEnumOptions(c *gin.Context)
+	ValidateEnumValue(c *gin.Context)
+	BatchGetBySlug(c *gin.Context)
 	Delete(c *gin.Context)
 	List(c *gin.Context)
 }
@@ -119,6 +123,105 @@ func (h *dictionaryHandler) Get(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
+	resp.Success(c.Writer, result)
+}
+
+// GetBySlug handles retrieving a dictionary by slug.
+//
+// @Summary Get dictionary by slug
+// @Description Retrieve a dictionary by its slug.
+// @Tags sys
+// @Produce json
+// @Param slug path string true "Dictionary slug"
+// @Success 200 {object} structs.ReadDictionary "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/dictionaries/slug/{slug} [get]
+// @Security Bearer
+func (h *dictionaryHandler) GetBySlug(c *gin.Context) {
+	slug := c.Param("slug")
+
+	result, err := h.s.Dictionary.GetBySlug(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// GetEnumOptions handles retrieving dictionary options for frontend select components.
+//
+// @Summary Get dictionary enum options
+// @Description Retrieve dictionary options formatted for frontend select components.
+// @Tags sys
+// @Produce json
+// @Param slug path string true "Dictionary slug"
+// @Success 200 {array} map[string]interface{} "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/dictionaries/options/{slug} [get]
+// @Security Bearer
+func (h *dictionaryHandler) GetEnumOptions(c *gin.Context) {
+	slug := c.Param("slug")
+
+	result, err := h.s.Dictionary.GetEnumOptions(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// ValidateEnumValue handles validating if a value exists in a dictionary enum.
+//
+// @Summary Validate enum value
+// @Description Check if a value exists in a dictionary enum.
+// @Tags sys
+// @Produce json
+// @Param slug path string true "Dictionary slug"
+// @Param value query string true "Value to validate"
+// @Success 200 {object} map[string]bool "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/dictionaries/validate/{slug} [get]
+// @Security Bearer
+func (h *dictionaryHandler) ValidateEnumValue(c *gin.Context) {
+	slug := c.Param("slug")
+	value := c.Query("value")
+
+	valid, err := h.s.Dictionary.ValidateEnumValue(c.Request.Context(), slug, value)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, map[string]bool{"valid": valid})
+}
+
+// BatchGetBySlug handles retrieving multiple dictionaries by their slugs.
+//
+// @Summary Batch get dictionaries
+// @Description Retrieve multiple dictionaries by their slugs.
+// @Tags sys
+// @Accept json
+// @Produce json
+// @Param body body []string true "Array of dictionary slugs"
+// @Success 200 {object} map[string]structs.ReadDictionary "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/dictionaries/batch [post]
+// @Security Bearer
+func (h *dictionaryHandler) BatchGetBySlug(c *gin.Context) {
+	var slugs []string
+	if err := c.ShouldBindJSON(&slugs); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	result, err := h.s.Dictionary.BatchGetBySlug(c.Request.Context(), slugs)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
 	resp.Success(c.Writer, result)
 }
 

@@ -2,12 +2,14 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"ncobase/system/data"
 	"ncobase/system/data/ent"
 	"ncobase/system/data/repository"
-	configData "ncobase/system/initialize/data"
 	"ncobase/system/structs"
+	"strconv"
+	"strings"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
@@ -17,12 +19,23 @@ import (
 
 // OptionsServiceInterface represents the options service interface.
 type OptionsServiceInterface interface {
-	Initialize(ctx context.Context) error
 	Create(ctx context.Context, body *structs.OptionsBody) (*structs.ReadOptions, error)
 	Update(ctx context.Context, updates *structs.UpdateOptionsBody) (*structs.ReadOptions, error)
 	Get(ctx context.Context, params *structs.FindOptions) (*structs.ReadOptions, error)
+	GetByName(ctx context.Context, name string) (*structs.ReadOptions, error)
+	GetByType(ctx context.Context, typeName string) ([]*structs.ReadOptions, error)
+	GetValueByName(ctx context.Context, name string) (interface{}, error)
+	ParseValue(option *structs.ReadOptions) (interface{}, error)
+	GetObjectByName(ctx context.Context, name string) (map[string]interface{}, error)
+	GetArrayByName(ctx context.Context, name string) ([]interface{}, error)
+	GetStringByName(ctx context.Context, name string) (string, error)
+	GetBoolByName(ctx context.Context, name string, defaultValue bool) (bool, error)
+	GetNumberByName(ctx context.Context, name string, defaultValue float64) (float64, error)
+	BatchGetByNames(ctx context.Context, names []string) (map[string]*structs.ReadOptions, error)
 	Delete(ctx context.Context, params *structs.FindOptions) error
+	DeleteByPrefix(ctx context.Context, prefix string) error
 	List(ctx context.Context, params *structs.ListOptionsParams) (paging.Result[*structs.ReadOptions], error)
+	CountX(ctx context.Context, params *structs.ListOptionsParams) int
 }
 
 // OptionsService represents the options service.
@@ -37,38 +50,6 @@ func NewOptionsService(d *data.Data) OptionsServiceInterface {
 	}
 }
 
-// Initialize initializes the system with default options
-func (s *optionsService) Initialize(ctx context.Context) error {
-	logger.Infof(ctx, "Initializing system options...")
-
-	for _, option := range configData.SystemDefaultOptions {
-		existing, err := s.options.Get(ctx, &structs.FindOptions{
-			Option: option.Name,
-		})
-
-		if err != nil && !ent.IsNotFound(err) {
-			logger.Errorf(ctx, "Error checking existing option %s: %v", option.Name, err)
-			return err
-		}
-
-		if existing != nil {
-			logger.Infof(ctx, "Option %s already exists, skipping...", option.Name)
-			continue
-		}
-
-		_, err = s.Create(ctx, &option)
-		if err != nil {
-			logger.Errorf(ctx, "Error creating option %s: %v", option.Name, err)
-			return err
-		}
-
-		logger.Infof(ctx, "Created option: %s", option.Name)
-	}
-
-	logger.Infof(ctx, "System options initialization completed")
-	return nil
-}
-
 // Create creates a new option.
 func (s *optionsService) Create(ctx context.Context, body *structs.OptionsBody) (*structs.ReadOptions, error) {
 	if validator.IsEmpty(body.Name) {
@@ -76,20 +57,6 @@ func (s *optionsService) Create(ctx context.Context, body *structs.OptionsBody) 
 	}
 
 	row, err := s.options.Create(ctx, body)
-	if err := handleEntError(ctx, "Options", err); err != nil {
-		return nil, err
-	}
-
-	return s.Serialize(row), nil
-}
-
-// Update updates an existing option.
-func (s *optionsService) Update(ctx context.Context, updates *structs.UpdateOptionsBody) (*structs.ReadOptions, error) {
-	if validator.IsEmpty(updates.ID) {
-		return nil, errors.New(ecode.FieldIsRequired("id"))
-	}
-
-	row, err := s.options.Update(ctx, updates)
 	if err := handleEntError(ctx, "Options", err); err != nil {
 		return nil, err
 	}
@@ -107,10 +74,197 @@ func (s *optionsService) Get(ctx context.Context, params *structs.FindOptions) (
 	return s.Serialize(row), nil
 }
 
+// GetByName retrieves an option by name.
+func (s *optionsService) GetByName(ctx context.Context, name string) (*structs.ReadOptions, error) {
+	if validator.IsEmpty(name) {
+		return nil, errors.New(ecode.FieldIsRequired("name"))
+	}
+
+	params := &structs.FindOptions{
+		Option: name,
+	}
+
+	row, err := s.options.Get(ctx, params)
+	if err := handleEntError(ctx, "Options", err); err != nil {
+		return nil, err
+	}
+
+	return s.Serialize(row), nil
+}
+
+// GetByType retrieves options by type.
+func (s *optionsService) GetByType(ctx context.Context, typeName string) ([]*structs.ReadOptions, error) {
+	if validator.IsEmpty(typeName) {
+		return nil, errors.New(ecode.FieldIsRequired("type"))
+	}
+
+	params := &structs.ListOptionsParams{
+		Type: typeName,
+	}
+
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Items, nil
+}
+
+// GetValueByName retrieves the option value by name and parses it according to its type.
+func (s *optionsService) GetValueByName(ctx context.Context, name string) (interface{}, error) {
+	option, err := s.GetByName(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.ParseValue(option)
+}
+
+// ParseValue parses an option's value according to its type.
+func (s *optionsService) ParseValue(option *structs.ReadOptions) (interface{}, error) {
+	switch option.Type {
+	case "string":
+		return option.Value, nil
+	case "boolean", "bool":
+		value := strings.ToLower(option.Value)
+		return value == "true" || value == "1" || value == "yes", nil
+	case "number", "int", "float":
+		if strings.Contains(option.Value, ".") {
+			return strconv.ParseFloat(option.Value, 64)
+		}
+		return strconv.ParseInt(option.Value, 10, 64)
+	case "object", "json":
+		var result interface{}
+		err := json.Unmarshal([]byte(option.Value), &result)
+		return result, err
+	case "array":
+		var result []interface{}
+		err := json.Unmarshal([]byte(option.Value), &result)
+		return result, err
+	default:
+		return option.Value, nil
+	}
+}
+
+// GetObjectByName retrieves and parses an option of object type by name.
+func (s *optionsService) GetObjectByName(ctx context.Context, name string) (map[string]interface{}, error) {
+	value, err := s.GetValueByName(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	obj, ok := value.(map[string]interface{})
+	if !ok {
+		return nil, errors.New(ecode.TypeMismatch("object"))
+	}
+
+	return obj, nil
+}
+
+// GetArrayByName retrieves and parses an option of array type by name.
+func (s *optionsService) GetArrayByName(ctx context.Context, name string) ([]interface{}, error) {
+	value, err := s.GetValueByName(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	arr, ok := value.([]interface{})
+	if !ok {
+		return nil, errors.New(ecode.TypeMismatch("array"))
+	}
+
+	return arr, nil
+}
+
+// GetStringByName retrieves an option as string by name.
+func (s *optionsService) GetStringByName(ctx context.Context, name string) (string, error) {
+	option, err := s.GetByName(ctx, name)
+	if err != nil {
+		return "", err
+	}
+
+	if option.Type != "string" {
+		logger.Warnf(ctx, "Option %s is not of string type, attempting conversion", name)
+	}
+
+	return option.Value, nil
+}
+
+// GetBoolByName retrieves an option as boolean by name.
+func (s *optionsService) GetBoolByName(ctx context.Context, name string, defaultValue bool) (bool, error) {
+	value, err := s.GetValueByName(ctx, name)
+	if err != nil {
+		return defaultValue, err
+	}
+
+	boolValue, ok := value.(bool)
+	if !ok {
+		return defaultValue, errors.New(ecode.TypeMismatch("boolean"))
+	}
+
+	return boolValue, nil
+}
+
+// GetNumberByName retrieves an option as number by name.
+func (s *optionsService) GetNumberByName(ctx context.Context, name string, defaultValue float64) (float64, error) {
+	value, err := s.GetValueByName(ctx, name)
+	if err != nil {
+		return defaultValue, err
+	}
+
+	switch v := value.(type) {
+	case int64:
+		return float64(v), nil
+	case float64:
+		return v, nil
+	default:
+		return defaultValue, errors.New(ecode.TypeMismatch("number"))
+	}
+}
+
+// BatchGetByNames retrieves multiple options by their names.
+func (s *optionsService) BatchGetByNames(ctx context.Context, names []string) (map[string]*structs.ReadOptions, error) {
+	result := make(map[string]*structs.ReadOptions)
+
+	for _, name := range names {
+		option, err := s.GetByName(ctx, name)
+		if err != nil {
+			logger.Warnf(ctx, "Failed to get option %s: %v", name, err)
+			continue
+		}
+		result[name] = option
+	}
+
+	return result, nil
+}
+
+// Update updates an existing option.
+func (s *optionsService) Update(ctx context.Context, updates *structs.UpdateOptionsBody) (*structs.ReadOptions, error) {
+	if validator.IsEmpty(updates.ID) {
+		return nil, errors.New(ecode.FieldIsRequired("id"))
+	}
+
+	row, err := s.options.Update(ctx, updates)
+	if err := handleEntError(ctx, "Options", err); err != nil {
+		return nil, err
+	}
+
+	return s.Serialize(row), nil
+}
+
 // Delete deletes an option by ID or name.
 func (s *optionsService) Delete(ctx context.Context, params *structs.FindOptions) error {
 	err := s.options.Delete(ctx, params)
 	return handleEntError(ctx, "Options", err)
+}
+
+// DeleteByPrefix deletes options by prefix.
+func (s *optionsService) DeleteByPrefix(ctx context.Context, prefix string) error {
+	if validator.IsEmpty(prefix) {
+		return errors.New(ecode.FieldIsRequired("prefix"))
+	}
+
+	return s.options.DeleteByPrefix(ctx, prefix)
 }
 
 // List lists all options.
@@ -138,6 +292,11 @@ func (s *optionsService) List(ctx context.Context, params *structs.ListOptionsPa
 
 		return s.Serializes(rows), total, nil
 	})
+}
+
+// CountX counts all options.
+func (s *optionsService) CountX(ctx context.Context, params *structs.ListOptionsParams) int {
+	return s.options.CountX(ctx, params)
 }
 
 // Serializes options.

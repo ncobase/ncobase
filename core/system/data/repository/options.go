@@ -22,6 +22,7 @@ type OptionsRepositoryInterface interface {
 	Get(context.Context, *structs.FindOptions) (*ent.Options, error)
 	Update(context.Context, *structs.UpdateOptionsBody) (*ent.Options, error)
 	Delete(context.Context, *structs.FindOptions) error
+	DeleteByPrefix(ctx context.Context, prefix string) error
 	List(context.Context, *structs.ListOptionsParams) ([]*ent.Options, error)
 	ListWithCount(ctx context.Context, params *structs.ListOptionsParams) ([]*ent.Options, int, error)
 	CountX(context.Context, *structs.ListOptionsParams) int
@@ -144,6 +145,17 @@ func (r *optionsRepository) Delete(ctx context.Context, params *structs.FindOpti
 	}
 
 	return nil
+}
+
+// DeleteByPrefix deletes options by prefix.
+func (r *optionsRepository) DeleteByPrefix(ctx context.Context, prefix string) error {
+	if validator.IsEmpty(prefix) {
+		return fmt.Errorf("prefix is required")
+	}
+
+	// Delete all options with the given prefix in one operation
+	_, err := r.ec.Options.Delete().Where(optionsEnt.NameHasPrefix(prefix)).Exec(ctx)
+	return err
 }
 
 // List returns a slice of options based on the provided parameters.
@@ -294,6 +306,10 @@ func (r *optionsRepository) listBuilder(_ context.Context, params *structs.ListO
 
 	if params.Autoload != nil {
 		builder.Where(optionsEnt.AutoloadEQ(*params.Autoload))
+	}
+
+	if params.Prefix != "" {
+		builder.Where(optionsEnt.NameHasPrefix(params.Prefix))
 	}
 
 	return builder, nil
