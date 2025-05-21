@@ -17,6 +17,7 @@ use (
 	./domain/resource
 	./ncore
 	./plugin/counter
+	./plugin/initialize
 	./plugin/sample
 	./proxy
 )
