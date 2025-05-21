@@ -8,8 +8,7 @@ import (
 	_ "ncobase/core"
 
 	// Domain modules
-	_ "ncobase/content"
-	_ "ncobase/resource"
+	_ "ncobase/domain"
 
 	// Proxy modules
 	_ "ncobase/proxy"
