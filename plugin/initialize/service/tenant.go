@@ -1,18 +1,18 @@
-package initialize
+package service
 
 import (
 	"context"
-	"ncobase/system/initialize/data"
+	"ncobase/initialize/data"
 	tenantStructs "ncobase/tenant/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// checkTenantsInitialized checks if domains are already initialized.
+// checkTenantsInitialized checks if tenants are already initialized.
 func (s *Service) checkTenantsInitialized(ctx context.Context) error {
 	tenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
 	if err == nil && tenant != nil {
-		logger.Infof(ctx, "Default tenant already exists, skipping tenant initialization")
+		logger.Infof(ctx, "Default tenant already exists, skipping initialization")
 		return nil
 	}
 
@@ -26,7 +26,7 @@ func (s *Service) checkTenantsInitialized(ctx context.Context) error {
 	return s.initTenants(ctx)
 }
 
-// initTenants initializes the domains (tenants).
+// initTenants initializes the default tenants.
 func (s *Service) initTenants(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system tenants...")
 

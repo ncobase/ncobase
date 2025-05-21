@@ -1,16 +1,18 @@
-package initialize
+package service
 
 import (
 	"context"
 	"fmt"
 	accessService "ncobase/access/service"
 	authService "ncobase/auth/service"
+	initConfig "ncobase/initialize/config"
 	spaceService "ncobase/space/service"
-	"ncobase/system/service"
+	systemService "ncobase/system/service"
 	tenantService "ncobase/tenant/service"
 	userService "ncobase/user/service"
 	"time"
 
+	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -30,29 +32,48 @@ type InitState struct {
 
 // Service is the struct for the initialization service.
 type Service struct {
-	menu  service.MenuServiceInterface
-	as    *authService.Service
-	us    *userService.Service
-	ts    *tenantService.Service
-	ss    *spaceService.Service
-	acs   *accessService.Service
+	em ext.ManagerInterface
+
+	sys *systemService.Service
+	as  *authService.Service
+	us  *userService.Service
+	ts  *tenantService.Service
+	ss  *spaceService.Service
+	acs *accessService.Service
+
+	c *initConfig.Config
+
 	state *InitState
+
+	// Maps to store created entity IDs by name for cross-references
+	visualizationNameToID map[string]string
+	dashboardNameToID     map[string]string
+	analysisNameToID      map[string]string
 }
 
 // New creates a new initDataService.
-func New(menu service.MenuServiceInterface, as *authService.Service, us *userService.Service, ts *tenantService.Service, ss *spaceService.Service, acs *accessService.Service) *Service {
+func New(
+	em ext.ManagerInterface,
+
+) *Service {
 	return &Service{
-		menu: menu,
-		as:   as,
-		us:   us,
-		ts:   ts,
-		ss:   ss,
-		acs:  acs,
+		em: em,
 		state: &InitState{
 			IsInitialized: false,
 			Statuses:      make([]InitStatus, 0),
 		},
 	}
+}
+
+// SetDependencies sets the dependencies
+func (s *Service) SetDependencies(c *initConfig.Config, sys *systemService.Service, as *authService.Service, us *userService.Service, ts *tenantService.Service, ss *spaceService.Service, acs *accessService.Service) {
+	s.c = c
+	s.sys = sys
+	s.as = as
+	s.us = us
+	s.ts = ts
+	s.ss = ss
+	s.acs = acs
 }
 
 // IsInitialized checks if the system has been initialized
@@ -70,6 +91,21 @@ func (s *Service) IsInitialized(ctx context.Context) bool {
 	}
 
 	return false
+}
+
+// RequiresInitToken returns whether an init token is required
+func (s *Service) RequiresInitToken() bool {
+	return s.c.Initialization.InitToken != ""
+}
+
+// GetInitToken returns the initialization token
+func (s *Service) GetInitToken() string {
+	return s.c.Initialization.InitToken
+}
+
+// AllowReinitialization returns whether reinitialization is allowed
+func (s *Service) AllowReinitialization() bool {
+	return s.c.Initialization.AllowReinitialization
 }
 
 // Execute initializes roles, permissions, Casbin policies, and initial users if necessary.
@@ -90,9 +126,9 @@ func (s *Service) Execute(ctx context.Context, allowReinitialization bool) (*Ini
 		{"permissions", s.checkPermissionsInitialized},
 		{"tenants", s.checkTenantsInitialized},
 		{"users", s.checkUsersInitialized},
-		{"menus", s.checkMenusInitialized},
 		{"casbin_policies", s.checkCasbinPoliciesInitialized},
-		{"organizational_structure", s.checkGroupsInitialized},
+		{"menus", s.checkMenusInitialized},
+		{"organizations", s.checkOrganizationsInitialized},
 	}
 
 	s.state.Statuses = make([]InitStatus, 0)
@@ -116,7 +152,7 @@ func (s *Service) Execute(ctx context.Context, allowReinitialization bool) (*Ini
 	}
 
 	s.state.IsInitialized = true
-	s.state.LastRunTime = time.Now().Unix()
+	s.state.LastRunTime = time.Now().UnixMilli()
 	logger.Infof(ctx, "System initialization completed successfully")
 	return s.state, nil
 }

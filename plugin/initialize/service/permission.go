@@ -1,9 +1,9 @@
-package initialize
+package service
 
 import (
 	"context"
 	accessStructs "ncobase/access/structs"
-	"ncobase/system/initialize/data"
+	"ncobase/initialize/data"
 
 	"github.com/ncobase/ncore/logging/logger"
 )

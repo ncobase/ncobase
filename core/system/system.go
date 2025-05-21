@@ -34,7 +34,6 @@ type Module struct {
 	em          ext.ManagerInterface
 	h           *handler.Handler
 	s           *service.Service
-	i           *initialize.Service
 	d           *data.Data
 	cleanup     func(name ...string)
 	config      *Config
@@ -124,8 +123,7 @@ func (m *Module) PostInit() error {
 	if err != nil {
 		return err
 	}
-	// initialize
-	m.i = initialize.New(m.s.Menu, as, us, ts, ss, acs)
+
 	return nil
 }
 

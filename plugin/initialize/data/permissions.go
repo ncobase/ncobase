@@ -51,4 +51,7 @@ var RolePermissionMapping = map[string][]string{
 	"super-admin": {"All Access"},
 	"admin":       {"Read All", "Create All", "Update All", "Delete All"},
 	"user":        {"Read All"},
+	"org-admin":   {"Manage Organization", "View Organization", "Manage Members", "View Members"},
+	"team-admin":  {"Manage Organization", "View Organization", "Manage Members", "View Members"},
+	"member":      {"View Organization", "View Members"},
 }

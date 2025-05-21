@@ -1,29 +1,31 @@
-package initialize
+package service
 
 import (
 	"context"
 	"fmt"
 	accessStructs "ncobase/access/structs"
+	"ncobase/initialize/data"
 	spaceStructs "ncobase/space/structs"
-	"ncobase/system/initialize/data"
 	userStructs "ncobase/user/structs"
+	"time"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// checkGroupsInitialized checks if groups are already initialized.
-func (s *Service) checkGroupsInitialized(ctx context.Context) error {
+// checkOrganizationsInitialized checks if organizations are already initialized.
+func (s *Service) checkOrganizationsInitialized(ctx context.Context) error {
 	params := &spaceStructs.ListGroupParams{}
 	count := s.ss.Group.CountX(ctx, params)
-	if count == 0 {
-		return s.initOrganizationStructure(ctx)
+	if count > 0 {
+		logger.Infof(ctx, "Organizations already exist, skipping initialization")
+		return nil
 	}
 
-	return nil
+	return s.initOrganizations(ctx)
 }
 
-// initOrganizationStructure initializes the organizational structure, permissions, and associates them with users and tenants.
-func (s *Service) initOrganizationStructure(ctx context.Context) error {
+// initOrganizations initializes the main organizations and associates them with users.
+func (s *Service) initOrganizations(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing organizational structure...")
 
 	// Get default tenant
@@ -232,4 +234,37 @@ func (s *Service) initOrganizationStructure(ctx context.Context) error {
 	logger.Infof(ctx, "Organization structure initialization completed, created %d groups", count)
 
 	return nil
+}
+
+// InitializeOrganizations initializes only the organizations if the system is already initialized
+func (s *Service) InitializeOrganizations(ctx context.Context) (*InitState, error) {
+	logger.Infof(ctx, "Starting organization initialization...")
+
+	// Check if the system is initialized
+	if !s.IsInitialized(ctx) {
+		logger.Infof(ctx, "System is not yet initialized")
+		return s.state, fmt.Errorf("system is not initialized, please initialize the system first")
+	}
+
+	// Initialize just organizations
+	status := InitStatus{
+		Component: "organizations",
+		Status:    "initialized",
+	}
+
+	logger.Infof(ctx, "Initializing organizations...")
+	if err := s.checkOrganizationsInitialized(ctx); err != nil {
+		status.Status = "failed"
+		status.Error = err.Error()
+		s.state.Statuses = append(s.state.Statuses, status)
+		logger.Errorf(ctx, "Failed to initialize organizations: %v", err)
+		return s.state, fmt.Errorf("initialization step organizations failed: %v", err)
+	}
+
+	s.state.Statuses = append(s.state.Statuses, status)
+	logger.Infof(ctx, "Successfully initialized organizations")
+
+	s.state.LastRunTime = time.Now().UnixMilli()
+	logger.Infof(ctx, "Organization initialization completed successfully")
+	return s.state, nil
 }

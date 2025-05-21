@@ -1,8 +1,8 @@
-package initialize
+package service
 
 import (
 	"context"
-	"ncobase/system/initialize/data"
+	"ncobase/initialize/data"
 	"ncobase/system/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
@@ -12,7 +12,7 @@ import (
 // checkMenusInitialized Check if menus are initialized
 func (s *Service) checkMenusInitialized(ctx context.Context) error {
 	params := &structs.ListMenuParams{}
-	count := s.menu.CountX(ctx, params)
+	count := s.sys.Menu.CountX(ctx, params)
 	if count > 0 {
 		logger.Infof(ctx, "Menus already exist, skipping menu initialization")
 		return nil
@@ -50,7 +50,7 @@ func (s *Service) initMenus(ctx context.Context) error {
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating header menu: %s", menuBody.Name)
-		createdMenu, err := s.menu.Create(ctx, &menuBody)
+		createdMenu, err := s.sys.Menu.Create(ctx, &menuBody)
 		if err != nil {
 			logger.Errorf(ctx, "Error creating header menu %s: %v", menuBody.Name, err)
 			return err
@@ -75,7 +75,7 @@ func (s *Service) initMenus(ctx context.Context) error {
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating sidebar menu: %s", menuBody.Name)
-		createdMenu, err := s.menu.Create(ctx, &menuBody)
+		createdMenu, err := s.sys.Menu.Create(ctx, &menuBody)
 		if err != nil {
 			logger.Errorf(ctx, "Error creating sidebar menu %s: %v", menuBody.Name, err)
 			return err
@@ -102,7 +102,7 @@ func (s *Service) initMenus(ctx context.Context) error {
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating submenu: %s", menuBody.Name)
-		if _, err := s.menu.Create(ctx, &menuBody); err != nil {
+		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
 			logger.Errorf(ctx, "Error creating submenu %s: %v", menuBody.Name, err)
 			return err
 		}
@@ -117,7 +117,7 @@ func (s *Service) initMenus(ctx context.Context) error {
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating account menu: %s", menuBody.Name)
-		if _, err := s.menu.Create(ctx, &menuBody); err != nil {
+		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
 			logger.Errorf(ctx, "Error creating account menu %s: %v", menuBody.Name, err)
 			return err
 		}
@@ -132,7 +132,7 @@ func (s *Service) initMenus(ctx context.Context) error {
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating tenant menu: %s", menuBody.Name)
-		if _, err := s.menu.Create(ctx, &menuBody); err != nil {
+		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
 			logger.Errorf(ctx, "Error creating tenant menu %s: %v", menuBody.Name, err)
 			return err
 		}
