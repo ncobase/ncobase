@@ -31,6 +31,8 @@ var (
 
 // Module represents the resource module
 type Module struct {
+	ext.OptionalImpl
+
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface

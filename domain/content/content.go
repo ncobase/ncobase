@@ -31,6 +31,8 @@ var (
 
 // Module represents the content module
 type Module struct {
+	ext.OptionalImpl
+
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface

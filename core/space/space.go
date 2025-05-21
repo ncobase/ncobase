@@ -27,6 +27,8 @@ var (
 
 // Module represents the group module.
 type Module struct {
+	ext.OptionalImpl
+
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface

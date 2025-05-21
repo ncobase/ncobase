@@ -33,6 +33,8 @@ var (
 
 // Module represents the proxy module.
 type Module struct {
+	ext.OptionalImpl
+
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface

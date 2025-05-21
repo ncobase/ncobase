@@ -27,6 +27,8 @@ var (
 
 // Module represents the realtime module
 type Module struct {
+	ext.OptionalImpl
+
 	initialized bool
 	mu          sync.RWMutex
 	em          ext.ManagerInterface
