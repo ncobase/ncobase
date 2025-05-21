@@ -50,6 +50,18 @@ type discovery struct {
 	meta    map[string]string
 }
 
+// init registers the plugin
+func init() {
+	extp.RegisterPlugin(&Plugin{}, ext.Metadata{
+		Name:         name,
+		Version:      version,
+		Dependencies: dependencies,
+		Description:  desc,
+		Type:         typeStr,
+		Group:        group,
+	})
+}
+
 // Name returns the name of the plugin
 func (p *Plugin) Name() string {
 	return name
@@ -189,17 +201,6 @@ func (p *Plugin) Group() string {
 // SubscribeEvents subscribes to relevant events
 func (p *Plugin) subscribeEvents(_ ext.ManagerInterface) {
 	// Implement any event subscriptions here
-}
-
-func init() {
-	extp.RegisterPlugin(&Plugin{}, ext.Metadata{
-		Name:         name,
-		Version:      version,
-		Dependencies: dependencies,
-		Description:  desc,
-		Type:         typeStr,
-		Group:        group,
-	})
 }
 
 // NeedServiceDiscovery returns if the module needs to be registered as a service

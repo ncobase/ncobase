@@ -36,7 +36,7 @@ func registerExtensions(em ext.ManagerInterface) {
 		extensionNames = append(extensionNames, name)
 	}
 
-	logger.Debugf(context.Background(), "Successfully initialized %d extensions: [%s]",
+	logger.Infof(context.Background(), "Successfully initialized %d extensions: [%s]",
 		len(extensionNames),
 		strings.Join(extensionNames, ", "))
 }

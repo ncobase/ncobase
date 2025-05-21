@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/config"
-	exr "github.com/ncobase/ncore/extension/registry"
+	extp "github.com/ncobase/ncore/extension/plugin"
 	ext "github.com/ncobase/ncore/extension/types"
 )
 
@@ -22,7 +22,7 @@ var (
 	group        = "sys"
 )
 
-// Plugin represents the initialize module.
+// Plugin represents the initialize plugin.
 type Plugin struct {
 	ext.OptionalImpl
 
@@ -36,23 +36,30 @@ type Plugin struct {
 	h *handler.Handler
 }
 
-// init registers the module
+// init registers the plugin
 func init() {
-	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
+	extp.RegisterPlugin(&Plugin{}, ext.Metadata{
+		Name:         name,
+		Version:      version,
+		Dependencies: dependencies,
+		Description:  desc,
+		Type:         typeStr,
+		Group:        group,
+	})
 }
 
-// New creates a new instance of the initialize module.
+// New creates a new instance of the initialize plugin.
 func New() ext.Interface {
 	return &Plugin{}
 }
 
-// Init initializes the initialize module with the given config object
+// Init initializes the initialize plugin with the given config object
 func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
 	if p.initialized {
-		return fmt.Errorf("initialize module already initialized")
+		return fmt.Errorf("initialize plugin already initialized")
 	}
 
 	p.c = initConfig.GetDefaultConfig()
@@ -103,12 +110,12 @@ func (p *Plugin) PostInit() error {
 	return nil
 }
 
-// Name returns the name of the module
+// Name returns the name of the plugin
 func (p *Plugin) Name() string {
 	return name
 }
 
-// RegisterRoutes registers routes for the module
+// RegisterRoutes registers routes for the plugin
 func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	// Initialization-related endpoints
 	initGroup := r.Group("/" + p.Group() + "/initialize")
@@ -124,17 +131,17 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	}
 }
 
-// GetHandlers returns the handlers for the module
+// GetHandlers returns the handlers for the plugin
 func (p *Plugin) GetHandlers() ext.Handler {
 	return p.h
 }
 
-// GetServices returns the services for the module
+// GetServices returns the services for the plugin
 func (p *Plugin) GetServices() ext.Service {
 	return p.s
 }
 
-// Cleanup cleans up the module
+// Cleanup cleans up the plugin
 func (p *Plugin) Cleanup() error {
 	if p.cleanup != nil {
 		p.cleanup(p.Name())
@@ -142,7 +149,7 @@ func (p *Plugin) Cleanup() error {
 	return nil
 }
 
-// GetMetadata returns the metadata of the module
+// GetMetadata returns the metadata of the plugin
 func (p *Plugin) GetMetadata() ext.Metadata {
 	return ext.Metadata{
 		Name:         p.Name(),
@@ -154,27 +161,27 @@ func (p *Plugin) GetMetadata() ext.Metadata {
 	}
 }
 
-// Version returns the version of the module
+// Version returns the version of the plugin
 func (p *Plugin) Version() string {
 	return version
 }
 
-// Dependencies returns the dependencies of the module
+// Dependencies returns the dependencies of the plugin
 func (p *Plugin) Dependencies() []string {
 	return dependencies
 }
 
-// Description returns the description of the module
+// Description returns the description of the plugin
 func (p *Plugin) Description() string {
 	return desc
 }
 
-// Type returns the type of the module
+// Type returns the type of the plugin
 func (p *Plugin) Type() string {
 	return typeStr
 }
 
-// Group returns the domain group of the module belongs
+// Group returns the domain group of the plugin belongs
 func (p *Plugin) Group() string {
 	return group
 }
