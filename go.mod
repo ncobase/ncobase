@@ -21,12 +21,11 @@ replace (
 	ncobase/resource => ./domain/resource
 )
 
-replace ncobase/proxy => ./proxy
-
 // plugins
 replace (
 	ncobase/initialize => ./plugin/initialize
 	ncobase/plugin/counter => ./plugin/counter
+	ncobase/proxy => ./plugin/proxy
 )
 
 // ncore

@@ -16,23 +16,22 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/config"
-	exr "github.com/ncobase/ncore/extension/registry"
+	extp "github.com/ncobase/ncore/extension/plugin"
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
 var (
-	name             = "proxy"
-	desc             = "Proxy module for third-party APIs"
-	version          = "1.0.0"
-	dependencies     []string
-	typeStr          = "module"
-	group            = "tbp"
-	enabledDiscovery = false
+	name         = "proxy"
+	desc         = "Proxy plugin for third-party APIs"
+	version      = "1.0.0"
+	dependencies []string
+	typeStr      = "plugin"
+	group        = "tbp"
 )
 
-// Module represents the proxy module.
-type Module struct {
+// Plugin represents the proxy plugin.
+type Plugin struct {
 	ext.OptionalImpl
 
 	initialized bool
@@ -66,34 +65,25 @@ type discovery struct {
 	meta    map[string]string
 }
 
-// init registers the module
+// init registers the plugin
 func init() {
-	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
+	extp.RegisterPlugin(&Plugin{}, ext.Metadata{
+		Name:         name,
+		Version:      version,
+		Dependencies: dependencies,
+		Description:  desc,
+		Type:         typeStr,
+		Group:        group,
+	})
 }
 
-// init registers the module
-func init() {
-	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
-}
-
-// New creates a new instance of the proxy module.
-func New() ext.Interface {
-	return &Module{}
-}
-
-// PreInit performs any necessary setup before initialization
-func (m *Module) PreInit() error {
-	// Implement any pre-initialization logic here
-	return nil
-}
-
-// Init initializes the proxy module with the given config object
-func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
+// Init initializes the proxy plugin with the given config object
+func (m *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
 	if m.initialized {
-		return fmt.Errorf("proxy module already initialized")
+		return fmt.Errorf("proxy plugin already initialized")
 	}
 
 	m.d, m.cleanup, err = data.New(conf.Data)
@@ -116,7 +106,7 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 }
 
 // PostInit performs any necessary setup after initialization
-func (m *Module) PostInit() error {
+func (m *Plugin) PostInit() error {
 	// Get internal services
 	var err error
 
@@ -169,7 +159,7 @@ func (m *Module) PostInit() error {
 }
 
 // setupEventSystem initializes event system components
-func (m *Module) setupEventSystem() {
+func (m *Plugin) setupEventSystem() {
 	// Create event components
 	m.eventPublisher = event.NewPublisher(m.em)
 	m.eventRegistrar = event.NewRegistrar(m.em)
@@ -184,23 +174,23 @@ func (m *Module) setupEventSystem() {
 	// Initialize event handlers
 	m.eventHandlers = handler.NewEventProvider()
 
-	logger.Info(context.Background(), "Event system initialized for proxy module")
+	logger.Info(context.Background(), "Event system initialized for proxy plugin")
 }
 
 // registerEventHandlers registers event handlers with the event system
-func (m *Module) registerEventHandlers() {
+func (m *Plugin) registerEventHandlers() {
 	if m.eventRegistrar != nil && m.eventHandlers != nil {
 		m.eventRegistrar.RegisterHandlers(m.eventHandlers)
 	}
 }
 
-// Name returns the name of the module
-func (m *Module) Name() string {
+// Name returns the name of the plugin
+func (m *Plugin) Name() string {
 	return name
 }
 
-// RegisterRoutes registers routes for the module
-func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
+// RegisterRoutes registers routes for the plugin
+func (m *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	// Proxy domain group
 	proxyGroup := r.Group("/" + m.Group())
 
@@ -234,37 +224,26 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	m.h.WebSocket.RegisterWebSocketRoutes(wsGroup)
 }
 
-// GetHandlers returns the handlers for the module
-func (m *Module) GetHandlers() ext.Handler {
+// GetHandlers returns the handlers for the plugin
+func (m *Plugin) GetHandlers() ext.Handler {
 	return m.h
 }
 
-// GetServices returns the services for the module
-func (m *Module) GetServices() ext.Service {
+// GetServices returns the services for the plugin
+func (m *Plugin) GetServices() ext.Service {
 	return m.s
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	// Implement any pre-cleanup logic here
-	return nil
-}
-
-// Cleanup cleans up the module
-func (m *Module) Cleanup() error {
+// Cleanup cleans up the plugin
+func (m *Plugin) Cleanup() error {
 	if m.cleanup != nil {
 		m.cleanup(m.Name())
 	}
 	return nil
 }
 
-// Status returns the status of the module
-func (m *Module) Status() string {
-	return "active"
-}
-
-// GetMetadata returns the metadata of the module
-func (m *Module) GetMetadata() ext.Metadata {
+// GetMetadata returns the metadata of the plugin
+func (m *Plugin) GetMetadata() ext.Metadata {
 	return ext.Metadata{
 		Name:         m.Name(),
 		Version:      m.Version(),
@@ -275,43 +254,33 @@ func (m *Module) GetMetadata() ext.Metadata {
 	}
 }
 
-// Version returns the version of the module
-func (m *Module) Version() string {
+// Version returns the version of the plugin
+func (m *Plugin) Version() string {
 	return version
 }
 
-// Dependencies returns the dependencies of the module
-func (m *Module) Dependencies() []string {
+// Dependencies returns the dependencies of the plugin
+func (m *Plugin) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
-}
-
-// Description returns the description of the module
-func (m *Module) Description() string {
+// Description returns the description of the plugin
+func (m *Plugin) Description() string {
 	return desc
 }
 
-// Type returns the type of the module
-func (m *Module) Type() string {
+// Type returns the type of the plugin
+func (m *Plugin) Type() string {
 	return typeStr
 }
 
-// Group returns the domain group of the module belongs
-func (m *Module) Group() string {
+// Group returns the domain group of the plugin belongs
+func (m *Plugin) Group() string {
 	return group
 }
 
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
-}
-
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
-func (m *Module) GetServiceInfo() *ext.ServiceInfo {
+func (m *Plugin) GetServiceInfo() *ext.ServiceInfo {
 	if !m.NeedServiceDiscovery() {
 		return nil
 	}

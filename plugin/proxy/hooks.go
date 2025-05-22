@@ -11,7 +11,7 @@ import (
 )
 
 // RegisterDefaultHooks registers the default processing hooks for the proxy module
-func (m *Module) RegisterDefaultHooks() error {
+func (m *Plugin) RegisterDefaultHooks() error {
 	ctx := context.Background()
 
 	// 1. Example: Create a CRM data synchronization hook set
@@ -42,7 +42,7 @@ func (m *Module) RegisterDefaultHooks() error {
 }
 
 // registerCRMSyncHooks registers hooks for CRM data synchronization
-func (m *Module) registerCRMSyncHooks(ctx context.Context) error {
+func (m *Plugin) registerCRMSyncHooks(ctx context.Context) error {
 	// Find the endpoint by name
 	endpoint, err := m.s.Endpoint.GetByName(ctx, "salesforce")
 	if err != nil {
@@ -130,7 +130,7 @@ func (m *Module) registerCRMSyncHooks(ctx context.Context) error {
 }
 
 // registerPaymentProcessingHooks registers hooks for payment processing
-func (m *Module) registerPaymentProcessingHooks(ctx context.Context) error {
+func (m *Plugin) registerPaymentProcessingHooks(ctx context.Context) error {
 	// Find the endpoint by name
 	endpoint, err := m.s.Endpoint.GetByName(ctx, "stripe")
 	if err != nil {
@@ -214,7 +214,7 @@ func (m *Module) registerPaymentProcessingHooks(ctx context.Context) error {
 }
 
 // registerCollaborationHooks registers hooks for collaboration tool integration
-func (m *Module) registerCollaborationHooks(ctx context.Context) error {
+func (m *Plugin) registerCollaborationHooks(ctx context.Context) error {
 	// Find the endpoint by name
 	endpoint, err := m.s.Endpoint.GetByName(ctx, "slack")
 	if err != nil {

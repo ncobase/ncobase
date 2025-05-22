@@ -48,11 +48,6 @@ func init() {
 	})
 }
 
-// New creates a new instance of the initialize plugin.
-func New() ext.Interface {
-	return &Plugin{}
-}
-
 // Init initializes the initialize plugin with the given config object
 func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	p.mu.Lock()
