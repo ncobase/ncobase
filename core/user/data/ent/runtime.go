@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"ncobase/user/data/ent/employee"
 	"ncobase/user/data/ent/user"
 	"ncobase/user/data/ent/userprofile"
 	"ncobase/user/data/schema"
@@ -12,6 +13,33 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	employeeMixin := schema.Employee{}.Mixin()
+	employeeMixinFields0 := employeeMixin[0].Fields()
+	_ = employeeMixinFields0
+	employeeMixinFields1 := employeeMixin[1].Fields()
+	_ = employeeMixinFields1
+	employeeMixinFields2 := employeeMixin[2].Fields()
+	_ = employeeMixinFields2
+	employeeFields := schema.Employee{}.Fields()
+	_ = employeeFields
+	// employeeDescTenantID is the schema descriptor for tenant_id field.
+	employeeDescTenantID := employeeMixinFields1[0].Descriptor()
+	// employee.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	employee.TenantIDValidator = employeeDescTenantID.Validators[0].(func(string) error)
+	// employeeDescCreatedAt is the schema descriptor for created_at field.
+	employeeDescCreatedAt := employeeMixinFields2[0].Descriptor()
+	// employee.DefaultCreatedAt holds the default value on creation for the created_at field.
+	employee.DefaultCreatedAt = employeeDescCreatedAt.Default.(func() int64)
+	// employeeDescUpdatedAt is the schema descriptor for updated_at field.
+	employeeDescUpdatedAt := employeeMixinFields2[1].Descriptor()
+	// employee.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	employee.DefaultUpdatedAt = employeeDescUpdatedAt.Default.(func() int64)
+	// employee.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	employee.UpdateDefaultUpdatedAt = employeeDescUpdatedAt.UpdateDefault.(func() int64)
+	// employeeDescID is the schema descriptor for id field.
+	employeeDescID := employeeMixinFields0[0].Descriptor()
+	// employee.DefaultID holds the default value on creation for the id field.
+	employee.DefaultID = employeeDescID.Default.(func() string)
 	userMixin := schema.User{}.Mixin()
 	userMixinFields0 := userMixin[0].Fields()
 	_ = userMixinFields0

@@ -9,6 +9,70 @@ import (
 )
 
 var (
+	// NcseSysEmployeeColumns holds the columns for the "ncse_sys_employee" table.
+	NcseSysEmployeeColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "employee_id", Type: field.TypeString, Nullable: true, Comment: "Employee ID/Number"},
+		{Name: "department", Type: field.TypeString, Nullable: true, Comment: "Primary department"},
+		{Name: "position", Type: field.TypeString, Nullable: true, Comment: "Job position/title"},
+		{Name: "manager_id", Type: field.TypeString, Nullable: true, Comment: "Direct manager user ID"},
+		{Name: "hire_date", Type: field.TypeTime, Nullable: true, Comment: "Hire date"},
+		{Name: "termination_date", Type: field.TypeTime, Nullable: true, Comment: "Termination date"},
+		{Name: "employment_type", Type: field.TypeEnum, Comment: "Employment type", Enums: []string{"full_time", "part_time", "contract", "intern"}, Default: "full_time"},
+		{Name: "status", Type: field.TypeEnum, Comment: "Employee status", Enums: []string{"active", "inactive", "on_leave", "terminated"}, Default: "active"},
+		{Name: "salary", Type: field.TypeFloat64, Nullable: true, Comment: "Base salary"},
+		{Name: "work_location", Type: field.TypeString, Nullable: true, Comment: "Primary work location"},
+		{Name: "contact_info", Type: field.TypeJSON, Nullable: true, Comment: "Emergency contact info"},
+		{Name: "skills", Type: field.TypeJSON, Nullable: true, Comment: "Employee skills"},
+		{Name: "certifications", Type: field.TypeJSON, Nullable: true, Comment: "Professional certifications"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Additional employee data"},
+	}
+	// NcseSysEmployeeTable holds the schema information for the "ncse_sys_employee" table.
+	NcseSysEmployeeTable = &schema.Table{
+		Name:       "ncse_sys_employee",
+		Columns:    NcseSysEmployeeColumns,
+		PrimaryKey: []*schema.Column{NcseSysEmployeeColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "employee_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysEmployeeColumns[0]},
+			},
+			{
+				Name:    "employee_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysEmployeeColumns[1]},
+			},
+			{
+				Name:    "employee_user_id_tenant_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysEmployeeColumns[0], NcseSysEmployeeColumns[1]},
+			},
+			{
+				Name:    "employee_employee_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysEmployeeColumns[4]},
+			},
+			{
+				Name:    "employee_department",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysEmployeeColumns[5]},
+			},
+			{
+				Name:    "employee_manager_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysEmployeeColumns[7]},
+			},
+			{
+				Name:    "employee_status",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysEmployeeColumns[11]},
+			},
+		},
+	}
 	// NcseSysUserColumns holds the columns for the "ncse_sys_user" table.
 	NcseSysUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -71,12 +135,16 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		NcseSysEmployeeTable,
 		NcseSysUserTable,
 		NcseSysUserProfileTable,
 	}
 )
 
 func init() {
+	NcseSysEmployeeTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_employee",
+	}
 	NcseSysUserTable.Annotation = &entsql.Annotation{
 		Table: "ncse_sys_user",
 	}

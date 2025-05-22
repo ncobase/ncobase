@@ -22,11 +22,11 @@ type DictionaryServiceInterface interface {
 	Get(ctx context.Context, params *structs.FindDictionary) (any, error)
 	GetByType(ctx context.Context, typeName string) ([]*structs.ReadDictionary, error)
 	GetBySlug(ctx context.Context, slug string) (*structs.ReadDictionary, error)
-	GetValueBySlug(ctx context.Context, slug string) (interface{}, error)
-	GetObjectBySlug(ctx context.Context, slug string) (map[string]interface{}, error)
+	GetValueBySlug(ctx context.Context, slug string) (any, error)
+	GetObjectBySlug(ctx context.Context, slug string) (map[string]any, error)
 	GetEnumBySlug(ctx context.Context, slug string) (map[string]string, error)
-	GetEnumOptions(ctx context.Context, slug string) ([]map[string]interface{}, error)
-	GetNestedEnumBySlug(ctx context.Context, slug string) (map[string]map[string]interface{}, error)
+	GetEnumOptions(ctx context.Context, slug string) ([]map[string]any, error)
+	GetNestedEnumBySlug(ctx context.Context, slug string) (map[string]map[string]any, error)
 	ValidateEnumValue(ctx context.Context, slug string, value string) (bool, error)
 	GetEnumValueLabel(ctx context.Context, slug string, value string) (string, error)
 	BatchGetBySlug(ctx context.Context, slugs []string) (map[string]*structs.ReadDictionary, error)
@@ -113,7 +113,7 @@ func (s *dictionaryService) GetBySlug(ctx context.Context, slug string) (*struct
 }
 
 // GetValueBySlug retrieves and parses a dictionary's value by slug.
-func (s *dictionaryService) GetValueBySlug(ctx context.Context, slug string) (interface{}, error) {
+func (s *dictionaryService) GetValueBySlug(ctx context.Context, slug string) (any, error) {
 	dict, err := s.GetBySlug(ctx, slug)
 	if err != nil {
 		return nil, err
@@ -123,13 +123,13 @@ func (s *dictionaryService) GetValueBySlug(ctx context.Context, slug string) (in
 }
 
 // GetObjectBySlug retrieves a dictionary value as object/map by slug.
-func (s *dictionaryService) GetObjectBySlug(ctx context.Context, slug string) (map[string]interface{}, error) {
+func (s *dictionaryService) GetObjectBySlug(ctx context.Context, slug string) (map[string]any, error) {
 	value, err := s.GetValueBySlug(ctx, slug)
 	if err != nil {
 		return nil, err
 	}
 
-	obj, ok := value.(map[string]interface{})
+	obj, ok := value.(map[string]any)
 	if !ok {
 		return nil, errors.New(ecode.TypeMismatch("object"))
 	}
@@ -157,15 +157,15 @@ func (s *dictionaryService) GetEnumBySlug(ctx context.Context, slug string) (map
 }
 
 // GetEnumOptions retrieves a dictionary as options array for UI select components.
-func (s *dictionaryService) GetEnumOptions(ctx context.Context, slug string) ([]map[string]interface{}, error) {
+func (s *dictionaryService) GetEnumOptions(ctx context.Context, slug string) ([]map[string]any, error) {
 	enum, err := s.GetEnumBySlug(ctx, slug)
 	if err != nil {
 		return nil, err
 	}
 
-	options := make([]map[string]interface{}, 0, len(enum))
+	options := make([]map[string]any, 0, len(enum))
 	for key, value := range enum {
-		options = append(options, map[string]interface{}{
+		options = append(options, map[string]any{
 			"value": key,
 			"label": value,
 		})
@@ -175,15 +175,15 @@ func (s *dictionaryService) GetEnumOptions(ctx context.Context, slug string) ([]
 }
 
 // GetNestedEnumBySlug retrieves a dictionary as nested enum (complex object with sub-properties) by slug.
-func (s *dictionaryService) GetNestedEnumBySlug(ctx context.Context, slug string) (map[string]map[string]interface{}, error) {
+func (s *dictionaryService) GetNestedEnumBySlug(ctx context.Context, slug string) (map[string]map[string]any, error) {
 	obj, err := s.GetObjectBySlug(ctx, slug)
 	if err != nil {
 		return nil, err
 	}
 
-	result := make(map[string]map[string]interface{})
+	result := make(map[string]map[string]any)
 	for key, value := range obj {
-		nestedObj, ok := value.(map[string]interface{})
+		nestedObj, ok := value.(map[string]any)
 		if !ok {
 			continue // Skip non-object values
 		}

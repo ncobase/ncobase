@@ -8,11 +8,13 @@ import (
 
 // OptionsBody represents an options entity.
 type OptionsBody struct {
-	Name     string `json:"name,omitempty"`
-	Type     string `json:"type,omitempty"`
-	Value    string `json:"value,omitempty"`
-	Autoload bool   `json:"autoload,omitempty"`
-	TenantID string `json:"tenant_id,omitempty"`
+	Name      string  `json:"name,omitempty"`
+	Type      string  `json:"type,omitempty"`
+	Value     string  `json:"value,omitempty"`
+	Autoload  bool    `json:"autoload,omitempty"`
+	TenantID  string  `json:"tenant_id,omitempty"`
+	CreatedBy *string `json:"created_by,omitempty"`
+	UpdatedBy *string `json:"updated_by,omitempty"`
 }
 
 // CreateOptionsBody represents the body for creating options.

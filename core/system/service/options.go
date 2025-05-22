@@ -24,10 +24,10 @@ type OptionsServiceInterface interface {
 	Get(ctx context.Context, params *structs.FindOptions) (*structs.ReadOptions, error)
 	GetByName(ctx context.Context, name string) (*structs.ReadOptions, error)
 	GetByType(ctx context.Context, typeName string) ([]*structs.ReadOptions, error)
-	GetValueByName(ctx context.Context, name string) (interface{}, error)
-	ParseValue(option *structs.ReadOptions) (interface{}, error)
-	GetObjectByName(ctx context.Context, name string) (map[string]interface{}, error)
-	GetArrayByName(ctx context.Context, name string) ([]interface{}, error)
+	GetValueByName(ctx context.Context, name string) (any, error)
+	ParseValue(option *structs.ReadOptions) (any, error)
+	GetObjectByName(ctx context.Context, name string) (map[string]any, error)
+	GetArrayByName(ctx context.Context, name string) ([]any, error)
 	GetStringByName(ctx context.Context, name string) (string, error)
 	GetBoolByName(ctx context.Context, name string, defaultValue bool) (bool, error)
 	GetNumberByName(ctx context.Context, name string, defaultValue float64) (float64, error)
@@ -111,7 +111,7 @@ func (s *optionsService) GetByType(ctx context.Context, typeName string) ([]*str
 }
 
 // GetValueByName retrieves the option value by name and parses it according to its type.
-func (s *optionsService) GetValueByName(ctx context.Context, name string) (interface{}, error) {
+func (s *optionsService) GetValueByName(ctx context.Context, name string) (any, error) {
 	option, err := s.GetByName(ctx, name)
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func (s *optionsService) GetValueByName(ctx context.Context, name string) (inter
 }
 
 // ParseValue parses an option's value according to its type.
-func (s *optionsService) ParseValue(option *structs.ReadOptions) (interface{}, error) {
+func (s *optionsService) ParseValue(option *structs.ReadOptions) (any, error) {
 	switch option.Type {
 	case "string":
 		return option.Value, nil
@@ -134,11 +134,11 @@ func (s *optionsService) ParseValue(option *structs.ReadOptions) (interface{}, e
 		}
 		return strconv.ParseInt(option.Value, 10, 64)
 	case "object", "json":
-		var result interface{}
+		var result any
 		err := json.Unmarshal([]byte(option.Value), &result)
 		return result, err
 	case "array":
-		var result []interface{}
+		var result []any
 		err := json.Unmarshal([]byte(option.Value), &result)
 		return result, err
 	default:
@@ -147,13 +147,13 @@ func (s *optionsService) ParseValue(option *structs.ReadOptions) (interface{}, e
 }
 
 // GetObjectByName retrieves and parses an option of object type by name.
-func (s *optionsService) GetObjectByName(ctx context.Context, name string) (map[string]interface{}, error) {
+func (s *optionsService) GetObjectByName(ctx context.Context, name string) (map[string]any, error) {
 	value, err := s.GetValueByName(ctx, name)
 	if err != nil {
 		return nil, err
 	}
 
-	obj, ok := value.(map[string]interface{})
+	obj, ok := value.(map[string]any)
 	if !ok {
 		return nil, errors.New(ecode.TypeMismatch("object"))
 	}
@@ -162,13 +162,13 @@ func (s *optionsService) GetObjectByName(ctx context.Context, name string) (map[
 }
 
 // GetArrayByName retrieves and parses an option of array type by name.
-func (s *optionsService) GetArrayByName(ctx context.Context, name string) ([]interface{}, error) {
+func (s *optionsService) GetArrayByName(ctx context.Context, name string) ([]any, error) {
 	value, err := s.GetValueByName(ctx, name)
 	if err != nil {
 		return nil, err
 	}
 
-	arr, ok := value.([]interface{})
+	arr, ok := value.([]any)
 	if !ok {
 		return nil, errors.New(ecode.TypeMismatch("array"))
 	}

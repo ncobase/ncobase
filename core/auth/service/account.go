@@ -338,7 +338,7 @@ func createUserAndProfile(ctx context.Context, svc *accountService, body *struct
 
 	// create user profile
 	userProfile, err := svc.us.UserProfile.Create(ctx, &userStructs.UserProfileBody{
-		ID:          user.ID,
+		UserID:      user.ID,
 		DisplayName: body.DisplayName,
 		ShortBio:    body.ShortBio,
 	})

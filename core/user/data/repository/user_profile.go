@@ -45,7 +45,7 @@ func (r *userProfileRepository) Create(ctx context.Context, body *structs.UserPr
 	// create builder.
 	builder := r.ec.UserProfile.Create()
 	// set values.
-	builder.SetID(body.ID)
+	builder.SetID(body.UserID)
 	builder.SetDisplayName(body.DisplayName)
 	builder.SetShortBio(body.ShortBio)
 	builder.SetNillableAbout(body.About)
@@ -67,7 +67,7 @@ func (r *userProfileRepository) Create(ctx context.Context, body *structs.UserPr
 	}
 
 	// cache the result
-	err = r.c.Set(ctx, fmt.Sprintf("%s", body.ID), row)
+	err = r.c.Set(ctx, fmt.Sprintf("%s", body.UserID), row)
 	if err != nil {
 		logger.Errorf(ctx, "userProfileRepo.CreateProfile cache error: %v", err)
 	}

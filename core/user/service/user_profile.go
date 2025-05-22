@@ -78,6 +78,7 @@ func (s *userProfileService) Delete(ctx context.Context, id string) error {
 // Serialize serialize user profile
 func (s *userProfileService) Serialize(row *ent.UserProfile) *structs.ReadUserProfile {
 	return &structs.ReadUserProfile{
+		UserID:      row.ID,
 		DisplayName: row.DisplayName,
 		ShortBio:    row.ShortBio,
 		About:       &row.About,

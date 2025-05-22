@@ -6,10 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/user/data/ent/employee"
 	"ncobase/user/data/ent/predicate"
 	"ncobase/user/data/ent/user"
 	"ncobase/user/data/ent/userprofile"
 	"sync"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -24,9 +26,1633 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
+	TypeEmployee    = "Employee"
 	TypeUser        = "User"
 	TypeUserProfile = "UserProfile"
 )
+
+// EmployeeMutation represents an operation that mutates the Employee nodes in the graph.
+type EmployeeMutation struct {
+	config
+	op                   Op
+	typ                  string
+	id                   *string
+	tenant_id            *string
+	created_at           *int64
+	addcreated_at        *int64
+	updated_at           *int64
+	addupdated_at        *int64
+	employee_id          *string
+	department           *string
+	position             *string
+	manager_id           *string
+	hire_date            *time.Time
+	termination_date     *time.Time
+	employment_type      *employee.EmploymentType
+	status               *employee.Status
+	salary               *float64
+	addsalary            *float64
+	work_location        *string
+	contact_info         *map[string]interface{}
+	skills               *[]string
+	appendskills         []string
+	certifications       *[]string
+	appendcertifications []string
+	extras               *map[string]interface{}
+	clearedFields        map[string]struct{}
+	done                 bool
+	oldValue             func(context.Context) (*Employee, error)
+	predicates           []predicate.Employee
+}
+
+var _ ent.Mutation = (*EmployeeMutation)(nil)
+
+// employeeOption allows management of the mutation configuration using functional options.
+type employeeOption func(*EmployeeMutation)
+
+// newEmployeeMutation creates new mutation for the Employee entity.
+func newEmployeeMutation(c config, op Op, opts ...employeeOption) *EmployeeMutation {
+	m := &EmployeeMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeEmployee,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withEmployeeID sets the ID field of the mutation.
+func withEmployeeID(id string) employeeOption {
+	return func(m *EmployeeMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *Employee
+		)
+		m.oldValue = func(ctx context.Context) (*Employee, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().Employee.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withEmployee sets the old Employee of the mutation.
+func withEmployee(node *Employee) employeeOption {
+	return func(m *EmployeeMutation) {
+		m.oldValue = func(context.Context) (*Employee, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m EmployeeMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m EmployeeMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Employee entities.
+func (m *EmployeeMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *EmployeeMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *EmployeeMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().Employee.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (m *EmployeeMutation) SetTenantID(s string) {
+	m.tenant_id = &s
+}
+
+// TenantID returns the value of the "tenant_id" field in the mutation.
+func (m *EmployeeMutation) TenantID() (r string, exists bool) {
+	v := m.tenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTenantID returns the old "tenant_id" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldTenantID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTenantID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+	}
+	return oldValue.TenantID, nil
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *EmployeeMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.clearedFields[employee.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *EmployeeMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[employee.FieldTenantID]
+	return ok
+}
+
+// ResetTenantID resets all changes to the "tenant_id" field.
+func (m *EmployeeMutation) ResetTenantID() {
+	m.tenant_id = nil
+	delete(m.clearedFields, employee.FieldTenantID)
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *EmployeeMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *EmployeeMutation) CreatedAt() (r int64, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// AddCreatedAt adds i to the "created_at" field.
+func (m *EmployeeMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *EmployeeMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *EmployeeMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	m.clearedFields[employee.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *EmployeeMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[employee.FieldCreatedAt]
+	return ok
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *EmployeeMutation) ResetCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	delete(m.clearedFields, employee.FieldCreatedAt)
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *EmployeeMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *EmployeeMutation) UpdatedAt() (r int64, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *EmployeeMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *EmployeeMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *EmployeeMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	m.clearedFields[employee.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *EmployeeMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[employee.FieldUpdatedAt]
+	return ok
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *EmployeeMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	delete(m.clearedFields, employee.FieldUpdatedAt)
+}
+
+// SetEmployeeID sets the "employee_id" field.
+func (m *EmployeeMutation) SetEmployeeID(s string) {
+	m.employee_id = &s
+}
+
+// EmployeeID returns the value of the "employee_id" field in the mutation.
+func (m *EmployeeMutation) EmployeeID() (r string, exists bool) {
+	v := m.employee_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEmployeeID returns the old "employee_id" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldEmployeeID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEmployeeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEmployeeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEmployeeID: %w", err)
+	}
+	return oldValue.EmployeeID, nil
+}
+
+// ClearEmployeeID clears the value of the "employee_id" field.
+func (m *EmployeeMutation) ClearEmployeeID() {
+	m.employee_id = nil
+	m.clearedFields[employee.FieldEmployeeID] = struct{}{}
+}
+
+// EmployeeIDCleared returns if the "employee_id" field was cleared in this mutation.
+func (m *EmployeeMutation) EmployeeIDCleared() bool {
+	_, ok := m.clearedFields[employee.FieldEmployeeID]
+	return ok
+}
+
+// ResetEmployeeID resets all changes to the "employee_id" field.
+func (m *EmployeeMutation) ResetEmployeeID() {
+	m.employee_id = nil
+	delete(m.clearedFields, employee.FieldEmployeeID)
+}
+
+// SetDepartment sets the "department" field.
+func (m *EmployeeMutation) SetDepartment(s string) {
+	m.department = &s
+}
+
+// Department returns the value of the "department" field in the mutation.
+func (m *EmployeeMutation) Department() (r string, exists bool) {
+	v := m.department
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDepartment returns the old "department" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldDepartment(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDepartment is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDepartment requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDepartment: %w", err)
+	}
+	return oldValue.Department, nil
+}
+
+// ClearDepartment clears the value of the "department" field.
+func (m *EmployeeMutation) ClearDepartment() {
+	m.department = nil
+	m.clearedFields[employee.FieldDepartment] = struct{}{}
+}
+
+// DepartmentCleared returns if the "department" field was cleared in this mutation.
+func (m *EmployeeMutation) DepartmentCleared() bool {
+	_, ok := m.clearedFields[employee.FieldDepartment]
+	return ok
+}
+
+// ResetDepartment resets all changes to the "department" field.
+func (m *EmployeeMutation) ResetDepartment() {
+	m.department = nil
+	delete(m.clearedFields, employee.FieldDepartment)
+}
+
+// SetPosition sets the "position" field.
+func (m *EmployeeMutation) SetPosition(s string) {
+	m.position = &s
+}
+
+// Position returns the value of the "position" field in the mutation.
+func (m *EmployeeMutation) Position() (r string, exists bool) {
+	v := m.position
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPosition returns the old "position" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldPosition(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPosition is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPosition requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPosition: %w", err)
+	}
+	return oldValue.Position, nil
+}
+
+// ClearPosition clears the value of the "position" field.
+func (m *EmployeeMutation) ClearPosition() {
+	m.position = nil
+	m.clearedFields[employee.FieldPosition] = struct{}{}
+}
+
+// PositionCleared returns if the "position" field was cleared in this mutation.
+func (m *EmployeeMutation) PositionCleared() bool {
+	_, ok := m.clearedFields[employee.FieldPosition]
+	return ok
+}
+
+// ResetPosition resets all changes to the "position" field.
+func (m *EmployeeMutation) ResetPosition() {
+	m.position = nil
+	delete(m.clearedFields, employee.FieldPosition)
+}
+
+// SetManagerID sets the "manager_id" field.
+func (m *EmployeeMutation) SetManagerID(s string) {
+	m.manager_id = &s
+}
+
+// ManagerID returns the value of the "manager_id" field in the mutation.
+func (m *EmployeeMutation) ManagerID() (r string, exists bool) {
+	v := m.manager_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldManagerID returns the old "manager_id" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldManagerID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldManagerID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldManagerID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldManagerID: %w", err)
+	}
+	return oldValue.ManagerID, nil
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (m *EmployeeMutation) ClearManagerID() {
+	m.manager_id = nil
+	m.clearedFields[employee.FieldManagerID] = struct{}{}
+}
+
+// ManagerIDCleared returns if the "manager_id" field was cleared in this mutation.
+func (m *EmployeeMutation) ManagerIDCleared() bool {
+	_, ok := m.clearedFields[employee.FieldManagerID]
+	return ok
+}
+
+// ResetManagerID resets all changes to the "manager_id" field.
+func (m *EmployeeMutation) ResetManagerID() {
+	m.manager_id = nil
+	delete(m.clearedFields, employee.FieldManagerID)
+}
+
+// SetHireDate sets the "hire_date" field.
+func (m *EmployeeMutation) SetHireDate(t time.Time) {
+	m.hire_date = &t
+}
+
+// HireDate returns the value of the "hire_date" field in the mutation.
+func (m *EmployeeMutation) HireDate() (r time.Time, exists bool) {
+	v := m.hire_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldHireDate returns the old "hire_date" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldHireDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldHireDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldHireDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldHireDate: %w", err)
+	}
+	return oldValue.HireDate, nil
+}
+
+// ClearHireDate clears the value of the "hire_date" field.
+func (m *EmployeeMutation) ClearHireDate() {
+	m.hire_date = nil
+	m.clearedFields[employee.FieldHireDate] = struct{}{}
+}
+
+// HireDateCleared returns if the "hire_date" field was cleared in this mutation.
+func (m *EmployeeMutation) HireDateCleared() bool {
+	_, ok := m.clearedFields[employee.FieldHireDate]
+	return ok
+}
+
+// ResetHireDate resets all changes to the "hire_date" field.
+func (m *EmployeeMutation) ResetHireDate() {
+	m.hire_date = nil
+	delete(m.clearedFields, employee.FieldHireDate)
+}
+
+// SetTerminationDate sets the "termination_date" field.
+func (m *EmployeeMutation) SetTerminationDate(t time.Time) {
+	m.termination_date = &t
+}
+
+// TerminationDate returns the value of the "termination_date" field in the mutation.
+func (m *EmployeeMutation) TerminationDate() (r time.Time, exists bool) {
+	v := m.termination_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTerminationDate returns the old "termination_date" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldTerminationDate(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTerminationDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTerminationDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTerminationDate: %w", err)
+	}
+	return oldValue.TerminationDate, nil
+}
+
+// ClearTerminationDate clears the value of the "termination_date" field.
+func (m *EmployeeMutation) ClearTerminationDate() {
+	m.termination_date = nil
+	m.clearedFields[employee.FieldTerminationDate] = struct{}{}
+}
+
+// TerminationDateCleared returns if the "termination_date" field was cleared in this mutation.
+func (m *EmployeeMutation) TerminationDateCleared() bool {
+	_, ok := m.clearedFields[employee.FieldTerminationDate]
+	return ok
+}
+
+// ResetTerminationDate resets all changes to the "termination_date" field.
+func (m *EmployeeMutation) ResetTerminationDate() {
+	m.termination_date = nil
+	delete(m.clearedFields, employee.FieldTerminationDate)
+}
+
+// SetEmploymentType sets the "employment_type" field.
+func (m *EmployeeMutation) SetEmploymentType(et employee.EmploymentType) {
+	m.employment_type = &et
+}
+
+// EmploymentType returns the value of the "employment_type" field in the mutation.
+func (m *EmployeeMutation) EmploymentType() (r employee.EmploymentType, exists bool) {
+	v := m.employment_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEmploymentType returns the old "employment_type" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldEmploymentType(ctx context.Context) (v employee.EmploymentType, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEmploymentType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEmploymentType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEmploymentType: %w", err)
+	}
+	return oldValue.EmploymentType, nil
+}
+
+// ResetEmploymentType resets all changes to the "employment_type" field.
+func (m *EmployeeMutation) ResetEmploymentType() {
+	m.employment_type = nil
+}
+
+// SetStatus sets the "status" field.
+func (m *EmployeeMutation) SetStatus(e employee.Status) {
+	m.status = &e
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *EmployeeMutation) Status() (r employee.Status, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldStatus(ctx context.Context) (v employee.Status, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *EmployeeMutation) ResetStatus() {
+	m.status = nil
+}
+
+// SetSalary sets the "salary" field.
+func (m *EmployeeMutation) SetSalary(f float64) {
+	m.salary = &f
+	m.addsalary = nil
+}
+
+// Salary returns the value of the "salary" field in the mutation.
+func (m *EmployeeMutation) Salary() (r float64, exists bool) {
+	v := m.salary
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSalary returns the old "salary" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldSalary(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSalary is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSalary requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSalary: %w", err)
+	}
+	return oldValue.Salary, nil
+}
+
+// AddSalary adds f to the "salary" field.
+func (m *EmployeeMutation) AddSalary(f float64) {
+	if m.addsalary != nil {
+		*m.addsalary += f
+	} else {
+		m.addsalary = &f
+	}
+}
+
+// AddedSalary returns the value that was added to the "salary" field in this mutation.
+func (m *EmployeeMutation) AddedSalary() (r float64, exists bool) {
+	v := m.addsalary
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearSalary clears the value of the "salary" field.
+func (m *EmployeeMutation) ClearSalary() {
+	m.salary = nil
+	m.addsalary = nil
+	m.clearedFields[employee.FieldSalary] = struct{}{}
+}
+
+// SalaryCleared returns if the "salary" field was cleared in this mutation.
+func (m *EmployeeMutation) SalaryCleared() bool {
+	_, ok := m.clearedFields[employee.FieldSalary]
+	return ok
+}
+
+// ResetSalary resets all changes to the "salary" field.
+func (m *EmployeeMutation) ResetSalary() {
+	m.salary = nil
+	m.addsalary = nil
+	delete(m.clearedFields, employee.FieldSalary)
+}
+
+// SetWorkLocation sets the "work_location" field.
+func (m *EmployeeMutation) SetWorkLocation(s string) {
+	m.work_location = &s
+}
+
+// WorkLocation returns the value of the "work_location" field in the mutation.
+func (m *EmployeeMutation) WorkLocation() (r string, exists bool) {
+	v := m.work_location
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWorkLocation returns the old "work_location" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldWorkLocation(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWorkLocation is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWorkLocation requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWorkLocation: %w", err)
+	}
+	return oldValue.WorkLocation, nil
+}
+
+// ClearWorkLocation clears the value of the "work_location" field.
+func (m *EmployeeMutation) ClearWorkLocation() {
+	m.work_location = nil
+	m.clearedFields[employee.FieldWorkLocation] = struct{}{}
+}
+
+// WorkLocationCleared returns if the "work_location" field was cleared in this mutation.
+func (m *EmployeeMutation) WorkLocationCleared() bool {
+	_, ok := m.clearedFields[employee.FieldWorkLocation]
+	return ok
+}
+
+// ResetWorkLocation resets all changes to the "work_location" field.
+func (m *EmployeeMutation) ResetWorkLocation() {
+	m.work_location = nil
+	delete(m.clearedFields, employee.FieldWorkLocation)
+}
+
+// SetContactInfo sets the "contact_info" field.
+func (m *EmployeeMutation) SetContactInfo(value map[string]interface{}) {
+	m.contact_info = &value
+}
+
+// ContactInfo returns the value of the "contact_info" field in the mutation.
+func (m *EmployeeMutation) ContactInfo() (r map[string]interface{}, exists bool) {
+	v := m.contact_info
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldContactInfo returns the old "contact_info" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldContactInfo(ctx context.Context) (v map[string]interface{}, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldContactInfo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldContactInfo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldContactInfo: %w", err)
+	}
+	return oldValue.ContactInfo, nil
+}
+
+// ClearContactInfo clears the value of the "contact_info" field.
+func (m *EmployeeMutation) ClearContactInfo() {
+	m.contact_info = nil
+	m.clearedFields[employee.FieldContactInfo] = struct{}{}
+}
+
+// ContactInfoCleared returns if the "contact_info" field was cleared in this mutation.
+func (m *EmployeeMutation) ContactInfoCleared() bool {
+	_, ok := m.clearedFields[employee.FieldContactInfo]
+	return ok
+}
+
+// ResetContactInfo resets all changes to the "contact_info" field.
+func (m *EmployeeMutation) ResetContactInfo() {
+	m.contact_info = nil
+	delete(m.clearedFields, employee.FieldContactInfo)
+}
+
+// SetSkills sets the "skills" field.
+func (m *EmployeeMutation) SetSkills(s []string) {
+	m.skills = &s
+	m.appendskills = nil
+}
+
+// Skills returns the value of the "skills" field in the mutation.
+func (m *EmployeeMutation) Skills() (r []string, exists bool) {
+	v := m.skills
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSkills returns the old "skills" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldSkills(ctx context.Context) (v []string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSkills is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSkills requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSkills: %w", err)
+	}
+	return oldValue.Skills, nil
+}
+
+// AppendSkills adds s to the "skills" field.
+func (m *EmployeeMutation) AppendSkills(s []string) {
+	m.appendskills = append(m.appendskills, s...)
+}
+
+// AppendedSkills returns the list of values that were appended to the "skills" field in this mutation.
+func (m *EmployeeMutation) AppendedSkills() ([]string, bool) {
+	if len(m.appendskills) == 0 {
+		return nil, false
+	}
+	return m.appendskills, true
+}
+
+// ClearSkills clears the value of the "skills" field.
+func (m *EmployeeMutation) ClearSkills() {
+	m.skills = nil
+	m.appendskills = nil
+	m.clearedFields[employee.FieldSkills] = struct{}{}
+}
+
+// SkillsCleared returns if the "skills" field was cleared in this mutation.
+func (m *EmployeeMutation) SkillsCleared() bool {
+	_, ok := m.clearedFields[employee.FieldSkills]
+	return ok
+}
+
+// ResetSkills resets all changes to the "skills" field.
+func (m *EmployeeMutation) ResetSkills() {
+	m.skills = nil
+	m.appendskills = nil
+	delete(m.clearedFields, employee.FieldSkills)
+}
+
+// SetCertifications sets the "certifications" field.
+func (m *EmployeeMutation) SetCertifications(s []string) {
+	m.certifications = &s
+	m.appendcertifications = nil
+}
+
+// Certifications returns the value of the "certifications" field in the mutation.
+func (m *EmployeeMutation) Certifications() (r []string, exists bool) {
+	v := m.certifications
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCertifications returns the old "certifications" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldCertifications(ctx context.Context) (v []string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCertifications is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCertifications requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCertifications: %w", err)
+	}
+	return oldValue.Certifications, nil
+}
+
+// AppendCertifications adds s to the "certifications" field.
+func (m *EmployeeMutation) AppendCertifications(s []string) {
+	m.appendcertifications = append(m.appendcertifications, s...)
+}
+
+// AppendedCertifications returns the list of values that were appended to the "certifications" field in this mutation.
+func (m *EmployeeMutation) AppendedCertifications() ([]string, bool) {
+	if len(m.appendcertifications) == 0 {
+		return nil, false
+	}
+	return m.appendcertifications, true
+}
+
+// ClearCertifications clears the value of the "certifications" field.
+func (m *EmployeeMutation) ClearCertifications() {
+	m.certifications = nil
+	m.appendcertifications = nil
+	m.clearedFields[employee.FieldCertifications] = struct{}{}
+}
+
+// CertificationsCleared returns if the "certifications" field was cleared in this mutation.
+func (m *EmployeeMutation) CertificationsCleared() bool {
+	_, ok := m.clearedFields[employee.FieldCertifications]
+	return ok
+}
+
+// ResetCertifications resets all changes to the "certifications" field.
+func (m *EmployeeMutation) ResetCertifications() {
+	m.certifications = nil
+	m.appendcertifications = nil
+	delete(m.clearedFields, employee.FieldCertifications)
+}
+
+// SetExtras sets the "extras" field.
+func (m *EmployeeMutation) SetExtras(value map[string]interface{}) {
+	m.extras = &value
+}
+
+// Extras returns the value of the "extras" field in the mutation.
+func (m *EmployeeMutation) Extras() (r map[string]interface{}, exists bool) {
+	v := m.extras
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExtras returns the old "extras" field's value of the Employee entity.
+// If the Employee object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EmployeeMutation) OldExtras(ctx context.Context) (v map[string]interface{}, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExtras is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExtras requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExtras: %w", err)
+	}
+	return oldValue.Extras, nil
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (m *EmployeeMutation) ClearExtras() {
+	m.extras = nil
+	m.clearedFields[employee.FieldExtras] = struct{}{}
+}
+
+// ExtrasCleared returns if the "extras" field was cleared in this mutation.
+func (m *EmployeeMutation) ExtrasCleared() bool {
+	_, ok := m.clearedFields[employee.FieldExtras]
+	return ok
+}
+
+// ResetExtras resets all changes to the "extras" field.
+func (m *EmployeeMutation) ResetExtras() {
+	m.extras = nil
+	delete(m.clearedFields, employee.FieldExtras)
+}
+
+// Where appends a list predicates to the EmployeeMutation builder.
+func (m *EmployeeMutation) Where(ps ...predicate.Employee) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the EmployeeMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *EmployeeMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.Employee, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *EmployeeMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *EmployeeMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (Employee).
+func (m *EmployeeMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *EmployeeMutation) Fields() []string {
+	fields := make([]string, 0, 17)
+	if m.tenant_id != nil {
+		fields = append(fields, employee.FieldTenantID)
+	}
+	if m.created_at != nil {
+		fields = append(fields, employee.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, employee.FieldUpdatedAt)
+	}
+	if m.employee_id != nil {
+		fields = append(fields, employee.FieldEmployeeID)
+	}
+	if m.department != nil {
+		fields = append(fields, employee.FieldDepartment)
+	}
+	if m.position != nil {
+		fields = append(fields, employee.FieldPosition)
+	}
+	if m.manager_id != nil {
+		fields = append(fields, employee.FieldManagerID)
+	}
+	if m.hire_date != nil {
+		fields = append(fields, employee.FieldHireDate)
+	}
+	if m.termination_date != nil {
+		fields = append(fields, employee.FieldTerminationDate)
+	}
+	if m.employment_type != nil {
+		fields = append(fields, employee.FieldEmploymentType)
+	}
+	if m.status != nil {
+		fields = append(fields, employee.FieldStatus)
+	}
+	if m.salary != nil {
+		fields = append(fields, employee.FieldSalary)
+	}
+	if m.work_location != nil {
+		fields = append(fields, employee.FieldWorkLocation)
+	}
+	if m.contact_info != nil {
+		fields = append(fields, employee.FieldContactInfo)
+	}
+	if m.skills != nil {
+		fields = append(fields, employee.FieldSkills)
+	}
+	if m.certifications != nil {
+		fields = append(fields, employee.FieldCertifications)
+	}
+	if m.extras != nil {
+		fields = append(fields, employee.FieldExtras)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *EmployeeMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case employee.FieldTenantID:
+		return m.TenantID()
+	case employee.FieldCreatedAt:
+		return m.CreatedAt()
+	case employee.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case employee.FieldEmployeeID:
+		return m.EmployeeID()
+	case employee.FieldDepartment:
+		return m.Department()
+	case employee.FieldPosition:
+		return m.Position()
+	case employee.FieldManagerID:
+		return m.ManagerID()
+	case employee.FieldHireDate:
+		return m.HireDate()
+	case employee.FieldTerminationDate:
+		return m.TerminationDate()
+	case employee.FieldEmploymentType:
+		return m.EmploymentType()
+	case employee.FieldStatus:
+		return m.Status()
+	case employee.FieldSalary:
+		return m.Salary()
+	case employee.FieldWorkLocation:
+		return m.WorkLocation()
+	case employee.FieldContactInfo:
+		return m.ContactInfo()
+	case employee.FieldSkills:
+		return m.Skills()
+	case employee.FieldCertifications:
+		return m.Certifications()
+	case employee.FieldExtras:
+		return m.Extras()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *EmployeeMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case employee.FieldTenantID:
+		return m.OldTenantID(ctx)
+	case employee.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case employee.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case employee.FieldEmployeeID:
+		return m.OldEmployeeID(ctx)
+	case employee.FieldDepartment:
+		return m.OldDepartment(ctx)
+	case employee.FieldPosition:
+		return m.OldPosition(ctx)
+	case employee.FieldManagerID:
+		return m.OldManagerID(ctx)
+	case employee.FieldHireDate:
+		return m.OldHireDate(ctx)
+	case employee.FieldTerminationDate:
+		return m.OldTerminationDate(ctx)
+	case employee.FieldEmploymentType:
+		return m.OldEmploymentType(ctx)
+	case employee.FieldStatus:
+		return m.OldStatus(ctx)
+	case employee.FieldSalary:
+		return m.OldSalary(ctx)
+	case employee.FieldWorkLocation:
+		return m.OldWorkLocation(ctx)
+	case employee.FieldContactInfo:
+		return m.OldContactInfo(ctx)
+	case employee.FieldSkills:
+		return m.OldSkills(ctx)
+	case employee.FieldCertifications:
+		return m.OldCertifications(ctx)
+	case employee.FieldExtras:
+		return m.OldExtras(ctx)
+	}
+	return nil, fmt.Errorf("unknown Employee field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *EmployeeMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case employee.FieldTenantID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTenantID(v)
+		return nil
+	case employee.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case employee.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case employee.FieldEmployeeID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEmployeeID(v)
+		return nil
+	case employee.FieldDepartment:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDepartment(v)
+		return nil
+	case employee.FieldPosition:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPosition(v)
+		return nil
+	case employee.FieldManagerID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetManagerID(v)
+		return nil
+	case employee.FieldHireDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetHireDate(v)
+		return nil
+	case employee.FieldTerminationDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTerminationDate(v)
+		return nil
+	case employee.FieldEmploymentType:
+		v, ok := value.(employee.EmploymentType)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEmploymentType(v)
+		return nil
+	case employee.FieldStatus:
+		v, ok := value.(employee.Status)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case employee.FieldSalary:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSalary(v)
+		return nil
+	case employee.FieldWorkLocation:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWorkLocation(v)
+		return nil
+	case employee.FieldContactInfo:
+		v, ok := value.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetContactInfo(v)
+		return nil
+	case employee.FieldSkills:
+		v, ok := value.([]string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSkills(v)
+		return nil
+	case employee.FieldCertifications:
+		v, ok := value.([]string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCertifications(v)
+		return nil
+	case employee.FieldExtras:
+		v, ok := value.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExtras(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Employee field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *EmployeeMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, employee.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, employee.FieldUpdatedAt)
+	}
+	if m.addsalary != nil {
+		fields = append(fields, employee.FieldSalary)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *EmployeeMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case employee.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case employee.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	case employee.FieldSalary:
+		return m.AddedSalary()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *EmployeeMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case employee.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case employee.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
+	case employee.FieldSalary:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSalary(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Employee numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *EmployeeMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(employee.FieldTenantID) {
+		fields = append(fields, employee.FieldTenantID)
+	}
+	if m.FieldCleared(employee.FieldCreatedAt) {
+		fields = append(fields, employee.FieldCreatedAt)
+	}
+	if m.FieldCleared(employee.FieldUpdatedAt) {
+		fields = append(fields, employee.FieldUpdatedAt)
+	}
+	if m.FieldCleared(employee.FieldEmployeeID) {
+		fields = append(fields, employee.FieldEmployeeID)
+	}
+	if m.FieldCleared(employee.FieldDepartment) {
+		fields = append(fields, employee.FieldDepartment)
+	}
+	if m.FieldCleared(employee.FieldPosition) {
+		fields = append(fields, employee.FieldPosition)
+	}
+	if m.FieldCleared(employee.FieldManagerID) {
+		fields = append(fields, employee.FieldManagerID)
+	}
+	if m.FieldCleared(employee.FieldHireDate) {
+		fields = append(fields, employee.FieldHireDate)
+	}
+	if m.FieldCleared(employee.FieldTerminationDate) {
+		fields = append(fields, employee.FieldTerminationDate)
+	}
+	if m.FieldCleared(employee.FieldSalary) {
+		fields = append(fields, employee.FieldSalary)
+	}
+	if m.FieldCleared(employee.FieldWorkLocation) {
+		fields = append(fields, employee.FieldWorkLocation)
+	}
+	if m.FieldCleared(employee.FieldContactInfo) {
+		fields = append(fields, employee.FieldContactInfo)
+	}
+	if m.FieldCleared(employee.FieldSkills) {
+		fields = append(fields, employee.FieldSkills)
+	}
+	if m.FieldCleared(employee.FieldCertifications) {
+		fields = append(fields, employee.FieldCertifications)
+	}
+	if m.FieldCleared(employee.FieldExtras) {
+		fields = append(fields, employee.FieldExtras)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *EmployeeMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *EmployeeMutation) ClearField(name string) error {
+	switch name {
+	case employee.FieldTenantID:
+		m.ClearTenantID()
+		return nil
+	case employee.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case employee.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	case employee.FieldEmployeeID:
+		m.ClearEmployeeID()
+		return nil
+	case employee.FieldDepartment:
+		m.ClearDepartment()
+		return nil
+	case employee.FieldPosition:
+		m.ClearPosition()
+		return nil
+	case employee.FieldManagerID:
+		m.ClearManagerID()
+		return nil
+	case employee.FieldHireDate:
+		m.ClearHireDate()
+		return nil
+	case employee.FieldTerminationDate:
+		m.ClearTerminationDate()
+		return nil
+	case employee.FieldSalary:
+		m.ClearSalary()
+		return nil
+	case employee.FieldWorkLocation:
+		m.ClearWorkLocation()
+		return nil
+	case employee.FieldContactInfo:
+		m.ClearContactInfo()
+		return nil
+	case employee.FieldSkills:
+		m.ClearSkills()
+		return nil
+	case employee.FieldCertifications:
+		m.ClearCertifications()
+		return nil
+	case employee.FieldExtras:
+		m.ClearExtras()
+		return nil
+	}
+	return fmt.Errorf("unknown Employee nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *EmployeeMutation) ResetField(name string) error {
+	switch name {
+	case employee.FieldTenantID:
+		m.ResetTenantID()
+		return nil
+	case employee.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case employee.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case employee.FieldEmployeeID:
+		m.ResetEmployeeID()
+		return nil
+	case employee.FieldDepartment:
+		m.ResetDepartment()
+		return nil
+	case employee.FieldPosition:
+		m.ResetPosition()
+		return nil
+	case employee.FieldManagerID:
+		m.ResetManagerID()
+		return nil
+	case employee.FieldHireDate:
+		m.ResetHireDate()
+		return nil
+	case employee.FieldTerminationDate:
+		m.ResetTerminationDate()
+		return nil
+	case employee.FieldEmploymentType:
+		m.ResetEmploymentType()
+		return nil
+	case employee.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case employee.FieldSalary:
+		m.ResetSalary()
+		return nil
+	case employee.FieldWorkLocation:
+		m.ResetWorkLocation()
+		return nil
+	case employee.FieldContactInfo:
+		m.ResetContactInfo()
+		return nil
+	case employee.FieldSkills:
+		m.ResetSkills()
+		return nil
+	case employee.FieldCertifications:
+		m.ResetCertifications()
+		return nil
+	case employee.FieldExtras:
+		m.ResetExtras()
+		return nil
+	}
+	return fmt.Errorf("unknown Employee field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *EmployeeMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *EmployeeMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *EmployeeMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *EmployeeMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *EmployeeMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *EmployeeMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *EmployeeMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown Employee unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *EmployeeMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown Employee edge %s", name)
+}
 
 // UserMutation represents an operation that mutates the User nodes in the graph.
 type UserMutation struct {

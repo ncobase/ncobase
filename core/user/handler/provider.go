@@ -4,12 +4,16 @@ import "ncobase/user/service"
 
 // Handler represents the user handler.
 type Handler struct {
-	User UserHandlerInterface
+	User        UserHandlerInterface
+	UserProfile UserProfileHandlerInterface
+	Employee    EmployeeHandlerInterface
 }
 
 // New creates a new handler.
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		User: NewUserHandler(svc),
+		User:        NewUserHandler(svc),
+		UserProfile: NewUserProfileHandler(svc),
+		Employee:    NewEmployeeHandler(svc),
 	}
 }

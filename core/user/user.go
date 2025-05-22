@@ -117,6 +117,20 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		users.PUT("/:username", m.h.User.Update)
 		users.DELETE("/:username", m.h.User.Delete)
 		users.PUT("/:username/password", m.h.User.UpdatePassword)
+		users.GET("/:username/profile", m.h.UserProfile.Get)
+		users.PUT("/:username/profile", m.h.UserProfile.Update)
+
+	}
+	// Employee endpoints
+	employees := r.Group("/employees")
+	{
+		employees.GET("", m.h.Employee.List)
+		employees.POST("", m.h.Employee.Create)
+		employees.GET("/:user_id", m.h.Employee.Get)
+		employees.PUT("/:user_id", m.h.Employee.Update)
+		employees.DELETE("/:user_id", m.h.Employee.Delete)
+		employees.GET("/department/:department", m.h.Employee.GetByDepartment)
+		employees.GET("/manager/:manager_id", m.h.Employee.GetByManager)
 	}
 }
 
