@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -114,11 +115,15 @@ func Logger(c *gin.Context) {
 	l := logger.WithFields(ctx, entry)
 	switch {
 	case c.Writer.Status() >= http.StatusInternalServerError:
-		l.Error("Internal Server Error")
+		l.Error("Server error occurred while processing request")
 	case c.Writer.Status() >= http.StatusBadRequest:
-		l.Warn("Client Error")
+		l.Warn("Client request error")
+	case c.Writer.Status() >= http.StatusMultipleChoices:
+		l.Info("Request completed with redirection")
+	case c.Writer.Status() == http.StatusOK:
+		l.Info("Request completed successfully")
 	default:
-		l.Info("Request Completed")
+		l.Info("Request completed with status: " + strconv.Itoa(c.Writer.Status()))
 	}
 }
 
