@@ -134,7 +134,7 @@ func ConsumeUser(jtm *jwt.TokenManager, whiteList []string) gin.HandlerFunc {
 		}
 
 		// Extract and set tenant IDs
-		if tenantIDs, ok := payload["tenant_ids"].([]interface{}); ok {
+		if tenantIDs, ok := payload["tenant_ids"].([]any); ok {
 			var tenantIDStrings []string
 			for _, id := range tenantIDs {
 				if idStr, ok := id.(string); ok {
