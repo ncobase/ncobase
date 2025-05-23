@@ -110,6 +110,7 @@ var (
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "role", Type: field.TypeString, Comment: "Role of the user in the group", Default: "member"},
 	}
 	// NcseOrgUserGroupTable holds the schema information for the "ncse_org_user_group" table.
 	NcseOrgUserGroupTable = &schema.Table{
@@ -139,8 +140,18 @@ var (
 			},
 			{
 				Name:    "usergroup_user_id_group_id",
-				Unique:  false,
+				Unique:  true,
 				Columns: []*schema.Column{NcseOrgUserGroupColumns[1], NcseOrgUserGroupColumns[2]},
+			},
+			{
+				Name:    "usergroup_user_id_role",
+				Unique:  false,
+				Columns: []*schema.Column{NcseOrgUserGroupColumns[1], NcseOrgUserGroupColumns[7]},
+			},
+			{
+				Name:    "usergroup_group_id_role",
+				Unique:  false,
+				Columns: []*schema.Column{NcseOrgUserGroupColumns[2], NcseOrgUserGroupColumns[7]},
 			},
 		},
 	}

@@ -160,6 +160,12 @@ func init() {
 	usergroup.DefaultUpdatedAt = usergroupDescUpdatedAt.Default.(func() int64)
 	// usergroup.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	usergroup.UpdateDefaultUpdatedAt = usergroupDescUpdatedAt.UpdateDefault.(func() int64)
+	// usergroupDescRole is the schema descriptor for role field.
+	usergroupDescRole := usergroupFields[0].Descriptor()
+	// usergroup.DefaultRole holds the default value on creation for the role field.
+	usergroup.DefaultRole = usergroupDescRole.Default.(string)
+	// usergroup.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	usergroup.RoleValidator = usergroupDescRole.Validators[0].(func(string) error)
 	// usergroupDescID is the schema descriptor for id field.
 	usergroupDescID := usergroupMixinFields0[0].Descriptor()
 	// usergroup.DefaultID holds the default value on creation for the id field.

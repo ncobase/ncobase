@@ -28,7 +28,9 @@ type UserGroup struct {
 	// created at
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    int64 `json:"updated_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
+	// Role of the user in the group
+	Role         string `json:"role,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -39,7 +41,7 @@ func (*UserGroup) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case usergroup.FieldCreatedAt, usergroup.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case usergroup.FieldID, usergroup.FieldUserID, usergroup.FieldGroupID, usergroup.FieldCreatedBy, usergroup.FieldUpdatedBy:
+		case usergroup.FieldID, usergroup.FieldUserID, usergroup.FieldGroupID, usergroup.FieldCreatedBy, usergroup.FieldUpdatedBy, usergroup.FieldRole:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -98,6 +100,12 @@ func (ug *UserGroup) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				ug.UpdatedAt = value.Int64
 			}
+		case usergroup.FieldRole:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field role", values[i])
+			} else if value.Valid {
+				ug.Role = value.String
+			}
 		default:
 			ug.selectValues.Set(columns[i], values[i])
 		}
@@ -151,6 +159,9 @@ func (ug *UserGroup) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(fmt.Sprintf("%v", ug.UpdatedAt))
+	builder.WriteString(", ")
+	builder.WriteString("role=")
+	builder.WriteString(ug.Role)
 	builder.WriteByte(')')
 	return builder.String()
 }

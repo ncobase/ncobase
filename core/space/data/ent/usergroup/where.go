@@ -93,6 +93,11 @@ func UpdatedAt(v int64) predicate.UserGroup {
 	return predicate.UserGroup(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
+// Role applies equality check predicate on the "role" field. It's identical to RoleEQ.
+func Role(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldEQ(FieldRole, v))
+}
+
 // UserIDEQ applies the EQ predicate on the "user_id" field.
 func UserIDEQ(v string) predicate.UserGroup {
 	return predicate.UserGroup(sql.FieldEQ(FieldUserID, v))
@@ -491,6 +496,71 @@ func UpdatedAtIsNil() predicate.UserGroup {
 // UpdatedAtNotNil applies the NotNil predicate on the "updated_at" field.
 func UpdatedAtNotNil() predicate.UserGroup {
 	return predicate.UserGroup(sql.FieldNotNull(FieldUpdatedAt))
+}
+
+// RoleEQ applies the EQ predicate on the "role" field.
+func RoleEQ(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldEQ(FieldRole, v))
+}
+
+// RoleNEQ applies the NEQ predicate on the "role" field.
+func RoleNEQ(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldNEQ(FieldRole, v))
+}
+
+// RoleIn applies the In predicate on the "role" field.
+func RoleIn(vs ...string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldIn(FieldRole, vs...))
+}
+
+// RoleNotIn applies the NotIn predicate on the "role" field.
+func RoleNotIn(vs ...string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldNotIn(FieldRole, vs...))
+}
+
+// RoleGT applies the GT predicate on the "role" field.
+func RoleGT(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldGT(FieldRole, v))
+}
+
+// RoleGTE applies the GTE predicate on the "role" field.
+func RoleGTE(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldGTE(FieldRole, v))
+}
+
+// RoleLT applies the LT predicate on the "role" field.
+func RoleLT(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldLT(FieldRole, v))
+}
+
+// RoleLTE applies the LTE predicate on the "role" field.
+func RoleLTE(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldLTE(FieldRole, v))
+}
+
+// RoleContains applies the Contains predicate on the "role" field.
+func RoleContains(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldContains(FieldRole, v))
+}
+
+// RoleHasPrefix applies the HasPrefix predicate on the "role" field.
+func RoleHasPrefix(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldHasPrefix(FieldRole, v))
+}
+
+// RoleHasSuffix applies the HasSuffix predicate on the "role" field.
+func RoleHasSuffix(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldHasSuffix(FieldRole, v))
+}
+
+// RoleEqualFold applies the EqualFold predicate on the "role" field.
+func RoleEqualFold(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldEqualFold(FieldRole, v))
+}
+
+// RoleContainsFold applies the ContainsFold predicate on the "role" field.
+func RoleContainsFold(v string) predicate.UserGroup {
+	return predicate.UserGroup(sql.FieldContainsFold(FieldRole, v))
 }
 
 // And groups predicates with the AND operator between them.

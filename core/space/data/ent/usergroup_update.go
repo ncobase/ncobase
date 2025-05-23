@@ -126,6 +126,20 @@ func (ugu *UserGroupUpdate) ClearUpdatedAt() *UserGroupUpdate {
 	return ugu
 }
 
+// SetRole sets the "role" field.
+func (ugu *UserGroupUpdate) SetRole(s string) *UserGroupUpdate {
+	ugu.mutation.SetRole(s)
+	return ugu
+}
+
+// SetNillableRole sets the "role" field if the given value is not nil.
+func (ugu *UserGroupUpdate) SetNillableRole(s *string) *UserGroupUpdate {
+	if s != nil {
+		ugu.SetRole(*s)
+	}
+	return ugu
+}
+
 // Mutation returns the UserGroupMutation object of the builder.
 func (ugu *UserGroupUpdate) Mutation() *UserGroupMutation {
 	return ugu.mutation
@@ -189,6 +203,11 @@ func (ugu *UserGroupUpdate) check() error {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
 		}
 	}
+	if v, ok := ugu.mutation.Role(); ok {
+		if err := usergroup.RoleValidator(v); err != nil {
+			return &ValidationError{Name: "role", err: fmt.Errorf(`ent: validator failed for field "UserGroup.role": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -239,6 +258,9 @@ func (ugu *UserGroupUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if ugu.mutation.UpdatedAtCleared() {
 		_spec.ClearField(usergroup.FieldUpdatedAt, field.TypeInt64)
+	}
+	if value, ok := ugu.mutation.Role(); ok {
+		_spec.SetField(usergroup.FieldRole, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ugu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -359,6 +381,20 @@ func (uguo *UserGroupUpdateOne) ClearUpdatedAt() *UserGroupUpdateOne {
 	return uguo
 }
 
+// SetRole sets the "role" field.
+func (uguo *UserGroupUpdateOne) SetRole(s string) *UserGroupUpdateOne {
+	uguo.mutation.SetRole(s)
+	return uguo
+}
+
+// SetNillableRole sets the "role" field if the given value is not nil.
+func (uguo *UserGroupUpdateOne) SetNillableRole(s *string) *UserGroupUpdateOne {
+	if s != nil {
+		uguo.SetRole(*s)
+	}
+	return uguo
+}
+
 // Mutation returns the UserGroupMutation object of the builder.
 func (uguo *UserGroupUpdateOne) Mutation() *UserGroupMutation {
 	return uguo.mutation
@@ -435,6 +471,11 @@ func (uguo *UserGroupUpdateOne) check() error {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
 		}
 	}
+	if v, ok := uguo.mutation.Role(); ok {
+		if err := usergroup.RoleValidator(v); err != nil {
+			return &ValidationError{Name: "role", err: fmt.Errorf(`ent: validator failed for field "UserGroup.role": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -502,6 +543,9 @@ func (uguo *UserGroupUpdateOne) sqlSave(ctx context.Context) (_node *UserGroup, 
 	}
 	if uguo.mutation.UpdatedAtCleared() {
 		_spec.ClearField(usergroup.FieldUpdatedAt, field.TypeInt64)
+	}
+	if value, ok := uguo.mutation.Role(); ok {
+		_spec.SetField(usergroup.FieldRole, field.TypeString, value)
 	}
 	_node = &UserGroup{config: uguo.config}
 	_spec.Assign = _node.assignValues

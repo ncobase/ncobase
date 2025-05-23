@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/space/data/ent/usergroup"
 
@@ -102,6 +103,20 @@ func (ugc *UserGroupCreate) SetNillableUpdatedAt(i *int64) *UserGroupCreate {
 	return ugc
 }
 
+// SetRole sets the "role" field.
+func (ugc *UserGroupCreate) SetRole(s string) *UserGroupCreate {
+	ugc.mutation.SetRole(s)
+	return ugc
+}
+
+// SetNillableRole sets the "role" field if the given value is not nil.
+func (ugc *UserGroupCreate) SetNillableRole(s *string) *UserGroupCreate {
+	if s != nil {
+		ugc.SetRole(*s)
+	}
+	return ugc
+}
+
 // SetID sets the "id" field.
 func (ugc *UserGroupCreate) SetID(s string) *UserGroupCreate {
 	ugc.mutation.SetID(s)
@@ -159,6 +174,10 @@ func (ugc *UserGroupCreate) defaults() {
 		v := usergroup.DefaultUpdatedAt()
 		ugc.mutation.SetUpdatedAt(v)
 	}
+	if _, ok := ugc.mutation.Role(); !ok {
+		v := usergroup.DefaultRole
+		ugc.mutation.SetRole(v)
+	}
 	if _, ok := ugc.mutation.ID(); !ok {
 		v := usergroup.DefaultID()
 		ugc.mutation.SetID(v)
@@ -185,6 +204,14 @@ func (ugc *UserGroupCreate) check() error {
 	if v, ok := ugc.mutation.UpdatedBy(); ok {
 		if err := usergroup.UpdatedByValidator(v); err != nil {
 			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
+		}
+	}
+	if _, ok := ugc.mutation.Role(); !ok {
+		return &ValidationError{Name: "role", err: errors.New(`ent: missing required field "UserGroup.role"`)}
+	}
+	if v, ok := ugc.mutation.Role(); ok {
+		if err := usergroup.RoleValidator(v); err != nil {
+			return &ValidationError{Name: "role", err: fmt.Errorf(`ent: validator failed for field "UserGroup.role": %w`, err)}
 		}
 	}
 	if v, ok := ugc.mutation.ID(); ok {
@@ -250,6 +277,10 @@ func (ugc *UserGroupCreate) createSpec() (*UserGroup, *sqlgraph.CreateSpec) {
 	if value, ok := ugc.mutation.UpdatedAt(); ok {
 		_spec.SetField(usergroup.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
+	}
+	if value, ok := ugc.mutation.Role(); ok {
+		_spec.SetField(usergroup.FieldRole, field.TypeString, value)
+		_node.Role = value
 	}
 	return _node, _spec
 }

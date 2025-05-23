@@ -2062,6 +2062,7 @@ type UserGroupMutation struct {
 	addcreated_at *int64
 	updated_at    *int64
 	addupdated_at *int64
+	role          *string
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*UserGroup, error)
@@ -2508,6 +2509,42 @@ func (m *UserGroupMutation) ResetUpdatedAt() {
 	delete(m.clearedFields, usergroup.FieldUpdatedAt)
 }
 
+// SetRole sets the "role" field.
+func (m *UserGroupMutation) SetRole(s string) {
+	m.role = &s
+}
+
+// Role returns the value of the "role" field in the mutation.
+func (m *UserGroupMutation) Role() (r string, exists bool) {
+	v := m.role
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRole returns the old "role" field's value of the UserGroup entity.
+// If the UserGroup object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserGroupMutation) OldRole(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRole is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRole requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRole: %w", err)
+	}
+	return oldValue.Role, nil
+}
+
+// ResetRole resets all changes to the "role" field.
+func (m *UserGroupMutation) ResetRole() {
+	m.role = nil
+}
+
 // Where appends a list predicates to the UserGroupMutation builder.
 func (m *UserGroupMutation) Where(ps ...predicate.UserGroup) {
 	m.predicates = append(m.predicates, ps...)
@@ -2542,7 +2579,7 @@ func (m *UserGroupMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserGroupMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 7)
 	if m.user_id != nil {
 		fields = append(fields, usergroup.FieldUserID)
 	}
@@ -2560,6 +2597,9 @@ func (m *UserGroupMutation) Fields() []string {
 	}
 	if m.updated_at != nil {
 		fields = append(fields, usergroup.FieldUpdatedAt)
+	}
+	if m.role != nil {
+		fields = append(fields, usergroup.FieldRole)
 	}
 	return fields
 }
@@ -2581,6 +2621,8 @@ func (m *UserGroupMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedAt()
 	case usergroup.FieldUpdatedAt:
 		return m.UpdatedAt()
+	case usergroup.FieldRole:
+		return m.Role()
 	}
 	return nil, false
 }
@@ -2602,6 +2644,8 @@ func (m *UserGroupMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldCreatedAt(ctx)
 	case usergroup.FieldUpdatedAt:
 		return m.OldUpdatedAt(ctx)
+	case usergroup.FieldRole:
+		return m.OldRole(ctx)
 	}
 	return nil, fmt.Errorf("unknown UserGroup field %s", name)
 }
@@ -2652,6 +2696,13 @@ func (m *UserGroupMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUpdatedAt(v)
+		return nil
+	case usergroup.FieldRole:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRole(v)
 		return nil
 	}
 	return fmt.Errorf("unknown UserGroup field %s", name)
@@ -2785,6 +2836,9 @@ func (m *UserGroupMutation) ResetField(name string) error {
 		return nil
 	case usergroup.FieldUpdatedAt:
 		m.ResetUpdatedAt()
+		return nil
+	case usergroup.FieldRole:
+		m.ResetRole()
 		return nil
 	}
 	return fmt.Errorf("unknown UserGroup field %s", name)

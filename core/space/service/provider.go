@@ -10,11 +10,20 @@ type Service struct {
 }
 
 // New creates a new service.
-func New(d *data.Data) *Service {
+func New(d *data.Data, userService any) *Service {
 	gs := NewGroupService(d)
+	grs := NewGroupRoleService(d)
+	ugs := NewUserGroupService(d, gs)
+
+	if ugs, ok := ugs.(*userGroupService); ok {
+		if userService != nil {
+			ugs.SetUserService(NewUserServiceWrapper(userService), NewUserProfileServiceWrapper(userService))
+		}
+	}
+
 	return &Service{
 		Group:     gs,
-		GroupRole: NewGroupRoleService(d),
-		UserGroup: NewUserGroupService(d, gs),
+		GroupRole: grs,
+		UserGroup: ugs,
 	}
 }

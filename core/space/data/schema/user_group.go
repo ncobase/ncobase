@@ -3,6 +3,7 @@ package schema
 import (
 	"strings"
 
+	"entgo.io/ent/schema/field"
 	"github.com/ncobase/ncore/data/databases/entgo/mixin"
 
 	"entgo.io/ent"
@@ -38,7 +39,12 @@ func (UserGroup) Mixin() []ent.Mixin {
 
 // Fields of the UserGroup.
 func (UserGroup) Fields() []ent.Field {
-	return nil
+	return []ent.Field{
+		field.String("role").
+			Default("member").
+			Comment("Role of the user in the group").
+			NotEmpty(),
+	}
 }
 
 // Edges of the UserGroup.
@@ -50,6 +56,8 @@ func (UserGroup) Edges() []ent.Edge {
 func (UserGroup) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("id", "created_at").Unique(),
-		index.Fields("user_id", "group_id"),
+		index.Fields("user_id", "group_id").Unique(),
+		index.Fields("user_id", "role"),
+		index.Fields("group_id", "role"),
 	}
 }

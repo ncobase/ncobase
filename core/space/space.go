@@ -6,6 +6,7 @@ import (
 	"ncobase/space/data"
 	"ncobase/space/handler"
 	"ncobase/space/service"
+	userService "ncobase/user/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"
@@ -16,13 +17,12 @@ import (
 )
 
 var (
-	name             = "space"
-	desc             = "Space module, provides organization management"
-	version          = "1.0.0"
-	dependencies     []string
-	typeStr          = "module"
-	group            = "org"
-	enabledDiscovery = false
+	name         = "space"
+	desc         = "Space module, provides organization management"
+	version      = "1.0.0"
+	dependencies = []string{"user"}
+	typeStr      = "module"
+	group        = "org"
 )
 
 // Module represents the group module.
@@ -57,12 +57,6 @@ func New() ext.Interface {
 	return &Module{}
 }
 
-// PreInit performs any necessary setup before initialization
-func (m *Module) PreInit() error {
-	// Implement any pre-initialization logic here
-	return nil
-}
-
 // Init initializes the group module with the given config object
 func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	m.mu.Lock()
@@ -92,7 +86,15 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New(m.d)
+	usExt, err := m.em.GetService("user")
+	if err != nil {
+		return fmt.Errorf("failed to get user service: %v", err)
+	}
+	us, ok := usExt.(*userService.Service)
+	if !ok {
+		return fmt.Errorf("user service does not implement expected interface")
+	}
+	m.s = service.New(m.d, us)
 	m.h = handler.New(m.s)
 	return nil
 }
@@ -104,21 +106,22 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Belong domain group
-	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
-	// Group endpoints
-	groups := r.Group("/groups")
+	// Group endpoints - organization management permissions
+	orgGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
 	{
-		groups.GET("", m.h.Group.List)
-		groups.POST("", m.h.Group.Create)
-		groups.GET("/:slug", m.h.Group.Get)
-		groups.PUT("/:slug", m.h.Group.Update)
-		groups.DELETE("/:slug", m.h.Group.Delete)
-	}
-	// Member endpoints
-	member := r.Group("/members")
-	{
-		member.GET("", nil)
+		orgGroup.GET("", middleware.HasPermission("read:group"), m.h.Group.List)
+		orgGroup.POST("", middleware.HasPermission("manage:group"), m.h.Group.Create)
+		orgGroup.GET("/:slug", middleware.HasPermission("read:group"), m.h.Group.Get)
+		orgGroup.PUT("/:slug", middleware.HasPermission("manage:group"), m.h.Group.Update)
+		orgGroup.DELETE("/:slug", middleware.HasPermission("manage:group"), m.h.Group.Delete)
+
+		orgGroup.GET("/:slug/members", middleware.HasPermission("read:group"), m.h.Group.GetMembers)
+		orgGroup.POST("/:slug/members", middleware.HasPermission("manage:group"), m.h.Group.AddMember)
+		orgGroup.PUT("/:slug/members/:userId", middleware.HasPermission("manage:group"), m.h.Group.UpdateMember)
+		orgGroup.DELETE("/:slug/members/:userId", middleware.HasPermission("manage:group"), m.h.Group.RemoveMember)
+		orgGroup.GET("/:slug/members/:userId/check", middleware.HasPermission("read:group"), m.h.Group.IsUserMember)
+		orgGroup.GET("/:slug/members/:userId/is-owner", middleware.HasPermission("read:group"), m.h.Group.IsUserOwner)
+		orgGroup.GET("/:slug/members/:userId/role", middleware.HasPermission("read:group"), m.h.Group.GetUserRole)
 	}
 }
 
@@ -132,23 +135,12 @@ func (m *Module) GetServices() ext.Service {
 	return m.s
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	// Implement any pre-cleanup logic here
-	return nil
-}
-
 // Cleanup cleans up the module
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
 		m.cleanup(m.Name())
 	}
 	return nil
-}
-
-// Status returns the status of the module
-func (m *Module) Status() string {
-	return "active"
 }
 
 // GetMetadata returns the metadata of the module
@@ -173,11 +165,6 @@ func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
-}
-
 // Description returns the description of the module
 func (m *Module) Description() string {
 	return desc
@@ -191,11 +178,6 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

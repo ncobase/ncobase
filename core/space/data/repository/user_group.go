@@ -16,16 +16,19 @@ import (
 // UserGroupRepositoryInterface represents the user group repository interface.
 type UserGroupRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.UserGroup) (*ent.UserGroup, error)
-	GetByUserID(ctx context.Context, id string) (*ent.UserGroup, error)
-	GetByGroupID(ctx context.Context, id string) (*ent.UserGroup, error)
+	GetByUserID(ctx context.Context, id string) ([]*ent.UserGroup, error)
+	GetByGroupID(ctx context.Context, id string) ([]*ent.UserGroup, error)
 	GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserGroup, error)
 	GetByGroupIDs(ctx context.Context, ids []string) ([]*ent.UserGroup, error)
+	GetByGroupIDAndRole(ctx context.Context, id string, role structs.UserRole) ([]*ent.UserGroup, error)
+	GetUserGroup(ctx context.Context, uid, gid string) (*ent.UserGroup, error)
 	Delete(ctx context.Context, uid, gid string) error
 	DeleteAllByUserID(ctx context.Context, id string) error
 	DeleteAllByGroupID(ctx context.Context, id string) error
 	GetGroupsByUserID(ctx context.Context, userID string) ([]string, error)
 	GetUsersByGroupID(ctx context.Context, groupID string) ([]string, error)
 	IsUserInGroup(ctx context.Context, userID string, groupID string) (bool, error)
+	UserHasRole(ctx context.Context, userID string, groupID string, role structs.UserRole) (bool, error)
 }
 
 // userGroupRepository implements the UserGroupRepositoryInterface.
@@ -44,12 +47,18 @@ func NewUserGroupRepository(d *data.Data) UserGroupRepositoryInterface {
 
 // Create create user group
 func (r *userGroupRepository) Create(ctx context.Context, body *structs.UserGroup) (*ent.UserGroup, error) {
-
 	// create builder.
 	builder := r.ec.UserGroup.Create()
 	// set values.
-	builder.SetNillableUserID(&body.UserID)
-	builder.SetNillableGroupID(&body.GroupID)
+	builder.SetUserID(body.UserID)
+	builder.SetGroupID(body.GroupID)
+
+	// Set role if provided
+	if body.Role != "" {
+		builder.SetRole(string(body.Role))
+	} else {
+		builder.SetRole(string(structs.RoleMember)) // Default role
+	}
 
 	// execute the builder.
 	row, err := builder.Save(ctx)
@@ -61,19 +70,19 @@ func (r *userGroupRepository) Create(ctx context.Context, body *structs.UserGrou
 	return row, nil
 }
 
-// GetByUserID find group by user id
-func (r *userGroupRepository) GetByUserID(ctx context.Context, id string) (*ent.UserGroup, error) {
+// GetByUserID find groups by user id
+func (r *userGroupRepository) GetByUserID(ctx context.Context, id string) ([]*ent.UserGroup, error) {
 	// create builder.
 	builder := r.ec.UserGroup.Query()
 	// set conditions.
 	builder.Where(userGroupEnt.UserIDEQ(id))
 	// execute the builder.
-	row, err := builder.Only(ctx)
+	rows, err := builder.All(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "userGroupRepo.GetProfile error: %v", err)
+		logger.Errorf(ctx, "userGroupRepo.GetByUserID error: %v", err)
 		return nil, err
 	}
-	return row, nil
+	return rows, nil
 }
 
 // GetByUserIDs find groups by user ids
@@ -91,22 +100,22 @@ func (r *userGroupRepository) GetByUserIDs(ctx context.Context, ids []string) ([
 	return rows, nil
 }
 
-// GetByGroupID find group by group id
-func (r *userGroupRepository) GetByGroupID(ctx context.Context, id string) (*ent.UserGroup, error) {
+// GetByGroupID find users by group id
+func (r *userGroupRepository) GetByGroupID(ctx context.Context, id string) ([]*ent.UserGroup, error) {
 	// create builder.
 	builder := r.ec.UserGroup.Query()
 	// set conditions.
 	builder.Where(userGroupEnt.GroupIDEQ(id))
 	// execute the builder.
-	row, err := builder.Only(ctx)
+	rows, err := builder.All(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "userGroupRepo.GetProfile error: %v", err)
+		logger.Errorf(ctx, "userGroupRepo.GetByGroupID error: %v", err)
 		return nil, err
 	}
-	return row, nil
+	return rows, nil
 }
 
-// GetByGroupIDs find groups by group ids
+// GetByGroupIDs find users by group ids
 func (r *userGroupRepository) GetByGroupIDs(ctx context.Context, ids []string) ([]*ent.UserGroup, error) {
 	// create builder.
 	builder := r.ec.UserGroup.Query()
@@ -121,16 +130,52 @@ func (r *userGroupRepository) GetByGroupIDs(ctx context.Context, ids []string) (
 	return rows, nil
 }
 
+// GetByGroupIDAndRole find users by group id and role
+func (r *userGroupRepository) GetByGroupIDAndRole(ctx context.Context, id string, role structs.UserRole) ([]*ent.UserGroup, error) {
+	// create builder.
+	builder := r.ec.UserGroup.Query()
+	// set conditions.
+	builder.Where(
+		userGroupEnt.GroupIDEQ(id),
+		userGroupEnt.RoleEQ(string(role)),
+	)
+	// execute the builder.
+	rows, err := builder.All(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "userGroupRepo.GetByGroupIDAndRole error: %v", err)
+		return nil, err
+	}
+	return rows, nil
+}
+
+// GetUserGroup gets a specific user-group relation
+func (r *userGroupRepository) GetUserGroup(ctx context.Context, uid, gid string) (*ent.UserGroup, error) {
+	// create builder.
+	builder := r.ec.UserGroup.Query()
+	// set conditions.
+	builder.Where(
+		userGroupEnt.UserIDEQ(uid),
+		userGroupEnt.GroupIDEQ(gid),
+	)
+	// execute the builder.
+	row, err := builder.Only(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "userGroupRepo.GetUserGroup error: %v", err)
+		return nil, err
+	}
+	return row, nil
+}
+
 // Delete delete user group
 func (r *userGroupRepository) Delete(ctx context.Context, uid, gid string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.UserIDEQ(uid), userGroupEnt.GroupIDEQ(gid)).Exec(ctx); err != nil {
-		logger.Errorf(ctx, "userGroupRepo.DeleteByUserID error: %v", err)
+		logger.Errorf(ctx, "userGroupRepo.Delete error: %v", err)
 		return err
 	}
 	return nil
 }
 
-// DeleteAllByUserID delete all user group
+// DeleteAllByUserID delete all user group by user id
 func (r *userGroupRepository) DeleteAllByUserID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.UserIDEQ(id)).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "userGroupRepo.DeleteAllByUserID error: %v", err)
@@ -139,7 +184,7 @@ func (r *userGroupRepository) DeleteAllByUserID(ctx context.Context, id string) 
 	return nil
 }
 
-// DeleteAllByGroupID delete all user group
+// DeleteAllByGroupID delete all user group by group id
 func (r *userGroupRepository) DeleteAllByGroupID(ctx context.Context, id string) error {
 	if _, err := r.ec.UserGroup.Delete().Where(userGroupEnt.GroupIDEQ(id)).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "userGroupRepo.DeleteAllByGroupID error: %v", err)
@@ -183,6 +228,20 @@ func (r *userGroupRepository) IsUserInGroup(ctx context.Context, userID string, 
 	count, err := r.ec.UserGroup.Query().Where(userGroupEnt.UserIDEQ(userID), userGroupEnt.GroupIDEQ(groupID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userGroupRepo.IsUserInGroup error: %v", err)
+		return false, err
+	}
+	return count > 0, nil
+}
+
+// UserHasRole verifies if a user has a specific role in a group.
+func (r *userGroupRepository) UserHasRole(ctx context.Context, userID string, groupID string, role structs.UserRole) (bool, error) {
+	count, err := r.ec.UserGroup.Query().Where(
+		userGroupEnt.UserIDEQ(userID),
+		userGroupEnt.GroupIDEQ(groupID),
+		userGroupEnt.RoleEQ(string(role)),
+	).Count(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "userGroupRepo.UserHasRole error: %v", err)
 		return false, err
 	}
 	return count > 0, nil
