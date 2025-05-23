@@ -20,13 +20,12 @@ import (
 )
 
 var (
-	name             = "payment"
-	desc             = "Payment module for supporting multiple payment channels and subscriptions"
-	version          = "1.0.0"
-	dependencies     = []string{"user", "tenant"}
-	typeStr          = "module"
-	group            = "pay"
-	enabledDiscovery = false
+	name         = "payment"
+	desc         = "Payment module for supporting multiple payment channels and subscriptions"
+	version      = "1.0.0"
+	dependencies = []string{"user", "tenant"}
+	typeStr      = "module"
+	group        = "pay"
 )
 
 // Module represents the payment module.
@@ -211,23 +210,12 @@ func (m *Module) GetServices() ext.Service {
 	return m.s
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	// Cleanup any resources here
-	return nil
-}
-
 // Cleanup cleans up the module
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
 		m.cleanup(m.Name())
 	}
 	return nil
-}
-
-// Status returns the status of the module
-func (m *Module) Status() string {
-	return ext.StatusActive
 }
 
 // GetMetadata returns the metadata of the module
@@ -252,11 +240,6 @@ func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
-}
-
 // Description returns the description of the module
 func (m *Module) Description() string {
 	return desc
@@ -270,11 +253,6 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

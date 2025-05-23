@@ -20,13 +20,12 @@ import (
 )
 
 var (
-	name             = "resource"
-	desc             = "Resource module"
-	version          = "1.0.0"
-	dependencies     []string
-	typeStr          = "module"
-	group            = "res"
-	enabledDiscovery = false
+	name         = "resource"
+	desc         = "Resource module"
+	version      = "1.0.0"
+	dependencies []string
+	typeStr      = "module"
+	group        = "res"
 )
 
 // Module represents the resource module
@@ -194,12 +193,6 @@ func (m *Module) GetServices() ext.Service {
 	return m.s
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	// Implement any pre-cleanup logic here
-	return nil
-}
-
 // Cleanup cleans up the module
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
@@ -220,12 +213,6 @@ func (m *Module) GetMetadata() ext.Metadata {
 	}
 }
 
-// Status returns the status of the module
-func (m *Module) Status() string {
-	// Implement logic to check the module status
-	return "active"
-}
-
 // Version returns the version of the module
 func (m *Module) Version() string {
 	return version
@@ -234,11 +221,6 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
-}
-
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
 }
 
 // Description returns the description of the module
@@ -312,11 +294,6 @@ func (m *Module) handleQuotaExceeded(data any) {
 		eventData.TenantID, eventData.UsagePercent, eventData.CurrentUsage, eventData.Quota)
 
 	// In a real implementation, you might send urgent notifications or implement cleanup procedures
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

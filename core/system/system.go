@@ -56,12 +56,6 @@ func New() ext.Interface {
 	return &Module{}
 }
 
-// PreInit performs any necessary setup before initialization
-func (m *Module) PreInit() error {
-	// Implement any pre-initialization logic here
-	return nil
-}
-
 // Init initializes the system module with the given config object
 func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	m.mu.Lock()
@@ -111,48 +105,57 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Menu endpoints
 	menus := sysGroup.Group("/menus")
 	{
+		// Basic menu access - all authenticated users
 		menus.GET("", m.h.Menu.List)
-		menus.POST("", m.h.Menu.Create)
-		menus.PUT("", m.h.Menu.Update)
-		menus.GET("/:slug", m.h.Menu.Get)
-		menus.DELETE("/:slug", m.h.Menu.Delete)
-		menus.GET("/slug/:slug", m.h.Menu.GetBySlug)
 		menus.GET("/tree", m.h.Menu.GetDefaultMenuTree)
 		menus.GET("/authorized/:user_id", m.h.Menu.GetUserAuthorizedMenus)
-		menus.PUT("/:id/move", m.h.Menu.MoveMenu)
-		menus.POST("/reorder", m.h.Menu.ReorderMenus)
-		menus.PUT("/:id/enable", m.h.Menu.EnableMenu)
-		menus.PUT("/:id/disable", m.h.Menu.DisableMenu)
-		menus.PUT("/:id/show", m.h.Menu.ShowMenu)
-		menus.PUT("/:id/hide", m.h.Menu.HideMenu)
+		menus.GET("/:slug", m.h.Menu.Get)
+		menus.GET("/slug/:slug", m.h.Menu.GetBySlug)
+
+		// Menu management - requires specific permission
+		menus.POST("", middleware.HasPermission("manage:menu"), m.h.Menu.Create)
+		menus.PUT("", middleware.HasPermission("manage:menu"), m.h.Menu.Update)
+		menus.DELETE("/:slug", middleware.HasPermission("manage:menu"), m.h.Menu.Delete)
+		menus.PUT("/:id/move", middleware.HasPermission("manage:menu"), m.h.Menu.MoveMenu)
+		menus.POST("/reorder", middleware.HasPermission("manage:menu"), m.h.Menu.ReorderMenus)
+		menus.PUT("/:id/enable", middleware.HasPermission("manage:menu"), m.h.Menu.EnableMenu)
+		menus.PUT("/:id/disable", middleware.HasPermission("manage:menu"), m.h.Menu.DisableMenu)
+		menus.PUT("/:id/show", middleware.HasPermission("manage:menu"), m.h.Menu.ShowMenu)
+		menus.PUT("/:id/hide", middleware.HasPermission("manage:menu"), m.h.Menu.HideMenu)
 	}
 
 	// Dictionary endpoints
 	dictionaries := sysGroup.Group("/dictionaries")
 	{
+		// Basic dictionary access
 		dictionaries.GET("", m.h.Dictionary.List)
-		dictionaries.POST("", m.h.Dictionary.Create)
-		dictionaries.PUT("", m.h.Dictionary.Update)
 		dictionaries.GET("/:slug", m.h.Dictionary.Get)
-		dictionaries.DELETE("/:slug", m.h.Dictionary.Delete)
 		dictionaries.GET("/slug/:slug", m.h.Dictionary.GetBySlug)
 		dictionaries.GET("/options/:slug", m.h.Dictionary.GetEnumOptions)
 		dictionaries.GET("/validate/:slug", m.h.Dictionary.ValidateEnumValue)
 		dictionaries.POST("/batch", m.h.Dictionary.BatchGetBySlug)
+
+		// Dictionary management
+		dictionaries.POST("", middleware.HasPermission("manage:dictionary"), m.h.Dictionary.Create)
+		dictionaries.PUT("", middleware.HasPermission("manage:dictionary"), m.h.Dictionary.Update)
+		dictionaries.DELETE("/:slug", middleware.HasPermission("manage:dictionary"), m.h.Dictionary.Delete)
 	}
 
 	// Options endpoints
 	options := sysGroup.Group("/options")
 	{
+		// Basic options access
 		options.GET("", m.h.Options.List)
-		options.POST("", m.h.Options.Create)
-		options.PUT("", m.h.Options.Update)
 		options.GET("/:option", m.h.Options.Get)
-		options.DELETE("/:option", m.h.Options.Delete)
 		options.GET("/name/:name", m.h.Options.GetByName)
 		options.GET("/type/:type", m.h.Options.GetByType)
 		options.POST("/batch", m.h.Options.BatchGetByNames)
-		options.DELETE("/prefix", m.h.Options.DeleteByPrefix)
+
+		// Options management - requires system management permission
+		options.POST("", middleware.HasPermission("manage:system"), m.h.Options.Create)
+		options.PUT("", middleware.HasPermission("manage:system"), m.h.Options.Update)
+		options.DELETE("/:option", middleware.HasPermission("manage:system"), m.h.Options.Delete)
+		options.DELETE("/prefix", middleware.HasPermission("manage:system"), m.h.Options.DeleteByPrefix)
 	}
 }
 
@@ -164,12 +167,6 @@ func (m *Module) GetHandlers() ext.Handler {
 // GetServices returns the services for the module
 func (m *Module) GetServices() ext.Service {
 	return m.s
-}
-
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	// Implement any pre-cleanup logic here
-	return nil
 }
 
 // Cleanup cleans up the module

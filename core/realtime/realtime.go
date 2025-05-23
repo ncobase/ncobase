@@ -16,13 +16,12 @@ import (
 )
 
 var (
-	name             = "realtime"
-	desc             = "Real-time event and notification module"
-	version          = "1.0.0"
-	dependencies     []string
-	typeStr          = "module"
-	group            = "rt"
-	enabledDiscovery = false
+	name         = "realtime"
+	desc         = "Real-time event and notification module"
+	version      = "1.0.0"
+	dependencies []string
+	typeStr      = "module"
+	group        = "rt"
 )
 
 // Module represents the realtime module
@@ -159,22 +158,12 @@ func (m *Module) GetServices() ext.Service {
 	return m.s
 }
 
-// PreCleanup performs necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	return nil
-}
-
 // Cleanup cleans up resources
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
 		m.cleanup(m.Name())
 	}
 	return nil
-}
-
-// Status returns the module status
-func (m *Module) Status() string {
-	return "active"
 }
 
 // GetMetadata returns module metadata
@@ -199,11 +188,6 @@ func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
-}
-
 // Description returns the module description
 func (m *Module) Description() string {
 	return desc
@@ -217,11 +201,6 @@ func (m *Module) Type() string {
 // Group returns the module group
 func (m *Module) Group() string {
 	return group
-}
-
-// NeedServiceDiscovery returns if service discovery is needed
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service discovery info

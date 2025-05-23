@@ -16,13 +16,12 @@ import (
 )
 
 var (
-	name             = "access"
-	desc             = "Access module"
-	version          = "1.0.0"
-	dependencies     []string
-	typeStr          = "module"
-	group            = "iam"
-	enabledDiscovery = false
+	name         = "access"
+	desc         = "Access module"
+	version      = "1.0.0"
+	dependencies []string
+	typeStr      = "module"
+	group        = "iam"
 )
 
 // Module represents the access module.
@@ -56,12 +55,6 @@ func init() {
 // New creates a new instance of the access module.
 func New() ext.Interface {
 	return &Module{}
-}
-
-// PreInit performs any necessary setup before initialization
-func (m *Module) PreInit() error {
-	// Implement any pre-initialization logic here
-	return nil
 }
 
 // Init initializes the access module with the given config object
@@ -111,19 +104,19 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
 	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
 
-	// Role endpoints with permission requirements
+	// Role endpoints - graduated permissions
 	roles := r.Group("/roles")
 	{
 		roles.GET("", middleware.HasPermission("read:role"), m.h.Role.List)
-		roles.POST("", middleware.HasPermission("create:role"), m.h.Role.Create)
+		roles.POST("", middleware.HasPermission("manage:role"), m.h.Role.Create)
 		roles.GET("/:slug", middleware.HasPermission("read:role"), m.h.Role.Get)
-		roles.PUT("/:slug", middleware.HasPermission("update:role"), m.h.Role.Update)
-		roles.DELETE("/:slug", middleware.HasPermission("delete:role"), m.h.Role.Delete)
-		roles.GET("/:slug/permissions", middleware.HasPermission("read:role_permission"), m.h.RolePermission.ListRolePermission)
+		roles.PUT("/:slug", middleware.HasPermission("manage:role"), m.h.Role.Update)
+		roles.DELETE("/:slug", middleware.HasPermission("manage:role"), m.h.Role.Delete)
+		roles.GET("/:slug/permissions", middleware.HasPermission("read:role"), m.h.RolePermission.ListRolePermission)
 	}
 
-	// Permission endpoints with specific role requirement
-	permissions := r.Group("/permissions", middleware.HasRole("admin"))
+	// Permission endpoints - admin only
+	permissions := r.Group("/permissions", middleware.HasAnyRole("super-admin", "system-admin"))
 	{
 		permissions.GET("", m.h.Permission.List)
 		permissions.POST("", m.h.Permission.Create)
@@ -132,7 +125,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		permissions.DELETE("/:slug", m.h.Permission.Delete)
 	}
 
-	// Casbin Rule endpoints with admin role requirement
+	// Policy endpoints - super admin only
 	policies := r.Group("/policies", middleware.HasRole("super-admin"))
 	{
 		policies.GET("", m.h.Casbin.List)
@@ -153,23 +146,12 @@ func (m *Module) GetServices() ext.Service {
 	return m.s
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	// Implement any pre-cleanup logic here
-	return nil
-}
-
 // Cleanup cleans up the module
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
 		m.cleanup(m.Name())
 	}
 	return nil
-}
-
-// Status returns the status of the module
-func (m *Module) Status() string {
-	return "active"
 }
 
 // GetMetadata returns the metadata of the module
@@ -194,11 +176,6 @@ func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
-}
-
 // Description returns the description of the module
 func (m *Module) Description() string {
 	return desc
@@ -212,11 +189,6 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

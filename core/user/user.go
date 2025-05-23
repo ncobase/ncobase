@@ -16,13 +16,12 @@ import (
 )
 
 var (
-	name             = "user"
-	desc             = "User module"
-	version          = "1.0.0"
-	dependencies     []string
-	typeStr          = "module"
-	group            = "sys"
-	enabledDiscovery = false
+	name         = "user"
+	desc         = "User module"
+	version      = "1.0.0"
+	dependencies []string
+	typeStr      = "module"
+	group        = "sys"
 )
 
 // Module represents the user module.
@@ -56,12 +55,6 @@ func init() {
 // New creates a new instance of the user module.
 func New() ext.Interface {
 	return &Module{}
-}
-
-// PreInit performs any necessary setup before initialization
-func (m *Module) PreInit() error {
-	// Implement any pre-initialization logic here
-	return nil
 }
 
 // Init initializes the user module with the given config object
@@ -111,26 +104,28 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// User endpoints
 	users := r.Group("/users")
 	{
-		users.GET("", m.h.User.List)
-		users.POST("", m.h.User.Create)
-		users.GET("/:username", m.h.User.Get)
-		users.PUT("/:username", m.h.User.Update)
-		users.DELETE("/:username", m.h.User.Delete)
-		users.PUT("/:username/password", m.h.User.UpdatePassword)
-		users.GET("/:username/profile", m.h.UserProfile.Get)
-		users.PUT("/:username/profile", m.h.UserProfile.Update)
+		users.GET("", middleware.HasPermission("read:user"), m.h.User.List)
+		users.POST("", middleware.HasPermission("create:user"), m.h.User.Create)
+		users.GET("/:username", middleware.HasPermission("read:user"), m.h.User.Get)
+		users.PUT("/:username", middleware.HasPermission("update:user"), m.h.User.Update)
+		users.DELETE("/:username", middleware.HasPermission("delete:user"), m.h.User.Delete)
+		users.PUT("/:username/password", middleware.HasPermission("update:user"), m.h.User.UpdatePassword)
 
+		// Profile endpoints - more flexible permissions
+		users.GET("/:username/profile", middleware.HasAnyPermission("read:user", "manage:profile"), m.h.UserProfile.Get)
+		users.PUT("/:username/profile", middleware.HasAnyPermission("update:user", "manage:profile"), m.h.UserProfile.Update)
 	}
+
 	// Employee endpoints
 	employees := r.Group("/employees")
 	{
-		employees.GET("", m.h.Employee.List)
-		employees.POST("", m.h.Employee.Create)
-		employees.GET("/:user_id", m.h.Employee.Get)
-		employees.PUT("/:user_id", m.h.Employee.Update)
-		employees.DELETE("/:user_id", m.h.Employee.Delete)
-		employees.GET("/department/:department", m.h.Employee.GetByDepartment)
-		employees.GET("/manager/:manager_id", m.h.Employee.GetByManager)
+		employees.GET("", middleware.HasPermission("read:employee"), m.h.Employee.List)
+		employees.POST("", middleware.HasAnyPermission("create:employee", "manage:hr"), m.h.Employee.Create)
+		employees.GET("/:user_id", middleware.HasPermission("read:employee"), m.h.Employee.Get)
+		employees.PUT("/:user_id", middleware.HasAnyPermission("update:employee", "manage:hr"), m.h.Employee.Update)
+		employees.DELETE("/:user_id", middleware.HasPermission("manage:employee"), m.h.Employee.Delete)
+		employees.GET("/department/:department", middleware.HasPermission("read:employee"), m.h.Employee.GetByDepartment)
+		employees.GET("/manager/:manager_id", middleware.HasPermission("read:employee"), m.h.Employee.GetByManager)
 	}
 }
 
@@ -144,23 +139,12 @@ func (m *Module) GetServices() ext.Service {
 	return m.s
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	// Implement any pre-cleanup logic here
-	return nil
-}
-
 // Cleanup cleans up the module
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
 		m.cleanup(m.Name())
 	}
 	return nil
-}
-
-// Status returns the status of the module
-func (m *Module) Status() string {
-	return "active"
 }
 
 // GetMetadata returns the metadata of the module
@@ -185,11 +169,6 @@ func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
-}
-
 // Description returns the description of the module
 func (m *Module) Description() string {
 	return desc
@@ -203,11 +182,6 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

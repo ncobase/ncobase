@@ -17,13 +17,12 @@ import (
 )
 
 var (
-	name             = "workflow"
-	desc             = "Workflow module"
-	version          = "1.0.0"
-	dependencies     []string
-	typeStr          = "module"
-	group            = "flow"
-	enabledDiscovery = false
+	name         = "workflow"
+	desc         = "Workflow module"
+	version      = "1.0.0"
+	dependencies []string
+	typeStr      = "module"
+	group        = "flow"
 )
 
 // Module represents the workflow module.
@@ -155,11 +154,6 @@ func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
-}
-
 // Description returns the description of the module
 func (m *Module) Description() string {
 	return desc
@@ -173,11 +167,6 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

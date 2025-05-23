@@ -12,13 +12,12 @@ import (
 )
 
 var (
-	name             = "sample"
-	desc             = "Sample plugin"
-	version          = "1.0.0"
-	dependencies     []string
-	typeStr          = "plugin"
-	group            = "plug"
-	enabledDiscovery = false
+	name         = "sample"
+	desc         = "Sample plugin"
+	version      = "1.0.0"
+	dependencies []string
+	typeStr      = "plugin"
+	group        = "plug"
 )
 
 // Plugin represents the sample plugin
@@ -44,12 +43,6 @@ type discovery struct {
 // Name returns the name of the plugin
 func (p *Plugin) Name() string {
 	return name
-}
-
-// PreInit performs any necessary setup before initialization
-func (p *Plugin) PreInit() error {
-	// Implement any pre-initialization logic here
-	return nil
 }
 
 // Init initializes the plugin
@@ -105,12 +98,6 @@ func (p *Plugin) GetServices() ext.Service {
 	return nil
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (p *Plugin) PreCleanup() error {
-	// Implement any pre-cleanup logic here
-	return nil
-}
-
 // Cleanup cleans up the plugin
 func (p *Plugin) Cleanup() error {
 	if p.cleanup != nil {
@@ -131,12 +118,6 @@ func (p *Plugin) GetMetadata() ext.Metadata {
 	}
 }
 
-// Status returns the status of the plugin
-func (p *Plugin) Status() string {
-	// Implement logic to check the plugin status
-	return "active"
-}
-
 // Version returns the version of the plugin
 func (p *Plugin) Version() string {
 	return version
@@ -145,11 +126,6 @@ func (p *Plugin) Version() string {
 // Dependencies returns the dependencies of the plugin
 func (p *Plugin) Dependencies() []string {
 	return dependencies
-}
-
-// GetAllDependencies returns all dependencies with their types
-func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
 }
 
 // Description returns the description of the plugin
@@ -181,11 +157,6 @@ func init() {
 		Type:         typeStr,
 		Group:        group,
 	})
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (p *Plugin) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true

@@ -17,13 +17,12 @@ import (
 )
 
 var (
-	name             = "auth"
-	desc             = "Auth module"
-	version          = "1.0.0"
-	dependencies     = []string{"access", "tenant", "user"}
-	typeStr          = "module"
-	group            = "iam"
-	enabledDiscovery = false
+	name         = "auth"
+	desc         = "Auth module"
+	version      = "1.0.0"
+	dependencies = []string{"access", "tenant", "user"}
+	typeStr      = "module"
+	group        = "iam"
 )
 
 // Module represents the auth module.
@@ -57,12 +56,6 @@ func init() {
 // New creates a new instance of the auth module.
 func New() ext.Interface {
 	return &Module{}
-}
-
-// PreInit performs any necessary setup before initialization
-func (m *Module) PreInit() error {
-	// Implement any pre-initialization logic here
-	return nil
 }
 
 // Init initializes the auth module with the given config object
@@ -165,23 +158,12 @@ func (m *Module) GetServices() ext.Service {
 	return m.s
 }
 
-// PreCleanup performs any necessary cleanup before the main cleanup
-func (m *Module) PreCleanup() error {
-	// Implement any pre-cleanup logic here
-	return nil
-}
-
 // Cleanup cleans up the module
 func (m *Module) Cleanup() error {
 	if m.cleanup != nil {
 		m.cleanup(m.Name())
 	}
 	return nil
-}
-
-// Status returns the status of the module
-func (m *Module) Status() string {
-	return "active"
 }
 
 // GetMetadata returns the metadata of the module
@@ -206,11 +188,6 @@ func (m *Module) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
-func (m *Module) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{}
-}
-
 // Description returns the description of the module
 func (m *Module) Description() string {
 	return desc
@@ -224,11 +201,6 @@ func (m *Module) Type() string {
 // Group returns the domain group of the module belongs
 func (m *Module) Group() string {
 	return group
-}
-
-// NeedServiceDiscovery returns if the module needs to be registered as a service
-func (m *Module) NeedServiceDiscovery() bool {
-	return enabledDiscovery
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
