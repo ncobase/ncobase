@@ -34,7 +34,7 @@ type processDesignRepository struct {
 }
 
 func NewProcessDesignRepository(d *data.Data) ProcessDesignRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &processDesignRepository{

@@ -39,8 +39,8 @@ type taxonomyRelationsRepository struct {
 
 // NewTaxonomyRelationsRepository creates a new taxonomy relations repository.
 func NewTaxonomyRelationsRepository(d *data.Data) TaxonomyRelationsRepositoryInterface {
-	ec := d.GetEntClient()
-	ecr := d.GetEntClientRead()
+	ec := d.GetMasterEntClient()
+	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
 	return &taxonomyRelationsRepository{ec, ecr, rc, cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations")}
 }

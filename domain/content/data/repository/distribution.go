@@ -44,8 +44,8 @@ type distributionRepository struct {
 
 // NewDistributionRepository creates a new distribution repository.
 func NewDistributionRepository(d *data.Data) DistributionRepositoryInterface {
-	ec := d.GetEntClient()
-	ecr := d.GetEntClientRead()
+	ec := d.GetMasterEntClient()
+	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
 	return &distributionRepository{ec, ecr, rc, cache.NewCache[ent.Distribution](rc, "ncse_distribution")}
 }

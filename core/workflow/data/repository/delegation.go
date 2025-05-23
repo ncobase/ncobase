@@ -36,7 +36,7 @@ type delegationRepository struct {
 }
 
 func NewDelegationRepository(d *data.Data) DelegationRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &delegationRepository{

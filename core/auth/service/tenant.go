@@ -48,13 +48,15 @@ func (s *authTenantService) CreateInitialTenant(ctx context.Context, body *tenan
 	// Get or create the super admin role
 	superAdminRole, err := s.as.Role.Find(ctx, "super-admin")
 	if superAdminRole == nil {
-		// Super admin role does not exist, create it
-		superAdminRole, err = s.as.Role.CreateSuperAdminRole(ctx)
-		if err != nil {
-			return nil, err
+		// If 'super-admin' role not found, attempt to locate 'system-admin'
+		superAdminRole, err = s.as.Role.Find(ctx, "system-admin")
+		if superAdminRole == nil {
+			// Both roles not found - create new super admin role
+			superAdminRole, err = s.as.Role.CreateSuperAdminRole(ctx)
+			if err != nil {
+				return nil, err
+			}
 		}
-	} else if err != nil {
-		return nil, err
 	}
 
 	// Assign the user to the default tenant with the super admin role

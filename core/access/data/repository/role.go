@@ -41,7 +41,7 @@ type roleRepository struct {
 
 // NewRoleRepository creates a new role repository.
 func NewRoleRepository(d *data.Data) RoleRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &roleRepository{ec, rc, cache.NewCache[ent.Role](rc, "ncse_role")}
 }

@@ -35,7 +35,7 @@ type casbinRuleRepository struct {
 
 // NewCasbinRule creates a new Casbin rule repository.
 func NewCasbinRule(d *data.Data) CasbinRuleRepositoryInterface {
-	return &casbinRuleRepository{ec: d.GetEntClient()}
+	return &casbinRuleRepository{ec: d.GetMasterEntClient()}
 }
 
 // Create creates a new Casbin rule.

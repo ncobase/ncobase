@@ -44,8 +44,8 @@ type topicRepository struct {
 
 // NewTopicRepository creates a new topic repository.
 func NewTopicRepository(d *data.Data) TopicRepositoryInterface {
-	ec := d.GetEntClient()
-	ecr := d.GetEntClientRead()
+	ec := d.GetMasterEntClient()
+	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &topicRepository{ec, ecr, rc, ms, cache.NewCache[ent.Topic](rc, "ncse_topic")}

@@ -43,7 +43,7 @@ type processRepository struct {
 }
 
 func NewProcessRepository(d *data.Data) ProcessRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &processRepository{

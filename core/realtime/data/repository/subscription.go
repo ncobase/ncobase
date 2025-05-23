@@ -45,7 +45,7 @@ type subscriptionRepository struct {
 
 func NewSubscriptionRepository(d *data.Data) SubscriptionRepositoryInterface {
 	return &subscriptionRepository{
-		ec: d.GetEntClient(),
+		ec: d.GetMasterEntClient(),
 		rc: d.GetRedis(),
 		c:  cache.NewCache[ent.Subscription](d.GetRedis(), "rt_subscription"),
 	}

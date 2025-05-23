@@ -41,8 +41,8 @@ type topicMediaRepository struct {
 
 // NewTopicMediaRepository creates a new topic media repository.
 func NewTopicMediaRepository(d *data.Data) TopicMediaRepositoryInterface {
-	ec := d.GetEntClient()
-	ecr := d.GetEntClientRead()
+	ec := d.GetMasterEntClient()
+	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
 	return &topicMediaRepository{ec, ecr, rc, cache.NewCache[ent.TopicMedia](rc, "ncse_topic_media")}
 }

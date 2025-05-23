@@ -36,7 +36,7 @@ type templateRepository struct {
 }
 
 func NewTemplateRepository(d *data.Data) TemplateRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &templateRepository{

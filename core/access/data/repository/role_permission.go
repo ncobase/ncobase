@@ -40,7 +40,7 @@ type rolePermissionRepository struct {
 
 // NewRolePermissionRepository creates a new role permission repository.
 func NewRolePermissionRepository(d *data.Data) RolePermissionRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &rolePermissionRepository{ec, rc, cache.NewCache[ent.RolePermission](rc, "ncse_group_role")}
 }

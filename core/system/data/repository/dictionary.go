@@ -37,7 +37,7 @@ type dictionaryRepository struct {
 
 // NewDictionaryRepository creates a new dictionary repository.
 func NewDictionaryRepository(d *data.Data) DictionaryRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &dictionaryRepository{

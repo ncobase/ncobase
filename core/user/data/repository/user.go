@@ -44,7 +44,7 @@ type userRepository struct {
 
 // NewUserRepository creates a new user repository.
 func NewUserRepository(d *data.Data) UserRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &userRepository{ec, rc, cache.NewCache[ent.User](rc, "ncse_user")}
 }

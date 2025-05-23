@@ -49,7 +49,7 @@ func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, as *accessService.S
 
 // CodeAuth code auth service
 func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSON, error) {
-	client := s.d.GetEntClient()
+	client := s.d.GetMasterEntClient()
 
 	codeAuth, err := client.CodeAuth.Query().Where(codeAuthEnt.CodeEQ(code)).Only(ctx)
 	if err = handleEntError(ctx, "Code", err); err != nil {
@@ -106,7 +106,7 @@ func isCodeExpired(createdAt int64) bool {
 
 // SendCode send code service
 func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBody) (*types.JSON, error) {
-	client := s.d.GetEntClient()
+	client := s.d.GetMasterEntClient()
 
 	user, _ := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: body.Email, Phone: body.Phone})
 	tx, err := client.Tx(ctx)

@@ -40,7 +40,7 @@ type transformerRepository struct {
 
 // NewTransformerRepository creates a new transformer repository.
 func NewTransformerRepository(d *data.Data) TransformerRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &transformerRepository{ec, rc, cache.NewCache[ent.Transformer](rc, "ncse_proxy_transformer")}
 }

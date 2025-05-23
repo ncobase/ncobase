@@ -34,7 +34,7 @@ type logRepository struct {
 
 // NewLogRepository creates a new log repository.
 func NewLogRepository(d *data.Data) LogRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	return &logRepository{ec}
 }
 

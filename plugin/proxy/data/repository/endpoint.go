@@ -40,7 +40,7 @@ type endpointRepository struct {
 
 // NewEndpointRepository creates a new endpoint repository.
 func NewEndpointRepository(d *data.Data) EndpointRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &endpointRepository{ec, rc, cache.NewCache[ent.Endpoint](rc, "ncse_proxy_endpoint")}
 }

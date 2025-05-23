@@ -43,7 +43,7 @@ type notificationRepository struct {
 }
 
 func NewNotificationRepository(d *data.Data) NotificationRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &notificationRepository{
 		ec: ec,

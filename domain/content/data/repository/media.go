@@ -41,8 +41,8 @@ type mediaRepository struct {
 
 // NewMediaRepository creates a new media repository.
 func NewMediaRepository(d *data.Data) MediaRepositoryInterface {
-	ec := d.GetEntClient()
-	ecr := d.GetEntClientRead()
+	ec := d.GetMasterEntClient()
+	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
 	return &mediaRepository{ec, ecr, rc, cache.NewCache[ent.Media](rc, "ncse_media")}
 }

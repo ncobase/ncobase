@@ -44,7 +44,7 @@ type eventRepository struct {
 
 func NewEventRepository(d *data.Data) EventRepositoryInterface {
 	return &eventRepository{
-		ec: d.GetEntClient(),
+		ec: d.GetMasterEntClient(),
 		rc: d.GetRedis(),
 		c:  cache.NewCache[ent.Event](d.GetRedis(), "rt_event"),
 	}

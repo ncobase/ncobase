@@ -39,7 +39,7 @@ type menuRepository struct {
 
 // NewMenuRepository creates a new menu repository.
 func NewMenuRepository(d *data.Data) MenuRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &menuRepository{

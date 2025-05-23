@@ -35,7 +35,7 @@ type businessRepository struct {
 }
 
 func NewBusinessRepository(d *data.Data) BusinessRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &businessRepository{

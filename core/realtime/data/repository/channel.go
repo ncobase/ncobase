@@ -46,7 +46,7 @@ type channelRepository struct {
 
 func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
 	return &channelRepository{
-		ec: d.GetEntClient(),
+		ec: d.GetMasterEntClient(),
 		rc: d.GetRedis(),
 		c:  cache.NewCache[ent.RTChannel](d.GetRedis(), "rt_channel"),
 	}

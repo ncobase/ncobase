@@ -45,7 +45,7 @@ type groupRepository struct {
 
 // NewGroupRepository creates a new group repository.
 func NewGroupRepository(d *data.Data) GroupRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &groupRepository{ec, rc, cache.NewCache[ent.Group](rc, "ncse_group")}
 }

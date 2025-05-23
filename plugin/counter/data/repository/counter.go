@@ -43,7 +43,7 @@ type counterRepository struct {
 
 // NewCounterRepository creates a new counter repository.
 func NewCounterRepository(d *data.Data) CounterRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &counterRepository{ec, rc, ms, cache.NewCache[ent.Counter](rc, "ncse_counter")}

@@ -37,7 +37,7 @@ type optionsRepository struct {
 
 // NewOptionsRepository creates a new options repository.
 func NewOptionsRepository(d *data.Data) OptionsRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &optionsRepository{

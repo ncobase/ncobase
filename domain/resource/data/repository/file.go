@@ -48,8 +48,8 @@ type fileRepostory struct {
 
 // NewFileRepository creates a new file repository.
 func NewFileRepository(d *data.Data) FileRepositoryInterface {
-	ec := d.GetEntClient()
-	ecr := d.GetEntClientRead()
+	ec := d.GetMasterEntClient()
+	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &fileRepostory{ec, ecr, rc, ms, cache.NewCache[ent.File](rc, "ncse_file")}

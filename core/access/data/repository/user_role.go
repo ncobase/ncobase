@@ -39,7 +39,7 @@ type userRoleRepository struct {
 
 // NewUserRoleRepository creates a new user role repository.
 func NewUserRoleRepository(d *data.Data) UserRoleRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &userRoleRepository{ec, rc, cache.NewCache[ent.UserRole](rc, "ncse_user_role")}
 }

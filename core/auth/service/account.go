@@ -58,7 +58,7 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, cas CodeAuthServiceI
 
 // Login login service
 func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error) {
-	client := s.d.GetEntClient()
+	client := s.d.GetMasterEntClient()
 
 	user, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
 	if err = handleEntError(ctx, "User", err); err != nil {
@@ -119,7 +119,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 
 // RefreshToken refreshes the access token using a refresh token
 func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) (*types.JSON, error) {
-	client := s.d.GetEntClient()
+	client := s.d.GetMasterEntClient()
 
 	// Verify the refresh token
 	payload, err := s.jtm.DecodeToken(refreshToken)
@@ -201,7 +201,7 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 
 // Register register service
 func (s *accountService) Register(ctx context.Context, body *structs.RegisterBody) (*types.JSON, error) {
-	client := s.d.GetEntClient()
+	client := s.d.GetMasterEntClient()
 
 	// Decode register token
 	payload, err := decodeRegisterToken(s.jtm, body.RegisterToken)

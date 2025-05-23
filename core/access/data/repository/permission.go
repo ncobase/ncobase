@@ -41,7 +41,7 @@ type permissionRepository struct {
 
 // NewPermissionRepository creates a new permission repository.
 func NewPermissionRepository(d *data.Data) PermissionRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &permissionRepository{ec, rc, cache.NewCache[ent.Permission](rc, "ncse_permission")}
 }

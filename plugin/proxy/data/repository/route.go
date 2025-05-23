@@ -41,7 +41,7 @@ type routeRepository struct {
 
 // NewRouteRepository creates a new route repository.
 func NewRouteRepository(d *data.Data) RouteRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &routeRepository{ec, rc, cache.NewCache[ent.Route](rc, "ncse_proxy_route")}
 }

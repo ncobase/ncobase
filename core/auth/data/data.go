@@ -30,27 +30,35 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 		return nil, nil, err
 	}
 
-	// get master connection, create ent client
-	masterDB := d.DB()
+	ctx := context.Background()
+
+	// get master connection
+	masterDB := d.GetMasterDB()
 	if masterDB == nil {
-		return nil, nil, err
+		return nil, cleanup, fmt.Errorf("master database connection is nil")
 	}
-	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate, conf.Environment) // master support migration
+
+	// create master ent client (supports migration)
+	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate, conf.Environment)
 	if err != nil {
-		return nil, nil, err
+		return nil, cleanup, fmt.Errorf("failed to create master ent client: %v", err)
 	}
 
-	// get slave connection, create ent client
+	// get read connection
 	var entClientRead *ent.Client
-	if readDB, err := d.DBRead(); err == nil && readDB != nil {
-		entClientRead, err = newEntClient(readDB, conf.Database.Master, false, conf.Environment) // slave does not support migration
-		if err != nil {
-			logger.Warnf(context.Background(), "Failed to create read-only ent client: %v", err)
+	if readDB, err := d.GetSlaveDB(); err == nil && readDB != nil {
+		if readDB != masterDB {
+			entClientRead, err = newEntClient(readDB, conf.Database.Master, false, conf.Environment) // slave does not support migration
+			if err != nil {
+				logger.Warnf(ctx, "Failed to create read-only ent client, will use master for reads: %v", err)
+				entClientRead = entClient // fallback to master
+			}
+		} else {
+			// Read DB is the same as master (no slaves available)
+			entClientRead = entClient
 		}
-	}
-
-	// no slave, use master
-	if entClientRead == nil {
+	} else {
+		// Failed to get read DB, use master
 		entClientRead = entClient
 	}
 
@@ -88,37 +96,64 @@ func newEntClient(db *sql.DB, conf *config.DBNode, enableMigrate bool, env ...st
 			migrateOpts = append(migrateOpts, migrate.WithDropIndex(true), migrate.WithDropColumn(true))
 		}
 		if err := client.Schema.Create(context.Background(), migrateOpts...); err != nil {
-			return nil, err
+			return nil, fmt.Errorf("failed to migrate database schema: %v", err)
 		}
 	}
 
 	return client, nil
 }
 
-// GetEntClient get master ent client for write operations
-func (d *Data) GetEntClient() *ent.Client {
+// GetMasterEntClient get master ent client for write operations
+func (d *Data) GetMasterEntClient() *ent.Client {
 	return d.EC
 }
 
-// GetEntClientRead get slave ent client for read operations
-func (d *Data) GetEntClientRead() *ent.Client {
+// GetSlaveEntClient get slave ent client for read operations
+func (d *Data) GetSlaveEntClient() *ent.Client {
 	if d.ECRead != nil {
 		return d.ECRead
 	}
-	return d.EC // Downgrade, use master
+	return d.EC // Fallback to master
+}
+
+// GetEntClientWithFallback returns the appropriate ent client based on operation type
+func (d *Data) GetEntClientWithFallback(ctx context.Context, readOnly ...bool) *ent.Client {
+	isReadOnly := false
+	if len(readOnly) > 0 {
+		isReadOnly = readOnly[0]
+	}
+
+	if !isReadOnly {
+		// For write operations, always use master
+		return d.GetMasterEntClient()
+	}
+
+	// For read operations, try read client first
+	if d.ECRead != nil && d.ECRead != d.EC {
+		// We have a separate read client, use it
+		return d.ECRead
+	}
+
+	// Check if system is in read-only mode
+	if d.IsReadOnlyMode(ctx) {
+		logger.Warnf(ctx, "System is in read-only mode, using available read connection")
+	}
+
+	// Fallback to master
+	return d.EC
 }
 
 // Close closes all the resources in Data and returns any errors encountered.
 func (d *Data) Close() (errs []error) {
 	if d.EC != nil {
 		if err := d.EC.Close(); err != nil {
-			errs = append(errs, err)
+			errs = append(errs, fmt.Errorf("failed to close master ent client: %v", err))
 		}
 	}
 
 	if d.ECRead != nil && d.ECRead != d.EC {
 		if err := d.ECRead.Close(); err != nil {
-			errs = append(errs, err)
+			errs = append(errs, fmt.Errorf("failed to close read ent client: %v", err))
 		}
 	}
 
@@ -140,13 +175,14 @@ func (d *Data) GetEntTx(ctx context.Context) (*ent.Tx, error) {
 
 // WithEntTx wraps a function within an ent transaction for write operations
 func (d *Data) WithEntTx(ctx context.Context, fn func(ctx context.Context, tx *ent.Tx) error) error {
-	if d.EC == nil {
+	client := d.GetEntClientWithFallback(ctx)
+	if client == nil {
 		return fmt.Errorf("ent client is nil")
 	}
 
 	tx, err := d.EC.Tx(ctx)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to begin transaction: %v", err)
 	}
 
 	err = fn(context.WithValue(ctx, "entTx", tx), tx)
@@ -162,14 +198,14 @@ func (d *Data) WithEntTx(ctx context.Context, fn func(ctx context.Context, tx *e
 
 // WithEntTxRead wraps a function within an ent transaction for read-only operations
 func (d *Data) WithEntTxRead(ctx context.Context, fn func(ctx context.Context, tx *ent.Tx) error) error {
-	client := d.GetEntClientRead()
+	client := d.GetEntClientWithFallback(ctx, true)
 	if client == nil {
 		return fmt.Errorf("ent read client is nil")
 	}
 
 	tx, err := client.Tx(ctx)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to begin read transaction: %v", err)
 	}
 
 	err = fn(context.WithValue(ctx, "entTx", tx), tx)

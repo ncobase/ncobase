@@ -43,8 +43,8 @@ type channelRepository struct {
 
 // NewChannelRepository creates a new channel repository.
 func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
-	ec := d.GetEntClient()
-	ecr := d.GetEntClientRead()
+	ec := d.GetMasterEntClient()
+	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
 	return &channelRepository{ec, ecr, rc, cache.NewCache[ent.CMSChannel](rc, "ncse_channel")}
 }

@@ -39,7 +39,7 @@ type groupRoleRepository struct {
 
 // NewGroupRoleRepository creates a new group role repository.
 func NewGroupRoleRepository(d *data.Data) GroupRoleRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &groupRoleRepository{ec, rc, cache.NewCache[ent.GroupRole](rc, "ncse_group_role")}
 }

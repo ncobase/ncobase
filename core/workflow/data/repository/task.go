@@ -45,7 +45,7 @@ type taskRepository struct {
 }
 
 func NewTaskRepository(d *data.Data) TaskRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &taskRepository{

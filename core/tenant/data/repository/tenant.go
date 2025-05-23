@@ -43,7 +43,7 @@ type tenantRepository struct {
 
 // NewTenantRepository creates a new tenant repository.
 func NewTenantRepository(d *data.Data) TenantRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &tenantRepository{ec, rc, ms, cache.NewCache[ent.Tenant](rc, "ncse_tenant")}

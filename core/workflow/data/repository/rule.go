@@ -36,7 +36,7 @@ type ruleRepository struct {
 }
 
 func NewRuleRepository(d *data.Data) RuleRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
 	return &ruleRepository{

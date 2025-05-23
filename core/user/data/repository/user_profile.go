@@ -34,7 +34,7 @@ type userProfileRepository struct {
 
 // NewUserProfileRepository creates a new user profile repository.
 func NewUserProfileRepository(d *data.Data) UserProfileRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &userProfileRepository{ec, rc, cache.NewCache[ent.UserProfile](rc, "ncse_user_profile")}
 }

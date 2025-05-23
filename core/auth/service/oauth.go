@@ -64,7 +64,7 @@ package service
 // 	payload := decoded["payload"].(authStructs.RegisterTokenBody)
 //
 // 	bg := context.Background()
-// 	client := svc.d.GetEntClient()
+// 	client := svc.d.GetMasterEntClient()
 //
 // 	tx, err := client.Tx(bg)
 // 	if err != nil {
@@ -236,7 +236,7 @@ package service
 // 		return resp.Forbidden("profile and authorize is empty"), nil
 // 	}
 //
-// 	client := svc.d.GetEntClient()
+// 	client := svc.d.GetMasterEntClient()
 //
 // 	tx, err := client.Tx(ctx)
 // 	if err != nil {

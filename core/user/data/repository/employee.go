@@ -35,7 +35,7 @@ type employeeRepository struct {
 
 // NewEmployeeRepository creates a new employee repository
 func NewEmployeeRepository(d *data.Data) EmployeeRepositoryInterface {
-	ec := d.GetEntClient()
+	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &employeeRepository{ec, rc, cache.NewCache[ent.Employee](rc, "ncse_employee")}
 }
