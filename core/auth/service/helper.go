@@ -7,6 +7,7 @@ import (
 	accessService "ncobase/access/service"
 	accessStructs "ncobase/access/structs"
 	"ncobase/auth/data/ent"
+	userStructs "ncobase/user/structs"
 	"time"
 
 	"github.com/ncobase/ncore/ctxutil"
@@ -128,14 +129,14 @@ func getPermissionsForRoles(ctx context.Context, as *accessService.Service, role
 func CreateUserTokenPayload(
 	ctx context.Context,
 	as *accessService.Service,
-	userID string,
+	user *userStructs.ReadUser,
 	tenantIDs []string,
 ) (types.JSON, error) {
-	if userID == "" {
+	if user.ID == "" {
 		return nil, errors.New("userID is required")
 	}
 
-	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, as, userID)
+	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, as, user.ID)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get user roles and permissions: %v", err)
 		// Continue with empty roles and permissions rather than failing
@@ -145,12 +146,16 @@ func CreateUserTokenPayload(
 	}
 
 	return types.JSON{
-		"user_id":     userID,
-		"roles":       roleSlugs,
-		"permissions": permissionCodes,
-		"is_admin":    isAdmin,
-		"tenant_id":   tenantID,
-		"tenant_ids":  tenantIDs,
+		"user_id":      user.ID,
+		"username":     user.Username,
+		"email":        user.Email,
+		"is_admin":     isAdmin,
+		"tenant_id":    tenantID,
+		"tenant_ids":   tenantIDs,
+		"roles":        roleSlugs,
+		"permissions":  permissionCodes,
+		"user_status":  user.Status,
+		"is_certified": user.IsCertified,
 	}, nil
 }
 

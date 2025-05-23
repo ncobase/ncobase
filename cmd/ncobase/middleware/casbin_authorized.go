@@ -2,13 +2,12 @@ package middleware
 
 import (
 	"context"
-	accessService "ncobase/access/service"
-	tenantService "ncobase/tenant/service"
 
 	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/security/jwt"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/casbin/casbin/v2"
@@ -16,8 +15,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// CasbinAuthorized checks permissions using current Casbin model
-func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, as *accessService.Service, ts *tenantService.Service) gin.HandlerFunc {
+// CasbinAuthorized middleware for role-based access control using Casbin
+func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if shouldSkipPath(c.Request, whiteList) {
 			c.Next()
@@ -25,59 +24,50 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, as *accessS
 		}
 
 		ctx := ctxutil.FromGinContext(c)
-		currentUser := ctxutil.GetUserID(ctx)
-		currentTenant := ctxutil.GetTenantID(ctx)
 
-		// Check if user is authenticated
-		if validator.IsEmpty(currentUser) {
+		// Validate user authentication
+		userID := ctxutil.GetUserID(ctx)
+		if validator.IsEmpty(userID) {
 			resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
 			c.Abort()
 			return
 		}
 
-		// Resolve tenant if not present
-		if validator.IsEmpty(currentTenant) {
-			if tenant, err := ts.UserTenant.UserBelongTenant(ctx, currentUser); err == nil && tenant != nil {
-				currentTenant = tenant.ID
-				ctx = ctxutil.SetTenantID(ctx, currentTenant)
-				c.Request = c.Request.WithContext(ctx)
-			}
+		// Additional user validation
+		if err := validateUserInContext(ctx, c); err != nil {
+			logger.Errorf(ctx, "User validation failed: %v", err)
+			resp.Fail(c.Writer, resp.UnAuthorized("User validation failed"))
+			c.Abort()
+			return
 		}
 
-		// Get request details
+		// Get request info
 		resource := c.Request.URL.Path
 		action := c.Request.Method
+		tenantID := ctxutil.GetTenantID(ctx)
 
-		// Get user information from context
+		// Get user authorization info
 		roles := ctxutil.GetUserRoles(ctx)
 		permissions := ctxutil.GetUserPermissions(ctx)
 		isAdmin := ctxutil.GetUserIsAdmin(ctx)
 
 		logger.WithFields(ctx, logrus.Fields{
-			"user_id":     currentUser,
-			"tenant_id":   currentTenant,
-			"resource":    resource,
-			"action":      action,
-			"roles":       roles,
-			"permissions": permissions,
-			"is_admin":    isAdmin,
-		}).Info("Checking permission with Casbin")
+			"user_id":   userID,
+			"tenant_id": tenantID,
+			"resource":  resource,
+			"action":    action,
+			"roles":     roles,
+			"is_admin":  isAdmin,
+		}).Debug("Checking authorization")
 
-		// Check user permission
-		hasPermission, err := checkUserPermission(ctx, enforcer, currentUser, currentTenant, resource, action, roles, permissions, isAdmin)
-		if err != nil {
-			logger.Errorf(ctx, "Error checking permission: %v", err)
-			resp.Fail(c.Writer, resp.InternalServer("Permission check failed"))
-			c.Abort()
-			return
-		}
-
+		// Check permission
+		hasPermission := checkPermission(ctx, enforcer, userID, tenantID, resource, action, roles, permissions, isAdmin)
 		if !hasPermission {
 			logger.WithFields(ctx, logrus.Fields{
-				"user_id":  currentUser,
+				"user_id":  userID,
 				"resource": resource,
 				"action":   action,
-			}).Warn("Permission denied")
+			}).Warn("Access denied")
 
 			resp.Fail(c.Writer, resp.Forbidden("Access denied"))
 			c.Abort()
@@ -85,145 +75,88 @@ func CasbinAuthorized(enforcer *casbin.Enforcer, whiteList []string, as *accessS
 		}
 
 		logger.WithFields(ctx, logrus.Fields{
-			"user_id":  currentUser,
+			"user_id":  userID,
 			"resource": resource,
 			"action":   action,
-		}).Info("Permission granted")
+		}).Debug("Access granted")
 
 		c.Next()
 	}
 }
 
-// checkUserPermission checks permission using the 6-parameter Casbin model
-func checkUserPermission(ctx context.Context, enforcer *casbin.Enforcer, userID, tenantID, resource, action string, roles, permissions []string, isAdmin bool) (bool, error) {
+// validateUserInContext validates user information in context
+func validateUserInContext(ctx context.Context, c *gin.Context) error {
+	// Get username from context
+	username, exists := c.Get("username")
+	if !exists || username == "" {
+		return nil // Username not required for basic validation
+	}
 
-	// Strategy 1: Super admin bypass
-	if isAdmin || userID == "super-admin" {
+	// Get user status
+	userStatus, exists := c.Get("user_status")
+	if exists {
+		if status, ok := userStatus.(int64); ok && status != 0 {
+			return jwt.TokenError("user account is disabled")
+		}
+	}
+
+	// Additional admin role validation
+	isAdmin := ctxutil.GetUserIsAdmin(ctx)
+	if isAdmin {
+		roles := ctxutil.GetUserRoles(ctx)
+		if !hasAdminRole(roles) {
+			logger.Warnf(ctx, "User claims admin status but has no admin role")
+		}
+	}
+
+	return nil
+}
+
+// checkPermission performs authorization check
+func checkPermission(ctx context.Context, enforcer *casbin.Enforcer, userID, tenantID, resource, action string, roles, permissions []string, isAdmin bool) bool {
+
+	// Strategy 1: Super admin bypass with role verification
+	if isAdmin && hasAdminRole(roles) {
 		logger.Debugf(ctx, "Admin access granted for user %s", userID)
-		return true, nil
+		return true
 	}
 
-	// Strategy 2: Check wildcard permissions from token
-	for _, perm := range permissions {
-		if perm == "*:*" {
-			logger.Debugf(ctx, "Wildcard permission granted from token")
-			return true, nil
-		}
+	// Strategy 2: Check wildcard permissions
+	if hasWildcardPermission(permissions) {
+		logger.Debugf(ctx, "Wildcard permission granted for user %s", userID)
+		return true
 	}
 
-	// Strategy 3: Check direct permission match from token
-	requiredPerm := mapHTTPToPermission(resource, action)
-	if requiredPerm != "" {
-		for _, perm := range permissions {
-			if perm == requiredPerm {
-				logger.Debugf(ctx, "Direct permission match from token: %s", perm)
-				return true, nil
-			}
-		}
-	}
-
-	// Strategy 4: Use Casbin enforcer with 6-parameter model
+	// Strategy 3: Casbin role-based authorization
 	if enforcer != nil {
-		// Use default tenant if not specified
 		domain := tenantID
 		if domain == "" {
-			domain = "*" // or use a default domain
+			domain = "*"
 		}
 
-		// Check with user roles using 6-parameter model: sub, dom, obj, act, v4, v5
+		// Check with user roles
 		for _, role := range roles {
-			if ok, err := enforcer.Enforce(role, domain, resource, action, nil, nil); err == nil && ok {
-				logger.Debugf(ctx, "Casbin permission granted for role %s in domain %s", role, domain)
-				return true, nil
+			// Try specific tenant domain
+			if allowed, err := enforcer.Enforce(role, domain, resource, action); err == nil && allowed {
+				logger.Debugf(ctx, "Permission granted for role %s in domain %s", role, domain)
+				return true
 			}
 
-			// Also try with wildcard domain
+			// Try wildcard domain
 			if domain != "*" {
-				if ok, err := enforcer.Enforce(role, "*", resource, action, nil, nil); err == nil && ok {
-					logger.Debugf(ctx, "Casbin permission granted for role %s in wildcard domain", role)
-					return true, nil
+				if allowed, err := enforcer.Enforce(role, "*", resource, action); err == nil && allowed {
+					logger.Debugf(ctx, "Permission granted for role %s in wildcard domain", role)
+					return true
 				}
 			}
 		}
 
-		// Check direct user permission
-		if ok, err := enforcer.Enforce(userID, domain, resource, action, nil, nil); err == nil && ok {
-			logger.Debugf(ctx, "Casbin permission granted for user %s directly", userID)
-			return true, nil
-		}
-
-		// Also try with wildcard domain for user
-		if domain != "*" {
-			if ok, err := enforcer.Enforce(userID, "*", resource, action, nil, nil); err == nil && ok {
-				logger.Debugf(ctx, "Casbin permission granted for user %s in wildcard domain", userID)
-				return true, nil
-			}
+		// Strategy 4: Direct user permission check (rare case)
+		if allowed, err := enforcer.Enforce(userID, domain, resource, action); err == nil && allowed {
+			logger.Debugf(ctx, "Direct user permission granted for %s", userID)
+			return true
 		}
 	}
 
-	return false, nil
-}
-
-// mapHTTPToPermission maps HTTP requests to permission strings (same as before)
-func mapHTTPToPermission(resource, action string) string {
-	actionMap := map[string]string{
-		"GET":    "read",
-		"POST":   "create",
-		"PUT":    "update",
-		"PATCH":  "update",
-		"DELETE": "delete",
-	}
-
-	permAction := actionMap[action]
-	if permAction == "" {
-		return ""
-	}
-
-	subject := extractSubjectFromPath(resource)
-	if subject == "" {
-		return ""
-	}
-
-	return permAction + ":" + subject
-}
-
-// extractSubjectFromPath extracts subject from resource path (same as before)
-func extractSubjectFromPath(path string) string {
-	pathToSubject := map[string]string{
-		"/iam/account":            "account",
-		"/iam/account/tenant":     "account",
-		"/iam/account/tenants":    "account",
-		"/user/users":             "user",
-		"/user/employees":         "employee",
-		"/sys/menus":              "menu",
-		"/sys/dictionaries":       "dictionary",
-		"/sys/options":            "system",
-		"/access/roles":           "role",
-		"/access/permissions":     "permission",
-		"/tenant/tenants":         "tenant",
-		"/space/groups":           "group",
-		"/content/topics":         "content",
-		"/content/taxonomies":     "taxonomy",
-		"/resources":              "resource",
-		"/workflow/processes":     "workflow",
-		"/workflow/tasks":         "task",
-		"/payment/orders":         "payment",
-		"/realtime/notifications": "realtime",
-	}
-
-	// Check exact match first
-	if subject, exists := pathToSubject[path]; exists {
-		return subject
-	}
-
-	// Check prefix match for paths with parameters
-	for pathPrefix, subject := range pathToSubject {
-		if len(path) > len(pathPrefix) && path[:len(pathPrefix)] == pathPrefix {
-			if path[len(pathPrefix)] == '/' {
-				return subject
-			}
-		}
-	}
-
-	return ""
+	return false
 }

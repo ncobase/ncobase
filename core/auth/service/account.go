@@ -100,7 +100,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 	}
 
 	// Create token payload
-	payload, err := CreateUserTokenPayload(ctx, s.as, user.ID, tenantIDs)
+	payload, err := CreateUserTokenPayload(ctx, s.as, user, tenantIDs)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Create token payload
-	tokenPayload, err := CreateUserTokenPayload(ctx, s.as, user.ID, tenantIDs)
+	tokenPayload, err := CreateUserTokenPayload(ctx, s.as, user, tenantIDs)
 	if err != nil {
 		return nil, err
 	}
@@ -264,7 +264,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Create token payload
-	tokenPayload, err := CreateUserTokenPayload(ctx, s.as, user.ID, tenantIDs)
+	tokenPayload, err := CreateUserTokenPayload(ctx, s.as, user, tenantIDs)
 	if err != nil {
 		if err = tx.Rollback(); err != nil {
 			return nil, err

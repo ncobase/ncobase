@@ -80,7 +80,7 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 	}
 
 	// Create token payload
-	payload, err := CreateUserTokenPayload(ctx, s.as, user.ID, tenantIDs)
+	payload, err := CreateUserTokenPayload(ctx, s.as, user, tenantIDs)
 	if err != nil {
 		return nil, err
 	}

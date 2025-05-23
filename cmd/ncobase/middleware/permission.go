@@ -233,7 +233,7 @@ func OwnerOrManager(getOwnerID func(*gin.Context) string) gin.HandlerFunc {
 	}
 }
 
-// Helper functions
+// hasWildcardPermission checks if user has wildcard permission
 func hasWildcardPermission(permissions []string) bool {
 	for _, perm := range permissions {
 		if perm == "*:*" {
@@ -243,6 +243,7 @@ func hasWildcardPermission(permissions []string) bool {
 	return false
 }
 
+// hasSpecificPermission checks if user has specific permission
 func hasSpecificPermission(permissions []string, required string) bool {
 	for _, perm := range permissions {
 		if perm == required {
@@ -256,6 +257,7 @@ func hasSpecificPermission(permissions []string, required string) bool {
 	return false
 }
 
+// hasAdminRole checks if user has admin role
 func hasAdminRole(roles []string) bool {
 	adminRoles := []string{"super-admin", "system-admin", "enterprise-admin"}
 	for _, role := range roles {
@@ -268,6 +270,7 @@ func hasAdminRole(roles []string) bool {
 	return false
 }
 
+// hasSpecificRole checks if user has specific role
 func hasSpecificRole(roles []string, required string) bool {
 	for _, role := range roles {
 		if role == required {
@@ -277,6 +280,7 @@ func hasSpecificRole(roles []string, required string) bool {
 	return false
 }
 
+// hasManagementRole checks if user has management role/
 func hasManagementRole(roles []string) bool {
 	managementRoles := []string{
 		"department-manager", "team-leader", "project-manager",
@@ -294,6 +298,7 @@ func hasManagementRole(roles []string) bool {
 	return false
 }
 
+// matchesWildcard checks if pattern matches target
 func matchesWildcard(pattern, target string) bool {
 	// Simple wildcard matching implementation
 	// e.g.: "read:*" matches "read:user", "read:employee" etc.

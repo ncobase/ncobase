@@ -93,14 +93,13 @@ func userMiddleware(conf *config.Config, engine *gin.Engine, _ ext.ManagerInterf
 // register Tenant middleware
 func tenantMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) {
 	// get tenant service
-	ft, err := em.GetService("tenant")
+	tsExt, err := em.GetService("tenant")
 	if err != nil {
 		logger.Errorf(context.Background(), "failed to get tenant service: %v", err.Error())
 		return
 	}
-
 	// get tenant service
-	ts, ok := ft.(*tenantService.Service)
+	ts, ok := tsExt.(*tenantService.Service)
 	if !ok {
 		logger.Errorf(context.Background(), "tenant service does not implement")
 		return
@@ -127,22 +126,10 @@ func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInt
 	if as == nil {
 		return
 	}
-
-	// get tenant service
-	tsExt, err := em.GetService("tenant")
-	if err != nil {
-		logger.Errorf(context.Background(), "failed to get tenant service: %v", err.Error())
-		return
-	}
-	ts, ok := tsExt.(*tenantService.Service)
-	if !ok {
-		logger.Errorf(context.Background(), "tenant service does not implement")
-		return
-	}
-
+	// Initialize casbin enforcer
 	enforcer, err := as.CasbinAdapter.InitEnforcer()
 	if err != nil {
 		panic(err)
 	}
-	engine.Use(middleware.CasbinAuthorized(enforcer, conf.Auth.Whitelist, as, ts))
+	engine.Use(middleware.CasbinAuthorized(enforcer, conf.Auth.Whitelist))
 }
