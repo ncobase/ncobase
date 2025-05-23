@@ -139,7 +139,7 @@ func (p *imageProcessor) ProcessImage(ctx context.Context, reader io.Reader, fil
 	}
 
 	// Apply processing according to options
-	var processedImage image.Image = src
+	var processedImage = src
 
 	// Resize if needed
 	if options.ResizeImage && (options.MaxWidth > 0 || options.MaxHeight > 0) {

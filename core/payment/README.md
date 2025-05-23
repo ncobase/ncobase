@@ -24,6 +24,7 @@ The module follows a clean architecture pattern:
 ## API Endpoints
 
 ### Channels
+
 - `GET /pay/channels` - List payment channels
 - `POST /pay/channels` - Create a new payment channel
 - `GET /pay/channels/:id` - Get a payment channel
@@ -32,6 +33,7 @@ The module follows a clean architecture pattern:
 - `PUT /pay/channels/:id/status` - Change channel status
 
 ### Orders
+
 - `GET /pay/orders` - List payment orders
 - `POST /pay/orders` - Create a new payment order
 - `GET /pay/orders/:id` - Get a payment order
@@ -41,6 +43,7 @@ The module follows a clean architecture pattern:
 - `POST /pay/orders/:id/refund` - Refund payment
 
 ### Products
+
 - `GET /pay/products` - List products
 - `POST /pay/products` - Create a new product
 - `GET /pay/products/:id` - Get a product
@@ -48,6 +51,7 @@ The module follows a clean architecture pattern:
 - `DELETE /pay/products/:id` - Delete a product
 
 ### Subscriptions
+
 - `GET /pay/subscriptions` - List subscriptions
 - `POST /pay/subscriptions` - Create a new subscription
 - `GET /pay/subscriptions/:id` - Get a subscription
@@ -56,9 +60,11 @@ The module follows a clean architecture pattern:
 - `GET /pay/subscriptions/user/:userId` - Get user subscriptions
 
 ### Webhooks
+
 - `POST /pay/webhooks/:channel` - Process provider webhooks
 
 ### Utility
+
 - `GET /pay/providers` - List available payment providers
 - `GET /pay/stats` - Get payment statistics
 
