@@ -59,17 +59,22 @@ func (s *Service) initMenus(ctx context.Context) error {
 		return fmt.Errorf("menu data verification failed: %w", err)
 	}
 
-	// Get default tenant and admin
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
+	// Get default tenant
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
 	if err != nil {
 		logger.Errorf(ctx, "initMenus error on get default tenant: %v", err)
+		return fmt.Errorf("failed to get default tenant: %w", err)
+	}
+
+	// get admin user
+	adminUser, err := s.getAdminUser(ctx, "menu creation")
+	if err != nil {
 		return err
 	}
 
-	admin, err := s.us.User.Get(ctx, "admin")
-	if err != nil {
-		logger.Errorf(ctx, "initMenus error on get admin user: %v", err)
-		return err
+	if adminUser == nil {
+		logger.Errorf(ctx, "initMenus error: no admin user found")
+		return fmt.Errorf("no suitable admin user found for menu creation")
 	}
 
 	defaultExtras := make(types.JSON)
@@ -82,8 +87,8 @@ func (s *Service) initMenus(ctx context.Context) error {
 	for _, header := range data.SystemDefaultMenus.Headers {
 		menuBody := header // Copy to avoid modifying original
 		menuBody.TenantID = tenant.ID
-		menuBody.CreatedBy = &admin.ID
-		menuBody.UpdatedBy = &admin.ID
+		menuBody.CreatedBy = &adminUser.ID
+		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating header menu: %s", menuBody.Name)
@@ -118,8 +123,8 @@ func (s *Service) initMenus(ctx context.Context) error {
 		}
 
 		menuBody.TenantID = tenant.ID
-		menuBody.CreatedBy = &admin.ID
-		menuBody.UpdatedBy = &admin.ID
+		menuBody.CreatedBy = &adminUser.ID
+		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating sidebar menu: %s", menuBody.Name)
@@ -151,8 +156,8 @@ func (s *Service) initMenus(ctx context.Context) error {
 		}
 
 		menuBody.TenantID = tenant.ID
-		menuBody.CreatedBy = &admin.ID
-		menuBody.UpdatedBy = &admin.ID
+		menuBody.CreatedBy = &adminUser.ID
+		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating submenu: %s", menuBody.Name)
@@ -167,8 +172,8 @@ func (s *Service) initMenus(ctx context.Context) error {
 	for _, menu := range data.SystemDefaultMenus.Accounts {
 		menuBody := menu // Copy to avoid modifying original
 		menuBody.TenantID = tenant.ID
-		menuBody.CreatedBy = &admin.ID
-		menuBody.UpdatedBy = &admin.ID
+		menuBody.CreatedBy = &adminUser.ID
+		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating account menu: %s", menuBody.Name)
@@ -183,8 +188,8 @@ func (s *Service) initMenus(ctx context.Context) error {
 	for _, menu := range data.SystemDefaultMenus.Tenants {
 		menuBody := menu // Copy to avoid modifying original
 		menuBody.TenantID = tenant.ID
-		menuBody.CreatedBy = &admin.ID
-		menuBody.UpdatedBy = &admin.ID
+		menuBody.CreatedBy = &adminUser.ID
+		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating tenant menu: %s", menuBody.Name)
@@ -201,6 +206,7 @@ func (s *Service) initMenus(ctx context.Context) error {
 		logger.Warnf(ctx, "Menu count mismatch. Expected %d, got %d", createdMenus, finalCount)
 	}
 
-	logger.Infof(ctx, "Menu initialization completed successfully. Created %d menus", createdMenus)
+	logger.Infof(ctx, "Menu initialization completed successfully. Created %d menus using admin user '%s'",
+		createdMenus, adminUser.Username)
 	return nil
 }

@@ -1,6 +1,10 @@
 package data
 
-import "ncobase/system/structs"
+import (
+	"ncobase/system/structs"
+
+	"github.com/ncobase/ncore/version"
+)
 
 // SystemDefaultOptions defines default system configuration options
 var SystemDefaultOptions = []structs.OptionsBody{
@@ -8,19 +12,19 @@ var SystemDefaultOptions = []structs.OptionsBody{
 	{
 		Name:     "system.name",
 		Type:     "string",
-		Value:    "Digital Development Platform",
+		Value:    "Digital Enterprise Platform",
 		Autoload: true,
 	},
 	{
 		Name:     "system.description",
 		Type:     "string",
-		Value:    "A comprehensive platform for digital transformation and development",
+		Value:    "Multi-tenant digital enterprise management and collaboration platform",
 		Autoload: true,
 	},
 	{
 		Name:     "system.version",
-		Type:     "string",
-		Value:    "1.0.0",
+		Type:     "object",
+		Value:    version.GetVersionInfo().JSON(),
 		Autoload: true,
 	},
 
@@ -28,7 +32,7 @@ var SystemDefaultOptions = []structs.OptionsBody{
 	{
 		Name:     "system.theme",
 		Type:     "object",
-		Value:    `{"primaryColor":"#1890ff","layout":"side","contentWidth":"fluid","fixedHeader":true,"fixSiderbar":true,"colorWeak":false,"title":"Digital Platform","logo":"/logo.png","darkMode":false}`,
+		Value:    `{"primaryColor":"#1890ff","layout":"side","contentWidth":"fluid","fixedHeader":true,"fixSiderbar":true,"colorWeak":false,"title":"Enterprise Platform","logo":"/logo.png","darkMode":false,"compactMode":false}`,
 		Autoload: true,
 	},
 
@@ -44,7 +48,7 @@ var SystemDefaultOptions = []structs.OptionsBody{
 	{
 		Name:     "system.security",
 		Type:     "object",
-		Value:    `{"passwordMinLength":8,"passwordComplexity":true,"loginAttempts":5,"lockoutDuration":30,"sessionTimeout":120,"allowedIps":[],"twoFactorAuth":false}`,
+		Value:    `{"passwordMinLength":8,"passwordComplexity":true,"loginAttempts":5,"lockoutDuration":30,"sessionTimeout":480,"mfaRequired":false,"ipWhitelist":[],"auditLogging":true}`,
 		Autoload: true,
 	},
 
@@ -68,7 +72,7 @@ var SystemDefaultOptions = []structs.OptionsBody{
 	{
 		Name:     "system.notifications",
 		Type:     "object",
-		Value:    `{"email":true,"sms":false,"push":false,"wechat":false}`,
+		Value:    `{"email":true,"sms":false,"push":true,"in_app":true,"digest_frequency":"daily","channels":{"hr":"email","finance":"email","system":"push"}}`,
 		Autoload: true,
 	},
 
@@ -76,7 +80,7 @@ var SystemDefaultOptions = []structs.OptionsBody{
 	{
 		Name:     "system.integrations",
 		Type:     "object",
-		Value:    `{"wechat":{"enabled":false,"appId":"","appSecret":""},"dingtalk":{"enabled":false,"appKey":"","appSecret":""},"slack":{"enabled":false,"token":""},"teams":{"enabled":false,"webhookUrl":""}}`,
+		Value:    `{"ldap":{"enabled":false,"server":"","domain":""},"sso":{"enabled":false,"provider":"","config":{}},"hr_system":{"enabled":false,"api_endpoint":"","sync_frequency":"daily"}}`,
 		Autoload: true,
 	},
 
@@ -92,7 +96,7 @@ var SystemDefaultOptions = []structs.OptionsBody{
 	{
 		Name:     "system.backup",
 		Type:     "object",
-		Value:    `{"enabled":true,"schedule":"0 0 * * 0","retention":10,"includeDatabases":true,"includeFiles":true,"destination":"local"}`,
+		Value:    `{"enabled":true,"schedule":"0 2 * * *","retention_days":30,"include_databases":true,"include_files":true,"offsite_backup":false,"encryption":true}`,
 		Autoload: true,
 	},
 
@@ -100,15 +104,79 @@ var SystemDefaultOptions = []structs.OptionsBody{
 	{
 		Name:     "system.performance",
 		Type:     "object",
-		Value:    `{"cacheEnabled":true,"cacheTTL":3600,"compressResponses":true,"rateLimiting":{"enabled":true,"requestsPerMinute":60}}`,
+		Value:    `{"cacheEnabled":true,"cacheTTL":3600,"compressResponses":true,"rateLimiting":{"enabled":true,"requestsPerMinute":120},"database_pooling":{"max_connections":100}}`,
 		Autoload: true,
 	},
 
-	// Dashboard default settings
+	// Multi-tenant settings
 	{
-		Name:     "dashboard.default",
+		Name:     "system.multi_tenant",
 		Type:     "object",
-		Value:    `{"widgets":["activeUsers","recentActivity","systemStatus","quickActions"],"refreshInterval":300}`,
+		Value:    `{"enabled":true,"isolation_level":"strict","shared_resources":["system","menu","dictionary"],"tenant_creation":"admin_only"}`,
+		Autoload: true,
+	},
+
+	// Employee management settings
+	{
+		Name:     "system.employee",
+		Type:     "object",
+		Value:    `{"auto_employee_id":true,"employee_id_prefix":"EMP","probation_period_days":90,"annual_leave_days":21,"sick_leave_days":10}`,
+		Autoload: true,
+	},
+
+	// Organization settings
+	{
+		Name:     "system.organization",
+		Type:     "object",
+		Value:    `{"max_hierarchy_levels":5,"allow_cross_company_assignment":true,"require_manager_approval":true,"auto_org_chart":true}`,
+		Autoload: true,
+	},
+
+	// Workflow settings
+	{
+		Name:     "system.workflow",
+		Type:     "object",
+		Value:    `{"approval_required_for":["employee_creation","role_assignment","department_transfer"],"auto_notifications":true,"escalation_timeout_hours":24}`,
+		Autoload: true,
+	},
+
+	// Reporting and analytics
+	{
+		Name:     "system.analytics",
+		Type:     "object",
+		Value:    `{"enabled":true,"retention_days":365,"anonymize_pii":true,"dashboard_refresh_interval":300,"export_formats":["pdf","excel","csv"]}`,
+		Autoload: true,
+	},
+
+	// Compliance and legal
+	{
+		Name:     "system.compliance",
+		Type:     "object",
+		Value:    `{"gdpr_enabled":true,"data_retention_days":2555,"audit_trail":true,"encryption_at_rest":true,"anonymization_rules":{"employee_data":365,"financial_data":2555}}`,
+		Autoload: true,
+	},
+
+	// Dashboard settings
+	{
+		Name:     "dashboard.enterprise",
+		Type:     "object",
+		Value:    `{"widgets":["employee_count","active_projects","department_overview","financial_summary","recent_activities","system_health"],"refresh_interval":300,"layout":"grid"}`,
+		Autoload: true,
+	},
+
+	// HR specific settings
+	{
+		Name:     "hr.settings",
+		Type:     "object",
+		Value:    `{"performance_review_cycle":"annual","goal_setting":"quarterly","skill_assessment":true,"career_path_planning":true,"succession_planning":false}`,
+		Autoload: true,
+	},
+
+	// Finance specific settings
+	{
+		Name:     "finance.settings",
+		Type:     "object",
+		Value:    `{"budget_approval_workflow":true,"expense_categories":["travel","equipment","training","marketing"],"currency":"USD","fiscal_year_start":"2024-01-01"}`,
 		Autoload: true,
 	},
 }

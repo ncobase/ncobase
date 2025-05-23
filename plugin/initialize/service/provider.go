@@ -146,7 +146,7 @@ func (s *Service) SaveState(ctx context.Context) error {
 		// Create new option
 		createBody := &systemStructs.OptionsBody{
 			Name:     stateOptionKey,
-			Type:     "json",
+			Type:     "object",
 			Value:    string(stateJSON),
 			Autoload: true,
 		}

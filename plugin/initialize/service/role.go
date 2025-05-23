@@ -10,7 +10,7 @@ import (
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// checkRolesInitialized checks if roles are already initialized.
+// checkRolesInitialized checks if roles are already initialized
 func (s *Service) checkRolesInitialized(ctx context.Context) error {
 	params := &accessStructs.ListRoleParams{}
 	count := s.acs.Role.CountX(ctx, params)
@@ -22,7 +22,7 @@ func (s *Service) checkRolesInitialized(ctx context.Context) error {
 	return s.initRoles(ctx)
 }
 
-// initRoles initializes roles.
+// initRoles initializes roles
 func (s *Service) initRoles(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system roles...")
 
@@ -50,7 +50,7 @@ func (s *Service) initRoles(ctx context.Context) error {
 	}
 
 	// Initialize organization-specific roles
-	for _, role := range data.OrganizationRoles {
+	for _, role := range data.EnterpriseOrganizationStructure.OrganizationRoles {
 		// Check if role already exists
 		existingRole, err := s.acs.Role.GetBySlug(ctx, role.Role.Slug)
 		if err == nil && existingRole != nil {
@@ -77,8 +77,8 @@ func (s *Service) initRoles(ctx context.Context) error {
 	count := s.acs.Role.CountX(ctx, &accessStructs.ListRoleParams{})
 	logger.Infof(ctx, "Role initialization completed, %d roles now in system", count)
 
-	// Validate essential roles exist
-	essential := []string{"super-admin", "admin", "user"}
+	// Validate essential roles exist (updated for enterprise structure)
+	essential := []string{"system-admin", "enterprise-admin", "hr-manager", "finance-manager", "department-manager", "employee"}
 	for _, slug := range essential {
 		role, err := s.acs.Role.GetBySlug(ctx, slug)
 		if err != nil || role == nil {
@@ -87,5 +87,6 @@ func (s *Service) initRoles(ctx context.Context) error {
 		}
 	}
 
+	logger.Infof(ctx, "All essential enterprise roles validated successfully")
 	return nil
 }

@@ -4,24 +4,43 @@ import (
 	"context"
 	"fmt"
 	"ncobase/initialize/data"
-	tenantStructs "ncobase/tenant/structs"
+	spaceStructs "ncobase/space/structs"
 	userStructs "ncobase/user/structs"
 	"strings"
 	"time"
 
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// checkUsersInitialized checks if users are already initialized.
+// checkUsersInitialized checks if users are already initialized
 func (s *Service) checkUsersInitialized(ctx context.Context) error {
 	params := &userStructs.ListUserParams{}
 	count := s.us.User.CountX(ctx, params)
 	if count > 0 {
 		logger.Infof(ctx, "Users already exist, skipping initialization")
+		keyUsers := []string{"super", "admin"}
+		for _, username := range keyUsers {
+			if err := s.VerifyUserRoleAssignment(ctx, username); err != nil {
+				logger.Warnf(ctx, "Verification failed for user %s: %v", username, err)
+			}
+		}
 		return nil
 	}
 
-	return s.initUsers(ctx)
+	err := s.initUsers(ctx)
+	if err != nil {
+		return err
+	}
+
+	keyUsers := []string{"super", "admin"}
+	for _, username := range keyUsers {
+		if err := s.VerifyUserRoleAssignment(ctx, username); err != nil {
+			logger.Warnf(ctx, "Post-initialization verification failed for user %s: %v", username, err)
+		}
+	}
+
+	return nil
 }
 
 // validatePassword validates that a password meets the password policy
@@ -59,15 +78,15 @@ func (s *Service) validatePassword(ctx context.Context, username, password strin
 	return nil
 }
 
-// initUsers initializes users, their tenants, roles, and tenant roles.
+// initUsers initializes enterprise users, employees, roles, and relationships
 func (s *Service) initUsers(ctx context.Context) error {
-	logger.Infof(ctx, "Initializing system users...")
+	logger.Infof(ctx, "Initializing enterprise users and employees...")
 
 	// Get default tenant
-	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
+	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
 	if err != nil {
 		logger.Errorf(ctx, "Error getting default tenant: %v", err)
-		return fmt.Errorf("default tenant 'ncobase' not found: %w", err)
+		return fmt.Errorf("default tenant 'digital-enterprise' not found: %w", err)
 	}
 
 	var createdCount int
@@ -75,7 +94,6 @@ func (s *Service) initUsers(ctx context.Context) error {
 		// Validate password
 		if err := s.validatePassword(ctx, userInfo.User.Username, userInfo.Password); err != nil {
 			logger.Warnf(ctx, "Password for user %s does not meet policy: %v", userInfo.User.Username, err)
-			// Continue anyway as these are initial users
 		}
 
 		// Check if user already exists
@@ -106,87 +124,53 @@ func (s *Service) initUsers(ctx context.Context) error {
 
 		// Create user profile
 		profileData := userInfo.Profile
-		profileData.ID = createdUser.ID // Set the user ID
+		profileData.UserID = createdUser.ID
 		if _, err := s.us.UserProfile.Create(ctx, &profileData); err != nil {
 			logger.Errorf(ctx, "Error creating profile for user %s: %v", createdUser.Username, err)
 			return fmt.Errorf("failed to create profile for user '%s': %w", createdUser.Username, err)
 		}
 
-		// Handle the "super" user differently
-		if userInfo.User.Username == "super" {
-			// Check if the tenant already exists
-			existingTenant, err := s.ts.Tenant.GetBySlug(ctx, defaultTenant.Slug)
-			if err == nil && existingTenant != nil {
-				logger.Infof(ctx, "Initial tenant already exists, ensuring super user is associated with it")
+		// Create employee record if provided
+		if userInfo.Employee != nil {
+			employeeData := *userInfo.Employee
+			employeeData.UserID = createdUser.ID
+			employeeData.TenantID = defaultTenant.ID
 
-				// Ensure super user is added to the existing tenant
-				_, err = s.ts.UserTenant.AddUserToTenant(ctx, createdUser.ID, existingTenant.ID)
-				if err != nil {
-					logger.Errorf(ctx, "Error adding super user to tenant: %v", err)
-					return fmt.Errorf("failed to add super user to tenant: %w", err)
-				}
-
-				// Get super-admin role
-				superAdminRole, err := s.acs.Role.GetBySlug(ctx, "super-admin")
-				if err != nil {
-					logger.Errorf(ctx, "Error getting super-admin role: %v", err)
-					return fmt.Errorf("super-admin role not found: %w", err)
-				}
-
-				// Assign super-admin role to user
-				if err := s.acs.UserRole.AddRoleToUser(ctx, createdUser.ID, superAdminRole.ID); err != nil {
-					logger.Errorf(ctx, "Error adding super-admin role to super user: %v", err)
-					return fmt.Errorf("failed to add super-admin role to super user: %w", err)
-				}
-
-				// Assign the tenant role to the super user
-				if _, err := s.acs.UserTenantRole.AddRoleToUserInTenant(ctx, createdUser.ID, existingTenant.ID, superAdminRole.ID); err != nil {
-					logger.Errorf(ctx, "Error adding tenant role to super user: %v", err)
-					return fmt.Errorf("failed to add tenant role to super user: %w", err)
-				}
-			} else {
-				// Create initial tenant with super user as creator
-				tenantBody := &tenantStructs.CreateTenantBody{
-					TenantBody: tenantStructs.TenantBody{
-						Name:      defaultTenant.Name,
-						Slug:      defaultTenant.Slug,
-						CreatedBy: &createdUser.ID,
-					},
-				}
-
-				if _, err := s.as.AuthTenant.CreateInitialTenant(ctx, tenantBody); err != nil {
-					logger.Errorf(ctx, "Error creating initial tenant: %v", err)
-					return fmt.Errorf("failed to create initial tenant: %w", err)
+			// Resolve manager username to ID if specified
+			if employeeData.ManagerID != "" {
+				manager, err := s.us.User.Get(ctx, employeeData.ManagerID)
+				if err == nil {
+					employeeData.ManagerID = manager.ID
+				} else {
+					logger.Warnf(ctx, "Manager %s not found for employee %s", employeeData.ManagerID, createdUser.Username)
+					employeeData.ManagerID = ""
 				}
 			}
-		} else {
-			// For non-super users, add to default tenant
-			if _, err := s.ts.UserTenant.AddUserToTenant(ctx, createdUser.ID, defaultTenant.ID); err != nil {
-				logger.Errorf(ctx, "Error adding user %s to tenant: %v", createdUser.Username, err)
-				return fmt.Errorf("failed to add user '%s' to tenant: %w", createdUser.Username, err)
-			}
 
-			// Assign role based on configuration
-			role, err := s.acs.Role.GetBySlug(ctx, userInfo.Role)
-			if err != nil {
-				logger.Errorf(ctx, "Error getting role %s: %v", userInfo.Role, err)
-				return fmt.Errorf("role '%s' not found for user '%s': %w", userInfo.Role, createdUser.Username, err)
+			if _, err := s.us.Employee.Create(ctx, &userStructs.CreateEmployeeBody{
+				EmployeeBody: employeeData,
+			}); err != nil {
+				logger.Errorf(ctx, "Error creating employee record for user %s: %v", createdUser.Username, err)
+				return fmt.Errorf("failed to create employee record for user '%s': %w", createdUser.Username, err)
 			}
+			logger.Debugf(ctx, "Created employee record for user: %s", createdUser.Username)
+		}
 
-			if err := s.acs.UserRole.AddRoleToUser(ctx, createdUser.ID, role.ID); err != nil {
-				logger.Errorf(ctx, "Error adding role to user %s: %v", createdUser.Username, err)
-				return fmt.Errorf("failed to add role '%s' to user '%s': %w", userInfo.Role, createdUser.Username, err)
-			}
-
-			if _, err := s.acs.UserTenantRole.AddRoleToUserInTenant(ctx, createdUser.ID, defaultTenant.ID, role.ID); err != nil {
-				logger.Errorf(ctx, "Error adding tenant role to user %s: %v", createdUser.Username, err)
-				return fmt.Errorf("failed to add tenant role to user '%s': %w", createdUser.Username, err)
-			}
+		// Assing user role
+		if err := s.assignUserRole(ctx, createdUser, userInfo.Role, defaultTenant.ID); err != nil {
+			logger.Errorf(ctx, "Error assigning role to user %s: %v", createdUser.Username, err)
+			return fmt.Errorf("failed to assign role to user '%s': %w", createdUser.Username, err)
 		}
 	}
 
+	// Initialize cross-company assignments after all users are created
+	if err := s.initializeUserGroupAssignments(ctx); err != nil {
+		logger.Errorf(ctx, "Failed to initialize user-group assignments: %v", err)
+		return fmt.Errorf("user-group assignment failed: %w", err)
+	}
+
 	// Verify required users were created
-	reqUsers := []string{"super", "admin", "user"}
+	reqUsers := []string{"super", "admin", "chief.executive", "hr.manager", "finance.manager", "tech.lead"}
 	for _, username := range reqUsers {
 		user, err := s.us.User.Get(ctx, username)
 		if err != nil || user == nil {
@@ -196,8 +180,181 @@ func (s *Service) initUsers(ctx context.Context) error {
 	}
 
 	count := s.us.User.CountX(ctx, &userStructs.ListUserParams{})
-	logger.Infof(ctx, "User initialization completed, created %d users", count)
+	logger.Infof(ctx, "User and employee initialization completed, created %d users", count)
 
+	return nil
+}
+
+// assignUserRole assigns both global and tenant roles to user
+func (s *Service) assignUserRole(ctx context.Context, user *userStructs.ReadUser, roleSlug string, tenantID string) error {
+	// Get role by slug
+	role, err := s.acs.Role.GetBySlug(ctx, roleSlug)
+	if err != nil {
+		logger.Errorf(ctx, "Role '%s' not found: %v", roleSlug, err)
+		return fmt.Errorf("role '%s' not found: %w", roleSlug, err)
+	}
+
+	// Add user to tenant first
+	if _, err := s.ts.UserTenant.AddUserToTenant(ctx, user.ID, tenantID); err != nil {
+		logger.Errorf(ctx, "Failed to add user to tenant: %v", err)
+		return fmt.Errorf("failed to add user '%s' to tenant: %w", user.Username, err)
+	}
+
+	// Assign global role (primary role assignment)
+	if err := s.acs.UserRole.AddRoleToUser(ctx, user.ID, role.ID); err != nil {
+		logger.Errorf(ctx, "Failed to assign global role: %v", err)
+		return fmt.Errorf("failed to assign global role '%s' to user '%s': %w", roleSlug, user.Username, err)
+	}
+
+	// Assign tenant-specific role (for tenant-level permissions)
+	if _, err := s.acs.UserTenantRole.AddRoleToUserInTenant(ctx, user.ID, tenantID, role.ID); err != nil {
+		// Log warning but don't fail - global role assignment is sufficient
+		logger.Warnf(ctx, "Failed to assign tenant role to user '%s': %v", user.Username, err)
+	}
+
+	logger.Infof(ctx, "Successfully assigned role '%s' to user '%s'", roleSlug, user.Username)
+	return nil
+}
+
+// initializeUserGroupAssignments assigns users to groups based on enterprise structure
+func (s *Service) initializeUserGroupAssignments(ctx context.Context) error {
+	logger.Infof(ctx, "Initializing user-group assignments...")
+
+	// Cross-company assignments for enterprise roles
+	assignments := map[string][]string{
+		"chief.executive": {
+			"digital-enterprise",
+			"executive-office",
+			"techcorp",
+			"mediacorp",
+			"consultcorp",
+		},
+		"hr.manager": {
+			"digital-enterprise",
+			"corporate-hr",
+			"techcorp-hr",
+			"mediacorp-hr",
+			"consultcorp-hr",
+		},
+		"finance.manager": {
+			"digital-enterprise",
+			"corporate-finance",
+			"techcorp-finance",
+			"mediacorp-finance",
+			"consultcorp-finance",
+		},
+		"tech.lead": {
+			"techcorp",
+			"technology",
+			"backend-dev",
+			"frontend-dev",
+		},
+		"senior.developer": {
+			"techcorp",
+			"technology",
+			"backend-dev",
+		},
+		"marketing.manager": {
+			"mediacorp",
+			"digital-marketing",
+			"social-media",
+		},
+		"content.creator": {
+			"mediacorp",
+			"content-production",
+			"video-production",
+		},
+	}
+
+	var assignmentCount int
+	for username, groupSlugs := range assignments {
+		user, err := s.us.User.Get(ctx, username)
+		if err != nil {
+			logger.Warnf(ctx, "User '%s' not found, skipping group assignments", username)
+			continue
+		}
+
+		for _, groupSlug := range groupSlugs {
+			group, err := s.findGroupBySlug(ctx, groupSlug)
+			if err != nil {
+				logger.Warnf(ctx, "Group '%s' not found for user '%s'", groupSlug, username)
+				continue
+			}
+
+			// Assign user to group
+			if _, err := s.ss.UserGroup.AddUserToGroup(ctx, user.ID, group.ID); err != nil {
+				logger.Warnf(ctx, "Failed to assign user '%s' to group '%s': %v", username, groupSlug, err)
+				continue
+			}
+
+			logger.Debugf(ctx, "Assigned user '%s' to group '%s'", username, groupSlug)
+			assignmentCount++
+		}
+
+		// Assign organizational roles based on position
+		if err := s.assignOrganizationalRoles(ctx, user, username); err != nil {
+			logger.Warnf(ctx, "Failed to assign organizational roles to user '%s': %v", username, err)
+		}
+	}
+
+	logger.Infof(ctx, "User-group assignment completed, created %d assignments", assignmentCount)
+	return nil
+}
+
+// findGroupBySlug finds group by slug
+func (s *Service) findGroupBySlug(ctx context.Context, slug string) (*spaceStructs.ReadGroup, error) {
+	groups, err := s.ss.Group.List(ctx, &spaceStructs.ListGroupParams{})
+	if err != nil {
+		return nil, err
+	}
+
+	for _, group := range groups.Items {
+		if group.Slug == slug {
+			return group, nil
+		}
+	}
+
+	return nil, fmt.Errorf("group with slug '%s' not found", slug)
+}
+
+// assignOrganizationalRoles assigns roles based on user position
+func (s *Service) assignOrganizationalRoles(ctx context.Context, user *userStructs.ReadUser, username string) error {
+	// Get user info from initialization data
+	var userInfo *data.UserCreationInfo
+	for _, info := range data.SystemDefaultUsers {
+		if info.User.Username == username {
+			userInfo = &info
+			break
+		}
+	}
+
+	if userInfo == nil || userInfo.Employee == nil {
+		return nil
+	}
+
+	// Determine organizational role based on position
+	var orgRoleSlug string
+	switch userInfo.Employee.Position {
+	case "Chief Executive Officer":
+		orgRoleSlug = "enterprise-executive"
+	case "Technical Lead", "Marketing Manager", "HR Manager", "Finance Manager":
+		orgRoleSlug = "department-head"
+	default:
+		// Regular employees don't get additional organizational roles
+		return nil
+	}
+
+	// Get and assign organizational role
+	orgRole, err := s.acs.Role.GetBySlug(ctx, orgRoleSlug)
+	if err != nil {
+		return fmt.Errorf("organizational role '%s' not found: %w", orgRoleSlug, err)
+	}
+
+	if err := s.acs.UserRole.AddRoleToUser(ctx, user.ID, orgRole.ID); err != nil {
+		return fmt.Errorf("failed to assign organizational role '%s': %w", orgRoleSlug, err)
+	}
+
+	logger.Debugf(ctx, "Assigned organizational role '%s' to user '%s'", orgRoleSlug, user.Username)
 	return nil
 }
 
@@ -298,4 +455,50 @@ func (s *Service) InitializeUsers(ctx context.Context) (*InitState, error) {
 
 	logger.Infof(ctx, "User initialization completed successfully")
 	return s.state, nil
+}
+
+// VerifyUserRoleAssignment verifies user role assignments with detailed logging
+func (s *Service) VerifyUserRoleAssignment(ctx context.Context, username string) error {
+	logger.Infof(ctx, "Verifying role assignment for user: %s", username)
+
+	user, err := s.us.User.Get(ctx, username)
+	if err != nil {
+		return fmt.Errorf("user '%s' not found: %w", username, err)
+	}
+
+	// Check global roles
+	globalRoles, err := s.acs.UserRole.GetUserRoles(ctx, user.ID)
+	if err != nil {
+		logger.Warnf(ctx, "Failed to get global roles for user '%s': %v", username, err)
+	} else {
+		logger.Infof(ctx, "User '%s' has %d global roles:", username, len(globalRoles))
+		for _, role := range globalRoles {
+			logger.Infof(ctx, "  - Global role: %s (%s)", role.Name, role.Slug)
+		}
+	}
+
+	// Check tenant assignments
+	userTenants, err := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
+	if err != nil {
+		logger.Warnf(ctx, "Failed to get tenants for user '%s': %v", username, err)
+		return nil
+	}
+
+	logger.Infof(ctx, "User '%s' belongs to %d tenants:", username, len(userTenants))
+	for _, tenant := range userTenants {
+		logger.Infof(ctx, "  - Tenant: %s (%s)", tenant.Name, tenant.Slug)
+
+		// Get tenant-specific roles
+		ctx = ctxutil.SetTenantID(ctx, tenant.ID)
+		roleIDs, roleErr := s.acs.UserTenantRole.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
+		if roleErr == nil && len(roleIDs) > 0 {
+			tenantRoles, _ := s.acs.Role.GetByIDs(ctx, roleIDs)
+			logger.Infof(ctx, "    User has %d roles in tenant '%s':", len(tenantRoles), tenant.Name)
+			for _, role := range tenantRoles {
+				logger.Infof(ctx, "      - Tenant role: %s (%s)", role.Name, role.Slug)
+			}
+		}
+	}
+
+	return nil
 }

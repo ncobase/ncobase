@@ -4,6 +4,114 @@ import "ncobase/system/structs"
 
 // SystemDefaultDictionaries defines system default dictionary data
 var SystemDefaultDictionaries = []structs.DictionaryBody{
+	// Employee status
+	{
+		Name:        "Employee Status",
+		Slug:        "employee_status",
+		Type:        "object",
+		Value:       `{"active":"Active","inactive":"Inactive","on_leave":"On Leave","terminated":"Terminated","probation":"Probation","full_time":"Full Time","part_time":"Part Time","contract":"Contract","intern":"Intern","resigned":"Resigned"}`,
+		Description: "Employee employment status",
+	},
+
+	// Employment types
+	{
+		Name:        "Employment Type",
+		Slug:        "employment_type",
+		Type:        "object",
+		Value:       `{"full_time":"Full Time","part_time":"Part Time","contract":"Contract","intern":"Intern","consultant":"Consultant"}`,
+		Description: "Types of employment arrangements",
+	},
+
+	// Department types
+	{
+		Name:        "Department Type",
+		Slug:        "department_type",
+		Type:        "object",
+		Value:       `{"executive":"Executive","hr":"Human Resources","finance":"Finance","technology":"Technology","marketing":"Marketing","operations":"Operations","sales":"Sales","legal":"Legal","rd":"Research & Development","administrative":"Administrative","business":"Business","engineering":"Engineering","support":"Support","other":"Other"}`,
+		Description: "Enterprise department categories",
+	},
+
+	// Company types
+	{
+		Name:        "Company Type",
+		Slug:        "company_type",
+		Type:        "object",
+		Value:       `{"headquarters":"Headquarters","subsidiary":"Subsidiary","division":"Division","branch":"Branch","joint_venture":"Joint Venture"}`,
+		Description: "Types of company entities within enterprise",
+	},
+
+	// Job levels
+	{
+		Name:        "Job Level",
+		Slug:        "job_level",
+		Type:        "object",
+		Value:       `{"entry":"Entry Level","junior":"Junior","mid":"Mid Level","senior":"Senior","lead":"Lead","manager":"Manager","director":"Director","vp":"Vice President","c_level":"C-Level"}`,
+		Description: "Organizational job levels and hierarchy",
+	},
+
+	// Skills categories
+	{
+		Name:        "Skill Category",
+		Slug:        "skill_category",
+		Type:        "object",
+		Value:       `{"technical":"Technical","management":"Management","communication":"Communication","analytical":"Analytical","creative":"Creative","language":"Language"}`,
+		Description: "Employee skill categories",
+	},
+
+	// Project status
+	{
+		Name:        "Project Status",
+		Slug:        "project_status",
+		Type:        "object",
+		Value:       `{"planning":"Planning","active":"Active","in_progress":"In Progress","on_hold":"On Hold","completed":"Completed","cancelled":"Cancelled","archived":"Archived"}`,
+		Description: "Project lifecycle status",
+	},
+
+	// Meeting types
+	{
+		Name:        "Meeting Type",
+		Slug:        "meeting_type",
+		Type:        "object",
+		Value:       `{"standup":"Daily Standup","team":"Team Meeting","department":"Department Meeting","board":"Board Meeting","client":"Client Meeting","review":"Review Meeting","training":"Training Session","project":"Project Meeting","strategy":"Strategy Meeting","workshop":"Workshop","other":"Other"}`,
+		Description: "Enterprise meeting types",
+	},
+
+	// Document types
+	{
+		Name:        "Document Type",
+		Slug:        "document_type",
+		Type:        "object",
+		Value:       `{"policy":"Policy","procedure":"Procedure","manual":"Manual","report":"Report","contract":"Contract","proposal":"Proposal","specification":"Specification","presentation":"Presentation","text":"Text Document","spreadsheet":"Spreadsheet","image":"Image","video":"Video","audio":"Audio","pdf":"PDF Document","archive":"Archive","code":"Code File","other":"Other"}`,
+		Description: "Document types supported by the system",
+	},
+
+	// Budget categories
+	{
+		Name:        "Budget Category",
+		Slug:        "budget_category",
+		Type:        "object",
+		Value:       `{"personnel":"Personnel","operations":"Operations","marketing":"Marketing","technology":"Technology","facilities":"Facilities","travel":"Travel","training":"Training","equipment":"Equipment"}`,
+		Description: "Enterprise budget categories",
+	},
+
+	// Performance ratings
+	{
+		Name:        "Performance Rating",
+		Slug:        "performance_rating",
+		Type:        "object",
+		Value:       `{"exceeds":"Exceeds Expectations","meets":"Meets Expectations","partially_meets":"Partially Meets","below":"Below Expectations","unsatisfactory":"Unsatisfactory"}`,
+		Description: "Employee performance evaluation ratings",
+	},
+
+	// Leave types
+	{
+		Name:        "Leave Type",
+		Slug:        "leave_type",
+		Type:        "object",
+		Value:       `{"annual":"Annual Leave","sick":"Sick Leave","maternity":"Maternity Leave","paternity":"Paternity Leave","bereavement":"Bereavement Leave","personal":"Personal Leave","unpaid":"Unpaid Leave"}`,
+		Description: "Employee leave types",
+	},
+
 	// User status
 	{
 		Name:        "User Status",
@@ -20,15 +128,6 @@ var SystemDefaultDictionaries = []structs.DictionaryBody{
 		Type:        "object",
 		Value:       `{"male":"Male","female":"Female","other":"Other"}`,
 		Description: "Gender options",
-	},
-
-	// Document types
-	{
-		Name:        "Document Type",
-		Slug:        "document_type",
-		Type:        "object",
-		Value:       `{"text":"Text Document","spreadsheet":"Spreadsheet","presentation":"Presentation","image":"Image","video":"Video","audio":"Audio","pdf":"PDF Document","archive":"Archive","code":"Code File","other":"Other"}`,
-		Description: "Document types supported by the system",
 	},
 
 	// File size units
@@ -139,15 +238,6 @@ var SystemDefaultDictionaries = []structs.DictionaryBody{
 		Description: "Workflow process status",
 	},
 
-	// Project status
-	{
-		Name:        "Project Status",
-		Slug:        "project_status",
-		Type:        "object",
-		Value:       `{"planning":"Planning","in_progress":"In Progress","on_hold":"On Hold","completed":"Completed","cancelled":"Cancelled"}`,
-		Description: "Project status",
-	},
-
 	// Task status
 	{
 		Name:        "Task Status",
@@ -164,33 +254,6 @@ var SystemDefaultDictionaries = []structs.DictionaryBody{
 		Type:        "object",
 		Value:       `{"public":"Public","internal":"Internal","confidential":"Confidential","restricted":"Restricted"}`,
 		Description: "Data sensitivity levels",
-	},
-
-	// Employee status
-	{
-		Name:        "Employee Status",
-		Slug:        "employee_status",
-		Type:        "object",
-		Value:       `{"full_time":"Full Time","part_time":"Part Time","contract":"Contract","intern":"Intern","probation":"Probation","resigned":"Resigned","terminated":"Terminated"}`,
-		Description: "Employee employment status",
-	},
-
-	// Department types
-	{
-		Name:        "Department Type",
-		Slug:        "department_type",
-		Type:        "object",
-		Value:       `{"administrative":"Administrative","business":"Business","engineering":"Engineering","operations":"Operations","sales":"Sales","marketing":"Marketing","finance":"Finance","hr":"HR","r_and_d":"R&D","support":"Support","other":"Other"}`,
-		Description: "Types of organizational departments",
-	},
-
-	// Meeting types
-	{
-		Name:        "Meeting Type",
-		Slug:        "meeting_type",
-		Type:        "object",
-		Value:       `{"team":"Team Meeting","project":"Project Meeting","client":"Client Meeting","strategy":"Strategy Meeting","review":"Review Meeting","training":"Training Session","workshop":"Workshop","other":"Other"}`,
-		Description: "Types of meetings",
 	},
 
 	// Integration types

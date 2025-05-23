@@ -38,7 +38,7 @@ func (s *Service) PerformHealthcheck(ctx context.Context) (*HealthcheckResult, e
 	}
 
 	// Check tenants
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
 	if err != nil || tenant == nil {
 		result.Items = append(result.Items, HealthcheckItem{
 			Component:   "tenants",

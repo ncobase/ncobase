@@ -2,13 +2,14 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"ncobase/initialize/data"
 	systemStructs "ncobase/system/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// checkDictionariesInitialized checks if dictionaries are already initialized.
+// checkDictionariesInitialized checks if dictionaries are already initialized
 func (s *Service) checkDictionariesInitialized(ctx context.Context) error {
 	// Check if dictionary data already exists
 	count := s.sys.Dictionary.CountX(ctx, &systemStructs.ListDictionaryParams{})
@@ -20,29 +21,33 @@ func (s *Service) checkDictionariesInitialized(ctx context.Context) error {
 	return s.initDictionaries(ctx)
 }
 
-// initDictionaries initializes the default dictionaries.
+// initDictionaries initializes the default dictionaries
 func (s *Service) initDictionaries(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system dictionaries...")
 
 	// Get default tenant
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
 	if err != nil {
 		logger.Errorf(ctx, "Error getting default tenant: %v", err)
 		return err
 	}
 
-	// Get admin user
-	admin, err := s.us.User.Get(ctx, "admin")
+	// get admin user
+	adminUser, err := s.getAdminUser(ctx, "dictionary creation")
 	if err != nil {
-		logger.Errorf(ctx, "Error getting admin user: %v", err)
 		return err
+	}
+
+	if adminUser == nil {
+		logger.Errorf(ctx, "initDictionaries error: no admin user found")
+		return fmt.Errorf("no suitable admin user found for dictionary creation")
 	}
 
 	var createdCount int
 	for _, dict := range data.SystemDefaultDictionaries {
 		// Set tenant ID and creator
 		dict.TenantID = tenant.ID
-		dict.CreatedBy = &admin.ID
+		dict.CreatedBy = &adminUser.ID
 
 		// Check if already exists
 		existing, err := s.sys.Dictionary.Get(ctx, &systemStructs.FindDictionary{Dictionary: dict.Slug})
@@ -61,6 +66,7 @@ func (s *Service) initDictionaries(ctx context.Context) error {
 		createdCount++
 	}
 
-	logger.Infof(ctx, "Dictionary initialization completed, created %d dictionaries", createdCount)
+	logger.Infof(ctx, "Dictionary initialization completed, created %d dictionaries using admin user '%s'",
+		createdCount, adminUser.Username)
 	return nil
 }

@@ -19,64 +19,112 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// GetUserTenantsRolesPermissions retrieves user's tenants, roles, and permissions.
+// GetUserTenantsRolesPermissions retrieves user's roles and permissions with improved logic
 func GetUserTenantsRolesPermissions(
 	ctx context.Context,
 	as *accessService.Service,
 	userID string,
 ) (tenantID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
 	tenantID = ctxutil.GetTenantID(ctx)
+	logger.Debugf(ctx, "Getting permissions for user %s, tenant %s", userID, tenantID)
 
-	// If tenant ID is not in context, try to get user's default tenant
-	if tenantID == "" {
-		// Get user's tenants
-		userTenants, err := as.UserTenantRole.GetUserRolesInTenant(ctx, userID, "")
-		if err == nil && len(userTenants) > 0 {
-			// Get the first tenant as default
-			tenantRoles, err := as.UserTenantRole.GetUserRolesInTenant(ctx, userID, userTenants[0])
-			if err == nil && len(tenantRoles) > 0 {
-				tenantID = userTenants[0]
-			}
-		}
-	}
-
-	var roles []*accessStructs.ReadRole
-
-	if len(tenantID) > 0 {
-		roleIDs, _ := as.UserTenantRole.GetUserRolesInTenant(ctx, userID, tenantID)
-		roles, _ = as.Role.GetByIDs(ctx, roleIDs)
-		for _, role := range roles {
-			roleSlugs = append(roleSlugs, role.Slug)
-		}
+	// Get global roles first (primary roles)
+	globalRoles, err := as.UserRole.GetUserRoles(ctx, userID)
+	if err != nil {
+		logger.Warnf(ctx, "Failed to get global roles for user %s: %v", userID, err)
 	} else {
-		roles, _ = as.UserRole.GetUserRoles(ctx, userID)
-		for _, role := range roles {
+		for _, role := range globalRoles {
 			roleSlugs = append(roleSlugs, role.Slug)
 		}
+		logger.Debugf(ctx, "Found %d global roles for user", len(globalRoles))
 	}
 
-	for _, slug := range roleSlugs {
-		if slug == "admin" || slug == "super-admin" {
-			isAdmin = true
-			break
-		}
-	}
-	roleSlugs = utils.RemoveDuplicates(roleSlugs)
-
-	if len(roles) > 0 {
-		for _, role := range roles {
-			rolePermissions, _ := as.RolePermission.GetRolePermissions(ctx, role.ID)
-			for _, perm := range rolePermissions {
-				permCode := fmt.Sprintf("%s:%s", perm.Action, perm.Subject)
-				permissionCodes = append(permissionCodes, permCode)
+	// Get tenant-specific roles if tenant context exists
+	if tenantID != "" {
+		roleIDs, roleErr := as.UserTenantRole.GetUserRolesInTenant(ctx, userID, tenantID)
+		if roleErr == nil && len(roleIDs) > 0 {
+			tenantRoles, _ := as.Role.GetByIDs(ctx, roleIDs)
+			for _, role := range tenantRoles {
+				// Avoid duplicates
+				if !utils.Contains(roleSlugs, role.Slug) {
+					roleSlugs = append(roleSlugs, role.Slug)
+				}
 			}
+			logger.Debugf(ctx, "Found %d tenant roles for user", len(tenantRoles))
 		}
 	}
+
+	// Check admin status
+	isAdmin = isAdminRole(roleSlugs)
+	if isAdmin {
+		logger.Debugf(ctx, "User has admin privileges")
+	}
+
+	// Get permissions for all roles
+	permissionCodes, err = getPermissionsForRoles(ctx, as, globalRoles, isAdmin)
+	if err != nil {
+		logger.Warnf(ctx, "Failed to get permissions: %v", err)
+	}
+
+	// Remove duplicates
+	roleSlugs = utils.RemoveDuplicates(roleSlugs)
 	permissionCodes = utils.RemoveDuplicates(permissionCodes)
+
+	logger.Infof(ctx, "User %s has %d roles, %d permissions, isAdmin: %v",
+		userID, len(roleSlugs), len(permissionCodes), isAdmin)
 	return
 }
 
-// CreateUserTokenPayload creates token payload for a user
+// isAdminRole checks if any role has admin privileges
+func isAdminRole(roleSlugs []string) bool {
+	adminRoles := []string{"super-admin", "system-admin", "enterprise-admin", "tenant-admin"}
+	for _, roleSlug := range roleSlugs {
+		for _, adminRole := range adminRoles {
+			if roleSlug == adminRole {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// getPermissionsForRoles gets all permissions for the given roles
+func getPermissionsForRoles(ctx context.Context, as *accessService.Service, roles []*accessStructs.ReadRole, isAdmin bool) ([]string, error) {
+	if len(roles) == 0 {
+		return []string{}, nil
+	}
+
+	var permissionCodes []string
+	// var hasSuperAdminAccess bool
+
+	for _, role := range roles {
+		rolePermissions, err := as.RolePermission.GetRolePermissions(ctx, role.ID)
+		if err != nil {
+			logger.Warnf(ctx, "Failed to get permissions for role %s: %v", role.Slug, err)
+			continue
+		}
+
+		for _, perm := range rolePermissions {
+			// Check for super admin wildcard permission
+			if perm.Action == "*" && perm.Subject == "*" {
+				// hasSuperAdminAccess = true
+				permissionCodes = []string{"*:*"}
+				logger.Infof(ctx, "User has super admin wildcard permission")
+				return permissionCodes, nil
+			}
+
+			// Add regular permission
+			permCode := fmt.Sprintf("%s:%s", perm.Action, perm.Subject)
+			permissionCodes = append(permissionCodes, permCode)
+		}
+
+		logger.Debugf(ctx, "Role %s has %d permissions", role.Slug, len(rolePermissions))
+	}
+
+	return permissionCodes, nil
+}
+
+// CreateUserTokenPayload creates token payload with user permissions
 func CreateUserTokenPayload(
 	ctx context.Context,
 	as *accessService.Service,
@@ -91,9 +139,11 @@ func CreateUserTokenPayload(
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get user roles and permissions: %v", err)
 		// Continue with empty roles and permissions rather than failing
+		roleSlugs = []string{}
+		permissionCodes = []string{}
+		isAdmin = false
 	}
 
-	// Include all required information in the payload
 	return types.JSON{
 		"user_id":     userID,
 		"roles":       roleSlugs,
@@ -121,36 +171,46 @@ func generateUserToken(jtm *jwt.TokenManager, payload map[string]any, tokenID st
 	return accessToken, refreshToken
 }
 
-// generateTokensForUser generates tokens for a user.
+// generateTokensForUser generates access and refresh tokens
 func generateTokensForUser(ctx context.Context, jtm *jwt.TokenManager, client *ent.Client, payload map[string]any) (*types.JSON, error) {
-	tx, err := client.Tx(ctx)
-	if err != nil {
-		return nil, err
-	}
-
 	userID, ok := payload["user_id"].(string)
 	if !ok || userID == "" {
-		return nil, errors.New("user_id is not found")
+		return nil, errors.New("user_id not found in payload")
 	}
+
+	// Create auth token record in transaction
+	tx, err := client.Tx(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to begin transaction: %w", err)
+	}
+	defer func() {
+		if err != nil {
+			if rbErr := tx.Rollback(); rbErr != nil {
+				logger.Errorf(ctx, "Failed to rollback transaction: %v", rbErr)
+			}
+		}
+	}()
 
 	authToken, err := createAuthToken(ctx, tx, userID)
 	if err != nil {
-		if err = tx.Rollback(); err != nil {
-			return nil, err
-		}
-		return nil, err
+		return nil, fmt.Errorf("failed to create auth token: %w", err)
 	}
+
+	// Generate tokens
 	accessToken, refreshToken := generateUserToken(jtm, payload, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
-		if err := tx.Rollback(); err != nil {
-			return nil, err
-		}
-		return nil, errors.New("authorize is not created")
+		return nil, errors.New("failed to generate tokens")
 	}
+
+	// Commit transaction
+	if err := tx.Commit(); err != nil {
+		return nil, fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
 	return &types.JSON{
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
-	}, tx.Commit()
+	}, nil
 }
 
 // createAuthToken creates a new auth token for a user.

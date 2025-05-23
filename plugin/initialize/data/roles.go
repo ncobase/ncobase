@@ -2,77 +2,94 @@ package data
 
 import accessStructs "ncobase/access/structs"
 
-// SystemDefaultRoles defines the system default roles
+// SystemDefaultRoles defines enterprise system roles
 var SystemDefaultRoles = []accessStructs.CreateRoleBody{
 	{
 		RoleBody: accessStructs.RoleBody{
 			Name:        "Super Administrator",
 			Slug:        "super-admin",
 			Disabled:    false,
-			Description: "Full system access with all permissions",
-			Extras:      nil,
+			Description: "Super administrator with full system access",
 		},
 	},
 	{
 		RoleBody: accessStructs.RoleBody{
 			Name:        "System Administrator",
-			Slug:        "admin",
+			Slug:        "system-admin",
 			Disabled:    false,
-			Description: "General administrative access to the system",
-			Extras:      nil,
+			Description: "Full system access and management",
 		},
 	},
 	{
 		RoleBody: accessStructs.RoleBody{
-			Name:        "Standard User",
-			Slug:        "user",
+			Name:        "Enterprise Administrator",
+			Slug:        "enterprise-admin",
 			Disabled:    false,
-			Description: "Regular user with basic permissions",
-			Extras:      nil,
-		},
-	},
-}
-
-// OrganizationRoles defines organization-specific roles
-var OrganizationRoles = []OrganizationRole{
-	{
-		Role: accessStructs.RoleBody{
-			Name:        "Organization Admin",
-			Slug:        "org-admin",
-			Disabled:    false,
-			Description: "Full access to organization management",
-			Extras:      nil,
-		},
-		Permissions: []string{
-			"Manage Organization",
-			"Manage Members",
-			"View Organization",
+			Description: "Enterprise-wide administrative access",
 		},
 	},
 	{
-		Role: accessStructs.RoleBody{
-			Name:        "Team Admin",
-			Slug:        "team-admin",
+		RoleBody: accessStructs.RoleBody{
+			Name:        "Tenant Administrator",
+			Slug:        "tenant-admin",
 			Disabled:    false,
-			Description: "Admin for team-level organizations",
-			Extras:      nil,
-		},
-		Permissions: []string{
-			"Manage Organization",
-			"Manage Members",
-			"View Organization",
+			Description: "Tenant-level administrative access",
 		},
 	},
 	{
-		Role: accessStructs.RoleBody{
-			Name:        "Member",
-			Slug:        "member",
+		RoleBody: accessStructs.RoleBody{
+			Name:        "HR Manager",
+			Slug:        "hr-manager",
 			Disabled:    false,
-			Description: "Regular member of an organization",
-			Extras:      nil,
+			Description: "Human resources management access",
 		},
-		Permissions: []string{
-			"View Organization",
+	},
+	{
+		RoleBody: accessStructs.RoleBody{
+			Name:        "Finance Manager",
+			Slug:        "finance-manager",
+			Disabled:    false,
+			Description: "Financial management access",
+		},
+	},
+	{
+		RoleBody: accessStructs.RoleBody{
+			Name:        "Department Manager",
+			Slug:        "department-manager",
+			Disabled:    false,
+			Description: "Department-level management access",
+		},
+	},
+	{
+		RoleBody: accessStructs.RoleBody{
+			Name:        "Team Leader",
+			Slug:        "team-leader",
+			Disabled:    false,
+			Description: "Team leadership access",
+		},
+	},
+	{
+		RoleBody: accessStructs.RoleBody{
+			Name:        "Employee",
+			Slug:        "employee",
+			Disabled:    false,
+			Description: "Standard employee access",
+		},
+	},
+	{
+		RoleBody: accessStructs.RoleBody{
+			Name:        "Contractor",
+			Slug:        "contractor",
+			Disabled:    false,
+			Description: "External contractor access",
+		},
+	},
+	{
+		RoleBody: accessStructs.RoleBody{
+			Name:        "Intern",
+			Slug:        "intern",
+			Disabled:    false,
+			Description: "Intern-level access",
 		},
 	},
 }

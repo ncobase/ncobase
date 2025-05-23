@@ -117,7 +117,7 @@ func (s *roleService) Delete(ctx context.Context, roleID string) error {
 func (s *roleService) CreateSuperAdminRole(ctx context.Context) (*structs.ReadRole, error) {
 	row, err := s.role.Create(ctx, &structs.CreateRoleBody{
 		RoleBody: structs.RoleBody{
-			Name:        "Super Admin",
+			Name:        "Super Administrator",
 			Slug:        "super-admin",
 			Disabled:    false,
 			Description: "Super Administrator role with all permissions",

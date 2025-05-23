@@ -5,173 +5,219 @@ import (
 	"ncobase/space/structs"
 )
 
-// OrganizationStructure defines the company hierarchical structure
-var OrganizationStructure = struct {
-	MainGroup         structs.GroupBody           `json:"main_group"`
-	GroupDepartments  []structs.GroupBody         `json:"group_departments"`
+// EnterpriseOrganizationStructure defines the enterprise organizational hierarchy
+var EnterpriseOrganizationStructure = struct {
+	Enterprise        structs.GroupBody           `json:"enterprise"`
+	Headquarters      []structs.GroupBody         `json:"headquarters"`
 	Companies         []structs.GroupBody         `json:"companies"`
 	CompanyStructures map[string]CompanyStructure `json:"company_structures"`
-	TemporaryGroups   []structs.GroupBody         `json:"temporary_groups"`
+	SharedDepartments []Department                `json:"shared_departments"`
 	OrganizationRoles []OrganizationRole          `json:"organization_roles"`
 }{
-	MainGroup: structs.GroupBody{
-		Name:      "Enterprise Group",
-		Slug:      "enterprise-group",
-		TenantID:  nil, // Will be set during initialization
-		CreatedBy: nil, // Will be set during initialization
-		UpdatedBy: nil, // Will be set during initialization
+	Enterprise: structs.GroupBody{
+		Name:        "Digital Enterprise Group",
+		Slug:        "digital-enterprise",
+		Description: "Multi-tenant digital enterprise management platform",
 	},
-	GroupDepartments: []structs.GroupBody{
+	Headquarters: []structs.GroupBody{
 		{
-			Name:      "Executive Office",
-			Slug:      "executive-office",
-			TenantID:  nil, // Will be set during initialization
-			CreatedBy: nil, // Will be set during initialization
-			UpdatedBy: nil, // Will be set during initialization
+			Name:        "Executive Office",
+			Slug:        "executive-office",
+			Description: "Executive leadership and strategic management",
 		},
 		{
-			Name:      "Group HR Department",
-			Slug:      "group-hr-department",
-			TenantID:  nil, // Will be set during initialization
-			CreatedBy: nil, // Will be set during initialization
-			UpdatedBy: nil, // Will be set during initialization
+			Name:        "Corporate HR",
+			Slug:        "corporate-hr",
+			Description: "Enterprise-wide human resources management",
 		},
 		{
-			Name:      "Group Finance Department",
-			Slug:      "group-finance-department",
-			TenantID:  nil, // Will be set during initialization
-			CreatedBy: nil, // Will be set during initialization
-			UpdatedBy: nil, // Will be set during initialization
+			Name:        "Corporate Finance",
+			Slug:        "corporate-finance",
+			Description: "Enterprise financial management and control",
+		},
+		{
+			Name:        "Corporate IT",
+			Slug:        "corporate-it",
+			Description: "Enterprise IT infrastructure and services",
 		},
 	},
 	Companies: []structs.GroupBody{
 		{
-			Name:      "Technology Company",
-			Slug:      "tech-company",
-			TenantID:  nil, // Will be set during initialization
-			CreatedBy: nil, // Will be set during initialization
-			UpdatedBy: nil, // Will be set during initialization
+			Name:        "TechCorp Solutions",
+			Slug:        "techcorp",
+			Description: "Technology solutions and software development",
 		},
 		{
-			Name:      "Media Company",
-			Slug:      "media-company",
-			TenantID:  nil, // Will be set during initialization
-			CreatedBy: nil, // Will be set during initialization
-			UpdatedBy: nil, // Will be set during initialization
+			Name:        "MediaCorp Digital",
+			Slug:        "mediacorp",
+			Description: "Digital media and content creation services",
+		},
+		{
+			Name:        "ConsultCorp Advisory",
+			Slug:        "consultcorp",
+			Description: "Business consulting and advisory services",
 		},
 	},
 	CompanyStructures: map[string]CompanyStructure{
-		"tech-company": {
+		"techcorp": {
 			Departments: []Department{
 				{
 					Info: structs.GroupBody{
-						Name:      "Technology Department",
-						Slug:      "tech-department",
-						TenantID:  nil, // Will be set during initialization
-						CreatedBy: nil, // Will be set during initialization
-						UpdatedBy: nil, // Will be set during initialization
+						Name:        "Technology Department",
+						Slug:        "technology",
+						Description: "Software development and technical operations",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Development Team", Slug: "rd-team"},
-						{Name: "Operations Team", Slug: "operations-team"},
-						{Name: "QA Team", Slug: "qa-team"},
+						{Name: "Backend Development", Slug: "backend-dev", Description: "Server-side development team"},
+						{Name: "Frontend Development", Slug: "frontend-dev", Description: "Client-side development team"},
+						{Name: "DevOps", Slug: "devops", Description: "Development operations and infrastructure"},
+						{Name: "QA Engineering", Slug: "qa-engineering", Description: "Quality assurance and testing"},
 					},
 				},
 				{
 					Info: structs.GroupBody{
-						Name:      "Product Department",
-						Slug:      "product-department",
-						TenantID:  nil, // Will be set during initialization
-						CreatedBy: nil, // Will be set during initialization
-						UpdatedBy: nil, // Will be set during initialization
+						Name:        "Product Management",
+						Slug:        "product-management",
+						Description: "Product strategy and management",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Product Planning Team", Slug: "product-planning-team"},
-						{Name: "UX Team", Slug: "ux-team"},
+						{Name: "Product Strategy", Slug: "product-strategy", Description: "Product planning and roadmap"},
+						{Name: "UX/UI Design", Slug: "ux-ui-design", Description: "User experience and interface design"},
 					},
 				},
 			},
 		},
-		"media-company": {
+		"mediacorp": {
 			Departments: []Department{
 				{
 					Info: structs.GroupBody{
-						Name:      "Content Production Department",
-						Slug:      "content-production-department",
-						TenantID:  nil, // Will be set during initialization
-						CreatedBy: nil, // Will be set during initialization
-						UpdatedBy: nil, // Will be set during initialization
+						Name:        "Content Production",
+						Slug:        "content-production",
+						Description: "Digital content creation and production",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Video Production Team", Slug: "video-production-team"},
-						{Name: "Text Editing Team", Slug: "text-editing-team"},
+						{Name: "Video Production", Slug: "video-production", Description: "Video content creation"},
+						{Name: "Editorial", Slug: "editorial", Description: "Content writing and editing"},
+						{Name: "Graphic Design", Slug: "graphic-design", Description: "Visual design and graphics"},
 					},
 				},
 				{
 					Info: structs.GroupBody{
-						Name:      "Media Operations Department",
-						Slug:      "media-operations-department",
-						TenantID:  nil, // Will be set during initialization
-						CreatedBy: nil, // Will be set during initialization
-						UpdatedBy: nil, // Will be set during initialization
+						Name:        "Digital Marketing",
+						Slug:        "digital-marketing",
+						Description: "Digital marketing and promotion",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Social Media Team", Slug: "social-media-team"},
-						{Name: "Data Analysis Team", Slug: "data-analysis-team"},
+						{Name: "Social Media", Slug: "social-media", Description: "Social media management"},
+						{Name: "SEO/SEM", Slug: "seo-sem", Description: "Search engine optimization and marketing"},
+					},
+				},
+			},
+		},
+		"consultcorp": {
+			Departments: []Department{
+				{
+					Info: structs.GroupBody{
+						Name:        "Business Consulting",
+						Slug:        "business-consulting",
+						Description: "Strategic business consulting services",
+					},
+					Teams: []structs.GroupBody{
+						{Name: "Strategy Consulting", Slug: "strategy-consulting", Description: "Strategic planning and advisory"},
+						{Name: "Process Optimization", Slug: "process-optimization", Description: "Business process improvement"},
 					},
 				},
 			},
 		},
 	},
-	TemporaryGroups: []structs.GroupBody{
+	SharedDepartments: []Department{
 		{
-			Name:      "Strategy Committee",
-			Slug:      "strategy-committee",
-			TenantID:  nil, // Will be set during initialization
-			CreatedBy: nil, // Will be set during initialization
-			UpdatedBy: nil, // Will be set during initialization
+			Info: structs.GroupBody{
+				Name:        "Human Resources",
+				Slug:        "%s-hr", // Format with company slug
+				Description: "Human resources management",
+			},
+			Teams: []structs.GroupBody{
+				{Name: "Recruitment", Slug: "%s-recruitment", Description: "Talent acquisition"},
+				{Name: "Employee Relations", Slug: "%s-employee-relations", Description: "Employee support and relations"},
+			},
 		},
 		{
-			Name:      "Digital Transformation Team",
-			Slug:      "digital-transformation-team",
-			TenantID:  nil, // Will be set during initialization
-			CreatedBy: nil, // Will be set during initialization
-			UpdatedBy: nil, // Will be set during initialization
+			Info: structs.GroupBody{
+				Name:        "Finance & Accounting",
+				Slug:        "%s-finance",
+				Description: "Financial management and accounting",
+			},
+			Teams: []structs.GroupBody{
+				{Name: "Accounting", Slug: "%s-accounting", Description: "Financial accounting"},
+				{Name: "Financial Planning", Slug: "%s-financial-planning", Description: "Budget and planning"},
+			},
+		},
+		{
+			Info: structs.GroupBody{
+				Name:        "Operations",
+				Slug:        "%s-operations",
+				Description: "Operational management and support",
+			},
+			Teams: []structs.GroupBody{
+				{Name: "Administration", Slug: "%s-administration", Description: "Administrative support"},
+				{Name: "Facilities", Slug: "%s-facilities", Description: "Facilities management"},
+			},
 		},
 	},
 	OrganizationRoles: []OrganizationRole{
 		{
 			Role: accessStructs.RoleBody{
-				Name: "Group Admin",
-				Slug: "group-admin",
+				Name:        "Enterprise Executive",
+				Slug:        "enterprise-executive",
+				Description: "Enterprise-level executive leadership",
 			},
-			Permissions: []string{"Manage Group", "Manage Department", "Manage Team"},
+			Permissions: []string{
+				"System Management",
+				"Organization Management",
+				"Financial Management",
+				"HR Management",
+			},
 		},
 		{
 			Role: accessStructs.RoleBody{
-				Name: "Department Manager",
-				Slug: "department-manager",
+				Name:        "Company Director",
+				Slug:        "company-director",
+				Description: "Company-level leadership and management",
 			},
-			Permissions: []string{"Manage Department", "Manage Team", "View Group"},
+			Permissions: []string{
+				"Organization Management",
+				"Department Management",
+				"Employee Management",
+			},
 		},
 		{
 			Role: accessStructs.RoleBody{
-				Name: "Team Leader",
-				Slug: "team-leader",
+				Name:        "Department Head",
+				Slug:        "department-head",
+				Description: "Department leadership and oversight",
 			},
-			Permissions: []string{"Manage Team", "View Department", "View Group"},
+			Permissions: []string{
+				"Department Management",
+				"Team Management",
+				"Employee Management",
+			},
 		},
 		{
 			Role: accessStructs.RoleBody{
-				Name: "Employee",
-				Slug: "employee",
+				Name:        "Team Supervisor",
+				Slug:        "team-supervisor",
+				Description: "Team supervision and coordination",
 			},
-			Permissions: []string{"View Team", "View Department", "View Group"},
+			Permissions: []string{
+				"Team Management",
+				"View Employees",
+			},
 		},
 	},
 }
 
-// CompanyStructure represents a company's departments and teams
+// CompanyStructure represents a company's organizational structure
 type CompanyStructure struct {
 	Departments []Department `json:"departments"`
 }
@@ -182,48 +228,8 @@ type Department struct {
 	Teams []structs.GroupBody `json:"teams"`
 }
 
-// OrganizationRole represents a role and its permissions within the organization
+// OrganizationRole represents organizational roles and permissions
 type OrganizationRole struct {
 	Role        accessStructs.RoleBody `json:"role"`
 	Permissions []string               `json:"permissions"`
-}
-
-// OrganizationPermissions defines specific permissions for organizational roles
-var OrganizationPermissions = []accessStructs.PermissionBody{
-	{Name: "Manage Group", Action: "*", Subject: "group"},
-	{Name: "Manage Department", Action: "*", Subject: "department"},
-	{Name: "Manage Team", Action: "*", Subject: "team"},
-	{Name: "View Group", Action: "GET", Subject: "group"},
-	{Name: "View Department", Action: "GET", Subject: "department"},
-	{Name: "View Team", Action: "GET", Subject: "team"},
-}
-
-// CommonDepartments defines departments that exist in all companies
-var CommonDepartments = []Department{
-	{
-		Info: structs.GroupBody{
-			Name:      "Marketing Department",
-			Slug:      "%s-marketing-department", // Format with company slug
-			TenantID:  nil,                       // Will be set during initialization
-			CreatedBy: nil,                       // Will be set during initialization
-			UpdatedBy: nil,                       // Will be set during initialization
-		},
-		Teams: []structs.GroupBody{
-			{Name: "Brand Team", Slug: "%s-brand-team"},                        // Format with company slug
-			{Name: "Market Research Team", Slug: "%s-marketing-research-team"}, // Format with company slug
-		},
-	},
-	{
-		Info: structs.GroupBody{
-			Name:      "HR Department",
-			Slug:      "%s-hr-department", // Format with company slug
-			TenantID:  nil,                // Will be set during initialization
-			CreatedBy: nil,                // Will be set during initialization
-			UpdatedBy: nil,                // Will be set during initialization
-		},
-		Teams: []structs.GroupBody{
-			{Name: "Recruitment Team", Slug: "%s-recruitment-team"},                  // Format with company slug
-			{Name: "Training & Development Team", Slug: "%s-train-development-team"}, // Format with company slug
-		},
-	},
 }

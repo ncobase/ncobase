@@ -11,7 +11,7 @@ import (
 
 // checkTenantsInitialized checks if tenants are already initialized.
 func (s *Service) checkTenantsInitialized(ctx context.Context) error {
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
 	if err == nil && tenant != nil {
 		logger.Infof(ctx, "Default tenant already exists, skipping initialization")
 		return nil
@@ -53,7 +53,7 @@ func (s *Service) initTenants(ctx context.Context) error {
 	}
 
 	// Verify the default tenant exists
-	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, "ncobase")
+	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
 	if err != nil || defaultTenant == nil {
 		logger.Errorf(ctx, "Default tenant 'ncobase' does not exist after initialization")
 		return fmt.Errorf("default tenant 'ncobase' not found after initialization: %w", err)
