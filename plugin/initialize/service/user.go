@@ -282,7 +282,7 @@ func (s *Service) initializeUserGroupAssignments(ctx context.Context) error {
 			}
 
 			// Assign user to group
-			if _, err := s.ss.UserGroup.AddUserToGroup(ctx, user.ID, group.ID); err != nil {
+			if _, err := s.ss.UserGroup.AddUserToGroup(ctx, user.ID, group.ID, spaceStructs.RoleMember); err != nil {
 				logger.Warnf(ctx, "Failed to assign user '%s' to group '%s': %v", username, groupSlug, err)
 				continue
 			}
