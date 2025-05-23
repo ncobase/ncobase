@@ -1,4 +1,4 @@
-package data
+package enterprise
 
 import (
 	userStructs "ncobase/user/structs"
@@ -12,7 +12,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "super",
-			Email:       "super@enterprise.com",
+			Email:       "super@ncobase.com",
 			Phone:       "13800138000",
 			IsCertified: true,
 			IsAdmin:     true,
@@ -35,7 +35,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "admin",
-			Email:       "admin@enterprise.com",
+			Email:       "admin@ncobase.com",
 			Phone:       "13800138010",
 			IsCertified: true,
 			IsAdmin:     true,
@@ -60,7 +60,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "chief.executive",
-			Email:       "ceo@enterprise.com",
+			Email:       "ceo@ncobase.com",
 			Phone:       "13800138001",
 			IsCertified: true,
 			IsAdmin:     true,
@@ -87,7 +87,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "hr.manager",
-			Email:       "hr.manager@enterprise.com",
+			Email:       "hr.manager@ncobase.com",
 			Phone:       "13800138002",
 			IsCertified: true,
 			IsAdmin:     false,
@@ -113,7 +113,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "finance.manager",
-			Email:       "finance.manager@enterprise.com",
+			Email:       "finance.manager@ncobase.com",
 			Phone:       "13800138003",
 			IsCertified: true,
 			IsAdmin:     false,
@@ -139,7 +139,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "it.manager",
-			Email:       "it.manager@enterprise.com",
+			Email:       "it.manager@ncobase.com",
 			Phone:       "13800138004",
 			IsCertified: true,
 			IsAdmin:     false,
@@ -362,7 +362,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "data.analyst",
-			Email:       "data.analyst@enterprise.com",
+			Email:       "data.analyst@ncobase.com",
 			Phone:       "13800138012",
 			IsCertified: true,
 			IsAdmin:     false,
@@ -391,7 +391,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "cs.manager",
-			Email:       "cs.manager@enterprise.com",
+			Email:       "cs.manager@ncobase.com",
 			Phone:       "13800138013",
 			IsCertified: true,
 			IsAdmin:     false,
@@ -419,7 +419,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "employee.one",
-			Email:       "employee.one@enterprise.com",
+			Email:       "employee.one@ncobase.com",
 			Phone:       "13800138014",
 			IsCertified: true,
 			IsAdmin:     false,
@@ -448,7 +448,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "intern.dev",
-			Email:       "intern.dev@enterprise.com",
+			Email:       "intern.dev@ncobase.com",
 			Phone:       "13800138015",
 			IsCertified: false,
 			IsAdmin:     false,

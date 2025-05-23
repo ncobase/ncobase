@@ -12,11 +12,12 @@ import (
 func (s *Service) getAdminUser(ctx context.Context, operation string) (*userStructs.ReadUser, error) {
 	// Try to get admin user by priority
 	adminCandidates := []string{
-		"chief.executive", // CEO - Highest priority
-		"super",           // System administrator
-		"hr.manager",      // HR manager
-		"finance.manager", // Finance manager
-		"tech.lead",       // Technical lead
+		"enterprise.admin", // Enterprise admin
+		"chief.executive",  // CEO - Highest priority
+		"super",            // System administrator
+		"hr.manager",       // HR manager
+		"finance.manager",  // Finance manager
+		"tech.lead",        // Technical lead
 	}
 
 	for _, username := range adminCandidates {

@@ -1,4 +1,4 @@
-package data
+package enterprise
 
 import accessStructs "ncobase/access/structs"
 

@@ -1,12 +1,12 @@
-package data
+package enterprise
 
 import (
 	accessStructs "ncobase/access/structs"
 	"ncobase/space/structs"
 )
 
-// EnterpriseOrganizationStructure defines the enterprise organizational hierarchy
-var EnterpriseOrganizationStructure = struct {
+// OrganizationStructure defines the enterprise organizational hierarchy
+var OrganizationStructure = struct {
 	Enterprise        structs.GroupBody           `json:"enterprise"`
 	Headquarters      []structs.GroupBody         `json:"headquarters"`
 	Companies         []structs.GroupBody         `json:"companies"`

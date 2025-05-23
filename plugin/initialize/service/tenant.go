@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/initialize/data"
+	data "ncobase/initialize/data/company"
 	tenantStructs "ncobase/tenant/structs"
 
 	"github.com/ncobase/ncore/logging/logger"

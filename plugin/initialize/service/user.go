@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/initialize/data"
+	data "ncobase/initialize/data/company"
 	spaceStructs "ncobase/space/structs"
 	userStructs "ncobase/user/structs"
 	"strings"
@@ -170,7 +170,7 @@ func (s *Service) initUsers(ctx context.Context) error {
 	}
 
 	// Verify required users were created
-	reqUsers := []string{"super", "admin", "chief.executive", "hr.manager", "finance.manager", "tech.lead"}
+	reqUsers := []string{"super", "admin"}
 	for _, username := range reqUsers {
 		user, err := s.us.User.Get(ctx, username)
 		if err != nil || user == nil {

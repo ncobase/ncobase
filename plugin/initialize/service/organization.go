@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	accessStructs "ncobase/access/structs"
-	"ncobase/initialize/data"
+	data "ncobase/initialize/data/company"
 	spaceStructs "ncobase/space/structs"
 	"time"
 
@@ -23,9 +23,9 @@ func (s *Service) checkOrganizationsInitialized(ctx context.Context) error {
 	return s.initOrganizations(ctx)
 }
 
-// initOrganizations initializes the enterprise organizational structure
+// initOrganizations initializes the organizational structure
 func (s *Service) initOrganizations(ctx context.Context) error {
-	logger.Infof(ctx, "Initializing enterprise organizational structure...")
+	logger.Infof(ctx, "Initializing organizational structure...")
 
 	// Get default tenant
 	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
@@ -34,33 +34,33 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 	}
 
 	// Get CEO user for creation attribution
-	ceo, err := s.us.User.Get(ctx, "chief.executive")
+	ea, err := s.getAdminUser(ctx, "creating organizational structure")
 	if err != nil {
 		return fmt.Errorf("failed to get CEO user: %v", err)
 	}
 
 	var groupCount int
 
-	// Step 1: Create the main enterprise group
-	mainGroup := data.EnterpriseOrganizationStructure.Enterprise
+	// Step 1: Create the main group
+	mainGroup := data.OrganizationStructure.Enterprise
 	mainGroup.TenantID = &tenant.ID
-	mainGroup.CreatedBy = &ceo.ID
-	mainGroup.UpdatedBy = &ceo.ID
+	mainGroup.CreatedBy = &ea.ID
+	mainGroup.UpdatedBy = &ea.ID
 
 	createdMainGroup, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
 		GroupBody: mainGroup,
 	})
 	if err != nil {
-		return fmt.Errorf("failed to create main enterprise group: %v", err)
+		return fmt.Errorf("failed to create main group: %v", err)
 	}
-	logger.Debugf(ctx, "Created main enterprise group: %s", mainGroup.Name)
+	logger.Debugf(ctx, "Created main group: %s", mainGroup.Name)
 	groupCount++
 
 	// Step 2: Create headquarters departments
-	for _, hq := range data.EnterpriseOrganizationStructure.Headquarters {
+	for _, hq := range data.OrganizationStructure.Headquarters {
 		hq.TenantID = &tenant.ID
-		hq.CreatedBy = &ceo.ID
-		hq.UpdatedBy = &ceo.ID
+		hq.CreatedBy = &ea.ID
+		hq.UpdatedBy = &ea.ID
 		hq.ParentID = &createdMainGroup.ID
 
 		_, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
@@ -74,11 +74,11 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 	}
 
 	// Step 3: Create companies
-	companies := make([]*spaceStructs.ReadGroup, 0, len(data.EnterpriseOrganizationStructure.Companies))
-	for _, company := range data.EnterpriseOrganizationStructure.Companies {
+	companies := make([]*spaceStructs.ReadGroup, 0, len(data.OrganizationStructure.Companies))
+	for _, company := range data.OrganizationStructure.Companies {
 		company.TenantID = &tenant.ID
-		company.CreatedBy = &ceo.ID
-		company.UpdatedBy = &ceo.ID
+		company.CreatedBy = &ea.ID
+		company.UpdatedBy = &ea.ID
 		company.ParentID = &createdMainGroup.ID
 
 		createdCompany, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
@@ -94,7 +94,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 
 	// Step 4: Create company-specific departments and teams
 	for _, company := range companies {
-		companyStructure, exists := data.EnterpriseOrganizationStructure.CompanyStructures[company.Slug]
+		companyStructure, exists := data.OrganizationStructure.CompanyStructures[company.Slug]
 		if !exists {
 			logger.Warnf(ctx, "No structure defined for company %s, skipping", company.Slug)
 			continue
@@ -104,8 +104,8 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 		for _, dept := range companyStructure.Departments {
 			deptInfo := dept.Info
 			deptInfo.TenantID = &tenant.ID
-			deptInfo.CreatedBy = &ceo.ID
-			deptInfo.UpdatedBy = &ceo.ID
+			deptInfo.CreatedBy = &ea.ID
+			deptInfo.UpdatedBy = &ea.ID
 			deptInfo.ParentID = &company.ID
 
 			createdDept, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
@@ -120,8 +120,8 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 			// Create teams for this department
 			for _, team := range dept.Teams {
 				team.TenantID = &tenant.ID
-				team.CreatedBy = &ceo.ID
-				team.UpdatedBy = &ceo.ID
+				team.CreatedBy = &ea.ID
+				team.UpdatedBy = &ea.ID
 				team.ParentID = &createdDept.ID
 
 				_, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
@@ -136,12 +136,12 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 		}
 
 		// Create shared departments for each company
-		for _, sharedDept := range data.EnterpriseOrganizationStructure.SharedDepartments {
+		for _, sharedDept := range data.OrganizationStructure.SharedDepartments {
 			deptInfo := sharedDept.Info
 			deptInfo.Slug = fmt.Sprintf(deptInfo.Slug, company.Slug)
 			deptInfo.TenantID = &tenant.ID
-			deptInfo.CreatedBy = &ceo.ID
-			deptInfo.UpdatedBy = &ceo.ID
+			deptInfo.CreatedBy = &ea.ID
+			deptInfo.UpdatedBy = &ea.ID
 			deptInfo.ParentID = &company.ID
 
 			createdDept, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
@@ -157,8 +157,8 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 			for _, team := range sharedDept.Teams {
 				team.Slug = fmt.Sprintf(team.Slug, company.Slug)
 				team.TenantID = &tenant.ID
-				team.CreatedBy = &ceo.ID
-				team.UpdatedBy = &ceo.ID
+				team.CreatedBy = &ea.ID
+				team.UpdatedBy = &ea.ID
 				team.ParentID = &createdDept.ID
 
 				_, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
@@ -175,7 +175,7 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 
 	// Step 5: Create organization-specific roles
 	var roleCount int
-	for _, orgRole := range data.EnterpriseOrganizationStructure.OrganizationRoles {
+	for _, orgRole := range data.OrganizationStructure.OrganizationRoles {
 		existingRole, err := s.acs.Role.GetBySlug(ctx, orgRole.Role.Slug)
 		if err == nil && existingRole != nil {
 			logger.Debugf(ctx, "Organization role %s already exists, skipping", orgRole.Role.Slug)

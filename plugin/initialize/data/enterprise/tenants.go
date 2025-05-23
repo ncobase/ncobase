@@ -1,4 +1,4 @@
-package data
+package enterprise
 
 import "ncobase/tenant/structs"
 

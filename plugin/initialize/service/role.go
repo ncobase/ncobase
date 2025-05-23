@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	accessStructs "ncobase/access/structs"
-	"ncobase/initialize/data"
+	data "ncobase/initialize/data/company"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
@@ -50,7 +50,7 @@ func (s *Service) initRoles(ctx context.Context) error {
 	}
 
 	// Initialize organization-specific roles
-	for _, role := range data.EnterpriseOrganizationStructure.OrganizationRoles {
+	for _, role := range data.OrganizationStructure.OrganizationRoles {
 		// Check if role already exists
 		existingRole, err := s.acs.Role.GetBySlug(ctx, role.Role.Slug)
 		if err == nil && existingRole != nil {
@@ -77,8 +77,8 @@ func (s *Service) initRoles(ctx context.Context) error {
 	count := s.acs.Role.CountX(ctx, &accessStructs.ListRoleParams{})
 	logger.Infof(ctx, "Role initialization completed, %d roles now in system", count)
 
-	// Validate essential roles exist (updated for enterprise structure)
-	essential := []string{"system-admin", "enterprise-admin", "hr-manager", "finance-manager", "department-manager", "employee"}
+	// Validate essential roles exist
+	essential := []string{"super-admin", "system-admin", "enterprise-admin"}
 	for _, slug := range essential {
 		role, err := s.acs.Role.GetBySlug(ctx, slug)
 		if err != nil || role == nil {

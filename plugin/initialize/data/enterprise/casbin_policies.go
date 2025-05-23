@@ -1,4 +1,4 @@
-package data
+package enterprise
 
 // CasbinPolicyRules defines policy rules for 6-parameter model: sub, dom, obj, act, v4, v5
 var CasbinPolicyRules = [][]string{

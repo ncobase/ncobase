@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	accessStructs "ncobase/access/structs"
-	"ncobase/initialize/data"
+	data "ncobase/initialize/data/company"
 
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/convert"
