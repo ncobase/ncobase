@@ -44,11 +44,13 @@ func refreshToken(jtm *jwt.TokenManager, oldToken string) (string, error) {
 	roles, _ := payload["roles"].([]string)
 	permissions, _ := payload["permissions"].([]string)
 	isAdmin, _ := payload["is_admin"].(bool)
+	tenantIDs, _ := payload["tenant_ids"].([]string)
 
 	// Create updated payload
 	newPayload := types.JSON{
 		"user_id":     userID,
 		"tenant_id":   tenantID,
+		"tenant_ids":  tenantIDs,
 		"roles":       roles,
 		"permissions": permissions,
 		"is_admin":    isAdmin,
@@ -123,12 +125,23 @@ func ConsumeUser(jtm *jwt.TokenManager, whiteList []string) gin.HandlerFunc {
 			handleTokenError(c, errors.New("user_id not found in token payload"))
 			return
 		}
-		ctxutil.SetUserID(ctx, userID)
+		ctx = ctxutil.SetUserID(ctx, userID)
 
 		// Extract and set tenant ID
 		tenantID := jwt.GetTenantIDFromToken(tokenData)
 		if tenantID != "" {
-			ctxutil.SetTenantID(ctx, tenantID)
+			ctx = ctxutil.SetTenantID(ctx, tenantID)
+		}
+
+		// Extract and set tenant IDs
+		if tenantIDs, ok := payload["tenant_ids"].([]interface{}); ok {
+			var tenantIDStrings []string
+			for _, id := range tenantIDs {
+				if idStr, ok := id.(string); ok {
+					tenantIDStrings = append(tenantIDStrings, idStr)
+				}
+			}
+			ctx = ctxutil.SetUserTenantIDs(ctx, tenantIDStrings)
 		}
 
 		// Extract roles and permissions
@@ -136,15 +149,15 @@ func ConsumeUser(jtm *jwt.TokenManager, whiteList []string) gin.HandlerFunc {
 		permissions := jwt.GetPermissionsFromToken(tokenData)
 		isAdmin := jwt.IsAdminFromToken(tokenData)
 
-		// Store in context for use by other middleware/handlers
-		ctx = context.WithValue(ctx, "token_roles", roles)
-		ctx = context.WithValue(ctx, "token_permissions", permissions)
-		ctx = context.WithValue(ctx, "token_is_admin", isAdmin)
+		// Set roles, permissions and admin status to context
+		ctx = ctxutil.SetUserRoles(ctx, roles)
+		ctx = ctxutil.SetUserPermissions(ctx, permissions)
+		ctx = ctxutil.SetUserIsAdmin(ctx, isAdmin)
 
 		// Update request context
 		c.Request = c.Request.WithContext(ctx)
 
-		// Set values in Gin context for easy access
+		// Set values in Gin context for backward compatibility
 		c.Set("roles", roles)
 		c.Set("permissions", permissions)
 		c.Set("is_admin", isAdmin)
@@ -174,7 +187,7 @@ func handleTokenError(c *gin.Context, err error) {
 	)
 	ctx := ctxutil.FromGinContext(c)
 	// Logging the error
-	logger.Errorf(ctx, "Error: %v", err)
+	logger.Errorf(ctx, "Token error: %v", err)
 
 	switch {
 	case strings.Contains(err.Error(), "token is expired"):
