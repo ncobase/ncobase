@@ -48,6 +48,66 @@ func (upu *UserProfileUpdate) ClearDisplayName() *UserProfileUpdate {
 	return upu
 }
 
+// SetFirstName sets the "first_name" field.
+func (upu *UserProfileUpdate) SetFirstName(s string) *UserProfileUpdate {
+	upu.mutation.SetFirstName(s)
+	return upu
+}
+
+// SetNillableFirstName sets the "first_name" field if the given value is not nil.
+func (upu *UserProfileUpdate) SetNillableFirstName(s *string) *UserProfileUpdate {
+	if s != nil {
+		upu.SetFirstName(*s)
+	}
+	return upu
+}
+
+// ClearFirstName clears the value of the "first_name" field.
+func (upu *UserProfileUpdate) ClearFirstName() *UserProfileUpdate {
+	upu.mutation.ClearFirstName()
+	return upu
+}
+
+// SetLastName sets the "last_name" field.
+func (upu *UserProfileUpdate) SetLastName(s string) *UserProfileUpdate {
+	upu.mutation.SetLastName(s)
+	return upu
+}
+
+// SetNillableLastName sets the "last_name" field if the given value is not nil.
+func (upu *UserProfileUpdate) SetNillableLastName(s *string) *UserProfileUpdate {
+	if s != nil {
+		upu.SetLastName(*s)
+	}
+	return upu
+}
+
+// ClearLastName clears the value of the "last_name" field.
+func (upu *UserProfileUpdate) ClearLastName() *UserProfileUpdate {
+	upu.mutation.ClearLastName()
+	return upu
+}
+
+// SetTitle sets the "title" field.
+func (upu *UserProfileUpdate) SetTitle(s string) *UserProfileUpdate {
+	upu.mutation.SetTitle(s)
+	return upu
+}
+
+// SetNillableTitle sets the "title" field if the given value is not nil.
+func (upu *UserProfileUpdate) SetNillableTitle(s *string) *UserProfileUpdate {
+	if s != nil {
+		upu.SetTitle(*s)
+	}
+	return upu
+}
+
+// ClearTitle clears the value of the "title" field.
+func (upu *UserProfileUpdate) ClearTitle() *UserProfileUpdate {
+	upu.mutation.ClearTitle()
+	return upu
+}
+
 // SetShortBio sets the "short_bio" field.
 func (upu *UserProfileUpdate) SetShortBio(s string) *UserProfileUpdate {
 	upu.mutation.SetShortBio(s)
@@ -185,6 +245,24 @@ func (upu *UserProfileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if upu.mutation.DisplayNameCleared() {
 		_spec.ClearField(userprofile.FieldDisplayName, field.TypeString)
 	}
+	if value, ok := upu.mutation.FirstName(); ok {
+		_spec.SetField(userprofile.FieldFirstName, field.TypeString, value)
+	}
+	if upu.mutation.FirstNameCleared() {
+		_spec.ClearField(userprofile.FieldFirstName, field.TypeString)
+	}
+	if value, ok := upu.mutation.LastName(); ok {
+		_spec.SetField(userprofile.FieldLastName, field.TypeString, value)
+	}
+	if upu.mutation.LastNameCleared() {
+		_spec.ClearField(userprofile.FieldLastName, field.TypeString)
+	}
+	if value, ok := upu.mutation.Title(); ok {
+		_spec.SetField(userprofile.FieldTitle, field.TypeString, value)
+	}
+	if upu.mutation.TitleCleared() {
+		_spec.ClearField(userprofile.FieldTitle, field.TypeString)
+	}
 	if value, ok := upu.mutation.ShortBio(); ok {
 		_spec.SetField(userprofile.FieldShortBio, field.TypeString, value)
 	}
@@ -257,6 +335,66 @@ func (upuo *UserProfileUpdateOne) SetNillableDisplayName(s *string) *UserProfile
 // ClearDisplayName clears the value of the "display_name" field.
 func (upuo *UserProfileUpdateOne) ClearDisplayName() *UserProfileUpdateOne {
 	upuo.mutation.ClearDisplayName()
+	return upuo
+}
+
+// SetFirstName sets the "first_name" field.
+func (upuo *UserProfileUpdateOne) SetFirstName(s string) *UserProfileUpdateOne {
+	upuo.mutation.SetFirstName(s)
+	return upuo
+}
+
+// SetNillableFirstName sets the "first_name" field if the given value is not nil.
+func (upuo *UserProfileUpdateOne) SetNillableFirstName(s *string) *UserProfileUpdateOne {
+	if s != nil {
+		upuo.SetFirstName(*s)
+	}
+	return upuo
+}
+
+// ClearFirstName clears the value of the "first_name" field.
+func (upuo *UserProfileUpdateOne) ClearFirstName() *UserProfileUpdateOne {
+	upuo.mutation.ClearFirstName()
+	return upuo
+}
+
+// SetLastName sets the "last_name" field.
+func (upuo *UserProfileUpdateOne) SetLastName(s string) *UserProfileUpdateOne {
+	upuo.mutation.SetLastName(s)
+	return upuo
+}
+
+// SetNillableLastName sets the "last_name" field if the given value is not nil.
+func (upuo *UserProfileUpdateOne) SetNillableLastName(s *string) *UserProfileUpdateOne {
+	if s != nil {
+		upuo.SetLastName(*s)
+	}
+	return upuo
+}
+
+// ClearLastName clears the value of the "last_name" field.
+func (upuo *UserProfileUpdateOne) ClearLastName() *UserProfileUpdateOne {
+	upuo.mutation.ClearLastName()
+	return upuo
+}
+
+// SetTitle sets the "title" field.
+func (upuo *UserProfileUpdateOne) SetTitle(s string) *UserProfileUpdateOne {
+	upuo.mutation.SetTitle(s)
+	return upuo
+}
+
+// SetNillableTitle sets the "title" field if the given value is not nil.
+func (upuo *UserProfileUpdateOne) SetNillableTitle(s *string) *UserProfileUpdateOne {
+	if s != nil {
+		upuo.SetTitle(*s)
+	}
+	return upuo
+}
+
+// ClearTitle clears the value of the "title" field.
+func (upuo *UserProfileUpdateOne) ClearTitle() *UserProfileUpdateOne {
+	upuo.mutation.ClearTitle()
 	return upuo
 }
 
@@ -426,6 +564,24 @@ func (upuo *UserProfileUpdateOne) sqlSave(ctx context.Context) (_node *UserProfi
 	}
 	if upuo.mutation.DisplayNameCleared() {
 		_spec.ClearField(userprofile.FieldDisplayName, field.TypeString)
+	}
+	if value, ok := upuo.mutation.FirstName(); ok {
+		_spec.SetField(userprofile.FieldFirstName, field.TypeString, value)
+	}
+	if upuo.mutation.FirstNameCleared() {
+		_spec.ClearField(userprofile.FieldFirstName, field.TypeString)
+	}
+	if value, ok := upuo.mutation.LastName(); ok {
+		_spec.SetField(userprofile.FieldLastName, field.TypeString, value)
+	}
+	if upuo.mutation.LastNameCleared() {
+		_spec.ClearField(userprofile.FieldLastName, field.TypeString)
+	}
+	if value, ok := upuo.mutation.Title(); ok {
+		_spec.SetField(userprofile.FieldTitle, field.TypeString, value)
+	}
+	if upuo.mutation.TitleCleared() {
+		_spec.ClearField(userprofile.FieldTitle, field.TypeString)
 	}
 	if value, ok := upuo.mutation.ShortBio(); ok {
 		_spec.SetField(userprofile.FieldShortBio, field.TypeString, value)

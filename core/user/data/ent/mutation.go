@@ -2757,6 +2757,9 @@ type UserProfileMutation struct {
 	typ           string
 	id            *string
 	display_name  *string
+	first_name    *string
+	last_name     *string
+	title         *string
 	short_bio     *string
 	about         *string
 	links         *[]map[string]interface{}
@@ -2920,6 +2923,153 @@ func (m *UserProfileMutation) DisplayNameCleared() bool {
 func (m *UserProfileMutation) ResetDisplayName() {
 	m.display_name = nil
 	delete(m.clearedFields, userprofile.FieldDisplayName)
+}
+
+// SetFirstName sets the "first_name" field.
+func (m *UserProfileMutation) SetFirstName(s string) {
+	m.first_name = &s
+}
+
+// FirstName returns the value of the "first_name" field in the mutation.
+func (m *UserProfileMutation) FirstName() (r string, exists bool) {
+	v := m.first_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstName returns the old "first_name" field's value of the UserProfile entity.
+// If the UserProfile object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserProfileMutation) OldFirstName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstName: %w", err)
+	}
+	return oldValue.FirstName, nil
+}
+
+// ClearFirstName clears the value of the "first_name" field.
+func (m *UserProfileMutation) ClearFirstName() {
+	m.first_name = nil
+	m.clearedFields[userprofile.FieldFirstName] = struct{}{}
+}
+
+// FirstNameCleared returns if the "first_name" field was cleared in this mutation.
+func (m *UserProfileMutation) FirstNameCleared() bool {
+	_, ok := m.clearedFields[userprofile.FieldFirstName]
+	return ok
+}
+
+// ResetFirstName resets all changes to the "first_name" field.
+func (m *UserProfileMutation) ResetFirstName() {
+	m.first_name = nil
+	delete(m.clearedFields, userprofile.FieldFirstName)
+}
+
+// SetLastName sets the "last_name" field.
+func (m *UserProfileMutation) SetLastName(s string) {
+	m.last_name = &s
+}
+
+// LastName returns the value of the "last_name" field in the mutation.
+func (m *UserProfileMutation) LastName() (r string, exists bool) {
+	v := m.last_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastName returns the old "last_name" field's value of the UserProfile entity.
+// If the UserProfile object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserProfileMutation) OldLastName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastName: %w", err)
+	}
+	return oldValue.LastName, nil
+}
+
+// ClearLastName clears the value of the "last_name" field.
+func (m *UserProfileMutation) ClearLastName() {
+	m.last_name = nil
+	m.clearedFields[userprofile.FieldLastName] = struct{}{}
+}
+
+// LastNameCleared returns if the "last_name" field was cleared in this mutation.
+func (m *UserProfileMutation) LastNameCleared() bool {
+	_, ok := m.clearedFields[userprofile.FieldLastName]
+	return ok
+}
+
+// ResetLastName resets all changes to the "last_name" field.
+func (m *UserProfileMutation) ResetLastName() {
+	m.last_name = nil
+	delete(m.clearedFields, userprofile.FieldLastName)
+}
+
+// SetTitle sets the "title" field.
+func (m *UserProfileMutation) SetTitle(s string) {
+	m.title = &s
+}
+
+// Title returns the value of the "title" field in the mutation.
+func (m *UserProfileMutation) Title() (r string, exists bool) {
+	v := m.title
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTitle returns the old "title" field's value of the UserProfile entity.
+// If the UserProfile object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserProfileMutation) OldTitle(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTitle is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTitle requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTitle: %w", err)
+	}
+	return oldValue.Title, nil
+}
+
+// ClearTitle clears the value of the "title" field.
+func (m *UserProfileMutation) ClearTitle() {
+	m.title = nil
+	m.clearedFields[userprofile.FieldTitle] = struct{}{}
+}
+
+// TitleCleared returns if the "title" field was cleared in this mutation.
+func (m *UserProfileMutation) TitleCleared() bool {
+	_, ok := m.clearedFields[userprofile.FieldTitle]
+	return ok
+}
+
+// ResetTitle resets all changes to the "title" field.
+func (m *UserProfileMutation) ResetTitle() {
+	m.title = nil
+	delete(m.clearedFields, userprofile.FieldTitle)
 }
 
 // SetShortBio sets the "short_bio" field.
@@ -3217,9 +3367,18 @@ func (m *UserProfileMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserProfileMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 9)
 	if m.display_name != nil {
 		fields = append(fields, userprofile.FieldDisplayName)
+	}
+	if m.first_name != nil {
+		fields = append(fields, userprofile.FieldFirstName)
+	}
+	if m.last_name != nil {
+		fields = append(fields, userprofile.FieldLastName)
+	}
+	if m.title != nil {
+		fields = append(fields, userprofile.FieldTitle)
 	}
 	if m.short_bio != nil {
 		fields = append(fields, userprofile.FieldShortBio)
@@ -3246,6 +3405,12 @@ func (m *UserProfileMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case userprofile.FieldDisplayName:
 		return m.DisplayName()
+	case userprofile.FieldFirstName:
+		return m.FirstName()
+	case userprofile.FieldLastName:
+		return m.LastName()
+	case userprofile.FieldTitle:
+		return m.Title()
 	case userprofile.FieldShortBio:
 		return m.ShortBio()
 	case userprofile.FieldAbout:
@@ -3267,6 +3432,12 @@ func (m *UserProfileMutation) OldField(ctx context.Context, name string) (ent.Va
 	switch name {
 	case userprofile.FieldDisplayName:
 		return m.OldDisplayName(ctx)
+	case userprofile.FieldFirstName:
+		return m.OldFirstName(ctx)
+	case userprofile.FieldLastName:
+		return m.OldLastName(ctx)
+	case userprofile.FieldTitle:
+		return m.OldTitle(ctx)
 	case userprofile.FieldShortBio:
 		return m.OldShortBio(ctx)
 	case userprofile.FieldAbout:
@@ -3292,6 +3463,27 @@ func (m *UserProfileMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDisplayName(v)
+		return nil
+	case userprofile.FieldFirstName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstName(v)
+		return nil
+	case userprofile.FieldLastName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastName(v)
+		return nil
+	case userprofile.FieldTitle:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTitle(v)
 		return nil
 	case userprofile.FieldShortBio:
 		v, ok := value.(string)
@@ -3361,6 +3553,15 @@ func (m *UserProfileMutation) ClearedFields() []string {
 	if m.FieldCleared(userprofile.FieldDisplayName) {
 		fields = append(fields, userprofile.FieldDisplayName)
 	}
+	if m.FieldCleared(userprofile.FieldFirstName) {
+		fields = append(fields, userprofile.FieldFirstName)
+	}
+	if m.FieldCleared(userprofile.FieldLastName) {
+		fields = append(fields, userprofile.FieldLastName)
+	}
+	if m.FieldCleared(userprofile.FieldTitle) {
+		fields = append(fields, userprofile.FieldTitle)
+	}
 	if m.FieldCleared(userprofile.FieldShortBio) {
 		fields = append(fields, userprofile.FieldShortBio)
 	}
@@ -3393,6 +3594,15 @@ func (m *UserProfileMutation) ClearField(name string) error {
 	case userprofile.FieldDisplayName:
 		m.ClearDisplayName()
 		return nil
+	case userprofile.FieldFirstName:
+		m.ClearFirstName()
+		return nil
+	case userprofile.FieldLastName:
+		m.ClearLastName()
+		return nil
+	case userprofile.FieldTitle:
+		m.ClearTitle()
+		return nil
 	case userprofile.FieldShortBio:
 		m.ClearShortBio()
 		return nil
@@ -3418,6 +3628,15 @@ func (m *UserProfileMutation) ResetField(name string) error {
 	switch name {
 	case userprofile.FieldDisplayName:
 		m.ResetDisplayName()
+		return nil
+	case userprofile.FieldFirstName:
+		m.ResetFirstName()
+		return nil
+	case userprofile.FieldLastName:
+		m.ResetLastName()
+		return nil
+	case userprofile.FieldTitle:
+		m.ResetTitle()
 		return nil
 	case userprofile.FieldShortBio:
 		m.ResetShortBio()

@@ -32,6 +32,48 @@ func (upc *UserProfileCreate) SetNillableDisplayName(s *string) *UserProfileCrea
 	return upc
 }
 
+// SetFirstName sets the "first_name" field.
+func (upc *UserProfileCreate) SetFirstName(s string) *UserProfileCreate {
+	upc.mutation.SetFirstName(s)
+	return upc
+}
+
+// SetNillableFirstName sets the "first_name" field if the given value is not nil.
+func (upc *UserProfileCreate) SetNillableFirstName(s *string) *UserProfileCreate {
+	if s != nil {
+		upc.SetFirstName(*s)
+	}
+	return upc
+}
+
+// SetLastName sets the "last_name" field.
+func (upc *UserProfileCreate) SetLastName(s string) *UserProfileCreate {
+	upc.mutation.SetLastName(s)
+	return upc
+}
+
+// SetNillableLastName sets the "last_name" field if the given value is not nil.
+func (upc *UserProfileCreate) SetNillableLastName(s *string) *UserProfileCreate {
+	if s != nil {
+		upc.SetLastName(*s)
+	}
+	return upc
+}
+
+// SetTitle sets the "title" field.
+func (upc *UserProfileCreate) SetTitle(s string) *UserProfileCreate {
+	upc.mutation.SetTitle(s)
+	return upc
+}
+
+// SetNillableTitle sets the "title" field if the given value is not nil.
+func (upc *UserProfileCreate) SetNillableTitle(s *string) *UserProfileCreate {
+	if s != nil {
+		upc.SetTitle(*s)
+	}
+	return upc
+}
+
 // SetShortBio sets the "short_bio" field.
 func (upc *UserProfileCreate) SetShortBio(s string) *UserProfileCreate {
 	upc.mutation.SetShortBio(s)
@@ -189,6 +231,18 @@ func (upc *UserProfileCreate) createSpec() (*UserProfile, *sqlgraph.CreateSpec) 
 	if value, ok := upc.mutation.DisplayName(); ok {
 		_spec.SetField(userprofile.FieldDisplayName, field.TypeString, value)
 		_node.DisplayName = value
+	}
+	if value, ok := upc.mutation.FirstName(); ok {
+		_spec.SetField(userprofile.FieldFirstName, field.TypeString, value)
+		_node.FirstName = value
+	}
+	if value, ok := upc.mutation.LastName(); ok {
+		_spec.SetField(userprofile.FieldLastName, field.TypeString, value)
+		_node.LastName = value
+	}
+	if value, ok := upc.mutation.Title(); ok {
+		_spec.SetField(userprofile.FieldTitle, field.TypeString, value)
+		_node.Title = value
 	}
 	if value, ok := upc.mutation.ShortBio(); ok {
 		_spec.SetField(userprofile.FieldShortBio, field.TypeString, value)

@@ -6,6 +6,9 @@ import "github.com/ncobase/ncore/types"
 type UserProfileBody struct {
 	UserID      string        `json:"userid,omitempty"`
 	DisplayName string        `json:"display_name,omitempty"`
+	FirstName   string        `json:"first_name,omitempty"`
+	LastName    string        `json:"last_name,omitempty"`
+	Title       string        `json:"title,omitempty"`
 	ShortBio    string        `json:"short_bio,omitempty"`
 	About       *string       `json:"about,omitempty"`
 	Thumbnail   *string       `json:"thumbnail,omitempty"`
@@ -17,6 +20,9 @@ type UserProfileBody struct {
 type ReadUserProfile struct {
 	UserID      string        `json:"userid,omitempty"`
 	DisplayName string        `json:"display_name,omitempty"`
+	FirstName   string        `json:"first_name,omitempty"`
+	LastName    string        `json:"last_name,omitempty"`
+	Title       string        `json:"title,omitempty"`
 	ShortBio    string        `json:"short_bio,omitempty"`
 	About       *string       `json:"about,omitempty"`
 	Thumbnail   *string       `json:"thumbnail,omitempty"`

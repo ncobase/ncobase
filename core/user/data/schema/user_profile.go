@@ -31,6 +31,9 @@ func (UserProfile) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.NewPrimaryKeyAlias("user", "user_id"),
 		mixin.DisplayName,
+		mixin.FirstName,
+		mixin.LastName,
+		mixin.Title,
 		mixin.ShortBio,
 		mixin.About,
 		mixin.Links,

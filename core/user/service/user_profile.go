@@ -80,6 +80,9 @@ func (s *userProfileService) Serialize(row *ent.UserProfile) *structs.ReadUserPr
 	return &structs.ReadUserProfile{
 		UserID:      row.ID,
 		DisplayName: row.DisplayName,
+		FirstName:   row.FirstName,
+		LastName:    row.LastName,
+		Title:       row.Title,
 		ShortBio:    row.ShortBio,
 		About:       &row.About,
 		Thumbnail:   &row.Thumbnail,

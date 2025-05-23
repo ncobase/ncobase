@@ -113,18 +113,18 @@ func init() {
 	userprofileMixin := schema.UserProfile{}.Mixin()
 	userprofileMixinFields0 := userprofileMixin[0].Fields()
 	_ = userprofileMixinFields0
-	userprofileMixinFields4 := userprofileMixin[4].Fields()
-	_ = userprofileMixinFields4
-	userprofileMixinFields6 := userprofileMixin[6].Fields()
-	_ = userprofileMixinFields6
+	userprofileMixinFields7 := userprofileMixin[7].Fields()
+	_ = userprofileMixinFields7
+	userprofileMixinFields9 := userprofileMixin[9].Fields()
+	_ = userprofileMixinFields9
 	userprofileFields := schema.UserProfile{}.Fields()
 	_ = userprofileFields
 	// userprofileDescLinks is the schema descriptor for links field.
-	userprofileDescLinks := userprofileMixinFields4[0].Descriptor()
+	userprofileDescLinks := userprofileMixinFields7[0].Descriptor()
 	// userprofile.DefaultLinks holds the default value on creation for the links field.
 	userprofile.DefaultLinks = userprofileDescLinks.Default.([]map[string]interface{})
 	// userprofileDescExtras is the schema descriptor for extras field.
-	userprofileDescExtras := userprofileMixinFields6[0].Descriptor()
+	userprofileDescExtras := userprofileMixinFields9[0].Descriptor()
 	// userprofile.DefaultExtras holds the default value on creation for the extras field.
 	userprofile.DefaultExtras = userprofileDescExtras.Default.(map[string]interface{})
 	// userprofileDescID is the schema descriptor for id field.

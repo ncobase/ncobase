@@ -20,6 +20,12 @@ type UserProfile struct {
 	ID string `json:"id,omitempty"`
 	// display name
 	DisplayName string `json:"display_name,omitempty"`
+	// first name
+	FirstName string `json:"first_name,omitempty"`
+	// last name
+	LastName string `json:"last_name,omitempty"`
+	// title
+	Title string `json:"title,omitempty"`
 	// short bio
 	ShortBio string `json:"short_bio,omitempty"`
 	// about
@@ -40,7 +46,7 @@ func (*UserProfile) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case userprofile.FieldLinks, userprofile.FieldExtras:
 			values[i] = new([]byte)
-		case userprofile.FieldID, userprofile.FieldDisplayName, userprofile.FieldShortBio, userprofile.FieldAbout, userprofile.FieldThumbnail:
+		case userprofile.FieldID, userprofile.FieldDisplayName, userprofile.FieldFirstName, userprofile.FieldLastName, userprofile.FieldTitle, userprofile.FieldShortBio, userprofile.FieldAbout, userprofile.FieldThumbnail:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -68,6 +74,24 @@ func (up *UserProfile) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field display_name", values[i])
 			} else if value.Valid {
 				up.DisplayName = value.String
+			}
+		case userprofile.FieldFirstName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field first_name", values[i])
+			} else if value.Valid {
+				up.FirstName = value.String
+			}
+		case userprofile.FieldLastName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field last_name", values[i])
+			} else if value.Valid {
+				up.LastName = value.String
+			}
+		case userprofile.FieldTitle:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field title", values[i])
+			} else if value.Valid {
+				up.Title = value.String
 			}
 		case userprofile.FieldShortBio:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -141,6 +165,15 @@ func (up *UserProfile) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v, ", up.ID))
 	builder.WriteString("display_name=")
 	builder.WriteString(up.DisplayName)
+	builder.WriteString(", ")
+	builder.WriteString("first_name=")
+	builder.WriteString(up.FirstName)
+	builder.WriteString(", ")
+	builder.WriteString("last_name=")
+	builder.WriteString(up.LastName)
+	builder.WriteString(", ")
+	builder.WriteString("title=")
+	builder.WriteString(up.Title)
 	builder.WriteString(", ")
 	builder.WriteString("short_bio=")
 	builder.WriteString(up.ShortBio)

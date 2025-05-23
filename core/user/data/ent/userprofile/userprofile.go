@@ -13,6 +13,12 @@ const (
 	FieldID = "user_id"
 	// FieldDisplayName holds the string denoting the display_name field in the database.
 	FieldDisplayName = "display_name"
+	// FieldFirstName holds the string denoting the first_name field in the database.
+	FieldFirstName = "first_name"
+	// FieldLastName holds the string denoting the last_name field in the database.
+	FieldLastName = "last_name"
+	// FieldTitle holds the string denoting the title field in the database.
+	FieldTitle = "title"
 	// FieldShortBio holds the string denoting the short_bio field in the database.
 	FieldShortBio = "short_bio"
 	// FieldAbout holds the string denoting the about field in the database.
@@ -31,6 +37,9 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldDisplayName,
+	FieldFirstName,
+	FieldLastName,
+	FieldTitle,
 	FieldShortBio,
 	FieldAbout,
 	FieldLinks,
@@ -68,6 +77,21 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByDisplayName orders the results by the display_name field.
 func ByDisplayName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDisplayName, opts...).ToFunc()
+}
+
+// ByFirstName orders the results by the first_name field.
+func ByFirstName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFirstName, opts...).ToFunc()
+}
+
+// ByLastName orders the results by the last_name field.
+func ByLastName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLastName, opts...).ToFunc()
+}
+
+// ByTitle orders the results by the title field.
+func ByTitle(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTitle, opts...).ToFunc()
 }
 
 // ByShortBio orders the results by the short_bio field.

@@ -47,6 +47,9 @@ func (r *userProfileRepository) Create(ctx context.Context, body *structs.UserPr
 	// set values.
 	builder.SetID(body.UserID)
 	builder.SetDisplayName(body.DisplayName)
+	builder.SetNillableFirstName(&body.FirstName)
+	builder.SetNillableLastName(&body.LastName)
+	builder.SetNillableTitle(&body.Title)
 	builder.SetShortBio(body.ShortBio)
 	builder.SetNillableAbout(body.About)
 	builder.SetNillableThumbnail(body.Thumbnail)
@@ -85,6 +88,12 @@ func (r *userProfileRepository) Update(ctx context.Context, id string, updates t
 		switch field {
 		case "display_name":
 			builder.SetNillableDisplayName(convert.ToPointer(value.(string)))
+		case "first_name":
+			builder.SetNillableFirstName(convert.ToPointer(value.(string)))
+		case "last_name":
+			builder.SetNillableLastName(convert.ToPointer(value.(string)))
+		case "title":
+			builder.SetNillableTitle(convert.ToPointer(value.(string)))
 		case "short_bio":
 			builder.SetNillableShortBio(convert.ToPointer(value.(string)))
 		case "about":

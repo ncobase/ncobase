@@ -114,6 +114,9 @@ var (
 	NcseSysUserProfileColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
 		{Name: "display_name", Type: field.TypeString, Nullable: true, Comment: "display name"},
+		{Name: "first_name", Type: field.TypeString, Nullable: true, Comment: "first name"},
+		{Name: "last_name", Type: field.TypeString, Nullable: true, Comment: "last name"},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
 		{Name: "short_bio", Type: field.TypeString, Nullable: true, Comment: "short bio"},
 		{Name: "about", Type: field.TypeString, Nullable: true, Comment: "about"},
 		{Name: "links", Type: field.TypeJSON, Nullable: true, Comment: "List of social links or profile links"},
