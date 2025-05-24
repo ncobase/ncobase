@@ -6,7 +6,6 @@ import (
 	"ncobase/space/data"
 	"ncobase/space/handler"
 	"ncobase/space/service"
-	userService "ncobase/user/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"
@@ -20,7 +19,7 @@ var (
 	name         = "space"
 	desc         = "Space module, provides organization management"
 	version      = "1.0.0"
-	dependencies = []string{"user"}
+	dependencies []string
 	typeStr      = "module"
 	group        = "org"
 )
@@ -49,7 +48,7 @@ type discovery struct {
 
 // init registers the module
 func init() {
-	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{"user"})
 }
 
 // New creates a new instance of the group module.
@@ -86,16 +85,25 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	usExt, err := m.em.GetService("user")
-	if err != nil {
-		return fmt.Errorf("failed to get user service: %v", err)
-	}
-	us, ok := usExt.(*userService.Service)
-	if !ok {
-		return fmt.Errorf("user service does not implement expected interface")
-	}
-	m.s = service.New(m.d, us)
+	m.s = service.New(m.d, m.em)
 	m.h = handler.New(m.s)
+
+	// Subscribe to extension events for dependency refresh
+	m.em.SubscribeEvent("exts.user.ready", func(data any) {
+		m.s.RefreshDependencies()
+	})
+
+	// Subscribe to all extensions registration event
+	m.em.SubscribeEvent("exts.all.registered", func(data any) {
+		m.s.RefreshDependencies()
+	})
+
+	// Publish own service ready event
+	m.em.PublishEvent("exts.space.ready", map[string]string{
+		"name":   m.Name(),
+		"status": "ready",
+	})
+
 	return nil
 }
 
@@ -163,6 +171,13 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
+}
+
+// GetAllDependencies returns all dependencies with their types
+func (m *Module) GetAllDependencies() []ext.DependencyEntry {
+	return []ext.DependencyEntry{
+		{Name: "user", Type: ext.WeakDependency},
+	}
 }
 
 // Description returns the description of the module

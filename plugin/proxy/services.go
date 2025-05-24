@@ -9,8 +9,8 @@ import (
 )
 
 // GetUserService returns the user service
-func (m *Plugin) getUserService() (*userService.Service, error) {
-	f, err := m.em.GetService("user")
+func (p *Plugin) getUserService() (*userService.Service, error) {
+	f, err := p.em.GetService("user")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user service: %v", err)
 	}
@@ -24,8 +24,8 @@ func (m *Plugin) getUserService() (*userService.Service, error) {
 }
 
 // GetTenantService returns the tenant service
-func (m *Plugin) getTenantService() (*tenantService.Service, error) {
-	f, err := m.em.GetService("tenant")
+func (p *Plugin) getTenantService() (*tenantService.Service, error) {
+	f, err := p.em.GetService("tenant")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get tenant service: %v", err)
 	}
@@ -37,8 +37,8 @@ func (m *Plugin) getTenantService() (*tenantService.Service, error) {
 }
 
 // GetSpaceService returns the space service
-func (m *Plugin) getSpaceService() (*spaceService.Service, error) {
-	f, err := m.em.GetService("space")
+func (p *Plugin) getSpaceService() (*spaceService.Service, error) {
+	f, err := p.em.GetService("space")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get space service: %v", err)
 	}
@@ -50,8 +50,8 @@ func (m *Plugin) getSpaceService() (*spaceService.Service, error) {
 }
 
 // GetAccessService returns the access service
-func (m *Plugin) getAccessService() (*accessService.Service, error) {
-	f, err := m.em.GetService("access")
+func (p *Plugin) getAccessService() (*accessService.Service, error) {
+	f, err := p.em.GetService("access")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get access service: %v", err)
 	}

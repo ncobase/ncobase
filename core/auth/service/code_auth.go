@@ -3,13 +3,11 @@ package service
 import (
 	"context"
 	"errors"
-	accessService "ncobase/access/service"
 	"ncobase/auth/data"
 	"ncobase/auth/data/ent"
 	codeAuthEnt "ncobase/auth/data/ent/codeauth"
 	"ncobase/auth/structs"
-	tenantService "ncobase/tenant/service"
-	userService "ncobase/user/service"
+	"ncobase/auth/wrapper"
 	userStructs "ncobase/user/structs"
 	"strings"
 	"time"
@@ -31,19 +29,20 @@ type CodeAuthServiceInterface interface {
 type codeAuthService struct {
 	d   *data.Data
 	jtm *jwt.TokenManager
-	as  *accessService.Service
-	us  *userService.Service
-	ts  *tenantService.Service
+
+	usw *wrapper.UserServiceWrapper
+	tsw *wrapper.TenantServiceWrapper
+	asw *wrapper.AccessServiceWrapper
 }
 
 // NewCodeAuthService creates a new service.
-func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, as *accessService.Service, us *userService.Service, ts *tenantService.Service) CodeAuthServiceInterface {
+func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, usw *wrapper.UserServiceWrapper, tsw *wrapper.TenantServiceWrapper, asw *wrapper.AccessServiceWrapper) CodeAuthServiceInterface {
 	return &codeAuthService{
 		d:   d,
 		jtm: jtm,
-		as:  as,
-		us:  us,
-		ts:  ts,
+		usw: usw,
+		tsw: tsw,
+		asw: asw,
 	}
 }
 
@@ -59,13 +58,13 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 		return nil, errors.New("code expired")
 	}
 
-	user, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
+	user, err := s.usw.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
 	if ent.IsNotFound(err) {
 		return sendRegisterMail(ctx, s.jtm, codeAuth)
 	}
 
 	// Get all tenants the user belongs to
-	userTenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
+	userTenants, _ := s.tsw.GetUserTenants(ctx, user.ID)
 	var tenantIDs []string
 	if len(userTenants) > 0 {
 		for _, t := range userTenants {
@@ -74,13 +73,13 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*types.JSO
 	}
 
 	// Set tenant ID in context if there's a default tenant
-	defaultTenant, err := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
+	defaultTenant, err := s.tsw.GetTenantByUser(ctx, user.ID)
 	if err == nil && defaultTenant != nil {
 		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
 	}
 
 	// Create token payload
-	payload, err := CreateUserTokenPayload(ctx, s.as, user, tenantIDs)
+	payload, err := CreateUserTokenPayload(ctx, s.asw, user, tenantIDs)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +107,7 @@ func isCodeExpired(createdAt int64) bool {
 func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBody) (*types.JSON, error) {
 	client := s.d.GetMasterEntClient()
 
-	user, _ := s.us.User.FindUser(ctx, &userStructs.FindUser{Email: body.Email, Phone: body.Phone})
+	user, _ := s.usw.FindUser(ctx, &userStructs.FindUser{Email: body.Email, Phone: body.Phone})
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return nil, err

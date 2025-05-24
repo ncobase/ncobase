@@ -87,9 +87,14 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-
 	m.s = service.New(m.conf, m.d)
 	m.h = handler.New(m.s)
+
+	// Publish service ready event
+	m.em.PublishEvent("exts.access.ready", map[string]string{
+		"name":   m.Name(),
+		"status": "ready",
+	})
 
 	return nil
 }

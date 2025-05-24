@@ -104,6 +104,13 @@ func (m *Module) PostInit() error {
 	m.h = observes.DecorateStruct(handler.New(m.s), handlerOpt)
 
 	m.subscribeEvents(m.em)
+
+	// Publish own service ready event
+	m.em.PublishEvent("exts.content.ready", map[string]string{
+		"name":   m.Name(),
+		"status": "ready",
+	})
+
 	return nil
 }
 

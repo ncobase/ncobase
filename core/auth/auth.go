@@ -20,7 +20,7 @@ var (
 	name         = "auth"
 	desc         = "Auth module"
 	version      = "1.0.0"
-	dependencies = []string{"access", "tenant", "user"}
+	dependencies []string
 	typeStr      = "module"
 	group        = "iam"
 )
@@ -50,7 +50,7 @@ type discovery struct {
 
 // init registers the module
 func init() {
-	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{"user", "tenant", "access"})
 }
 
 // New creates a new instance of the auth module.
@@ -90,20 +90,31 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	us, err := m.getUserService()
-	if err != nil {
-		return err
-	}
-	ts, err := m.getTenantService()
-	if err != nil {
-		return err
-	}
-	as, err := m.getAccessService()
-	if err != nil {
-		return err
-	}
-	m.s = service.New(m.d, m.jtm, us, as, ts)
+	m.s = service.New(m.d, m.jtm, m.em)
 	m.h = handler.New(m.s)
+
+	// Subscribe to extension events for dependency refresh
+	m.em.SubscribeEvent("exts.user.ready", func(data any) {
+		m.s.RefreshDependencies()
+	})
+	m.em.SubscribeEvent("exts.tenant.ready", func(data any) {
+		m.s.RefreshDependencies()
+	})
+	m.em.SubscribeEvent("exts.access.ready", func(data any) {
+		m.s.RefreshDependencies()
+	})
+
+	// Subscribe to all extensions registration event
+	m.em.SubscribeEvent("exts.all.registered", func(data any) {
+		m.s.RefreshDependencies()
+	})
+
+	// Publish own service ready event
+	m.em.PublishEvent("exts.auth.ready", map[string]string{
+		"name":   m.Name(),
+		"status": "ready",
+	})
+
 	return nil
 }
 
@@ -186,6 +197,15 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
+}
+
+// GetAllDependencies returns all dependencies with their types
+func (m *Module) GetAllDependencies() []ext.DependencyEntry {
+	return []ext.DependencyEntry{
+		{Name: "user", Type: ext.WeakDependency},
+		{Name: "tenant", Type: ext.WeakDependency},
+		{Name: "access", Type: ext.WeakDependency},
+	}
 }
 
 // Description returns the description of the module

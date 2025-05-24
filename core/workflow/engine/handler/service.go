@@ -461,7 +461,7 @@ func (h *ServiceHandler) cancelService(ctx context.Context, info *ServiceInfo) e
 	info.EndTime = &now
 
 	// Publish event
-	h.em.PublishEvent("service.cancelled", map[string]any{
+	h.em.PublishEvent("exts.cancelled", map[string]any{
 		"service_id": info.ID,
 		"time":       now,
 	})
@@ -541,7 +541,7 @@ func (h *ServiceHandler) HandleTimeout(ctx context.Context, nodeID string) error
 	h.activeServices.Store(nodeID, svcInfo)
 
 	// Publish timeout event
-	h.em.PublishEvent("service.timeout", map[string]any{
+	h.em.PublishEvent("exts.timeout", map[string]any{
 		"node_id":  nodeID,
 		"type":     svcInfo.Type,
 		"duration": time.Since(svcInfo.StartTime),
@@ -567,7 +567,7 @@ func (h *ServiceHandler) HandleError(ctx context.Context, nodeID string, err err
 	h.activeServices.Store(nodeID, svcInfo)
 
 	// Publish error event
-	h.em.PublishEvent("service.error", map[string]any{
+	h.em.PublishEvent("exts.error", map[string]any{
 		"node_id": nodeID,
 		"type":    svcInfo.Type,
 		"error":   err.Error(),

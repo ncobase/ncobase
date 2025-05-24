@@ -1,10 +1,7 @@
 package event
 
 import (
-	"context"
-
 	ext "github.com/ncobase/ncore/extension/types"
-	"github.com/ncobase/ncore/logging/logger"
 )
 
 // Registrar handles registration of event handlers
@@ -59,6 +56,4 @@ func (r *Registrar) RegisterHandlers(provider HandlerProvider) {
 			r.manager.SubscribeEvent(string(eventType), handler)
 		}
 	}
-
-	logger.Info(context.Background(), "Payment event handlers registered")
 }

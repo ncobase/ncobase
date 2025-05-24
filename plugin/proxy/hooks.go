@@ -11,13 +11,13 @@ import (
 )
 
 // RegisterDefaultHooks registers the default processing hooks for the proxy module
-func (m *Plugin) RegisterDefaultHooks() error {
+func (p *Plugin) RegisterDefaultHooks() error {
 	ctx := context.Background()
 
 	// 1. Example: Create a CRM data synchronization hook set
 	// This assumes you have a "salesforce" endpoint and a "contacts" route
 	// This would sync contact data with your internal user service
-	if err := m.registerCRMSyncHooks(ctx); err != nil {
+	if err := p.registerCRMSyncHooks(ctx); err != nil {
 		logger.Errorf(ctx, "Failed to register CRM sync hooks: %v", err)
 		return err
 	}
@@ -25,7 +25,7 @@ func (m *Plugin) RegisterDefaultHooks() error {
 	// 2. Example: Create a payment processing hook set
 	// This assumes you have a "stripe" endpoint and a "payments" route
 	// This would process payment data with your internal tenant service
-	if err := m.registerPaymentProcessingHooks(ctx); err != nil {
+	if err := p.registerPaymentProcessingHooks(ctx); err != nil {
 		logger.Errorf(ctx, "Failed to register payment processing hooks: %v", err)
 		return err
 	}
@@ -33,7 +33,7 @@ func (m *Plugin) RegisterDefaultHooks() error {
 	// 3. Example: Create a collaboration tool hook set
 	// This assumes you have a "slack" endpoint and a "messages" route
 	// This would process message data with your internal space service
-	if err := m.registerCollaborationHooks(ctx); err != nil {
+	if err := p.registerCollaborationHooks(ctx); err != nil {
 		logger.Errorf(ctx, "Failed to register collaboration hooks: %v", err)
 		return err
 	}
@@ -42,16 +42,16 @@ func (m *Plugin) RegisterDefaultHooks() error {
 }
 
 // registerCRMSyncHooks registers hooks for CRM data synchronization
-func (m *Plugin) registerCRMSyncHooks(ctx context.Context) error {
+func (p *Plugin) registerCRMSyncHooks(ctx context.Context) error {
 	// Find the endpoint by name
-	endpoint, err := m.s.Endpoint.GetByName(ctx, "salesforce")
+	endpoint, err := p.s.Endpoint.GetByName(ctx, "salesforce")
 	if err != nil {
 		logger.Infof(ctx, "Salesforce endpoint not found, skipping CRM sync hooks")
 		return nil // Not an error, just skip
 	}
 
 	// Find the route by name
-	route, err := m.s.Route.GetByName(ctx, "contacts")
+	route, err := p.s.Route.GetByName(ctx, "contacts")
 	if err != nil {
 		logger.Infof(ctx, "Contacts route not found, skipping CRM sync hooks")
 		return nil // Not an error, just skip
@@ -67,7 +67,7 @@ func (m *Plugin) registerCRMSyncHooks(ctx context.Context) error {
 
 		// Enrich with organization data from tenant service
 		if orgID, ok := inputData["organization_id"].(string); ok {
-			tenant, err := m.tenantService.Tenant.Get(ctx, orgID)
+			tenant, err := p.tenantService.Tenant.Get(ctx, orgID)
 			if err == nil {
 				inputData["organization"] = tenant
 			}
@@ -97,7 +97,7 @@ func (m *Plugin) registerCRMSyncHooks(ctx context.Context) error {
 					// Create or update user from contact data
 					// This is simplified, you would need more complex logic in real implementation
 					if email, ok := contactMap["email"].(string); ok {
-						user, err := m.userService.User.FindUser(ctx, &userStructs.FindUser{Email: email})
+						user, err := p.userService.User.FindUser(ctx, &userStructs.FindUser{Email: email})
 						if err == nil {
 							// User exists, update with CRM data
 							contactMap["user_id"] = user.ID
@@ -120,7 +120,7 @@ func (m *Plugin) registerCRMSyncHooks(ctx context.Context) error {
 	}
 
 	// Register the hooks
-	err = m.s.Processor.RegisterHook(endpoint.ID, route.ID, preHook, postHook)
+	err = p.s.Processor.RegisterHook(endpoint.ID, route.ID, preHook, postHook)
 	if err != nil {
 		return fmt.Errorf("failed to register CRM sync hooks: %w", err)
 	}
@@ -130,16 +130,16 @@ func (m *Plugin) registerCRMSyncHooks(ctx context.Context) error {
 }
 
 // registerPaymentProcessingHooks registers hooks for payment processing
-func (m *Plugin) registerPaymentProcessingHooks(ctx context.Context) error {
+func (p *Plugin) registerPaymentProcessingHooks(ctx context.Context) error {
 	// Find the endpoint by name
-	endpoint, err := m.s.Endpoint.GetByName(ctx, "stripe")
+	endpoint, err := p.s.Endpoint.GetByName(ctx, "stripe")
 	if err != nil {
 		logger.Infof(ctx, "Stripe endpoint not found, skipping payment processing hooks")
 		return nil // Not an error, just skip
 	}
 
 	// Find the route by name
-	route, err := m.s.Route.GetByName(ctx, "payments")
+	route, err := p.s.Route.GetByName(ctx, "payments")
 	if err != nil {
 		logger.Infof(ctx, "Payments route not found, skipping payment processing hooks")
 		return nil // Not an error, just skip
@@ -155,7 +155,7 @@ func (m *Plugin) registerPaymentProcessingHooks(ctx context.Context) error {
 
 		// Add tenant billing information
 		if tenantID, ok := inputData["tenant_id"].(string); ok {
-			tenant, err := m.tenantService.Tenant.Get(ctx, tenantID)
+			tenant, err := p.tenantService.Tenant.Get(ctx, tenantID)
 			if err == nil && tenant != nil {
 				// Add billing information
 				inputData["account_name"] = tenant.Name
@@ -204,7 +204,7 @@ func (m *Plugin) registerPaymentProcessingHooks(ctx context.Context) error {
 	}
 
 	// Register the hooks
-	err = m.s.Processor.RegisterHook(endpoint.ID, route.ID, preHook, postHook)
+	err = p.s.Processor.RegisterHook(endpoint.ID, route.ID, preHook, postHook)
 	if err != nil {
 		return fmt.Errorf("failed to register payment processing hooks: %w", err)
 	}
@@ -214,16 +214,16 @@ func (m *Plugin) registerPaymentProcessingHooks(ctx context.Context) error {
 }
 
 // registerCollaborationHooks registers hooks for collaboration tool integration
-func (m *Plugin) registerCollaborationHooks(ctx context.Context) error {
+func (p *Plugin) registerCollaborationHooks(ctx context.Context) error {
 	// Find the endpoint by name
-	endpoint, err := m.s.Endpoint.GetByName(ctx, "slack")
+	endpoint, err := p.s.Endpoint.GetByName(ctx, "slack")
 	if err != nil {
 		logger.Infof(ctx, "Slack endpoint not found, skipping collaboration hooks")
 		return nil // Not an error, just skip
 	}
 
 	// Find the route by name
-	route, err := m.s.Route.GetByName(ctx, "messages")
+	route, err := p.s.Route.GetByName(ctx, "messages")
 	if err != nil {
 		logger.Infof(ctx, "Messages route not found, skipping collaboration hooks")
 		return nil // Not an error, just skip
@@ -239,14 +239,14 @@ func (m *Plugin) registerCollaborationHooks(ctx context.Context) error {
 
 		// Add group and user information
 		if groupID, ok := inputData["group_id"].(string); ok {
-			group, err := m.spaceService.Group.Get(ctx, &spaceStructs.FindGroup{Group: groupID})
+			group, err := p.spaceService.Group.Get(ctx, &spaceStructs.FindGroup{Group: groupID})
 			if err == nil && group != nil {
 				inputData["group_name"] = group.Name
 			}
 		}
 
 		if userID, ok := inputData["user_id"].(string); ok {
-			user, err := m.userService.User.GetByID(ctx, userID)
+			user, err := p.userService.User.GetByID(ctx, userID)
 			if err == nil && user != nil {
 				inputData["user_name"] = user.Username
 				inputData["user_email"] = user.Email
@@ -291,7 +291,7 @@ func (m *Plugin) registerCollaborationHooks(ctx context.Context) error {
 	}
 
 	// Register the hooks
-	err = m.s.Processor.RegisterHook(endpoint.ID, route.ID, preHook, postHook)
+	err = p.s.Processor.RegisterHook(endpoint.ID, route.ID, preHook, postHook)
 	if err != nil {
 		return fmt.Errorf("failed to register collaboration hooks: %w", err)
 	}

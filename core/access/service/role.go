@@ -22,7 +22,7 @@ type RoleServiceInterface interface {
 	GetByID(ctx context.Context, roleID string) (*structs.ReadRole, error)
 	GetBySlug(ctx context.Context, roleSlug string) (*structs.ReadRole, error)
 	GetByIDs(ctx context.Context, roleIDs []string) ([]*structs.ReadRole, error)
-	Find(ctx context.Context, r string) (*structs.ReadRole, error)
+	Find(ctx context.Context, params *structs.FindRole) (*structs.ReadRole, error)
 	CreateSuperAdminRole(ctx context.Context) (*structs.ReadRole, error)
 	List(ctx context.Context, params *structs.ListRoleParams) (paging.Result[*structs.ReadRole], error)
 	CountX(ctx context.Context, params *structs.ListRoleParams) int
@@ -96,8 +96,8 @@ func (s *roleService) GetByIDs(ctx context.Context, roleIDs []string) ([]*struct
 }
 
 // Find finds a role by id or slug.
-func (s *roleService) Find(ctx context.Context, r string) (*structs.ReadRole, error) {
-	row, err := s.role.FindRole(ctx, &structs.FindRole{Slug: r})
+func (s *roleService) Find(ctx context.Context, params *structs.FindRole) (*structs.ReadRole, error) {
+	row, err := s.role.FindRole(ctx, params)
 	if err != nil {
 		return nil, err
 	}

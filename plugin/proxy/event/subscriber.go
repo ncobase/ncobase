@@ -2,14 +2,10 @@ package event
 
 import (
 	"context"
+	"ncobase/proxy/wrapper"
 	spaceStructs "ncobase/space/structs"
 	tenantStructs "ncobase/tenant/structs"
 	userStructs "ncobase/user/structs"
-
-	accessService "ncobase/access/service"
-	spaceService "ncobase/space/service"
-	tenantService "ncobase/tenant/service"
-	userService "ncobase/user/service"
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
@@ -17,27 +13,29 @@ import (
 
 // Subscriber handles event subscriptions and processing for the proxy module
 type Subscriber struct {
-	userService   *userService.Service
-	tenantService *tenantService.Service
-	spaceService  *spaceService.Service
-	accessService *accessService.Service
-	publisher     *Publisher
+	publisher *Publisher
+
+	usw *wrapper.UserServiceWrapper
+	tsw *wrapper.TenantServiceWrapper
+	ssw *wrapper.SpaceServiceWrapper
+	asw *wrapper.AccessServiceWrapper
 }
 
 // NewSubscriber creates a new event subscriber
 func NewSubscriber(
-	us *userService.Service,
-	ts *tenantService.Service,
-	ss *spaceService.Service,
-	as *accessService.Service,
+	em ext.ManagerInterface,
 	publisher *Publisher,
 ) *Subscriber {
+	usw := wrapper.NewUserServiceWrapper(em)
+	tsw := wrapper.NewTenantServiceWrapper(em)
+	ssw := wrapper.NewSpaceServiceWrapper(em)
+	asw := wrapper.NewAccessServiceWrapper(em)
 	return &Subscriber{
-		userService:   us,
-		tenantService: ts,
-		spaceService:  ss,
-		accessService: as,
-		publisher:     publisher,
+		publisher: publisher,
+		usw:       usw,
+		tsw:       tsw,
+		ssw:       ssw,
+		asw:       asw,
 	}
 }
 
@@ -52,8 +50,14 @@ func (s *Subscriber) Initialize(manager ext.ManagerInterface) {
 	manager.SubscribeEvent(EventResponseReceived, s.handleResponseReceived)
 	manager.SubscribeEvent(EventRequestError, s.handleRequestError)
 	manager.SubscribeEvent(EventCircuitBreakerTripped, s.handleCircuitBreakerTripped)
+}
 
-	logger.Info(context.Background(), "Event handlers registered for proxy module")
+// RefreshDependencies refreshes the dependencies of the subscriber
+func (s *Subscriber) RefreshDependencies() {
+	s.usw.RefreshServices()
+	s.tsw.RefreshServices()
+	s.ssw.RefreshServices()
+	s.asw.RefreshServices()
 }
 
 // handleResponseReceived processes response data and potentially triggers additional events
@@ -202,7 +206,7 @@ func (s *Subscriber) syncContactWithUserService(ctx context.Context, data *Proxy
 	}
 
 	// Find user by email
-	user, err := s.userService.User.FindUser(ctx, &userStructs.FindUser{Email: email})
+	user, err := s.usw.FindUser(ctx, &userStructs.FindUser{Email: email})
 	if err != nil {
 		logger.Warnf(ctx, "Failed to find user with email %s: %v", email, err)
 		return
@@ -222,7 +226,7 @@ func (s *Subscriber) syncContactWithUserService(ctx context.Context, data *Proxy
 
 	// Apply updates to user
 	if len(updates) > 0 {
-		_, err := s.userService.User.UpdateUser(ctx, user.ID, updates)
+		_, err := s.usw.UpdateUser(ctx, user.ID, updates)
 		if err != nil {
 			logger.Errorf(ctx, "Failed to update user with contact data: %v", err)
 			return
@@ -283,7 +287,7 @@ func (s *Subscriber) processPaymentUpdate(ctx context.Context, data *ProxyEventD
 		(*extras)["last_payment_id"] = paymentID
 	}
 
-	_, err := s.tenantService.Tenant.Update(ctx, &tenantStructs.UpdateTenantBody{ID: tenantID, TenantBody: tenantStructs.TenantBody{Extras: extras}})
+	_, err := s.tsw.UpdateTenant(ctx, &tenantStructs.UpdateTenantBody{ID: tenantID, TenantBody: tenantStructs.TenantBody{Extras: extras}})
 	if err != nil {
 		logger.Errorf(ctx, "Failed to update tenant billing status: %v", err)
 		return
@@ -312,7 +316,7 @@ func (s *Subscriber) notifyMessageRecipients(ctx context.Context, data *ProxyEve
 	}
 
 	// Get the group to find members
-	_, err := s.spaceService.Group.Get(ctx, &spaceStructs.FindGroup{Group: groupID})
+	_, err := s.ssw.GetGroup(ctx, &spaceStructs.FindGroup{Group: groupID})
 	if err != nil {
 		logger.Errorf(ctx, "Failed to find group %s: %v", groupID, err)
 		return

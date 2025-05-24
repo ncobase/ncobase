@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	accessService "ncobase/access/service"
 	accessStructs "ncobase/access/structs"
 	"ncobase/auth/data/ent"
+	"ncobase/auth/wrapper"
 	userStructs "ncobase/user/structs"
 	"time"
 
@@ -23,14 +23,14 @@ import (
 // GetUserTenantsRolesPermissions retrieves user's roles and permissions with improved logic
 func GetUserTenantsRolesPermissions(
 	ctx context.Context,
-	as *accessService.Service,
+	asw *wrapper.AccessServiceWrapper,
 	userID string,
 ) (tenantID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
 	tenantID = ctxutil.GetTenantID(ctx)
 	logger.Debugf(ctx, "Getting permissions for user %s, tenant %s", userID, tenantID)
 
 	// Get global roles first (primary roles)
-	globalRoles, err := as.UserRole.GetUserRoles(ctx, userID)
+	globalRoles, err := asw.GetUserRoles(ctx, userID)
 	if err != nil {
 		logger.Warnf(ctx, "Failed to get global roles for user %s: %v", userID, err)
 	} else {
@@ -42,9 +42,9 @@ func GetUserTenantsRolesPermissions(
 
 	// Get tenant-specific roles if tenant context exists
 	if tenantID != "" {
-		roleIDs, roleErr := as.UserTenantRole.GetUserRolesInTenant(ctx, userID, tenantID)
+		roleIDs, roleErr := asw.GetUserRolesInTenant(ctx, userID, tenantID)
 		if roleErr == nil && len(roleIDs) > 0 {
-			tenantRoles, _ := as.Role.GetByIDs(ctx, roleIDs)
+			tenantRoles, _ := asw.GetByIDs(ctx, roleIDs)
 			for _, role := range tenantRoles {
 				// Avoid duplicates
 				if !utils.Contains(roleSlugs, role.Slug) {
@@ -62,7 +62,7 @@ func GetUserTenantsRolesPermissions(
 	}
 
 	// Get permissions for all roles
-	permissionCodes, err = getPermissionsForRoles(ctx, as, globalRoles, isAdmin)
+	permissionCodes, err = getPermissionsForRoles(ctx, asw, globalRoles, isAdmin)
 	if err != nil {
 		logger.Warnf(ctx, "Failed to get permissions: %v", err)
 	}
@@ -90,7 +90,7 @@ func isAdminRole(roleSlugs []string) bool {
 }
 
 // getPermissionsForRoles gets all permissions for the given roles
-func getPermissionsForRoles(ctx context.Context, as *accessService.Service, roles []*accessStructs.ReadRole, isAdmin bool) ([]string, error) {
+func getPermissionsForRoles(ctx context.Context, asw *wrapper.AccessServiceWrapper, roles []*accessStructs.ReadRole, isAdmin bool) ([]string, error) {
 	if len(roles) == 0 {
 		return []string{}, nil
 	}
@@ -99,7 +99,7 @@ func getPermissionsForRoles(ctx context.Context, as *accessService.Service, role
 	// var hasSuperAdminAccess bool
 
 	for _, role := range roles {
-		rolePermissions, err := as.RolePermission.GetRolePermissions(ctx, role.ID)
+		rolePermissions, err := asw.GetRolePermissions(ctx, role.ID)
 		if err != nil {
 			logger.Warnf(ctx, "Failed to get permissions for role %s: %v", role.Slug, err)
 			continue
@@ -128,7 +128,7 @@ func getPermissionsForRoles(ctx context.Context, as *accessService.Service, role
 // CreateUserTokenPayload creates token payload with user permissions
 func CreateUserTokenPayload(
 	ctx context.Context,
-	as *accessService.Service,
+	asw *wrapper.AccessServiceWrapper,
 	user *userStructs.ReadUser,
 	tenantIDs []string,
 ) (types.JSON, error) {
@@ -136,7 +136,7 @@ func CreateUserTokenPayload(
 		return nil, errors.New("userID is required")
 	}
 
-	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, as, user.ID)
+	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, asw, user.ID)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get user roles and permissions: %v", err)
 		// Continue with empty roles and permissions rather than failing

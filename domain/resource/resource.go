@@ -113,6 +113,12 @@ func (m *Module) PostInit() error {
 	// Subscribe to events
 	m.subscribeEvents()
 
+	// Publish own service ready event
+	m.em.PublishEvent("exts.resource.ready", map[string]string{
+		"name":   m.Name(),
+		"status": "ready",
+	})
+
 	return nil
 }
 
@@ -139,8 +145,6 @@ func (m *Module) startQuotaMonitor(quotaService service.QuotaServiceInterface, i
 			}
 		}
 	}()
-
-	logger.Info(ctx, "Started resource quota monitor with interval %s", interval.String())
 }
 
 // RegisterRoutes registers routes for the module

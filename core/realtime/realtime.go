@@ -56,11 +56,6 @@ func New() ext.Interface {
 	return &Module{}
 }
 
-// PreInit performs any necessary setup before initialization
-func (m *Module) PreInit() error {
-	return nil
-}
-
 // Init initializes the realtime module
 func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) {
 	m.mu.Lock()
@@ -93,6 +88,13 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 func (m *Module) PostInit() error {
 	m.s = service.New(m.d, m.em)
 	m.h = handler.New(m.s)
+
+	// Publish own service ready event
+	m.em.PublishEvent("exts.realtime.ready", map[string]string{
+		"name":   m.Name(),
+		"status": "ready",
+	})
+
 	return nil
 }
 

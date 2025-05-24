@@ -51,7 +51,7 @@ type discovery struct {
 
 // init registers the plugin
 func init() {
-	extp.RegisterPlugin(&Plugin{}, ext.Metadata{
+	extp.RegisterPlugin(New(), ext.Metadata{
 		Name:         name,
 		Version:      version,
 		Dependencies: dependencies,
@@ -59,6 +59,11 @@ func init() {
 		Type:         typeStr,
 		Group:        group,
 	})
+}
+
+// New returns a new instance of the plugin
+func New() *Plugin {
+	return &Plugin{}
 }
 
 // Name returns the name of the plugin
@@ -101,6 +106,13 @@ func (p *Plugin) PostInit() error {
 	p.h = handler.New(p.s)
 	// Subscribe to relevant events
 	p.subscribeEvents(p.em)
+
+	// Publish own plugin ready event
+	p.em.PublishEvent("exts.counter.ready", map[string]string{
+		"name":   p.Name(),
+		"status": "ready",
+	})
+
 	return nil
 }
 

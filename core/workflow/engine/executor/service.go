@@ -298,7 +298,7 @@ func (e *ServiceExecutor) ExecuteServiceAsync(_ context.Context, req *types.Requ
 			e.logger.Error(asyncCtx, "async service execution failed", err)
 
 			// Publish failure event
-			e.em.PublishEvent("service.failed", map[string]any{
+			e.em.PublishEvent("exts.failed", map[string]any{
 				"service_id": req.ID,
 				"error":      err.Error(),
 				"time":       time.Now(),
@@ -342,7 +342,7 @@ func (e *ServiceExecutor) CancelService(ctx context.Context, serviceID string) e
 	e.activeCount.Add(-1)
 
 	// Publish event
-	e.em.PublishEvent("service.cancelled", map[string]any{
+	e.em.PublishEvent("exts.cancelled", map[string]any{
 		"service_id": serviceID,
 		"time":       now,
 	})

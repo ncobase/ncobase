@@ -38,7 +38,7 @@ type Plugin struct {
 
 // init registers the plugin
 func init() {
-	extp.RegisterPlugin(&Plugin{}, ext.Metadata{
+	extp.RegisterPlugin(New(), ext.Metadata{
 		Name:         name,
 		Version:      version,
 		Dependencies: dependencies,
@@ -46,6 +46,11 @@ func init() {
 		Type:         typeStr,
 		Group:        group,
 	})
+}
+
+// New returns a new instance of the plugin
+func New() *Plugin {
+	return &Plugin{}
 }
 
 // Init initializes the initialize plugin with the given config object
@@ -101,6 +106,12 @@ func (p *Plugin) PostInit() error {
 	p.s.SetDependencies(p.c, sys, as, us, ts, ss, acs)
 	// Create handler
 	p.h = handler.New(p.s)
+
+	// Publish own plugin ready event
+	p.em.PublishEvent("exts.initialize.ready", map[string]string{
+		"name":   p.Name(),
+		"status": "ready",
+	})
 
 	return nil
 }

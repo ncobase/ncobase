@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
-	"errors"
 	"ncobase/space/data"
 	"ncobase/space/data/ent"
 	"ncobase/space/data/repository"
 	"ncobase/space/structs"
+	"ncobase/space/wrapper"
 	"time"
 )
 
@@ -25,71 +25,46 @@ type UserGroupServiceInterface interface {
 
 // userGroupService is the struct for the service.
 type userGroupService struct {
-	gs          GroupServiceInterface
-	r           repository.UserGroupRepositoryInterface
-	user        UserServiceInterface
-	userProfile UserProfileServiceInterface
+	gs  GroupServiceInterface
+	r   repository.UserGroupRepositoryInterface
+	usw *wrapper.UserServiceWrapper
 }
 
-// NewUserGroupService creates a new service.
-func NewUserGroupService(d *data.Data, gs GroupServiceInterface) UserGroupServiceInterface {
+// NewUserGroupService creates a new service
+func NewUserGroupService(d *data.Data, gs GroupServiceInterface, usw *wrapper.UserServiceWrapper) UserGroupServiceInterface {
 	return &userGroupService{
-		gs: gs,
-		r:  repository.NewUserGroupRepository(d),
+		gs:  gs,
+		r:   repository.NewUserGroupRepository(d),
+		usw: usw,
 	}
 }
 
-// SetUserService sets the user service.
-func (s *userGroupService) SetUserService(user UserServiceInterface, userProfile UserProfileServiceInterface) {
-	s.user = user
-	s.userProfile = userProfile
-}
-
-// AddUserToGroup adds a user to a group with a specific role.
+// AddUserToGroup adds a user to a group with a specific role
 func (s *userGroupService) AddUserToGroup(ctx context.Context, u string, g string, role structs.UserRole) (*structs.GroupMember, error) {
-	// Validate role
 	if !structs.IsValidUserRole(role) {
-		role = structs.RoleMember // Set default role if invalid
+		role = structs.RoleMember
 	}
 
-	// Get user details
-	user, err := s.user.GetByID(ctx, u)
-	if err != nil {
-		return nil, errors.New("user not found")
-	}
-	userProfile, err := s.userProfile.Get(ctx, u)
-	if err != nil {
-		return nil, errors.New("user profile not found")
-	}
-
-	// Create the user-group relationship
 	userGroup := &structs.UserGroup{
 		UserID:  u,
 		GroupID: g,
 		Role:    role,
 	}
 
-	_, err = s.r.Create(ctx, userGroup)
+	_, err := s.r.Create(ctx, userGroup)
 	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return nil, err
 	}
 
-	// Create and return the member object with user details
 	member := &structs.GroupMember{
-		ID:      user.ID,
-		UserID:  user.ID,
-		Name:    userProfile.DisplayName,
-		Email:   user.Email,
+		ID:      u,
+		UserID:  u,
 		Role:    role,
 		AddedAt: time.Now().UnixMilli(),
-		Avatar:  *userProfile.Thumbnail,
 	}
 
-	// TODO: Add last login
-	// if user.LastLogin > 0 {
-	// 	lastLogin := user.LastLogin
-	// 	member.LastLogin = &lastLogin
-	// }
+	// Enrich with user details using wrapper
+	s.enrichMemberInfo(ctx, member)
 
 	return member, nil
 }
@@ -128,40 +103,23 @@ func (s *userGroupService) GetUserGroups(ctx context.Context, u string) ([]*stru
 	return rows, nil
 }
 
-// GetGroupMembers retrieves all members of a specific group.
+// GetGroupMembers retrieves all members of a specific group
 func (s *userGroupService) GetGroupMembers(ctx context.Context, g string) ([]*structs.GroupMember, error) {
 	userGroups, err := s.r.GetByGroupID(ctx, g)
 	if err := handleEntError(ctx, "UserGroup", err); err != nil {
 		return nil, err
 	}
 
-	// Get user details for each member
 	var members []*structs.GroupMember
 	for _, ug := range userGroups {
-		user, err := s.user.GetByID(ctx, ug.UserID)
-		if err != nil {
-			continue // Skip if user not found
-		}
-		userProfile, err := s.userProfile.Get(ctx, ug.UserID)
-		if err != nil {
-			continue // Skip if user profile not found
-		}
-
 		member := &structs.GroupMember{
-			ID:      user.ID,
-			UserID:  user.ID,
-			Name:    userProfile.DisplayName,
-			Email:   user.Email,
+			ID:      ug.UserID,
+			UserID:  ug.UserID,
 			Role:    structs.UserRole(ug.Role),
 			AddedAt: ug.CreatedAt,
-			Avatar:  *userProfile.Thumbnail,
 		}
-		// TODO: Add last login
-		// if user.LastLogin > 0 {
-		// 	lastLogin := user.LastLogin
-		// 	member.LastLogin = &lastLogin
-		// }
 
+		s.enrichMemberInfo(ctx, member)
 		members = append(members, member)
 	}
 
@@ -205,38 +163,43 @@ func (s *userGroupService) GetMembersByRole(ctx context.Context, g string, role 
 		return nil, err
 	}
 
-	// Get user details for each member
 	var members []*structs.GroupMember
 	for _, ug := range userGroups {
-		user, err := s.user.GetByID(ctx, ug.UserID)
-		if err != nil {
-			continue // Skip if user not found
-		}
-
-		userProfile, err := s.userProfile.Get(ctx, ug.UserID)
-		if err != nil {
-			continue // Skip if user profile not found
-		}
-
 		member := &structs.GroupMember{
-			ID:      user.ID,
-			UserID:  user.ID,
-			Name:    userProfile.DisplayName,
-			Email:   user.Email,
+			ID:      ug.UserID,
+			UserID:  ug.UserID,
 			Role:    structs.UserRole(ug.Role),
 			AddedAt: ug.CreatedAt,
-			Avatar:  *userProfile.Thumbnail,
 		}
-		// TODO: Add last login
-		// if user.LastLogin > 0 {
-		// 	lastLogin := user.LastLogin
-		// 	member.LastLogin = &lastLogin
-		// }
 
+		s.enrichMemberInfo(ctx, member)
 		members = append(members, member)
 	}
 
 	return members, nil
+}
+
+// enrichMemberInfo enriches member with user details
+func (s *userGroupService) enrichMemberInfo(ctx context.Context, member *structs.GroupMember) {
+	// Get user basic info with fallback
+	if user, err := s.usw.GetUserByID(ctx, member.UserID); err == nil && user != nil {
+		if user.Username != "" {
+			member.Name = user.Username
+		}
+		if user.Email != "" {
+			member.Email = user.Email
+		}
+	}
+
+	// Get user profile info with fallback
+	if profile, err := s.usw.GetUserProfile(ctx, member.UserID); err == nil && profile != nil {
+		if profile.DisplayName != "" {
+			member.Name = profile.DisplayName
+		}
+		if profile.Thumbnail != nil && *profile.Thumbnail != "" {
+			member.Avatar = *profile.Thumbnail
+		}
+	}
 }
 
 // Serializes serializes user groups.

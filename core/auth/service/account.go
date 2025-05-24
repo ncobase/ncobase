@@ -4,12 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	accessService "ncobase/access/service"
 	"ncobase/auth/data"
 	"ncobase/auth/data/ent"
 	codeAuthEnt "ncobase/auth/data/ent/codeauth"
 	"ncobase/auth/structs"
-	tenantService "ncobase/tenant/service"
+	"ncobase/auth/wrapper"
 	tenantStructs "ncobase/tenant/structs"
 	userService "ncobase/user/service"
 	userStructs "ncobase/user/structs"
@@ -38,21 +37,26 @@ type accountService struct {
 	jtm *jwt.TokenManager
 	cas CodeAuthServiceInterface
 	ats AuthTenantServiceInterface
-	us  *userService.Service
-	as  *accessService.Service
-	ts  *tenantService.Service
+
+	usw *wrapper.UserServiceWrapper
+	tsw *wrapper.TenantServiceWrapper
+	asw *wrapper.AccessServiceWrapper
 }
 
 // NewAccountService creates a new service.
-func NewAccountService(d *data.Data, jtm *jwt.TokenManager, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface, us *userService.Service, as *accessService.Service, ts *tenantService.Service) AccountServiceInterface {
+func NewAccountService(d *data.Data, jtm *jwt.TokenManager, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface,
+	usw *wrapper.UserServiceWrapper,
+	tsw *wrapper.TenantServiceWrapper,
+	asw *wrapper.AccessServiceWrapper,
+) AccountServiceInterface {
 	return &accountService{
 		d:   d,
 		jtm: jtm,
 		cas: cas,
 		ats: ats,
-		us:  us,
-		as:  as,
-		ts:  ts,
+		usw: usw,
+		tsw: tsw,
+		asw: asw,
 	}
 }
 
@@ -60,7 +64,7 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, cas CodeAuthServiceI
 func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error) {
 	client := s.d.GetMasterEntClient()
 
-	user, err := s.us.User.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
+	user, err := s.usw.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
 	if err = handleEntError(ctx, "User", err); err != nil {
 		return nil, err
 	}
@@ -69,7 +73,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		return nil, errors.New("account has been disabled, please contact the administrator")
 	}
 
-	verifyResult := s.us.User.VerifyPassword(ctx, user.ID, body.Password)
+	verifyResult := s.usw.VerifyPassword(ctx, user.ID, body.Password)
 	switch v := verifyResult.(type) {
 	case userService.VerifyPasswordResult:
 		if v.Valid == false {
@@ -85,7 +89,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 	}
 
 	// Get all tenants the user belongs to
-	userTenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
+	userTenants, _ := s.tsw.GetUserTenants(ctx, user.ID)
 	var tenantIDs []string
 	if len(userTenants) > 0 {
 		for _, t := range userTenants {
@@ -94,13 +98,13 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 	}
 
 	// Set tenant ID in context if there's a default tenant
-	defaultTenant, err := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
+	defaultTenant, err := s.tsw.GetUserTenant(ctx, user.ID)
 	if err == nil && defaultTenant != nil {
 		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
 	}
 
 	// Create token payload
-	payload, err := CreateUserTokenPayload(ctx, s.as, user, tenantIDs)
+	payload, err := CreateUserTokenPayload(ctx, s.asw, user, tenantIDs)
 	if err != nil {
 		return nil, err
 	}
@@ -144,13 +148,13 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Validate user exists
-	user, err := s.us.User.GetByID(ctx, userID)
+	user, err := s.usw.GetUserByID(ctx, userID)
 	if err != nil {
 		return nil, errors.New("user not found")
 	}
 
 	// Get all tenants the user belongs to
-	userTenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
+	userTenants, _ := s.tsw.GetUserTenants(ctx, user.ID)
 	var tenantIDs []string
 	if len(userTenants) > 0 {
 		for _, t := range userTenants {
@@ -159,13 +163,13 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Set tenant ID in context if there's a default tenant
-	defaultTenant, err := s.ts.UserTenant.UserBelongTenant(ctx, user.ID)
+	defaultTenant, err := s.tsw.GetUserTenant(ctx, user.ID)
 	if err == nil && defaultTenant != nil {
 		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
 	}
 
 	// Create token payload
-	tokenPayload, err := CreateUserTokenPayload(ctx, s.as, user, tenantIDs)
+	tokenPayload, err := CreateUserTokenPayload(ctx, s.asw, user, tenantIDs)
 	if err != nil {
 		return nil, err
 	}
@@ -210,7 +214,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Verify user existence
-	existedUser, err := s.us.User.FindUser(ctx, &userStructs.FindUser{
+	existedUser, err := s.usw.FindUser(ctx, &userStructs.FindUser{
 		Username: body.Username,
 		Email:    payload["email"].(string),
 		Phone:    body.Phone,
@@ -264,7 +268,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Create token payload
-	tokenPayload, err := CreateUserTokenPayload(ctx, s.as, user, tenantIDs)
+	tokenPayload, err := CreateUserTokenPayload(ctx, s.asw, user, tenantIDs)
 	if err != nil {
 		if err = tx.Rollback(); err != nil {
 			return nil, err
@@ -326,7 +330,7 @@ func disableCodeAuth(ctx context.Context, client *ent.Client, id string) error {
 
 func createUserAndProfile(ctx context.Context, svc *accountService, body *structs.RegisterBody, payload types.JSON) (types.JSON, error) {
 	// create user
-	user, err := svc.us.User.CreateUser(ctx, &userStructs.UserBody{
+	user, err := svc.usw.CreateUser(ctx, &userStructs.UserBody{
 		Username: body.Username,
 		Email:    payload["email"].(string),
 		Phone:    body.Phone,
@@ -337,7 +341,7 @@ func createUserAndProfile(ctx context.Context, svc *accountService, body *struct
 	}
 
 	// create user profile
-	userProfile, err := svc.us.UserProfile.Create(ctx, &userStructs.UserProfileBody{
+	userProfile, err := svc.usw.CreateUserProfile(ctx, &userStructs.UserProfileBody{
 		UserID:      user.ID,
 		DisplayName: body.DisplayName,
 		ShortBio:    body.ShortBio,
@@ -350,7 +354,7 @@ func createUserAndProfile(ctx context.Context, svc *accountService, body *struct
 
 // GetMe get current user service
 func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, error) {
-	user, err := s.us.User.GetByID(ctx, ctxutil.GetUserID(ctx))
+	user, err := s.usw.GetUserByID(ctx, ctxutil.GetUserID(ctx))
 	if err != nil {
 		return nil, err
 	}
@@ -361,7 +365,7 @@ func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, err
 // UpdatePassword update user password service
 func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error {
 	body.User = ctxutil.GetUserID(ctx)
-	return s.us.User.UpdatePassword(ctx, body)
+	return s.usw.UpdatePassword(ctx, body)
 }
 
 // SerializeParams serialize params
@@ -384,13 +388,13 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 	}
 
 	if params.WithProfile {
-		if profile, _ := s.us.UserProfile.Get(ctx, user.ID); profile != nil {
+		if profile, _ := s.usw.GetUserProfile(ctx, user.ID); profile != nil {
 			um.Profile = profile
 		}
 	}
 
 	if params.WithTenants {
-		if tenants, _ := s.ts.UserTenant.UserBelongTenants(ctx, user.ID); len(tenants) > 0 {
+		if tenants, _ := s.tsw.GetUserTenants(ctx, user.ID); len(tenants) > 0 {
 			um.Tenants = tenants
 			// for _, tenant := range tenants {
 			// 	um.Tenants = append(um.Tenants, tenant)
@@ -401,8 +405,8 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 	if params.WithRoles {
 		if len(um.Tenants) > 0 {
 			for _, tenant := range um.Tenants {
-				roleIDs, _ := s.as.UserTenantRole.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
-				roles, _ := s.as.Role.GetByIDs(ctx, roleIDs)
+				roleIDs, _ := s.asw.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
+				roles, _ := s.asw.GetByIDs(ctx, roleIDs)
 				for _, role := range roles {
 					um.Roles = append(um.Roles, role)
 				}
@@ -420,7 +424,7 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 			// 	}
 			// }
 		} else {
-			roles, _ := s.as.UserRole.GetUserRoles(ctx, user.ID)
+			roles, _ := s.asw.GetUserRoles(ctx, user.ID)
 			for _, role := range roles {
 				um.Roles = append(um.Roles, role)
 			}
@@ -446,7 +450,7 @@ func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant,
 	}
 
 	// Retrieve the tenant associated with the user
-	row, err := s.ts.Tenant.GetByUser(ctx, userID)
+	row, err := s.tsw.GetTenantByUser(ctx, userID)
 	if err = handleEntError(ctx, "Tenant", err); err != nil {
 		return nil, err
 	}
@@ -461,7 +465,7 @@ func (s *accountService) Tenants(ctx context.Context) (paging.Result[*tenantStru
 		return paging.Result[*tenantStructs.ReadTenant]{}, errors.New("invalid user ID")
 	}
 
-	rows, err := s.ts.Tenant.List(ctx, &tenantStructs.ListTenantParams{
+	rows, err := s.tsw.ListTenants(ctx, &tenantStructs.ListTenantParams{
 		User: userID,
 	})
 	if err = handleEntError(ctx, "Tenants", err); err != nil {

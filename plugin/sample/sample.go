@@ -40,6 +40,23 @@ type discovery struct {
 	meta    map[string]string
 }
 
+// init registers the plugin
+func init() {
+	extp.RegisterPlugin(New(), ext.Metadata{
+		Name:         name,
+		Version:      version,
+		Dependencies: dependencies,
+		Description:  desc,
+		Type:         typeStr,
+		Group:        group,
+	})
+}
+
+// New returns a new instance of the plugin
+func New() ext.Interface {
+	return &Plugin{}
+}
+
 // Name returns the name of the plugin
 func (p *Plugin) Name() string {
 	return name
