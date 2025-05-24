@@ -2,6 +2,7 @@ package service
 
 import (
 	"ncobase/auth/data"
+	"ncobase/auth/event"
 	"ncobase/auth/wrapper"
 
 	ext "github.com/ncobase/ncore/extension/types"
@@ -23,14 +24,16 @@ type Service struct {
 
 // New creates a new service.
 func New(d *data.Data, jtm *jwt.TokenManager, em ext.ManagerInterface) *Service {
+	ep := event.NewPublisher(em)
+
 	usw := wrapper.NewUserServiceWrapper(em)
 	tsw := wrapper.NewTenantServiceWrapper(em)
 	asw := wrapper.NewAccessServiceWrapper(em)
 
-	cas := NewCodeAuthService(d, jtm, usw, tsw, asw)
+	cas := NewCodeAuthService(d, jtm, ep, usw, tsw, asw)
 	ats := NewAuthTenantService(d, usw, tsw, asw)
 	return &Service{
-		Account:    NewAccountService(d, jtm, cas, ats, usw, tsw, asw),
+		Account:    NewAccountService(d, jtm, ep, cas, ats, usw, tsw, asw),
 		AuthTenant: ats,
 		CodeAuth:   cas,
 		Captcha:    NewCaptchaService(d),

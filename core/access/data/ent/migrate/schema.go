@@ -9,6 +9,49 @@ import (
 )
 
 var (
+	// NcseSysActivityColumns holds the columns for the "ncse_sys_activity" table.
+	NcseSysActivityColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "details", Type: field.TypeString, Nullable: true, Comment: "details"},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true, Comment: "Metadata"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseSysActivityTable holds the schema information for the "ncse_sys_activity" table.
+	NcseSysActivityTable = &schema.Table{
+		Name:       "ncse_sys_activity",
+		Columns:    NcseSysActivityColumns,
+		PrimaryKey: []*schema.Column{NcseSysActivityColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "activity_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysActivityColumns[0]},
+			},
+			{
+				Name:    "activity_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysActivityColumns[2]},
+			},
+			{
+				Name:    "activity_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysActivityColumns[0], NcseSysActivityColumns[5]},
+			},
+			{
+				Name:    "activity_user_id_type",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysActivityColumns[2], NcseSysActivityColumns[1]},
+			},
+			{
+				Name:    "activity_user_id_created_at",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysActivityColumns[2], NcseSysActivityColumns[5]},
+			},
+		},
+	}
 	// NcseIamCasbinRuleColumns holds the columns for the "ncse_iam_casbin_rule" table.
 	NcseIamCasbinRuleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -253,6 +296,7 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		NcseSysActivityTable,
 		NcseIamCasbinRuleTable,
 		NcseIamPermissionTable,
 		NcseIamRoleTable,
@@ -263,6 +307,9 @@ var (
 )
 
 func init() {
+	NcseSysActivityTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_activity",
+	}
 	NcseIamCasbinRuleTable.Annotation = &entsql.Annotation{
 		Table: "ncse_iam_casbin_rule",
 	}

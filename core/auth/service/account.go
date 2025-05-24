@@ -7,11 +7,13 @@ import (
 	"ncobase/auth/data"
 	"ncobase/auth/data/ent"
 	codeAuthEnt "ncobase/auth/data/ent/codeauth"
+	"ncobase/auth/event"
 	"ncobase/auth/structs"
 	"ncobase/auth/wrapper"
 	tenantStructs "ncobase/tenant/structs"
 	userService "ncobase/user/service"
 	userStructs "ncobase/user/structs"
+	"time"
 
 	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/data/paging"
@@ -35,6 +37,8 @@ type AccountServiceInterface interface {
 type accountService struct {
 	d   *data.Data
 	jtm *jwt.TokenManager
+	ep  event.PublisherInterface
+
 	cas CodeAuthServiceInterface
 	ats AuthTenantServiceInterface
 
@@ -44,7 +48,7 @@ type accountService struct {
 }
 
 // NewAccountService creates a new service.
-func NewAccountService(d *data.Data, jtm *jwt.TokenManager, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface,
+func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface,
 	usw *wrapper.UserServiceWrapper,
 	tsw *wrapper.TenantServiceWrapper,
 	asw *wrapper.AccessServiceWrapper,
@@ -52,6 +56,7 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, cas CodeAuthServiceI
 	return &accountService{
 		d:   d,
 		jtm: jtm,
+		ep:  ep,
 		cas: cas,
 		ats: ats,
 		usw: usw,
@@ -117,6 +122,26 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 	// Include tenant information in the response
 	(*tokens)["tenant_ids"] = tenantIDs
 	(*tokens)["default_tenant"] = defaultTenant
+
+	// Publish login event
+	if s.ep != nil {
+		ip, userAgent, sessionID := ctxutil.GetClientInfo(ctx)
+		uaInfo := ctxutil.GetParsedUserAgent(ctx)
+
+		metadata := &types.JSON{
+			"ip_address":   ip,
+			"user_agent":   userAgent,
+			"session_id":   sessionID,
+			"login_method": "password",
+			"browser":      uaInfo.Browser,
+			"os":           uaInfo.OS,
+			"mobile":       uaInfo.Mobile,
+			"referer":      ctxutil.GetReferer(ctx),
+			"timestamp":    time.Now().UnixMilli(),
+		}
+
+		s.ep.PublishUserLogin(ctx, user.ID, metadata)
+	}
 
 	return tokens, nil
 }
@@ -193,6 +218,19 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 
 	if err := tx.Commit(); err != nil {
 		return nil, err
+	}
+
+	// Publish token refreshed event
+	if s.ep != nil {
+		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
+
+		metadata := &types.JSON{
+			"ip_address": ip,
+			"user_agent": userAgent,
+			"timestamp":  time.Now().UnixMilli(),
+		}
+
+		s.ep.PublishTokenRefreshed(ctx, user.ID, metadata)
 	}
 
 	return &types.JSON{
@@ -292,6 +330,25 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, errors.New("authorize is not created")
 	}
 
+	// Publish user created event
+	if s.ep != nil {
+		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
+		uaInfo := ctxutil.GetParsedUserAgent(ctx)
+
+		metadata := &types.JSON{
+			"ip_address":          ip,
+			"user_agent":          userAgent,
+			"registration_method": "email_code",
+			"tenant_id":           tenant.ID,
+			"browser":             uaInfo.Browser,
+			"os":                  uaInfo.OS,
+			"mobile":              uaInfo.Mobile,
+			"timestamp":           time.Now().UnixMilli(),
+		}
+
+		s.ep.PublishUserCreated(ctx, user.ID, metadata)
+	}
+
 	return &types.JSON{
 		"access_token":   accessToken,
 		"refresh_token":  refreshToken,
@@ -365,7 +422,21 @@ func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, err
 // UpdatePassword update user password service
 func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error {
 	body.User = ctxutil.GetUserID(ctx)
-	return s.usw.UpdatePassword(ctx, body)
+	err := s.usw.UpdatePassword(ctx, body)
+
+	if err == nil && s.ep != nil {
+		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
+
+		metadata := &types.JSON{
+			"ip_address": ip,
+			"user_agent": userAgent,
+			"timestamp":  time.Now().UnixMilli(),
+		}
+
+		s.ep.PublishPasswordChanged(ctx, body.User, metadata)
+	}
+
+	return err
 }
 
 // SerializeParams serialize params

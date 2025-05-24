@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"ncobase/access/data/ent/activity"
 	"ncobase/access/data/ent/casbinrule"
 	"ncobase/access/data/ent/permission"
 	"ncobase/access/data/ent/role"
@@ -16,6 +17,41 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	activityMixin := schema.Activity{}.Mixin()
+	activityMixinFields0 := activityMixin[0].Fields()
+	_ = activityMixinFields0
+	activityMixinFields2 := activityMixin[2].Fields()
+	_ = activityMixinFields2
+	activityMixinFields4 := activityMixin[4].Fields()
+	_ = activityMixinFields4
+	activityMixinFields5 := activityMixin[5].Fields()
+	_ = activityMixinFields5
+	activityFields := schema.Activity{}.Fields()
+	_ = activityFields
+	// activityDescUserID is the schema descriptor for user_id field.
+	activityDescUserID := activityMixinFields2[0].Descriptor()
+	// activity.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	activity.UserIDValidator = activityDescUserID.Validators[0].(func(string) error)
+	// activityDescMetadata is the schema descriptor for metadata field.
+	activityDescMetadata := activityMixinFields4[0].Descriptor()
+	// activity.DefaultMetadata holds the default value on creation for the metadata field.
+	activity.DefaultMetadata = activityDescMetadata.Default.(map[string]interface{})
+	// activityDescCreatedAt is the schema descriptor for created_at field.
+	activityDescCreatedAt := activityMixinFields5[0].Descriptor()
+	// activity.DefaultCreatedAt holds the default value on creation for the created_at field.
+	activity.DefaultCreatedAt = activityDescCreatedAt.Default.(func() int64)
+	// activityDescUpdatedAt is the schema descriptor for updated_at field.
+	activityDescUpdatedAt := activityMixinFields5[1].Descriptor()
+	// activity.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	activity.DefaultUpdatedAt = activityDescUpdatedAt.Default.(func() int64)
+	// activity.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	activity.UpdateDefaultUpdatedAt = activityDescUpdatedAt.UpdateDefault.(func() int64)
+	// activityDescID is the schema descriptor for id field.
+	activityDescID := activityMixinFields0[0].Descriptor()
+	// activity.DefaultID holds the default value on creation for the id field.
+	activity.DefaultID = activityDescID.Default.(func() string)
+	// activity.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	activity.IDValidator = activityDescID.Validators[0].(func(string) error)
 	casbinruleMixin := schema.CasbinRule{}.Mixin()
 	casbinruleMixinFields0 := casbinruleMixin[0].Fields()
 	_ = casbinruleMixinFields0

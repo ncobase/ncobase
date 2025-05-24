@@ -6,6 +6,7 @@ import (
 	"ncobase/auth/data"
 	"ncobase/auth/data/ent"
 	codeAuthEnt "ncobase/auth/data/ent/codeauth"
+	"ncobase/auth/event"
 	"ncobase/auth/structs"
 	"ncobase/auth/wrapper"
 	userStructs "ncobase/user/structs"
@@ -29,6 +30,7 @@ type CodeAuthServiceInterface interface {
 type codeAuthService struct {
 	d   *data.Data
 	jtm *jwt.TokenManager
+	ep  event.PublisherInterface
 
 	usw *wrapper.UserServiceWrapper
 	tsw *wrapper.TenantServiceWrapper
@@ -36,10 +38,11 @@ type codeAuthService struct {
 }
 
 // NewCodeAuthService creates a new service.
-func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, usw *wrapper.UserServiceWrapper, tsw *wrapper.TenantServiceWrapper, asw *wrapper.AccessServiceWrapper) CodeAuthServiceInterface {
+func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, usw *wrapper.UserServiceWrapper, tsw *wrapper.TenantServiceWrapper, asw *wrapper.AccessServiceWrapper) CodeAuthServiceInterface {
 	return &codeAuthService{
 		d:   d,
 		jtm: jtm,
+		ep:  ep,
 		usw: usw,
 		tsw: tsw,
 		asw: asw,
@@ -128,6 +131,18 @@ func (s *codeAuthService) SendCode(ctx context.Context, body *structs.SendCodeBo
 		}
 		logger.Errorf(ctx, "send mail error: %v", err)
 		return nil, errors.New("send mail failed, please try again or contact support")
+	}
+
+	if s.ep != nil {
+		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
+		metadata := &types.JSON{
+			"ip_address": ip,
+			"user_agent": userAgent,
+			"email":      body.Email,
+			"phone":      body.Phone,
+			"timestamp":  time.Now().UnixMilli(),
+		}
+		s.ep.PublishAuthCodeSent(ctx, body.Email, metadata)
 	}
 
 	return &types.JSON{"registered": user != nil}, tx.Commit()

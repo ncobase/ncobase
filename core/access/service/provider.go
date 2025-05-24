@@ -8,6 +8,7 @@ import (
 
 // Service represents the auth service.
 type Service struct {
+	Activity       ActivityServiceInterface
 	Role           RoleServiceInterface
 	Permission     PermissionServiceInterface
 	RolePermission RolePermissionServiceInterface
@@ -22,6 +23,7 @@ func New(conf *config.Config, d *data.Data) *Service {
 	ps := NewPermissionService(d)
 	rs := NewRoleService(d, ps)
 	return &Service{
+		Activity:       NewActivityService(d),
 		Role:           rs,
 		Permission:     ps,
 		RolePermission: NewRolePermissionService(d, ps),

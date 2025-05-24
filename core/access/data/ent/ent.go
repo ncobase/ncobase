@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/access/data/ent/activity"
 	"ncobase/access/data/ent/casbinrule"
 	"ncobase/access/data/ent/permission"
 	"ncobase/access/data/ent/role"
@@ -78,6 +79,7 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
+			activity.Table:       activity.ValidColumn,
 			casbinrule.Table:     casbinrule.ValidColumn,
 			permission.Table:     permission.ValidColumn,
 			role.Table:           role.ValidColumn,

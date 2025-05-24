@@ -8,6 +8,18 @@ import (
 	"ncobase/access/data/ent"
 )
 
+// The ActivityFunc type is an adapter to allow the use of ordinary
+// function as Activity mutator.
+type ActivityFunc func(context.Context, *ent.ActivityMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ActivityFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ActivityMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ActivityMutation", m)
+}
+
 // The CasbinRuleFunc type is an adapter to allow the use of ordinary
 // function as CasbinRule mutator.
 type CasbinRuleFunc func(context.Context, *ent.CasbinRuleMutation) (ent.Value, error)

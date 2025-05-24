@@ -3,6 +3,7 @@ package access
 import (
 	"fmt"
 	"ncobase/access/data"
+	"ncobase/access/event"
 	"ncobase/access/handler"
 	"ncobase/access/service"
 	"ncobase/cmd/ncobase/middleware"
@@ -90,6 +91,9 @@ func (m *Module) PostInit() error {
 	m.s = service.New(m.conf, m.d)
 	m.h = handler.New(m.s)
 
+	// Register event handlers
+	m.registerEventHandlers()
+
 	// Publish service ready event
 	m.em.PublishEvent("exts.access.ready", map[string]string{
 		"name":   m.Name(),
@@ -139,6 +143,17 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		policies.PUT("/:id", m.h.Casbin.Update)
 		policies.DELETE("/:id", m.h.Casbin.Delete)
 	}
+
+	// Activity
+	activities := r.Group("/activities")
+	{
+		activities.POST("", m.h.Activity.LogActivity)
+		activities.GET("", m.h.Activity.ListActivity)
+		activities.GET("/:id", m.h.Activity.GetActivity)
+	}
+	// User activity
+	userGroup := r.Group("/"+m.Group()+"/users", middleware.AuthenticatedUser)
+	userGroup.GET("/:username/activity", m.h.Activity.GetUserActivity)
 }
 
 // GetHandlers returns the handlers for the module
@@ -149,6 +164,13 @@ func (m *Module) GetHandlers() ext.Handler {
 // GetServices returns the services for the module
 func (m *Module) GetServices() ext.Service {
 	return m.s
+}
+
+// registerEventHandlers registers the event handlers
+func (m *Module) registerEventHandlers() {
+	eventProvider := handler.NewEventProvider(m.s)
+	eventRegistrar := event.NewRegistrar(m.em)
+	eventRegistrar.RegisterHandlers(eventProvider)
 }
 
 // Cleanup cleans up the module

@@ -4,22 +4,24 @@ import "ncobase/access/data"
 
 // Repository represents the access repository.
 type Repository struct {
-	casbin         CasbinRuleRepositoryInterface
-	role           RoleRepositoryInterface
-	permission     PermissionRepositoryInterface
-	rolePermission RolePermissionRepositoryInterface
-	userRole       UserRoleRepositoryInterface
-	userTenantRole UserTenantRoleRepositoryInterface
+	Activity       ActivityRepositoryInterface
+	Casbin         CasbinRuleRepositoryInterface
+	Role           RoleRepositoryInterface
+	Permission     PermissionRepositoryInterface
+	RolePermission RolePermissionRepositoryInterface
+	UserRole       UserRoleRepositoryInterface
+	UserTenantRole UserTenantRoleRepositoryInterface
 }
 
 // New creates a new repository.
 func New(d *data.Data) *Repository {
 	return &Repository{
-		casbin:         NewCasbinRule(d),
-		role:           NewRoleRepository(d),
-		permission:     NewPermissionRepository(d),
-		rolePermission: NewRolePermissionRepository(d),
-		userRole:       NewUserRoleRepository(d),
-		userTenantRole: NewUserTenantRoleRepository(d),
+		Activity:       NewActivityRepository(d),
+		Casbin:         NewCasbinRule(d),
+		Role:           NewRoleRepository(d),
+		Permission:     NewPermissionRepository(d),
+		RolePermission: NewRolePermissionRepository(d),
+		UserRole:       NewUserRoleRepository(d),
+		UserTenantRole: NewUserTenantRoleRepository(d),
 	}
 }
