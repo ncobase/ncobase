@@ -9,7 +9,9 @@ import (
 	"ncobase/user/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -233,9 +235,43 @@ func (r *employeeRepository) Delete(ctx context.Context, userID string) error {
 	return nil
 }
 
-// List retrieves employees with filtering
+// List retrieves employees with cursor-based pagination
 func (r *employeeRepository) List(ctx context.Context, params *structs.ListEmployeeParams) ([]*ent.Employee, error) {
 	builder := r.ec.Employee.Query()
+
+	// Apply cursor-based pagination (same logic as user repository)
+	if params.Cursor != "" {
+		id, timestamp, err := paging.DecodeCursor(params.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("invalid cursor: %v", err)
+		}
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		if params.Direction == "backward" {
+			builder.Where(
+				employeeEnt.Or(
+					employeeEnt.CreatedAtGT(timestamp),
+					employeeEnt.And(
+						employeeEnt.CreatedAtEQ(timestamp),
+						employeeEnt.IDGT(id),
+					),
+				),
+			)
+		} else {
+			builder.Where(
+				employeeEnt.Or(
+					employeeEnt.CreatedAtLT(timestamp),
+					employeeEnt.And(
+						employeeEnt.CreatedAtEQ(timestamp),
+						employeeEnt.IDLT(id),
+					),
+				),
+			)
+		}
+	}
 
 	// Apply filters
 	if params.TenantID != "" {
@@ -254,13 +290,15 @@ func (r *employeeRepository) List(ctx context.Context, params *structs.ListEmplo
 		builder.Where(employeeEnt.ManagerIDEQ(params.ManagerID))
 	}
 
-	// Apply pagination
-	if params.Limit > 0 {
-		builder.Limit(params.Limit)
+	// Apply ordering
+	if params.Direction == "backward" {
+		builder.Order(ent.Asc(employeeEnt.FieldCreatedAt), ent.Asc(employeeEnt.FieldID))
+	} else {
+		builder.Order(ent.Desc(employeeEnt.FieldCreatedAt), ent.Desc(employeeEnt.FieldID))
 	}
 
-	// Apply ordering
-	builder.Order(ent.Desc(employeeEnt.FieldCreatedAt))
+	// Apply limit
+	builder.Limit(params.Limit)
 
 	rows, err := builder.All(ctx)
 	if err != nil {

@@ -1,9 +1,11 @@
 package structs
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/convert"
 )
 
 // EmployeeBody represents employee information
@@ -58,11 +60,16 @@ type ReadEmployee struct {
 	UpdatedAt       *int64      `json:"updated_at,omitempty"`
 }
 
+// GetCursorValue returns the cursor value.
+func (r *ReadEmployee) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", r.UserID, convert.ToValue(r.CreatedAt))
+}
+
 // ListEmployeeParams represents query parameters for listing employees
 type ListEmployeeParams struct {
-	Cursor         string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit          int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction      string `form:"direction,omitempty" json:"direction,omitempty"`
+	Cursor         string `json:"cursor,omitempty" query:"cursor"`
+	Limit          int    `json:"limit,omitempty" query:"limit"`
+	Direction      string `json:"direction,omitempty" query:"direction"`
 	TenantID       string `form:"tenant_id,omitempty" json:"tenant_id,omitempty"`
 	Department     string `form:"department,omitempty" json:"department,omitempty"`
 	Status         string `form:"status,omitempty" json:"status,omitempty"`

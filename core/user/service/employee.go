@@ -2,10 +2,15 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ncobase/user/data"
 	"ncobase/user/data/ent"
 	"ncobase/user/data/repository"
 	"ncobase/user/structs"
+
+	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/ecode"
+	"github.com/ncobase/ncore/logging/logger"
 )
 
 // EmployeeServiceInterface defines the employee service interface
@@ -15,9 +20,10 @@ type EmployeeServiceInterface interface {
 	Get(ctx context.Context, userID string) (*structs.ReadEmployee, error)
 	GetByEmployeeID(ctx context.Context, employeeID string) (*structs.ReadEmployee, error)
 	Delete(ctx context.Context, userID string) error
-	List(ctx context.Context, params *structs.ListEmployeeParams) ([]*structs.ReadEmployee, error)
+	List(ctx context.Context, params *structs.ListEmployeeParams) (paging.Result[*structs.ReadEmployee], error)
 	GetByDepartment(ctx context.Context, department string) ([]*structs.ReadEmployee, error)
 	GetByManager(ctx context.Context, managerID string) ([]*structs.ReadEmployee, error)
+	CountX(ctx context.Context, params *structs.ListEmployeeParams) int
 	Serialize(employee *ent.Employee) *structs.ReadEmployee
 	Serializes(employees []*ent.Employee) []*structs.ReadEmployee
 }
@@ -79,13 +85,33 @@ func (s *employeeService) Delete(ctx context.Context, userID string) error {
 	return nil
 }
 
-// List lists employees with filtering
-func (s *employeeService) List(ctx context.Context, params *structs.ListEmployeeParams) ([]*structs.ReadEmployee, error) {
-	rows, err := s.r.List(ctx, params)
-	if err := handleEntError(ctx, "Employee", err); err != nil {
-		return nil, err
+// List lists employees with cursor-based pagination
+func (s *employeeService) List(ctx context.Context, params *structs.ListEmployeeParams) (paging.Result[*structs.ReadEmployee], error) {
+	pp := paging.Params{
+		Cursor:    params.Cursor,
+		Limit:     params.Limit,
+		Direction: params.Direction,
 	}
-	return s.Serializes(rows), nil
+
+	return paging.Paginate(pp, func(cursor string, limit int, direction string) ([]*structs.ReadEmployee, int, error) {
+		lp := *params
+		lp.Cursor = cursor
+		lp.Limit = limit
+		lp.Direction = direction
+
+		rows, err := s.r.List(ctx, &lp)
+		if ent.IsNotFound(err) {
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
+		}
+		if err != nil {
+			logger.Errorf(ctx, "Error listing employees: %v", err)
+			return nil, 0, err
+		}
+
+		total := s.CountX(ctx, params)
+
+		return s.Serializes(rows), total, nil
+	})
 }
 
 // GetByDepartment retrieves employees by department
@@ -104,6 +130,11 @@ func (s *employeeService) GetByManager(ctx context.Context, managerID string) ([
 		return nil, err
 	}
 	return s.Serializes(rows), nil
+}
+
+// CountX gets a count of employees
+func (s *employeeService) CountX(ctx context.Context, params *structs.ListEmployeeParams) int {
+	return s.r.CountX(ctx, params)
 }
 
 // Serialize converts ent.Employee to structs.ReadEmployee
