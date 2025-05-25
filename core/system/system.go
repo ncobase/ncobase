@@ -114,7 +114,8 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		// Basic menu access - all authenticated users
 		menus.GET("", m.h.Menu.List)
-		menus.GET("/tree", m.h.Menu.GetDefaultMenuTree)
+		menus.GET("/navigation", m.h.Menu.GetNavigationMenus)
+		menus.GET("/tree", m.h.Menu.GetMenuTree)
 		menus.GET("/authorized/:user_id", m.h.Menu.GetUserAuthorizedMenus)
 		menus.GET("/:slug", m.h.Menu.Get)
 		menus.GET("/slug/:slug", m.h.Menu.GetBySlug)
@@ -123,12 +124,13 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		menus.POST("", middleware.HasPermission("manage:menu"), m.h.Menu.Create)
 		menus.PUT("", middleware.HasPermission("manage:menu"), m.h.Menu.Update)
 		menus.DELETE("/:slug", middleware.HasPermission("manage:menu"), m.h.Menu.Delete)
+
+		// Menu operations - requires specific permission
 		menus.PUT("/:id/move", middleware.HasPermission("manage:menu"), m.h.Menu.MoveMenu)
 		menus.POST("/reorder", middleware.HasPermission("manage:menu"), m.h.Menu.ReorderMenus)
-		menus.PUT("/:id/enable", middleware.HasPermission("manage:menu"), m.h.Menu.EnableMenu)
-		menus.PUT("/:id/disable", middleware.HasPermission("manage:menu"), m.h.Menu.DisableMenu)
-		menus.PUT("/:id/show", middleware.HasPermission("manage:menu"), m.h.Menu.ShowMenu)
-		menus.PUT("/:id/hide", middleware.HasPermission("manage:menu"), m.h.Menu.HideMenu)
+
+		// Status toggle endpoint - requires specific permission
+		menus.PUT("/:id/:action", middleware.HasPermission("manage:menu"), m.h.Menu.ToggleMenuStatus)
 	}
 
 	// Dictionary endpoints

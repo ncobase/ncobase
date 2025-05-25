@@ -7,6 +7,27 @@ import (
 	"github.com/ncobase/ncore/utils/convert"
 )
 
+// MenuQueryParams represents flexible query parameters for menu operations.
+type MenuQueryParams struct {
+	Type       string `json:"type,omitempty"`
+	ParentID   string `json:"parent_id,omitempty"`
+	Perms      string `json:"perms,omitempty"`
+	Path       string `json:"path,omitempty"`
+	UserID     string `json:"user_id,omitempty"`
+	SortBy     string `json:"sort_by,omitempty"`
+	Children   bool   `json:"children,omitempty"`
+	ActiveOnly bool   `json:"active_only,omitempty"`
+	Limit      int    `json:"limit,omitempty"`
+}
+
+// NavigationMenus represents grouped navigation menus.
+type NavigationMenus struct {
+	Headers  []*ReadMenu `json:"headers"`
+	Sidebars []*ReadMenu `json:"sidebars"`
+	Accounts []*ReadMenu `json:"accounts"`
+	Tenants  []*ReadMenu `json:"tenants"`
+}
+
 // MenuBody represents a menu entity.
 type MenuBody struct {
 	Name      string      `json:"name,omitempty"`

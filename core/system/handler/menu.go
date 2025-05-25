@@ -1,3 +1,4 @@
+// ./core/system/handler/menu.go
 package handler
 
 import (
@@ -16,14 +17,12 @@ type MenuHandlerInterface interface {
 	Update(c *gin.Context)
 	Get(c *gin.Context)
 	GetBySlug(c *gin.Context)
-	GetDefaultMenuTree(c *gin.Context)
+	GetNavigationMenus(c *gin.Context)
+	GetMenuTree(c *gin.Context)
 	GetUserAuthorizedMenus(c *gin.Context)
 	MoveMenu(c *gin.Context)
 	ReorderMenus(c *gin.Context)
-	EnableMenu(c *gin.Context)
-	DisableMenu(c *gin.Context)
-	ShowMenu(c *gin.Context)
-	HideMenu(c *gin.Context)
+	ToggleMenuStatus(c *gin.Context)
 	Delete(c *gin.Context)
 	List(c *gin.Context)
 }
@@ -154,18 +153,69 @@ func (h *menuHandler) GetBySlug(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// GetDefaultMenuTree handles retrieving the complete menu tree.
+// GetNavigationMenus handles retrieving the system navigation menu groups.
 //
-// @Summary Get menu tree
-// @Description Retrieve the complete menu tree structure.
+// @Summary Get navigation menus
+// @Description Retrieve the system navigation menu groups organized by type.
 // @Tags sys
 // @Produce json
-// @Success 200 {object} map[string][]structs.ReadMenu "success"
+// @Param sort_by query string false "Sort by field (order, created_at, name)" default(order)
+// @Success 200 {object} structs.NavigationMenus "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/menus/navigation [get]
+// @Security Bearer
+func (h *menuHandler) GetNavigationMenus(c *gin.Context) {
+	sortBy := c.Query("sort_by")
+	if sortBy == "" {
+		sortBy = structs.SortByOrder
+	}
+
+	// Validate sort parameter
+	validSortOptions := []string{structs.SortByOrder, structs.SortByCreatedAt, structs.SortByName}
+	isValidSort := false
+	for _, validOption := range validSortOptions {
+		if sortBy == validOption {
+			isValidSort = true
+			break
+		}
+	}
+
+	if !isValidSort {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid sort_by parameter. Valid options: order, created_at, name"))
+		return
+	}
+
+	result, err := h.s.Menu.GetNavigationMenus(c.Request.Context(), sortBy)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// GetMenuTree handles retrieving the menu tree.
+//
+// @Summary Get menu tree
+// @Description Retrieve the menu tree structure.
+// @Tags sys
+// @Produce json
+// @Param params query structs.FindMenu true "FindMenu parameters"
+// @Success 200 {object} paging.Result[structs.ReadMenu] "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/menus/tree [get]
 // @Security Bearer
-func (h *menuHandler) GetDefaultMenuTree(c *gin.Context) {
-	result, err := h.s.Menu.GetDefaultMenuTree(c.Request.Context())
+func (h *menuHandler) GetMenuTree(c *gin.Context) {
+	params := structs.FindMenu{}
+	if err := c.ShouldBindQuery(&params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	// Always include children for tree structure
+	params.Children = true
+
+	result, err := h.s.Menu.GetMenuTree(c.Request.Context(), &params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -260,90 +310,38 @@ func (h *menuHandler) ReorderMenus(c *gin.Context) {
 	resp.Success(c.Writer, nil)
 }
 
-// EnableMenu handles enabling a menu.
+// ToggleMenuStatus handles toggling menu status (enable/disable/show/hide).
 //
-// @Summary Enable menu
-// @Description Enable a previously disabled menu.
+// @Summary Toggle menu status
+// @Description Toggle menu status with specified action.
 // @Tags sys
 // @Produce json
 // @Param id path string true "Menu ID"
+// @Param action path string true "Action (enable/disable/show/hide)"
 // @Success 200 {object} structs.ReadMenu "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /sys/menus/{id}/enable [put]
+// @Router /sys/menus/{id}/{action} [put]
 // @Security Bearer
-func (h *menuHandler) EnableMenu(c *gin.Context) {
+func (h *menuHandler) ToggleMenuStatus(c *gin.Context) {
 	id := c.Param("id")
+	action := c.Param("action")
 
-	result, err := h.s.Menu.EnableMenu(c.Request.Context(), id)
-	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+	// Validate action
+	validActions := []string{"enable", "disable", "show", "hide"}
+	isValidAction := false
+	for _, validAction := range validActions {
+		if action == validAction {
+			isValidAction = true
+			break
+		}
+	}
+
+	if !isValidAction {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid action. Valid actions: enable, disable, show, hide"))
 		return
 	}
 
-	resp.Success(c.Writer, result)
-}
-
-// DisableMenu handles disabling a menu.
-//
-// @Summary Disable menu
-// @Description Disable a menu.
-// @Tags sys
-// @Produce json
-// @Param id path string true "Menu ID"
-// @Success 200 {object} structs.ReadMenu "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Router /sys/menus/{id}/disable [put]
-// @Security Bearer
-func (h *menuHandler) DisableMenu(c *gin.Context) {
-	id := c.Param("id")
-
-	result, err := h.s.Menu.DisableMenu(c.Request.Context(), id)
-	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-		return
-	}
-
-	resp.Success(c.Writer, result)
-}
-
-// ShowMenu handles showing a menu.
-//
-// @Summary Show menu
-// @Description Show a previously hidden menu.
-// @Tags sys
-// @Produce json
-// @Param id path string true "Menu ID"
-// @Success 200 {object} structs.ReadMenu "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Router /sys/menus/{id}/show [put]
-// @Security Bearer
-func (h *menuHandler) ShowMenu(c *gin.Context) {
-	id := c.Param("id")
-
-	result, err := h.s.Menu.ShowMenu(c.Request.Context(), id)
-	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-		return
-	}
-
-	resp.Success(c.Writer, result)
-}
-
-// HideMenu handles hiding a menu.
-//
-// @Summary Hide menu
-// @Description Hide a menu.
-// @Tags sys
-// @Produce json
-// @Param id path string true "Menu ID"
-// @Success 200 {object} structs.ReadMenu "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Router /sys/menus/{id}/hide [put]
-// @Security Bearer
-func (h *menuHandler) HideMenu(c *gin.Context) {
-	id := c.Param("id")
-
-	result, err := h.s.Menu.HideMenu(c.Request.Context(), id)
+	result, err := h.s.Menu.ToggleStatus(c.Request.Context(), id, action)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -380,7 +378,7 @@ func (h *menuHandler) Delete(c *gin.Context) {
 // @Tags sys
 // @Produce json
 // @Param params query structs.ListMenuParams true "List menu parameters"
-// @Success 200 {array} structs.ReadMenu "success"
+// @Success 200 {object} paging.Result[structs.ReadMenu] "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/menus [get]
 // @Security Bearer
@@ -402,32 +400,3 @@ func (h *menuHandler) List(c *gin.Context) {
 
 	resp.Success(c.Writer, result)
 }
-
-// // GetTree handles retrieving the menu tree.
-// //
-// // @Summary Get menu tree
-// // @Description Retrieve the menu tree structure.
-// // @Tags sys
-// // @Produce json
-// // @Param params query structs.FindMenu true "FindMenu parameters"
-// // @Success 200 {object} structs.ReadMenu "success"
-// // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /sys/menus/tree [get]
-// // @Security Bearer
-// func (h *Handler) GetTree(c *gin.Context) {
-// 	params := &structs.FindMenu{}
-// 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c,params); err != nil {
-// 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-// 		return
-// 	} else if len(validationErrors) > 0 {
-// 		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
-// 		return
-// 	}
-//
-// 	result, err := h.s.Menu.GetTree(c.Request.Context(),params)
-// 	if err != nil {
-// 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-// 		return
-// 	}
-// 	resp.Success(c.Writer, result)
-// }

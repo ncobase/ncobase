@@ -20,7 +20,7 @@ import (
 // MenuRepositoryInterface represents the menu repository interface.
 type MenuRepositoryInterface interface {
 	Create(context.Context, *structs.MenuBody) (*ent.Menu, error)
-	GetTree(context.Context, *structs.FindMenu) ([]*ent.Menu, error)
+	GetMenuTree(context.Context, *structs.FindMenu) ([]*ent.Menu, error)
 	Get(context.Context, *structs.FindMenu) (*ent.Menu, error)
 	Update(context.Context, *structs.UpdateMenuBody) (*ent.Menu, error)
 	Delete(context.Context, *structs.FindMenu) error
@@ -116,25 +116,28 @@ func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*e
 	return row, nil
 }
 
-// GetTree retrieves the menu tree.
-func (r *menuRepository) GetTree(ctx context.Context, params *structs.FindMenu) ([]*ent.Menu, error) {
+// GetMenuTree retrieves the menu tree.
+func (r *menuRepository) GetMenuTree(ctx context.Context, params *structs.FindMenu) ([]*ent.Menu, error) {
 	// create builder
 	builder := r.ec.Menu.Query()
 
-	// set where conditions
-	// if validator.IsNotEmpty(params.Type) {
-	// 	builder.Where(menuEnt.TypeEQ(params.Type))
-	// }
+	// Apply type filter if specified
+	if validator.IsNotEmpty(params.Type) {
+		builder.Where(menuEnt.TypeEQ(params.Type))
+	}
+
+	// Apply tenant filter if specified
 	if validator.IsNotEmpty(params.Tenant) {
 		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
-	// handle sub menus
+	// Handle specific menu/parent requests
 	if validator.IsNotEmpty(params.Menu) && params.Menu != "root" {
 		return r.getSubMenu(ctx, params.Menu, builder)
 	}
 
-	// execute the builder
+	// For tree building, get all matching records
+	// Don't apply parent filtering here as we need all records to build the tree
 	return r.executeArrayQuery(ctx, builder)
 }
 
@@ -331,12 +334,34 @@ func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.List
 // menuSorting applies the specified sorting to the query builder.
 func menuSorting(builder *ent.MenuQuery, sortBy string) *ent.MenuQuery {
 	switch sortBy {
-	case structs.SortByCreatedAt:
-		return builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
 	case structs.SortByOrder:
-		return builder.Order(ent.Asc(menuEnt.FieldOrder), ent.Desc(menuEnt.FieldID))
+		// Primary: Order DESC, Fallback: Created time DESC, Final: ID ASC
+		return builder.Order(
+			ent.Desc(menuEnt.FieldOrder),
+			ent.Desc(menuEnt.FieldCreatedAt),
+			ent.Asc(menuEnt.FieldID),
+		)
+	case structs.SortByCreatedAt:
+		// Primary: Created time DESC, Fallback: Order DESC, Final: ID ASC
+		return builder.Order(
+			ent.Desc(menuEnt.FieldCreatedAt),
+			ent.Desc(menuEnt.FieldOrder),
+			ent.Asc(menuEnt.FieldID),
+		)
+	case structs.SortByName:
+		// Primary: Name ASC, Fallback: Order DESC, Final: ID ASC
+		return builder.Order(
+			ent.Asc(menuEnt.FieldName),
+			ent.Desc(menuEnt.FieldOrder),
+			ent.Asc(menuEnt.FieldID),
+		)
 	default:
-		return builder.Order(ent.Desc(menuEnt.FieldCreatedAt), ent.Desc(menuEnt.FieldID))
+		// Default: Order DESC, Created time DESC, ID ASC
+		return builder.Order(
+			ent.Desc(menuEnt.FieldOrder),
+			ent.Desc(menuEnt.FieldCreatedAt),
+			ent.Asc(menuEnt.FieldID),
+		)
 	}
 }
 
@@ -420,15 +445,22 @@ func (r *menuRepository) listBuilder(_ context.Context, params *structs.ListMenu
 		builder.Where(menuEnt.PermsContains(params.Perms))
 	}
 
-	// match parent id.
-	if params.Parent == "" {
-		builder.Where(menuEnt.Or(
-			menuEnt.ParentIDIsNil(),
-			menuEnt.ParentIDEQ(""),
-			menuEnt.ParentIDEQ("root"),
-		))
-	} else {
+	if params.Parent != "" { // Explicit parent specified
 		builder.Where(menuEnt.ParentIDEQ(params.Parent))
+	} else {
+		// Determine if we should apply root filter
+		shouldApplyRootFilter := !params.Children && // Not building tree structure
+			params.Type == "" // No specific type requested
+
+		if shouldApplyRootFilter {
+			// Only get root level items for general list queries
+			builder.Where(menuEnt.Or(
+				menuEnt.ParentIDIsNil(),
+				menuEnt.ParentIDEQ(""),
+				menuEnt.ParentIDEQ("root"),
+			))
+		}
+		// If Children=true or Type is specified, get all records for tree building or type filtering
 	}
 
 	return builder, nil

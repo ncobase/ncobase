@@ -114,8 +114,11 @@ func (m *Module) Name() string {
 
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Group endpoints - organization management permissions
-	orgGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+	// Space endpoints
+	spaceGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+
+	// Organization endpoints
+	orgGroup := spaceGroup.Group("/groups", middleware.HasAnyRole("super-admin", "system-admin"))
 	{
 		orgGroup.GET("", middleware.HasPermission("read:group"), m.h.Group.List)
 		orgGroup.POST("", middleware.HasPermission("manage:group"), m.h.Group.Create)

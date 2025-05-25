@@ -107,9 +107,9 @@ func (m *Module) Name() string {
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
-	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+	userGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
 	// User endpoints
-	users := r.Group("/users")
+	users := userGroup.Group("/users")
 	{
 		users.GET("", middleware.HasPermission("read:user"), m.h.User.List)
 		users.POST("", middleware.HasPermission("create:user"), m.h.User.Create)
@@ -124,7 +124,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	}
 
 	// Employee endpoints
-	employees := r.Group("/employees")
+	employees := userGroup.Group("/employees")
 	{
 		employees.GET("", middleware.HasPermission("read:employee"), m.h.Employee.List)
 		employees.POST("", middleware.HasAnyPermission("create:employee", "manage:hr"), m.h.Employee.Create)

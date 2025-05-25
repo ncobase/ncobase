@@ -1,10 +1,7 @@
 package event
 
 import (
-	"context"
-
 	ext "github.com/ncobase/ncore/extension/types"
-	"github.com/ncobase/ncore/logging/logger"
 )
 
 // Registrar handles registration of event handlers
@@ -24,6 +21,4 @@ func (r *Registrar) RegisterHandlers(provider HandlerProvider) {
 	for eventName, handler := range handlers {
 		r.em.SubscribeEvent(eventName, handler)
 	}
-
-	logger.Debugf(context.Background(), "Access event handlers registered: %d handlers", len(handlers))
 }
