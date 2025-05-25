@@ -1,4 +1,3 @@
-// ./core/system/handler/menu.go
 package handler
 
 import (

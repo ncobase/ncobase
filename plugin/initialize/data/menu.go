@@ -22,6 +22,7 @@ var SystemDefaultMenus = struct {
 			Type:     "header",
 			Path:     "/dash",
 			Icon:     "IconGauge",
+			Perms:    "read:dashboard",
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -32,6 +33,7 @@ var SystemDefaultMenus = struct {
 			Slug:     "system",
 			Type:     "header",
 			Path:     "/system/group",
+			Perms:    "read:system",
 			Order:    convert.ToPointer(10),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -42,6 +44,7 @@ var SystemDefaultMenus = struct {
 			Slug:     "content",
 			Type:     "header",
 			Path:     "/content/topic",
+			Perms:    "read:content",
 			Order:    convert.ToPointer(98),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -53,6 +56,7 @@ var SystemDefaultMenus = struct {
 			Type:     "header",
 			Path:     "/builder/form",
 			Icon:     "IconAtom",
+			Perms:    "manage:builder",
 			Order:    convert.ToPointer(1),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -66,10 +70,11 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(0),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
+			// No permission - public access
 		},
 	},
 	Sidebars: []structs.MenuBody{
-		// System module sidebar
+		// System module sidebars
 		{
 			Name:     "Tenant",
 			Label:    "system.tenant.navigation",
@@ -77,6 +82,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/tenant",
 			Icon:     "IconBuildingCommunity",
+			Perms:    "manage:tenant",
 			Order:    convert.ToPointer(999),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -89,6 +95,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/group",
 			Icon:     "IconBinaryTree2",
+			Perms:    "read:group",
 			Order:    convert.ToPointer(990),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -101,6 +108,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/user",
 			Icon:     "IconUsers",
+			Perms:    "read:user",
 			Order:    convert.ToPointer(980),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -113,6 +121,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/role",
 			Icon:     "IconUsersGroup",
+			Perms:    "manage:role",
 			Order:    convert.ToPointer(970),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -125,6 +134,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/permission",
 			Icon:     "IconLockAccess",
+			Perms:    "manage:permission",
 			Order:    convert.ToPointer(930),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -137,6 +147,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/menu",
 			Icon:     "IconMenu",
+			Perms:    "manage:menu",
 			Order:    convert.ToPointer(940),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -149,6 +160,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/dictionary",
 			Icon:     "IconVocabulary",
+			Perms:    "read:dictionary",
 			Order:    convert.ToPointer(910),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -162,6 +174,7 @@ var SystemDefaultMenus = struct {
 			Path:     "/system/basic",
 			Icon:     "IconSettings2",
 			Target:   "_self",
+			Perms:    "manage:system",
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -184,7 +197,7 @@ var SystemDefaultMenus = struct {
 			ParentID: "system",
 		},
 
-		// Content module sidebar
+		// Content module sidebars
 		{
 			Name:     "Topic",
 			Label:    "content.topic.navigation",
@@ -192,6 +205,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/content/topic",
 			Icon:     "IconArticle",
+			Perms:    "read:content",
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -203,6 +217,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/content/taxonomy",
 			Icon:     "IconColumns",
+			Perms:    "manage:taxonomy",
 			Order:    convert.ToPointer(98),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -215,6 +230,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/content/comment",
 			Icon:     "IconMessage",
+			Perms:    "read:comment",
 			Order:    convert.ToPointer(96),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -226,6 +242,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/content/approval",
 			Icon:     "IconChecklist",
+			Perms:    "manage:approval",
 			Order:    convert.ToPointer(95),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -238,6 +255,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/content/trash",
 			Icon:     "IconTrash",
+			Perms:    "manage:content",
 			Order:    convert.ToPointer(91),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -250,6 +268,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/content/component",
 			Icon:     "IconComponents",
+			Perms:    "manage:content",
 			Order:    convert.ToPointer(93),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -280,7 +299,7 @@ var SystemDefaultMenus = struct {
 			ParentID: "content",
 		},
 
-		// Builder module sidebar
+		// Builder module sidebars
 		{
 			Name:     "Form",
 			Label:    "builder.form.navigation",
@@ -288,6 +307,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/builder/form",
 			Icon:     "IconAtom",
+			Perms:    "manage:builder",
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -300,13 +320,14 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/builder/feature",
 			Icon:     "IconApps",
+			Perms:    "manage:builder",
 			Order:    convert.ToPointer(1),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
 			ParentID: "builder",
 		},
 
-		// Example module sidebar
+		// Example module sidebars (existing preserved, no permissions - public access)
 		{
 			Name:     "Card",
 			Label:    "example.card.navigation",
@@ -529,9 +550,32 @@ var SystemDefaultMenus = struct {
 			Slug:     "submenu-system-setting",
 			Type:     "submenu",
 			Path:     "/system/basic",
+			Perms:    "manage:system",
 			Order:    convert.ToPointer(470),
 			Hidden:   convert.ToPointer(false),
 			ParentID: "system-basic",
+		},
+		{
+			Name:     "User List",
+			Label:    "system.user.list.navigation",
+			Slug:     "submenu-user-list",
+			Type:     "submenu",
+			Path:     "/system/user/list",
+			Perms:    "read:user",
+			Order:    convert.ToPointer(450),
+			Hidden:   convert.ToPointer(false),
+			ParentID: "system-user",
+		},
+		{
+			Name:     "User Create",
+			Label:    "system.user.create.navigation",
+			Slug:     "submenu-user-create",
+			Type:     "submenu",
+			Path:     "/system/user/create",
+			Perms:    "create:user",
+			Order:    convert.ToPointer(440),
+			Hidden:   convert.ToPointer(false),
+			ParentID: "system-user",
 		},
 	},
 	Accounts: []structs.MenuBody{
@@ -545,6 +589,19 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
+			// No permission - all users can access profile
+		},
+		{
+			Name:     "Settings",
+			Label:    "dropdowns.account.settings.label",
+			Slug:     "account-settings",
+			Type:     "account",
+			Path:     "/account/settings",
+			Icon:     "IconSettings",
+			Perms:    "manage:account",
+			Order:    convert.ToPointer(90),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
 		},
 		{
 			Name:     "Logout",
@@ -556,6 +613,7 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(0),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
+			// No permission - all users can logout
 		},
 	},
 	Tenants: []structs.MenuBody{
@@ -576,6 +634,49 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
+			// No permission - users with multiple tenants can switch
+		},
+		{
+			Name:     "Manage Tenant",
+			Label:    "dropdowns.tenant.manage.label",
+			Slug:     "tenant-manage",
+			Type:     "tenant",
+			Path:     "/system/tenant",
+			Icon:     "IconBuildingCommunity",
+			Perms:    "manage:tenant",
+			Order:    convert.ToPointer(90),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
 		},
 	},
+}
+
+// MenuPermissionMapping defines permission mappings for automatic assignment
+var MenuPermissionMapping = map[string][]string{
+	// System permissions
+	"read:system":    {"read:user", "read:group", "read:menu", "read:dictionary"},
+	"manage:system":  {"manage:menu", "manage:dictionary", "manage:tenant", "manage:permission"},
+	"read:dashboard": {"read:statistics", "read:analytics"},
+
+	// User management permissions
+	"read:user":   {"read:employee", "read:profile"},
+	"manage:user": {"create:user", "update:user", "delete:user"},
+	"create:user": {"read:user"},
+	"update:user": {"read:user"},
+	"delete:user": {"read:user"},
+
+	// Content permissions
+	"read:content":    {"read:topic", "read:comment"},
+	"manage:content":  {"create:content", "update:content", "delete:content"},
+	"manage:approval": {"read:content", "update:content"},
+
+	// Role and permission management
+	"manage:role":       {"read:role", "create:role", "update:role", "delete:role"},
+	"manage:permission": {"read:permission", "create:permission", "update:permission", "delete:permission"},
+
+	// Builder permissions
+	"manage:builder": {"create:form", "update:form", "delete:form", "read:feature"},
+
+	// Tenant permissions
+	"manage:tenant": {"read:tenant", "create:tenant", "update:tenant", "delete:tenant"},
 }
