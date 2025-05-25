@@ -233,11 +233,15 @@ func OwnerOrManager(getOwnerID func(*gin.Context) string) gin.HandlerFunc {
 	}
 }
 
-// hasWildcardPermission checks if user has wildcard permission
+// hasWildcardPermission checks for wildcard permissions
 func hasWildcardPermission(permissions []string) bool {
+	wildcardPatterns := []string{"*:*", "*", "admin:*", "super:*"}
+
 	for _, perm := range permissions {
-		if perm == "*:*" {
-			return true
+		for _, pattern := range wildcardPatterns {
+			if perm == pattern {
+				return true
+			}
 		}
 	}
 	return false
@@ -259,7 +263,8 @@ func hasSpecificPermission(permissions []string, required string) bool {
 
 // hasAdminRole checks if user has admin role
 func hasAdminRole(roles []string) bool {
-	adminRoles := []string{"super-admin", "system-admin", "enterprise-admin"}
+	adminRoles := []string{"super-admin", "system-admin", "enterprise-admin", "admin"}
+
 	for _, role := range roles {
 		for _, adminRole := range adminRoles {
 			if role == adminRole {
@@ -267,6 +272,30 @@ func hasAdminRole(roles []string) bool {
 			}
 		}
 	}
+	return false
+}
+
+// hasPatternPermission checks for pattern-based permissions
+func hasPatternPermission(permissions []string, action, subject string) bool {
+	patterns := []string{
+		"*:" + subject,      // wildcard action
+		action + ":*",       // wildcard subject
+		"*:*",               // full wildcard
+		"manage:" + subject, // manage implies all actions
+	}
+
+	for _, pattern := range patterns {
+		if hasSpecificPermission(permissions, pattern) {
+			return true
+		}
+	}
+
+	// Special case: read permission covers HEAD and OPTIONS
+	if action == "read" && (hasSpecificPermission(permissions, "read:"+subject) ||
+		hasSpecificPermission(permissions, "manage:"+subject)) {
+		return true
+	}
+
 	return false
 }
 
