@@ -17,6 +17,7 @@ type InitConfig struct {
 	InitToken             string `json:"init_token"`
 	TokenExpiry           string `json:"token_expiry"`
 	PersistState          bool   `json:"persist_state"`
+	DataMode              string `json:"data_mode"` // "enterprise" or "company"
 }
 
 // SecConfig holds security configuration for the system
@@ -44,9 +45,10 @@ func GetDefaultConfig() *Config {
 	return &Config{
 		Initialization: &InitConfig{
 			AllowReinitialization: false,
-			InitToken:             "Ac231", // Empty means no token required
+			InitToken:             "Ac231",
 			TokenExpiry:           "24h",
 			PersistState:          true,
+			DataMode:              "company", // Default to company mode
 		},
 		Security: &SecConfig{
 			DefaultPasswordPolicy: &PasswordPolicy{
@@ -70,7 +72,6 @@ func GetConfigFromFile(config *Config, viper *viper.Viper) *Config {
 		return config
 	}
 
-	// If config is nil, start with default config
 	if config == nil {
 		config = GetDefaultConfig()
 	}
@@ -103,6 +104,10 @@ func GetConfigFromFile(config *Config, viper *viper.Viper) *Config {
 
 	if viper.IsSet("system.initialization.persist_state") {
 		config.Initialization.PersistState = viper.GetBool("system.initialization.persist_state")
+	}
+
+	if viper.IsSet("system.initialization.data_mode") {
+		config.Initialization.DataMode = viper.GetString("system.initialization.data_mode")
 	}
 
 	// Logging settings

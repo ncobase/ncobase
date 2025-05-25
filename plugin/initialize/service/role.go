@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	accessStructs "ncobase/access/structs"
-	data "ncobase/initialize/data/company"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
@@ -22,13 +21,14 @@ func (s *Service) checkRolesInitialized(ctx context.Context) error {
 	return s.initRoles(ctx)
 }
 
-// initRoles initializes roles
+// initRoles initializes roles using current data mode
 func (s *Service) initRoles(ctx context.Context) error {
-	logger.Infof(ctx, "Initializing system roles...")
+	logger.Infof(ctx, "Initializing system roles in %s mode...", s.state.DataMode)
 
-	// Initialize system roles
-	for _, role := range data.SystemDefaultRoles {
-		// Check if role already exists
+	dataLoader := s.getDataLoader()
+	roles := dataLoader.GetRoles()
+
+	for _, role := range roles {
 		existingRole, err := s.acs.Role.GetBySlug(ctx, role.Slug)
 		if err == nil && existingRole != nil {
 			logger.Infof(ctx, "Role %s already exists, skipping", role.Slug)
@@ -37,7 +37,6 @@ func (s *Service) initRoles(ctx context.Context) error {
 
 		_, err = s.acs.Role.Create(ctx, &role)
 		if err != nil {
-			// Check if error is due to unique constraint violation
 			if errors.Is(err, errors.New("slug_key")) || errors.Is(err, errors.New("duplicate key")) {
 				logger.Warnf(ctx, "Role %s already exists (caught duplicate key), skipping", role.Name)
 				continue
@@ -49,36 +48,15 @@ func (s *Service) initRoles(ctx context.Context) error {
 		logger.Debugf(ctx, "Created role: %s", role.Name)
 	}
 
-	// Initialize organization-specific roles
-	for _, role := range data.OrganizationStructure.OrganizationRoles {
-		// Check if role already exists
-		existingRole, err := s.acs.Role.GetBySlug(ctx, role.Role.Slug)
-		if err == nil && existingRole != nil {
-			logger.Infof(ctx, "Organization role %s already exists, skipping", role.Role.Slug)
-			continue
-		}
-
-		_, err = s.acs.Role.Create(ctx, &accessStructs.CreateRoleBody{
-			RoleBody: role.Role,
-		})
-		if err != nil {
-			// Check if error is due to unique constraint violation
-			if errors.Is(err, errors.New("slug_key")) || errors.Is(err, errors.New("duplicate key")) {
-				logger.Warnf(ctx, "Organization role %s already exists (caught duplicate key), skipping", role.Role.Name)
-				continue
-			}
-
-			logger.Errorf(ctx, "Error creating organization role %s: %v", role.Role.Name, err)
-			return fmt.Errorf("failed to create organization role '%s': %w", role.Role.Name, err)
-		}
-		logger.Debugf(ctx, "Created organization role: %s", role.Role.Name)
-	}
-
 	count := s.acs.Role.CountX(ctx, &accessStructs.ListRoleParams{})
 	logger.Infof(ctx, "Role initialization completed, %d roles now in system", count)
 
-	// Validate essential roles exist
-	essential := []string{"super-admin", "system-admin", "enterprise-admin"}
+	// Validate essential roles exist based on mode
+	essential := []string{"super-admin", "system-admin"}
+	if s.state.DataMode == "enterprise" {
+		essential = append(essential, "enterprise-admin")
+	}
+
 	for _, slug := range essential {
 		role, err := s.acs.Role.GetBySlug(ctx, slug)
 		if err != nil || role == nil {
@@ -87,6 +65,6 @@ func (s *Service) initRoles(ctx context.Context) error {
 		}
 	}
 
-	logger.Infof(ctx, "All essential enterprise roles validated successfully")
+	logger.Infof(ctx, "All essential roles validated successfully for %s mode", s.state.DataMode)
 	return nil
 }

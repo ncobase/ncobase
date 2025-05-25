@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	data "ncobase/initialize/data/company"
 	systemStructs "ncobase/system/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
@@ -11,7 +10,6 @@ import (
 
 // checkOptionsInitialized checks if system options are already initialized
 func (s *Service) checkOptionsInitialized(ctx context.Context) error {
-	// Check if system options data already exists
 	count := s.sys.Options.CountX(ctx, &systemStructs.ListOptionsParams{})
 	if count > 0 {
 		logger.Infof(ctx, "System options already exist, skipping initialization")
@@ -21,18 +19,16 @@ func (s *Service) checkOptionsInitialized(ctx context.Context) error {
 	return s.initOptions(ctx)
 }
 
-// initOptions initializes the default system options
+// initOptions initializes the default system options using current data mode
 func (s *Service) initOptions(ctx context.Context) error {
-	logger.Infof(ctx, "Initializing system options...")
+	logger.Infof(ctx, "Initializing system options in %s mode...", s.state.DataMode)
 
-	// Get default tenant
 	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
 	if err != nil {
 		logger.Errorf(ctx, "Error getting default tenant: %v", err)
 		return err
 	}
 
-	// get admin user
 	adminUser, err := s.getAdminUser(ctx, "options creation")
 	if err != nil {
 		return err
@@ -43,20 +39,20 @@ func (s *Service) initOptions(ctx context.Context) error {
 		return fmt.Errorf("no suitable admin user found for options creation")
 	}
 
+	dataLoader := s.getDataLoader()
+	options := dataLoader.GetOptions()
+
 	var createdCount int
-	for _, option := range data.SystemDefaultOptions {
-		// Set tenant ID and creator
+	for _, option := range options {
 		option.TenantID = tenant.ID
 		option.CreatedBy = &adminUser.ID
 
-		// Check if already exists
 		existing, err := s.sys.Options.GetByName(ctx, option.Name)
 		if err == nil && existing != nil {
 			logger.Infof(ctx, "Option %s already exists, skipping", option.Name)
 			continue
 		}
 
-		// Create system option
 		_, err = s.sys.Options.Create(ctx, &option)
 		if err != nil {
 			logger.Errorf(ctx, "Error creating option %s: %v", option.Name, err)
@@ -66,7 +62,7 @@ func (s *Service) initOptions(ctx context.Context) error {
 		createdCount++
 	}
 
-	logger.Infof(ctx, "System options initialization completed, created %d options using admin user '%s'",
-		createdCount, adminUser.Username)
+	logger.Infof(ctx, "System options initialization completed in %s mode, created %d options using admin user '%s'",
+		s.state.DataMode, createdCount, adminUser.Username)
 	return nil
 }

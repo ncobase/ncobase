@@ -37,17 +37,26 @@ func NewInitializeHandler(svc *service.Service) InitializeHandlerInterface {
 // @Accept json
 // @Produce json
 // @Param X-Init-Token header string false "Initialization Token"
+// @Param mode query string false "Data Mode" Enum("company", "enterprise")
 // @Success 200 {object} service.InitState "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Failure 401 {object} resp.Exception "unauthorized"
 // @Router /sys/initialize [post]
 // @Security Bearer
 func (h *initializeHandler) Execute(c *gin.Context) {
-	// Token validation logic
 	initToken := c.GetHeader("X-Init-Token")
 	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
 		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
 		return
+	}
+
+	// Check for data mode parameter
+	dataMode := c.Query("mode")
+	if dataMode != "" {
+		if err := h.s.SetDataMode(dataMode); err != nil {
+			resp.Fail(c.Writer, resp.BadRequest("Invalid data mode: "+err.Error()))
+			return
+		}
 	}
 
 	state, err := h.s.Execute(c.Request.Context(), h.s.AllowReinitialization())
@@ -76,11 +85,19 @@ func (h *initializeHandler) Execute(c *gin.Context) {
 // @Router /sys/initialize/organizations [post]
 // @Security Bearer
 func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
-	// Token validation logic
 	initToken := c.GetHeader("X-Init-Token")
 	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
 		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
 		return
+	}
+
+	// Check for data mode parameter
+	dataMode := c.Query("mode")
+	if dataMode != "" {
+		if err := h.s.SetDataMode(dataMode); err != nil {
+			resp.Fail(c.Writer, resp.BadRequest("Invalid data mode: "+err.Error()))
+			return
+		}
 	}
 
 	state, err := h.s.InitializeOrganizations(c.Request.Context())
@@ -99,17 +116,26 @@ func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param X-Init-Token header string false "Initialization Token"
+// @Param mode query string false "Data Mode" Enum("company", "enterprise")
 // @Success 200 {object} service.InitState "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Failure 401 {object} resp.Exception "unauthorized"
 // @Router /sys/initialize/users [post]
 // @Security Bearer
 func (h *initializeHandler) InitializeUsers(c *gin.Context) {
-	// Token validation logic
 	initToken := c.GetHeader("X-Init-Token")
 	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
 		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
 		return
+	}
+
+	// Check for data mode parameter
+	dataMode := c.Query("mode")
+	if dataMode != "" {
+		if err := h.s.SetDataMode(dataMode); err != nil {
+			resp.Fail(c.Writer, resp.BadRequest("Invalid data mode: "+err.Error()))
+			return
+		}
 	}
 
 	state, err := h.s.InitializeUsers(c.Request.Context())
@@ -147,14 +173,12 @@ func (h *initializeHandler) GetStatus(c *gin.Context) {
 // @Router /sys/initialize/reset [post]
 // @Security Bearer
 func (h *initializeHandler) ResetInitialization(c *gin.Context) {
-	// Validate initialization token (required for reset)
 	initToken := c.GetHeader("X-Init-Token")
 	if initToken != h.s.GetInitToken() {
 		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
 		return
 	}
 
-	// Check if reinitialization is allowed
 	if !h.s.AllowReinitialization() {
 		resp.Fail(c.Writer, resp.BadRequest("Reinitialization is not allowed in configuration"))
 		return

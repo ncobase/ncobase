@@ -36,6 +36,7 @@ type InitState struct {
 	Statuses      []InitStatus `json:"statuses,omitempty"`
 	LastRunTime   int64        `json:"last_run_time,omitempty"`
 	Version       string       `json:"version,omitempty"`
+	DataMode      string       `json:"data_mode,omitempty"`
 }
 
 // Service is the struct for the initialization service.
@@ -69,6 +70,7 @@ func New(
 			IsInitialized: false,
 			Statuses:      make([]InitStatus, 0),
 			Version:       version.GetVersionInfo().Version,
+			DataMode:      "company", // Default mode
 		},
 		visualizationNameToID: make(map[string]string),
 		dashboardNameToID:     make(map[string]string),
@@ -85,6 +87,25 @@ func (s *Service) SetDependencies(c *initConfig.Config, sys *systemService.Servi
 	s.ts = ts
 	s.ss = ss
 	s.acs = acs
+
+	// Set data mode from config
+	if c.Initialization != nil && c.Initialization.DataMode != "" {
+		s.state.DataMode = c.Initialization.DataMode
+	}
+}
+
+// SetDataMode sets the data mode for initialization
+func (s *Service) SetDataMode(mode string) error {
+	if mode != "enterprise" && mode != "company" {
+		return fmt.Errorf("invalid data mode: %s, must be 'enterprise' or 'company'", mode)
+	}
+	s.state.DataMode = mode
+	return nil
+}
+
+// GetDataMode returns the current data mode
+func (s *Service) GetDataMode() string {
+	return s.state.DataMode
 }
 
 // LoadState loads initialization state from the database if available
@@ -93,14 +114,11 @@ func (s *Service) LoadState(ctx context.Context) error {
 		return nil
 	}
 
-	// Try to get state from options
 	option, err := s.sys.Options.GetByName(ctx, stateOptionKey)
 	if err != nil {
-		// Option doesn't exist yet, which is fine for first run
 		return nil
 	}
 
-	// Parse state from option value
 	if option != nil && option.Value != "" {
 		var state InitState
 		if err := json.Unmarshal([]byte(option.Value), &state); err != nil {
@@ -108,8 +126,8 @@ func (s *Service) LoadState(ctx context.Context) error {
 		}
 
 		s.state = &state
-		logger.Infof(ctx, "Loaded initialization state from database: initialized=%v, last run=%v",
-			state.IsInitialized, time.Unix(0, state.LastRunTime*int64(time.Millisecond)))
+		logger.Infof(ctx, "Loaded initialization state from database: initialized=%v, mode=%s, last run=%v",
+			state.IsInitialized, state.DataMode, time.Unix(0, state.LastRunTime*int64(time.Millisecond)))
 	}
 
 	return nil
@@ -121,16 +139,13 @@ func (s *Service) SaveState(ctx context.Context) error {
 		return nil
 	}
 
-	// Convert state to JSON
 	stateJSON, err := json.Marshal(s.state)
 	if err != nil {
 		return fmt.Errorf("failed to marshal initialization state: %w", err)
 	}
 
-	// Check if option already exists
 	existingOption, err := s.sys.Options.GetByName(ctx, stateOptionKey)
 	if err == nil && existingOption != nil {
-		// Update existing option
 		updateBody := &systemStructs.UpdateOptionsBody{
 			ID: existingOption.ID,
 			OptionsBody: systemStructs.OptionsBody{
@@ -143,7 +158,6 @@ func (s *Service) SaveState(ctx context.Context) error {
 			return fmt.Errorf("failed to update initialization state option: %w", err)
 		}
 	} else {
-		// Create new option
 		createBody := &systemStructs.OptionsBody{
 			Name:     stateOptionKey,
 			Type:     "object",
@@ -162,16 +176,13 @@ func (s *Service) SaveState(ctx context.Context) error {
 
 // IsInitialized checks if the system has been initialized
 func (s *Service) IsInitialized(ctx context.Context) bool {
-	// Check if we already know it's initialized
 	if s.state.IsInitialized {
 		return true
 	}
 
-	// Perform a check to see if required data exists
 	userCount := s.us.User.CountX(ctx, &userStructs.ListUserParams{})
 	if userCount > 0 {
 		s.state.IsInitialized = true
-		// Persist updated state
 		if err := s.SaveState(ctx); err != nil {
 			logger.Warnf(ctx, "Failed to save initialization state: %v", err)
 		}
@@ -196,14 +207,19 @@ func (s *Service) AllowReinitialization() bool {
 	return s.c.Initialization.AllowReinitialization
 }
 
-// Execute initializes roles, permissions, Casbin policies, and initial users if necessary.
+// Execute initializes all system components
 func (s *Service) Execute(ctx context.Context, allowReinitialization bool) (*InitState, error) {
-	logger.Infof(ctx, "Starting system initialization...")
+	logger.Infof(ctx, "Starting system initialization in %s mode...", s.state.DataMode)
 
-	// Check if already initialized
 	if s.IsInitialized(ctx) && !allowReinitialization {
 		logger.Infof(ctx, "System is already initialized")
 		return s.state, fmt.Errorf("system is already initialized")
+	}
+
+	// Pre-initialization validation
+	if err := s.validateInitializationConsistency(ctx); err != nil {
+		logger.Warnf(ctx, "Pre-initialization validation warnings: %v", err)
+		// Continue with initialization despite warnings
 	}
 
 	steps := []struct {
@@ -213,7 +229,7 @@ func (s *Service) Execute(ctx context.Context, allowReinitialization bool) (*Ini
 		{"roles", s.checkRolesInitialized},
 		{"permissions", s.checkPermissionsInitialized},
 		{"tenants", s.checkTenantsInitialized},
-		{"users", s.checkUsersInitialized},
+		{"users", s.checkUsersInitialized}, // This now handles employees too
 		{"casbin_policies", s.checkCasbinPoliciesInitialized},
 		{"menus", s.checkMenusInitialized},
 		{"options", s.checkOptionsInitialized},
@@ -235,7 +251,6 @@ func (s *Service) Execute(ctx context.Context, allowReinitialization bool) (*Ini
 			s.state.Statuses = append(s.state.Statuses, status)
 			logger.Errorf(ctx, "Failed to initialize %s: %v", step.name, err)
 
-			// Persist failed state
 			s.state.LastRunTime = time.Now().UnixMilli()
 			if s.c.Initialization.PersistState {
 				if err := s.SaveState(ctx); err != nil {
@@ -253,14 +268,13 @@ func (s *Service) Execute(ctx context.Context, allowReinitialization bool) (*Ini
 	s.state.IsInitialized = true
 	s.state.LastRunTime = time.Now().UnixMilli()
 
-	// Persist successful state
 	if s.c.Initialization.PersistState {
 		if err := s.SaveState(ctx); err != nil {
 			logger.Warnf(ctx, "Failed to save initialization state: %v", err)
 		}
 	}
 
-	logger.Infof(ctx, "System initialization completed successfully")
+	logger.Infof(ctx, "System initialization completed successfully in %s mode", s.state.DataMode)
 	return s.state, nil
 }
 

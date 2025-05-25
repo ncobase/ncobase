@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"ncobase/system/structs"
 
 	"github.com/ncobase/ncore/utils/convert"
@@ -49,6 +50,123 @@ var SystemDefaultMenus = struct {
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
 		},
+		// TBP (Transform, Bridge, Proxy) module
+		{
+			Name:     "TBP",
+			Label:    "tbp.navigation",
+			Slug:     "tbp",
+			Type:     "header",
+			Path:     "/tbp/endpoints",
+			Icon:     "IconRoute",
+			Perms:    "manage:tbp",
+			Order:    convert.ToPointer(85),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		// Real-time module
+		{
+			Name:     "Realtime",
+			Label:    "realtime.navigation",
+			Slug:     "realtime",
+			Type:     "header",
+			Path:     "/rt/notifications",
+			Icon:     "IconBell",
+			Perms:    "read:realtime",
+			Order:    convert.ToPointer(84),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		// Resources module
+		{
+			Name:     "Resources",
+			Label:    "resources.navigation",
+			Slug:     "resources",
+			Type:     "header",
+			Path:     "/res",
+			Icon:     "IconFiles",
+			Perms:    "read:resource",
+			Order:    convert.ToPointer(83),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		// Payment module
+		{
+			Name:     "Payment",
+			Label:    "payment.navigation",
+			Slug:     "payment",
+			Type:     "header",
+			Path:     "/pay/orders",
+			Icon:     "IconCreditCard",
+			Perms:    "read:payment",
+			Order:    convert.ToPointer(82),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		// Flow/Workflow module
+		{
+			Name:     "Workflow",
+			Label:    "workflow.navigation",
+			Slug:     "workflow",
+			Type:     "header",
+			Path:     "/flow/processes",
+			Icon:     "IconGitBranch",
+			Perms:    "read:workflow",
+			Order:    convert.ToPointer(81),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		// IAM module
+		{
+			Name:     "IAM",
+			Label:    "iam.navigation",
+			Slug:     "iam",
+			Type:     "header",
+			Path:     "/iam/tenants",
+			Icon:     "IconShield",
+			Perms:    "manage:iam",
+			Order:    convert.ToPointer(80),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		// Organization module
+		{
+			Name:     "Organization",
+			Label:    "organization.navigation",
+			Slug:     "organization",
+			Type:     "header",
+			Path:     "/org/groups",
+			Icon:     "IconBuilding",
+			Perms:    "read:organization",
+			Order:    convert.ToPointer(79),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		// CMS module
+		{
+			Name:     "CMS",
+			Label:    "cms.navigation",
+			Slug:     "cms",
+			Type:     "header",
+			Path:     "/cms/topics",
+			Icon:     "IconArticle",
+			Perms:    "read:cms",
+			Order:    convert.ToPointer(78),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		// Counter/Plugins module
+		{
+			Name:     "Plugins",
+			Label:    "plugins.navigation",
+			Slug:     "plugins",
+			Type:     "header",
+			Path:     "/plug/counters",
+			Icon:     "IconPuzzle",
+			Perms:    "manage:plugins",
+			Order:    convert.ToPointer(77),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
 		{
 			Name:     "Builder",
 			Label:    "builder.navigation",
@@ -70,7 +188,6 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(0),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
-			// No permission - public access
 		},
 	},
 	Sidebars: []structs.MenuBody{
@@ -195,6 +312,466 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(950),
 			Hidden:   convert.ToPointer(false),
 			ParentID: "system",
+		},
+
+		// TBP module sidebars
+		{
+			Name:     "Endpoints",
+			Label:    "tbp.endpoints.navigation",
+			Slug:     "tbp-endpoints",
+			Type:     "sidebar",
+			Path:     "/tbp/endpoints",
+			Icon:     "IconRoute",
+			Perms:    "manage:tbp",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "tbp",
+		},
+		{
+			Name:     "Routes",
+			Label:    "tbp.routes.navigation",
+			Slug:     "tbp-routes",
+			Type:     "sidebar",
+			Path:     "/tbp/routes",
+			Icon:     "IconRoad",
+			Perms:    "manage:tbp",
+			Order:    convert.ToPointer(98),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "tbp",
+		},
+		{
+			Name:     "Transformers",
+			Label:    "tbp.transformers.navigation",
+			Slug:     "tbp-transformers",
+			Type:     "sidebar",
+			Path:     "/tbp/transformers",
+			Icon:     "IconTransform",
+			Perms:    "manage:tbp",
+			Order:    convert.ToPointer(97),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "tbp",
+		},
+
+		// Realtime module sidebars
+		{
+			Name:     "Notifications",
+			Label:    "realtime.notifications.navigation",
+			Slug:     "rt-notifications",
+			Type:     "sidebar",
+			Path:     "/rt/notifications",
+			Icon:     "IconBell",
+			Perms:    "read:realtime",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "realtime",
+		},
+		{
+			Name:     "Channels",
+			Label:    "realtime.channels.navigation",
+			Slug:     "rt-channels",
+			Type:     "sidebar",
+			Path:     "/rt/channels",
+			Icon:     "IconHash",
+			Perms:    "manage:realtime",
+			Order:    convert.ToPointer(98),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "realtime",
+		},
+		{
+			Name:     "Events",
+			Label:    "realtime.events.navigation",
+			Slug:     "rt-events",
+			Type:     "sidebar",
+			Path:     "/rt/events",
+			Icon:     "IconFlash",
+			Perms:    "read:realtime",
+			Order:    convert.ToPointer(97),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "realtime",
+		},
+		{
+			Name:     "WebSocket",
+			Label:    "realtime.websocket.navigation",
+			Slug:     "rt-websocket",
+			Type:     "sidebar",
+			Path:     "/rt/ws",
+			Icon:     "IconWifi",
+			Perms:    "manage:realtime",
+			Order:    convert.ToPointer(96),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "realtime",
+		},
+
+		// Resources module sidebars
+		{
+			Name:     "Files",
+			Label:    "resources.files.navigation",
+			Slug:     "res-files",
+			Type:     "sidebar",
+			Path:     "/res",
+			Icon:     "IconFiles",
+			Perms:    "read:resource",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "resources",
+		},
+		{
+			Name:     "Search",
+			Label:    "resources.search.navigation",
+			Slug:     "res-search",
+			Type:     "sidebar",
+			Path:     "/res/search",
+			Icon:     "IconSearch",
+			Perms:    "read:resource",
+			Order:    convert.ToPointer(98),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "resources",
+		},
+		{
+			Name:     "Categories",
+			Label:    "resources.categories.navigation",
+			Slug:     "res-categories",
+			Type:     "sidebar",
+			Path:     "/res/categories",
+			Icon:     "IconCategory",
+			Perms:    "manage:resource",
+			Order:    convert.ToPointer(97),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "resources",
+		},
+		{
+			Name:     "Quotas",
+			Label:    "resources.quotas.navigation",
+			Slug:     "res-quotas",
+			Type:     "sidebar",
+			Path:     "/res/quotas",
+			Icon:     "IconGauge",
+			Perms:    "manage:resource",
+			Order:    convert.ToPointer(96),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "resources",
+		},
+
+		// Payment module sidebars
+		{
+			Name:     "Orders",
+			Label:    "payment.orders.navigation",
+			Slug:     "pay-orders",
+			Type:     "sidebar",
+			Path:     "/pay/orders",
+			Icon:     "IconReceipt",
+			Perms:    "read:payment",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "payment",
+		},
+		{
+			Name:     "Products",
+			Label:    "payment.products.navigation",
+			Slug:     "pay-products",
+			Type:     "sidebar",
+			Path:     "/pay/products",
+			Icon:     "IconPackage",
+			Perms:    "manage:payment",
+			Order:    convert.ToPointer(98),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "payment",
+		},
+		{
+			Name:     "Subscriptions",
+			Label:    "payment.subscriptions.navigation",
+			Slug:     "pay-subscriptions",
+			Type:     "sidebar",
+			Path:     "/pay/subscriptions",
+			Icon:     "IconRepeat",
+			Perms:    "manage:payment",
+			Order:    convert.ToPointer(97),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "payment",
+		},
+		{
+			Name:     "Channels",
+			Label:    "payment.channels.navigation",
+			Slug:     "pay-channels",
+			Type:     "sidebar",
+			Path:     "/pay/channels",
+			Icon:     "IconCreditCard",
+			Perms:    "manage:payment",
+			Order:    convert.ToPointer(96),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "payment",
+		},
+		{
+			Name:     "Logs",
+			Label:    "payment.logs.navigation",
+			Slug:     "pay-logs",
+			Type:     "sidebar",
+			Path:     "/pay/logs",
+			Icon:     "IconFileText",
+			Perms:    "read:payment",
+			Order:    convert.ToPointer(95),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "payment",
+		},
+
+		// Workflow module sidebars
+		{
+			Name:     "Processes",
+			Label:    "workflow.processes.navigation",
+			Slug:     "flow-processes",
+			Type:     "sidebar",
+			Path:     "/flow/processes",
+			Icon:     "IconGitBranch",
+			Perms:    "read:workflow",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "workflow",
+		},
+		{
+			Name:     "Tasks",
+			Label:    "workflow.tasks.navigation",
+			Slug:     "flow-tasks",
+			Type:     "sidebar",
+			Path:     "/flow/tasks",
+			Icon:     "IconChecklist",
+			Perms:    "read:workflow",
+			Order:    convert.ToPointer(98),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "workflow",
+		},
+		{
+			Name:     "Templates",
+			Label:    "workflow.templates.navigation",
+			Slug:     "flow-templates",
+			Type:     "sidebar",
+			Path:     "/flow/templates",
+			Icon:     "IconTemplate",
+			Perms:    "manage:workflow",
+			Order:    convert.ToPointer(97),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "workflow",
+		},
+		{
+			Name:     "Rules",
+			Label:    "workflow.rules.navigation",
+			Slug:     "flow-rules",
+			Type:     "sidebar",
+			Path:     "/flow/rules",
+			Icon:     "IconRules",
+			Perms:    "manage:workflow",
+			Order:    convert.ToPointer(96),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "workflow",
+		},
+		{
+			Name:     "Delegations",
+			Label:    "workflow.delegations.navigation",
+			Slug:     "flow-delegations",
+			Type:     "sidebar",
+			Path:     "/flow/delegations",
+			Icon:     "IconUserShare",
+			Perms:    "manage:workflow",
+			Order:    convert.ToPointer(95),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "workflow",
+		},
+		{
+			Name:     "Histories",
+			Label:    "workflow.histories.navigation",
+			Slug:     "flow-histories",
+			Type:     "sidebar",
+			Path:     "/flow/histories",
+			Icon:     "IconHistory",
+			Perms:    "read:workflow",
+			Order:    convert.ToPointer(94),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "workflow",
+		},
+
+		// IAM module sidebars
+		{
+			Name:     "Tenants",
+			Label:    "iam.tenants.navigation",
+			Slug:     "iam-tenants",
+			Type:     "sidebar",
+			Path:     "/iam/tenants",
+			Icon:     "IconBuildingCommunity",
+			Perms:    "manage:iam",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "iam",
+		},
+		{
+			Name:     "Roles",
+			Label:    "iam.roles.navigation",
+			Slug:     "iam-roles",
+			Type:     "sidebar",
+			Path:     "/iam/roles",
+			Icon:     "IconUsersGroup",
+			Perms:    "manage:iam",
+			Order:    convert.ToPointer(98),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "iam",
+		},
+		{
+			Name:     "Permissions",
+			Label:    "iam.permissions.navigation",
+			Slug:     "iam-permissions",
+			Type:     "sidebar",
+			Path:     "/iam/permissions",
+			Icon:     "IconLockAccess",
+			Perms:    "manage:iam",
+			Order:    convert.ToPointer(97),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "iam",
+		},
+		{
+			Name:     "Policies",
+			Label:    "iam.policies.navigation",
+			Slug:     "iam-policies",
+			Type:     "sidebar",
+			Path:     "/iam/policies",
+			Icon:     "IconShieldCheck",
+			Perms:    "manage:iam",
+			Order:    convert.ToPointer(96),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "iam",
+		},
+		{
+			Name:     "Activities",
+			Label:    "iam.activities.navigation",
+			Slug:     "iam-activities",
+			Type:     "sidebar",
+			Path:     "/iam/activities",
+			Icon:     "IconActivity",
+			Perms:    "read:iam",
+			Order:    convert.ToPointer(95),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "iam",
+		},
+
+		// Organization module sidebars
+		{
+			Name:     "Groups",
+			Label:    "organization.groups.navigation",
+			Slug:     "org-groups",
+			Type:     "sidebar",
+			Path:     "/org/groups",
+			Icon:     "IconBuilding",
+			Perms:    "read:organization",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "organization",
+		},
+
+		// CMS module sidebars
+		{
+			Name:     "Topics",
+			Label:    "cms.topics.navigation",
+			Slug:     "cms-topics",
+			Type:     "sidebar",
+			Path:     "/cms/topics",
+			Icon:     "IconArticle",
+			Perms:    "read:cms",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "cms",
+		},
+		{
+			Name:     "Taxonomies",
+			Label:    "cms.taxonomies.navigation",
+			Slug:     "cms-taxonomies",
+			Type:     "sidebar",
+			Path:     "/cms/taxonomies",
+			Icon:     "IconTags",
+			Perms:    "manage:cms",
+			Order:    convert.ToPointer(98),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "cms",
+		},
+		{
+			Name:     "Channels",
+			Label:    "cms.channels.navigation",
+			Slug:     "cms-channels",
+			Type:     "sidebar",
+			Path:     "/cms/channels",
+			Icon:     "IconHash",
+			Perms:    "manage:cms",
+			Order:    convert.ToPointer(97),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "cms",
+		},
+		{
+			Name:     "Media",
+			Label:    "cms.media.navigation",
+			Slug:     "cms-media",
+			Type:     "sidebar",
+			Path:     "/cms/media",
+			Icon:     "IconPhoto",
+			Perms:    "manage:cms",
+			Order:    convert.ToPointer(96),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "cms",
+		},
+		{
+			Name:     "Distributions",
+			Label:    "cms.distributions.navigation",
+			Slug:     "cms-distributions",
+			Type:     "sidebar",
+			Path:     "/cms/distributions",
+			Icon:     "IconShare",
+			Perms:    "manage:cms",
+			Order:    convert.ToPointer(95),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "cms",
+		},
+
+		// Plugins module sidebars
+		{
+			Name:     "Counters",
+			Label:    "plugins.counters.navigation",
+			Slug:     "plug-counters",
+			Type:     "sidebar",
+			Path:     "/plug/counters",
+			Icon:     "IconNumbers",
+			Perms:    "manage:plugins",
+			Order:    convert.ToPointer(99),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+			ParentID: "plugins",
 		},
 
 		// Content module sidebars
@@ -327,7 +904,7 @@ var SystemDefaultMenus = struct {
 			ParentID: "builder",
 		},
 
-		// Example module sidebars (existing preserved, no permissions - public access)
+		// Example module sidebars (preserved, no permissions)
 		{
 			Name:     "Card",
 			Label:    "example.card.navigation",
@@ -402,7 +979,7 @@ var SystemDefaultMenus = struct {
 		},
 	},
 	Submenus: []structs.MenuBody{
-		// Card submenus
+		// Card submenus (preserved)
 		{
 			Name:     "Model",
 			Label:    "example.card.model.navigation",
@@ -589,7 +1166,6 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
-			// No permission - all users can access profile
 		},
 		{
 			Name:     "Settings",
@@ -613,7 +1189,6 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(0),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
-			// No permission - all users can logout
 		},
 	},
 	Tenants: []structs.MenuBody{
@@ -634,7 +1209,6 @@ var SystemDefaultMenus = struct {
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
-			// No permission - users with multiple tenants can switch
 		},
 		{
 			Name:     "Manage Tenant",
@@ -651,32 +1225,135 @@ var SystemDefaultMenus = struct {
 	},
 }
 
-// MenuPermissionMapping defines permission mappings for automatic assignment
-var MenuPermissionMapping = map[string][]string{
-	// System permissions
-	"read:system":    {"read:user", "read:group", "read:menu", "read:dictionary"},
-	"manage:system":  {"manage:menu", "manage:dictionary", "manage:tenant", "manage:permission"},
-	"read:dashboard": {"read:statistics", "read:analytics"},
+// MenuPermissionMapping defines which permissions are required for each menu item
+var MenuPermissionMapping = map[string]string{
+	// Header menus
+	"dashboard":    "read:dashboard",
+	"system":       "read:system",
+	"content":      "read:content",
+	"tbp":          "manage:tbp",
+	"realtime":     "read:realtime",
+	"resources":    "read:resource",
+	"payment":      "read:payment",
+	"workflow":     "read:workflow",
+	"iam":          "manage:iam",
+	"organization": "read:organization",
+	"cms":          "read:cms",
+	"plugins":      "manage:plugins",
+	"builder":      "manage:builder",
+	// example has no permission requirement
 
-	// User management permissions
-	"read:user":   {"read:employee", "read:profile"},
-	"manage:user": {"create:user", "update:user", "delete:user"},
-	"create:user": {"read:user"},
-	"update:user": {"read:user"},
-	"delete:user": {"read:user"},
+	// System module sidebars
+	"system-tenant":     "manage:tenant",
+	"system-group":      "read:group",
+	"system-user":       "read:user",
+	"system-role":       "manage:role",
+	"system-permission": "manage:permission",
+	"system-menus":      "manage:menu",
+	"system-dictionary": "read:dictionary",
+	"system-basic":      "manage:system",
 
-	// Content permissions
-	"read:content":    {"read:topic", "read:comment"},
-	"manage:content":  {"create:content", "update:content", "delete:content"},
-	"manage:approval": {"read:content", "update:content"},
+	// TBP module sidebars
+	"tbp-endpoints":    "manage:tbp",
+	"tbp-routes":       "manage:tbp",
+	"tbp-transformers": "manage:tbp",
 
-	// Role and permission management
-	"manage:role":       {"read:role", "create:role", "update:role", "delete:role"},
-	"manage:permission": {"read:permission", "create:permission", "update:permission", "delete:permission"},
+	// Realtime module sidebars
+	"rt-notifications": "read:realtime",
+	"rt-channels":      "manage:realtime",
+	"rt-events":        "read:realtime",
+	"rt-websocket":     "manage:realtime",
 
-	// Builder permissions
-	"manage:builder": {"create:form", "update:form", "delete:form", "read:feature"},
+	// Resources module sidebars
+	"res-files":      "read:resource",
+	"res-search":     "read:resource",
+	"res-categories": "manage:resource",
+	"res-quotas":     "manage:resource",
 
-	// Tenant permissions
-	"manage:tenant": {"read:tenant", "create:tenant", "update:tenant", "delete:tenant"},
+	// Payment module sidebars
+	"pay-orders":        "read:payment",
+	"pay-products":      "manage:payment",
+	"pay-subscriptions": "manage:payment",
+	"pay-channels":      "manage:payment",
+	"pay-logs":          "read:payment",
+
+	// Workflow module sidebars
+	"flow-processes":   "read:workflow",
+	"flow-tasks":       "read:workflow",
+	"flow-templates":   "manage:workflow",
+	"flow-rules":       "manage:workflow",
+	"flow-delegations": "manage:workflow",
+	"flow-histories":   "read:workflow",
+
+	// IAM module sidebars
+	"iam-tenants":     "manage:iam",
+	"iam-roles":       "manage:iam",
+	"iam-permissions": "manage:iam",
+	"iam-policies":    "manage:iam",
+	"iam-activities":  "read:iam",
+
+	// Organization module sidebars
+	"org-groups": "read:organization",
+
+	// CMS module sidebars
+	"cms-topics":        "read:cms",
+	"cms-taxonomies":    "manage:cms",
+	"cms-channels":      "manage:cms",
+	"cms-media":         "manage:cms",
+	"cms-distributions": "manage:cms",
+
+	// Plugins module sidebars
+	"plug-counters": "manage:plugins",
+
+	// Content module sidebars
+	"content-topic":     "read:content",
+	"content-comment":   "read:comment",
+	"content-trash":     "manage:content",
+	"content-component": "manage:content",
+
+	// Builder module sidebars
+	"builder-form":    "manage:builder",
+	"builder-feature": "manage:builder",
+
+	// Account menus
+	"account-settings": "manage:account",
+	// account-profile and account-logout have no permission requirement
+
+	// Tenant menus
+	"tenant-manage": "manage:tenant",
+	// tenant-switch has no permission requirement
+
+	// Submenus
+	"submenu-system-setting": "manage:system",
+	"submenu-user-list":      "read:user",
+	"submenu-user-create":    "create:user",
+}
+
+// ValidateMenuPermissions validates that menu permissions align with defined permissions
+func ValidateMenuPermissions(definedPermissions []string) map[string][]string {
+	issues := make(map[string][]string)
+
+	// Convert defined permissions to map for quick lookup
+	permMap := make(map[string]bool)
+	for _, perm := range definedPermissions {
+		permMap[perm] = true
+	}
+
+	// Check each menu permission
+	for menuSlug, requiredPerm := range MenuPermissionMapping {
+		if requiredPerm == "" {
+			continue // No permission required
+		}
+
+		// Convert menu permission format to permission name format
+		// e.g., "read:dashboard" -> "Dashboard Access"
+		if !permMap[requiredPerm] {
+			if issues[menuSlug] == nil {
+				issues[menuSlug] = make([]string, 0)
+			}
+			issues[menuSlug] = append(issues[menuSlug], fmt.Sprintf("Required permission '%s' not found in defined permissions", requiredPerm))
+		}
+	}
+
+	return issues
 }

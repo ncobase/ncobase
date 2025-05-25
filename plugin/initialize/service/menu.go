@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/initialize/data"
 	"ncobase/system/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
@@ -24,18 +23,18 @@ func (s *Service) checkMenusInitialized(ctx context.Context) error {
 
 // verifyMenuData validates menu data before initialization
 func (s *Service) verifyMenuData(ctx context.Context) error {
-	// Check headers
-	if len(data.SystemDefaultMenus.Headers) == 0 {
+	menuData := s.getMenuData()
+
+	if len(menuData.Headers) == 0 {
 		return fmt.Errorf("no header menus defined")
 	}
 
-	// Check for required header slugs
 	requiredHeaders := map[string]bool{
 		"dashboard": false,
 		"system":    false,
 	}
 
-	for _, header := range data.SystemDefaultMenus.Headers {
+	for _, header := range menuData.Headers {
 		if _, ok := requiredHeaders[header.Slug]; ok {
 			requiredHeaders[header.Slug] = true
 		}
@@ -54,19 +53,16 @@ func (s *Service) verifyMenuData(ctx context.Context) error {
 func (s *Service) initMenus(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing default menus...")
 
-	// Verify menu data integrity
 	if err := s.verifyMenuData(ctx); err != nil {
 		return fmt.Errorf("menu data verification failed: %w", err)
 	}
 
-	// Get default tenant
 	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
 	if err != nil {
 		logger.Errorf(ctx, "initMenus error on get default tenant: %v", err)
 		return fmt.Errorf("failed to get default tenant: %w", err)
 	}
 
-	// get admin user
 	adminUser, err := s.getAdminUser(ctx, "menu creation")
 	if err != nil {
 		return err
@@ -78,14 +74,14 @@ func (s *Service) initMenus(ctx context.Context) error {
 	}
 
 	defaultExtras := make(types.JSON)
+	menuData := s.getMenuData()
 
-	// Transaction count for monitoring
 	var createdMenus int
 
 	// Create header menus and map IDs
 	headerIDMap := make(map[string]string)
-	for _, header := range data.SystemDefaultMenus.Headers {
-		menuBody := header // Copy to avoid modifying original
+	for _, header := range menuData.Headers {
+		menuBody := header
 		menuBody.TenantID = tenant.ID
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
@@ -101,17 +97,11 @@ func (s *Service) initMenus(ctx context.Context) error {
 		createdMenus++
 	}
 
-	// Validate that all header menus were created
-	for slug := range headerIDMap {
-		logger.Debugf(ctx, "Created header menu with slug: %s", slug)
-	}
-
 	// Create sidebar menus and map IDs
 	sidebarIDMap := make(map[string]string)
-	for _, sidebar := range data.SystemDefaultMenus.Sidebars {
-		menuBody := sidebar // Copy to avoid modifying original
+	for _, sidebar := range menuData.Sidebars {
+		menuBody := sidebar
 
-		// Map parent ID from header slug
 		if menuBody.ParentID != "" {
 			if id, ok := headerIDMap[menuBody.ParentID]; ok {
 				menuBody.ParentID = id
@@ -141,10 +131,9 @@ func (s *Service) initMenus(ctx context.Context) error {
 	}
 
 	// Create submenus
-	for _, submenu := range data.SystemDefaultMenus.Submenus {
-		menuBody := submenu // Copy to avoid modifying original
+	for _, submenu := range menuData.Submenus {
+		menuBody := submenu
 
-		// Map parent ID from sidebar slug
 		if menuBody.ParentID != "" {
 			if id, ok := sidebarIDMap[menuBody.ParentID]; ok {
 				menuBody.ParentID = id
@@ -169,8 +158,8 @@ func (s *Service) initMenus(ctx context.Context) error {
 	}
 
 	// Create account menus
-	for _, menu := range data.SystemDefaultMenus.Accounts {
-		menuBody := menu // Copy to avoid modifying original
+	for _, menu := range menuData.Accounts {
+		menuBody := menu
 		menuBody.TenantID = tenant.ID
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
@@ -185,8 +174,8 @@ func (s *Service) initMenus(ctx context.Context) error {
 	}
 
 	// Create tenant menus
-	for _, menu := range data.SystemDefaultMenus.Tenants {
-		menuBody := menu // Copy to avoid modifying original
+	for _, menu := range menuData.Tenants {
+		menuBody := menu
 		menuBody.TenantID = tenant.ID
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
@@ -200,7 +189,6 @@ func (s *Service) initMenus(ctx context.Context) error {
 		createdMenus++
 	}
 
-	// Verify menu count
 	finalCount := s.sys.Menu.CountX(ctx, &structs.ListMenuParams{})
 	if finalCount != createdMenus {
 		logger.Warnf(ctx, "Menu count mismatch. Expected %d, got %d", createdMenus, finalCount)

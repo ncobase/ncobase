@@ -6,7 +6,7 @@ import (
 	"github.com/ncobase/ncore/utils/convert"
 )
 
-// SystemDefaultUsers defines core system users
+// SystemDefaultUsers defines system users
 var SystemDefaultUsers = []UserCreationInfo{
 	// Super Administrator
 	{
@@ -26,6 +26,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "super-admin",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP000",
+			Department:     "system", // Maps to system group
 			Position:       "Super Administrator",
 			EmploymentType: "full_time",
 			Status:         "active",
@@ -51,6 +52,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "system-admin",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP001",
+			Department:     "technology", // Maps to technology group
 			Position:       "System Administrator",
 			EmploymentType: "full_time",
 			Status:         "active",
@@ -76,6 +78,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "enterprise-admin",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP002",
+			Department:     "digital-enterprise", // Maps to main enterprise group
 			Position:       "Enterprise Administrator",
 			EmploymentType: "full_time",
 			Status:         "active",
@@ -101,11 +104,13 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "manager",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP003",
+			Department:     "business-ops", // Maps to business operations group
 			Position:       "Department Manager",
-			ManagerID:      "enterprise.admin",
+			ManagerID:      "enterprise.admin", // Will be resolved to ID
 			EmploymentType: "full_time",
 			Status:         "active",
 			HireDate:       convert.ParseTimePtr("2024-02-01T09:00:00Z"),
+			Skills:         &[]string{"Management", "Strategy", "Team Leadership"},
 		},
 	},
 
@@ -127,11 +132,13 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "employee",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP004",
-			Position:       "Employee",
-			ManagerID:      "manager",
+			Department:     "technology", // Maps to technology group
+			Position:       "Software Developer",
+			ManagerID:      "manager", // Will be resolved to ID
 			EmploymentType: "full_time",
 			Status:         "active",
 			HireDate:       convert.ParseTimePtr("2024-03-01T09:00:00Z"),
+			Skills:         &[]string{"Programming", "Problem Solving", "Teamwork"},
 		},
 	},
 
@@ -153,6 +160,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "guest",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP005",
+			Department:     "", // No specific department
 			Position:       "Guest",
 			EmploymentType: "contract",
 			Status:         "active",
