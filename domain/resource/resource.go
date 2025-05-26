@@ -113,12 +113,6 @@ func (m *Module) PostInit() error {
 	// Subscribe to events
 	m.subscribeEvents()
 
-	// Publish own service ready event
-	m.em.PublishEvent("exts.resource.ready", map[string]string{
-		"name":   m.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 

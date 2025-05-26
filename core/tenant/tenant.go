@@ -88,12 +88,6 @@ func (m *Module) PostInit() error {
 	m.s = service.New(m.d)
 	m.h = handler.New(m.s)
 
-	// Publish service ready event
-	m.em.PublishEvent("exts.tenant.ready", map[string]string{
-		"name":   m.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 

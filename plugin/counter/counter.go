@@ -107,12 +107,6 @@ func (p *Plugin) PostInit() error {
 	// Subscribe to relevant events
 	p.subscribeEvents(p.em)
 
-	// Publish own plugin ready event
-	p.em.PublishEvent("exts.counter.ready", map[string]string{
-		"name":   p.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 

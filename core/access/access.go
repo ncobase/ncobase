@@ -104,12 +104,6 @@ func (m *Module) PostInit() error {
 	// Register event handlers
 	m.registerEventHandlers()
 
-	// Publish service ready event
-	m.em.PublishEvent("exts.access.ready", map[string]string{
-		"name":   m.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 

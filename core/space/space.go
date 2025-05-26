@@ -98,12 +98,6 @@ func (m *Module) PostInit() error {
 		m.s.RefreshDependencies()
 	})
 
-	// Publish own service ready event
-	m.em.PublishEvent("exts.space.ready", map[string]string{
-		"name":   m.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 

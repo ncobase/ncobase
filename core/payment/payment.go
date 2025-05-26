@@ -136,12 +136,6 @@ func (m *Module) PostInit() error {
 	// Initialize handlers
 	m.h = handler.New(m.s)
 
-	// Publish own service ready event
-	m.em.PublishEvent("exts.payment.ready", map[string]string{
-		"name":   m.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 

@@ -158,12 +158,6 @@ func (p *Plugin) PostInit() error {
 		p.eventSubscriber.Initialize(p.em)
 	}
 
-	// Publish own plugin ready event
-	p.em.PublishEvent("exts.proxy.ready", map[string]string{
-		"name":   p.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 

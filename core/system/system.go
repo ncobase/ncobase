@@ -90,12 +90,6 @@ func (m *Module) PostInit() error {
 	// Subscribe to relevant events
 	m.subscribeEvents(m.em)
 
-	// Publish own service ready event
-	m.em.PublishEvent("exts.system.ready", map[string]string{
-		"name":   m.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 

@@ -107,12 +107,6 @@ func (p *Plugin) PostInit() error {
 	// Create handler
 	p.h = handler.New(p.s)
 
-	// Publish own plugin ready event
-	p.em.PublishEvent("exts.initialize.ready", map[string]string{
-		"name":   p.Name(),
-		"status": "ready",
-	})
-
 	return nil
 }
 
