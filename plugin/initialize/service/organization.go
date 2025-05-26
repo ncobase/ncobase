@@ -21,11 +21,24 @@ func (s *Service) checkOrganizationsInitialized(ctx context.Context) error {
 	return s.initOrganizations(ctx)
 }
 
-// initOrganizations initializes the organizational structure using current data mode
+// initOrganizations initializes organizational structure based on current data mode
 func (s *Service) initOrganizations(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing organizational structure in %s mode...", s.state.DataMode)
 
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
+	// Get default tenant based on data mode
+	var defaultSlug string
+	switch s.state.DataMode {
+	case "website":
+		defaultSlug = "website-platform"
+	case "company":
+		defaultSlug = "digital-company"
+	case "enterprise":
+		defaultSlug = "digital-enterprise"
+	default:
+		defaultSlug = "website-platform"
+	}
+
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, defaultSlug)
 	if err != nil {
 		return fmt.Errorf("failed to get default tenant: %v", err)
 	}
@@ -40,12 +53,14 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 
 	var groupCount int
 
-	// Handle organization structure based on data mode
-	if s.state.DataMode == "enterprise" {
-		// Enterprise mode - full organizational structure
+	switch s.state.DataMode {
+	case "website":
+		groupCount, err = s.initWebsiteOrganization(ctx, orgStructure, tenant.ID, ea.ID)
+	case "company":
+		groupCount, err = s.initCompanyOrganization(ctx, orgStructure, tenant.ID, ea.ID)
+	case "enterprise":
 		groupCount, err = s.initEnterpriseOrganization(ctx, orgStructure, tenant.ID, ea.ID)
-	} else {
-		// Company mode - simplified structure
+	default:
 		groupCount, err = s.initCompanyOrganization(ctx, orgStructure, tenant.ID, ea.ID)
 	}
 
@@ -59,17 +74,15 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 	return nil
 }
 
-// initEnterpriseOrganization initializes full enterprise organizational structure
-func (s *Service) initEnterpriseOrganization(ctx context.Context, orgStructure interface{}, tenantID, adminID string) (int, error) {
-	// This would handle the full enterprise structure
-	// Implementation would be similar to the existing enterprise logic
-	logger.Infof(ctx, "Initializing enterprise organizational structure...")
+// initWebsiteOrganization initializes simple website organization
+func (s *Service) initWebsiteOrganization(ctx context.Context, orgStructure any, tenantID, adminID string) (int, error) {
+	logger.Infof(ctx, "Initializing website organizational structure...")
 
-	// Basic implementation for now - can be expanded
+	// Simple website structure - just main group
 	mainGroup := spaceStructs.GroupBody{
-		Name:        "Digital Enterprise Group",
-		Slug:        "digital-enterprise",
-		Description: "Main enterprise organization",
+		Name:        "Website",
+		Slug:        "website-platform",
+		Description: "Main website organization",
 		TenantID:    &tenantID,
 		CreatedBy:   &adminID,
 		UpdatedBy:   &adminID,
@@ -79,21 +92,21 @@ func (s *Service) initEnterpriseOrganization(ctx context.Context, orgStructure i
 		GroupBody: mainGroup,
 	})
 	if err != nil {
-		return 0, fmt.Errorf("failed to create main enterprise group: %v", err)
+		return 0, fmt.Errorf("failed to create main website group: %v", err)
 	}
 
 	return 1, nil
 }
 
-// initCompanyOrganization initializes simplified company organizational structure
-func (s *Service) initCompanyOrganization(ctx context.Context, orgStructure interface{}, tenantID, adminID string) (int, error) {
+// initCompanyOrganization initializes company organizational structure
+func (s *Service) initCompanyOrganization(ctx context.Context, orgStructure any, tenantID, adminID string) (int, error) {
 	logger.Infof(ctx, "Initializing company organizational structure...")
 
-	// Basic company structure
+	// Updated company structure
 	groups := []spaceStructs.GroupBody{
 		{
-			Name:        "Digital Enterprise",
-			Slug:        "digital-enterprise",
+			Name:        "Digital Company",
+			Slug:        "digital-company",
 			Description: "Main company organization",
 			TenantID:    &tenantID,
 			CreatedBy:   &adminID,
@@ -132,7 +145,54 @@ func (s *Service) initCompanyOrganization(ctx context.Context, orgStructure inte
 	return createdCount, nil
 }
 
-// InitializeOrganizations initializes only the organizations if the system is already initialized
+// initEnterpriseOrganization initializes enterprise organizational structure
+func (s *Service) initEnterpriseOrganization(ctx context.Context, orgStructure any, tenantID, adminID string) (int, error) {
+	logger.Infof(ctx, "Initializing enterprise organizational structure...")
+
+	// Basic enterprise structure
+	groups := []spaceStructs.GroupBody{
+		{
+			Name:        "Digital Enterprise Group",
+			Slug:        "digital-enterprise",
+			Description: "Main enterprise organization",
+			TenantID:    &tenantID,
+			CreatedBy:   &adminID,
+			UpdatedBy:   &adminID,
+		},
+		{
+			Name:        "Executive Office",
+			Slug:        "executive",
+			Description: "Executive leadership",
+			TenantID:    &tenantID,
+			CreatedBy:   &adminID,
+			UpdatedBy:   &adminID,
+		},
+		{
+			Name:        "Technology Division",
+			Slug:        "technology",
+			Description: "Technology and innovation",
+			TenantID:    &tenantID,
+			CreatedBy:   &adminID,
+			UpdatedBy:   &adminID,
+		},
+	}
+
+	var createdCount int
+	for _, group := range groups {
+		_, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
+			GroupBody: group,
+		})
+		if err != nil {
+			return createdCount, fmt.Errorf("failed to create group %s: %v", group.Name, err)
+		}
+		logger.Debugf(ctx, "Created group: %s", group.Name)
+		createdCount++
+	}
+
+	return createdCount, nil
+}
+
+// InitializeOrganizations initializes only organizations
 func (s *Service) InitializeOrganizations(ctx context.Context) (*InitState, error) {
 	logger.Infof(ctx, "Starting organization initialization in %s mode...", s.state.DataMode)
 

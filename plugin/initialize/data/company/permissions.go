@@ -14,7 +14,7 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 		},
 	},
 
-	// Basic access permissions
+	// Basic access permissions (all users need these)
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Dashboard Access",
@@ -67,14 +67,6 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Dictionary Management",
-			Action:      "manage",
-			Subject:     "dictionary",
-			Description: "Dictionary data management",
-		},
-	},
-	{
-		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Dictionary Read",
 			Action:      "read",
 			Subject:     "dictionary",
@@ -82,7 +74,7 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 		},
 	},
 
-	// User and Employee management permissions
+	// User and Employee management
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "User Management",
@@ -179,14 +171,6 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	// Organization management
 	{
 		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Organization Management",
-			Action:      "manage",
-			Subject:     "organization",
-			Description: "Organization structure management",
-		},
-	},
-	{
-		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Organization Read",
 			Action:      "read",
 			Subject:     "organization",
@@ -210,7 +194,7 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 		},
 	},
 
-	// Content management permissions
+	// Content management
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Content Management",
@@ -235,24 +219,8 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "View comments",
 		},
 	},
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Taxonomy Management",
-			Action:      "manage",
-			Subject:     "taxonomy",
-			Description: "Taxonomy management",
-		},
-	},
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Approval Management",
-			Action:      "manage",
-			Subject:     "approval",
-			Description: "Content approval management",
-		},
-	},
 
-	// TBP (Transform, Bridge, Proxy) permissions
+	// Module-specific permissions aligned with routes
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "TBP Management",
@@ -261,8 +229,6 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "TBP endpoints and routes management",
 		},
 	},
-
-	// Realtime permissions
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Realtime Access",
@@ -271,16 +237,6 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "Access realtime features",
 		},
 	},
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Realtime Management",
-			Action:      "manage",
-			Subject:     "realtime",
-			Description: "Manage realtime channels and events",
-		},
-	},
-
-	// Resource permissions
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Resource Management",
@@ -297,32 +253,12 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "View resources",
 		},
 	},
-
-	// Payment permissions
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Payment Management",
-			Action:      "manage",
-			Subject:     "payment",
-			Description: "Payment system management",
-		},
-	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Payment Read",
 			Action:      "read",
 			Subject:     "payment",
 			Description: "View payment information",
-		},
-	},
-
-	// Workflow permissions
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Workflow Management",
-			Action:      "manage",
-			Subject:     "workflow",
-			Description: "Workflow management",
 		},
 	},
 	{
@@ -341,34 +277,6 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "Task management",
 		},
 	},
-
-	// IAM permissions
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "IAM Management",
-			Action:      "manage",
-			Subject:     "iam",
-			Description: "IAM system management",
-		},
-	},
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "IAM Read",
-			Action:      "read",
-			Subject:     "iam",
-			Description: "View IAM information",
-		},
-	},
-
-	// CMS permissions
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "CMS Management",
-			Action:      "manage",
-			Subject:     "cms",
-			Description: "CMS management",
-		},
-	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "CMS Read",
@@ -377,29 +285,17 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "View CMS content",
 		},
 	},
-
-	// Plugin permissions
 	{
 		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Plugin Management",
+			Name:        "CMS Management",
 			Action:      "manage",
-			Subject:     "plugins",
-			Description: "Plugin management",
-		},
-	},
-
-	// Builder permissions
-	{
-		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Builder Management",
-			Action:      "manage",
-			Subject:     "builder",
-			Description: "Builder management",
+			Subject:     "cms",
+			Description: "CMS management",
 		},
 	},
 }
 
-// RolePermissionMapping aligned with menu permissions
+// RolePermissionMapping aligned with company roles and actual menu permissions
 var RolePermissionMapping = map[string][]string{
 	"super-admin": {
 		"Super Admin Access",
@@ -409,7 +305,6 @@ var RolePermissionMapping = map[string][]string{
 		"System Management",
 		"System Read",
 		"Menu Management",
-		"Dictionary Management",
 		"Dictionary Read",
 		"User Management",
 		"Employee Management",
@@ -417,54 +312,41 @@ var RolePermissionMapping = map[string][]string{
 		"Permission Management",
 		"Permission Read",
 		"Tenant Management",
-		"Organization Management",
 		"Organization Read",
 		"Group Management",
 		"Group Read",
 		"Content Management",
 		"Content Read",
 		"Comment Read",
-		"Taxonomy Management",
-		"Approval Management",
 		"TBP Management",
-		"Realtime Management",
 		"Realtime Access",
 		"Resource Management",
 		"Resource Read",
-		"Payment Management",
 		"Payment Read",
-		"Workflow Management",
 		"Workflow Read",
 		"Task Management",
-		"IAM Management",
-		"IAM Read",
 		"CMS Management",
 		"CMS Read",
-		"Plugin Management",
-		"Builder Management",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Management",
 	},
-	"enterprise-admin": {
-		// Business management without system configuration
+	"company-admin": {
+		// Business management without low-level system config
 		"User Management",
 		"Employee Management",
-		"Organization Management",
 		"Organization Read",
 		"Group Management",
 		"Group Read",
 		"Content Management",
 		"Content Read",
 		"Comment Read",
-		"Taxonomy Management",
-		"Approval Management",
-		"Workflow Management",
 		"Workflow Read",
 		"Task Management",
 		"Realtime Access",
 		"Resource Read",
 		"Payment Read",
+		"CMS Management",
 		"CMS Read",
 		"Dashboard Access",
 		"Profile Management",
@@ -478,7 +360,7 @@ var RolePermissionMapping = map[string][]string{
 		"User Read",
 		"Employee Read",
 		"Employee Update",
-		"Employee Create", // Managers can create employee records
+		"Employee Create",
 		"Group Read",
 		"Organization Read",
 		"Content Read",
@@ -511,7 +393,7 @@ var RolePermissionMapping = map[string][]string{
 		"System Read",
 	},
 	"guest": {
-		// Minimal access
+		// Minimal read-only access
 		"Dashboard Access",
 		"Content Read",
 		"Profile Management",

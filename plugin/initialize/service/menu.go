@@ -57,7 +57,20 @@ func (s *Service) initMenus(ctx context.Context) error {
 		return fmt.Errorf("menu data verification failed: %w", err)
 	}
 
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
+	// Get default tenant based on data mode
+	var tenantSlug string
+	switch s.state.DataMode {
+	case "website":
+		tenantSlug = "website-platform"
+	case "company":
+		tenantSlug = "digital-company"
+	case "enterprise":
+		tenantSlug = "digital-enterprise"
+	default:
+		tenantSlug = "website-platform"
+	}
+
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, tenantSlug)
 	if err != nil {
 		logger.Errorf(ctx, "initMenus error on get default tenant: %v", err)
 		return fmt.Errorf("failed to get default tenant: %w", err)

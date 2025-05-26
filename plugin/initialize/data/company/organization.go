@@ -5,20 +5,20 @@ import (
 	"ncobase/space/structs"
 )
 
-// OrganizationStructure defines simplified organizational hierarchy
+// OrganizationStructure defines company organizational hierarchy
 var OrganizationStructure = struct {
-	Enterprise        structs.GroupBody           `json:"enterprise"`
+	Company           structs.GroupBody           `json:"company"`
 	Headquarters      []structs.GroupBody         `json:"headquarters"`
-	Companies         []structs.GroupBody         `json:"companies"`
+	Subsidiaries      []structs.GroupBody         `json:"subsidiaries"`
 	CompanyStructures map[string]CompanyStructure `json:"company_structures"`
 	SharedDepartments []Department                `json:"shared_departments"`
 	OrganizationRoles []OrganizationRole          `json:"organization_roles"`
 }{
-	// Main enterprise group
-	Enterprise: structs.GroupBody{
-		Name:        "Digital Enterprise Group",
-		Slug:        "digital-enterprise",
-		Description: "Main enterprise organization",
+	// Main company group
+	Company: structs.GroupBody{
+		Name:        "Digital Company Group",
+		Slug:        "digital-company",
+		Description: "Main company organization",
 	},
 
 	// Headquarters departments
@@ -31,17 +31,17 @@ var OrganizationStructure = struct {
 		{
 			Name:        "Corporate HR",
 			Slug:        "corporate-hr",
-			Description: "Enterprise HR management",
+			Description: "Company HR management",
 		},
 		{
 			Name:        "Corporate Finance",
 			Slug:        "corporate-finance",
-			Description: "Enterprise financial management",
+			Description: "Company financial management",
 		},
 	},
 
-	// Companies under enterprise
-	Companies: []structs.GroupBody{
+	// Subsidiaries under company
+	Subsidiaries: []structs.GroupBody{
 		{
 			Name:        "TechCorp Solutions",
 			Slug:        "techcorp",
@@ -88,12 +88,12 @@ var OrganizationStructure = struct {
 		},
 	},
 
-	// Shared departments across companies
+	// Shared departments across subsidiaries
 	SharedDepartments: []Department{
 		{
 			Info: structs.GroupBody{
 				Name:        "Human Resources",
-				Slug:        "%s-hr", // Format with company slug
+				Slug:        "%s-hr",
 				Description: "Human resources management",
 			},
 			Teams: []structs.GroupBody{
@@ -116,13 +116,6 @@ var OrganizationStructure = struct {
 
 	// Organization-specific roles
 	OrganizationRoles: []OrganizationRole{
-		{
-			Role: accessStructs.RoleBody{
-				Name:        "Department Head",
-				Slug:        "department-head",
-				Description: "Department leadership role",
-			},
-		},
 		{
 			Role: accessStructs.RoleBody{
 				Name:        "Team Lead",

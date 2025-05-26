@@ -8,16 +8,37 @@ import (
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// getAdminUser retrieves the admin user based on predefined priorities
+// getAdminUser retrieves admin user based on mode
 func (s *Service) getAdminUser(ctx context.Context, operation string) (*userStructs.ReadUser, error) {
-	// Try to get admin user by priority
-	adminCandidates := []string{
-		"enterprise.admin", // Enterprise admin
-		"chief.executive",  // CEO - Highest priority
-		"super",            // System administrator
-		"hr.manager",       // HR manager
-		"finance.manager",  // Finance manager
-		"tech.lead",        // Technical lead
+	var adminCandidates []string
+
+	switch s.state.DataMode {
+	case "website":
+		adminCandidates = []string{
+			"admin",   // Site administrator
+			"super",   // System administrator
+			"manager", // Content manager
+		}
+	case "company":
+		adminCandidates = []string{
+			"company.admin", // Updated from "enterprise.admin"
+			"super",         // System administrator
+			"admin",         // System admin
+			"manager",       // Department manager
+		}
+	case "enterprise":
+		adminCandidates = []string{
+			"enterprise.admin", // Enterprise admin
+			"super",            // System administrator
+			"dept.manager",     // Updated from individual role names
+			"team.leader",      // Updated from individual role names
+			"admin",            // System admin
+		}
+	default:
+		adminCandidates = []string{
+			"admin",
+			"super",
+		}
 	}
 
 	for _, username := range adminCandidates {

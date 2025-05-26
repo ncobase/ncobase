@@ -12,13 +12,13 @@ var SystemDefaultOptions = []systemStructs.OptionsBody{
 	{
 		Name:     "system.name",
 		Type:     "string",
-		Value:    "Digital Enterprise Platform",
+		Value:    "Digital Company Platform",
 		Autoload: true,
 	},
 	{
 		Name:     "system.description",
 		Type:     "string",
-		Value:    "Multi-tenant digital enterprise management platform",
+		Value:    "Multi-tenant digital company management platform",
 		Autoload: true,
 	},
 	{

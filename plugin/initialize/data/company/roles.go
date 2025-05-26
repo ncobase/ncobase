@@ -20,12 +20,12 @@ var SystemDefaultRoles = []accessStructs.CreateRoleBody{
 		},
 	},
 
-	// Enterprise level roles
+	// Company level roles
 	{
 		RoleBody: accessStructs.RoleBody{
-			Name:        "Enterprise Admin",
-			Slug:        "enterprise-admin",
-			Description: "Enterprise admin with business management access",
+			Name:        "Company Admin",
+			Slug:        "company-admin",
+			Description: "Company admin with business management access",
 		},
 	},
 	{

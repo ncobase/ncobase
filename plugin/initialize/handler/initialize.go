@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"ncobase/initialize/service"
 
 	"github.com/ncobase/ncore/net/resp"
@@ -29,20 +30,7 @@ func NewInitializeHandler(svc *service.Service) InitializeHandlerInterface {
 	}
 }
 
-// Execute handles system initialization.
-//
-// @Summary Initialize system
-// @Description Initialize the entire system with roles, permissions, users, etc.
-// @Tags system
-// @Accept json
-// @Produce json
-// @Param X-Init-Token header string false "Initialization Token"
-// @Param mode query string false "Data Mode" Enum("company", "enterprise")
-// @Success 200 {object} service.InitState "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Failure 401 {object} resp.Exception "unauthorized"
-// @Router /sys/initialize [post]
-// @Security Bearer
+// Execute handles system initialization
 func (h *initializeHandler) Execute(c *gin.Context) {
 	initToken := c.GetHeader("X-Init-Token")
 	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
@@ -50,10 +38,10 @@ func (h *initializeHandler) Execute(c *gin.Context) {
 		return
 	}
 
-	// Check for data mode parameter
+	// Validate and set data mode
 	dataMode := c.Query("mode")
 	if dataMode != "" {
-		if err := h.s.SetDataMode(dataMode); err != nil {
+		if err := h.validateAndSetDataMode(dataMode); err != nil {
 			resp.Fail(c.Writer, resp.BadRequest("Invalid data mode: "+err.Error()))
 			return
 		}
@@ -71,19 +59,7 @@ func (h *initializeHandler) Execute(c *gin.Context) {
 	resp.Success(c.Writer, state)
 }
 
-// InitializeOrganizations handles initializing only organizations.
-//
-// @Summary Initialize organizations
-// @Description Initialize only the organizations
-// @Tags system
-// @Accept json
-// @Produce json
-// @Param X-Init-Token header string false "Initialization Token"
-// @Success 200 {object} service.InitState "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Failure 401 {object} resp.Exception "unauthorized"
-// @Router /sys/initialize/organizations [post]
-// @Security Bearer
+// InitializeOrganizations handles organization initialization
 func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
 	initToken := c.GetHeader("X-Init-Token")
 	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
@@ -91,10 +67,9 @@ func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
 		return
 	}
 
-	// Check for data mode parameter
 	dataMode := c.Query("mode")
 	if dataMode != "" {
-		if err := h.s.SetDataMode(dataMode); err != nil {
+		if err := h.validateAndSetDataMode(dataMode); err != nil {
 			resp.Fail(c.Writer, resp.BadRequest("Invalid data mode: "+err.Error()))
 			return
 		}
@@ -108,20 +83,7 @@ func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
 	resp.Success(c.Writer, state)
 }
 
-// InitializeUsers handles initializing only users.
-//
-// @Summary Initialize users
-// @Description Initialize only the users
-// @Tags system
-// @Accept json
-// @Produce json
-// @Param X-Init-Token header string false "Initialization Token"
-// @Param mode query string false "Data Mode" Enum("company", "enterprise")
-// @Success 200 {object} service.InitState "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Failure 401 {object} resp.Exception "unauthorized"
-// @Router /sys/initialize/users [post]
-// @Security Bearer
+// InitializeUsers handles user initialization
 func (h *initializeHandler) InitializeUsers(c *gin.Context) {
 	initToken := c.GetHeader("X-Init-Token")
 	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
@@ -129,10 +91,9 @@ func (h *initializeHandler) InitializeUsers(c *gin.Context) {
 		return
 	}
 
-	// Check for data mode parameter
 	dataMode := c.Query("mode")
 	if dataMode != "" {
-		if err := h.s.SetDataMode(dataMode); err != nil {
+		if err := h.validateAndSetDataMode(dataMode); err != nil {
 			resp.Fail(c.Writer, resp.BadRequest("Invalid data mode: "+err.Error()))
 			return
 		}
@@ -146,32 +107,12 @@ func (h *initializeHandler) InitializeUsers(c *gin.Context) {
 	resp.Success(c.Writer, state)
 }
 
-// GetStatus handles checking initialization status.
-//
-// @Summary Get initialization status
-// @Description Check if the system has been initialized
-// @Tags system
-// @Produce json
-// @Success 200 {object} service.InitState "success"
-// @Router /sys/initialize/status [get]
-// @Security Bearer
+// GetStatus handles status check
 func (h *initializeHandler) GetStatus(c *gin.Context) {
 	resp.Success(c.Writer, h.s.GetState())
 }
 
-// ResetInitialization handles resetting the system initialization state.
-//
-// @Summary Reset initialization
-// @Description Reset the system initialization state (if allowed in config)
-// @Tags system
-// @Accept json
-// @Produce json
-// @Param X-Init-Token header string true "Initialization Token"
-// @Success 200 {object} service.InitState "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Failure 401 {object} resp.Exception "unauthorized"
-// @Router /sys/initialize/reset [post]
-// @Security Bearer
+// ResetInitialization handles reset
 func (h *initializeHandler) ResetInitialization(c *gin.Context) {
 	initToken := c.GetHeader("X-Init-Token")
 	if initToken != h.s.GetInitToken() {
@@ -190,4 +131,19 @@ func (h *initializeHandler) ResetInitialization(c *gin.Context) {
 		return
 	}
 	resp.Success(c.Writer, state)
+}
+
+// validateAndSetDataMode validates and sets data mode
+func (h *initializeHandler) validateAndSetDataMode(mode string) error {
+	validModes := map[string]bool{
+		"website":    true,
+		"company":    true,
+		"enterprise": true,
+	}
+
+	if !validModes[mode] {
+		return fmt.Errorf("invalid mode '%s', must be one of: website, company, enterprise", mode)
+	}
+
+	return h.s.SetDataMode(mode)
 }

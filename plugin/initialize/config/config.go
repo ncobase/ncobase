@@ -4,33 +4,28 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Config holds configuration for the system module
 type Config struct {
 	Initialization *InitConfig `json:"initialization"`
 	Security       *SecConfig  `json:"security"`
 	Logging        *LogConfig  `json:"logging"`
 }
 
-// InitConfig holds configuration for system initialization
 type InitConfig struct {
 	AllowReinitialization bool   `json:"allow_reinitialization"`
 	InitToken             string `json:"init_token"`
 	TokenExpiry           string `json:"token_expiry"`
 	PersistState          bool   `json:"persist_state"`
-	DataMode              string `json:"data_mode"` // "enterprise" or "company"
+	DataMode              string `json:"data_mode"` // "enterprise", "company", "website"
 }
 
-// SecConfig holds security configuration for the system
 type SecConfig struct {
 	DefaultPasswordPolicy *PasswordPolicy `json:"default_password_policy"`
 }
 
-// LogConfig holds logging configuration
 type LogConfig struct {
 	EnableDebug bool `json:"enable_debug"`
 }
 
-// PasswordPolicy defines password requirements
 type PasswordPolicy struct {
 	MinLength          int  `json:"min_length"`
 	RequireUppercase   bool `json:"require_uppercase"`
@@ -40,7 +35,6 @@ type PasswordPolicy struct {
 	ExpirePasswordDays int  `json:"expire_password_days"`
 }
 
-// GetDefaultConfig returns the default configuration for the system module
 func GetDefaultConfig() *Config {
 	return &Config{
 		Initialization: &InitConfig{
@@ -48,16 +42,16 @@ func GetDefaultConfig() *Config {
 			InitToken:             "Ac231",
 			TokenExpiry:           "24h",
 			PersistState:          true,
-			DataMode:              "company", // Default to company mode
+			DataMode:              "website",
 		},
 		Security: &SecConfig{
 			DefaultPasswordPolicy: &PasswordPolicy{
 				MinLength:          8,
-				RequireUppercase:   true,
+				RequireUppercase:   false,
 				RequireLowercase:   true,
 				RequireDigits:      true,
 				RequireSpecial:     false,
-				ExpirePasswordDays: 90,
+				ExpirePasswordDays: 0,
 			},
 		},
 		Logging: &LogConfig{
@@ -66,7 +60,6 @@ func GetDefaultConfig() *Config {
 	}
 }
 
-// GetConfigFromFile loads configuration from Viper into the system configuration
 func GetConfigFromFile(config *Config, viper *viper.Viper) *Config {
 	if viper == nil {
 		return config
@@ -76,7 +69,6 @@ func GetConfigFromFile(config *Config, viper *viper.Viper) *Config {
 		config = GetDefaultConfig()
 	}
 
-	// Initialize config sections if needed
 	if config.Initialization == nil {
 		config.Initialization = &InitConfig{}
 	}
@@ -89,7 +81,7 @@ func GetConfigFromFile(config *Config, viper *viper.Viper) *Config {
 		config.Logging = &LogConfig{}
 	}
 
-	// Initialization settings
+	// Load configuration from viper
 	if viper.IsSet("system.initialization.allow_reinitialization") {
 		config.Initialization.AllowReinitialization = viper.GetBool("system.initialization.allow_reinitialization")
 	}
@@ -110,7 +102,6 @@ func GetConfigFromFile(config *Config, viper *viper.Viper) *Config {
 		config.Initialization.DataMode = viper.GetString("system.initialization.data_mode")
 	}
 
-	// Logging settings
 	if viper.IsSet("system.logging.enable_debug") {
 		config.Logging.EnableDebug = viper.GetBool("system.logging.enable_debug")
 	}

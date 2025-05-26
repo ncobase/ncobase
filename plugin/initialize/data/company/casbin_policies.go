@@ -1,165 +1,206 @@
 package company
 
-// CasbinPolicyRules aligned with actual routes and menu structure
+// CasbinPolicyRules for 6-parameter model: sub, dom, obj, act, v4, v5
 var CasbinPolicyRules = [][]string{
-	// Super Admin - full access
-	{"super-admin", "*", "*", "*"},
+	// Super Admin - wildcard access (handled by matcher, but explicit rules for clarity)
+	{"super-admin", "*", "*", "*", "", ""},
 
 	// System Admin - comprehensive system management
-	{"system-admin", "*", "/", "GET"},
-	{"system-admin", "*", "/swagger/*", "GET"},
+	{"system-admin", "*", "/", "GET", "", ""},
+	{"system-admin", "*", "/", "read", "", ""},
+	{"system-admin", "*", "/swagger/*", "GET", "", ""},
+	{"system-admin", "*", "/swagger/*", "read", "", ""},
+	{"system-admin", "*", "/tbp/*", "*", "", ""},
+	{"system-admin", "*", "/rt/*", "*", "", ""},
+	{"system-admin", "*", "/res/*", "*", "", ""},
+	{"system-admin", "*", "/pay/*", "*", "", ""},
+	{"system-admin", "*", "/sys/*", "*", "", ""},
+	{"system-admin", "*", "/plug/*", "*", "", ""},
+	{"system-admin", "*", "/flow/*", "*", "", ""},
+	{"system-admin", "*", "/iam/*", "*", "", ""},
+	{"system-admin", "*", "/org/*", "*", "", ""},
+	{"system-admin", "*", "/cms/*", "*", "", ""},
 
-	// System module routes
-	{"system-admin", "*", "/sys/*", "*"},
+	// Company Admin - business management (both HTTP methods and semantic actions)
+	{"company-admin", "*", "/", "GET", "", ""},
+	{"company-admin", "*", "/", "read", "", ""},
+	{"company-admin", "*", "/iam/account", "GET", "", ""},
+	{"company-admin", "*", "/iam/account", "read", "", ""},
+	{"company-admin", "*", "/iam/account/tenant", "GET", "", ""},
+	{"company-admin", "*", "/iam/account/tenant", "read", "", ""},
+	{"company-admin", "*", "/iam/account/tenants", "GET", "", ""},
+	{"company-admin", "*", "/iam/account/tenants", "read", "", ""},
 
-	// User management routes
-	{"system-admin", "*", "/user/*", "*"}, // Note: should be /sys/users based on menu
+	// User management - semantic actions preferred
+	{"company-admin", "*", "/sys/users", "read", "", ""},
+	{"company-admin", "*", "/sys/users", "create", "", ""},
+	{"company-admin", "*", "/sys/users", "update", "", ""},
+	{"company-admin", "*", "/sys/users", "delete", "", ""},
+	{"company-admin", "*", "/sys/users/*", "read", "", ""},
+	{"company-admin", "*", "/sys/users/*", "update", "", ""},
+	{"company-admin", "*", "/sys/users/*", "delete", "", ""},
 
-	// TBP module routes
-	{"system-admin", "*", "/tbp/*", "*"},
+	// Employee management
+	{"company-admin", "*", "/sys/employees", "read", "", ""},
+	{"company-admin", "*", "/sys/employees", "create", "", ""},
+	{"company-admin", "*", "/sys/employees", "update", "", ""},
+	{"company-admin", "*", "/sys/employees", "delete", "", ""},
+	{"company-admin", "*", "/sys/employees/*", "read", "", ""},
+	{"company-admin", "*", "/sys/employees/*", "update", "", ""},
+	{"company-admin", "*", "/sys/employees/*", "delete", "", ""},
 
-	// Realtime module routes
-	{"system-admin", "*", "/rt/*", "*"},
-
-	// Resources module routes
-	{"system-admin", "*", "/res/*", "*"},
-
-	// Payment module routes
-	{"system-admin", "*", "/pay/*", "*"},
-
-	// Workflow module routes
-	{"system-admin", "*", "/flow/*", "*"},
-
-	// IAM module routes
-	{"system-admin", "*", "/iam/*", "*"},
-
-	// Organization module routes
-	{"system-admin", "*", "/org/*", "*"},
-
-	// CMS module routes
-	{"system-admin", "*", "/cms/*", "*"},
-
-	// Plugins module routes
-	{"system-admin", "*", "/plug/*", "*"},
-
-	// Enterprise Admin - business management
-	{"enterprise-admin", "*", "/", "GET"},
-	{"enterprise-admin", "*", "/iam/account", "GET"},
-	{"enterprise-admin", "*", "/iam/account/tenant", "GET"},
-	{"enterprise-admin", "*", "/iam/account/tenants", "GET"},
-
-	// User and employee management
-	{"enterprise-admin", "*", "/sys/users", "*"}, // Aligned with menu path
-	{"enterprise-admin", "*", "/sys/employees", "*"},
-
-	// Limited system access (read-only)
-	{"enterprise-admin", "*", "/sys/menus", "GET"},
-	{"enterprise-admin", "*", "/sys/dictionaries", "GET"},
-	{"enterprise-admin", "*", "/sys/options", "GET"},
+	// System info access
+	{"company-admin", "*", "/sys/menus", "GET", "", ""},
+	{"company-admin", "*", "/sys/menus", "read", "", ""},
+	{"company-admin", "*", "/sys/dictionaries", "GET", "", ""},
+	{"company-admin", "*", "/sys/dictionaries", "read", "", ""},
+	{"company-admin", "*", "/sys/options", "GET", "", ""},
+	{"company-admin", "*", "/sys/options", "read", "", ""},
 
 	// Organization management
-	{"enterprise-admin", "*", "/org/groups", "*"},
-	{"enterprise-admin", "*", "/sys/group", "*"}, // System group management
+	{"company-admin", "*", "/org/groups", "read", "", ""},
+	{"company-admin", "*", "/org/groups", "create", "", ""},
+	{"company-admin", "*", "/org/groups", "update", "", ""},
+	{"company-admin", "*", "/org/groups", "delete", "", ""},
+	{"company-admin", "*", "/org/groups/*", "read", "", ""},
+	{"company-admin", "*", "/org/groups/*", "update", "", ""},
+	{"company-admin", "*", "/org/groups/*", "delete", "", ""},
 
 	// Content management
-	{"enterprise-admin", "*", "/cms/topics", "*"},
-	{"enterprise-admin", "*", "/cms/taxonomies", "*"},
-	{"enterprise-admin", "*", "/cms/channels", "*"},
-	{"enterprise-admin", "*", "/cms/media", "*"},
+	{"company-admin", "*", "/cms/topics", "read", "", ""},
+	{"company-admin", "*", "/cms/topics", "create", "", ""},
+	{"company-admin", "*", "/cms/topics", "update", "", ""},
+	{"company-admin", "*", "/cms/topics", "delete", "", ""},
+	{"company-admin", "*", "/cms/*", "read", "", ""},
+	{"company-admin", "*", "/cms/*", "create", "", ""},
+	{"company-admin", "*", "/cms/*", "update", "", ""},
 
-	// Workflow management
-	{"enterprise-admin", "*", "/flow/processes", "*"},
-	{"enterprise-admin", "*", "/flow/tasks", "*"},
-
-	// Limited realtime access
-	{"enterprise-admin", "*", "/rt/notifications", "*"},
-	{"enterprise-admin", "*", "/rt/channels", "GET"},
+	// Workflow and notifications
+	{"company-admin", "*", "/flow/processes", "read", "", ""},
+	{"company-admin", "*", "/flow/processes", "create", "", ""},
+	{"company-admin", "*", "/flow/processes", "update", "", ""},
+	{"company-admin", "*", "/flow/tasks", "read", "", ""},
+	{"company-admin", "*", "/flow/tasks", "create", "", ""},
+	{"company-admin", "*", "/flow/tasks", "update", "", ""},
+	{"company-admin", "*", "/rt/notifications", "read", "", ""},
+	{"company-admin", "*", "/rt/notifications", "create", "", ""},
+	{"company-admin", "*", "/rt/notifications", "update", "", ""},
+	{"company-admin", "*", "/rt/channels", "GET", "", ""},
+	{"company-admin", "*", "/rt/channels", "read", "", ""},
 
 	// Resource access
-	{"enterprise-admin", "*", "/res", "GET"},
-	{"enterprise-admin", "*", "/res/search", "GET"},
+	{"company-admin", "*", "/res", "GET", "", ""},
+	{"company-admin", "*", "/res", "read", "", ""},
+	{"company-admin", "*", "/res/search", "GET", "", ""},
+	{"company-admin", "*", "/res/search", "read", "", ""},
 
 	// Payment viewing
-	{"enterprise-admin", "*", "/pay/orders", "GET"},
+	{"company-admin", "*", "/pay/orders", "GET", "", ""},
+	{"company-admin", "*", "/pay/orders", "read", "", ""},
 
 	// Manager - departmental management
-	{"manager", "*", "/", "GET"},
-	{"manager", "*", "/iam/account", "GET"},
-	{"manager", "*", "/iam/account/tenant", "GET"},
-	{"manager", "*", "/iam/account/tenants", "GET"},
+	{"manager", "*", "/", "GET", "", ""},
+	{"manager", "*", "/", "read", "", ""},
+	{"manager", "*", "/iam/account", "GET", "", ""},
+	{"manager", "*", "/iam/account", "read", "", ""},
+	{"manager", "*", "/iam/account/tenant", "GET", "", ""},
+	{"manager", "*", "/iam/account/tenant", "read", "", ""},
+	{"manager", "*", "/iam/account/tenants", "GET", "", ""},
+	{"manager", "*", "/iam/account/tenants", "read", "", ""},
 
 	// User and employee access (read + limited update)
-	{"manager", "*", "/sys/users", "GET"},
-	{"manager", "*", "/sys/employees", "GET"},
-	{"manager", "*", "/sys/employees", "POST"},  // Can create employees
-	{"manager", "*", "/sys/employees/*", "PUT"}, // Can update employees
+	{"manager", "*", "/sys/users", "GET", "", ""},
+	{"manager", "*", "/sys/users", "read", "", ""},
+	{"manager", "*", "/sys/employees", "GET", "", ""},
+	{"manager", "*", "/sys/employees", "read", "", ""},
+	{"manager", "*", "/sys/employees", "POST", "", ""},
+	{"manager", "*", "/sys/employees", "create", "", ""},
+	{"manager", "*", "/sys/employees/*", "PUT", "", ""},
+	{"manager", "*", "/sys/employees/*", "update", "", ""},
 
-	// Basic system information
-	{"manager", "*", "/sys/menus", "GET"},
-	{"manager", "*", "/sys/dictionaries", "GET"},
-	{"manager", "*", "/sys/options", "GET"},
+	// System info
+	{"manager", "*", "/sys/menus", "GET", "", ""},
+	{"manager", "*", "/sys/menus", "read", "", ""},
+	{"manager", "*", "/sys/dictionaries", "GET", "", ""},
+	{"manager", "*", "/sys/dictionaries", "read", "", ""},
+	{"manager", "*", "/sys/options", "GET", "", ""},
+	{"manager", "*", "/sys/options", "read", "", ""},
 
-	// Organization viewing
-	{"manager", "*", "/org/groups", "GET"},
-	{"manager", "*", "/sys/group", "GET"},
+	// Organization and content
+	{"manager", "*", "/org/groups", "GET", "", ""},
+	{"manager", "*", "/org/groups", "read", "", ""},
+	{"manager", "*", "/cms/topics", "GET", "", ""},
+	{"manager", "*", "/cms/topics", "read", "", ""},
 
-	// Content access
-	{"manager", "*", "/cms/topics", "GET"},
-
-	// Task management
-	{"manager", "*", "/flow/tasks", "*"},
-
-	// Notifications
-	{"manager", "*", "/rt/notifications", "GET"},
+	// Task management and notifications
+	{"manager", "*", "/flow/tasks", "read", "", ""},
+	{"manager", "*", "/flow/tasks", "create", "", ""},
+	{"manager", "*", "/flow/tasks", "update", "", ""},
+	{"manager", "*", "/rt/notifications", "GET", "", ""},
+	{"manager", "*", "/rt/notifications", "read", "", ""},
 
 	// Resource access
-	{"manager", "*", "/res", "GET"},
+	{"manager", "*", "/res", "GET", "", ""},
+	{"manager", "*", "/res", "read", "", ""},
 
 	// Employee - basic access
-	{"employee", "*", "/", "GET"},
-	{"employee", "*", "/iam/account", "GET"},
-	{"employee", "*", "/iam/account/tenant", "GET"},
-	{"employee", "*", "/iam/account/tenants", "GET"},
+	{"employee", "*", "/", "GET", "", ""},
+	{"employee", "*", "/", "read", "", ""},
+	{"employee", "*", "/iam/account", "GET", "", ""},
+	{"employee", "*", "/iam/account", "read", "", ""},
+	{"employee", "*", "/iam/account/tenant", "GET", "", ""},
+	{"employee", "*", "/iam/account/tenant", "read", "", ""},
+	{"employee", "*", "/iam/account/tenants", "GET", "", ""},
+	{"employee", "*", "/iam/account/tenants", "read", "", ""},
 
-	// Basic system information (read-only)
-	{"employee", "*", "/sys/menus", "GET"},
-	{"employee", "*", "/sys/dictionaries", "GET"},
-	{"employee", "*", "/sys/options", "GET"},
+	// Basic system info (read-only)
+	{"employee", "*", "/sys/menus", "GET", "", ""},
+	{"employee", "*", "/sys/menus", "read", "", ""},
+	{"employee", "*", "/sys/dictionaries", "GET", "", ""},
+	{"employee", "*", "/sys/dictionaries", "read", "", ""},
+	{"employee", "*", "/sys/options", "GET", "", ""},
+	{"employee", "*", "/sys/options", "read", "", ""},
+	{"employee", "*", "/sys/users", "GET", "", ""},
+	{"employee", "*", "/sys/users", "read", "", ""},
+	{"employee", "*", "/sys/employees", "GET", "", ""},
+	{"employee", "*", "/sys/employees", "read", "", ""},
 
-	// User and employee information (read-only)
-	{"employee", "*", "/sys/users", "GET"},
-	{"employee", "*", "/sys/employees", "GET"},
+	// Organization and content (read-only)
+	{"employee", "*", "/org/groups", "GET", "", ""},
+	{"employee", "*", "/org/groups", "read", "", ""},
+	{"employee", "*", "/cms/topics", "GET", "", ""},
+	{"employee", "*", "/cms/topics", "read", "", ""},
 
-	// Organization information (read-only)
-	{"employee", "*", "/org/groups", "GET"},
-	{"employee", "*", "/sys/group", "GET"},
-
-	// Content access (read-only)
-	{"employee", "*", "/cms/topics", "GET"},
-
-	// Task viewing
-	{"employee", "*", "/flow/tasks", "GET"},
-
-	// Notifications
-	{"employee", "*", "/rt/notifications", "GET"},
+	// Task viewing and notifications
+	{"employee", "*", "/flow/tasks", "GET", "", ""},
+	{"employee", "*", "/flow/tasks", "read", "", ""},
+	{"employee", "*", "/rt/notifications", "GET", "", ""},
+	{"employee", "*", "/rt/notifications", "read", "", ""},
 
 	// Resource access
-	{"employee", "*", "/res", "GET"},
+	{"employee", "*", "/res", "GET", "", ""},
+	{"employee", "*", "/res", "read", "", ""},
 
 	// Guest - minimal read-only access
-	{"guest", "*", "/", "GET"},
-	{"guest", "*", "/iam/account", "GET"},
-	{"guest", "*", "/sys/menus", "GET"},
-	{"guest", "*", "/sys/dictionaries", "GET"},
-	{"guest", "*", "/cms/topics", "GET"},
-	{"guest", "*", "/res", "GET"},
+	{"guest", "*", "/", "GET", "", ""},
+	{"guest", "*", "/", "read", "", ""},
+	{"guest", "*", "/iam/account", "GET", "", ""},
+	{"guest", "*", "/iam/account", "read", "", ""},
+	{"guest", "*", "/sys/menus", "GET", "", ""},
+	{"guest", "*", "/sys/menus", "read", "", ""},
+	{"guest", "*", "/sys/dictionaries", "GET", "", ""},
+	{"guest", "*", "/sys/dictionaries", "read", "", ""},
+	{"guest", "*", "/cms/topics", "GET", "", ""},
+	{"guest", "*", "/cms/topics", "read", "", ""},
+	{"guest", "*", "/res", "GET", "", ""},
+	{"guest", "*", "/res", "read", "", ""},
 }
 
-// RoleInheritanceRules defines role inheritance
+// RoleInheritanceRules for g matcher: child_role, parent_role, domain
 var RoleInheritanceRules = [][]string{
 	{"system-admin", "super-admin", "*"},
-	{"enterprise-admin", "system-admin", "*"},
-	{"manager", "enterprise-admin", "*"},
+	{"company-admin", "system-admin", "*"},
+	{"manager", "company-admin", "*"},
 	{"employee", "manager", "*"},
 	{"guest", "employee", "*"},
 }

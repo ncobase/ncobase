@@ -8,9 +8,21 @@ import (
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// checkTenantsInitialized checks if tenants are already initialized.
+// checkTenantsInitialized checks if tenants are already initialized
 func (s *Service) checkTenantsInitialized(ctx context.Context) error {
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
+	var defaultSlug string
+	switch s.state.DataMode {
+	case "website":
+		defaultSlug = "website-platform"
+	case "company":
+		defaultSlug = "digital-company"
+	case "enterprise":
+		defaultSlug = "digital-enterprise"
+	default:
+		defaultSlug = "website-platform"
+	}
+
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, defaultSlug)
 	if err == nil && tenant != nil {
 		logger.Infof(ctx, "Default tenant already exists, skipping initialization")
 		return nil
@@ -26,7 +38,7 @@ func (s *Service) checkTenantsInitialized(ctx context.Context) error {
 	return s.initTenants(ctx)
 }
 
-// initTenants initializes the default tenants using current data mode.
+// initTenants initializes tenants using current data mode
 func (s *Service) initTenants(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system tenants in %s mode...", s.state.DataMode)
 
@@ -53,10 +65,21 @@ func (s *Service) initTenants(ctx context.Context) error {
 		logger.Warnf(ctx, "No tenants were created during initialization")
 	}
 
-	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
+	// Verify default tenant exists
+	var defaultSlug string
+	switch s.state.DataMode {
+	case "website":
+		defaultSlug = "website-platform"
+	case "company":
+		defaultSlug = "digital-company"
+	default:
+		defaultSlug = "digital-enterprise"
+	}
+
+	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, defaultSlug)
 	if err != nil || defaultTenant == nil {
-		logger.Errorf(ctx, "Default tenant 'digital-enterprise' does not exist after initialization")
-		return fmt.Errorf("default tenant 'digital-enterprise' not found after initialization: %w", err)
+		logger.Errorf(ctx, "Default tenant '%s' does not exist after initialization", defaultSlug)
+		return fmt.Errorf("default tenant '%s' not found after initialization: %w", defaultSlug, err)
 	}
 
 	count := s.ts.Tenant.CountX(ctx, &tenantStructs.ListTenantParams{})

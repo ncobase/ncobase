@@ -23,7 +23,20 @@ func (s *Service) checkDictionariesInitialized(ctx context.Context) error {
 func (s *Service) initDictionaries(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system dictionaries in %s mode...", s.state.DataMode)
 
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
+	// Get default tenant based on data mode
+	var tenantSlug string
+	switch s.state.DataMode {
+	case "website":
+		tenantSlug = "website-platform"
+	case "company":
+		tenantSlug = "digital-company"
+	case "enterprise":
+		tenantSlug = "digital-enterprise"
+	default:
+		tenantSlug = "website-platform"
+	}
+
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, tenantSlug)
 	if err != nil {
 		logger.Errorf(ctx, "Error getting default tenant: %v", err)
 		return err

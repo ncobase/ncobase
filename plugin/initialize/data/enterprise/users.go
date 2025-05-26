@@ -6,18 +6,18 @@ import (
 	"github.com/ncobase/ncore/utils/convert"
 )
 
-// SystemDefaultUsers defines enterprise system users with proper role assignments
+// SystemDefaultUsers defines simplified enterprise system users
 var SystemDefaultUsers = []UserCreationInfo{
-	// ========== System Level Users ==========
+	// System Level Users
 	{
 		User: userStructs.UserBody{
 			Username:    "super",
-			Email:       "super@ncobase.com",
+			Email:       "super@enterprise.com",
 			Phone:       "13800138000",
 			IsCertified: true,
 			IsAdmin:     true,
 		},
-		Password: "Ac123456",
+		Password: "Super123456",
 		Profile: userStructs.UserProfileBody{
 			DisplayName: "Super Administrator",
 			FirstName:   "Super",
@@ -35,12 +35,12 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "admin",
-			Email:       "admin@ncobase.com",
+			Email:       "admin@enterprise.com",
 			Phone:       "13800138010",
 			IsCertified: true,
 			IsAdmin:     true,
 		},
-		Password: "Ac123456",
+		Password: "Admin123456",
 		Profile: userStructs.UserProfileBody{
 			DisplayName: "System Administrator",
 			FirstName:   "System",
@@ -56,451 +56,141 @@ var SystemDefaultUsers = []UserCreationInfo{
 		},
 	},
 
-	// ========== Enterprise Executives ==========
+	// Enterprise Management
 	{
 		User: userStructs.UserBody{
-			Username:    "chief.executive",
-			Email:       "ceo@ncobase.com",
+			Username:    "enterprise.admin",
+			Email:       "enterprise.admin@enterprise.com",
 			Phone:       "13800138001",
 			IsCertified: true,
-			IsAdmin:     true,
+			IsAdmin:     false,
 		},
-		Password: "Ac123456",
+		Password: "Enterprise123456",
 		Profile: userStructs.UserProfileBody{
-			DisplayName: "Chief Executive Officer",
-			FirstName:   "John",
-			LastName:    "Smith",
-			Title:       "CEO",
+			DisplayName: "Enterprise Administrator",
+			FirstName:   "Enterprise",
+			LastName:    "Admin",
 		},
 		Role: "enterprise-admin",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP002",
 			Department:     "executive",
-			Position:       "Chief Executive Officer",
+			Position:       "Enterprise Administrator",
 			EmploymentType: "full_time",
 			Status:         "active",
 			HireDate:       convert.ParseTimePtr("2024-01-01T09:00:00Z"),
 		},
 	},
 
-	// ========== Department Managers ==========
+	// Department Manager
 	{
 		User: userStructs.UserBody{
-			Username:    "hr.manager",
-			Email:       "hr.manager@ncobase.com",
+			Username:    "dept.manager",
+			Email:       "dept.manager@enterprise.com",
 			Phone:       "13800138002",
 			IsCertified: true,
 			IsAdmin:     false,
 		},
-		Password: "Ac123456",
+		Password: "Manager123456",
 		Profile: userStructs.UserProfileBody{
-			DisplayName: "HR Manager",
-			FirstName:   "Sarah",
-			LastName:    "Johnson",
-			Title:       "Human Resources Manager",
+			DisplayName: "Department Manager",
+			FirstName:   "John",
+			LastName:    "Manager",
 		},
-		Role: "hr-manager",
+		Role: "department-manager",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP003",
-			Department:     "human-resources",
-			Position:       "HR Manager",
-			ManagerID:      "chief.executive",
+			Department:     "technology",
+			Position:       "Department Manager",
+			ManagerID:      "enterprise.admin",
 			EmploymentType: "full_time",
 			Status:         "active",
 			HireDate:       convert.ParseTimePtr("2024-01-15T09:00:00Z"),
 		},
 	},
+
+	// Team Leader
 	{
 		User: userStructs.UserBody{
-			Username:    "finance.manager",
-			Email:       "finance.manager@ncobase.com",
+			Username:    "team.leader",
+			Email:       "team.leader@enterprise.com",
 			Phone:       "13800138003",
 			IsCertified: true,
 			IsAdmin:     false,
 		},
-		Password: "Ac123456",
+		Password: "Leader123456",
 		Profile: userStructs.UserProfileBody{
-			DisplayName: "Finance Manager",
-			FirstName:   "Michael",
-			LastName:    "Chen",
-			Title:       "Chief Financial Officer",
+			DisplayName: "Team Leader",
+			FirstName:   "Sarah",
+			LastName:    "Leader",
 		},
-		Role: "finance-manager",
+		Role: "team-leader",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP004",
-			Department:     "finance",
-			Position:       "Finance Manager",
-			ManagerID:      "chief.executive",
+			Department:     "technology",
+			Position:       "Team Leader",
+			ManagerID:      "dept.manager",
 			EmploymentType: "full_time",
 			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-01-15T09:00:00Z"),
+			HireDate:       convert.ParseTimePtr("2024-02-01T09:00:00Z"),
 		},
 	},
+
+	// Employee
 	{
 		User: userStructs.UserBody{
-			Username:    "it.manager",
-			Email:       "it.manager@ncobase.com",
+			Username:    "employee",
+			Email:       "employee@enterprise.com",
 			Phone:       "13800138004",
 			IsCertified: true,
 			IsAdmin:     false,
 		},
-		Password: "Ac123456",
+		Password: "Employee123456",
 		Profile: userStructs.UserProfileBody{
-			DisplayName: "IT Manager",
-			FirstName:   "David",
-			LastName:    "Wilson",
-			Title:       "Information Technology Manager",
-		},
-		Role: "it-manager",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP005",
-			Department:     "information-technology",
-			Position:       "IT Manager",
-			ManagerID:      "chief.executive",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-01-20T09:00:00Z"),
-		},
-	},
-
-	// ========== Technical Team ==========
-	{
-		User: userStructs.UserBody{
-			Username:    "tech.lead",
-			Email:       "tech.lead@techcorp.com",
-			Phone:       "13800138005",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "Technical Lead",
-			FirstName:   "Emily",
-			LastName:    "Rodriguez",
-			Title:       "Senior Technical Lead",
-		},
-		Role: "technical-lead",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP006",
-			Department:     "technology",
-			Position:       "Technical Lead",
-			ManagerID:      "it.manager",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-02-01T09:00:00Z"),
-			Skills:         &[]string{"System Architecture", "Team Leadership", "Go", "React", "DevOps"},
-		},
-	},
-	{
-		User: userStructs.UserBody{
-			Username:    "senior.developer",
-			Email:       "senior.dev@techcorp.com",
-			Phone:       "13800138006",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "Senior Developer",
-			FirstName:   "Alex",
-			LastName:    "Thompson",
-			Title:       "Senior Software Engineer",
-		},
-		Role: "developer",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP007",
-			Department:     "technology",
-			Position:       "Senior Developer",
-			ManagerID:      "tech.lead",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-02-15T09:00:00Z"),
-			Skills:         &[]string{"Go", "React", "TypeScript", "PostgreSQL", "Docker", "Kubernetes"},
-		},
-	},
-	{
-		User: userStructs.UserBody{
-			Username:    "ui.designer",
-			Email:       "ui.designer@techcorp.com",
-			Phone:       "13800138007",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "UI/UX Designer",
-			FirstName:   "Jessica",
-			LastName:    "Lee",
-			Title:       "Senior UI/UX Designer",
-		},
-		Role: "designer",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP008",
-			Department:     "technology",
-			Position:       "UI/UX Designer",
-			ManagerID:      "tech.lead",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-02-20T09:00:00Z"),
-			Skills:         &[]string{"Figma", "Adobe Creative Suite", "User Research", "Prototyping", "Design Systems"},
-		},
-	},
-
-	// ========== Marketing Team ==========
-	{
-		User: userStructs.UserBody{
-			Username:    "marketing.manager",
-			Email:       "marketing.manager@mediacorp.com",
-			Phone:       "13800138008",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "Marketing Manager",
-			FirstName:   "Lisa",
-			LastName:    "Wang",
-			Title:       "Digital Marketing Manager",
-		},
-		Role: "department-manager",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP009",
-			Department:     "marketing",
-			Position:       "Marketing Manager",
-			ManagerID:      "chief.executive",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-02-01T09:00:00Z"),
-			Skills:         &[]string{"Digital Marketing", "Content Strategy", "Analytics", "Campaign Management"},
-		},
-	},
-	{
-		User: userStructs.UserBody{
-			Username:    "content.creator",
-			Email:       "content.creator@mediacorp.com",
-			Phone:       "13800138009",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "Content Creator",
-			FirstName:   "Ryan",
-			LastName:    "Davis",
-			Title:       "Senior Content Creator",
-		},
-		Role: "content-creator",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP010",
-			Department:     "marketing",
-			Position:       "Content Creator",
-			ManagerID:      "marketing.manager",
-			EmploymentType: "contract",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-03-01T09:00:00Z"),
-			Skills:         &[]string{"Video Production", "Graphic Design", "Social Media", "Photography", "Adobe Premiere"},
-		},
-	},
-
-	// ========== Quality Assurance Team ==========
-	{
-		User: userStructs.UserBody{
-			Username:    "qa.manager",
-			Email:       "qa.manager@techcorp.com",
-			Phone:       "13800138010",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "QA Manager",
-			FirstName:   "Jennifer",
-			LastName:    "Brown",
-			Title:       "Quality Assurance Manager",
-		},
-		Role: "qa-manager",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP011",
-			Department:     "technology",
-			Position:       "QA Manager",
-			ManagerID:      "tech.lead",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-02-10T09:00:00Z"),
-			Skills:         &[]string{"Test Management", "Automation", "Quality Processes", "Team Leadership"},
-		},
-	},
-	{
-		User: userStructs.UserBody{
-			Username:    "qa.tester",
-			Email:       "qa.tester@techcorp.com",
-			Phone:       "13800138011",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "QA Tester",
-			FirstName:   "Kevin",
-			LastName:    "Martinez",
-			Title:       "Software QA Engineer",
-		},
-		Role: "qa-tester",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP012",
-			Department:     "technology",
-			Position:       "QA Tester",
-			ManagerID:      "qa.manager",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-03-15T09:00:00Z"),
-			Skills:         &[]string{"Manual Testing", "Selenium", "API Testing", "Bug Reporting", "Test Planning"},
-		},
-	},
-
-	// ========== Data Analytics Team ==========
-	{
-		User: userStructs.UserBody{
-			Username:    "data.analyst",
-			Email:       "data.analyst@ncobase.com",
-			Phone:       "13800138012",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "Data Analyst",
-			FirstName:   "Amanda",
-			LastName:    "Garcia",
-			Title:       "Senior Data Analyst",
-		},
-		Role: "data-analyst",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP013",
-			Department:     "analytics",
-			Position:       "Data Analyst",
-			ManagerID:      "finance.manager",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-02-25T09:00:00Z"),
-			Skills:         &[]string{"SQL", "Python", "Tableau", "Statistical Analysis", "Data Visualization"},
-		},
-	},
-
-	// ========== Customer Service Team ==========
-	{
-		User: userStructs.UserBody{
-			Username:    "cs.manager",
-			Email:       "cs.manager@ncobase.com",
-			Phone:       "13800138013",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "Customer Service Manager",
-			FirstName:   "Robert",
-			LastName:    "Taylor",
-			Title:       "Customer Success Manager",
-		},
-		Role: "customer-service-manager",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP014",
-			Department:     "customer-service",
-			Position:       "Customer Service Manager",
-			ManagerID:      "chief.executive",
-			EmploymentType: "full_time",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-01-30T09:00:00Z"),
-		},
-	},
-
-	// ========== Regular Employees ==========
-	{
-		User: userStructs.UserBody{
-			Username:    "employee.one",
-			Email:       "employee.one@ncobase.com",
-			Phone:       "13800138014",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "Employee One",
-			FirstName:   "Mark",
-			LastName:    "Johnson",
-			Title:       "Software Engineer",
+			DisplayName: "Employee",
+			FirstName:   "Jane",
+			LastName:    "Employee",
 		},
 		Role: "employee",
 		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "EMP015",
+			EmployeeID:     "EMP005",
 			Department:     "technology",
-			Position:       "Software Engineer",
-			ManagerID:      "tech.lead",
+			Position:       "Software Developer",
+			ManagerID:      "team.leader",
 			EmploymentType: "full_time",
 			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-03-10T09:00:00Z"),
-			Skills:         &[]string{"JavaScript", "Node.js", "React", "SQL"},
+			HireDate:       convert.ParseTimePtr("2024-03-01T09:00:00Z"),
 		},
 	},
 
-	// ========== Interns and Contractors ==========
+	// Contractor
 	{
 		User: userStructs.UserBody{
-			Username:    "intern.dev",
-			Email:       "intern.dev@ncobase.com",
-			Phone:       "13800138015",
+			Username:    "contractor",
+			Email:       "contractor@external.com",
+			Phone:       "13800138005",
 			IsCertified: false,
 			IsAdmin:     false,
 		},
-		Password: "Ac123456",
+		Password: "Contractor123456",
 		Profile: userStructs.UserProfileBody{
-			DisplayName: "Development Intern",
-			FirstName:   "Sophie",
-			LastName:    "Anderson",
-			Title:       "Software Development Intern",
-		},
-		Role: "intern",
-		Employee: &userStructs.EmployeeBody{
-			EmployeeID:     "INT001",
-			Department:     "technology",
-			Position:       "Software Development Intern",
-			ManagerID:      "senior.developer",
-			EmploymentType: "intern",
-			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-03-20T09:00:00Z"),
-			Skills:         &[]string{"Python", "HTML", "CSS", "Git"},
-		},
-	},
-	{
-		User: userStructs.UserBody{
-			Username:    "contractor.consultant",
-			Email:       "contractor@external.com",
-			Phone:       "13800138016",
-			IsCertified: true,
-			IsAdmin:     false,
-		},
-		Password: "Ac123456",
-		Profile: userStructs.UserProfileBody{
-			DisplayName: "External Consultant",
-			FirstName:   "James",
-			LastName:    "Miller",
-			Title:       "Business Process Consultant",
+			DisplayName: "External Contractor",
+			FirstName:   "Mike",
+			LastName:    "Contractor",
 		},
 		Role: "contractor",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "CON001",
 			Department:     "consulting",
-			Position:       "Business Consultant",
+			Position:       "External Consultant",
 			EmploymentType: "contract",
 			Status:         "active",
-			HireDate:       convert.ParseTimePtr("2024-03-05T09:00:00Z"),
-			Skills:         &[]string{"Process Optimization", "Business Analysis", "Strategy", "Change Management"},
+			HireDate:       convert.ParseTimePtr("2024-03-15T09:00:00Z"),
 		},
 	},
 }
 
-// UserCreationInfo combines user data with related information for initialization
+// UserCreationInfo combines user data for initialization
 type UserCreationInfo struct {
 	User     userStructs.UserBody        `json:"user"`
 	Password string                      `json:"password"`

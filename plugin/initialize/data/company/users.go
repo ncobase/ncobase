@@ -12,12 +12,12 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "super",
-			Email:       "super@ncobase.com",
+			Email:       "super@company.com",
 			Phone:       "13800138000",
 			IsCertified: true,
 			IsAdmin:     true,
 		},
-		Password: "Ac123456",
+		Password: "Super123456",
 		Profile: userStructs.UserProfileBody{
 			DisplayName: "Super Administrator",
 			FirstName:   "Super",
@@ -26,7 +26,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "super-admin",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP000",
-			Department:     "system", // Maps to system group
+			Department:     "system",
 			Position:       "Super Administrator",
 			EmploymentType: "full_time",
 			Status:         "active",
@@ -38,12 +38,12 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "admin",
-			Email:       "admin@ncobase.com",
+			Email:       "admin@company.com",
 			Phone:       "13800138001",
 			IsCertified: true,
 			IsAdmin:     true,
 		},
-		Password: "Ac123456",
+		Password: "Admin123456",
 		Profile: userStructs.UserProfileBody{
 			DisplayName: "System Administrator",
 			FirstName:   "System",
@@ -52,7 +52,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "system-admin",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP001",
-			Department:     "technology", // Maps to technology group
+			Department:     "technology",
 			Position:       "System Administrator",
 			EmploymentType: "full_time",
 			Status:         "active",
@@ -60,26 +60,26 @@ var SystemDefaultUsers = []UserCreationInfo{
 		},
 	},
 
-	// Enterprise Administrator
+	// Company Administrator
 	{
 		User: userStructs.UserBody{
-			Username:    "enterprise.admin",
-			Email:       "enterprise.admin@ncobase.com",
+			Username:    "company.admin",
+			Email:       "company.admin@company.com",
 			Phone:       "13800138002",
 			IsCertified: true,
 			IsAdmin:     false,
 		},
-		Password: "Ac123456",
+		Password: "Ca123456",
 		Profile: userStructs.UserProfileBody{
-			DisplayName: "Enterprise Administrator",
-			FirstName:   "Enterprise",
+			DisplayName: "Company Administrator",
+			FirstName:   "Company",
 			LastName:    "Admin",
 		},
-		Role: "enterprise-admin",
+		Role: "company-admin",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP002",
-			Department:     "digital-enterprise", // Maps to main enterprise group
-			Position:       "Enterprise Administrator",
+			Department:     "digital-company",
+			Position:       "Company Administrator",
 			EmploymentType: "full_time",
 			Status:         "active",
 			HireDate:       convert.ParseTimePtr("2024-01-15T09:00:00Z"),
@@ -90,7 +90,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "manager",
-			Email:       "manager@ncobase.com",
+			Email:       "manager@company.com",
 			Phone:       "13800138003",
 			IsCertified: true,
 			IsAdmin:     false,
@@ -104,9 +104,9 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "manager",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP003",
-			Department:     "business-ops", // Maps to business operations group
+			Department:     "business-ops",
 			Position:       "Department Manager",
-			ManagerID:      "enterprise.admin", // Will be resolved to ID
+			ManagerID:      "company.admin",
 			EmploymentType: "full_time",
 			Status:         "active",
 			HireDate:       convert.ParseTimePtr("2024-02-01T09:00:00Z"),
@@ -118,7 +118,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "employee",
-			Email:       "employee@ncobase.com",
+			Email:       "employee@company.com",
 			Phone:       "13800138004",
 			IsCertified: true,
 			IsAdmin:     false,
@@ -132,9 +132,9 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "employee",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP004",
-			Department:     "technology", // Maps to technology group
+			Department:     "technology",
 			Position:       "Software Developer",
-			ManagerID:      "manager", // Will be resolved to ID
+			ManagerID:      "manager",
 			EmploymentType: "full_time",
 			Status:         "active",
 			HireDate:       convert.ParseTimePtr("2024-03-01T09:00:00Z"),
@@ -146,7 +146,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 	{
 		User: userStructs.UserBody{
 			Username:    "guest",
-			Email:       "guest@ncobase.com",
+			Email:       "guest@company.com",
 			Phone:       "13800138005",
 			IsCertified: false,
 			IsAdmin:     false,
@@ -160,7 +160,7 @@ var SystemDefaultUsers = []UserCreationInfo{
 		Role: "guest",
 		Employee: &userStructs.EmployeeBody{
 			EmployeeID:     "EMP005",
-			Department:     "", // No specific department
+			Department:     "",
 			Position:       "Guest",
 			EmploymentType: "contract",
 			Status:         "active",

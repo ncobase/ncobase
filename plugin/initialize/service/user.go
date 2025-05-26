@@ -38,16 +38,28 @@ func (s *Service) checkUsersInitialized(ctx context.Context) error {
 	return s.initUsers(ctx)
 }
 
-// initUsers initializes users and employees using current data mode
+// initUsers initializes users based on current data mode
 func (s *Service) initUsers(ctx context.Context) error {
-	logger.Infof(ctx, "Initializing users and employees in %s mode...", s.state.DataMode)
+	logger.Infof(ctx, "Initializing users in %s mode...", s.state.DataMode)
 
-	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
-	if err != nil {
-		logger.Errorf(ctx, "Error getting default tenant: %v", err)
-		return fmt.Errorf("default tenant 'digital-enterprise' not found: %w", err)
+	// Get default tenant based on data mode
+	var tenantSlug string
+	switch s.state.DataMode {
+	case "website":
+		tenantSlug = "website-platform"
+	case "company":
+		tenantSlug = "digital-company"
+	case "enterprise":
+		tenantSlug = "digital-enterprise"
+	default:
+		tenantSlug = "website-platform"
 	}
 
+	tenant, err := s.ts.Tenant.GetBySlug(ctx, tenantSlug)
+	if err != nil {
+		logger.Errorf(ctx, "Error getting default tenant: %v", err)
+		return err
+	}
 	dataLoader := s.getDataLoader()
 	users := dataLoader.GetUsers()
 
@@ -92,9 +104,9 @@ func (s *Service) initUsers(ctx context.Context) error {
 			return fmt.Errorf("failed to create profile for user '%s': %w", createdUser.Username, err)
 		}
 
-		// Create employee record (without manager reference for now)
-		if userInfo.Employee != nil {
-			if err := s.createEmployeeRecord(ctx, createdUser, userInfo.Employee, defaultTenant.ID, false); err != nil {
+		// Create employee record only for company/enterprise modes
+		if userInfo.Employee != nil && (s.state.DataMode == "company" || s.state.DataMode == "enterprise") {
+			if err := s.createEmployeeRecord(ctx, createdUser, userInfo.Employee, tenant.ID, false); err != nil {
 				logger.Errorf(ctx, "Error creating employee record for user %s: %v", createdUser.Username, err)
 				return fmt.Errorf("failed to create employee record for user '%s': %w", createdUser.Username, err)
 			}
@@ -102,28 +114,30 @@ func (s *Service) initUsers(ctx context.Context) error {
 		}
 
 		// Assign user role
-		if err := s.assignUserRole(ctx, createdUser, userInfo.Role, defaultTenant.ID); err != nil {
+		if err := s.assignUserRole(ctx, createdUser, userInfo.Role, tenant.ID); err != nil {
 			logger.Errorf(ctx, "Error assigning role to user %s: %v", createdUser.Username, err)
 			return fmt.Errorf("failed to assign role to user '%s': %w", createdUser.Username, err)
 		}
 	}
 
-	// Phase 2: Resolve manager references now that all users exist
-	if err := s.resolveManagerReferences(ctx); err != nil {
-		logger.Warnf(ctx, "Failed to resolve some manager references: %v", err)
-		// Don't fail initialization for this
+	// Phase 2: Resolve manager references for company/enterprise modes
+	if s.state.DataMode == "company" || s.state.DataMode == "enterprise" {
+		if err := s.resolveManagerReferences(ctx); err != nil {
+			logger.Warnf(ctx, "Failed to resolve some manager references: %v", err)
+		}
 	}
 
-	// Phase 3: Initialize user-group assignments and department assignments
+	// Phase 3: Initialize user-group assignments
 	if err := s.initializeUserGroupAssignments(ctx); err != nil {
 		logger.Errorf(ctx, "Failed to initialize user-group assignments: %v", err)
 		return fmt.Errorf("user-group assignment failed: %w", err)
 	}
 
-	// Phase 4: Assign employees to department groups
-	if err := s.assignEmployeesToDepartments(ctx); err != nil {
-		logger.Warnf(ctx, "Failed to assign some employees to departments: %v", err)
-		// Don't fail initialization for this
+	// Phase 4: Assign employees to departments (only for company/enterprise)
+	if s.state.DataMode == "company" || s.state.DataMode == "enterprise" {
+		if err := s.assignEmployeesToDepartments(ctx); err != nil {
+			logger.Warnf(ctx, "Failed to assign some employees to departments: %v", err)
+		}
 	}
 
 	// Validate required users were created
@@ -137,8 +151,12 @@ func (s *Service) initUsers(ctx context.Context) error {
 	}
 
 	userCount := s.us.User.CountX(ctx, &userStructs.ListUserParams{})
-	logger.Infof(ctx, "User and employee initialization completed in %s mode, created %d users and %d employee records",
-		s.state.DataMode, userCount, employeeCount)
+	if s.state.DataMode == "website" {
+		logger.Infof(ctx, "User initialization completed in %s mode, created %d users", s.state.DataMode, userCount)
+	} else {
+		logger.Infof(ctx, "User and employee initialization completed in %s mode, created %d users and %d employee records",
+			s.state.DataMode, userCount, employeeCount)
+	}
 
 	return nil
 }
@@ -368,50 +386,36 @@ func (s *Service) assignUserRole(ctx context.Context, user *userStructs.ReadUser
 	return nil
 }
 
-// initializeUserGroupAssignments assigns users to groups
+// initializeUserGroupAssignments assigns users to groups based on mode
 func (s *Service) initializeUserGroupAssignments(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing user-group assignments...")
 
-	// Basic assignments for company mode
-	assignments := map[string][]string{
-		"admin": {
-			"digital-enterprise",
-		},
-		"manager": {
-			"digital-enterprise",
-		},
-		"employee": {
-			"digital-enterprise",
-		},
-	}
+	var assignments map[string][]string
 
-	// Extended assignments for enterprise mode
-	if s.state.DataMode == "enterprise" {
+	switch s.state.DataMode {
+	case "website":
 		assignments = map[string][]string{
-			"chief.executive": {
-				"digital-enterprise",
-				"executive-office",
-				"techcorp",
-				"mediacorp",
-				"consultcorp",
-			},
-			"hr.manager": {
-				"digital-enterprise",
-				"corporate-hr",
-			},
-			"finance.manager": {
-				"digital-enterprise",
-				"corporate-finance",
-			},
-			"tech.lead": {
-				"techcorp",
-				"technology",
-			},
-			"marketing.manager": {
-				"mediacorp",
-				"digital-marketing",
-			},
+			"admin":   {"website-platform"},
+			"manager": {"website-platform"},
+			"member":  {"website-platform"},
 		}
+	case "company":
+		assignments = map[string][]string{
+			"admin":         {"digital-company"},
+			"company.admin": {"digital-company"},
+			"manager":       {"digital-company"},
+			"employee":      {"digital-company"},
+		}
+	case "enterprise":
+		assignments = map[string][]string{
+			"admin":            {"digital-enterprise"},
+			"enterprise.admin": {"digital-enterprise"},
+			"dept.manager":     {"digital-enterprise"},
+			"team.leader":      {"digital-enterprise"},
+			"employee":         {"digital-enterprise"},
+		}
+	default:
+		assignments = make(map[string][]string)
 	}
 
 	var assignmentCount int

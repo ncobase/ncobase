@@ -70,7 +70,7 @@ func New(
 			IsInitialized: false,
 			Statuses:      make([]InitStatus, 0),
 			Version:       version.GetVersionInfo().Version,
-			DataMode:      "company", // Default mode
+			DataMode:      "website", // Default mode
 		},
 		visualizationNameToID: make(map[string]string),
 		dashboardNameToID:     make(map[string]string),
@@ -96,9 +96,16 @@ func (s *Service) SetDependencies(c *initConfig.Config, sys *systemService.Servi
 
 // SetDataMode sets the data mode for initialization
 func (s *Service) SetDataMode(mode string) error {
-	if mode != "enterprise" && mode != "company" {
-		return fmt.Errorf("invalid data mode: %s, must be 'enterprise' or 'company'", mode)
+	validModes := map[string]bool{
+		"website":    true,
+		"company":    true,
+		"enterprise": true,
 	}
+
+	if !validModes[mode] {
+		return fmt.Errorf("invalid data mode: %s, must be one of: website, company, enterprise", mode)
+	}
+
 	s.state.DataMode = mode
 	return nil
 }
