@@ -2,11 +2,12 @@ package provider
 
 import (
 	"context"
-	accessService "ncobase/access/service"
+	"fmt"
 	"ncobase/cmd/ncobase/middleware"
 	tenantService "ncobase/tenant/service"
 	"net/http"
 
+	"github.com/casbin/casbin/v2"
 	"github.com/ncobase/ncore/config"
 	"github.com/ncobase/ncore/ecode"
 	ext "github.com/ncobase/ncore/extension/types"
@@ -44,7 +45,9 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 	tenantMiddleware(conf, engine, em)
 
 	// Casbin middleware
-	casbinMiddleware(conf, engine, em)
+	if err := casbinMiddleware(conf, engine, em); err != nil {
+		return nil, err
+	}
 
 	// Register REST
 	registerRest(engine, conf)
@@ -72,21 +75,6 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 
 // register user middleware
 func userMiddleware(conf *config.Config, engine *gin.Engine, _ ext.ManagerInterface) {
-	// get user service
-	// fu, err := em.GetService("user")
-	// if err != nil {
-	// 	log.Errorf(context.Background(), "failed to get user service: %v", err.Error())
-	// 	return
-	// }
-	// // get user service
-	// us, ok := fu.(*userService.Service)
-	// if !ok {
-	// 	log.Errorf(context.Background(), "user service does not implement")
-	// 	return
-	// }
-	// if us == nil {
-	// 	return
-	// }
 	engine.Use(middleware.ConsumeUser(jwt.NewTokenManager(conf.Auth.JWT.Secret), conf.Auth.Whitelist))
 }
 
@@ -110,26 +98,26 @@ func tenantMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInt
 	engine.Use(middleware.ConsumeTenant(ts, conf.Auth.Whitelist))
 }
 
+// EnforcerProvider is an interface for getting the casbin enforcer
+type EnforcerProvider interface {
+	GetEnforcer() *casbin.Enforcer
+}
+
 // register casbin middleware
-func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) {
-	// get access service
-	asExt, err := em.GetService("access")
+func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) error {
+	asExt, err := em.GetExtension("access")
 	if err != nil {
-		logger.Errorf(context.Background(), "failed to get access service: %v", err.Error())
-		return
+		return fmt.Errorf("failed to get access module: %v", err)
 	}
-	as, ok := asExt.(*accessService.Service)
-	if !ok {
-		logger.Errorf(context.Background(), "access service does not implement")
-		return
+
+	if ep, ok := asExt.(EnforcerProvider); ok {
+		if enforcer := ep.GetEnforcer(); enforcer != nil {
+			engine.Use(middleware.CasbinAuthorized(em, enforcer, conf.Auth.Whitelist))
+			return nil
+		}
+		logger.Warnf(context.Background(), "casbin enforcer is nil, skipping casbin middleware")
+		return nil
 	}
-	if as == nil {
-		return
-	}
-	// Initialize casbin enforcer
-	enforcer, err := as.CasbinAdapter.InitEnforcer()
-	if err != nil {
-		panic(err)
-	}
-	engine.Use(middleware.CasbinAuthorized(em, enforcer, conf.Auth.Whitelist))
+
+	return fmt.Errorf("access module does not provide enforcer")
 }
