@@ -10,4 +10,7 @@ uploads/
 # config
 !setup/config/config.yaml
 config.yaml
+config-website.yaml
+config-enterprise.yaml
+config-company.yaml
 /.VSCodeCounter/

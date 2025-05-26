@@ -202,25 +202,18 @@ func (s *menuService) GetNavigationMenus(ctx context.Context, sortBy string) (*s
 	}
 
 	nav := &structs.NavigationMenus{}
-
-	// Get current user permissions from context
 	userPermissions := ctxutil.GetUserPermissions(ctx)
 	isAdmin := ctxutil.GetUserIsAdmin(ctx)
 
-	// Get headers with permission filtering
-	if headers, err := s.GetMenusWithPermissionCheck(ctx, structs.MenuQueryParams{
-		Type:       "header",
-		SortBy:     params.SortBy,
-		ActiveOnly: params.ActiveOnly,
-		Limit:      params.Limit,
-	}, userPermissions, isAdmin); err != nil {
+	// Get headers
+	if headers, err := s.getMenusWithPermissionFilter(ctx, "header", params, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get header menus: %v", err)
 		nav.Headers = []*structs.ReadMenu{}
 	} else {
 		nav.Headers = headers
 	}
 
-	// Get sidebars and submenus together with tree structure and permission filtering
+	// Get sidebars and submenus with tree structure
 	if sidebars, err := s.GetMenusByTypesWithPermissionCheck(ctx, []string{"sidebar", "submenu"}, structs.MenuQueryParams{
 		SortBy:     params.SortBy,
 		ActiveOnly: params.ActiveOnly,
@@ -233,26 +226,16 @@ func (s *menuService) GetNavigationMenus(ctx context.Context, sortBy string) (*s
 		nav.Sidebars = sidebars
 	}
 
-	// Get accounts with permission filtering
-	if accounts, err := s.GetMenusWithPermissionCheck(ctx, structs.MenuQueryParams{
-		Type:       "account",
-		SortBy:     params.SortBy,
-		ActiveOnly: params.ActiveOnly,
-		Limit:      params.Limit,
-	}, userPermissions, isAdmin); err != nil {
+	// Get accounts
+	if accounts, err := s.getMenusWithPermissionFilter(ctx, "account", params, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get account menus: %v", err)
 		nav.Accounts = []*structs.ReadMenu{}
 	} else {
 		nav.Accounts = accounts
 	}
 
-	// Get tenants with permission filtering
-	if tenants, err := s.GetMenusWithPermissionCheck(ctx, structs.MenuQueryParams{
-		Type:       "tenant",
-		SortBy:     params.SortBy,
-		ActiveOnly: params.ActiveOnly,
-		Limit:      params.Limit,
-	}, userPermissions, isAdmin); err != nil {
+	// Get tenants
+	if tenants, err := s.getMenusWithPermissionFilter(ctx, "tenant", params, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get tenant menus: %v", err)
 		nav.Tenants = []*structs.ReadMenu{}
 	} else {
@@ -262,30 +245,38 @@ func (s *menuService) GetNavigationMenus(ctx context.Context, sortBy string) (*s
 	return nav, nil
 }
 
+// getMenusWithPermissionFilter is a helper method for single type menu retrieval with permission filtering
+func (s *menuService) getMenusWithPermissionFilter(ctx context.Context, menuType string, params structs.MenuQueryParams, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+	typeParams := params
+	typeParams.Type = menuType
+
+	menus, err := s.GetMenus(ctx, typeParams)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.filterMenusByPermission(ctx, menus, userPermissions, isAdmin), nil
+}
+
 // GetMenusWithPermissionCheck retrieves menus with permission validation
 func (s *menuService) GetMenusWithPermissionCheck(ctx context.Context, opts structs.MenuQueryParams, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
-	// Get menus without permission filtering first
 	menus, err := s.GetMenus(ctx, opts)
 	if err != nil {
 		return nil, err
 	}
 
-	// Filter menus based on permissions
 	return s.filterMenusByPermission(ctx, menus, userPermissions, isAdmin), nil
 }
 
 // GetMenusByTypesWithPermissionCheck retrieves and merges menus from multiple types with permission filtering
 func (s *menuService) GetMenusByTypesWithPermissionCheck(ctx context.Context, types []string, opts structs.MenuQueryParams, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
-	// Get menus without permission filtering first
-	allMenus, err := s.GetMenusByTypes(ctx, types, opts)
+	allMenus, err := s.getMenusByTypesWithParents(ctx, types, opts)
 	if err != nil {
 		return nil, err
 	}
 
-	// Filter menus based on permissions
 	filteredMenus := s.filterMenusByPermission(ctx, allMenus, userPermissions, isAdmin)
 
-	// Rebuild tree structure after filtering
 	if opts.Children {
 		filteredMenus = s.buildMenuTree(filteredMenus)
 		s.sortMenusByField(filteredMenus, s.getDefaultSort(opts.SortBy))
@@ -294,49 +285,131 @@ func (s *menuService) GetMenusByTypesWithPermissionCheck(ctx context.Context, ty
 	return filteredMenus, nil
 }
 
-// filterMenusByPermission filters menus based on user permissions
+// getMenusByTypesWithParents gets menus of specified types including necessary parent menus within type scope
+func (s *menuService) getMenusByTypesWithParents(ctx context.Context, types []string, opts structs.MenuQueryParams) ([]*structs.ReadMenu, error) {
+	typeSet := make(map[string]bool)
+	for _, t := range types {
+		typeSet[t] = true
+	}
+
+	var allMenus []*structs.ReadMenu
+	menuIDs := make(map[string]bool)
+
+	// Get menus of specified types
+	for _, menuType := range types {
+		typeOpts := opts
+		typeOpts.Type = menuType
+		typeOpts.Children = false
+
+		menus, err := s.GetMenus(ctx, typeOpts)
+		if err != nil {
+			logger.Warnf(ctx, "Failed to get %s menus: %v", menuType, err)
+			continue
+		}
+
+		for _, menu := range menus {
+			if !menuIDs[menu.ID] {
+				allMenus = append(allMenus, menu)
+				menuIDs[menu.ID] = true
+			}
+		}
+	}
+
+	// Get necessary parent menus recursively within type scope
+	parentIDs := make(map[string]bool)
+	for _, menu := range allMenus {
+		if menu.ParentID != "" && menu.ParentID != "root" && !menuIDs[menu.ParentID] {
+			parentIDs[menu.ParentID] = true
+		}
+	}
+
+	for len(parentIDs) > 0 {
+		var currentParentIDs []string
+		for parentID := range parentIDs {
+			currentParentIDs = append(currentParentIDs, parentID)
+		}
+
+		parentMenus, err := s.BatchGetByID(ctx, currentParentIDs)
+		if err != nil {
+			logger.Warnf(ctx, "Failed to get parent menus: %v", err)
+			break
+		}
+
+		parentIDs = make(map[string]bool)
+
+		for _, parentMenu := range parentMenus {
+			// Only include parent menus within specified types
+			if !menuIDs[parentMenu.ID] && typeSet[parentMenu.Type] {
+				allMenus = append(allMenus, parentMenu)
+				menuIDs[parentMenu.ID] = true
+
+				if parentMenu.ParentID != "" && parentMenu.ParentID != "root" && !menuIDs[parentMenu.ParentID] {
+					parentIDs[parentMenu.ParentID] = true
+				}
+			}
+		}
+	}
+
+	return allMenus, nil
+}
+
+// Permission filtering methods
+
+// filterMenusByPermission filters menus based on user permissions while preserving tree structure
 func (s *menuService) filterMenusByPermission(ctx context.Context, menus []*structs.ReadMenu, userPermissions []string, isAdmin bool) []*structs.ReadMenu {
-	var filteredMenus []*structs.ReadMenu
+	if isAdmin {
+		return menus
+	}
+
+	menuMap := make(map[string]*structs.ReadMenu)
+	childrenMap := make(map[string][]*structs.ReadMenu)
 
 	for _, menu := range menus {
-		// Check if user has permission to access this menu
-		if s.hasMenuPermission(ctx, menu, userPermissions, isAdmin) {
-			// Create a copy of the menu to avoid modifying the original
-			filteredMenu := *menu
+		menuMap[menu.ID] = menu
+		if menu.ParentID != "" && menu.ParentID != "root" {
+			childrenMap[menu.ParentID] = append(childrenMap[menu.ParentID], menu)
+		}
+	}
 
-			// Recursively filter children if they exist
-			if menu.Children != nil && len(menu.Children) > 0 {
-				var filteredChildren []types.TreeNode
-				for _, child := range menu.Children {
-					if childMenu, ok := child.(*structs.ReadMenu); ok {
-						if s.hasMenuPermission(ctx, childMenu, userPermissions, isAdmin) {
-							filteredChildren = append(filteredChildren, childMenu)
-						}
-					}
-				}
-				filteredMenu.Children = filteredChildren
+	var filteredMenus []*structs.ReadMenu
+	for _, menu := range menus {
+		if menu.ParentID == "" || menu.ParentID == "root" {
+			if filteredMenu := s.buildFilteredMenuTree(ctx, menu, menuMap, childrenMap, userPermissions, isAdmin); filteredMenu != nil {
+				filteredMenus = append(filteredMenus, filteredMenu)
 			}
-
-			filteredMenus = append(filteredMenus, &filteredMenu)
 		}
 	}
 
 	return filteredMenus
 }
 
+// buildFilteredMenuTree recursively builds filtered menu tree
+func (s *menuService) buildFilteredMenuTree(ctx context.Context, menu *structs.ReadMenu, menuMap map[string]*structs.ReadMenu, childrenMap map[string][]*structs.ReadMenu, userPermissions []string, isAdmin bool) *structs.ReadMenu {
+	hasDirectPermission := s.hasMenuPermission(ctx, menu, userPermissions, isAdmin)
+
+	var filteredChildren []types.TreeNode
+	if children, exists := childrenMap[menu.ID]; exists {
+		for _, child := range children {
+			if childMenu := s.buildFilteredMenuTree(ctx, child, menuMap, childrenMap, userPermissions, isAdmin); childMenu != nil {
+				filteredChildren = append(filteredChildren, childMenu)
+			}
+		}
+	}
+
+	if hasDirectPermission || len(filteredChildren) > 0 {
+		filteredMenu := *menu
+		filteredMenu.Children = filteredChildren
+		return &filteredMenu
+	}
+
+	return nil
+}
+
 // hasMenuPermission checks if user has permission to access a menu
 func (s *menuService) hasMenuPermission(ctx context.Context, menu *structs.ReadMenu, userPermissions []string, isAdmin bool) bool {
-	// Admin has access to all menus
-	if isAdmin {
+	if isAdmin || menu.Perms == "" {
 		return true
 	}
-
-	// If menu has no permission requirement, allow access
-	if menu.Perms == "" {
-		return true
-	}
-
-	// Check if user has the required permission
 	return s.checkUserPermission(userPermissions, menu.Perms)
 }
 
@@ -363,7 +436,6 @@ func (s *menuService) checkUserPermission(userPermissions []string, requiredPerm
 			if len(permParts) == 2 {
 				permAction, permResource := permParts[0], permParts[1]
 
-				// Check for wildcard matches
 				if (permAction == "*" && permResource == resource) ||
 					(permAction == action && permResource == "*") ||
 					(permAction == "*" && permResource == "*") {
@@ -382,11 +454,9 @@ func (s *menuService) GetUserAuthorizedMenus(ctx context.Context, userID string)
 		return nil, errors.New(ecode.FieldIsRequired("userID"))
 	}
 
-	// Get user permissions from context
 	userPermissions := ctxutil.GetUserPermissions(ctx)
 	isAdmin := ctxutil.GetUserIsAdmin(ctx)
 
-	// Get all active menus
 	allMenus, err := s.GetMenus(ctx, structs.MenuQueryParams{
 		ActiveOnly: true,
 		Children:   true,
@@ -396,7 +466,6 @@ func (s *menuService) GetUserAuthorizedMenus(ctx context.Context, userID string)
 		return nil, err
 	}
 
-	// Filter menus based on user permissions
 	return s.filterMenusByPermission(ctx, allMenus, userPermissions, isAdmin), nil
 }
 

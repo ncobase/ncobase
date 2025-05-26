@@ -165,33 +165,46 @@ func IsAdmin() gin.HandlerFunc {
 	}
 }
 
-// RequireManagerOrAbove requires user to have manager level or above
+// RequireManagerOrAbove requires user to have manager level or above (updated)
 func RequireManagerOrAbove() gin.HandlerFunc {
 	managerRoles := []string{
-		"super-admin", "system-admin", "enterprise-admin", "tenant-admin",
-		"hr-manager", "finance-manager", "it-manager",
-		"department-manager", "team-leader", "project-manager",
-		"technical-lead", "qa-manager", "customer-service-manager",
-		"enterprise-executive", "company-director", "department-head",
+		// System level
+		"super-admin",
+		"system-admin",
+
+		// Company mode roles
+		"company-admin",
+		"manager",
+
+		// Enterprise mode roles
+		"enterprise-admin",
+		"department-manager",
+		"team-leader",
+
+		// Legacy support
+		"admin",
 	}
 
 	return HasAnyRole(managerRoles...)
 }
 
-// RequireEmployeeOrAbove requires user to be employee level or above (excludes external users)
+// RequireEmployeeOrAbove requires user to be employee level or above
 func RequireEmployeeOrAbove() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := c.Request.Context()
 		roles := ctxutil.GetUserRoles(ctx)
 
 		// Excluded external roles
-		excludedRoles := []string{"contractor", "consultant", "intern", "auditor"}
+		excludedRoles := []string{
+			"guest",      // Company mode
+			"contractor", // Enterprise mode
+		}
 
 		// Check if user has any excluded role
 		for _, role := range roles {
 			for _, excluded := range excludedRoles {
 				if role == excluded {
-					resp.Fail(c.Writer, resp.Forbidden("Access denied: external users not allowed"))
+					resp.Fail(c.Writer, resp.Forbidden("Access denied: insufficient privileges"))
 					c.Abort()
 					return
 				}
@@ -261,9 +274,9 @@ func hasSpecificPermission(permissions []string, required string) bool {
 	return false
 }
 
-// hasAdminRole checks if user has admin role
+// hasAdminRole checks if user has admin role (updated)
 func hasAdminRole(roles []string) bool {
-	adminRoles := []string{"super-admin", "system-admin", "enterprise-admin", "admin"}
+	adminRoles := []string{"super-admin", "system-admin", "company-admin", "company-admin"}
 
 	for _, role := range roles {
 		for _, adminRole := range adminRoles {
@@ -309,12 +322,23 @@ func hasSpecificRole(roles []string, required string) bool {
 	return false
 }
 
-// hasManagementRole checks if user has management role/
+// hasManagementRole checks if user has management role (updated)
 func hasManagementRole(roles []string) bool {
 	managementRoles := []string{
-		"department-manager", "team-leader", "project-manager",
-		"hr-manager", "finance-manager", "it-manager",
-		"technical-lead", "qa-manager", "customer-service-manager",
+		// Company mode management
+		"company-admin",
+		"manager",
+
+		// Enterprise mode management
+		"enterprise-admin",
+		"department-manager",
+		"team-leader",
+
+		// System level
+		"system-admin",
+
+		// Legacy support
+		"admin",
 	}
 
 	for _, role := range roles {

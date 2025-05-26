@@ -53,9 +53,15 @@ func (e *eventHandler) GetHandlers() map[string]event.Handler {
 		event.SystemUpgraded:  e.handleSystemEvent,
 
 		// Security events
-		event.SecurityIncident:  e.handleSecurityEvent,
-		event.SecurityViolation: e.handleSecurityEvent,
-		event.SecurityBlocked:   e.handleSecurityEvent,
+		event.SecurityIncident:        e.handleSecurityEvent,
+		event.SecurityViolation:       e.handleSecurityEvent,
+		event.SecurityGranted:         e.handleSecurityEvent,
+		event.SecurityBlocked:         e.handleSecurityEvent,
+		event.SecurityAccessGranted:   e.handleSecurityEvent,
+		event.SecurityAccessDenied:    e.handleSecurityEvent,
+		event.SecurityAccessRevoked:   e.handleSecurityEvent,
+		event.SecurityAccessRequested: e.handleSecurityEvent,
+		event.SecurityAccessModified:  e.handleSecurityEvent,
 
 		// Data events
 		event.DataAccessed:   e.handleDataEvent,

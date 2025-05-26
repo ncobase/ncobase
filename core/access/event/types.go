@@ -76,7 +76,14 @@ const (
 
 	SecurityIncident  = "security.incident"
 	SecurityViolation = "security.violation"
+	SecurityGranted   = "security.granted"
 	SecurityBlocked   = "security.blocked"
+
+	SecurityAccessGranted   = "security.access_granted"
+	SecurityAccessDenied    = "security.access_denied"
+	SecurityAccessRevoked   = "security.access_revoked"
+	SecurityAccessRequested = "security.access_requested"
+	SecurityAccessModified  = "security.access_modified"
 
 	DataAccessed   = "data.accessed"
 	DataModified   = "data.modified"

@@ -131,5 +131,5 @@ func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInt
 	if err != nil {
 		panic(err)
 	}
-	engine.Use(middleware.CasbinAuthorized(enforcer, conf.Auth.Whitelist))
+	engine.Use(middleware.CasbinAuthorized(em, enforcer, conf.Auth.Whitelist))
 }
