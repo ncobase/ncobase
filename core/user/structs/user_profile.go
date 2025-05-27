@@ -4,7 +4,7 @@ import "github.com/ncobase/ncore/types"
 
 // UserProfileBody represents the user profile schema.
 type UserProfileBody struct {
-	UserID      string        `json:"userid,omitempty"`
+	UserID      string        `json:"user_id,omitempty"`
 	DisplayName string        `json:"display_name,omitempty"`
 	FirstName   string        `json:"first_name,omitempty"`
 	LastName    string        `json:"last_name,omitempty"`
@@ -18,7 +18,7 @@ type UserProfileBody struct {
 
 // ReadUserProfile represents the user profile schema.
 type ReadUserProfile struct {
-	UserID      string        `json:"userid,omitempty"`
+	UserID      string        `json:"user_id,omitempty"`
 	DisplayName string        `json:"display_name,omitempty"`
 	FirstName   string        `json:"first_name,omitempty"`
 	LastName    string        `json:"last_name,omitempty"`

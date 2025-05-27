@@ -99,9 +99,10 @@ func (m *Module) Name() string {
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
-	r = r.Group("/"+m.Group(), middleware.AuthenticatedTenant)
+	tenantGroup := r.Group("/"+m.Group(), middleware.AuthenticatedTenant)
+
 	// Tenant endpoints
-	tenants := r.Group("/tenants", middleware.AuthenticatedTenant)
+	tenants := tenantGroup.Group("/tenants", middleware.AuthenticatedTenant)
 	{
 		tenants.GET("", m.h.Tenant.List)
 		tenants.POST("", m.h.Tenant.Create)
@@ -109,63 +110,38 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		tenants.PUT("/:slug", m.h.Tenant.Update)
 		tenants.DELETE("/:slug", m.h.Tenant.Delete)
 
-		// // Tenant attachment endpoints
-		// tenants.GET("/:tenant/attachments", m.h.ListTenantAttachmentHandler)
-		// tenants.POST("/:tenant/attachments", m.h.CreateTenantAttachmentsHandler)
-		// tenants.GET("/:tenant/attachments/:attachment", m.h.GetTenantAttachmentHandler)
-		// tenants.PUT("/:tenant/attachments/:attachment", m.h.UpdateTenantAttachmentHandler)
-		// tenants.DELETE("/:tenant/attachments/:attachment", m.h.DeleteTenantAttachmentHandler)
-		//
-		// // // Tenant role endpoints
-		// // tenants.GET("/:tenant/roles", m.h.ListTenantRoleHandler)
-		// // tenants.POST("/:tenant/roles", m.h.CreateTenantRoleHandler)
-		// // tenants.GET("/:tenant/roles/:role", m.h.GetTenantRoleHandler)
-		// // tenants.PUT("/:tenant/roles/:role", m.h.UpdateTenantRoleHandler)
-		// // tenants.DELETE("/:tenant/roles/:role", m.h.DeleteTenantRoleHandler)
-		// // tenants.GET("/:tenant/roles/:roleSlug/permissions", m.h.ListTenantRolePermissionHandler)
-		// // tenants.GET("/:tenant/roles/:roleSlug/users", m.h.ListTenantRoleUserHandler)
-		// //
-		// // // Tenant permission endpoints
-		// // tenants.GET("/:tenant/permissions", m.h.ListTenantPermissionHandler)
-		// // tenants.POST("/:tenant/permissions", m.h.CreateTenantPermissionHandler)
-		// // tenants.GET("/:tenant/permissions/:permission", m.h.GetTenantPermissionHandler)
-		// // tenants.PUT("/:tenant/permissions/:permission", m.h.UpdateTenantPermissionHandler)
-		// // tenants.DELETE("/:tenant/permissions/:permission", m.h.DeleteTenantPermissionHandler)
-		// //
-		// // // Tenant module endpoints
-		// // tenants.GET("/:tenant/modules", m.h.ListTenantModuleHandler)
-		// // tenants.POST("/:tenant/modules", m.h.CreateTenantModuleHandler)
-		// // tenants.GET("/:tenant/modules/:module", m.h.GetTenantModuleHandler)
-		// // tenants.PUT("/:tenant/modules/:module", m.h.UpdateTenantModuleHandler)
-		// // tenants.DELETE("/:tenant/modules/:module", m.h.DeleteTenantModuleHandler)
-		// //
-		// // Tenant menu endpoints
-		// tenants.GET("/:tenant/menus", m.h.ListTenantMenusHandler)
-		// tenants.POST("/:tenant/menus", m.h.CreateTenantMenuHandler)
-		// tenants.GET("/:tenant/menus/:menu", m.h.GetTenantMenuHandler)
-		// tenants.PUT("/:tenant/menus/:menu", m.h.UpdateTenantMenuHandler)
-		// tenants.DELETE("/:tenant/menus/:menu", m.h.DeleteTenantMenuHandler)
-		// //
-		// // // Tenant policy endpoints
-		// // tenants.GET("/:tenant/policies", m.h.ListTenantPolicyHandler)
-		// // tenants.POST("/:tenant/policies", m.h.CreateTenantPolicyHandler)
-		// // tenants.GET("/:tenant/policies/:policyId", m.h.GetTenantPolicyHandler)
-		// // tenants.PUT("/:tenant/policies/:policyId", m.h.UpdateTenantPolicyHandler)
-		// // tenants.DELETE("/:tenant/policies/:policyId", m.h.DeleteTenantPolicyHandler)
-		// //
-		// // // Tenant taxonomy endpoints
-		// // tenants.GET("/:tenant/taxonomies", m.h.ListTenantTaxonomyHandler)
-		// // tenants.POST("/:tenant/taxonomies", m.h.CreateTenantTaxonomyHandler)
-		// // tenants.GET("/:tenant/taxonomies/:taxonomy", m.h.GetTenantTaxonomyHandler)
-		// // tenants.PUT("/:tenant/taxonomies/:taxonomy", m.h.UpdateTenantTaxonomyHandler)
-		// // tenants.DELETE("/:tenant/taxonomies/:taxonomy", m.h.DeleteTenantTaxonomyHandler)
-		// //
-		// // // Tenant topic endpoints
-		// // tenants.GET("/:tenant/topics", m.h.ListTenantTopicHandler)
-		// // tenants.POST("/:tenant/topics", m.h.CreateTenantTopicHandler)
-		// // tenants.GET("/:tenant/topics/:topic", m.h.GetTenantTopicHandler)
-		// // tenants.PUT("/:tenant/topics/:topic", m.h.UpdateTenantTopicHandler)
-		// // tenants.DELETE("/:tenant/topics/:topic", m.h.DeleteTenantTopicHandler)
+		// Tenant quota management
+		tenants.GET("/quotas", m.h.TenantQuota.List)
+		tenants.POST("/quotas", m.h.TenantQuota.Create)
+		tenants.GET("/quotas/:id", m.h.TenantQuota.Get)
+		tenants.PUT("/quotas/:id", m.h.TenantQuota.Update)
+		tenants.DELETE("/quotas/:id", m.h.TenantQuota.Delete)
+		tenants.POST("/quotas/usage", m.h.TenantQuota.UpdateUsage)
+		tenants.GET("/quotas/check", m.h.TenantQuota.CheckLimit)
+		tenants.GET("/:slug/quotas", m.h.TenantQuota.GetSummary)
+
+		// Tenant settings management
+		tenants.GET("/settings", m.h.TenantSetting.List)
+		tenants.POST("/settings", m.h.TenantSetting.Create)
+		tenants.GET("/settings/:id", m.h.TenantSetting.Get)
+		tenants.PUT("/settings/:id", m.h.TenantSetting.Update)
+		tenants.DELETE("/settings/:id", m.h.TenantSetting.Delete)
+		tenants.POST("/settings/bulk", m.h.TenantSetting.BulkUpdate)
+		tenants.GET("/:slug/settings", m.h.TenantSetting.GetTenantSettings)
+		tenants.GET("/:slug/settings/public", m.h.TenantSetting.GetPublicSettings)
+		tenants.PUT("/:slug/settings/:key", m.h.TenantSetting.SetSetting)
+		tenants.GET("/:slug/settings/:key", m.h.TenantSetting.GetSetting)
+
+		// Tenant billing management
+		tenants.GET("/billing", m.h.TenantBilling.List)
+		tenants.POST("/billing", m.h.TenantBilling.Create)
+		tenants.GET("/billing/:id", m.h.TenantBilling.Get)
+		tenants.PUT("/billing/:id", m.h.TenantBilling.Update)
+		tenants.DELETE("/billing/:id", m.h.TenantBilling.Delete)
+		tenants.POST("/billing/payment", m.h.TenantBilling.ProcessPayment)
+		tenants.GET("/:slug/billing/summary", m.h.TenantBilling.GetSummary)
+		tenants.GET("/:slug/billing/overdue", m.h.TenantBilling.GetOverdue)
+		tenants.POST("/:slug/billing/invoice", m.h.TenantBilling.GenerateInvoice)
 	}
 }
 

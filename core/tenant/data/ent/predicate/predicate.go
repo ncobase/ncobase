@@ -9,5 +9,14 @@ import (
 // Tenant is the predicate function for tenant builders.
 type Tenant func(*sql.Selector)
 
+// TenantBilling is the predicate function for tenantbilling builders.
+type TenantBilling func(*sql.Selector)
+
+// TenantQuota is the predicate function for tenantquota builders.
+type TenantQuota func(*sql.Selector)
+
+// TenantSetting is the predicate function for tenantsetting builders.
+type TenantSetting func(*sql.Selector)
+
 // UserTenant is the predicate function for usertenant builders.
 type UserTenant func(*sql.Selector)

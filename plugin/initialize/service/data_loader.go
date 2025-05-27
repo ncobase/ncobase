@@ -19,6 +19,8 @@ type DataLoader interface {
 	GetRoleInheritanceRules() [][]string
 	GetUsers() []UserCreationInfo
 	GetTenants() []tenantStructs.CreateTenantBody
+	GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody
+	GetTenantSettings() []tenantStructs.CreateTenantSettingBody
 	GetOptions() []systemStructs.OptionsBody
 	GetDictionaries() []systemStructs.DictionaryBody
 	GetOrganizationStructure() any
@@ -71,6 +73,14 @@ func (c *CompanyDataLoader) GetUsers() []UserCreationInfo {
 
 func (c *CompanyDataLoader) GetTenants() []tenantStructs.CreateTenantBody {
 	return companyData.SystemDefaultTenants
+}
+
+func (c *CompanyDataLoader) GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody {
+	return companyData.SystemDefaultTenantQuotas
+}
+
+func (c *CompanyDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSettingBody {
+	return companyData.SystemDefaultTenantSettings
 }
 
 func (c *CompanyDataLoader) GetOptions() []systemStructs.OptionsBody {
@@ -126,6 +136,14 @@ func (e *EnterpriseDataLoader) GetTenants() []tenantStructs.CreateTenantBody {
 	return enterpriseData.SystemDefaultTenants
 }
 
+func (e *EnterpriseDataLoader) GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody {
+	return enterpriseData.SystemDefaultTenantQuotas
+}
+
+func (e *EnterpriseDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSettingBody {
+	return enterpriseData.SystemDefaultTenantSettings
+}
+
 func (e *EnterpriseDataLoader) GetOptions() []systemStructs.OptionsBody {
 	return enterpriseData.SystemDefaultOptions
 }
@@ -177,6 +195,14 @@ func (w *WebsiteDataLoader) GetUsers() []UserCreationInfo {
 
 func (w *WebsiteDataLoader) GetTenants() []tenantStructs.CreateTenantBody {
 	return websiteData.SystemDefaultTenants
+}
+
+func (w *WebsiteDataLoader) GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody {
+	return websiteData.SystemDefaultTenantQuotas
+}
+
+func (w *WebsiteDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSettingBody {
+	return websiteData.SystemDefaultTenantSettings
 }
 
 func (w *WebsiteDataLoader) GetOptions() []systemStructs.OptionsBody {

@@ -8,6 +8,9 @@ import (
 	"fmt"
 	"ncobase/tenant/data/ent/predicate"
 	"ncobase/tenant/data/ent/tenant"
+	"ncobase/tenant/data/ent/tenantbilling"
+	"ncobase/tenant/data/ent/tenantquota"
+	"ncobase/tenant/data/ent/tenantsetting"
 	"ncobase/tenant/data/ent/usertenant"
 	"sync"
 
@@ -24,8 +27,11 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeTenant     = "Tenant"
-	TypeUserTenant = "UserTenant"
+	TypeTenant        = "Tenant"
+	TypeTenantBilling = "TenantBilling"
+	TypeTenantQuota   = "TenantQuota"
+	TypeTenantSetting = "TenantSetting"
+	TypeUserTenant    = "UserTenant"
 )
 
 // TenantMutation represents an operation that mutates the Tenant nodes in the graph.
@@ -1740,6 +1746,4532 @@ func (m *TenantMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *TenantMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Tenant edge %s", name)
+}
+
+// TenantBillingMutation represents an operation that mutates the TenantBilling nodes in the graph.
+type TenantBillingMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *string
+	tenant_id       *string
+	description     *string
+	extras          *map[string]interface{}
+	created_by      *string
+	updated_by      *string
+	created_at      *int64
+	addcreated_at   *int64
+	updated_at      *int64
+	addupdated_at   *int64
+	billing_period  *string
+	period_start    *int64
+	addperiod_start *int64
+	period_end      *int64
+	addperiod_end   *int64
+	amount          *float64
+	addamount       *float64
+	currency        *string
+	status          *string
+	invoice_number  *string
+	payment_method  *string
+	paid_at         *int64
+	addpaid_at      *int64
+	due_date        *int64
+	adddue_date     *int64
+	usage_details   *map[string]interface{}
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*TenantBilling, error)
+	predicates      []predicate.TenantBilling
+}
+
+var _ ent.Mutation = (*TenantBillingMutation)(nil)
+
+// tenantbillingOption allows management of the mutation configuration using functional options.
+type tenantbillingOption func(*TenantBillingMutation)
+
+// newTenantBillingMutation creates new mutation for the TenantBilling entity.
+func newTenantBillingMutation(c config, op Op, opts ...tenantbillingOption) *TenantBillingMutation {
+	m := &TenantBillingMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeTenantBilling,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withTenantBillingID sets the ID field of the mutation.
+func withTenantBillingID(id string) tenantbillingOption {
+	return func(m *TenantBillingMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *TenantBilling
+		)
+		m.oldValue = func(ctx context.Context) (*TenantBilling, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().TenantBilling.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withTenantBilling sets the old TenantBilling of the mutation.
+func withTenantBilling(node *TenantBilling) tenantbillingOption {
+	return func(m *TenantBillingMutation) {
+		m.oldValue = func(context.Context) (*TenantBilling, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m TenantBillingMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m TenantBillingMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of TenantBilling entities.
+func (m *TenantBillingMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *TenantBillingMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *TenantBillingMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().TenantBilling.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (m *TenantBillingMutation) SetTenantID(s string) {
+	m.tenant_id = &s
+}
+
+// TenantID returns the value of the "tenant_id" field in the mutation.
+func (m *TenantBillingMutation) TenantID() (r string, exists bool) {
+	v := m.tenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTenantID returns the old "tenant_id" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldTenantID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTenantID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+	}
+	return oldValue.TenantID, nil
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *TenantBillingMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.clearedFields[tenantbilling.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *TenantBillingMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldTenantID]
+	return ok
+}
+
+// ResetTenantID resets all changes to the "tenant_id" field.
+func (m *TenantBillingMutation) ResetTenantID() {
+	m.tenant_id = nil
+	delete(m.clearedFields, tenantbilling.FieldTenantID)
+}
+
+// SetDescription sets the "description" field.
+func (m *TenantBillingMutation) SetDescription(s string) {
+	m.description = &s
+}
+
+// Description returns the value of the "description" field in the mutation.
+func (m *TenantBillingMutation) Description() (r string, exists bool) {
+	v := m.description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "description" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ClearDescription clears the value of the "description" field.
+func (m *TenantBillingMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[tenantbilling.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *TenantBillingMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldDescription]
+	return ok
+}
+
+// ResetDescription resets all changes to the "description" field.
+func (m *TenantBillingMutation) ResetDescription() {
+	m.description = nil
+	delete(m.clearedFields, tenantbilling.FieldDescription)
+}
+
+// SetExtras sets the "extras" field.
+func (m *TenantBillingMutation) SetExtras(value map[string]interface{}) {
+	m.extras = &value
+}
+
+// Extras returns the value of the "extras" field in the mutation.
+func (m *TenantBillingMutation) Extras() (r map[string]interface{}, exists bool) {
+	v := m.extras
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExtras returns the old "extras" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldExtras(ctx context.Context) (v map[string]interface{}, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExtras is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExtras requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExtras: %w", err)
+	}
+	return oldValue.Extras, nil
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (m *TenantBillingMutation) ClearExtras() {
+	m.extras = nil
+	m.clearedFields[tenantbilling.FieldExtras] = struct{}{}
+}
+
+// ExtrasCleared returns if the "extras" field was cleared in this mutation.
+func (m *TenantBillingMutation) ExtrasCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldExtras]
+	return ok
+}
+
+// ResetExtras resets all changes to the "extras" field.
+func (m *TenantBillingMutation) ResetExtras() {
+	m.extras = nil
+	delete(m.clearedFields, tenantbilling.FieldExtras)
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (m *TenantBillingMutation) SetCreatedBy(s string) {
+	m.created_by = &s
+}
+
+// CreatedBy returns the value of the "created_by" field in the mutation.
+func (m *TenantBillingMutation) CreatedBy() (r string, exists bool) {
+	v := m.created_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedBy returns the old "created_by" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldCreatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedBy: %w", err)
+	}
+	return oldValue.CreatedBy, nil
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (m *TenantBillingMutation) ClearCreatedBy() {
+	m.created_by = nil
+	m.clearedFields[tenantbilling.FieldCreatedBy] = struct{}{}
+}
+
+// CreatedByCleared returns if the "created_by" field was cleared in this mutation.
+func (m *TenantBillingMutation) CreatedByCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldCreatedBy]
+	return ok
+}
+
+// ResetCreatedBy resets all changes to the "created_by" field.
+func (m *TenantBillingMutation) ResetCreatedBy() {
+	m.created_by = nil
+	delete(m.clearedFields, tenantbilling.FieldCreatedBy)
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (m *TenantBillingMutation) SetUpdatedBy(s string) {
+	m.updated_by = &s
+}
+
+// UpdatedBy returns the value of the "updated_by" field in the mutation.
+func (m *TenantBillingMutation) UpdatedBy() (r string, exists bool) {
+	v := m.updated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedBy returns the old "updated_by" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldUpdatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedBy: %w", err)
+	}
+	return oldValue.UpdatedBy, nil
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (m *TenantBillingMutation) ClearUpdatedBy() {
+	m.updated_by = nil
+	m.clearedFields[tenantbilling.FieldUpdatedBy] = struct{}{}
+}
+
+// UpdatedByCleared returns if the "updated_by" field was cleared in this mutation.
+func (m *TenantBillingMutation) UpdatedByCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldUpdatedBy]
+	return ok
+}
+
+// ResetUpdatedBy resets all changes to the "updated_by" field.
+func (m *TenantBillingMutation) ResetUpdatedBy() {
+	m.updated_by = nil
+	delete(m.clearedFields, tenantbilling.FieldUpdatedBy)
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *TenantBillingMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *TenantBillingMutation) CreatedAt() (r int64, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// AddCreatedAt adds i to the "created_at" field.
+func (m *TenantBillingMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *TenantBillingMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *TenantBillingMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	m.clearedFields[tenantbilling.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *TenantBillingMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldCreatedAt]
+	return ok
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *TenantBillingMutation) ResetCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	delete(m.clearedFields, tenantbilling.FieldCreatedAt)
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *TenantBillingMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *TenantBillingMutation) UpdatedAt() (r int64, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *TenantBillingMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *TenantBillingMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *TenantBillingMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	m.clearedFields[tenantbilling.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *TenantBillingMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldUpdatedAt]
+	return ok
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *TenantBillingMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	delete(m.clearedFields, tenantbilling.FieldUpdatedAt)
+}
+
+// SetBillingPeriod sets the "billing_period" field.
+func (m *TenantBillingMutation) SetBillingPeriod(s string) {
+	m.billing_period = &s
+}
+
+// BillingPeriod returns the value of the "billing_period" field in the mutation.
+func (m *TenantBillingMutation) BillingPeriod() (r string, exists bool) {
+	v := m.billing_period
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBillingPeriod returns the old "billing_period" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldBillingPeriod(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBillingPeriod is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBillingPeriod requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBillingPeriod: %w", err)
+	}
+	return oldValue.BillingPeriod, nil
+}
+
+// ResetBillingPeriod resets all changes to the "billing_period" field.
+func (m *TenantBillingMutation) ResetBillingPeriod() {
+	m.billing_period = nil
+}
+
+// SetPeriodStart sets the "period_start" field.
+func (m *TenantBillingMutation) SetPeriodStart(i int64) {
+	m.period_start = &i
+	m.addperiod_start = nil
+}
+
+// PeriodStart returns the value of the "period_start" field in the mutation.
+func (m *TenantBillingMutation) PeriodStart() (r int64, exists bool) {
+	v := m.period_start
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPeriodStart returns the old "period_start" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldPeriodStart(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPeriodStart is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPeriodStart requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPeriodStart: %w", err)
+	}
+	return oldValue.PeriodStart, nil
+}
+
+// AddPeriodStart adds i to the "period_start" field.
+func (m *TenantBillingMutation) AddPeriodStart(i int64) {
+	if m.addperiod_start != nil {
+		*m.addperiod_start += i
+	} else {
+		m.addperiod_start = &i
+	}
+}
+
+// AddedPeriodStart returns the value that was added to the "period_start" field in this mutation.
+func (m *TenantBillingMutation) AddedPeriodStart() (r int64, exists bool) {
+	v := m.addperiod_start
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearPeriodStart clears the value of the "period_start" field.
+func (m *TenantBillingMutation) ClearPeriodStart() {
+	m.period_start = nil
+	m.addperiod_start = nil
+	m.clearedFields[tenantbilling.FieldPeriodStart] = struct{}{}
+}
+
+// PeriodStartCleared returns if the "period_start" field was cleared in this mutation.
+func (m *TenantBillingMutation) PeriodStartCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldPeriodStart]
+	return ok
+}
+
+// ResetPeriodStart resets all changes to the "period_start" field.
+func (m *TenantBillingMutation) ResetPeriodStart() {
+	m.period_start = nil
+	m.addperiod_start = nil
+	delete(m.clearedFields, tenantbilling.FieldPeriodStart)
+}
+
+// SetPeriodEnd sets the "period_end" field.
+func (m *TenantBillingMutation) SetPeriodEnd(i int64) {
+	m.period_end = &i
+	m.addperiod_end = nil
+}
+
+// PeriodEnd returns the value of the "period_end" field in the mutation.
+func (m *TenantBillingMutation) PeriodEnd() (r int64, exists bool) {
+	v := m.period_end
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPeriodEnd returns the old "period_end" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldPeriodEnd(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPeriodEnd is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPeriodEnd requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPeriodEnd: %w", err)
+	}
+	return oldValue.PeriodEnd, nil
+}
+
+// AddPeriodEnd adds i to the "period_end" field.
+func (m *TenantBillingMutation) AddPeriodEnd(i int64) {
+	if m.addperiod_end != nil {
+		*m.addperiod_end += i
+	} else {
+		m.addperiod_end = &i
+	}
+}
+
+// AddedPeriodEnd returns the value that was added to the "period_end" field in this mutation.
+func (m *TenantBillingMutation) AddedPeriodEnd() (r int64, exists bool) {
+	v := m.addperiod_end
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearPeriodEnd clears the value of the "period_end" field.
+func (m *TenantBillingMutation) ClearPeriodEnd() {
+	m.period_end = nil
+	m.addperiod_end = nil
+	m.clearedFields[tenantbilling.FieldPeriodEnd] = struct{}{}
+}
+
+// PeriodEndCleared returns if the "period_end" field was cleared in this mutation.
+func (m *TenantBillingMutation) PeriodEndCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldPeriodEnd]
+	return ok
+}
+
+// ResetPeriodEnd resets all changes to the "period_end" field.
+func (m *TenantBillingMutation) ResetPeriodEnd() {
+	m.period_end = nil
+	m.addperiod_end = nil
+	delete(m.clearedFields, tenantbilling.FieldPeriodEnd)
+}
+
+// SetAmount sets the "amount" field.
+func (m *TenantBillingMutation) SetAmount(f float64) {
+	m.amount = &f
+	m.addamount = nil
+}
+
+// Amount returns the value of the "amount" field in the mutation.
+func (m *TenantBillingMutation) Amount() (r float64, exists bool) {
+	v := m.amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAmount returns the old "amount" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldAmount(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAmount: %w", err)
+	}
+	return oldValue.Amount, nil
+}
+
+// AddAmount adds f to the "amount" field.
+func (m *TenantBillingMutation) AddAmount(f float64) {
+	if m.addamount != nil {
+		*m.addamount += f
+	} else {
+		m.addamount = &f
+	}
+}
+
+// AddedAmount returns the value that was added to the "amount" field in this mutation.
+func (m *TenantBillingMutation) AddedAmount() (r float64, exists bool) {
+	v := m.addamount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetAmount resets all changes to the "amount" field.
+func (m *TenantBillingMutation) ResetAmount() {
+	m.amount = nil
+	m.addamount = nil
+}
+
+// SetCurrency sets the "currency" field.
+func (m *TenantBillingMutation) SetCurrency(s string) {
+	m.currency = &s
+}
+
+// Currency returns the value of the "currency" field in the mutation.
+func (m *TenantBillingMutation) Currency() (r string, exists bool) {
+	v := m.currency
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCurrency returns the old "currency" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldCurrency(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCurrency is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCurrency requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCurrency: %w", err)
+	}
+	return oldValue.Currency, nil
+}
+
+// ResetCurrency resets all changes to the "currency" field.
+func (m *TenantBillingMutation) ResetCurrency() {
+	m.currency = nil
+}
+
+// SetStatus sets the "status" field.
+func (m *TenantBillingMutation) SetStatus(s string) {
+	m.status = &s
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *TenantBillingMutation) Status() (r string, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldStatus(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *TenantBillingMutation) ResetStatus() {
+	m.status = nil
+}
+
+// SetInvoiceNumber sets the "invoice_number" field.
+func (m *TenantBillingMutation) SetInvoiceNumber(s string) {
+	m.invoice_number = &s
+}
+
+// InvoiceNumber returns the value of the "invoice_number" field in the mutation.
+func (m *TenantBillingMutation) InvoiceNumber() (r string, exists bool) {
+	v := m.invoice_number
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInvoiceNumber returns the old "invoice_number" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldInvoiceNumber(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInvoiceNumber is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInvoiceNumber requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInvoiceNumber: %w", err)
+	}
+	return oldValue.InvoiceNumber, nil
+}
+
+// ClearInvoiceNumber clears the value of the "invoice_number" field.
+func (m *TenantBillingMutation) ClearInvoiceNumber() {
+	m.invoice_number = nil
+	m.clearedFields[tenantbilling.FieldInvoiceNumber] = struct{}{}
+}
+
+// InvoiceNumberCleared returns if the "invoice_number" field was cleared in this mutation.
+func (m *TenantBillingMutation) InvoiceNumberCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldInvoiceNumber]
+	return ok
+}
+
+// ResetInvoiceNumber resets all changes to the "invoice_number" field.
+func (m *TenantBillingMutation) ResetInvoiceNumber() {
+	m.invoice_number = nil
+	delete(m.clearedFields, tenantbilling.FieldInvoiceNumber)
+}
+
+// SetPaymentMethod sets the "payment_method" field.
+func (m *TenantBillingMutation) SetPaymentMethod(s string) {
+	m.payment_method = &s
+}
+
+// PaymentMethod returns the value of the "payment_method" field in the mutation.
+func (m *TenantBillingMutation) PaymentMethod() (r string, exists bool) {
+	v := m.payment_method
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPaymentMethod returns the old "payment_method" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldPaymentMethod(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPaymentMethod is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPaymentMethod requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPaymentMethod: %w", err)
+	}
+	return oldValue.PaymentMethod, nil
+}
+
+// ClearPaymentMethod clears the value of the "payment_method" field.
+func (m *TenantBillingMutation) ClearPaymentMethod() {
+	m.payment_method = nil
+	m.clearedFields[tenantbilling.FieldPaymentMethod] = struct{}{}
+}
+
+// PaymentMethodCleared returns if the "payment_method" field was cleared in this mutation.
+func (m *TenantBillingMutation) PaymentMethodCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldPaymentMethod]
+	return ok
+}
+
+// ResetPaymentMethod resets all changes to the "payment_method" field.
+func (m *TenantBillingMutation) ResetPaymentMethod() {
+	m.payment_method = nil
+	delete(m.clearedFields, tenantbilling.FieldPaymentMethod)
+}
+
+// SetPaidAt sets the "paid_at" field.
+func (m *TenantBillingMutation) SetPaidAt(i int64) {
+	m.paid_at = &i
+	m.addpaid_at = nil
+}
+
+// PaidAt returns the value of the "paid_at" field in the mutation.
+func (m *TenantBillingMutation) PaidAt() (r int64, exists bool) {
+	v := m.paid_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPaidAt returns the old "paid_at" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldPaidAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPaidAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPaidAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPaidAt: %w", err)
+	}
+	return oldValue.PaidAt, nil
+}
+
+// AddPaidAt adds i to the "paid_at" field.
+func (m *TenantBillingMutation) AddPaidAt(i int64) {
+	if m.addpaid_at != nil {
+		*m.addpaid_at += i
+	} else {
+		m.addpaid_at = &i
+	}
+}
+
+// AddedPaidAt returns the value that was added to the "paid_at" field in this mutation.
+func (m *TenantBillingMutation) AddedPaidAt() (r int64, exists bool) {
+	v := m.addpaid_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearPaidAt clears the value of the "paid_at" field.
+func (m *TenantBillingMutation) ClearPaidAt() {
+	m.paid_at = nil
+	m.addpaid_at = nil
+	m.clearedFields[tenantbilling.FieldPaidAt] = struct{}{}
+}
+
+// PaidAtCleared returns if the "paid_at" field was cleared in this mutation.
+func (m *TenantBillingMutation) PaidAtCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldPaidAt]
+	return ok
+}
+
+// ResetPaidAt resets all changes to the "paid_at" field.
+func (m *TenantBillingMutation) ResetPaidAt() {
+	m.paid_at = nil
+	m.addpaid_at = nil
+	delete(m.clearedFields, tenantbilling.FieldPaidAt)
+}
+
+// SetDueDate sets the "due_date" field.
+func (m *TenantBillingMutation) SetDueDate(i int64) {
+	m.due_date = &i
+	m.adddue_date = nil
+}
+
+// DueDate returns the value of the "due_date" field in the mutation.
+func (m *TenantBillingMutation) DueDate() (r int64, exists bool) {
+	v := m.due_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDueDate returns the old "due_date" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldDueDate(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDueDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDueDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDueDate: %w", err)
+	}
+	return oldValue.DueDate, nil
+}
+
+// AddDueDate adds i to the "due_date" field.
+func (m *TenantBillingMutation) AddDueDate(i int64) {
+	if m.adddue_date != nil {
+		*m.adddue_date += i
+	} else {
+		m.adddue_date = &i
+	}
+}
+
+// AddedDueDate returns the value that was added to the "due_date" field in this mutation.
+func (m *TenantBillingMutation) AddedDueDate() (r int64, exists bool) {
+	v := m.adddue_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearDueDate clears the value of the "due_date" field.
+func (m *TenantBillingMutation) ClearDueDate() {
+	m.due_date = nil
+	m.adddue_date = nil
+	m.clearedFields[tenantbilling.FieldDueDate] = struct{}{}
+}
+
+// DueDateCleared returns if the "due_date" field was cleared in this mutation.
+func (m *TenantBillingMutation) DueDateCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldDueDate]
+	return ok
+}
+
+// ResetDueDate resets all changes to the "due_date" field.
+func (m *TenantBillingMutation) ResetDueDate() {
+	m.due_date = nil
+	m.adddue_date = nil
+	delete(m.clearedFields, tenantbilling.FieldDueDate)
+}
+
+// SetUsageDetails sets the "usage_details" field.
+func (m *TenantBillingMutation) SetUsageDetails(value map[string]interface{}) {
+	m.usage_details = &value
+}
+
+// UsageDetails returns the value of the "usage_details" field in the mutation.
+func (m *TenantBillingMutation) UsageDetails() (r map[string]interface{}, exists bool) {
+	v := m.usage_details
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUsageDetails returns the old "usage_details" field's value of the TenantBilling entity.
+// If the TenantBilling object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantBillingMutation) OldUsageDetails(ctx context.Context) (v map[string]interface{}, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUsageDetails is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUsageDetails requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUsageDetails: %w", err)
+	}
+	return oldValue.UsageDetails, nil
+}
+
+// ClearUsageDetails clears the value of the "usage_details" field.
+func (m *TenantBillingMutation) ClearUsageDetails() {
+	m.usage_details = nil
+	m.clearedFields[tenantbilling.FieldUsageDetails] = struct{}{}
+}
+
+// UsageDetailsCleared returns if the "usage_details" field was cleared in this mutation.
+func (m *TenantBillingMutation) UsageDetailsCleared() bool {
+	_, ok := m.clearedFields[tenantbilling.FieldUsageDetails]
+	return ok
+}
+
+// ResetUsageDetails resets all changes to the "usage_details" field.
+func (m *TenantBillingMutation) ResetUsageDetails() {
+	m.usage_details = nil
+	delete(m.clearedFields, tenantbilling.FieldUsageDetails)
+}
+
+// Where appends a list predicates to the TenantBillingMutation builder.
+func (m *TenantBillingMutation) Where(ps ...predicate.TenantBilling) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the TenantBillingMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *TenantBillingMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.TenantBilling, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *TenantBillingMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *TenantBillingMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (TenantBilling).
+func (m *TenantBillingMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *TenantBillingMutation) Fields() []string {
+	fields := make([]string, 0, 18)
+	if m.tenant_id != nil {
+		fields = append(fields, tenantbilling.FieldTenantID)
+	}
+	if m.description != nil {
+		fields = append(fields, tenantbilling.FieldDescription)
+	}
+	if m.extras != nil {
+		fields = append(fields, tenantbilling.FieldExtras)
+	}
+	if m.created_by != nil {
+		fields = append(fields, tenantbilling.FieldCreatedBy)
+	}
+	if m.updated_by != nil {
+		fields = append(fields, tenantbilling.FieldUpdatedBy)
+	}
+	if m.created_at != nil {
+		fields = append(fields, tenantbilling.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, tenantbilling.FieldUpdatedAt)
+	}
+	if m.billing_period != nil {
+		fields = append(fields, tenantbilling.FieldBillingPeriod)
+	}
+	if m.period_start != nil {
+		fields = append(fields, tenantbilling.FieldPeriodStart)
+	}
+	if m.period_end != nil {
+		fields = append(fields, tenantbilling.FieldPeriodEnd)
+	}
+	if m.amount != nil {
+		fields = append(fields, tenantbilling.FieldAmount)
+	}
+	if m.currency != nil {
+		fields = append(fields, tenantbilling.FieldCurrency)
+	}
+	if m.status != nil {
+		fields = append(fields, tenantbilling.FieldStatus)
+	}
+	if m.invoice_number != nil {
+		fields = append(fields, tenantbilling.FieldInvoiceNumber)
+	}
+	if m.payment_method != nil {
+		fields = append(fields, tenantbilling.FieldPaymentMethod)
+	}
+	if m.paid_at != nil {
+		fields = append(fields, tenantbilling.FieldPaidAt)
+	}
+	if m.due_date != nil {
+		fields = append(fields, tenantbilling.FieldDueDate)
+	}
+	if m.usage_details != nil {
+		fields = append(fields, tenantbilling.FieldUsageDetails)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *TenantBillingMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case tenantbilling.FieldTenantID:
+		return m.TenantID()
+	case tenantbilling.FieldDescription:
+		return m.Description()
+	case tenantbilling.FieldExtras:
+		return m.Extras()
+	case tenantbilling.FieldCreatedBy:
+		return m.CreatedBy()
+	case tenantbilling.FieldUpdatedBy:
+		return m.UpdatedBy()
+	case tenantbilling.FieldCreatedAt:
+		return m.CreatedAt()
+	case tenantbilling.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case tenantbilling.FieldBillingPeriod:
+		return m.BillingPeriod()
+	case tenantbilling.FieldPeriodStart:
+		return m.PeriodStart()
+	case tenantbilling.FieldPeriodEnd:
+		return m.PeriodEnd()
+	case tenantbilling.FieldAmount:
+		return m.Amount()
+	case tenantbilling.FieldCurrency:
+		return m.Currency()
+	case tenantbilling.FieldStatus:
+		return m.Status()
+	case tenantbilling.FieldInvoiceNumber:
+		return m.InvoiceNumber()
+	case tenantbilling.FieldPaymentMethod:
+		return m.PaymentMethod()
+	case tenantbilling.FieldPaidAt:
+		return m.PaidAt()
+	case tenantbilling.FieldDueDate:
+		return m.DueDate()
+	case tenantbilling.FieldUsageDetails:
+		return m.UsageDetails()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *TenantBillingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case tenantbilling.FieldTenantID:
+		return m.OldTenantID(ctx)
+	case tenantbilling.FieldDescription:
+		return m.OldDescription(ctx)
+	case tenantbilling.FieldExtras:
+		return m.OldExtras(ctx)
+	case tenantbilling.FieldCreatedBy:
+		return m.OldCreatedBy(ctx)
+	case tenantbilling.FieldUpdatedBy:
+		return m.OldUpdatedBy(ctx)
+	case tenantbilling.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case tenantbilling.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case tenantbilling.FieldBillingPeriod:
+		return m.OldBillingPeriod(ctx)
+	case tenantbilling.FieldPeriodStart:
+		return m.OldPeriodStart(ctx)
+	case tenantbilling.FieldPeriodEnd:
+		return m.OldPeriodEnd(ctx)
+	case tenantbilling.FieldAmount:
+		return m.OldAmount(ctx)
+	case tenantbilling.FieldCurrency:
+		return m.OldCurrency(ctx)
+	case tenantbilling.FieldStatus:
+		return m.OldStatus(ctx)
+	case tenantbilling.FieldInvoiceNumber:
+		return m.OldInvoiceNumber(ctx)
+	case tenantbilling.FieldPaymentMethod:
+		return m.OldPaymentMethod(ctx)
+	case tenantbilling.FieldPaidAt:
+		return m.OldPaidAt(ctx)
+	case tenantbilling.FieldDueDate:
+		return m.OldDueDate(ctx)
+	case tenantbilling.FieldUsageDetails:
+		return m.OldUsageDetails(ctx)
+	}
+	return nil, fmt.Errorf("unknown TenantBilling field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *TenantBillingMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case tenantbilling.FieldTenantID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTenantID(v)
+		return nil
+	case tenantbilling.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	case tenantbilling.FieldExtras:
+		v, ok := value.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExtras(v)
+		return nil
+	case tenantbilling.FieldCreatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedBy(v)
+		return nil
+	case tenantbilling.FieldUpdatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedBy(v)
+		return nil
+	case tenantbilling.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case tenantbilling.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case tenantbilling.FieldBillingPeriod:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBillingPeriod(v)
+		return nil
+	case tenantbilling.FieldPeriodStart:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPeriodStart(v)
+		return nil
+	case tenantbilling.FieldPeriodEnd:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPeriodEnd(v)
+		return nil
+	case tenantbilling.FieldAmount:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAmount(v)
+		return nil
+	case tenantbilling.FieldCurrency:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCurrency(v)
+		return nil
+	case tenantbilling.FieldStatus:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case tenantbilling.FieldInvoiceNumber:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInvoiceNumber(v)
+		return nil
+	case tenantbilling.FieldPaymentMethod:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPaymentMethod(v)
+		return nil
+	case tenantbilling.FieldPaidAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPaidAt(v)
+		return nil
+	case tenantbilling.FieldDueDate:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDueDate(v)
+		return nil
+	case tenantbilling.FieldUsageDetails:
+		v, ok := value.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUsageDetails(v)
+		return nil
+	}
+	return fmt.Errorf("unknown TenantBilling field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *TenantBillingMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, tenantbilling.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, tenantbilling.FieldUpdatedAt)
+	}
+	if m.addperiod_start != nil {
+		fields = append(fields, tenantbilling.FieldPeriodStart)
+	}
+	if m.addperiod_end != nil {
+		fields = append(fields, tenantbilling.FieldPeriodEnd)
+	}
+	if m.addamount != nil {
+		fields = append(fields, tenantbilling.FieldAmount)
+	}
+	if m.addpaid_at != nil {
+		fields = append(fields, tenantbilling.FieldPaidAt)
+	}
+	if m.adddue_date != nil {
+		fields = append(fields, tenantbilling.FieldDueDate)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *TenantBillingMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case tenantbilling.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case tenantbilling.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	case tenantbilling.FieldPeriodStart:
+		return m.AddedPeriodStart()
+	case tenantbilling.FieldPeriodEnd:
+		return m.AddedPeriodEnd()
+	case tenantbilling.FieldAmount:
+		return m.AddedAmount()
+	case tenantbilling.FieldPaidAt:
+		return m.AddedPaidAt()
+	case tenantbilling.FieldDueDate:
+		return m.AddedDueDate()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *TenantBillingMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case tenantbilling.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case tenantbilling.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
+	case tenantbilling.FieldPeriodStart:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPeriodStart(v)
+		return nil
+	case tenantbilling.FieldPeriodEnd:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPeriodEnd(v)
+		return nil
+	case tenantbilling.FieldAmount:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAmount(v)
+		return nil
+	case tenantbilling.FieldPaidAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPaidAt(v)
+		return nil
+	case tenantbilling.FieldDueDate:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDueDate(v)
+		return nil
+	}
+	return fmt.Errorf("unknown TenantBilling numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *TenantBillingMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(tenantbilling.FieldTenantID) {
+		fields = append(fields, tenantbilling.FieldTenantID)
+	}
+	if m.FieldCleared(tenantbilling.FieldDescription) {
+		fields = append(fields, tenantbilling.FieldDescription)
+	}
+	if m.FieldCleared(tenantbilling.FieldExtras) {
+		fields = append(fields, tenantbilling.FieldExtras)
+	}
+	if m.FieldCleared(tenantbilling.FieldCreatedBy) {
+		fields = append(fields, tenantbilling.FieldCreatedBy)
+	}
+	if m.FieldCleared(tenantbilling.FieldUpdatedBy) {
+		fields = append(fields, tenantbilling.FieldUpdatedBy)
+	}
+	if m.FieldCleared(tenantbilling.FieldCreatedAt) {
+		fields = append(fields, tenantbilling.FieldCreatedAt)
+	}
+	if m.FieldCleared(tenantbilling.FieldUpdatedAt) {
+		fields = append(fields, tenantbilling.FieldUpdatedAt)
+	}
+	if m.FieldCleared(tenantbilling.FieldPeriodStart) {
+		fields = append(fields, tenantbilling.FieldPeriodStart)
+	}
+	if m.FieldCleared(tenantbilling.FieldPeriodEnd) {
+		fields = append(fields, tenantbilling.FieldPeriodEnd)
+	}
+	if m.FieldCleared(tenantbilling.FieldInvoiceNumber) {
+		fields = append(fields, tenantbilling.FieldInvoiceNumber)
+	}
+	if m.FieldCleared(tenantbilling.FieldPaymentMethod) {
+		fields = append(fields, tenantbilling.FieldPaymentMethod)
+	}
+	if m.FieldCleared(tenantbilling.FieldPaidAt) {
+		fields = append(fields, tenantbilling.FieldPaidAt)
+	}
+	if m.FieldCleared(tenantbilling.FieldDueDate) {
+		fields = append(fields, tenantbilling.FieldDueDate)
+	}
+	if m.FieldCleared(tenantbilling.FieldUsageDetails) {
+		fields = append(fields, tenantbilling.FieldUsageDetails)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *TenantBillingMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *TenantBillingMutation) ClearField(name string) error {
+	switch name {
+	case tenantbilling.FieldTenantID:
+		m.ClearTenantID()
+		return nil
+	case tenantbilling.FieldDescription:
+		m.ClearDescription()
+		return nil
+	case tenantbilling.FieldExtras:
+		m.ClearExtras()
+		return nil
+	case tenantbilling.FieldCreatedBy:
+		m.ClearCreatedBy()
+		return nil
+	case tenantbilling.FieldUpdatedBy:
+		m.ClearUpdatedBy()
+		return nil
+	case tenantbilling.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case tenantbilling.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	case tenantbilling.FieldPeriodStart:
+		m.ClearPeriodStart()
+		return nil
+	case tenantbilling.FieldPeriodEnd:
+		m.ClearPeriodEnd()
+		return nil
+	case tenantbilling.FieldInvoiceNumber:
+		m.ClearInvoiceNumber()
+		return nil
+	case tenantbilling.FieldPaymentMethod:
+		m.ClearPaymentMethod()
+		return nil
+	case tenantbilling.FieldPaidAt:
+		m.ClearPaidAt()
+		return nil
+	case tenantbilling.FieldDueDate:
+		m.ClearDueDate()
+		return nil
+	case tenantbilling.FieldUsageDetails:
+		m.ClearUsageDetails()
+		return nil
+	}
+	return fmt.Errorf("unknown TenantBilling nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *TenantBillingMutation) ResetField(name string) error {
+	switch name {
+	case tenantbilling.FieldTenantID:
+		m.ResetTenantID()
+		return nil
+	case tenantbilling.FieldDescription:
+		m.ResetDescription()
+		return nil
+	case tenantbilling.FieldExtras:
+		m.ResetExtras()
+		return nil
+	case tenantbilling.FieldCreatedBy:
+		m.ResetCreatedBy()
+		return nil
+	case tenantbilling.FieldUpdatedBy:
+		m.ResetUpdatedBy()
+		return nil
+	case tenantbilling.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case tenantbilling.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case tenantbilling.FieldBillingPeriod:
+		m.ResetBillingPeriod()
+		return nil
+	case tenantbilling.FieldPeriodStart:
+		m.ResetPeriodStart()
+		return nil
+	case tenantbilling.FieldPeriodEnd:
+		m.ResetPeriodEnd()
+		return nil
+	case tenantbilling.FieldAmount:
+		m.ResetAmount()
+		return nil
+	case tenantbilling.FieldCurrency:
+		m.ResetCurrency()
+		return nil
+	case tenantbilling.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case tenantbilling.FieldInvoiceNumber:
+		m.ResetInvoiceNumber()
+		return nil
+	case tenantbilling.FieldPaymentMethod:
+		m.ResetPaymentMethod()
+		return nil
+	case tenantbilling.FieldPaidAt:
+		m.ResetPaidAt()
+		return nil
+	case tenantbilling.FieldDueDate:
+		m.ResetDueDate()
+		return nil
+	case tenantbilling.FieldUsageDetails:
+		m.ResetUsageDetails()
+		return nil
+	}
+	return fmt.Errorf("unknown TenantBilling field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *TenantBillingMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *TenantBillingMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *TenantBillingMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *TenantBillingMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *TenantBillingMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *TenantBillingMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *TenantBillingMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown TenantBilling unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *TenantBillingMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown TenantBilling edge %s", name)
+}
+
+// TenantQuotaMutation represents an operation that mutates the TenantQuota nodes in the graph.
+type TenantQuotaMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *string
+	tenant_id       *string
+	description     *string
+	extras          *map[string]interface{}
+	created_by      *string
+	updated_by      *string
+	created_at      *int64
+	addcreated_at   *int64
+	updated_at      *int64
+	addupdated_at   *int64
+	quota_type      *string
+	quota_name      *string
+	max_value       *int64
+	addmax_value    *int64
+	current_used    *int64
+	addcurrent_used *int64
+	unit            *string
+	enabled         *bool
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*TenantQuota, error)
+	predicates      []predicate.TenantQuota
+}
+
+var _ ent.Mutation = (*TenantQuotaMutation)(nil)
+
+// tenantquotaOption allows management of the mutation configuration using functional options.
+type tenantquotaOption func(*TenantQuotaMutation)
+
+// newTenantQuotaMutation creates new mutation for the TenantQuota entity.
+func newTenantQuotaMutation(c config, op Op, opts ...tenantquotaOption) *TenantQuotaMutation {
+	m := &TenantQuotaMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeTenantQuota,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withTenantQuotaID sets the ID field of the mutation.
+func withTenantQuotaID(id string) tenantquotaOption {
+	return func(m *TenantQuotaMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *TenantQuota
+		)
+		m.oldValue = func(ctx context.Context) (*TenantQuota, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().TenantQuota.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withTenantQuota sets the old TenantQuota of the mutation.
+func withTenantQuota(node *TenantQuota) tenantquotaOption {
+	return func(m *TenantQuotaMutation) {
+		m.oldValue = func(context.Context) (*TenantQuota, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m TenantQuotaMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m TenantQuotaMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of TenantQuota entities.
+func (m *TenantQuotaMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *TenantQuotaMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *TenantQuotaMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().TenantQuota.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (m *TenantQuotaMutation) SetTenantID(s string) {
+	m.tenant_id = &s
+}
+
+// TenantID returns the value of the "tenant_id" field in the mutation.
+func (m *TenantQuotaMutation) TenantID() (r string, exists bool) {
+	v := m.tenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTenantID returns the old "tenant_id" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldTenantID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTenantID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+	}
+	return oldValue.TenantID, nil
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *TenantQuotaMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.clearedFields[tenantquota.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *TenantQuotaMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[tenantquota.FieldTenantID]
+	return ok
+}
+
+// ResetTenantID resets all changes to the "tenant_id" field.
+func (m *TenantQuotaMutation) ResetTenantID() {
+	m.tenant_id = nil
+	delete(m.clearedFields, tenantquota.FieldTenantID)
+}
+
+// SetDescription sets the "description" field.
+func (m *TenantQuotaMutation) SetDescription(s string) {
+	m.description = &s
+}
+
+// Description returns the value of the "description" field in the mutation.
+func (m *TenantQuotaMutation) Description() (r string, exists bool) {
+	v := m.description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "description" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ClearDescription clears the value of the "description" field.
+func (m *TenantQuotaMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[tenantquota.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *TenantQuotaMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[tenantquota.FieldDescription]
+	return ok
+}
+
+// ResetDescription resets all changes to the "description" field.
+func (m *TenantQuotaMutation) ResetDescription() {
+	m.description = nil
+	delete(m.clearedFields, tenantquota.FieldDescription)
+}
+
+// SetExtras sets the "extras" field.
+func (m *TenantQuotaMutation) SetExtras(value map[string]interface{}) {
+	m.extras = &value
+}
+
+// Extras returns the value of the "extras" field in the mutation.
+func (m *TenantQuotaMutation) Extras() (r map[string]interface{}, exists bool) {
+	v := m.extras
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExtras returns the old "extras" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldExtras(ctx context.Context) (v map[string]interface{}, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExtras is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExtras requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExtras: %w", err)
+	}
+	return oldValue.Extras, nil
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (m *TenantQuotaMutation) ClearExtras() {
+	m.extras = nil
+	m.clearedFields[tenantquota.FieldExtras] = struct{}{}
+}
+
+// ExtrasCleared returns if the "extras" field was cleared in this mutation.
+func (m *TenantQuotaMutation) ExtrasCleared() bool {
+	_, ok := m.clearedFields[tenantquota.FieldExtras]
+	return ok
+}
+
+// ResetExtras resets all changes to the "extras" field.
+func (m *TenantQuotaMutation) ResetExtras() {
+	m.extras = nil
+	delete(m.clearedFields, tenantquota.FieldExtras)
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (m *TenantQuotaMutation) SetCreatedBy(s string) {
+	m.created_by = &s
+}
+
+// CreatedBy returns the value of the "created_by" field in the mutation.
+func (m *TenantQuotaMutation) CreatedBy() (r string, exists bool) {
+	v := m.created_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedBy returns the old "created_by" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldCreatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedBy: %w", err)
+	}
+	return oldValue.CreatedBy, nil
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (m *TenantQuotaMutation) ClearCreatedBy() {
+	m.created_by = nil
+	m.clearedFields[tenantquota.FieldCreatedBy] = struct{}{}
+}
+
+// CreatedByCleared returns if the "created_by" field was cleared in this mutation.
+func (m *TenantQuotaMutation) CreatedByCleared() bool {
+	_, ok := m.clearedFields[tenantquota.FieldCreatedBy]
+	return ok
+}
+
+// ResetCreatedBy resets all changes to the "created_by" field.
+func (m *TenantQuotaMutation) ResetCreatedBy() {
+	m.created_by = nil
+	delete(m.clearedFields, tenantquota.FieldCreatedBy)
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (m *TenantQuotaMutation) SetUpdatedBy(s string) {
+	m.updated_by = &s
+}
+
+// UpdatedBy returns the value of the "updated_by" field in the mutation.
+func (m *TenantQuotaMutation) UpdatedBy() (r string, exists bool) {
+	v := m.updated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedBy returns the old "updated_by" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldUpdatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedBy: %w", err)
+	}
+	return oldValue.UpdatedBy, nil
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (m *TenantQuotaMutation) ClearUpdatedBy() {
+	m.updated_by = nil
+	m.clearedFields[tenantquota.FieldUpdatedBy] = struct{}{}
+}
+
+// UpdatedByCleared returns if the "updated_by" field was cleared in this mutation.
+func (m *TenantQuotaMutation) UpdatedByCleared() bool {
+	_, ok := m.clearedFields[tenantquota.FieldUpdatedBy]
+	return ok
+}
+
+// ResetUpdatedBy resets all changes to the "updated_by" field.
+func (m *TenantQuotaMutation) ResetUpdatedBy() {
+	m.updated_by = nil
+	delete(m.clearedFields, tenantquota.FieldUpdatedBy)
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *TenantQuotaMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *TenantQuotaMutation) CreatedAt() (r int64, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// AddCreatedAt adds i to the "created_at" field.
+func (m *TenantQuotaMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *TenantQuotaMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *TenantQuotaMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	m.clearedFields[tenantquota.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *TenantQuotaMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[tenantquota.FieldCreatedAt]
+	return ok
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *TenantQuotaMutation) ResetCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	delete(m.clearedFields, tenantquota.FieldCreatedAt)
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *TenantQuotaMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *TenantQuotaMutation) UpdatedAt() (r int64, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *TenantQuotaMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *TenantQuotaMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *TenantQuotaMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	m.clearedFields[tenantquota.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *TenantQuotaMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[tenantquota.FieldUpdatedAt]
+	return ok
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *TenantQuotaMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	delete(m.clearedFields, tenantquota.FieldUpdatedAt)
+}
+
+// SetQuotaType sets the "quota_type" field.
+func (m *TenantQuotaMutation) SetQuotaType(s string) {
+	m.quota_type = &s
+}
+
+// QuotaType returns the value of the "quota_type" field in the mutation.
+func (m *TenantQuotaMutation) QuotaType() (r string, exists bool) {
+	v := m.quota_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldQuotaType returns the old "quota_type" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldQuotaType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldQuotaType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldQuotaType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldQuotaType: %w", err)
+	}
+	return oldValue.QuotaType, nil
+}
+
+// ResetQuotaType resets all changes to the "quota_type" field.
+func (m *TenantQuotaMutation) ResetQuotaType() {
+	m.quota_type = nil
+}
+
+// SetQuotaName sets the "quota_name" field.
+func (m *TenantQuotaMutation) SetQuotaName(s string) {
+	m.quota_name = &s
+}
+
+// QuotaName returns the value of the "quota_name" field in the mutation.
+func (m *TenantQuotaMutation) QuotaName() (r string, exists bool) {
+	v := m.quota_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldQuotaName returns the old "quota_name" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldQuotaName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldQuotaName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldQuotaName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldQuotaName: %w", err)
+	}
+	return oldValue.QuotaName, nil
+}
+
+// ResetQuotaName resets all changes to the "quota_name" field.
+func (m *TenantQuotaMutation) ResetQuotaName() {
+	m.quota_name = nil
+}
+
+// SetMaxValue sets the "max_value" field.
+func (m *TenantQuotaMutation) SetMaxValue(i int64) {
+	m.max_value = &i
+	m.addmax_value = nil
+}
+
+// MaxValue returns the value of the "max_value" field in the mutation.
+func (m *TenantQuotaMutation) MaxValue() (r int64, exists bool) {
+	v := m.max_value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMaxValue returns the old "max_value" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldMaxValue(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMaxValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMaxValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMaxValue: %w", err)
+	}
+	return oldValue.MaxValue, nil
+}
+
+// AddMaxValue adds i to the "max_value" field.
+func (m *TenantQuotaMutation) AddMaxValue(i int64) {
+	if m.addmax_value != nil {
+		*m.addmax_value += i
+	} else {
+		m.addmax_value = &i
+	}
+}
+
+// AddedMaxValue returns the value that was added to the "max_value" field in this mutation.
+func (m *TenantQuotaMutation) AddedMaxValue() (r int64, exists bool) {
+	v := m.addmax_value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetMaxValue resets all changes to the "max_value" field.
+func (m *TenantQuotaMutation) ResetMaxValue() {
+	m.max_value = nil
+	m.addmax_value = nil
+}
+
+// SetCurrentUsed sets the "current_used" field.
+func (m *TenantQuotaMutation) SetCurrentUsed(i int64) {
+	m.current_used = &i
+	m.addcurrent_used = nil
+}
+
+// CurrentUsed returns the value of the "current_used" field in the mutation.
+func (m *TenantQuotaMutation) CurrentUsed() (r int64, exists bool) {
+	v := m.current_used
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCurrentUsed returns the old "current_used" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldCurrentUsed(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCurrentUsed is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCurrentUsed requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCurrentUsed: %w", err)
+	}
+	return oldValue.CurrentUsed, nil
+}
+
+// AddCurrentUsed adds i to the "current_used" field.
+func (m *TenantQuotaMutation) AddCurrentUsed(i int64) {
+	if m.addcurrent_used != nil {
+		*m.addcurrent_used += i
+	} else {
+		m.addcurrent_used = &i
+	}
+}
+
+// AddedCurrentUsed returns the value that was added to the "current_used" field in this mutation.
+func (m *TenantQuotaMutation) AddedCurrentUsed() (r int64, exists bool) {
+	v := m.addcurrent_used
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCurrentUsed resets all changes to the "current_used" field.
+func (m *TenantQuotaMutation) ResetCurrentUsed() {
+	m.current_used = nil
+	m.addcurrent_used = nil
+}
+
+// SetUnit sets the "unit" field.
+func (m *TenantQuotaMutation) SetUnit(s string) {
+	m.unit = &s
+}
+
+// Unit returns the value of the "unit" field in the mutation.
+func (m *TenantQuotaMutation) Unit() (r string, exists bool) {
+	v := m.unit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUnit returns the old "unit" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldUnit(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUnit is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUnit requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUnit: %w", err)
+	}
+	return oldValue.Unit, nil
+}
+
+// ResetUnit resets all changes to the "unit" field.
+func (m *TenantQuotaMutation) ResetUnit() {
+	m.unit = nil
+}
+
+// SetEnabled sets the "enabled" field.
+func (m *TenantQuotaMutation) SetEnabled(b bool) {
+	m.enabled = &b
+}
+
+// Enabled returns the value of the "enabled" field in the mutation.
+func (m *TenantQuotaMutation) Enabled() (r bool, exists bool) {
+	v := m.enabled
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEnabled returns the old "enabled" field's value of the TenantQuota entity.
+// If the TenantQuota object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantQuotaMutation) OldEnabled(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEnabled is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEnabled requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEnabled: %w", err)
+	}
+	return oldValue.Enabled, nil
+}
+
+// ResetEnabled resets all changes to the "enabled" field.
+func (m *TenantQuotaMutation) ResetEnabled() {
+	m.enabled = nil
+}
+
+// Where appends a list predicates to the TenantQuotaMutation builder.
+func (m *TenantQuotaMutation) Where(ps ...predicate.TenantQuota) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the TenantQuotaMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *TenantQuotaMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.TenantQuota, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *TenantQuotaMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *TenantQuotaMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (TenantQuota).
+func (m *TenantQuotaMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *TenantQuotaMutation) Fields() []string {
+	fields := make([]string, 0, 13)
+	if m.tenant_id != nil {
+		fields = append(fields, tenantquota.FieldTenantID)
+	}
+	if m.description != nil {
+		fields = append(fields, tenantquota.FieldDescription)
+	}
+	if m.extras != nil {
+		fields = append(fields, tenantquota.FieldExtras)
+	}
+	if m.created_by != nil {
+		fields = append(fields, tenantquota.FieldCreatedBy)
+	}
+	if m.updated_by != nil {
+		fields = append(fields, tenantquota.FieldUpdatedBy)
+	}
+	if m.created_at != nil {
+		fields = append(fields, tenantquota.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, tenantquota.FieldUpdatedAt)
+	}
+	if m.quota_type != nil {
+		fields = append(fields, tenantquota.FieldQuotaType)
+	}
+	if m.quota_name != nil {
+		fields = append(fields, tenantquota.FieldQuotaName)
+	}
+	if m.max_value != nil {
+		fields = append(fields, tenantquota.FieldMaxValue)
+	}
+	if m.current_used != nil {
+		fields = append(fields, tenantquota.FieldCurrentUsed)
+	}
+	if m.unit != nil {
+		fields = append(fields, tenantquota.FieldUnit)
+	}
+	if m.enabled != nil {
+		fields = append(fields, tenantquota.FieldEnabled)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *TenantQuotaMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case tenantquota.FieldTenantID:
+		return m.TenantID()
+	case tenantquota.FieldDescription:
+		return m.Description()
+	case tenantquota.FieldExtras:
+		return m.Extras()
+	case tenantquota.FieldCreatedBy:
+		return m.CreatedBy()
+	case tenantquota.FieldUpdatedBy:
+		return m.UpdatedBy()
+	case tenantquota.FieldCreatedAt:
+		return m.CreatedAt()
+	case tenantquota.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case tenantquota.FieldQuotaType:
+		return m.QuotaType()
+	case tenantquota.FieldQuotaName:
+		return m.QuotaName()
+	case tenantquota.FieldMaxValue:
+		return m.MaxValue()
+	case tenantquota.FieldCurrentUsed:
+		return m.CurrentUsed()
+	case tenantquota.FieldUnit:
+		return m.Unit()
+	case tenantquota.FieldEnabled:
+		return m.Enabled()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *TenantQuotaMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case tenantquota.FieldTenantID:
+		return m.OldTenantID(ctx)
+	case tenantquota.FieldDescription:
+		return m.OldDescription(ctx)
+	case tenantquota.FieldExtras:
+		return m.OldExtras(ctx)
+	case tenantquota.FieldCreatedBy:
+		return m.OldCreatedBy(ctx)
+	case tenantquota.FieldUpdatedBy:
+		return m.OldUpdatedBy(ctx)
+	case tenantquota.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case tenantquota.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case tenantquota.FieldQuotaType:
+		return m.OldQuotaType(ctx)
+	case tenantquota.FieldQuotaName:
+		return m.OldQuotaName(ctx)
+	case tenantquota.FieldMaxValue:
+		return m.OldMaxValue(ctx)
+	case tenantquota.FieldCurrentUsed:
+		return m.OldCurrentUsed(ctx)
+	case tenantquota.FieldUnit:
+		return m.OldUnit(ctx)
+	case tenantquota.FieldEnabled:
+		return m.OldEnabled(ctx)
+	}
+	return nil, fmt.Errorf("unknown TenantQuota field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *TenantQuotaMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case tenantquota.FieldTenantID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTenantID(v)
+		return nil
+	case tenantquota.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	case tenantquota.FieldExtras:
+		v, ok := value.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExtras(v)
+		return nil
+	case tenantquota.FieldCreatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedBy(v)
+		return nil
+	case tenantquota.FieldUpdatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedBy(v)
+		return nil
+	case tenantquota.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case tenantquota.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case tenantquota.FieldQuotaType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetQuotaType(v)
+		return nil
+	case tenantquota.FieldQuotaName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetQuotaName(v)
+		return nil
+	case tenantquota.FieldMaxValue:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMaxValue(v)
+		return nil
+	case tenantquota.FieldCurrentUsed:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCurrentUsed(v)
+		return nil
+	case tenantquota.FieldUnit:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUnit(v)
+		return nil
+	case tenantquota.FieldEnabled:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEnabled(v)
+		return nil
+	}
+	return fmt.Errorf("unknown TenantQuota field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *TenantQuotaMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, tenantquota.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, tenantquota.FieldUpdatedAt)
+	}
+	if m.addmax_value != nil {
+		fields = append(fields, tenantquota.FieldMaxValue)
+	}
+	if m.addcurrent_used != nil {
+		fields = append(fields, tenantquota.FieldCurrentUsed)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *TenantQuotaMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case tenantquota.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case tenantquota.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	case tenantquota.FieldMaxValue:
+		return m.AddedMaxValue()
+	case tenantquota.FieldCurrentUsed:
+		return m.AddedCurrentUsed()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *TenantQuotaMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case tenantquota.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case tenantquota.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
+	case tenantquota.FieldMaxValue:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddMaxValue(v)
+		return nil
+	case tenantquota.FieldCurrentUsed:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCurrentUsed(v)
+		return nil
+	}
+	return fmt.Errorf("unknown TenantQuota numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *TenantQuotaMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(tenantquota.FieldTenantID) {
+		fields = append(fields, tenantquota.FieldTenantID)
+	}
+	if m.FieldCleared(tenantquota.FieldDescription) {
+		fields = append(fields, tenantquota.FieldDescription)
+	}
+	if m.FieldCleared(tenantquota.FieldExtras) {
+		fields = append(fields, tenantquota.FieldExtras)
+	}
+	if m.FieldCleared(tenantquota.FieldCreatedBy) {
+		fields = append(fields, tenantquota.FieldCreatedBy)
+	}
+	if m.FieldCleared(tenantquota.FieldUpdatedBy) {
+		fields = append(fields, tenantquota.FieldUpdatedBy)
+	}
+	if m.FieldCleared(tenantquota.FieldCreatedAt) {
+		fields = append(fields, tenantquota.FieldCreatedAt)
+	}
+	if m.FieldCleared(tenantquota.FieldUpdatedAt) {
+		fields = append(fields, tenantquota.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *TenantQuotaMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *TenantQuotaMutation) ClearField(name string) error {
+	switch name {
+	case tenantquota.FieldTenantID:
+		m.ClearTenantID()
+		return nil
+	case tenantquota.FieldDescription:
+		m.ClearDescription()
+		return nil
+	case tenantquota.FieldExtras:
+		m.ClearExtras()
+		return nil
+	case tenantquota.FieldCreatedBy:
+		m.ClearCreatedBy()
+		return nil
+	case tenantquota.FieldUpdatedBy:
+		m.ClearUpdatedBy()
+		return nil
+	case tenantquota.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case tenantquota.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown TenantQuota nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *TenantQuotaMutation) ResetField(name string) error {
+	switch name {
+	case tenantquota.FieldTenantID:
+		m.ResetTenantID()
+		return nil
+	case tenantquota.FieldDescription:
+		m.ResetDescription()
+		return nil
+	case tenantquota.FieldExtras:
+		m.ResetExtras()
+		return nil
+	case tenantquota.FieldCreatedBy:
+		m.ResetCreatedBy()
+		return nil
+	case tenantquota.FieldUpdatedBy:
+		m.ResetUpdatedBy()
+		return nil
+	case tenantquota.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case tenantquota.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case tenantquota.FieldQuotaType:
+		m.ResetQuotaType()
+		return nil
+	case tenantquota.FieldQuotaName:
+		m.ResetQuotaName()
+		return nil
+	case tenantquota.FieldMaxValue:
+		m.ResetMaxValue()
+		return nil
+	case tenantquota.FieldCurrentUsed:
+		m.ResetCurrentUsed()
+		return nil
+	case tenantquota.FieldUnit:
+		m.ResetUnit()
+		return nil
+	case tenantquota.FieldEnabled:
+		m.ResetEnabled()
+		return nil
+	}
+	return fmt.Errorf("unknown TenantQuota field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *TenantQuotaMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *TenantQuotaMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *TenantQuotaMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *TenantQuotaMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *TenantQuotaMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *TenantQuotaMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *TenantQuotaMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown TenantQuota unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *TenantQuotaMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown TenantQuota edge %s", name)
+}
+
+// TenantSettingMutation represents an operation that mutates the TenantSetting nodes in the graph.
+type TenantSettingMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *string
+	tenant_id     *string
+	description   *string
+	extras        *map[string]interface{}
+	created_by    *string
+	updated_by    *string
+	created_at    *int64
+	addcreated_at *int64
+	updated_at    *int64
+	addupdated_at *int64
+	setting_key   *string
+	setting_name  *string
+	setting_value *string
+	default_value *string
+	setting_type  *string
+	scope         *string
+	category      *string
+	is_public     *bool
+	is_required   *bool
+	is_readonly   *bool
+	validation    *map[string]interface{}
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*TenantSetting, error)
+	predicates    []predicate.TenantSetting
+}
+
+var _ ent.Mutation = (*TenantSettingMutation)(nil)
+
+// tenantsettingOption allows management of the mutation configuration using functional options.
+type tenantsettingOption func(*TenantSettingMutation)
+
+// newTenantSettingMutation creates new mutation for the TenantSetting entity.
+func newTenantSettingMutation(c config, op Op, opts ...tenantsettingOption) *TenantSettingMutation {
+	m := &TenantSettingMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeTenantSetting,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withTenantSettingID sets the ID field of the mutation.
+func withTenantSettingID(id string) tenantsettingOption {
+	return func(m *TenantSettingMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *TenantSetting
+		)
+		m.oldValue = func(ctx context.Context) (*TenantSetting, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().TenantSetting.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withTenantSetting sets the old TenantSetting of the mutation.
+func withTenantSetting(node *TenantSetting) tenantsettingOption {
+	return func(m *TenantSettingMutation) {
+		m.oldValue = func(context.Context) (*TenantSetting, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m TenantSettingMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m TenantSettingMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of TenantSetting entities.
+func (m *TenantSettingMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *TenantSettingMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *TenantSettingMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().TenantSetting.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (m *TenantSettingMutation) SetTenantID(s string) {
+	m.tenant_id = &s
+}
+
+// TenantID returns the value of the "tenant_id" field in the mutation.
+func (m *TenantSettingMutation) TenantID() (r string, exists bool) {
+	v := m.tenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTenantID returns the old "tenant_id" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldTenantID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTenantID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+	}
+	return oldValue.TenantID, nil
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *TenantSettingMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.clearedFields[tenantsetting.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *TenantSettingMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldTenantID]
+	return ok
+}
+
+// ResetTenantID resets all changes to the "tenant_id" field.
+func (m *TenantSettingMutation) ResetTenantID() {
+	m.tenant_id = nil
+	delete(m.clearedFields, tenantsetting.FieldTenantID)
+}
+
+// SetDescription sets the "description" field.
+func (m *TenantSettingMutation) SetDescription(s string) {
+	m.description = &s
+}
+
+// Description returns the value of the "description" field in the mutation.
+func (m *TenantSettingMutation) Description() (r string, exists bool) {
+	v := m.description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "description" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ClearDescription clears the value of the "description" field.
+func (m *TenantSettingMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[tenantsetting.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *TenantSettingMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldDescription]
+	return ok
+}
+
+// ResetDescription resets all changes to the "description" field.
+func (m *TenantSettingMutation) ResetDescription() {
+	m.description = nil
+	delete(m.clearedFields, tenantsetting.FieldDescription)
+}
+
+// SetExtras sets the "extras" field.
+func (m *TenantSettingMutation) SetExtras(value map[string]interface{}) {
+	m.extras = &value
+}
+
+// Extras returns the value of the "extras" field in the mutation.
+func (m *TenantSettingMutation) Extras() (r map[string]interface{}, exists bool) {
+	v := m.extras
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExtras returns the old "extras" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldExtras(ctx context.Context) (v map[string]interface{}, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExtras is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExtras requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExtras: %w", err)
+	}
+	return oldValue.Extras, nil
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (m *TenantSettingMutation) ClearExtras() {
+	m.extras = nil
+	m.clearedFields[tenantsetting.FieldExtras] = struct{}{}
+}
+
+// ExtrasCleared returns if the "extras" field was cleared in this mutation.
+func (m *TenantSettingMutation) ExtrasCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldExtras]
+	return ok
+}
+
+// ResetExtras resets all changes to the "extras" field.
+func (m *TenantSettingMutation) ResetExtras() {
+	m.extras = nil
+	delete(m.clearedFields, tenantsetting.FieldExtras)
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (m *TenantSettingMutation) SetCreatedBy(s string) {
+	m.created_by = &s
+}
+
+// CreatedBy returns the value of the "created_by" field in the mutation.
+func (m *TenantSettingMutation) CreatedBy() (r string, exists bool) {
+	v := m.created_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedBy returns the old "created_by" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldCreatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedBy: %w", err)
+	}
+	return oldValue.CreatedBy, nil
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (m *TenantSettingMutation) ClearCreatedBy() {
+	m.created_by = nil
+	m.clearedFields[tenantsetting.FieldCreatedBy] = struct{}{}
+}
+
+// CreatedByCleared returns if the "created_by" field was cleared in this mutation.
+func (m *TenantSettingMutation) CreatedByCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldCreatedBy]
+	return ok
+}
+
+// ResetCreatedBy resets all changes to the "created_by" field.
+func (m *TenantSettingMutation) ResetCreatedBy() {
+	m.created_by = nil
+	delete(m.clearedFields, tenantsetting.FieldCreatedBy)
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (m *TenantSettingMutation) SetUpdatedBy(s string) {
+	m.updated_by = &s
+}
+
+// UpdatedBy returns the value of the "updated_by" field in the mutation.
+func (m *TenantSettingMutation) UpdatedBy() (r string, exists bool) {
+	v := m.updated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedBy returns the old "updated_by" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldUpdatedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedBy: %w", err)
+	}
+	return oldValue.UpdatedBy, nil
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (m *TenantSettingMutation) ClearUpdatedBy() {
+	m.updated_by = nil
+	m.clearedFields[tenantsetting.FieldUpdatedBy] = struct{}{}
+}
+
+// UpdatedByCleared returns if the "updated_by" field was cleared in this mutation.
+func (m *TenantSettingMutation) UpdatedByCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldUpdatedBy]
+	return ok
+}
+
+// ResetUpdatedBy resets all changes to the "updated_by" field.
+func (m *TenantSettingMutation) ResetUpdatedBy() {
+	m.updated_by = nil
+	delete(m.clearedFields, tenantsetting.FieldUpdatedBy)
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *TenantSettingMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *TenantSettingMutation) CreatedAt() (r int64, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// AddCreatedAt adds i to the "created_at" field.
+func (m *TenantSettingMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *TenantSettingMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *TenantSettingMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	m.clearedFields[tenantsetting.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *TenantSettingMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldCreatedAt]
+	return ok
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *TenantSettingMutation) ResetCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	delete(m.clearedFields, tenantsetting.FieldCreatedAt)
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *TenantSettingMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *TenantSettingMutation) UpdatedAt() (r int64, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *TenantSettingMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *TenantSettingMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *TenantSettingMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	m.clearedFields[tenantsetting.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *TenantSettingMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldUpdatedAt]
+	return ok
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *TenantSettingMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	delete(m.clearedFields, tenantsetting.FieldUpdatedAt)
+}
+
+// SetSettingKey sets the "setting_key" field.
+func (m *TenantSettingMutation) SetSettingKey(s string) {
+	m.setting_key = &s
+}
+
+// SettingKey returns the value of the "setting_key" field in the mutation.
+func (m *TenantSettingMutation) SettingKey() (r string, exists bool) {
+	v := m.setting_key
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSettingKey returns the old "setting_key" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldSettingKey(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSettingKey is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSettingKey requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSettingKey: %w", err)
+	}
+	return oldValue.SettingKey, nil
+}
+
+// ResetSettingKey resets all changes to the "setting_key" field.
+func (m *TenantSettingMutation) ResetSettingKey() {
+	m.setting_key = nil
+}
+
+// SetSettingName sets the "setting_name" field.
+func (m *TenantSettingMutation) SetSettingName(s string) {
+	m.setting_name = &s
+}
+
+// SettingName returns the value of the "setting_name" field in the mutation.
+func (m *TenantSettingMutation) SettingName() (r string, exists bool) {
+	v := m.setting_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSettingName returns the old "setting_name" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldSettingName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSettingName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSettingName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSettingName: %w", err)
+	}
+	return oldValue.SettingName, nil
+}
+
+// ResetSettingName resets all changes to the "setting_name" field.
+func (m *TenantSettingMutation) ResetSettingName() {
+	m.setting_name = nil
+}
+
+// SetSettingValue sets the "setting_value" field.
+func (m *TenantSettingMutation) SetSettingValue(s string) {
+	m.setting_value = &s
+}
+
+// SettingValue returns the value of the "setting_value" field in the mutation.
+func (m *TenantSettingMutation) SettingValue() (r string, exists bool) {
+	v := m.setting_value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSettingValue returns the old "setting_value" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldSettingValue(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSettingValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSettingValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSettingValue: %w", err)
+	}
+	return oldValue.SettingValue, nil
+}
+
+// ClearSettingValue clears the value of the "setting_value" field.
+func (m *TenantSettingMutation) ClearSettingValue() {
+	m.setting_value = nil
+	m.clearedFields[tenantsetting.FieldSettingValue] = struct{}{}
+}
+
+// SettingValueCleared returns if the "setting_value" field was cleared in this mutation.
+func (m *TenantSettingMutation) SettingValueCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldSettingValue]
+	return ok
+}
+
+// ResetSettingValue resets all changes to the "setting_value" field.
+func (m *TenantSettingMutation) ResetSettingValue() {
+	m.setting_value = nil
+	delete(m.clearedFields, tenantsetting.FieldSettingValue)
+}
+
+// SetDefaultValue sets the "default_value" field.
+func (m *TenantSettingMutation) SetDefaultValue(s string) {
+	m.default_value = &s
+}
+
+// DefaultValue returns the value of the "default_value" field in the mutation.
+func (m *TenantSettingMutation) DefaultValue() (r string, exists bool) {
+	v := m.default_value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDefaultValue returns the old "default_value" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldDefaultValue(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDefaultValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDefaultValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDefaultValue: %w", err)
+	}
+	return oldValue.DefaultValue, nil
+}
+
+// ClearDefaultValue clears the value of the "default_value" field.
+func (m *TenantSettingMutation) ClearDefaultValue() {
+	m.default_value = nil
+	m.clearedFields[tenantsetting.FieldDefaultValue] = struct{}{}
+}
+
+// DefaultValueCleared returns if the "default_value" field was cleared in this mutation.
+func (m *TenantSettingMutation) DefaultValueCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldDefaultValue]
+	return ok
+}
+
+// ResetDefaultValue resets all changes to the "default_value" field.
+func (m *TenantSettingMutation) ResetDefaultValue() {
+	m.default_value = nil
+	delete(m.clearedFields, tenantsetting.FieldDefaultValue)
+}
+
+// SetSettingType sets the "setting_type" field.
+func (m *TenantSettingMutation) SetSettingType(s string) {
+	m.setting_type = &s
+}
+
+// SettingType returns the value of the "setting_type" field in the mutation.
+func (m *TenantSettingMutation) SettingType() (r string, exists bool) {
+	v := m.setting_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSettingType returns the old "setting_type" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldSettingType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSettingType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSettingType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSettingType: %w", err)
+	}
+	return oldValue.SettingType, nil
+}
+
+// ResetSettingType resets all changes to the "setting_type" field.
+func (m *TenantSettingMutation) ResetSettingType() {
+	m.setting_type = nil
+}
+
+// SetScope sets the "scope" field.
+func (m *TenantSettingMutation) SetScope(s string) {
+	m.scope = &s
+}
+
+// Scope returns the value of the "scope" field in the mutation.
+func (m *TenantSettingMutation) Scope() (r string, exists bool) {
+	v := m.scope
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldScope returns the old "scope" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldScope(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldScope is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldScope requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldScope: %w", err)
+	}
+	return oldValue.Scope, nil
+}
+
+// ResetScope resets all changes to the "scope" field.
+func (m *TenantSettingMutation) ResetScope() {
+	m.scope = nil
+}
+
+// SetCategory sets the "category" field.
+func (m *TenantSettingMutation) SetCategory(s string) {
+	m.category = &s
+}
+
+// Category returns the value of the "category" field in the mutation.
+func (m *TenantSettingMutation) Category() (r string, exists bool) {
+	v := m.category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCategory returns the old "category" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
+	}
+	return oldValue.Category, nil
+}
+
+// ResetCategory resets all changes to the "category" field.
+func (m *TenantSettingMutation) ResetCategory() {
+	m.category = nil
+}
+
+// SetIsPublic sets the "is_public" field.
+func (m *TenantSettingMutation) SetIsPublic(b bool) {
+	m.is_public = &b
+}
+
+// IsPublic returns the value of the "is_public" field in the mutation.
+func (m *TenantSettingMutation) IsPublic() (r bool, exists bool) {
+	v := m.is_public
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsPublic returns the old "is_public" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldIsPublic(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsPublic is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsPublic requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsPublic: %w", err)
+	}
+	return oldValue.IsPublic, nil
+}
+
+// ResetIsPublic resets all changes to the "is_public" field.
+func (m *TenantSettingMutation) ResetIsPublic() {
+	m.is_public = nil
+}
+
+// SetIsRequired sets the "is_required" field.
+func (m *TenantSettingMutation) SetIsRequired(b bool) {
+	m.is_required = &b
+}
+
+// IsRequired returns the value of the "is_required" field in the mutation.
+func (m *TenantSettingMutation) IsRequired() (r bool, exists bool) {
+	v := m.is_required
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsRequired returns the old "is_required" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldIsRequired(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsRequired is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsRequired requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsRequired: %w", err)
+	}
+	return oldValue.IsRequired, nil
+}
+
+// ResetIsRequired resets all changes to the "is_required" field.
+func (m *TenantSettingMutation) ResetIsRequired() {
+	m.is_required = nil
+}
+
+// SetIsReadonly sets the "is_readonly" field.
+func (m *TenantSettingMutation) SetIsReadonly(b bool) {
+	m.is_readonly = &b
+}
+
+// IsReadonly returns the value of the "is_readonly" field in the mutation.
+func (m *TenantSettingMutation) IsReadonly() (r bool, exists bool) {
+	v := m.is_readonly
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsReadonly returns the old "is_readonly" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldIsReadonly(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsReadonly is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsReadonly requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsReadonly: %w", err)
+	}
+	return oldValue.IsReadonly, nil
+}
+
+// ResetIsReadonly resets all changes to the "is_readonly" field.
+func (m *TenantSettingMutation) ResetIsReadonly() {
+	m.is_readonly = nil
+}
+
+// SetValidation sets the "validation" field.
+func (m *TenantSettingMutation) SetValidation(value map[string]interface{}) {
+	m.validation = &value
+}
+
+// Validation returns the value of the "validation" field in the mutation.
+func (m *TenantSettingMutation) Validation() (r map[string]interface{}, exists bool) {
+	v := m.validation
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValidation returns the old "validation" field's value of the TenantSetting entity.
+// If the TenantSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TenantSettingMutation) OldValidation(ctx context.Context) (v map[string]interface{}, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValidation is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValidation requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValidation: %w", err)
+	}
+	return oldValue.Validation, nil
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (m *TenantSettingMutation) ClearValidation() {
+	m.validation = nil
+	m.clearedFields[tenantsetting.FieldValidation] = struct{}{}
+}
+
+// ValidationCleared returns if the "validation" field was cleared in this mutation.
+func (m *TenantSettingMutation) ValidationCleared() bool {
+	_, ok := m.clearedFields[tenantsetting.FieldValidation]
+	return ok
+}
+
+// ResetValidation resets all changes to the "validation" field.
+func (m *TenantSettingMutation) ResetValidation() {
+	m.validation = nil
+	delete(m.clearedFields, tenantsetting.FieldValidation)
+}
+
+// Where appends a list predicates to the TenantSettingMutation builder.
+func (m *TenantSettingMutation) Where(ps ...predicate.TenantSetting) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the TenantSettingMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *TenantSettingMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.TenantSetting, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *TenantSettingMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *TenantSettingMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (TenantSetting).
+func (m *TenantSettingMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *TenantSettingMutation) Fields() []string {
+	fields := make([]string, 0, 18)
+	if m.tenant_id != nil {
+		fields = append(fields, tenantsetting.FieldTenantID)
+	}
+	if m.description != nil {
+		fields = append(fields, tenantsetting.FieldDescription)
+	}
+	if m.extras != nil {
+		fields = append(fields, tenantsetting.FieldExtras)
+	}
+	if m.created_by != nil {
+		fields = append(fields, tenantsetting.FieldCreatedBy)
+	}
+	if m.updated_by != nil {
+		fields = append(fields, tenantsetting.FieldUpdatedBy)
+	}
+	if m.created_at != nil {
+		fields = append(fields, tenantsetting.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, tenantsetting.FieldUpdatedAt)
+	}
+	if m.setting_key != nil {
+		fields = append(fields, tenantsetting.FieldSettingKey)
+	}
+	if m.setting_name != nil {
+		fields = append(fields, tenantsetting.FieldSettingName)
+	}
+	if m.setting_value != nil {
+		fields = append(fields, tenantsetting.FieldSettingValue)
+	}
+	if m.default_value != nil {
+		fields = append(fields, tenantsetting.FieldDefaultValue)
+	}
+	if m.setting_type != nil {
+		fields = append(fields, tenantsetting.FieldSettingType)
+	}
+	if m.scope != nil {
+		fields = append(fields, tenantsetting.FieldScope)
+	}
+	if m.category != nil {
+		fields = append(fields, tenantsetting.FieldCategory)
+	}
+	if m.is_public != nil {
+		fields = append(fields, tenantsetting.FieldIsPublic)
+	}
+	if m.is_required != nil {
+		fields = append(fields, tenantsetting.FieldIsRequired)
+	}
+	if m.is_readonly != nil {
+		fields = append(fields, tenantsetting.FieldIsReadonly)
+	}
+	if m.validation != nil {
+		fields = append(fields, tenantsetting.FieldValidation)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *TenantSettingMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case tenantsetting.FieldTenantID:
+		return m.TenantID()
+	case tenantsetting.FieldDescription:
+		return m.Description()
+	case tenantsetting.FieldExtras:
+		return m.Extras()
+	case tenantsetting.FieldCreatedBy:
+		return m.CreatedBy()
+	case tenantsetting.FieldUpdatedBy:
+		return m.UpdatedBy()
+	case tenantsetting.FieldCreatedAt:
+		return m.CreatedAt()
+	case tenantsetting.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case tenantsetting.FieldSettingKey:
+		return m.SettingKey()
+	case tenantsetting.FieldSettingName:
+		return m.SettingName()
+	case tenantsetting.FieldSettingValue:
+		return m.SettingValue()
+	case tenantsetting.FieldDefaultValue:
+		return m.DefaultValue()
+	case tenantsetting.FieldSettingType:
+		return m.SettingType()
+	case tenantsetting.FieldScope:
+		return m.Scope()
+	case tenantsetting.FieldCategory:
+		return m.Category()
+	case tenantsetting.FieldIsPublic:
+		return m.IsPublic()
+	case tenantsetting.FieldIsRequired:
+		return m.IsRequired()
+	case tenantsetting.FieldIsReadonly:
+		return m.IsReadonly()
+	case tenantsetting.FieldValidation:
+		return m.Validation()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *TenantSettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case tenantsetting.FieldTenantID:
+		return m.OldTenantID(ctx)
+	case tenantsetting.FieldDescription:
+		return m.OldDescription(ctx)
+	case tenantsetting.FieldExtras:
+		return m.OldExtras(ctx)
+	case tenantsetting.FieldCreatedBy:
+		return m.OldCreatedBy(ctx)
+	case tenantsetting.FieldUpdatedBy:
+		return m.OldUpdatedBy(ctx)
+	case tenantsetting.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case tenantsetting.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case tenantsetting.FieldSettingKey:
+		return m.OldSettingKey(ctx)
+	case tenantsetting.FieldSettingName:
+		return m.OldSettingName(ctx)
+	case tenantsetting.FieldSettingValue:
+		return m.OldSettingValue(ctx)
+	case tenantsetting.FieldDefaultValue:
+		return m.OldDefaultValue(ctx)
+	case tenantsetting.FieldSettingType:
+		return m.OldSettingType(ctx)
+	case tenantsetting.FieldScope:
+		return m.OldScope(ctx)
+	case tenantsetting.FieldCategory:
+		return m.OldCategory(ctx)
+	case tenantsetting.FieldIsPublic:
+		return m.OldIsPublic(ctx)
+	case tenantsetting.FieldIsRequired:
+		return m.OldIsRequired(ctx)
+	case tenantsetting.FieldIsReadonly:
+		return m.OldIsReadonly(ctx)
+	case tenantsetting.FieldValidation:
+		return m.OldValidation(ctx)
+	}
+	return nil, fmt.Errorf("unknown TenantSetting field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *TenantSettingMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case tenantsetting.FieldTenantID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTenantID(v)
+		return nil
+	case tenantsetting.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	case tenantsetting.FieldExtras:
+		v, ok := value.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExtras(v)
+		return nil
+	case tenantsetting.FieldCreatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedBy(v)
+		return nil
+	case tenantsetting.FieldUpdatedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedBy(v)
+		return nil
+	case tenantsetting.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case tenantsetting.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case tenantsetting.FieldSettingKey:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSettingKey(v)
+		return nil
+	case tenantsetting.FieldSettingName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSettingName(v)
+		return nil
+	case tenantsetting.FieldSettingValue:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSettingValue(v)
+		return nil
+	case tenantsetting.FieldDefaultValue:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDefaultValue(v)
+		return nil
+	case tenantsetting.FieldSettingType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSettingType(v)
+		return nil
+	case tenantsetting.FieldScope:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetScope(v)
+		return nil
+	case tenantsetting.FieldCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCategory(v)
+		return nil
+	case tenantsetting.FieldIsPublic:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsPublic(v)
+		return nil
+	case tenantsetting.FieldIsRequired:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsRequired(v)
+		return nil
+	case tenantsetting.FieldIsReadonly:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsReadonly(v)
+		return nil
+	case tenantsetting.FieldValidation:
+		v, ok := value.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValidation(v)
+		return nil
+	}
+	return fmt.Errorf("unknown TenantSetting field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *TenantSettingMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, tenantsetting.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, tenantsetting.FieldUpdatedAt)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *TenantSettingMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case tenantsetting.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case tenantsetting.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *TenantSettingMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case tenantsetting.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case tenantsetting.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown TenantSetting numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *TenantSettingMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(tenantsetting.FieldTenantID) {
+		fields = append(fields, tenantsetting.FieldTenantID)
+	}
+	if m.FieldCleared(tenantsetting.FieldDescription) {
+		fields = append(fields, tenantsetting.FieldDescription)
+	}
+	if m.FieldCleared(tenantsetting.FieldExtras) {
+		fields = append(fields, tenantsetting.FieldExtras)
+	}
+	if m.FieldCleared(tenantsetting.FieldCreatedBy) {
+		fields = append(fields, tenantsetting.FieldCreatedBy)
+	}
+	if m.FieldCleared(tenantsetting.FieldUpdatedBy) {
+		fields = append(fields, tenantsetting.FieldUpdatedBy)
+	}
+	if m.FieldCleared(tenantsetting.FieldCreatedAt) {
+		fields = append(fields, tenantsetting.FieldCreatedAt)
+	}
+	if m.FieldCleared(tenantsetting.FieldUpdatedAt) {
+		fields = append(fields, tenantsetting.FieldUpdatedAt)
+	}
+	if m.FieldCleared(tenantsetting.FieldSettingValue) {
+		fields = append(fields, tenantsetting.FieldSettingValue)
+	}
+	if m.FieldCleared(tenantsetting.FieldDefaultValue) {
+		fields = append(fields, tenantsetting.FieldDefaultValue)
+	}
+	if m.FieldCleared(tenantsetting.FieldValidation) {
+		fields = append(fields, tenantsetting.FieldValidation)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *TenantSettingMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *TenantSettingMutation) ClearField(name string) error {
+	switch name {
+	case tenantsetting.FieldTenantID:
+		m.ClearTenantID()
+		return nil
+	case tenantsetting.FieldDescription:
+		m.ClearDescription()
+		return nil
+	case tenantsetting.FieldExtras:
+		m.ClearExtras()
+		return nil
+	case tenantsetting.FieldCreatedBy:
+		m.ClearCreatedBy()
+		return nil
+	case tenantsetting.FieldUpdatedBy:
+		m.ClearUpdatedBy()
+		return nil
+	case tenantsetting.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case tenantsetting.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	case tenantsetting.FieldSettingValue:
+		m.ClearSettingValue()
+		return nil
+	case tenantsetting.FieldDefaultValue:
+		m.ClearDefaultValue()
+		return nil
+	case tenantsetting.FieldValidation:
+		m.ClearValidation()
+		return nil
+	}
+	return fmt.Errorf("unknown TenantSetting nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *TenantSettingMutation) ResetField(name string) error {
+	switch name {
+	case tenantsetting.FieldTenantID:
+		m.ResetTenantID()
+		return nil
+	case tenantsetting.FieldDescription:
+		m.ResetDescription()
+		return nil
+	case tenantsetting.FieldExtras:
+		m.ResetExtras()
+		return nil
+	case tenantsetting.FieldCreatedBy:
+		m.ResetCreatedBy()
+		return nil
+	case tenantsetting.FieldUpdatedBy:
+		m.ResetUpdatedBy()
+		return nil
+	case tenantsetting.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case tenantsetting.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case tenantsetting.FieldSettingKey:
+		m.ResetSettingKey()
+		return nil
+	case tenantsetting.FieldSettingName:
+		m.ResetSettingName()
+		return nil
+	case tenantsetting.FieldSettingValue:
+		m.ResetSettingValue()
+		return nil
+	case tenantsetting.FieldDefaultValue:
+		m.ResetDefaultValue()
+		return nil
+	case tenantsetting.FieldSettingType:
+		m.ResetSettingType()
+		return nil
+	case tenantsetting.FieldScope:
+		m.ResetScope()
+		return nil
+	case tenantsetting.FieldCategory:
+		m.ResetCategory()
+		return nil
+	case tenantsetting.FieldIsPublic:
+		m.ResetIsPublic()
+		return nil
+	case tenantsetting.FieldIsRequired:
+		m.ResetIsRequired()
+		return nil
+	case tenantsetting.FieldIsReadonly:
+		m.ResetIsReadonly()
+		return nil
+	case tenantsetting.FieldValidation:
+		m.ResetValidation()
+		return nil
+	}
+	return fmt.Errorf("unknown TenantSetting field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *TenantSettingMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *TenantSettingMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *TenantSettingMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *TenantSettingMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *TenantSettingMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *TenantSettingMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *TenantSettingMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown TenantSetting unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *TenantSettingMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown TenantSetting edge %s", name)
 }
 
 // UserTenantMutation represents an operation that mutates the UserTenant nodes in the graph.

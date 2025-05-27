@@ -2,14 +2,20 @@ package handler
 
 import "ncobase/tenant/service"
 
-// Handler represents the tenant handler.
+// Handler represents the tenant handler
 type Handler struct {
-	Tenant TenantHandlerInterface
+	Tenant        TenantHandlerInterface
+	TenantQuota   TenantQuotaHandlerInterface
+	TenantSetting TenantSettingHandlerInterface
+	TenantBilling TenantBillingHandlerInterface
 }
 
-// New creates a new handler.
+// New creates a new handler
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		Tenant: NewTenantHandler(svc),
+		Tenant:        NewTenantHandler(svc),
+		TenantQuota:   NewTenantQuotaHandler(svc),
+		TenantSetting: NewTenantSettingHandler(svc),
+		TenantBilling: NewTenantBillingHandler(svc),
 	}
 }

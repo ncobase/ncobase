@@ -54,6 +54,186 @@ var (
 			},
 		},
 	}
+	// NcseIamTenantBillingColumns holds the columns for the "ncse_iam_tenant_billing" table.
+	NcseIamTenantBillingColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "billing_period", Type: field.TypeString, Comment: "Billing period type (monthly, yearly, one_time, usage_based)", Default: "monthly"},
+		{Name: "period_start", Type: field.TypeInt64, Nullable: true, Comment: "Start timestamp of billing period"},
+		{Name: "period_end", Type: field.TypeInt64, Nullable: true, Comment: "End timestamp of billing period"},
+		{Name: "amount", Type: field.TypeFloat64, Comment: "Billing amount"},
+		{Name: "currency", Type: field.TypeString, Comment: "Currency code (USD, EUR, etc.)", Default: "USD"},
+		{Name: "status", Type: field.TypeString, Comment: "Billing status (pending, paid, overdue, cancelled, refunded)", Default: "pending"},
+		{Name: "invoice_number", Type: field.TypeString, Nullable: true, Comment: "Invoice or reference number"},
+		{Name: "payment_method", Type: field.TypeString, Nullable: true, Comment: "Payment method used"},
+		{Name: "paid_at", Type: field.TypeInt64, Nullable: true, Comment: "Payment timestamp"},
+		{Name: "due_date", Type: field.TypeInt64, Nullable: true, Comment: "Payment due date timestamp"},
+		{Name: "usage_details", Type: field.TypeJSON, Nullable: true, Comment: "Detailed usage information for billing period"},
+	}
+	// NcseIamTenantBillingTable holds the schema information for the "ncse_iam_tenant_billing" table.
+	NcseIamTenantBillingTable = &schema.Table{
+		Name:       "ncse_iam_tenant_billing",
+		Columns:    NcseIamTenantBillingColumns,
+		PrimaryKey: []*schema.Column{NcseIamTenantBillingColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "tenantbilling_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantBillingColumns[0]},
+			},
+			{
+				Name:    "tenantbilling_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantBillingColumns[1]},
+			},
+			{
+				Name:    "tenantbilling_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantBillingColumns[0], NcseIamTenantBillingColumns[6]},
+			},
+			{
+				Name:    "tenantbilling_tenant_id_billing_period",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantBillingColumns[1], NcseIamTenantBillingColumns[8]},
+			},
+			{
+				Name:    "tenantbilling_tenant_id_status",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantBillingColumns[1], NcseIamTenantBillingColumns[13]},
+			},
+			{
+				Name:    "tenantbilling_status_due_date",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantBillingColumns[13], NcseIamTenantBillingColumns[17]},
+			},
+			{
+				Name:    "tenantbilling_invoice_number",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantBillingColumns[14]},
+			},
+		},
+	}
+	// NcseIamTenantQuotaColumns holds the columns for the "ncse_iam_tenant_quota" table.
+	NcseIamTenantQuotaColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "quota_type", Type: field.TypeString, Comment: "Type of quota (users, storage, api_calls, etc.)"},
+		{Name: "quota_name", Type: field.TypeString, Comment: "Human readable name of the quota"},
+		{Name: "max_value", Type: field.TypeInt64, Comment: "Maximum allowed value for this quota"},
+		{Name: "current_used", Type: field.TypeInt64, Comment: "Current usage of this quota", Default: 0},
+		{Name: "unit", Type: field.TypeString, Comment: "Unit of measurement (count, bytes, mb, gb, tb)", Default: "count"},
+		{Name: "enabled", Type: field.TypeBool, Comment: "Whether this quota is actively enforced", Default: true},
+	}
+	// NcseIamTenantQuotaTable holds the schema information for the "ncse_iam_tenant_quota" table.
+	NcseIamTenantQuotaTable = &schema.Table{
+		Name:       "ncse_iam_tenant_quota",
+		Columns:    NcseIamTenantQuotaColumns,
+		PrimaryKey: []*schema.Column{NcseIamTenantQuotaColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "tenantquota_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantQuotaColumns[0]},
+			},
+			{
+				Name:    "tenantquota_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantQuotaColumns[1]},
+			},
+			{
+				Name:    "tenantquota_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantQuotaColumns[0], NcseIamTenantQuotaColumns[6]},
+			},
+			{
+				Name:    "tenantquota_tenant_id_quota_type",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantQuotaColumns[1], NcseIamTenantQuotaColumns[8]},
+			},
+			{
+				Name:    "tenantquota_tenant_id_enabled",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantQuotaColumns[1], NcseIamTenantQuotaColumns[13]},
+			},
+		},
+	}
+	// NcseIamTenantSettingColumns holds the columns for the "ncse_iam_tenant_setting" table.
+	NcseIamTenantSettingColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "setting_key", Type: field.TypeString, Comment: "Unique key for the setting"},
+		{Name: "setting_name", Type: field.TypeString, Comment: "Human readable name of the setting"},
+		{Name: "setting_value", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "Current value of the setting"},
+		{Name: "default_value", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "Default value of the setting"},
+		{Name: "setting_type", Type: field.TypeString, Comment: "Data type of the setting value", Default: "string"},
+		{Name: "scope", Type: field.TypeString, Comment: "Scope of the setting (system, tenant, user, feature)", Default: "tenant"},
+		{Name: "category", Type: field.TypeString, Comment: "Category grouping for settings", Default: "general"},
+		{Name: "is_public", Type: field.TypeBool, Comment: "Whether setting is publicly readable", Default: false},
+		{Name: "is_required", Type: field.TypeBool, Comment: "Whether setting is required", Default: false},
+		{Name: "is_readonly", Type: field.TypeBool, Comment: "Whether setting is read-only", Default: false},
+		{Name: "validation", Type: field.TypeJSON, Nullable: true, Comment: "Validation rules for the setting value"},
+	}
+	// NcseIamTenantSettingTable holds the schema information for the "ncse_iam_tenant_setting" table.
+	NcseIamTenantSettingTable = &schema.Table{
+		Name:       "ncse_iam_tenant_setting",
+		Columns:    NcseIamTenantSettingColumns,
+		PrimaryKey: []*schema.Column{NcseIamTenantSettingColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "tenantsetting_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantSettingColumns[0]},
+			},
+			{
+				Name:    "tenantsetting_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantSettingColumns[1]},
+			},
+			{
+				Name:    "tenantsetting_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantSettingColumns[0], NcseIamTenantSettingColumns[6]},
+			},
+			{
+				Name:    "tenantsetting_tenant_id_setting_key",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamTenantSettingColumns[1], NcseIamTenantSettingColumns[8]},
+			},
+			{
+				Name:    "tenantsetting_tenant_id_category",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantSettingColumns[1], NcseIamTenantSettingColumns[14]},
+			},
+			{
+				Name:    "tenantsetting_tenant_id_scope",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantSettingColumns[1], NcseIamTenantSettingColumns[13]},
+			},
+			{
+				Name:    "tenantsetting_is_public",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamTenantSettingColumns[15]},
+			},
+		},
+	}
 	// NcseIamUserTenantColumns holds the columns for the "ncse_iam_user_tenant" table.
 	NcseIamUserTenantColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -100,6 +280,9 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		NcseIamTenantTable,
+		NcseIamTenantBillingTable,
+		NcseIamTenantQuotaTable,
+		NcseIamTenantSettingTable,
 		NcseIamUserTenantTable,
 	}
 )
@@ -107,6 +290,15 @@ var (
 func init() {
 	NcseIamTenantTable.Annotation = &entsql.Annotation{
 		Table: "ncse_iam_tenant",
+	}
+	NcseIamTenantBillingTable.Annotation = &entsql.Annotation{
+		Table: "ncse_iam_tenant_billing",
+	}
+	NcseIamTenantQuotaTable.Annotation = &entsql.Annotation{
+		Table: "ncse_iam_tenant_quota",
+	}
+	NcseIamTenantSettingTable.Annotation = &entsql.Annotation{
+		Table: "ncse_iam_tenant_setting",
 	}
 	NcseIamUserTenantTable.Annotation = &entsql.Annotation{
 		Table: "ncse_iam_user_tenant",

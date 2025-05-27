@@ -1,4 +1,3 @@
-// ./plugin/initialize/data/enterprise/roles.go
 package enterprise
 
 import accessStructs "ncobase/access/structs"

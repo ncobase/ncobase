@@ -14,6 +14,12 @@ type Tx struct {
 	config
 	// Tenant is the client for interacting with the Tenant builders.
 	Tenant *TenantClient
+	// TenantBilling is the client for interacting with the TenantBilling builders.
+	TenantBilling *TenantBillingClient
+	// TenantQuota is the client for interacting with the TenantQuota builders.
+	TenantQuota *TenantQuotaClient
+	// TenantSetting is the client for interacting with the TenantSetting builders.
+	TenantSetting *TenantSettingClient
 	// UserTenant is the client for interacting with the UserTenant builders.
 	UserTenant *UserTenantClient
 
@@ -148,6 +154,9 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Tenant = NewTenantClient(tx.config)
+	tx.TenantBilling = NewTenantBillingClient(tx.config)
+	tx.TenantQuota = NewTenantQuotaClient(tx.config)
+	tx.TenantSetting = NewTenantSettingClient(tx.config)
 	tx.UserTenant = NewUserTenantClient(tx.config)
 }
 
