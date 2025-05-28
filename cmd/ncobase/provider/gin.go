@@ -18,53 +18,61 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ginServer creates and initializes the server.
+// ginServer creates and initializes the server with properly ordered middleware
 func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error) {
 	// Set gin mode
 	if conf.RunMode == "" {
 		conf.RunMode = gin.ReleaseMode
 	}
-	// Set mode before creating engine
 	gin.SetMode(conf.RunMode)
+
 	// Create gin engine
 	engine := gin.New()
 
-	// Initialize middleware
-	engine.Use(middleware.Trace)
-	engine.Use(middleware.Logger)
+	// Initialize middleware in correct order
+
+	// 1. Basic infrastructure middleware
 	engine.Use(middleware.CORSHandler)
+
+	// 2. Context and tracing setup
+	engine.Use(middleware.Trace)
+
+	// 3. Logging
+	engine.Use(middleware.Logger)
+
+	// 4. OpenTelemetry tracing
 	engine.Use(middleware.OtelTrace)
 
-	// Validate timestamp
+	// 5. Optional: Timestamp validation
 	// engine.Use(middleware.Timestamp(conf.Auth.Whitelist))
 
-	// Consume user
+	// 6. User authentication and context setup
 	userMiddleware(conf, engine, em)
 
-	// Consume tenant
+	// 7. Tenant context setup
 	tenantMiddleware(conf, engine, em)
 
-	// Casbin middleware
+	// 8. Authorization (Casbin)
 	if err := casbinMiddleware(conf, engine, em); err != nil {
 		return nil, err
 	}
 
-	// Register REST
+	// Register routes
 	registerRest(engine, conf)
 
-	// Register GraphQL
+	// Register GraphQL (if needed)
 	// registerGraphql(engine, svc, conf.RunMode)
 
-	// Register extension / plugin routes
+	// Register extension/plugin routes
 	em.RegisterRoutes(engine)
 
 	// Register extension management routes
 	if conf.Extension.HotReload {
-		// Belong domain group
 		g := engine.Group("/sys", middleware.AuthenticatedUser)
 		em.ManageRoutes(g)
 	}
-	// No route
+
+	// Handle not found routes
 	engine.NoRoute(func(c *gin.Context) {
 		resp.Fail(c.Writer, resp.NotFound(ecode.Text(http.StatusNotFound)))
 	})
@@ -73,37 +81,39 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 	return engine, nil
 }
 
-// register user middleware
+// userMiddleware registers user authentication middleware
 func userMiddleware(conf *config.Config, engine *gin.Engine, _ ext.ManagerInterface) {
 	engine.Use(middleware.ConsumeUser(jwt.NewTokenManager(conf.Auth.JWT.Secret), conf.Auth.Whitelist))
 }
 
-// register Tenant middleware
+// tenantMiddleware registers tenant context middleware
 func tenantMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) {
-	// get tenant service
+	// Get tenant service
 	tsExt, err := em.GetService("tenant")
 	if err != nil {
 		logger.Errorf(context.Background(), "failed to get tenant service: %v", err.Error())
 		return
 	}
-	// get tenant service
+
+	// Cast to tenant service
 	ts, ok := tsExt.(*tenantService.Service)
 	if !ok {
-		logger.Errorf(context.Background(), "tenant service does not implement")
+		logger.Errorf(context.Background(), "tenant service does not implement expected interface")
 		return
 	}
 	if ts == nil {
 		return
 	}
+
 	engine.Use(middleware.ConsumeTenant(ts, conf.Auth.Whitelist))
 }
 
-// EnforcerProvider is an interface for getting the casbin enforcer
+// EnforcerProvider interface for getting casbin enforcer
 type EnforcerProvider interface {
 	GetEnforcer() *casbin.Enforcer
 }
 
-// register casbin middleware
+// casbinMiddleware registers casbin authorization middleware
 func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) error {
 	asExt, err := em.GetExtension("access")
 	if err != nil {

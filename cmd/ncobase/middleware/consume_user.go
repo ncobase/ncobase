@@ -82,7 +82,12 @@ func extractToken(c *gin.Context) string {
 
 // setUserContext sets user information in context from token claims
 func setUserContext(c *gin.Context, claims map[string]any) context.Context {
-	ctx := ctxutil.WithGinContext(context.Background(), c)
+	// Get context
+	ctx := c.Request.Context()
+	// If no Gin context exists, create one
+	if _, ok := ctxutil.GetGinContext(ctx); !ok {
+		ctx = ctxutil.WithGinContext(ctx, c)
+	}
 
 	// Set basic user info
 	if userID := jwt.GetUserIDFromToken(claims); userID != "" {

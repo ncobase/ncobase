@@ -10,9 +10,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AuthenticatedTenant checks if the user is related to a tenant and authenticated.
+// AuthenticatedTenant checks if user is related to tenant and authenticated
 func AuthenticatedTenant(c *gin.Context) {
-	ctx := ctxutil.FromGinContext(c)
+	// Get context
+	ctx := c.Request.Context()
+	// Retrieve tenant ID from context
 	tenantID := ctxutil.GetTenantID(ctx)
 
 	if validator.IsEmpty(tenantID) {
@@ -25,9 +27,11 @@ func AuthenticatedTenant(c *gin.Context) {
 	c.Next()
 }
 
-// AuthenticatedUser checks if the user is authenticated.
+// AuthenticatedUser checks if user is authenticated
 func AuthenticatedUser(c *gin.Context) {
-	ctx := ctxutil.FromGinContext(c)
+	// Get context
+	ctx := c.Request.Context()
+	// Retrieve user ID from context
 	userID := ctxutil.GetUserID(ctx)
 
 	if validator.IsEmpty(userID) {
