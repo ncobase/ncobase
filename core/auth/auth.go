@@ -222,6 +222,7 @@ func (m *Module) Dependencies() []string {
 func (m *Module) GetAllDependencies() []ext.DependencyEntry {
 	return []ext.DependencyEntry{
 		{Name: "user", Type: ext.WeakDependency},
+		{Name: "space", Type: ext.WeakDependency},
 		{Name: "tenant", Type: ext.WeakDependency},
 		{Name: "access", Type: ext.WeakDependency},
 	}

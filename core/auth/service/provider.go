@@ -18,9 +18,10 @@ type Service struct {
 	AuthTenant AuthTenantServiceInterface
 	Session    SessionServiceInterface
 
-	usw *wrapper.UserServiceWrapper
-	tsw *wrapper.TenantServiceWrapper
-	asw *wrapper.AccessServiceWrapper
+	usw  *wrapper.UserServiceWrapper
+	tsw  *wrapper.TenantServiceWrapper
+	asw  *wrapper.AccessServiceWrapper
+	ugsw *wrapper.SpaceServiceWrapper
 }
 
 // New creates a new service.
@@ -30,20 +31,22 @@ func New(d *data.Data, jtm *jwt.TokenManager, em ext.ManagerInterface) *Service 
 	usw := wrapper.NewUserServiceWrapper(em)
 	tsw := wrapper.NewTenantServiceWrapper(em)
 	asw := wrapper.NewAccessServiceWrapper(em)
+	ugsw := wrapper.NewSpaceServiceWrapper(em)
 
 	cas := NewCodeAuthService(d, jtm, ep, usw, tsw, asw)
 	ats := NewAuthTenantService(d, usw, tsw, asw)
 	ss := NewSessionService(d)
 	return &Service{
-		Account:    NewAccountService(d, jtm, ep, cas, ats, ss, usw, tsw, asw),
+		Account:    NewAccountService(d, jtm, ep, cas, ats, ss, usw, tsw, asw, ugsw),
 		AuthTenant: ats,
 		CodeAuth:   cas,
 		Captcha:    NewCaptchaService(d),
 		Session:    ss,
 		// OAuth:    NewOAuthService(d),
-		usw: usw,
-		tsw: tsw,
-		asw: asw,
+		usw:  usw,
+		tsw:  tsw,
+		asw:  asw,
+		ugsw: ugsw,
 	}
 }
 
@@ -52,4 +55,5 @@ func (s *Service) RefreshDependencies() {
 	s.usw.RefreshServices()
 	s.tsw.RefreshServices()
 	s.asw.RefreshServices()
+	s.ugsw.RefreshServices()
 }

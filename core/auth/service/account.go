@@ -43,9 +43,10 @@ type accountService struct {
 	ats AuthTenantServiceInterface
 	ss  SessionServiceInterface
 
-	usw *wrapper.UserServiceWrapper
-	tsw *wrapper.TenantServiceWrapper
-	asw *wrapper.AccessServiceWrapper
+	usw  *wrapper.UserServiceWrapper
+	tsw  *wrapper.TenantServiceWrapper
+	asw  *wrapper.AccessServiceWrapper
+	ugsw *wrapper.SpaceServiceWrapper
 }
 
 // NewAccountService creates a new service.
@@ -53,17 +54,19 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherIn
 	usw *wrapper.UserServiceWrapper,
 	tsw *wrapper.TenantServiceWrapper,
 	asw *wrapper.AccessServiceWrapper,
+	ugsw *wrapper.SpaceServiceWrapper,
 ) AccountServiceInterface {
 	return &accountService{
-		d:   d,
-		jtm: jtm,
-		ep:  ep,
-		cas: cas,
-		ats: ats,
-		ss:  ss,
-		usw: usw,
-		tsw: tsw,
-		asw: asw,
+		d:    d,
+		jtm:  jtm,
+		ep:   ep,
+		cas:  cas,
+		ats:  ats,
+		ss:   ss,
+		usw:  usw,
+		tsw:  tsw,
+		asw:  asw,
+		ugsw: ugsw,
 	}
 }
 
@@ -373,10 +376,11 @@ func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, err
 	}
 
 	return s.Serialize(user, &serializeUserParams{
-		WithProfile: true,
-		WithRoles:   true,
-		WithTenants: true,
-		WithGroups:  true,
+		WithProfile:     true,
+		WithRoles:       true,
+		WithTenants:     true,
+		WithGroups:      true,
+		WithPermissions: true,
 	}), nil
 }
 
@@ -483,12 +487,14 @@ func createUserAndProfile(ctx context.Context, svc *accountService, body *struct
 
 // SerializeParams serialize params
 type serializeUserParams struct {
-	WithProfile bool
-	WithRoles   bool
-	WithTenants bool
-	WithGroups  bool
+	WithProfile     bool
+	WithRoles       bool
+	WithTenants     bool
+	WithGroups      bool
+	WithPermissions bool
 }
 
+// Serialize serializes user
 func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeUserParams) *structs.AccountMeshes {
 	ctx := context.Background()
 	um := &structs.AccountMeshes{
@@ -500,57 +506,104 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 		params = sp[0]
 	}
 
+	// Get user profile
 	if params.WithProfile {
 		if profile, _ := s.usw.GetUserProfile(ctx, user.ID); profile != nil {
 			um.Profile = profile
 		}
 	}
 
+	// Get user tenants
 	if params.WithTenants {
 		if tenants, _ := s.tsw.GetUserTenants(ctx, user.ID); len(tenants) > 0 {
 			um.Tenants = tenants
-			// for _, tenant := range tenants {
-			// 	um.Tenants = append(um.Tenants, tenant)
-			// }
 		}
 	}
 
-	if params.WithRoles {
-		if len(um.Tenants) > 0 {
-			for _, tenant := range um.Tenants {
-				roleIDs, _ := s.asw.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
-				roles, _ := s.asw.GetByIDs(ctx, roleIDs)
-				for _, role := range roles {
-					um.Roles = append(um.Roles, role)
-				}
-			}
-			// TODO: remove duplicate roles if needed
-			// seenRoles := make(map[string]struct{})
-			// for _, tenant := range um.Tenants {
-			// 	roles, _ := s.userTenantRole.GetRolesByUserAndTenant(ctx, user.ID, tenant.ID)
-			// 	for _, role := range roles {
-			// 		roleID := role.ID
-			// 		if _, found := seenRoles[roleID]; !found {
-			// 			um.Roles = append(um.Roles, s.serializeRole(role))
-			// 			seenRoles[roleID] = struct{}{}
-			// 		}
-			// 	}
-			// }
-		} else {
-			roles, _ := s.asw.GetUserRoles(ctx, user.ID)
-			for _, role := range roles {
-				um.Roles = append(um.Roles, role)
-			}
+	// Get roles and permissions together for efficiency
+	if params.WithRoles || params.WithPermissions {
+		roleSlugs, permissions, isAdmin, tenantID := s.getUserRolesAndPermissions(ctx, user.ID)
+
+		if params.WithRoles {
+			um.Roles = roleSlugs
+		}
+
+		if params.WithPermissions {
+			um.Permissions = permissions
+			um.IsAdmin = isAdmin
+			um.TenantID = tenantID
 		}
 	}
 
-	// TODO: group belongs to tenant
-	// if params.WithGroups && len(um.Tenants) > 0 {
-	// 	groups, _ := s.userGroup.GetGroupsByUserID(ctx, user.ID)
-	// 	for _, group := range groups {
-	// 		um.Groups = append(um.Groups, s.serializeGroup(group))
-	// 	}
-	// }
+	// Get user groups
+	if params.WithGroups {
+		groups, _ := s.ugsw.GetUserGroups(ctx, user.ID)
+		um.Groups = groups
+	}
 
 	return um
+}
+
+// getUserRolesAndPermissions gets user roles and permissions efficiently
+func (s *accountService) getUserRolesAndPermissions(ctx context.Context, userID string) ([]string, []string, bool, string) {
+	// Get tenant context
+	tenantID := ctxutil.GetTenantID(ctx)
+	if tenantID == "" {
+		// Try to get default tenant for user
+		if defaultTenant, err := s.tsw.GetUserTenant(ctx, userID); err == nil && defaultTenant != nil {
+			tenantID = defaultTenant.ID
+			ctx = ctxutil.SetTenantID(ctx, tenantID)
+		}
+	}
+
+	// Use existing helper function to get comprehensive role and permission data
+	finalTenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(
+		ctx, s.asw, userID,
+	)
+
+	if err != nil {
+		// Fallback: try to get basic role information
+		roleSlugs = s.getFallbackRoles(ctx, userID)
+		permissionCodes = []string{}
+		isAdmin = ctxutil.GetUserIsAdmin(ctx)
+		finalTenantID = tenantID
+	}
+
+	return roleSlugs, permissionCodes, isAdmin, finalTenantID
+}
+
+// getFallbackRoles gets basic role information when main method fails
+func (s *accountService) getFallbackRoles(ctx context.Context, userID string) []string {
+	var roleSlugs []string
+
+	// Try global roles
+	if globalRoles, err := s.asw.GetUserRoles(ctx, userID); err == nil {
+		for _, role := range globalRoles {
+			roleSlugs = append(roleSlugs, role.Slug)
+		}
+	}
+
+	// Try tenant-specific roles if tenant context exists
+	tenantID := ctxutil.GetTenantID(ctx)
+	if tenantID != "" {
+		if roleIDs, err := s.asw.GetUserRolesInTenant(ctx, userID, tenantID); err == nil && len(roleIDs) > 0 {
+			if tenantRoles, err := s.asw.GetByIDs(ctx, roleIDs); err == nil {
+				for _, role := range tenantRoles {
+					// Avoid duplicates
+					found := false
+					for _, existing := range roleSlugs {
+						if existing == role.Slug {
+							found = true
+							break
+						}
+					}
+					if !found {
+						roleSlugs = append(roleSlugs, role.Slug)
+					}
+				}
+			}
+		}
+	}
+
+	return roleSlugs
 }

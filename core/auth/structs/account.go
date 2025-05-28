@@ -1,7 +1,6 @@
 package structs
 
 import (
-	accessStructs "ncobase/access/structs"
 	spaceStructs "ncobase/space/structs"
 	tenantStructs "ncobase/tenant/structs"
 	userStructs "ncobase/user/structs"
@@ -68,9 +67,12 @@ type RefreshTokenBody struct {
 
 // AccountMeshes represents the account meshes.
 type AccountMeshes struct {
-	User    *userStructs.ReadUser        `json:"user,omitempty"`
-	Profile *userStructs.ReadUserProfile `json:"profile,omitempty"`
-	Roles   []*accessStructs.ReadRole    `json:"roles,omitempty"`
-	Tenants []*tenantStructs.ReadTenant  `json:"tenants,omitempty"`
-	Groups  []*spaceStructs.ReadGroup    `json:"groups,omitempty"`
+	User        *userStructs.ReadUser        `json:"user,omitempty"`
+	Profile     *userStructs.ReadUserProfile `json:"profile,omitempty"`
+	Tenants     []*tenantStructs.ReadTenant  `json:"tenants,omitempty"`
+	Groups      []*spaceStructs.ReadGroup    `json:"groups,omitempty"`
+	Roles       []string                     `json:"roles,omitempty"`
+	Permissions []string                     `json:"permissions,omitempty"`
+	IsAdmin     bool                         `json:"is_admin,omitempty"`
+	TenantID    string                       `json:"tenant_id,omitempty"`
 }
