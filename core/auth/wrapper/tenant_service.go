@@ -99,7 +99,7 @@ func (w *TenantServiceWrapper) AddUserToTenant(ctx context.Context, u string, t 
 
 // GetUserTenant gets user's tenant with fallback
 func (w *TenantServiceWrapper) GetUserTenant(ctx context.Context, userID string) (*tenantStructs.ReadTenant, error) {
-	if w.tenantService != nil {
+	if w.userTenantService != nil {
 		return w.userTenantService.UserBelongTenant(ctx, userID)
 	}
 	return nil, fmt.Errorf("tenant service not available")
@@ -107,7 +107,7 @@ func (w *TenantServiceWrapper) GetUserTenant(ctx context.Context, userID string)
 
 // GetUserTenants gets user's tenants with fallback
 func (w *TenantServiceWrapper) GetUserTenants(ctx context.Context, userID string) ([]*tenantStructs.ReadTenant, error) {
-	if w.tenantService != nil {
+	if w.userTenantService != nil {
 		return w.userTenantService.UserBelongTenants(ctx, userID)
 	}
 	return nil, fmt.Errorf("tenant service not available")

@@ -6,7 +6,7 @@ import (
 	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/net/cookie"
+	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/validation"
 
@@ -59,9 +59,19 @@ func (h *accountHandler) Register(c *gin.Context) {
 		return
 	}
 
-	result, _ := h.s.Account.Register(c.Request.Context(), body)
+	result, err := h.s.Account.Register(c.Request.Context(), body)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
 
-	// _ = cookie.SetTokensFromResult(c.Writer, c.Request, result)
+	// Set session cookie
+	if result.SessionID != "" {
+		if err := service.SetSessionCookie(c.Request.Context(), c.Writer, c.Request, result.SessionID); err != nil {
+			logger.Warnf(c.Request.Context(), "Failed to set session cookie: %v", err)
+		}
+	}
+
 	resp.Success(c.Writer, result)
 }
 
@@ -86,7 +96,7 @@ func (h *accountHandler) Login(c *gin.Context) {
 		return
 	}
 
-	// Validate captcha
+	// Validate captcha if provided
 	if body.Captcha != nil && body.Captcha.ID != "" && body.Captcha.Solution != "" {
 		if err := h.s.Captcha.ValidateCaptcha(c.Request.Context(), body.Captcha); err != nil {
 			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -100,7 +110,13 @@ func (h *accountHandler) Login(c *gin.Context) {
 		return
 	}
 
-	_ = cookie.SetTokensFromResult(c.Writer, c.Request, result)
+	// Set session cookie for web authentication if session created
+	if result.SessionID != "" {
+		if err := service.SetSessionCookie(c.Request.Context(), c.Writer, c.Request, result.SessionID); err != nil {
+			logger.Warnf(c.Request.Context(), "Failed to set session cookie: %v", err)
+		}
+	}
+
 	resp.Success(c.Writer, result)
 }
 
@@ -133,8 +149,17 @@ func (h *accountHandler) GetMe(c *gin.Context) {
 // @Router /iam/logout [post]
 // @Security Bearer
 func (h *accountHandler) Logout(c *gin.Context) {
-	cookie.ClearAll(c.Writer)
-	resp.Success(c.Writer)
+	// Clear session cookies for web authentication
+	service.ClearAuthenticationCookies(c.Writer)
+
+	// Invalidate session in database
+	if sessionID := c.GetHeader("X-Session-ID"); sessionID != "" {
+		if err := h.s.Session.Delete(c.Request.Context(), sessionID); err != nil {
+			logger.Warnf(c.Request.Context(), "Failed to delete session: %v", err)
+		}
+	}
+
+	resp.Success(c.Writer, nil)
 }
 
 // RefreshToken handles token refresh.
@@ -164,7 +189,13 @@ func (h *accountHandler) RefreshToken(c *gin.Context) {
 		return
 	}
 
-	_ = cookie.SetTokensFromResult(c.Writer, c.Request, result)
+	// Set session cookie
+	if result.SessionID != "" {
+		if err := service.SetSessionCookie(c.Request.Context(), c.Writer, c.Request, result.SessionID); err != nil {
+			logger.Warnf(c.Request.Context(), "Failed to set session cookie: %v", err)
+		}
+	}
+
 	resp.Success(c.Writer, result)
 }
 
@@ -178,14 +209,12 @@ func (h *accountHandler) RefreshToken(c *gin.Context) {
 // @Failure 401 {object} resp.Exception "unauthorized"
 // @Router /iam/token-status [get]
 func (h *accountHandler) TokenStatus(c *gin.Context) {
-	// Get user ID from context (set by authentication middleware)
 	userID := ctxutil.GetUserID(c.Request.Context())
 	if userID == "" {
 		resp.Fail(c.Writer, resp.UnAuthorized("Not authenticated"))
 		return
 	}
 
-	// Return basic authentication status
 	resp.Success(c.Writer, map[string]any{
 		"is_authenticated": true,
 	})
@@ -218,7 +247,7 @@ func (h *accountHandler) UpdatePassword(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
-	resp.Success(c.Writer)
+	resp.Success(c.Writer, nil)
 }
 
 // Tenant handles reading the current user's tenant.

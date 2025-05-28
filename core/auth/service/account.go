@@ -24,13 +24,13 @@ import (
 
 // AccountServiceInterface is the interface for the service.
 type AccountServiceInterface interface {
-	Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error)
-	Register(ctx context.Context, body *structs.RegisterBody) (*types.JSON, error)
+	Login(ctx context.Context, body *structs.LoginBody) (*AuthResponse, error)
+	Register(ctx context.Context, body *structs.RegisterBody) (*AuthResponse, error)
 	GetMe(ctx context.Context) (*structs.AccountMeshes, error)
 	UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error
 	Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error)
 	Tenants(ctx context.Context) (paging.Result[*tenantStructs.ReadTenant], error)
-	RefreshToken(ctx context.Context, refreshToken string) (*types.JSON, error)
+	RefreshToken(ctx context.Context, refreshToken string) (*AuthResponse, error)
 }
 
 // accountService is the struct for the service.
@@ -41,6 +41,7 @@ type accountService struct {
 
 	cas CodeAuthServiceInterface
 	ats AuthTenantServiceInterface
+	ss  SessionServiceInterface
 
 	usw *wrapper.UserServiceWrapper
 	tsw *wrapper.TenantServiceWrapper
@@ -48,7 +49,7 @@ type accountService struct {
 }
 
 // NewAccountService creates a new service.
-func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface,
+func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface, ss SessionServiceInterface,
 	usw *wrapper.UserServiceWrapper,
 	tsw *wrapper.TenantServiceWrapper,
 	asw *wrapper.AccessServiceWrapper,
@@ -59,50 +60,59 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherIn
 		ep:  ep,
 		cas: cas,
 		ats: ats,
+		ss:  ss,
 		usw: usw,
 		tsw: tsw,
 		asw: asw,
 	}
 }
 
-// Login login service
-func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*types.JSON, error) {
+// Login handles user login authentication
+func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*AuthResponse, error) {
 	client := s.d.GetMasterEntClient()
 
+	// Verify user credentials
 	user, err := s.usw.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
 	if err = handleEntError(ctx, "User", err); err != nil {
 		return nil, err
 	}
 
 	if user.Status != 0 {
-		return nil, errors.New("account has been disabled, please contact the administrator")
+		return nil, errors.New("account disabled, contact administrator")
 	}
 
+	// Verify password
 	verifyResult := s.usw.VerifyPassword(ctx, user.ID, body.Password)
 	switch v := verifyResult.(type) {
 	case userService.VerifyPasswordResult:
-		if v.Valid == false {
+		if !v.Valid {
 			return nil, errors.New(v.Error)
-		} else if v.Valid && v.NeedsPasswordSet == true {
+		} else if v.Valid && v.NeedsPasswordSet {
 			if validator.IsEmpty(user.Email) {
-				return nil, errors.New("has not set a password, and the mailbox is empty, please contact the administrator")
+				return nil, errors.New("password not set and email empty, contact administrator")
 			}
-			return s.cas.SendCode(ctx, &structs.SendCodeBody{Email: user.Email})
+			// Send password reset code instead of login
+			codeResult, err := s.cas.SendCode(ctx, &structs.SendCodeBody{Email: user.Email})
+			if err != nil {
+				return nil, err
+			}
+
+			return &AuthResponse{
+				Registered: (*codeResult)["registered"].(bool),
+			}, nil
 		}
 	case error:
 		return nil, v
 	}
 
-	// Get all tenants the user belongs to
+	// Get user tenants
 	userTenants, _ := s.tsw.GetUserTenants(ctx, user.ID)
 	var tenantIDs []string
-	if len(userTenants) > 0 {
-		for _, t := range userTenants {
-			tenantIDs = append(tenantIDs, t.ID)
-		}
+	for _, t := range userTenants {
+		tenantIDs = append(tenantIDs, t.ID)
 	}
 
-	// Set tenant ID in context if there's a default tenant
+	// Set default tenant context
 	defaultTenant, err := s.tsw.GetUserTenant(ctx, user.ID)
 	if err == nil && defaultTenant != nil {
 		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
@@ -114,14 +124,20 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		return nil, err
 	}
 
-	tokens, err := generateTokensForUser(ctx, s.jtm, client, payload)
+	// Generate authentication response
+	authResp, err := generateAuthResponse(ctx, s.jtm, client, payload, s.ss, "password")
 	if err != nil {
 		return nil, err
 	}
 
-	// Include tenant information in the response
-	(*tokens)["tenant_ids"] = tenantIDs
-	(*tokens)["default_tenant"] = defaultTenant
+	// Set additional response data
+	authResp.TenantIDs = tenantIDs
+	if defaultTenant != nil {
+		authResp.DefaultTenant = &types.JSON{
+			"id":   defaultTenant.ID,
+			"name": defaultTenant.Name,
+		}
+	}
 
 	// Publish login event
 	if s.ep != nil {
@@ -143,20 +159,19 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*t
 		s.ep.PublishUserLogin(ctx, user.ID, metadata)
 	}
 
-	return tokens, nil
+	return authResp, nil
 }
 
-// RefreshToken refreshes the access token using a refresh token
-func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) (*types.JSON, error) {
+// RefreshToken refreshes access token using refresh token
+func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) (*AuthResponse, error) {
 	client := s.d.GetMasterEntClient()
 
-	// Verify the refresh token
+	// Verify refresh token
 	payload, err := s.jtm.DecodeToken(refreshToken)
 	if err != nil {
 		return nil, errors.New("invalid refresh token")
 	}
 
-	// Check if the token is a refresh token
 	if payload["sub"] != "refresh" {
 		return nil, errors.New("invalid token type")
 	}
@@ -178,16 +193,14 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 		return nil, errors.New("user not found")
 	}
 
-	// Get all tenants the user belongs to
+	// Get user tenants
 	userTenants, _ := s.tsw.GetUserTenants(ctx, user.ID)
 	var tenantIDs []string
-	if len(userTenants) > 0 {
-		for _, t := range userTenants {
-			tenantIDs = append(tenantIDs, t.ID)
-		}
+	for _, t := range userTenants {
+		tenantIDs = append(tenantIDs, t.ID)
 	}
 
-	// Set tenant ID in context if there's a default tenant
+	// Set default tenant context
 	defaultTenant, err := s.tsw.GetUserTenant(ctx, user.ID)
 	if err == nil && defaultTenant != nil {
 		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
@@ -199,50 +212,40 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 		return nil, err
 	}
 
-	// Create a new auth token entry
-	tx, err := client.Tx(ctx)
+	// Generate new authentication response
+	authResp, err := generateAuthResponse(ctx, s.jtm, client, tokenPayload, s.ss, "token_refresh")
 	if err != nil {
 		return nil, err
 	}
 
-	authToken, err := createAuthToken(ctx, tx, user.ID)
-	if err != nil {
-		if rbErr := tx.Rollback(); rbErr != nil {
-			return nil, fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
+	// Set additional response data
+	authResp.TenantIDs = tenantIDs
+	if defaultTenant != nil {
+		authResp.DefaultTenant = &types.JSON{
+			"id":   defaultTenant.ID,
+			"name": defaultTenant.Name,
 		}
-		return nil, err
 	}
 
-	// Generate new access and refresh tokens with full payload
-	accessToken, newRefreshToken := generateUserToken(s.jtm, tokenPayload, authToken.ID)
-
-	if err := tx.Commit(); err != nil {
-		return nil, err
-	}
-
-	// Publish token refreshed event
+	// Publish token refresh event
 	if s.ep != nil {
 		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
 
 		metadata := &types.JSON{
 			"ip_address": ip,
 			"user_agent": userAgent,
+			"session_id": authResp.SessionID,
 			"timestamp":  time.Now().UnixMilli(),
 		}
 
 		s.ep.PublishTokenRefreshed(ctx, user.ID, metadata)
 	}
 
-	return &types.JSON{
-		"access_token":   accessToken,
-		"refresh_token":  newRefreshToken,
-		"tenant_ids":     tenantIDs,
-		"default_tenant": defaultTenant,
-	}, nil
+	return authResp, nil
 }
 
-// Register register service
-func (s *accountService) Register(ctx context.Context, body *structs.RegisterBody) (*types.JSON, error) {
+// Register handles user registration
+func (s *accountService) Register(ctx context.Context, body *structs.RegisterBody) (*AuthResponse, error) {
 	client := s.d.GetMasterEntClient()
 
 	// Decode register token
@@ -251,7 +254,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, errors.New("register token decode failed")
 	}
 
-	// Verify user existence
+	// Check user existence
 	existedUser, err := s.usw.FindUser(ctx, &userStructs.FindUser{
 		Username: body.Username,
 		Email:    payload["email"].(string),
@@ -265,12 +268,12 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		}, body))
 	}
 
-	// Disable code
+	// Disable verification code
 	if err = disableCodeAuth(ctx, client, payload["id"].(string)); err != nil {
 		return nil, err
 	}
 
-	// Create user, profile, tenant and tokens in a transaction
+	// Create user and profile in transaction
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return nil, err
@@ -286,9 +289,13 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 
 	user := rst["user"].(*userStructs.ReadUser)
 
-	// Create tenant
+	// Create tenant if needed
 	tenant, err := s.ats.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
-		TenantBody: tenantStructs.TenantBody{Name: body.Tenant, CreatedBy: &user.ID, UpdatedBy: &user.ID},
+		TenantBody: tenantStructs.TenantBody{
+			Name:      body.Tenant,
+			CreatedBy: &user.ID,
+			UpdatedBy: &user.ID,
+		},
 	})
 	if err != nil {
 		if err = tx.Rollback(); err != nil {
@@ -301,7 +308,6 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	var tenantIDs []string
 	if tenant != nil {
 		tenantIDs = append(tenantIDs, tenant.ID)
-		// Set tenant in context for role assignment
 		ctx = ctxutil.SetTenantID(ctx, tenant.ID)
 	}
 
@@ -314,7 +320,8 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, err
 	}
 
-	authToken, err := createAuthToken(ctx, tx, user.ID)
+	// Generate authentication response
+	authResp, err := generateAuthResponse(ctx, s.jtm, client, tokenPayload, s.ss, "registration")
 	if err != nil {
 		if err = tx.Rollback(); err != nil {
 			return nil, err
@@ -322,15 +329,20 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, err
 	}
 
-	accessToken, refreshToken := generateUserToken(s.jtm, tokenPayload, authToken.ID)
-	if accessToken == "" || refreshToken == "" {
-		if err := tx.Rollback(); err != nil {
-			return nil, err
-		}
-		return nil, errors.New("authorize is not created")
+	if err := tx.Commit(); err != nil {
+		return nil, err
 	}
 
-	// Publish user created event
+	// Set additional response data
+	authResp.TenantIDs = tenantIDs
+	if tenant != nil {
+		authResp.DefaultTenant = &types.JSON{
+			"id":   tenant.ID,
+			"name": tenant.Name,
+		}
+	}
+
+	// Publish user creation event
 	if s.ep != nil {
 		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
 		uaInfo := ctxutil.GetParsedUserAgent(ctx)
@@ -340,6 +352,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 			"user_agent":          userAgent,
 			"registration_method": "email_code",
 			"tenant_id":           tenant.ID,
+			"session_id":          authResp.SessionID,
 			"browser":             uaInfo.Browser,
 			"os":                  uaInfo.OS,
 			"mobile":              uaInfo.Mobile,
@@ -349,22 +362,83 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		s.ep.PublishUserCreated(ctx, user.ID, metadata)
 	}
 
-	return &types.JSON{
-		"access_token":   accessToken,
-		"refresh_token":  refreshToken,
-		"tenant_ids":     tenantIDs,
-		"default_tenant": tenant,
-	}, tx.Commit()
+	return authResp, nil
 }
 
-// decodeRegisterToken decodes the register token
+// GetMe returns current user information
+func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, error) {
+	user, err := s.usw.GetUserByID(ctx, ctxutil.GetUserID(ctx))
+	if err != nil {
+		return nil, err
+	}
+
+	return s.Serialize(user, &serializeUserParams{
+		WithProfile: true,
+		WithRoles:   true,
+		WithTenants: true,
+		WithGroups:  true,
+	}), nil
+}
+
+// UpdatePassword updates user password
+func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error {
+	body.User = ctxutil.GetUserID(ctx)
+	err := s.usw.UpdatePassword(ctx, body)
+
+	if err == nil && s.ep != nil {
+		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
+
+		metadata := &types.JSON{
+			"ip_address": ip,
+			"user_agent": userAgent,
+			"timestamp":  time.Now().UnixMilli(),
+		}
+
+		s.ep.PublishPasswordChanged(ctx, body.User, metadata)
+	}
+
+	return err
+}
+
+// Tenant returns user's default tenant
+func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error) {
+	userID := ctxutil.GetUserID(ctx)
+	if userID == "" {
+		return nil, errors.New("invalid user ID")
+	}
+
+	row, err := s.tsw.GetTenantByUser(ctx, userID)
+	if err = handleEntError(ctx, "Tenant", err); err != nil {
+		return nil, err
+	}
+
+	return row, nil
+}
+
+// Tenants returns user's all tenants
+func (s *accountService) Tenants(ctx context.Context) (paging.Result[*tenantStructs.ReadTenant], error) {
+	userID := ctxutil.GetUserID(ctx)
+	if userID == "" {
+		return paging.Result[*tenantStructs.ReadTenant]{}, errors.New("invalid user ID")
+	}
+
+	rows, err := s.tsw.ListTenants(ctx, &tenantStructs.ListTenantParams{
+		User: userID,
+	})
+	if err = handleEntError(ctx, "Tenants", err); err != nil {
+		return paging.Result[*tenantStructs.ReadTenant]{}, err
+	}
+
+	return rows, nil
+}
+
 func decodeRegisterToken(jtm *jwt.TokenManager, token string) (types.JSON, error) {
 	decoded, err := jtm.DecodeToken(token)
 	if err != nil {
 		return nil, err
 	}
 	if decoded["sub"] != "email-register" {
-		return nil, fmt.Errorf("not valid authorize information")
+		return nil, fmt.Errorf("invalid authorize information")
 	}
 	return decoded["payload"].(types.JSON), nil
 }
@@ -386,18 +460,15 @@ func disableCodeAuth(ctx context.Context, client *ent.Client, id string) error {
 }
 
 func createUserAndProfile(ctx context.Context, svc *accountService, body *structs.RegisterBody, payload types.JSON) (types.JSON, error) {
-	// create user
 	user, err := svc.usw.CreateUser(ctx, &userStructs.UserBody{
 		Username: body.Username,
 		Email:    payload["email"].(string),
 		Phone:    body.Phone,
 	})
-
 	if err != nil {
 		return nil, err
 	}
 
-	// create user profile
 	userProfile, err := svc.usw.CreateUserProfile(ctx, &userStructs.UserProfileBody{
 		UserID:      user.ID,
 		DisplayName: body.DisplayName,
@@ -406,37 +477,8 @@ func createUserAndProfile(ctx context.Context, svc *accountService, body *struct
 	if err != nil {
 		return nil, err
 	}
+
 	return types.JSON{"user": user, "profile": userProfile}, nil
-}
-
-// GetMe get current user service
-func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, error) {
-	user, err := s.usw.GetUserByID(ctx, ctxutil.GetUserID(ctx))
-	if err != nil {
-		return nil, err
-	}
-
-	return s.Serialize(user, &serializeUserParams{WithProfile: true, WithRoles: true, WithTenants: true, WithGroups: true}), nil
-}
-
-// UpdatePassword update user password service
-func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error {
-	body.User = ctxutil.GetUserID(ctx)
-	err := s.usw.UpdatePassword(ctx, body)
-
-	if err == nil && s.ep != nil {
-		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
-
-		metadata := &types.JSON{
-			"ip_address": ip,
-			"user_agent": userAgent,
-			"timestamp":  time.Now().UnixMilli(),
-		}
-
-		s.ep.PublishPasswordChanged(ctx, body.User, metadata)
-	}
-
-	return err
 }
 
 // SerializeParams serialize params
@@ -511,37 +553,4 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 	// }
 
 	return um
-}
-
-// Tenant retrieves the tenant associated with the user's account.
-func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error) {
-	userID := ctxutil.GetUserID(ctx)
-	if userID == "" {
-		return nil, errors.New("invalid user ID")
-	}
-
-	// Retrieve the tenant associated with the user
-	row, err := s.tsw.GetTenantByUser(ctx, userID)
-	if err = handleEntError(ctx, "Tenant", err); err != nil {
-		return nil, err
-	}
-
-	return row, nil
-}
-
-// Tenants retrieves the tenant associated with the user's account.
-func (s *accountService) Tenants(ctx context.Context) (paging.Result[*tenantStructs.ReadTenant], error) {
-	userID := ctxutil.GetUserID(ctx)
-	if userID == "" {
-		return paging.Result[*tenantStructs.ReadTenant]{}, errors.New("invalid user ID")
-	}
-
-	rows, err := s.tsw.ListTenants(ctx, &tenantStructs.ListTenantParams{
-		User: userID,
-	})
-	if err = handleEntError(ctx, "Tenants", err); err != nil {
-		return paging.Result[*tenantStructs.ReadTenant]{}, err
-	}
-
-	return rows, nil
 }

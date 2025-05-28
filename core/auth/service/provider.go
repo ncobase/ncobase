@@ -16,6 +16,7 @@ type Service struct {
 	// OAuth    OAuthServiceInterface
 	Captcha    CaptchaServiceInterface
 	AuthTenant AuthTenantServiceInterface
+	Session    SessionServiceInterface
 
 	usw *wrapper.UserServiceWrapper
 	tsw *wrapper.TenantServiceWrapper
@@ -32,11 +33,13 @@ func New(d *data.Data, jtm *jwt.TokenManager, em ext.ManagerInterface) *Service 
 
 	cas := NewCodeAuthService(d, jtm, ep, usw, tsw, asw)
 	ats := NewAuthTenantService(d, usw, tsw, asw)
+	ss := NewSessionService(d)
 	return &Service{
-		Account:    NewAccountService(d, jtm, ep, cas, ats, usw, tsw, asw),
+		Account:    NewAccountService(d, jtm, ep, cas, ats, ss, usw, tsw, asw),
 		AuthTenant: ats,
 		CodeAuth:   cas,
 		Captcha:    NewCaptchaService(d),
+		Session:    ss,
 		// OAuth:    NewOAuthService(d),
 		usw: usw,
 		tsw: tsw,

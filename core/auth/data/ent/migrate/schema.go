@@ -110,11 +110,66 @@ var (
 			},
 		},
 	}
+	// NcseIamSessionColumns holds the columns for the "ncse_iam_session" table.
+	NcseIamSessionColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 32, Comment: "primary key"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "token_id", Type: field.TypeString, Comment: "Associated auth token ID"},
+		{Name: "device_info", Type: field.TypeJSON, Nullable: true, Comment: "Device information"},
+		{Name: "ip_address", Type: field.TypeString, Nullable: true, Comment: "IP address"},
+		{Name: "user_agent", Type: field.TypeString, Nullable: true, Comment: "User agent string"},
+		{Name: "location", Type: field.TypeString, Nullable: true, Comment: "Geographic location"},
+		{Name: "login_method", Type: field.TypeString, Nullable: true, Comment: "Login method used"},
+		{Name: "is_active", Type: field.TypeBool, Comment: "Session active status", Default: true},
+		{Name: "last_access_at", Type: field.TypeInt64, Nullable: true, Comment: "Last access timestamp"},
+		{Name: "expires_at", Type: field.TypeInt64, Nullable: true, Comment: "Session expiration timestamp"},
+	}
+	// NcseIamSessionTable holds the schema information for the "ncse_iam_session" table.
+	NcseIamSessionTable = &schema.Table{
+		Name:       "ncse_iam_session",
+		Columns:    NcseIamSessionColumns,
+		PrimaryKey: []*schema.Column{NcseIamSessionColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "session_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamSessionColumns[0]},
+			},
+			{
+				Name:    "session_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamSessionColumns[1]},
+			},
+			{
+				Name:    "session_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamSessionColumns[0], NcseIamSessionColumns[2]},
+			},
+			{
+				Name:    "session_token_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamSessionColumns[4]},
+			},
+			{
+				Name:    "session_is_active",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamSessionColumns[10]},
+			},
+			{
+				Name:    "session_expires_at",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamSessionColumns[12]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		NcseIamAuthTokenTable,
 		NcseIamCodeAuthTable,
 		NcseIamOauthUserTable,
+		NcseIamSessionTable,
 	}
 )
 
@@ -127,5 +182,8 @@ func init() {
 	}
 	NcseIamOauthUserTable.Annotation = &entsql.Annotation{
 		Table: "ncse_iam_oauth_user",
+	}
+	NcseIamSessionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_iam_session",
 	}
 }

@@ -18,6 +18,8 @@ type Tx struct {
 	CodeAuth *CodeAuthClient
 	// OAuthUser is the client for interacting with the OAuthUser builders.
 	OAuthUser *OAuthUserClient
+	// Session is the client for interacting with the Session builders.
+	Session *SessionClient
 
 	// lazily loaded.
 	client     *Client
@@ -152,6 +154,7 @@ func (tx *Tx) init() {
 	tx.AuthToken = NewAuthTokenClient(tx.config)
 	tx.CodeAuth = NewCodeAuthClient(tx.config)
 	tx.OAuthUser = NewOAuthUserClient(tx.config)
+	tx.Session = NewSessionClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

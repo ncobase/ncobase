@@ -10,17 +10,20 @@ import (
 
 // Event types for auth module
 const (
-	UserLogin           = "user.login"
-	UserCreated         = "user.created"
-	UserLogout          = "user.logout"
-	UserPasswordChanged = "user.password_changed"
-	UserPasswordReset   = "user.password_reset"
-	UserProfileUpdated  = "user.profile_updated"
-	UserStatusUpdated   = "user.status_updated"
-	UserApiKeyGen       = "user.apikey_generated"
-	UserApiKeyDel       = "user.apikey_deleted"
-	UserTokenRefresh    = "user.token_refreshed"
-	UserAuthCodeSent    = "user.auth_code_sent"
+	UserLogin            = "user.login"
+	UserCreated          = "user.created"
+	UserLogout           = "user.logout"
+	UserPasswordChanged  = "user.password_changed"
+	UserPasswordReset    = "user.password_reset"
+	UserProfileUpdated   = "user.profile_updated"
+	UserStatusUpdated    = "user.status_updated"
+	UserApiKeyGen        = "user.apikey_generated"
+	UserApiKeyDel        = "user.apikey_deleted"
+	UserTokenRefresh     = "user.token_refreshed"
+	UserAuthCodeSent     = "user.auth_code_sent"
+	UserSessionCreated   = "user.session_created"
+	UserSessionDestroyed = "user.session_destroyed"
+	UserSessionExpired   = "user.session_expired"
 )
 
 // publisher implements PublisherInterface
@@ -86,6 +89,36 @@ func (p *publisher) PublishTokenRefreshed(ctx context.Context, userID string, me
 // PublishAuthCodeSent publishes auth code sent event
 func (p *publisher) PublishAuthCodeSent(ctx context.Context, userID string, metadata *types.JSON) {
 	p.publishEvent(ctx, UserAuthCodeSent, userID, "Auth code sent", metadata)
+}
+
+// PublishSessionCreated publishes session created event
+func (p *publisher) PublishSessionCreated(ctx context.Context, userID, sessionID string, metadata *types.JSON) {
+	eventData := &types.JSON{
+		"user_id":    userID,
+		"session_id": sessionID,
+		"details":    "User session created",
+		"timestamp":  time.Now().UnixMilli(),
+		"metadata":   metadata,
+		"event_context": map[string]any{
+			"event_name": UserSessionCreated,
+		},
+	}
+	p.em.PublishEvent(UserSessionCreated, eventData)
+}
+
+// PublishSessionDestroyed publishes session destroyed event
+func (p *publisher) PublishSessionDestroyed(ctx context.Context, userID, sessionID string, metadata *types.JSON) {
+	eventData := &types.JSON{
+		"user_id":    userID,
+		"session_id": sessionID,
+		"details":    "User session destroyed",
+		"timestamp":  time.Now().UnixMilli(),
+		"metadata":   metadata,
+		"event_context": map[string]any{
+			"event_name": UserSessionDestroyed,
+		},
+	}
+	p.em.PublishEvent(UserSessionDestroyed, eventData)
 }
 
 // publishEvent is helper method to publish events

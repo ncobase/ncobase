@@ -121,10 +121,12 @@ func (m *Module) Name() string {
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
 	r = r.Group("/" + m.Group())
+
 	// Authentication endpoints
 	r.POST("/login", m.h.Account.Login)
 	r.POST("/register", m.h.Account.Register)
 	r.POST("/logout", m.h.Account.Logout)
+
 	// Captcha endpoints
 	captcha := r.Group("/captcha")
 	{
@@ -132,6 +134,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		captcha.GET("/:captcha", m.h.Captcha.CaptchaStream)
 		captcha.POST("/validate", m.h.Captcha.ValidateCaptcha)
 	}
+
 	// Authorization endpoints
 	authorize := r.Group("/authorize")
 	{
@@ -151,6 +154,15 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Token endpoints
 	r.POST("/refresh-token", m.h.Account.RefreshToken)
 	r.GET("/token-status", m.h.Account.TokenStatus)
+
+	// Session endpoints
+	sessions := r.Group("/sessions", middleware.AuthenticatedUser)
+	{
+		sessions.GET("", m.h.Session.List)
+		sessions.GET("/:session_id", m.h.Session.Get)
+		sessions.DELETE("/:session_id", m.h.Session.Delete)
+		sessions.POST("/deactivate-all", m.h.Session.DeactivateAll)
+	}
 }
 
 // GetHandlers returns the handlers for the module
@@ -161,6 +173,19 @@ func (m *Module) GetHandlers() ext.Handler {
 // GetServices returns the services for the module
 func (m *Module) GetServices() ext.Service {
 	return m.s
+}
+
+// GetTokenManager returns the JWT token manager
+func (m *Module) GetTokenManager() *jwt.TokenManager {
+	return m.jtm
+}
+
+// GetSessionService returns the session service
+func (m *Module) GetSessionService() service.SessionServiceInterface {
+	if m.s == nil {
+		return nil
+	}
+	return m.s.Session
 }
 
 // Cleanup cleans up the module

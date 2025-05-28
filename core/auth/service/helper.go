@@ -6,21 +6,36 @@ import (
 	"fmt"
 	accessStructs "ncobase/access/structs"
 	"ncobase/auth/data/ent"
+	"ncobase/auth/structs"
 	"ncobase/auth/wrapper"
 	userStructs "ncobase/user/structs"
+	"net/http"
 	"time"
 
 	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/messaging/email"
+	"github.com/ncobase/ncore/net/cookie"
 	"github.com/ncobase/ncore/security/jwt"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils"
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// GetUserTenantsRolesPermissions retrieves user's roles and permissions with improved logic
+// AuthResponse represents authentication response
+type AuthResponse struct {
+	Registered    bool        `json:"registered,omitempty"`
+	AccessToken   string      `json:"access_token,omitempty"`
+	RefreshToken  string      `json:"refresh_token,omitempty"`
+	SessionID     string      `json:"session_id,omitempty"`
+	TokenType     string      `json:"token_type,omitempty"`
+	ExpiresIn     int64       `json:"expires_in,omitempty"`
+	TenantIDs     []string    `json:"tenant_ids,omitempty"`
+	DefaultTenant *types.JSON `json:"default_tenant,omitempty"`
+}
+
+// GetUserTenantsRolesPermissions retrieves user roles and permissions
 func GetUserTenantsRolesPermissions(
 	ctx context.Context,
 	asw *wrapper.AccessServiceWrapper,
@@ -29,7 +44,7 @@ func GetUserTenantsRolesPermissions(
 	tenantID = ctxutil.GetTenantID(ctx)
 	logger.Debugf(ctx, "Getting permissions for user %s, tenant %s", userID, tenantID)
 
-	// Get global roles first (primary roles)
+	// Get global roles first
 	globalRoles, err := asw.GetUserRoles(ctx, userID)
 	if err != nil {
 		logger.Warnf(ctx, "Failed to get global roles for user %s: %v", userID, err)
@@ -46,7 +61,6 @@ func GetUserTenantsRolesPermissions(
 		if roleErr == nil && len(roleIDs) > 0 {
 			tenantRoles, _ := asw.GetByIDs(ctx, roleIDs)
 			for _, role := range tenantRoles {
-				// Avoid duplicates
 				if !utils.Contains(roleSlugs, role.Slug) {
 					roleSlugs = append(roleSlugs, role.Slug)
 				}
@@ -55,19 +69,16 @@ func GetUserTenantsRolesPermissions(
 		}
 	}
 
-	// Check admin status
 	isAdmin = isAdminRole(roleSlugs)
 	if isAdmin {
 		logger.Debugf(ctx, "User has admin privileges")
 	}
 
-	// Get permissions for all roles
 	permissionCodes, err = getPermissionsForRoles(ctx, asw, globalRoles, isAdmin)
 	if err != nil {
 		logger.Warnf(ctx, "Failed to get permissions: %v", err)
 	}
 
-	// Remove duplicates
 	roleSlugs = utils.RemoveDuplicates(roleSlugs)
 	permissionCodes = utils.RemoveDuplicates(permissionCodes)
 
@@ -96,7 +107,6 @@ func getPermissionsForRoles(ctx context.Context, asw *wrapper.AccessServiceWrapp
 	}
 
 	var permissionCodes []string
-	// var hasSuperAdminAccess bool
 
 	for _, role := range roles {
 		rolePermissions, err := asw.GetRolePermissions(ctx, role.ID)
@@ -106,15 +116,12 @@ func getPermissionsForRoles(ctx context.Context, asw *wrapper.AccessServiceWrapp
 		}
 
 		for _, perm := range rolePermissions {
-			// Check for super admin wildcard permission
 			if perm.Action == "*" && perm.Subject == "*" {
-				// hasSuperAdminAccess = true
 				permissionCodes = []string{"*:*"}
 				logger.Infof(ctx, "User has super admin wildcard permission")
 				return permissionCodes, nil
 			}
 
-			// Add regular permission
 			permCode := fmt.Sprintf("%s:%s", perm.Action, perm.Subject)
 			permissionCodes = append(permissionCodes, permCode)
 		}
@@ -139,7 +146,6 @@ func CreateUserTokenPayload(
 	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, asw, user.ID)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get user roles and permissions: %v", err)
-		// Continue with empty roles and permissions rather than failing
 		roleSlugs = []string{}
 		permissionCodes = []string{}
 		isAdmin = false
@@ -159,16 +165,17 @@ func CreateUserTokenPayload(
 	}, nil
 }
 
-// generateUserToken generates user access and refresh tokens.
-func generateUserToken(jtm *jwt.TokenManager, payload map[string]any, tokenID string) (string, string) {
-	// Get user ID from payload
+// generateUserTokens generates access and refresh tokens for API authentication
+func generateUserTokens(jtm *jwt.TokenManager, payload map[string]any, tokenID string) (string, string) {
 	userID, ok := payload["user_id"].(string)
 	if !ok || userID == "" {
 		return "", ""
 	}
-	// Generate tokens
-	// Use shorter expiry for access token (2 hours) and longer for refresh (7 days)
+
+	// Generate access token (shorter expiry for security)
 	accessToken, _ := jtm.GenerateAccessTokenWithExpiry(tokenID, payload, 2*time.Hour)
+
+	// Generate refresh token (longer expiry)
 	refreshToken, _ := jtm.GenerateRefreshTokenWithExpiry(tokenID, types.JSON{
 		"user_id": userID,
 	}, 7*24*time.Hour)
@@ -176,8 +183,15 @@ func generateUserToken(jtm *jwt.TokenManager, payload map[string]any, tokenID st
 	return accessToken, refreshToken
 }
 
-// generateTokensForUser generates access and refresh tokens
-func generateTokensForUser(ctx context.Context, jtm *jwt.TokenManager, client *ent.Client, payload map[string]any) (*types.JSON, error) {
+// generateAuthResponse generates authentication response with tokens and session
+func generateAuthResponse(
+	ctx context.Context,
+	jtm *jwt.TokenManager,
+	client *ent.Client,
+	payload map[string]any,
+	sessionSvc SessionServiceInterface,
+	loginMethod string,
+) (*AuthResponse, error) {
 	userID, ok := payload["user_id"].(string)
 	if !ok || userID == "" {
 		return nil, errors.New("user_id not found in payload")
@@ -201,8 +215,8 @@ func generateTokensForUser(ctx context.Context, jtm *jwt.TokenManager, client *e
 		return nil, fmt.Errorf("failed to create auth token: %w", err)
 	}
 
-	// Generate tokens
-	accessToken, refreshToken := generateUserToken(jtm, payload, authToken.ID)
+	// Generate tokens for API authentication
+	accessToken, refreshToken := generateUserTokens(jtm, payload, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		return nil, errors.New("failed to generate tokens")
 	}
@@ -212,18 +226,66 @@ func generateTokensForUser(ctx context.Context, jtm *jwt.TokenManager, client *e
 		return nil, fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
-	return &types.JSON{
-		"access_token":  accessToken,
-		"refresh_token": refreshToken,
+	// Create session for cookie-based authentication
+	var sessionID string
+	if sessionSvc != nil {
+		ip, userAgent, _ := ctxutil.GetClientInfo(ctx)
+		sessionBody := &structs.SessionBody{
+			UserID:      userID,
+			IPAddress:   ip,
+			UserAgent:   userAgent,
+			LoginMethod: loginMethod,
+			DeviceInfo: &types.JSON{
+				"browser": ctxutil.GetParsedUserAgent(ctx).Browser,
+				"os":      ctxutil.GetParsedUserAgent(ctx).OS,
+				"mobile":  ctxutil.GetParsedUserAgent(ctx).Mobile,
+			},
+		}
+
+		session, err := sessionSvc.Create(ctx, sessionBody, authToken.ID)
+		if err != nil {
+			logger.Warnf(ctx, "Failed to create session: %v", err)
+		} else {
+			sessionID = session.ID
+		}
+	}
+
+	return &AuthResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		SessionID:    sessionID,
+		TokenType:    "Bearer",
+		ExpiresIn:    2 * 60 * 60, // 2 hours in seconds
 	}, nil
 }
 
-// createAuthToken creates a new auth token for a user.
+// SetSessionCookie sets session cookie for web authentication
+func SetSessionCookie(ctx context.Context, w http.ResponseWriter, r *http.Request, sessionID string) error {
+	if sessionID == "" {
+		return nil // No session to set
+	}
+
+	domain := r.Host
+	if err := cookie.SetSessionID(w, sessionID, domain); err != nil {
+		logger.Errorf(ctx, "Failed to set session cookie: %v", err)
+		return err
+	}
+
+	logger.Debugf(ctx, "Session cookie set: %s", sessionID)
+	return nil
+}
+
+// ClearAuthenticationCookies clears all authentication cookies
+func ClearAuthenticationCookies(w http.ResponseWriter) {
+	cookie.ClearAll(w)
+}
+
+// createAuthToken creates a new auth token for a user
 func createAuthToken(ctx context.Context, tx *ent.Tx, userID string) (*ent.AuthToken, error) {
 	return tx.AuthToken.Create().SetUserID(userID).Save(ctx)
 }
 
-// RefreshUserToken refreshes user access and refresh tokens.
+// RefreshUserToken refreshes user access and refresh tokens
 func RefreshUserToken(jtm *jwt.TokenManager, userID, tokenID, originalRefreshToken string, refreshTokenExp int64) (string, string) {
 	now := time.Now().Unix()
 	diff := refreshTokenExp - now
@@ -233,18 +295,19 @@ func RefreshUserToken(jtm *jwt.TokenManager, userID, tokenID, originalRefreshTok
 		"user_id": userID,
 	}
 	accessToken, _ := jtm.GenerateAccessToken(tokenID, accessPayload)
+
+	// Refresh the refresh token if it's close to expiry (15 days remaining)
 	if diff < 60*60*24*15 {
 		refreshPayload := types.JSON{
 			"user_id": userID,
 		}
-
 		refreshToken, _ = jtm.GenerateRefreshToken(tokenID, refreshPayload)
 	}
 
 	return accessToken, refreshToken
 }
 
-// handleEntError is a helper function to handle errors in a consistent manner.
+// handleEntError handles ent errors consistently
 func handleEntError(ctx context.Context, k string, err error) error {
 	if ent.IsNotFound(err) {
 		logger.Errorf(ctx, "Error not found in %s: %v", k, err)
@@ -265,7 +328,7 @@ func handleEntError(ctx context.Context, k string, err error) error {
 	return err
 }
 
-// sendAuthEmail sends an email with a code for authentication.
+// sendAuthEmail sends email with authentication code
 func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
 	conf := ctxutil.GetConfig(ctx)
 	template := email.EmailTemplate{
@@ -283,7 +346,7 @@ func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
 	return err
 }
 
-// sendRegisterMail sends an email with a code for register.
+// sendRegisterMail sends email with register token
 func sendRegisterMail(_ context.Context, jtm *jwt.TokenManager, codeAuth *ent.CodeAuth) (*types.JSON, error) {
 	subject := "email-register"
 	payload := types.JSON{"email": codeAuth.Email, "id": codeAuth.ID}

@@ -2,23 +2,20 @@ package provider
 
 import (
 	"context"
-	"fmt"
 	"ncobase/cmd/ncobase/middleware"
-	tenantService "ncobase/tenant/service"
 	"net/http"
+	"time"
 
-	"github.com/casbin/casbin/v2"
 	"github.com/ncobase/ncore/config"
 	"github.com/ncobase/ncore/ecode"
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
-	"github.com/ncobase/ncore/security/jwt"
 
 	"github.com/gin-gonic/gin"
 )
 
-// ginServer creates and initializes the server with properly ordered middleware
+// ginServer creates and initializes server
 func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error) {
 	// Set gin mode
 	if conf.RunMode == "" {
@@ -31,42 +28,32 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 
 	// Initialize middleware in correct order
 
-	// 1. Basic infrastructure middleware
+	// 1. Basic infrastructure
 	engine.Use(middleware.CORSHandler)
-
-	// 2. Context and tracing setup
 	engine.Use(middleware.Trace)
-
-	// 3. Logging
+	engine.Use(middleware.ClientInfo)
 	engine.Use(middleware.Logger)
-
-	// 4. OpenTelemetry tracing
 	engine.Use(middleware.OtelTrace)
 
-	// 5. Optional: Timestamp validation
-	// engine.Use(middleware.Timestamp(conf.Auth.Whitelist))
+	// 2. Authentication
+	engine.Use(middleware.ConsumeUser(em, conf.Auth.Whitelist))
 
-	// 6. User authentication and context setup
-	userMiddleware(conf, engine, em)
-
-	// 7. Tenant context setup
-	tenantMiddleware(conf, engine, em)
-
-	// 8. Authorization (Casbin)
-	if err := casbinMiddleware(conf, engine, em); err != nil {
-		return nil, err
+	// 3. Session management
+	if err := sessionMiddleware(conf, engine, em); err != nil {
+		logger.Warnf(context.Background(), "Failed to setup session middleware: %v", err)
 	}
+
+	// 4. Tenant context
+	engine.Use(middleware.ConsumeTenant(em, conf.Auth.Whitelist))
+
+	// 5. Authorization
+	engine.Use(middleware.CasbinAuthorized(em, conf.Auth.Whitelist))
 
 	// Register routes
 	registerRest(engine, conf)
-
-	// Register GraphQL (if needed)
-	// registerGraphql(engine, svc, conf.RunMode)
-
-	// Register extension/plugin routes
 	em.RegisterRoutes(engine)
 
-	// Register extension management routes
+	// Extension management routes
 	if conf.Extension.HotReload {
 		g := engine.Group("/sys", middleware.AuthenticatedUser)
 		em.ManageRoutes(g)
@@ -78,56 +65,29 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 	})
 	engine.NoMethod()
 
+	logger.Infof(context.Background(), "Gin server initialized")
 	return engine, nil
 }
 
-// userMiddleware registers user authentication middleware
-func userMiddleware(conf *config.Config, engine *gin.Engine, _ ext.ManagerInterface) {
-	engine.Use(middleware.ConsumeUser(jwt.NewTokenManager(conf.Auth.JWT.Secret), conf.Auth.Whitelist))
-}
+// sessionMiddleware sets up session management
+func sessionMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) error {
+	// Session tracking and validation
+	engine.Use(middleware.SessionMiddleware(em))
+	engine.Use(middleware.ValidateSessionMiddleware(em))
 
-// tenantMiddleware registers tenant context middleware
-func tenantMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) {
-	// Get tenant service
-	tsExt, err := em.GetService("tenant")
-	if err != nil {
-		logger.Errorf(context.Background(), "failed to get tenant service: %v", err.Error())
-		return
+	// Optional session limits
+	if conf.Auth.MaxSessions > 0 {
+		engine.Use(middleware.SessionLimitMiddleware(em, conf.Auth.MaxSessions))
 	}
 
-	// Cast to tenant service
-	ts, ok := tsExt.(*tenantService.Service)
-	if !ok {
-		logger.Errorf(context.Background(), "tenant service does not implement expected interface")
-		return
-	}
-	if ts == nil {
-		return
+	// Start background cleanup task
+	cleanupInterval := 1 * time.Hour
+	if conf.Auth.SessionCleanupInterval > 0 {
+		cleanupInterval = time.Duration(conf.Auth.SessionCleanupInterval) * time.Minute
 	}
 
-	engine.Use(middleware.ConsumeTenant(ts, conf.Auth.Whitelist))
-}
+	go middleware.SessionCleanupTask(context.Background(), em, cleanupInterval)
 
-// EnforcerProvider interface for getting casbin enforcer
-type EnforcerProvider interface {
-	GetEnforcer() *casbin.Enforcer
-}
-
-// casbinMiddleware registers casbin authorization middleware
-func casbinMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) error {
-	asExt, err := em.GetExtension("access")
-	if err != nil {
-		return fmt.Errorf("failed to get access module: %v", err)
-	}
-
-	if ep, ok := asExt.(EnforcerProvider); ok {
-		if enforcer := ep.GetEnforcer(); enforcer != nil {
-			engine.Use(middleware.CasbinAuthorized(em, enforcer, conf.Auth.Whitelist))
-			return nil
-		}
-		logger.Warnf(context.Background(), "casbin enforcer is nil, skipping casbin middleware")
-		return nil
-	}
-
-	return fmt.Errorf("access module does not provide enforcer")
+	logger.Infof(context.Background(), "Session middleware initialized")
+	return nil
 }

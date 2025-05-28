@@ -6,6 +6,7 @@ import (
 	"ncobase/auth/data/ent/authtoken"
 	"ncobase/auth/data/ent/codeauth"
 	"ncobase/auth/data/ent/oauthuser"
+	"ncobase/auth/data/ent/session"
 	"ncobase/auth/data/schema"
 )
 
@@ -114,4 +115,37 @@ func init() {
 	oauthuser.DefaultID = oauthuserDescID.Default.(func() string)
 	// oauthuser.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	oauthuser.IDValidator = oauthuserDescID.Validators[0].(func(string) error)
+	sessionMixin := schema.Session{}.Mixin()
+	sessionMixinFields0 := sessionMixin[0].Fields()
+	_ = sessionMixinFields0
+	sessionMixinFields1 := sessionMixin[1].Fields()
+	_ = sessionMixinFields1
+	sessionMixinFields2 := sessionMixin[2].Fields()
+	_ = sessionMixinFields2
+	sessionFields := schema.Session{}.Fields()
+	_ = sessionFields
+	// sessionDescUserID is the schema descriptor for user_id field.
+	sessionDescUserID := sessionMixinFields1[0].Descriptor()
+	// session.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	session.UserIDValidator = sessionDescUserID.Validators[0].(func(string) error)
+	// sessionDescCreatedAt is the schema descriptor for created_at field.
+	sessionDescCreatedAt := sessionMixinFields2[0].Descriptor()
+	// session.DefaultCreatedAt holds the default value on creation for the created_at field.
+	session.DefaultCreatedAt = sessionDescCreatedAt.Default.(func() int64)
+	// sessionDescUpdatedAt is the schema descriptor for updated_at field.
+	sessionDescUpdatedAt := sessionMixinFields2[1].Descriptor()
+	// session.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	session.DefaultUpdatedAt = sessionDescUpdatedAt.Default.(func() int64)
+	// session.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	session.UpdateDefaultUpdatedAt = sessionDescUpdatedAt.UpdateDefault.(func() int64)
+	// sessionDescIsActive is the schema descriptor for is_active field.
+	sessionDescIsActive := sessionFields[6].Descriptor()
+	// session.DefaultIsActive holds the default value on creation for the is_active field.
+	session.DefaultIsActive = sessionDescIsActive.Default.(bool)
+	// sessionDescID is the schema descriptor for id field.
+	sessionDescID := sessionMixinFields0[0].Descriptor()
+	// session.DefaultID holds the default value on creation for the id field.
+	session.DefaultID = sessionDescID.Default.(func() string)
+	// session.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	session.IDValidator = sessionDescID.Validators[0].(func(string) error)
 }

@@ -1,4 +1,3 @@
-// ./core/tenant/handler/tenant_quota.go
 package handler
 
 import (

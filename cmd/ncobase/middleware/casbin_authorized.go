@@ -27,9 +27,9 @@ var ActionMapping = map[string]string{
 	"OPTIONS": "read",
 }
 
-// CasbinAuthorized is a middleware that checks user authorization using Casbin
-// Model: r = sub, dom, obj, act, v4, v5
-func CasbinAuthorized(em ext.ManagerInterface, enforcer *casbin.Enforcer, whiteList []string) gin.HandlerFunc {
+// CasbinAuthorized middleware checks user authorization using Casbin
+func CasbinAuthorized(em ext.ManagerInterface, whiteList []string) gin.HandlerFunc {
+
 	return func(c *gin.Context) {
 		if shouldSkipPath(c.Request, whiteList) {
 			c.Next()
@@ -45,6 +45,12 @@ func CasbinAuthorized(em ext.ManagerInterface, enforcer *casbin.Enforcer, whiteL
 			c.Abort()
 			return
 		}
+		// Get Service wrapper manager
+		sm := GetServiceManager(em)
+		// Get access wrapper
+		asw := sm.Access()
+		// Get Casbin enforcer
+		enforcer := asw.GetEnforcer()
 
 		// Get request info
 		resource := c.Request.URL.Path
@@ -59,8 +65,14 @@ func CasbinAuthorized(em ext.ManagerInterface, enforcer *casbin.Enforcer, whiteL
 
 		action := mapHTTPMethodToAction(httpMethod)
 
-		hasPermission := checkPermission(ctx, enforcer, userID, username, tenantID,
-			resource, httpMethod, action, roles, permissions, isAdmin)
+		var hasPermission bool
+		if casbinEnforcer, ok := enforcer.(*casbin.Enforcer); ok && casbinEnforcer != nil {
+			hasPermission = checkPermission(ctx, casbinEnforcer, userID, username, tenantID,
+				resource, httpMethod, action, roles, permissions, isAdmin)
+		} else {
+			// Fallback to basic permission check if Casbin not available
+			hasPermission = checkBasicPermission(ctx, roles, permissions, isAdmin)
+		}
 
 		eventMetadata := types.JSON{
 			"username": username, "tenant_id": tenantID, "resource": resource,
@@ -99,34 +111,26 @@ func checkPermission(ctx context.Context, enforcer *casbin.Enforcer,
 	userID, username, tenantID, resource, httpMethod, action string,
 	roles, permissions []string, isAdmin bool) bool {
 
-	// Strategy 1: Super admin bypass (handled by Casbin matcher)
-	if isAdmin && hasAdminRole(roles) {
-		logger.Debugf(ctx, "Admin user detected: %s", userID)
-		// Still go through Casbin for consistent logging and rule evaluation
-	}
-
-	// Strategy 2: Check wildcard permissions (application level)
+	// Check wildcard permissions first
 	if hasWildcardPermission(permissions) {
 		logger.Debugf(ctx, "Wildcard permission granted for user %s", userID)
 		return true
 	}
 
-	// Strategy 3: Check roles using Casbin
+	// Check roles using Casbin
 	if enforcer != nil {
 		domain := tenantID
 		if domain == "" {
 			domain = "*"
 		}
 
-		// Check roles with HTTP method
+		// Check roles with HTTP method and semantic action
 		for _, role := range roles {
-			// 6-parameter format: sub, dom, obj, act, v4, v5
 			if allowed, err := enforcer.Enforce(role, domain, resource, httpMethod, "", ""); err == nil && allowed {
 				logger.Debugf(ctx, "Casbin permission (HTTP method) granted for role %s", role)
 				return true
 			}
 
-			// Check with semantic action
 			if allowed, err := enforcer.Enforce(role, domain, resource, action, "", ""); err == nil && allowed {
 				logger.Debugf(ctx, "Casbin permission (semantic action) granted for role %s", role)
 				return true
@@ -145,7 +149,7 @@ func checkPermission(ctx context.Context, enforcer *casbin.Enforcer,
 			}
 		}
 
-		// Strategy 4: Direct check permissions
+		// Direct user permissions
 		if allowed, err := enforcer.Enforce(userID, domain, resource, httpMethod, "", ""); err == nil && allowed {
 			logger.Debugf(ctx, "Direct user permission (HTTP method) granted for %s", userID)
 			return true
@@ -155,7 +159,7 @@ func checkPermission(ctx context.Context, enforcer *casbin.Enforcer,
 			return true
 		}
 
-		// Strategy 5: Username-based permissions
+		// Username-based permissions
 		if username != "" {
 			if allowed, err := enforcer.Enforce(username, domain, resource, httpMethod, "", ""); err == nil && allowed {
 				logger.Debugf(ctx, "Username-based permission (HTTP method) granted for %s", username)
@@ -169,4 +173,27 @@ func checkPermission(ctx context.Context, enforcer *casbin.Enforcer,
 	}
 
 	return false
+}
+
+// checkBasicPermission provides fallback permission check when Casbin is unavailable
+func checkBasicPermission(ctx context.Context, roles, permissions []string, isAdmin bool) bool {
+	logger.Debugf(ctx, "Using basic permission check (Casbin unavailable)")
+
+	// Admin users have all permissions
+	if isAdmin {
+		return true
+	}
+
+	// Check for wildcard permissions
+	if hasWildcardPermission(permissions) {
+		return true
+	}
+
+	// Basic role-based check
+	if hasAdminRole(roles) {
+		return true
+	}
+
+	// If user has any roles or permissions, allow access (very permissive fallback)
+	return len(roles) > 0 || len(permissions) > 0
 }

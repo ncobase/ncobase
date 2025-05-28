@@ -9,6 +9,7 @@ import (
 	"ncobase/auth/data/ent/authtoken"
 	"ncobase/auth/data/ent/codeauth"
 	"ncobase/auth/data/ent/oauthuser"
+	"ncobase/auth/data/ent/session"
 	"reflect"
 	"sync"
 
@@ -78,6 +79,7 @@ func checkColumn(table, column string) error {
 			authtoken.Table: authtoken.ValidColumn,
 			codeauth.Table:  codeauth.ValidColumn,
 			oauthuser.Table: oauthuser.ValidColumn,
+			session.Table:   session.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

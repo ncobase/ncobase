@@ -19,4 +19,6 @@ type PublisherInterface interface {
 	PublishApiKeyDeleted(ctx context.Context, userID string, metadata *types.JSON)
 	PublishTokenRefreshed(ctx context.Context, userID string, metadata *types.JSON)
 	PublishAuthCodeSent(ctx context.Context, userID string, metadata *types.JSON)
+	PublishSessionCreated(ctx context.Context, userID, sessionID string, metadata *types.JSON)
+	PublishSessionDestroyed(ctx context.Context, userID, sessionID string, metadata *types.JSON)
 }
