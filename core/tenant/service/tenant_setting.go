@@ -23,9 +23,9 @@ type TenantSettingServiceInterface interface {
 	Delete(ctx context.Context, id string) error
 	List(ctx context.Context, params *structs.ListTenantSettingParams) (paging.Result[*structs.ReadTenantSetting], error)
 	BulkUpdate(ctx context.Context, req *structs.BulkUpdateSettingsRequest) error
-	GetTenantSettings(ctx context.Context, tenantID string, publicOnly bool) (map[string]interface{}, error)
+	GetTenantSettings(ctx context.Context, tenantID string, publicOnly bool) (map[string]any, error)
 	SetSetting(ctx context.Context, tenantID, key, value string) error
-	GetSettingValue(ctx context.Context, tenantID, key string) (interface{}, error)
+	GetSettingValue(ctx context.Context, tenantID, key string) (any, error)
 	Serialize(row *ent.TenantSetting) *structs.ReadTenantSetting
 	Serializes(rows []*ent.TenantSetting) []*structs.ReadTenantSetting
 }
@@ -133,7 +133,7 @@ func (s *tenantSettingService) BulkUpdate(ctx context.Context, req *structs.Bulk
 }
 
 // GetTenantSettings retrieves all settings for a tenant as key-value map
-func (s *tenantSettingService) GetTenantSettings(ctx context.Context, tenantID string, publicOnly bool) (map[string]interface{}, error) {
+func (s *tenantSettingService) GetTenantSettings(ctx context.Context, tenantID string, publicOnly bool) (map[string]any, error) {
 	params := &structs.ListTenantSettingParams{
 		TenantID: tenantID,
 		Limit:    1000, // Get all settings
@@ -148,7 +148,7 @@ func (s *tenantSettingService) GetTenantSettings(ctx context.Context, tenantID s
 		return nil, err
 	}
 
-	result := make(map[string]interface{})
+	result := make(map[string]any)
 	for _, row := range rows {
 		setting := s.Serialize(row)
 		result[setting.SettingKey] = setting.GetTypedValue()
@@ -189,7 +189,7 @@ func (s *tenantSettingService) SetSetting(ctx context.Context, tenantID, key, va
 }
 
 // GetSettingValue retrieves a setting value with type conversion
-func (s *tenantSettingService) GetSettingValue(ctx context.Context, tenantID, key string) (interface{}, error) {
+func (s *tenantSettingService) GetSettingValue(ctx context.Context, tenantID, key string) (any, error) {
 	setting, err := s.GetByKey(ctx, tenantID, key)
 	if err != nil {
 		return nil, err

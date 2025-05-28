@@ -1,6 +1,6 @@
 package handler
 
-import "ncobase/plugin/counter/service"
+import "ncobase/counter/service"
 
 // Handler represents the counter handler.
 type Handler struct {

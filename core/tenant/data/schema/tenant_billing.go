@@ -70,7 +70,7 @@ func (TenantBilling) Fields() []ent.Field {
 		field.Int64("due_date").
 			Optional().
 			Comment("Payment due date timestamp"),
-		field.JSON("usage_details", map[string]interface{}{}).
+		field.JSON("usage_details", map[string]any{}).
 			Optional().
 			Comment("Detailed usage information for billing period"),
 	}

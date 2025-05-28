@@ -4,20 +4,20 @@ toolchain go1.24.2
 
 use (
 	.
+	./biz/content
+	./biz/realtime
+	./biz/workflow
 	./core/access
 	./core/auth
-	./core/payment
-	./core/realtime
 	./core/space
 	./core/system
 	./core/tenant
 	./core/user
-	./core/workflow
-	./domain/content
-	./domain/resource
 	./ncore
 	./plugin/counter
 	./plugin/initialize
+	./plugin/payment
 	./plugin/proxy
+	./plugin/resource
 	./plugin/sample
 )

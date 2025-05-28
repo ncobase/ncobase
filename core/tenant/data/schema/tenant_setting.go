@@ -70,7 +70,7 @@ func (TenantSetting) Fields() []ent.Field {
 		field.Bool("is_readonly").
 			Default(false).
 			Comment("Whether setting is read-only"),
-		field.JSON("validation", map[string]interface{}{}).
+		field.JSON("validation", map[string]any{}).
 			Optional().
 			Comment("Validation rules for the setting value"),
 	}

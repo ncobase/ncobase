@@ -5,11 +5,8 @@ import (
 	// Core modules
 	_ "ncobase/core"
 
-	// Domain modules
-	_ "ncobase/domain"
-
-	// Proxy modules
-	_ "ncobase/proxy"
+	// Business modules
+	_ "ncobase/biz"
 
 	// Plugins
 	_ "ncobase/plugin"

@@ -1,13 +1,6 @@
-module ncobase/plugin/counter
+module ncobase/counter
 
-go 1.23.8
-
-toolchain go1.24.3
-
-replace (
-	ncobase => ../..
-	ncore => ../../pkg
-)
+go 1.24
 
 require (
 	entgo.io/contrib v0.6.0

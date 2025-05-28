@@ -4,6 +4,10 @@ go 1.23.8
 
 toolchain go1.24.3
 
+replace (
+	ncobase => ../..
+)
+
 require (
 	entgo.io/contrib v0.6.0
 	entgo.io/ent v0.14.4

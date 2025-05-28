@@ -2,30 +2,30 @@ module ncobase
 
 go 1.24
 
-// core domains
+// core
 replace (
 	ncobase/access => ./core/access
 	ncobase/auth => ./core/auth
-	ncobase/payment => ./core/payment
-	ncobase/realtime => ./core/realtime
 	ncobase/space => ./core/space
 	ncobase/system => ./core/system
 	ncobase/tenant => ./core/tenant
 	ncobase/user => ./core/user
-	ncobase/workflow => ./core/workflow
 )
 
-// business domains
+// business
 replace (
-	ncobase/content => ./domain/content
-	ncobase/resource => ./domain/resource
+	ncobase/content => ./biz/content
+	ncobase/realtime => ./biz/realtime
+	ncobase/workflow => ./biz/workflow
 )
 
 // plugins
 replace (
+	ncobase/counter => ./plugin/counter
 	ncobase/initialize => ./plugin/initialize
-	ncobase/plugin/counter => ./plugin/counter
+	ncobase/payment => ./plugin/payment
 	ncobase/proxy => ./plugin/proxy
+	ncobase/resource => ./plugin/resource
 )
 
 // ncore
@@ -43,9 +43,9 @@ require (
 	ncobase/access v0.0.0-00010101000000-000000000000
 	ncobase/auth v0.0.0-00010101000000-000000000000
 	ncobase/content v0.0.0-00010101000000-000000000000
+	ncobase/counter v0.0.0-00010101000000-000000000000
 	ncobase/initialize v0.0.0-00010101000000-000000000000
 	ncobase/payment v0.0.0-00010101000000-000000000000
-	ncobase/plugin/counter v0.0.0-00010101000000-000000000000
 	ncobase/proxy v0.0.0-00010101000000-000000000000
 	ncobase/realtime v0.0.0-00010101000000-000000000000
 	ncobase/resource v0.0.0-00010101000000-000000000000

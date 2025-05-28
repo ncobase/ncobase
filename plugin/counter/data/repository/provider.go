@@ -1,6 +1,6 @@
 package repository
 
-import "ncobase/plugin/counter/data"
+import "ncobase/counter/data"
 
 // Repository represents the counter repository.
 type Repository struct {

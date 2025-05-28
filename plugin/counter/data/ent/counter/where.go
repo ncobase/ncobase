@@ -3,7 +3,7 @@
 package counter
 
 import (
-	"ncobase/plugin/counter/data/ent/predicate"
+	"ncobase/counter/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

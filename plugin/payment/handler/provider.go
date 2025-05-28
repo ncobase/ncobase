@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"ncobase/payment/event"
 	"ncobase/payment/service"
+
+	ext "github.com/ncobase/ncore/extension/types"
 )
 
 // Handler represents the payment handler provider
@@ -13,10 +16,15 @@ type Handler struct {
 	Log          LogHandlerInterface
 	Webhook      WebhookHandlerInterface
 	Utility      UtilityHandlerInterface
+	Event        EventHandlerInterface
 }
 
 // New creates a new handler provider
-func New(s *service.Service) *Handler {
+func New(em ext.ManagerInterface, s *service.Service) *Handler {
+	// Register event handlers if event manager exists
+	handlerProvider := NewEventProvider(em, s)
+	registrar := event.NewRegistrar(em)
+	registrar.RegisterHandlers(handlerProvider)
 	return &Handler{
 		Channel:      NewChannelHandler(s.Channel),
 		Order:        NewOrderHandler(s.Order),
@@ -25,5 +33,6 @@ func New(s *service.Service) *Handler {
 		Log:          NewLogHandler(s.Log),
 		Webhook:      NewWebhookHandler(s.Order),
 		Utility:      NewUtilityHandler(s.Provider),
+		Event:        handlerProvider,
 	}
 }

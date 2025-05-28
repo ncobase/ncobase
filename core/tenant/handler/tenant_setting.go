@@ -339,7 +339,7 @@ func (h *tenantSettingHandler) GetSetting(c *gin.Context) {
 		return
 	}
 
-	resp.Success(c.Writer, map[string]interface{}{
+	resp.Success(c.Writer, map[string]any{
 		"key":   key,
 		"value": value,
 	})

@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/plugin/counter/data/ent"
+	"ncobase/counter/data/ent"
 )
 
 // The CounterFunc type is an adapter to allow the use of ordinary

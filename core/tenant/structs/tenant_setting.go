@@ -88,7 +88,7 @@ func (r *ReadTenantSetting) GetCursorValue() string {
 }
 
 // GetTypedValue returns the setting value converted to appropriate type
-func (r *ReadTenantSetting) GetTypedValue() interface{} {
+func (r *ReadTenantSetting) GetTypedValue() any {
 	switch r.SettingType {
 	case TypeBoolean:
 		return r.SettingValue == "true"
@@ -101,7 +101,7 @@ func (r *ReadTenantSetting) GetTypedValue() interface{} {
 		}
 		return 0
 	case TypeJSON, TypeArray:
-		var result interface{}
+		var result any
 		if convert.JSONUnmarshal(r.SettingValue, &result) {
 			return result
 		}

@@ -1,6 +1,6 @@
-# Resource module
+# Resource plugin
 
-> This module handles resource-related functionalities.
+> This plugin handles resource-related functionalities.
 
 ## Structure
 

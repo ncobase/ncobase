@@ -1,37 +1,47 @@
-package service
+package handler
 
 import (
 	"context"
 	"ncobase/payment/event"
-	tenantService "ncobase/tenant/service"
-	userService "ncobase/user/service"
+	"ncobase/payment/service"
+	"ncobase/payment/wrapper"
 
+	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
 // EventHandlerInterface defines the interface for event handler operations
 type EventHandlerInterface interface {
 	GetHandlers() map[string]event.Handler
+	RefreshDependencies()
 }
 
 // eventHandler provides event handlers for the payment module
 type eventHandler struct {
-	service       *Service
-	userService   *userService.Service
-	tenantService *tenantService.Service
+	service *service.Service
+
+	usw *wrapper.UserServiceWrapper
+	tsw *wrapper.TenantServiceWrapper
 }
 
 // NewEventProvider creates a new event handler provider
 func NewEventProvider(
-	service *Service,
-	userService *userService.Service,
-	tenantService *tenantService.Service,
+	em ext.ManagerInterface,
+	service *service.Service,
 ) EventHandlerInterface {
+	usw := wrapper.NewUserServiceWrapper(em)
+	tsw := wrapper.NewTenantServiceWrapper(em)
 	return &eventHandler{
-		service:       service,
-		userService:   userService,
-		tenantService: tenantService,
+		service: service,
+		usw:     usw,
+		tsw:     tsw,
 	}
+}
+
+// RefreshDependencies refreshes the dependencies of the subscriber
+func (e *eventHandler) RefreshDependencies() {
+	e.usw.RefreshServices()
+	e.tsw.RefreshServices()
 }
 
 // Payment event logging and type assertion
@@ -262,7 +272,7 @@ func (e *eventHandler) processSubscriptionCreated(ctx context.Context, data *eve
 	// Initialize usage metrics
 
 	// If user service is available, update user's subscriptions
-	if e.userService != nil {
+	if e.usw != nil {
 		logger.Infof(ctx, "Updating user subscriptions: UserID=%s", data.UserID)
 		// Example: e.userService.UpdateUserSubscriptions(ctx, data.UserID, data.SubscriptionID)
 	}
@@ -300,7 +310,7 @@ func (e *eventHandler) processSubscriptionExpired(ctx context.Context, data *eve
 	// Clean up related resources if needed
 
 	// If user service is available, update user's permissions
-	if e.userService != nil {
+	if e.usw != nil {
 		logger.Infof(ctx, "Updating user permissions: UserID=%s", data.UserID)
 		// Example: e.userService.RemoveSubscriptionAccess(ctx, data.UserID, data.ProductID)
 	}

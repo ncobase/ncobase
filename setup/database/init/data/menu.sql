@@ -29,7 +29,8 @@ WITH tenant AS
               EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),
               EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000)),
              -- builder
-             (nanoid(), '构建器', 'builder.navigation', 'builder', 'header', '/builder/form', null, 'IconAtom', null, null,
+             (nanoid(), '构建器', 'builder.navigation', 'builder', 'header', '/builder/form', null, 'IconAtom', null,
+              null,
               1, false, '{}', null, (SELECT id FROM tenant), (SELECT id FROM user_ids WHERE username = 'admin'),
               (SELECT id FROM user_ids WHERE username = 'admin'),
               EXTRACT(EPOCH FROM now()) * 1000 + floor(random() * 1000),

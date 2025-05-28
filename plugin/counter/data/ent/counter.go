@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/plugin/counter/data/ent/counter"
+	"ncobase/counter/data/ent/counter"
 	"strings"
 
 	"entgo.io/ent"

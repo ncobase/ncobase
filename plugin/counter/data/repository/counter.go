@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/plugin/counter/data"
-	"ncobase/plugin/counter/data/ent"
-	counterEnt "ncobase/plugin/counter/data/ent/counter"
-	"ncobase/plugin/counter/structs"
+	"ncobase/counter/data"
+	"ncobase/counter/data/ent"
+	counterEnt "ncobase/counter/data/ent/counter"
+	"ncobase/counter/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"

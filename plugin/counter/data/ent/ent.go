@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/plugin/counter/data/ent/counter"
+	"ncobase/counter/data/ent/counter"
 	"reflect"
 	"sync"
 

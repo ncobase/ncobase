@@ -5,8 +5,11 @@
 ## Structure
 
 ```plantext
-├── assistant/            # Work Assistant, including ai assistant and management
-├── counter/              # Counter plugin, built-in, used for counting business code and statistics
+├── counter/              # Counter plugin, used for counting business code and statistics
+├── initialize/           # Initialize plugin, used for initializing data
+├── payment/              # Payment plugin, used for payment and subscription management
+├── proxy/                # Proxy plugin, used for proxying third-party APIs
+├── resource/             # Resource plugin, built-in, used for resource storage and management
 ├── sample/               # Sample plugin
 └── README.md             # This file
 ```

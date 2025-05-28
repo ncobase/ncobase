@@ -17,7 +17,7 @@ var (
 	name         = "initialize"
 	desc         = "Initialize plugin"
 	version      = "1.0.0"
-	dependencies = []string{"system", "auth", "user", "tenant", "space", "access"}
+	dependencies []string
 	typeStr      = "plugin"
 	group        = "sys"
 )
@@ -169,6 +169,18 @@ func (p *Plugin) Version() string {
 // Dependencies returns the dependencies of the plugin
 func (p *Plugin) Dependencies() []string {
 	return dependencies
+}
+
+// GetAllDependencies returns all dependencies of the plugin
+func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
+	return []ext.DependencyEntry{
+		{Name: "system", Type: ext.WeakDependency},
+		{Name: "auth", Type: ext.WeakDependency},
+		{Name: "user", Type: ext.WeakDependency},
+		{Name: "tenant", Type: ext.WeakDependency},
+		{Name: "space", Type: ext.WeakDependency},
+		{Name: "access", Type: ext.WeakDependency},
+	}
 }
 
 // Description returns the description of the plugin
