@@ -34,7 +34,7 @@ make help             # Show make commands help
 ## Documentation
 
 - [Overview](docs/Overview.md)
-- [Extension Design Development Guide](docs/Extension_Design_Development_Guide.md)
+- [Extension Development Guide](docs/Extension_Development_Guide.md)
 - [Business Domain Reference](docs/Business_Domain_Reference.md)
 
 For full documentation, including API references and deployment guides,
