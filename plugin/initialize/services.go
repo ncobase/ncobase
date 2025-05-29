@@ -12,7 +12,7 @@ import (
 
 // GetUserService returns the user service
 func (p *Plugin) getUserService() (*userService.Service, error) {
-	f, err := p.em.GetService("user")
+	f, err := p.em.GetServiceByName("user")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user service: %v", err)
 	}
@@ -27,7 +27,7 @@ func (p *Plugin) getUserService() (*userService.Service, error) {
 
 // GetTenantService returns the tenant service
 func (p *Plugin) getTenantService() (*tenantService.Service, error) {
-	f, err := p.em.GetService("tenant")
+	f, err := p.em.GetServiceByName("tenant")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get tenant service: %v", err)
 	}
@@ -40,7 +40,7 @@ func (p *Plugin) getTenantService() (*tenantService.Service, error) {
 
 // GetSpaceService returns the space service
 func (p *Plugin) getSpaceService() (*spaceService.Service, error) {
-	f, err := p.em.GetService("space")
+	f, err := p.em.GetServiceByName("space")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get space service: %v", err)
 	}
@@ -53,7 +53,7 @@ func (p *Plugin) getSpaceService() (*spaceService.Service, error) {
 
 // GetAccessService returns the access service
 func (p *Plugin) getAccessService() (*accessService.Service, error) {
-	f, err := p.em.GetService("access")
+	f, err := p.em.GetServiceByName("access")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get access service: %v", err)
 	}
@@ -66,7 +66,7 @@ func (p *Plugin) getAccessService() (*accessService.Service, error) {
 
 // GetAuthService returns the auth service
 func (p *Plugin) getAuthService() (*authService.Service, error) {
-	f, err := p.em.GetService("auth")
+	f, err := p.em.GetServiceByName("auth")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get access service: %v", err)
 	}
@@ -79,7 +79,7 @@ func (p *Plugin) getAuthService() (*authService.Service, error) {
 
 // getSystemService returns the system service
 func (p *Plugin) getSystemService() (*systemService.Service, error) {
-	f, err := p.em.GetService("system")
+	f, err := p.em.GetServiceByName("system")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get system service: %v", err)
 	}

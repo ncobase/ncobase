@@ -76,7 +76,7 @@ type AuthServiceWrapper struct {
 
 // GetTokenManager gets token manager
 func (w *AuthServiceWrapper) GetTokenManager() *jwt.TokenManager {
-	if authExt, err := w.em.GetExtension("auth"); err == nil {
+	if authExt, err := w.em.GetExtensionByName("auth"); err == nil {
 		if provider, ok := authExt.(interface {
 			GetTokenManager() *jwt.TokenManager
 		}); ok {
@@ -241,10 +241,10 @@ func (w *AccessServiceWrapper) GetRolePermissions(ctx context.Context, roleID st
 }
 
 // GetEnforcer gets casbin enforcer
-func (w *AccessServiceWrapper) GetEnforcer() interface{} {
-	if accessExt, err := w.em.GetExtension("access"); err == nil {
+func (w *AccessServiceWrapper) GetEnforcer() any {
+	if accessExt, err := w.em.GetExtensionByName("access"); err == nil {
 		if provider, ok := accessExt.(interface {
-			GetEnforcer() interface{}
+			GetEnforcer() any
 		}); ok {
 			return provider.GetEnforcer()
 		}
