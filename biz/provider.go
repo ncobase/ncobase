@@ -1,4 +1,4 @@
-package domain
+package biz
 
 import (
 	_ "ncobase/content"

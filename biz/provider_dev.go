@@ -1,6 +1,6 @@
 //go:build dev || development || c2hlbgo
 
-package domain
+package biz
 
 // modules to be loaded in development mode.
 // import (

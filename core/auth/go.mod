@@ -3,11 +3,11 @@ module ncobase/auth
 go 1.24
 
 replace (
-	ncobase => ../..
-	ncobase/access => ../access
-	ncobase/space => ../space
-	ncobase/tenant => ../tenant
-	ncobase/user => ../user
+	ncobase => ./../..
+	ncobase/access => ./../access
+	ncobase/space => ./../space
+	ncobase/tenant => ./../tenant
+	ncobase/user => ./../user
 )
 
 require (
@@ -16,9 +16,27 @@ require (
 	github.com/dchest/captcha v1.1.0
 	github.com/gin-gonic/gin v1.10.1
 	github.com/ncobase/ncore v0.1.3
-	github.com/redis/go-redis/v9 v9.8.0
+	github.com/redis/go-redis/v9 v9.9.0
+	ncobase v0.0.0-00010101000000-000000000000
 	ncobase/access v0.0.0-00010101000000-000000000000
+	ncobase/tenant v0.0.0-00010101000000-000000000000
 	ncobase/user v0.0.0-00010101000000-000000000000
+)
+
+require (
+	github.com/bmatcuk/doublestar/v4 v4.8.1 // indirect
+	github.com/casbin/casbin/v2 v2.105.0 // indirect
+	github.com/casbin/govaluate v1.7.0 // indirect
+	github.com/cenkalti/backoff/v5 v5.0.2 // indirect
+	github.com/getsentry/sentry-go v0.33.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.36.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.36.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.36.0 // indirect
+	go.opentelemetry.io/proto/otlp v1.6.0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20250528174236-200df99c418a // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250528174236-200df99c418a // indirect
+	google.golang.org/grpc v1.72.2 // indirect
 )
 
 require (
@@ -35,11 +53,8 @@ require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/aws/aws-sdk-go v1.55.7 // indirect
 	github.com/bmatcuk/doublestar v1.3.4 // indirect
-	github.com/bmatcuk/doublestar/v4 v4.8.1 // indirect
 	github.com/bytedance/sonic v1.13.2 // indirect
 	github.com/bytedance/sonic/loader v0.2.4 // indirect
-	github.com/casbin/casbin/v2 v2.105.0 // indirect
-	github.com/casbin/govaluate v1.6.0 // indirect
 	github.com/casdoor/oss v1.8.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
@@ -51,7 +66,7 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.9 // indirect
 	github.com/gin-contrib/sse v1.1.0 // indirect
 	github.com/go-chi/chi/v5 v5.2.1 // indirect
-	github.com/go-logr/logr v1.4.2 // indirect
+	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/inflect v0.21.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -122,7 +137,7 @@ require (
 	github.com/spf13/viper v1.20.1 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
-	github.com/ugorji/go/codec v1.2.12 // indirect
+	github.com/ugorji/go/codec v1.2.14 // indirect
 	github.com/vektah/gqlparser/v2 v2.5.27 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
@@ -151,4 +166,5 @@ require (
 	golang.org/x/tools v0.33.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	ncobase/space v0.0.0-00010101000000-000000000000
 )

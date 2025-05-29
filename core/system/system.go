@@ -18,7 +18,7 @@ var (
 	name         = "system"
 	desc         = "System module"
 	version      = "1.0.0"
-	dependencies = []string{"access", "auth", "tenant", "user"}
+	dependencies []string
 	typeStr      = "module"
 	group        = "sys"
 )
