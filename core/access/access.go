@@ -9,7 +9,6 @@ import (
 	"ncobase/cmd/ncobase/middleware"
 	"sync"
 
-	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/config"
 	exr "github.com/ncobase/ncore/extension/registry"
@@ -34,8 +33,6 @@ type Module struct {
 	em          ext.ManagerInterface
 	conf        *config.Config
 	cleanup     func(name ...string)
-
-	enforcer *casbin.Enforcer
 
 	h *handler.Handler
 	s *service.Service
@@ -94,24 +91,10 @@ func (m *Module) PostInit() error {
 	m.s = service.New(m.conf, m.d)
 	m.h = handler.New(m.s)
 
-	// Initialize Casbin
-	enforcer, err := m.s.CasbinAdapter.InitEnforcer()
-	if err != nil {
-		return fmt.Errorf("casbin enforcer initialization failed: %w", err)
-	}
-	m.enforcer = enforcer
-
 	// Register event handlers
 	m.registerEventHandlers()
 
 	return nil
-}
-
-// GetEnforcer returns the initialized Casbin enforcer
-func (m *Module) GetEnforcer() *casbin.Enforcer {
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-	return m.enforcer
 }
 
 // Name returns the name of the module

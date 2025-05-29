@@ -20,6 +20,7 @@ import (
 // CasbinAdapterServiceInterface is the interface for the service.
 type CasbinAdapterServiceInterface interface {
 	InitEnforcer() (*casbin.Enforcer, error)
+	GetEnforcer() *casbin.Enforcer
 	LoadPolicy(model model.Model) error
 	SavePolicy(model model.Model) error
 	AddPolicy(sec string, ptype string, rule []string) error
@@ -31,6 +32,8 @@ type CasbinAdapterServiceInterface interface {
 type casbinAdapterService struct {
 	conf   *config.Config
 	casbin repository.CasbinRuleRepositoryInterface
+
+	casbinEnforcer *casbin.Enforcer
 }
 
 // NewCasbinAdapterService creates a new service.
@@ -107,7 +110,15 @@ func (s *casbinAdapterService) InitEnforcer() (*casbin.Enforcer, error) {
 		return nil, err
 	}
 
+	// Set the enforcer
+	s.casbinEnforcer = e
+
 	return e, nil
+}
+
+// GetEnforcer gets the casbin enforcer.
+func (s *casbinAdapterService) GetEnforcer() *casbin.Enforcer {
+	return s.casbinEnforcer
 }
 
 // LoadPolicy loads all policy rules from the storage.

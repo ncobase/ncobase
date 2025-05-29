@@ -66,8 +66,8 @@ func CasbinAuthorized(em ext.ManagerInterface, whiteList []string) gin.HandlerFu
 		action := mapHTTPMethodToAction(httpMethod)
 
 		var hasPermission bool
-		if casbinEnforcer, ok := enforcer.(*casbin.Enforcer); ok && casbinEnforcer != nil {
-			hasPermission = checkPermission(ctx, casbinEnforcer, userID, username, tenantID,
+		if enforcer != nil {
+			hasPermission = checkPermission(ctx, enforcer, userID, username, tenantID,
 				resource, httpMethod, action, roles, permissions, isAdmin)
 		} else {
 			// Fallback to basic permission check if Casbin not available

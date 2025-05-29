@@ -21,6 +21,8 @@ func NewServer(conf *config.Config) (http.Handler, func(), error) {
 
 	// Register built-in extensions
 	registerExtensions(em)
+
+	// Register plugins
 	if err = em.LoadPlugins(); err != nil {
 		logger.Fatalf(context.Background(), "Failed loading plugins: %+v", err)
 	}

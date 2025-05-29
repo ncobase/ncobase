@@ -9,6 +9,7 @@ import (
 	userStructs "ncobase/user/structs"
 	"sync"
 
+	"github.com/casbin/casbin/v2"
 	"github.com/ncobase/ncore/data/paging"
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/security/jwt"
@@ -241,12 +242,12 @@ func (w *AccessServiceWrapper) GetRolePermissions(ctx context.Context, roleID st
 }
 
 // GetEnforcer gets casbin enforcer
-func (w *AccessServiceWrapper) GetEnforcer() any {
-	if accessExt, err := w.em.GetExtensionByName("access"); err == nil {
-		if provider, ok := accessExt.(interface {
-			GetEnforcer() any
+func (w *AccessServiceWrapper) GetEnforcer() *casbin.Enforcer {
+	if svc, err := w.em.GetCrossService("access", "CasbinAdapter"); err == nil {
+		if service, ok := svc.(interface {
+			GetEnforcer() *casbin.Enforcer
 		}); ok {
-			return provider.GetEnforcer()
+			return service.GetEnforcer()
 		}
 	}
 	return nil
