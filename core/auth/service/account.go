@@ -354,12 +354,16 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 			"ip_address":          ip,
 			"user_agent":          userAgent,
 			"registration_method": "email_code",
-			"tenant_id":           tenant.ID,
 			"session_id":          authResp.SessionID,
 			"browser":             uaInfo.Browser,
 			"os":                  uaInfo.OS,
 			"mobile":              uaInfo.Mobile,
 			"timestamp":           time.Now().UnixMilli(),
+		}
+
+		if tenant != nil {
+			(*metadata)["tenant_id"] = tenant.ID
+			(*metadata)["tenant_name"] = tenant.Name
 		}
 
 		s.ep.PublishUserCreated(ctx, user.ID, metadata)
