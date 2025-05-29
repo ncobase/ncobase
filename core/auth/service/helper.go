@@ -331,7 +331,7 @@ func handleEntError(ctx context.Context, k string, err error) error {
 // sendAuthEmail sends email with authentication code
 func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
 	conf := ctxutil.GetConfig(ctx)
-	template := email.EmailTemplate{
+	template := email.Template{
 		Subject:  "Email authentication",
 		Template: "auth-email",
 		Keyword:  "Sign in",
