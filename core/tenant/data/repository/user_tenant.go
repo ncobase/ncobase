@@ -25,7 +25,7 @@ type UserTenantRepositoryInterface interface {
 	DeleteAllByUserID(ctx context.Context, id string) error
 	DeleteAllByTenantID(ctx context.Context, id string) error
 	GetTenantsByUserID(ctx context.Context, userID string) ([]*ent.Tenant, error)
-	IsTenantInUser(ctx context.Context, userID string, tenantID string) (bool, error)
+	IsTenantInUser(ctx context.Context, tenantID, userID string) (bool, error)
 }
 
 // userTenantRepository implements the UserTenantRepositoryInterface.
@@ -179,7 +179,7 @@ func (r *userTenantRepository) IsUserInTenant(ctx context.Context, userID string
 }
 
 // IsTenantInUser verifies if a tenant is assigned to a specific user.
-func (r *userTenantRepository) IsTenantInUser(ctx context.Context, tenantID string, userID string) (bool, error) {
+func (r *userTenantRepository) IsTenantInUser(ctx context.Context, tenantID, userID string) (bool, error) {
 	count, err := r.ec.UserTenant.Query().Where(userTenantEnt.TenantIDEQ(tenantID), userTenantEnt.UserIDEQ(userID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userTenantRepo.IsTenantInUser error: %v", err)

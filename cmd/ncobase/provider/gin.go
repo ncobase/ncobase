@@ -65,7 +65,6 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 	})
 	engine.NoMethod()
 
-	logger.Infof(context.Background(), "Gin server initialized")
 	return engine, nil
 }
 

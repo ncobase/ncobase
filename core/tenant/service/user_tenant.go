@@ -15,9 +15,9 @@ import (
 type UserTenantServiceInterface interface {
 	UserBelongTenant(ctx context.Context, uid string) (*structs.ReadTenant, error)
 	UserBelongTenants(ctx context.Context, uid string) ([]*structs.ReadTenant, error)
-	AddUserToTenant(ctx context.Context, u string, t string) (*structs.UserTenant, error)
-	RemoveUserFromTenant(ctx context.Context, u string, t string) error
-	IsTenantInUser(ctx context.Context, u string, t string) (bool, error)
+	AddUserToTenant(ctx context.Context, u, t string) (*structs.UserTenant, error)
+	RemoveUserFromTenant(ctx context.Context, u, t string) error
+	IsTenantInUser(ctx context.Context, t, u string) (bool, error)
 }
 
 // userTenantService is the struct for the service.
@@ -103,8 +103,8 @@ func (s *userTenantService) RemoveUserFromTenant(ctx context.Context, u string, 
 }
 
 // IsTenantInUser checks if a tenant is in a user.
-func (s *userTenantService) IsTenantInUser(ctx context.Context, u string, t string) (bool, error) {
-	isValid, err := s.userTenant.IsTenantInUser(ctx, u, t)
+func (s *userTenantService) IsTenantInUser(ctx context.Context, t, u string) (bool, error) {
+	isValid, err := s.userTenant.IsTenantInUser(ctx, t, u)
 	if err = handleEntError(ctx, "UserTenant", err); err != nil {
 		return false, err
 

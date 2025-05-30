@@ -28,7 +28,7 @@ func ConsumeTenant(em ext.ManagerInterface, whiteList []string) gin.HandlerFunc 
 
 		// Validate tenant ID belongs to user if both provided
 		if tenantID != "" && userID != "" {
-			if isValid, err := tsw.IsTenantInUser(ctx, userID, tenantID); err != nil || !isValid {
+			if isValid, err := tsw.IsTenantInUser(ctx, tenantID, userID); err != nil || !isValid {
 				logger.Warnf(ctx, "Tenant %s does not belong to user %s", tenantID, userID)
 				tenantID = ""
 			}
@@ -55,7 +55,6 @@ func ConsumeTenant(em ext.ManagerInterface, whiteList []string) gin.HandlerFunc 
 
 		// Set tenant ID to context if exists
 		if tenantID != "" {
-			logger.Infof(ctx, "Setting tenant ID: %s for user: %s", tenantID, userID)
 			ctx = ctxutil.SetTenantID(ctx, tenantID)
 			c.Request = c.Request.WithContext(ctx)
 		} else if userID != "" {

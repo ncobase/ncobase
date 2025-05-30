@@ -283,12 +283,12 @@ func (w *TenantServiceWrapper) GetUserDefaultTenant(ctx context.Context, userID 
 }
 
 // IsTenantInUser checks if tenant belongs to user
-func (w *TenantServiceWrapper) IsTenantInUser(ctx context.Context, userID, tenantID string) (bool, error) {
+func (w *TenantServiceWrapper) IsTenantInUser(ctx context.Context, tenantID, userID string) (bool, error) {
 	if svc, err := w.em.GetCrossService("tenant", "UserTenant"); err == nil {
 		if service, ok := svc.(interface {
 			IsTenantInUser(context.Context, string, string) (bool, error)
 		}); ok {
-			return service.IsTenantInUser(ctx, userID, tenantID)
+			return service.IsTenantInUser(ctx, tenantID, userID)
 		}
 	}
 	return false, fmt.Errorf("user tenant service not available")

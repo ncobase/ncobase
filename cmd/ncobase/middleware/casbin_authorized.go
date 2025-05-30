@@ -113,7 +113,6 @@ func checkPermission(ctx context.Context, enforcer *casbin.Enforcer,
 
 	// Check wildcard permissions first
 	if hasWildcardPermission(permissions) {
-		logger.Debugf(ctx, "Wildcard permission granted for user %s", userID)
 		return true
 	}
 
