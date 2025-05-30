@@ -21,7 +21,7 @@ type Session struct {
 
 // Annotations of the Session.
 func (Session) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "session"}, "_")
+	table := strings.Join([]string{"ncse", "iam", "user_session"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
@@ -33,8 +33,8 @@ func (Session) Annotations() []schema.Annotation {
 func (Session) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.CustomPrimaryKey{
-			Length:      32,
-			DefaultFunc: func() string { return nanoid.String(32) },
+			Length:      64,
+			DefaultFunc: func() string { return nanoid.String(64) },
 		},
 		mixin.UserID,
 		mixin.TimeAt{},
