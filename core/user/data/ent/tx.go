@@ -12,6 +12,8 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// ApiKey is the client for interacting with the ApiKey builders.
+	ApiKey *ApiKeyClient
 	// Employee is the client for interacting with the Employee builders.
 	Employee *EmployeeClient
 	// User is the client for interacting with the User builders.
@@ -149,6 +151,7 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.ApiKey = NewApiKeyClient(tx.config)
 	tx.Employee = NewEmployeeClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 	tx.UserProfile = NewUserProfileClient(tx.config)
@@ -161,7 +164,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: Employee.QueryXXX(), the query will be executed
+// applies a query, for example: ApiKey.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

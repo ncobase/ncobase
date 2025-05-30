@@ -31,6 +31,7 @@ type UserRepositoryInterface interface {
 	Delete(ctx context.Context, id string) error
 	List(ctx context.Context, params *structs.ListUserParams) ([]*ent.User, error)
 	UpdatePassword(ctx context.Context, params *structs.UserPassword) error
+	UpdatePasswordByID(ctx context.Context, id string, hashedPassword string) error
 	FindUser(ctx context.Context, params *structs.FindUser) (*ent.User, error) // not use cache
 	CountX(ctx context.Context, params *structs.ListUserParams) int
 }
@@ -220,6 +221,24 @@ func (r *userRepository) UpdatePassword(ctx context.Context, params *structs.Use
 	}
 
 	builder.SetPassword(ph)
+
+	_, err = builder.Save(ctx)
+	if validator.IsNotNil(err) {
+		return err
+	}
+
+	return nil
+}
+
+// UpdatePasswordByID update user password by id
+func (r *userRepository) UpdatePasswordByID(ctx context.Context, id string, hashedPassword string) error {
+	row, err := r.FindUser(ctx, &structs.FindUser{ID: id})
+	if validator.IsNotNil(err) {
+		return err
+	}
+
+	builder := row.Update()
+	builder.SetPassword(hashedPassword)
 
 	_, err = builder.Save(ctx)
 	if validator.IsNotNil(err) {

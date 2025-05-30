@@ -58,7 +58,18 @@ func (r *ReadUser) GetCursorValue() string {
 
 // ListUserParams represents the query parameters for listing users.
 type ListUserParams struct {
-	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	Cursor       string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit        int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction    string `form:"direction,omitempty" json:"direction,omitempty"`
+	SearchQuery  string `form:"search,omitempty" json:"search,omitempty"`
+	RoleFilter   string `form:"role,omitempty" json:"role,omitempty"`
+	StatusFilter string `form:"status_filter,omitempty" json:"status_filter,omitempty"`
+	SortBy       string `form:"sortBy,omitempty" json:"sortBy,omitempty"`
+	Status       int    `form:"status,omitempty" json:"status,omitempty"`
+}
+
+// PasswordResetRequest represents the request to reset a user's password
+type PasswordResetRequest struct {
+	Username string `json:"username" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
 }

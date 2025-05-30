@@ -48,7 +48,7 @@ func CasbinAuthorized(em ext.ManagerInterface, whiteList []string) gin.HandlerFu
 		// Get Service wrapper manager
 		sm := GetServiceManager(em)
 		// Get access wrapper
-		asw := sm.Access()
+		asw := sm.AccessServiceWrapper()
 		// Get Casbin enforcer
 		enforcer := asw.GetEnforcer()
 

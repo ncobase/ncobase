@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/user/data/ent/apikey"
 	"ncobase/user/data/ent/employee"
 	"ncobase/user/data/ent/user"
 	"ncobase/user/data/ent/userprofile"
@@ -75,6 +76,7 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
+			apikey.Table:      apikey.ValidColumn,
 			employee.Table:    employee.ValidColumn,
 			user.Table:        user.ValidColumn,
 			userprofile.Table: userprofile.ValidColumn,

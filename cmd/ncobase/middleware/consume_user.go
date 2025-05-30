@@ -32,7 +32,7 @@ func ConsumeUser(em ext.ManagerInterface, whiteList []string) gin.HandlerFunc {
 
 		// Try JWT token authentication first
 		if token := extractToken(c); token != "" {
-			asw := sm.Auth()
+			asw := sm.AuthServiceWrapper()
 			if jtm := asw.GetTokenManager(); jtm != nil {
 				if handleTokenAuth(c, jtm, token) {
 					c.Next()
@@ -100,7 +100,7 @@ func handleTokenAuth(c *gin.Context, jtm *jwt.TokenManager, token string) bool {
 // handleSessionAuth handles session authentication with complete user context
 func handleSessionAuth(c *gin.Context, sm *ServiceManager, sessionID string) bool {
 	ctx := c.Request.Context()
-	asw := sm.Auth()
+	asw := sm.AuthServiceWrapper()
 
 	// Get session from service
 	session, err := asw.GetSessionByID(ctx, sessionID)
@@ -202,9 +202,9 @@ func setCompleteUserContextFromSession(c *gin.Context, session *authStructs.Read
 	ctx = ctxutil.SetUserID(ctx, userID)
 
 	// Get service wrappers
-	usw := sm.User()
-	asw := sm.Access()
-	tsw := sm.Tenant()
+	usw := sm.UserServiceWrapper()
+	asw := sm.AccessServiceWrapper()
+	tsw := sm.TenantServiceWrapper()
 
 	// Get user details
 	if user, err := usw.GetUserByID(ctx, userID); err == nil && user != nil {
@@ -340,7 +340,7 @@ func RequireTokenAuth(em ext.ManagerInterface) gin.HandlerFunc {
 		// Get service wrappers manager
 		sm := GetServiceManager(em)
 		// get access wrapper
-		asw := sm.Auth()
+		asw := sm.AuthServiceWrapper()
 		if jtm := asw.GetTokenManager(); jtm != nil {
 			if !handleTokenAuth(c, jtm, token) {
 				resp.Fail(c.Writer, resp.UnAuthorized("Invalid JWT token"))

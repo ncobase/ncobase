@@ -7,6 +7,7 @@ type Handler struct {
 	User        UserHandlerInterface
 	UserProfile UserProfileHandlerInterface
 	Employee    EmployeeHandlerInterface
+	ApiKey      ApiKeyHandlerInterface
 }
 
 // New creates a new handler.
@@ -15,5 +16,6 @@ func New(svc *service.Service) *Handler {
 		User:        NewUserHandler(svc),
 		UserProfile: NewUserProfileHandler(svc),
 		Employee:    NewEmployeeHandler(svc),
+		ApiKey:      NewApiKeyHandler(svc),
 	}
 }

@@ -24,7 +24,7 @@ func ConsumeTenant(em ext.ManagerInterface, whiteList []string) gin.HandlerFunc 
 		// Get service manager
 		sw := GetServiceManager(em)
 		// Get tenant wrapper
-		tsw := sw.Tenant()
+		tsw := sw.TenantServiceWrapper()
 
 		// Validate tenant ID belongs to user if both provided
 		if tenantID != "" && userID != "" {

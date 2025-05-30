@@ -8,7 +8,6 @@ import (
 	"ncobase/access/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/utils/nanoid"
 )
 
 // ActivityRepositoryInterface defines repository operations for activity logs
@@ -34,7 +33,6 @@ func NewActivityRepository(d *data.Data) ActivityRepositoryInterface {
 func (r *activityRepository) Create(ctx context.Context, userID string, log *structs.CreateActivityRequest) (*ent.Activity, error) {
 	builder := r.ec.Activity.Create()
 
-	builder.SetID(nanoid.PrimaryKey()())
 	builder.SetUserID(userID)
 	builder.SetType(string(log.Type))
 	builder.SetDetails(log.Details)

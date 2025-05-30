@@ -6,6 +6,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// ApiKey is the predicate function for apikey builders.
+type ApiKey func(*sql.Selector)
+
 // Employee is the predicate function for employee builders.
 type Employee func(*sql.Selector)
 

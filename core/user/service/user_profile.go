@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/user/data"
 	"ncobase/user/data/ent"
 	"ncobase/user/data/repository"
+	"ncobase/user/event"
 	"ncobase/user/structs"
 
 	"github.com/ncobase/ncore/ecode"
@@ -24,12 +24,14 @@ type UserProfileServiceInterface interface {
 // userProfileService is the struct for the service.
 type userProfileService struct {
 	userProfile repository.UserProfileRepositoryInterface
+	ep          event.PublisherInterface
 }
 
 // NewUserProfileService creates a new service.
-func NewUserProfileService(d *data.Data) UserProfileServiceInterface {
+func NewUserProfileService(repo *repository.Repository, ep event.PublisherInterface) UserProfileServiceInterface {
 	return &userProfileService{
-		userProfile: repository.NewUserProfileRepository(d),
+		userProfile: repo.UserProfile,
+		ep:          ep,
 	}
 }
 

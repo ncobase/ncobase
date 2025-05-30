@@ -4,16 +4,19 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/user/data"
 	"ncobase/user/data/ent"
 	"ncobase/user/data/repository"
+	"ncobase/user/event"
 	"ncobase/user/structs"
 
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/messaging/email"
 	"github.com/ncobase/ncore/security/crypto"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/nanoid"
 )
 
 // UserServiceInterface is the interface for the service.
@@ -31,17 +34,25 @@ type UserServiceInterface interface {
 	Serializes(rows []*ent.User) []*structs.ReadUser
 	Serialize(user *ent.User) *structs.ReadUser
 	CountX(ctx context.Context, params *structs.ListUserParams) int
+	GetFiltered(ctx context.Context, searchQuery, roleFilter, statusFilter, sortBy string) ([]*structs.ReadUser, error)
+	GetActiveUsers(ctx context.Context) ([]*structs.ReadUser, error)
+	GetUserByEmail(ctx context.Context, email string) (*structs.ReadUser, error)
+	GetUserByUsername(ctx context.Context, username string) (*structs.ReadUser, error)
+	UpdateStatus(ctx context.Context, userID string, status int) (*structs.ReadUser, error)
+	SendPasswordResetEmail(ctx context.Context, userID string) error
 }
 
 // userService is the struct for the service.
 type userService struct {
 	user repository.UserRepositoryInterface
+	ep   event.PublisherInterface
 }
 
 // NewUserService creates a new service.
-func NewUserService(d *data.Data) UserServiceInterface {
+func NewUserService(repo *repository.Repository, ep event.PublisherInterface) UserServiceInterface {
 	return &userService{
-		user: repository.NewUserRepository(d),
+		user: repo.User,
+		ep:   ep,
 	}
 }
 
@@ -215,6 +226,160 @@ func (s *userService) List(ctx context.Context, params *structs.ListUserParams) 
 	})
 }
 
+// CountX gets a count of users.
+func (s *userService) CountX(ctx context.Context, params *structs.ListUserParams) int {
+	return s.user.CountX(ctx, params)
+}
+
+// GetFiltered gets filtered users.
+func (s *userService) GetFiltered(ctx context.Context, searchQuery, roleFilter, statusFilter, sortBy string) ([]*structs.ReadUser, error) {
+	params := &structs.ListUserParams{
+		SearchQuery:  searchQuery,
+		RoleFilter:   roleFilter,
+		StatusFilter: statusFilter,
+		SortBy:       sortBy,
+		Limit:        100, // Default limit
+	}
+
+	// Clean up filters
+	if roleFilter == "all" {
+		params.RoleFilter = ""
+	}
+	if statusFilter == "all" {
+		params.StatusFilter = ""
+	}
+
+	rows, err := s.user.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.Serializes(rows), nil
+}
+
+// GetActiveUsers gets active users
+func (s *userService) GetActiveUsers(ctx context.Context) ([]*structs.ReadUser, error) {
+	// Active users are those with status = 0
+	params := &structs.ListUserParams{
+		Status: 0,                 // 0: activated, 1: unactivated, 2: disabled
+		SortBy: "last_login_desc", // Sort by most recent login
+		Limit:  100,               // Reasonable limit for active users
+	}
+
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Items, nil
+}
+
+// GetUserByEmail gets a user by email.
+func (s *userService) GetUserByEmail(ctx context.Context, email string) (*structs.ReadUser, error) {
+	if email == "" {
+		return nil, errors.New(ecode.FieldIsInvalid("email"))
+	}
+	user, err := s.FindUser(ctx, &structs.FindUser{Email: email})
+	if err = handleEntError(ctx, "User", err); err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+// GetUserByUsername gets a user by username.
+func (s *userService) GetUserByUsername(ctx context.Context, username string) (*structs.ReadUser, error) {
+	if username == "" {
+		return nil, errors.New(ecode.FieldIsInvalid("username"))
+	}
+	user, err := s.FindUser(ctx, &structs.FindUser{Username: username})
+	if err = handleEntError(ctx, "User", err); err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+// UpdateStatus updates a user's status.
+func (s *userService) UpdateStatus(ctx context.Context, userID string, status int) (*structs.ReadUser, error) {
+	updates := types.JSON{
+		"status": status,
+	}
+	user, err := s.UpdateUser(ctx, userID, updates)
+	if err != nil {
+		return nil, err
+	}
+
+	// Publish status updated event
+	if s.ep != nil {
+		statusText := "unknown"
+		switch status {
+		case 0:
+			statusText = "active"
+		case 1:
+			statusText = "inactive"
+		case 2:
+			statusText = "pending"
+		}
+
+		s.ep.PublishStatusUpdated(ctx, userID, &types.JSON{
+			"status":      status,
+			"status_text": statusText,
+		})
+	}
+
+	return user, nil
+}
+
+func (s *userService) SendPasswordResetEmail(ctx context.Context, userID string) error {
+	user, err := s.user.GetByID(ctx, userID)
+	if err != nil {
+		return err
+	}
+
+	if user.Email == "" {
+		return errors.New("user does not have an email address")
+	}
+	// Generate a temporary password
+	tempPassword := nanoid.String(12)
+	// Hash the temporary password
+	hashedPassword, err := crypto.HashPassword(ctx, tempPassword)
+	if err != nil {
+		return err
+	}
+
+	// Update the user's password
+	err = s.user.UpdatePasswordByID(ctx, userID, hashedPassword)
+	if err != nil {
+		return err
+	}
+
+	// Send the password reset email
+	conf := ctxutil.GetConfig(ctx)
+	template := email.Template{
+		Subject:  "Password Reset",
+		Template: "password-reset",
+		Keyword:  "Password Reset",
+		URL:      conf.Frontend.SignInURL,
+		Data: map[string]any{
+			"username":     user.Username,
+			"tempPassword": tempPassword,
+		},
+	}
+
+	_, err = ctxutil.SendEmailWithTemplate(ctx, user.Email, template)
+
+	// Publish password reset event
+	if s.ep != nil {
+		s.ep.PublishPasswordReset(ctx, userID, &types.JSON{
+			"username": user.Username,
+			"email":    user.Email,
+		})
+	}
+
+	return err
+}
+
 // Serializes serializes users
 func (s *userService) Serializes(rows []*ent.User) []*structs.ReadUser {
 	var rs []*structs.ReadUser
@@ -238,11 +403,6 @@ func (s *userService) Serialize(user *ent.User) *structs.ReadUser {
 		CreatedAt:   &user.CreatedAt,
 		UpdatedAt:   &user.UpdatedAt,
 	}
-}
-
-// CountX gets a count of users.
-func (s *userService) CountX(ctx context.Context, params *structs.ListUserParams) int {
-	return s.user.CountX(ctx, params)
 }
 
 // // serializeUserRoles serialize user roles

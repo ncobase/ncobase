@@ -38,26 +38,26 @@ func GetServiceManager(em ext.ManagerInterface) *ServiceManager {
 	return serviceManager
 }
 
-// Auth returns auth service wrapper
-func (sm *ServiceManager) Auth() *AuthServiceWrapper {
+// AuthServiceWrapper returns auth service wrapper
+func (sm *ServiceManager) AuthServiceWrapper() *AuthServiceWrapper {
 	sm.once.Do(sm.initServices)
 	return sm.authSvc
 }
 
-// User returns user service wrapper
-func (sm *ServiceManager) User() *UserServiceWrapper {
+// UserServiceWrapper returns user service wrapper
+func (sm *ServiceManager) UserServiceWrapper() *UserServiceWrapper {
 	sm.once.Do(sm.initServices)
 	return sm.userSvc
 }
 
-// Access returns access service wrapper
-func (sm *ServiceManager) Access() *AccessServiceWrapper {
+// AccessServiceWrapper returns access service wrapper
+func (sm *ServiceManager) AccessServiceWrapper() *AccessServiceWrapper {
 	sm.once.Do(sm.initServices)
 	return sm.accessSvc
 }
 
-// Tenant returns tenant service wrapper
-func (sm *ServiceManager) Tenant() *TenantServiceWrapper {
+// TenantServiceWrapper returns tenant service wrapper
+func (sm *ServiceManager) TenantServiceWrapper() *TenantServiceWrapper {
 	sm.once.Do(sm.initServices)
 	return sm.tenantSvc
 }
@@ -183,6 +183,18 @@ func (w *UserServiceWrapper) GetUserByID(ctx context.Context, id string) (*userS
 			GetByID(context.Context, string) (*userStructs.ReadUser, error)
 		}); ok {
 			return service.GetByID(ctx, id)
+		}
+	}
+	return nil, fmt.Errorf("user service not available")
+}
+
+// ValidateApiKey validates API key
+func (w *UserServiceWrapper) ValidateApiKey(ctx context.Context, key string) (*userStructs.ApiKey, error) {
+	if userSvc, err := w.em.GetCrossService("user", "ApiKey"); err == nil {
+		if service, ok := userSvc.(interface {
+			ValidateApiKey(context.Context, string) (*userStructs.ApiKey, error)
+		}); ok {
+			return service.ValidateApiKey(ctx, key)
 		}
 	}
 	return nil, fmt.Errorf("user service not available")

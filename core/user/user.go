@@ -87,7 +87,7 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New(m.d)
+	m.s = service.New(m.em, m.d)
 	m.h = handler.New(m.s)
 
 	return nil
@@ -107,14 +107,23 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		users.GET("", middleware.HasPermission("read:user"), m.h.User.List)
 		users.POST("", middleware.HasPermission("create:user"), m.h.User.Create)
+		users.GET("/filter", middleware.HasPermission("read:user"), m.h.User.GetFiltered)
+		users.GET("/me", middleware.HasPermission("read:user"), m.h.User.GetCurrentUser)
+		users.GET("/by-email/:email", middleware.HasPermission("read:user"), m.h.User.GetByEmail)
+		users.GET("/by-username/:username", middleware.HasPermission("read:user"), m.h.User.GetByUsername)
 		users.GET("/:username", middleware.HasPermission("read:user"), m.h.User.Get)
 		users.PUT("/:username", middleware.HasPermission("update:user"), m.h.User.Update)
 		users.DELETE("/:username", middleware.HasPermission("delete:user"), m.h.User.Delete)
 		users.PUT("/:username/password", middleware.HasPermission("update:user"), m.h.User.UpdatePassword)
-
-		// Profile endpoints - more flexible permissions
+		users.PATCH("/:username/status", middleware.HasPermission("update:user"), m.h.User.UpdateStatus)
 		users.GET("/:username/profile", middleware.HasAnyPermission("read:user", "manage:profile"), m.h.UserProfile.Get)
 		users.PUT("/:username/profile", middleware.HasAnyPermission("update:user", "manage:profile"), m.h.UserProfile.Update)
+		users.POST("/reset-password", middleware.HasPermission("update:user"), m.h.User.ResetPassword)
+		users.GET("/:username/api-keys", middleware.HasPermission("read:user"), m.h.ApiKey.GetUserApiKeys)
+		users.GET("/me/api-keys", middleware.HasPermission("read:user"), m.h.ApiKey.GetMyApiKeys)
+		users.POST("/api-keys", middleware.HasPermission("create:user"), m.h.ApiKey.GenerateApiKey)
+		users.GET("/api-keys/:id", middleware.HasPermission("read:user"), m.h.ApiKey.GetApiKey)
+		users.DELETE("/api-keys/:id", middleware.HasPermission("delete:user"), m.h.ApiKey.DeleteApiKey)
 	}
 
 	// Employee endpoints

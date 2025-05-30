@@ -24,7 +24,7 @@ func SessionMiddleware(em ext.ManagerInterface) gin.HandlerFunc {
 		// Get Service wrapper manager
 		sm := GetServiceManager(em)
 		// get access wrapper
-		asw := sm.Auth()
+		asw := sm.AuthServiceWrapper()
 		// Get JWT token manager
 		jtm := asw.GetTokenManager()
 		if jtm == nil {
@@ -57,7 +57,7 @@ func ValidateSessionMiddleware(em ext.ManagerInterface) gin.HandlerFunc {
 		// Get Service wrapper manager
 		sm := GetServiceManager(em)
 		// get access wrapper
-		asw := sm.Auth()
+		asw := sm.AuthServiceWrapper()
 		// Get JWT token manager
 		jtm := asw.GetTokenManager()
 		if jtm == nil {
@@ -103,7 +103,7 @@ func SessionCleanupTask(ctx context.Context, em ext.ManagerInterface, interval t
 	// Get Service wrapper manager
 	sm := GetServiceManager(em)
 	// get access wrapper
-	asw := sm.Auth()
+	asw := sm.AuthServiceWrapper()
 
 	for {
 		select {
@@ -128,7 +128,7 @@ func SessionLimitMiddleware(em ext.ManagerInterface, maxSessions int) gin.Handle
 		// Get Service wrapper manager
 		sm := GetServiceManager(em)
 		// get access wrapper
-		asw := sm.Auth()
+		asw := sm.AuthServiceWrapper()
 		activeCount := asw.GetActiveSessionsCount(c.Request.Context(), userID)
 		if activeCount >= maxSessions {
 			logger.Warnf(c.Request.Context(), "User %s exceeded session limit: %d/%d",

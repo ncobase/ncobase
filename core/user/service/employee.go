@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/user/data"
 	"ncobase/user/data/ent"
 	"ncobase/user/data/repository"
+	"ncobase/user/event"
 	"ncobase/user/structs"
 
 	"github.com/ncobase/ncore/data/paging"
@@ -30,19 +30,21 @@ type EmployeeServiceInterface interface {
 
 // employeeService implements the EmployeeServiceInterface
 type employeeService struct {
-	r repository.EmployeeRepositoryInterface
+	employee repository.EmployeeRepositoryInterface
+	ep       event.PublisherInterface
 }
 
 // NewEmployeeService creates a new employee service
-func NewEmployeeService(d *data.Data) EmployeeServiceInterface {
+func NewEmployeeService(repo *repository.Repository, ep event.PublisherInterface) EmployeeServiceInterface {
 	return &employeeService{
-		r: repository.NewEmployeeRepository(d),
+		employee: repo.Employee,
+		ep:       ep,
 	}
 }
 
 // Create creates a new employee record
 func (s *employeeService) Create(ctx context.Context, body *structs.CreateEmployeeBody) (*structs.ReadEmployee, error) {
-	row, err := s.r.Create(ctx, body)
+	row, err := s.employee.Create(ctx, body)
 	if err := handleEntError(ctx, "Employee", err); err != nil {
 		return nil, err
 	}
@@ -51,7 +53,7 @@ func (s *employeeService) Create(ctx context.Context, body *structs.CreateEmploy
 
 // Update updates an employee record
 func (s *employeeService) Update(ctx context.Context, userID string, body *structs.UpdateEmployeeBody) (*structs.ReadEmployee, error) {
-	row, err := s.r.Update(ctx, userID, body)
+	row, err := s.employee.Update(ctx, userID, body)
 	if err := handleEntError(ctx, "Employee", err); err != nil {
 		return nil, err
 	}
@@ -60,7 +62,7 @@ func (s *employeeService) Update(ctx context.Context, userID string, body *struc
 
 // Get retrieves an employee by user ID
 func (s *employeeService) Get(ctx context.Context, userID string) (*structs.ReadEmployee, error) {
-	row, err := s.r.GetByUserID(ctx, userID)
+	row, err := s.employee.GetByUserID(ctx, userID)
 	if err := handleEntError(ctx, "Employee", err); err != nil {
 		return nil, err
 	}
@@ -69,7 +71,7 @@ func (s *employeeService) Get(ctx context.Context, userID string) (*structs.Read
 
 // GetByEmployeeID retrieves an employee by employee ID
 func (s *employeeService) GetByEmployeeID(ctx context.Context, employeeID string) (*structs.ReadEmployee, error) {
-	row, err := s.r.GetByEmployeeID(ctx, employeeID)
+	row, err := s.employee.GetByEmployeeID(ctx, employeeID)
 	if err := handleEntError(ctx, "Employee", err); err != nil {
 		return nil, err
 	}
@@ -78,7 +80,7 @@ func (s *employeeService) GetByEmployeeID(ctx context.Context, employeeID string
 
 // Delete deletes an employee record
 func (s *employeeService) Delete(ctx context.Context, userID string) error {
-	err := s.r.Delete(ctx, userID)
+	err := s.employee.Delete(ctx, userID)
 	if err := handleEntError(ctx, "Employee", err); err != nil {
 		return err
 	}
@@ -99,7 +101,7 @@ func (s *employeeService) List(ctx context.Context, params *structs.ListEmployee
 		lp.Limit = limit
 		lp.Direction = direction
 
-		rows, err := s.r.List(ctx, &lp)
+		rows, err := s.employee.List(ctx, &lp)
 		if ent.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
@@ -116,7 +118,7 @@ func (s *employeeService) List(ctx context.Context, params *structs.ListEmployee
 
 // GetByDepartment retrieves employees by department
 func (s *employeeService) GetByDepartment(ctx context.Context, department string) ([]*structs.ReadEmployee, error) {
-	rows, err := s.r.GetByDepartment(ctx, department)
+	rows, err := s.employee.GetByDepartment(ctx, department)
 	if err := handleEntError(ctx, "Employee", err); err != nil {
 		return nil, err
 	}
@@ -125,7 +127,7 @@ func (s *employeeService) GetByDepartment(ctx context.Context, department string
 
 // GetByManager retrieves employees by manager
 func (s *employeeService) GetByManager(ctx context.Context, managerID string) ([]*structs.ReadEmployee, error) {
-	rows, err := s.r.GetByManager(ctx, managerID)
+	rows, err := s.employee.GetByManager(ctx, managerID)
 	if err := handleEntError(ctx, "Employee", err); err != nil {
 		return nil, err
 	}
@@ -134,7 +136,7 @@ func (s *employeeService) GetByManager(ctx context.Context, managerID string) ([
 
 // CountX gets a count of employees
 func (s *employeeService) CountX(ctx context.Context, params *structs.ListEmployeeParams) int {
-	return s.r.CountX(ctx, params)
+	return s.employee.CountX(ctx, params)
 }
 
 // Serialize converts ent.Employee to structs.ReadEmployee

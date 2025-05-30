@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"ncobase/user/data/ent/apikey"
 	"ncobase/user/data/ent/employee"
 	"ncobase/user/data/ent/user"
 	"ncobase/user/data/ent/userprofile"
@@ -13,6 +14,39 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	apikeyMixin := schema.ApiKey{}.Mixin()
+	apikeyMixinFields0 := apikeyMixin[0].Fields()
+	_ = apikeyMixinFields0
+	apikeyMixinFields2 := apikeyMixin[2].Fields()
+	_ = apikeyMixinFields2
+	apikeyMixinFields3 := apikeyMixin[3].Fields()
+	_ = apikeyMixinFields3
+	apikeyFields := schema.ApiKey{}.Fields()
+	_ = apikeyFields
+	// apikeyDescCreatedAt is the schema descriptor for created_at field.
+	apikeyDescCreatedAt := apikeyMixinFields2[0].Descriptor()
+	// apikey.DefaultCreatedAt holds the default value on creation for the created_at field.
+	apikey.DefaultCreatedAt = apikeyDescCreatedAt.Default.(func() int64)
+	// apikeyDescUpdatedAt is the schema descriptor for updated_at field.
+	apikeyDescUpdatedAt := apikeyMixinFields2[1].Descriptor()
+	// apikey.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	apikey.DefaultUpdatedAt = apikeyDescUpdatedAt.Default.(func() int64)
+	// apikey.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	apikey.UpdateDefaultUpdatedAt = apikeyDescUpdatedAt.UpdateDefault.(func() int64)
+	// apikeyDescUserID is the schema descriptor for user_id field.
+	apikeyDescUserID := apikeyMixinFields3[0].Descriptor()
+	// apikey.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
+	apikey.UserIDValidator = apikeyDescUserID.Validators[0].(func(string) error)
+	// apikeyDescKey is the schema descriptor for key field.
+	apikeyDescKey := apikeyFields[0].Descriptor()
+	// apikey.KeyValidator is a validator for the "key" field. It is called by the builders before save.
+	apikey.KeyValidator = apikeyDescKey.Validators[0].(func(string) error)
+	// apikeyDescID is the schema descriptor for id field.
+	apikeyDescID := apikeyMixinFields0[0].Descriptor()
+	// apikey.DefaultID holds the default value on creation for the id field.
+	apikey.DefaultID = apikeyDescID.Default.(func() string)
+	// apikey.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	apikey.IDValidator = apikeyDescID.Validators[0].(func(string) error)
 	employeeMixin := schema.Employee{}.Mixin()
 	employeeMixinFields0 := employeeMixin[0].Fields()
 	_ = employeeMixinFields0

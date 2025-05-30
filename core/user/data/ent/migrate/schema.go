@@ -9,6 +9,49 @@ import (
 )
 
 var (
+	// NcseSysAPIKeyColumns holds the columns for the "ncse_sys_api_key" table.
+	NcseSysAPIKeyColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "key", Type: field.TypeString, Unique: true},
+		{Name: "last_used", Type: field.TypeInt64, Nullable: true},
+	}
+	// NcseSysAPIKeyTable holds the schema information for the "ncse_sys_api_key" table.
+	NcseSysAPIKeyTable = &schema.Table{
+		Name:       "ncse_sys_api_key",
+		Columns:    NcseSysAPIKeyColumns,
+		PrimaryKey: []*schema.Column{NcseSysAPIKeyColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "apikey_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysAPIKeyColumns[0]},
+			},
+			{
+				Name:    "apikey_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysAPIKeyColumns[4]},
+			},
+			{
+				Name:    "apikey_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysAPIKeyColumns[0], NcseSysAPIKeyColumns[2]},
+			},
+			{
+				Name:    "apikey_user_id_created_at",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysAPIKeyColumns[4], NcseSysAPIKeyColumns[2]},
+			},
+			{
+				Name:    "apikey_key",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysAPIKeyColumns[5]},
+			},
+		},
+	}
 	// NcseSysEmployeeColumns holds the columns for the "ncse_sys_employee" table.
 	NcseSysEmployeeColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
@@ -138,6 +181,7 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		NcseSysAPIKeyTable,
 		NcseSysEmployeeTable,
 		NcseSysUserTable,
 		NcseSysUserProfileTable,
@@ -145,6 +189,9 @@ var (
 )
 
 func init() {
+	NcseSysAPIKeyTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_api_key",
+	}
 	NcseSysEmployeeTable.Annotation = &entsql.Annotation{
 		Table: "ncse_sys_employee",
 	}
