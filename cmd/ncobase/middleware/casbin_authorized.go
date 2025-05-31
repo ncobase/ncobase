@@ -90,9 +90,9 @@ func CasbinAuthorized(em ext.ManagerInterface, whiteList []string) gin.HandlerFu
 			return
 		}
 
-		em.PublishEvent("security.access_granted", types.JSON{
-			"user_id": userID, "details": "Access granted to resource: " + resource, "metadata": eventMetadata,
-		})
+		// em.PublishEvent("security.access_granted", types.JSON{
+		// 	"user_id": userID, "details": "Access granted to resource: " + resource, "metadata": eventMetadata,
+		// })
 
 		c.Next()
 	}

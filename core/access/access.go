@@ -105,10 +105,10 @@ func (m *Module) Name() string {
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
-	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+	accessGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
 
 	// Role endpoints - graduated permissions
-	roles := r.Group("/roles")
+	roles := accessGroup.Group("/roles")
 	{
 		roles.GET("", middleware.HasPermission("read:role"), m.h.Role.List)
 		roles.POST("", middleware.HasPermission("manage:role"), m.h.Role.Create)
@@ -119,7 +119,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	}
 
 	// Permission endpoints - admin only
-	permissions := r.Group("/permissions", middleware.HasAnyRole("super-admin", "system-admin"))
+	permissions := accessGroup.Group("/permissions", middleware.HasAnyRole("super-admin", "system-admin"))
 	{
 		permissions.GET("", m.h.Permission.List)
 		permissions.POST("", m.h.Permission.Create)
@@ -129,7 +129,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	}
 
 	// Policy endpoints - super admin only
-	policies := r.Group("/policies", middleware.HasRole("super-admin"))
+	policies := accessGroup.Group("/policies", middleware.HasRole("super-admin"))
 	{
 		policies.GET("", m.h.Casbin.List)
 		policies.POST("", m.h.Casbin.Create)
@@ -139,15 +139,14 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	}
 
 	// Activity
-	activities := r.Group("/activities")
+	activities := accessGroup.Group("/activities")
 	{
-		activities.POST("", m.h.Activity.LogActivity)
-		activities.GET("", m.h.Activity.ListActivity)
+		activities.POST("", m.h.Activity.CreateActivity)
+		activities.GET("", m.h.Activity.ListActivities)
+		activities.GET("/search", m.h.Activity.SearchActivities)
 		activities.GET("/:id", m.h.Activity.GetActivity)
+		activities.GET("/users/:username", m.h.Activity.GetUserActivities)
 	}
-	// User activity
-	userGroup := r.Group("/"+m.Group()+"/users", middleware.AuthenticatedUser)
-	userGroup.GET("/:username/activity", m.h.Activity.GetUserActivity)
 }
 
 // GetHandlers returns the handlers for the module

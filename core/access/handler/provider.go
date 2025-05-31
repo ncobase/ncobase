@@ -14,7 +14,7 @@ type Handler struct {
 // New creates a new handler.
 func New(s *service.Service) *Handler {
 	return &Handler{
-		Activity:       NewActivityHandler(s),
+		Activity:       NewActivityHandler(s.Activity),
 		Casbin:         NewCasbinHandler(s),
 		Role:           NewRoleHandler(s),
 		Permission:     NewPermissionHandler(s),
