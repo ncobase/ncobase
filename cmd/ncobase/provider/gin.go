@@ -86,7 +86,5 @@ func sessionMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerIn
 	}
 
 	go middleware.SessionCleanupTask(context.Background(), em, cleanupInterval)
-
-	logger.Infof(context.Background(), "Session middleware initialized")
 	return nil
 }

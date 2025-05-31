@@ -300,10 +300,6 @@ func setCompleteUserContextFromSession(c *gin.Context, session *authStructs.Read
 	c.Set("roles", roles)
 	c.Set("permissions", permissions)
 	c.Set("is_admin", isAdmin)
-
-	logger.Debugf(ctx, "Session auth complete - User: %s, Roles: %v, Permissions: %d, IsAdmin: %v",
-		userID, roles, len(permissions), isAdmin)
-
 	return ctx
 }
 
