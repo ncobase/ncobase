@@ -124,6 +124,8 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		users.POST("/api-keys", middleware.HasPermission("create:user"), m.h.ApiKey.GenerateApiKey)
 		users.GET("/api-keys/:id", middleware.HasPermission("read:user"), m.h.ApiKey.GetApiKey)
 		users.DELETE("/api-keys/:id", middleware.HasPermission("delete:user"), m.h.ApiKey.DeleteApiKey)
+		users.GET("/:username/meshes", middleware.HasAnyPermission("read:user", "manage:profile"), m.h.UserMeshes.GetUserMeshes)
+		users.PUT("/:username/meshes", middleware.HasAnyPermission("update:user", "manage:profile"), m.h.UserMeshes.UpdateUserMeshes)
 	}
 
 	// Employee endpoints

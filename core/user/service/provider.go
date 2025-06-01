@@ -14,6 +14,7 @@ type Service struct {
 	UserProfile UserProfileServiceInterface
 	Employee    EmployeeServiceInterface
 	ApiKey      ApiKeyServiceInterface
+	UserMeshes  UserMeshesServiceInterface
 	Events      event.PublisherInterface
 }
 
@@ -21,11 +22,20 @@ type Service struct {
 func New(em ext.ManagerInterface, d *data.Data) *Service {
 	ep := event.NewPublisher(em)
 	repo := repository.New(d)
+
+	userService := NewUserService(repo, ep)
+	userProfileService := NewUserProfileService(repo, ep)
+	employeeService := NewEmployeeService(repo, ep)
+	apiKeyService := NewApiKeyService(repo, ep)
+
+	userMeshesService := NewUserMeshesService(userService, userProfileService, employeeService, apiKeyService)
+
 	return &Service{
-		User:        NewUserService(repo, ep),
-		UserProfile: NewUserProfileService(repo, ep),
-		Employee:    NewEmployeeService(repo, ep),
-		ApiKey:      NewApiKeyService(repo, ep),
+		User:        userService,
+		UserProfile: userProfileService,
+		Employee:    employeeService,
+		ApiKey:      apiKeyService,
+		UserMeshes:  userMeshesService,
 		Events:      ep,
 	}
 }
