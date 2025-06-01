@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/data/search"
 	"github.com/ncobase/ncore/logging/logger"
@@ -18,7 +19,7 @@ import (
 	"github.com/ncobase/ncore/utils/nanoid"
 )
 
-// ActivityRepositoryInterface defines repository operations for activitys
+// ActivityRepositoryInterface defines repository operations for activities
 type ActivityRepositoryInterface interface {
 	Create(ctx context.Context, userID string, log *structs.CreateActivityRequest) (*structs.ActivityDocument, error)
 	GetByID(ctx context.Context, id string) (*structs.ActivityDocument, error)
@@ -30,15 +31,23 @@ type ActivityRepositoryInterface interface {
 
 // activityRepository implements ActivityRepositoryInterface
 type activityRepository struct {
-	data        *data.Data
-	searchIndex string
+	data          *data.Data
+	searchIndex   string
+	activityCache cache.ICache[structs.ActivityDocument]
+	userActCache  cache.ICache[[]structs.ActivityDocument] // Cache recent activities per user
+	activityTTL   time.Duration
 }
 
 // NewActivityRepository creates a new activity repository
 func NewActivityRepository(d *data.Data) ActivityRepositoryInterface {
+	redisClient := d.GetRedis()
+
 	return &activityRepository{
-		data:        d,
-		searchIndex: "activities",
+		data:          d,
+		searchIndex:   "activities",
+		activityCache: cache.NewCache[structs.ActivityDocument](redisClient, "ncse_activities"),
+		userActCache:  cache.NewCache[[]structs.ActivityDocument](redisClient, "ncse_user_activities"),
+		activityTTL:   time.Hour * 1, // 1 hour cache TTL
 	}
 }
 
@@ -87,21 +96,46 @@ func (r *activityRepository) Create(ctx context.Context, userID string, log *str
 		}
 	}
 
+	// Cache the activity and invalidate user activities cache
+	go func() {
+		r.cacheActivity(context.Background(), doc)
+		r.invalidateUserActivitiesCache(context.Background(), userID)
+	}()
+
 	return doc, nil
 }
 
 // GetByID retrieves an activity by ID
 func (r *activityRepository) GetByID(ctx context.Context, id string) (*structs.ActivityDocument, error) {
+	// Try cache first
+	cacheKey := fmt.Sprintf("id:%s", id)
+	if cached, err := r.activityCache.Get(ctx, cacheKey); err == nil && cached != nil {
+		return cached, nil
+	}
+
 	searchEngines := r.data.GetAvailableSearchEngines()
 
+	var doc *structs.ActivityDocument
+	var err error
+
 	if len(searchEngines) > 0 {
-		if doc, err := r.getFromSearch(ctx, id); err == nil && doc != nil {
+		if doc, err = r.getFromSearch(ctx, id); err == nil && doc != nil {
+			// Cache for future use
+			go r.cacheActivity(context.Background(), doc)
 			return doc, nil
 		}
 		logger.Debugf(ctx, "Search engine lookup failed for ID %s, trying database", id)
 	}
 
-	return r.getFromDatabase(ctx, id)
+	doc, err = r.getFromDatabase(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	// Cache for future use
+	go r.cacheActivity(context.Background(), doc)
+
+	return doc, nil
 }
 
 // List retrieves a list of activities
@@ -122,17 +156,42 @@ func (r *activityRepository) List(ctx context.Context, params *structs.ListActiv
 
 		if len(searchEngines) > 0 {
 			if docs, total, err := r.listFromSearch(ctx, &lp); err == nil {
+				// Cache activities in background
+				go func() {
+					for _, doc := range docs {
+						r.cacheActivity(context.Background(), doc)
+					}
+				}()
 				return docs, total, nil
 			}
 			logger.Debugf(ctx, "Search engine list failed, using database")
 		}
 
-		return r.listFromDatabase(ctx, &lp)
+		docs, total, err := r.listFromDatabase(ctx, &lp)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		// Cache activities in background
+		go func() {
+			for _, doc := range docs {
+				r.cacheActivity(context.Background(), doc)
+			}
+		}()
+
+		return docs, total, nil
 	})
 }
 
 // GetRecentByUserID retrieves recent activities for a user
 func (r *activityRepository) GetRecentByUserID(ctx context.Context, userID string, limit int) ([]*structs.ActivityDocument, error) {
+	// Try cache first
+	cacheKey := fmt.Sprintf("user:%s:recent:%d", userID, limit)
+	var cachedActivities []*structs.ActivityDocument
+	if err := r.userActCache.GetArray(ctx, cacheKey, &cachedActivities); err == nil && len(cachedActivities) > 0 {
+		return cachedActivities, nil
+	}
+
 	params := &structs.ListActivityParams{
 		UserID:    userID,
 		Limit:     limit,
@@ -143,6 +202,13 @@ func (r *activityRepository) GetRecentByUserID(ctx context.Context, userID strin
 	if err != nil {
 		return nil, err
 	}
+
+	// Cache for future use
+	go func() {
+		if err := r.userActCache.SetArray(context.Background(), cacheKey, result.Items, r.activityTTL); err != nil {
+			logger.Debugf(context.Background(), "Failed to cache user activities %s: %v", userID, err)
+		}
+	}()
 
 	return result.Items, nil
 }
@@ -197,6 +263,9 @@ func (r *activityRepository) Search(ctx context.Context, params *structs.SearchA
 			continue
 		}
 		docs[i] = doc
+
+		// Cache activity in background
+		go r.cacheActivity(context.Background(), doc)
 	}
 
 	return docs, int(resp.Total), nil
@@ -559,5 +628,24 @@ func (r *activityRepository) convertEntToDocument(row *ent.Activity) *structs.Ac
 		Metadata:  &row.Metadata,
 		CreatedAt: row.CreatedAt,
 		UpdatedAt: row.UpdatedAt,
+	}
+}
+
+// cacheActivity caches an activity
+func (r *activityRepository) cacheActivity(ctx context.Context, doc *structs.ActivityDocument) {
+	cacheKey := fmt.Sprintf("id:%s", doc.ID)
+	if err := r.activityCache.Set(ctx, cacheKey, doc, r.activityTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache activity %s: %v", doc.ID, err)
+	}
+}
+
+// invalidateUserActivitiesCache invalidates the cache for user activities
+func (r *activityRepository) invalidateUserActivitiesCache(ctx context.Context, userID string) {
+	// Clear all cached user activities for different limits
+	for _, limit := range []int{5, 10, 20, 50} {
+		cacheKey := fmt.Sprintf("user:%s:recent:%d", userID, limit)
+		if err := r.userActCache.Delete(ctx, cacheKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate user activities cache %s: %v", userID, err)
+		}
 	}
 }

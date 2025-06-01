@@ -3,13 +3,12 @@ package schema
 import (
 	"strings"
 
-	"github.com/ncobase/ncore/data/databases/entgo/mixin"
-
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/index"
+	"github.com/ncobase/ncore/data/databases/entgo/mixin"
 )
 
 // AuthToken holds the schema definition for the AuthToken entity.

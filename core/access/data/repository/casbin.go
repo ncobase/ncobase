@@ -7,7 +7,9 @@ import (
 	"ncobase/access/data/ent"
 	casbinRuleEnt "ncobase/access/data/ent/casbinrule"
 	"ncobase/access/structs"
+	"time"
 
+	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -30,20 +32,30 @@ type CasbinRuleRepositoryInterface interface {
 
 // casbinRuleRepository implements the CasbinRuleRepositoryInterface.
 type casbinRuleRepository struct {
-	ec *ent.Client
+	data            *data.Data
+	ruleCache       cache.ICache[ent.CasbinRule]
+	pTypeRulesCache cache.ICache[[]string] // Maps ptype to rule IDs
+	ruleTTL         time.Duration
 }
 
 // NewCasbinRule creates a new Casbin rule repository.
 func NewCasbinRule(d *data.Data) CasbinRuleRepositoryInterface {
-	return &casbinRuleRepository{ec: d.GetMasterEntClient()}
+	redisClient := d.GetRedis()
+
+	return &casbinRuleRepository{
+		data:            d,
+		ruleCache:       cache.NewCache[ent.CasbinRule](redisClient, "ncse_access:casbin_rules"),
+		pTypeRulesCache: cache.NewCache[[]string](redisClient, "ncse_access:ptype_rules"),
+		ruleTTL:         time.Hour * 1, // 1 hour cache TTL
+	}
 }
 
 // Create creates a new Casbin rule.
 func (r *casbinRuleRepository) Create(ctx context.Context, body *structs.CasbinRuleBody) (*ent.CasbinRule, error) {
-	// create builder.
-	builder := r.ec.CasbinRule.Create()
+	// Use master for writes
+	builder := r.data.GetMasterEntClient().CasbinRule.Create()
 
-	// set values.
+	// Set values
 	builder.SetNillablePType(&body.PType)
 	builder.SetNillableV0(&body.V0)
 	builder.SetNillableV1(&body.V1)
@@ -53,34 +65,54 @@ func (r *casbinRuleRepository) Create(ctx context.Context, body *structs.CasbinR
 	builder.SetNillableV5(body.V5)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
-	// execute the builder.
+	// Execute the builder
 	row, err := builder.Save(ctx)
 	if err != nil {
 		return nil, err
 	}
+
+	// Cache the rule and invalidate ptype cache
+	go func() {
+		r.cacheRule(context.Background(), row)
+		if body.PType != "" {
+			r.invalidatePTypeRulesCache(context.Background(), body.PType)
+		}
+	}()
 
 	return row, nil
 }
 
 // GetByID gets a Casbin rule by ID.
 func (r *casbinRuleRepository) GetByID(ctx context.Context, id string) (*ent.CasbinRule, error) {
+	// Try cache first
+	cacheKey := fmt.Sprintf("id:%s", id)
+	if cached, err := r.ruleCache.Get(ctx, cacheKey); err == nil && cached != nil {
+		return cached, nil
+	}
+
+	// Fallback to database using slave
 	row, err := r.FindByID(ctx, id)
 	if err != nil {
 		logger.Errorf(ctx, "casbinRuleRepo.GetByID error: %v", err)
 		return nil, err
 	}
+
+	// Cache for future use
+	go r.cacheRule(context.Background(), row)
+
 	return row, nil
 }
 
 // Update updates a Casbin rule (full or partial).
 func (r *casbinRuleRepository) Update(ctx context.Context, id string, updates types.JSON) (*ent.CasbinRule, error) {
-	row, err := r.FindByID(ctx, id)
+	// Get original rule for cache invalidation
+	originalRule, err := r.FindByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	// create builder.
-	builder := row.Update()
+	// Use master for writes
+	builder := originalRule.Update()
 
 	// Update the Casbin rule fields based on updates map
 	for field, value := range updates {
@@ -105,42 +137,65 @@ func (r *casbinRuleRepository) Update(ctx context.Context, id string, updates ty
 	}
 
 	// Save the updated Casbin rule
-	updatedRow, err := builder.Save(ctx)
+	updatedRule, err := builder.Save(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	return updatedRow, nil
+	// Invalidate and re-cache
+	go func() {
+		r.invalidateRuleCache(context.Background(), originalRule)
+		r.cacheRule(context.Background(), updatedRule)
+
+		// Invalidate ptype caches for both old and new ptypes
+		if originalRule.PType != "" {
+			r.invalidatePTypeRulesCache(context.Background(), originalRule.PType)
+		}
+		if updatedRule.PType != "" && (originalRule.PType == "" || originalRule.PType != updatedRule.PType) {
+			r.invalidatePTypeRulesCache(context.Background(), updatedRule.PType)
+		}
+	}()
+
+	return updatedRule, nil
 }
 
 // Delete deletes a Casbin rule by ID.
 func (r *casbinRuleRepository) Delete(ctx context.Context, id string) error {
-	row, err := r.FindByID(ctx, id)
+	// Get rule first for cache invalidation
+	rule, err := r.FindByID(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	// create builder.
-	builder := r.ec.CasbinRule.Delete()
+	// Use master for writes
+	builder := r.data.GetMasterEntClient().CasbinRule.Delete()
 
-	// execute the builder and verify the result.
-	if _, err = builder.Where(casbinRuleEnt.IDEQ(row.ID)).Exec(ctx); err != nil {
+	// Execute the builder and verify the result
+	if _, err = builder.Where(casbinRuleEnt.IDEQ(rule.ID)).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "casbinRuleRepo.Delete error: %v", err)
 		return err
 	}
+
+	// Invalidate cache
+	go func() {
+		r.invalidateRuleCache(context.Background(), rule)
+		if rule.PType != "" {
+			r.invalidatePTypeRulesCache(context.Background(), rule.PType)
+		}
+	}()
 
 	return nil
 }
 
 // FindByID finds a Casbin rule by ID.
 func (r *casbinRuleRepository) FindByID(ctx context.Context, id string) (*ent.CasbinRule, error) {
-	// create builder.
-	builder := r.ec.CasbinRule.Query()
+	// Use slave for reads
+	builder := r.data.GetSlaveEntClient().CasbinRule.Query()
 
 	// Add conditions to the query
 	builder = builder.Where(casbinRuleEnt.IDEQ(id))
 
-	// execute the builder.
+	// Execute the builder
 	row, err := builder.Only(ctx)
 	if validator.IsNotNil(err) {
 		return nil, err
@@ -151,13 +206,11 @@ func (r *casbinRuleRepository) FindByID(ctx context.Context, id string) (*ent.Ca
 
 // Find finds Casbin rules based on query parameters.
 func (r *casbinRuleRepository) Find(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*ent.CasbinRule, error) {
-	// create list builder
+	// Create list builder using slave
 	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
-
-	// limit the result
 
 	// Execute the query
 	rows, err := builder.All(ctx)
@@ -165,16 +218,24 @@ func (r *casbinRuleRepository) Find(ctx context.Context, params *structs.ListCas
 		return nil, err
 	}
 
+	// Cache rules in background
+	go func() {
+		for _, rule := range rows {
+			r.cacheRule(context.Background(), rule)
+		}
+	}()
+
 	return rows, nil
 }
 
 // List gets a list of Casbin rules.
 func (r *casbinRuleRepository) List(ctx context.Context, params *structs.ListCasbinRuleParams) ([]*ent.CasbinRule, error) {
-	// create list builder
+	// Create list builder using slave
 	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
+
 	if params.Cursor != "" {
 		id, timestamp, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
@@ -222,12 +283,19 @@ func (r *casbinRuleRepository) List(ctx context.Context, params *structs.ListCas
 		return nil, err
 	}
 
+	// Cache rules in background
+	go func() {
+		for _, rule := range rows {
+			r.cacheRule(context.Background(), rule)
+		}
+	}()
+
 	return rows, nil
 }
 
 // CountX gets a count of Casbin rules.
 func (r *casbinRuleRepository) CountX(ctx context.Context, params *structs.ListCasbinRuleParams) int {
-	// create list builder
+	// Create list builder using slave
 	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
@@ -237,8 +305,8 @@ func (r *casbinRuleRepository) CountX(ctx context.Context, params *structs.ListC
 
 // listBuilder builds the list query.
 func (r *casbinRuleRepository) listBuilder(_ context.Context, params *structs.ListCasbinRuleParams) (*ent.CasbinRuleQuery, error) {
-	// create list builder
-	builder := r.ec.CasbinRule.Query()
+	// Use slave for reads
+	builder := r.data.GetSlaveEntClient().CasbinRule.Query()
 
 	// Add conditions to the query based on parameters
 	if params.PType != nil && *params.PType != "" {
@@ -264,4 +332,30 @@ func (r *casbinRuleRepository) listBuilder(_ context.Context, params *structs.Li
 	}
 
 	return builder, nil
+}
+
+// cacheRule caches a Casbin rule
+func (r *casbinRuleRepository) cacheRule(ctx context.Context, rule *ent.CasbinRule) {
+	// Cache by ID
+	idKey := fmt.Sprintf("id:%s", rule.ID)
+	if err := r.ruleCache.Set(ctx, idKey, rule, r.ruleTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache Casbin rule %s: %v", rule.ID, err)
+	}
+}
+
+// invalidateRuleCache invalidates a Casbin rule
+func (r *casbinRuleRepository) invalidateRuleCache(ctx context.Context, rule *ent.CasbinRule) {
+	// Invalidate ID cache
+	idKey := fmt.Sprintf("id:%s", rule.ID)
+	if err := r.ruleCache.Delete(ctx, idKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate Casbin rule cache %s: %v", rule.ID, err)
+	}
+}
+
+// invalidatePTypeRulesCache invalidates a Casbin rule
+func (r *casbinRuleRepository) invalidatePTypeRulesCache(ctx context.Context, ptype string) {
+	cacheKey := fmt.Sprintf("ptype:%s", ptype)
+	if err := r.pTypeRulesCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate ptype rules cache %s: %v", ptype, err)
+	}
 }

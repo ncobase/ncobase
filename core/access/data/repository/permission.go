@@ -7,6 +7,7 @@ import (
 	"ncobase/access/data/ent"
 	permissionEnt "ncobase/access/data/ent/permission"
 	"ncobase/access/structs"
+	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
@@ -15,8 +16,6 @@ import (
 	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
-
-	"github.com/redis/go-redis/v9"
 )
 
 // PermissionRepositoryInterface represents the permission repository interface.
@@ -34,24 +33,29 @@ type PermissionRepositoryInterface interface {
 
 // permissionRepository implements the PermissionRepositoryInterface.
 type permissionRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	c  *cache.Cache[ent.Permission]
+	ec                 *ent.Client
+	permissionCache    cache.ICache[ent.Permission]
+	nameMappingCache   cache.ICache[string] // Maps name to permission ID
+	actionSubjectCache cache.ICache[string] // Maps action:subject to permission ID
+	permissionTTL      time.Duration
 }
 
 // NewPermissionRepository creates a new permission repository.
 func NewPermissionRepository(d *data.Data) PermissionRepositoryInterface {
-	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
-	return &permissionRepository{ec, rc, cache.NewCache[ent.Permission](rc, "ncse_permission")}
+	redisClient := d.GetRedis()
+
+	return &permissionRepository{
+		ec:                 d.GetMasterEntClient(),
+		permissionCache:    cache.NewCache[ent.Permission](redisClient, "ncse_access:permissions"),
+		nameMappingCache:   cache.NewCache[string](redisClient, "ncse_access:permission_names"),
+		actionSubjectCache: cache.NewCache[string](redisClient, "ncse_access:permission_actions"),
+		permissionTTL:      time.Hour * 4, // 4 hours cache TTL (permissions change less frequently)
+	}
 }
 
-// Create creates a new permission.
+// Create creates a new permission
 func (r *permissionRepository) Create(ctx context.Context, body *structs.CreatePermissionBody) (*ent.Permission, error) {
-
-	// create builder.
 	builder := r.ec.Permission.Create()
-	// set values.
 	builder.SetNillableName(&body.Name)
 	builder.SetNillableAction(&body.Action)
 	builder.SetNillableSubject(&body.Subject)
@@ -64,89 +68,80 @@ func (r *permissionRepository) Create(ctx context.Context, body *structs.CreateP
 		builder.SetExtras(*body.Extras)
 	}
 
-	// execute the builder.
-	row, err := builder.Save(ctx)
+	permission, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "permissionRepo.Create error: %v", err)
 		return nil, err
 	}
 
-	return row, nil
+	// Cache the permission
+	go r.cachePermission(context.Background(), permission)
+
+	return permission, nil
 }
 
-// GetByName gets a permission by name.
+// GetByName gets a permission by name
 func (r *permissionRepository) GetByName(ctx context.Context, name string) (*ent.Permission, error) {
-	// check cache
-	cacheKey := fmt.Sprintf("%s", name)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
+	// Try to get permission ID from name mapping cache
+	if permissionID, err := r.getPermissionIDByName(ctx, name); err == nil && permissionID != "" {
+		return r.GetByID(ctx, permissionID)
 	}
 
-	// If not found in cache, query the database
+	// Fallback to database
 	row, err := r.FindPermission(ctx, &structs.FindPermission{Name: name})
 	if err != nil {
 		logger.Errorf(ctx, "permissionRepo.GetByName error: %v", err)
 		return nil, err
 	}
 
-	// cache the result
-	err = r.c.Set(ctx, cacheKey, row)
-	if err != nil {
-		logger.Errorf(ctx, "permissionRepo.GetByName cache error: %v", err)
-	}
+	// Cache for future use
+	go r.cachePermission(context.Background(), row)
 
 	return row, nil
 }
 
-// GetByID gets a permission by ID.
+// GetByID gets a permission by ID
 func (r *permissionRepository) GetByID(ctx context.Context, id string) (*ent.Permission, error) {
-	// check cache
-	cacheKey := fmt.Sprintf("%s", id)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
+	// Try cache first
+	cacheKey := fmt.Sprintf("id:%s", id)
+	if cached, err := r.permissionCache.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
-	// If not found in cache, query the database
+	// Fallback to database
 	row, err := r.FindPermission(ctx, &structs.FindPermission{ID: id})
 	if err != nil {
 		logger.Errorf(ctx, "permissionRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
-	// cache the result
-	err = r.c.Set(ctx, cacheKey, row)
-	if err != nil {
-		logger.Errorf(ctx, "permissionRepo.GetByID cache error: %v", err)
-	}
+	// Cache for future use
+	go r.cachePermission(context.Background(), row)
 
 	return row, nil
 }
 
-// GetByActionAndSubject gets a permission by action and subject.
+// GetByActionAndSubject gets a permission by action and subject
 func (r *permissionRepository) GetByActionAndSubject(ctx context.Context, action, subject string) (*ent.Permission, error) {
-	// check cache
-	cacheKey := fmt.Sprintf("%s_%s", action, subject)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
+	// Try to get permission ID from action:subject mapping cache
+	if permissionID, err := r.getPermissionIDByActionSubject(ctx, action, subject); err == nil && permissionID != "" {
+		return r.GetByID(ctx, permissionID)
 	}
 
-	// If not found in cache, query the database
+	// Fallback to database
 	row, err := r.FindPermission(ctx, &structs.FindPermission{Action: action, Subject: subject})
 	if err != nil {
 		logger.Errorf(ctx, "permissionRepo.GetByActionAndSubject error: %v", err)
 		return nil, err
 	}
 
-	// cache the result
-	err = r.c.Set(ctx, cacheKey, row)
-	if err != nil {
-		logger.Errorf(ctx, "permissionRepo.GetByActionAndSubject cache error: %v", err)
-	}
+	// Cache for future use
+	go r.cachePermission(context.Background(), row)
 
 	return row, nil
 }
 
-// Update updates a permission (full or partial).
+// Update updates a permission
 func (r *permissionRepository) Update(ctx context.Context, id string, updates types.JSON) (*ent.Permission, error) {
 	permission, err := r.FindPermission(ctx, &structs.FindPermission{ID: id})
 	if err != nil {
@@ -176,53 +171,42 @@ func (r *permissionRepository) Update(ctx context.Context, id string, updates ty
 		}
 	}
 
-	// execute the builder.
-	row, err := builder.Save(ctx)
+	updatedPermission, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "permissionRepo.Update error: %v", err)
 		return nil, err
 	}
 
-	// remove from cache
-	cacheKey := fmt.Sprintf("%s", permission.ID)
-	err = r.c.Delete(ctx, cacheKey)
-	if err != nil {
-		logger.Errorf(ctx, "permissionRepo.Update cache error: %v", err)
-	}
+	// Invalidate and re-cache
+	go func() {
+		r.invalidatePermissionCache(context.Background(), permission)
+		r.cachePermission(context.Background(), updatedPermission)
+	}()
 
-	return row, nil
+	return updatedPermission, nil
 }
 
-// Delete deletes a permission.
+// Delete deletes a permission
 func (r *permissionRepository) Delete(ctx context.Context, id string) error {
 	permission, err := r.FindPermission(ctx, &structs.FindPermission{ID: id})
 	if err != nil {
 		return err
 	}
 
-	// create builder.
 	builder := r.ec.Permission.Delete()
-
-	// execute the builder and verify the result.
 	if _, err = builder.Where(permissionEnt.IDEQ(permission.ID)).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "permissionRepo.Delete error: %v", err)
 		return err
 	}
 
-	// remove from cache
-	cacheKey := fmt.Sprintf("%s", permission.ID)
-	err = r.c.Delete(ctx, cacheKey)
-	if err != nil {
-		logger.Errorf(ctx, "permissionRepo.Delete cache error: %v", err)
-	}
+	// Invalidate cache
+	go r.invalidatePermissionCache(context.Background(), permission)
 
 	return nil
 }
 
-// FindPermission finds a permission.
+// FindPermission finds a permission
 func (r *permissionRepository) FindPermission(ctx context.Context, params *structs.FindPermission) (*ent.Permission, error) {
-
-	// create builder.
 	builder := r.ec.Permission.Query()
 
 	if validator.IsNotEmpty(params.ID) {
@@ -238,7 +222,6 @@ func (r *permissionRepository) FindPermission(ctx context.Context, params *struc
 		))
 	}
 
-	// execute the builder.
 	row, err := builder.Only(ctx)
 	if validator.IsNotNil(err) {
 		return nil, err
@@ -247,7 +230,7 @@ func (r *permissionRepository) FindPermission(ctx context.Context, params *struc
 	return row, nil
 }
 
-// List gets a list of permissions.
+// List gets a list of permissions
 func (r *permissionRepository) List(ctx context.Context, params *structs.ListPermissionParams) ([]*ent.Permission, error) {
 	builder := r.ec.Permission.Query()
 
@@ -297,12 +280,18 @@ func (r *permissionRepository) List(ctx context.Context, params *structs.ListPer
 		return nil, err
 	}
 
+	// Cache permissions in background
+	go func() {
+		for _, permission := range rows {
+			r.cachePermission(context.Background(), permission)
+		}
+	}()
+
 	return rows, nil
 }
 
-// CountX gets a count of permissions.
+// CountX gets a count of permissions
 func (r *permissionRepository) CountX(ctx context.Context, params *structs.ListPermissionParams) int {
-	// create list builder
 	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
@@ -310,10 +299,77 @@ func (r *permissionRepository) CountX(ctx context.Context, params *structs.ListP
 	return builder.CountX(ctx)
 }
 
-// listBuilder creates list builder.
+// listBuilder creates list builder
 func (r *permissionRepository) listBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error) {
-	// create builder.
-	builder := r.ec.Permission.Query()
+	return r.ec.Permission.Query(), nil
+}
 
-	return builder, nil
+// cachePermission caches a permission
+func (r *permissionRepository) cachePermission(ctx context.Context, permission *ent.Permission) {
+	// Cache by ID
+	idKey := fmt.Sprintf("id:%s", permission.ID)
+	if err := r.permissionCache.Set(ctx, idKey, permission, r.permissionTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache permission by ID %s: %v", permission.ID, err)
+	}
+
+	// Cache name to ID mapping
+	if permission.Name != "" {
+		nameKey := fmt.Sprintf("name:%s", permission.Name)
+		if err := r.nameMappingCache.Set(ctx, nameKey, &permission.ID, r.permissionTTL); err != nil {
+			logger.Debugf(ctx, "Failed to cache name mapping %s: %v", permission.Name, err)
+		}
+	}
+
+	// Cache action:subject to ID mapping
+	if permission.Action != "" && permission.Subject != "" {
+		actionSubjectKey := fmt.Sprintf("action:%s:subject:%s", permission.Action, permission.Subject)
+		if err := r.actionSubjectCache.Set(ctx, actionSubjectKey, &permission.ID, r.permissionTTL); err != nil {
+			logger.Debugf(ctx, "Failed to cache action:subject mapping %s:%s: %v", permission.Action, permission.Subject, err)
+		}
+	}
+}
+
+// invalidatePermissionCache invalidates permission cache
+func (r *permissionRepository) invalidatePermissionCache(ctx context.Context, permission *ent.Permission) {
+	// Invalidate ID cache
+	idKey := fmt.Sprintf("id:%s", permission.ID)
+	if err := r.permissionCache.Delete(ctx, idKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate permission ID cache %s: %v", permission.ID, err)
+	}
+
+	// Invalidate name mapping
+	if permission.Name != "" {
+		nameKey := fmt.Sprintf("name:%s", permission.Name)
+		if err := r.nameMappingCache.Delete(ctx, nameKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate name mapping cache %s: %v", permission.Name, err)
+		}
+	}
+
+	// Invalidate action:subject mapping
+	if permission.Action != "" && permission.Subject != "" {
+		actionSubjectKey := fmt.Sprintf("action:%s:subject:%s", permission.Action, permission.Subject)
+		if err := r.actionSubjectCache.Delete(ctx, actionSubjectKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate action:subject mapping cache %s:%s: %v", permission.Action, permission.Subject, err)
+		}
+	}
+}
+
+// getPermissionIDByName gets permission ID by name
+func (r *permissionRepository) getPermissionIDByName(ctx context.Context, name string) (string, error) {
+	cacheKey := fmt.Sprintf("name:%s", name)
+	permissionID, err := r.nameMappingCache.Get(ctx, cacheKey)
+	if err != nil || permissionID == nil {
+		return "", err
+	}
+	return *permissionID, nil
+}
+
+// getPermissionIDByActionSubject gets permission ID by action and subject
+func (r *permissionRepository) getPermissionIDByActionSubject(ctx context.Context, action, subject string) (string, error) {
+	cacheKey := fmt.Sprintf("action:%s:subject:%s", action, subject)
+	permissionID, err := r.actionSubjectCache.Get(ctx, cacheKey)
+	if err != nil || permissionID == nil {
+		return "", err
+	}
+	return *permissionID, nil
 }

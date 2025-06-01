@@ -34,7 +34,7 @@ func (Session) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.CustomPrimaryKey{
 			Length:      64,
-			DefaultFunc: func() string { return nanoid.String(64) },
+			DefaultFunc: func() string { return nanoid.Must(64) },
 		},
 		mixin.UserID,
 		mixin.TimeAt{},

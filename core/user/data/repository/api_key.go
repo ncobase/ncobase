@@ -2,18 +2,20 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"ncobase/user/data"
 	"ncobase/user/data/ent"
 	apiKeyEnt "ncobase/user/data/ent/apikey"
 	"ncobase/user/structs"
 	"time"
 
+	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/security/crypto"
 	"github.com/ncobase/ncore/utils/nanoid"
-	"github.com/ncobase/ncore/validation/validator"
 )
 
-// ApiKeyRepositoryInterface defines repository operations for API keys
+// ApiKeyRepositoryInterface defines API key repository operations
 type ApiKeyRepositoryInterface interface {
 	Create(ctx context.Context, userID string, request *structs.CreateApiKeyRequest) (*ent.ApiKey, string, error)
 	GetByID(ctx context.Context, id string) (*ent.ApiKey, error)
@@ -25,114 +27,207 @@ type ApiKeyRepositoryInterface interface {
 
 // apiKeyRepository implements ApiKeyRepositoryInterface
 type apiKeyRepository struct {
-	ec *ent.Client
+	data            *data.Data
+	apiKeyCache     cache.ICache[ent.ApiKey]
+	keyMappingCache cache.ICache[string]   // Maps hashed key to API key ID
+	userKeysCache   cache.ICache[[]string] // Maps user ID to API key IDs
+	apiKeyTTL       time.Duration
 }
 
 // NewApiKeyRepository creates a new API key repository
 func NewApiKeyRepository(d *data.Data) ApiKeyRepositoryInterface {
-	ec := d.GetMasterEntClient()
-	return &apiKeyRepository{ec}
+	redisClient := d.GetRedis()
+
+	return &apiKeyRepository{
+		data:            d,
+		apiKeyCache:     cache.NewCache[ent.ApiKey](redisClient, "ncse_api_keys"),
+		keyMappingCache: cache.NewCache[string](redisClient, "ncse_api_key_mappings"),
+		userKeysCache:   cache.NewCache[[]string](redisClient, "ncse_user_api_keys"),
+		apiKeyTTL:       time.Hour * 6, // 6 hours cache TTL
+	}
 }
 
-// Create adds a new API key
+// Create creates a new API key
 func (r *apiKeyRepository) Create(ctx context.Context, userID string, request *structs.CreateApiKeyRequest) (*ent.ApiKey, string, error) {
-	// Generate a unique API key
-	apiKeyValue := nanoid.String(64)
+	id := nanoid.PrimaryKey()()
+	now := time.Now().UnixMilli()
 
-	// Create builder
-	builder := r.ec.ApiKey.Create()
-
-	// Set values
-	builder.SetUserID(userID)
-	builder.SetName(request.Name)
-	builder.SetKey(apiKeyValue)
-
-	// Execute builder
-	row, err := builder.Save(ctx)
+	// Generate API key
+	apiKeyValue := nanoid.String(32)
+	hashedKey, err := crypto.HashPassword(ctx, apiKeyValue)
 	if err != nil {
-		logger.Errorf(ctx, "apiKeyRepo.Create error: %v", err)
 		return nil, "", err
 	}
 
-	return row, apiKeyValue, nil
+	client := r.data.GetMasterEntClient()
+	apiKey, err := client.ApiKey.Create().
+		SetID(id).
+		SetName(request.Name).
+		SetKey(hashedKey).
+		SetUserID(userID).
+		SetCreatedAt(now).
+		SetLastUsed(now).
+		Save(ctx)
+
+	if err != nil {
+		return nil, "", err
+	}
+
+	// Cache the API key and invalidate user keys cache
+	go func() {
+		r.cacheApiKey(context.Background(), apiKey)
+		r.cacheKeyMapping(context.Background(), hashedKey, apiKey.ID)
+		r.invalidateUserKeysCache(context.Background(), userID)
+	}()
+
+	return apiKey, apiKeyValue, nil
 }
 
 // GetByID retrieves an API key by ID
 func (r *apiKeyRepository) GetByID(ctx context.Context, id string) (*ent.ApiKey, error) {
-	row, err := r.ec.ApiKey.Get(ctx, id)
+	// Try cache first
+	cacheKey := fmt.Sprintf("id:%s", id)
+	if cached, err := r.apiKeyCache.Get(ctx, cacheKey); err == nil && cached != nil {
+		return cached, nil
+	}
+
+	// Fallback to database
+	client := r.data.GetSlaveEntClient()
+	apiKey, err := client.ApiKey.Get(ctx, id)
 	if err != nil {
-		logger.Errorf(ctx, "apiKeyRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
-	return row, nil
+	// Cache for future use
+	go r.cacheApiKey(context.Background(), apiKey)
+
+	return apiKey, nil
 }
 
-// GetByKey retrieves an API key by its key value
+// GetByKey retrieves an API key by the actual key value
 func (r *apiKeyRepository) GetByKey(ctx context.Context, key string) (*ent.ApiKey, error) {
-	row, err := r.ec.ApiKey.
-		Query().
-		Where(apiKeyEnt.KeyEQ(key)).
-		Only(ctx)
-
+	// First, we need to find which API key this belongs to
+	// We'll need to check all API keys (this is expensive, but API key validation should be cached)
+	client := r.data.GetSlaveEntClient()
+	apiKeys, err := client.ApiKey.Query().All(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "apiKeyRepo.GetByKey error: %v", err)
 		return nil, err
 	}
 
-	return row, nil
+	// Check each API key hash
+	for _, apiKey := range apiKeys {
+		if crypto.ComparePassword(apiKey.Key, key) {
+			// Cache this API key for future use
+			go r.cacheApiKey(context.Background(), apiKey)
+			return apiKey, nil
+		}
+	}
+
+	return nil, fmt.Errorf("API key not found")
 }
 
 // GetByUserID retrieves all API keys for a user
 func (r *apiKeyRepository) GetByUserID(ctx context.Context, userID string) ([]*ent.ApiKey, error) {
-	if validator.IsEmpty(userID) {
-		logger.Errorf(ctx, "apiKeyRepo.GetByUserID: userID is empty")
-		return nil, nil
-	}
-
-	rows, err := r.ec.ApiKey.
-		Query().
+	client := r.data.GetSlaveEntClient()
+	apiKeys, err := client.ApiKey.Query().
 		Where(apiKeyEnt.UserIDEQ(userID)).
 		Order(ent.Desc(apiKeyEnt.FieldCreatedAt)).
 		All(ctx)
 
 	if err != nil {
-		logger.Errorf(ctx, "apiKeyRepo.GetByUserID error: %v", err)
 		return nil, err
 	}
 
-	return rows, nil
+	// Cache API keys in background
+	go func() {
+		for _, apiKey := range apiKeys {
+			r.cacheApiKey(context.Background(), apiKey)
+		}
+	}()
+
+	return apiKeys, nil
 }
 
-// Delete removes an API key
+// Delete deletes an API key
 func (r *apiKeyRepository) Delete(ctx context.Context, id string) error {
-	err := r.ec.ApiKey.
-		DeleteOneID(id).
-		Exec(ctx)
-
+	// Get API key first for cache invalidation
+	apiKey, err := r.GetByID(ctx, id)
 	if err != nil {
-		logger.Errorf(ctx, "apiKeyRepo.Delete error: %v", err)
 		return err
 	}
+
+	client := r.data.GetMasterEntClient()
+	err = client.ApiKey.DeleteOneID(id).Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	// Invalidate caches
+	go func() {
+		r.invalidateApiKeyCache(context.Background(), id)
+		r.invalidateKeyMappingCache(context.Background(), apiKey.Key)
+		r.invalidateUserKeysCache(context.Background(), apiKey.UserID)
+	}()
 
 	return nil
 }
 
 // UpdateLastUsed updates the last used timestamp
 func (r *apiKeyRepository) UpdateLastUsed(ctx context.Context, id string, timestamp int64) error {
-	if timestamp == 0 {
-		timestamp = time.Now().UnixMilli()
-	}
-
-	_, err := r.ec.ApiKey.
-		UpdateOneID(id).
+	client := r.data.GetMasterEntClient()
+	apiKey, err := client.ApiKey.UpdateOneID(id).
 		SetLastUsed(timestamp).
 		Save(ctx)
 
 	if err != nil {
-		logger.Errorf(ctx, "apiKeyRepo.UpdateLastUsed error: %v", err)
 		return err
 	}
 
+	// Update cache
+	go func() {
+		r.invalidateApiKeyCache(context.Background(), id)
+		r.cacheApiKey(context.Background(), apiKey)
+	}()
+
 	return nil
+}
+
+// cacheApiKey - cache API key.
+func (r *apiKeyRepository) cacheApiKey(ctx context.Context, apiKey *ent.ApiKey) {
+	cacheKey := fmt.Sprintf("id:%s", apiKey.ID)
+	if err := r.apiKeyCache.Set(ctx, cacheKey, apiKey, r.apiKeyTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache API key %s: %v", apiKey.ID, err)
+	}
+}
+
+// cacheKeyMapping - cache key mapping.
+func (r *apiKeyRepository) cacheKeyMapping(ctx context.Context, hashedKey, apiKeyID string) {
+	cacheKey := fmt.Sprintf("key:%s", hashedKey)
+	if err := r.keyMappingCache.Set(ctx, cacheKey, &apiKeyID, r.apiKeyTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache key mapping %s: %v", hashedKey, err)
+	}
+}
+
+// invalidateApiKeyCache invalidates API key cache
+func (r *apiKeyRepository) invalidateApiKeyCache(ctx context.Context, apiKeyID string) {
+	cacheKey := fmt.Sprintf("id:%s", apiKeyID)
+	if err := r.apiKeyCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate API key cache %s: %v", apiKeyID, err)
+	}
+}
+
+// invalidateKeyMappingCache invalidates key mapping cache
+func (r *apiKeyRepository) invalidateKeyMappingCache(ctx context.Context, hashedKey string) {
+	cacheKey := fmt.Sprintf("key:%s", hashedKey)
+	if err := r.keyMappingCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate key mapping cache %s: %v", hashedKey, err)
+	}
+}
+
+// invalidateUserKeysCache invalidates user keys cache
+func (r *apiKeyRepository) invalidateUserKeysCache(ctx context.Context, userID string) {
+	cacheKey := fmt.Sprintf("user:%s", userID)
+	if err := r.userKeysCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate user keys cache %s: %v", userID, err)
+	}
 }

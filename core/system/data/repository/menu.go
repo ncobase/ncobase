@@ -7,14 +7,13 @@ import (
 	"ncobase/system/data/ent"
 	menuEnt "ncobase/system/data/ent/menu"
 	"ncobase/system/structs"
+	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/validation/validator"
-
-	"github.com/redis/go-redis/v9"
 )
 
 // MenuRepositoryInterface represents the menu repository interface.
@@ -31,31 +30,33 @@ type MenuRepositoryInterface interface {
 
 // menuRepository implements the MenuRepositoryInterface.
 type menuRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Menu]
+	ec               *ent.Client
+	ms               *meili.Client
+	menuCache        cache.ICache[ent.Menu]
+	slugMappingCache cache.ICache[string]     // Maps slug to menu ID
+	menuTreeCache    cache.ICache[[]ent.Menu] // Cache menu trees
+	menuTTL          time.Duration
 }
 
 // NewMenuRepository creates a new menu repository.
 func NewMenuRepository(d *data.Data) MenuRepositoryInterface {
-	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
+	redisClient := d.GetRedis()
+
 	return &menuRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.Menu](rc, "ncse_menu", false),
+		ec:               d.GetMasterEntClient(),
+		ms:               d.GetMeilisearch(),
+		menuCache:        cache.NewCache[ent.Menu](redisClient, "ncse_system:menus"),
+		slugMappingCache: cache.NewCache[string](redisClient, "ncse_system:menu_mappings"),
+		menuTreeCache:    cache.NewCache[[]ent.Menu](redisClient, "ncse_system:menu_trees"),
+		menuTTL:          time.Hour * 6, // 6 hours cache TTL (menus change less frequently)
 	}
 }
 
-// Create creates a new menu.
+// Create creates a new menu
 func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*ent.Menu, error) {
-	// create builder
 	builder := r.ec.Menu.Create()
 
-	// set values
+	// Set all the fields as in original implementation
 	if validator.IsNotEmpty(body.Name) {
 		builder.SetNillableName(&body.Name)
 	}
@@ -99,26 +100,38 @@ func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*e
 		builder.SetExtras(*body.Extras)
 	}
 
-	row, err := builder.Save(ctx)
+	menu, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "menuRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Create the menu in Meilisearch index
-	if err = r.ms.IndexDocuments("menus", row); err != nil {
+	if err = r.ms.IndexDocuments("menus", menu); err != nil {
 		logger.Errorf(ctx, "menuRepo.Create error creating Meilisearch index: %v", err)
 	}
 
-	// delete cached menu tree
-	// _ = r.c.Delete(ctx, cache.Key("menu=tree"))
+	// Cache the menu and invalidate tree cache
+	go func() {
+		r.cacheMenu(context.Background(), menu)
+		r.invalidateMenuTreeCache(context.Background(), body.TenantID, body.Type)
+	}()
 
-	return row, nil
+	return menu, nil
 }
 
-// GetMenuTree retrieves the menu tree.
+// GetMenuTree retrieves the menu tree
 func (r *menuRepository) GetMenuTree(ctx context.Context, params *structs.FindMenu) ([]*ent.Menu, error) {
-	// create builder
+	// Generate cache key based on parameters
+	cacheKey := r.generateTreeCacheKey(params)
+
+	// Try cache first
+	var cachedMenus []*ent.Menu
+	if err := r.menuTreeCache.GetArray(ctx, cacheKey, &cachedMenus); err == nil && len(cachedMenus) > 0 {
+		return cachedMenus, nil
+	}
+
+	// Fallback to database
 	builder := r.ec.Menu.Query()
 
 	// Apply type filter if specified
@@ -133,49 +146,74 @@ func (r *menuRepository) GetMenuTree(ctx context.Context, params *structs.FindMe
 
 	// Handle specific menu/parent requests
 	if validator.IsNotEmpty(params.Menu) && params.Menu != "root" {
-		return r.getSubMenu(ctx, params.Menu, builder)
+		menus, err := r.getSubMenu(ctx, params.Menu, builder)
+		if err != nil {
+			return nil, err
+		}
+
+		// Cache the result
+		go func() {
+			if err := r.menuTreeCache.SetArray(context.Background(), cacheKey, menus, r.menuTTL); err != nil {
+				logger.Debugf(context.Background(), "Failed to cache menu tree %s: %v", cacheKey, err)
+			}
+		}()
+
+		return menus, nil
 	}
 
 	// For tree building, get all matching records
-	// Don't apply parent filtering here as we need all records to build the tree
-	return r.executeArrayQuery(ctx, builder)
-}
-
-// Get retrieves a specific menu.
-func (r *menuRepository) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu, error) {
-	cacheKey := fmt.Sprintf("%s", params.Menu)
-
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
+	menus, err := r.executeArrayQuery(ctx, builder)
+	if err != nil {
+		return nil, err
 	}
 
+	// Cache the result
+	go func() {
+		if err := r.menuTreeCache.SetArray(context.Background(), cacheKey, menus, r.menuTTL); err != nil {
+			logger.Debugf(context.Background(), "Failed to cache menu tree %s: %v", cacheKey, err)
+		}
+	}()
+
+	return menus, nil
+}
+
+// Get retrieves a specific menu
+func (r *menuRepository) Get(ctx context.Context, params *structs.FindMenu) (*ent.Menu, error) {
+	// Try to get menu ID from slug mapping cache if searching by slug
+	if params.Menu != "" {
+		if menuID, err := r.getMenuIDBySlug(ctx, params.Menu); err == nil && menuID != "" {
+			// Try to get from menu cache
+			cacheKey := fmt.Sprintf("id:%s", menuID)
+			if cached, err := r.menuCache.Get(ctx, cacheKey); err == nil && cached != nil {
+				return cached, nil
+			}
+		}
+	}
+
+	// Fallback to database
 	row, err := r.getMenu(ctx, params)
 	if err != nil {
 		logger.Errorf(ctx, "menuRepo.Get error: %v", err)
 		return nil, err
 	}
 
-	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		logger.Errorf(ctx, "menuRepo.Get cache error: %v", err)
-	}
+	// Cache for future use
+	go r.cacheMenu(context.Background(), row)
 
 	return row, nil
 }
 
-// Update updates an existing menu.
+// Update updates an existing menu
 func (r *menuRepository) Update(ctx context.Context, body *structs.UpdateMenuBody) (*ent.Menu, error) {
-	// query the menu.
-	row, err := r.getMenu(ctx, &structs.FindMenu{
-		Menu: body.ID,
-	})
+	// Query the menu
+	menu, err := r.getMenu(ctx, &structs.FindMenu{Menu: body.ID})
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
-	// create builder.
-	builder := row.Update()
+	builder := menu.Update()
 
-	// set values
+	// Set values as in original implementation
 	if validator.IsNotEmpty(body.Name) {
 		builder.SetNillableName(&body.Name)
 	}
@@ -219,57 +257,60 @@ func (r *menuRepository) Update(ctx context.Context, body *structs.UpdateMenuBod
 		builder.SetExtras(*body.Extras)
 	}
 
-	row, err = builder.Save(ctx)
+	updatedMenu, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "menuRepo.Update error: %v", err)
 		return nil, err
 	}
 
-	// update cache
-	cacheKey := fmt.Sprintf("%s", row.ID)
-	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		logger.Errorf(ctx, "menuRepo.Update cache error: %v", err)
-	}
+	// Invalidate and re-cache
+	go func() {
+		r.invalidateMenuCache(context.Background(), menu)
+		r.cacheMenu(context.Background(), updatedMenu)
 
-	// delete menu tree cache
-	// if err := r.c.Delete(ctx, "menu=tree"); err != nil {
-	// 	log.Errorf(ctx, "menuRepo.Update cache error: %v", err)
-	// }
+		// Invalidate tree caches for affected tenants/types
+		r.invalidateMenuTreeCache(context.Background(), menu.TenantID, menu.Type)
+		if updatedMenu.TenantID != menu.TenantID || updatedMenu.Type != menu.Type {
+			r.invalidateMenuTreeCache(context.Background(), updatedMenu.TenantID, updatedMenu.Type)
+		}
+	}()
 
-	return row, nil
+	return updatedMenu, nil
 }
 
-// Delete deletes a menu.
+// Delete deletes a menu
 func (r *menuRepository) Delete(ctx context.Context, params *structs.FindMenu) error {
-	// create builder.
-	builder := r.ec.Menu.Delete()
+	// Get menu first for cache invalidation
+	menu, err := r.getMenu(ctx, params)
+	if err != nil {
+		return err
+	}
 
-	// set where conditions.
+	builder := r.ec.Menu.Delete()
 	builder.Where(menuEnt.Or(
 		menuEnt.IDEQ(params.Menu),
 		menuEnt.SlugEQ(params.Menu),
 	))
 
-	// match tenant id.
 	if validator.IsNotEmpty(params.Tenant) {
 		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
-	// execute the builder.
-	_, err := builder.Exec(ctx)
+	_, err = builder.Exec(ctx)
 	if validator.IsNotNil(err) {
 		return err
 	}
 
-	cacheKey := fmt.Sprintf("%s", params.Menu)
-	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		logger.Errorf(ctx, "menuRepo.Delete cache error: %v", err)
-	}
+	// Invalidate cache
+	go func() {
+		r.invalidateMenuCache(context.Background(), menu)
+		r.invalidateMenuTreeCache(context.Background(), menu.TenantID, menu.Type)
+	}()
 
 	return nil
 }
 
-// List returns a slice of menus based on the provided parameters.
+// List returns a slice of menus based on the provided parameters
 func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParams) ([]*ent.Menu, error) {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
@@ -288,10 +329,22 @@ func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParam
 
 	builder.Limit(params.Limit)
 
-	return r.executeArrayQuery(ctx, builder)
+	menus, err := r.executeArrayQuery(ctx, builder)
+	if err != nil {
+		return nil, err
+	}
+
+	// Cache menus in background
+	go func() {
+		for _, menu := range menus {
+			r.cacheMenu(context.Background(), menu)
+		}
+	}()
+
+	return menus, nil
 }
 
-// CountX returns the total count of menus based on the provided parameters.
+// CountX returns the total count of menus based on the provided parameters
 func (r *menuRepository) CountX(ctx context.Context, params *structs.ListMenuParams) int {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
@@ -301,7 +354,7 @@ func (r *menuRepository) CountX(ctx context.Context, params *structs.ListMenuPar
 	return builder.CountX(ctx)
 }
 
-// ListWithCount returns both a slice of menus and the total count based on the provided parameters.
+// ListWithCount returns both a slice of menus and the total count based on the provided parameters
 func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.ListMenuParams) ([]*ent.Menu, int, error) {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
@@ -328,7 +381,87 @@ func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.List
 		return nil, 0, fmt.Errorf("fetching menus: %w", err)
 	}
 
+	// Cache menus in background
+	go func() {
+		for _, menu := range rows {
+			r.cacheMenu(context.Background(), menu)
+		}
+	}()
+
 	return rows, total, nil
+}
+
+// cacheMenu caches a menu
+func (r *menuRepository) cacheMenu(ctx context.Context, menu *ent.Menu) {
+	// Cache by ID
+	idKey := fmt.Sprintf("id:%s", menu.ID)
+	if err := r.menuCache.Set(ctx, idKey, menu, r.menuTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache menu by ID %s: %v", menu.ID, err)
+	}
+
+	// Cache slug to ID mapping
+	if menu.Slug != "" {
+		slugKey := fmt.Sprintf("slug:%s", menu.Slug)
+		if err := r.slugMappingCache.Set(ctx, slugKey, &menu.ID, r.menuTTL); err != nil {
+			logger.Debugf(ctx, "Failed to cache slug mapping %s: %v", menu.Slug, err)
+		}
+	}
+}
+
+// invalidateMenuCache invalidates a menu cache
+func (r *menuRepository) invalidateMenuCache(ctx context.Context, menu *ent.Menu) {
+	// Invalidate ID cache
+	idKey := fmt.Sprintf("id:%s", menu.ID)
+	if err := r.menuCache.Delete(ctx, idKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate menu ID cache %s: %v", menu.ID, err)
+	}
+
+	// Invalidate slug mapping
+	if menu.Slug != "" {
+		slugKey := fmt.Sprintf("slug:%s", menu.Slug)
+		if err := r.slugMappingCache.Delete(ctx, slugKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate slug mapping cache %s: %v", menu.Slug, err)
+		}
+	}
+}
+
+// invalidateMenuTreeCache invalidates a menu tree cache
+func (r *menuRepository) invalidateMenuTreeCache(ctx context.Context, tenantID string, menuType string) {
+	// Invalidate various tree cache combinations
+	keys := []string{
+		"tree:all",
+		fmt.Sprintf("tree:type:%s", menuType),
+		fmt.Sprintf("tree:tenant:%s", tenantID),
+		fmt.Sprintf("tree:tenant:%s:type:%s", tenantID, menuType),
+	}
+
+	for _, key := range keys {
+		if err := r.menuTreeCache.Delete(ctx, key); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate menu tree cache %s: %v", key, err)
+		}
+	}
+}
+
+// generateTreeCacheKey generates a cache key for the menu tree
+func (r *menuRepository) generateTreeCacheKey(params *structs.FindMenu) string {
+	if params.Tenant != "" && params.Type != "" {
+		return fmt.Sprintf("tree:tenant:%s:type:%s", params.Tenant, params.Type)
+	} else if params.Tenant != "" {
+		return fmt.Sprintf("tree:tenant:%s", params.Tenant)
+	} else if params.Type != "" {
+		return fmt.Sprintf("tree:type:%s", params.Type)
+	}
+	return "tree:all"
+}
+
+// getMenuIDBySlug gets a menu ID by slug
+func (r *menuRepository) getMenuIDBySlug(ctx context.Context, slug string) (string, error) {
+	cacheKey := fmt.Sprintf("slug:%s", slug)
+	menuID, err := r.slugMappingCache.Get(ctx, cacheKey)
+	if err != nil || menuID == nil {
+		return "", err
+	}
+	return *menuID, nil
 }
 
 // menuSorting applies the specified sorting to the query builder.

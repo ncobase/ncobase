@@ -1,10 +1,8 @@
 package repository
 
-import (
-	"ncobase/user/data"
-)
+import "ncobase/user/data"
 
-// Repository represents the user repository.
+// Repository represents all repositories
 type Repository struct {
 	User        UserRepositoryInterface
 	UserProfile UserProfileRepositoryInterface
@@ -12,7 +10,7 @@ type Repository struct {
 	ApiKey      ApiKeyRepositoryInterface
 }
 
-// New creates a new repository.
+// New creates a new repository
 func New(d *data.Data) *Repository {
 	return &Repository{
 		User:        NewUserRepository(d),

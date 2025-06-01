@@ -13,49 +13,60 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
-	"github.com/redis/go-redis/v9"
 )
 
-// SessionRepositoryInterface represents the session repository interface
+// SessionRepositoryInterface defines session repository operations
 type SessionRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.SessionBody, tokenID string) (*ent.Session, error)
 	Update(ctx context.Context, id string, body *structs.UpdateSessionBody) (*ent.Session, error)
 	GetByID(ctx context.Context, id string) (*ent.Session, error)
 	GetByTokenID(ctx context.Context, tokenID string) (*ent.Session, error)
 	List(ctx context.Context, params *structs.ListSessionParams) ([]*ent.Session, error)
-	CountX(ctx context.Context, params *structs.ListSessionParams) int
 	Delete(ctx context.Context, id string) error
 	DeactivateByUserID(ctx context.Context, userID string) error
 	DeactivateByTokenID(ctx context.Context, tokenID string) error
-	CleanupExpiredSessions(ctx context.Context) error
 	UpdateLastAccess(ctx context.Context, tokenID string) error
+	CleanupExpiredSessions(ctx context.Context) error
+	CountX(ctx context.Context, params *structs.ListSessionParams) int
 }
 
-// sessionRepository implements the SessionRepositoryInterface
+// sessionRepository implements SessionRepositoryInterface
 type sessionRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	c  *cache.Cache[ent.Session]
+	data              *data.Data
+	sessionCache      cache.ICache[ent.Session]
+	tokenSessionCache cache.ICache[ent.Session]
+	userSessionsCache cache.ICache[[]string] // Store session IDs for user
+	sessionTTL        time.Duration
 }
 
 // NewSessionRepository creates a new session repository
 func NewSessionRepository(d *data.Data) SessionRepositoryInterface {
-	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
-	return &sessionRepository{ec, rc, cache.NewCache[ent.Session](rc, "ncse_session")}
+	redisClient := d.GetRedis()
+
+	return &sessionRepository{
+		data:              d,
+		sessionCache:      cache.NewCache[ent.Session](redisClient, "ncse_auth:sessions"),
+		tokenSessionCache: cache.NewCache[ent.Session](redisClient, "ncse_auth:token_sessions"),
+		userSessionsCache: cache.NewCache[[]string](redisClient, "ncse_auth:user_sessions"),
+		sessionTTL:        time.Hour * 2, // 2 hours cache TTL
+	}
 }
 
 // Create creates a new session
 func (r *sessionRepository) Create(ctx context.Context, body *structs.SessionBody, tokenID string) (*ent.Session, error) {
+	id := nanoid.Must(64)
 	now := time.Now().UnixMilli()
-	expiresAt := time.Now().Add(7 * 24 * time.Hour).UnixMilli() // 7 days default
 
-	builder := r.ec.Session.Create()
+	client := r.data.GetMasterEntClient()
+	builder := client.Session.Create()
+	builder.SetID(id)
 	builder.SetUserID(body.UserID)
 	builder.SetTokenID(tokenID)
 	builder.SetIsActive(true)
+	builder.SetCreatedAt(now)
+	builder.SetUpdatedAt(now)
 	builder.SetLastAccessAt(now)
-	builder.SetExpiresAt(expiresAt)
+	builder.SetExpiresAt(now + (7 * 24 * 60 * 60 * 1000)) // 7 days
 
 	if body.DeviceInfo != nil {
 		builder.SetDeviceInfo(*body.DeviceInfo)
@@ -73,120 +84,84 @@ func (r *sessionRepository) Create(ctx context.Context, body *structs.SessionBod
 		builder.SetLoginMethod(body.LoginMethod)
 	}
 
-	row, err := builder.Save(ctx)
+	session, err := builder.Save(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Cache the session
-	cacheKey := fmt.Sprintf("token:%s", tokenID)
-	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		logger.Errorf(ctx, "sessionRepo.Create cache error: %v", err)
-	}
+	go r.cacheSession(context.Background(), session)
 
-	return row, nil
-}
+	// Invalidate user sessions cache
+	go r.invalidateUserSessionsCache(context.Background(), body.UserID)
 
-// Update updates a session
-func (r *sessionRepository) Update(ctx context.Context, id string, body *structs.UpdateSessionBody) (*ent.Session, error) {
-	builder := r.ec.Session.UpdateOneID(id)
-
-	if body.LastAccessAt != nil {
-		builder.SetLastAccessAt(*body.LastAccessAt)
-	}
-	if body.Location != "" {
-		builder.SetLocation(body.Location)
-	}
-	if body.IsActive != nil {
-		builder.SetIsActive(*body.IsActive)
-	}
-	if body.DeviceInfo != nil {
-		builder.SetDeviceInfo(*body.DeviceInfo)
-	}
-
-	row, err := builder.Save(ctx)
-	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.Update error: %v", err)
-		return nil, err
-	}
-
-	// Remove from cache to force refresh
-	cacheKey := fmt.Sprintf("token:%s", row.TokenID)
-	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		logger.Errorf(ctx, "sessionRepo.Update cache error: %v", err)
-	}
-
-	return row, nil
+	return session, nil
 }
 
 // GetByID retrieves a session by ID
 func (r *sessionRepository) GetByID(ctx context.Context, id string) (*ent.Session, error) {
-	cacheKey := fmt.Sprintf("id:%s", id)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
+	// Try cache first
+	cacheKey := fmt.Sprintf("session:%s", id)
+	if cached, err := r.sessionCache.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
-	row, err := r.ec.Session.Query().Where(sessionEnt.IDEQ(id)).Only(ctx)
+	// Fallback to database
+	client := r.data.GetSlaveEntClient()
+	session, err := client.Session.Get(ctx, id)
 	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
-	// Cache the result
-	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		logger.Errorf(ctx, "sessionRepo.GetByID cache error: %v", err)
-	}
+	// Cache for future use
+	go r.cacheSession(context.Background(), session)
 
-	return row, nil
+	return session, nil
 }
 
 // GetByTokenID retrieves a session by token ID
 func (r *sessionRepository) GetByTokenID(ctx context.Context, tokenID string) (*ent.Session, error) {
+	// Try cache first
 	cacheKey := fmt.Sprintf("token:%s", tokenID)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
+	if cached, err := r.tokenSessionCache.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
-	row, err := r.ec.Session.Query().Where(sessionEnt.TokenIDEQ(tokenID)).Only(ctx)
+	// Fallback to database
+	client := r.data.GetSlaveEntClient()
+	session, err := client.Session.Query().Where(sessionEnt.TokenIDEQ(tokenID)).Only(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.GetByTokenID error: %v", err)
 		return nil, err
 	}
 
-	// Cache the result
-	if err := r.c.Set(ctx, cacheKey, row); err != nil {
-		logger.Errorf(ctx, "sessionRepo.GetByTokenID cache error: %v", err)
-	}
+	// Cache for future use
+	go r.cacheSessionByToken(context.Background(), session)
 
-	return row, nil
+	return session, nil
 }
 
-// List retrieves sessions with pagination
+// List retrieves sessions for user sessions
 func (r *sessionRepository) List(ctx context.Context, params *structs.ListSessionParams) ([]*ent.Session, error) {
-	builder := r.ec.Session.Query()
+	client := r.data.GetSlaveEntClient()
+	builder := client.Session.Query()
 
 	// Apply filters
 	if params.UserID != "" {
-		builder.Where(sessionEnt.UserIDEQ(params.UserID))
+		builder = builder.Where(sessionEnt.UserIDEQ(params.UserID))
 	}
 	if params.IsActive != nil {
-		builder.Where(sessionEnt.IsActiveEQ(*params.IsActive))
+		builder = builder.Where(sessionEnt.IsActiveEQ(*params.IsActive))
 	}
 
-	// Apply cursor-based pagination
+	// Apply cursor pagination
 	if params.Cursor != "" {
 		id, timestamp, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
 			return nil, fmt.Errorf("invalid cursor: %v", err)
 		}
 
-		if !nanoid.IsPrimaryKey(id) {
-			return nil, fmt.Errorf("invalid id in cursor: %s", id)
-		}
-
 		if params.Direction == "backward" {
-			builder.Where(
+			builder = builder.Where(
 				sessionEnt.Or(
 					sessionEnt.CreatedAtGT(timestamp),
 					sessionEnt.And(
@@ -196,7 +171,7 @@ func (r *sessionRepository) List(ctx context.Context, params *structs.ListSessio
 				),
 			)
 		} else {
-			builder.Where(
+			builder = builder.Where(
 				sessionEnt.Or(
 					sessionEnt.CreatedAtLT(timestamp),
 					sessionEnt.And(
@@ -210,145 +185,265 @@ func (r *sessionRepository) List(ctx context.Context, params *structs.ListSessio
 
 	// Apply ordering
 	if params.Direction == "backward" {
-		builder.Order(ent.Asc(sessionEnt.FieldCreatedAt), ent.Asc(sessionEnt.FieldID))
+		builder = builder.Order(ent.Asc(sessionEnt.FieldCreatedAt), ent.Asc(sessionEnt.FieldID))
 	} else {
-		builder.Order(ent.Desc(sessionEnt.FieldCreatedAt), ent.Desc(sessionEnt.FieldID))
+		builder = builder.Order(ent.Desc(sessionEnt.FieldCreatedAt), ent.Desc(sessionEnt.FieldID))
 	}
 
 	// Apply limit
-	builder.Limit(params.Limit)
+	if params.Limit > 0 {
+		builder = builder.Limit(params.Limit)
+	}
 
-	rows, err := builder.All(ctx)
+	sessions, err := builder.All(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.List error: %v", err)
 		return nil, err
 	}
 
-	return rows, nil
-}
+	// Cache sessions in background
+	go func() {
+		for _, session := range sessions {
+			r.cacheSession(context.Background(), session)
+		}
+	}()
 
-// CountX gets a count of sessions
-func (r *sessionRepository) CountX(ctx context.Context, params *structs.ListSessionParams) int {
-	builder := r.ec.Session.Query()
-
-	if params.UserID != "" {
-		builder.Where(sessionEnt.UserIDEQ(params.UserID))
-	}
-	if params.IsActive != nil {
-		builder.Where(sessionEnt.IsActiveEQ(*params.IsActive))
-	}
-
-	return builder.CountX(ctx)
+	return sessions, nil
 }
 
 // Delete deletes a session
 func (r *sessionRepository) Delete(ctx context.Context, id string) error {
+	// Get session first to know user ID for cache invalidation
 	session, err := r.GetByID(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	if err := r.ec.Session.DeleteOneID(id).Exec(ctx); err != nil {
-		logger.Errorf(ctx, "sessionRepo.Delete error: %v", err)
+	client := r.data.GetMasterEntClient()
+	err = client.Session.DeleteOneID(id).Exec(ctx)
+	if err != nil {
 		return err
 	}
 
-	// Remove from cache
-	cacheKeys := []string{
-		fmt.Sprintf("id:%s", id),
-		fmt.Sprintf("token:%s", session.TokenID),
-	}
-	for _, key := range cacheKeys {
-		if err := r.c.Delete(ctx, key); err != nil {
-			logger.Errorf(ctx, "sessionRepo.Delete cache error: %v", err)
-		}
-	}
+	// Invalidate caches
+	go func() {
+		r.invalidateSessionCache(context.Background(), id)
+		r.invalidateTokenSessionCache(context.Background(), session.TokenID)
+		r.invalidateUserSessionsCache(context.Background(), session.UserID)
+	}()
 
 	return nil
 }
 
+// Update updates a session
+func (r *sessionRepository) Update(ctx context.Context, id string, body *structs.UpdateSessionBody) (*ent.Session, error) {
+	client := r.data.GetMasterEntClient()
+	builder := client.Session.UpdateOneID(id)
+
+	if body.LastAccessAt != nil {
+		builder = builder.SetLastAccessAt(*body.LastAccessAt)
+	}
+	if body.Location != "" {
+		builder = builder.SetLocation(body.Location)
+	}
+	if body.IsActive != nil {
+		builder = builder.SetIsActive(*body.IsActive)
+	}
+	if body.DeviceInfo != nil {
+		builder = builder.SetDeviceInfo(*body.DeviceInfo)
+	}
+
+	builder = builder.SetUpdatedAt(time.Now().UnixMilli())
+
+	session, err := builder.Save(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// Invalidate and re-cache
+	go func() {
+		r.invalidateSessionCache(context.Background(), id)
+		r.invalidateTokenSessionCache(context.Background(), session.TokenID)
+		r.cacheSession(context.Background(), session)
+		r.cacheSessionByToken(context.Background(), session)
+	}()
+
+	return session, nil
+}
+
 // DeactivateByUserID deactivates all sessions for a user
 func (r *sessionRepository) DeactivateByUserID(ctx context.Context, userID string) error {
-	_, err := r.ec.Session.Update().
+	client := r.data.GetMasterEntClient()
+	_, err := client.Session.Update().
 		Where(sessionEnt.UserIDEQ(userID)).
 		SetIsActive(false).
+		SetUpdatedAt(time.Now().UnixMilli()).
 		Save(ctx)
 
 	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.DeactivateByUserID error: %v", err)
 		return err
 	}
 
-	// Clear cache for user sessions (simple approach - clear all session cache)
-	// In production, you might want to implement more efficient cache invalidation
+	// Invalidate user sessions cache
+	go r.invalidateUserSessionsCache(context.Background(), userID)
+
 	return nil
 }
 
 // DeactivateByTokenID deactivates a session by token ID
 func (r *sessionRepository) DeactivateByTokenID(ctx context.Context, tokenID string) error {
-	session, err := r.GetByTokenID(ctx, tokenID)
-	if err != nil {
-		return err
-	}
-
-	_, err = r.ec.Session.UpdateOneID(session.ID).
+	client := r.data.GetMasterEntClient()
+	_, err := client.Session.Update().
+		Where(sessionEnt.TokenIDEQ(tokenID)).
 		SetIsActive(false).
+		SetUpdatedAt(time.Now().UnixMilli()).
 		Save(ctx)
 
 	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.DeactivateByTokenID error: %v", err)
 		return err
 	}
 
-	// Remove from cache
-	cacheKey := fmt.Sprintf("token:%s", tokenID)
-	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		logger.Errorf(ctx, "sessionRepo.DeactivateByTokenID cache error: %v", err)
+	sessions, err := client.Session.Query().
+		Where(sessionEnt.TokenIDEQ(tokenID)).
+		All(ctx)
+
+	if err != nil {
+		return err
 	}
+
+	// Invalidate caches
+	go func() {
+		if len(sessions) > 0 {
+			r.invalidateSessionCache(context.Background(), sessions[0].ID)
+			r.invalidateTokenSessionCache(context.Background(), tokenID)
+			r.invalidateUserSessionsCache(context.Background(), sessions[0].UserID)
+		}
+	}()
+
+	return nil
+}
+
+// UpdateLastAccess updates the last access time
+func (r *sessionRepository) UpdateLastAccess(ctx context.Context, tokenID string) error {
+	client := r.data.GetMasterEntClient()
+	now := time.Now().UnixMilli()
+
+	_, err := client.Session.Update().
+		Where(sessionEnt.TokenIDEQ(tokenID)).
+		SetLastAccessAt(now).
+		SetUpdatedAt(now).
+		Save(ctx)
+
+	if err != nil {
+		return err
+	}
+
+	sessions, err := client.Session.Query().
+		Where(sessionEnt.TokenIDEQ(tokenID)).
+		All(ctx)
+
+	if err != nil {
+		return err
+	}
+
+	// Update cache
+	go func() {
+		if len(sessions) > 0 {
+			session := sessions[0]
+			r.invalidateSessionCache(context.Background(), session.ID)
+			r.invalidateTokenSessionCache(context.Background(), tokenID)
+			// Re-cache updated session
+			r.cacheSession(context.Background(), session)
+			r.cacheSessionByToken(context.Background(), session)
+		}
+	}()
 
 	return nil
 }
 
 // CleanupExpiredSessions removes expired sessions
 func (r *sessionRepository) CleanupExpiredSessions(ctx context.Context) error {
+	client := r.data.GetMasterEntClient()
 	now := time.Now().UnixMilli()
 
-	count, err := r.ec.Session.Delete().
+	// Get expired sessions first for cache invalidation
+	expiredSessions, err := client.Session.Query().
 		Where(sessionEnt.ExpiresAtLT(now)).
-		Exec(ctx)
-
+		All(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.CleanupExpiredSessions error: %v", err)
 		return err
 	}
 
-	logger.Infof(ctx, "Cleaned up %d expired sessions", count)
+	// Delete expired sessions
+	_, err = client.Session.Delete().
+		Where(sessionEnt.ExpiresAtLT(now)).
+		Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	// Invalidate caches for expired sessions
+	go func() {
+		for _, session := range expiredSessions {
+			r.invalidateSessionCache(context.Background(), session.ID)
+			r.invalidateTokenSessionCache(context.Background(), session.TokenID)
+			r.invalidateUserSessionsCache(context.Background(), session.UserID)
+		}
+	}()
+
 	return nil
 }
 
-// UpdateLastAccess updates the last access time for a session
-func (r *sessionRepository) UpdateLastAccess(ctx context.Context, tokenID string) error {
-	now := time.Now().UnixMilli()
+// CountX counts sessions
+func (r *sessionRepository) CountX(ctx context.Context, params *structs.ListSessionParams) int {
+	client := r.data.GetSlaveEntClient()
+	builder := client.Session.Query()
 
-	session, err := r.GetByTokenID(ctx, tokenID)
-	if err != nil {
-		return err
+	if params.UserID != "" {
+		builder = builder.Where(sessionEnt.UserIDEQ(params.UserID))
+	}
+	if params.IsActive != nil {
+		builder = builder.Where(sessionEnt.IsActiveEQ(*params.IsActive))
 	}
 
-	_, err = r.ec.Session.UpdateOneID(session.ID).
-		SetLastAccessAt(now).
-		Save(ctx)
+	return builder.CountX(ctx)
+}
 
-	if err != nil {
-		logger.Errorf(ctx, "sessionRepo.UpdateLastAccess error: %v", err)
-		return err
+// cacheSession caches a session
+func (r *sessionRepository) cacheSession(ctx context.Context, session *ent.Session) {
+	cacheKey := fmt.Sprintf("session:%s", session.ID)
+	if err := r.sessionCache.Set(ctx, cacheKey, session, r.sessionTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache session %s: %v", session.ID, err)
 	}
+}
 
-	// Remove from cache to force refresh
+// cacheSessionByToken caches a session by token
+func (r *sessionRepository) cacheSessionByToken(ctx context.Context, session *ent.Session) {
+	cacheKey := fmt.Sprintf("token:%s", session.TokenID)
+	if err := r.tokenSessionCache.Set(ctx, cacheKey, session, r.sessionTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache session by token %s: %v", session.TokenID, err)
+	}
+}
+
+// invalidateSessionCache invalidates a session cache
+func (r *sessionRepository) invalidateSessionCache(ctx context.Context, sessionID string) {
+	cacheKey := fmt.Sprintf("session:%s", sessionID)
+	if err := r.sessionCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate session cache %s: %v", sessionID, err)
+	}
+}
+
+// invalidateTokenSessionCache invalidates a token session cache
+func (r *sessionRepository) invalidateTokenSessionCache(ctx context.Context, tokenID string) {
 	cacheKey := fmt.Sprintf("token:%s", tokenID)
-	if err := r.c.Delete(ctx, cacheKey); err != nil {
-		logger.Errorf(ctx, "sessionRepo.UpdateLastAccess cache error: %v", err)
+	if err := r.tokenSessionCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate token session cache %s: %v", tokenID, err)
 	}
+}
 
-	return nil
+// invalidateUserSessionsCache invalidates user sessions cache
+func (r *sessionRepository) invalidateUserSessionsCache(ctx context.Context, userID string) {
+	cacheKey := fmt.Sprintf("user:%s", userID)
+	if err := r.userSessionsCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate user sessions cache %s: %v", userID, err)
+	}
 }

@@ -7,13 +7,14 @@ import (
 	"ncobase/system/data/ent"
 	optionsEnt "ncobase/system/data/ent/options"
 	"ncobase/system/structs"
+	"time"
 
+	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
-
-	"github.com/redis/go-redis/v9"
 )
 
 // OptionsRepositoryInterface represents the options repository interface.
@@ -30,26 +31,32 @@ type OptionsRepositoryInterface interface {
 
 // optionsRepository implements the OptionsRepositoryInterface.
 type optionsRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
+	data               *data.Data
+	ms                 *meili.Client
+	optionsCache       cache.ICache[ent.Options]
+	nameMappingCache   cache.ICache[string]   // Maps name to option ID
+	tenantOptionsCache cache.ICache[[]string] // Maps tenant to option IDs by type/prefix
+	optionsTTL         time.Duration
 }
 
 // NewOptionsRepository creates a new options repository.
 func NewOptionsRepository(d *data.Data) OptionsRepositoryInterface {
-	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
+	redisClient := d.GetRedis()
+
 	return &optionsRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
+		data:               d,
+		ms:                 d.GetMeilisearch(),
+		optionsCache:       cache.NewCache[ent.Options](redisClient, "ncse_system:options"),
+		nameMappingCache:   cache.NewCache[string](redisClient, "ncse_system:option_mappings"),
+		tenantOptionsCache: cache.NewCache[[]string](redisClient, "ncse_system:tenant_options"),
+		optionsTTL:         time.Hour * 6, // 6 hours cache TTL (options change less frequently)
 	}
 }
 
 // Create creates a new option.
 func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBody) (*ent.Options, error) {
-	builder := r.ec.Options.Create()
+	// Use master for writes
+	builder := r.data.GetMasterEntClient().Options.Create()
 
 	if validator.IsNotEmpty(body.Name) {
 		builder.SetNillableName(&body.Name)
@@ -73,33 +80,60 @@ func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBod
 		return nil, err
 	}
 
+	// Create in Meilisearch index
 	if err = r.ms.IndexDocuments("options", row); err != nil {
 		logger.Errorf(ctx, "optionsRepo.Create error creating Meilisearch index: %v", err)
 	}
+
+	// Cache the option and invalidate related caches
+	go func() {
+		r.cacheOption(context.Background(), row)
+		if body.TenantID != "" && body.Type != "" {
+			r.invalidateTenantOptionsCache(context.Background(), body.TenantID, body.Type)
+		}
+	}()
 
 	return row, nil
 }
 
 // Get retrieves a specific option.
 func (r *optionsRepository) Get(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
+	// Try to get option ID from name mapping cache if searching by name
+	if params.Option != "" {
+		if optionID, err := r.getOptionIDByName(ctx, params.Option); err == nil && optionID != "" {
+			// Try to get from option cache
+			cacheKey := fmt.Sprintf("id:%s", optionID)
+			if cached, err := r.optionsCache.Get(ctx, cacheKey); err == nil && cached != nil {
+				return cached, nil
+			}
+		}
+	}
+
+	// Fallback to database
 	row, err := r.getOption(ctx, params)
 	if err != nil {
 		logger.Errorf(ctx, "optionsRepo.Get error: %v", err)
 		return nil, err
 	}
+
+	// Cache for future use
+	go r.cacheOption(context.Background(), row)
+
 	return row, nil
 }
 
 // Update updates an existing option.
 func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOptionsBody) (*ent.Options, error) {
-	row, err := r.getOption(ctx, &structs.FindOptions{
+	// Get original option for cache invalidation
+	originalOption, err := r.getOption(ctx, &structs.FindOptions{
 		Option: body.ID,
 	})
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
-	builder := row.Update()
+	// Use master for writes
+	builder := originalOption.Update()
 
 	if validator.IsNotEmpty(body.Name) {
 		builder.SetNillableName(&body.Name)
@@ -117,18 +151,46 @@ func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOpti
 		builder.SetNillableTenantID(&body.TenantID)
 	}
 
-	row, err = builder.Save(ctx)
+	row, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "optionsRepo.Update error: %v", err)
 		return nil, err
 	}
+
+	// Update Meilisearch index
+	if err = r.ms.UpdateDocuments("options", row, row.ID); err != nil {
+		logger.Errorf(ctx, "optionsRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	// Invalidate and re-cache
+	go func() {
+		r.invalidateOptionCache(context.Background(), originalOption)
+		r.cacheOption(context.Background(), row)
+
+		// Invalidate tenant caches for both old and new tenants/types
+		if originalOption.TenantID != "" && originalOption.Type != "" {
+			r.invalidateTenantOptionsCache(context.Background(), originalOption.TenantID, originalOption.Type)
+		}
+		if row.TenantID != "" && row.Type != "" &&
+			(originalOption.TenantID == "" || originalOption.Type == "" ||
+				originalOption.TenantID != row.TenantID || originalOption.Type != row.Type) {
+			r.invalidateTenantOptionsCache(context.Background(), row.TenantID, row.Type)
+		}
+	}()
 
 	return row, nil
 }
 
 // Delete deletes an option.
 func (r *optionsRepository) Delete(ctx context.Context, params *structs.FindOptions) error {
-	builder := r.ec.Options.Delete()
+	// Get option first for cache invalidation
+	option, err := r.getOption(ctx, params)
+	if err != nil {
+		return err
+	}
+
+	// Use master for writes
+	builder := r.data.GetMasterEntClient().Options.Delete()
 
 	builder.Where(optionsEnt.Or(
 		optionsEnt.IDEQ(params.Option),
@@ -139,10 +201,23 @@ func (r *optionsRepository) Delete(ctx context.Context, params *structs.FindOpti
 		builder.Where(optionsEnt.TenantIDEQ(params.Tenant))
 	}
 
-	_, err := builder.Exec(ctx)
+	_, err = builder.Exec(ctx)
 	if validator.IsNotNil(err) {
 		return err
 	}
+
+	// Delete from Meilisearch index
+	if err = r.ms.DeleteDocuments("options", option.ID); err != nil {
+		logger.Errorf(ctx, "optionsRepo.Delete index error: %v", err)
+	}
+
+	// Invalidate cache
+	go func() {
+		r.invalidateOptionCache(context.Background(), option)
+		if option.TenantID != "" && option.Type != "" {
+			r.invalidateTenantOptionsCache(context.Background(), option.TenantID, option.Type)
+		}
+	}()
 
 	return nil
 }
@@ -153,9 +228,29 @@ func (r *optionsRepository) DeleteByPrefix(ctx context.Context, prefix string) e
 		return fmt.Errorf("prefix is required")
 	}
 
-	// Delete all options with the given prefix in one operation
-	_, err := r.ec.Options.Delete().Where(optionsEnt.NameHasPrefix(prefix)).Exec(ctx)
-	return err
+	// Get options to be deleted for cache invalidation
+	options, err := r.data.GetSlaveEntClient().Options.Query().Where(optionsEnt.NameHasPrefix(prefix)).All(ctx)
+	if err != nil {
+		logger.Debugf(ctx, "Failed to get options for cache invalidation: %v", err)
+	}
+
+	// Use master for writes - Delete all options with the given prefix in one operation
+	_, err = r.data.GetMasterEntClient().Options.Delete().Where(optionsEnt.NameHasPrefix(prefix)).Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	// Invalidate caches for deleted options
+	go func() {
+		for _, option := range options {
+			r.invalidateOptionCache(context.Background(), option)
+			if option.TenantID != "" && option.Type != "" {
+				r.invalidateTenantOptionsCache(context.Background(), option.TenantID, option.Type)
+			}
+		}
+	}()
+
+	return nil
 }
 
 // List returns a slice of options based on the provided parameters.
@@ -165,19 +260,36 @@ func (r *optionsRepository) List(ctx context.Context, params *structs.ListOption
 		return nil, fmt.Errorf("building list query: %w", err)
 	}
 
-	builder = applySorting(builder, params.SortBy)
+	builder = r.applySorting(builder, params.SortBy)
 
 	if params.Cursor != "" {
 		id, value, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
 			return nil, fmt.Errorf("decoding cursor: %w", err)
 		}
-		builder = applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		builder = r.applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
 	}
 
 	builder.Limit(params.Limit)
 
-	return r.executeArrayQuery(ctx, builder)
+	rows, err := r.executeArrayQuery(ctx, builder)
+	if err != nil {
+		return nil, err
+	}
+
+	// Cache options in background
+	go func() {
+		for _, option := range rows {
+			r.cacheOption(context.Background(), option)
+		}
+	}()
+
+	return rows, nil
 }
 
 // CountX returns the total count of options based on the provided parameters.
@@ -197,14 +309,19 @@ func (r *optionsRepository) ListWithCount(ctx context.Context, params *structs.L
 		return nil, 0, fmt.Errorf("building list query: %w", err)
 	}
 
-	builder = applySorting(builder, params.SortBy)
+	builder = r.applySorting(builder, params.SortBy)
 
 	if params.Cursor != "" {
 		id, value, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
 			return nil, 0, fmt.Errorf("decoding cursor: %w", err)
 		}
-		builder = applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, 0, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		builder = r.applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
 	}
 
 	total, err := builder.Count(ctx)
@@ -217,11 +334,18 @@ func (r *optionsRepository) ListWithCount(ctx context.Context, params *structs.L
 		return nil, 0, fmt.Errorf("fetching options: %w", err)
 	}
 
+	// Cache options in background
+	go func() {
+		for _, option := range rows {
+			r.cacheOption(context.Background(), option)
+		}
+	}()
+
 	return rows, total, nil
 }
 
 // applySorting applies the specified sorting to the query builder.
-func applySorting(builder *ent.OptionsQuery, sortBy string) *ent.OptionsQuery {
+func (r *optionsRepository) applySorting(builder *ent.OptionsQuery, sortBy string) *ent.OptionsQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		return builder.Order(ent.Desc(optionsEnt.FieldCreatedAt), ent.Desc(optionsEnt.FieldID))
@@ -233,7 +357,7 @@ func applySorting(builder *ent.OptionsQuery, sortBy string) *ent.OptionsQuery {
 }
 
 // applyCursorCondition applies the cursor-based condition to the query builder.
-func applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direction string, sortBy string) *ent.OptionsQuery {
+func (r *optionsRepository) applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direction string, sortBy string) *ent.OptionsQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)
@@ -288,13 +412,14 @@ func applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direc
 			),
 		)
 	default:
-		return applyCursorCondition(builder, id, value, direction, structs.SortByCreatedAt)
+		return r.applyCursorCondition(builder, id, value, direction, structs.SortByCreatedAt)
 	}
 }
 
 // listBuilder - create list builder.
 func (r *optionsRepository) listBuilder(_ context.Context, params *structs.ListOptionsParams) (*ent.OptionsQuery, error) {
-	builder := r.ec.Options.Query()
+	// Use slave for reads
+	builder := r.data.GetSlaveEntClient().Options.Query()
 
 	if params.Tenant != "" {
 		builder.Where(optionsEnt.TenantIDEQ(params.Tenant))
@@ -318,7 +443,8 @@ func (r *optionsRepository) listBuilder(_ context.Context, params *structs.ListO
 // getOption - get option.
 // internal method.
 func (r *optionsRepository) getOption(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
-	builder := r.ec.Options.Query()
+	// Use slave for reads
+	builder := r.data.GetSlaveEntClient().Options.Query()
 
 	if validator.IsNotEmpty(params.Option) {
 		builder.Where(optionsEnt.Or(
@@ -346,4 +472,56 @@ func (r *optionsRepository) executeArrayQuery(ctx context.Context, builder *ent.
 		return nil, err
 	}
 	return rows, nil
+}
+
+// cacheOption - cache option.
+func (r *optionsRepository) cacheOption(ctx context.Context, option *ent.Options) {
+	// Cache by ID
+	idKey := fmt.Sprintf("id:%s", option.ID)
+	if err := r.optionsCache.Set(ctx, idKey, option, r.optionsTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache option by ID %s: %v", option.ID, err)
+	}
+
+	// Cache name to ID mapping
+	if option.Name != "" {
+		nameKey := fmt.Sprintf("name:%s", option.Name)
+		if err := r.nameMappingCache.Set(ctx, nameKey, &option.ID, r.optionsTTL); err != nil {
+			logger.Debugf(ctx, "Failed to cache name mapping %s: %v", option.Name, err)
+		}
+	}
+}
+
+// invalidateOptionCache invalidates option cache
+func (r *optionsRepository) invalidateOptionCache(ctx context.Context, option *ent.Options) {
+	// Invalidate ID cache
+	idKey := fmt.Sprintf("id:%s", option.ID)
+	if err := r.optionsCache.Delete(ctx, idKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate option ID cache %s: %v", option.ID, err)
+	}
+
+	// Invalidate name mapping
+	if option.Name != "" {
+		nameKey := fmt.Sprintf("name:%s", option.Name)
+		if err := r.nameMappingCache.Delete(ctx, nameKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate name mapping cache %s: %v", option.Name, err)
+		}
+	}
+}
+
+// invalidateTenantOptionsCache invalidates tenant options cache
+func (r *optionsRepository) invalidateTenantOptionsCache(ctx context.Context, tenantID, optionType string) {
+	cacheKey := fmt.Sprintf("tenant:%s:type:%s", tenantID, optionType)
+	if err := r.tenantOptionsCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate tenant options cache %s: %v", cacheKey, err)
+	}
+}
+
+// getOptionIDByName - get option ID by name
+func (r *optionsRepository) getOptionIDByName(ctx context.Context, name string) (string, error) {
+	cacheKey := fmt.Sprintf("name:%s", name)
+	optionID, err := r.nameMappingCache.Get(ctx, cacheKey)
+	if err != nil || optionID == nil {
+		return "", err
+	}
+	return *optionID, nil
 }

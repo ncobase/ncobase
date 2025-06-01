@@ -7,6 +7,7 @@ import (
 	"ncobase/tenant/data/ent"
 	tenantQuotaEnt "ncobase/tenant/data/ent/tenantquota"
 	"ncobase/tenant/structs"
+	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
@@ -14,8 +15,6 @@ import (
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
-
-	"github.com/redis/go-redis/v9"
 )
 
 // TenantQuotaRepositoryInterface defines the interface for tenant quota repository
@@ -28,25 +27,37 @@ type TenantQuotaRepositoryInterface interface {
 	Delete(ctx context.Context, id string) error
 	List(ctx context.Context, params *structs.ListTenantQuotaParams) ([]*ent.TenantQuota, error)
 	ListWithCount(ctx context.Context, params *structs.ListTenantQuotaParams) ([]*ent.TenantQuota, int, error)
+	CountX(ctx context.Context, params *structs.ListTenantQuotaParams) int
 }
 
 // tenantQuotaRepository implements TenantQuotaRepositoryInterface
 type tenantQuotaRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	c  *cache.Cache[ent.TenantQuota]
+	data                 *data.Data
+	quotaCache           cache.ICache[ent.TenantQuota]
+	tenantQuotasCache    cache.ICache[[]string] // Maps tenant ID to quota IDs
+	tenantTypeQuotaCache cache.ICache[string]   // Maps tenant:type to quota ID
+	quotaTypeCache       cache.ICache[[]string] // Maps quota type to quota IDs
+	quotaTTL             time.Duration
 }
 
 // NewTenantQuotaRepository creates a new tenant quota repository
 func NewTenantQuotaRepository(d *data.Data) TenantQuotaRepositoryInterface {
-	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
-	return &tenantQuotaRepository{ec, rc, cache.NewCache[ent.TenantQuota](rc, "ncse_tenant_quota")}
+	redisClient := d.GetRedis()
+
+	return &tenantQuotaRepository{
+		data:                 d,
+		quotaCache:           cache.NewCache[ent.TenantQuota](redisClient, "ncse_tenant:quotas"),
+		tenantQuotasCache:    cache.NewCache[[]string](redisClient, "ncse_tenant:tenant_quota_mappings"),
+		tenantTypeQuotaCache: cache.NewCache[string](redisClient, "ncse_tenant:tenant_type_quota_mappings"),
+		quotaTypeCache:       cache.NewCache[[]string](redisClient, "ncse_tenant:quota_type_mappings"),
+		quotaTTL:             time.Hour * 4, // 4 hours cache TTL (quotas change less frequently)
+	}
 }
 
 // Create creates a new tenant quota
 func (r *tenantQuotaRepository) Create(ctx context.Context, body *structs.CreateTenantQuotaBody) (*ent.TenantQuota, error) {
-	builder := r.ec.TenantQuota.Create()
+	// Use master for writes
+	builder := r.data.GetMasterEntClient().TenantQuota.Create()
 
 	builder.SetTenantID(body.TenantID)
 	builder.SetQuotaType(string(body.QuotaType))
@@ -68,29 +79,55 @@ func (r *tenantQuotaRepository) Create(ctx context.Context, body *structs.Create
 		return nil, err
 	}
 
+	// Cache the quota and invalidate related caches
+	go func() {
+		r.cacheQuota(context.Background(), row)
+		r.invalidateTenantQuotasCache(context.Background(), body.TenantID)
+		r.invalidateQuotaTypeCache(context.Background(), string(body.QuotaType))
+	}()
+
 	return row, nil
 }
 
 // GetByID retrieves a tenant quota by ID
 func (r *tenantQuotaRepository) GetByID(ctx context.Context, id string) (*ent.TenantQuota, error) {
+	// Try cache first
 	cacheKey := fmt.Sprintf("id:%s", id)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
+	if cached, err := r.quotaCache.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
-	row, err := r.ec.TenantQuota.Get(ctx, id)
+	// Use slave for reads
+	row, err := r.data.GetSlaveEntClient().TenantQuota.Get(ctx, id)
 	if err != nil {
 		logger.Errorf(ctx, "tenantQuotaRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
-	_ = r.c.Set(ctx, cacheKey, row)
+	// Cache for future use
+	go r.cacheQuota(context.Background(), row)
+
 	return row, nil
 }
 
 // GetByTenantID retrieves all quotas for a tenant
 func (r *tenantQuotaRepository) GetByTenantID(ctx context.Context, tenantID string) ([]*ent.TenantQuota, error) {
-	rows, err := r.ec.TenantQuota.Query().
+	// Try to get quota IDs from cache
+	cacheKey := fmt.Sprintf("tenant_quotas:%s", tenantID)
+	var quotaIDs []string
+	if err := r.tenantQuotasCache.GetArray(ctx, cacheKey, &quotaIDs); err == nil && len(quotaIDs) > 0 {
+		// Get quotas by IDs
+		quotas := make([]*ent.TenantQuota, 0, len(quotaIDs))
+		for _, quotaID := range quotaIDs {
+			if quota, err := r.GetByID(ctx, quotaID); err == nil {
+				quotas = append(quotas, quota)
+			}
+		}
+		return quotas, nil
+	}
+
+	// Fallback to database
+	rows, err := r.data.GetSlaveEntClient().TenantQuota.Query().
 		Where(tenantQuotaEnt.TenantIDEQ(tenantID)).
 		All(ctx)
 	if err != nil {
@@ -98,17 +135,31 @@ func (r *tenantQuotaRepository) GetByTenantID(ctx context.Context, tenantID stri
 		return nil, err
 	}
 
+	// Cache quotas and quota IDs
+	go func() {
+		quotaIDs := make([]string, len(rows))
+		for i, quota := range rows {
+			r.cacheQuota(context.Background(), quota)
+			quotaIDs[i] = quota.ID
+		}
+
+		if err := r.tenantQuotasCache.SetArray(context.Background(), cacheKey, quotaIDs, r.quotaTTL); err != nil {
+			logger.Debugf(context.Background(), "Failed to cache tenant quotas %s: %v", tenantID, err)
+		}
+	}()
+
 	return rows, nil
 }
 
 // GetByTenantAndType retrieves a specific quota for a tenant
 func (r *tenantQuotaRepository) GetByTenantAndType(ctx context.Context, tenantID string, quotaType structs.QuotaType) (*ent.TenantQuota, error) {
-	cacheKey := fmt.Sprintf("tenant:%s:type:%s", tenantID, quotaType)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
+	// Try to get quota ID from tenant:type mapping cache
+	if quotaID, err := r.getQuotaIDByTenantAndType(ctx, tenantID, string(quotaType)); err == nil && quotaID != "" {
+		return r.GetByID(ctx, quotaID)
 	}
 
-	row, err := r.ec.TenantQuota.Query().
+	// Fallback to database
+	row, err := r.data.GetSlaveEntClient().TenantQuota.Query().
 		Where(
 			tenantQuotaEnt.TenantIDEQ(tenantID),
 			tenantQuotaEnt.QuotaTypeEQ(string(quotaType)),
@@ -119,18 +170,22 @@ func (r *tenantQuotaRepository) GetByTenantAndType(ctx context.Context, tenantID
 		return nil, err
 	}
 
-	_ = r.c.Set(ctx, cacheKey, row)
+	// Cache for future use
+	go r.cacheQuota(context.Background(), row)
+
 	return row, nil
 }
 
 // Update updates a tenant quota
 func (r *tenantQuotaRepository) Update(ctx context.Context, id string, updates types.JSON) (*ent.TenantQuota, error) {
-	quota, err := r.ec.TenantQuota.Get(ctx, id)
+	// Get original quota for cache invalidation
+	originalQuota, err := r.GetByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	builder := quota.Update()
+	// Use master for writes
+	builder := originalQuota.Update()
 
 	for field, value := range updates {
 		switch field {
@@ -159,28 +214,50 @@ func (r *tenantQuotaRepository) Update(ctx context.Context, id string, updates t
 		return nil, err
 	}
 
-	// Clear cache
-	_ = r.c.Delete(ctx, fmt.Sprintf("id:%s", id))
-	_ = r.c.Delete(ctx, fmt.Sprintf("tenant:%s:type:%s", quota.TenantID, quota.QuotaType))
+	// Invalidate and re-cache
+	go func() {
+		r.invalidateQuotaCache(context.Background(), originalQuota)
+		r.cacheQuota(context.Background(), row)
+
+		// Invalidate related caches if tenant or type changed
+		if originalQuota.TenantID != row.TenantID {
+			r.invalidateTenantQuotasCache(context.Background(), originalQuota.TenantID)
+			r.invalidateTenantQuotasCache(context.Background(), row.TenantID)
+		} else {
+			r.invalidateTenantQuotasCache(context.Background(), row.TenantID)
+		}
+
+		if originalQuota.QuotaType != row.QuotaType {
+			r.invalidateQuotaTypeCache(context.Background(), originalQuota.QuotaType)
+			r.invalidateQuotaTypeCache(context.Background(), row.QuotaType)
+		} else {
+			r.invalidateQuotaTypeCache(context.Background(), row.QuotaType)
+		}
+	}()
 
 	return row, nil
 }
 
 // Delete deletes a tenant quota
 func (r *tenantQuotaRepository) Delete(ctx context.Context, id string) error {
-	quota, err := r.ec.TenantQuota.Get(ctx, id)
+	// Get quota first for cache invalidation
+	quota, err := r.GetByID(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	if err := r.ec.TenantQuota.DeleteOneID(id).Exec(ctx); err != nil {
+	// Use master for writes
+	if err := r.data.GetMasterEntClient().TenantQuota.DeleteOneID(id).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "tenantQuotaRepo.Delete error: %v", err)
 		return err
 	}
 
-	// Clear cache
-	_ = r.c.Delete(ctx, fmt.Sprintf("id:%s", id))
-	_ = r.c.Delete(ctx, fmt.Sprintf("tenant:%s:type:%s", quota.TenantID, quota.QuotaType))
+	// Invalidate caches
+	go func() {
+		r.invalidateQuotaCache(context.Background(), quota)
+		r.invalidateTenantQuotasCache(context.Background(), quota.TenantID)
+		r.invalidateQuotaTypeCache(context.Background(), quota.QuotaType)
+	}()
 
 	return nil
 }
@@ -232,6 +309,13 @@ func (r *tenantQuotaRepository) List(ctx context.Context, params *structs.ListTe
 		return nil, err
 	}
 
+	// Cache quotas in background
+	go func() {
+		for _, quota := range rows {
+			r.cacheQuota(context.Background(), quota)
+		}
+	}()
+
 	return rows, nil
 }
 
@@ -253,9 +337,16 @@ func (r *tenantQuotaRepository) ListWithCount(ctx context.Context, params *struc
 	return rows, total, nil
 }
 
+// CountX counts tenant quotas
+func (r *tenantQuotaRepository) CountX(ctx context.Context, params *structs.ListTenantQuotaParams) int {
+	builder := r.buildListQuery(params)
+	return builder.CountX(ctx)
+}
+
 // buildListQuery builds the list query based on parameters
 func (r *tenantQuotaRepository) buildListQuery(params *structs.ListTenantQuotaParams) *ent.TenantQuotaQuery {
-	builder := r.ec.TenantQuota.Query()
+	// Use slave for reads
+	builder := r.data.GetSlaveEntClient().TenantQuota.Query()
 
 	if params.TenantID != "" {
 		builder.Where(tenantQuotaEnt.TenantIDEQ(params.TenantID))
@@ -270,4 +361,60 @@ func (r *tenantQuotaRepository) buildListQuery(params *structs.ListTenantQuotaPa
 	}
 
 	return builder
+}
+
+// cacheQuota caches a tenant quota
+func (r *tenantQuotaRepository) cacheQuota(ctx context.Context, quota *ent.TenantQuota) {
+	// Cache by ID
+	idKey := fmt.Sprintf("id:%s", quota.ID)
+	if err := r.quotaCache.Set(ctx, idKey, quota, r.quotaTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache quota by ID %s: %v", quota.ID, err)
+	}
+
+	// Cache tenant:type to ID mapping
+	tenantTypeKey := fmt.Sprintf("tenant_type:%s:%s", quota.TenantID, quota.QuotaType)
+	if err := r.tenantTypeQuotaCache.Set(ctx, tenantTypeKey, &quota.ID, r.quotaTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache tenant type mapping %s:%s: %v", quota.TenantID, quota.QuotaType, err)
+	}
+}
+
+// invalidateQuotaCache invalidates the cache for a tenant quota
+func (r *tenantQuotaRepository) invalidateQuotaCache(ctx context.Context, quota *ent.TenantQuota) {
+	// Invalidate ID cache
+	idKey := fmt.Sprintf("id:%s", quota.ID)
+	if err := r.quotaCache.Delete(ctx, idKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate quota ID cache %s: %v", quota.ID, err)
+	}
+
+	// Invalidate tenant:type mapping
+	tenantTypeKey := fmt.Sprintf("tenant_type:%s:%s", quota.TenantID, quota.QuotaType)
+	if err := r.tenantTypeQuotaCache.Delete(ctx, tenantTypeKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate tenant type mapping cache %s:%s: %v", quota.TenantID, quota.QuotaType, err)
+	}
+}
+
+// invalidateTenantQuotasCache invalidates the cache for all tenant quotas
+func (r *tenantQuotaRepository) invalidateTenantQuotasCache(ctx context.Context, tenantID string) {
+	cacheKey := fmt.Sprintf("tenant_quotas:%s", tenantID)
+	if err := r.tenantQuotasCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate tenant quotas cache %s: %v", tenantID, err)
+	}
+}
+
+// invalidateQuotaTypeCache invalidates the cache for a quota type
+func (r *tenantQuotaRepository) invalidateQuotaTypeCache(ctx context.Context, quotaType string) {
+	cacheKey := fmt.Sprintf("quota_type:%s", quotaType)
+	if err := r.quotaTypeCache.Delete(ctx, cacheKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate quota type cache %s: %v", quotaType, err)
+	}
+}
+
+// getQuotaIDByTenantAndType gets the ID of a tenant quota by tenant ID and type
+func (r *tenantQuotaRepository) getQuotaIDByTenantAndType(ctx context.Context, tenantID, quotaType string) (string, error) {
+	cacheKey := fmt.Sprintf("tenant_type:%s:%s", tenantID, quotaType)
+	quotaID, err := r.tenantTypeQuotaCache.Get(ctx, cacheKey)
+	if err != nil || quotaID == nil {
+		return "", err
+	}
+	return *quotaID, nil
 }

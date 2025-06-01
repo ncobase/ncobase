@@ -7,6 +7,7 @@ import (
 	"ncobase/tenant/data/ent"
 	tenantEnt "ncobase/tenant/data/ent/tenant"
 	"ncobase/tenant/structs"
+	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
@@ -16,8 +17,6 @@ import (
 	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
-
-	"github.com/redis/go-redis/v9"
 )
 
 // TenantRepositoryInterface represents the tenant repository interface.
@@ -35,25 +34,31 @@ type TenantRepositoryInterface interface {
 
 // tenantRepository implements the TenantRepositoryInterface.
 type tenantRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Tenant]
+	ec               *ent.Client
+	ms               *meili.Client
+	tenantCache      cache.ICache[ent.Tenant]
+	slugMappingCache cache.ICache[string] // Maps slug to tenant ID
+	userMappingCache cache.ICache[string] // Maps user ID to tenant ID
+	tenantTTL        time.Duration
 }
 
 // NewTenantRepository creates a new tenant repository.
 func NewTenantRepository(d *data.Data) TenantRepositoryInterface {
-	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
-	return &tenantRepository{ec, rc, ms, cache.NewCache[ent.Tenant](rc, "ncse_tenant")}
+	redisClient := d.GetRedis()
+
+	return &tenantRepository{
+		ec:               d.GetMasterEntClient(),
+		ms:               d.GetMeilisearch(),
+		tenantCache:      cache.NewCache[ent.Tenant](redisClient, "ncse_tenant:tenants"),
+		slugMappingCache: cache.NewCache[string](redisClient, "ncse_tenant:slug_mappings"),
+		userMappingCache: cache.NewCache[string](redisClient, "ncse_tenant:user_mappings"),
+		tenantTTL:        time.Hour * 4, // 4 hours cache TTL
+	}
 }
 
 // Create create tenant
 func (r *tenantRepository) Create(ctx context.Context, body *structs.CreateTenantBody) (*ent.Tenant, error) {
-	// create builder.
 	builder := r.ec.Tenant.Create()
-	// set values.
 	builder.SetNillableName(&body.Name)
 	builder.SetNillableSlug(&body.Slug)
 	builder.SetNillableType(&body.Type)
@@ -76,95 +81,96 @@ func (r *tenantRepository) Create(ctx context.Context, body *structs.CreateTenan
 		builder.SetExtras(*body.Extras)
 	}
 
-	// execute the builder.
-	row, err := builder.Save(ctx)
+	tenant, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "tenantRepo.Create error: %v", err)
 		return nil, err
 	}
 
 	// Create the tenant in Meilisearch index
-	if err = r.ms.IndexDocuments("tenants", row); err != nil {
+	if err = r.ms.IndexDocuments("tenants", tenant); err != nil {
 		logger.Errorf(ctx, "tenantRepo.Create error creating Meilisearch index: %v", err)
-		// return nil, err
 	}
 
-	return row, nil
+	// Cache the tenant
+	go r.cacheTenant(context.Background(), tenant)
+
+	return tenant, nil
 }
 
 // GetBySlug get tenant by slug or id
-func (r *tenantRepository) GetBySlug(ctx context.Context, id string) (*ent.Tenant, error) {
-	// // Search in Meilisearch index
-	// if res, _ := r.ms.Search(ctx, "taxonomies", id, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
-	// 	if hit, ok := res.Hits[0].(*ent.Tenant); ok {
-	// 		return hit, nil
-	// 	}
-	// }
-	// check cache
-	cacheKey := fmt.Sprintf("%s", id)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
+func (r *tenantRepository) GetBySlug(ctx context.Context, slug string) (*ent.Tenant, error) {
+	// Try to get tenant ID from slug mapping cache
+	if tenantID, err := r.getTenantIDBySlug(ctx, slug); err == nil && tenantID != "" {
+		// Try to get from tenant cache
+		cacheKey := fmt.Sprintf("id:%s", tenantID)
+		if cached, err := r.tenantCache.Get(ctx, cacheKey); err == nil && cached != nil {
+			return cached, nil
+		}
 	}
 
-	// If not found in cache, query the database
-	row, err := r.FindTenant(ctx, &structs.FindTenant{Slug: id})
-
+	// Fallback to database
+	row, err := r.FindTenant(ctx, &structs.FindTenant{Slug: slug})
 	if err != nil {
-		logger.Errorf(ctx, " tenantRepo.GetByID error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.GetBySlug error: %v", err)
 		return nil, err
 	}
 
-	// cache the result
-	err = r.c.Set(ctx, cacheKey, row)
-	if err != nil {
-		logger.Errorf(ctx, "tenantRepo.GetByID cache error: %v", err)
-	}
+	// Cache for future use
+	go r.cacheTenant(context.Background(), row)
 
 	return row, nil
 }
 
 // GetByUser get tenant by user
 func (r *tenantRepository) GetByUser(ctx context.Context, userID string) (*ent.Tenant, error) {
-	// // Search in Meilisearch index
-	// if res, _ := r.ms.Search(ctx, "taxonomies", userID, &meilisearch.SearchRequest{Limit: 1}); res != nil && res.Hits != nil && len(res.Hits) > 0 {
-	// 	if hit, ok := res.Hits[0].(*ent.Tenant); ok {
-	// 		return hit, nil
-	// 	}
-	// }
-	// check cache
-	cacheKey := fmt.Sprintf("%s", userID)
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
+	// Try to get tenant ID from user mapping cache
+	if tenantID, err := r.getTenantIDByUser(ctx, userID); err == nil && tenantID != "" {
+		// Try to get from tenant cache
+		cacheKey := fmt.Sprintf("id:%s", tenantID)
+		if cached, err := r.tenantCache.Get(ctx, cacheKey); err == nil && cached != nil {
+			return cached, nil
+		}
 	}
 
-	// If not found in cache, query the database
+	// Fallback to database
 	row, err := r.FindTenant(ctx, &structs.FindTenant{User: userID})
-
 	if err != nil {
-		logger.Errorf(ctx, " tenantRepo.GetByUser error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.GetByUser error: %v", err)
 		return nil, err
 	}
 
-	// cache the result
-	err = r.c.Set(ctx, cacheKey, row)
-	if err != nil {
-		logger.Errorf(ctx, "tenantRepo.GetByUser cache error: %v", err)
-	}
+	// Cache for future use
+	go r.cacheTenant(context.Background(), row)
 
 	return row, nil
 }
 
 // GetIDByUser get tenant id by user id
 func (r *tenantRepository) GetIDByUser(ctx context.Context, userID string) (string, error) {
+	// Try cache first
+	if tenantID, err := r.getTenantIDByUser(ctx, userID); err == nil && tenantID != "" {
+		return tenantID, nil
+	}
+
+	// Fallback to database
 	id, err := r.ec.Tenant.
 		Query().
 		Where(tenantEnt.CreatedByEQ(userID)).
 		OnlyID(ctx)
 
 	if err != nil {
-		logger.Errorf(ctx, " tenantRepo.FindTenantIDByUserID error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.GetIDByUser error: %v", err)
 		return "", err
 	}
+
+	// Cache user to tenant mapping
+	go func() {
+		userKey := fmt.Sprintf("user:%s", userID)
+		if err := r.userMappingCache.Set(context.Background(), userKey, &id, r.tenantTTL); err != nil {
+			logger.Debugf(context.Background(), "Failed to cache user mapping %s: %v", userID, err)
+		}
+	}()
 
 	return id, nil
 }
@@ -176,10 +182,9 @@ func (r *tenantRepository) Update(ctx context.Context, slug string, updates type
 		return nil, err
 	}
 
-	// create builder.
 	builder := tenant.Update()
 
-	// set values
+	// Set values as in original implementation
 	for field, value := range updates {
 		switch field {
 		case "name":
@@ -216,42 +221,34 @@ func (r *tenantRepository) Update(ctx context.Context, slug string, updates type
 		}
 	}
 
-	// execute the builder.
-	row, err := builder.Save(ctx)
+	updatedTenant, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "tenantRepo.Update error: %v", err)
 		return nil, err
 	}
 
-	// remove from cache
-	cacheKey := fmt.Sprintf("%s", tenant.ID)
-	err = r.c.Delete(ctx, cacheKey)
-	if err != nil {
-		logger.Errorf(ctx, "tenantRepo.Update cache error: %v", err)
-	}
-	cacheUserKey := fmt.Sprintf("user:%s", tenant.CreatedBy)
-	err = r.c.Delete(ctx, cacheUserKey)
-	if err != nil {
-		logger.Errorf(ctx, "tenantRepo.Update cache error: %v", err)
-	}
-
 	// Update Meilisearch index
-	if err = r.ms.UpdateDocuments("topics", row, row.ID); err != nil {
+	if err = r.ms.UpdateDocuments("tenants", updatedTenant, updatedTenant.ID); err != nil {
 		logger.Errorf(ctx, "tenantRepo.Update error updating Meilisearch index: %v", err)
 	}
 
-	return row, nil
+	// Invalidate and re-cache
+	go func() {
+		r.invalidateTenantCache(context.Background(), tenant)
+		r.cacheTenant(context.Background(), updatedTenant)
+	}()
+
+	return updatedTenant, nil
 }
 
-// List get
+// List get tenant list
 func (r *tenantRepository) List(ctx context.Context, params *structs.ListTenantParams) ([]*ent.Tenant, error) {
-	// create list builder
 	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
 	}
 
-	// is disabled
+	// Is disabled
 	builder.Where(tenantEnt.DisabledEQ(false))
 
 	if params.Cursor != "" {
@@ -297,9 +294,16 @@ func (r *tenantRepository) List(ctx context.Context, params *structs.ListTenantP
 
 	rows, err := builder.All(ctx)
 	if err != nil {
-		logger.Errorf(ctx, " tenantRepo.GetTenantList error: %v", err)
+		logger.Errorf(ctx, "tenantRepo.List error: %v", err)
 		return nil, err
 	}
+
+	// Cache tenants in background
+	go func() {
+		for _, tenant := range rows {
+			r.cacheTenant(context.Background(), tenant)
+		}
+	}()
 
 	return rows, nil
 }
@@ -311,61 +315,50 @@ func (r *tenantRepository) Delete(ctx context.Context, id string) error {
 		return err
 	}
 
-	// create builder.
 	builder := r.ec.Tenant.Delete()
-
-	// execute the builder and verify the result.
-	if _, err = builder.Where(tenantEnt.IDEQ(id)).Exec(ctx); err == nil {
+	if _, err = builder.Where(tenantEnt.IDEQ(id)).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "tenantRepo.Delete error: %v", err)
 		return err
 	}
 
-	// remove from cache
-	cacheKey := fmt.Sprintf("%s", tenant.ID)
-	err = r.c.Delete(ctx, cacheKey)
-	if err != nil {
-		logger.Errorf(ctx, "tenantRepo.Delete cache error: %v", err)
-	}
-
-	// delete from Meilisearch index
+	// Delete from Meilisearch index
 	if err = r.ms.DeleteDocuments("tenants", tenant.ID); err != nil {
 		logger.Errorf(ctx, "tenantRepo.Delete index error: %v", err)
-		// return nil, err
 	}
 
-	return err
+	// Invalidate cache
+	go r.invalidateTenantCache(context.Background(), tenant)
+
+	return nil
 }
 
 // DeleteByUser delete tenant by user ID
 func (r *tenantRepository) DeleteByUser(ctx context.Context, userID string) error {
+	// Get tenant first for cache invalidation
+	tenant, err := r.GetByUser(ctx, userID)
+	if err != nil {
+		return err
+	}
 
-	// create builder.
 	builder := r.ec.Tenant.Delete()
-
-	if _, err := builder.Where(tenantEnt.CreatedByEQ(userID)).Exec(ctx); err == nil {
+	if _, err := builder.Where(tenantEnt.CreatedByEQ(userID)).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "tenantRepo.DeleteByUser error: %v", err)
 		return err
 	}
 
-	// remove from cache
-	cacheUserKey := fmt.Sprintf("user:%s", userID)
-	err := r.c.Delete(ctx, cacheUserKey)
-	if err != nil {
-		logger.Errorf(ctx, "tenantRepo.DeleteByUser cache error: %v", err)
-	}
-
-	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments("tenants", userID); err != nil {
+	// Delete from Meilisearch index
+	if err = r.ms.DeleteDocuments("tenants", tenant.ID); err != nil {
 		logger.Errorf(ctx, "tenantRepo.DeleteByUser index error: %v", err)
-		// return nil, err
 	}
 
-	return err
+	// Invalidate cache
+	go r.invalidateTenantCache(context.Background(), tenant)
+
+	return nil
 }
 
-// CountX gets a count of tenants.
+// CountX gets a count of tenants
 func (r *tenantRepository) CountX(ctx context.Context, params *structs.ListTenantParams) int {
-	// create list builder
 	builder, err := r.listBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
@@ -373,10 +366,8 @@ func (r *tenantRepository) CountX(ctx context.Context, params *structs.ListTenan
 	return builder.CountX(ctx)
 }
 
-// FindTenant retrieves a tenant.
+// FindTenant retrieves a tenant
 func (r *tenantRepository) FindTenant(ctx context.Context, params *structs.FindTenant) (*ent.Tenant, error) {
-
-	// create builder.
 	builder := r.ec.Tenant.Query()
 
 	if validator.IsNotEmpty(params.Slug) {
@@ -389,7 +380,6 @@ func (r *tenantRepository) FindTenant(ctx context.Context, params *structs.FindT
 		builder = builder.Where(tenantEnt.CreatedByEQ(params.User))
 	}
 
-	// execute the builder.
 	row, err := builder.Only(ctx)
 	if validator.IsNotNil(err) {
 		return nil, err
@@ -398,16 +388,80 @@ func (r *tenantRepository) FindTenant(ctx context.Context, params *structs.FindT
 	return row, nil
 }
 
-// listBuilder - create list builder.
-// internal method.
+// listBuilder - create list builder
 func (r *tenantRepository) listBuilder(_ context.Context, params *structs.ListTenantParams) (*ent.TenantQuery, error) {
-	// create builder.
 	builder := r.ec.Tenant.Query()
 
-	// match belong user
+	// Match belong user
 	if validator.IsNotEmpty(params.User) {
 		builder.Where(tenantEnt.CreatedByEQ(params.User))
 	}
 
 	return builder, nil
+}
+
+func (r *tenantRepository) cacheTenant(ctx context.Context, tenant *ent.Tenant) {
+	// Cache by ID
+	idKey := fmt.Sprintf("id:%s", tenant.ID)
+	if err := r.tenantCache.Set(ctx, idKey, tenant, r.tenantTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache tenant by ID %s: %v", tenant.ID, err)
+	}
+
+	// Cache slug to ID mapping
+	if tenant.Slug != "" {
+		slugKey := fmt.Sprintf("slug:%s", tenant.Slug)
+		if err := r.slugMappingCache.Set(ctx, slugKey, &tenant.ID, r.tenantTTL); err != nil {
+			logger.Debugf(ctx, "Failed to cache slug mapping %s: %v", tenant.Slug, err)
+		}
+	}
+
+	// Cache user to tenant ID mapping
+	if tenant.CreatedBy != "" {
+		userKey := fmt.Sprintf("user:%s", tenant.CreatedBy)
+		if err := r.userMappingCache.Set(ctx, userKey, &tenant.ID, r.tenantTTL); err != nil {
+			logger.Debugf(ctx, "Failed to cache user mapping %s: %v", tenant.CreatedBy, err)
+		}
+	}
+}
+
+func (r *tenantRepository) invalidateTenantCache(ctx context.Context, tenant *ent.Tenant) {
+	// Invalidate ID cache
+	idKey := fmt.Sprintf("id:%s", tenant.ID)
+	if err := r.tenantCache.Delete(ctx, idKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate tenant ID cache %s: %v", tenant.ID, err)
+	}
+
+	// Invalidate slug mapping
+	if tenant.Slug != "" {
+		slugKey := fmt.Sprintf("slug:%s", tenant.Slug)
+		if err := r.slugMappingCache.Delete(ctx, slugKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate slug mapping cache %s: %v", tenant.Slug, err)
+		}
+	}
+
+	// Invalidate user mapping
+	if tenant.CreatedBy != "" {
+		userKey := fmt.Sprintf("user:%s", tenant.CreatedBy)
+		if err := r.userMappingCache.Delete(ctx, userKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate user mapping cache %s: %v", tenant.CreatedBy, err)
+		}
+	}
+}
+
+func (r *tenantRepository) getTenantIDBySlug(ctx context.Context, slug string) (string, error) {
+	cacheKey := fmt.Sprintf("slug:%s", slug)
+	tenantID, err := r.slugMappingCache.Get(ctx, cacheKey)
+	if err != nil || tenantID == nil {
+		return "", err
+	}
+	return *tenantID, nil
+}
+
+func (r *tenantRepository) getTenantIDByUser(ctx context.Context, userID string) (string, error) {
+	cacheKey := fmt.Sprintf("user:%s", userID)
+	tenantID, err := r.userMappingCache.Get(ctx, cacheKey)
+	if err != nil || tenantID == nil {
+		return "", err
+	}
+	return *tenantID, nil
 }

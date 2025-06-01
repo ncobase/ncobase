@@ -7,302 +7,251 @@ import (
 	"ncobase/user/data/ent"
 	userEnt "ncobase/user/data/ent/user"
 	"ncobase/user/structs"
-	"net/url"
-
-	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/types"
-	"github.com/ncobase/ncore/utils/nanoid"
+	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/security/crypto"
-	"github.com/ncobase/ncore/validation/validator"
-
-	"github.com/redis/go-redis/v9"
+	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/nanoid"
 )
 
-// UserRepositoryInterface represents the user repository interface.
+// UserRepositoryInterface defines user repository operations
 type UserRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.UserBody) (*ent.User, error)
-	Update(ctx context.Context, user string, updates types.JSON) (*ent.User, error)
+	Update(ctx context.Context, id string, updates types.JSON) (*ent.User, error)
 	GetByID(ctx context.Context, id string) (*ent.User, error)
-	Find(ctx context.Context, m *structs.FindUser) (*ent.User, error)
-	Existed(ctx context.Context, m *structs.FindUser) bool
 	Delete(ctx context.Context, id string) error
 	List(ctx context.Context, params *structs.ListUserParams) ([]*ent.User, error)
-	UpdatePassword(ctx context.Context, params *structs.UserPassword) error
-	UpdatePasswordByID(ctx context.Context, id string, hashedPassword string) error
-	FindUser(ctx context.Context, params *structs.FindUser) (*ent.User, error) // not use cache
+	Find(ctx context.Context, filter *structs.FindUser) (*ent.User, error)
+	FindUser(ctx context.Context, filter *structs.FindUser) (*ent.User, error)
+	UpdatePassword(ctx context.Context, body *structs.UserPassword) error
+	UpdatePasswordByID(ctx context.Context, userID, hashedPassword string) error
 	CountX(ctx context.Context, params *structs.ListUserParams) int
 }
 
-// userRepository implements the UserRepositoryInterface.
+// userRepository implements UserRepositoryInterface
 type userRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	c  *cache.Cache[ent.User]
+	data                 *data.Data
+	userCache            cache.ICache[ent.User]
+	usernameMappingCache cache.ICache[string] // Maps username to user ID
+	emailMappingCache    cache.ICache[string] // Maps email to user ID
+	userTTL              time.Duration
 }
 
-// NewUserRepository creates a new user repository.
+// NewUserRepository creates a new user repository
 func NewUserRepository(d *data.Data) UserRepositoryInterface {
-	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
-	return &userRepository{ec, rc, cache.NewCache[ent.User](rc, "ncse_user")}
+	redisClient := d.GetRedis()
+
+	return &userRepository{
+		data:                 d,
+		userCache:            cache.NewCache[ent.User](redisClient, "ncse_users"),
+		usernameMappingCache: cache.NewCache[string](redisClient, "ncse_user_mappings:username"),
+		emailMappingCache:    cache.NewCache[string](redisClient, "ncse_user_mappings:email"),
+		userTTL:              time.Hour * 2, // 2 hours cache TTL
+	}
 }
 
-// Create create user
+// Create creates a new user
 func (r *userRepository) Create(ctx context.Context, body *structs.UserBody) (*ent.User, error) {
-	countUser := r.ec.User.Query().CountX(ctx)
+	id := nanoid.PrimaryKey()()
+	now := time.Now().UnixMilli()
 
-	// create builder.
-	builder := r.ec.User.Create()
-	// set values.
+	client := r.data.GetMasterEntClient()
+	builder := client.User.Create()
+	builder.SetID(id)
 	builder.SetUsername(body.Username)
-	builder.SetEmail(body.Email)
-	builder.SetPhone(body.Phone)
-	builder.SetIsCertified(true)
-	builder.SetIsAdmin(countUser < 1)
+	builder.SetCreatedAt(now)
+	builder.SetUpdatedAt(now)
 
-	// execute the builder.
-	row, err := builder.Save(ctx)
+	if body.Email != "" {
+		builder.SetEmail(body.Email)
+	}
+	if body.Phone != "" {
+		builder.SetPhone(body.Phone)
+	}
+	if body.Extras != nil {
+		builder.SetExtras(*body.Extras)
+	}
+
+	user, err := builder.Save(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "userRepo.Create error: %v", err)
 		return nil, err
 	}
 
-	return row, nil
+	// Cache the user
+	go r.cacheUser(context.Background(), user)
+
+	return user, nil
 }
 
-// Update update user
-func (r *userRepository) Update(ctx context.Context, u string, updates types.JSON) (*ent.User, error) {
-	user, err := r.FindUser(ctx, &structs.FindUser{Username: u})
+// GetByID retrieves a user by ID
+func (r *userRepository) GetByID(ctx context.Context, id string) (*ent.User, error) {
+	// Try cache first
+	cacheKey := fmt.Sprintf("id:%s", id)
+	if cached, err := r.userCache.Get(ctx, cacheKey); err == nil && cached != nil {
+		return cached, nil
+	}
+
+	// Fallback to database
+	client := r.data.GetSlaveEntClient()
+	user, err := client.User.Get(ctx, id)
 	if err != nil {
-		logger.Errorf(ctx, "userRepo.Update error: %v", err)
 		return nil, err
 	}
 
-	builder := user.Update()
+	// Cache for future use
+	go r.cacheUser(context.Background(), user)
 
-	for field, value := range updates {
-		switch field {
-		case "username":
-			builder.SetUsername(value.(string))
-		case "email":
-			builder.SetEmail(value.(string))
-		case "phone":
-			builder.SetPhone(value.(string))
-		case "is_certified":
-			builder.SetIsCertified(value.(bool))
-		case "status":
-			builder.SetStatus(value.(int))
-		case "extras":
-			builder.SetExtras(value.(types.JSON))
+	return user, nil
+}
+
+// Find retrieves a user by various filters
+func (r *userRepository) Find(ctx context.Context, filter *structs.FindUser) (*ent.User, error) {
+	// Try to find user ID from cache mappings first
+	var userID string
+	var err error
+
+	if filter.Username != "" {
+		userID, err = r.getUserIDByUsername(ctx, filter.Username)
+		if err == nil && userID != "" {
+			return r.GetByID(ctx, userID)
 		}
 	}
 
-	// execute the builder
-	row, err := builder.Save(ctx)
-	if err != nil {
-		logger.Errorf(ctx, "userRepo.Update error: %v", err)
-		return nil, err
+	if filter.Email != "" {
+		userID, err = r.getUserIDByEmail(ctx, filter.Email)
+		if err == nil && userID != "" {
+			return r.GetByID(ctx, userID)
+		}
 	}
 
-	// remove from cache
-	cacheKey := fmt.Sprintf("%s", u)
-	err = r.c.Delete(ctx, cacheKey)
-	if err != nil {
-		logger.Errorf(ctx, "userRepo.Update cache error: %v", err)
+	// Fallback to database
+	client := r.data.GetSlaveEntClient()
+	builder := client.User.Query()
+
+	if filter.ID != "" {
+		builder = builder.Where(userEnt.IDEQ(filter.ID))
 	}
-
-	// // delete from Meilisearch index
-	// if err = r.ms.DeleteDocuments("users", user.ID); err != nil {
-	// 	log.Errorf(ctx, "userRepo.Update index error: %v", err)
-	// }
-
-	return row, nil
-}
-
-// GetByID get user by id
-func (r *userRepository) GetByID(ctx context.Context, id string) (*ent.User, error) {
-	cacheKey := fmt.Sprintf("%s", id)
-
-	// check cache first
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
-	}
-
-	// If not found in cache, query the database
-	row, err := r.FindUser(ctx, &structs.FindUser{ID: id})
-
-	if err != nil {
-		logger.Errorf(ctx, "userRepo.GetByID error: %v", err)
-		return nil, err
-	}
-
-	// cache the result
-	err = r.c.Set(ctx, cacheKey, row)
-	if err != nil {
-		logger.Errorf(ctx, "userRepo.GetByID cache error: %v", err)
-	}
-
-	return row, nil
-}
-
-// Find user by username, email, or phone
-func (r *userRepository) Find(ctx context.Context, m *structs.FindUser) (*ent.User, error) {
-	params := url.Values{}
-	if validator.IsNotEmpty(m.Username) {
-		params.Set("username", m.Username)
-	}
-	if validator.IsNotEmpty(m.Email) {
-		params.Set("email", m.Email)
-	}
-	if validator.IsNotEmpty(m.Phone) {
-		params.Set("phone", m.Phone)
-	}
-	cacheKey := params.Encode()
-
-	// check cache first
-	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
-		return cached, nil
-	}
-
-	// If not found in cache, query the database
-	row, err := r.FindUser(ctx, m)
-
-	if err != nil {
-		logger.Errorf(ctx, "userRepo.Find error: %v", err)
-		return nil, err
-	}
-
-	// cache the result
-	err = r.c.Set(ctx, cacheKey, row)
-	if err != nil {
-		logger.Errorf(ctx, "userRepo.Find cache error: %v", err)
-	}
-
-	return row, nil
-}
-
-// Existed verify user existed by username, email, or phone
-func (r *userRepository) Existed(ctx context.Context, m *structs.FindUser) bool {
-	return r.ec.User.Query().Where(userEnt.Or(userEnt.UsernameEQ(m.Username), userEnt.EmailEQ(m.Email), userEnt.PhoneEQ(m.Phone))).ExistX(ctx)
-}
-
-// Delete delete user
-func (r *userRepository) Delete(ctx context.Context, id string) error {
-	if err := r.ec.User.DeleteOneID(id).Exec(ctx); err != nil {
-		logger.Errorf(ctx, "userRepo.Delete error: %v", err)
-		return err
-	}
-
-	// remove from cache
-	cacheKey := fmt.Sprintf("%s", id)
-	err := r.c.Delete(ctx, cacheKey)
-	if err != nil {
-		logger.Errorf(ctx, "userRepo.Delete cache error: %v", err)
-	}
-
-	return nil
-}
-
-// UpdatePassword  update user password.
-func (r *userRepository) UpdatePassword(ctx context.Context, params *structs.UserPassword) error {
-	row, err := r.FindUser(ctx, &structs.FindUser{Username: params.User})
-	if validator.IsNotNil(err) {
-		return err
-	}
-
-	builder := row.Update()
-
-	ph, err := crypto.HashPassword(ctx, params.NewPassword)
-	if validator.IsNotNil(err) {
-		return err
-	}
-
-	builder.SetPassword(ph)
-
-	_, err = builder.Save(ctx)
-	if validator.IsNotNil(err) {
-		return err
-	}
-
-	return nil
-}
-
-// UpdatePasswordByID update user password by id
-func (r *userRepository) UpdatePasswordByID(ctx context.Context, id string, hashedPassword string) error {
-	row, err := r.FindUser(ctx, &structs.FindUser{ID: id})
-	if validator.IsNotNil(err) {
-		return err
-	}
-
-	builder := row.Update()
-	builder.SetPassword(hashedPassword)
-
-	_, err = builder.Save(ctx)
-	if validator.IsNotNil(err) {
-		return err
-	}
-
-	return nil
-}
-
-// FindUser find user by id, username, email, or phone
-func (r *userRepository) FindUser(ctx context.Context, params *structs.FindUser) (*ent.User, error) {
-
-	// create builder.
-	builder := r.ec.User.Query()
-
-	if validator.IsNotEmpty(params.ID) {
-		builder = builder.Where(userEnt.IDEQ(params.ID))
-	}
-
-	if validator.IsNotEmpty(params.Username) {
-		// username value could be id, username, email, or phone
+	if filter.Username != "" {
 		builder = builder.Where(userEnt.Or(
-			userEnt.IDEQ(params.Username),
-			userEnt.UsernameEQ(params.Username),
-			userEnt.EmailEQ(params.Username),
-			userEnt.PhoneEQ(params.Username),
+			userEnt.IDEQ(filter.Username),
+			userEnt.UsernameEQ(filter.Username),
+			userEnt.EmailEQ(filter.Username),
+			userEnt.PhoneEQ(filter.Username),
 		))
 	}
 
-	// execute the builder.
-	row, err := builder.Only(ctx)
-	if validator.IsNotNil(err) {
+	user, err := builder.Only(ctx)
+	if err != nil {
 		return nil, err
 	}
 
-	return row, nil
+	// Cache for future use
+	go r.cacheUser(context.Background(), user)
+
+	return user, nil
 }
 
-// CountX gets a count of users.
-func (r *userRepository) CountX(ctx context.Context, params *structs.ListUserParams) int {
-	// create list builder
-	builder, err := r.listBuilder(ctx, params)
-	if validator.IsNotNil(err) {
-		return 0
+// FindUser is an alias for Find
+func (r *userRepository) FindUser(ctx context.Context, filter *structs.FindUser) (*ent.User, error) {
+	return r.Find(ctx, filter)
+}
+
+// Update updates a user
+func (r *userRepository) Update(ctx context.Context, id string, updates types.JSON) (*ent.User, error) {
+	// Get original user for cache invalidation
+	originalUser, err := r.GetByID(ctx, id)
+	if err != nil {
+		return nil, err
 	}
-	return builder.CountX(ctx)
+
+	client := r.data.GetMasterEntClient()
+	builder := client.User.UpdateOneID(id)
+
+	if email, ok := updates["email"].(string); ok && email != "" {
+		builder = builder.SetEmail(email)
+	}
+	if phone, ok := updates["phone"].(string); ok && phone != "" {
+		builder = builder.SetPhone(phone)
+	}
+	if status, ok := updates["status"].(int); ok {
+		builder = builder.SetStatus(status)
+	}
+	if isCertified, ok := updates["is_certified"].(bool); ok {
+		builder = builder.SetIsCertified(isCertified)
+	}
+	if isAdmin, ok := updates["is_admin"].(bool); ok {
+		builder = builder.SetIsAdmin(isAdmin)
+	}
+	if extras, ok := updates["extras"].(types.JSON); ok {
+		builder = builder.SetExtras(extras)
+	}
+
+	builder = builder.SetUpdatedAt(time.Now().UnixMilli())
+
+	user, err := builder.Save(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// Invalidate old cache and cache new data
+	go func() {
+		r.invalidateUserCache(context.Background(), originalUser)
+		r.cacheUser(context.Background(), user)
+	}()
+
+	return user, nil
 }
 
-// List gets a list of users.
-func (r *userRepository) List(ctx context.Context, params *structs.ListUserParams) ([]*ent.User, error) {
-	builder := r.ec.User.Query()
+// Delete deletes a user
+func (r *userRepository) Delete(ctx context.Context, id string) error {
+	// Get user first for cache invalidation
+	user, err := r.GetByID(ctx, id)
+	if err != nil {
+		return err
+	}
 
+	client := r.data.GetMasterEntClient()
+	err = client.User.DeleteOneID(id).Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	// Invalidate cache
+	go r.invalidateUserCache(context.Background(), user)
+
+	return nil
+}
+
+// List lists users
+func (r *userRepository) List(ctx context.Context, params *structs.ListUserParams) ([]*ent.User, error) {
+	client := r.data.GetSlaveEntClient()
+	builder := client.User.Query()
+
+	// Apply filters
+	if params.SearchQuery != "" {
+		builder = builder.Where(
+			userEnt.Or(
+				userEnt.UsernameContains(params.SearchQuery),
+				userEnt.EmailContains(params.SearchQuery),
+			),
+		)
+	}
+	if params.Status != 0 {
+		builder = builder.Where(userEnt.StatusEQ(params.Status))
+	}
+
+	// Apply cursor pagination
 	if params.Cursor != "" {
 		id, timestamp, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
 			return nil, fmt.Errorf("invalid cursor: %v", err)
 		}
 
-		if !nanoid.IsPrimaryKey(id) {
-			return nil, fmt.Errorf("invalid id in cursor: %s", id)
-		}
-
 		if params.Direction == "backward" {
-			builder.Where(
+			builder = builder.Where(
 				userEnt.Or(
 					userEnt.CreatedAtGT(timestamp),
 					userEnt.And(
@@ -312,7 +261,7 @@ func (r *userRepository) List(ctx context.Context, params *structs.ListUserParam
 				),
 			)
 		} else {
-			builder.Where(
+			builder = builder.Where(
 				userEnt.Or(
 					userEnt.CreatedAtLT(timestamp),
 					userEnt.And(
@@ -324,27 +273,154 @@ func (r *userRepository) List(ctx context.Context, params *structs.ListUserParam
 		}
 	}
 
+	// Apply ordering
 	if params.Direction == "backward" {
-		builder.Order(ent.Asc(userEnt.FieldCreatedAt), ent.Asc(userEnt.FieldID))
+		builder = builder.Order(ent.Asc(userEnt.FieldCreatedAt), ent.Asc(userEnt.FieldID))
 	} else {
-		builder.Order(ent.Desc(userEnt.FieldCreatedAt), ent.Desc(userEnt.FieldID))
+		builder = builder.Order(ent.Desc(userEnt.FieldCreatedAt), ent.Desc(userEnt.FieldID))
 	}
 
-	builder.Limit(params.Limit)
+	// Apply limit
+	if params.Limit > 0 {
+		builder = builder.Limit(params.Limit)
+	}
 
-	rows, err := builder.All(ctx)
+	users, err := builder.All(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	return rows, nil
+	// Cache users in background for frequently accessed ones
+	go func() {
+		for _, user := range users {
+			r.cacheUser(context.Background(), user)
+		}
+	}()
+
+	return users, nil
 }
 
-// ****** Internal methods of repository
-// listBuilder creates list builder.
-func (r *userRepository) listBuilder(_ context.Context, _ *structs.ListUserParams) (*ent.UserQuery, error) {
-	// create builder.
-	builder := r.ec.User.Query()
+// UpdatePassword updates user password
+func (r *userRepository) UpdatePassword(ctx context.Context, body *structs.UserPassword) error {
+	hashedPassword, err := crypto.HashPassword(ctx, body.NewPassword)
+	if err != nil {
+		return err
+	}
 
-	return builder, nil
+	// Find user by username to get ID
+	user, err := r.Find(ctx, &structs.FindUser{Username: body.User})
+	if err != nil {
+		return err
+	}
+
+	return r.UpdatePasswordByID(ctx, user.ID, hashedPassword)
+}
+
+// UpdatePasswordByID updates user password by ID
+func (r *userRepository) UpdatePasswordByID(ctx context.Context, userID, hashedPassword string) error {
+	client := r.data.GetMasterEntClient()
+	_, err := client.User.UpdateOneID(userID).
+		SetPassword(hashedPassword).
+		SetUpdatedAt(time.Now().UnixMilli()).
+		Save(ctx)
+
+	if err != nil {
+		return err
+	}
+
+	// Invalidate user cache (password change should invalidate cache)
+	go func() {
+		cacheKey := fmt.Sprintf("id:%s", userID)
+		if err := r.userCache.Delete(context.Background(), cacheKey); err != nil {
+			logger.Debugf(context.Background(), "Failed to invalidate user cache %s: %v", userID, err)
+		}
+	}()
+
+	return nil
+}
+
+// CountX counts users
+func (r *userRepository) CountX(ctx context.Context, params *structs.ListUserParams) int {
+	client := r.data.GetSlaveEntClient()
+	builder := client.User.Query()
+
+	if params.SearchQuery != "" {
+		builder = builder.Where(
+			userEnt.Or(
+				userEnt.UsernameContains(params.SearchQuery),
+				userEnt.EmailContains(params.SearchQuery),
+			),
+		)
+	}
+	if params.Status != 0 {
+		builder = builder.Where(userEnt.StatusEQ(params.Status))
+	}
+
+	return builder.CountX(ctx)
+}
+
+// cacheUser caches a user
+func (r *userRepository) cacheUser(ctx context.Context, user *ent.User) {
+	// Cache by ID
+	idKey := fmt.Sprintf("id:%s", user.ID)
+	if err := r.userCache.Set(ctx, idKey, user, r.userTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache user by ID %s: %v", user.ID, err)
+	}
+
+	// Cache username to ID mapping
+	usernameKey := fmt.Sprintf("username:%s", user.Username)
+	if err := r.usernameMappingCache.Set(ctx, usernameKey, &user.ID, r.userTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache username mapping %s: %v", user.Username, err)
+	}
+
+	// Cache email to ID mapping if email exists
+	if user.Email != "" {
+		emailKey := fmt.Sprintf("email:%s", user.Email)
+		if err := r.emailMappingCache.Set(ctx, emailKey, &user.ID, r.userTTL); err != nil {
+			logger.Debugf(ctx, "Failed to cache email mapping %s: %v", user.Email, err)
+		}
+	}
+}
+
+// invalidateUserCache invalidates user cache
+func (r *userRepository) invalidateUserCache(ctx context.Context, user *ent.User) {
+	// Invalidate ID cache
+	idKey := fmt.Sprintf("id:%s", user.ID)
+	if err := r.userCache.Delete(ctx, idKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate user ID cache %s: %v", user.ID, err)
+	}
+
+	// Invalidate username mapping
+	usernameKey := fmt.Sprintf("username:%s", user.Username)
+	if err := r.usernameMappingCache.Delete(ctx, usernameKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate username mapping cache %s: %v", user.Username, err)
+	}
+
+	// Invalidate email mapping if email exists
+	if user.Email != "" {
+		emailKey := fmt.Sprintf("email:%s", user.Email)
+		if err := r.emailMappingCache.Delete(ctx, emailKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate email mapping cache %s: %v", user.Email, err)
+		}
+	}
+}
+
+// getUserIDByUsername gets user ID by username
+func (r *userRepository) getUserIDByUsername(ctx context.Context, username string) (string, error) {
+	cacheKey := fmt.Sprintf("username:%s", username)
+	userID, err := r.usernameMappingCache.Get(ctx, cacheKey)
+	if err != nil || userID == nil {
+		return "", err
+	}
+	return *userID, nil
+}
+
+// getUserIDByEmail gets user ID by email
+func (r *userRepository) getUserIDByEmail(ctx context.Context, email string) (string, error) {
+	cacheKey := fmt.Sprintf("email:%s", email)
+	userID, err := r.emailMappingCache.Get(ctx, cacheKey)
+	if err != nil || userID == nil {
+		return "", err
+	}
+	return *userID, nil
 }
