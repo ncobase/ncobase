@@ -2,6 +2,7 @@ package wrapper
 
 import (
 	"context"
+	"fmt"
 	userStructs "ncobase/user/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
@@ -59,8 +60,7 @@ func (w *UserServiceWrapper) GetUserByID(ctx context.Context, id string) (*userS
 	if w.userService != nil {
 		return w.userService.GetByID(ctx, id)
 	}
-	// Return minimal user info as fallback
-	return &userStructs.ReadUser{ID: id}, nil
+	return nil, fmt.Errorf("user service not available")
 }
 
 // FindUser finds user with graceful fallback
@@ -68,8 +68,7 @@ func (w *UserServiceWrapper) FindUser(ctx context.Context, m *userStructs.FindUs
 	if w.userService != nil {
 		return w.userService.FindUser(ctx, m)
 	}
-	// Return empty user as fallback
-	return &userStructs.ReadUser{}, nil
+	return nil, fmt.Errorf("user service not available")
 }
 
 // GetUserProfile gets user profile with graceful fallback
@@ -77,8 +76,7 @@ func (w *UserServiceWrapper) GetUserProfile(ctx context.Context, id string) (*us
 	if w.profileService != nil {
 		return w.profileService.Get(ctx, id)
 	}
-	// Return minimal profile as fallback
-	return &userStructs.ReadUserProfile{UserID: id}, nil
+	return nil, fmt.Errorf("user profile service not available")
 }
 
 // HasUserService checks if user service is available

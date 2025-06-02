@@ -100,20 +100,6 @@ func (gc *GroupCreate) SetNillableParentID(s *string) *GroupCreate {
 	return gc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (gc *GroupCreate) SetTenantID(s string) *GroupCreate {
-	gc.mutation.SetTenantID(s)
-	return gc
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (gc *GroupCreate) SetNillableTenantID(s *string) *GroupCreate {
-	if s != nil {
-		gc.SetTenantID(*s)
-	}
-	return gc
-}
-
 // SetCreatedBy sets the "created_by" field.
 func (gc *GroupCreate) SetCreatedBy(s string) *GroupCreate {
 	gc.mutation.SetCreatedBy(s)
@@ -252,11 +238,6 @@ func (gc *GroupCreate) check() error {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Group.parent_id": %w`, err)}
 		}
 	}
-	if v, ok := gc.mutation.TenantID(); ok {
-		if err := group.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Group.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := gc.mutation.CreatedBy(); ok {
 		if err := group.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Group.created_by": %w`, err)}
@@ -334,10 +315,6 @@ func (gc *GroupCreate) createSpec() (*Group, *sqlgraph.CreateSpec) {
 	if value, ok := gc.mutation.ParentID(); ok {
 		_spec.SetField(group.FieldParentID, field.TypeString, value)
 		_node.ParentID = value
-	}
-	if value, ok := gc.mutation.TenantID(); ok {
-		_spec.SetField(group.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
 	}
 	if value, ok := gc.mutation.CreatedBy(); ok {
 		_spec.SetField(group.FieldCreatedBy, field.TypeString, value)

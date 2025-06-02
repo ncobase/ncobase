@@ -32,6 +32,18 @@ func (f TenantBillingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Valu
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantBillingMutation", m)
 }
 
+// The TenantGroupFunc type is an adapter to allow the use of ordinary
+// function as TenantGroup mutator.
+type TenantGroupFunc func(context.Context, *ent.TenantGroupMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TenantGroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TenantGroupMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantGroupMutation", m)
+}
+
 // The TenantQuotaFunc type is an adapter to allow the use of ordinary
 // function as TenantQuota mutator.
 type TenantQuotaFunc func(context.Context, *ent.TenantQuotaMutation) (ent.Value, error)

@@ -32,8 +32,6 @@ type Group struct {
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// parent id
 	ParentID string `json:"parent_id,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -56,7 +54,7 @@ func (*Group) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case group.FieldCreatedAt, group.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case group.FieldID, group.FieldName, group.FieldSlug, group.FieldDescription, group.FieldParentID, group.FieldTenantID, group.FieldCreatedBy, group.FieldUpdatedBy:
+		case group.FieldID, group.FieldName, group.FieldSlug, group.FieldDescription, group.FieldParentID, group.FieldCreatedBy, group.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -124,12 +122,6 @@ func (gr *Group) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
 				gr.ParentID = value.String
-			}
-		case group.FieldTenantID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
-			} else if value.Valid {
-				gr.TenantID = value.String
 			}
 		case group.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -211,9 +203,6 @@ func (gr *Group) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("parent_id=")
 	builder.WriteString(gr.ParentID)
-	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(gr.TenantID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(gr.CreatedBy)

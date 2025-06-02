@@ -17,7 +17,7 @@ import (
 
 var (
 	name         = "tenant"
-	desc         = "Tenant module with user role management"
+	desc         = "Tenant module with user role management and group relationships"
 	version      = "1.0.0"
 	dependencies []string
 	typeStr      = "module"
@@ -48,7 +48,7 @@ type discovery struct {
 
 // init registers the module
 func init() {
-	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{"space"})
 }
 
 // New creates a new instance of the tenant module.
@@ -85,8 +85,18 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	m.s = service.New(m.d)
+	m.s = service.New(m.d, m.em) // Pass extension manager
 	m.h = handler.New(m.s)
+
+	// Subscribe to extension events for dependency refresh
+	m.em.SubscribeEvent("exts.space.ready", func(data any) {
+		m.s.RefreshDependencies()
+	})
+
+	// Subscribe to all extensions registration event
+	m.em.SubscribeEvent("exts.all.registered", func(data any) {
+		m.s.RefreshDependencies()
+	})
 
 	return nil
 }
@@ -124,6 +134,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 
 		// Role-based user queries
 		tenants.GET("/:tenantId/roles/:roleId/users", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.GetTenantUsersByRole)
+
+		// Tenant-Group management
+		tenants.GET("/:tenantId/groups", middleware.HasPermission("read:tenant"), m.h.TenantGroup.GetTenantGroups)
+		tenants.POST("/:tenantId/groups", middleware.HasPermission("manage:tenant"), m.h.TenantGroup.AddGroupToTenant)
+		tenants.DELETE("/:tenantId/groups/:groupId", middleware.HasPermission("manage:tenant"), m.h.TenantGroup.RemoveGroupFromTenant)
+		tenants.GET("/:tenantId/groups/:groupId/check", middleware.HasPermission("read:tenant"), m.h.TenantGroup.IsGroupInTenant)
 
 		// Tenant quota management
 		tenants.GET("/quotas", m.h.TenantQuota.List)
@@ -169,6 +185,13 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		users.GET("/:username/tenants/:tenantId/roles", middleware.HasPermission("read:user"), m.h.UserTenantRole.GetUserTenantRoles)
 		users.GET("/:username/tenants/:tenantId/roles/:roleId/check", middleware.HasPermission("read:user"), m.h.UserTenantRole.CheckUserTenantRole)
 	}
+
+	// Group endpoints (cross-module)
+	groups := tenantGroup.Group("/groups", middleware.AuthenticatedUser)
+	{
+		// Group tenant relationships (accessible from both space and tenant modules)
+		groups.GET("/:groupId/tenants", middleware.HasPermission("read:group"), m.h.TenantGroup.GetGroupTenants)
+	}
 }
 
 // GetHandlers returns the handlers for the module
@@ -209,6 +232,13 @@ func (m *Module) Version() string {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
+}
+
+// GetAllDependencies returns all dependencies with their types
+func (m *Module) GetAllDependencies() []ext.DependencyEntry {
+	return []ext.DependencyEntry{
+		{Name: "space", Type: ext.WeakDependency},
+	}
 }
 
 // Description returns the description of the module

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"ncobase/tenant/data/ent/tenant"
 	"ncobase/tenant/data/ent/tenantbilling"
+	"ncobase/tenant/data/ent/tenantgroup"
 	"ncobase/tenant/data/ent/tenantquota"
 	"ncobase/tenant/data/ent/tenantsetting"
 	"ncobase/tenant/data/ent/usertenant"
@@ -80,6 +81,7 @@ func checkColumn(table, column string) error {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			tenant.Table:         tenant.ValidColumn,
 			tenantbilling.Table:  tenantbilling.ValidColumn,
+			tenantgroup.Table:    tenantgroup.ValidColumn,
 			tenantquota.Table:    tenantquota.ValidColumn,
 			tenantsetting.Table:  tenantsetting.ValidColumn,
 			usertenant.Table:     usertenant.ValidColumn,

@@ -98,8 +98,7 @@ func (s *spaceService) List(ctx context.Context, params *structs.ListGroupParams
 	if params.Children {
 		return s.GetTree(ctx, &structs.FindGroup{
 			Children: true,
-			Tenant:   params.Tenant,
-			Group:    params.Parent,
+			Parent:   params.Parent,
 			SortBy:   params.SortBy,
 		})
 	}
@@ -149,7 +148,6 @@ func (s *spaceService) Serialize(row *ent.Group) *structs.ReadGroup {
 		Leader:      &row.Leader,
 		Extras:      &row.Extras,
 		ParentID:    &row.ParentID,
-		TenantID:    &row.TenantID,
 		CreatedBy:   &row.CreatedBy,
 		CreatedAt:   &row.CreatedAt,
 		UpdatedBy:   &row.UpdatedBy,
@@ -164,7 +162,11 @@ func (s *spaceService) CountX(ctx context.Context, params *structs.ListGroupPara
 
 // GetTree retrieves the group tree.
 func (s *spaceService) GetTree(ctx context.Context, params *structs.FindGroup) (paging.Result[*structs.ReadGroup], error) {
-	rows, err := s.r.GetTree(ctx, params)
+	var rows []*ent.Group
+	var err error
+
+	// Get all groups for tree
+	rows, err = s.r.GetTree(ctx, params)
 	if err := handleEntError(ctx, "Group", err); err != nil {
 		return paging.Result[*structs.ReadGroup]{}, err
 	}

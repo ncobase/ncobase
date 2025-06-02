@@ -83,16 +83,20 @@ func (s *Service) initWebsiteOrganization(ctx context.Context, orgStructure any,
 		Name:        "Website",
 		Slug:        "website-platform",
 		Description: "Main website organization",
-		TenantID:    &tenantID,
 		CreatedBy:   &adminID,
 		UpdatedBy:   &adminID,
 	}
 
-	_, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
+	group, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
 		GroupBody: mainGroup,
 	})
 	if err != nil {
 		return 0, fmt.Errorf("failed to create main website group: %v", err)
+	}
+
+	// Add group to tenant using TenantGroup service
+	if err := s.addGroupToTenant(ctx, tenantID, group.ID); err != nil {
+		return 0, fmt.Errorf("failed to add group to tenant: %v", err)
 	}
 
 	return 1, nil
@@ -102,13 +106,12 @@ func (s *Service) initWebsiteOrganization(ctx context.Context, orgStructure any,
 func (s *Service) initCompanyOrganization(ctx context.Context, orgStructure any, tenantID, adminID string) (int, error) {
 	logger.Infof(ctx, "Initializing company organizational structure...")
 
-	// Updated company structure
+	// Company structure without tenant_id
 	groups := []spaceStructs.GroupBody{
 		{
 			Name:        "Digital Company",
 			Slug:        "digital-company",
 			Description: "Main company organization",
-			TenantID:    &tenantID,
 			CreatedBy:   &adminID,
 			UpdatedBy:   &adminID,
 		},
@@ -116,7 +119,6 @@ func (s *Service) initCompanyOrganization(ctx context.Context, orgStructure any,
 			Name:        "Technology Department",
 			Slug:        "technology",
 			Description: "Technology and development",
-			TenantID:    &tenantID,
 			CreatedBy:   &adminID,
 			UpdatedBy:   &adminID,
 		},
@@ -124,21 +126,38 @@ func (s *Service) initCompanyOrganization(ctx context.Context, orgStructure any,
 			Name:        "Business Operations",
 			Slug:        "business-ops",
 			Description: "Business operations and support",
-			TenantID:    &tenantID,
 			CreatedBy:   &adminID,
 			UpdatedBy:   &adminID,
 		},
 	}
 
 	var createdCount int
-	for _, group := range groups {
-		_, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
-			GroupBody: group,
+	var companyGroupID string
+
+	for i, groupBody := range groups {
+		group, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
+			GroupBody: groupBody,
 		})
 		if err != nil {
-			return createdCount, fmt.Errorf("failed to create group %s: %v", group.Name, err)
+			return createdCount, fmt.Errorf("failed to create group %s: %v", groupBody.Name, err)
 		}
-		logger.Debugf(ctx, "Created group: %s", group.Name)
+
+		// Add group to tenant using TenantGroup service
+		if err := s.addGroupToTenant(ctx, tenantID, group.ID); err != nil {
+			return createdCount, fmt.Errorf("failed to add group %s to tenant: %v", groupBody.Name, err)
+		}
+
+		// Set parent relationships for hierarchical structure
+		if i == 0 {
+			companyGroupID = group.ID
+		} else if companyGroupID != "" {
+			// Set parent for departments
+			if err := s.updateGroupParent(ctx, group.ID, companyGroupID); err != nil {
+				logger.Warnf(ctx, "Failed to set parent for group %s: %v", groupBody.Name, err)
+			}
+		}
+
+		logger.Debugf(ctx, "Created group: %s", groupBody.Name)
 		createdCount++
 	}
 
@@ -149,13 +168,12 @@ func (s *Service) initCompanyOrganization(ctx context.Context, orgStructure any,
 func (s *Service) initEnterpriseOrganization(ctx context.Context, orgStructure any, tenantID, adminID string) (int, error) {
 	logger.Infof(ctx, "Initializing enterprise organizational structure...")
 
-	// Basic enterprise structure
+	// Basic enterprise structure without tenant_id
 	groups := []spaceStructs.GroupBody{
 		{
 			Name:        "Digital Enterprise Group",
 			Slug:        "digital-enterprise",
 			Description: "Main enterprise organization",
-			TenantID:    &tenantID,
 			CreatedBy:   &adminID,
 			UpdatedBy:   &adminID,
 		},
@@ -163,7 +181,6 @@ func (s *Service) initEnterpriseOrganization(ctx context.Context, orgStructure a
 			Name:        "Executive Office",
 			Slug:        "executive",
 			Description: "Executive leadership",
-			TenantID:    &tenantID,
 			CreatedBy:   &adminID,
 			UpdatedBy:   &adminID,
 		},
@@ -171,21 +188,134 @@ func (s *Service) initEnterpriseOrganization(ctx context.Context, orgStructure a
 			Name:        "Technology Division",
 			Slug:        "technology",
 			Description: "Technology and innovation",
-			TenantID:    &tenantID,
 			CreatedBy:   &adminID,
 			UpdatedBy:   &adminID,
 		},
 	}
 
 	var createdCount int
-	for _, group := range groups {
-		_, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
-			GroupBody: group,
+	var enterpriseGroupID string
+
+	for i, groupBody := range groups {
+		group, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
+			GroupBody: groupBody,
 		})
 		if err != nil {
-			return createdCount, fmt.Errorf("failed to create group %s: %v", group.Name, err)
+			return createdCount, fmt.Errorf("failed to create group %s: %v", groupBody.Name, err)
 		}
-		logger.Debugf(ctx, "Created group: %s", group.Name)
+
+		// Add group to tenant using TenantGroup service
+		if err := s.addGroupToTenant(ctx, tenantID, group.ID); err != nil {
+			return createdCount, fmt.Errorf("failed to add group %s to tenant: %v", groupBody.Name, err)
+		}
+
+		// Set parent relationships for hierarchical structure
+		if i == 0 {
+			enterpriseGroupID = group.ID
+		} else if enterpriseGroupID != "" {
+			// Set parent for divisions
+			if err := s.updateGroupParent(ctx, group.ID, enterpriseGroupID); err != nil {
+				logger.Warnf(ctx, "Failed to set parent for group %s: %v", groupBody.Name, err)
+			}
+		}
+
+		logger.Debugf(ctx, "Created group: %s", groupBody.Name)
+		createdCount++
+	}
+
+	return createdCount, nil
+}
+
+// addGroupToTenant adds a group to a tenant using the TenantGroup service
+func (s *Service) addGroupToTenant(ctx context.Context, tenantID, groupID string) error {
+	if s.ts.TenantGroup == nil {
+		logger.Warnf(ctx, "TenantGroup service not available, skipping tenant-group relationship")
+		return nil
+	}
+
+	_, err := s.ts.TenantGroup.AddGroupToTenant(ctx, tenantID, groupID)
+	if err != nil {
+		return fmt.Errorf("failed to add group %s to tenant %s: %v", groupID, tenantID, err)
+	}
+
+	logger.Debugf(ctx, "Added group %s to tenant %s", groupID, tenantID)
+	return nil
+}
+
+// updateGroupParent updates the parent of a group
+func (s *Service) updateGroupParent(ctx context.Context, groupID, parentID string) error {
+	updates := map[string]any{
+		"parent_id": parentID,
+	}
+
+	_, err := s.ss.Group.Update(ctx, groupID, updates)
+	if err != nil {
+		return fmt.Errorf("failed to update parent for group %s: %v", groupID, err)
+	}
+
+	logger.Debugf(ctx, "Set parent %s for group %s", parentID, groupID)
+	return nil
+}
+
+// initComplexOrganization initializes complex organizational structure with full hierarchy
+func (s *Service) initComplexOrganization(ctx context.Context, orgStructure any, tenantID, adminID string) (int, error) {
+	logger.Infof(ctx, "Initializing complex organizational structure...")
+
+	var createdCount int
+	var rootGroupID string
+
+	// Create root organization group
+	rootGroup := spaceStructs.GroupBody{
+		Name:        "Organization",
+		Slug:        "organization",
+		Description: "Root organizational structure",
+		CreatedBy:   &adminID,
+		UpdatedBy:   &adminID,
+	}
+
+	root, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
+		GroupBody: rootGroup,
+	})
+	if err != nil {
+		return 0, fmt.Errorf("failed to create root organization: %v", err)
+	}
+
+	if err := s.addGroupToTenant(ctx, tenantID, root.ID); err != nil {
+		return 0, fmt.Errorf("failed to add root group to tenant: %v", err)
+	}
+
+	rootGroupID = root.ID
+	createdCount++
+
+	// Create departments
+	departments := []spaceStructs.GroupBody{
+		{Name: "Human Resources", Slug: "hr", Description: "Human resources management"},
+		{Name: "Engineering", Slug: "engineering", Description: "Software engineering"},
+		{Name: "Marketing", Slug: "marketing", Description: "Marketing and sales"},
+		{Name: "Operations", Slug: "operations", Description: "Business operations"},
+	}
+
+	for _, dept := range departments {
+		dept.CreatedBy = &adminID
+		dept.UpdatedBy = &adminID
+
+		deptGroup, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
+			GroupBody: dept,
+		})
+		if err != nil {
+			logger.Errorf(ctx, "Failed to create department %s: %v", dept.Name, err)
+			continue
+		}
+
+		if err := s.addGroupToTenant(ctx, tenantID, deptGroup.ID); err != nil {
+			logger.Warnf(ctx, "Failed to add department %s to tenant: %v", dept.Name, err)
+		}
+
+		if err := s.updateGroupParent(ctx, deptGroup.ID, rootGroupID); err != nil {
+			logger.Warnf(ctx, "Failed to set parent for department %s: %v", dept.Name, err)
+		}
+
+		logger.Debugf(ctx, "Created department: %s", dept.Name)
 		createdCount++
 	}
 

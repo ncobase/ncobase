@@ -105,14 +105,14 @@ func (h *groupHandler) Update(c *gin.Context) {
 // @Description Retrieve a group by ID or slug.
 // @Tags org
 // @Produce json
-// @Param slug path string true "Group ID or slug"
+// @Param groupId path string true "Group ID or slug"
 // @Param params query structs.FindGroup true "FindGroup parameters"
 // @Success 200 {object} structs.ReadGroup "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug} [get]
+// @Router /org/groups/{groupId} [get]
 // @Security Bearer
 func (h *groupHandler) Get(c *gin.Context) {
-	params := &structs.FindGroup{Group: c.Param("slug")}
+	params := &structs.FindGroup{Group: c.Param("groupId")}
 
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -136,13 +136,13 @@ func (h *groupHandler) Get(c *gin.Context) {
 // @Description Delete a group by ID or slug.
 // @Tags org
 // @Produce json
-// @Param slug path string true "Group ID or slug"
+// @Param groupId path string true "Group ID or slug"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug} [delete]
+// @Router /org/groups/{groupId} [delete]
 // @Security Bearer
 func (h *groupHandler) Delete(c *gin.Context) {
-	params := &structs.FindGroup{Group: c.Param("slug")}
+	params := &structs.FindGroup{Group: c.Param("groupId")}
 	err := h.s.Group.Delete(c.Request.Context(), params.Group)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -181,48 +181,19 @@ func (h *groupHandler) List(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// // GetTree handles retrieving the group tree.
-// //
-// // @Summary Get group tree
-// // @Description Retrieve the group tree structure.
-// // @Tags org
-// // @Produce json
-// // @Param params query structs.FindGroup true "FindGroup parameters"
-// // @Success 200 {object} structs.ReadGroup "success"
-// // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /org/groups/tree [get]
-// // @Security Bearer
-// func (h *Handler) GetTree(c *gin.Context) {
-// 	params := &structs.FindGroup{}
-// 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c,params); err != nil {
-// 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-// 		return
-// 	} else if len(validationErrors) > 0 {
-// 		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
-// 		return
-// 	}
-//
-// 	result, err := h.s.Group.GetTree(c.Request.Context(),params)
-// 	if err != nil {
-// 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-// 		return
-// 	}
-// 	resp.Success(c.Writer, result)
-// }
-
 // GetMembers handles getting members for a group.
 //
 // @Summary Get group members
 // @Description Get all members of a specific group
 // @Tags org
 // @Produce json
-// @Param slug path string true "Group ID or Slug"
+// @Param groupId path string true "Group ID or Slug"
 // @Success 200 {array} structs.GroupMember "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug}/members [get]
+// @Router /org/groups/{groupId}/members [get]
 // @Security Bearer
 func (h *groupHandler) GetMembers(c *gin.Context) {
-	groupID := c.Param("slug")
+	groupID := c.Param("groupId")
 	if groupID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Group ID or Slug is required"))
 		return
@@ -244,14 +215,14 @@ func (h *groupHandler) GetMembers(c *gin.Context) {
 // @Tags org
 // @Accept json
 // @Produce json
-// @Param slug path string true "Group ID or Slug"
+// @Param groupId path string true "Group ID or Slug"
 // @Param body body structs.AddMemberRequest true "User details to add"
 // @Success 200 {object} structs.GroupMember "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug}/members [post]
+// @Router /org/groups/{groupId}/members [post]
 // @Security Bearer
 func (h *groupHandler) AddMember(c *gin.Context) {
-	groupID := c.Param("slug")
+	groupID := c.Param("groupId")
 	if groupID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Group ID or Slug is required"))
 		return
@@ -300,15 +271,15 @@ func (h *groupHandler) AddMember(c *gin.Context) {
 // @Tags org
 // @Accept json
 // @Produce json
-// @Param slug path string true "Group ID or Slug"
+// @Param groupId path string true "Group ID or Slug"
 // @Param userId path string true "User ID"
 // @Param body body structs.UpdateMemberRequest true "Role update"
 // @Success 200 {object} structs.GroupMember "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug}/members/{userId} [put]
+// @Router /org/groups/{groupId}/members/{userId} [put]
 // @Security Bearer
 func (h *groupHandler) UpdateMember(c *gin.Context) {
-	groupID := c.Param("slug")
+	groupID := c.Param("groupId")
 	if groupID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Group ID or Slug is required"))
 		return
@@ -381,14 +352,14 @@ func (h *groupHandler) UpdateMember(c *gin.Context) {
 // @Description Remove a user from a group
 // @Tags org
 // @Produce json
-// @Param slug path string true "Group ID or Slug"
+// @Param groupId path string true "Group ID or Slug"
 // @Param userId path string true "User ID"
 // @Success 200 {object} resp.Success "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug}/members/{userId} [delete]
+// @Router /org/groups/{groupId}/members/{userId} [delete]
 // @Security Bearer
 func (h *groupHandler) RemoveMember(c *gin.Context) {
-	groupID := c.Param("slug")
+	groupID := c.Param("groupId")
 	if groupID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Group ID or Slug is required"))
 		return
@@ -433,14 +404,14 @@ func (h *groupHandler) RemoveMember(c *gin.Context) {
 // @Description Check if a user is a member of a group
 // @Tags org
 // @Produce json
-// @Param slug path string true "Group ID or Slug"
+// @Param groupId path string true "Group ID or Slug"
 // @Param userId path string true "User ID"
 // @Success 200 {object} map[string]bool "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug}/members/{userId}/check [get]
+// @Router /org/groups/{groupId}/members/{userId}/check [get]
 // @Security Bearer
 func (h *groupHandler) IsUserMember(c *gin.Context) {
-	groupID := c.Param("slug")
+	groupID := c.Param("groupId")
 	if groupID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Group ID or Slug is required"))
 		return
@@ -474,14 +445,14 @@ func (h *groupHandler) IsUserMember(c *gin.Context) {
 // @Description Check if a user has owner role in a group
 // @Tags org
 // @Produce json
-// @Param slug path string true "Group ID or Slug"
+// @Param groupId path string true "Group ID or Slug"
 // @Param userId path string true "User ID"
 // @Success 200 {object} map[string]bool "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug}/members/{userId}/is-owner [get]
+// @Router /org/groups/{groupId}/members/{userId}/is-owner [get]
 // @Security Bearer
 func (h *groupHandler) IsUserOwner(c *gin.Context) {
-	groupID := c.Param("slug")
+	groupID := c.Param("groupId")
 	if groupID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Group ID or Slug is required"))
 		return
@@ -515,14 +486,14 @@ func (h *groupHandler) IsUserOwner(c *gin.Context) {
 // @Description Get a user's role in a group
 // @Tags org
 // @Produce json
-// @Param slug path string true "Group ID or Slug"
+// @Param groupId path string true "Group ID or Slug"
 // @Param userId path string true "User ID"
 // @Success 200 {object} map[string]string "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /org/groups/{slug}/members/{userId}/role [get]
+// @Router /org/groups/{groupId}/members/{userId}/role [get]
 // @Security Bearer
 func (h *groupHandler) GetUserRole(c *gin.Context) {
-	groupID := c.Param("slug")
+	groupID := c.Param("groupId")
 	if groupID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Group ID or Slug is required"))
 		return

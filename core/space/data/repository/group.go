@@ -31,17 +31,14 @@ type GroupRepositoryInterface interface {
 	FindGroup(ctx context.Context, params *structs.FindGroup) (*ent.Group, error)
 	ListBuilder(ctx context.Context, params *structs.ListGroupParams) (*ent.GroupQuery, error)
 	CountX(ctx context.Context, params *structs.ListGroupParams) int
-	GetGroupsByTenantID(ctx context.Context, tenantID string) ([]*ent.Group, error)
-	IsGroupInTenant(ctx context.Context, groupID string, tenantID string) (bool, error)
 }
 
 // groupRepository implements the GroupRepositoryInterface.
 type groupRepository struct {
-	ec                *ent.Client
-	groupCache        cache.ICache[ent.Group]
-	slugMappingCache  cache.ICache[string]   // Maps slug to group ID
-	tenantGroupsCache cache.ICache[[]string] // Maps tenant ID to group IDs
-	groupTTL          time.Duration
+	ec               *ent.Client
+	groupCache       cache.ICache[ent.Group]
+	slugMappingCache cache.ICache[string] // Maps slug to group ID
+	groupTTL         time.Duration
 }
 
 // NewGroupRepository creates a new group repository.
@@ -49,11 +46,10 @@ func NewGroupRepository(d *data.Data) GroupRepositoryInterface {
 	redisClient := d.GetRedis()
 
 	return &groupRepository{
-		ec:                d.GetMasterEntClient(),
-		groupCache:        cache.NewCache[ent.Group](redisClient, "ncse_space:groups"),
-		slugMappingCache:  cache.NewCache[string](redisClient, "ncse_space:group_mappings"),
-		tenantGroupsCache: cache.NewCache[[]string](redisClient, "ncse_space:tenant_groups"),
-		groupTTL:          time.Hour * 2, // 2 hours cache TTL
+		ec:               d.GetMasterEntClient(),
+		groupCache:       cache.NewCache[ent.Group](redisClient, "ncse_space:groups"),
+		slugMappingCache: cache.NewCache[string](redisClient, "ncse_space:group_mappings"),
+		groupTTL:         time.Hour * 2, // 2 hours cache TTL
 	}
 }
 
@@ -65,7 +61,6 @@ func (r *groupRepository) Create(ctx context.Context, body *structs.CreateGroupB
 	builder.SetNillableDescription(&body.Description)
 	builder.SetDisabled(body.Disabled)
 	builder.SetNillableParentID(body.ParentID)
-	builder.SetNillableTenantID(body.TenantID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	if !validator.IsNil(body.Leader) && !validator.IsEmpty(body.Leader) {
@@ -82,13 +77,8 @@ func (r *groupRepository) Create(ctx context.Context, body *structs.CreateGroupB
 		return nil, err
 	}
 
-	// Cache the group and invalidate tenant groups cache
-	go func() {
-		r.cacheGroup(context.Background(), group)
-		if body.TenantID != nil {
-			r.invalidateTenantGroupsCache(context.Background(), *body.TenantID)
-		}
-	}()
+	// Cache the group
+	go r.cacheGroup(context.Background(), group)
 
 	return group, nil
 }
@@ -189,8 +179,6 @@ func (r *groupRepository) Update(ctx context.Context, slug string, updates types
 			builder.SetExtras(value.(types.JSON))
 		case "parent_id":
 			builder.SetParentID(value.(string))
-		case "tenant_id":
-			builder.SetTenantID(value.(string))
 		case "updated_by":
 			builder.SetUpdatedBy(value.(string))
 		}
@@ -206,14 +194,6 @@ func (r *groupRepository) Update(ctx context.Context, slug string, updates types
 	go func() {
 		r.invalidateGroupCache(context.Background(), group)
 		r.cacheGroup(context.Background(), updatedGroup)
-
-		// If tenant changed, invalidate both old and new tenant caches
-		if group.TenantID != "" {
-			r.invalidateTenantGroupsCache(context.Background(), group.TenantID)
-		}
-		if updatedGroup.TenantID != "" && (group.TenantID == "" || group.TenantID != updatedGroup.TenantID) {
-			r.invalidateTenantGroupsCache(context.Background(), updatedGroup.TenantID)
-		}
 	}()
 
 	return updatedGroup, nil
@@ -331,19 +311,13 @@ func (r *groupRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// Invalidate cache
-	go func() {
-		r.invalidateGroupCache(context.Background(), group)
-		if group.TenantID != "" {
-			r.invalidateTenantGroupsCache(context.Background(), group.TenantID)
-		}
-	}()
+	go r.invalidateGroupCache(context.Background(), group)
 
 	return nil
 }
 
 // FindGroup finds a group.
 func (r *groupRepository) FindGroup(ctx context.Context, params *structs.FindGroup) (*ent.Group, error) {
-
 	// create builder.
 	builder := r.ec.Group.Query()
 
@@ -369,11 +343,6 @@ func (r *groupRepository) GetTree(ctx context.Context, params *structs.FindGroup
 	// create builder
 	builder := r.ec.Group.Query()
 
-	// set where conditions
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(groupEnt.TenantIDEQ(params.Tenant))
-	}
-
 	// handle sub groups
 	if validator.IsNotEmpty(params.Group) && params.Group != "root" {
 		return r.getSubGroup(ctx, params.Group, builder)
@@ -387,11 +356,6 @@ func (r *groupRepository) GetTree(ctx context.Context, params *structs.FindGroup
 func (r *groupRepository) ListBuilder(_ context.Context, params *structs.ListGroupParams) (*ent.GroupQuery, error) {
 	// create builder.
 	builder := r.ec.Group.Query()
-
-	// match tenant id.
-	if params.Tenant != "" {
-		builder.Where(groupEnt.TenantIDEQ(params.Tenant))
-	}
 
 	// match parent id.
 	if params.Parent == "" {
@@ -415,49 +379,6 @@ func (r *groupRepository) CountX(ctx context.Context, params *structs.ListGroupP
 		return 0
 	}
 	return builder.CountX(ctx)
-}
-
-// GetGroupsByTenantID retrieves all groups under a tenant
-func (r *groupRepository) GetGroupsByTenantID(ctx context.Context, tenantID string) ([]*ent.Group, error) {
-	// Try to get group IDs from tenant cache
-	cacheKey := fmt.Sprintf("tenant:%s", tenantID)
-	var groupIDs []string
-	if err := r.tenantGroupsCache.GetArray(ctx, cacheKey, &groupIDs); err == nil && len(groupIDs) > 0 {
-		return r.GetByIDs(ctx, groupIDs)
-	}
-
-	// Fallback to database
-	groups, err := r.ec.Group.Query().Where(groupEnt.TenantIDEQ(tenantID)).All(ctx)
-	if err != nil {
-		logger.Errorf(ctx, "groupRepo.GetGroupsByTenantID error: %v", err)
-		return nil, err
-	}
-
-	// Cache groups and tenant mapping
-	go func() {
-		groupIDs := make([]string, len(groups))
-		for i, group := range groups {
-			r.cacheGroup(context.Background(), group)
-			groupIDs[i] = group.ID
-		}
-
-		// Cache tenant to groups mapping
-		if err := r.tenantGroupsCache.SetArray(context.Background(), cacheKey, groupIDs, r.groupTTL); err != nil {
-			logger.Debugf(context.Background(), "Failed to cache tenant groups mapping %s: %v", tenantID, err)
-		}
-	}()
-
-	return groups, nil
-}
-
-// IsGroupInTenant verifies if a group belongs to a specific tenant.
-func (r *groupRepository) IsGroupInTenant(ctx context.Context, tenantID string, groupID string) (bool, error) {
-	count, err := r.ec.Group.Query().Where(groupEnt.TenantIDEQ(tenantID), groupEnt.IDEQ(groupID)).Count(ctx)
-	if err != nil {
-		logger.Errorf(ctx, "groupRepo.IsGroupInTenant error: %v", err)
-		return false, err
-	}
-	return count > 0, nil
 }
 
 // getSubGroup - get sub groups.
@@ -513,13 +434,6 @@ func (r *groupRepository) invalidateGroupCache(ctx context.Context, group *ent.G
 		if err := r.slugMappingCache.Delete(ctx, slugKey); err != nil {
 			logger.Debugf(ctx, "Failed to invalidate slug mapping cache %s: %v", group.Slug, err)
 		}
-	}
-}
-
-func (r *groupRepository) invalidateTenantGroupsCache(ctx context.Context, tenantID string) {
-	cacheKey := fmt.Sprintf("tenant:%s", tenantID)
-	if err := r.tenantGroupsCache.Delete(ctx, cacheKey); err != nil {
-		logger.Debugf(ctx, "Failed to invalidate tenant groups cache %s: %v", tenantID, err)
 	}
 }
 

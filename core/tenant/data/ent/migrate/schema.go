@@ -119,6 +119,60 @@ var (
 			},
 		},
 	}
+	// NcseOrgTenantGroupColumns holds the columns for the "ncse_org_tenant_group" table.
+	NcseOrgTenantGroupColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "group id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "relation_type", Type: field.TypeString, Comment: "Type of relationship between tenant and group", Default: "member"},
+	}
+	// NcseOrgTenantGroupTable holds the schema information for the "ncse_org_tenant_group" table.
+	NcseOrgTenantGroupTable = &schema.Table{
+		Name:       "ncse_org_tenant_group",
+		Columns:    NcseOrgTenantGroupColumns,
+		PrimaryKey: []*schema.Column{NcseOrgTenantGroupColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "tenantgroup_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseOrgTenantGroupColumns[0]},
+			},
+			{
+				Name:    "tenantgroup_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseOrgTenantGroupColumns[1]},
+			},
+			{
+				Name:    "tenantgroup_group_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseOrgTenantGroupColumns[2]},
+			},
+			{
+				Name:    "tenantgroup_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseOrgTenantGroupColumns[0], NcseOrgTenantGroupColumns[5]},
+			},
+			{
+				Name:    "tenantgroup_tenant_id_group_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseOrgTenantGroupColumns[1], NcseOrgTenantGroupColumns[2]},
+			},
+			{
+				Name:    "tenantgroup_tenant_id_relation_type",
+				Unique:  false,
+				Columns: []*schema.Column{NcseOrgTenantGroupColumns[1], NcseOrgTenantGroupColumns[7]},
+			},
+			{
+				Name:    "tenantgroup_group_id_relation_type",
+				Unique:  false,
+				Columns: []*schema.Column{NcseOrgTenantGroupColumns[2], NcseOrgTenantGroupColumns[7]},
+			},
+		},
+	}
 	// NcseIamTenantQuotaColumns holds the columns for the "ncse_iam_tenant_quota" table.
 	NcseIamTenantQuotaColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
@@ -330,6 +384,7 @@ var (
 	Tables = []*schema.Table{
 		NcseIamTenantTable,
 		NcseIamTenantBillingTable,
+		NcseOrgTenantGroupTable,
 		NcseIamTenantQuotaTable,
 		NcseIamTenantSettingTable,
 		NcseIamUserTenantTable,
@@ -343,6 +398,9 @@ func init() {
 	}
 	NcseIamTenantBillingTable.Annotation = &entsql.Annotation{
 		Table: "ncse_iam_tenant_billing",
+	}
+	NcseOrgTenantGroupTable.Annotation = &entsql.Annotation{
+		Table: "ncse_org_tenant_group",
 	}
 	NcseIamTenantQuotaTable.Annotation = &entsql.Annotation{
 		Table: "ncse_iam_tenant_quota",

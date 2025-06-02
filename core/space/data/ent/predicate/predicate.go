@@ -12,5 +12,8 @@ type Group func(*sql.Selector)
 // GroupRole is the predicate function for grouprole builders.
 type GroupRole func(*sql.Selector)
 
+// TenantGroup is the predicate function for tenantgroup builders.
+type TenantGroup func(*sql.Selector)
+
 // UserGroup is the predicate function for usergroup builders.
 type UserGroup func(*sql.Selector)

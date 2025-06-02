@@ -16,12 +16,11 @@ type GroupBody struct {
 	Leader      *types.JSON `json:"leader,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    *string     `json:"parent_id,omitempty"`
-	TenantID    *string     `json:"tenant_id,omitempty"`
 	CreatedBy   *string     `json:"created_by,omitempty"`
 	UpdatedBy   *string     `json:"updated_by,omitempty"`
 }
 
-// CreateGroupBody represents the body for creating or updating a group.
+// CreateGroupBody represents the body for creating a group.
 type CreateGroupBody struct {
 	GroupBody
 }
@@ -42,7 +41,6 @@ type ReadGroup struct {
 	Leader      *types.JSON      `json:"leader,omitempty"`
 	Extras      *types.JSON      `json:"extras,omitempty"`
 	ParentID    *string          `json:"parent_id,omitempty"`
-	TenantID    *string          `json:"tenant_id,omitempty"`
 	Children    []types.TreeNode `json:"children,omitempty"`
 	CreatedBy   *string          `json:"created_by,omitempty"`
 	CreatedAt   *int64           `json:"created_at,omitempty"`
@@ -89,7 +87,6 @@ func (r *ReadGroup) GetSortValue(field string) any {
 type FindGroup struct {
 	Group    string `form:"group,omitempty" json:"group,omitempty"`
 	Parent   string `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant   string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Children bool   `form:"children,omitempty" json:"children,omitempty"`
 	SortBy   string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
@@ -100,7 +97,6 @@ type ListGroupParams struct {
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

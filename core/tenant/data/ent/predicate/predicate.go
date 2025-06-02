@@ -12,6 +12,9 @@ type Tenant func(*sql.Selector)
 // TenantBilling is the predicate function for tenantbilling builders.
 type TenantBilling func(*sql.Selector)
 
+// TenantGroup is the predicate function for tenantgroup builders.
+type TenantGroup func(*sql.Selector)
+
 // TenantQuota is the predicate function for tenantquota builders.
 type TenantQuota func(*sql.Selector)
 
