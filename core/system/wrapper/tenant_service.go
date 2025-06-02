@@ -10,6 +10,7 @@ import (
 // TenantMenuServiceInterface defines tenant menu service interface for system module
 type TenantMenuServiceInterface interface {
 	GetTenantMenus(ctx context.Context, tenantID string) ([]string, error)
+	IsMenuInTenant(ctx context.Context, tenantID, menuID string) (bool, error)
 }
 
 // TenantServiceWrapper wraps tenant service access
@@ -45,6 +46,14 @@ func (w *TenantServiceWrapper) GetTenantMenus(ctx context.Context, tenantID stri
 		return w.tenantMenuService.GetTenantMenus(ctx, tenantID)
 	}
 	return nil, fmt.Errorf("tenant menu service not available")
+}
+
+// IsMenuInTenant checks if menu is in tenant
+func (w *TenantServiceWrapper) IsMenuInTenant(ctx context.Context, tenantID, menuID string) (bool, error) {
+	if w.tenantMenuService != nil {
+		return w.tenantMenuService.IsMenuInTenant(ctx, tenantID, menuID)
+	}
+	return false, fmt.Errorf("tenant menu service not available")
 }
 
 // HasTenantMenuService checks if tenant menu service is available

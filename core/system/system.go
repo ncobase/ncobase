@@ -48,7 +48,7 @@ type discovery struct {
 
 // init registers the module
 func init() {
-	exr.RegisterToGroupWithWeakDeps(New(), group, []string{})
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{"tenant"})
 }
 
 // New creates a new instance of the system module.
@@ -195,6 +195,13 @@ func (m *Module) GetMetadata() ext.Metadata {
 // Dependencies returns the dependencies of the module
 func (m *Module) Dependencies() []string {
 	return dependencies
+}
+
+// GetAllDependencies returns all dependencies of the module and its dependencies
+func (m *Module) GetAllDependencies() []ext.DependencyEntry {
+	return []ext.DependencyEntry{
+		{Name: "tenant", Type: ext.WeakDependency},
+	}
 }
 
 // Description returns the description of the module

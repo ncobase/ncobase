@@ -7,6 +7,7 @@ import (
 	"ncobase/system/data/ent"
 	"ncobase/system/data/repository"
 	"ncobase/system/structs"
+	"ncobase/system/wrapper"
 	"sort"
 	"strings"
 
@@ -44,13 +45,16 @@ type MenuServiceInterface interface {
 type menuService struct {
 	menu repository.MenuRepositoryInterface
 	em   ext.ManagerInterface
+
+	tsw *wrapper.TenantServiceWrapper
 }
 
 // NewMenuService creates a new menu service.
-func NewMenuService(d *data.Data, em ext.ManagerInterface) MenuServiceInterface {
+func NewMenuService(d *data.Data, em ext.ManagerInterface, tsw *wrapper.TenantServiceWrapper) MenuServiceInterface {
 	return &menuService{
 		menu: repository.NewMenuRepository(d),
 		em:   em,
+		tsw:  tsw,
 	}
 }
 
@@ -204,9 +208,22 @@ func (s *menuService) GetNavigationMenus(ctx context.Context, sortBy string) (*s
 	nav := &structs.NavigationMenus{}
 	userPermissions := ctxutil.GetUserPermissions(ctx)
 	isAdmin := ctxutil.GetUserIsAdmin(ctx)
+	tenantID := ctxutil.GetTenantID(ctx)
+
+	// Get tenant-specific menus if tenant context exists
+	var tenantMenuIDs []string
+	if tenantID != "" {
+		if s.tsw != nil && s.tsw.HasTenantMenuService() {
+			var err error
+			tenantMenuIDs, err = s.tsw.GetTenantMenus(ctx, tenantID)
+			if err != nil {
+				logger.Warnf(ctx, "Failed to get tenant menus: %v", err)
+			}
+		}
+	}
 
 	// Get headers
-	if headers, err := s.getMenusWithPermissionFilter(ctx, "header", params, userPermissions, isAdmin); err != nil {
+	if headers, err := s.getMenusWithTenantAndPermissionFilter(ctx, "header", params, tenantMenuIDs, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get header menus: %v", err)
 		nav.Headers = []*structs.ReadMenu{}
 	} else {
@@ -214,28 +231,28 @@ func (s *menuService) GetNavigationMenus(ctx context.Context, sortBy string) (*s
 	}
 
 	// Get sidebars and submenus with tree structure
-	if sidebars, err := s.GetMenusByTypesWithPermissionCheck(ctx, []string{"sidebar", "submenu"}, structs.MenuQueryParams{
+	if sidebars, err := s.GetMenusByTypesWithTenantAndPermissionCheck(ctx, []string{"sidebar", "submenu"}, structs.MenuQueryParams{
 		SortBy:     params.SortBy,
 		ActiveOnly: params.ActiveOnly,
 		Children:   true,
 		Limit:      params.Limit,
-	}, userPermissions, isAdmin); err != nil {
+	}, tenantMenuIDs, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get sidebar/submenu menus: %v", err)
 		nav.Sidebars = []*structs.ReadMenu{}
 	} else {
 		nav.Sidebars = sidebars
 	}
 
-	// Get accounts
-	if accounts, err := s.getMenusWithPermissionFilter(ctx, "account", params, userPermissions, isAdmin); err != nil {
+	// Get accounts - special handling for tenant context
+	if accounts, err := s.getAccountMenusWithTenantContext(ctx, params, tenantID, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get account menus: %v", err)
 		nav.Accounts = []*structs.ReadMenu{}
 	} else {
 		nav.Accounts = accounts
 	}
 
-	// Get tenants
-	if tenants, err := s.getMenusWithPermissionFilter(ctx, "tenant", params, userPermissions, isAdmin); err != nil {
+	// Get tenants - show tenant switching menus only if user has multiple tenants
+	if tenants, err := s.getTenantMenusWithContext(ctx, params, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get tenant menus: %v", err)
 		nav.Tenants = []*structs.ReadMenu{}
 	} else {
@@ -243,6 +260,148 @@ func (s *menuService) GetNavigationMenus(ctx context.Context, sortBy string) (*s
 	}
 
 	return nav, nil
+}
+
+// getMenusWithTenantAndPermissionFilter filters menus by tenant and permissions
+func (s *menuService) getMenusWithTenantAndPermissionFilter(ctx context.Context, menuType string, params structs.MenuQueryParams, tenantMenuIDs []string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+	typeParams := params
+	typeParams.Type = menuType
+
+	menus, err := s.GetMenus(ctx, typeParams)
+	if err != nil {
+		return nil, err
+	}
+
+	// Filter by tenant if tenant context exists
+	if len(tenantMenuIDs) > 0 {
+		menus = s.filterMenusByTenant(menus, tenantMenuIDs)
+	}
+
+	// Filter by permissions
+	return s.filterMenusByPermission(ctx, menus, userPermissions, isAdmin), nil
+}
+
+// GetMenusByTypesWithTenantAndPermissionCheck retrieves menus with tenant and permission filtering
+func (s *menuService) GetMenusByTypesWithTenantAndPermissionCheck(ctx context.Context, types []string, opts structs.MenuQueryParams, tenantMenuIDs []string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+	allMenus, err := s.getMenusByTypesWithParents(ctx, types, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	// Filter by tenant if tenant context exists
+	if len(tenantMenuIDs) > 0 {
+		allMenus = s.filterMenusByTenant(allMenus, tenantMenuIDs)
+	}
+
+	// Filter by permissions
+	filteredMenus := s.filterMenusByPermission(ctx, allMenus, userPermissions, isAdmin)
+
+	if opts.Children {
+		filteredMenus = s.buildMenuTree(filteredMenus)
+		s.sortMenusByField(filteredMenus, s.getDefaultSort(opts.SortBy))
+	}
+
+	return filteredMenus, nil
+}
+
+// getAccountMenusWithTenantContext handles account menus with special tenant considerations
+func (s *menuService) getAccountMenusWithTenantContext(ctx context.Context, params structs.MenuQueryParams, tenantID string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+	typeParams := params
+	typeParams.Type = "account"
+
+	menus, err := s.GetMenus(ctx, typeParams)
+	if err != nil {
+		return nil, err
+	}
+
+	// Apply permission filtering
+	filteredMenus := s.filterMenusByPermission(ctx, menus, userPermissions, isAdmin)
+
+	// Add dynamic account menus based on tenant context
+	if tenantID != "" {
+		dynamicMenus := s.generateTenantAccountMenus(ctx, tenantID)
+		filteredMenus = append(filteredMenus, dynamicMenus...)
+	}
+
+	return filteredMenus, nil
+}
+
+// getTenantMenusWithContext handles tenant switching and management menus
+func (s *menuService) getTenantMenusWithContext(ctx context.Context, params structs.MenuQueryParams, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+	typeParams := params
+	typeParams.Type = "tenant"
+
+	menus, err := s.GetMenus(ctx, typeParams)
+	if err != nil {
+		return nil, err
+	}
+
+	// Check if user has access to multiple tenants
+	userTenantIDs := ctxutil.GetUserTenantIDs(ctx)
+
+	// Only show tenant switching menus if user has multiple tenants or is admin
+	if len(userTenantIDs) <= 1 && !isAdmin {
+		return []*structs.ReadMenu{}, nil
+	}
+
+	return s.filterMenusByPermission(ctx, menus, userPermissions, isAdmin), nil
+}
+
+// generateTenantAccountMenus creates dynamic account menus based on tenant context
+func (s *menuService) generateTenantAccountMenus(ctx context.Context, tenantID string) []*structs.ReadMenu {
+	var dynamicMenus []*structs.ReadMenu
+
+	// // Add tenant-specific token management menu
+	// dynamicMenus = append(dynamicMenus, &structs.ReadMenu{
+	// 	ID:       "tenant-tokens-" + tenantID,
+	// 	Name:     "Tenant API Keys",
+	// 	Label:    "API Keys",
+	// 	Type:     "account",
+	// 	Path:     "/account/api-keys?tenant=" + tenantID,
+	// 	Icon:     "key",
+	// 	Perms:    "read:tokens",
+	// 	Order:    100,
+	// 	Hidden:   false,
+	// 	Disabled: false,
+	// })
+	//
+	// // Add tenant-specific session management menu
+	// dynamicMenus = append(dynamicMenus, &structs.ReadMenu{
+	// 	ID:       "tenant-sessions-" + tenantID,
+	// 	Name:     "Active Sessions",
+	// 	Label:    "Sessions",
+	// 	Type:     "account",
+	// 	Path:     "/account/sessions?tenant=" + tenantID,
+	// 	Icon:     "monitor",
+	// 	Perms:    "read:sessions",
+	// 	Order:    101,
+	// 	Hidden:   false,
+	// 	Disabled: false,
+	// })
+
+	return dynamicMenus
+}
+
+// filterMenusByTenant filters menus based on tenant access
+func (s *menuService) filterMenusByTenant(menus []*structs.ReadMenu, tenantMenuIDs []string) []*structs.ReadMenu {
+	if len(tenantMenuIDs) == 0 {
+		return menus
+	}
+
+	tenantMenuMap := make(map[string]bool)
+	for _, id := range tenantMenuIDs {
+		tenantMenuMap[id] = true
+	}
+
+	var filteredMenus []*structs.ReadMenu
+	for _, menu := range menus {
+		// Include menu if it's in tenant's allowed menus or if it's a system menu
+		if tenantMenuMap[menu.ID] || menu.Type == "system" {
+			filteredMenus = append(filteredMenus, menu)
+		}
+	}
+
+	return filteredMenus
 }
 
 // getMenusWithPermissionFilter is a helper method for single type menu retrieval with permission filtering
