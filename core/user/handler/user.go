@@ -150,7 +150,7 @@ func (h *userHandler) Delete(c *gin.Context) {
 // List handles listing users.
 //
 // @Summary List users
-// @Description List all users with pagination.
+// @Description List all users.
 // @Tags sys
 // @Produce json
 // @Param cursor query string false "Cursor for pagination"

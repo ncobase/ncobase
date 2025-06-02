@@ -133,7 +133,7 @@ func (r *productRepository) Delete(ctx context.Context, id string) error {
 	return r.data.EC.PaymentProduct.DeleteOneID(id).Exec(ctx)
 }
 
-// List lists products with pagination
+// List lists products
 func (r *productRepository) List(ctx context.Context, query *structs.ProductQuery) ([]*structs.Product, error) {
 	// Build query
 	q := r.data.EC.PaymentProduct.Query()

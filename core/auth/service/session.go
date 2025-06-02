@@ -76,7 +76,7 @@ func (s *sessionService) GetByTokenID(ctx context.Context, tokenID string) (*str
 	return s.Serialize(row), nil
 }
 
-// List retrieves sessions with pagination
+// List retrieves sessions
 func (s *sessionService) List(ctx context.Context, params *structs.ListSessionParams) (paging.Result[*structs.ReadSession], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

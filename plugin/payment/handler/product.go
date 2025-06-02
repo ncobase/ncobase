@@ -165,7 +165,7 @@ func (h *productHandler) Delete(c *gin.Context) {
 	resp.Success(c.Writer, nil)
 }
 
-// List handles listing products with pagination
+// List handles listing products
 //
 // @Summary List products
 // @Description Get a paginated list of products

@@ -115,7 +115,7 @@ func (s *mediaService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists all media with pagination.
+// List lists all media.
 func (s *mediaService) List(ctx context.Context, params *structs.ListMediaParams) (paging.Result[*structs.ReadMedia], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

@@ -285,7 +285,7 @@ func (s *channelService) ChangeStatus(ctx context.Context, id string, status str
 	return updated, nil
 }
 
-// List lists payment channels with pagination
+// List lists payment channels
 func (s *channelService) List(ctx context.Context, query *structs.ChannelQuery) (paging.Result[*structs.Channel], error) {
 	pp := paging.Params{
 		Cursor:    query.Cursor,

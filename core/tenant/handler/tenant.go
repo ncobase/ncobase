@@ -43,13 +43,13 @@ func NewTenantHandler(svc *service.Service) TenantHandlerInterface {
 //
 // @Summary Create tenant
 // @Description Create a new tenant.
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTenantBody true "CreateTenantBody object"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants [post]
+// @Router /sys/tenants [post]
 // @Security Bearer
 func (h *TenantHandler) Create(c *gin.Context) {
 	body := &structs.CreateTenantBody{}
@@ -73,12 +73,12 @@ func (h *TenantHandler) Create(c *gin.Context) {
 //
 // @Summary Get user owned tenant
 // @Description Retrieve the tenant associated with the specified user.
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param username path string true "Username"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/users/{username}/tenant [get]
+// @Router /sys/users/{username}/tenant [get]
 // @Security Bearer
 func (h *TenantHandler) UserOwn(c *gin.Context) {
 	result, err := h.s.Tenant.UserOwn(c.Request.Context(), c.Param("username"))
@@ -93,14 +93,14 @@ func (h *TenantHandler) UserOwn(c *gin.Context) {
 //
 // @Summary Update tenant
 // @Description Update the tenant information.
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param slug path string true "Tenant ID"
 // @Param body body structs.UpdateTenantBody true "UpdateTenantBody object"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants [put]
+// @Router /sys/tenants [put]
 // @Security Bearer
 func (h *TenantHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
@@ -129,12 +129,12 @@ func (h *TenantHandler) Update(c *gin.Context) {
 //
 // @Summary Get tenant
 // @Description Retrieve information about a specific tenant.
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId} [get]
+// @Router /sys/tenants/{tenantId} [get]
 // @Security Bearer
 func (h *TenantHandler) Get(c *gin.Context) {
 	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("tenantId"))
@@ -148,13 +148,13 @@ func (h *TenantHandler) Get(c *gin.Context) {
 // GetMenus handles reading tenant menu.
 //
 // @Summary Get tenant menu
-// @Description Retrieve the menu associated with a specific tenant.
-// @Tags iam
+// @Description Retrieve the menu associated
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/menu [get]
+// @Router /sys/tenants/{tenantId}/menu [get]
 // @Security Bearer
 func (h *TenantHandler) GetMenus(c *gin.Context) {
 	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("tenantId"))
@@ -168,13 +168,13 @@ func (h *TenantHandler) GetMenus(c *gin.Context) {
 // GetTenantSetting handles reading tenant setting.
 //
 // @Summary Get tenant setting
-// @Description Retrieve the settings associated with a specific tenant.
-// @Tags iam
+// @Description Retrieve the settings associated
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/setting [get]
+// @Router /sys/tenants/{tenantId}/setting [get]
 // @Security Bearer
 func (h *TenantHandler) GetTenantSetting(c *gin.Context) {
 	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("tenantId"))
@@ -189,12 +189,12 @@ func (h *TenantHandler) GetTenantSetting(c *gin.Context) {
 //
 // @Summary Delete tenant
 // @Description Delete a specific tenant.
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId} [delete]
+// @Router /sys/tenants/{tenantId} [delete]
 // @Security Bearer
 func (h *TenantHandler) Delete(c *gin.Context) {
 	if err := h.s.Tenant.Delete(c.Request.Context(), c.Param("tenantId")); err != nil {
@@ -208,12 +208,12 @@ func (h *TenantHandler) Delete(c *gin.Context) {
 //
 // @Summary List tenants
 // @Description Retrieve a list of tenants.
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param params query structs.ListTenantParams true "List tenant parameters"
 // @Success 200 {array} structs.ReadTenant"success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants [get]
+// @Router /sys/tenants [get]
 // @Security Bearer
 func (h *TenantHandler) List(c *gin.Context) {
 	params := &structs.ListTenantParams{}
@@ -237,13 +237,13 @@ func (h *TenantHandler) List(c *gin.Context) {
 // ListAttachments handles listing tenant attachments.
 // TODO: implement this
 // @Summary List tenant attachments
-// @Description Retrieve a list of attachments associated with a specific tenant.
-// @Tags iam
+// @Description Retrieve a list of attachments associated
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/attachments [get]
+// @Router /sys/tenants/{tenantId}/attachments [get]
 // @Security Bearer
 func (h *TenantHandler) ListAttachments(c *gin.Context) {
 	// result, err := h.svc.ListAttachmentss(c.Request.Context(),c.Param("tenantId"))
@@ -257,13 +257,13 @@ func (h *TenantHandler) ListAttachments(c *gin.Context) {
 // ListRoles handles listing tenant roles.
 // TODO: implement this
 // @Summary List tenant roles
-// @Description Retrieve a list of roles associated with a specific tenant.
-// @Tags iam
+// @Description Retrieve a list of roles associated
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/roles [get]
+// @Router /sys/tenants/{tenantId}/roles [get]
 // @Security Bearer
 func (h *TenantHandler) ListRoles(c *gin.Context) {
 	// result, err := h.svc.ListRoless(c.Request.Context(),c.Param("tenantId"))
@@ -277,13 +277,13 @@ func (h *TenantHandler) ListRoles(c *gin.Context) {
 // GetSetting handles listing tenant settings.
 // TODO: implement this
 // @Summary List tenant settings
-// @Description Retrieve a list of settings associated with a specific tenant.
-// @Tags iam
+// @Description Retrieve a list of settings associated
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/settings [get]
+// @Router /sys/tenants/{tenantId}/settings [get]
 // @Security Bearer
 func (h *TenantHandler) GetSetting(c *gin.Context) {
 	// result, err := h.svc.GetSettings(c.Request.Context(),c.Param("tenantId"))
@@ -297,13 +297,13 @@ func (h *TenantHandler) GetSetting(c *gin.Context) {
 // ListUsers handles listing tenant users.
 // TODO: implement this
 // @Summary List tenant users
-// @Description Retrieve a list of users associated with a specific tenant.
-// @Tags iam
+// @Description Retrieve a list of users associated
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/users [get]
+// @Router /sys/tenants/{tenantId}/users [get]
 // @Security Bearer
 func (h *TenantHandler) ListUsers(c *gin.Context) {
 	// result, err := h.svc.ListUserss(c.Request.Context(),c.Param("tenantId"))
@@ -317,13 +317,13 @@ func (h *TenantHandler) ListUsers(c *gin.Context) {
 // ListGroups handles listing tenant groups.
 // TODO: implement this
 // @Summary List tenant groups
-// @Description Retrieve a list of groups associated with a specific tenant.
-// @Tags iam
+// @Description Retrieve a list of groups associated
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/groups [get]
+// @Router /sys/tenants/{tenantId}/groups [get]
 // @Security Bearer
 func (h *TenantHandler) ListGroups(c *gin.Context) {
 	// result, err := h.svc.ListGroupss(c.Request.Context(),c.Param("tenantId"))

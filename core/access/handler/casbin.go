@@ -37,13 +37,13 @@ func NewCasbinHandler(svc *service.Service) CasbinHandlerInterface {
 //
 // @Summary Create Casbin rule
 // @Description Create a new Casbin rule.
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
 // @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/policies [post]
+// @Router /sys/policies [post]
 // @Security Bearer
 func (h *casbinHandler) Create(c *gin.Context) {
 	body := &structs.CasbinRuleBody{}
@@ -68,14 +68,14 @@ func (h *casbinHandler) Create(c *gin.Context) {
 //
 // @Summary Update Casbin rule
 // @Description Update an existing Casbin rule, either fully or partially.
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param id path string true "Casbin rule ID"
 // @Param body body structs.CasbinRuleBody true "CasbinRuleBody object"
 // @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/policies/{id} [put]
+// @Router /sys/policies/{id} [put]
 // @Security Bearer
 func (h *casbinHandler) Update(c *gin.Context) {
 	id := c.Param("id")
@@ -106,12 +106,12 @@ func (h *casbinHandler) Update(c *gin.Context) {
 //
 // @Summary Get Casbin rule
 // @Description Retrieve details of a Casbin rule.
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} structs.ReadCasbinRule "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/policies/{id} [get]
+// @Router /sys/policies/{id} [get]
 // @Security Bearer
 func (h *casbinHandler) Get(c *gin.Context) {
 	id := c.Param("id")
@@ -133,12 +133,12 @@ func (h *casbinHandler) Get(c *gin.Context) {
 //
 // @Summary Delete Casbin rule
 // @Description Delete an existing Casbin rule.
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param id path string true "Casbin rule ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/policies/{id} [delete]
+// @Router /sys/policies/{id} [delete]
 // @Security Bearer
 func (h *casbinHandler) Delete(c *gin.Context) {
 	id := c.Param("id")
@@ -159,12 +159,12 @@ func (h *casbinHandler) Delete(c *gin.Context) {
 //
 // @Summary List Casbin rules
 // @Description Retrieve a list of Casbin rules.
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param params query structs.ListCasbinRuleParams true "ListCasbinRuleParams object"
 // @Success 200 {array} structs.CasbinRuleBody "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/policies [get]
+// @Router /sys/policies [get]
 // @Security Bearer
 func (h *casbinHandler) List(c *gin.Context) {
 	params := &structs.ListCasbinRuleParams{}

@@ -236,7 +236,7 @@ func (r *endpointRepository) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists endpoints with pagination.
+// List lists endpoints.
 func (r *endpointRepository) List(ctx context.Context, params *structs.ListEndpointParams) ([]*ent.Endpoint, error) {
 	// Create builder for list
 	builder, err := r.listBuilder(ctx, params)

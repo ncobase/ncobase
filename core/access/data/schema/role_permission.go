@@ -19,7 +19,7 @@ type RolePermission struct {
 
 // Annotations of the RolePermission.
 func (RolePermission) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "role_permission"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "role_permission"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

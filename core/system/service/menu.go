@@ -605,7 +605,7 @@ func (s *menuService) Delete(ctx context.Context, params *structs.FindMenu) (*st
 	return nil, nil
 }
 
-// List lists all menus with pagination.
+// List lists all menus.
 func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) (paging.Result[*structs.ReadMenu], error) {
 	if params.Children {
 		return s.GetMenuTree(ctx, &structs.FindMenu{

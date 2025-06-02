@@ -22,7 +22,7 @@ var (
 	version      = "1.0.0"
 	dependencies []string
 	typeStr      = "module"
-	group        = "iam"
+	group        = ""
 )
 
 // Module represents the auth module.
@@ -120,15 +120,15 @@ func (m *Module) Name() string {
 // RegisterRoutes registers routes for the module
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
-	r = r.Group("/" + m.Group())
+	authGroup := r.Group("/" + m.Group())
 
 	// Authentication endpoints
-	r.POST("/login", m.h.Account.Login)
-	r.POST("/register", m.h.Account.Register)
-	r.POST("/logout", m.h.Account.Logout)
+	authGroup.POST("/login", m.h.Account.Login)
+	authGroup.POST("/register", m.h.Account.Register)
+	authGroup.POST("/logout", m.h.Account.Logout)
 
 	// Captcha endpoints
-	captcha := r.Group("/captcha")
+	captcha := authGroup.Group("/captcha")
 	{
 		captcha.GET("/generate", m.h.Captcha.GenerateCaptcha)
 		captcha.GET("/:captcha", m.h.Captcha.CaptchaStream)
@@ -136,14 +136,14 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	}
 
 	// Authorization endpoints
-	authorize := r.Group("/authorize")
+	authorize := authGroup.Group("/authorize")
 	{
 		authorize.POST("/send", m.h.CodeAuth.SendCode)
 		authorize.GET("/:code", m.h.CodeAuth.CodeAuth)
 	}
 
 	// Account endpoints
-	account := r.Group("/account", middleware.AuthenticatedUser)
+	account := authGroup.Group("/account", middleware.AuthenticatedUser)
 	{
 		account.GET("", m.h.Account.GetMe)
 		account.PUT("/password", m.h.Account.UpdatePassword)
@@ -156,7 +156,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	r.GET("/token-status", m.h.Account.TokenStatus)
 
 	// Session endpoints
-	sessions := r.Group("/sessions", middleware.AuthenticatedUser)
+	sessions := authGroup.Group("/sessions", middleware.AuthenticatedUser)
 	{
 		sessions.GET("", m.h.Session.List)
 		sessions.GET("/:session_id", m.h.Session.Get)

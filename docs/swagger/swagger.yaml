@@ -5205,7 +5205,7 @@ paths:
         - cms
   /flow/delegations:
     get:
-      description: List delegation rules with pagination
+      description: List delegation rules
       parameters:
         - in: query
           name: cursor
@@ -5412,7 +5412,7 @@ paths:
         - flow
   /flow/histories:
     get:
-      description: List history records with pagination
+      description: List history records
       parameters:
         - in: query
           name: cursor
@@ -5516,7 +5516,7 @@ paths:
         - flow
   /flow/nodes:
     get:
-      description: List workflow nodes with pagination
+      description: List workflow nodes
       parameters:
         - in: query
           name: cursor
@@ -5808,7 +5808,7 @@ paths:
         - flow
   /flow/process-designs:
     get:
-      description: List process designs with pagination
+      description: List process designs
       parameters:
         - in: query
           name: cursor
@@ -6071,7 +6071,7 @@ paths:
         - flow
   /flow/processes:
     get:
-      description: List process instances with pagination
+      description: List process instances
       parameters:
         - in: query
           name: cursor
@@ -6453,7 +6453,7 @@ paths:
         - flow
   /flow/rules:
     get:
-      description: List workflow rules with pagination
+      description: List workflow rules
       parameters:
         - in: query
           name: cursor
@@ -6715,7 +6715,7 @@ paths:
         - flow
   /flow/tasks:
     get:
-      description: List tasks with pagination
+      description: List tasks
       parameters:
         - collectionFormat: csv
           in: query
@@ -7141,7 +7141,7 @@ paths:
         - flow
   /flow/templates:
     get:
-      description: List workflow templates with pagination
+      description: List workflow templates
       parameters:
         - in: query
           name: category
@@ -8527,7 +8527,7 @@ paths:
         - iam
   /iam/tenants/{slug}/attachments:
     get:
-      description: Retrieve a list of attachments associated with a specific tenant.
+      description: Retrieve a list of attachments associated
       parameters:
         - description: Tenant ID
           in: path
@@ -8552,7 +8552,7 @@ paths:
         - iam
   /iam/tenants/{slug}/groups:
     get:
-      description: Retrieve a list of groups associated with a specific tenant.
+      description: Retrieve a list of groups associated
       parameters:
         - description: Tenant ID
           in: path
@@ -8577,7 +8577,7 @@ paths:
         - iam
   /iam/tenants/{slug}/menu:
     get:
-      description: Retrieve the menu associated with a specific tenant.
+      description: Retrieve the menu associated
       parameters:
         - description: Tenant ID
           in: path
@@ -8602,7 +8602,7 @@ paths:
         - iam
   /iam/tenants/{slug}/roles:
     get:
-      description: Retrieve a list of roles associated with a specific tenant.
+      description: Retrieve a list of roles associated
       parameters:
         - description: Tenant ID
           in: path
@@ -8627,7 +8627,7 @@ paths:
         - iam
   /iam/tenants/{slug}/setting:
     get:
-      description: Retrieve the settings associated with a specific tenant.
+      description: Retrieve the settings associated
       parameters:
         - description: Tenant ID
           in: path
@@ -8652,7 +8652,7 @@ paths:
         - iam
   /iam/tenants/{slug}/settings:
     get:
-      description: Retrieve a list of settings associated with a specific tenant.
+      description: Retrieve a list of settings associated
       parameters:
         - description: Tenant ID
           in: path
@@ -8677,7 +8677,7 @@ paths:
         - iam
   /iam/tenants/{slug}/users:
     get:
-      description: Retrieve a list of users associated with a specific tenant.
+      description: Retrieve a list of users associated
       parameters:
         - description: Tenant ID
           in: path
@@ -12164,7 +12164,7 @@ paths:
         - sys
   /sys/users:
     get:
-      description: List all users with pagination.
+      description: List all users.
       parameters:
         - description: Cursor for pagination
           in: query

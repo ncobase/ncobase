@@ -157,10 +157,14 @@ auth:
       m = (g(r.sub, p.sub, r.dom) && r.dom == p.dom && keyMatch(r.obj, p.obj) && keyMatch(r.act, p.act)) || (r.sub == "super-admin" && r.dom == p.dom && keyMatch(r.obj, p.obj) && keyMatch(r.act, p.act))
   whitelist:
     - /health
-    - /iam/login
-    - /iam/register
-    - /iam/logout
-    - /iam/captcha/*
+    - /login
+    - /register
+    - /logout
+    - /captcha/*
+    - /authorize/*
+    - /token-status
+    - /sys/initialize
+    - /sys/initialize/*
     - /static/*
     - "*swagger*"
 

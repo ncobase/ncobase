@@ -19,7 +19,7 @@ type Tenant struct {
 
 // Annotations of the Tenant.
 func (Tenant) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "tenant"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "tenant"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

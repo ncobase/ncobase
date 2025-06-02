@@ -48,7 +48,7 @@ const (
 	// FieldValidation holds the string denoting the validation field in the database.
 	FieldValidation = "validation"
 	// Table holds the table name of the tenantsetting in the database.
-	Table = "ncse_iam_tenant_setting"
+	Table = "ncse_sys_tenant_setting"
 )
 
 // Columns holds all SQL columns for tenantsetting fields.

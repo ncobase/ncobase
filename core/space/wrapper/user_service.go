@@ -55,7 +55,7 @@ func (w *UserServiceWrapper) RefreshServices() {
 	w.loadServices()
 }
 
-// GetUserByID gets user by ID with graceful fallback
+// GetUserByID gets user by ID
 func (w *UserServiceWrapper) GetUserByID(ctx context.Context, id string) (*userStructs.ReadUser, error) {
 	if w.userService != nil {
 		return w.userService.GetByID(ctx, id)
@@ -63,7 +63,7 @@ func (w *UserServiceWrapper) GetUserByID(ctx context.Context, id string) (*userS
 	return nil, fmt.Errorf("user service not available")
 }
 
-// FindUser finds user with graceful fallback
+// FindUser finds user
 func (w *UserServiceWrapper) FindUser(ctx context.Context, m *userStructs.FindUser) (*userStructs.ReadUser, error) {
 	if w.userService != nil {
 		return w.userService.FindUser(ctx, m)
@@ -71,7 +71,7 @@ func (w *UserServiceWrapper) FindUser(ctx context.Context, m *userStructs.FindUs
 	return nil, fmt.Errorf("user service not available")
 }
 
-// GetUserProfile gets user profile with graceful fallback
+// GetUserProfile gets user profile
 func (w *UserServiceWrapper) GetUserProfile(ctx context.Context, id string) (*userStructs.ReadUserProfile, error) {
 	if w.profileService != nil {
 		return w.profileService.Get(ctx, id)

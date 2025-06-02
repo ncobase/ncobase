@@ -97,7 +97,7 @@ func (s *channelService) Delete(ctx context.Context, slug string) error {
 	return nil
 }
 
-// List lists all channels with pagination.
+// List lists all channels.
 func (s *channelService) List(ctx context.Context, params *structs.ListChannelParams) (paging.Result[*structs.ReadChannel], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

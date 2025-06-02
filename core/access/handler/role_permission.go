@@ -30,12 +30,12 @@ func NewRolePermissionHandler(svc *service.Service) RolePermissionHandlerInterfa
 //
 // @Summary List permissions for a role
 // @Description Retrieve a list of permissions associated with a role by its ID
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param slug path string true "Role ID"
 // @Success 200 {array} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/roles/{slug}/permissions [get]
+// @Router /sys/roles/{slug}/permissions [get]
 // @Security Bearer
 func (h *rolePermissionHandler) ListRolePermission(c *gin.Context) {
 	slug := c.Param("slug")

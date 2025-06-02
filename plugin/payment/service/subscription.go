@@ -420,7 +420,7 @@ func (s *subscriptionService) Cancel(ctx context.Context, id string, immediate b
 	return s.Serialize(updated), nil
 }
 
-// List lists subscriptions with pagination
+// List lists subscriptions
 func (s *subscriptionService) List(ctx context.Context, query *structs.SubscriptionQuery) (paging.Result[*structs.Subscription], error) {
 	pp := paging.Params{
 		Cursor:    query.Cursor,
@@ -449,7 +449,7 @@ func (s *subscriptionService) List(ctx context.Context, query *structs.Subscript
 	})
 }
 
-// GetByUser gets subscriptions for a user with pagination
+// GetByUser gets subscriptions for a user
 func (s *subscriptionService) GetByUser(ctx context.Context, query *structs.SubscriptionQuery) (paging.Result[*structs.Subscription], error) {
 	if query.UserID == "" {
 		return paging.Result[*structs.Subscription]{}, fmt.Errorf(ecode.FieldIsRequired("user_id"))

@@ -12,12 +12,12 @@ var CasbinPolicyRules = [][]string{
 	{"admin", "*", "/cms/*", "*"},
 	{"admin", "*", "/res/*", "*"},
 	{"admin", "*", "/rt/notifications", "*"},
-	{"admin", "*", "/iam/account", "GET"},
-	{"admin", "*", "/iam/account/tenant", "GET"},
+	{"admin", "*", "/account", "GET"},
+	{"admin", "*", "/account/tenant", "GET"},
 
 	// Manager - content management
 	{"manager", "*", "/", "GET"},
-	{"manager", "*", "/iam/account", "GET"},
+	{"manager", "*", "/account", "GET"},
 	{"manager", "*", "/sys/menus", "GET"},
 	{"manager", "*", "/sys/dictionaries", "GET"},
 	{"manager", "*", "/sys/users", "GET"},
@@ -28,7 +28,7 @@ var CasbinPolicyRules = [][]string{
 
 	// Member - standard access
 	{"member", "*", "/", "GET"},
-	{"member", "*", "/iam/account", "GET"},
+	{"member", "*", "/account", "GET"},
 	{"member", "*", "/sys/menus", "GET"},
 	{"member", "*", "/sys/dictionaries", "GET"},
 	{"member", "*", "/cms/topics", "GET"},
@@ -37,7 +37,7 @@ var CasbinPolicyRules = [][]string{
 
 	// Viewer - read-only
 	{"viewer", "*", "/", "GET"},
-	{"viewer", "*", "/iam/account", "GET"},
+	{"viewer", "*", "/account", "GET"},
 	{"viewer", "*", "/sys/menus", "GET"},
 	{"viewer", "*", "/cms/topics", "GET"},
 }

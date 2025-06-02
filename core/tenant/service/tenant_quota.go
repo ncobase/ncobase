@@ -97,7 +97,7 @@ func (s *tenantQuotaService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists tenant quotas with pagination
+// List lists tenant quotas
 func (s *tenantQuotaService) List(ctx context.Context, params *structs.ListTenantQuotaParams) (paging.Result[*structs.ReadTenantQuota], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

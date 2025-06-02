@@ -43,7 +43,7 @@ func NewActivityHandler(activity service.ActivityServiceInterface) ActivityHandl
 // @Failure 400 {object} gin.H
 // @Failure 401 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /iam/activity [post]
+// @Router /sys/activity [post]
 func (h *activityHandler) CreateActivity(c *gin.Context) {
 	var req structs.CreateActivityRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -88,7 +88,7 @@ func (h *activityHandler) CreateActivity(c *gin.Context) {
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /iam/activity/{id} [get]
+// @Router /sys/activity/{id} [get]
 func (h *activityHandler) GetActivity(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
@@ -119,10 +119,10 @@ func (h *activityHandler) GetActivity(c *gin.Context) {
 	})
 }
 
-// ListActivities lists activities with pagination
+// ListActivities lists activities
 //
-// @Summary List activities with pagination
-// @Description Lists activities with pagination.
+// @Summary List activities
+// @Description Lists activities.
 // @Tags Activity
 // @Produce json
 // @Param cursor query string false "Cursor for pagination"
@@ -134,7 +134,7 @@ func (h *activityHandler) GetActivity(c *gin.Context) {
 // @Success 200 {object} structs.ListActivityResponse
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /iam/activities [get]
+// @Router /sys/activities [get]
 func (h *activityHandler) ListActivities(c *gin.Context) {
 	params := h.parseListParams(c)
 
@@ -172,7 +172,7 @@ func (h *activityHandler) ListActivities(c *gin.Context) {
 // @Failure 400 {object} gin.H
 // @Failure 403 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /iam/activity/user/{username} [get]
+// @Router /sys/activity/user/{username} [get]
 func (h *activityHandler) GetUserActivities(c *gin.Context) {
 	username := c.Param("username")
 	if username == "" {
@@ -226,7 +226,7 @@ func (h *activityHandler) GetUserActivities(c *gin.Context) {
 // @Success 200 {object} structs.SearchActivityResponse
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /iam/activity/search [get]
+// @Router /sys/activity/search [get]
 func (h *activityHandler) SearchActivities(c *gin.Context) {
 	params := h.parseSearchParams(c)
 

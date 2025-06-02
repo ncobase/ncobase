@@ -150,7 +150,7 @@ func (h *TaskHandler) Delete(c *gin.Context) {
 
 // List handles task listing
 // @Summary List tasks
-// @Description List tasks with pagination
+// @Description List tasks
 // @Tags flow
 // @Produce json
 // @Param params query structs.ListTaskParams true "Task list parameters"

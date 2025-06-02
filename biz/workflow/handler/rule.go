@@ -151,7 +151,7 @@ func (h *RuleHandler) Delete(c *gin.Context) {
 
 // List handles rule listing
 // @Summary List rules
-// @Description List workflow rules with pagination
+// @Description List workflow rules
 // @Tags flow
 // @Produce json
 // @Param params query structs.ListRuleParams true "Rule list parameters"

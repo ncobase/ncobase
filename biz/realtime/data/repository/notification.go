@@ -125,7 +125,7 @@ func (r *notificationRepository) FindByID(ctx context.Context, id string) (*ent.
 		Only(ctx)
 }
 
-// List lists notifications with pagination and filters
+// List lists notifications and filters
 func (r *notificationRepository) List(ctx context.Context, params *structs.ListNotificationParams) ([]*ent.Notification, error) {
 	builder, err := r.buildQuery(ctx, params)
 	if validator.IsNotNil(err) {

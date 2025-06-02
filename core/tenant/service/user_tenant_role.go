@@ -71,7 +71,7 @@ func (s *userTenantRoleService) IsUserInRoleInTenant(ctx context.Context, u, t, 
 	return hasRole, nil
 }
 
-// GetTenantUsersByRole retrieves all users with a specific role in a tenant.
+// GetTenantUsersByRole retrieves all users with a specific role
 func (s *userTenantRoleService) GetTenantUsersByRole(ctx context.Context, t, r string) ([]string, error) {
 	userTenantRoles, err := s.userTenantRole.GetByTenantID(ctx, t)
 	if err := handleEntError(ctx, "UserTenantRole", err); err != nil {

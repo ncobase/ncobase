@@ -86,7 +86,7 @@ func (h *HistoryHandler) Get(c *gin.Context) {
 
 // List handles history listing
 // @Summary List histories
-// @Description List history records with pagination
+// @Description List history records
 // @Tags flow
 // @Produce json
 // @Param params query structs.ListHistoryParams true "History list parameters"

@@ -42,13 +42,13 @@ package handler
 // //
 // // @Summary OAuth register
 // // @Description Register a user using OAuth.
-// // @Tags iam
+// // @Tags auth
 // // @Accept json
 // // @Produce json
 // // @Param body body structs.OAuthRegisterBody true "OAuthRegisterBody object"
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /iam/oauth/register [post]
+// // @Router /oauth/register [post]
 // func (h *oAuthHandler) OAuthRegister(c *gin.Context) {
 // 	body := &structs.OAuthRegisterBody{}
 // 	if validationErrors, err := helper.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -67,12 +67,12 @@ package handler
 // //
 // // @Summary OAuth redirect
 // // @Description Redirect to OAuth provider for authentication.
-// // @Tags iam
+// // @Tags auth
 // // @Param provider path string true "OAuth provider"
 // // @Param next query string false "Next URL after authentication"
 // // @Success 302 {object} resp.Exception "redirect"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /iam/oauth/{provider}/redirect [get]
+// // @Router /oauth/{provider}/redirect [get]
 // func (h *oAuthHandler) OAuthRedirect(c *gin.Context) {
 // 	provider := c.Param("provider")
 // 	next := c.Query("next")
@@ -101,11 +101,11 @@ package handler
 // //
 // // @Summary Facebook OAuth callback
 // // @Description Handle callback from Facebook OAuth provider.
-// // @Tags iam
+// // @Tags auth
 // // @Param code query string true "Authorization code"
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 401 {object} resp.Exception "unauthorized"
-// // @Router /iam/oauth/facebook/callback [get]
+// // @Router /oauth/facebook/callback [get]
 // func (h *oAuthHandler) OAuthFacebookCallback(c *gin.Context) {
 // 	result, _ := h.s.OAuth.OAuthCallback(c.Request.Context(), "facebook", c.Query("code"))
 // 	if result.Code != http.StatusOK {
@@ -119,11 +119,11 @@ package handler
 // //
 // // @Summary GitHub OAuth callback
 // // @Description Handle callback from GitHub OAuth provider.
-// // @Tags iam
+// // @Tags auth
 // // @Param code query string true "Authorization code"
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 401 {object} resp.Exception "unauthorized"
-// // @Router /iam/oauth/github/callback [get]
+// // @Router /oauth/github/callback [get]
 // func (h *oAuthHandler) OAuthGithubCallback(c *gin.Context) {
 // 	result, _ := h.s.OAuth.OAuthCallback(c.Request.Context(), "github", c.Query("code"))
 // 	if result.Code != http.StatusOK {
@@ -137,10 +137,10 @@ package handler
 // //
 // // @Summary OAuth callback
 // // @Description Handle callback from OAuth provider.
-// // @Tags iam
+// // @Tags auth
 // // @Success 302 {object} resp.Exception "redirect"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /iam/oauth/callback [get]
+// // @Router /oauth/callback [get]
 // func (h *oAuthHandler) OAuthCallback(c *gin.Context) {
 // 	result, _ := h.s.OAuth.OAuthAuthentication(c.Request.Context())
 // 	if result.Code == http.StatusMovedPermanently {
@@ -154,11 +154,11 @@ package handler
 // //
 // // @Summary Get OAuth profile
 // // @Description Retrieve profile information from OAuth provider.
-// // @Tags iam
+// // @Tags auth
 // // @Produce json
 // // @Success 200 {object} resp.Exception "success"
 // // @Failure 400 {object} resp.Exception "bad request"
-// // @Router /iam/oauth/profile [get]
+// // @Router /oauth/profile [get]
 // func (h *oAuthHandler) GetOAuthProfile(c *gin.Context) {
 // 	registerToken, err := cookie.Get(c.Request, "register_token")
 // 	if err != nil {

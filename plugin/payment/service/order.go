@@ -735,7 +735,7 @@ func (s *orderService) GetByOrderNumber(ctx context.Context, orderNumber string)
 	return s.Serialize(order), nil
 }
 
-// List lists payment orders with pagination
+// List lists payment orders
 func (s *orderService) List(ctx context.Context, query *structs.OrderQuery) (paging.Result[*structs.Order], error) {
 	pp := paging.Params{
 		Cursor:    query.Cursor,

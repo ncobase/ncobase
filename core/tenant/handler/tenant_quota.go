@@ -39,13 +39,13 @@ func NewTenantQuotaHandler(svc *service.Service) TenantQuotaHandlerInterface {
 //
 // @Summary Create tenant quota
 // @Description Create a new tenant quota configuration
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTenantQuotaBody true "Quota configuration"
 // @Success 200 {object} structs.ReadTenantQuota "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/quotas [post]
+// @Router /sys/tenants/quotas [post]
 // @Security Bearer
 func (h *tenantQuotaHandler) Create(c *gin.Context) {
 	body := &structs.CreateTenantQuotaBody{}
@@ -70,14 +70,14 @@ func (h *tenantQuotaHandler) Create(c *gin.Context) {
 //
 // @Summary Update tenant quota
 // @Description Update an existing tenant quota configuration
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param id path string true "Quota ID"
 // @Param body body types.JSON true "Update data"
 // @Success 200 {object} structs.ReadTenantQuota "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/quotas/{id} [put]
+// @Router /sys/tenants/quotas/{id} [put]
 // @Security Bearer
 func (h *tenantQuotaHandler) Update(c *gin.Context) {
 	id := c.Param("id")
@@ -108,12 +108,12 @@ func (h *tenantQuotaHandler) Update(c *gin.Context) {
 //
 // @Summary Get tenant quota
 // @Description Retrieve a tenant quota by ID
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param id path string true "Quota ID"
 // @Success 200 {object} structs.ReadTenantQuota "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/quotas/{id} [get]
+// @Router /sys/tenants/quotas/{id} [get]
 // @Security Bearer
 func (h *tenantQuotaHandler) Get(c *gin.Context) {
 	id := c.Param("id")
@@ -135,12 +135,12 @@ func (h *tenantQuotaHandler) Get(c *gin.Context) {
 //
 // @Summary Delete tenant quota
 // @Description Delete a tenant quota configuration
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param id path string true "Quota ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/quotas/{id} [delete]
+// @Router /sys/tenants/quotas/{id} [delete]
 // @Security Bearer
 func (h *tenantQuotaHandler) Delete(c *gin.Context) {
 	id := c.Param("id")
@@ -161,12 +161,12 @@ func (h *tenantQuotaHandler) Delete(c *gin.Context) {
 //
 // @Summary List tenant quotas
 // @Description Retrieve a list of tenant quotas
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param params query structs.ListTenantQuotaParams true "List parameters"
 // @Success 200 {array} structs.ReadTenantQuota "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/quotas [get]
+// @Router /sys/tenants/quotas [get]
 // @Security Bearer
 func (h *tenantQuotaHandler) List(c *gin.Context) {
 	params := &structs.ListTenantQuotaParams{}
@@ -191,13 +191,13 @@ func (h *tenantQuotaHandler) List(c *gin.Context) {
 //
 // @Summary Update quota usage
 // @Description Update the current usage of a quota
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.QuotaUsageRequest true "Usage update request"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/quotas/usage [post]
+// @Router /sys/tenants/quotas/usage [post]
 // @Security Bearer
 func (h *tenantQuotaHandler) UpdateUsage(c *gin.Context) {
 	body := &structs.QuotaUsageRequest{}
@@ -221,14 +221,14 @@ func (h *tenantQuotaHandler) UpdateUsage(c *gin.Context) {
 //
 // @Summary Check quota limit
 // @Description Check if tenant can use additional quota
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId query string true "Tenant ID"
 // @Param quota_type query string true "Quota Type"
 // @Param amount query int true "Requested Amount"
 // @Success 200 {object} map[string]bool "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/quotas/check [get]
+// @Router /sys/tenants/quotas/check [get]
 // @Security Bearer
 func (h *tenantQuotaHandler) CheckLimit(c *gin.Context) {
 	tenantID := c.Query("tenantId")
@@ -261,12 +261,12 @@ func (h *tenantQuotaHandler) CheckLimit(c *gin.Context) {
 //
 // @Summary Get tenant quota summary
 // @Description Retrieve all quotas for a tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {array} structs.ReadTenantQuota "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/quotas [get]
+// @Router /sys/tenants/{tenantId}/quotas [get]
 // @Security Bearer
 func (h *tenantQuotaHandler) GetSummary(c *gin.Context) {
 	tenantID := c.Param("tenantId")

@@ -155,7 +155,7 @@ func (r *channelRepository) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists channels with pagination and filters
+// List lists channels and filters
 func (r *channelRepository) List(ctx context.Context, params *structs.ListChannelParams) ([]*ent.RTChannel, error) {
 	builder, err := r.buildQuery(ctx, params)
 	if validator.IsNotNil(err) {

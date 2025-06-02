@@ -151,7 +151,7 @@ func (r *orderRepository) Update(ctx context.Context, order *structs.UpdateOrder
 	return result, nil
 }
 
-// List lists payment orders with pagination
+// List lists payment orders
 func (r *orderRepository) List(ctx context.Context, query *structs.OrderQuery) ([]*structs.Order, error) {
 	// Build query with cursor support
 	q := r.data.EC.PaymentOrder.Query()

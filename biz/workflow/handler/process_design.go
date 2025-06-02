@@ -155,7 +155,7 @@ func (h *ProcessDesignHandler) Delete(c *gin.Context) {
 
 // List handles process design listing
 // @Summary List process designs
-// @Description List process designs with pagination
+// @Description List process designs
 // @Tags flow
 // @Produce json
 // @Param params query structs.ListProcessDesignParams true "Process design list parameters"

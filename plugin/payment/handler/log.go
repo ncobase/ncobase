@@ -105,7 +105,7 @@ func (h *logHandler) GetByOrder(c *gin.Context) {
 	resp.Success(c.Writer, logs)
 }
 
-// List handles listing payment logs with pagination
+// List handles listing payment logs
 //
 // @Summary List payment logs
 // @Description Get a paginated list of payment logs

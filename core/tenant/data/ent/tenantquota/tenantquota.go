@@ -38,7 +38,7 @@ const (
 	// FieldEnabled holds the string denoting the enabled field in the database.
 	FieldEnabled = "enabled"
 	// Table holds the table name of the tenantquota in the database.
-	Table = "ncse_iam_tenant_quota"
+	Table = "ncse_sys_tenant_quota"
 )
 
 // Columns holds all SQL columns for tenantquota fields.

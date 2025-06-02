@@ -211,7 +211,7 @@ func (r *transformerRepository) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists transformers with pagination.
+// List lists transformers.
 func (r *transformerRepository) List(ctx context.Context, params *structs.ListTransformerParams) ([]*ent.Transformer, error) {
 	// Create builder for list
 	builder, err := r.listBuilder(ctx, params)

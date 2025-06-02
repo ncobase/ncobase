@@ -24,12 +24,12 @@ var CasbinPolicyRules = [][]string{
 	// Enterprise Admin - business management
 	{"enterprise-admin", "*", "/", "GET", "", ""},
 	{"enterprise-admin", "*", "/", "read", "", ""},
-	{"enterprise-admin", "*", "/iam/account", "GET", "", ""},
-	{"enterprise-admin", "*", "/iam/account", "read", "", ""},
-	{"enterprise-admin", "*", "/iam/account/tenant", "GET", "", ""},
-	{"enterprise-admin", "*", "/iam/account/tenant", "read", "", ""},
-	{"enterprise-admin", "*", "/iam/account/tenants", "GET", "", ""},
-	{"enterprise-admin", "*", "/iam/account/tenants", "read", "", ""},
+	{"enterprise-admin", "*", "/account", "GET", "", ""},
+	{"enterprise-admin", "*", "/account", "read", "", ""},
+	{"enterprise-admin", "*", "/account/tenant", "GET", "", ""},
+	{"enterprise-admin", "*", "/account/tenant", "read", "", ""},
+	{"enterprise-admin", "*", "/account/tenants", "GET", "", ""},
+	{"enterprise-admin", "*", "/account/tenants", "read", "", ""},
 
 	// User and employee management
 	{"enterprise-admin", "*", "/sys/users", "read", "", ""},
@@ -92,10 +92,10 @@ var CasbinPolicyRules = [][]string{
 	// Department Manager - department level management
 	{"department-manager", "*", "/", "GET", "", ""},
 	{"department-manager", "*", "/", "read", "", ""},
-	{"department-manager", "*", "/iam/account", "GET", "", ""},
-	{"department-manager", "*", "/iam/account", "read", "", ""},
-	{"department-manager", "*", "/iam/account/tenant", "GET", "", ""},
-	{"department-manager", "*", "/iam/account/tenant", "read", "", ""},
+	{"department-manager", "*", "/account", "GET", "", ""},
+	{"department-manager", "*", "/account", "read", "", ""},
+	{"department-manager", "*", "/account/tenant", "GET", "", ""},
+	{"department-manager", "*", "/account/tenant", "read", "", ""},
 
 	// Employee management within department
 	{"department-manager", "*", "/sys/users", "GET", "", ""},
@@ -129,10 +129,10 @@ var CasbinPolicyRules = [][]string{
 	// Team Leader - team level management
 	{"team-leader", "*", "/", "GET", "", ""},
 	{"team-leader", "*", "/", "read", "", ""},
-	{"team-leader", "*", "/iam/account", "GET", "", ""},
-	{"team-leader", "*", "/iam/account", "read", "", ""},
-	{"team-leader", "*", "/iam/account/tenant", "GET", "", ""},
-	{"team-leader", "*", "/iam/account/tenant", "read", "", ""},
+	{"team-leader", "*", "/account", "GET", "", ""},
+	{"team-leader", "*", "/account", "read", "", ""},
+	{"team-leader", "*", "/account/tenant", "GET", "", ""},
+	{"team-leader", "*", "/account/tenant", "read", "", ""},
 
 	// Basic user and employee info
 	{"team-leader", "*", "/sys/users", "GET", "", ""},
@@ -159,12 +159,12 @@ var CasbinPolicyRules = [][]string{
 	// Employee - basic access
 	{"employee", "*", "/", "GET", "", ""},
 	{"employee", "*", "/", "read", "", ""},
-	{"employee", "*", "/iam/account", "GET", "", ""},
-	{"employee", "*", "/iam/account", "read", "", ""},
-	{"employee", "*", "/iam/account/tenant", "GET", "", ""},
-	{"employee", "*", "/iam/account/tenant", "read", "", ""},
-	{"employee", "*", "/iam/account/tenants", "GET", "", ""},
-	{"employee", "*", "/iam/account/tenants", "read", "", ""},
+	{"employee", "*", "/account", "GET", "", ""},
+	{"employee", "*", "/account", "read", "", ""},
+	{"employee", "*", "/account/tenant", "GET", "", ""},
+	{"employee", "*", "/account/tenant", "read", "", ""},
+	{"employee", "*", "/account/tenants", "GET", "", ""},
+	{"employee", "*", "/account/tenants", "read", "", ""},
 
 	// Basic system info (read-only)
 	{"employee", "*", "/sys/menus", "GET", "", ""},
@@ -193,8 +193,8 @@ var CasbinPolicyRules = [][]string{
 	// Contractor - limited external access
 	{"contractor", "*", "/", "GET", "", ""},
 	{"contractor", "*", "/", "read", "", ""},
-	{"contractor", "*", "/iam/account", "GET", "", ""},
-	{"contractor", "*", "/iam/account", "read", "", ""},
+	{"contractor", "*", "/account", "GET", "", ""},
+	{"contractor", "*", "/account", "read", "", ""},
 	{"contractor", "*", "/sys/menus", "GET", "", ""},
 	{"contractor", "*", "/sys/menus", "read", "", ""},
 	{"contractor", "*", "/sys/dictionaries", "GET", "", ""},

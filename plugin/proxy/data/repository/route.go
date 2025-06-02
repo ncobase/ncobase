@@ -302,7 +302,7 @@ func (r *routeRepository) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists routes with pagination.
+// List lists routes.
 func (r *routeRepository) List(ctx context.Context, params *structs.ListRouteParams) ([]*ent.Route, error) {
 	// Create builder for list
 	builder, err := r.listBuilder(ctx, params)

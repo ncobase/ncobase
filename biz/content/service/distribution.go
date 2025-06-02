@@ -104,7 +104,7 @@ func (s *distributionService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists all distributions with pagination.
+// List lists all distributions.
 func (s *distributionService) List(ctx context.Context, params *structs.ListDistributionParams) (paging.Result[*structs.ReadDistribution], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

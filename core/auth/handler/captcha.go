@@ -39,12 +39,12 @@ func NewCaptchaHandler(svc *service.Service) CaptchaHandlerInterface {
 //
 // @Summary Generate captcha
 // @Description Generate a captcha image.
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Param type query string false "Captcha type" Enums(png, wav)
 // @Success 200 {object} map[string]any{id=string,url=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/captcha/generate [get]
+// @Router /captcha/generate [get]
 func (h *captchaHandler) GenerateCaptcha(c *gin.Context) {
 	ext := c.Query("type")
 	switch ext {
@@ -67,13 +67,13 @@ func (h *captchaHandler) GenerateCaptcha(c *gin.Context) {
 //
 // @Summary Validate captcha
 // @Description Validate a captcha code.
-// @Tags iam
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param body body structs.Captcha true "Captcha object"
 // @Success 200 {object} map[string]any{message=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/captcha/validate [post]
+// @Router /captcha/validate [post]
 func (h *captchaHandler) ValidateCaptcha(c *gin.Context) {
 	body := &structs.Captcha{}
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -94,12 +94,12 @@ func (h *captchaHandler) ValidateCaptcha(c *gin.Context) {
 //
 // @Summary Stream captcha
 // @Description Stream a captcha image.
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Param captcha_id path string true "Captcha ID With Extension (png, wav)"
 // @Success 200 {file} octet-stream
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/captcha/{captcha_id} [get]
+// @Router /captcha/{captcha_id} [get]
 // CaptchaStreamHandler handles streaming a captcha image or audio.
 func (h *captchaHandler) CaptchaStream(c *gin.Context) {
 	captchaID := c.Param("captcha")

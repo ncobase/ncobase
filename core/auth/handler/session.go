@@ -35,7 +35,7 @@ func NewSessionHandler(svc *service.Service) SessionHandlerInterface {
 //
 // @Summary List user sessions
 // @Description List all sessions for the current user
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Param cursor query string false "Cursor for pagination"
 // @Param limit query int false "Number of items to return"
@@ -43,7 +43,7 @@ func NewSessionHandler(svc *service.Service) SessionHandlerInterface {
 // @Param is_active query bool false "Filter by active status"
 // @Success 200 {array} structs.ReadSession "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/sessions [get]
+// @Router /sessions [get]
 // @Security Bearer
 func (h *sessionHandler) List(c *gin.Context) {
 	params := &structs.ListSessionParams{
@@ -70,12 +70,12 @@ func (h *sessionHandler) List(c *gin.Context) {
 //
 // @Summary Get session
 // @Description Retrieve a specific session by ID
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Param session_id path string true "Session ID"
 // @Success 200 {object} structs.ReadSession "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/sessions/{session_id} [get]
+// @Router /sessions/{session_id} [get]
 // @Security Bearer
 func (h *sessionHandler) Get(c *gin.Context) {
 	sessionID := c.Param("session_id")
@@ -100,12 +100,12 @@ func (h *sessionHandler) Get(c *gin.Context) {
 //
 // @Summary Delete session
 // @Description Delete a specific session (logout from device)
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Param session_id path string true "Session ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/sessions/{session_id} [delete]
+// @Router /sessions/{session_id} [delete]
 // @Security Bearer
 func (h *sessionHandler) Delete(c *gin.Context) {
 	sessionID := c.Param("session_id")
@@ -135,11 +135,11 @@ func (h *sessionHandler) Delete(c *gin.Context) {
 //
 // @Summary Deactivate all sessions
 // @Description Deactivate all sessions for the current user (logout from all devices)
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/sessions/deactivate-all [post]
+// @Router /sessions/deactivate-all [post]
 // @Security Bearer
 func (h *sessionHandler) DeactivateAll(c *gin.Context) {
 	currentUserID := ctxutil.GetUserID(c.Request.Context())

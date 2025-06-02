@@ -155,7 +155,7 @@ func (h *TemplateHandler) Delete(c *gin.Context) {
 
 // List handles template listing
 // @Summary List templates
-// @Description List workflow templates with pagination
+// @Description List workflow templates
 // @Tags flow
 // @Produce json
 // @Param params query structs.ListTemplateParams true "Template list parameters"

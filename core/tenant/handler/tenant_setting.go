@@ -40,13 +40,13 @@ func NewTenantSettingHandler(svc *service.Service) TenantSettingHandlerInterface
 //
 // @Summary Create tenant setting
 // @Description Create a new tenant setting configuration
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTenantSettingBody true "Setting configuration"
 // @Success 200 {object} structs.ReadTenantSetting "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/settings [post]
+// @Router /sys/tenants/settings [post]
 // @Security Bearer
 func (h *tenantSettingHandler) Create(c *gin.Context) {
 	body := &structs.CreateTenantSettingBody{}
@@ -71,14 +71,14 @@ func (h *tenantSettingHandler) Create(c *gin.Context) {
 //
 // @Summary Update tenant setting
 // @Description Update an existing tenant setting configuration
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param id path string true "Setting ID"
 // @Param body body types.JSON true "Update data"
 // @Success 200 {object} structs.ReadTenantSetting "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/settings/{id} [put]
+// @Router /sys/tenants/settings/{id} [put]
 // @Security Bearer
 func (h *tenantSettingHandler) Update(c *gin.Context) {
 	id := c.Param("id")
@@ -109,12 +109,12 @@ func (h *tenantSettingHandler) Update(c *gin.Context) {
 //
 // @Summary Get tenant setting
 // @Description Retrieve a tenant setting by ID
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param id path string true "Setting ID"
 // @Success 200 {object} structs.ReadTenantSetting "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/settings/{id} [get]
+// @Router /sys/tenants/settings/{id} [get]
 // @Security Bearer
 func (h *tenantSettingHandler) Get(c *gin.Context) {
 	id := c.Param("id")
@@ -136,12 +136,12 @@ func (h *tenantSettingHandler) Get(c *gin.Context) {
 //
 // @Summary Delete tenant setting
 // @Description Delete a tenant setting configuration
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param id path string true "Setting ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/settings/{id} [delete]
+// @Router /sys/tenants/settings/{id} [delete]
 // @Security Bearer
 func (h *tenantSettingHandler) Delete(c *gin.Context) {
 	id := c.Param("id")
@@ -162,12 +162,12 @@ func (h *tenantSettingHandler) Delete(c *gin.Context) {
 //
 // @Summary List tenant settings
 // @Description Retrieve a list of tenant settings
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param params query structs.ListTenantSettingParams true "List parameters"
 // @Success 200 {array} structs.ReadTenantSetting "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/settings [get]
+// @Router /sys/tenants/settings [get]
 // @Security Bearer
 func (h *tenantSettingHandler) List(c *gin.Context) {
 	params := &structs.ListTenantSettingParams{}
@@ -192,13 +192,13 @@ func (h *tenantSettingHandler) List(c *gin.Context) {
 //
 // @Summary Bulk update tenant settings
 // @Description Update multiple tenant settings at once
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.BulkUpdateSettingsRequest true "Bulk update request"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/settings/bulk [post]
+// @Router /sys/tenants/settings/bulk [post]
 // @Security Bearer
 func (h *tenantSettingHandler) BulkUpdate(c *gin.Context) {
 	body := &structs.BulkUpdateSettingsRequest{}
@@ -222,12 +222,12 @@ func (h *tenantSettingHandler) BulkUpdate(c *gin.Context) {
 //
 // @Summary Get all tenant settings
 // @Description Retrieve all settings for a specific tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/settings [get]
+// @Router /sys/tenants/{tenantId}/settings [get]
 // @Security Bearer
 func (h *tenantSettingHandler) GetTenantSettings(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -249,12 +249,12 @@ func (h *tenantSettingHandler) GetTenantSettings(c *gin.Context) {
 //
 // @Summary Get public tenant settings
 // @Description Retrieve public settings for a specific tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/settings/public [get]
+// @Router /sys/tenants/{tenantId}/settings/public [get]
 func (h *tenantSettingHandler) GetPublicSettings(c *gin.Context) {
 	tenantID := c.Param("tenantId")
 	if tenantID == "" {
@@ -275,7 +275,7 @@ func (h *tenantSettingHandler) GetPublicSettings(c *gin.Context) {
 //
 // @Summary Set tenant setting
 // @Description Set a specific setting for a tenant
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
@@ -283,7 +283,7 @@ func (h *tenantSettingHandler) GetPublicSettings(c *gin.Context) {
 // @Param body body map[string]string true "Setting value"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/settings/{key} [put]
+// @Router /sys/tenants/{tenantId}/settings/{key} [put]
 // @Security Bearer
 func (h *tenantSettingHandler) SetSetting(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -317,13 +317,13 @@ func (h *tenantSettingHandler) SetSetting(c *gin.Context) {
 //
 // @Summary Get specific tenant setting
 // @Description Retrieve a specific setting for a tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param key path string true "Setting Key"
 // @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/settings/{key} [get]
+// @Router /sys/tenants/{tenantId}/settings/{key} [get]
 // @Security Bearer
 func (h *tenantSettingHandler) GetSetting(c *gin.Context) {
 	tenantID := c.Param("tenantId")

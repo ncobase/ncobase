@@ -18,7 +18,7 @@ type TenantQuota struct {
 
 // Annotations of the TenantQuota
 func (TenantQuota) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "tenant_quota"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "tenant_quota"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

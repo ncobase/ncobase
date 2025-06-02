@@ -18,7 +18,7 @@ type TenantSetting struct {
 
 // Annotations of the TenantSetting
 func (TenantSetting) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "tenant_setting"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "tenant_setting"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

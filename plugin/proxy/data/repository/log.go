@@ -108,7 +108,7 @@ func (r *logRepository) GetByID(ctx context.Context, id string) (*ent.Logs, erro
 	return row, nil
 }
 
-// List lists proxy logs with pagination.
+// List lists proxy logs.
 func (r *logRepository) List(ctx context.Context, params *structs.ListLogParams) ([]*ent.Logs, error) {
 	// Create builder for list
 	builder, err := r.listBuilder(ctx, params)

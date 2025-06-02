@@ -42,7 +42,7 @@ func (w *SpaceServiceWrapper) RefreshServices() {
 	w.loadServices()
 }
 
-// GetGroupByIDs gets groups by IDs with graceful fallback
+// GetGroupByIDs gets groups by IDs
 func (w *SpaceServiceWrapper) GetGroupByIDs(ctx context.Context, groupIDs []string) ([]*structs.ReadGroup, error) {
 	if w.groupService != nil {
 		return w.groupService.GetByIDs(ctx, groupIDs)
@@ -51,7 +51,7 @@ func (w *SpaceServiceWrapper) GetGroupByIDs(ctx context.Context, groupIDs []stri
 	return nil, fmt.Errorf("group service is not available")
 }
 
-// GetGroup gets a single group with graceful fallback
+// GetGroup gets a single group
 func (w *SpaceServiceWrapper) GetGroup(ctx context.Context, groupID string) (*structs.ReadGroup, error) {
 	if w.groupService != nil {
 		return w.groupService.Get(ctx, groupID)

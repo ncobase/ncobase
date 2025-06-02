@@ -47,7 +47,7 @@ func (s *logService) GetByID(ctx context.Context, id string) (*structs.Log, erro
 	return s.Serialize(log), nil
 }
 
-// GetByOrderID gets payment logs for an order with pagination
+// GetByOrderID gets payment logs for an order
 func (s *logService) GetByOrderID(ctx context.Context, orderID string, page, pageSize int) (paging.Result[*structs.Log], error) {
 	if orderID == "" {
 		return paging.Result[*structs.Log]{}, fmt.Errorf(ecode.FieldIsRequired("order_id"))
@@ -64,7 +64,7 @@ func (s *logService) GetByOrderID(ctx context.Context, orderID string, page, pag
 	return s.List(ctx, query)
 }
 
-// List lists payment logs with pagination
+// List lists payment logs
 func (s *logService) List(ctx context.Context, query *structs.LogQuery) (paging.Result[*structs.Log], error) {
 	pp := paging.Params{
 		Cursor:    query.Cursor,

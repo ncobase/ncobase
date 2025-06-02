@@ -106,7 +106,7 @@ func (r *logRepository) GetByID(ctx context.Context, id string) (*structs.Log, e
 	return r.entToStruct(log)
 }
 
-// List lists payment logs with pagination
+// List lists payment logs
 func (r *logRepository) List(ctx context.Context, query *structs.LogQuery) ([]*structs.Log, error) {
 	// Build query
 	q := r.data.EC.PaymentLog.Query()

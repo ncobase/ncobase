@@ -98,7 +98,7 @@ func (s *tenantSettingService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists tenant settings with pagination
+// List lists tenant settings
 func (s *tenantSettingService) List(ctx context.Context, params *structs.ListTenantSettingParams) (paging.Result[*structs.ReadTenantSetting], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

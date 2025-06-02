@@ -153,7 +153,7 @@ func (h *NodeHandler) Delete(c *gin.Context) {
 
 // List handles node listing
 // @Summary List nodes
-// @Description List workflow nodes with pagination
+// @Description List workflow nodes
 // @Tags flow
 // @Produce json
 // @Param params query structs.ListNodeParams true "Node list parameters"

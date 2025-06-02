@@ -18,7 +18,7 @@ type UserTenant struct {
 
 // Annotations of the UserTenant.
 func (UserTenant) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "user_tenant"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "user_tenant"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

@@ -35,14 +35,14 @@ func NewTenantGroupHandler(svc *service.Service) TenantGroupHandlerInterface {
 //
 // @Summary Add group to tenant
 // @Description Add a group to a specific tenant
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param body body structs.AddTenantGroupRequest true "AddTenantGroupRequest object"
 // @Success 200 {object} structs.TenantGroupRelation "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/groups [post]
+// @Router /sys/tenants/{tenantId}/groups [post]
 // @Security Bearer
 func (h *tenantGroupHandler) AddGroupToTenant(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -78,13 +78,13 @@ func (h *tenantGroupHandler) AddGroupToTenant(c *gin.Context) {
 //
 // @Summary Remove group from tenant
 // @Description Remove a group from a specific tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param groupId path string true "Group ID"
 // @Success 200 {object} resp.Success "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/groups/{groupId} [delete]
+// @Router /sys/tenants/{tenantId}/groups/{groupId} [delete]
 // @Security Bearer
 func (h *tenantGroupHandler) RemoveGroupFromTenant(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -112,13 +112,13 @@ func (h *tenantGroupHandler) RemoveGroupFromTenant(c *gin.Context) {
 //
 // @Summary Get tenant groups
 // @Description Get all groups belonging to a specific tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param params query structs.ListGroupParams true "List group parameters"
 // @Success 200 {array} structs.ReadGroup "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/groups [get]
+// @Router /sys/tenants/{tenantId}/groups [get]
 // @Security Bearer
 func (h *tenantGroupHandler) GetTenantGroups(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -149,12 +149,12 @@ func (h *tenantGroupHandler) GetTenantGroups(c *gin.Context) {
 //
 // @Summary Get group tenants
 // @Description Get all tenants that have a specific group
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param groupId path string true "Group ID"
 // @Success 200 {array} string "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/groups/{groupId}/tenants [get]
+// @Router /sys/groups/{groupId}/tenants [get]
 // @Security Bearer
 func (h *tenantGroupHandler) GetGroupTenants(c *gin.Context) {
 	groupID := c.Param("groupId")
@@ -176,13 +176,13 @@ func (h *tenantGroupHandler) GetGroupTenants(c *gin.Context) {
 //
 // @Summary Check if group is in tenant
 // @Description Check if a group belongs to a specific tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param groupId path string true "Group ID"
 // @Success 200 {object} map[string]bool "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/groups/{groupId}/check [get]
+// @Router /sys/tenants/{tenantId}/groups/{groupId}/check [get]
 // @Security Bearer
 func (h *tenantGroupHandler) IsGroupInTenant(c *gin.Context) {
 	tenantID := c.Param("tenantId")

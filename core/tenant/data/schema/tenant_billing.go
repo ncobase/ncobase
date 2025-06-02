@@ -18,7 +18,7 @@ type TenantBilling struct {
 
 // Annotations of the TenantBilling
 func (TenantBilling) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "tenant_billing"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "tenant_billing"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

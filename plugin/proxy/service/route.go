@@ -168,7 +168,7 @@ func (s *routeService) FindByPathAndMethod(ctx context.Context, path, method str
 	return nil, fmt.Errorf("no route found for path %s and method %s", path, method)
 }
 
-// List lists all routes with pagination.
+// List lists all routes.
 func (s *routeService) List(ctx context.Context, params *structs.ListRouteParams) (paging.Result[*structs.ReadRoute], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

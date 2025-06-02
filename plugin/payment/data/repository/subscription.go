@@ -159,7 +159,7 @@ func (r *subscriptionRepository) Update(ctx context.Context, sub *structs.Subscr
 	return result, nil
 }
 
-// List lists subscriptions with pagination
+// List lists subscriptions
 func (r *subscriptionRepository) List(ctx context.Context, query *structs.SubscriptionQuery) ([]*structs.Subscription, error) {
 	// Build query
 	q := r.data.EC.PaymentSubscription.Query()

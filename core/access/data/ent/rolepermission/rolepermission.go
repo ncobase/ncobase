@@ -24,7 +24,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the rolepermission in the database.
-	Table = "ncse_iam_role_permission"
+	Table = "ncse_sys_role_permission"
 )
 
 // Columns holds all SQL columns for rolepermission fields.

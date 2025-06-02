@@ -42,13 +42,13 @@ func NewAccountHandler(svc *service.Service) AccountHandlerInterface {
 //
 // @Summary Register
 // @Description Register a new user.
-// @Tags iam
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param body body structs.RegisterBody true "RegisterBody object"
 // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/register [post]
+// @Router /register [post]
 func (h *accountHandler) Register(c *gin.Context) {
 	body := &structs.RegisterBody{}
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -79,13 +79,13 @@ func (h *accountHandler) Register(c *gin.Context) {
 //
 // @Summary Login
 // @Description Log in a user.
-// @Tags iam
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param body body structs.LoginBody true "LoginBody object"
 // @Success 200 {object} map[string]any{id=string,access_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/login [post]
+// @Router /login [post]
 func (h *accountHandler) Login(c *gin.Context) {
 	body := &structs.LoginBody{}
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -124,11 +124,11 @@ func (h *accountHandler) Login(c *gin.Context) {
 //
 // @Summary Get current user
 // @Description Retrieve information about the current user.
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Success 200 {object} structs.AccountMeshes "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/account [get]
+// @Router /account [get]
 // @Security Bearer
 func (h *accountHandler) GetMe(c *gin.Context) {
 	result, err := h.s.Account.GetMe(c.Request.Context())
@@ -143,10 +143,10 @@ func (h *accountHandler) GetMe(c *gin.Context) {
 //
 // @Summary Logout
 // @Description Logout the current user.
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Success 200 {object} resp.Exception "success"
-// @Router /iam/logout [post]
+// @Router /logout [post]
 // @Security Bearer
 func (h *accountHandler) Logout(c *gin.Context) {
 	// Clear session cookies for web authentication
@@ -166,13 +166,13 @@ func (h *accountHandler) Logout(c *gin.Context) {
 //
 // @Summary RefreshToken token
 // @Description Refresh the current user's access token.
-// @Tags iam
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param body body structs.RefreshTokenBody true "Refresh token"
 // @Success 200 {object} map[string]any{id=string,access_token=string,refresh_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/refresh [post]
+// @Router /refresh [post]
 func (h *accountHandler) RefreshToken(c *gin.Context) {
 	body := &structs.RefreshTokenBody{}
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
@@ -203,11 +203,11 @@ func (h *accountHandler) RefreshToken(c *gin.Context) {
 //
 // @Summary Token status
 // @Description Get the current token status.
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Success 200 {object} map[string]any{is_authenticated=bool} "success"
 // @Failure 401 {object} resp.Exception "unauthorized"
-// @Router /iam/token-status [get]
+// @Router /token-status [get]
 func (h *accountHandler) TokenStatus(c *gin.Context) {
 	userID := ctxutil.GetUserID(c.Request.Context())
 	if userID == "" {
@@ -224,13 +224,13 @@ func (h *accountHandler) TokenStatus(c *gin.Context) {
 //
 // @Summary Update user password
 // @Description Update the password of the current user.
-// @Tags iam
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param body body structs.UserPassword true "UserPassword object"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/account/password [put]
+// @Router /account/password [put]
 // @Security Bearer
 func (h *accountHandler) UpdatePassword(c *gin.Context) {
 	body := &userStructs.UserPassword{}
@@ -254,11 +254,11 @@ func (h *accountHandler) UpdatePassword(c *gin.Context) {
 //
 // @Summary Get current user tenant
 // @Description Retrieve the tenant associated with the current user.
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/account/tenant [get]
+// @Router /account/tenant [get]
 // @Security Bearer
 func (h *accountHandler) Tenant(c *gin.Context) {
 	result, err := h.s.Account.Tenant(c.Request.Context())
@@ -273,11 +273,11 @@ func (h *accountHandler) Tenant(c *gin.Context) {
 //
 // @Summary Get current user tenants
 // @Description Retrieve the tenant associated with the current user.
-// @Tags iam
+// @Tags auth
 // @Produce json
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/account/tenants [get]
+// @Router /account/tenants [get]
 // @Security Bearer
 func (h *accountHandler) Tenants(c *gin.Context) {
 	result, err := h.s.Account.Tenants(c.Request.Context())

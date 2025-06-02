@@ -1593,7 +1593,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List delegation rules with pagination",
+                "description": "List delegation rules",
                 "produces": [
                     "application/json"
                 ],
@@ -1925,7 +1925,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List history records with pagination",
+                "description": "List history records",
                 "produces": [
                     "application/json"
                 ],
@@ -2094,7 +2094,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List workflow nodes with pagination",
+                "description": "List workflow nodes",
                 "produces": [
                     "application/json"
                 ],
@@ -2560,7 +2560,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List process designs with pagination",
+                "description": "List process designs",
                 "produces": [
                     "application/json"
                 ],
@@ -2980,7 +2980,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List process instances with pagination",
+                "description": "List process instances",
                 "produces": [
                     "application/json"
                 ],
@@ -3589,7 +3589,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List workflow rules with pagination",
+                "description": "List workflow rules",
                 "produces": [
                     "application/json"
                 ],
@@ -4009,7 +4009,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List tasks with pagination",
+                "description": "List tasks",
                 "produces": [
                     "application/json"
                 ],
@@ -4685,7 +4685,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List workflow templates with pagination",
+                "description": "List workflow templates",
                 "produces": [
                     "application/json"
                 ],
@@ -6901,7 +6901,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of attachments associated with a specific tenant.",
+                "description": "Retrieve a list of attachments associated",
                 "produces": [
                     "application/json"
                 ],
@@ -6941,7 +6941,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of groups associated with a specific tenant.",
+                "description": "Retrieve a list of groups associated",
                 "produces": [
                     "application/json"
                 ],
@@ -6981,7 +6981,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve the menu associated with a specific tenant.",
+                "description": "Retrieve the menu associated",
                 "produces": [
                     "application/json"
                 ],
@@ -7021,7 +7021,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of roles associated with a specific tenant.",
+                "description": "Retrieve a list of roles associated",
                 "produces": [
                     "application/json"
                 ],
@@ -7061,7 +7061,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve the settings associated with a specific tenant.",
+                "description": "Retrieve the settings associated",
                 "produces": [
                     "application/json"
                 ],
@@ -7101,7 +7101,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of settings associated with a specific tenant.",
+                "description": "Retrieve a list of settings associated",
                 "produces": [
                     "application/json"
                 ],
@@ -7141,7 +7141,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of users associated with a specific tenant.",
+                "description": "Retrieve a list of users associated",
                 "produces": [
                     "application/json"
                 ],
@@ -12729,7 +12729,7 @@ const docTemplate = `{
         },
         "/sys/users": {
             "get": {
-                "description": "List all users with pagination.",
+                "description": "List all users.",
                 "produces": [
                     "application/json"
                 ],

@@ -150,7 +150,7 @@ func (h *DelegationHandler) Delete(c *gin.Context) {
 
 // List handles delegation listing
 // @Summary List delegations
-// @Description List delegation rules with pagination
+// @Description List delegation rules
 // @Tags flow
 // @Produce json
 // @Param params query structs.ListDelegationParams true "Delegation list parameters"

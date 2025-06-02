@@ -39,13 +39,13 @@ func NewTenantBillingHandler(svc *service.Service) TenantBillingHandlerInterface
 //
 // @Summary Create tenant billing
 // @Description Create a new tenant billing record
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.CreateTenantBillingBody true "Billing record"
 // @Success 200 {object} structs.ReadTenantBilling "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/billing [post]
+// @Router /sys/tenants/billing [post]
 // @Security Bearer
 func (h *tenantBillingHandler) Create(c *gin.Context) {
 	body := &structs.CreateTenantBillingBody{}
@@ -70,14 +70,14 @@ func (h *tenantBillingHandler) Create(c *gin.Context) {
 //
 // @Summary Update tenant billing
 // @Description Update an existing tenant billing record
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param id path string true "Billing ID"
 // @Param body body types.JSON true "Update data"
 // @Success 200 {object} structs.ReadTenantBilling "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/billing/{id} [put]
+// @Router /sys/tenants/billing/{id} [put]
 // @Security Bearer
 func (h *tenantBillingHandler) Update(c *gin.Context) {
 	id := c.Param("id")
@@ -108,12 +108,12 @@ func (h *tenantBillingHandler) Update(c *gin.Context) {
 //
 // @Summary Get tenant billing
 // @Description Retrieve a tenant billing record by ID
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param id path string true "Billing ID"
 // @Success 200 {object} structs.ReadTenantBilling "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/billing/{id} [get]
+// @Router /sys/tenants/billing/{id} [get]
 // @Security Bearer
 func (h *tenantBillingHandler) Get(c *gin.Context) {
 	id := c.Param("id")
@@ -135,12 +135,12 @@ func (h *tenantBillingHandler) Get(c *gin.Context) {
 //
 // @Summary Delete tenant billing
 // @Description Delete a tenant billing record
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param id path string true "Billing ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/billing/{id} [delete]
+// @Router /sys/tenants/billing/{id} [delete]
 // @Security Bearer
 func (h *tenantBillingHandler) Delete(c *gin.Context) {
 	id := c.Param("id")
@@ -161,12 +161,12 @@ func (h *tenantBillingHandler) Delete(c *gin.Context) {
 //
 // @Summary List tenant billing
 // @Description Retrieve a list of tenant billing records
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param params query structs.ListTenantBillingParams true "List parameters"
 // @Success 200 {array} structs.ReadTenantBilling "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/billing [get]
+// @Router /sys/tenants/billing [get]
 // @Security Bearer
 func (h *tenantBillingHandler) List(c *gin.Context) {
 	params := &structs.ListTenantBillingParams{}
@@ -191,13 +191,13 @@ func (h *tenantBillingHandler) List(c *gin.Context) {
 //
 // @Summary Process payment
 // @Description Process payment for a billing record
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.PaymentRequest true "Payment request"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/billing/payment [post]
+// @Router /sys/tenants/billing/payment [post]
 // @Security Bearer
 func (h *tenantBillingHandler) ProcessPayment(c *gin.Context) {
 	body := &structs.PaymentRequest{}
@@ -221,12 +221,12 @@ func (h *tenantBillingHandler) ProcessPayment(c *gin.Context) {
 //
 // @Summary Get billing summary
 // @Description Retrieve billing summary for a tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} structs.BillingSummary "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/billing/summary [get]
+// @Router /sys/tenants/{tenantId}/billing/summary [get]
 // @Security Bearer
 func (h *tenantBillingHandler) GetSummary(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -248,12 +248,12 @@ func (h *tenantBillingHandler) GetSummary(c *gin.Context) {
 //
 // @Summary Get overdue billing
 // @Description Retrieve overdue billing records for a tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Success 200 {array} structs.ReadTenantBilling "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/billing/overdue [get]
+// @Router /sys/tenants/{tenantId}/billing/overdue [get]
 // @Security Bearer
 func (h *tenantBillingHandler) GetOverdue(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -275,14 +275,14 @@ func (h *tenantBillingHandler) GetOverdue(c *gin.Context) {
 //
 // @Summary Generate invoice
 // @Description Generate a new invoice for a tenant
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param body body map[string]string true "Invoice generation request"
 // @Success 200 {object} structs.ReadTenantBilling "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/billing/invoice [post]
+// @Router /sys/tenants/{tenantId}/billing/invoice [post]
 // @Security Bearer
 func (h *tenantBillingHandler) GenerateInvoice(c *gin.Context) {
 	tenantID := c.Param("tenantId")

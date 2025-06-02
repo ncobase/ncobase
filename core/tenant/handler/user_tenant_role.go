@@ -34,18 +34,18 @@ func NewUserTenantRoleHandler(svc *service.Service) UserTenantRoleHandlerInterfa
 	}
 }
 
-// AddUserToTenantRole handles adding a user to a tenant with a specific role.
+// AddUserToTenantRole handles adding a user to a tenant
 //
 // @Summary Add user to tenant role
-// @Description Add a user to a tenant with a specific role
-// @Tags iam
+// @Description Add a user to a tenant
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param body body structs.AddUserToTenantRoleRequest true "AddUserToTenantRoleRequest object"
 // @Success 200 {object} structs.UserTenantRoleResponse "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/users/roles [post]
+// @Router /sys/tenants/{tenantId}/users/roles [post]
 // @Security Bearer
 func (h *userTenantRoleHandler) AddUserToTenantRole(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -98,14 +98,14 @@ func (h *userTenantRoleHandler) AddUserToTenantRole(c *gin.Context) {
 //
 // @Summary Remove user from tenant role
 // @Description Remove a user from a specific role in a tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param userId path string true "User ID"
 // @Param roleId path string true "Role ID"
 // @Success 200 {object} resp.Success "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/users/{userId}/roles/{roleId} [delete]
+// @Router /sys/tenants/{tenantId}/users/{userId}/roles/{roleId} [delete]
 // @Security Bearer
 func (h *userTenantRoleHandler) RemoveUserFromTenantRole(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -144,13 +144,13 @@ func (h *userTenantRoleHandler) RemoveUserFromTenantRole(c *gin.Context) {
 //
 // @Summary Get user tenant roles
 // @Description Get all roles a user has in a specific tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param username path string true "User ID or username"
 // @Success 200 {object} structs.UserTenantRolesResponse "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/users/{username}/roles [get]
+// @Router /sys/tenants/{tenantId}/users/{username}/roles [get]
 // @Security Bearer
 func (h *userTenantRoleHandler) GetUserTenantRoles(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -181,17 +181,17 @@ func (h *userTenantRoleHandler) GetUserTenantRoles(c *gin.Context) {
 	resp.Success(c.Writer, response)
 }
 
-// GetTenantUsersByRole handles getting all users with a specific role in a tenant.
+// GetTenantUsersByRole handles getting all users with a specific role
 //
 // @Summary Get tenant users by role
 // @Description Get all users that have a specific role in a tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param roleId path string true "Role ID"
 // @Success 200 {object} structs.TenantRoleUsersResponse "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/roles/{roleId}/users [get]
+// @Router /sys/tenants/{tenantId}/roles/{roleId}/users [get]
 // @Security Bearer
 func (h *userTenantRoleHandler) GetTenantUsersByRole(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -226,14 +226,14 @@ func (h *userTenantRoleHandler) GetTenantUsersByRole(c *gin.Context) {
 //
 // @Summary Check user tenant role
 // @Description Check if a user has a specific role in a tenant
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param username path string true "User ID or username"
 // @Param roleId path string true "Role ID"
 // @Success 200 {object} map[string]bool "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/users/{username}/roles/{roleId}/check [get]
+// @Router /sys/tenants/{tenantId}/users/{username}/roles/{roleId}/check [get]
 // @Security Bearer
 func (h *userTenantRoleHandler) CheckUserTenantRole(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -267,13 +267,13 @@ func (h *userTenantRoleHandler) CheckUserTenantRole(c *gin.Context) {
 //
 // @Summary List tenant users
 // @Description List all users in a tenant with their roles
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param params query structs.ListTenantUsersParams true "List parameters"
 // @Success 200 {object} structs.TenantUsersListResponse "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/users [get]
+// @Router /sys/tenants/{tenantId}/users [get]
 // @Security Bearer
 func (h *userTenantRoleHandler) ListTenantUsers(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -304,7 +304,7 @@ func (h *userTenantRoleHandler) ListTenantUsers(c *gin.Context) {
 //
 // @Summary Update user tenant role
 // @Description Update a user's role in a tenant
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
@@ -312,7 +312,7 @@ func (h *userTenantRoleHandler) ListTenantUsers(c *gin.Context) {
 // @Param body body structs.UpdateUserTenantRoleRequest true "UpdateUserTenantRoleRequest object"
 // @Success 200 {object} structs.UserTenantRoleResponse "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/users/{userId}/roles [put]
+// @Router /sys/tenants/{tenantId}/users/{userId}/roles [put]
 // @Security Bearer
 func (h *userTenantRoleHandler) UpdateUserTenantRole(c *gin.Context) {
 	tenantID := c.Param("tenantId")
@@ -346,14 +346,14 @@ func (h *userTenantRoleHandler) UpdateUserTenantRole(c *gin.Context) {
 //
 // @Summary Bulk update user tenant roles
 // @Description Bulk update multiple user tenant roles
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param body body structs.BulkUpdateUserTenantRolesRequest true "BulkUpdateUserTenantRolesRequest object"
 // @Success 200 {object} structs.BulkUpdateResponse "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{tenantId}/users/roles/bulk [put]
+// @Router /sys/tenants/{tenantId}/users/roles/bulk [put]
 // @Security Bearer
 func (h *userTenantRoleHandler) BulkUpdateUserTenantRoles(c *gin.Context) {
 	tenantID := c.Param("tenantId")

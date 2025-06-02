@@ -136,7 +136,7 @@ func (s *topicMediaService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists all topic media relations with pagination.
+// List lists all topic media relations.
 func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicMediaParams) (paging.Result[*structs.ReadTopicMedia], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

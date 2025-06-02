@@ -21,7 +21,7 @@ type Session struct {
 
 // Annotations of the Session.
 func (Session) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "user_session"}, "_")
+	table := strings.Join([]string{"ncse", "user_session"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

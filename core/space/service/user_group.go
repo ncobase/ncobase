@@ -39,7 +39,7 @@ func NewUserGroupService(d *data.Data, gs GroupServiceInterface, usw *wrapper.Us
 	}
 }
 
-// AddUserToGroup adds a user to a group with a specific role
+// AddUserToGroup adds a user to a group
 func (s *userGroupService) AddUserToGroup(ctx context.Context, u string, g string, role structs.UserRole) (*structs.GroupMember, error) {
 	if !structs.IsValidUserRole(role) {
 		role = structs.RoleMember
@@ -156,7 +156,7 @@ func (s *userGroupService) GetUserRole(ctx context.Context, g string, u string) 
 	return structs.UserRole(userGroup.Role), nil
 }
 
-// GetMembersByRole retrieves all members with a specific role in a group.
+// GetMembersByRole retrieves all members with a specific role
 func (s *userGroupService) GetMembersByRole(ctx context.Context, g string, role structs.UserRole) ([]*structs.GroupMember, error) {
 	userGroups, err := s.r.GetByGroupIDAndRole(ctx, g, role)
 	if err := handleEntError(ctx, "UserGroup", err); err != nil {

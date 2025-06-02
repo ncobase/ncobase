@@ -152,7 +152,7 @@ func (s *transformerService) GetByName(ctx context.Context, name string) (*struc
 	return s.Serialize(row), nil
 }
 
-// List lists all transformers with pagination.
+// List lists all transformers.
 func (s *transformerService) List(ctx context.Context, params *structs.ListTransformerParams) (paging.Result[*structs.ReadTransformer], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

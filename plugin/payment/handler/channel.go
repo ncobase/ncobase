@@ -207,7 +207,7 @@ func (h *channelHandler) ChangeStatus(c *gin.Context) {
 	resp.Success(c.Writer, channel)
 }
 
-// List handles listing payment channels with pagination
+// List handles listing payment channels
 //
 // @Summary List payment channels
 // @Description Get a paginated list of payment channels

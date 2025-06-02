@@ -146,7 +146,7 @@ func (r *subscriptionRepository) FindByUserAndChannel(ctx context.Context, userI
 		Only(ctx)
 }
 
-// List lists subscriptions with pagination and filters
+// List lists subscriptions and filters
 func (r *subscriptionRepository) List(ctx context.Context, offset, limit int, filters map[string]any) ([]*ent.Subscription, error) {
 	query := r.buildQuery(filters)
 

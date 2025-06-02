@@ -90,7 +90,7 @@ func (s *tenantBillingService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists tenant billing records with pagination
+// List lists tenant billing records
 func (s *tenantBillingService) List(ctx context.Context, params *structs.ListTenantBillingParams) (paging.Result[*structs.ReadTenantBilling], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

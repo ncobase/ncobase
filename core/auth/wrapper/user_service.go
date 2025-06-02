@@ -114,7 +114,7 @@ func (w *UserServiceWrapper) CreateUserProfile(ctx context.Context, body *userSt
 	return nil, fmt.Errorf("user profile service not available")
 }
 
-// GetUserProfile gets user profile with graceful fallback
+// GetUserProfile gets user profile
 func (w *UserServiceWrapper) GetUserProfile(ctx context.Context, id string) (*userStructs.ReadUserProfile, error) {
 	if w.profileService != nil {
 		return w.profileService.Get(ctx, id)

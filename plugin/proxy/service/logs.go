@@ -82,7 +82,7 @@ func (s *logService) GetByID(ctx context.Context, id string) (*structs.ReadLog, 
 	return s.Serialize(row), nil
 }
 
-// List lists all proxy logs with pagination.
+// List lists all proxy logs.
 func (s *logService) List(ctx context.Context, params *structs.ListLogParams) (paging.Result[*structs.ReadLog], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

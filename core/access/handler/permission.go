@@ -37,13 +37,13 @@ func NewPermissionHandler(svc *service.Service) PermissionHandlerInterface {
 //
 // @Summary Create a new permission
 // @Description Create a new permission with the provided data
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param body body structs.CreatePermissionBody true "Permission data"
 // @Success 200 {object} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/permissions [post]
+// @Router /sys/permissions [post]
 // @Security Bearer
 func (h *permissionHandler) Create(c *gin.Context) {
 	body := &structs.CreatePermissionBody{}
@@ -68,12 +68,12 @@ func (h *permissionHandler) Create(c *gin.Context) {
 //
 // @Summary Get a permission by slug or ID
 // @Description Retrieve a permission by its slug or ID
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param slug path string true "Permission slug or ID"
 // @Success 200 {object} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/permissions/{slug} [get]
+// @Router /sys/permissions/{slug} [get]
 // @Security Bearer
 func (h *permissionHandler) Get(c *gin.Context) {
 	slug := c.Param("slug")
@@ -95,14 +95,14 @@ func (h *permissionHandler) Get(c *gin.Context) {
 //
 // @Summary Update an existing permission
 // @Description Update an existing permission with the provided data
-// @Tags iam
+// @Tags sys
 // @Accept json
 // @Produce json
 // @Param slug path string true "Permission slug or ID"
 // @Param body body types.JSON true "Permission data"
 // @Success 200 {object} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/permissions/{slug} [put]
+// @Router /sys/permissions/{slug} [put]
 // @Security Bearer
 func (h *permissionHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
@@ -133,12 +133,12 @@ func (h *permissionHandler) Update(c *gin.Context) {
 //
 // @Summary Delete a permission by slug or ID
 // @Description Delete a permission by its slug or ID
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param slug path string true "Permission slug or ID"
 // @Success 200 {object} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/permissions/{slug} [delete]
+// @Router /sys/permissions/{slug} [delete]
 // @Security Bearer
 func (h *permissionHandler) Delete(c *gin.Context) {
 	slug := c.Param("slug")
@@ -159,12 +159,12 @@ func (h *permissionHandler) Delete(c *gin.Context) {
 //
 // @Summary List all permissions
 // @Description Retrieve a list of permissions based on the provided query parameters
-// @Tags iam
+// @Tags sys
 // @Produce json
 // @Param params query structs.ListPermissionParams true "List permissions parameters"
 // @Success 200 {array} structs.ReadPermission "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/permissions [get]
+// @Router /sys/permissions [get]
 // @Security Bearer
 func (h *permissionHandler) List(c *gin.Context) {
 	params := &structs.ListPermissionParams{}

@@ -48,7 +48,7 @@ const (
 	// FieldUsageDetails holds the string denoting the usage_details field in the database.
 	FieldUsageDetails = "usage_details"
 	// Table holds the table name of the tenantbilling in the database.
-	Table = "ncse_iam_tenant_billing"
+	Table = "ncse_sys_tenant_billing"
 )
 
 // Columns holds all SQL columns for tenantbilling fields.

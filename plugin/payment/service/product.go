@@ -186,7 +186,7 @@ func (s *productService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists products with pagination
+// List lists products
 func (s *productService) List(ctx context.Context, query *structs.ProductQuery) (paging.Result[*structs.Product], error) {
 	pp := paging.Params{
 		Cursor:    query.Cursor,

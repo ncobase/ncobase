@@ -19,7 +19,7 @@ type Permission struct {
 
 // Annotations of the Permission.
 func (Permission) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "permission"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "permission"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

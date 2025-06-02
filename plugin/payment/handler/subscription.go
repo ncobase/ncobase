@@ -251,7 +251,7 @@ func (h *subscriptionHandler) GetByUser(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// List handles listing subscriptions with pagination
+// List handles listing subscriptions
 //
 // @Summary List subscriptions
 // @Description Get a paginated list of subscriptions

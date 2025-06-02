@@ -149,7 +149,7 @@ func (h *ProcessHandler) Delete(c *gin.Context) {
 
 // List handles process listing
 // @Summary List processes
-// @Description List process instances with pagination
+// @Description List process instances
 // @Tags flow
 // @Produce json
 // @Param params query structs.ListProcessParams true "Process list parameters"

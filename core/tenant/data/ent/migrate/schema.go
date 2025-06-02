@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseIamTenantColumns holds the columns for the "ncse_iam_tenant" table.
-	NcseIamTenantColumns = []*schema.Column{
+	// NcseSysTenantColumns holds the columns for the "ncse_sys_tenant" table.
+	NcseSysTenantColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
@@ -31,31 +31,31 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseIamTenantTable holds the schema information for the "ncse_iam_tenant" table.
-	NcseIamTenantTable = &schema.Table{
-		Name:       "ncse_iam_tenant",
-		Columns:    NcseIamTenantColumns,
-		PrimaryKey: []*schema.Column{NcseIamTenantColumns[0]},
+	// NcseSysTenantTable holds the schema information for the "ncse_sys_tenant" table.
+	NcseSysTenantTable = &schema.Table{
+		Name:       "ncse_sys_tenant",
+		Columns:    NcseSysTenantColumns,
+		PrimaryKey: []*schema.Column{NcseSysTenantColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "tenant_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantColumns[0]},
+				Columns: []*schema.Column{NcseSysTenantColumns[0]},
 			},
 			{
 				Name:    "tenant_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantColumns[2]},
+				Columns: []*schema.Column{NcseSysTenantColumns[2]},
 			},
 			{
 				Name:    "tenant_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantColumns[0], NcseIamTenantColumns[17]},
+				Columns: []*schema.Column{NcseSysTenantColumns[0], NcseSysTenantColumns[17]},
 			},
 		},
 	}
-	// NcseIamTenantBillingColumns holds the columns for the "ncse_iam_tenant_billing" table.
-	NcseIamTenantBillingColumns = []*schema.Column{
+	// NcseSysTenantBillingColumns holds the columns for the "ncse_sys_tenant_billing" table.
+	NcseSysTenantBillingColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
@@ -76,46 +76,46 @@ var (
 		{Name: "due_date", Type: field.TypeInt64, Nullable: true, Comment: "Payment due date timestamp"},
 		{Name: "usage_details", Type: field.TypeJSON, Nullable: true, Comment: "Detailed usage information for billing period"},
 	}
-	// NcseIamTenantBillingTable holds the schema information for the "ncse_iam_tenant_billing" table.
-	NcseIamTenantBillingTable = &schema.Table{
-		Name:       "ncse_iam_tenant_billing",
-		Columns:    NcseIamTenantBillingColumns,
-		PrimaryKey: []*schema.Column{NcseIamTenantBillingColumns[0]},
+	// NcseSysTenantBillingTable holds the schema information for the "ncse_sys_tenant_billing" table.
+	NcseSysTenantBillingTable = &schema.Table{
+		Name:       "ncse_sys_tenant_billing",
+		Columns:    NcseSysTenantBillingColumns,
+		PrimaryKey: []*schema.Column{NcseSysTenantBillingColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "tenantbilling_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantBillingColumns[0]},
+				Columns: []*schema.Column{NcseSysTenantBillingColumns[0]},
 			},
 			{
 				Name:    "tenantbilling_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantBillingColumns[1]},
+				Columns: []*schema.Column{NcseSysTenantBillingColumns[1]},
 			},
 			{
 				Name:    "tenantbilling_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantBillingColumns[0], NcseIamTenantBillingColumns[6]},
+				Columns: []*schema.Column{NcseSysTenantBillingColumns[0], NcseSysTenantBillingColumns[6]},
 			},
 			{
 				Name:    "tenantbilling_tenant_id_billing_period",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantBillingColumns[1], NcseIamTenantBillingColumns[8]},
+				Columns: []*schema.Column{NcseSysTenantBillingColumns[1], NcseSysTenantBillingColumns[8]},
 			},
 			{
 				Name:    "tenantbilling_tenant_id_status",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantBillingColumns[1], NcseIamTenantBillingColumns[13]},
+				Columns: []*schema.Column{NcseSysTenantBillingColumns[1], NcseSysTenantBillingColumns[13]},
 			},
 			{
 				Name:    "tenantbilling_status_due_date",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantBillingColumns[13], NcseIamTenantBillingColumns[17]},
+				Columns: []*schema.Column{NcseSysTenantBillingColumns[13], NcseSysTenantBillingColumns[17]},
 			},
 			{
 				Name:    "tenantbilling_invoice_number",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantBillingColumns[14]},
+				Columns: []*schema.Column{NcseSysTenantBillingColumns[14]},
 			},
 		},
 	}
@@ -302,8 +302,8 @@ var (
 			},
 		},
 	}
-	// NcseIamTenantQuotaColumns holds the columns for the "ncse_iam_tenant_quota" table.
-	NcseIamTenantQuotaColumns = []*schema.Column{
+	// NcseSysTenantQuotaColumns holds the columns for the "ncse_sys_tenant_quota" table.
+	NcseSysTenantQuotaColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
@@ -319,41 +319,41 @@ var (
 		{Name: "unit", Type: field.TypeString, Comment: "Unit of measurement (count, bytes, mb, gb, tb)", Default: "count"},
 		{Name: "enabled", Type: field.TypeBool, Comment: "Whether this quota is actively enforced", Default: true},
 	}
-	// NcseIamTenantQuotaTable holds the schema information for the "ncse_iam_tenant_quota" table.
-	NcseIamTenantQuotaTable = &schema.Table{
-		Name:       "ncse_iam_tenant_quota",
-		Columns:    NcseIamTenantQuotaColumns,
-		PrimaryKey: []*schema.Column{NcseIamTenantQuotaColumns[0]},
+	// NcseSysTenantQuotaTable holds the schema information for the "ncse_sys_tenant_quota" table.
+	NcseSysTenantQuotaTable = &schema.Table{
+		Name:       "ncse_sys_tenant_quota",
+		Columns:    NcseSysTenantQuotaColumns,
+		PrimaryKey: []*schema.Column{NcseSysTenantQuotaColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "tenantquota_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantQuotaColumns[0]},
+				Columns: []*schema.Column{NcseSysTenantQuotaColumns[0]},
 			},
 			{
 				Name:    "tenantquota_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantQuotaColumns[1]},
+				Columns: []*schema.Column{NcseSysTenantQuotaColumns[1]},
 			},
 			{
 				Name:    "tenantquota_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantQuotaColumns[0], NcseIamTenantQuotaColumns[6]},
+				Columns: []*schema.Column{NcseSysTenantQuotaColumns[0], NcseSysTenantQuotaColumns[6]},
 			},
 			{
 				Name:    "tenantquota_tenant_id_quota_type",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantQuotaColumns[1], NcseIamTenantQuotaColumns[8]},
+				Columns: []*schema.Column{NcseSysTenantQuotaColumns[1], NcseSysTenantQuotaColumns[8]},
 			},
 			{
 				Name:    "tenantquota_tenant_id_enabled",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantQuotaColumns[1], NcseIamTenantQuotaColumns[13]},
+				Columns: []*schema.Column{NcseSysTenantQuotaColumns[1], NcseSysTenantQuotaColumns[13]},
 			},
 		},
 	}
-	// NcseIamTenantSettingColumns holds the columns for the "ncse_iam_tenant_setting" table.
-	NcseIamTenantSettingColumns = []*schema.Column{
+	// NcseSysTenantSettingColumns holds the columns for the "ncse_sys_tenant_setting" table.
+	NcseSysTenantSettingColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
@@ -374,51 +374,51 @@ var (
 		{Name: "is_readonly", Type: field.TypeBool, Comment: "Whether setting is read-only", Default: false},
 		{Name: "validation", Type: field.TypeJSON, Nullable: true, Comment: "Validation rules for the setting value"},
 	}
-	// NcseIamTenantSettingTable holds the schema information for the "ncse_iam_tenant_setting" table.
-	NcseIamTenantSettingTable = &schema.Table{
-		Name:       "ncse_iam_tenant_setting",
-		Columns:    NcseIamTenantSettingColumns,
-		PrimaryKey: []*schema.Column{NcseIamTenantSettingColumns[0]},
+	// NcseSysTenantSettingTable holds the schema information for the "ncse_sys_tenant_setting" table.
+	NcseSysTenantSettingTable = &schema.Table{
+		Name:       "ncse_sys_tenant_setting",
+		Columns:    NcseSysTenantSettingColumns,
+		PrimaryKey: []*schema.Column{NcseSysTenantSettingColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "tenantsetting_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantSettingColumns[0]},
+				Columns: []*schema.Column{NcseSysTenantSettingColumns[0]},
 			},
 			{
 				Name:    "tenantsetting_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantSettingColumns[1]},
+				Columns: []*schema.Column{NcseSysTenantSettingColumns[1]},
 			},
 			{
 				Name:    "tenantsetting_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantSettingColumns[0], NcseIamTenantSettingColumns[6]},
+				Columns: []*schema.Column{NcseSysTenantSettingColumns[0], NcseSysTenantSettingColumns[6]},
 			},
 			{
 				Name:    "tenantsetting_tenant_id_setting_key",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamTenantSettingColumns[1], NcseIamTenantSettingColumns[8]},
+				Columns: []*schema.Column{NcseSysTenantSettingColumns[1], NcseSysTenantSettingColumns[8]},
 			},
 			{
 				Name:    "tenantsetting_tenant_id_category",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantSettingColumns[1], NcseIamTenantSettingColumns[14]},
+				Columns: []*schema.Column{NcseSysTenantSettingColumns[1], NcseSysTenantSettingColumns[14]},
 			},
 			{
 				Name:    "tenantsetting_tenant_id_scope",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantSettingColumns[1], NcseIamTenantSettingColumns[13]},
+				Columns: []*schema.Column{NcseSysTenantSettingColumns[1], NcseSysTenantSettingColumns[13]},
 			},
 			{
 				Name:    "tenantsetting_is_public",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamTenantSettingColumns[15]},
+				Columns: []*schema.Column{NcseSysTenantSettingColumns[15]},
 			},
 		},
 	}
-	// NcseIamUserTenantColumns holds the columns for the "ncse_iam_user_tenant" table.
-	NcseIamUserTenantColumns = []*schema.Column{
+	// NcseSysUserTenantColumns holds the columns for the "ncse_sys_user_tenant" table.
+	NcseSysUserTenantColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
@@ -427,41 +427,41 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseIamUserTenantTable holds the schema information for the "ncse_iam_user_tenant" table.
-	NcseIamUserTenantTable = &schema.Table{
-		Name:       "ncse_iam_user_tenant",
-		Columns:    NcseIamUserTenantColumns,
-		PrimaryKey: []*schema.Column{NcseIamUserTenantColumns[0]},
+	// NcseSysUserTenantTable holds the schema information for the "ncse_sys_user_tenant" table.
+	NcseSysUserTenantTable = &schema.Table{
+		Name:       "ncse_sys_user_tenant",
+		Columns:    NcseSysUserTenantColumns,
+		PrimaryKey: []*schema.Column{NcseSysUserTenantColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "usertenant_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamUserTenantColumns[0]},
+				Columns: []*schema.Column{NcseSysUserTenantColumns[0]},
 			},
 			{
 				Name:    "usertenant_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamUserTenantColumns[1]},
+				Columns: []*schema.Column{NcseSysUserTenantColumns[1]},
 			},
 			{
 				Name:    "usertenant_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamUserTenantColumns[2]},
+				Columns: []*schema.Column{NcseSysUserTenantColumns[2]},
 			},
 			{
 				Name:    "usertenant_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamUserTenantColumns[0], NcseIamUserTenantColumns[5]},
+				Columns: []*schema.Column{NcseSysUserTenantColumns[0], NcseSysUserTenantColumns[5]},
 			},
 			{
 				Name:    "usertenant_user_id_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamUserTenantColumns[1], NcseIamUserTenantColumns[2]},
+				Columns: []*schema.Column{NcseSysUserTenantColumns[1], NcseSysUserTenantColumns[2]},
 			},
 		},
 	}
-	// NcseIamUserTenantRoleColumns holds the columns for the "ncse_iam_user_tenant_role" table.
-	NcseIamUserTenantRoleColumns = []*schema.Column{
+	// NcseSysUserTenantRoleColumns holds the columns for the "ncse_sys_user_tenant_role" table.
+	NcseSysUserTenantRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
@@ -471,65 +471,65 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseIamUserTenantRoleTable holds the schema information for the "ncse_iam_user_tenant_role" table.
-	NcseIamUserTenantRoleTable = &schema.Table{
-		Name:       "ncse_iam_user_tenant_role",
-		Columns:    NcseIamUserTenantRoleColumns,
-		PrimaryKey: []*schema.Column{NcseIamUserTenantRoleColumns[0]},
+	// NcseSysUserTenantRoleTable holds the schema information for the "ncse_sys_user_tenant_role" table.
+	NcseSysUserTenantRoleTable = &schema.Table{
+		Name:       "ncse_sys_user_tenant_role",
+		Columns:    NcseSysUserTenantRoleColumns,
+		PrimaryKey: []*schema.Column{NcseSysUserTenantRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "usertenantrole_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[0]},
+				Columns: []*schema.Column{NcseSysUserTenantRoleColumns[0]},
 			},
 			{
 				Name:    "usertenantrole_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[1]},
+				Columns: []*schema.Column{NcseSysUserTenantRoleColumns[1]},
 			},
 			{
 				Name:    "usertenantrole_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[2]},
+				Columns: []*schema.Column{NcseSysUserTenantRoleColumns[2]},
 			},
 			{
 				Name:    "usertenantrole_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[3]},
+				Columns: []*schema.Column{NcseSysUserTenantRoleColumns[3]},
 			},
 			{
 				Name:    "usertenantrole_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[0], NcseIamUserTenantRoleColumns[6]},
+				Columns: []*schema.Column{NcseSysUserTenantRoleColumns[0], NcseSysUserTenantRoleColumns[6]},
 			},
 			{
 				Name:    "usertenantrole_user_id_tenant_id_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[1], NcseIamUserTenantRoleColumns[2], NcseIamUserTenantRoleColumns[3]},
+				Columns: []*schema.Column{NcseSysUserTenantRoleColumns[1], NcseSysUserTenantRoleColumns[2], NcseSysUserTenantRoleColumns[3]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseIamTenantTable,
-		NcseIamTenantBillingTable,
+		NcseSysTenantTable,
+		NcseSysTenantBillingTable,
 		NcseSysTenantDictionaryTable,
 		NcseOrgTenantGroupTable,
 		NcseSysTenantMenuTable,
 		NcseSysTenantOptionsTable,
-		NcseIamTenantQuotaTable,
-		NcseIamTenantSettingTable,
-		NcseIamUserTenantTable,
-		NcseIamUserTenantRoleTable,
+		NcseSysTenantQuotaTable,
+		NcseSysTenantSettingTable,
+		NcseSysUserTenantTable,
+		NcseSysUserTenantRoleTable,
 	}
 )
 
 func init() {
-	NcseIamTenantTable.Annotation = &entsql.Annotation{
-		Table: "ncse_iam_tenant",
+	NcseSysTenantTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_tenant",
 	}
-	NcseIamTenantBillingTable.Annotation = &entsql.Annotation{
-		Table: "ncse_iam_tenant_billing",
+	NcseSysTenantBillingTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_tenant_billing",
 	}
 	NcseSysTenantDictionaryTable.Annotation = &entsql.Annotation{
 		Table: "ncse_sys_tenant_dictionary",
@@ -543,16 +543,16 @@ func init() {
 	NcseSysTenantOptionsTable.Annotation = &entsql.Annotation{
 		Table: "ncse_sys_tenant_options",
 	}
-	NcseIamTenantQuotaTable.Annotation = &entsql.Annotation{
-		Table: "ncse_iam_tenant_quota",
+	NcseSysTenantQuotaTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_tenant_quota",
 	}
-	NcseIamTenantSettingTable.Annotation = &entsql.Annotation{
-		Table: "ncse_iam_tenant_setting",
+	NcseSysTenantSettingTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_tenant_setting",
 	}
-	NcseIamUserTenantTable.Annotation = &entsql.Annotation{
-		Table: "ncse_iam_user_tenant",
+	NcseSysUserTenantTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_user_tenant",
 	}
-	NcseIamUserTenantRoleTable.Annotation = &entsql.Annotation{
-		Table: "ncse_iam_user_tenant_role",
+	NcseSysUserTenantRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_user_tenant_role",
 	}
 }

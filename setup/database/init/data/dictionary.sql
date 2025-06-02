@@ -1,5 +1,5 @@
 WITH tenant AS
-         (SELECT id FROM ncse_iam_tenant LIMIT 1),
+         (SELECT id FROM ncse_sys_tenant LIMIT 1),
      user_ids AS
        (SELECT id, username
         FROM ncse_sys_user)

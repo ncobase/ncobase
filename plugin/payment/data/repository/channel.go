@@ -187,7 +187,7 @@ func (r *channelRepository) Delete(ctx context.Context, id string) error {
 	return r.data.EC.PaymentChannel.DeleteOneID(id).Exec(ctx)
 }
 
-// List lists payment channels with pagination
+// List lists payment channels
 func (r *channelRepository) List(ctx context.Context, query *structs.ChannelQuery) ([]*structs.Channel, error) {
 	// Build query
 	q := r.data.EC.PaymentChannel.Query()

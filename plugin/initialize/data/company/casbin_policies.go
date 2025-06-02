@@ -24,12 +24,12 @@ var CasbinPolicyRules = [][]string{
 	// Company Admin - business management (both HTTP methods and semantic actions)
 	{"company-admin", "*", "/", "GET", "", ""},
 	{"company-admin", "*", "/", "read", "", ""},
-	{"company-admin", "*", "/iam/account", "GET", "", ""},
-	{"company-admin", "*", "/iam/account", "read", "", ""},
-	{"company-admin", "*", "/iam/account/tenant", "GET", "", ""},
-	{"company-admin", "*", "/iam/account/tenant", "read", "", ""},
-	{"company-admin", "*", "/iam/account/tenants", "GET", "", ""},
-	{"company-admin", "*", "/iam/account/tenants", "read", "", ""},
+	{"company-admin", "*", "/account", "GET", "", ""},
+	{"company-admin", "*", "/account", "read", "", ""},
+	{"company-admin", "*", "/account/tenant", "GET", "", ""},
+	{"company-admin", "*", "/account/tenant", "read", "", ""},
+	{"company-admin", "*", "/account/tenants", "GET", "", ""},
+	{"company-admin", "*", "/account/tenants", "read", "", ""},
 
 	// User management - semantic actions preferred
 	{"company-admin", "*", "/sys/users", "read", "", ""},
@@ -101,12 +101,12 @@ var CasbinPolicyRules = [][]string{
 	// Manager - departmental management
 	{"manager", "*", "/", "GET", "", ""},
 	{"manager", "*", "/", "read", "", ""},
-	{"manager", "*", "/iam/account", "GET", "", ""},
-	{"manager", "*", "/iam/account", "read", "", ""},
-	{"manager", "*", "/iam/account/tenant", "GET", "", ""},
-	{"manager", "*", "/iam/account/tenant", "read", "", ""},
-	{"manager", "*", "/iam/account/tenants", "GET", "", ""},
-	{"manager", "*", "/iam/account/tenants", "read", "", ""},
+	{"manager", "*", "/account", "GET", "", ""},
+	{"manager", "*", "/account", "read", "", ""},
+	{"manager", "*", "/account/tenant", "GET", "", ""},
+	{"manager", "*", "/account/tenant", "read", "", ""},
+	{"manager", "*", "/account/tenants", "GET", "", ""},
+	{"manager", "*", "/account/tenants", "read", "", ""},
 
 	// User and employee access (read + limited update)
 	{"manager", "*", "/sys/users", "GET", "", ""},
@@ -146,12 +146,12 @@ var CasbinPolicyRules = [][]string{
 	// Employee - basic access
 	{"employee", "*", "/", "GET", "", ""},
 	{"employee", "*", "/", "read", "", ""},
-	{"employee", "*", "/iam/account", "GET", "", ""},
-	{"employee", "*", "/iam/account", "read", "", ""},
-	{"employee", "*", "/iam/account/tenant", "GET", "", ""},
-	{"employee", "*", "/iam/account/tenant", "read", "", ""},
-	{"employee", "*", "/iam/account/tenants", "GET", "", ""},
-	{"employee", "*", "/iam/account/tenants", "read", "", ""},
+	{"employee", "*", "/account", "GET", "", ""},
+	{"employee", "*", "/account", "read", "", ""},
+	{"employee", "*", "/account/tenant", "GET", "", ""},
+	{"employee", "*", "/account/tenant", "read", "", ""},
+	{"employee", "*", "/account/tenants", "GET", "", ""},
+	{"employee", "*", "/account/tenants", "read", "", ""},
 
 	// Basic system info (read-only)
 	{"employee", "*", "/sys/menus", "GET", "", ""},
@@ -184,8 +184,8 @@ var CasbinPolicyRules = [][]string{
 	// Guest - minimal read-only access
 	{"guest", "*", "/", "GET", "", ""},
 	{"guest", "*", "/", "read", "", ""},
-	{"guest", "*", "/iam/account", "GET", "", ""},
-	{"guest", "*", "/iam/account", "read", "", ""},
+	{"guest", "*", "/account", "GET", "", ""},
+	{"guest", "*", "/account", "read", "", ""},
 	{"guest", "*", "/sys/menus", "GET", "", ""},
 	{"guest", "*", "/sys/menus", "read", "", ""},
 	{"guest", "*", "/sys/dictionaries", "GET", "", ""},

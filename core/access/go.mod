@@ -10,7 +10,6 @@ require (
 	github.com/casbin/casbin/v2 v2.105.0
 	github.com/gin-gonic/gin v1.10.1
 	github.com/ncobase/ncore v0.1.3
-	github.com/redis/go-redis/v9 v9.9.0
 )
 
 require (
@@ -97,6 +96,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
 	github.com/rabbitmq/amqp091-go v1.10.0 // indirect
+	github.com/redis/go-redis/v9 v9.9.0 // indirect
 	github.com/sagikazarmark/locafero v0.9.0 // indirect
 	github.com/segmentio/kafka-go v0.4.48 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect

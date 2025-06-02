@@ -21,7 +21,7 @@ var (
 	version      = "1.0.0"
 	dependencies []string
 	typeStr      = "module"
-	group        = "iam"
+	group        = "sys"
 )
 
 // Module represents the access module.

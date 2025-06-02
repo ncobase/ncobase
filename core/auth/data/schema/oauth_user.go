@@ -19,7 +19,7 @@ type OAuthUser struct {
 
 // Annotations of the OAuthUser.
 func (OAuthUser) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "iam", "oauth_user"}, "_")
+	table := strings.Join([]string{"ncse", "oauth_user"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

@@ -117,7 +117,7 @@ func (r *eventRepository) FindByID(ctx context.Context, id string) (*ent.Event, 
 		Only(ctx)
 }
 
-// List lists events with pagination and filters
+// List lists events and filters
 func (r *eventRepository) List(ctx context.Context, params *structs.ListEventParams) ([]*ent.Event, error) {
 	builder, err := r.buildQuery(ctx, params)
 	if validator.IsNotNil(err) {

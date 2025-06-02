@@ -102,7 +102,7 @@ func (s *endpointService) GetByName(ctx context.Context, name string) (*structs.
 	return s.Serialize(row), nil
 }
 
-// List lists all endpoints with pagination.
+// List lists all endpoints.
 func (s *endpointService) List(ctx context.Context, params *structs.ListEndpointParams) (paging.Result[*structs.ReadEndpoint], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,

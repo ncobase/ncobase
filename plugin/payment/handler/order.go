@@ -270,7 +270,7 @@ func (h *orderHandler) RefundPayment(c *gin.Context) {
 	resp.Success(c.Writer, order)
 }
 
-// List handles listing payment orders with pagination
+// List handles listing payment orders
 //
 // @Summary List payment orders
 // @Description Get a paginated list of payment orders
