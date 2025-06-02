@@ -11,6 +11,7 @@ import (
 	"ncobase/tenant/data/ent/tenantquota"
 	"ncobase/tenant/data/ent/tenantsetting"
 	"ncobase/tenant/data/ent/usertenant"
+	"ncobase/tenant/data/ent/usertenantrole"
 	"reflect"
 	"sync"
 
@@ -77,11 +78,12 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			tenant.Table:        tenant.ValidColumn,
-			tenantbilling.Table: tenantbilling.ValidColumn,
-			tenantquota.Table:   tenantquota.ValidColumn,
-			tenantsetting.Table: tenantsetting.ValidColumn,
-			usertenant.Table:    usertenant.ValidColumn,
+			tenant.Table:         tenant.ValidColumn,
+			tenantbilling.Table:  tenantbilling.ValidColumn,
+			tenantquota.Table:    tenantquota.ValidColumn,
+			tenantsetting.Table:  tenantsetting.ValidColumn,
+			usertenant.Table:     usertenant.ValidColumn,
+			usertenantrole.Table: usertenantrole.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

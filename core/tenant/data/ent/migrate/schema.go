@@ -277,6 +277,55 @@ var (
 			},
 		},
 	}
+	// NcseIamUserTenantRoleColumns holds the columns for the "ncse_iam_user_tenant_role" table.
+	NcseIamUserTenantRoleColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseIamUserTenantRoleTable holds the schema information for the "ncse_iam_user_tenant_role" table.
+	NcseIamUserTenantRoleTable = &schema.Table{
+		Name:       "ncse_iam_user_tenant_role",
+		Columns:    NcseIamUserTenantRoleColumns,
+		PrimaryKey: []*schema.Column{NcseIamUserTenantRoleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "usertenantrole_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[0]},
+			},
+			{
+				Name:    "usertenantrole_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[1]},
+			},
+			{
+				Name:    "usertenantrole_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[2]},
+			},
+			{
+				Name:    "usertenantrole_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[3]},
+			},
+			{
+				Name:    "usertenantrole_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[0], NcseIamUserTenantRoleColumns[6]},
+			},
+			{
+				Name:    "usertenantrole_user_id_tenant_id_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseIamUserTenantRoleColumns[1], NcseIamUserTenantRoleColumns[2], NcseIamUserTenantRoleColumns[3]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		NcseIamTenantTable,
@@ -284,6 +333,7 @@ var (
 		NcseIamTenantQuotaTable,
 		NcseIamTenantSettingTable,
 		NcseIamUserTenantTable,
+		NcseIamUserTenantRoleTable,
 	}
 )
 
@@ -302,5 +352,8 @@ func init() {
 	}
 	NcseIamUserTenantTable.Annotation = &entsql.Annotation{
 		Table: "ncse_iam_user_tenant",
+	}
+	NcseIamUserTenantRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_iam_user_tenant_role",
 	}
 }

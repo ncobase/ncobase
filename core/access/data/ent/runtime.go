@@ -9,7 +9,6 @@ import (
 	"ncobase/access/data/ent/role"
 	"ncobase/access/data/ent/rolepermission"
 	"ncobase/access/data/ent/userrole"
-	"ncobase/access/data/ent/usertenantrole"
 	"ncobase/access/data/schema"
 )
 
@@ -271,55 +270,4 @@ func init() {
 	userrole.DefaultID = userroleDescID.Default.(func() string)
 	// userrole.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	userrole.IDValidator = userroleDescID.Validators[0].(func(string) error)
-	usertenantroleMixin := schema.UserTenantRole{}.Mixin()
-	usertenantroleMixinFields0 := usertenantroleMixin[0].Fields()
-	_ = usertenantroleMixinFields0
-	usertenantroleMixinFields1 := usertenantroleMixin[1].Fields()
-	_ = usertenantroleMixinFields1
-	usertenantroleMixinFields2 := usertenantroleMixin[2].Fields()
-	_ = usertenantroleMixinFields2
-	usertenantroleMixinFields3 := usertenantroleMixin[3].Fields()
-	_ = usertenantroleMixinFields3
-	usertenantroleMixinFields4 := usertenantroleMixin[4].Fields()
-	_ = usertenantroleMixinFields4
-	usertenantroleMixinFields5 := usertenantroleMixin[5].Fields()
-	_ = usertenantroleMixinFields5
-	usertenantroleFields := schema.UserTenantRole{}.Fields()
-	_ = usertenantroleFields
-	// usertenantroleDescUserID is the schema descriptor for user_id field.
-	usertenantroleDescUserID := usertenantroleMixinFields1[0].Descriptor()
-	// usertenantrole.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	usertenantrole.UserIDValidator = usertenantroleDescUserID.Validators[0].(func(string) error)
-	// usertenantroleDescTenantID is the schema descriptor for tenant_id field.
-	usertenantroleDescTenantID := usertenantroleMixinFields2[0].Descriptor()
-	// usertenantrole.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	usertenantrole.TenantIDValidator = usertenantroleDescTenantID.Validators[0].(func(string) error)
-	// usertenantroleDescRoleID is the schema descriptor for role_id field.
-	usertenantroleDescRoleID := usertenantroleMixinFields3[0].Descriptor()
-	// usertenantrole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
-	usertenantrole.RoleIDValidator = usertenantroleDescRoleID.Validators[0].(func(string) error)
-	// usertenantroleDescCreatedBy is the schema descriptor for created_by field.
-	usertenantroleDescCreatedBy := usertenantroleMixinFields4[0].Descriptor()
-	// usertenantrole.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	usertenantrole.CreatedByValidator = usertenantroleDescCreatedBy.Validators[0].(func(string) error)
-	// usertenantroleDescUpdatedBy is the schema descriptor for updated_by field.
-	usertenantroleDescUpdatedBy := usertenantroleMixinFields4[1].Descriptor()
-	// usertenantrole.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	usertenantrole.UpdatedByValidator = usertenantroleDescUpdatedBy.Validators[0].(func(string) error)
-	// usertenantroleDescCreatedAt is the schema descriptor for created_at field.
-	usertenantroleDescCreatedAt := usertenantroleMixinFields5[0].Descriptor()
-	// usertenantrole.DefaultCreatedAt holds the default value on creation for the created_at field.
-	usertenantrole.DefaultCreatedAt = usertenantroleDescCreatedAt.Default.(func() int64)
-	// usertenantroleDescUpdatedAt is the schema descriptor for updated_at field.
-	usertenantroleDescUpdatedAt := usertenantroleMixinFields5[1].Descriptor()
-	// usertenantrole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	usertenantrole.DefaultUpdatedAt = usertenantroleDescUpdatedAt.Default.(func() int64)
-	// usertenantrole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	usertenantrole.UpdateDefaultUpdatedAt = usertenantroleDescUpdatedAt.UpdateDefault.(func() int64)
-	// usertenantroleDescID is the schema descriptor for id field.
-	usertenantroleDescID := usertenantroleMixinFields0[0].Descriptor()
-	// usertenantrole.DefaultID holds the default value on creation for the id field.
-	usertenantrole.DefaultID = usertenantroleDescID.Default.(func() string)
-	// usertenantrole.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	usertenantrole.IDValidator = usertenantroleDescID.Validators[0].(func(string) error)
 }

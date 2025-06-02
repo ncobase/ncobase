@@ -17,7 +17,7 @@ import (
 
 var (
 	name         = "tenant"
-	desc         = "Tenant module"
+	desc         = "Tenant module with user role management"
 	version      = "1.0.0"
 	dependencies []string
 	typeStr      = "module"
@@ -104,11 +104,26 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Tenant endpoints
 	tenants := tenantGroup.Group("/tenants", middleware.AuthenticatedTenant)
 	{
+		// Basic tenant management
 		tenants.GET("", m.h.Tenant.List)
 		tenants.POST("", m.h.Tenant.Create)
-		tenants.GET("/:slug", m.h.Tenant.Get)
-		tenants.PUT("/:slug", m.h.Tenant.Update)
-		tenants.DELETE("/:slug", m.h.Tenant.Delete)
+		tenants.GET("/:tenantId", m.h.Tenant.Get)
+		tenants.PUT("/:tenantId", m.h.Tenant.Update)
+		tenants.DELETE("/:tenantId", m.h.Tenant.Delete)
+
+		// User-Tenant-Role management
+		tenants.GET("/:tenantId/users", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.ListTenantUsers)
+		tenants.POST("/:tenantId/users/roles", middleware.HasPermission("manage:tenant"), m.h.UserTenantRole.AddUserToTenantRole)
+		tenants.PUT("/:tenantId/users/roles/bulk", middleware.HasPermission("manage:tenant"), m.h.UserTenantRole.BulkUpdateUserTenantRoles)
+
+		// User role management in tenant
+		tenants.GET("/:tenantId/users/:userId/roles", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.GetUserTenantRoles)
+		tenants.PUT("/:tenantId/users/:userId/roles", middleware.HasPermission("manage:tenant"), m.h.UserTenantRole.UpdateUserTenantRole)
+		tenants.DELETE("/:tenantId/users/:userId/roles/:roleId", middleware.HasPermission("manage:tenant"), m.h.UserTenantRole.RemoveUserFromTenantRole)
+		tenants.GET("/:tenantId/users/:userId/roles/:roleId/check", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.CheckUserTenantRole)
+
+		// Role-based user queries
+		tenants.GET("/:tenantId/roles/:roleId/users", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.GetTenantUsersByRole)
 
 		// Tenant quota management
 		tenants.GET("/quotas", m.h.TenantQuota.List)
@@ -118,7 +133,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		tenants.DELETE("/quotas/:id", m.h.TenantQuota.Delete)
 		tenants.POST("/quotas/usage", m.h.TenantQuota.UpdateUsage)
 		tenants.GET("/quotas/check", m.h.TenantQuota.CheckLimit)
-		tenants.GET("/:slug/quotas", m.h.TenantQuota.GetSummary)
+		tenants.GET("/:tenantId/quotas", m.h.TenantQuota.GetSummary)
 
 		// Tenant settings management
 		tenants.GET("/settings", m.h.TenantSetting.List)
@@ -127,10 +142,10 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		tenants.PUT("/settings/:id", m.h.TenantSetting.Update)
 		tenants.DELETE("/settings/:id", m.h.TenantSetting.Delete)
 		tenants.POST("/settings/bulk", m.h.TenantSetting.BulkUpdate)
-		tenants.GET("/:slug/settings", m.h.TenantSetting.GetTenantSettings)
-		tenants.GET("/:slug/settings/public", m.h.TenantSetting.GetPublicSettings)
-		tenants.PUT("/:slug/settings/:key", m.h.TenantSetting.SetSetting)
-		tenants.GET("/:slug/settings/:key", m.h.TenantSetting.GetSetting)
+		tenants.GET("/:tenantId/settings", m.h.TenantSetting.GetTenantSettings)
+		tenants.GET("/:tenantId/settings/public", m.h.TenantSetting.GetPublicSettings)
+		tenants.PUT("/:tenantId/settings/:key", m.h.TenantSetting.SetSetting)
+		tenants.GET("/:tenantId/settings/:key", m.h.TenantSetting.GetSetting)
 
 		// Tenant billing management
 		tenants.GET("/billing", m.h.TenantBilling.List)
@@ -139,9 +154,20 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		tenants.PUT("/billing/:id", m.h.TenantBilling.Update)
 		tenants.DELETE("/billing/:id", m.h.TenantBilling.Delete)
 		tenants.POST("/billing/payment", m.h.TenantBilling.ProcessPayment)
-		tenants.GET("/:slug/billing/summary", m.h.TenantBilling.GetSummary)
-		tenants.GET("/:slug/billing/overdue", m.h.TenantBilling.GetOverdue)
-		tenants.POST("/:slug/billing/invoice", m.h.TenantBilling.GenerateInvoice)
+		tenants.GET("/:tenantId/billing/summary", m.h.TenantBilling.GetSummary)
+		tenants.GET("/:tenantId/billing/overdue", m.h.TenantBilling.GetOverdue)
+		tenants.POST("/:tenantId/billing/invoice", m.h.TenantBilling.GenerateInvoice)
+	}
+
+	// User endpoints with tenant context
+	users := tenantGroup.Group("/users", middleware.AuthenticatedUser)
+	{
+		// User's tenant ownership
+		users.GET("/:username/tenant", m.h.Tenant.UserOwn)
+
+		// User's roles across tenants
+		users.GET("/:username/tenants/:tenantId/roles", middleware.HasPermission("read:user"), m.h.UserTenantRole.GetUserTenantRoles)
+		users.GET("/:username/tenants/:tenantId/roles/:roleId/check", middleware.HasPermission("read:user"), m.h.UserTenantRole.CheckUserTenantRole)
 	}
 }
 

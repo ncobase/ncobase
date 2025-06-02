@@ -4,18 +4,20 @@ import "ncobase/tenant/service"
 
 // Handler represents the tenant handler
 type Handler struct {
-	Tenant        TenantHandlerInterface
-	TenantQuota   TenantQuotaHandlerInterface
-	TenantSetting TenantSettingHandlerInterface
-	TenantBilling TenantBillingHandlerInterface
+	Tenant         TenantHandlerInterface
+	TenantQuota    TenantQuotaHandlerInterface
+	TenantSetting  TenantSettingHandlerInterface
+	TenantBilling  TenantBillingHandlerInterface
+	UserTenantRole UserTenantRoleHandlerInterface
 }
 
 // New creates a new handler
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		Tenant:        NewTenantHandler(svc),
-		TenantQuota:   NewTenantQuotaHandler(svc),
-		TenantSetting: NewTenantSettingHandler(svc),
-		TenantBilling: NewTenantBillingHandler(svc),
+		Tenant:         NewTenantHandler(svc),
+		TenantQuota:    NewTenantQuotaHandler(svc),
+		TenantSetting:  NewTenantSettingHandler(svc),
+		TenantBilling:  NewTenantBillingHandler(svc),
+		UserTenantRole: NewUserTenantRoleHandler(svc),
 	}
 }

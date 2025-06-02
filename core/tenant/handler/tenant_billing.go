@@ -223,13 +223,13 @@ func (h *tenantBillingHandler) ProcessPayment(c *gin.Context) {
 // @Description Retrieve billing summary for a tenant
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} structs.BillingSummary "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/billing/summary [get]
+// @Router /iam/tenants/{tenantId}/billing/summary [get]
 // @Security Bearer
 func (h *tenantBillingHandler) GetSummary(c *gin.Context) {
-	tenantID := c.Param("slug")
+	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("tenant_id")))
 		return
@@ -250,13 +250,13 @@ func (h *tenantBillingHandler) GetSummary(c *gin.Context) {
 // @Description Retrieve overdue billing records for a tenant
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {array} structs.ReadTenantBilling "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/billing/overdue [get]
+// @Router /iam/tenants/{tenantId}/billing/overdue [get]
 // @Security Bearer
 func (h *tenantBillingHandler) GetOverdue(c *gin.Context) {
-	tenantID := c.Param("slug")
+	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("tenant_id")))
 		return
@@ -278,14 +278,14 @@ func (h *tenantBillingHandler) GetOverdue(c *gin.Context) {
 // @Tags iam
 // @Accept json
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Param body body map[string]string true "Invoice generation request"
 // @Success 200 {object} structs.ReadTenantBilling "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/billing/invoice [post]
+// @Router /iam/tenants/{tenantId}/billing/invoice [post]
 // @Security Bearer
 func (h *tenantBillingHandler) GenerateInvoice(c *gin.Context) {
-	tenantID := c.Param("slug")
+	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("tenant_id")))
 		return

@@ -131,13 +131,13 @@ func (h *TenantHandler) Update(c *gin.Context) {
 // @Description Retrieve information about a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug} [get]
+// @Router /iam/tenants/{tenantId} [get]
 // @Security Bearer
 func (h *TenantHandler) Get(c *gin.Context) {
-	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
+	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("tenantId"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -151,13 +151,13 @@ func (h *TenantHandler) Get(c *gin.Context) {
 // @Description Retrieve the menu associated with a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/menu [get]
+// @Router /iam/tenants/{tenantId}/menu [get]
 // @Security Bearer
 func (h *TenantHandler) GetMenus(c *gin.Context) {
-	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
+	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("tenantId"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -171,13 +171,13 @@ func (h *TenantHandler) GetMenus(c *gin.Context) {
 // @Description Retrieve the settings associated with a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/setting [get]
+// @Router /iam/tenants/{tenantId}/setting [get]
 // @Security Bearer
 func (h *TenantHandler) GetTenantSetting(c *gin.Context) {
-	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("slug"))
+	result, err := h.s.Tenant.Get(c.Request.Context(), c.Param("tenantId"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -191,13 +191,13 @@ func (h *TenantHandler) GetTenantSetting(c *gin.Context) {
 // @Description Delete a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug} [delete]
+// @Router /iam/tenants/{tenantId} [delete]
 // @Security Bearer
 func (h *TenantHandler) Delete(c *gin.Context) {
-	if err := h.s.Tenant.Delete(c.Request.Context(), c.Param("slug")); err != nil {
+	if err := h.s.Tenant.Delete(c.Request.Context(), c.Param("tenantId")); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
@@ -240,13 +240,13 @@ func (h *TenantHandler) List(c *gin.Context) {
 // @Description Retrieve a list of attachments associated with a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/attachments [get]
+// @Router /iam/tenants/{tenantId}/attachments [get]
 // @Security Bearer
 func (h *TenantHandler) ListAttachments(c *gin.Context) {
-	// result, err := h.svc.ListAttachmentss(c.Request.Context(),c.Param("slug"))
+	// result, err := h.svc.ListAttachmentss(c.Request.Context(),c.Param("tenantId"))
 	// if err != nil {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
@@ -260,13 +260,13 @@ func (h *TenantHandler) ListAttachments(c *gin.Context) {
 // @Description Retrieve a list of roles associated with a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/roles [get]
+// @Router /iam/tenants/{tenantId}/roles [get]
 // @Security Bearer
 func (h *TenantHandler) ListRoles(c *gin.Context) {
-	// result, err := h.svc.ListRoless(c.Request.Context(),c.Param("slug"))
+	// result, err := h.svc.ListRoless(c.Request.Context(),c.Param("tenantId"))
 	// if err != nil {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
@@ -280,13 +280,13 @@ func (h *TenantHandler) ListRoles(c *gin.Context) {
 // @Description Retrieve a list of settings associated with a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/settings [get]
+// @Router /iam/tenants/{tenantId}/settings [get]
 // @Security Bearer
 func (h *TenantHandler) GetSetting(c *gin.Context) {
-	// result, err := h.svc.GetSettings(c.Request.Context(),c.Param("slug"))
+	// result, err := h.svc.GetSettings(c.Request.Context(),c.Param("tenantId"))
 	// if err != nil {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
@@ -300,13 +300,13 @@ func (h *TenantHandler) GetSetting(c *gin.Context) {
 // @Description Retrieve a list of users associated with a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/users [get]
+// @Router /iam/tenants/{tenantId}/users [get]
 // @Security Bearer
 func (h *TenantHandler) ListUsers(c *gin.Context) {
-	// result, err := h.svc.ListUserss(c.Request.Context(),c.Param("slug"))
+	// result, err := h.svc.ListUserss(c.Request.Context(),c.Param("tenantId"))
 	// if err != nil {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return
@@ -320,13 +320,13 @@ func (h *TenantHandler) ListUsers(c *gin.Context) {
 // @Description Retrieve a list of groups associated with a specific tenant.
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/groups [get]
+// @Router /iam/tenants/{tenantId}/groups [get]
 // @Security Bearer
 func (h *TenantHandler) ListGroups(c *gin.Context) {
-	// result, err := h.svc.ListGroupss(c.Request.Context(),c.Param("slug"))
+	// result, err := h.svc.ListGroupss(c.Request.Context(),c.Param("tenantId"))
 	// if err != nil {
 	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 	// 	return

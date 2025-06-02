@@ -84,7 +84,7 @@ func (s *userMeshesService) UpdateUserMeshes(ctx context.Context, username strin
 
 	// Update user basic info if provided
 	if updates.User != nil {
-		userUpdates := map[string]interface{}{}
+		userUpdates := map[string]any{}
 
 		if updates.User.Email != "" && updates.User.Email != user.Email {
 			userUpdates["email"] = updates.User.Email
@@ -117,7 +117,7 @@ func (s *userMeshesService) UpdateUserMeshes(ctx context.Context, username strin
 	// Update profile if provided
 	var profile *structs.ReadUserProfile
 	if updates.Profile != nil {
-		profileUpdates := map[string]interface{}{}
+		profileUpdates := map[string]any{}
 
 		if updates.Profile.DisplayName != "" {
 			profileUpdates["display_name"] = updates.Profile.DisplayName

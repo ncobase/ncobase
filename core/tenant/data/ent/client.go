@@ -16,6 +16,7 @@ import (
 	"ncobase/tenant/data/ent/tenantquota"
 	"ncobase/tenant/data/ent/tenantsetting"
 	"ncobase/tenant/data/ent/usertenant"
+	"ncobase/tenant/data/ent/usertenantrole"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -37,6 +38,8 @@ type Client struct {
 	TenantSetting *TenantSettingClient
 	// UserTenant is the client for interacting with the UserTenant builders.
 	UserTenant *UserTenantClient
+	// UserTenantRole is the client for interacting with the UserTenantRole builders.
+	UserTenantRole *UserTenantRoleClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -53,6 +56,7 @@ func (c *Client) init() {
 	c.TenantQuota = NewTenantQuotaClient(c.config)
 	c.TenantSetting = NewTenantSettingClient(c.config)
 	c.UserTenant = NewUserTenantClient(c.config)
+	c.UserTenantRole = NewUserTenantRoleClient(c.config)
 }
 
 type (
@@ -143,13 +147,14 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:           ctx,
-		config:        cfg,
-		Tenant:        NewTenantClient(cfg),
-		TenantBilling: NewTenantBillingClient(cfg),
-		TenantQuota:   NewTenantQuotaClient(cfg),
-		TenantSetting: NewTenantSettingClient(cfg),
-		UserTenant:    NewUserTenantClient(cfg),
+		ctx:            ctx,
+		config:         cfg,
+		Tenant:         NewTenantClient(cfg),
+		TenantBilling:  NewTenantBillingClient(cfg),
+		TenantQuota:    NewTenantQuotaClient(cfg),
+		TenantSetting:  NewTenantSettingClient(cfg),
+		UserTenant:     NewUserTenantClient(cfg),
+		UserTenantRole: NewUserTenantRoleClient(cfg),
 	}, nil
 }
 
@@ -167,13 +172,14 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:           ctx,
-		config:        cfg,
-		Tenant:        NewTenantClient(cfg),
-		TenantBilling: NewTenantBillingClient(cfg),
-		TenantQuota:   NewTenantQuotaClient(cfg),
-		TenantSetting: NewTenantSettingClient(cfg),
-		UserTenant:    NewUserTenantClient(cfg),
+		ctx:            ctx,
+		config:         cfg,
+		Tenant:         NewTenantClient(cfg),
+		TenantBilling:  NewTenantBillingClient(cfg),
+		TenantQuota:    NewTenantQuotaClient(cfg),
+		TenantSetting:  NewTenantSettingClient(cfg),
+		UserTenant:     NewUserTenantClient(cfg),
+		UserTenantRole: NewUserTenantRoleClient(cfg),
 	}, nil
 }
 
@@ -202,21 +208,23 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Tenant.Use(hooks...)
-	c.TenantBilling.Use(hooks...)
-	c.TenantQuota.Use(hooks...)
-	c.TenantSetting.Use(hooks...)
-	c.UserTenant.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.Tenant, c.TenantBilling, c.TenantQuota, c.TenantSetting, c.UserTenant,
+		c.UserTenantRole,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.Tenant.Intercept(interceptors...)
-	c.TenantBilling.Intercept(interceptors...)
-	c.TenantQuota.Intercept(interceptors...)
-	c.TenantSetting.Intercept(interceptors...)
-	c.UserTenant.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.Tenant, c.TenantBilling, c.TenantQuota, c.TenantSetting, c.UserTenant,
+		c.UserTenantRole,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -232,6 +240,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.TenantSetting.mutate(ctx, m)
 	case *UserTenantMutation:
 		return c.UserTenant.mutate(ctx, m)
+	case *UserTenantRoleMutation:
+		return c.UserTenantRole.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -902,12 +912,147 @@ func (c *UserTenantClient) mutate(ctx context.Context, m *UserTenantMutation) (V
 	}
 }
 
+// UserTenantRoleClient is a client for the UserTenantRole schema.
+type UserTenantRoleClient struct {
+	config
+}
+
+// NewUserTenantRoleClient returns a client for the UserTenantRole from the given config.
+func NewUserTenantRoleClient(c config) *UserTenantRoleClient {
+	return &UserTenantRoleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `usertenantrole.Hooks(f(g(h())))`.
+func (c *UserTenantRoleClient) Use(hooks ...Hook) {
+	c.hooks.UserTenantRole = append(c.hooks.UserTenantRole, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `usertenantrole.Intercept(f(g(h())))`.
+func (c *UserTenantRoleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.UserTenantRole = append(c.inters.UserTenantRole, interceptors...)
+}
+
+// Create returns a builder for creating a UserTenantRole entity.
+func (c *UserTenantRoleClient) Create() *UserTenantRoleCreate {
+	mutation := newUserTenantRoleMutation(c.config, OpCreate)
+	return &UserTenantRoleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserTenantRole entities.
+func (c *UserTenantRoleClient) CreateBulk(builders ...*UserTenantRoleCreate) *UserTenantRoleCreateBulk {
+	return &UserTenantRoleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *UserTenantRoleClient) MapCreateBulk(slice any, setFunc func(*UserTenantRoleCreate, int)) *UserTenantRoleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &UserTenantRoleCreateBulk{err: fmt.Errorf("calling to UserTenantRoleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*UserTenantRoleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &UserTenantRoleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserTenantRole.
+func (c *UserTenantRoleClient) Update() *UserTenantRoleUpdate {
+	mutation := newUserTenantRoleMutation(c.config, OpUpdate)
+	return &UserTenantRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserTenantRoleClient) UpdateOne(utr *UserTenantRole) *UserTenantRoleUpdateOne {
+	mutation := newUserTenantRoleMutation(c.config, OpUpdateOne, withUserTenantRole(utr))
+	return &UserTenantRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserTenantRoleClient) UpdateOneID(id string) *UserTenantRoleUpdateOne {
+	mutation := newUserTenantRoleMutation(c.config, OpUpdateOne, withUserTenantRoleID(id))
+	return &UserTenantRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserTenantRole.
+func (c *UserTenantRoleClient) Delete() *UserTenantRoleDelete {
+	mutation := newUserTenantRoleMutation(c.config, OpDelete)
+	return &UserTenantRoleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *UserTenantRoleClient) DeleteOne(utr *UserTenantRole) *UserTenantRoleDeleteOne {
+	return c.DeleteOneID(utr.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *UserTenantRoleClient) DeleteOneID(id string) *UserTenantRoleDeleteOne {
+	builder := c.Delete().Where(usertenantrole.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserTenantRoleDeleteOne{builder}
+}
+
+// Query returns a query builder for UserTenantRole.
+func (c *UserTenantRoleClient) Query() *UserTenantRoleQuery {
+	return &UserTenantRoleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeUserTenantRole},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a UserTenantRole entity by its id.
+func (c *UserTenantRoleClient) Get(ctx context.Context, id string) (*UserTenantRole, error) {
+	return c.Query().Where(usertenantrole.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserTenantRoleClient) GetX(ctx context.Context, id string) *UserTenantRole {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserTenantRoleClient) Hooks() []Hook {
+	return c.hooks.UserTenantRole
+}
+
+// Interceptors returns the client interceptors.
+func (c *UserTenantRoleClient) Interceptors() []Interceptor {
+	return c.inters.UserTenantRole
+}
+
+func (c *UserTenantRoleClient) mutate(ctx context.Context, m *UserTenantRoleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&UserTenantRoleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&UserTenantRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&UserTenantRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&UserTenantRoleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown UserTenantRole mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Tenant, TenantBilling, TenantQuota, TenantSetting, UserTenant []ent.Hook
+		Tenant, TenantBilling, TenantQuota, TenantSetting, UserTenant,
+		UserTenantRole []ent.Hook
 	}
 	inters struct {
-		Tenant, TenantBilling, TenantQuota, TenantSetting, UserTenant []ent.Interceptor
+		Tenant, TenantBilling, TenantQuota, TenantSetting, UserTenant,
+		UserTenantRole []ent.Interceptor
 	}
 )

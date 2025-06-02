@@ -26,19 +26,12 @@ type UserRoleServiceInterface interface {
 	GetUserRoles(ctx context.Context, userID string) ([]*accessStructs.ReadRole, error)
 }
 
-// UserTenantRoleServiceInterface defines user tenant role service interface for proxy plugin
-type UserTenantRoleServiceInterface interface {
-	AddRoleToUserInTenant(ctx context.Context, u, t, r string) (*accessStructs.UserTenantRole, error)
-	GetUserRolesInTenant(ctx context.Context, u, t string) ([]string, error)
-}
-
 // AccessServiceWrapper wraps access service access
 type AccessServiceWrapper struct {
 	em                    ext.ManagerInterface
 	roleService           RoleServiceInterface
 	rolePermissionService RolePermissionServiceInterface
 	userRoleService       UserRoleServiceInterface
-	userTenantRoleService UserTenantRoleServiceInterface
 }
 
 // NewAccessServiceWrapper creates a new access service wrapper
@@ -63,11 +56,6 @@ func (w *AccessServiceWrapper) loadServices() {
 	if userRoleSvc, err := w.em.GetCrossService("access", "UserRole"); err == nil {
 		if service, ok := userRoleSvc.(UserRoleServiceInterface); ok {
 			w.userRoleService = service
-		}
-	}
-	if userTenantRoleSvc, err := w.em.GetCrossService("access", "UserTenantRole"); err == nil {
-		if service, ok := userTenantRoleSvc.(UserTenantRoleServiceInterface); ok {
-			w.userTenantRoleService = service
 		}
 	}
 
@@ -126,22 +114,6 @@ func (w *AccessServiceWrapper) GetUserRoles(ctx context.Context, u string) ([]*a
 	return nil, fmt.Errorf("user role service is not available")
 }
 
-// AddRoleToUserInTenant adds role to user in tenant
-func (w *AccessServiceWrapper) AddRoleToUserInTenant(ctx context.Context, u, t, r string) (*accessStructs.UserTenantRole, error) {
-	if w.userTenantRoleService != nil {
-		return w.userTenantRoleService.AddRoleToUserInTenant(ctx, u, t, r)
-	}
-	return nil, fmt.Errorf("user tenant role service is not available")
-}
-
-// GetUserRolesInTenant gets user roles in tenant
-func (w *AccessServiceWrapper) GetUserRolesInTenant(ctx context.Context, u, t string) ([]string, error) {
-	if w.userTenantRoleService != nil {
-		return w.userTenantRoleService.GetUserRolesInTenant(ctx, u, t)
-	}
-	return nil, fmt.Errorf("user tenant role service is not available")
-}
-
 // HasRoleService checks if role service is available
 func (w *AccessServiceWrapper) HasRoleService() bool {
 	return w.roleService != nil
@@ -155,9 +127,4 @@ func (w *AccessServiceWrapper) HasRolePermissionService() bool {
 // HasUserRoleService checks if user role service is available
 func (w *AccessServiceWrapper) HasUserRoleService() bool {
 	return w.userRoleService != nil
-}
-
-// HasUserTenantRoleService checks if user tenant role service is available
-func (w *AccessServiceWrapper) HasUserTenantRoleService() bool {
-	return w.userTenantRoleService != nil
 }

@@ -38,8 +38,9 @@ type AuthResponse struct {
 // GetUserTenantsRolesPermissions retrieves user roles and permissions
 func GetUserTenantsRolesPermissions(
 	ctx context.Context,
-	asw *wrapper.AccessServiceWrapper,
 	userID string,
+	asw *wrapper.AccessServiceWrapper,
+	tsw *wrapper.TenantServiceWrapper,
 ) (tenantID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
 	tenantID = ctxutil.GetTenantID(ctx)
 	logger.Debugf(ctx, "Getting permissions for user %s, tenant %s", userID, tenantID)
@@ -57,7 +58,7 @@ func GetUserTenantsRolesPermissions(
 
 	// Get tenant-specific roles if tenant context exists
 	if tenantID != "" {
-		roleIDs, roleErr := asw.GetUserRolesInTenant(ctx, userID, tenantID)
+		roleIDs, roleErr := tsw.GetUserRolesInTenant(ctx, userID, tenantID)
 		if roleErr == nil && len(roleIDs) > 0 {
 			tenantRoles, _ := asw.GetByIDs(ctx, roleIDs)
 			for _, role := range tenantRoles {
@@ -135,15 +136,16 @@ func getPermissionsForRoles(ctx context.Context, asw *wrapper.AccessServiceWrapp
 // CreateUserTokenPayload creates token payload with user permissions
 func CreateUserTokenPayload(
 	ctx context.Context,
-	asw *wrapper.AccessServiceWrapper,
 	user *userStructs.ReadUser,
 	tenantIDs []string,
+	asw *wrapper.AccessServiceWrapper,
+	tsw *wrapper.TenantServiceWrapper,
 ) (types.JSON, error) {
 	if user.ID == "" {
 		return nil, errors.New("userID is required")
 	}
 
-	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, asw, user.ID)
+	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, user.ID, asw, tsw)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get user roles and permissions: %v", err)
 		roleSlugs = []string{}

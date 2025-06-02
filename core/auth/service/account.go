@@ -122,7 +122,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 	}
 
 	// Create token payload
-	payload, err := CreateUserTokenPayload(ctx, s.asw, user, tenantIDs)
+	payload, err := CreateUserTokenPayload(ctx, user, tenantIDs, s.asw, s.tsw)
 	if err != nil {
 		return nil, err
 	}
@@ -210,7 +210,7 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Create token payload
-	tokenPayload, err := CreateUserTokenPayload(ctx, s.asw, user, tenantIDs)
+	tokenPayload, err := CreateUserTokenPayload(ctx, user, tenantIDs, s.asw, s.tsw)
 	if err != nil {
 		return nil, err
 	}
@@ -315,7 +315,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Create token payload
-	tokenPayload, err := CreateUserTokenPayload(ctx, s.asw, user, tenantIDs)
+	tokenPayload, err := CreateUserTokenPayload(ctx, user, tenantIDs, s.asw, s.tsw)
 	if err != nil {
 		if err = tx.Rollback(); err != nil {
 			return nil, err
@@ -561,9 +561,7 @@ func (s *accountService) getUserRolesAndPermissions(ctx context.Context, userID 
 	}
 
 	// Use existing helper function to get comprehensive role and permission data
-	finalTenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(
-		ctx, s.asw, userID,
-	)
+	finalTenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, userID, s.asw, s.tsw)
 
 	if err != nil {
 		// Fallback: try to get basic role information
@@ -590,7 +588,7 @@ func (s *accountService) getFallbackRoles(ctx context.Context, userID string) []
 	// Try tenant-specific roles if tenant context exists
 	tenantID := ctxutil.GetTenantID(ctx)
 	if tenantID != "" {
-		if roleIDs, err := s.asw.GetUserRolesInTenant(ctx, userID, tenantID); err == nil && len(roleIDs) > 0 {
+		if roleIDs, err := s.tsw.GetUserRolesInTenant(ctx, userID, tenantID); err == nil && len(roleIDs) > 0 {
 			if tenantRoles, err := s.asw.GetByIDs(ctx, roleIDs); err == nil {
 				for _, role := range tenantRoles {
 					// Avoid duplicates

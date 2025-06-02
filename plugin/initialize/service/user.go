@@ -378,7 +378,7 @@ func (s *Service) assignUserRole(ctx context.Context, user *userStructs.ReadUser
 		return fmt.Errorf("failed to assign global role '%s' to user '%s': %w", roleSlug, user.Username, err)
 	}
 
-	if _, err := s.acs.UserTenantRole.AddRoleToUserInTenant(ctx, user.ID, tenantID, role.ID); err != nil {
+	if _, err := s.ts.UserTenantRole.AddRoleToUserInTenant(ctx, user.ID, tenantID, role.ID); err != nil {
 		logger.Warnf(ctx, "Failed to assign tenant role to user '%s': %v", user.Username, err)
 	}
 
@@ -574,7 +574,7 @@ func (s *Service) VerifyUserRoleAssignment(ctx context.Context, username string)
 		logger.Infof(ctx, "  - Tenant: %s (%s)", tenant.Name, tenant.Slug)
 
 		ctx = ctxutil.SetTenantID(ctx, tenant.ID)
-		roleIDs, roleErr := s.acs.UserTenantRole.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
+		roleIDs, roleErr := s.ts.UserTenantRole.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
 		if roleErr == nil && len(roleIDs) > 0 {
 			tenantRoles, _ := s.acs.Role.GetByIDs(ctx, roleIDs)
 			logger.Infof(ctx, "    User has %d roles in tenant '%s':", len(tenantRoles), tenant.Name)

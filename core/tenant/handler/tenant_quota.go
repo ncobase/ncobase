@@ -223,7 +223,7 @@ func (h *tenantQuotaHandler) UpdateUsage(c *gin.Context) {
 // @Description Check if tenant can use additional quota
 // @Tags iam
 // @Produce json
-// @Param slug query string true "Tenant ID"
+// @Param tenantId query string true "Tenant ID"
 // @Param quota_type query string true "Quota Type"
 // @Param amount query int true "Requested Amount"
 // @Success 200 {object} map[string]bool "success"
@@ -231,7 +231,7 @@ func (h *tenantQuotaHandler) UpdateUsage(c *gin.Context) {
 // @Router /iam/tenants/quotas/check [get]
 // @Security Bearer
 func (h *tenantQuotaHandler) CheckLimit(c *gin.Context) {
-	tenantID := c.Query("slug")
+	tenantID := c.Query("tenantId")
 	quotaType := c.Query("quota_type")
 	amountStr := c.Query("amount")
 
@@ -263,13 +263,13 @@ func (h *tenantQuotaHandler) CheckLimit(c *gin.Context) {
 // @Description Retrieve all quotas for a tenant
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {array} structs.ReadTenantQuota "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/quotas [get]
+// @Router /iam/tenants/{tenantId}/quotas [get]
 // @Security Bearer
 func (h *tenantQuotaHandler) GetSummary(c *gin.Context) {
-	tenantID := c.Param("slug")
+	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("tenant_id")))
 		return

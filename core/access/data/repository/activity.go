@@ -229,7 +229,7 @@ func (r *activityRepository) Search(ctx context.Context, params *structs.SearchA
 	}
 
 	if params.UserID != "" || params.Type != "" || params.FromDate > 0 || params.ToDate > 0 {
-		req.Filter = make(map[string]interface{})
+		req.Filter = make(map[string]any)
 
 		if params.UserID != "" {
 			req.Filter["user_id"] = params.UserID
@@ -238,14 +238,14 @@ func (r *activityRepository) Search(ctx context.Context, params *structs.SearchA
 			req.Filter["type"] = params.Type
 		}
 		if params.FromDate > 0 || params.ToDate > 0 {
-			dateRange := make(map[string]interface{})
+			dateRange := make(map[string]any)
 			if params.FromDate > 0 {
 				dateRange["gte"] = params.FromDate
 			}
 			if params.ToDate > 0 {
 				dateRange["lte"] = params.ToDate
 			}
-			req.Filter["created_at"] = map[string]interface{}{"range": dateRange}
+			req.Filter["created_at"] = map[string]any{"range": dateRange}
 		}
 	}
 
@@ -308,7 +308,7 @@ func (r *activityRepository) CountX(ctx context.Context, params *structs.ListAct
 
 // indexToSearch indexes an activity to the search engine
 func (r *activityRepository) indexToSearch(ctx context.Context, doc *structs.ActivityDocument) error {
-	indexDoc := map[string]interface{}{
+	indexDoc := map[string]any{
 		"id":         doc.ID,
 		"user_id":    doc.UserID,
 		"type":       doc.Type,
@@ -393,7 +393,7 @@ func (r *activityRepository) listFromSearch(ctx context.Context, params *structs
 	}
 
 	if params.UserID != "" || params.Type != "" || params.FromDate > 0 || params.ToDate > 0 {
-		filters := make(map[string]interface{})
+		filters := make(map[string]any)
 
 		if params.UserID != "" {
 			filters["user_id"] = params.UserID
@@ -402,14 +402,14 @@ func (r *activityRepository) listFromSearch(ctx context.Context, params *structs
 			filters["type"] = params.Type
 		}
 		if params.FromDate > 0 || params.ToDate > 0 {
-			dateRange := make(map[string]interface{})
+			dateRange := make(map[string]any)
 			if params.FromDate > 0 {
 				dateRange["gte"] = params.FromDate
 			}
 			if params.ToDate > 0 {
 				dateRange["lte"] = params.ToDate
 			}
-			filters["created_at"] = map[string]interface{}{"range": dateRange}
+			filters["created_at"] = map[string]any{"range": dateRange}
 		}
 
 		req.Filter = filters
@@ -568,7 +568,7 @@ func (r *activityRepository) searchFallback(ctx context.Context, params *structs
 	return docs, total, nil
 }
 
-func (r *activityRepository) convertHitToDocument(source map[string]interface{}) (*structs.ActivityDocument, error) {
+func (r *activityRepository) convertHitToDocument(source map[string]any) (*structs.ActivityDocument, error) {
 	doc := &structs.ActivityDocument{}
 
 	if id, ok := source["id"].(string); ok {

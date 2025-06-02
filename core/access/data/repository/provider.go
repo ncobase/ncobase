@@ -1,6 +1,8 @@
 package repository
 
-import "ncobase/access/data"
+import (
+	"ncobase/access/data"
+)
 
 // Repository represents the access repository.
 type Repository struct {
@@ -10,7 +12,6 @@ type Repository struct {
 	Permission     PermissionRepositoryInterface
 	RolePermission RolePermissionRepositoryInterface
 	UserRole       UserRoleRepositoryInterface
-	UserTenantRole UserTenantRoleRepositoryInterface
 }
 
 // New creates a new repository.
@@ -22,6 +23,5 @@ func New(d *data.Data) *Repository {
 		Permission:     NewPermissionRepository(d),
 		RolePermission: NewRolePermissionRepository(d),
 		UserRole:       NewUserRoleRepository(d),
-		UserTenantRole: NewUserTenantRoleRepository(d),
 	}
 }

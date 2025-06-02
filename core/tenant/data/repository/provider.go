@@ -6,20 +6,22 @@ import (
 
 // Repository represents the tenant repository
 type Repository struct {
-	tenant        TenantRepositoryInterface
-	userTenant    UserTenantRepositoryInterface
-	tenantQuota   TenantQuotaRepositoryInterface
-	tenantSetting TenantSettingRepositoryInterface
-	tenantBilling TenantBillingRepositoryInterface
+	Tenant         TenantRepositoryInterface
+	UserTenant     UserTenantRepositoryInterface
+	UserTenantRole UserTenantRoleRepositoryInterface
+	TenantQuota    TenantQuotaRepositoryInterface
+	TenantSetting  TenantSettingRepositoryInterface
+	TenantBilling  TenantBillingRepositoryInterface
 }
 
 // New creates a new repository
 func New(d *data.Data) *Repository {
 	return &Repository{
-		tenant:        NewTenantRepository(d),
-		userTenant:    NewUserTenantRepository(d),
-		tenantQuota:   NewTenantQuotaRepository(d),
-		tenantSetting: NewTenantSettingRepository(d),
-		tenantBilling: NewTenantBillingRepository(d),
+		Tenant:         NewTenantRepository(d),
+		UserTenant:     NewUserTenantRepository(d),
+		UserTenantRole: NewUserTenantRoleRepository(d),
+		TenantQuota:    NewTenantQuotaRepository(d),
+		TenantSetting:  NewTenantSettingRepository(d),
+		TenantBilling:  NewTenantBillingRepository(d),
 	}
 }

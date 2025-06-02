@@ -14,7 +14,6 @@ type Service struct {
 	Permission     PermissionServiceInterface
 	RolePermission RolePermissionServiceInterface
 	UserRole       UserRoleServiceInterface
-	UserTenantRole UserTenantRoleServiceInterface
 	Casbin         CasbinServiceInterface
 	CasbinAdapter  CasbinAdapterServiceInterface
 }
@@ -37,7 +36,6 @@ func New(conf *config.Config, d *data.Data) *Service {
 		Permission:     ps,
 		RolePermission: NewRolePermissionService(d, ps),
 		UserRole:       NewUserRoleService(d, rs),
-		UserTenantRole: NewUserTenantRoleService(d),
 		Casbin:         NewCasbinService(d),
 		CasbinAdapter:  casbinAdapter,
 	}

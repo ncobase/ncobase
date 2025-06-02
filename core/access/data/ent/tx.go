@@ -24,8 +24,6 @@ type Tx struct {
 	RolePermission *RolePermissionClient
 	// UserRole is the client for interacting with the UserRole builders.
 	UserRole *UserRoleClient
-	// UserTenantRole is the client for interacting with the UserTenantRole builders.
-	UserTenantRole *UserTenantRoleClient
 
 	// lazily loaded.
 	client     *Client
@@ -163,7 +161,6 @@ func (tx *Tx) init() {
 	tx.Role = NewRoleClient(tx.config)
 	tx.RolePermission = NewRolePermissionClient(tx.config)
 	tx.UserRole = NewUserRoleClient(tx.config)
-	tx.UserTenantRole = NewUserTenantRoleClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

@@ -224,13 +224,13 @@ func (h *tenantSettingHandler) BulkUpdate(c *gin.Context) {
 // @Description Retrieve all settings for a specific tenant
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/settings [get]
+// @Router /iam/tenants/{tenantId}/settings [get]
 // @Security Bearer
 func (h *tenantSettingHandler) GetTenantSettings(c *gin.Context) {
-	tenantID := c.Param("slug")
+	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug or tenant_id")))
 		return
@@ -251,12 +251,12 @@ func (h *tenantSettingHandler) GetTenantSettings(c *gin.Context) {
 // @Description Retrieve public settings for a specific tenant
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/settings/public [get]
+// @Router /iam/tenants/{tenantId}/settings/public [get]
 func (h *tenantSettingHandler) GetPublicSettings(c *gin.Context) {
-	tenantID := c.Param("slug")
+	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug or tenant_id")))
 		return
@@ -278,15 +278,15 @@ func (h *tenantSettingHandler) GetPublicSettings(c *gin.Context) {
 // @Tags iam
 // @Accept json
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Param key path string true "Setting Key"
 // @Param body body map[string]string true "Setting value"
 // @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/settings/{key} [put]
+// @Router /iam/tenants/{tenantId}/settings/{key} [put]
 // @Security Bearer
 func (h *tenantSettingHandler) SetSetting(c *gin.Context) {
-	tenantID := c.Param("slug")
+	tenantID := c.Param("tenantId")
 	key := c.Param("key")
 	if tenantID == "" || key == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Missing required parameters"))
@@ -319,14 +319,14 @@ func (h *tenantSettingHandler) SetSetting(c *gin.Context) {
 // @Description Retrieve a specific setting for a tenant
 // @Tags iam
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Param key path string true "Setting Key"
 // @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /iam/tenants/{slug}/settings/{key} [get]
+// @Router /iam/tenants/{tenantId}/settings/{key} [get]
 // @Security Bearer
 func (h *tenantSettingHandler) GetSetting(c *gin.Context) {
-	tenantID := c.Param("slug")
+	tenantID := c.Param("tenantId")
 	key := c.Param("key")
 	if tenantID == "" || key == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Missing required parameters"))

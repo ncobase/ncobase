@@ -71,7 +71,7 @@ func (s *authTenantService) CreateInitialTenant(ctx context.Context, body *tenan
 	}
 
 	// Assign tenant-specific role
-	if _, err := s.asw.AddRoleToUserInTenant(ctx, *body.CreatedBy, tenant.ID, superAdminRole.ID); err != nil {
+	if _, err := s.tsw.AddRoleToUserInTenant(ctx, *body.CreatedBy, tenant.ID, superAdminRole.ID); err != nil {
 		logger.Warnf(ctx, "Failed to assign tenant role to user: %v", err)
 	}
 
