@@ -16,8 +16,6 @@ type Tx struct {
 	Group *GroupClient
 	// GroupRole is the client for interacting with the GroupRole builders.
 	GroupRole *GroupRoleClient
-	// TenantGroup is the client for interacting with the TenantGroup builders.
-	TenantGroup *TenantGroupClient
 	// UserGroup is the client for interacting with the UserGroup builders.
 	UserGroup *UserGroupClient
 
@@ -153,7 +151,6 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.Group = NewGroupClient(tx.config)
 	tx.GroupRole = NewGroupRoleClient(tx.config)
-	tx.TenantGroup = NewTenantGroupClient(tx.config)
 	tx.UserGroup = NewUserGroupClient(tx.config)
 }
 

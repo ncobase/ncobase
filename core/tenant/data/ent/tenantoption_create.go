@@ -5,55 +5,55 @@ package ent
 import (
 	"context"
 	"fmt"
-	"ncobase/tenant/data/ent/tenantoptions"
+	"ncobase/tenant/data/ent/tenantoption"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
 
-// TenantOptionsCreate is the builder for creating a TenantOptions entity.
-type TenantOptionsCreate struct {
+// TenantOptionCreate is the builder for creating a TenantOption entity.
+type TenantOptionCreate struct {
 	config
-	mutation *TenantOptionsMutation
+	mutation *TenantOptionMutation
 	hooks    []Hook
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (toc *TenantOptionsCreate) SetTenantID(s string) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetTenantID(s string) *TenantOptionCreate {
 	toc.mutation.SetTenantID(s)
 	return toc
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (toc *TenantOptionsCreate) SetNillableTenantID(s *string) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetNillableTenantID(s *string) *TenantOptionCreate {
 	if s != nil {
 		toc.SetTenantID(*s)
 	}
 	return toc
 }
 
-// SetOptionsID sets the "options_id" field.
-func (toc *TenantOptionsCreate) SetOptionsID(s string) *TenantOptionsCreate {
-	toc.mutation.SetOptionsID(s)
+// SetOptionID sets the "option_id" field.
+func (toc *TenantOptionCreate) SetOptionID(s string) *TenantOptionCreate {
+	toc.mutation.SetOptionID(s)
 	return toc
 }
 
-// SetNillableOptionsID sets the "options_id" field if the given value is not nil.
-func (toc *TenantOptionsCreate) SetNillableOptionsID(s *string) *TenantOptionsCreate {
+// SetNillableOptionID sets the "option_id" field if the given value is not nil.
+func (toc *TenantOptionCreate) SetNillableOptionID(s *string) *TenantOptionCreate {
 	if s != nil {
-		toc.SetOptionsID(*s)
+		toc.SetOptionID(*s)
 	}
 	return toc
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (toc *TenantOptionsCreate) SetCreatedBy(s string) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetCreatedBy(s string) *TenantOptionCreate {
 	toc.mutation.SetCreatedBy(s)
 	return toc
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (toc *TenantOptionsCreate) SetNillableCreatedBy(s *string) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetNillableCreatedBy(s *string) *TenantOptionCreate {
 	if s != nil {
 		toc.SetCreatedBy(*s)
 	}
@@ -61,13 +61,13 @@ func (toc *TenantOptionsCreate) SetNillableCreatedBy(s *string) *TenantOptionsCr
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (toc *TenantOptionsCreate) SetUpdatedBy(s string) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetUpdatedBy(s string) *TenantOptionCreate {
 	toc.mutation.SetUpdatedBy(s)
 	return toc
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (toc *TenantOptionsCreate) SetNillableUpdatedBy(s *string) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetNillableUpdatedBy(s *string) *TenantOptionCreate {
 	if s != nil {
 		toc.SetUpdatedBy(*s)
 	}
@@ -75,13 +75,13 @@ func (toc *TenantOptionsCreate) SetNillableUpdatedBy(s *string) *TenantOptionsCr
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (toc *TenantOptionsCreate) SetCreatedAt(i int64) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetCreatedAt(i int64) *TenantOptionCreate {
 	toc.mutation.SetCreatedAt(i)
 	return toc
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (toc *TenantOptionsCreate) SetNillableCreatedAt(i *int64) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetNillableCreatedAt(i *int64) *TenantOptionCreate {
 	if i != nil {
 		toc.SetCreatedAt(*i)
 	}
@@ -89,13 +89,13 @@ func (toc *TenantOptionsCreate) SetNillableCreatedAt(i *int64) *TenantOptionsCre
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (toc *TenantOptionsCreate) SetUpdatedAt(i int64) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetUpdatedAt(i int64) *TenantOptionCreate {
 	toc.mutation.SetUpdatedAt(i)
 	return toc
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (toc *TenantOptionsCreate) SetNillableUpdatedAt(i *int64) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetNillableUpdatedAt(i *int64) *TenantOptionCreate {
 	if i != nil {
 		toc.SetUpdatedAt(*i)
 	}
@@ -103,32 +103,32 @@ func (toc *TenantOptionsCreate) SetNillableUpdatedAt(i *int64) *TenantOptionsCre
 }
 
 // SetID sets the "id" field.
-func (toc *TenantOptionsCreate) SetID(s string) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetID(s string) *TenantOptionCreate {
 	toc.mutation.SetID(s)
 	return toc
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (toc *TenantOptionsCreate) SetNillableID(s *string) *TenantOptionsCreate {
+func (toc *TenantOptionCreate) SetNillableID(s *string) *TenantOptionCreate {
 	if s != nil {
 		toc.SetID(*s)
 	}
 	return toc
 }
 
-// Mutation returns the TenantOptionsMutation object of the builder.
-func (toc *TenantOptionsCreate) Mutation() *TenantOptionsMutation {
+// Mutation returns the TenantOptionMutation object of the builder.
+func (toc *TenantOptionCreate) Mutation() *TenantOptionMutation {
 	return toc.mutation
 }
 
-// Save creates the TenantOptions in the database.
-func (toc *TenantOptionsCreate) Save(ctx context.Context) (*TenantOptions, error) {
+// Save creates the TenantOption in the database.
+func (toc *TenantOptionCreate) Save(ctx context.Context) (*TenantOption, error) {
 	toc.defaults()
 	return withHooks(ctx, toc.sqlSave, toc.mutation, toc.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (toc *TenantOptionsCreate) SaveX(ctx context.Context) *TenantOptions {
+func (toc *TenantOptionCreate) SaveX(ctx context.Context) *TenantOption {
 	v, err := toc.Save(ctx)
 	if err != nil {
 		panic(err)
@@ -137,65 +137,65 @@ func (toc *TenantOptionsCreate) SaveX(ctx context.Context) *TenantOptions {
 }
 
 // Exec executes the query.
-func (toc *TenantOptionsCreate) Exec(ctx context.Context) error {
+func (toc *TenantOptionCreate) Exec(ctx context.Context) error {
 	_, err := toc.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (toc *TenantOptionsCreate) ExecX(ctx context.Context) {
+func (toc *TenantOptionCreate) ExecX(ctx context.Context) {
 	if err := toc.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (toc *TenantOptionsCreate) defaults() {
+func (toc *TenantOptionCreate) defaults() {
 	if _, ok := toc.mutation.CreatedAt(); !ok {
-		v := tenantoptions.DefaultCreatedAt()
+		v := tenantoption.DefaultCreatedAt()
 		toc.mutation.SetCreatedAt(v)
 	}
 	if _, ok := toc.mutation.UpdatedAt(); !ok {
-		v := tenantoptions.DefaultUpdatedAt()
+		v := tenantoption.DefaultUpdatedAt()
 		toc.mutation.SetUpdatedAt(v)
 	}
 	if _, ok := toc.mutation.ID(); !ok {
-		v := tenantoptions.DefaultID()
+		v := tenantoption.DefaultID()
 		toc.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (toc *TenantOptionsCreate) check() error {
+func (toc *TenantOptionCreate) check() error {
 	if v, ok := toc.mutation.TenantID(); ok {
-		if err := tenantoptions.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantOptions.tenant_id": %w`, err)}
+		if err := tenantoption.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.tenant_id": %w`, err)}
 		}
 	}
-	if v, ok := toc.mutation.OptionsID(); ok {
-		if err := tenantoptions.OptionsIDValidator(v); err != nil {
-			return &ValidationError{Name: "options_id", err: fmt.Errorf(`ent: validator failed for field "TenantOptions.options_id": %w`, err)}
+	if v, ok := toc.mutation.OptionID(); ok {
+		if err := tenantoption.OptionIDValidator(v); err != nil {
+			return &ValidationError{Name: "option_id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.option_id": %w`, err)}
 		}
 	}
 	if v, ok := toc.mutation.CreatedBy(); ok {
-		if err := tenantoptions.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantOptions.created_by": %w`, err)}
+		if err := tenantoption.CreatedByValidator(v); err != nil {
+			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.created_by": %w`, err)}
 		}
 	}
 	if v, ok := toc.mutation.UpdatedBy(); ok {
-		if err := tenantoptions.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantOptions.updated_by": %w`, err)}
+		if err := tenantoption.UpdatedByValidator(v); err != nil {
+			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.updated_by": %w`, err)}
 		}
 	}
 	if v, ok := toc.mutation.ID(); ok {
-		if err := tenantoptions.IDValidator(v); err != nil {
-			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "TenantOptions.id": %w`, err)}
+		if err := tenantoption.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.id": %w`, err)}
 		}
 	}
 	return nil
 }
 
-func (toc *TenantOptionsCreate) sqlSave(ctx context.Context) (*TenantOptions, error) {
+func (toc *TenantOptionCreate) sqlSave(ctx context.Context) (*TenantOption, error) {
 	if err := toc.check(); err != nil {
 		return nil, err
 	}
@@ -210,7 +210,7 @@ func (toc *TenantOptionsCreate) sqlSave(ctx context.Context) (*TenantOptions, er
 		if id, ok := _spec.ID.Value.(string); ok {
 			_node.ID = id
 		} else {
-			return nil, fmt.Errorf("unexpected TenantOptions.ID type: %T", _spec.ID.Value)
+			return nil, fmt.Errorf("unexpected TenantOption.ID type: %T", _spec.ID.Value)
 		}
 	}
 	toc.mutation.id = &_node.ID
@@ -218,63 +218,63 @@ func (toc *TenantOptionsCreate) sqlSave(ctx context.Context) (*TenantOptions, er
 	return _node, nil
 }
 
-func (toc *TenantOptionsCreate) createSpec() (*TenantOptions, *sqlgraph.CreateSpec) {
+func (toc *TenantOptionCreate) createSpec() (*TenantOption, *sqlgraph.CreateSpec) {
 	var (
-		_node = &TenantOptions{config: toc.config}
-		_spec = sqlgraph.NewCreateSpec(tenantoptions.Table, sqlgraph.NewFieldSpec(tenantoptions.FieldID, field.TypeString))
+		_node = &TenantOption{config: toc.config}
+		_spec = sqlgraph.NewCreateSpec(tenantoption.Table, sqlgraph.NewFieldSpec(tenantoption.FieldID, field.TypeString))
 	)
 	if id, ok := toc.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
 	if value, ok := toc.mutation.TenantID(); ok {
-		_spec.SetField(tenantoptions.FieldTenantID, field.TypeString, value)
+		_spec.SetField(tenantoption.FieldTenantID, field.TypeString, value)
 		_node.TenantID = value
 	}
-	if value, ok := toc.mutation.OptionsID(); ok {
-		_spec.SetField(tenantoptions.FieldOptionsID, field.TypeString, value)
-		_node.OptionsID = value
+	if value, ok := toc.mutation.OptionID(); ok {
+		_spec.SetField(tenantoption.FieldOptionID, field.TypeString, value)
+		_node.OptionID = value
 	}
 	if value, ok := toc.mutation.CreatedBy(); ok {
-		_spec.SetField(tenantoptions.FieldCreatedBy, field.TypeString, value)
+		_spec.SetField(tenantoption.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
 	if value, ok := toc.mutation.UpdatedBy(); ok {
-		_spec.SetField(tenantoptions.FieldUpdatedBy, field.TypeString, value)
+		_spec.SetField(tenantoption.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
 	if value, ok := toc.mutation.CreatedAt(); ok {
-		_spec.SetField(tenantoptions.FieldCreatedAt, field.TypeInt64, value)
+		_spec.SetField(tenantoption.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
 	if value, ok := toc.mutation.UpdatedAt(); ok {
-		_spec.SetField(tenantoptions.FieldUpdatedAt, field.TypeInt64, value)
+		_spec.SetField(tenantoption.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }
 
-// TenantOptionsCreateBulk is the builder for creating many TenantOptions entities in bulk.
-type TenantOptionsCreateBulk struct {
+// TenantOptionCreateBulk is the builder for creating many TenantOption entities in bulk.
+type TenantOptionCreateBulk struct {
 	config
 	err      error
-	builders []*TenantOptionsCreate
+	builders []*TenantOptionCreate
 }
 
-// Save creates the TenantOptions entities in the database.
-func (tocb *TenantOptionsCreateBulk) Save(ctx context.Context) ([]*TenantOptions, error) {
+// Save creates the TenantOption entities in the database.
+func (tocb *TenantOptionCreateBulk) Save(ctx context.Context) ([]*TenantOption, error) {
 	if tocb.err != nil {
 		return nil, tocb.err
 	}
 	specs := make([]*sqlgraph.CreateSpec, len(tocb.builders))
-	nodes := make([]*TenantOptions, len(tocb.builders))
+	nodes := make([]*TenantOption, len(tocb.builders))
 	mutators := make([]Mutator, len(tocb.builders))
 	for i := range tocb.builders {
 		func(i int, root context.Context) {
 			builder := tocb.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
-				mutation, ok := m.(*TenantOptionsMutation)
+				mutation, ok := m.(*TenantOptionMutation)
 				if !ok {
 					return nil, fmt.Errorf("unexpected mutation type %T", m)
 				}
@@ -317,7 +317,7 @@ func (tocb *TenantOptionsCreateBulk) Save(ctx context.Context) ([]*TenantOptions
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tocb *TenantOptionsCreateBulk) SaveX(ctx context.Context) []*TenantOptions {
+func (tocb *TenantOptionCreateBulk) SaveX(ctx context.Context) []*TenantOption {
 	v, err := tocb.Save(ctx)
 	if err != nil {
 		panic(err)
@@ -326,13 +326,13 @@ func (tocb *TenantOptionsCreateBulk) SaveX(ctx context.Context) []*TenantOptions
 }
 
 // Exec executes the query.
-func (tocb *TenantOptionsCreateBulk) Exec(ctx context.Context) error {
+func (tocb *TenantOptionCreateBulk) Exec(ctx context.Context) error {
 	_, err := tocb.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tocb *TenantOptionsCreateBulk) ExecX(ctx context.Context) {
+func (tocb *TenantOptionCreateBulk) ExecX(ctx context.Context) {
 	if err := tocb.Exec(ctx); err != nil {
 		panic(err)
 	}

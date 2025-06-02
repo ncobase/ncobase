@@ -259,46 +259,46 @@ var (
 			},
 		},
 	}
-	// NcseSysTenantOptionsColumns holds the columns for the "ncse_sys_tenant_options" table.
-	NcseSysTenantOptionsColumns = []*schema.Column{
+	// NcseSysTenantOptionColumns holds the columns for the "ncse_sys_tenant_option" table.
+	NcseSysTenantOptionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "options_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "options id"},
+		{Name: "option_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "option id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysTenantOptionsTable holds the schema information for the "ncse_sys_tenant_options" table.
-	NcseSysTenantOptionsTable = &schema.Table{
-		Name:       "ncse_sys_tenant_options",
-		Columns:    NcseSysTenantOptionsColumns,
-		PrimaryKey: []*schema.Column{NcseSysTenantOptionsColumns[0]},
+	// NcseSysTenantOptionTable holds the schema information for the "ncse_sys_tenant_option" table.
+	NcseSysTenantOptionTable = &schema.Table{
+		Name:       "ncse_sys_tenant_option",
+		Columns:    NcseSysTenantOptionColumns,
+		PrimaryKey: []*schema.Column{NcseSysTenantOptionColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "tenantoptions_id",
+				Name:    "tenantoption_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysTenantOptionsColumns[0]},
+				Columns: []*schema.Column{NcseSysTenantOptionColumns[0]},
 			},
 			{
-				Name:    "tenantoptions_tenant_id",
+				Name:    "tenantoption_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysTenantOptionsColumns[1]},
+				Columns: []*schema.Column{NcseSysTenantOptionColumns[1]},
 			},
 			{
-				Name:    "tenantoptions_options_id",
+				Name:    "tenantoption_option_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysTenantOptionsColumns[2]},
+				Columns: []*schema.Column{NcseSysTenantOptionColumns[2]},
 			},
 			{
-				Name:    "tenantoptions_id_created_at",
+				Name:    "tenantoption_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysTenantOptionsColumns[0], NcseSysTenantOptionsColumns[5]},
+				Columns: []*schema.Column{NcseSysTenantOptionColumns[0], NcseSysTenantOptionColumns[5]},
 			},
 			{
-				Name:    "tenantoptions_tenant_id_options_id",
+				Name:    "tenantoption_tenant_id_option_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysTenantOptionsColumns[1], NcseSysTenantOptionsColumns[2]},
+				Columns: []*schema.Column{NcseSysTenantOptionColumns[1], NcseSysTenantOptionColumns[2]},
 			},
 		},
 	}
@@ -516,7 +516,7 @@ var (
 		NcseSysTenantDictionaryTable,
 		NcseOrgTenantGroupTable,
 		NcseSysTenantMenuTable,
-		NcseSysTenantOptionsTable,
+		NcseSysTenantOptionTable,
 		NcseSysTenantQuotaTable,
 		NcseSysTenantSettingTable,
 		NcseSysUserTenantTable,
@@ -540,8 +540,8 @@ func init() {
 	NcseSysTenantMenuTable.Annotation = &entsql.Annotation{
 		Table: "ncse_sys_tenant_menu",
 	}
-	NcseSysTenantOptionsTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_tenant_options",
+	NcseSysTenantOptionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_tenant_option",
 	}
 	NcseSysTenantQuotaTable.Annotation = &entsql.Annotation{
 		Table: "ncse_sys_tenant_quota",

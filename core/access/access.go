@@ -110,12 +110,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Role endpoints - graduated permissions
 	roles := accessGroup.Group("/roles")
 	{
-		roles.GET("", middleware.HasPermission("read:role"), m.h.Role.List)
-		roles.POST("", middleware.HasPermission("manage:role"), m.h.Role.Create)
-		roles.GET("/:slug", middleware.HasPermission("read:role"), m.h.Role.Get)
-		roles.PUT("/:slug", middleware.HasPermission("manage:role"), m.h.Role.Update)
-		roles.DELETE("/:slug", middleware.HasPermission("manage:role"), m.h.Role.Delete)
-		roles.GET("/:slug/permissions", middleware.HasPermission("read:role"), m.h.RolePermission.ListRolePermission)
+		roles.GET("", middleware.HasPermission("read:roles"), m.h.Role.List)
+		roles.POST("", middleware.HasPermission("manage:roles"), m.h.Role.Create)
+		roles.GET("/:slug", middleware.HasPermission("read:roles"), m.h.Role.Get)
+		roles.PUT("/:slug", middleware.HasPermission("manage:roles"), m.h.Role.Update)
+		roles.DELETE("/:slug", middleware.HasPermission("manage:roles"), m.h.Role.Delete)
+		roles.GET("/:slug/permissions", middleware.HasPermission("read:roles"), m.h.RolePermission.ListRolePermission)
 	}
 
 	// Permission endpoints - admin only

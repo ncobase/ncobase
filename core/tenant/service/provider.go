@@ -18,7 +18,7 @@ type Service struct {
 	TenantGroup      TenantGroupServiceInterface
 	TenantMenu       TenantMenuServiceInterface
 	TenantDictionary TenantDictionaryServiceInterface
-	TenantOptions    TenantOptionsServiceInterface
+	TenantOption     TenantOptionServiceInterface
 	gsw              *wrapper.SpaceServiceWrapper
 }
 
@@ -39,7 +39,7 @@ func New(d *data.Data, em ext.ManagerInterface) *Service {
 		TenantGroup:      NewTenantGroupService(d, gsw),
 		TenantMenu:       NewTenantMenuService(d),
 		TenantDictionary: NewTenantDictionaryService(d),
-		TenantOptions:    NewTenantOptionsService(d),
+		TenantOption:     NewTenantOptionService(d),
 		gsw:              gsw,
 	}
 }

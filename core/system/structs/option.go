@@ -6,8 +6,8 @@ import (
 	"github.com/ncobase/ncore/utils/convert"
 )
 
-// OptionsBody represents an options entity.
-type OptionsBody struct {
+// OptionBody represents an option entity.
+type OptionBody struct {
 	Name      string  `json:"name,omitempty"`
 	Type      string  `json:"type,omitempty"`
 	Value     string  `json:"value,omitempty"`
@@ -16,19 +16,19 @@ type OptionsBody struct {
 	UpdatedBy *string `json:"updated_by,omitempty"`
 }
 
-// CreateOptionsBody represents the body for creating options.
-type CreateOptionsBody struct {
-	OptionsBody
+// CreateOptionBody represents the body for creating option.
+type CreateOptionBody struct {
+	OptionBody
 }
 
-// UpdateOptionsBody represents the body for updating options.
-type UpdateOptionsBody struct {
+// UpdateOptionBody represents the body for updating option.
+type UpdateOptionBody struct {
 	ID string `json:"id,omitempty"`
-	OptionsBody
+	OptionBody
 }
 
-// ReadOptions represents the output schema for retrieving options.
-type ReadOptions struct {
+// ReadOption represents the output schema for retrieving option.
+type ReadOption struct {
 	ID        string  `json:"id"`
 	Name      string  `json:"name"`
 	Type      string  `json:"type"`
@@ -40,18 +40,18 @@ type ReadOptions struct {
 	UpdatedAt *int64  `json:"updated_at,omitempty"`
 }
 
-// GetID returns the ID of the options.
-func (r *ReadOptions) GetID() string {
+// GetID returns the ID of the option.
+func (r *ReadOption) GetID() string {
 	return r.ID
 }
 
 // GetCursorValue returns the cursor value.
-func (r *ReadOptions) GetCursorValue() string {
+func (r *ReadOption) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
 // GetSortValue get sort value
-func (r *ReadOptions) GetSortValue(field string) any {
+func (r *ReadOption) GetSortValue(field string) any {
 	switch field {
 	case SortByCreatedAt:
 		return convert.ToValue(r.CreatedAt)
@@ -62,15 +62,15 @@ func (r *ReadOptions) GetSortValue(field string) any {
 	}
 }
 
-// FindOptions represents the parameters for finding options.
+// FindOptions represents the parameters for finding option.
 type FindOptions struct {
 	Option string `form:"option,omitempty" json:"option,omitempty"`
 	Type   string `form:"type,omitempty" json:"type,omitempty"`
 	SortBy string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
-// ListOptionsParams represents the query parameters for listing options.
-type ListOptionsParams struct {
+// ListOptionParams represents the query parameters for listing options.
+type ListOptionParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`

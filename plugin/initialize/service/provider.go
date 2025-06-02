@@ -153,9 +153,9 @@ func (s *Service) SaveState(ctx context.Context) error {
 
 	existingOption, err := s.sys.Options.GetByName(ctx, stateOptionKey)
 	if err == nil && existingOption != nil {
-		updateBody := &systemStructs.UpdateOptionsBody{
+		updateBody := &systemStructs.UpdateOptionBody{
 			ID: existingOption.ID,
-			OptionsBody: systemStructs.OptionsBody{
+			OptionBody: systemStructs.OptionBody{
 				Value:    string(stateJSON),
 				Autoload: true,
 			},
@@ -165,7 +165,7 @@ func (s *Service) SaveState(ctx context.Context) error {
 			return fmt.Errorf("failed to update initialization state option: %w", err)
 		}
 	} else {
-		createBody := &systemStructs.OptionsBody{
+		createBody := &systemStructs.OptionBody{
 			Name:     stateOptionKey,
 			Type:     "object",
 			Value:    string(stateJSON),

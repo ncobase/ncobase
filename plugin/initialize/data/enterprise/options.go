@@ -7,7 +7,7 @@ import (
 )
 
 // SystemDefaultOptions defines default system configuration options
-var SystemDefaultOptions = []structs.OptionsBody{
+var SystemDefaultOptions = []structs.OptionBody{
 	// Basic system settings
 	{
 		Name:     "system.name",

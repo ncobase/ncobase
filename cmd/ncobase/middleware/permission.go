@@ -354,7 +354,7 @@ func hasManagementRole(roles []string) bool {
 // matchesWildcard checks if pattern matches target
 func matchesWildcard(pattern, target string) bool {
 	// Simple wildcard matching implementation
-	// e.g.: "read:*" matches "read:user", "read:employee" etc.
+	// e.g.: "read:*" matches "read:users", "read:employees" etc.
 	parts := strings.Split(pattern, ":")
 	targetParts := strings.Split(target, ":")
 

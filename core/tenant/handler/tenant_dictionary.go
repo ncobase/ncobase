@@ -78,7 +78,7 @@ func (h *tenantDictionaryHandler) AddDictionaryToTenant(c *gin.Context) {
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param dictionaryId path string true "Dictionary ID"
-// @Success 200 {object} resp.Success "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/dictionaries/{dictionaryId} [delete]
 // @Security Bearer
@@ -115,7 +115,7 @@ func (h *tenantDictionaryHandler) RemoveDictionaryFromTenant(c *gin.Context) {
 // @Tags sys
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
-// @Success 200 {array} string "success"
+// @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/dictionaries [get]
 // @Security Bearer

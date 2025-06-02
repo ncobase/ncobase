@@ -17,20 +17,20 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// OptionsRepositoryInterface represents the options repository interface.
-type OptionsRepositoryInterface interface {
-	Create(context.Context, *structs.OptionsBody) (*ent.Options, error)
+// OptionRepositoryInterface represents the option repository interface.
+type OptionRepositoryInterface interface {
+	Create(context.Context, *structs.OptionBody) (*ent.Options, error)
 	Get(context.Context, *structs.FindOptions) (*ent.Options, error)
-	Update(context.Context, *structs.UpdateOptionsBody) (*ent.Options, error)
+	Update(context.Context, *structs.UpdateOptionBody) (*ent.Options, error)
 	Delete(context.Context, *structs.FindOptions) error
 	DeleteByPrefix(ctx context.Context, prefix string) error
-	List(context.Context, *structs.ListOptionsParams) ([]*ent.Options, error)
-	ListWithCount(ctx context.Context, params *structs.ListOptionsParams) ([]*ent.Options, int, error)
-	CountX(context.Context, *structs.ListOptionsParams) int
+	List(context.Context, *structs.ListOptionParams) ([]*ent.Options, error)
+	ListWithCount(ctx context.Context, params *structs.ListOptionParams) ([]*ent.Options, int, error)
+	CountX(context.Context, *structs.ListOptionParams) int
 }
 
-// optionsRepository implements the OptionsRepositoryInterface.
-type optionsRepository struct {
+// optionRepository implements the OptionRepositoryInterface.
+type optionRepository struct {
 	data             *data.Data
 	ms               *meili.Client
 	optionsCache     cache.ICache[ent.Options]
@@ -38,11 +38,11 @@ type optionsRepository struct {
 	optionsTTL       time.Duration
 }
 
-// NewOptionsRepository creates a new options repository.
-func NewOptionsRepository(d *data.Data) OptionsRepositoryInterface {
+// NewOptionRepository creates a new option repository.
+func NewOptionRepository(d *data.Data) OptionRepositoryInterface {
 	redisClient := d.GetRedis()
 
-	return &optionsRepository{
+	return &optionRepository{
 		data:             d,
 		ms:               d.GetMeilisearch(),
 		optionsCache:     cache.NewCache[ent.Options](redisClient, "ncse_system:options"),
@@ -52,7 +52,7 @@ func NewOptionsRepository(d *data.Data) OptionsRepositoryInterface {
 }
 
 // Create creates a new option.
-func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBody) (*ent.Options, error) {
+func (r *optionRepository) Create(ctx context.Context, body *structs.OptionBody) (*ent.Options, error) {
 	// Use master for writes
 	builder := r.data.GetMasterEntClient().Options.Create()
 
@@ -90,7 +90,7 @@ func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBod
 }
 
 // Get retrieves a specific option.
-func (r *optionsRepository) Get(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
+func (r *optionRepository) Get(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
 	// Try to get option ID from name mapping cache if searching by name
 	if params.Option != "" {
 		if optionID, err := r.getOptionIDByName(ctx, params.Option); err == nil && optionID != "" {
@@ -116,7 +116,7 @@ func (r *optionsRepository) Get(ctx context.Context, params *structs.FindOptions
 }
 
 // Update updates an existing option.
-func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOptionsBody) (*ent.Options, error) {
+func (r *optionRepository) Update(ctx context.Context, body *structs.UpdateOptionBody) (*ent.Options, error) {
 	// Get original option for cache invalidation
 	originalOption, err := r.getOption(ctx, &structs.FindOptions{
 		Option: body.ID,
@@ -165,7 +165,7 @@ func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOpti
 }
 
 // Delete deletes an option.
-func (r *optionsRepository) Delete(ctx context.Context, params *structs.FindOptions) error {
+func (r *optionRepository) Delete(ctx context.Context, params *structs.FindOptions) error {
 	// Get option first for cache invalidation
 	option, err := r.getOption(ctx, params)
 	if err != nil {
@@ -197,7 +197,7 @@ func (r *optionsRepository) Delete(ctx context.Context, params *structs.FindOpti
 }
 
 // DeleteByPrefix deletes options by prefix.
-func (r *optionsRepository) DeleteByPrefix(ctx context.Context, prefix string) error {
+func (r *optionRepository) DeleteByPrefix(ctx context.Context, prefix string) error {
 	if validator.IsEmpty(prefix) {
 		return fmt.Errorf("prefix is required")
 	}
@@ -225,7 +225,7 @@ func (r *optionsRepository) DeleteByPrefix(ctx context.Context, prefix string) e
 }
 
 // List returns a slice of options based on the provided parameters.
-func (r *optionsRepository) List(ctx context.Context, params *structs.ListOptionsParams) ([]*ent.Options, error) {
+func (r *optionRepository) List(ctx context.Context, params *structs.ListOptionParams) ([]*ent.Options, error) {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
 		return nil, fmt.Errorf("building list query: %w", err)
@@ -264,7 +264,7 @@ func (r *optionsRepository) List(ctx context.Context, params *structs.ListOption
 }
 
 // CountX returns the total count of options based on the provided parameters.
-func (r *optionsRepository) CountX(ctx context.Context, params *structs.ListOptionsParams) int {
+func (r *optionRepository) CountX(ctx context.Context, params *structs.ListOptionParams) int {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
 		logger.Errorf(ctx, "Error building count query: %v", err)
@@ -274,7 +274,7 @@ func (r *optionsRepository) CountX(ctx context.Context, params *structs.ListOpti
 }
 
 // ListWithCount returns both a slice of options and the total count based on the provided parameters.
-func (r *optionsRepository) ListWithCount(ctx context.Context, params *structs.ListOptionsParams) ([]*ent.Options, int, error) {
+func (r *optionRepository) ListWithCount(ctx context.Context, params *structs.ListOptionParams) ([]*ent.Options, int, error) {
 	builder, err := r.listBuilder(ctx, params)
 	if err != nil {
 		return nil, 0, fmt.Errorf("building list query: %w", err)
@@ -316,7 +316,7 @@ func (r *optionsRepository) ListWithCount(ctx context.Context, params *structs.L
 }
 
 // applySorting applies the specified sorting to the query builder.
-func (r *optionsRepository) applySorting(builder *ent.OptionsQuery, sortBy string) *ent.OptionsQuery {
+func (r *optionRepository) applySorting(builder *ent.OptionsQuery, sortBy string) *ent.OptionsQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		return builder.Order(ent.Desc(optionsEnt.FieldCreatedAt), ent.Desc(optionsEnt.FieldID))
@@ -328,7 +328,7 @@ func (r *optionsRepository) applySorting(builder *ent.OptionsQuery, sortBy strin
 }
 
 // applyCursorCondition applies the cursor-based condition to the query builder.
-func (r *optionsRepository) applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direction string, sortBy string) *ent.OptionsQuery {
+func (r *optionRepository) applyCursorCondition(builder *ent.OptionsQuery, id string, value any, direction string, sortBy string) *ent.OptionsQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)
@@ -388,7 +388,7 @@ func (r *optionsRepository) applyCursorCondition(builder *ent.OptionsQuery, id s
 }
 
 // listBuilder - create list builder.
-func (r *optionsRepository) listBuilder(_ context.Context, params *structs.ListOptionsParams) (*ent.OptionsQuery, error) {
+func (r *optionRepository) listBuilder(_ context.Context, params *structs.ListOptionParams) (*ent.OptionsQuery, error) {
 	// Use slave for reads
 	builder := r.data.GetSlaveEntClient().Options.Query()
 
@@ -409,7 +409,7 @@ func (r *optionsRepository) listBuilder(_ context.Context, params *structs.ListO
 
 // getOption - get option.
 // internal method.
-func (r *optionsRepository) getOption(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
+func (r *optionRepository) getOption(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
 	// Use slave for reads
 	builder := r.data.GetSlaveEntClient().Options.Query()
 
@@ -429,7 +429,7 @@ func (r *optionsRepository) getOption(ctx context.Context, params *structs.FindO
 }
 
 // executeArrayQuery - execute the builder query and return results.
-func (r *optionsRepository) executeArrayQuery(ctx context.Context, builder *ent.OptionsQuery) ([]*ent.Options, error) {
+func (r *optionRepository) executeArrayQuery(ctx context.Context, builder *ent.OptionsQuery) ([]*ent.Options, error) {
 	rows, err := builder.All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "optionsRepo.executeArrayQuery error: %v", err)
@@ -439,7 +439,7 @@ func (r *optionsRepository) executeArrayQuery(ctx context.Context, builder *ent.
 }
 
 // cacheOption - cache option.
-func (r *optionsRepository) cacheOption(ctx context.Context, option *ent.Options) {
+func (r *optionRepository) cacheOption(ctx context.Context, option *ent.Options) {
 	// Cache by ID
 	idKey := fmt.Sprintf("id:%s", option.ID)
 	if err := r.optionsCache.Set(ctx, idKey, option, r.optionsTTL); err != nil {
@@ -456,7 +456,7 @@ func (r *optionsRepository) cacheOption(ctx context.Context, option *ent.Options
 }
 
 // invalidateOptionCache invalidates option cache
-func (r *optionsRepository) invalidateOptionCache(ctx context.Context, option *ent.Options) {
+func (r *optionRepository) invalidateOptionCache(ctx context.Context, option *ent.Options) {
 	// Invalidate ID cache
 	idKey := fmt.Sprintf("id:%s", option.ID)
 	if err := r.optionsCache.Delete(ctx, idKey); err != nil {
@@ -473,7 +473,7 @@ func (r *optionsRepository) invalidateOptionCache(ctx context.Context, option *e
 }
 
 // getOptionIDByName - get option ID by name
-func (r *optionsRepository) getOptionIDByName(ctx context.Context, name string) (string, error) {
+func (r *optionRepository) getOptionIDByName(ctx context.Context, name string) (string, error) {
 	cacheKey := fmt.Sprintf("name:%s", name)
 	optionID, err := r.nameMappingCache.Get(ctx, cacheKey)
 	if err != nil || optionID == nil {

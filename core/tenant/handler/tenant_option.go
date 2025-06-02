@@ -8,22 +8,22 @@ import (
 	"github.com/ncobase/ncore/net/resp"
 )
 
-// TenantOptionsHandlerInterface represents the tenant options handler interface.
-type TenantOptionsHandlerInterface interface {
+// TenantOptionHandlerInterface represents the tenant option handler interface.
+type TenantOptionHandlerInterface interface {
 	AddOptionsToTenant(c *gin.Context)
 	RemoveOptionsFromTenant(c *gin.Context)
-	GetTenantOptions(c *gin.Context)
+	GetTenantOption(c *gin.Context)
 	CheckOptionsInTenant(c *gin.Context)
 }
 
-// tenantOptionsHandler represents the tenant options handler.
-type tenantOptionsHandler struct {
+// tenantOptionHandler represents the tenant option handler.
+type tenantOptionHandler struct {
 	s *service.Service
 }
 
-// NewTenantOptionsHandler creates new tenant options handler.
-func NewTenantOptionsHandler(svc *service.Service) TenantOptionsHandlerInterface {
-	return &tenantOptionsHandler{
+// NewTenantOptionHandler creates new tenant option handler.
+func NewTenantOptionHandler(svc *service.Service) TenantOptionHandlerInterface {
+	return &tenantOptionHandler{
 		s: svc,
 	}
 }
@@ -37,11 +37,11 @@ func NewTenantOptionsHandler(svc *service.Service) TenantOptionsHandlerInterface
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param body body structs.AddOptionsToTenantRequest true "AddOptionsToTenantRequest object"
-// @Success 200 {object} structs.TenantOptions "success"
+// @Success 200 {object} structs.TenantOption "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/options [post]
 // @Security Bearer
-func (h *tenantOptionsHandler) AddOptionsToTenant(c *gin.Context) {
+func (h *tenantOptionHandler) AddOptionsToTenant(c *gin.Context) {
 	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Tenant ID is required"))
@@ -55,13 +55,13 @@ func (h *tenantOptionsHandler) AddOptionsToTenant(c *gin.Context) {
 	}
 
 	// Check if options already in tenant
-	exists, _ := h.s.TenantOptions.IsOptionsInTenant(c.Request.Context(), tenantID, req.OptionsID)
+	exists, _ := h.s.TenantOption.IsOptionsInTenant(c.Request.Context(), tenantID, req.OptionID)
 	if exists {
 		resp.Fail(c.Writer, resp.BadRequest("Options already belong to this tenant"))
 		return
 	}
 
-	result, err := h.s.TenantOptions.AddOptionsToTenant(c.Request.Context(), tenantID, req.OptionsID)
+	result, err := h.s.TenantOption.AddOptionsToTenant(c.Request.Context(), tenantID, req.OptionID)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -78,11 +78,11 @@ func (h *tenantOptionsHandler) AddOptionsToTenant(c *gin.Context) {
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param optionsId path string true "Options ID"
-// @Success 200 {object} resp.Success "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/options/{optionsId} [delete]
 // @Security Bearer
-func (h *tenantOptionsHandler) RemoveOptionsFromTenant(c *gin.Context) {
+func (h *tenantOptionHandler) RemoveOptionsFromTenant(c *gin.Context) {
 	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Tenant ID is required"))
@@ -95,22 +95,22 @@ func (h *tenantOptionsHandler) RemoveOptionsFromTenant(c *gin.Context) {
 		return
 	}
 
-	err := h.s.TenantOptions.RemoveOptionsFromTenant(c.Request.Context(), tenantID, optionsID)
+	err := h.s.TenantOption.RemoveOptionsFromTenant(c.Request.Context(), tenantID, optionsID)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
 	resp.Success(c.Writer, map[string]interface{}{
-		"status":     "removed",
-		"tenant_id":  tenantID,
-		"options_id": optionsID,
+		"status":    "removed",
+		"tenant_id": tenantID,
+		"option_id": optionsID,
 	})
 }
 
-// GetTenantOptions handles getting all options for a tenant.
+// GetTenantOption handles getting all options for a tenant.
 //
-// @Summary Get tenant options
+// @Summary Get tenant option
 // @Description Get all options for a tenant
 // @Tags sys
 // @Produce json
@@ -119,23 +119,23 @@ func (h *tenantOptionsHandler) RemoveOptionsFromTenant(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/options [get]
 // @Security Bearer
-func (h *tenantOptionsHandler) GetTenantOptions(c *gin.Context) {
+func (h *tenantOptionHandler) GetTenantOption(c *gin.Context) {
 	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Tenant ID is required"))
 		return
 	}
 
-	optionsIDs, err := h.s.TenantOptions.GetTenantOptions(c.Request.Context(), tenantID)
+	optionsIDs, err := h.s.TenantOption.GetTenantOption(c.Request.Context(), tenantID)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
 	resp.Success(c.Writer, map[string]interface{}{
-		"tenant_id":   tenantID,
-		"options_ids": optionsIDs,
-		"count":       len(optionsIDs),
+		"tenant_id":  tenantID,
+		"option_ids": optionsIDs,
+		"count":      len(optionsIDs),
 	})
 }
 
@@ -151,7 +151,7 @@ func (h *tenantOptionsHandler) GetTenantOptions(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/options/{optionsId}/check [get]
 // @Security Bearer
-func (h *tenantOptionsHandler) CheckOptionsInTenant(c *gin.Context) {
+func (h *tenantOptionHandler) CheckOptionsInTenant(c *gin.Context) {
 	tenantID := c.Param("tenantId")
 	if tenantID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("Tenant ID is required"))
@@ -164,7 +164,7 @@ func (h *tenantOptionsHandler) CheckOptionsInTenant(c *gin.Context) {
 		return
 	}
 
-	exists, err := h.s.TenantOptions.IsOptionsInTenant(c.Request.Context(), tenantID, optionsID)
+	exists, err := h.s.TenantOption.IsOptionsInTenant(c.Request.Context(), tenantID, optionsID)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return

@@ -22,8 +22,8 @@ type Tx struct {
 	TenantGroup *TenantGroupClient
 	// TenantMenu is the client for interacting with the TenantMenu builders.
 	TenantMenu *TenantMenuClient
-	// TenantOptions is the client for interacting with the TenantOptions builders.
-	TenantOptions *TenantOptionsClient
+	// TenantOption is the client for interacting with the TenantOption builders.
+	TenantOption *TenantOptionClient
 	// TenantQuota is the client for interacting with the TenantQuota builders.
 	TenantQuota *TenantQuotaClient
 	// TenantSetting is the client for interacting with the TenantSetting builders.
@@ -168,7 +168,7 @@ func (tx *Tx) init() {
 	tx.TenantDictionary = NewTenantDictionaryClient(tx.config)
 	tx.TenantGroup = NewTenantGroupClient(tx.config)
 	tx.TenantMenu = NewTenantMenuClient(tx.config)
-	tx.TenantOptions = NewTenantOptionsClient(tx.config)
+	tx.TenantOption = NewTenantOptionClient(tx.config)
 	tx.TenantQuota = NewTenantQuotaClient(tx.config)
 	tx.TenantSetting = NewTenantSettingClient(tx.config)
 	tx.UserTenant = NewUserTenantClient(tx.config)

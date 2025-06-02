@@ -354,7 +354,7 @@ func (h *groupHandler) UpdateMember(c *gin.Context) {
 // @Produce json
 // @Param groupId path string true "Group ID or Slug"
 // @Param userId path string true "User ID"
-// @Success 200 {object} resp.Success "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /org/groups/{groupId}/members/{userId} [delete]
 // @Security Bearer

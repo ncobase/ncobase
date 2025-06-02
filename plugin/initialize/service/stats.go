@@ -34,7 +34,7 @@ func (s *Service) BackupState(ctx context.Context) error {
 	}
 
 	backupKey := fmt.Sprintf("system.initialization.backup.%d", backup.Timestamp)
-	createBody := &systemStructs.OptionsBody{
+	createBody := &systemStructs.OptionBody{
 		Name:     backupKey,
 		Type:     "json",
 		Value:    string(backupJSON),
@@ -57,7 +57,7 @@ func (s *Service) ListBackups(ctx context.Context) ([]initBackup, error) {
 	}
 
 	// Find all backup options
-	params := &systemStructs.ListOptionsParams{
+	params := &systemStructs.ListOptionParams{
 		Prefix: "system.initialization.backup.",
 	}
 

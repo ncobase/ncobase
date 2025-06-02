@@ -131,7 +131,7 @@ func (h *activityHandler) GetActivity(c *gin.Context) {
 // @Param offset query string false "Number of activities to skip (default: 0)"
 // @Param from_date query string false "Unix timestamp to filter activities created after (default: 0)"
 // @Param to_date query string false "Unix timestamp to filter activities created before (default: 0)"
-// @Success 200 {object} structs.ListActivityResponse
+// @Success 200 {object} []structs.ActivityDocument
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /sys/activities [get]
@@ -168,7 +168,7 @@ func (h *activityHandler) ListActivities(c *gin.Context) {
 // @Param offset query string false "Number of activities to skip (default: 0)"
 // @Param from_date query string false "Unix timestamp to filter activities created after (default: 0)"
 // @Param to_date query string false "Unix timestamp to filter activities created before (default: 0)"
-// @Success 200 {object} structs.ListActivityResponse
+// @Success 200 {object} []structs.ActivityDocument
 // @Failure 400 {object} gin.H
 // @Failure 403 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -223,7 +223,7 @@ func (h *activityHandler) GetUserActivities(c *gin.Context) {
 // @Param query query string true "Search query"
 // @Param from query string false "Unix timestamp to filter activities created after (default: 0)"
 // @Param size query string false "Number of activities to retrieve (default: 10, max: 100)"
-// @Success 200 {object} structs.SearchActivityResponse
+// @Success 200 {object} []structs.ActivityDocument
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /sys/activity/search [get]

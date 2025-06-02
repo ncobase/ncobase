@@ -5,33 +5,33 @@ package ent
 import (
 	"context"
 	"ncobase/tenant/data/ent/predicate"
-	"ncobase/tenant/data/ent/tenantoptions"
+	"ncobase/tenant/data/ent/tenantoption"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
 
-// TenantOptionsDelete is the builder for deleting a TenantOptions entity.
-type TenantOptionsDelete struct {
+// TenantOptionDelete is the builder for deleting a TenantOption entity.
+type TenantOptionDelete struct {
 	config
 	hooks    []Hook
-	mutation *TenantOptionsMutation
+	mutation *TenantOptionMutation
 }
 
-// Where appends a list predicates to the TenantOptionsDelete builder.
-func (tod *TenantOptionsDelete) Where(ps ...predicate.TenantOptions) *TenantOptionsDelete {
+// Where appends a list predicates to the TenantOptionDelete builder.
+func (tod *TenantOptionDelete) Where(ps ...predicate.TenantOption) *TenantOptionDelete {
 	tod.mutation.Where(ps...)
 	return tod
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (tod *TenantOptionsDelete) Exec(ctx context.Context) (int, error) {
+func (tod *TenantOptionDelete) Exec(ctx context.Context) (int, error) {
 	return withHooks(ctx, tod.sqlExec, tod.mutation, tod.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tod *TenantOptionsDelete) ExecX(ctx context.Context) int {
+func (tod *TenantOptionDelete) ExecX(ctx context.Context) int {
 	n, err := tod.Exec(ctx)
 	if err != nil {
 		panic(err)
@@ -39,8 +39,8 @@ func (tod *TenantOptionsDelete) ExecX(ctx context.Context) int {
 	return n
 }
 
-func (tod *TenantOptionsDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(tenantoptions.Table, sqlgraph.NewFieldSpec(tenantoptions.FieldID, field.TypeString))
+func (tod *TenantOptionDelete) sqlExec(ctx context.Context) (int, error) {
+	_spec := sqlgraph.NewDeleteSpec(tenantoption.Table, sqlgraph.NewFieldSpec(tenantoption.FieldID, field.TypeString))
 	if ps := tod.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -56,32 +56,32 @@ func (tod *TenantOptionsDelete) sqlExec(ctx context.Context) (int, error) {
 	return affected, err
 }
 
-// TenantOptionsDeleteOne is the builder for deleting a single TenantOptions entity.
-type TenantOptionsDeleteOne struct {
-	tod *TenantOptionsDelete
+// TenantOptionDeleteOne is the builder for deleting a single TenantOption entity.
+type TenantOptionDeleteOne struct {
+	tod *TenantOptionDelete
 }
 
-// Where appends a list predicates to the TenantOptionsDelete builder.
-func (todo *TenantOptionsDeleteOne) Where(ps ...predicate.TenantOptions) *TenantOptionsDeleteOne {
+// Where appends a list predicates to the TenantOptionDelete builder.
+func (todo *TenantOptionDeleteOne) Where(ps ...predicate.TenantOption) *TenantOptionDeleteOne {
 	todo.tod.mutation.Where(ps...)
 	return todo
 }
 
 // Exec executes the deletion query.
-func (todo *TenantOptionsDeleteOne) Exec(ctx context.Context) error {
+func (todo *TenantOptionDeleteOne) Exec(ctx context.Context) error {
 	n, err := todo.tod.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
 	case n == 0:
-		return &NotFoundError{tenantoptions.Label}
+		return &NotFoundError{tenantoption.Label}
 	default:
 		return nil
 	}
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (todo *TenantOptionsDeleteOne) ExecX(ctx context.Context) {
+func (todo *TenantOptionDeleteOne) ExecX(ctx context.Context) {
 	if err := todo.Exec(ctx); err != nil {
 		panic(err)
 	}

@@ -200,7 +200,7 @@ func (h *menuHandler) GetNavigationMenus(c *gin.Context) {
 // @Tags sys
 // @Produce json
 // @Param params query structs.FindMenu true "FindMenu parameters"
-// @Success 200 {object} paging.Result[structs.ReadMenu] "success"
+// @Success 200 {object} []structs.ReadMenu "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/menus/tree [get]
 // @Security Bearer
@@ -377,7 +377,7 @@ func (h *menuHandler) Delete(c *gin.Context) {
 // @Tags sys
 // @Produce json
 // @Param params query structs.ListMenuParams true "List menu parameters"
-// @Success 200 {object} paging.Result[structs.ReadMenu] "success"
+// @Success 200 {object} []structs.ReadMenu "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/menus [get]
 // @Security Bearer

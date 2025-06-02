@@ -32,18 +32,6 @@ func (f GroupRoleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, e
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GroupRoleMutation", m)
 }
 
-// The TenantGroupFunc type is an adapter to allow the use of ordinary
-// function as TenantGroup mutator.
-type TenantGroupFunc func(context.Context, *ent.TenantGroupMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f TenantGroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.TenantGroupMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantGroupMutation", m)
-}
-
 // The UserGroupFunc type is an adapter to allow the use of ordinary
 // function as UserGroup mutator.
 type UserGroupFunc func(context.Context, *ent.UserGroupMutation) (ent.Value, error)

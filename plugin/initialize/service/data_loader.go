@@ -21,7 +21,7 @@ type DataLoader interface {
 	GetTenants() []tenantStructs.CreateTenantBody
 	GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody
 	GetTenantSettings() []tenantStructs.CreateTenantSettingBody
-	GetOptions() []systemStructs.OptionsBody
+	GetOptions() []systemStructs.OptionBody
 	GetDictionaries() []systemStructs.DictionaryBody
 	GetOrganizationStructure() any
 }
@@ -83,7 +83,7 @@ func (c *CompanyDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSett
 	return companyData.SystemDefaultTenantSettings
 }
 
-func (c *CompanyDataLoader) GetOptions() []systemStructs.OptionsBody {
+func (c *CompanyDataLoader) GetOptions() []systemStructs.OptionBody {
 	return companyData.SystemDefaultOptions
 }
 
@@ -144,7 +144,7 @@ func (e *EnterpriseDataLoader) GetTenantSettings() []tenantStructs.CreateTenantS
 	return enterpriseData.SystemDefaultTenantSettings
 }
 
-func (e *EnterpriseDataLoader) GetOptions() []systemStructs.OptionsBody {
+func (e *EnterpriseDataLoader) GetOptions() []systemStructs.OptionBody {
 	return enterpriseData.SystemDefaultOptions
 }
 
@@ -205,7 +205,7 @@ func (w *WebsiteDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSett
 	return websiteData.SystemDefaultTenantSettings
 }
 
-func (w *WebsiteDataLoader) GetOptions() []systemStructs.OptionsBody {
+func (w *WebsiteDataLoader) GetOptions() []systemStructs.OptionBody {
 	return websiteData.SystemDefaultOptions
 }
 

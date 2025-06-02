@@ -15,7 +15,7 @@ type Repository struct {
 	TenantGroup      TenantGroupRepositoryInterface
 	TenantMenu       TenantMenuRepositoryInterface
 	TenantDictionary TenantDictionaryRepositoryInterface
-	TenantOptions    TenantOptionsRepositoryInterface
+	TenantOption     TenantOptionRepositoryInterface
 }
 
 // New creates a new repository
@@ -30,6 +30,6 @@ func New(d *data.Data) *Repository {
 		TenantGroup:      NewTenantGroupRepository(d),
 		TenantMenu:       NewTenantMenuRepository(d),
 		TenantDictionary: NewTenantDictionaryRepository(d),
-		TenantOptions:    NewTenantOptionsRepository(d),
+		TenantOption:     NewTenantOptionRepository(d),
 	}
 }

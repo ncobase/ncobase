@@ -7,7 +7,7 @@ import (
 )
 
 // SystemDefaultOptions for regular websites
-var SystemDefaultOptions = []systemStructs.OptionsBody{
+var SystemDefaultOptions = []systemStructs.OptionBody{
 	// Basic system info
 	{
 		Name:     "system.name",

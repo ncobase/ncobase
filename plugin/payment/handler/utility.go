@@ -29,7 +29,7 @@ func NewUtilityHandler(svc service.ProviderServiceInterface) UtilityHandlerInter
 // @Description Get a list of all available payment providers
 // @Tags payment
 // @Produce json
-// @Success 200 {object} resp.Exception{data=[]structs.PaymentProvider} "success"
+// @Success 200 {object} resp.Exception{items=[]map[string]any} "success"
 // @Failure 500 {object} resp.Exception "internal server error"
 // @Router /pay/providers [get]
 // @Security Bearer

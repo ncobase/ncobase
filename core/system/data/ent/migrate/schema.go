@@ -89,8 +89,8 @@ var (
 			},
 		},
 	}
-	// NcseSysOptionsColumns holds the columns for the "ncse_sys_options" table.
-	NcseSysOptionsColumns = []*schema.Column{
+	// NcseSysOptionColumns holds the columns for the "ncse_sys_option" table.
+	NcseSysOptionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
@@ -101,21 +101,21 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysOptionsTable holds the schema information for the "ncse_sys_options" table.
-	NcseSysOptionsTable = &schema.Table{
-		Name:       "ncse_sys_options",
-		Columns:    NcseSysOptionsColumns,
-		PrimaryKey: []*schema.Column{NcseSysOptionsColumns[0]},
+	// NcseSysOptionTable holds the schema information for the "ncse_sys_option" table.
+	NcseSysOptionTable = &schema.Table{
+		Name:       "ncse_sys_option",
+		Columns:    NcseSysOptionColumns,
+		PrimaryKey: []*schema.Column{NcseSysOptionColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "options_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysOptionsColumns[0]},
+				Columns: []*schema.Column{NcseSysOptionColumns[0]},
 			},
 			{
 				Name:    "options_name",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysOptionsColumns[1]},
+				Columns: []*schema.Column{NcseSysOptionColumns[1]},
 			},
 		},
 	}
@@ -123,7 +123,7 @@ var (
 	Tables = []*schema.Table{
 		NcseSysDictionaryTable,
 		NcseSysMenuTable,
-		NcseSysOptionsTable,
+		NcseSysOptionTable,
 	}
 )
 
@@ -134,7 +134,7 @@ func init() {
 	NcseSysMenuTable.Annotation = &entsql.Annotation{
 		Table: "ncse_sys_menu",
 	}
-	NcseSysOptionsTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_options",
+	NcseSysOptionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_option",
 	}
 }

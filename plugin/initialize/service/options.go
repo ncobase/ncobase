@@ -10,7 +10,7 @@ import (
 
 // checkOptionsInitialized checks if system options are already initialized
 func (s *Service) checkOptionsInitialized(ctx context.Context) error {
-	count := s.sys.Options.CountX(ctx, &systemStructs.ListOptionsParams{})
+	count := s.sys.Options.CountX(ctx, &systemStructs.ListOptionParams{})
 	if count > 0 {
 		logger.Infof(ctx, "System options already exist, skipping initialization")
 		return nil
@@ -71,7 +71,7 @@ func (s *Service) initOptions(ctx context.Context) error {
 		createdCount++
 
 		// Step 2: Create tenant-options relationship
-		_, err = s.ts.TenantOptions.AddOptionsToTenant(ctx, tenant.ID, created.ID)
+		_, err = s.ts.TenantOption.AddOptionsToTenant(ctx, tenant.ID, created.ID)
 		if err != nil {
 			logger.Errorf(ctx, "Error linking options %s to tenant %s: %v", created.ID, tenant.ID, err)
 			return err

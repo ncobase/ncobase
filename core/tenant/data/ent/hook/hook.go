@@ -68,16 +68,16 @@ func (f TenantMenuFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, 
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantMenuMutation", m)
 }
 
-// The TenantOptionsFunc type is an adapter to allow the use of ordinary
-// function as TenantOptions mutator.
-type TenantOptionsFunc func(context.Context, *ent.TenantOptionsMutation) (ent.Value, error)
+// The TenantOptionFunc type is an adapter to allow the use of ordinary
+// function as TenantOption mutator.
+type TenantOptionFunc func(context.Context, *ent.TenantOptionMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f TenantOptionsFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.TenantOptionsMutation); ok {
+func (f TenantOptionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TenantOptionMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantOptionsMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantOptionMutation", m)
 }
 
 // The TenantQuotaFunc type is an adapter to allow the use of ordinary

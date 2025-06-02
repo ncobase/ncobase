@@ -112,7 +112,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	tenantGroup := r.Group("/"+m.Group(), middleware.AuthenticatedTenant)
 
 	// Tenant endpoints
-	tenants := tenantGroup.Group("/tenants", middleware.HasPermission("manage:tenant"), middleware.AuthenticatedTenant)
+	tenants := tenantGroup.Group("/tenants", middleware.HasPermission("manage:tenants"), middleware.AuthenticatedTenant)
 	{
 		// Basic tenant management
 		tenants.GET("", m.h.Tenant.List)
@@ -122,24 +122,24 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		tenants.DELETE("/:tenantId", m.h.Tenant.Delete)
 
 		// User-Tenant-Role management
-		tenants.GET("/:tenantId/users", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.ListTenantUsers)
-		tenants.POST("/:tenantId/users/roles", middleware.HasPermission("manage:tenant"), m.h.UserTenantRole.AddUserToTenantRole)
-		tenants.PUT("/:tenantId/users/roles/bulk", middleware.HasPermission("manage:tenant"), m.h.UserTenantRole.BulkUpdateUserTenantRoles)
+		tenants.GET("/:tenantId/users", middleware.HasPermission("read:tenants"), m.h.UserTenantRole.ListTenantUsers)
+		tenants.POST("/:tenantId/users/roles", middleware.HasPermission("manage:tenants"), m.h.UserTenantRole.AddUserToTenantRole)
+		tenants.PUT("/:tenantId/users/roles/bulk", middleware.HasPermission("manage:tenants"), m.h.UserTenantRole.BulkUpdateUserTenantRoles)
 
 		// User role management in tenant
-		tenants.GET("/:tenantId/users/:userId/roles", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.GetUserTenantRoles)
-		tenants.PUT("/:tenantId/users/:userId/roles", middleware.HasPermission("manage:tenant"), m.h.UserTenantRole.UpdateUserTenantRole)
-		tenants.DELETE("/:tenantId/users/:userId/roles/:roleId", middleware.HasPermission("manage:tenant"), m.h.UserTenantRole.RemoveUserFromTenantRole)
-		tenants.GET("/:tenantId/users/:userId/roles/:roleId/check", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.CheckUserTenantRole)
+		tenants.GET("/:tenantId/users/:userId/roles", middleware.HasPermission("read:tenants"), m.h.UserTenantRole.GetUserTenantRoles)
+		tenants.PUT("/:tenantId/users/:userId/roles", middleware.HasPermission("manage:tenants"), m.h.UserTenantRole.UpdateUserTenantRole)
+		tenants.DELETE("/:tenantId/users/:userId/roles/:roleId", middleware.HasPermission("manage:tenants"), m.h.UserTenantRole.RemoveUserFromTenantRole)
+		tenants.GET("/:tenantId/users/:userId/roles/:roleId/check", middleware.HasPermission("read:tenants"), m.h.UserTenantRole.CheckUserTenantRole)
 
 		// Role-based user queries
-		tenants.GET("/:tenantId/roles/:roleId/users", middleware.HasPermission("read:tenant"), m.h.UserTenantRole.GetTenantUsersByRole)
+		tenants.GET("/:tenantId/roles/:roleId/users", middleware.HasPermission("read:tenants"), m.h.UserTenantRole.GetTenantUsersByRole)
 
 		// Tenant-Group management
-		tenants.GET("/:tenantId/groups", middleware.HasPermission("read:tenant"), m.h.TenantGroup.GetTenantGroups)
-		tenants.POST("/:tenantId/groups", middleware.HasPermission("manage:tenant"), m.h.TenantGroup.AddGroupToTenant)
-		tenants.DELETE("/:tenantId/groups/:groupId", middleware.HasPermission("manage:tenant"), m.h.TenantGroup.RemoveGroupFromTenant)
-		tenants.GET("/:tenantId/groups/:groupId/check", middleware.HasPermission("read:tenant"), m.h.TenantGroup.IsGroupInTenant)
+		tenants.GET("/:tenantId/groups", middleware.HasPermission("read:tenants"), m.h.TenantGroup.GetTenantGroups)
+		tenants.POST("/:tenantId/groups", middleware.HasPermission("manage:tenants"), m.h.TenantGroup.AddGroupToTenant)
+		tenants.DELETE("/:tenantId/groups/:groupId", middleware.HasPermission("manage:tenants"), m.h.TenantGroup.RemoveGroupFromTenant)
+		tenants.GET("/:tenantId/groups/:groupId/check", middleware.HasPermission("read:tenants"), m.h.TenantGroup.IsGroupInTenant)
 
 		// Tenant quota management
 		tenants.GET("/quotas", m.h.TenantQuota.List)
@@ -187,10 +187,10 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		tenants.GET("/:tenantId/dictionaries/:dictionaryId/check", m.h.TenantDictionary.CheckDictionaryInTenant)
 
 		// Tenant Options relations
-		tenants.GET("/:tenantId/options", m.h.TenantOptions.GetTenantOptions)
-		tenants.POST("/:tenantId/options", m.h.TenantOptions.AddOptionsToTenant)
-		tenants.DELETE("/:tenantId/options/:optionsId", m.h.TenantOptions.RemoveOptionsFromTenant)
-		tenants.GET("/:tenantId/options/:optionsId/check", m.h.TenantOptions.CheckOptionsInTenant)
+		tenants.GET("/:tenantId/options", m.h.TenantOption.GetTenantOption)
+		tenants.POST("/:tenantId/options", m.h.TenantOption.AddOptionsToTenant)
+		tenants.DELETE("/:tenantId/options/:optionsId", m.h.TenantOption.RemoveOptionsFromTenant)
+		tenants.GET("/:tenantId/options/:optionsId/check", m.h.TenantOption.CheckOptionsInTenant)
 	}
 
 	// User endpoints with tenant context
@@ -200,15 +200,15 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		users.GET("/:username/tenant", m.h.Tenant.UserOwn)
 
 		// User's roles across tenants
-		users.GET("/:username/tenants/:tenantId/roles", middleware.HasPermission("read:user"), m.h.UserTenantRole.GetUserTenantRoles)
-		users.GET("/:username/tenants/:tenantId/roles/:roleId/check", middleware.HasPermission("read:user"), m.h.UserTenantRole.CheckUserTenantRole)
+		users.GET("/:username/tenants/:tenantId/roles", middleware.HasPermission("read:users"), m.h.UserTenantRole.GetUserTenantRoles)
+		users.GET("/:username/tenants/:tenantId/roles/:roleId/check", middleware.HasPermission("read:users"), m.h.UserTenantRole.CheckUserTenantRole)
 	}
 
 	// Group endpoints (cross-module)
 	groups := tenantGroup.Group("/groups", middleware.AuthenticatedUser)
 	{
 		// Group tenant relationships (accessible from both space and tenant modules)
-		groups.GET("/:groupId/tenants", middleware.HasPermission("read:group"), m.h.TenantGroup.GetGroupTenants)
+		groups.GET("/:groupId/tenants", middleware.HasPermission("read:groups"), m.h.TenantGroup.GetGroupTenants)
 	}
 }
 

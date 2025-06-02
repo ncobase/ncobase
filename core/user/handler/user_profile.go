@@ -31,7 +31,7 @@ func NewUserProfileHandler(svc *service.Service) UserProfileHandlerInterface {
 // @Tags sys
 // @Produce json
 // @Param username path string true "Username"
-// @Success 200 {object} structs.ReadUserProfile "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/users/{username}/profile [get]
 func (h *userProfileHandler) Get(c *gin.Context) {
@@ -52,7 +52,7 @@ func (h *userProfileHandler) Get(c *gin.Context) {
 // @Produce json
 // @Param username path string true "Username"
 // @Param user_profile body types.JSON true "User profile information to update"
-// @Success 200 {object} structs.ReadUserProfile "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/users/{username}/profile [put]
 func (h *userProfileHandler) Update(c *gin.Context) {

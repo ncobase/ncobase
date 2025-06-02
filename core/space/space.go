@@ -20,7 +20,7 @@ var (
 	version      = "1.0.0"
 	dependencies []string
 	typeStr      = "module"
-	group        = "org"
+	group        = "sys"
 )
 
 // Module represents the space module.
@@ -113,20 +113,20 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Group management endpoints
 	groupGroup := spaceGroup.Group("/groups", middleware.HasAnyRole("super-admin", "system-admin"))
 	{
-		groupGroup.GET("", middleware.HasPermission("read:group"), m.h.Group.List)
-		groupGroup.POST("", middleware.HasPermission("manage:group"), m.h.Group.Create)
-		groupGroup.GET("/:groupId", middleware.HasPermission("read:group"), m.h.Group.Get)
-		groupGroup.PUT("/:groupId", middleware.HasPermission("manage:group"), m.h.Group.Update)
-		groupGroup.DELETE("/:groupId", middleware.HasPermission("manage:group"), m.h.Group.Delete)
+		groupGroup.GET("", middleware.HasPermission("read:groups"), m.h.Group.List)
+		groupGroup.POST("", middleware.HasPermission("manage:groups"), m.h.Group.Create)
+		groupGroup.GET("/:groupId", middleware.HasPermission("read:groups"), m.h.Group.Get)
+		groupGroup.PUT("/:groupId", middleware.HasPermission("manage:groups"), m.h.Group.Update)
+		groupGroup.DELETE("/:groupId", middleware.HasPermission("manage:groups"), m.h.Group.Delete)
 
 		// Group member management
-		groupGroup.GET("/:groupId/members", middleware.HasPermission("read:group"), m.h.Group.GetMembers)
-		groupGroup.POST("/:groupId/members", middleware.HasPermission("manage:group"), m.h.Group.AddMember)
-		groupGroup.PUT("/:groupId/members/:userId", middleware.HasPermission("manage:group"), m.h.Group.UpdateMember)
-		groupGroup.DELETE("/:groupId/members/:userId", middleware.HasPermission("manage:group"), m.h.Group.RemoveMember)
-		groupGroup.GET("/:groupId/members/:userId/check", middleware.HasPermission("read:group"), m.h.Group.IsUserMember)
-		groupGroup.GET("/:groupId/members/:userId/is-owner", middleware.HasPermission("read:group"), m.h.Group.IsUserOwner)
-		groupGroup.GET("/:groupId/members/:userId/role", middleware.HasPermission("read:group"), m.h.Group.GetUserRole)
+		groupGroup.GET("/:groupId/members", middleware.HasPermission("read:groups"), m.h.Group.GetMembers)
+		groupGroup.POST("/:groupId/members", middleware.HasPermission("manage:groups"), m.h.Group.AddMember)
+		groupGroup.PUT("/:groupId/members/:userId", middleware.HasPermission("manage:groups"), m.h.Group.UpdateMember)
+		groupGroup.DELETE("/:groupId/members/:userId", middleware.HasPermission("manage:groups"), m.h.Group.RemoveMember)
+		groupGroup.GET("/:groupId/members/:userId/check", middleware.HasPermission("read:groups"), m.h.Group.IsUserMember)
+		groupGroup.GET("/:groupId/members/:userId/is-owner", middleware.HasPermission("read:groups"), m.h.Group.IsUserOwner)
+		groupGroup.GET("/:groupId/members/:userId/role", middleware.HasPermission("read:groups"), m.h.Group.GetUserRole)
 	}
 }
 

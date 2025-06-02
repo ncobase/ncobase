@@ -4,23 +4,23 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/tenant/data/ent/tenantoptions"
+	"ncobase/tenant/data/ent/tenantoption"
 	"strings"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 )
 
-// TenantOptions is the model entity for the TenantOptions schema.
-type TenantOptions struct {
+// TenantOption is the model entity for the TenantOption schema.
+type TenantOption struct {
 	config `json:"-"`
 	// ID of the ent.
 	// primary key
 	ID string `json:"id,omitempty"`
 	// tenant id
 	TenantID string `json:"tenant_id,omitempty"`
-	// options id
-	OptionsID string `json:"options_id,omitempty"`
+	// option id
+	OptionID string `json:"option_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -33,13 +33,13 @@ type TenantOptions struct {
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*TenantOptions) scanValues(columns []string) ([]any, error) {
+func (*TenantOption) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case tenantoptions.FieldCreatedAt, tenantoptions.FieldUpdatedAt:
+		case tenantoption.FieldCreatedAt, tenantoption.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case tenantoptions.FieldID, tenantoptions.FieldTenantID, tenantoptions.FieldOptionsID, tenantoptions.FieldCreatedBy, tenantoptions.FieldUpdatedBy:
+		case tenantoption.FieldID, tenantoption.FieldTenantID, tenantoption.FieldOptionID, tenantoption.FieldCreatedBy, tenantoption.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -49,50 +49,50 @@ func (*TenantOptions) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the TenantOptions fields.
-func (to *TenantOptions) assignValues(columns []string, values []any) error {
+// to the TenantOption fields.
+func (to *TenantOption) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case tenantoptions.FieldID:
+		case tenantoption.FieldID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
 				to.ID = value.String
 			}
-		case tenantoptions.FieldTenantID:
+		case tenantoption.FieldTenantID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
 				to.TenantID = value.String
 			}
-		case tenantoptions.FieldOptionsID:
+		case tenantoption.FieldOptionID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field options_id", values[i])
+				return fmt.Errorf("unexpected type %T for field option_id", values[i])
 			} else if value.Valid {
-				to.OptionsID = value.String
+				to.OptionID = value.String
 			}
-		case tenantoptions.FieldCreatedBy:
+		case tenantoption.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
 				to.CreatedBy = value.String
 			}
-		case tenantoptions.FieldUpdatedBy:
+		case tenantoption.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
 				to.UpdatedBy = value.String
 			}
-		case tenantoptions.FieldCreatedAt:
+		case tenantoption.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
 				to.CreatedAt = value.Int64
 			}
-		case tenantoptions.FieldUpdatedAt:
+		case tenantoption.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
@@ -105,40 +105,40 @@ func (to *TenantOptions) assignValues(columns []string, values []any) error {
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the TenantOptions.
+// Value returns the ent.Value that was dynamically selected and assigned to the TenantOption.
 // This includes values selected through modifiers, order, etc.
-func (to *TenantOptions) Value(name string) (ent.Value, error) {
+func (to *TenantOption) Value(name string) (ent.Value, error) {
 	return to.selectValues.Get(name)
 }
 
-// Update returns a builder for updating this TenantOptions.
-// Note that you need to call TenantOptions.Unwrap() before calling this method if this TenantOptions
+// Update returns a builder for updating this TenantOption.
+// Note that you need to call TenantOption.Unwrap() before calling this method if this TenantOption
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (to *TenantOptions) Update() *TenantOptionsUpdateOne {
-	return NewTenantOptionsClient(to.config).UpdateOne(to)
+func (to *TenantOption) Update() *TenantOptionUpdateOne {
+	return NewTenantOptionClient(to.config).UpdateOne(to)
 }
 
-// Unwrap unwraps the TenantOptions entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the TenantOption entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (to *TenantOptions) Unwrap() *TenantOptions {
+func (to *TenantOption) Unwrap() *TenantOption {
 	_tx, ok := to.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: TenantOptions is not a transactional entity")
+		panic("ent: TenantOption is not a transactional entity")
 	}
 	to.config.driver = _tx.drv
 	return to
 }
 
 // String implements the fmt.Stringer.
-func (to *TenantOptions) String() string {
+func (to *TenantOption) String() string {
 	var builder strings.Builder
-	builder.WriteString("TenantOptions(")
+	builder.WriteString("TenantOption(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", to.ID))
 	builder.WriteString("tenant_id=")
 	builder.WriteString(to.TenantID)
 	builder.WriteString(", ")
-	builder.WriteString("options_id=")
-	builder.WriteString(to.OptionsID)
+	builder.WriteString("option_id=")
+	builder.WriteString(to.OptionID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(to.CreatedBy)
@@ -155,5 +155,5 @@ func (to *TenantOptions) String() string {
 	return builder.String()
 }
 
-// TenantOptionsSlice is a parsable slice of TenantOptions.
-type TenantOptionsSlice []*TenantOptions
+// TenantOptions is a parsable slice of TenantOption.
+type TenantOptions []*TenantOption

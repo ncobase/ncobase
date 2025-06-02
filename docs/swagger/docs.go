@@ -15,6 +15,399 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/account": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve information about the current user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get current user",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.AccountMeshes"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/password": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update the password of the current user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Update user password",
+                "parameters": [
+                    {
+                        "description": "UserPassword object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.UserPassword"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/tenant": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the tenant associated with the current user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get current user tenant",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/tenants": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the tenant associated with the current user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get current user tenants",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/authorize/send": {
+            "post": {
+                "description": "Send a verification code to the specified destination.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Send verification code",
+                "parameters": [
+                    {
+                        "description": "SendCodeBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.SendCodeBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "registered": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/authorize/{code}": {
+            "get": {
+                "description": "Verify the provided code.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Verify code",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Verification code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "access_token": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "register_token": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/captcha/generate": {
+            "get": {
+                "description": "Generate a captcha image.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Generate captcha",
+                "parameters": [
+                    {
+                        "enum": [
+                            "png",
+                            "wav"
+                        ],
+                        "type": "string",
+                        "description": "Captcha type",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/captcha/validate": {
+            "post": {
+                "description": "Validate a captcha code.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Validate captcha",
+                "parameters": [
+                    {
+                        "description": "Captcha object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.Captcha"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/captcha/{captcha_id}": {
+            "get": {
+                "description": "Stream a captcha image.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Stream captcha",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Captcha ID With Extension (png, wav)",
+                        "name": "captcha_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/cms/channels": {
             "get": {
                 "description": "Retrieve a list of distribution channels.",
@@ -63,7 +456,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                                "$ref": "#/definitions/ncobase_content_structs.ReadChannel"
                             }
                         }
                     },
@@ -99,7 +492,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateChannelBody"
+                            "$ref": "#/definitions/ncobase_content_structs.CreateChannelBody"
                         }
                     }
                 ],
@@ -107,7 +500,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -142,7 +535,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -184,7 +577,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateChannelBody"
+                            "$ref": "#/definitions/ncobase_content_structs.UpdateChannelBody"
                         }
                     }
                 ],
@@ -192,7 +585,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -305,7 +698,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadDistribution"
+                                "$ref": "#/definitions/ncobase_content_structs.ReadDistribution"
                             }
                         }
                     },
@@ -341,7 +734,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateDistributionBody"
+                            "$ref": "#/definitions/ncobase_content_structs.CreateDistributionBody"
                         }
                     }
                 ],
@@ -349,7 +742,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDistribution"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadDistribution"
                         }
                     },
                     "400": {
@@ -384,7 +777,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDistribution"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadDistribution"
                         }
                     },
                     "400": {
@@ -426,7 +819,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateDistributionBody"
+                            "$ref": "#/definitions/ncobase_content_structs.UpdateDistributionBody"
                         }
                     }
                 ],
@@ -434,7 +827,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDistribution"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadDistribution"
                         }
                     },
                     "400": {
@@ -524,7 +917,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDistribution"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadDistribution"
                         }
                     },
                     "400": {
@@ -564,7 +957,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDistribution"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadDistribution"
                         }
                     },
                     "400": {
@@ -624,7 +1017,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadMedia"
+                                "$ref": "#/definitions/ncobase_content_structs.ReadMedia"
                             }
                         }
                     },
@@ -660,7 +1053,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateMediaBody"
+                            "$ref": "#/definitions/ncobase_content_structs.CreateMediaBody"
                         }
                     }
                 ],
@@ -668,7 +1061,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadMedia"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadMedia"
                         }
                     },
                     "400": {
@@ -703,7 +1096,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadMedia"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadMedia"
                         }
                     },
                     "400": {
@@ -745,7 +1138,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateMediaBody"
+                            "$ref": "#/definitions/ncobase_content_structs.UpdateMediaBody"
                         }
                     }
                 ],
@@ -753,7 +1146,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadMedia"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadMedia"
                         }
                     },
                     "400": {
@@ -862,7 +1255,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadTaxonomy"
+                                "$ref": "#/definitions/ncobase_content_structs.ReadTaxonomy"
                             }
                         }
                     },
@@ -898,7 +1291,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateTaxonomyBody"
+                            "$ref": "#/definitions/ncobase_content_structs.CreateTaxonomyBody"
                         }
                     }
                 ],
@@ -906,7 +1299,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTaxonomy"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTaxonomy"
                         }
                     },
                     "400": {
@@ -941,7 +1334,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTaxonomy"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTaxonomy"
                         }
                     },
                     "400": {
@@ -983,7 +1376,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateTaxonomyBody"
+                            "$ref": "#/definitions/ncobase_content_structs.UpdateTaxonomyBody"
                         }
                     }
                 ],
@@ -991,7 +1384,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTaxonomy"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTaxonomy"
                         }
                     },
                     "400": {
@@ -1094,7 +1487,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadTopicMedia"
+                                "$ref": "#/definitions/ncobase_content_structs.ReadTopicMedia"
                             }
                         }
                     },
@@ -1130,7 +1523,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateTopicMediaBody"
+                            "$ref": "#/definitions/ncobase_content_structs.CreateTopicMediaBody"
                         }
                     }
                 ],
@@ -1138,7 +1531,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTopicMedia"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTopicMedia"
                         }
                     },
                     "400": {
@@ -1180,7 +1573,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTopicMedia"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTopicMedia"
                         }
                     },
                     "400": {
@@ -1228,7 +1621,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadTopicMedia"
+                                "$ref": "#/definitions/ncobase_content_structs.ReadTopicMedia"
                             }
                         }
                     },
@@ -1264,7 +1657,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTopicMedia"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTopicMedia"
                         }
                     },
                     "400": {
@@ -1314,7 +1707,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTopicMedia"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTopicMedia"
                         }
                     },
                     "400": {
@@ -1407,7 +1800,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadTopic"
+                                "$ref": "#/definitions/ncobase_content_structs.ReadTopic"
                             }
                         }
                     },
@@ -1443,7 +1836,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateTopicBody"
+                            "$ref": "#/definitions/ncobase_content_structs.CreateTopicBody"
                         }
                     }
                 ],
@@ -1451,7 +1844,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTopic"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTopic"
                         }
                     },
                     "400": {
@@ -1486,7 +1879,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTopic"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTopic"
                         }
                     },
                     "400": {
@@ -1528,7 +1921,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateTopicBody"
+                            "$ref": "#/definitions/ncobase_content_structs.UpdateTopicBody"
                         }
                     }
                 ],
@@ -1536,7 +1929,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTopic"
+                            "$ref": "#/definitions/ncobase_content_structs.ReadTopic"
                         }
                     },
                     "400": {
@@ -1654,7 +2047,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadDelegation"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadDelegation"
                             }
                         }
                     },
@@ -1690,7 +2083,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.DelegationBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.DelegationBody"
                         }
                     }
                 ],
@@ -1698,7 +2091,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDelegation"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadDelegation"
                         }
                     },
                     "400": {
@@ -1738,7 +2131,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDelegation"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadDelegation"
                         }
                     },
                     "400": {
@@ -1780,7 +2173,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateDelegationBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.UpdateDelegationBody"
                         }
                     }
                 ],
@@ -1788,7 +2181,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDelegation"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadDelegation"
                         }
                     },
                     "400": {
@@ -1991,7 +2384,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadHistory"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadHistory"
                             }
                         }
                     },
@@ -2027,7 +2420,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.HistoryBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.HistoryBody"
                         }
                     }
                 ],
@@ -2035,7 +2428,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadHistory"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadHistory"
                         }
                     },
                     "400": {
@@ -2075,7 +2468,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadHistory"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadHistory"
                         }
                     },
                     "400": {
@@ -2150,7 +2543,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadNode"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadNode"
                             }
                         }
                     },
@@ -2186,7 +2579,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.NodeBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.NodeBody"
                         }
                     }
                 ],
@@ -2194,7 +2587,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNode"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadNode"
                         }
                     },
                     "400": {
@@ -2234,7 +2627,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNode"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadNode"
                         }
                     },
                     "400": {
@@ -2276,7 +2669,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateNodeBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.UpdateNodeBody"
                         }
                     }
                 ],
@@ -2284,7 +2677,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNode"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadNode"
                         }
                     },
                     "400": {
@@ -2364,7 +2757,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadRule"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadRule"
                             }
                         }
                     },
@@ -2457,7 +2850,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadTask"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadTask"
                             }
                         }
                     },
@@ -2540,7 +2933,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadHistory"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadHistory"
                             }
                         }
                     },
@@ -2606,7 +2999,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadProcessDesign"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadProcessDesign"
                             }
                         }
                     },
@@ -2642,7 +3035,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.ProcessDesignBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ProcessDesignBody"
                         }
                     }
                 ],
@@ -2650,7 +3043,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadProcessDesign"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadProcessDesign"
                         }
                     },
                     "400": {
@@ -2738,7 +3131,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadProcessDesign"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadProcessDesign"
                         }
                     },
                     "400": {
@@ -2780,7 +3173,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateProcessDesignBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.UpdateProcessDesignBody"
                         }
                     }
                 ],
@@ -2788,7 +3181,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadProcessDesign"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadProcessDesign"
                         }
                     },
                     "400": {
@@ -3036,7 +3429,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadProcess"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadProcess"
                             }
                         }
                     },
@@ -3072,7 +3465,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.ProcessBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ProcessBody"
                         }
                     }
                 ],
@@ -3080,7 +3473,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadProcess"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadProcess"
                         }
                     },
                     "400": {
@@ -3117,7 +3510,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.StartProcessRequest"
+                            "$ref": "#/definitions/ncobase_workflow_structs.StartProcessRequest"
                         }
                     }
                 ],
@@ -3125,7 +3518,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.StartProcessResponse"
+                            "$ref": "#/definitions/ncobase_workflow_structs.StartProcessResponse"
                         }
                     },
                     "400": {
@@ -3165,7 +3558,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadProcess"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadProcess"
                         }
                     },
                     "400": {
@@ -3207,7 +3600,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateProcessBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.UpdateProcessBody"
                         }
                     }
                 ],
@@ -3215,7 +3608,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadProcess"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadProcess"
                         }
                     },
                     "400": {
@@ -3423,7 +3816,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.TerminateProcessRequest"
+                            "$ref": "#/definitions/ncobase_workflow_structs.TerminateProcessRequest"
                         }
                     }
                 ],
@@ -3526,7 +3919,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadHistory"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadHistory"
                             }
                         }
                     },
@@ -3569,7 +3962,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadNode"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadNode"
                             }
                         }
                     },
@@ -3650,7 +4043,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadRule"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadRule"
                             }
                         }
                     },
@@ -3686,7 +4079,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.RuleBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.RuleBody"
                         }
                     }
                 ],
@@ -3694,7 +4087,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadRule"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadRule"
                         }
                     },
                     "400": {
@@ -3741,7 +4134,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadRule"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadRule"
                             }
                         }
                     },
@@ -3782,7 +4175,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadRule"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadRule"
                         }
                     },
                     "400": {
@@ -3824,7 +4217,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateRuleBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.UpdateRuleBody"
                         }
                     }
                 ],
@@ -3832,7 +4225,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadRule"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadRule"
                         }
                     },
                     "400": {
@@ -4089,7 +4482,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadTask"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadTask"
                             }
                         }
                     },
@@ -4125,7 +4518,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.TaskBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.TaskBody"
                         }
                     }
                 ],
@@ -4133,7 +4526,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTask"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadTask"
                         }
                     },
                     "400": {
@@ -4173,7 +4566,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTask"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadTask"
                         }
                     },
                     "400": {
@@ -4215,7 +4608,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateTaskBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.UpdateTaskBody"
                         }
                     }
                 ],
@@ -4223,7 +4616,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTask"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadTask"
                         }
                     },
                     "400": {
@@ -4360,7 +4753,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CompleteTaskRequest"
+                            "$ref": "#/definitions/ncobase_workflow_structs.CompleteTaskRequest"
                         }
                     }
                 ],
@@ -4368,7 +4761,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.CompleteTaskResponse"
+                            "$ref": "#/definitions/ncobase_workflow_structs.CompleteTaskResponse"
                         }
                     },
                     "400": {
@@ -4412,7 +4805,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.DelegateTaskRequest"
+                            "$ref": "#/definitions/ncobase_workflow_structs.DelegateTaskRequest"
                         }
                     }
                 ],
@@ -4464,7 +4857,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.TransferTaskRequest"
+                            "$ref": "#/definitions/ncobase_workflow_structs.TransferTaskRequest"
                         }
                     }
                 ],
@@ -4516,7 +4909,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UrgeTaskRequest"
+                            "$ref": "#/definitions/ncobase_workflow_structs.UrgeTaskRequest"
                         }
                     }
                 ],
@@ -4568,7 +4961,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.WithdrawTaskRequest"
+                            "$ref": "#/definitions/ncobase_workflow_structs.WithdrawTaskRequest"
                         }
                     }
                 ],
@@ -4665,7 +5058,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadHistory"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadHistory"
                             }
                         }
                     },
@@ -4761,7 +5154,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadTemplate"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadTemplate"
                             }
                         }
                     },
@@ -4797,7 +5190,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.TemplateBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.TemplateBody"
                         }
                     }
                 ],
@@ -4805,7 +5198,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTemplate"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadTemplate"
                         }
                     },
                     "400": {
@@ -4845,7 +5238,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTemplate"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadTemplate"
                         }
                     },
                     "400": {
@@ -4887,7 +5280,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateTemplateBody"
+                            "$ref": "#/definitions/ncobase_workflow_structs.UpdateTemplateBody"
                         }
                     }
                 ],
@@ -4895,7 +5288,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTemplate"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadTemplate"
                         }
                     },
                     "400": {
@@ -4975,7 +5368,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadProcessDesign"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadProcessDesign"
                             }
                         }
                     },
@@ -5098,7 +5491,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadRule"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadRule"
                             }
                         }
                     },
@@ -5189,7 +5582,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTemplate"
+                            "$ref": "#/definitions/ncobase_workflow_structs.ReadTemplate"
                         }
                     },
                     "400": {
@@ -5321,7 +5714,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadDelegation"
+                                "$ref": "#/definitions/ncobase_workflow_structs.ReadDelegation"
                             }
                         }
                     },
@@ -5334,400 +5727,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/iam/account": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve information about the current user.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get current user",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.AccountMeshes"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/account/password": {
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update the password of the current user.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Update user password",
-                "parameters": [
-                    {
-                        "description": "UserPassword object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.UserPassword"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/account/tenant": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the tenant associated with the current user.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get current user tenant",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadTenant"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/account/tenants": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the tenant associated with the current user.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get current user tenants",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadTenant"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/authorize/send": {
-            "post": {
-                "description": "Send a verification code to the specified destination.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Send verification code",
-                "parameters": [
-                    {
-                        "description": "SendCodeBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.SendCodeBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "allOf": [
-                                    {},
-                                    {
-                                        "type": "object",
-                                        "properties": {
-                                            "registered": {
-                                                "type": "boolean"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/authorize/{code}": {
-            "get": {
-                "description": "Verify the provided code.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Verify code",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Verification code",
-                        "name": "code",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "allOf": [
-                                    {},
-                                    {
-                                        "type": "object",
-                                        "properties": {
-                                            "access_token": {
-                                                "type": "string"
-                                            },
-                                            "email": {
-                                                "type": "string"
-                                            },
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "register_token": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/captcha/generate": {
-            "get": {
-                "description": "Generate a captcha image.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Generate captcha",
-                "parameters": [
-                    {
-                        "enum": [
-                            "png",
-                            "wav"
-                        ],
-                        "type": "string",
-                        "description": "Captcha type",
-                        "name": "type",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "allOf": [
-                                    {},
-                                    {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "url": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/captcha/validate": {
-            "post": {
-                "description": "Validate a captcha code.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Validate captcha",
-                "parameters": [
-                    {
-                        "description": "Captcha object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.Captcha"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "allOf": [
-                                    {},
-                                    {
-                                        "type": "object",
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/captcha/{captcha_id}": {
-            "get": {
-                "description": "Stream a captcha image.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Stream captcha",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Captcha ID With Extension (png, wav)",
-                        "name": "captcha_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "file"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/login": {
+        "/login": {
             "post": {
                 "description": "Log in a user.",
                 "consumes": [
@@ -5737,7 +5737,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "iam"
+                    "auth"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -5747,7 +5747,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.LoginBody"
+                            "$ref": "#/definitions/ncobase_auth_structs.LoginBody"
                         }
                     }
                 ],
@@ -5783,7 +5783,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/iam/logout": {
+        "/logout": {
             "post": {
                 "security": [
                     {
@@ -5795,1457 +5795,12 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "iam"
+                    "auth"
                 ],
                 "summary": "Logout",
                 "responses": {
                     "200": {
                         "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/permissions": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of permissions based on the provided query parameters",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List all permissions",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "cursor",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "direction",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/structs.ReadPermission"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Create a new permission with the provided data",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Create a new permission",
-                "parameters": [
-                    {
-                        "description": "Permission data",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.CreatePermissionBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadPermission"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/permissions/{slug}": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a permission by its slug or ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get a permission by slug or ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Permission slug or ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadPermission"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update an existing permission with the provided data",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Update an existing permission",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Permission slug or ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Permission data",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadPermission"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Delete a permission by its slug or ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Delete a permission by slug or ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Permission slug or ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadPermission"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/policies": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of Casbin rules.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List Casbin rules",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "cursor",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "direction",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "p_type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "v0",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "v1",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "v2",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "v3",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "v4",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "v5",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/structs.CasbinRuleBody"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Create a new Casbin rule.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Create Casbin rule",
-                "parameters": [
-                    {
-                        "description": "CasbinRuleBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.CasbinRuleBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadCasbinRule"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/policies/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve details of a Casbin rule.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get Casbin rule",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Casbin rule ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadCasbinRule"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update an existing Casbin rule, either fully or partially.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Update Casbin rule",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Casbin rule ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "CasbinRuleBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.CasbinRuleBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadCasbinRule"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Delete an existing Casbin rule.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Delete Casbin rule",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Casbin rule ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/refresh": {
-            "post": {
-                "description": "Refresh the current user's access token.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "RefreshToken token",
-                "parameters": [
-                    {
-                        "description": "Refresh token",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.RefreshTokenBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "allOf": [
-                                    {},
-                                    {
-                                        "type": "object",
-                                        "properties": {
-                                            "access_token": {
-                                                "type": "string"
-                                            },
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "refresh_token": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/register": {
-            "post": {
-                "description": "Register a new user.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Register",
-                "parameters": [
-                    {
-                        "description": "RegisterBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.RegisterBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "allOf": [
-                                    {},
-                                    {
-                                        "type": "object",
-                                        "properties": {
-                                            "access_token": {
-                                                "type": "string"
-                                            },
-                                            "id": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/roles": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of roles based on the provided query parameters",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List all roles",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "cursor",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "direction",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/structs.ReadRole"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Create a new role with the provided data",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Create a new role",
-                "parameters": [
-                    {
-                        "description": "Role data",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.CreateRoleBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadRole"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/roles/{slug}": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a role by its slug or ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get a role by slug or ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Role slug or ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadRole"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update an existing role with the provided data",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Update an existing role",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Role slug or ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Role data",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadRole"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Delete a role by its slug or ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Delete a role by slug or ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Role slug or ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadRole"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/roles/{slug}/permissions": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of permissions associated with a role by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List permissions for a role",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Role ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/structs.ReadPermission"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of tenants.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List tenants",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "cursor",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "direction",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "user",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/structs.ReadTenant"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update the tenant information.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Update tenant",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "UpdateTenantBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.UpdateTenantBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadTenant"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Create a new tenant.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Create tenant",
-                "parameters": [
-                    {
-                        "description": "CreateTenantBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/structs.CreateTenantBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadTenant"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants/{slug}": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve information about a specific tenant.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get tenant",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadTenant"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Delete a specific tenant.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Delete tenant",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants/{slug}/attachments": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of attachments associated",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List tenant attachments",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants/{slug}/groups": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of groups associated",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List tenant groups",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants/{slug}/menu": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the menu associated",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get tenant menu",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants/{slug}/roles": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of roles associated",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List tenant roles",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants/{slug}/setting": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the settings associated",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get tenant setting",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants/{slug}/settings": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of settings associated",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List tenant settings",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/tenants/{slug}/users": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list of users associated",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "List tenant users",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tenant ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/token-status": {
-            "get": {
-                "description": "Get the current token status.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Token status",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "allOf": [
-                                    {},
-                                    {
-                                        "type": "object",
-                                        "properties": {
-                                            "is_authenticated": {
-                                                "type": "boolean"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/users/{username}/tenant": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the tenant associated with the specified user.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "iam"
-                ],
-                "summary": "Get user owned tenant",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Username",
-                        "name": "username",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/structs.ReadTenant"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
@@ -7298,11 +5853,6 @@ const docTemplate = `{
                         "type": "string",
                         "name": "sort_by",
                         "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "tenant",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -7311,7 +5861,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadGroup"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
                             }
                         }
                     },
@@ -7347,7 +5897,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateGroupBody"
+                            "$ref": "#/definitions/ncobase_space_structs.UpdateGroupBody"
                         }
                     }
                 ],
@@ -7355,7 +5905,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadGroup"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
                         }
                     },
                     "400": {
@@ -7390,7 +5940,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.GroupBody"
+                            "$ref": "#/definitions/ncobase_space_structs.GroupBody"
                         }
                     }
                 ],
@@ -7398,7 +5948,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadGroup"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
                         }
                     },
                     "400": {
@@ -7410,7 +5960,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/org/groups/{slug}": {
+        "/org/groups/{groupId}": {
             "get": {
                 "security": [
                     {
@@ -7429,7 +5979,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Group ID or slug",
-                        "name": "slug",
+                        "name": "groupId",
                         "in": "path",
                         "required": true
                     },
@@ -7452,18 +6002,13 @@ const docTemplate = `{
                         "type": "string",
                         "name": "sort_by",
                         "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "tenant",
-                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadGroup"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
                         }
                     },
                     "400": {
@@ -7492,7 +6037,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Group ID or slug",
-                        "name": "slug",
+                        "name": "groupId",
                         "in": "path",
                         "required": true
                     }
@@ -7502,6 +6047,353 @@ const docTemplate = `{
                         "description": "success",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/org/groups/{groupId}/members": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all members of a specific group",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Get group members",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group ID or Slug",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_space_structs.GroupMember"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add a user to a group with a specified role",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Add member to group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group ID or Slug",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User details to add",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.AddMemberRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.GroupMember"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/org/groups/{groupId}/members/{userId}": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update a member's role in a group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Update group member",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group ID or Slug",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Role update",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.UpdateMemberRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.GroupMember"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove a user from a group",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Remove group member",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group ID or Slug",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/org/groups/{groupId}/members/{userId}/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a user is a member of a group",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Check if user is a member",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group ID or Slug",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/org/groups/{groupId}/members/{userId}/is-owner": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a user has owner role in a group",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Check if user is an owner",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group ID or Slug",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/org/groups/{groupId}/members/{userId}/role": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a user's role in a group",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Get user role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group ID or Slug",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     },
                     "400": {
@@ -7568,7 +6460,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.Channel"
+                                "$ref": "#/definitions/ncobase_payment_structs.Channel"
                             }
                         }
                     },
@@ -7611,7 +6503,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateChannelInput"
+                            "$ref": "#/definitions/ncobase_payment_structs.CreateChannelInput"
                         }
                     }
                 ],
@@ -7627,7 +6519,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Channel"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Channel"
                                         }
                                     }
                                 }
@@ -7686,7 +6578,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Channel"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Channel"
                                         }
                                     }
                                 }
@@ -7745,7 +6637,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateChannelInput"
+                            "$ref": "#/definitions/ncobase_payment_structs.UpdateChannelInput"
                         }
                     }
                 ],
@@ -7761,7 +6653,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Channel"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Channel"
                                         }
                                     }
                                 }
@@ -7889,7 +6781,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Channel"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Channel"
                                         }
                                     }
                                 }
@@ -7990,7 +6882,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.Log"
+                                "$ref": "#/definitions/ncobase_payment_structs.Log"
                             }
                         }
                     },
@@ -8054,7 +6946,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.Log"
+                                "$ref": "#/definitions/ncobase_payment_structs.Log"
                             }
                         }
                     },
@@ -8110,7 +7002,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Log"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Log"
                                         }
                                     }
                                 }
@@ -8229,7 +7121,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.Order"
+                                "$ref": "#/definitions/ncobase_payment_structs.Order"
                             }
                         }
                     },
@@ -8272,7 +7164,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateOrderInput"
+                            "$ref": "#/definitions/ncobase_payment_structs.CreateOrderInput"
                         }
                     }
                 ],
@@ -8288,7 +7180,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Order"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Order"
                                         }
                                     }
                                 }
@@ -8347,7 +7239,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Order"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Order"
                                         }
                                     }
                                 }
@@ -8412,7 +7304,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Order"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Order"
                                         }
                                     }
                                 }
@@ -8533,7 +7425,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.RefundOrderInput"
+                            "$ref": "#/definitions/ncobase_payment_structs.RefundOrderInput"
                         }
                     }
                 ],
@@ -8549,7 +7441,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Order"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Order"
                                         }
                                     }
                                 }
@@ -8621,7 +7513,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Order"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Order"
                                         }
                                     }
                                 }
@@ -8698,7 +7590,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.Product"
+                                "$ref": "#/definitions/ncobase_payment_structs.Product"
                             }
                         }
                     },
@@ -8741,7 +7633,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateProductInput"
+                            "$ref": "#/definitions/ncobase_payment_structs.CreateProductInput"
                         }
                     }
                 ],
@@ -8757,7 +7649,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Product"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Product"
                                         }
                                     }
                                 }
@@ -8816,7 +7708,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Product"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Product"
                                         }
                                     }
                                 }
@@ -8875,7 +7767,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateProductInput"
+                            "$ref": "#/definitions/ncobase_payment_structs.UpdateProductInput"
                         }
                     }
                 ],
@@ -8891,7 +7783,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Product"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Product"
                                         }
                                     }
                                 }
@@ -8996,10 +7888,11 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
+                                        "items": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/structs.PaymentProvider"
+                                                "type": "object",
+                                                "additionalProperties": true
                                             }
                                         }
                                     }
@@ -9133,7 +8026,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.Subscription"
+                                "$ref": "#/definitions/ncobase_payment_structs.Subscription"
                             }
                         }
                     },
@@ -9176,7 +8069,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateSubscriptionInput"
+                            "$ref": "#/definitions/ncobase_payment_structs.CreateSubscriptionInput"
                         }
                     }
                 ],
@@ -9192,7 +8085,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Subscription"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Subscription"
                                         }
                                     }
                                 }
@@ -9271,7 +8164,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.Subscription"
+                                "$ref": "#/definitions/ncobase_payment_structs.Subscription"
                             }
                         }
                     },
@@ -9327,7 +8220,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Subscription"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Subscription"
                                         }
                                     }
                                 }
@@ -9403,7 +8296,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Subscription"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Subscription"
                                         }
                                     }
                                 }
@@ -9458,7 +8351,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CancelSubscriptionInput"
+                            "$ref": "#/definitions/ncobase_payment_structs.CancelSubscriptionInput"
                         }
                     }
                 ],
@@ -9474,7 +8367,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/structs.Subscription"
+                                            "$ref": "#/definitions/ncobase_payment_structs.Subscription"
                                         }
                                     }
                                 }
@@ -9588,7 +8481,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadCounter"
+                                "$ref": "#/definitions/ncobase_counter_structs.ReadCounter"
                             }
                         }
                     },
@@ -9624,7 +8517,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateCounterBody"
+                            "$ref": "#/definitions/ncobase_counter_structs.UpdateCounterBody"
                         }
                     }
                 ],
@@ -9632,7 +8525,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadCounter"
+                            "$ref": "#/definitions/ncobase_counter_structs.ReadCounter"
                         }
                     },
                     "400": {
@@ -9667,7 +8560,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CounterBody"
+                            "$ref": "#/definitions/ncobase_counter_structs.CounterBody"
                         }
                     }
                 ],
@@ -9675,7 +8568,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadCounter"
+                            "$ref": "#/definitions/ncobase_counter_structs.ReadCounter"
                         }
                     },
                     "400": {
@@ -9715,7 +8608,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadCounter"
+                            "$ref": "#/definitions/ncobase_counter_structs.ReadCounter"
                         }
                     },
                     "400": {
@@ -9754,6 +8647,121 @@ const docTemplate = `{
                         "description": "success",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/refresh": {
+            "post": {
+                "description": "Refresh the current user's access token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "RefreshToken token",
+                "parameters": [
+                    {
+                        "description": "Refresh token",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.RefreshTokenBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "access_token": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "refresh_token": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "Register a new user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Register",
+                "parameters": [
+                    {
+                        "description": "RegisterBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.RegisterBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "access_token": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     },
                     "400": {
@@ -9908,7 +8916,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadFile"
+                                "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                             }
                         }
                     },
@@ -9968,7 +8976,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadFile"
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                         }
                     },
                     "400": {
@@ -10016,7 +9024,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadFile"
+                                "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                             }
                         }
                     },
@@ -10098,7 +9106,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.BatchUploadResult"
+                            "$ref": "#/definitions/ncobase_resource_structs.BatchUploadResult"
                         }
                     },
                     "400": {
@@ -10332,7 +9340,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadFile"
+                                "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                             }
                         }
                     },
@@ -10458,7 +9466,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadFile"
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                         }
                     },
                     "400": {
@@ -10500,7 +9508,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateFileBody"
+                            "$ref": "#/definitions/ncobase_resource_structs.UpdateFileBody"
                         }
                     }
                 ],
@@ -10508,7 +9516,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadFile"
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                         }
                     },
                     "400": {
@@ -10543,7 +9551,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadFile"
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                         }
                     },
                     "400": {
@@ -10598,7 +9606,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadFile"
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                         }
                     },
                     "400": {
@@ -10712,7 +9720,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.ProcessingOptions"
+                            "$ref": "#/definitions/ncobase_resource_structs.ProcessingOptions"
                         }
                     }
                 ],
@@ -10720,7 +9728,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadFile"
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                         }
                     },
                     "400": {
@@ -10768,7 +9776,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadFile"
+                                "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                             }
                         }
                     },
@@ -10823,7 +9831,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadFile"
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
                         }
                     },
                     "400": {
@@ -10889,7 +9897,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadChannel"
                             }
                         }
                     },
@@ -10925,7 +9933,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateChannel"
+                            "$ref": "#/definitions/ncobase_realtime_structs.CreateChannel"
                         }
                     }
                 ],
@@ -10933,7 +9941,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -10966,7 +9974,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadChannel"
                             }
                         }
                     },
@@ -11007,7 +10015,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -11049,7 +10057,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateChannel"
+                            "$ref": "#/definitions/ncobase_realtime_structs.UpdateChannel"
                         }
                     }
                 ],
@@ -11057,7 +10065,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -11095,7 +10103,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_core_realtime_structs.ReadChannel"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadChannel"
                         }
                     },
                     "400": {
@@ -11139,7 +10147,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateSubscription"
+                            "$ref": "#/definitions/ncobase_realtime_structs.CreateSubscription"
                         }
                     }
                 ],
@@ -11147,7 +10155,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadSubscription"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadSubscription"
                         }
                     },
                     "400": {
@@ -11189,7 +10197,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadUser"
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadUser"
                             }
                         }
                     },
@@ -11320,7 +10328,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadEvent"
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
                             }
                         }
                     },
@@ -11370,7 +10378,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadEvent"
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
                             }
                         }
                     },
@@ -11408,7 +10416,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateEvent"
+                            "$ref": "#/definitions/ncobase_realtime_structs.CreateEvent"
                         }
                     }
                 ],
@@ -11416,7 +10424,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadEvent"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
                         }
                     },
                     "400": {
@@ -11456,7 +10464,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadEvent"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
                         }
                     },
                     "400": {
@@ -11494,7 +10502,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadEvent"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
                         }
                     },
                     "400": {
@@ -11559,7 +10567,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadNotification"
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadNotification"
                             }
                         }
                     },
@@ -11595,7 +10603,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateNotification"
+                            "$ref": "#/definitions/ncobase_realtime_structs.CreateNotification"
                         }
                     }
                 ],
@@ -11603,7 +10611,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNotification"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadNotification"
                         }
                     },
                     "400": {
@@ -11731,7 +10739,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNotification"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadNotification"
                         }
                     },
                     "400": {
@@ -11773,7 +10781,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateNotification"
+                            "$ref": "#/definitions/ncobase_realtime_structs.UpdateNotification"
                         }
                     }
                 ],
@@ -11781,7 +10789,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNotification"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadNotification"
                         }
                     },
                     "400": {
@@ -11819,7 +10827,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNotification"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadNotification"
                         }
                     },
                     "400": {
@@ -11859,7 +10867,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNotification"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadNotification"
                         }
                     },
                     "400": {
@@ -11899,7 +10907,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadNotification"
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadNotification"
                         }
                     },
                     "400": {
@@ -11924,6 +10932,662 @@ const docTemplate = `{
                 ],
                 "summary": "Handle WebSocket connection",
                 "responses": {}
+            }
+        },
+        "/sessions": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List all sessions for the current user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "List user sessions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items to return",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Direction of pagination",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Filter by active status",
+                        "name": "is_active",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_auth_structs.ReadSession"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sessions/deactivate-all": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Deactivate all sessions for the current user (logout from all devices)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Deactivate all sessions",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sessions/{session_id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a specific session by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get session",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "session_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_auth_structs.ReadSession"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a specific session (logout from device)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Delete session",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "session_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/activities": {
+            "get": {
+                "description": "Lists activities.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "List activities",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Direction for pagination (default: forward)",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Number of activities to retrieve (default: 20, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Number of activities to skip (default: 0)",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Unix timestamp to filter activities created after (default: 0)",
+                        "name": "from_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Unix timestamp to filter activities created before (default: 0)",
+                        "name": "to_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_access_structs.ActivityDocument"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/activity": {
+            "post": {
+                "description": "Logs a new activity.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Log a new activity",
+                "parameters": [
+                    {
+                        "description": "Activity details",
+                        "name": "activity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.CreateActivityRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.Activity"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/activity/search": {
+            "get": {
+                "description": "Performs full-text search on activities.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Perform full-text search on activities",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Search query",
+                        "name": "query",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Unix timestamp to filter activities created after (default: 0)",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Number of activities to retrieve (default: 10, max: 100)",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_access_structs.ActivityDocument"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/activity/user/{username}": {
+            "get": {
+                "description": "Retrieves activities for a specific user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Retrieve activities for a specific user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username of the user",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Number of activities to retrieve (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Number of activities to skip (default: 0)",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Unix timestamp to filter activities created after (default: 0)",
+                        "name": "from_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Unix timestamp to filter activities created before (default: 0)",
+                        "name": "to_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_access_structs.ActivityDocument"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/activity/{id}": {
+            "get": {
+                "description": "Retrieves an activity by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Retrieve an activity by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Activity ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.Activity"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/dictionaries/batch": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve multiple dictionaries by their slugs.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Batch get dictionaries",
+                "parameters": [
+                    {
+                        "description": "Array of dictionary slugs",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/definitions/ncobase_system_structs.ReadDictionary"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/dictionaries/options/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve dictionary options formatted for frontend select components.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get dictionary enum options",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Dictionary slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/dictionaries/slug/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a dictionary by its slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get dictionary by slug",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Dictionary slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_system_structs.ReadDictionary"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/dictionaries/validate/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a value exists in a dictionary enum.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Validate enum value",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Dictionary slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Value to validate",
+                        "name": "value",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
             }
         },
         "/sys/dictionarys": {
@@ -11959,11 +11623,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
                         "name": "type",
                         "in": "query"
                     }
@@ -11974,7 +11633,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadDictionary"
+                                "$ref": "#/definitions/ncobase_system_structs.ReadDictionary"
                             }
                         }
                     },
@@ -12010,7 +11669,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateDictionaryBody"
+                            "$ref": "#/definitions/ncobase_system_structs.UpdateDictionaryBody"
                         }
                     }
                 ],
@@ -12018,7 +11677,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDictionary"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadDictionary"
                         }
                     },
                     "400": {
@@ -12053,7 +11712,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.DictionaryBody"
+                            "$ref": "#/definitions/ncobase_system_structs.DictionaryBody"
                         }
                     }
                 ],
@@ -12061,7 +11720,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDictionary"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadDictionary"
                         }
                     },
                     "400": {
@@ -12103,11 +11762,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
                         "name": "type",
                         "in": "query"
                     }
@@ -12116,7 +11770,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadDictionary"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadDictionary"
                         }
                     },
                     "400": {
@@ -12155,6 +11809,355 @@ const docTemplate = `{
                         "description": "success",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/employees": {
+            "get": {
+                "description": "List employees with filtering and pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List employees",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenant_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Department",
+                        "name": "department",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Employee status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Employment type",
+                        "name": "employment_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Manager ID",
+                        "name": "manager_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items to return",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Direction of pagination",
+                        "name": "direction",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_user_structs.ReadEmployee"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new employee record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Create employee",
+                "parameters": [
+                    {
+                        "description": "Employee information",
+                        "name": "employee",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.CreateEmployeeBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ReadEmployee"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/employees/department/{department}": {
+            "get": {
+                "description": "Retrieve all employees in a specific department",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get employees by department",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Department name",
+                        "name": "department",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_user_structs.ReadEmployee"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/employees/manager/{manager_id}": {
+            "get": {
+                "description": "Retrieve all employees under a specific manager",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get employees by manager",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Manager ID",
+                        "name": "manager_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_user_structs.ReadEmployee"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/employees/{user_id}": {
+            "get": {
+                "description": "Retrieve an employee record by user ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get employee",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ReadEmployee"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing employee record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update employee",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Employee information to update",
+                        "name": "employee",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.UpdateEmployeeBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ReadEmployee"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an employee record",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete employee",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/groups/{groupId}/tenants": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all tenants that have a specific group",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get group tenants",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group ID",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     "400": {
@@ -12219,11 +12222,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
                         "name": "type",
                         "in": "query"
                     }
@@ -12234,7 +12232,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadMenu"
+                                "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
                             }
                         }
                     },
@@ -12270,7 +12268,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateMenuBody"
+                            "$ref": "#/definitions/ncobase_system_structs.UpdateMenuBody"
                         }
                     }
                 ],
@@ -12278,7 +12276,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadMenu"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
                         }
                     },
                     "400": {
@@ -12313,7 +12311,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.MenuBody"
+                            "$ref": "#/definitions/ncobase_system_structs.MenuBody"
                         }
                     }
                 ],
@@ -12321,7 +12319,338 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadMenu"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/menus/authorized/{user_id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve menus that a user is authorized to access.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user authorized menus",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/menus/navigation": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the system navigation menu groups organized by type.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get navigation menus",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "order",
+                        "description": "Sort by field (order, created_at, name)",
+                        "name": "sort_by",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_system_structs.NavigationMenus"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/menus/reorder": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Reorder a set of sibling menus.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Reorder menus",
+                "parameters": [
+                    {
+                        "description": "Array of menu IDs in desired order",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/menus/slug/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a menu by its slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get menu by slug",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Menu slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/menus/tree": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the menu tree structure.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get menu tree",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "menu",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/menus/{id}/move": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Move a menu to a new parent and/or change its order.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Move menu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Menu ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "MoveMenuParams object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/menus/{id}/{action}": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Toggle menu status with specified action.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Toggle menu status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Menu ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Action (enable/disable/show/hide)",
+                        "name": "action",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
                         }
                     },
                     "400": {
@@ -12378,11 +12707,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
                         "name": "type",
                         "in": "query"
                     }
@@ -12391,7 +12715,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadMenu"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
                         }
                     },
                     "400": {
@@ -12479,12 +12803,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "sort_by",
+                        "name": "prefix",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "sort_by",
                         "in": "query"
                     },
                     {
@@ -12499,7 +12823,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadOptions"
+                                "$ref": "#/definitions/ncobase_system_structs.ReadOption"
                             }
                         }
                     },
@@ -12530,12 +12854,12 @@ const docTemplate = `{
                 "summary": "Update option",
                 "parameters": [
                     {
-                        "description": "UpdateOptionsBody object",
+                        "description": "UpdateOptionBody object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UpdateOptionsBody"
+                            "$ref": "#/definitions/ncobase_system_structs.UpdateOptionBody"
                         }
                     }
                 ],
@@ -12543,7 +12867,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadOptions"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadOption"
                         }
                     },
                     "400": {
@@ -12573,12 +12897,12 @@ const docTemplate = `{
                 "summary": "Create option",
                 "parameters": [
                     {
-                        "description": "OptionsBody object",
+                        "description": "OptionBody object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.OptionsBody"
+                            "$ref": "#/definitions/ncobase_system_structs.OptionBody"
                         }
                     }
                 ],
@@ -12586,7 +12910,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadOptions"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadOption"
                         }
                     },
                     "400": {
@@ -12598,26 +12922,172 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/options/initialize": {
+        "/sys/options/batch": {
             "post": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Initialize the system with default options",
+                "description": "Retrieve multiple options by their names.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Initialize",
+                "summary": "Batch get options",
+                "parameters": [
+                    {
+                        "description": "Array of option names",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/definitions/ncobase_system_structs.ReadOption"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/options/name/{name}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve an option by its name.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get option by name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Option name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_system_structs.ReadOption"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/options/prefix": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete options matching a prefix pattern.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete options by prefix",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Name prefix pattern",
+                        "name": "prefix",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/options/type/{type}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve options by their type.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get options by type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Option type",
+                        "name": "type",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_system_structs.ReadOption"
+                            }
                         }
                     },
                     "400": {
@@ -12664,11 +13134,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
                         "name": "type",
                         "in": "query"
                     }
@@ -12677,7 +13142,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadOptions"
+                            "$ref": "#/definitions/ncobase_system_structs.ReadOption"
                         }
                     },
                     "400": {
@@ -12727,6 +13192,3704 @@ const docTemplate = `{
                 }
             }
         },
+        "/sys/permissions": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of permissions based on the provided query parameters",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List all permissions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_access_structs.ReadPermission"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new permission with the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Create a new permission",
+                "parameters": [
+                    {
+                        "description": "Permission data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.CreatePermissionBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadPermission"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/permissions/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a permission by its slug or ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get a permission by slug or ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Permission slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadPermission"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing permission with the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update an existing permission",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Permission slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Permission data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadPermission"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a permission by its slug or ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete a permission by slug or ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Permission slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadPermission"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/policies": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of Casbin rules.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List Casbin rules",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "p_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v0",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v1",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v2",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v3",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v4",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "v5",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_access_structs.CasbinRuleBody"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new Casbin rule.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Create Casbin rule",
+                "parameters": [
+                    {
+                        "description": "CasbinRuleBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.CasbinRuleBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadCasbinRule"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/policies/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve details of a Casbin rule.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get Casbin rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Casbin rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadCasbinRule"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing Casbin rule, either fully or partially.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update Casbin rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Casbin rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "CasbinRuleBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.CasbinRuleBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadCasbinRule"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete an existing Casbin rule.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete Casbin rule",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Casbin rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/roles": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of roles based on the provided query parameters",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List all roles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_access_structs.ReadRole"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new role with the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Create a new role",
+                "parameters": [
+                    {
+                        "description": "Role data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.CreateRoleBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadRole"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/roles/{slug}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a role by its slug or ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get a role by slug or ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadRole"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing role with the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update an existing role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Role data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadRole"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a role by its slug or ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete a role by slug or ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role slug or ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_access_structs.ReadRole"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/roles/{slug}/permissions": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of permissions associated with a role by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List permissions for a role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of tenants.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List tenants",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "user",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update the tenant information.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "UpdateTenantBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.UpdateTenantBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new tenant.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Create tenant",
+                "parameters": [
+                    {
+                        "description": "CreateTenantBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.CreateTenantBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/billing": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of tenant billing records",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List tenant billing",
+                "parameters": [
+                    {
+                        "enum": [
+                            "monthly",
+                            "yearly",
+                            "one_time",
+                            "usage_based"
+                        ],
+                        "type": "string",
+                        "x-enum-varnames": [
+                            "PeriodMonthly",
+                            "PeriodYearly",
+                            "PeriodOneTime",
+                            "PeriodUsage"
+                        ],
+                        "name": "billing_period",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "from_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_overdue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "pending",
+                            "paid",
+                            "overdue",
+                            "cancelled",
+                            "refunded"
+                        ],
+                        "type": "string",
+                        "x-enum-varnames": [
+                            "StatusPending",
+                            "StatusPaid",
+                            "StatusOverdue",
+                            "StatusCancelled",
+                            "StatusRefunded"
+                        ],
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "to_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new tenant billing record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Create tenant billing",
+                "parameters": [
+                    {
+                        "description": "Billing record",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.CreateTenantBillingBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/billing/payment": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Process payment for a billing record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Process payment",
+                "parameters": [
+                    {
+                        "description": "Payment request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.PaymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/billing/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a tenant billing record by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant billing",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Billing ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing tenant billing record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update tenant billing",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Billing ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a tenant billing record",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete tenant billing",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Billing ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/quotas": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of tenant quotas",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List tenant quotas",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "enabled",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "users",
+                            "storage",
+                            "api_calls",
+                            "projects",
+                            "custom"
+                        ],
+                        "type": "string",
+                        "x-enum-varnames": [
+                            "QuotaTypeUser",
+                            "QuotaTypeStorage",
+                            "QuotaTypeAPI",
+                            "QuotaTypeProject",
+                            "QuotaTypeCustom"
+                        ],
+                        "name": "quota_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new tenant quota configuration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Create tenant quota",
+                "parameters": [
+                    {
+                        "description": "Quota configuration",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.CreateTenantQuotaBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/quotas/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if tenant can use additional quota",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Check quota limit",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Quota Type",
+                        "name": "quota_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Requested Amount",
+                        "name": "amount",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/quotas/usage": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update the current usage of a quota",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update quota usage",
+                "parameters": [
+                    {
+                        "description": "Usage update request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.QuotaUsageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/quotas/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a tenant quota by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant quota",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Quota ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing tenant quota configuration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update tenant quota",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Quota ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a tenant quota configuration",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete tenant quota",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Quota ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/settings": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of tenant settings",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List tenant settings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_public",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_required",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "system",
+                            "tenant",
+                            "user",
+                            "feature"
+                        ],
+                        "type": "string",
+                        "x-enum-varnames": [
+                            "ScopeSystem",
+                            "ScopeTenant",
+                            "ScopeUser",
+                            "ScopeFeature"
+                        ],
+                        "name": "scope",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "tenant_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantSetting"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new tenant setting configuration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Create tenant setting",
+                "parameters": [
+                    {
+                        "description": "Setting configuration",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.CreateTenantSettingBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantSetting"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/settings/bulk": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update multiple tenant settings at once",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Bulk update tenant settings",
+                "parameters": [
+                    {
+                        "description": "Bulk update request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.BulkUpdateSettingsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/settings/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a tenant setting by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant setting",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Setting ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantSetting"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing tenant setting configuration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update tenant setting",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Setting ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantSetting"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a tenant setting configuration",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete tenant setting",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Setting ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve information about a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a specific tenant.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/attachments": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of attachments associated",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List tenant attachments",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/billing/invoice": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Generate a new invoice for a tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Generate invoice",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Invoice generation request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/billing/overdue": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve overdue billing records for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get overdue billing",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/billing/summary": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve billing summary for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get billing summary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.BillingSummary"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/dictionaries": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all dictionaries for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant dictionaries",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add a dictionary to a tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Add dictionary to tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "AddDictionaryToTenantRequest object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.AddDictionaryToTenantRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.TenantDictionary"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/dictionaries/{dictionaryId}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove a dictionary from a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Remove dictionary from tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Dictionary ID",
+                        "name": "dictionaryId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/dictionaries/{dictionaryId}/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a dictionary belongs to a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Check dictionary in tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Dictionary ID",
+                        "name": "dictionaryId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/groups": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all groups belonging to a specific tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant groups",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_tenant_structs.ReadGroup"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add a group to a specific tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Add group to tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "AddTenantGroupRequest object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.AddTenantGroupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.TenantGroupRelation"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/groups/{groupId}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove a group from a specific tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Remove group from tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Group ID",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/groups/{groupId}/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a group belongs to a specific tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Check if group is in tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Group ID",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/menu": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the menu associated",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant menu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/menus": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all menus for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant menus",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add a menu to a tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Add menu to tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "AddMenuToTenantRequest object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.AddMenuToTenantRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.TenantMenu"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/menus/{menuId}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove a menu from a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Remove menu from tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Menu ID",
+                        "name": "menuId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/menus/{menuId}/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a menu belongs to a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Check menu in tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Menu ID",
+                        "name": "menuId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/options": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all options for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant option",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add options to a tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Add options to tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "AddOptionsToTenantRequest object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.AddOptionsToTenantRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.TenantOption"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/options/{optionsId}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove options from a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Remove options from tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Options ID",
+                        "name": "optionsId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/options/{optionsId}/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if options belong to a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Check options in tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Options ID",
+                        "name": "optionsId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/quotas": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve all quotas for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant quota summary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/roles": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of roles associated",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List tenant roles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/roles/{roleId}/users": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all users that have a specific role in a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant users by role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Role ID",
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.TenantRoleUsersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/setting": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the settings associated",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get tenant setting",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/settings": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve all settings for a specific tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get all tenant settings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/settings/public": {
+            "get": {
+                "description": "Retrieve public settings for a specific tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get public tenant settings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/settings/{key}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a specific setting for a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get specific tenant setting",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Setting Key",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Set a specific setting for a tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Set tenant setting",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Setting Key",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Setting value",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/users": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List all users in a tenant with their roles",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "List tenant users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "role_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.TenantUsersListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/users/roles": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add a user to a tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Add user to tenant role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "AddUserToTenantRoleRequest object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.AddUserToTenantRoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRoleResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/users/roles/bulk": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Bulk update multiple user tenant roles",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Bulk update user tenant roles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "BulkUpdateUserTenantRolesRequest object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.BulkUpdateUserTenantRolesRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.BulkUpdateResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/users/{userId}/roles": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update a user's role in a tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update user tenant role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "UpdateUserTenantRoleRequest object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.UpdateUserTenantRoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRoleResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/users/{userId}/roles/{roleId}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove a user from a specific role in a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Remove user from tenant role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Role ID",
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/users/{username}/roles": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all roles a user has in a specific tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user tenant roles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID or username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRolesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/tenants/{tenantId}/users/{username}/roles/{roleId}/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a user has a specific role in a tenant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Check user tenant role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant ID",
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID or username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Role ID",
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/sys/users": {
             "get": {
                 "description": "List all users.",
@@ -12763,7 +16926,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadUser"
+                                "$ref": "#/definitions/ncobase_user_structs.ReadUser"
                             }
                         }
                     },
@@ -12794,7 +16957,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UserBody"
+                            "$ref": "#/definitions/ncobase_user_structs.UserBody"
                         }
                     }
                 ],
@@ -12802,7 +16965,355 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadUser"
+                            "$ref": "#/definitions/ncobase_user_structs.ReadUser"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/api-keys": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Generate a new API key for the current user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Generate API key",
+                "parameters": [
+                    {
+                        "description": "API key request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.CreateApiKeyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ApiKey"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/api-keys/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve an API key by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get API key",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "API key ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ApiKey"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete an API key by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Delete API key",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "API key ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/by-email/{email}": {
+            "get": {
+                "description": "Retrieve information about a specific user by email.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user by email",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Email",
+                        "name": "email",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ReadUser"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/by-username/{username}": {
+            "get": {
+                "description": "Retrieve information about a specific user by username.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user by username",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ReadUser"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/filter": {
+            "get": {
+                "description": "Filter users by search query, role, and status.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Filter users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Search query for name, email or username",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Role filter",
+                        "name": "role",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Status filter",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort by field",
+                        "name": "sortBy",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_user_structs.ReadUser"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/me": {
+            "get": {
+                "description": "Retrieve information about the current authenticated user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get current user",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ReadUser"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/me/api-keys": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve all API keys for the current user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get my API keys",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_user_structs.ApiKey"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/reset-password": {
+            "post": {
+                "description": "Request a password reset link to be sent to the user's email.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Reset user password",
+                "parameters": [
+                    {
+                        "description": "Password reset request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.PasswordResetRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
                     },
                     "400": {
@@ -12837,7 +17348,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadUser"
+                            "$ref": "#/definitions/ncobase_user_structs.ReadUser"
                         }
                     },
                     "400": {
@@ -12882,7 +17393,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadUser"
+                            "$ref": "#/definitions/ncobase_user_structs.ReadUser"
                         }
                     },
                     "400": {
@@ -12927,6 +17438,145 @@ const docTemplate = `{
                 }
             }
         },
+        "/sys/users/{username}/api-keys": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve all API keys for a specific user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user API keys",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_user_structs.ApiKey"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/{username}/meshes": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve aggregated user information",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user meshes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Include API keys",
+                        "name": "include_api_keys",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.UserMeshes"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update aggregated user information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update user meshes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User meshes data",
+                        "name": "meshes",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.UserMeshes"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.UserMeshes"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/sys/users/{username}/password": {
             "put": {
                 "description": "Update an existing user's password.",
@@ -12954,7 +17604,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.UserPassword"
+                            "$ref": "#/definitions/ncobase_user_structs.UserPassword"
                         }
                     }
                 ],
@@ -12963,6 +17613,176 @@ const docTemplate = `{
                         "description": "success",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/{username}/profile": {
+            "get": {
+                "description": "Retrieve information about a specific user profile.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user profile",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing user profile.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update user profile",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User profile information to update",
+                        "name": "user_profile",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/{username}/status": {
+            "patch": {
+                "description": "Update a user's status (active, inactive, pending).",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update user status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Status information",
+                        "name": "status",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_user_structs.ReadUser"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/users/{username}/tenant": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the tenant associated with the specified user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user owned tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
                         }
                     },
                     "400": {
@@ -13027,7 +17847,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadEndpoint"
+                                "$ref": "#/definitions/ncobase_proxy_structs.ReadEndpoint"
                             }
                         }
                     },
@@ -13063,7 +17883,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateEndpointBody"
+                            "$ref": "#/definitions/ncobase_proxy_structs.CreateEndpointBody"
                         }
                     }
                 ],
@@ -13071,7 +17891,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadEndpoint"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadEndpoint"
                         }
                     },
                     "400": {
@@ -13111,7 +17931,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadEndpoint"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadEndpoint"
                         }
                     },
                     "400": {
@@ -13161,7 +17981,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadEndpoint"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadEndpoint"
                         }
                     },
                     "400": {
@@ -13269,7 +18089,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadRoute"
+                                "$ref": "#/definitions/ncobase_proxy_structs.ReadRoute"
                             }
                         }
                     },
@@ -13305,7 +18125,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateRouteBody"
+                            "$ref": "#/definitions/ncobase_proxy_structs.CreateRouteBody"
                         }
                     }
                 ],
@@ -13313,7 +18133,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadRoute"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadRoute"
                         }
                     },
                     "400": {
@@ -13353,7 +18173,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadRoute"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadRoute"
                         }
                     },
                     "400": {
@@ -13403,7 +18223,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadRoute"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadRoute"
                         }
                     },
                     "400": {
@@ -13511,7 +18331,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/structs.ReadTransformer"
+                                "$ref": "#/definitions/ncobase_proxy_structs.ReadTransformer"
                             }
                         }
                     },
@@ -13547,7 +18367,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/structs.CreateTransformerBody"
+                            "$ref": "#/definitions/ncobase_proxy_structs.CreateTransformerBody"
                         }
                     }
                 ],
@@ -13555,7 +18375,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTransformer"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadTransformer"
                         }
                     },
                     "400": {
@@ -13595,7 +18415,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTransformer"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadTransformer"
                         }
                     },
                     "400": {
@@ -13645,7 +18465,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/structs.ReadTransformer"
+                            "$ref": "#/definitions/ncobase_proxy_structs.ReadTransformer"
                         }
                     },
                     "400": {
@@ -13694,9 +18514,52 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/token-status": {
+            "get": {
+                "description": "Get the current token status.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Token status",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "allOf": [
+                                    {},
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "is_authenticated": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "gin.H": {
+            "type": "object",
+            "additionalProperties": {}
+        },
         "github_com_ncobase_ncore_net_resp.Exception": {
             "type": "object",
             "properties": {
@@ -13724,47 +18587,22 @@ const docTemplate = `{
             "type": "object",
             "additionalProperties": {}
         },
-        "ncobase_core_realtime_structs.ChannelBody": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "status": {
-                    "description": "0: disabled, 1: enabled",
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "public/private/direct",
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_core_realtime_structs.ReadChannel": {
+        "ncobase_access_structs.Activity": {
             "type": "object",
             "properties": {
                 "created_at": {
                     "type": "integer"
                 },
-                "description": {
+                "details": {
                     "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "id": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
-                "status": {
+                "timestamp": {
                     "type": "integer"
                 },
                 "type": {
@@ -13772,56 +18610,26 @@ const docTemplate = `{
                 },
                 "updated_at": {
                     "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },
-        "ncobase_domain_content_structs.ReadChannel": {
+        "ncobase_access_structs.ActivityDocument": {
             "type": "object",
             "properties": {
-                "allowed_types": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "auto_publish": {
-                    "type": "boolean"
-                },
-                "config": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
                 "created_at": {
                     "type": "integer"
                 },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "icon": {
+                "details": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "logo": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "require_review": {
-                    "type": "boolean"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "type": {
                     "type": "string"
@@ -13829,192 +18637,12 @@ const docTemplate = `{
                 "updated_at": {
                     "type": "integer"
                 },
-                "updated_by": {
-                    "type": "string"
-                },
-                "webhook_url": {
+                "user_id": {
                     "type": "string"
                 }
             }
         },
-        "structs.AccessLevel": {
-            "type": "string",
-            "enum": [
-                "public",
-                "private",
-                "shared"
-            ],
-            "x-enum-comments": {
-                "AccessLevelPrivate": "Only accessible to owner",
-                "AccessLevelPublic": "Accessible to anyone",
-                "AccessLevelShared": "Shared with specific users/groups"
-            },
-            "x-enum-varnames": [
-                "AccessLevelPublic",
-                "AccessLevelPrivate",
-                "AccessLevelShared"
-            ]
-        },
-        "structs.AccountMeshes": {
-            "type": "object",
-            "properties": {
-                "groups": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadGroup"
-                    }
-                },
-                "profile": {
-                    "$ref": "#/definitions/structs.ReadUserProfile"
-                },
-                "roles": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadRole"
-                    }
-                },
-                "tenants": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadTenant"
-                    }
-                },
-                "user": {
-                    "$ref": "#/definitions/structs.ReadUser"
-                }
-            }
-        },
-        "structs.ActionType": {
-            "type": "string",
-            "enum": [
-                "submit",
-                "save",
-                "revoke",
-                "reassign",
-                "addSign",
-                "remind",
-                "approve",
-                "reject",
-                "delegate",
-                "transfer",
-                "withdraw",
-                "terminate",
-                "suspend",
-                "resume",
-                "urge"
-            ],
-            "x-enum-comments": {
-                "ActionAddSign": "Add countersign",
-                "ActionApprove": "Approve",
-                "ActionDelegate": "Delegate",
-                "ActionReassign": "Reassign task",
-                "ActionReject": "Reject",
-                "ActionRemind": "Send reminder",
-                "ActionResume": "Resume",
-                "ActionRevoke": "Revoke approval",
-                "ActionSave": "Save draft",
-                "ActionSubmit": "Submit form",
-                "ActionSuspend": "Suspend",
-                "ActionTerminate": "Terminate",
-                "ActionTransfer": "Transfer",
-                "ActionUrge": "Urge",
-                "ActionWithdraw": "Withdraw"
-            },
-            "x-enum-varnames": [
-                "ActionSubmit",
-                "ActionSave",
-                "ActionRevoke",
-                "ActionReassign",
-                "ActionAddSign",
-                "ActionRemind",
-                "ActionApprove",
-                "ActionReject",
-                "ActionDelegate",
-                "ActionTransfer",
-                "ActionWithdraw",
-                "ActionTerminate",
-                "ActionSuspend",
-                "ActionResume",
-                "ActionUrge"
-            ]
-        },
-        "structs.BatchUploadResult": {
-            "type": "object",
-            "properties": {
-                "errors": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "failed_files": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "failure_count": {
-                    "type": "integer"
-                },
-                "files": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadFile"
-                    }
-                },
-                "operation_id": {
-                    "type": "string"
-                },
-                "success_count": {
-                    "type": "integer"
-                },
-                "total_files": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.BillingInterval": {
-            "type": "string",
-            "enum": [
-                "daily",
-                "weekly",
-                "monthly",
-                "yearly"
-            ],
-            "x-enum-varnames": [
-                "BillingIntervalDaily",
-                "BillingIntervalWeekly",
-                "BillingIntervalMonthly",
-                "BillingIntervalYearly"
-            ]
-        },
-        "structs.CancelSubscriptionInput": {
-            "type": "object",
-            "properties": {
-                "immediate": {
-                    "type": "boolean"
-                },
-                "reason": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.Captcha": {
-            "type": "object",
-            "required": [
-                "id",
-                "solution"
-            ],
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "solution": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CasbinRuleBody": {
+        "ncobase_access_structs.CasbinRuleBody": {
             "type": "object",
             "required": [
                 "p_type",
@@ -14052,125 +18680,60 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.Channel": {
+        "ncobase_access_structs.CreateActivityRequest": {
             "type": "object",
+            "required": [
+                "details",
+                "type"
+            ],
             "properties": {
-                "config": {
-                    "$ref": "#/definitions/structs.ProviderConfig"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "id": {
+                "details": {
                     "type": "string"
                 },
-                "is_default": {
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_access_structs.CreatePermissionBody": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "default": {
                     "type": "boolean"
                 },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "name": {
                     "type": "string"
                 },
-                "provider": {
-                    "$ref": "#/definitions/structs.PaymentProvider"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.ChannelStatus"
-                },
-                "supported_types": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.PaymentType"
-                    }
-                },
-                "tenant_id": {
+                "subject": {
                     "type": "string"
                 },
-                "updated_at": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.ChannelStatus": {
-            "type": "string",
-            "enum": [
-                "active",
-                "disabled",
-                "testing"
-            ],
-            "x-enum-varnames": [
-                "ChannelStatusActive",
-                "ChannelStatusDisabled",
-                "ChannelStatusTesting"
-            ]
-        },
-        "structs.CompleteTaskRequest": {
-            "type": "object",
-            "required": [
-                "action",
-                "operator",
-                "task_id"
-            ],
-            "properties": {
-                "action": {
-                    "$ref": "#/definitions/structs.ActionType"
-                },
-                "attachments": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "form_data": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "operator": {
-                    "type": "string"
-                },
-                "task_id": {
-                    "type": "string"
-                },
-                "variables": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                }
-            }
-        },
-        "structs.CompleteTaskResponse": {
-            "type": "object",
-            "properties": {
-                "action": {
-                    "$ref": "#/definitions/structs.ActionType"
-                },
-                "end_time": {
-                    "type": "integer"
-                },
-                "next_nodes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "process_id": {
-                    "type": "string"
-                },
-                "task_id": {
+                "updated_by": {
                     "type": "string"
                 }
             }
         },
-        "structs.CounterBody": {
+        "ncobase_access_structs.CreateRoleBody": {
             "type": "object",
             "properties": {
                 "created_by": {
-                    "type": "string"
-                },
-                "current_value": {
-                    "type": "integer"
-                },
-                "date_format": {
                     "type": "string"
                 },
                 "description": {
@@ -14179,25 +18742,13 @@ const docTemplate = `{
                 "disabled": {
                     "type": "boolean"
                 },
-                "identifier": {
-                    "type": "string"
-                },
-                "increment_step": {
-                    "type": "integer"
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "name": {
                     "type": "string"
                 },
-                "prefix": {
-                    "type": "string"
-                },
-                "start_value": {
-                    "type": "integer"
-                },
-                "suffix": {
-                    "type": "string"
-                },
-                "tenant_id": {
+                "slug": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -14205,15 +18756,376 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.CreateChannel": {
+        "ncobase_access_structs.ReadCasbinRule": {
             "type": "object",
             "properties": {
-                "channel": {
-                    "$ref": "#/definitions/ncobase_core_realtime_structs.ChannelBody"
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "p_type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "v0": {
+                    "type": "string"
+                },
+                "v1": {
+                    "type": "string"
+                },
+                "v2": {
+                    "type": "string"
+                },
+                "v3": {
+                    "type": "string"
+                },
+                "v4": {
+                    "type": "string"
+                },
+                "v5": {
+                    "type": "string"
                 }
             }
         },
-        "structs.CreateChannelBody": {
+        "ncobase_access_structs.ReadPermission": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "default": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_access_structs.ReadRole": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_auth_structs.AccountMeshes": {
+            "type": "object",
+            "properties": {
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
+                    }
+                },
+                "is_admin": {
+                    "type": "boolean"
+                },
+                "permissions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "profile": {
+                    "$ref": "#/definitions/ncobase_user_structs.ReadUserProfile"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "tenants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                    }
+                },
+                "user": {
+                    "$ref": "#/definitions/ncobase_user_structs.ReadUser"
+                }
+            }
+        },
+        "ncobase_auth_structs.Captcha": {
+            "type": "object",
+            "required": [
+                "id",
+                "solution"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "solution": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_auth_structs.LoginBody": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "captcha": {
+                    "$ref": "#/definitions/ncobase_auth_structs.Captcha"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_auth_structs.ReadSession": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "device_info": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "expires_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ip_address": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "last_access_at": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "login_method": {
+                    "type": "string"
+                },
+                "token_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_auth_structs.ReadTenant": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "expired_at": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_auth_structs.RefreshTokenBody": {
+            "type": "object",
+            "required": [
+                "refresh_token"
+            ],
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_auth_structs.RegisterBody": {
+            "type": "object",
+            "required": [
+                "display_name",
+                "register_token",
+                "username"
+            ],
+            "properties": {
+                "display_name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "register_token": {
+                    "type": "string"
+                },
+                "short_bio": {
+                    "type": "string"
+                },
+                "tenant": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_auth_structs.SendCodeBody": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_auth_structs.UserPassword": {
+            "type": "object",
+            "required": [
+                "confirm",
+                "new_password",
+                "user"
+            ],
+            "properties": {
+                "confirm": {
+                    "type": "string"
+                },
+                "new_password": {
+                    "type": "string"
+                },
+                "old_password": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.CreateChannelBody": {
             "type": "object",
             "properties": {
                 "allowed_types": {
@@ -14274,47 +19186,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.CreateChannelInput": {
-            "type": "object",
-            "required": [
-                "config",
-                "name",
-                "provider",
-                "status",
-                "supported_types"
-            ],
-            "properties": {
-                "config": {
-                    "$ref": "#/definitions/structs.ProviderConfig"
-                },
-                "is_default": {
-                    "type": "boolean"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "name": {
-                    "type": "string"
-                },
-                "provider": {
-                    "$ref": "#/definitions/structs.PaymentProvider"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.ChannelStatus"
-                },
-                "supported_types": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.PaymentType"
-                    }
-                },
-                "tenant_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CreateDistributionBody": {
+        "ncobase_content_structs.CreateDistributionBody": {
             "type": "object",
             "properties": {
                 "channel_id": {
@@ -14372,7 +19244,1738 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.CreateEndpointBody": {
+        "ncobase_content_structs.CreateMediaBody": {
+            "type": "object",
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "mime_type": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "image, video, audio, file",
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_content_structs.CreateTaxonomyBody": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.CreateTopicBody": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "description": "article, video, etc.",
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "excerpt": {
+                    "type": "string"
+                },
+                "excerpt_auto": {
+                    "type": "boolean"
+                },
+                "featured_media": {
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "type": "integer"
+                },
+                "seo_description": {
+                    "type": "string"
+                },
+                "seo_keywords": {
+                    "type": "string"
+                },
+                "seo_title": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "taxonomy_id": {
+                    "type": "string"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_content_structs.CreateTopicMediaBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "media_id": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "featured, gallery, attachment, etc.",
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.ReadChannel": {
+            "type": "object",
+            "properties": {
+                "allowed_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "auto_publish": {
+                    "type": "boolean"
+                },
+                "config": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "require_review": {
+                    "type": "boolean"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "webhook_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.ReadDistribution": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "$ref": "#/definitions/ncobase_content_structs.ReadChannel"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "custom_data": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "error_details": {
+                    "type": "string"
+                },
+                "external_id": {
+                    "type": "string"
+                },
+                "external_url": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "meta_data": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "published_at": {
+                    "type": "integer"
+                },
+                "scheduled_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "topic": {
+                    "$ref": "#/definitions/ncobase_content_structs.ReadTopic"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.ReadMedia": {
+            "type": "object",
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "mime_type": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_content_structs.ReadTaxonomy": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {}
+                },
+                "color": {
+                    "type": "string"
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.ReadTopic": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "excerpt": {
+                    "type": "string"
+                },
+                "excerpt_auto": {
+                    "type": "boolean"
+                },
+                "featured_media": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "media": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_content_structs.ReadMedia"
+                    }
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "type": "integer"
+                },
+                "seo_description": {
+                    "type": "string"
+                },
+                "seo_keywords": {
+                    "type": "string"
+                },
+                "seo_title": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "taxonomy": {
+                    "$ref": "#/definitions/ncobase_content_structs.ReadTaxonomy"
+                },
+                "taxonomy_id": {
+                    "type": "string"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_content_structs.ReadTopicMedia": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "media": {
+                    "$ref": "#/definitions/ncobase_content_structs.ReadMedia"
+                },
+                "media_id": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.UpdateChannelBody": {
+            "type": "object",
+            "properties": {
+                "allowed_types": {
+                    "description": "article, video, image, audio, mixed",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "auto_publish": {
+                    "type": "boolean"
+                },
+                "config": {
+                    "description": "API keys, secrets, endpoints, etc.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "require_review": {
+                    "type": "boolean"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "0: active, 1: inactive",
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook, custom",
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "webhook_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.UpdateDistributionBody": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "custom_data": {
+                    "description": "Custom data for the distribution",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
+                },
+                "error_details": {
+                    "description": "Error details if distribution failed",
+                    "type": "string"
+                },
+                "external_id": {
+                    "description": "ID on the external platform",
+                    "type": "string"
+                },
+                "external_url": {
+                    "description": "URL on the external platform",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "meta_data": {
+                    "description": "Platform-specific data",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                        }
+                    ]
+                },
+                "published_at": {
+                    "type": "integer"
+                },
+                "scheduled_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled",
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.UpdateMediaBody": {
+            "type": "object",
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "mime_type": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "image, video, audio, file",
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_content_structs.UpdateTaxonomyBody": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_content_structs.UpdateTopicBody": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "description": "article, video, etc.",
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "excerpt": {
+                    "type": "string"
+                },
+                "excerpt_auto": {
+                    "type": "boolean"
+                },
+                "featured_media": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "released": {
+                    "type": "integer"
+                },
+                "seo_description": {
+                    "type": "string"
+                },
+                "seo_keywords": {
+                    "type": "string"
+                },
+                "seo_title": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "taxonomy_id": {
+                    "type": "string"
+                },
+                "temp": {
+                    "type": "boolean"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_counter_structs.CounterBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "current_value": {
+                    "type": "integer"
+                },
+                "date_format": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "identifier": {
+                    "type": "string"
+                },
+                "increment_step": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "start_value": {
+                    "type": "integer"
+                },
+                "suffix": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_counter_structs.ReadCounter": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "current_value": {
+                    "type": "integer"
+                },
+                "date_format": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "identifier": {
+                    "type": "string"
+                },
+                "increment_step": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "start_value": {
+                    "type": "integer"
+                },
+                "suffix": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_counter_structs.UpdateCounterBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "current_value": {
+                    "type": "integer"
+                },
+                "date_format": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "identifier": {
+                    "type": "string"
+                },
+                "increment_step": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "start_value": {
+                    "type": "integer"
+                },
+                "suffix": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.BillingInterval": {
+            "type": "string",
+            "enum": [
+                "daily",
+                "weekly",
+                "monthly",
+                "yearly"
+            ],
+            "x-enum-varnames": [
+                "BillingIntervalDaily",
+                "BillingIntervalWeekly",
+                "BillingIntervalMonthly",
+                "BillingIntervalYearly"
+            ]
+        },
+        "ncobase_payment_structs.CancelSubscriptionInput": {
+            "type": "object",
+            "properties": {
+                "immediate": {
+                    "type": "boolean"
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.Channel": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ProviderConfig"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_default": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "provider": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentProvider"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ChannelStatus"
+                },
+                "supported_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_payment_structs.ChannelStatus": {
+            "type": "string",
+            "enum": [
+                "active",
+                "disabled",
+                "testing"
+            ],
+            "x-enum-varnames": [
+                "ChannelStatusActive",
+                "ChannelStatusDisabled",
+                "ChannelStatusTesting"
+            ]
+        },
+        "ncobase_payment_structs.CreateChannelInput": {
+            "type": "object",
+            "required": [
+                "config",
+                "name",
+                "provider",
+                "status",
+                "supported_types"
+            ],
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ProviderConfig"
+                },
+                "is_default": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "provider": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentProvider"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ChannelStatus"
+                },
+                "supported_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.CreateOrderInput": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "currency": {
+                    "$ref": "#/definitions/ncobase_payment_structs.CurrencyCode"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "order_number": {
+                    "type": "string"
+                },
+                "paid_at": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "provider_ref": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentStatus"
+                },
+                "subscription_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.CreateProductInput": {
+            "type": "object",
+            "required": [
+                "currency",
+                "description",
+                "name",
+                "price",
+                "pricing_type",
+                "status"
+            ],
+            "properties": {
+                "billing_interval": {
+                    "$ref": "#/definitions/ncobase_payment_structs.BillingInterval"
+                },
+                "currency": {
+                    "$ref": "#/definitions/ncobase_payment_structs.CurrencyCode"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "pricing_type": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PricingType"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "trial_days": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_payment_structs.CreateSubscriptionInput": {
+            "type": "object",
+            "required": [
+                "channel_id",
+                "product_id",
+                "user_id"
+            ],
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "trial_days": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.CurrencyCode": {
+            "type": "string",
+            "enum": [
+                "USD",
+                "EUR",
+                "GBP",
+                "CNY",
+                "JPY"
+            ],
+            "x-enum-varnames": [
+                "CurrencyUSD",
+                "CurrencyEUR",
+                "CurrencyGBP",
+                "CurrencyCNY",
+                "CurrencyJPY"
+            ]
+        },
+        "ncobase_payment_structs.Log": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "error": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "order_id": {
+                    "type": "string"
+                },
+                "request_data": {
+                    "type": "string"
+                },
+                "response_data": {
+                    "type": "string"
+                },
+                "status_after": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentStatus"
+                },
+                "status_before": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentStatus"
+                },
+                "type": {
+                    "$ref": "#/definitions/ncobase_payment_structs.LogType"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.LogType": {
+            "type": "string",
+            "enum": [
+                "create",
+                "update",
+                "verify",
+                "callback",
+                "notify",
+                "refund",
+                "error"
+            ],
+            "x-enum-varnames": [
+                "LogTypeCreate",
+                "LogTypeUpdate",
+                "LogTypeVerify",
+                "LogTypeCallback",
+                "LogTypeNotify",
+                "LogTypeRefund",
+                "LogTypeError"
+            ]
+        },
+        "ncobase_payment_structs.Order": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "currency": {
+                    "$ref": "#/definitions/ncobase_payment_structs.CurrencyCode"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "order_number": {
+                    "type": "string"
+                },
+                "paid_at": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "provider_ref": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentStatus"
+                },
+                "subscription_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.PaymentProvider": {
+            "type": "string",
+            "enum": [
+                "stripe",
+                "paypal",
+                "alipay",
+                "wechatpay"
+            ],
+            "x-enum-varnames": [
+                "PaymentProviderStripe",
+                "PaymentProviderPayPal",
+                "PaymentProviderAlipay",
+                "PaymentProviderWeChatPay"
+            ]
+        },
+        "ncobase_payment_structs.PaymentStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "completed",
+                "failed",
+                "refunded",
+                "cancelled"
+            ],
+            "x-enum-varnames": [
+                "PaymentStatusPending",
+                "PaymentStatusCompleted",
+                "PaymentStatusFailed",
+                "PaymentStatusRefunded",
+                "PaymentStatusCancelled"
+            ]
+        },
+        "ncobase_payment_structs.PaymentType": {
+            "type": "string",
+            "enum": [
+                "one_time",
+                "subscription",
+                "recurring"
+            ],
+            "x-enum-varnames": [
+                "PaymentTypeOneTime",
+                "PaymentTypeSubscription",
+                "PaymentTypeRecurring"
+            ]
+        },
+        "ncobase_payment_structs.PricingType": {
+            "type": "string",
+            "enum": [
+                "one_time",
+                "recurring",
+                "usage_based",
+                "tiered_usage"
+            ],
+            "x-enum-varnames": [
+                "PricingTypeOneTime",
+                "PricingTypeRecurring",
+                "PricingTypeUsageBased",
+                "PricingTypeTieredUsage"
+            ]
+        },
+        "ncobase_payment_structs.Product": {
+            "type": "object",
+            "properties": {
+                "billing_interval": {
+                    "$ref": "#/definitions/ncobase_payment_structs.BillingInterval"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "currency": {
+                    "$ref": "#/definitions/ncobase_payment_structs.CurrencyCode"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "pricing_type": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PricingType"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "trial_days": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_payment_structs.ProductStatus": {
+            "type": "string",
+            "enum": [
+                "active",
+                "disabled",
+                "draft"
+            ],
+            "x-enum-varnames": [
+                "ProductStatusActive",
+                "ProductStatusDisabled",
+                "ProductStatusDraft"
+            ]
+        },
+        "ncobase_payment_structs.ProviderConfig": {
+            "type": "object",
+            "additionalProperties": {}
+        },
+        "ncobase_payment_structs.RefundOrderInput": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.Subscription": {
+            "type": "object",
+            "properties": {
+                "cancel_at": {
+                    "type": "string"
+                },
+                "cancelled_at": {
+                    "type": "string"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "current_period_end": {
+                    "type": "string"
+                },
+                "current_period_start": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "provider_ref": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.SubscriptionStatus"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "trial_end": {
+                    "type": "string"
+                },
+                "trial_start": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.SubscriptionStatus": {
+            "type": "string",
+            "enum": [
+                "active",
+                "trialing",
+                "cancelled",
+                "expired",
+                "past_due"
+            ],
+            "x-enum-varnames": [
+                "SubscriptionStatusActive",
+                "SubscriptionStatusTrialing",
+                "SubscriptionStatusCancelled",
+                "SubscriptionStatusExpired",
+                "SubscriptionStatusPastDue"
+            ]
+        },
+        "ncobase_payment_structs.UpdateChannelInput": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ProviderConfig"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_default": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "provider": {
+                    "$ref": "#/definitions/ncobase_payment_structs.PaymentProvider"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ChannelStatus"
+                },
+                "supported_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_payment_structs.UpdateProductInput": {
+            "type": "object",
+            "properties": {
+                "billing_interval": {
+                    "$ref": "#/definitions/ncobase_payment_structs.BillingInterval"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
+                },
+                "trial_days": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_proxy_structs.CreateEndpointBody": {
             "type": "object",
             "required": [
                 "base_url",
@@ -14444,233 +21047,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.CreateEvent": {
-            "type": "object",
-            "properties": {
-                "event": {
-                    "$ref": "#/definitions/structs.EventBody"
-                }
-            }
-        },
-        "structs.CreateMediaBody": {
-            "type": "object",
-            "properties": {
-                "alt": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "number"
-                },
-                "height": {
-                    "type": "integer"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "mime_type": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "description": "image, video, audio, file",
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                },
-                "width": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.CreateNotification": {
-            "type": "object",
-            "properties": {
-                "notification": {
-                    "$ref": "#/definitions/structs.NotificationBody"
-                }
-            }
-        },
-        "structs.CreateOrderInput": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "number"
-                },
-                "channel_id": {
-                    "type": "string"
-                },
-                "currency": {
-                    "$ref": "#/definitions/structs.CurrencyCode"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "expires_at": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "order_number": {
-                    "type": "string"
-                },
-                "paid_at": {
-                    "type": "string"
-                },
-                "product_id": {
-                    "type": "string"
-                },
-                "provider_ref": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.PaymentStatus"
-                },
-                "subscription_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/structs.PaymentType"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CreatePermissionBody": {
-            "type": "object",
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "default": {
-                    "type": "boolean"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "subject": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CreateProductInput": {
-            "type": "object",
-            "required": [
-                "currency",
-                "description",
-                "name",
-                "price",
-                "pricing_type",
-                "status"
-            ],
-            "properties": {
-                "billing_interval": {
-                    "$ref": "#/definitions/structs.BillingInterval"
-                },
-                "currency": {
-                    "$ref": "#/definitions/structs.CurrencyCode"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "features": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "name": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "pricing_type": {
-                    "$ref": "#/definitions/structs.PricingType"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.ProductStatus"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "trial_days": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.CreateRoleBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CreateRouteBody": {
+        "ncobase_proxy_structs.CreateRouteBody": {
             "type": "object",
             "required": [
                 "endpoint_id",
@@ -14730,252 +21107,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.CreateSubscription": {
-            "type": "object",
-            "properties": {
-                "subscription": {
-                    "$ref": "#/definitions/structs.SubscriptionBody"
-                }
-            }
-        },
-        "structs.CreateSubscriptionInput": {
-            "type": "object",
-            "required": [
-                "channel_id",
-                "product_id",
-                "user_id"
-            ],
-            "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "product_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "trial_days": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CreateTaxonomyBody": {
-            "type": "object",
-            "properties": {
-                "color": {
-                    "type": "string"
-                },
-                "cover": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CreateTenantBody": {
-            "type": "object",
-            "properties": {
-                "copyright": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "expired_at": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "logo_alt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CreateTopicBody": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "content_type": {
-                    "description": "article, video, etc.",
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "excerpt": {
-                    "type": "string"
-                },
-                "excerpt_auto": {
-                    "type": "boolean"
-                },
-                "featured_media": {
-                    "type": "string"
-                },
-                "markdown": {
-                    "type": "boolean"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "private": {
-                    "type": "boolean"
-                },
-                "released": {
-                    "type": "integer"
-                },
-                "seo_description": {
-                    "type": "string"
-                },
-                "seo_keywords": {
-                    "type": "string"
-                },
-                "seo_title": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "taxonomy_id": {
-                    "type": "string"
-                },
-                "temp": {
-                    "type": "boolean"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.CreateTopicMediaBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "media_id": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "topic_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "description": "featured, gallery, attachment, etc.",
-                    "type": "string"
-                }
-            }
-        },
-        "structs.CreateTransformerBody": {
+        "ncobase_proxy_structs.CreateTransformerBody": {
             "type": "object",
             "required": [
                 "content",
@@ -15018,1222 +21150,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.CurrencyCode": {
-            "type": "string",
-            "enum": [
-                "USD",
-                "EUR",
-                "GBP",
-                "CNY",
-                "JPY"
-            ],
-            "x-enum-varnames": [
-                "CurrencyUSD",
-                "CurrencyEUR",
-                "CurrencyGBP",
-                "CurrencyCNY",
-                "CurrencyJPY"
-            ]
-        },
-        "structs.DelegateTaskRequest": {
-            "type": "object",
-            "required": [
-                "delegate",
-                "delegator",
-                "task_id"
-            ],
-            "properties": {
-                "comment": {
-                    "type": "string"
-                },
-                "delegate": {
-                    "type": "string"
-                },
-                "delegator": {
-                    "type": "string"
-                },
-                "reason": {
-                    "type": "string"
-                },
-                "task_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.DelegationBody": {
-            "type": "object",
-            "properties": {
-                "conditions": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "delegatee_id": {
-                    "type": "string"
-                },
-                "delegator_id": {
-                    "type": "string"
-                },
-                "end_time": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "is_enabled": {
-                    "type": "boolean"
-                },
-                "node_type": {
-                    "type": "string"
-                },
-                "start_time": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "template_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.DictionaryBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.EventBody": {
-            "type": "object",
-            "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
-                "payload": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.FileCategory": {
-            "type": "string",
-            "enum": [
-                "image",
-                "document",
-                "video",
-                "audio",
-                "archive",
-                "other"
-            ],
-            "x-enum-varnames": [
-                "FileCategoryImage",
-                "FileCategoryDocument",
-                "FileCategoryVideo",
-                "FileCategoryAudio",
-                "FileCategoryArchive",
-                "FileCategoryOther"
-            ]
-        },
-        "structs.FileMetadata": {
-            "type": "object",
-            "properties": {
-                "author": {
-                    "description": "Content author",
-                    "type": "string"
-                },
-                "category": {
-                    "description": "File category",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/structs.FileCategory"
-                        }
-                    ]
-                },
-                "creation_date": {
-                    "description": "Original file creation date",
-                    "type": "string"
-                },
-                "custom_fields": {
-                    "description": "User-defined metadata",
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "description": {
-                    "description": "Content description",
-                    "type": "string"
-                },
-                "duration": {
-                    "description": "For audio/video in seconds",
-                    "type": "number"
-                },
-                "height": {
-                    "description": "For images",
-                    "type": "integer"
-                },
-                "keywords": {
-                    "description": "Content keywords",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "modified_date": {
-                    "description": "Last modification date",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "Content title",
-                    "type": "string"
-                },
-                "width": {
-                    "description": "For images",
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.GroupBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "leader": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.HistoryBody": {
-            "type": "object",
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "details": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "form_data": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "node_config": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "node_id": {
-                    "type": "string"
-                },
-                "node_name": {
-                    "type": "string"
-                },
-                "node_type": {
-                    "type": "string"
-                },
-                "operator": {
-                    "type": "string"
-                },
-                "operator_dept": {
-                    "type": "string"
-                },
-                "process_id": {
-                    "type": "string"
-                },
-                "task_id": {
-                    "type": "string"
-                },
-                "template_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "variables": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                }
-            }
-        },
-        "structs.Log": {
-            "type": "object",
-            "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "error": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ip": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "order_id": {
-                    "type": "string"
-                },
-                "request_data": {
-                    "type": "string"
-                },
-                "response_data": {
-                    "type": "string"
-                },
-                "status_after": {
-                    "$ref": "#/definitions/structs.PaymentStatus"
-                },
-                "status_before": {
-                    "$ref": "#/definitions/structs.PaymentStatus"
-                },
-                "type": {
-                    "$ref": "#/definitions/structs.LogType"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "user_agent": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.LogType": {
-            "type": "string",
-            "enum": [
-                "create",
-                "update",
-                "verify",
-                "callback",
-                "notify",
-                "refund",
-                "error"
-            ],
-            "x-enum-varnames": [
-                "LogTypeCreate",
-                "LogTypeUpdate",
-                "LogTypeVerify",
-                "LogTypeCallback",
-                "LogTypeNotify",
-                "LogTypeRefund",
-                "LogTypeError"
-            ]
-        },
-        "structs.LoginBody": {
-            "type": "object",
-            "required": [
-                "password",
-                "username"
-            ],
-            "properties": {
-                "captcha": {
-                    "$ref": "#/definitions/structs.Captcha"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.MenuBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "hidden": {
-                    "type": "boolean"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "perms": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "target": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.NodeBody": {
-            "type": "object",
-            "properties": {
-                "assignees": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "branch_conditions": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "branch_nodes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "conditions": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "default_branch": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "form_config": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "handlers": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "is_working_day": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "next_nodes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "node_key": {
-                    "type": "string"
-                },
-                "parallel_nodes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "permissions": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "prev_nodes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "process_id": {
-                    "type": "string"
-                },
-                "properties": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "required": {
-                    "type": "boolean"
-                },
-                "retry_interval": {
-                    "type": "integer"
-                },
-                "retry_times": {
-                    "type": "integer"
-                },
-                "skippable": {
-                    "type": "boolean"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "template_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "timeout_config": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "timeout_duration": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "variables": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                }
-            }
-        },
-        "structs.NotificationBody": {
-            "type": "object",
-            "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
-                "content": {
-                    "type": "string"
-                },
-                "links": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                    }
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.OptionsBody": {
-            "type": "object",
-            "properties": {
-                "autoload": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.Order": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "number"
-                },
-                "channel_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "currency": {
-                    "$ref": "#/definitions/structs.CurrencyCode"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "expires_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "order_number": {
-                    "type": "string"
-                },
-                "paid_at": {
-                    "type": "string"
-                },
-                "product_id": {
-                    "type": "string"
-                },
-                "provider_ref": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.PaymentStatus"
-                },
-                "subscription_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/structs.PaymentType"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.PaymentProvider": {
-            "type": "string",
-            "enum": [
-                "stripe",
-                "paypal",
-                "alipay",
-                "wechatpay"
-            ],
-            "x-enum-varnames": [
-                "PaymentProviderStripe",
-                "PaymentProviderPayPal",
-                "PaymentProviderAlipay",
-                "PaymentProviderWeChatPay"
-            ]
-        },
-        "structs.PaymentStatus": {
-            "type": "string",
-            "enum": [
-                "pending",
-                "completed",
-                "failed",
-                "refunded",
-                "cancelled"
-            ],
-            "x-enum-varnames": [
-                "PaymentStatusPending",
-                "PaymentStatusCompleted",
-                "PaymentStatusFailed",
-                "PaymentStatusRefunded",
-                "PaymentStatusCancelled"
-            ]
-        },
-        "structs.PaymentType": {
-            "type": "string",
-            "enum": [
-                "one_time",
-                "subscription",
-                "recurring"
-            ],
-            "x-enum-varnames": [
-                "PaymentTypeOneTime",
-                "PaymentTypeSubscription",
-                "PaymentTypeRecurring"
-            ]
-        },
-        "structs.PricingType": {
-            "type": "string",
-            "enum": [
-                "one_time",
-                "recurring",
-                "usage_based",
-                "tiered_usage"
-            ],
-            "x-enum-varnames": [
-                "PricingTypeOneTime",
-                "PricingTypeRecurring",
-                "PricingTypeUsageBased",
-                "PricingTypeTieredUsage"
-            ]
-        },
-        "structs.PriorityStrategy": {
-            "type": "integer",
-            "enum": [
-                0,
-                5,
-                10,
-                15
-            ],
-            "x-enum-varnames": [
-                "PriorityLow",
-                "PriorityNormal",
-                "PriorityHigh",
-                "PriorityUrgent"
-            ]
-        },
-        "structs.ProcessBody": {
-            "type": "object",
-            "properties": {
-                "active_nodes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "allow_cancel": {
-                    "type": "boolean"
-                },
-                "allow_urge": {
-                    "type": "boolean"
-                },
-                "business_key": {
-                    "type": "string"
-                },
-                "callbacks": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "category": {
-                    "type": "string"
-                },
-                "current_node": {
-                    "type": "string"
-                },
-                "due_date": {
-                    "type": "integer"
-                },
-                "duration": {
-                    "type": "integer"
-                },
-                "end_node_id": {
-                    "type": "string"
-                },
-                "end_time": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "flow_status": {
-                    "type": "string"
-                },
-                "form_code": {
-                    "type": "string"
-                },
-                "initiator": {
-                    "type": "string"
-                },
-                "initiator_dept": {
-                    "type": "string"
-                },
-                "is_suspended": {
-                    "type": "boolean"
-                },
-                "max_duration": {
-                    "type": "integer"
-                },
-                "module_code": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "priority": {
-                    "type": "integer"
-                },
-                "process_code": {
-                    "type": "string"
-                },
-                "process_key": {
-                    "type": "string"
-                },
-                "retryable": {
-                    "type": "boolean"
-                },
-                "start_node_id": {
-                    "type": "string"
-                },
-                "start_time": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "suspend_reason": {
-                    "type": "string"
-                },
-                "template_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "urge_count": {
-                    "type": "integer"
-                },
-                "variables": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                }
-            }
-        },
-        "structs.ProcessDesignBody": {
-            "type": "object",
-            "properties": {
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "graph_data": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "is_draft": {
-                    "type": "boolean"
-                },
-                "node_layouts": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "properties": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "source_version": {
-                    "type": "string"
-                },
-                "template_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "validation_rules": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "version": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ProcessingOptions": {
-            "type": "object",
-            "properties": {
-                "compress_image": {
-                    "type": "boolean"
-                },
-                "compression_quality": {
-                    "description": "1-100",
-                    "type": "integer"
-                },
-                "convert_format": {
-                    "description": "Target format",
-                    "type": "string"
-                },
-                "create_thumbnail": {
-                    "type": "boolean"
-                },
-                "max_height": {
-                    "type": "integer"
-                },
-                "max_width": {
-                    "type": "integer"
-                },
-                "resize_image": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "structs.Product": {
-            "type": "object",
-            "properties": {
-                "billing_interval": {
-                    "$ref": "#/definitions/structs.BillingInterval"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "currency": {
-                    "$ref": "#/definitions/structs.CurrencyCode"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "features": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "id": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "name": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "pricing_type": {
-                    "$ref": "#/definitions/structs.PricingType"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.ProductStatus"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "trial_days": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.ProductStatus": {
-            "type": "string",
-            "enum": [
-                "active",
-                "disabled",
-                "draft"
-            ],
-            "x-enum-varnames": [
-                "ProductStatusActive",
-                "ProductStatusDisabled",
-                "ProductStatusDraft"
-            ]
-        },
-        "structs.ProviderConfig": {
-            "type": "object",
-            "additionalProperties": {}
-        },
-        "structs.ReadCasbinRule": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "p_type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "v0": {
-                    "type": "string"
-                },
-                "v1": {
-                    "type": "string"
-                },
-                "v2": {
-                    "type": "string"
-                },
-                "v3": {
-                    "type": "string"
-                },
-                "v4": {
-                    "type": "string"
-                },
-                "v5": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadCounter": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "current_value": {
-                    "type": "integer"
-                },
-                "date_format": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "identifier": {
-                    "type": "string"
-                },
-                "increment_step": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "prefix": {
-                    "type": "string"
-                },
-                "start_value": {
-                    "type": "integer"
-                },
-                "suffix": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadDelegation": {
-            "type": "object",
-            "properties": {
-                "conditions": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "delegatee_id": {
-                    "type": "string"
-                },
-                "delegator_id": {
-                    "type": "string"
-                },
-                "end_time": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_enabled": {
-                    "type": "boolean"
-                },
-                "node_type": {
-                    "type": "string"
-                },
-                "start_time": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "template_id": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadDictionary": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadDistribution": {
-            "type": "object",
-            "properties": {
-                "channel": {
-                    "$ref": "#/definitions/ncobase_domain_content_structs.ReadChannel"
-                },
-                "channel_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "custom_data": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "error_details": {
-                    "type": "string"
-                },
-                "external_id": {
-                    "type": "string"
-                },
-                "external_url": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "meta_data": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "published_at": {
-                    "type": "integer"
-                },
-                "scheduled_at": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "topic": {
-                    "$ref": "#/definitions/structs.ReadTopic"
-                },
-                "topic_id": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadEndpoint": {
+        "ncobase_proxy_structs.ReadEndpoint": {
             "type": "object",
             "properties": {
                 "auth_config": {
@@ -16295,7 +21212,239 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadEvent": {
+        "ncobase_proxy_structs.ReadRoute": {
+            "type": "object",
+            "properties": {
+                "cache_enabled": {
+                    "type": "boolean"
+                },
+                "cache_ttl": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "endpoint_id": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "input_transformer_id": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "output_transformer_id": {
+                    "type": "string"
+                },
+                "path_pattern": {
+                    "type": "string"
+                },
+                "rate_limit": {
+                    "type": "string"
+                },
+                "strip_auth_header": {
+                    "type": "boolean"
+                },
+                "target_path": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_proxy_structs.ReadTransformer": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.ChannelBody": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "0: disabled, 1: enabled",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "public/private/direct",
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.CreateChannel": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "$ref": "#/definitions/ncobase_realtime_structs.ChannelBody"
+                }
+            }
+        },
+        "ncobase_realtime_structs.CreateEvent": {
+            "type": "object",
+            "properties": {
+                "event": {
+                    "$ref": "#/definitions/ncobase_realtime_structs.EventBody"
+                }
+            }
+        },
+        "ncobase_realtime_structs.CreateNotification": {
+            "type": "object",
+            "properties": {
+                "notification": {
+                    "$ref": "#/definitions/ncobase_realtime_structs.NotificationBody"
+                }
+            }
+        },
+        "ncobase_realtime_structs.CreateSubscription": {
+            "type": "object",
+            "properties": {
+                "subscription": {
+                    "$ref": "#/definitions/ncobase_realtime_structs.SubscriptionBody"
+                }
+            }
+        },
+        "ncobase_realtime_structs.EventBody": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "payload": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.NotificationBody": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                    }
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.ReadChannel": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_realtime_structs.ReadEvent": {
             "type": "object",
             "properties": {
                 "channel_id": {
@@ -16318,11 +21467,301 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadFile": {
+        "ncobase_realtime_structs.ReadNotification": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                    }
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.ReadSubscription": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.ReadUser": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_admin": {
+                    "type": "boolean"
+                },
+                "is_certified": {
+                    "type": "boolean"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.SubscriptionBody": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "0: disabled, 1: enabled",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.UpdateChannel": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "$ref": "#/definitions/ncobase_realtime_structs.ChannelBody"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.UpdateNotification": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "notification": {
+                    "$ref": "#/definitions/ncobase_realtime_structs.NotificationBody"
+                }
+            }
+        },
+        "ncobase_resource_structs.AccessLevel": {
+            "type": "string",
+            "enum": [
+                "public",
+                "private",
+                "shared"
+            ],
+            "x-enum-comments": {
+                "AccessLevelPrivate": "Only accessible to owner",
+                "AccessLevelPublic": "Accessible to anyone",
+                "AccessLevelShared": "Shared with specific users/groups"
+            },
+            "x-enum-varnames": [
+                "AccessLevelPublic",
+                "AccessLevelPrivate",
+                "AccessLevelShared"
+            ]
+        },
+        "ncobase_resource_structs.BatchUploadResult": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "failed_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "failure_count": {
+                    "type": "integer"
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
+                    }
+                },
+                "operation_id": {
+                    "type": "string"
+                },
+                "success_count": {
+                    "type": "integer"
+                },
+                "total_files": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.FileCategory": {
+            "type": "string",
+            "enum": [
+                "image",
+                "document",
+                "video",
+                "audio",
+                "archive",
+                "other"
+            ],
+            "x-enum-varnames": [
+                "FileCategoryImage",
+                "FileCategoryDocument",
+                "FileCategoryVideo",
+                "FileCategoryAudio",
+                "FileCategoryArchive",
+                "FileCategoryOther"
+            ]
+        },
+        "ncobase_resource_structs.FileMetadata": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "description": "Content author",
+                    "type": "string"
+                },
+                "category": {
+                    "description": "File category",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ncobase_resource_structs.FileCategory"
+                        }
+                    ]
+                },
+                "creation_date": {
+                    "description": "Original file creation date",
+                    "type": "string"
+                },
+                "custom_fields": {
+                    "description": "User-defined metadata",
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "description": {
+                    "description": "Content description",
+                    "type": "string"
+                },
+                "duration": {
+                    "description": "For audio/video in seconds",
+                    "type": "number"
+                },
+                "height": {
+                    "description": "For images",
+                    "type": "integer"
+                },
+                "keywords": {
+                    "description": "Content keywords",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "modified_date": {
+                    "description": "Last modification date",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Content title",
+                    "type": "string"
+                },
+                "width": {
+                    "description": "For images",
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.ProcessingOptions": {
+            "type": "object",
+            "properties": {
+                "compress_image": {
+                    "type": "boolean"
+                },
+                "compression_quality": {
+                    "description": "1-100",
+                    "type": "integer"
+                },
+                "convert_format": {
+                    "description": "Target format",
+                    "type": "string"
+                },
+                "create_thumbnail": {
+                    "type": "boolean"
+                },
+                "max_height": {
+                    "type": "integer"
+                },
+                "max_width": {
+                    "type": "integer"
+                },
+                "resize_image": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "ncobase_resource_structs.ReadFile": {
             "type": "object",
             "properties": {
                 "access_level": {
-                    "$ref": "#/definitions/structs.AccessLevel"
+                    "$ref": "#/definitions/ncobase_resource_structs.AccessLevel"
                 },
                 "bucket": {
                     "type": "string"
@@ -16358,7 +21797,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "metadata": {
-                    "$ref": "#/definitions/structs.FileMetadata"
+                    "$ref": "#/definitions/ncobase_resource_structs.FileMetadata"
                 },
                 "name": {
                     "type": "string"
@@ -16404,7 +21843,177 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadGroup": {
+        "ncobase_resource_structs.UpdateFileBody": {
+            "type": "object",
+            "properties": {
+                "access_level": {
+                    "description": "Access level",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ncobase_resource_structs.AccessLevel"
+                        }
+                    ]
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "description": "Expiration timestamp",
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "folder_path": {
+                    "description": "Virtual folder path",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_public": {
+                    "description": "Publicly accessible flag",
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "description": "metadata",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ncobase_resource_structs.FileMetadata"
+                        }
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "object_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "processing_options": {
+                    "description": "Processing options",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ncobase_resource_structs.ProcessingOptions"
+                        }
+                    ]
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "storage": {
+                    "type": "string"
+                },
+                "tags": {
+                    "description": "Tags for categorization",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "versions": {
+                    "description": "Previous versions IDs",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "ncobase_space_structs.AddMemberRequest": {
+            "type": "object",
+            "required": [
+                "role",
+                "user_id"
+            ],
+            "properties": {
+                "role": {
+                    "$ref": "#/definitions/ncobase_space_structs.UserRole"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.GroupBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "leader": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.GroupMember": {
+            "type": "object",
+            "properties": {
+                "added_at": {
+                    "type": "integer"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_login": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "$ref": "#/definitions/ncobase_space_structs.UserRole"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.ReadGroup": {
             "type": "object",
             "properties": {
                 "children": {
@@ -16441,6 +22050,2433 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.UpdateGroupBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "leader": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.UpdateMemberRequest": {
+            "type": "object",
+            "required": [
+                "role"
+            ],
+            "properties": {
+                "role": {
+                    "$ref": "#/definitions/ncobase_space_structs.UserRole"
+                }
+            }
+        },
+        "ncobase_space_structs.UserRole": {
+            "type": "string",
+            "enum": [
+                "owner",
+                "admin",
+                "editor",
+                "viewer",
+                "member"
+            ],
+            "x-enum-varnames": [
+                "RoleOwner",
+                "RoleAdmin",
+                "RoleEditor",
+                "RoleViewer",
+                "RoleMember"
+            ]
+        },
+        "ncobase_system_structs.DictionaryBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_system_structs.MenuBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "hidden": {
+                    "type": "boolean"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "perms": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_system_structs.NavigationMenus": {
+            "type": "object",
+            "properties": {
+                "accounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                    }
+                },
+                "headers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                    }
+                },
+                "sidebars": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                    }
+                },
+                "tenants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
+                    }
+                }
+            }
+        },
+        "ncobase_system_structs.OptionBody": {
+            "type": "object",
+            "properties": {
+                "autoload": {
+                    "type": "boolean"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_system_structs.ReadDictionary": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_system_structs.ReadMenu": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {}
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "hidden": {
+                    "type": "boolean"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "perms": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_system_structs.ReadOption": {
+            "type": "object",
+            "properties": {
+                "autoload": {
+                    "type": "boolean"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_system_structs.UpdateDictionaryBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_system_structs.UpdateMenuBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "hidden": {
+                    "type": "boolean"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "perms": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_system_structs.UpdateOptionBody": {
+            "type": "object",
+            "properties": {
+                "autoload": {
+                    "type": "boolean"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.AddDictionaryToTenantRequest": {
+            "type": "object",
+            "required": [
+                "dictionary_id"
+            ],
+            "properties": {
+                "dictionary_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.AddMenuToTenantRequest": {
+            "type": "object",
+            "required": [
+                "menu_id"
+            ],
+            "properties": {
+                "menu_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.AddOptionsToTenantRequest": {
+            "type": "object",
+            "required": [
+                "option_id"
+            ],
+            "properties": {
+                "option_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.AddTenantGroupRequest": {
+            "type": "object",
+            "required": [
+                "group_id"
+            ],
+            "properties": {
+                "group_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.AddUserToTenantRoleRequest": {
+            "type": "object",
+            "required": [
+                "role_id",
+                "user_id"
+            ],
+            "properties": {
+                "role_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.BillingPeriod": {
+            "type": "string",
+            "enum": [
+                "monthly",
+                "yearly",
+                "one_time",
+                "usage_based"
+            ],
+            "x-enum-varnames": [
+                "PeriodMonthly",
+                "PeriodYearly",
+                "PeriodOneTime",
+                "PeriodUsage"
+            ]
+        },
+        "ncobase_tenant_structs.BillingStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "paid",
+                "overdue",
+                "cancelled",
+                "refunded"
+            ],
+            "x-enum-varnames": [
+                "StatusPending",
+                "StatusPaid",
+                "StatusOverdue",
+                "StatusCancelled",
+                "StatusRefunded"
+            ]
+        },
+        "ncobase_tenant_structs.BillingSummary": {
+            "type": "object",
+            "properties": {
+                "currency": {
+                    "type": "string"
+                },
+                "overdue_amount": {
+                    "type": "number"
+                },
+                "overdue_invoices": {
+                    "type": "integer"
+                },
+                "paid_amount": {
+                    "type": "number"
+                },
+                "paid_invoices": {
+                    "type": "integer"
+                },
+                "pending_amount": {
+                    "type": "number"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "total_amount": {
+                    "type": "number"
+                },
+                "total_invoices": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_tenant_structs.BulkUpdateError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.BulkUpdateResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_tenant_structs.BulkUpdateError"
+                    }
+                },
+                "failed": {
+                    "type": "integer"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRoleResponse"
+                    }
+                },
+                "success": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_tenant_structs.BulkUpdateSettingsRequest": {
+            "type": "object",
+            "required": [
+                "settings",
+                "tenant_id"
+            ],
+            "properties": {
+                "settings": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.BulkUpdateUserTenantRolesRequest": {
+            "type": "object",
+            "required": [
+                "updates"
+            ],
+            "properties": {
+                "updates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRoleUpdate"
+                    }
+                }
+            }
+        },
+        "ncobase_tenant_structs.CreateTenantBillingBody": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "billing_period": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.BillingPeriod"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "invoice_number": {
+                    "type": "string"
+                },
+                "paid_at": {
+                    "type": "integer"
+                },
+                "payment_method": {
+                    "type": "string"
+                },
+                "period_end": {
+                    "type": "integer"
+                },
+                "period_start": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.BillingStatus"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "usage_details": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_tenant_structs.CreateTenantBody": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "expired_at": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.CreateTenantQuotaBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "current_used": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "max_value": {
+                    "type": "integer"
+                },
+                "quota_name": {
+                    "type": "string"
+                },
+                "quota_type": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaType"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaUnit"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.CreateTenantSettingBody": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "default_value": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "is_readonly": {
+                    "type": "boolean"
+                },
+                "is_required": {
+                    "type": "boolean"
+                },
+                "scope": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.SettingScope"
+                },
+                "setting_key": {
+                    "type": "string"
+                },
+                "setting_name": {
+                    "type": "string"
+                },
+                "setting_type": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.SettingType"
+                },
+                "setting_value": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "validation": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_tenant_structs.PaymentRequest": {
+            "type": "object",
+            "required": [
+                "amount",
+                "billing_id",
+                "payment_method"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "billing_id": {
+                    "type": "string"
+                },
+                "payment_method": {
+                    "type": "string"
+                },
+                "transaction_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.QuotaType": {
+            "type": "string",
+            "enum": [
+                "users",
+                "storage",
+                "api_calls",
+                "projects",
+                "custom"
+            ],
+            "x-enum-varnames": [
+                "QuotaTypeUser",
+                "QuotaTypeStorage",
+                "QuotaTypeAPI",
+                "QuotaTypeProject",
+                "QuotaTypeCustom"
+            ]
+        },
+        "ncobase_tenant_structs.QuotaUnit": {
+            "type": "string",
+            "enum": [
+                "count",
+                "bytes",
+                "mb",
+                "gb",
+                "tb"
+            ],
+            "x-enum-varnames": [
+                "UnitCount",
+                "UnitBytes",
+                "UnitMB",
+                "UnitGB",
+                "UnitTB"
+            ]
+        },
+        "ncobase_tenant_structs.QuotaUsageRequest": {
+            "type": "object",
+            "required": [
+                "delta",
+                "quota_type",
+                "tenant_id"
+            ],
+            "properties": {
+                "delta": {
+                    "type": "integer"
+                },
+                "quota_type": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaType"
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.ReadGroup": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {}
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "leader": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.ReadTenant": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "expired_at": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.ReadTenantBilling": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "billing_period": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.BillingPeriod"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "days_overdue": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "invoice_number": {
+                    "type": "string"
+                },
+                "is_overdue": {
+                    "type": "boolean"
+                },
+                "paid_at": {
+                    "type": "integer"
+                },
+                "payment_method": {
+                    "type": "string"
+                },
+                "period_end": {
+                    "type": "integer"
+                },
+                "period_start": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.BillingStatus"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "usage_details": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_tenant_structs.ReadTenantQuota": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "current_used": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_exceeded": {
+                    "type": "boolean"
+                },
+                "max_value": {
+                    "type": "integer"
+                },
+                "quota_name": {
+                    "type": "string"
+                },
+                "quota_type": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaType"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaUnit"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "utilization_percent": {
+                    "type": "number"
+                }
+            }
+        },
+        "ncobase_tenant_structs.ReadTenantSetting": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "default_value": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "is_readonly": {
+                    "type": "boolean"
+                },
+                "is_required": {
+                    "type": "boolean"
+                },
+                "scope": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.SettingScope"
+                },
+                "setting_key": {
+                    "type": "string"
+                },
+                "setting_name": {
+                    "type": "string"
+                },
+                "setting_type": {
+                    "$ref": "#/definitions/ncobase_tenant_structs.SettingType"
+                },
+                "setting_value": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "validation": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_tenant_structs.SettingScope": {
+            "type": "string",
+            "enum": [
+                "system",
+                "tenant",
+                "user",
+                "feature"
+            ],
+            "x-enum-varnames": [
+                "ScopeSystem",
+                "ScopeTenant",
+                "ScopeUser",
+                "ScopeFeature"
+            ]
+        },
+        "ncobase_tenant_structs.SettingType": {
+            "type": "string",
+            "enum": [
+                "string",
+                "number",
+                "boolean",
+                "json",
+                "array"
+            ],
+            "x-enum-varnames": [
+                "TypeString",
+                "TypeNumber",
+                "TypeBoolean",
+                "TypeJSON",
+                "TypeArray"
+            ]
+        },
+        "ncobase_tenant_structs.TenantDictionary": {
+            "type": "object",
+            "properties": {
+                "dictionary_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.TenantGroupRelation": {
+            "type": "object",
+            "properties": {
+                "added_at": {
+                    "type": "integer"
+                },
+                "group_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.TenantMenu": {
+            "type": "object",
+            "properties": {
+                "menu_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.TenantOption": {
+            "type": "object",
+            "properties": {
+                "option_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.TenantRoleUsersResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "role_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "user_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "ncobase_tenant_structs.TenantUserInfo": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "joined_at": {
+                    "type": "integer"
+                },
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.TenantUsersListResponse": {
+            "type": "object",
+            "properties": {
+                "cursor": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_tenant_structs.TenantUserInfo"
+                    }
+                }
+            }
+        },
+        "ncobase_tenant_structs.UpdateTenantBody": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "expired_at": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.UpdateUserTenantRoleRequest": {
+            "type": "object",
+            "required": [
+                "new_role_id",
+                "old_role_id"
+            ],
+            "properties": {
+                "new_role_id": {
+                    "type": "string"
+                },
+                "old_role_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.UserTenantRoleResponse": {
+            "type": "object",
+            "properties": {
+                "role_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.UserTenantRoleUpdate": {
+            "type": "object",
+            "required": [
+                "operation",
+                "role_id",
+                "user_id"
+            ],
+            "properties": {
+                "old_role_id": {
+                    "description": "Required for \"update\" operation",
+                    "type": "string"
+                },
+                "operation": {
+                    "description": "\"add\", \"remove\", \"update\"",
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_tenant_structs.UserTenantRolesResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.ApiKey": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "last_used": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.CreateApiKeyRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.CreateEmployeeBody": {
+            "type": "object",
+            "properties": {
+                "certifications": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "contact_info": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "employment_type": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "hire_date": {
+                    "type": "string"
+                },
+                "manager_id": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "number"
+                },
+                "skills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "termination_date": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "work_location": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.PasswordResetRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.ReadEmployee": {
+            "type": "object",
+            "properties": {
+                "certifications": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "contact_info": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "employment_type": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "hire_date": {
+                    "type": "string"
+                },
+                "manager_id": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "number"
+                },
+                "skills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "termination_date": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "work_location": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.ReadUser": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_admin": {
+                    "type": "boolean"
+                },
+                "is_certified": {
+                    "type": "boolean"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.ReadUserProfile": {
+            "type": "object",
+            "properties": {
+                "about": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                    }
+                },
+                "short_bio": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.UpdateEmployeeBody": {
+            "type": "object",
+            "properties": {
+                "certifications": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "contact_info": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "employment_type": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "hire_date": {
+                    "type": "string"
+                },
+                "manager_id": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "number"
+                },
+                "skills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "termination_date": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "work_location": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.UserBody": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_admin": {
+                    "type": "boolean"
+                },
+                "is_certified": {
+                    "type": "boolean"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.UserMeshes": {
+            "type": "object",
+            "properties": {
+                "api_keys": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_user_structs.ApiKey"
+                    }
+                },
+                "employee": {
+                    "$ref": "#/definitions/ncobase_user_structs.ReadEmployee"
+                },
+                "profile": {
+                    "$ref": "#/definitions/ncobase_user_structs.ReadUserProfile"
+                },
+                "user": {
+                    "$ref": "#/definitions/ncobase_user_structs.ReadUser"
+                }
+            }
+        },
+        "ncobase_user_structs.UserPassword": {
+            "type": "object",
+            "required": [
+                "confirm",
+                "new_password",
+                "user"
+            ],
+            "properties": {
+                "confirm": {
+                    "type": "string"
+                },
+                "new_password": {
+                    "type": "string"
+                },
+                "old_password": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_user_structs.UserProfileBody": {
+            "type": "object",
+            "properties": {
+                "about": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                    }
+                },
+                "short_bio": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_workflow_structs.ActionType": {
+            "type": "string",
+            "enum": [
+                "submit",
+                "save",
+                "revoke",
+                "reassign",
+                "addSign",
+                "remind",
+                "approve",
+                "reject",
+                "delegate",
+                "transfer",
+                "withdraw",
+                "terminate",
+                "suspend",
+                "resume",
+                "urge"
+            ],
+            "x-enum-comments": {
+                "ActionAddSign": "Add countersign",
+                "ActionApprove": "Approve",
+                "ActionDelegate": "Delegate",
+                "ActionReassign": "Reassign task",
+                "ActionReject": "Reject",
+                "ActionRemind": "Send reminder",
+                "ActionResume": "Resume",
+                "ActionRevoke": "Revoke approval",
+                "ActionSave": "Save draft",
+                "ActionSubmit": "Submit form",
+                "ActionSuspend": "Suspend",
+                "ActionTerminate": "Terminate",
+                "ActionTransfer": "Transfer",
+                "ActionUrge": "Urge",
+                "ActionWithdraw": "Withdraw"
+            },
+            "x-enum-varnames": [
+                "ActionSubmit",
+                "ActionSave",
+                "ActionRevoke",
+                "ActionReassign",
+                "ActionAddSign",
+                "ActionRemind",
+                "ActionApprove",
+                "ActionReject",
+                "ActionDelegate",
+                "ActionTransfer",
+                "ActionWithdraw",
+                "ActionTerminate",
+                "ActionSuspend",
+                "ActionResume",
+                "ActionUrge"
+            ]
+        },
+        "ncobase_workflow_structs.CompleteTaskRequest": {
+            "type": "object",
+            "required": [
+                "action",
+                "operator",
+                "task_id"
+            ],
+            "properties": {
+                "action": {
+                    "$ref": "#/definitions/ncobase_workflow_structs.ActionType"
+                },
+                "attachments": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_workflow_structs.CompleteTaskResponse": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "$ref": "#/definitions/ncobase_workflow_structs.ActionType"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "next_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_workflow_structs.DelegateTaskRequest": {
+            "type": "object",
+            "required": [
+                "delegate",
+                "delegator",
+                "task_id"
+            ],
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "delegate": {
+                    "type": "string"
+                },
+                "delegator": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_workflow_structs.DelegationBody": {
+            "type": "object",
+            "properties": {
+                "conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "delegatee_id": {
+                    "type": "string"
+                },
+                "delegator_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "is_enabled": {
+                    "type": "boolean"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_workflow_structs.HistoryBody": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "details": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "form_data": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "node_config": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "node_id": {
+                    "type": "string"
+                },
+                "node_name": {
+                    "type": "string"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "operator_dept": {
+                    "type": "string"
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "task_id": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_workflow_structs.NodeBody": {
+            "type": "object",
+            "properties": {
+                "assignees": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "branch_conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "branch_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "default_branch": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "form_config": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "handlers": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "is_working_day": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "next_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "node_key": {
+                    "type": "string"
+                },
+                "parallel_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "permissions": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "prev_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "process_id": {
+                    "type": "string"
+                },
+                "properties": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "retry_interval": {
+                    "type": "integer"
+                },
+                "retry_times": {
+                    "type": "integer"
+                },
+                "skippable": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "timeout_config": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "timeout_duration": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "variables": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_workflow_structs.PriorityStrategy": {
+            "type": "integer",
+            "enum": [
+                0,
+                5,
+                10,
+                15
+            ],
+            "x-enum-varnames": [
+                "PriorityLow",
+                "PriorityNormal",
+                "PriorityHigh",
+                "PriorityUrgent"
+            ]
+        },
+        "ncobase_workflow_structs.ProcessBody": {
+            "type": "object",
+            "properties": {
+                "active_nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allow_cancel": {
+                    "type": "boolean"
+                },
+                "allow_urge": {
+                    "type": "boolean"
+                },
+                "business_key": {
+                    "type": "string"
+                },
+                "callbacks": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "current_node": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "end_node_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "flow_status": {
+                    "type": "string"
+                },
+                "form_code": {
+                    "type": "string"
+                },
+                "initiator": {
+                    "type": "string"
+                },
+                "initiator_dept": {
+                    "type": "string"
+                },
+                "is_suspended": {
+                    "type": "boolean"
+                },
+                "max_duration": {
+                    "type": "integer"
+                },
+                "module_code": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "process_code": {
+                    "type": "string"
+                },
+                "process_key": {
+                    "type": "string"
+                },
+                "retryable": {
+                    "type": "boolean"
+                },
+                "start_node_id": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "suspend_reason": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "urge_count": {
+                    "type": "integer"
+                },
+                "variables": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_workflow_structs.ProcessDesignBody": {
+            "type": "object",
+            "properties": {
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "graph_data": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "is_draft": {
+                    "type": "boolean"
+                },
+                "node_layouts": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "properties": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "source_version": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "validation_rules": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_workflow_structs.ReadDelegation": {
+            "type": "object",
+            "properties": {
+                "conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "delegatee_id": {
+                    "type": "string"
+                },
+                "delegator_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_enabled": {
+                    "type": "boolean"
+                },
+                "node_type": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "string"
+                },
                 "tenant_id": {
                     "type": "string"
                 },
@@ -16452,7 +24488,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadHistory": {
+        "ncobase_workflow_structs.ReadHistory": {
             "type": "object",
             "properties": {
                 "action": {
@@ -16520,132 +24556,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadMedia": {
-            "type": "object",
-            "properties": {
-                "alt": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "number"
-                },
-                "height": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "mime_type": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                },
-                "width": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.ReadMenu": {
-            "type": "object",
-            "properties": {
-                "children": {
-                    "type": "array",
-                    "items": {}
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "hidden": {
-                    "type": "boolean"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "perms": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "target": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadNode": {
+        "ncobase_workflow_structs.ReadNode": {
             "type": "object",
             "properties": {
                 "assignees": {
@@ -16773,121 +24684,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadNotification": {
-            "type": "object",
-            "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
-                "content": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "links": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                    }
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadOptions": {
-            "type": "object",
-            "properties": {
-                "autoload": {
-                    "type": "boolean"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadPermission": {
-            "type": "object",
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "default": {
-                    "type": "boolean"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "subject": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadProcess": {
+        "ncobase_workflow_structs.ReadProcess": {
             "type": "object",
             "properties": {
                 "active_nodes": {
@@ -17009,7 +24806,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadProcessDesign": {
+        "ncobase_workflow_structs.ReadProcessDesign": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -17059,104 +24856,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadRole": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadRoute": {
-            "type": "object",
-            "properties": {
-                "cache_enabled": {
-                    "type": "boolean"
-                },
-                "cache_ttl": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "endpoint_id": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "input_transformer_id": {
-                    "type": "string"
-                },
-                "method": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "output_transformer_id": {
-                    "type": "string"
-                },
-                "path_pattern": {
-                    "type": "string"
-                },
-                "rate_limit": {
-                    "type": "string"
-                },
-                "strip_auth_header": {
-                    "type": "boolean"
-                },
-                "target_path": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadRule": {
+        "ncobase_workflow_structs.ReadRule": {
             "type": "object",
             "properties": {
                 "actions": {
@@ -17227,30 +24927,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadSubscription": {
-            "type": "object",
-            "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadTask": {
+        "ncobase_workflow_structs.ReadTask": {
             "type": "object",
             "properties": {
                 "action": {
@@ -17383,77 +25060,11 @@ const docTemplate = `{
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "weight": {
-                    "$ref": "#/definitions/structs.PriorityStrategy"
+                    "$ref": "#/definitions/ncobase_workflow_structs.PriorityStrategy"
                 }
             }
         },
-        "structs.ReadTaxonomy": {
-            "type": "object",
-            "properties": {
-                "children": {
-                    "type": "array",
-                    "items": {}
-                },
-                "color": {
-                    "type": "string"
-                },
-                "cover": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadTemplate": {
+        "ncobase_workflow_structs.ReadTemplate": {
             "type": "object",
             "properties": {
                 "allow_cancel": {
@@ -17581,355 +25192,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.ReadTenant": {
-            "type": "object",
-            "properties": {
-                "copyright": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "expired_at": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "logo_alt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadTopic": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "content_type": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "excerpt": {
-                    "type": "string"
-                },
-                "excerpt_auto": {
-                    "type": "boolean"
-                },
-                "featured_media": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "markdown": {
-                    "type": "boolean"
-                },
-                "media": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadMedia"
-                    }
-                },
-                "metadata": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "private": {
-                    "type": "boolean"
-                },
-                "released": {
-                    "type": "integer"
-                },
-                "seo_description": {
-                    "type": "string"
-                },
-                "seo_keywords": {
-                    "type": "string"
-                },
-                "seo_title": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "taxonomy": {
-                    "$ref": "#/definitions/structs.ReadTaxonomy"
-                },
-                "taxonomy_id": {
-                    "type": "string"
-                },
-                "temp": {
-                    "type": "boolean"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.ReadTopicMedia": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "media": {
-                    "$ref": "#/definitions/structs.ReadMedia"
-                },
-                "media_id": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "topic_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadTransformer": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "content_type": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadUser": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_admin": {
-                    "type": "boolean"
-                },
-                "is_certified": {
-                    "type": "boolean"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.ReadUserProfile": {
-            "type": "object",
-            "properties": {
-                "about": {
-                    "type": "string"
-                },
-                "display_name": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "links": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                    }
-                },
-                "short_bio": {
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.RefreshTokenBody": {
-            "type": "object",
-            "required": [
-                "refresh_token"
-            ],
-            "properties": {
-                "refresh_token": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.RefundOrderInput": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "number",
-                    "minimum": 0
-                },
-                "reason": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.RegisterBody": {
-            "type": "object",
-            "required": [
-                "display_name",
-                "register_token",
-                "username"
-            ],
-            "properties": {
-                "display_name": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "register_token": {
-                    "type": "string"
-                },
-                "short_bio": {
-                    "type": "string"
-                },
-                "tenant": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.RuleBody": {
+        "ncobase_workflow_structs.RuleBody": {
             "type": "object",
             "properties": {
                 "actions": {
@@ -17985,18 +25248,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.SendCodeBody": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.StartProcessRequest": {
+        "ncobase_workflow_structs.StartProcessRequest": {
             "type": "object",
             "required": [
                 "business_key",
@@ -18036,7 +25288,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.StartProcessResponse": {
+        "ncobase_workflow_structs.StartProcessResponse": {
             "type": "object",
             "properties": {
                 "process_id": {
@@ -18046,14 +25298,14 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "status": {
-                    "$ref": "#/definitions/structs.Status"
+                    "$ref": "#/definitions/ncobase_workflow_structs.Status"
                 },
                 "variables": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 }
             }
         },
-        "structs.Status": {
+        "ncobase_workflow_structs.Status": {
             "type": "string",
             "enum": [
                 "draft",
@@ -18104,93 +25356,7 @@ const docTemplate = `{
                 "StatusError"
             ]
         },
-        "structs.Subscription": {
-            "type": "object",
-            "properties": {
-                "cancel_at": {
-                    "type": "string"
-                },
-                "cancelled_at": {
-                    "type": "string"
-                },
-                "channel_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "current_period_end": {
-                    "type": "string"
-                },
-                "current_period_start": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "product_id": {
-                    "type": "string"
-                },
-                "provider_ref": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.SubscriptionStatus"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "trial_end": {
-                    "type": "string"
-                },
-                "trial_start": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.SubscriptionBody": {
-            "type": "object",
-            "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
-                "status": {
-                    "description": "0: disabled, 1: enabled",
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.SubscriptionStatus": {
-            "type": "string",
-            "enum": [
-                "active",
-                "trialing",
-                "cancelled",
-                "expired",
-                "past_due"
-            ],
-            "x-enum-varnames": [
-                "SubscriptionStatusActive",
-                "SubscriptionStatusTrialing",
-                "SubscriptionStatusCancelled",
-                "SubscriptionStatusExpired",
-                "SubscriptionStatusPastDue"
-            ]
-        },
-        "structs.TaskBody": {
+        "ncobase_workflow_structs.TaskBody": {
             "type": "object",
             "properties": {
                 "action": {
@@ -18308,11 +25474,11 @@ const docTemplate = `{
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "weight": {
-                    "$ref": "#/definitions/structs.PriorityStrategy"
+                    "$ref": "#/definitions/ncobase_workflow_structs.PriorityStrategy"
                 }
             }
         },
-        "structs.TemplateBody": {
+        "ncobase_workflow_structs.TemplateBody": {
             "type": "object",
             "properties": {
                 "allow_cancel": {
@@ -18425,7 +25591,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.TerminateProcessRequest": {
+        "ncobase_workflow_structs.TerminateProcessRequest": {
             "type": "object",
             "required": [
                 "operator",
@@ -18446,7 +25612,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.TransferTaskRequest": {
+        "ncobase_workflow_structs.TransferTaskRequest": {
             "type": "object",
             "required": [
                 "task_id",
@@ -18471,165 +25637,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateChannel": {
-            "type": "object",
-            "properties": {
-                "channel": {
-                    "$ref": "#/definitions/ncobase_core_realtime_structs.ChannelBody"
-                },
-                "id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateChannelBody": {
-            "type": "object",
-            "properties": {
-                "allowed_types": {
-                    "description": "article, video, image, audio, mixed",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "auto_publish": {
-                    "type": "boolean"
-                },
-                "config": {
-                    "description": "API keys, secrets, endpoints, etc.",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                        }
-                    ]
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "require_review": {
-                    "type": "boolean"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "description": "0: active, 1: inactive",
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "description": "website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook, custom",
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "webhook_url": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateChannelInput": {
-            "type": "object",
-            "properties": {
-                "config": {
-                    "$ref": "#/definitions/structs.ProviderConfig"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_default": {
-                    "type": "boolean"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "name": {
-                    "type": "string"
-                },
-                "provider": {
-                    "$ref": "#/definitions/structs.PaymentProvider"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.ChannelStatus"
-                },
-                "supported_types": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.PaymentType"
-                    }
-                },
-                "tenant_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateCounterBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "current_value": {
-                    "type": "integer"
-                },
-                "date_format": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "identifier": {
-                    "type": "string"
-                },
-                "increment_step": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "prefix": {
-                    "type": "string"
-                },
-                "start_value": {
-                    "type": "integer"
-                },
-                "suffix": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateDelegationBody": {
+        "ncobase_workflow_structs.UpdateDelegationBody": {
             "type": "object",
             "properties": {
                 "conditions": {
@@ -18673,342 +25681,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateDictionaryBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateDistributionBody": {
-            "type": "object",
-            "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "custom_data": {
-                    "description": "Custom data for the distribution",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                        }
-                    ]
-                },
-                "error_details": {
-                    "description": "Error details if distribution failed",
-                    "type": "string"
-                },
-                "external_id": {
-                    "description": "ID on the external platform",
-                    "type": "string"
-                },
-                "external_url": {
-                    "description": "URL on the external platform",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "meta_data": {
-                    "description": "Platform-specific data",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                        }
-                    ]
-                },
-                "published_at": {
-                    "type": "integer"
-                },
-                "scheduled_at": {
-                    "type": "integer"
-                },
-                "status": {
-                    "description": "0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled",
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "topic_id": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateFileBody": {
-            "type": "object",
-            "properties": {
-                "access_level": {
-                    "description": "Access level",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/structs.AccessLevel"
-                        }
-                    ]
-                },
-                "bucket": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "endpoint": {
-                    "type": "string"
-                },
-                "expires_at": {
-                    "description": "Expiration timestamp",
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "folder_path": {
-                    "description": "Virtual folder path",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_public": {
-                    "description": "Publicly accessible flag",
-                    "type": "boolean"
-                },
-                "metadata": {
-                    "description": "metadata",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/structs.FileMetadata"
-                        }
-                    ]
-                },
-                "name": {
-                    "type": "string"
-                },
-                "object_id": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "processing_options": {
-                    "description": "Processing options",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/structs.ProcessingOptions"
-                        }
-                    ]
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "storage": {
-                    "type": "string"
-                },
-                "tags": {
-                    "description": "Tags for categorization",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "versions": {
-                    "description": "Previous versions IDs",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "structs.UpdateGroupBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "leader": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateMediaBody": {
-            "type": "object",
-            "properties": {
-                "alt": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "number"
-                },
-                "height": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "mime_type": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "description": "image, video, audio, file",
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                },
-                "width": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.UpdateMenuBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "hidden": {
-                    "type": "boolean"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "perms": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "target": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateNodeBody": {
+        "ncobase_workflow_structs.UpdateNodeBody": {
             "type": "object",
             "properties": {
                 "assignees": {
@@ -19121,41 +25794,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateNotification": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "notification": {
-                    "$ref": "#/definitions/structs.NotificationBody"
-                }
-            }
-        },
-        "structs.UpdateOptionsBody": {
-            "type": "object",
-            "properties": {
-                "autoload": {
-                    "type": "boolean"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateProcessBody": {
+        "ncobase_workflow_structs.UpdateProcessBody": {
             "type": "object",
             "properties": {
                 "active_nodes": {
@@ -19265,7 +25904,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateProcessDesignBody": {
+        "ncobase_workflow_structs.UpdateProcessDesignBody": {
             "type": "object",
             "properties": {
                 "extras": {
@@ -19303,43 +25942,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateProductInput": {
-            "type": "object",
-            "properties": {
-                "billing_interval": {
-                    "$ref": "#/definitions/structs.BillingInterval"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "features": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "id": {
-                    "type": "string"
-                },
-                "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "name": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "status": {
-                    "$ref": "#/definitions/structs.ProductStatus"
-                },
-                "trial_days": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.UpdateRuleBody": {
+        "ncobase_workflow_structs.UpdateRuleBody": {
             "type": "object",
             "properties": {
                 "actions": {
@@ -19398,7 +26001,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateTaskBody": {
+        "ncobase_workflow_structs.UpdateTaskBody": {
             "type": "object",
             "properties": {
                 "action": {
@@ -19519,67 +26122,11 @@ const docTemplate = `{
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "weight": {
-                    "$ref": "#/definitions/structs.PriorityStrategy"
+                    "$ref": "#/definitions/ncobase_workflow_structs.PriorityStrategy"
                 }
             }
         },
-        "structs.UpdateTaxonomyBody": {
-            "type": "object",
-            "properties": {
-                "color": {
-                    "type": "string"
-                },
-                "cover": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateTemplateBody": {
+        "ncobase_workflow_structs.UpdateTemplateBody": {
             "type": "object",
             "properties": {
                 "allow_cancel": {
@@ -19695,147 +26242,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UpdateTenantBody": {
-            "type": "object",
-            "properties": {
-                "copyright": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "expired_at": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "logo_alt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UpdateTopicBody": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "content_type": {
-                    "description": "article, video, etc.",
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "excerpt": {
-                    "type": "string"
-                },
-                "excerpt_auto": {
-                    "type": "boolean"
-                },
-                "featured_media": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "markdown": {
-                    "type": "boolean"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "private": {
-                    "type": "boolean"
-                },
-                "released": {
-                    "type": "integer"
-                },
-                "seo_description": {
-                    "type": "string"
-                },
-                "seo_keywords": {
-                    "type": "string"
-                },
-                "seo_title": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "taxonomy_id": {
-                    "type": "string"
-                },
-                "temp": {
-                    "type": "boolean"
-                },
-                "tenant_id": {
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "integer"
-                }
-            }
-        },
-        "structs.UrgeTaskRequest": {
+        "ncobase_workflow_structs.UrgeTaskRequest": {
             "type": "object",
             "required": [
                 "operator",
@@ -19856,64 +26263,7 @@ const docTemplate = `{
                 }
             }
         },
-        "structs.UserBody": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_admin": {
-                    "type": "boolean"
-                },
-                "is_certified": {
-                    "type": "boolean"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.UserPassword": {
-            "type": "object",
-            "required": [
-                "confirm",
-                "new_password",
-                "user"
-            ],
-            "properties": {
-                "confirm": {
-                    "type": "string"
-                },
-                "new_password": {
-                    "type": "string"
-                },
-                "old_password": {
-                    "type": "string"
-                },
-                "user": {
-                    "type": "string"
-                }
-            }
-        },
-        "structs.WithdrawTaskRequest": {
+        "ncobase_workflow_structs.WithdrawTaskRequest": {
             "type": "object",
             "required": [
                 "operator",

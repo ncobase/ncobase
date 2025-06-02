@@ -12,7 +12,7 @@ type Handler struct {
 	TenantGroup      TenantGroupHandlerInterface
 	TenantMenu       TenantMenuHandlerInterface
 	TenantDictionary TenantDictionaryHandlerInterface
-	TenantOptions    TenantOptionsHandlerInterface
+	TenantOption     TenantOptionHandlerInterface
 }
 
 // New creates a new handler
@@ -26,6 +26,6 @@ func New(svc *service.Service) *Handler {
 		TenantGroup:      NewTenantGroupHandler(svc),
 		TenantMenu:       NewTenantMenuHandler(svc),
 		TenantDictionary: NewTenantDictionaryHandler(svc),
-		TenantOptions:    NewTenantOptionsHandler(svc),
+		TenantOption:     NewTenantOptionHandler(svc),
 	}
 }

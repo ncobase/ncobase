@@ -5,7 +5,6 @@ package ent
 import (
 	"ncobase/space/data/ent/group"
 	"ncobase/space/data/ent/grouprole"
-	"ncobase/space/data/ent/tenantgroup"
 	"ncobase/space/data/ent/usergroup"
 	"ncobase/space/data/schema"
 )
@@ -116,57 +115,6 @@ func init() {
 	grouprole.DefaultID = grouproleDescID.Default.(func() string)
 	// grouprole.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	grouprole.IDValidator = grouproleDescID.Validators[0].(func(string) error)
-	tenantgroupMixin := schema.TenantGroup{}.Mixin()
-	tenantgroupMixinFields0 := tenantgroupMixin[0].Fields()
-	_ = tenantgroupMixinFields0
-	tenantgroupMixinFields1 := tenantgroupMixin[1].Fields()
-	_ = tenantgroupMixinFields1
-	tenantgroupMixinFields2 := tenantgroupMixin[2].Fields()
-	_ = tenantgroupMixinFields2
-	tenantgroupMixinFields3 := tenantgroupMixin[3].Fields()
-	_ = tenantgroupMixinFields3
-	tenantgroupMixinFields4 := tenantgroupMixin[4].Fields()
-	_ = tenantgroupMixinFields4
-	tenantgroupFields := schema.TenantGroup{}.Fields()
-	_ = tenantgroupFields
-	// tenantgroupDescTenantID is the schema descriptor for tenant_id field.
-	tenantgroupDescTenantID := tenantgroupMixinFields1[0].Descriptor()
-	// tenantgroup.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	tenantgroup.TenantIDValidator = tenantgroupDescTenantID.Validators[0].(func(string) error)
-	// tenantgroupDescGroupID is the schema descriptor for group_id field.
-	tenantgroupDescGroupID := tenantgroupMixinFields2[0].Descriptor()
-	// tenantgroup.GroupIDValidator is a validator for the "group_id" field. It is called by the builders before save.
-	tenantgroup.GroupIDValidator = tenantgroupDescGroupID.Validators[0].(func(string) error)
-	// tenantgroupDescCreatedBy is the schema descriptor for created_by field.
-	tenantgroupDescCreatedBy := tenantgroupMixinFields3[0].Descriptor()
-	// tenantgroup.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenantgroup.CreatedByValidator = tenantgroupDescCreatedBy.Validators[0].(func(string) error)
-	// tenantgroupDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantgroupDescUpdatedBy := tenantgroupMixinFields3[1].Descriptor()
-	// tenantgroup.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenantgroup.UpdatedByValidator = tenantgroupDescUpdatedBy.Validators[0].(func(string) error)
-	// tenantgroupDescCreatedAt is the schema descriptor for created_at field.
-	tenantgroupDescCreatedAt := tenantgroupMixinFields4[0].Descriptor()
-	// tenantgroup.DefaultCreatedAt holds the default value on creation for the created_at field.
-	tenantgroup.DefaultCreatedAt = tenantgroupDescCreatedAt.Default.(func() int64)
-	// tenantgroupDescUpdatedAt is the schema descriptor for updated_at field.
-	tenantgroupDescUpdatedAt := tenantgroupMixinFields4[1].Descriptor()
-	// tenantgroup.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	tenantgroup.DefaultUpdatedAt = tenantgroupDescUpdatedAt.Default.(func() int64)
-	// tenantgroup.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	tenantgroup.UpdateDefaultUpdatedAt = tenantgroupDescUpdatedAt.UpdateDefault.(func() int64)
-	// tenantgroupDescRelationType is the schema descriptor for relation_type field.
-	tenantgroupDescRelationType := tenantgroupFields[0].Descriptor()
-	// tenantgroup.DefaultRelationType holds the default value on creation for the relation_type field.
-	tenantgroup.DefaultRelationType = tenantgroupDescRelationType.Default.(string)
-	// tenantgroup.RelationTypeValidator is a validator for the "relation_type" field. It is called by the builders before save.
-	tenantgroup.RelationTypeValidator = tenantgroupDescRelationType.Validators[0].(func(string) error)
-	// tenantgroupDescID is the schema descriptor for id field.
-	tenantgroupDescID := tenantgroupMixinFields0[0].Descriptor()
-	// tenantgroup.DefaultID holds the default value on creation for the id field.
-	tenantgroup.DefaultID = tenantgroupDescID.Default.(func() string)
-	// tenantgroup.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	tenantgroup.IDValidator = tenantgroupDescID.Validators[0].(func(string) error)
 	usergroupMixin := schema.UserGroup{}.Mixin()
 	usergroupMixinFields0 := usergroupMixin[0].Fields()
 	_ = usergroupMixinFields0

@@ -33,7 +33,7 @@ func NewRolePermissionHandler(svc *service.Service) RolePermissionHandlerInterfa
 // @Tags sys
 // @Produce json
 // @Param slug path string true "Role ID"
-// @Success 200 {array} structs.ReadPermission "success"
+// @Success 200 {array} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/roles/{slug}/permissions [get]
 // @Security Bearer

@@ -16,7 +16,7 @@ import (
 	"ncobase/tenant/data/ent/tenantdictionary"
 	"ncobase/tenant/data/ent/tenantgroup"
 	"ncobase/tenant/data/ent/tenantmenu"
-	"ncobase/tenant/data/ent/tenantoptions"
+	"ncobase/tenant/data/ent/tenantoption"
 	"ncobase/tenant/data/ent/tenantquota"
 	"ncobase/tenant/data/ent/tenantsetting"
 	"ncobase/tenant/data/ent/usertenant"
@@ -42,8 +42,8 @@ type Client struct {
 	TenantGroup *TenantGroupClient
 	// TenantMenu is the client for interacting with the TenantMenu builders.
 	TenantMenu *TenantMenuClient
-	// TenantOptions is the client for interacting with the TenantOptions builders.
-	TenantOptions *TenantOptionsClient
+	// TenantOption is the client for interacting with the TenantOption builders.
+	TenantOption *TenantOptionClient
 	// TenantQuota is the client for interacting with the TenantQuota builders.
 	TenantQuota *TenantQuotaClient
 	// TenantSetting is the client for interacting with the TenantSetting builders.
@@ -68,7 +68,7 @@ func (c *Client) init() {
 	c.TenantDictionary = NewTenantDictionaryClient(c.config)
 	c.TenantGroup = NewTenantGroupClient(c.config)
 	c.TenantMenu = NewTenantMenuClient(c.config)
-	c.TenantOptions = NewTenantOptionsClient(c.config)
+	c.TenantOption = NewTenantOptionClient(c.config)
 	c.TenantQuota = NewTenantQuotaClient(c.config)
 	c.TenantSetting = NewTenantSettingClient(c.config)
 	c.UserTenant = NewUserTenantClient(c.config)
@@ -170,7 +170,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		TenantDictionary: NewTenantDictionaryClient(cfg),
 		TenantGroup:      NewTenantGroupClient(cfg),
 		TenantMenu:       NewTenantMenuClient(cfg),
-		TenantOptions:    NewTenantOptionsClient(cfg),
+		TenantOption:     NewTenantOptionClient(cfg),
 		TenantQuota:      NewTenantQuotaClient(cfg),
 		TenantSetting:    NewTenantSettingClient(cfg),
 		UserTenant:       NewUserTenantClient(cfg),
@@ -199,7 +199,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		TenantDictionary: NewTenantDictionaryClient(cfg),
 		TenantGroup:      NewTenantGroupClient(cfg),
 		TenantMenu:       NewTenantMenuClient(cfg),
-		TenantOptions:    NewTenantOptionsClient(cfg),
+		TenantOption:     NewTenantOptionClient(cfg),
 		TenantQuota:      NewTenantQuotaClient(cfg),
 		TenantSetting:    NewTenantSettingClient(cfg),
 		UserTenant:       NewUserTenantClient(cfg),
@@ -234,8 +234,7 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.Tenant, c.TenantBilling, c.TenantDictionary, c.TenantGroup, c.TenantMenu,
-		c.TenantOptions, c.TenantQuota, c.TenantSetting, c.UserTenant,
-		c.UserTenantRole,
+		c.TenantOption, c.TenantQuota, c.TenantSetting, c.UserTenant, c.UserTenantRole,
 	} {
 		n.Use(hooks...)
 	}
@@ -246,8 +245,7 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.Tenant, c.TenantBilling, c.TenantDictionary, c.TenantGroup, c.TenantMenu,
-		c.TenantOptions, c.TenantQuota, c.TenantSetting, c.UserTenant,
-		c.UserTenantRole,
+		c.TenantOption, c.TenantQuota, c.TenantSetting, c.UserTenant, c.UserTenantRole,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -266,8 +264,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.TenantGroup.mutate(ctx, m)
 	case *TenantMenuMutation:
 		return c.TenantMenu.mutate(ctx, m)
-	case *TenantOptionsMutation:
-		return c.TenantOptions.mutate(ctx, m)
+	case *TenantOptionMutation:
+		return c.TenantOption.mutate(ctx, m)
 	case *TenantQuotaMutation:
 		return c.TenantQuota.mutate(ctx, m)
 	case *TenantSettingMutation:
@@ -946,107 +944,107 @@ func (c *TenantMenuClient) mutate(ctx context.Context, m *TenantMenuMutation) (V
 	}
 }
 
-// TenantOptionsClient is a client for the TenantOptions schema.
-type TenantOptionsClient struct {
+// TenantOptionClient is a client for the TenantOption schema.
+type TenantOptionClient struct {
 	config
 }
 
-// NewTenantOptionsClient returns a client for the TenantOptions from the given config.
-func NewTenantOptionsClient(c config) *TenantOptionsClient {
-	return &TenantOptionsClient{config: c}
+// NewTenantOptionClient returns a client for the TenantOption from the given config.
+func NewTenantOptionClient(c config) *TenantOptionClient {
+	return &TenantOptionClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `tenantoptions.Hooks(f(g(h())))`.
-func (c *TenantOptionsClient) Use(hooks ...Hook) {
-	c.hooks.TenantOptions = append(c.hooks.TenantOptions, hooks...)
+// A call to `Use(f, g, h)` equals to `tenantoption.Hooks(f(g(h())))`.
+func (c *TenantOptionClient) Use(hooks ...Hook) {
+	c.hooks.TenantOption = append(c.hooks.TenantOption, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `tenantoptions.Intercept(f(g(h())))`.
-func (c *TenantOptionsClient) Intercept(interceptors ...Interceptor) {
-	c.inters.TenantOptions = append(c.inters.TenantOptions, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `tenantoption.Intercept(f(g(h())))`.
+func (c *TenantOptionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.TenantOption = append(c.inters.TenantOption, interceptors...)
 }
 
-// Create returns a builder for creating a TenantOptions entity.
-func (c *TenantOptionsClient) Create() *TenantOptionsCreate {
-	mutation := newTenantOptionsMutation(c.config, OpCreate)
-	return &TenantOptionsCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a TenantOption entity.
+func (c *TenantOptionClient) Create() *TenantOptionCreate {
+	mutation := newTenantOptionMutation(c.config, OpCreate)
+	return &TenantOptionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of TenantOptions entities.
-func (c *TenantOptionsClient) CreateBulk(builders ...*TenantOptionsCreate) *TenantOptionsCreateBulk {
-	return &TenantOptionsCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of TenantOption entities.
+func (c *TenantOptionClient) CreateBulk(builders ...*TenantOptionCreate) *TenantOptionCreateBulk {
+	return &TenantOptionCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *TenantOptionsClient) MapCreateBulk(slice any, setFunc func(*TenantOptionsCreate, int)) *TenantOptionsCreateBulk {
+func (c *TenantOptionClient) MapCreateBulk(slice any, setFunc func(*TenantOptionCreate, int)) *TenantOptionCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &TenantOptionsCreateBulk{err: fmt.Errorf("calling to TenantOptionsClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &TenantOptionCreateBulk{err: fmt.Errorf("calling to TenantOptionClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*TenantOptionsCreate, rv.Len())
+	builders := make([]*TenantOptionCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &TenantOptionsCreateBulk{config: c.config, builders: builders}
+	return &TenantOptionCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for TenantOptions.
-func (c *TenantOptionsClient) Update() *TenantOptionsUpdate {
-	mutation := newTenantOptionsMutation(c.config, OpUpdate)
-	return &TenantOptionsUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for TenantOption.
+func (c *TenantOptionClient) Update() *TenantOptionUpdate {
+	mutation := newTenantOptionMutation(c.config, OpUpdate)
+	return &TenantOptionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *TenantOptionsClient) UpdateOne(to *TenantOptions) *TenantOptionsUpdateOne {
-	mutation := newTenantOptionsMutation(c.config, OpUpdateOne, withTenantOptions(to))
-	return &TenantOptionsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *TenantOptionClient) UpdateOne(to *TenantOption) *TenantOptionUpdateOne {
+	mutation := newTenantOptionMutation(c.config, OpUpdateOne, withTenantOption(to))
+	return &TenantOptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *TenantOptionsClient) UpdateOneID(id string) *TenantOptionsUpdateOne {
-	mutation := newTenantOptionsMutation(c.config, OpUpdateOne, withTenantOptionsID(id))
-	return &TenantOptionsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *TenantOptionClient) UpdateOneID(id string) *TenantOptionUpdateOne {
+	mutation := newTenantOptionMutation(c.config, OpUpdateOne, withTenantOptionID(id))
+	return &TenantOptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for TenantOptions.
-func (c *TenantOptionsClient) Delete() *TenantOptionsDelete {
-	mutation := newTenantOptionsMutation(c.config, OpDelete)
-	return &TenantOptionsDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for TenantOption.
+func (c *TenantOptionClient) Delete() *TenantOptionDelete {
+	mutation := newTenantOptionMutation(c.config, OpDelete)
+	return &TenantOptionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *TenantOptionsClient) DeleteOne(to *TenantOptions) *TenantOptionsDeleteOne {
+func (c *TenantOptionClient) DeleteOne(to *TenantOption) *TenantOptionDeleteOne {
 	return c.DeleteOneID(to.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *TenantOptionsClient) DeleteOneID(id string) *TenantOptionsDeleteOne {
-	builder := c.Delete().Where(tenantoptions.ID(id))
+func (c *TenantOptionClient) DeleteOneID(id string) *TenantOptionDeleteOne {
+	builder := c.Delete().Where(tenantoption.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &TenantOptionsDeleteOne{builder}
+	return &TenantOptionDeleteOne{builder}
 }
 
-// Query returns a query builder for TenantOptions.
-func (c *TenantOptionsClient) Query() *TenantOptionsQuery {
-	return &TenantOptionsQuery{
+// Query returns a query builder for TenantOption.
+func (c *TenantOptionClient) Query() *TenantOptionQuery {
+	return &TenantOptionQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeTenantOptions},
+		ctx:    &QueryContext{Type: TypeTenantOption},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a TenantOptions entity by its id.
-func (c *TenantOptionsClient) Get(ctx context.Context, id string) (*TenantOptions, error) {
-	return c.Query().Where(tenantoptions.ID(id)).Only(ctx)
+// Get returns a TenantOption entity by its id.
+func (c *TenantOptionClient) Get(ctx context.Context, id string) (*TenantOption, error) {
+	return c.Query().Where(tenantoption.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *TenantOptionsClient) GetX(ctx context.Context, id string) *TenantOptions {
+func (c *TenantOptionClient) GetX(ctx context.Context, id string) *TenantOption {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -1055,27 +1053,27 @@ func (c *TenantOptionsClient) GetX(ctx context.Context, id string) *TenantOption
 }
 
 // Hooks returns the client hooks.
-func (c *TenantOptionsClient) Hooks() []Hook {
-	return c.hooks.TenantOptions
+func (c *TenantOptionClient) Hooks() []Hook {
+	return c.hooks.TenantOption
 }
 
 // Interceptors returns the client interceptors.
-func (c *TenantOptionsClient) Interceptors() []Interceptor {
-	return c.inters.TenantOptions
+func (c *TenantOptionClient) Interceptors() []Interceptor {
+	return c.inters.TenantOption
 }
 
-func (c *TenantOptionsClient) mutate(ctx context.Context, m *TenantOptionsMutation) (Value, error) {
+func (c *TenantOptionClient) mutate(ctx context.Context, m *TenantOptionMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&TenantOptionsCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&TenantOptionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&TenantOptionsUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&TenantOptionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&TenantOptionsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&TenantOptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&TenantOptionsDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&TenantOptionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown TenantOptions mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown TenantOption mutation op: %q", m.Op())
 	}
 }
 
@@ -1614,11 +1612,11 @@ func (c *UserTenantRoleClient) mutate(ctx context.Context, m *UserTenantRoleMuta
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Tenant, TenantBilling, TenantDictionary, TenantGroup, TenantMenu, TenantOptions,
+		Tenant, TenantBilling, TenantDictionary, TenantGroup, TenantMenu, TenantOption,
 		TenantQuota, TenantSetting, UserTenant, UserTenantRole []ent.Hook
 	}
 	inters struct {
-		Tenant, TenantBilling, TenantDictionary, TenantGroup, TenantMenu, TenantOptions,
+		Tenant, TenantBilling, TenantDictionary, TenantGroup, TenantMenu, TenantOption,
 		TenantQuota, TenantSetting, UserTenant, UserTenantRole []ent.Interceptor
 	}
 )

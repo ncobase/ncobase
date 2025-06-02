@@ -24,7 +24,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the grouprole in the database.
-	Table = "ncse_org_group_role"
+	Table = "ncse_sys_group_role"
 )
 
 // Columns holds all SQL columns for grouprole fields.

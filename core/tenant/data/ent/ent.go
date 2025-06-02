@@ -11,7 +11,7 @@ import (
 	"ncobase/tenant/data/ent/tenantdictionary"
 	"ncobase/tenant/data/ent/tenantgroup"
 	"ncobase/tenant/data/ent/tenantmenu"
-	"ncobase/tenant/data/ent/tenantoptions"
+	"ncobase/tenant/data/ent/tenantoption"
 	"ncobase/tenant/data/ent/tenantquota"
 	"ncobase/tenant/data/ent/tenantsetting"
 	"ncobase/tenant/data/ent/usertenant"
@@ -87,7 +87,7 @@ func checkColumn(table, column string) error {
 			tenantdictionary.Table: tenantdictionary.ValidColumn,
 			tenantgroup.Table:      tenantgroup.ValidColumn,
 			tenantmenu.Table:       tenantmenu.ValidColumn,
-			tenantoptions.Table:    tenantoptions.ValidColumn,
+			tenantoption.Table:     tenantoption.ValidColumn,
 			tenantquota.Table:      tenantquota.ValidColumn,
 			tenantsetting.Table:    tenantsetting.ValidColumn,
 			usertenant.Table:       usertenant.ValidColumn,

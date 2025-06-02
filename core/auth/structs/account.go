@@ -76,3 +76,9 @@ type AccountMeshes struct {
 	IsAdmin     bool                         `json:"is_admin,omitempty"`
 	TenantID    string                       `json:"tenant_id,omitempty"`
 }
+
+// UserPassword represents the user password schema
+type UserPassword = userStructs.UserPassword
+
+// ReadTenant represents the tenant schema
+type ReadTenant = tenantStructs.ReadTenant

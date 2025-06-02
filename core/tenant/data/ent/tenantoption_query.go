@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"math"
 	"ncobase/tenant/data/ent/predicate"
-	"ncobase/tenant/data/ent/tenantoptions"
+	"ncobase/tenant/data/ent/tenantoption"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -15,64 +15,64 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// TenantOptionsQuery is the builder for querying TenantOptions entities.
-type TenantOptionsQuery struct {
+// TenantOptionQuery is the builder for querying TenantOption entities.
+type TenantOptionQuery struct {
 	config
 	ctx        *QueryContext
-	order      []tenantoptions.OrderOption
+	order      []tenantoption.OrderOption
 	inters     []Interceptor
-	predicates []predicate.TenantOptions
+	predicates []predicate.TenantOption
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
 }
 
-// Where adds a new predicate for the TenantOptionsQuery builder.
-func (toq *TenantOptionsQuery) Where(ps ...predicate.TenantOptions) *TenantOptionsQuery {
+// Where adds a new predicate for the TenantOptionQuery builder.
+func (toq *TenantOptionQuery) Where(ps ...predicate.TenantOption) *TenantOptionQuery {
 	toq.predicates = append(toq.predicates, ps...)
 	return toq
 }
 
 // Limit the number of records to be returned by this query.
-func (toq *TenantOptionsQuery) Limit(limit int) *TenantOptionsQuery {
+func (toq *TenantOptionQuery) Limit(limit int) *TenantOptionQuery {
 	toq.ctx.Limit = &limit
 	return toq
 }
 
 // Offset to start from.
-func (toq *TenantOptionsQuery) Offset(offset int) *TenantOptionsQuery {
+func (toq *TenantOptionQuery) Offset(offset int) *TenantOptionQuery {
 	toq.ctx.Offset = &offset
 	return toq
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (toq *TenantOptionsQuery) Unique(unique bool) *TenantOptionsQuery {
+func (toq *TenantOptionQuery) Unique(unique bool) *TenantOptionQuery {
 	toq.ctx.Unique = &unique
 	return toq
 }
 
 // Order specifies how the records should be ordered.
-func (toq *TenantOptionsQuery) Order(o ...tenantoptions.OrderOption) *TenantOptionsQuery {
+func (toq *TenantOptionQuery) Order(o ...tenantoption.OrderOption) *TenantOptionQuery {
 	toq.order = append(toq.order, o...)
 	return toq
 }
 
-// First returns the first TenantOptions entity from the query.
-// Returns a *NotFoundError when no TenantOptions was found.
-func (toq *TenantOptionsQuery) First(ctx context.Context) (*TenantOptions, error) {
+// First returns the first TenantOption entity from the query.
+// Returns a *NotFoundError when no TenantOption was found.
+func (toq *TenantOptionQuery) First(ctx context.Context) (*TenantOption, error) {
 	nodes, err := toq.Limit(1).All(setContextOp(ctx, toq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
-		return nil, &NotFoundError{tenantoptions.Label}
+		return nil, &NotFoundError{tenantoption.Label}
 	}
 	return nodes[0], nil
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (toq *TenantOptionsQuery) FirstX(ctx context.Context) *TenantOptions {
+func (toq *TenantOptionQuery) FirstX(ctx context.Context) *TenantOption {
 	node, err := toq.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -80,22 +80,22 @@ func (toq *TenantOptionsQuery) FirstX(ctx context.Context) *TenantOptions {
 	return node
 }
 
-// FirstID returns the first TenantOptions ID from the query.
-// Returns a *NotFoundError when no TenantOptions ID was found.
-func (toq *TenantOptionsQuery) FirstID(ctx context.Context) (id string, err error) {
+// FirstID returns the first TenantOption ID from the query.
+// Returns a *NotFoundError when no TenantOption ID was found.
+func (toq *TenantOptionQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
 	if ids, err = toq.Limit(1).IDs(setContextOp(ctx, toq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
-		err = &NotFoundError{tenantoptions.Label}
+		err = &NotFoundError{tenantoption.Label}
 		return
 	}
 	return ids[0], nil
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (toq *TenantOptionsQuery) FirstIDX(ctx context.Context) string {
+func (toq *TenantOptionQuery) FirstIDX(ctx context.Context) string {
 	id, err := toq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -103,10 +103,10 @@ func (toq *TenantOptionsQuery) FirstIDX(ctx context.Context) string {
 	return id
 }
 
-// Only returns a single TenantOptions entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when more than one TenantOptions entity is found.
-// Returns a *NotFoundError when no TenantOptions entities are found.
-func (toq *TenantOptionsQuery) Only(ctx context.Context) (*TenantOptions, error) {
+// Only returns a single TenantOption entity found by the query, ensuring it only returns one.
+// Returns a *NotSingularError when more than one TenantOption entity is found.
+// Returns a *NotFoundError when no TenantOption entities are found.
+func (toq *TenantOptionQuery) Only(ctx context.Context) (*TenantOption, error) {
 	nodes, err := toq.Limit(2).All(setContextOp(ctx, toq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
@@ -115,14 +115,14 @@ func (toq *TenantOptionsQuery) Only(ctx context.Context) (*TenantOptions, error)
 	case 1:
 		return nodes[0], nil
 	case 0:
-		return nil, &NotFoundError{tenantoptions.Label}
+		return nil, &NotFoundError{tenantoption.Label}
 	default:
-		return nil, &NotSingularError{tenantoptions.Label}
+		return nil, &NotSingularError{tenantoption.Label}
 	}
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (toq *TenantOptionsQuery) OnlyX(ctx context.Context) *TenantOptions {
+func (toq *TenantOptionQuery) OnlyX(ctx context.Context) *TenantOption {
 	node, err := toq.Only(ctx)
 	if err != nil {
 		panic(err)
@@ -130,10 +130,10 @@ func (toq *TenantOptionsQuery) OnlyX(ctx context.Context) *TenantOptions {
 	return node
 }
 
-// OnlyID is like Only, but returns the only TenantOptions ID in the query.
-// Returns a *NotSingularError when more than one TenantOptions ID is found.
+// OnlyID is like Only, but returns the only TenantOption ID in the query.
+// Returns a *NotSingularError when more than one TenantOption ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (toq *TenantOptionsQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (toq *TenantOptionQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
 	if ids, err = toq.Limit(2).IDs(setContextOp(ctx, toq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
@@ -142,15 +142,15 @@ func (toq *TenantOptionsQuery) OnlyID(ctx context.Context) (id string, err error
 	case 1:
 		id = ids[0]
 	case 0:
-		err = &NotFoundError{tenantoptions.Label}
+		err = &NotFoundError{tenantoption.Label}
 	default:
-		err = &NotSingularError{tenantoptions.Label}
+		err = &NotSingularError{tenantoption.Label}
 	}
 	return
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (toq *TenantOptionsQuery) OnlyIDX(ctx context.Context) string {
+func (toq *TenantOptionQuery) OnlyIDX(ctx context.Context) string {
 	id, err := toq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -158,18 +158,18 @@ func (toq *TenantOptionsQuery) OnlyIDX(ctx context.Context) string {
 	return id
 }
 
-// All executes the query and returns a list of TenantOptionsSlice.
-func (toq *TenantOptionsQuery) All(ctx context.Context) ([]*TenantOptions, error) {
+// All executes the query and returns a list of TenantOptions.
+func (toq *TenantOptionQuery) All(ctx context.Context) ([]*TenantOption, error) {
 	ctx = setContextOp(ctx, toq.ctx, ent.OpQueryAll)
 	if err := toq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
-	qr := querierAll[[]*TenantOptions, *TenantOptionsQuery]()
-	return withInterceptors[[]*TenantOptions](ctx, toq, qr, toq.inters)
+	qr := querierAll[[]*TenantOption, *TenantOptionQuery]()
+	return withInterceptors[[]*TenantOption](ctx, toq, qr, toq.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (toq *TenantOptionsQuery) AllX(ctx context.Context) []*TenantOptions {
+func (toq *TenantOptionQuery) AllX(ctx context.Context) []*TenantOption {
 	nodes, err := toq.All(ctx)
 	if err != nil {
 		panic(err)
@@ -177,20 +177,20 @@ func (toq *TenantOptionsQuery) AllX(ctx context.Context) []*TenantOptions {
 	return nodes
 }
 
-// IDs executes the query and returns a list of TenantOptions IDs.
-func (toq *TenantOptionsQuery) IDs(ctx context.Context) (ids []string, err error) {
+// IDs executes the query and returns a list of TenantOption IDs.
+func (toq *TenantOptionQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if toq.ctx.Unique == nil && toq.path != nil {
 		toq.Unique(true)
 	}
 	ctx = setContextOp(ctx, toq.ctx, ent.OpQueryIDs)
-	if err = toq.Select(tenantoptions.FieldID).Scan(ctx, &ids); err != nil {
+	if err = toq.Select(tenantoption.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (toq *TenantOptionsQuery) IDsX(ctx context.Context) []string {
+func (toq *TenantOptionQuery) IDsX(ctx context.Context) []string {
 	ids, err := toq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -199,16 +199,16 @@ func (toq *TenantOptionsQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (toq *TenantOptionsQuery) Count(ctx context.Context) (int, error) {
+func (toq *TenantOptionQuery) Count(ctx context.Context) (int, error) {
 	ctx = setContextOp(ctx, toq.ctx, ent.OpQueryCount)
 	if err := toq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, toq, querierCount[*TenantOptionsQuery](), toq.inters)
+	return withInterceptors[int](ctx, toq, querierCount[*TenantOptionQuery](), toq.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (toq *TenantOptionsQuery) CountX(ctx context.Context) int {
+func (toq *TenantOptionQuery) CountX(ctx context.Context) int {
 	count, err := toq.Count(ctx)
 	if err != nil {
 		panic(err)
@@ -217,7 +217,7 @@ func (toq *TenantOptionsQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (toq *TenantOptionsQuery) Exist(ctx context.Context) (bool, error) {
+func (toq *TenantOptionQuery) Exist(ctx context.Context) (bool, error) {
 	ctx = setContextOp(ctx, toq.ctx, ent.OpQueryExist)
 	switch _, err := toq.FirstID(ctx); {
 	case IsNotFound(err):
@@ -230,7 +230,7 @@ func (toq *TenantOptionsQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (toq *TenantOptionsQuery) ExistX(ctx context.Context) bool {
+func (toq *TenantOptionQuery) ExistX(ctx context.Context) bool {
 	exist, err := toq.Exist(ctx)
 	if err != nil {
 		panic(err)
@@ -238,18 +238,18 @@ func (toq *TenantOptionsQuery) ExistX(ctx context.Context) bool {
 	return exist
 }
 
-// Clone returns a duplicate of the TenantOptionsQuery builder, including all associated steps. It can be
+// Clone returns a duplicate of the TenantOptionQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (toq *TenantOptionsQuery) Clone() *TenantOptionsQuery {
+func (toq *TenantOptionQuery) Clone() *TenantOptionQuery {
 	if toq == nil {
 		return nil
 	}
-	return &TenantOptionsQuery{
+	return &TenantOptionQuery{
 		config:     toq.config,
 		ctx:        toq.ctx.Clone(),
-		order:      append([]tenantoptions.OrderOption{}, toq.order...),
+		order:      append([]tenantoption.OrderOption{}, toq.order...),
 		inters:     append([]Interceptor{}, toq.inters...),
-		predicates: append([]predicate.TenantOptions{}, toq.predicates...),
+		predicates: append([]predicate.TenantOption{}, toq.predicates...),
 		// clone intermediate query.
 		sql:  toq.sql.Clone(),
 		path: toq.path,
@@ -266,15 +266,15 @@ func (toq *TenantOptionsQuery) Clone() *TenantOptionsQuery {
 //		Count int `json:"count,omitempty"`
 //	}
 //
-//	client.TenantOptions.Query().
-//		GroupBy(tenantoptions.FieldTenantID).
+//	client.TenantOption.Query().
+//		GroupBy(tenantoption.FieldTenantID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (toq *TenantOptionsQuery) GroupBy(field string, fields ...string) *TenantOptionsGroupBy {
+func (toq *TenantOptionQuery) GroupBy(field string, fields ...string) *TenantOptionGroupBy {
 	toq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &TenantOptionsGroupBy{build: toq}
+	grbuild := &TenantOptionGroupBy{build: toq}
 	grbuild.flds = &toq.ctx.Fields
-	grbuild.label = tenantoptions.Label
+	grbuild.label = tenantoption.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
 }
@@ -288,23 +288,23 @@ func (toq *TenantOptionsQuery) GroupBy(field string, fields ...string) *TenantOp
 //		TenantID string `json:"tenant_id,omitempty"`
 //	}
 //
-//	client.TenantOptions.Query().
-//		Select(tenantoptions.FieldTenantID).
+//	client.TenantOption.Query().
+//		Select(tenantoption.FieldTenantID).
 //		Scan(ctx, &v)
-func (toq *TenantOptionsQuery) Select(fields ...string) *TenantOptionsSelect {
+func (toq *TenantOptionQuery) Select(fields ...string) *TenantOptionSelect {
 	toq.ctx.Fields = append(toq.ctx.Fields, fields...)
-	sbuild := &TenantOptionsSelect{TenantOptionsQuery: toq}
-	sbuild.label = tenantoptions.Label
+	sbuild := &TenantOptionSelect{TenantOptionQuery: toq}
+	sbuild.label = tenantoption.Label
 	sbuild.flds, sbuild.scan = &toq.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
-// Aggregate returns a TenantOptionsSelect configured with the given aggregations.
-func (toq *TenantOptionsQuery) Aggregate(fns ...AggregateFunc) *TenantOptionsSelect {
+// Aggregate returns a TenantOptionSelect configured with the given aggregations.
+func (toq *TenantOptionQuery) Aggregate(fns ...AggregateFunc) *TenantOptionSelect {
 	return toq.Select().Aggregate(fns...)
 }
 
-func (toq *TenantOptionsQuery) prepareQuery(ctx context.Context) error {
+func (toq *TenantOptionQuery) prepareQuery(ctx context.Context) error {
 	for _, inter := range toq.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
@@ -316,7 +316,7 @@ func (toq *TenantOptionsQuery) prepareQuery(ctx context.Context) error {
 		}
 	}
 	for _, f := range toq.ctx.Fields {
-		if !tenantoptions.ValidColumn(f) {
+		if !tenantoption.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
@@ -330,16 +330,16 @@ func (toq *TenantOptionsQuery) prepareQuery(ctx context.Context) error {
 	return nil
 }
 
-func (toq *TenantOptionsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*TenantOptions, error) {
+func (toq *TenantOptionQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*TenantOption, error) {
 	var (
-		nodes = []*TenantOptions{}
+		nodes = []*TenantOption{}
 		_spec = toq.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
-		return (*TenantOptions).scanValues(nil, columns)
+		return (*TenantOption).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &TenantOptions{config: toq.config}
+		node := &TenantOption{config: toq.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
@@ -355,7 +355,7 @@ func (toq *TenantOptionsQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	return nodes, nil
 }
 
-func (toq *TenantOptionsQuery) sqlCount(ctx context.Context) (int, error) {
+func (toq *TenantOptionQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := toq.querySpec()
 	_spec.Node.Columns = toq.ctx.Fields
 	if len(toq.ctx.Fields) > 0 {
@@ -364,8 +364,8 @@ func (toq *TenantOptionsQuery) sqlCount(ctx context.Context) (int, error) {
 	return sqlgraph.CountNodes(ctx, toq.driver, _spec)
 }
 
-func (toq *TenantOptionsQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(tenantoptions.Table, tenantoptions.Columns, sqlgraph.NewFieldSpec(tenantoptions.FieldID, field.TypeString))
+func (toq *TenantOptionQuery) querySpec() *sqlgraph.QuerySpec {
+	_spec := sqlgraph.NewQuerySpec(tenantoption.Table, tenantoption.Columns, sqlgraph.NewFieldSpec(tenantoption.FieldID, field.TypeString))
 	_spec.From = toq.sql
 	if unique := toq.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
@@ -374,9 +374,9 @@ func (toq *TenantOptionsQuery) querySpec() *sqlgraph.QuerySpec {
 	}
 	if fields := toq.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
-		_spec.Node.Columns = append(_spec.Node.Columns, tenantoptions.FieldID)
+		_spec.Node.Columns = append(_spec.Node.Columns, tenantoption.FieldID)
 		for i := range fields {
-			if fields[i] != tenantoptions.FieldID {
+			if fields[i] != tenantoption.FieldID {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
 		}
@@ -404,12 +404,12 @@ func (toq *TenantOptionsQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (toq *TenantOptionsQuery) sqlQuery(ctx context.Context) *sql.Selector {
+func (toq *TenantOptionQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	builder := sql.Dialect(toq.driver.Dialect())
-	t1 := builder.Table(tenantoptions.Table)
+	t1 := builder.Table(tenantoption.Table)
 	columns := toq.ctx.Fields
 	if len(columns) == 0 {
-		columns = tenantoptions.Columns
+		columns = tenantoption.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
 	if toq.sql != nil {
@@ -436,28 +436,28 @@ func (toq *TenantOptionsQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
-// TenantOptionsGroupBy is the group-by builder for TenantOptions entities.
-type TenantOptionsGroupBy struct {
+// TenantOptionGroupBy is the group-by builder for TenantOption entities.
+type TenantOptionGroupBy struct {
 	selector
-	build *TenantOptionsQuery
+	build *TenantOptionQuery
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (togb *TenantOptionsGroupBy) Aggregate(fns ...AggregateFunc) *TenantOptionsGroupBy {
+func (togb *TenantOptionGroupBy) Aggregate(fns ...AggregateFunc) *TenantOptionGroupBy {
 	togb.fns = append(togb.fns, fns...)
 	return togb
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (togb *TenantOptionsGroupBy) Scan(ctx context.Context, v any) error {
+func (togb *TenantOptionGroupBy) Scan(ctx context.Context, v any) error {
 	ctx = setContextOp(ctx, togb.build.ctx, ent.OpQueryGroupBy)
 	if err := togb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*TenantOptionsQuery, *TenantOptionsGroupBy](ctx, togb.build, togb, togb.build.inters, v)
+	return scanWithInterceptors[*TenantOptionQuery, *TenantOptionGroupBy](ctx, togb.build, togb, togb.build.inters, v)
 }
 
-func (togb *TenantOptionsGroupBy) sqlScan(ctx context.Context, root *TenantOptionsQuery, v any) error {
+func (togb *TenantOptionGroupBy) sqlScan(ctx context.Context, root *TenantOptionQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
 	aggregation := make([]string, 0, len(togb.fns))
 	for _, fn := range togb.fns {
@@ -484,28 +484,28 @@ func (togb *TenantOptionsGroupBy) sqlScan(ctx context.Context, root *TenantOptio
 	return sql.ScanSlice(rows, v)
 }
 
-// TenantOptionsSelect is the builder for selecting fields of TenantOptions entities.
-type TenantOptionsSelect struct {
-	*TenantOptionsQuery
+// TenantOptionSelect is the builder for selecting fields of TenantOption entities.
+type TenantOptionSelect struct {
+	*TenantOptionQuery
 	selector
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (tos *TenantOptionsSelect) Aggregate(fns ...AggregateFunc) *TenantOptionsSelect {
+func (tos *TenantOptionSelect) Aggregate(fns ...AggregateFunc) *TenantOptionSelect {
 	tos.fns = append(tos.fns, fns...)
 	return tos
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (tos *TenantOptionsSelect) Scan(ctx context.Context, v any) error {
+func (tos *TenantOptionSelect) Scan(ctx context.Context, v any) error {
 	ctx = setContextOp(ctx, tos.ctx, ent.OpQuerySelect)
 	if err := tos.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*TenantOptionsQuery, *TenantOptionsSelect](ctx, tos.TenantOptionsQuery, tos, tos.inters, v)
+	return scanWithInterceptors[*TenantOptionQuery, *TenantOptionSelect](ctx, tos.TenantOptionQuery, tos, tos.inters, v)
 }
 
-func (tos *TenantOptionsSelect) sqlScan(ctx context.Context, root *TenantOptionsQuery, v any) error {
+func (tos *TenantOptionSelect) sqlScan(ctx context.Context, root *TenantOptionQuery, v any) error {
 	selector := root.sqlQuery(ctx)
 	aggregation := make([]string, 0, len(tos.fns))
 	for _, fn := range tos.fns {

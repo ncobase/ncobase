@@ -78,7 +78,7 @@ func (h *tenantMenuHandler) AddMenuToTenant(c *gin.Context) {
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param menuId path string true "Menu ID"
-// @Success 200 {object} resp.Success "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/menus/{menuId} [delete]
 // @Security Bearer

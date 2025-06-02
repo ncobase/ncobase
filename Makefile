@@ -210,7 +210,7 @@ swagger:
 		echo "Error: swag is required but not installed. Run 'make install' first."; \
 		exit 1; \
 	fi
-	@swag init --parseDependency --parseInternal --parseDepth 1 -g $(CMD_PATH)/main.go -o ./docs/swagger || \
+	@swag init --parseDependency --parseInternal -g $(CMD_PATH)/main.go -o ./docs/swagger || \
 		(echo "Error: Failed to generate Swagger documentation" && exit 1)
 	@echo "✓ Swagger documentation generated"
 

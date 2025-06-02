@@ -26,7 +26,7 @@ const (
 	// FieldRole holds the string denoting the role field in the database.
 	FieldRole = "role"
 	// Table holds the table name of the usergroup in the database.
-	Table = "ncse_org_user_group"
+	Table = "ncse_sys_user_group"
 )
 
 // Columns holds all SQL columns for usergroup fields.

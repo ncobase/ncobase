@@ -103,7 +103,7 @@ func (h *userTenantRoleHandler) AddUserToTenantRole(c *gin.Context) {
 // @Param tenantId path string true "Tenant ID"
 // @Param userId path string true "User ID"
 // @Param roleId path string true "Role ID"
-// @Success 200 {object} resp.Success "success"
+// @Success 200 {object} resp.Exception "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/users/{userId}/roles/{roleId} [delete]
 // @Security Bearer

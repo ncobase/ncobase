@@ -10,8 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// OptionsHandlerInterface represents the options handler interface.
-type OptionsHandlerInterface interface {
+// OptionHandlerInterface represents the option handler interface.
+type OptionHandlerInterface interface {
 	Create(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
@@ -23,14 +23,14 @@ type OptionsHandlerInterface interface {
 	List(c *gin.Context)
 }
 
-// optionsHandler represents the options handler.
-type optionsHandler struct {
+// optionHandler represents the option handler.
+type optionHandler struct {
 	s *service.Service
 }
 
-// NewOptionsHandler creates new options handler.
-func NewOptionsHandler(svc *service.Service) OptionsHandlerInterface {
-	return &optionsHandler{
+// NewOptionHandler creates new option handler.
+func NewOptionHandler(svc *service.Service) OptionHandlerInterface {
+	return &optionHandler{
 		s: svc,
 	}
 }
@@ -42,13 +42,13 @@ func NewOptionsHandler(svc *service.Service) OptionsHandlerInterface {
 // @Tags sys
 // @Accept json
 // @Produce json
-// @Param body body structs.OptionsBody true "OptionsBody object"
-// @Success 200 {object} structs.ReadOptions "success"
+// @Param body body structs.OptionBody true "OptionBody object"
+// @Success 200 {object} structs.ReadOption "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options [post]
 // @Security Bearer
-func (h *optionsHandler) Create(c *gin.Context) {
-	body := &structs.OptionsBody{}
+func (h *optionHandler) Create(c *gin.Context) {
+	body := &structs.OptionBody{}
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -72,13 +72,13 @@ func (h *optionsHandler) Create(c *gin.Context) {
 // @Tags sys
 // @Accept json
 // @Produce json
-// @Param body body structs.UpdateOptionsBody true "UpdateOptionsBody object"
-// @Success 200 {object} structs.ReadOptions "success"
+// @Param body body structs.UpdateOptionBody true "UpdateOptionBody object"
+// @Success 200 {object} structs.ReadOption "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options [put]
 // @Security Bearer
-func (h *optionsHandler) Update(c *gin.Context) {
-	body := &structs.UpdateOptionsBody{}
+func (h *optionHandler) Update(c *gin.Context) {
+	body := &structs.UpdateOptionBody{}
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -103,11 +103,11 @@ func (h *optionsHandler) Update(c *gin.Context) {
 // @Produce json
 // @Param option path string true "Option ID or name"
 // @Param params query structs.FindOptions true "FindOptions parameters"
-// @Success 200 {object} structs.ReadOptions "success"
+// @Success 200 {object} structs.ReadOption "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options/{option} [get]
 // @Security Bearer
-func (h *optionsHandler) Get(c *gin.Context) {
+func (h *optionHandler) Get(c *gin.Context) {
 	params := &structs.FindOptions{Option: c.Param("option")}
 
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
@@ -133,11 +133,11 @@ func (h *optionsHandler) Get(c *gin.Context) {
 // @Tags sys
 // @Produce json
 // @Param name path string true "Option name"
-// @Success 200 {object} structs.ReadOptions "success"
+// @Success 200 {object} structs.ReadOption "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options/name/{name} [get]
 // @Security Bearer
-func (h *optionsHandler) GetByName(c *gin.Context) {
+func (h *optionHandler) GetByName(c *gin.Context) {
 	name := c.Param("name")
 
 	result, err := h.s.Options.GetByName(c.Request.Context(), name)
@@ -156,11 +156,11 @@ func (h *optionsHandler) GetByName(c *gin.Context) {
 // @Tags sys
 // @Produce json
 // @Param type path string true "Option type"
-// @Success 200 {array} structs.ReadOptions "success"
+// @Success 200 {array} structs.ReadOption "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options/type/{type} [get]
 // @Security Bearer
-func (h *optionsHandler) GetByType(c *gin.Context) {
+func (h *optionHandler) GetByType(c *gin.Context) {
 	typeName := c.Param("type")
 
 	result, err := h.s.Options.GetByType(c.Request.Context(), typeName)
@@ -180,11 +180,11 @@ func (h *optionsHandler) GetByType(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param body body []string true "Array of option names"
-// @Success 200 {object} map[string]structs.ReadOptions "success"
+// @Success 200 {object} map[string]structs.ReadOption "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options/batch [post]
 // @Security Bearer
-func (h *optionsHandler) BatchGetByNames(c *gin.Context) {
+func (h *optionHandler) BatchGetByNames(c *gin.Context) {
 	var names []string
 	if err := c.ShouldBindJSON(&names); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
@@ -211,7 +211,7 @@ func (h *optionsHandler) BatchGetByNames(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options/{option} [delete]
 // @Security Bearer
-func (h *optionsHandler) Delete(c *gin.Context) {
+func (h *optionHandler) Delete(c *gin.Context) {
 	params := &structs.FindOptions{Option: c.Param("option")}
 	err := h.s.Options.Delete(c.Request.Context(), params)
 	if err != nil {
@@ -233,7 +233,7 @@ func (h *optionsHandler) Delete(c *gin.Context) {
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options/prefix [delete]
 // @Security Bearer
-func (h *optionsHandler) DeleteByPrefix(c *gin.Context) {
+func (h *optionHandler) DeleteByPrefix(c *gin.Context) {
 	prefix := c.Query("prefix")
 	if prefix == "" {
 		resp.Fail(c.Writer, resp.BadRequest("prefix is required"))
@@ -255,13 +255,13 @@ func (h *optionsHandler) DeleteByPrefix(c *gin.Context) {
 // @Description Retrieve a list of options.
 // @Tags sys
 // @Produce json
-// @Param params query structs.ListOptionsParams true "List options parameters"
-// @Success 200 {array} structs.ReadOptions "success"
+// @Param params query structs.ListOptionParams true "List options parameters"
+// @Success 200 {array} structs.ReadOption "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/options [get]
 // @Security Bearer
-func (h *optionsHandler) List(c *gin.Context) {
-	params := &structs.ListOptionsParams{}
+func (h *optionHandler) List(c *gin.Context) {
+	params := &structs.ListOptionParams{}
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

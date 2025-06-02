@@ -6,7 +6,7 @@ import "ncobase/system/data"
 type Repository struct {
 	Menu       MenuRepositoryInterface
 	Dictionary DictionaryRepositoryInterface
-	Options    OptionsRepositoryInterface
+	Options    OptionRepositoryInterface
 }
 
 // New creates a new repository.
@@ -14,6 +14,6 @@ func New(d *data.Data) *Repository {
 	return &Repository{
 		Menu:       NewMenuRepository(d),
 		Dictionary: NewDictionaryRepository(d),
-		Options:    NewOptionsRepository(d),
+		Options:    NewOptionRepository(d),
 	}
 }

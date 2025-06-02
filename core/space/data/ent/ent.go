@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"ncobase/space/data/ent/group"
 	"ncobase/space/data/ent/grouprole"
-	"ncobase/space/data/ent/tenantgroup"
 	"ncobase/space/data/ent/usergroup"
 	"reflect"
 	"sync"
@@ -76,10 +75,9 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			group.Table:       group.ValidColumn,
-			grouprole.Table:   grouprole.ValidColumn,
-			tenantgroup.Table: tenantgroup.ValidColumn,
-			usergroup.Table:   usergroup.ValidColumn,
+			group.Table:     group.ValidColumn,
+			grouprole.Table: grouprole.ValidColumn,
+			usergroup.Table: usergroup.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

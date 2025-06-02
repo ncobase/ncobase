@@ -82,7 +82,7 @@ func (h *tenantGroupHandler) AddGroupToTenant(c *gin.Context) {
 // @Produce json
 // @Param tenantId path string true "Tenant ID"
 // @Param groupId path string true "Group ID"
-// @Success 200 {object} resp.Success "success"
+// @Success 200 {object} resp.Exception"success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /sys/tenants/{tenantId}/groups/{groupId} [delete]
 // @Security Bearer
