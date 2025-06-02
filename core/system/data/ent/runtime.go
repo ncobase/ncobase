@@ -16,32 +16,26 @@ func init() {
 	dictionaryMixin := schema.Dictionary{}.Mixin()
 	dictionaryMixinFields0 := dictionaryMixin[0].Fields()
 	_ = dictionaryMixinFields0
-	dictionaryMixinFields5 := dictionaryMixin[5].Fields()
-	_ = dictionaryMixinFields5
+	dictionaryMixinFields6 := dictionaryMixin[6].Fields()
+	_ = dictionaryMixinFields6
 	dictionaryMixinFields7 := dictionaryMixin[7].Fields()
 	_ = dictionaryMixinFields7
-	dictionaryMixinFields8 := dictionaryMixin[8].Fields()
-	_ = dictionaryMixinFields8
 	dictionaryFields := schema.Dictionary{}.Fields()
 	_ = dictionaryFields
-	// dictionaryDescTenantID is the schema descriptor for tenant_id field.
-	dictionaryDescTenantID := dictionaryMixinFields5[0].Descriptor()
-	// dictionary.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	dictionary.TenantIDValidator = dictionaryDescTenantID.Validators[0].(func(string) error)
 	// dictionaryDescCreatedBy is the schema descriptor for created_by field.
-	dictionaryDescCreatedBy := dictionaryMixinFields7[0].Descriptor()
+	dictionaryDescCreatedBy := dictionaryMixinFields6[0].Descriptor()
 	// dictionary.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	dictionary.CreatedByValidator = dictionaryDescCreatedBy.Validators[0].(func(string) error)
 	// dictionaryDescUpdatedBy is the schema descriptor for updated_by field.
-	dictionaryDescUpdatedBy := dictionaryMixinFields7[1].Descriptor()
+	dictionaryDescUpdatedBy := dictionaryMixinFields6[1].Descriptor()
 	// dictionary.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	dictionary.UpdatedByValidator = dictionaryDescUpdatedBy.Validators[0].(func(string) error)
 	// dictionaryDescCreatedAt is the schema descriptor for created_at field.
-	dictionaryDescCreatedAt := dictionaryMixinFields8[0].Descriptor()
+	dictionaryDescCreatedAt := dictionaryMixinFields7[0].Descriptor()
 	// dictionary.DefaultCreatedAt holds the default value on creation for the created_at field.
 	dictionary.DefaultCreatedAt = dictionaryDescCreatedAt.Default.(func() int64)
 	// dictionaryDescUpdatedAt is the schema descriptor for updated_at field.
-	dictionaryDescUpdatedAt := dictionaryMixinFields8[1].Descriptor()
+	dictionaryDescUpdatedAt := dictionaryMixinFields7[1].Descriptor()
 	// dictionary.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	dictionary.DefaultUpdatedAt = dictionaryDescUpdatedAt.Default.(func() int64)
 	// dictionary.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
@@ -69,8 +63,6 @@ func init() {
 	_ = menuMixinFields14
 	menuMixinFields15 := menuMixin[15].Fields()
 	_ = menuMixinFields15
-	menuMixinFields16 := menuMixin[16].Fields()
-	_ = menuMixinFields16
 	menuFields := schema.Menu{}.Fields()
 	_ = menuFields
 	// menuDescHidden is the schema descriptor for hidden field.
@@ -93,24 +85,20 @@ func init() {
 	menuDescParentID := menuMixinFields13[0].Descriptor()
 	// menu.ParentIDValidator is a validator for the "parent_id" field. It is called by the builders before save.
 	menu.ParentIDValidator = menuDescParentID.Validators[0].(func(string) error)
-	// menuDescTenantID is the schema descriptor for tenant_id field.
-	menuDescTenantID := menuMixinFields14[0].Descriptor()
-	// menu.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	menu.TenantIDValidator = menuDescTenantID.Validators[0].(func(string) error)
 	// menuDescCreatedBy is the schema descriptor for created_by field.
-	menuDescCreatedBy := menuMixinFields15[0].Descriptor()
+	menuDescCreatedBy := menuMixinFields14[0].Descriptor()
 	// menu.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	menu.CreatedByValidator = menuDescCreatedBy.Validators[0].(func(string) error)
 	// menuDescUpdatedBy is the schema descriptor for updated_by field.
-	menuDescUpdatedBy := menuMixinFields15[1].Descriptor()
+	menuDescUpdatedBy := menuMixinFields14[1].Descriptor()
 	// menu.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	menu.UpdatedByValidator = menuDescUpdatedBy.Validators[0].(func(string) error)
 	// menuDescCreatedAt is the schema descriptor for created_at field.
-	menuDescCreatedAt := menuMixinFields16[0].Descriptor()
+	menuDescCreatedAt := menuMixinFields15[0].Descriptor()
 	// menu.DefaultCreatedAt holds the default value on creation for the created_at field.
 	menu.DefaultCreatedAt = menuDescCreatedAt.Default.(func() int64)
 	// menuDescUpdatedAt is the schema descriptor for updated_at field.
-	menuDescUpdatedAt := menuMixinFields16[1].Descriptor()
+	menuDescUpdatedAt := menuMixinFields15[1].Descriptor()
 	// menu.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	menu.DefaultUpdatedAt = menuDescUpdatedAt.Default.(func() int64)
 	// menu.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
@@ -132,8 +120,6 @@ func init() {
 	_ = optionsMixinFields5
 	optionsMixinFields6 := optionsMixin[6].Fields()
 	_ = optionsMixinFields6
-	optionsMixinFields7 := optionsMixin[7].Fields()
-	_ = optionsMixinFields7
 	optionsFields := schema.Options{}.Fields()
 	_ = optionsFields
 	// optionsDescName is the schema descriptor for name field.
@@ -144,24 +130,20 @@ func init() {
 	optionsDescAutoload := optionsMixinFields4[0].Descriptor()
 	// options.DefaultAutoload holds the default value on creation for the autoload field.
 	options.DefaultAutoload = optionsDescAutoload.Default.(bool)
-	// optionsDescTenantID is the schema descriptor for tenant_id field.
-	optionsDescTenantID := optionsMixinFields5[0].Descriptor()
-	// options.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	options.TenantIDValidator = optionsDescTenantID.Validators[0].(func(string) error)
 	// optionsDescCreatedBy is the schema descriptor for created_by field.
-	optionsDescCreatedBy := optionsMixinFields6[0].Descriptor()
+	optionsDescCreatedBy := optionsMixinFields5[0].Descriptor()
 	// options.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	options.CreatedByValidator = optionsDescCreatedBy.Validators[0].(func(string) error)
 	// optionsDescUpdatedBy is the schema descriptor for updated_by field.
-	optionsDescUpdatedBy := optionsMixinFields6[1].Descriptor()
+	optionsDescUpdatedBy := optionsMixinFields5[1].Descriptor()
 	// options.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
 	options.UpdatedByValidator = optionsDescUpdatedBy.Validators[0].(func(string) error)
 	// optionsDescCreatedAt is the schema descriptor for created_at field.
-	optionsDescCreatedAt := optionsMixinFields7[0].Descriptor()
+	optionsDescCreatedAt := optionsMixinFields6[0].Descriptor()
 	// options.DefaultCreatedAt holds the default value on creation for the created_at field.
 	options.DefaultCreatedAt = optionsDescCreatedAt.Default.(func() int64)
 	// optionsDescUpdatedAt is the schema descriptor for updated_at field.
-	optionsDescUpdatedAt := optionsMixinFields7[1].Descriptor()
+	optionsDescUpdatedAt := optionsMixinFields6[1].Descriptor()
 	// options.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	options.DefaultUpdatedAt = optionsDescUpdatedAt.Default.(func() int64)
 	// options.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.

@@ -25,8 +25,6 @@ type Dictionary struct {
 	Type string `json:"type,omitempty"`
 	// value
 	Value string `json:"value,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
 	// description
 	Description string `json:"description,omitempty"`
 	// id of the creator
@@ -47,7 +45,7 @@ func (*Dictionary) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case dictionary.FieldCreatedAt, dictionary.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case dictionary.FieldID, dictionary.FieldName, dictionary.FieldSlug, dictionary.FieldType, dictionary.FieldValue, dictionary.FieldTenantID, dictionary.FieldDescription, dictionary.FieldCreatedBy, dictionary.FieldUpdatedBy:
+		case dictionary.FieldID, dictionary.FieldName, dictionary.FieldSlug, dictionary.FieldType, dictionary.FieldValue, dictionary.FieldDescription, dictionary.FieldCreatedBy, dictionary.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -93,12 +91,6 @@ func (d *Dictionary) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field value", values[i])
 			} else if value.Valid {
 				d.Value = value.String
-			}
-		case dictionary.FieldTenantID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
-			} else if value.Valid {
-				d.TenantID = value.String
 			}
 		case dictionary.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -177,9 +169,6 @@ func (d *Dictionary) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("value=")
 	builder.WriteString(d.Value)
-	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(d.TenantID)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
 	builder.WriteString(d.Description)

@@ -34,7 +34,6 @@ func (Options) Mixin() []ent.Mixin {
 		mixin.Type,       // type, object, string, number, boolean, ...
 		mixin.Value,      // value
 		mixin.Autoload,   // autoload
-		mixin.TenantID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

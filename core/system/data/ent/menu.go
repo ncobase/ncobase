@@ -44,8 +44,6 @@ type Menu struct {
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// parent id
 	ParentID string `json:"parent_id,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -68,7 +66,7 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case menu.FieldOrder, menu.FieldCreatedAt, menu.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case menu.FieldID, menu.FieldName, menu.FieldLabel, menu.FieldSlug, menu.FieldType, menu.FieldPath, menu.FieldTarget, menu.FieldIcon, menu.FieldPerms, menu.FieldParentID, menu.FieldTenantID, menu.FieldCreatedBy, menu.FieldUpdatedBy:
+		case menu.FieldID, menu.FieldName, menu.FieldLabel, menu.FieldSlug, menu.FieldType, menu.FieldPath, menu.FieldTarget, menu.FieldIcon, menu.FieldPerms, menu.FieldParentID, menu.FieldCreatedBy, menu.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -171,12 +169,6 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				m.ParentID = value.String
 			}
-		case menu.FieldTenantID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
-			} else if value.Valid {
-				m.TenantID = value.String
-			}
 		case menu.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
@@ -275,9 +267,6 @@ func (m *Menu) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("parent_id=")
 	builder.WriteString(m.ParentID)
-	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(m.TenantID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(m.CreatedBy)

@@ -316,7 +316,6 @@ func (s *optionsService) Serialize(row *ent.Options) *structs.ReadOptions {
 		Type:      row.Type,
 		Value:     row.Value,
 		Autoload:  row.Autoload,
-		TenantID:  row.TenantID,
 		CreatedBy: &row.CreatedBy,
 		CreatedAt: &row.CreatedAt,
 		UpdatedBy: &row.UpdatedBy,

@@ -19,8 +19,6 @@ const (
 	FieldType = "type"
 	// FieldValue holds the string denoting the value field in the database.
 	FieldValue = "value"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
@@ -42,7 +40,6 @@ var Columns = []string{
 	FieldSlug,
 	FieldType,
 	FieldValue,
-	FieldTenantID,
 	FieldDescription,
 	FieldCreatedBy,
 	FieldUpdatedBy,
@@ -61,8 +58,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	TenantIDValidator func(string) error
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	CreatedByValidator func(string) error
 	// UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
@@ -105,11 +100,6 @@ func ByType(opts ...sql.OrderTermOption) OrderOption {
 // ByValue orders the results by the value field.
 func ByValue(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldValue, opts...).ToFunc()
-}
-
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }
 
 // ByDescription orders the results by the description field.

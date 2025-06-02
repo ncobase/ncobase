@@ -43,7 +43,6 @@ type MenuBody struct {
 	Disabled  *bool       `json:"disabled,omitempty"`
 	Extras    *types.JSON `json:"extras,omitempty"`
 	ParentID  string      `json:"parent_id,omitempty"`
-	TenantID  string      `json:"tenant_id,omitempty"`
 	CreatedBy *string     `json:"created_by,omitempty"`
 	UpdatedBy *string     `json:"updated_by,omitempty"`
 }
@@ -75,7 +74,6 @@ type ReadMenu struct {
 	Disabled  bool             `json:"disabled"`
 	Extras    *types.JSON      `json:"extras,omitempty"`
 	ParentID  string           `json:"parent_id,omitempty"`
-	TenantID  string           `json:"tenant_id,omitempty"`
 	Children  []types.TreeNode `json:"children,omitempty"`
 	CreatedBy *string          `json:"created_by,omitempty"`
 	CreatedAt *int64           `json:"created_at,omitempty"`
@@ -124,7 +122,6 @@ func (r *ReadMenu) GetSortValue(field string) any {
 type FindMenu struct {
 	Menu     string `form:"menu,omitempty" json:"menu,omitempty"`
 	Parent   string `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant   string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Type     string `form:"type,omitempty" json:"type,omitempty"`
 	Children bool   `form:"children,omitempty" json:"children,omitempty"`
 	SortBy   string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
@@ -137,7 +134,6 @@ type ListMenuParams struct {
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty"`
 	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Perms     string `form:"perms,omitempty" json:"perms,omitempty"`
 	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`

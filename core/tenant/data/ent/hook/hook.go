@@ -32,6 +32,18 @@ func (f TenantBillingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Valu
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantBillingMutation", m)
 }
 
+// The TenantDictionaryFunc type is an adapter to allow the use of ordinary
+// function as TenantDictionary mutator.
+type TenantDictionaryFunc func(context.Context, *ent.TenantDictionaryMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TenantDictionaryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TenantDictionaryMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantDictionaryMutation", m)
+}
+
 // The TenantGroupFunc type is an adapter to allow the use of ordinary
 // function as TenantGroup mutator.
 type TenantGroupFunc func(context.Context, *ent.TenantGroupMutation) (ent.Value, error)
@@ -42,6 +54,30 @@ func (f TenantGroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantGroupMutation", m)
+}
+
+// The TenantMenuFunc type is an adapter to allow the use of ordinary
+// function as TenantMenu mutator.
+type TenantMenuFunc func(context.Context, *ent.TenantMenuMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TenantMenuFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TenantMenuMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantMenuMutation", m)
+}
+
+// The TenantOptionsFunc type is an adapter to allow the use of ordinary
+// function as TenantOptions mutator.
+type TenantOptionsFunc func(context.Context, *ent.TenantOptionsMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TenantOptionsFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.TenantOptionsMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TenantOptionsMutation", m)
 }
 
 // The TenantQuotaFunc type is an adapter to allow the use of ordinary

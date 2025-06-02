@@ -193,20 +193,6 @@ func (mc *MenuCreate) SetNillableParentID(s *string) *MenuCreate {
 	return mc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (mc *MenuCreate) SetTenantID(s string) *MenuCreate {
-	mc.mutation.SetTenantID(s)
-	return mc
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableTenantID(s *string) *MenuCreate {
-	if s != nil {
-		mc.SetTenantID(*s)
-	}
-	return mc
-}
-
 // SetCreatedBy sets the "created_by" field.
 func (mc *MenuCreate) SetCreatedBy(s string) *MenuCreate {
 	mc.mutation.SetCreatedBy(s)
@@ -352,11 +338,6 @@ func (mc *MenuCreate) check() error {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Menu.parent_id": %w`, err)}
 		}
 	}
-	if v, ok := mc.mutation.TenantID(); ok {
-		if err := menu.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Menu.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := mc.mutation.CreatedBy(); ok {
 		if err := menu.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Menu.created_by": %w`, err)}
@@ -458,10 +439,6 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 	if value, ok := mc.mutation.ParentID(); ok {
 		_spec.SetField(menu.FieldParentID, field.TypeString, value)
 		_node.ParentID = value
-	}
-	if value, ok := mc.mutation.TenantID(); ok {
-		_spec.SetField(menu.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
 	}
 	if value, ok := mc.mutation.CreatedBy(); ok {
 		_spec.SetField(menu.FieldCreatedBy, field.TypeString, value)

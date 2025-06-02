@@ -49,7 +49,7 @@ func (s *Service) verifyMenuData(ctx context.Context) error {
 	return nil
 }
 
-// Initialize default menu structure
+// Initialize default menu structure and create tenant relationships
 func (s *Service) initMenus(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing default menus...")
 
@@ -89,13 +89,13 @@ func (s *Service) initMenus(ctx context.Context) error {
 	defaultExtras := make(types.JSON)
 	menuData := s.getMenuData()
 
-	var createdMenus int
+	var createdMenus, relationshipCount int
 
 	// Create header menus and map IDs
 	headerIDMap := make(map[string]string)
 	for _, header := range menuData.Headers {
 		menuBody := header
-		menuBody.TenantID = tenant.ID
+		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
@@ -108,6 +108,14 @@ func (s *Service) initMenus(ctx context.Context) error {
 		}
 		headerIDMap[menuBody.Slug] = createdMenu.ID
 		createdMenus++
+
+		// Create tenant-menu relationship
+		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		if err != nil {
+			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			return err
+		}
+		relationshipCount++
 	}
 
 	// Create sidebar menus and map IDs
@@ -125,7 +133,7 @@ func (s *Service) initMenus(ctx context.Context) error {
 			}
 		}
 
-		menuBody.TenantID = tenant.ID
+		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
@@ -141,6 +149,14 @@ func (s *Service) initMenus(ctx context.Context) error {
 			sidebarIDMap[menuBody.Slug] = createdMenu.ID
 		}
 		createdMenus++
+
+		// Create tenant-menu relationship
+		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		if err != nil {
+			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			return err
+		}
+		relationshipCount++
 	}
 
 	// Create submenus
@@ -157,49 +173,76 @@ func (s *Service) initMenus(ctx context.Context) error {
 			}
 		}
 
-		menuBody.TenantID = tenant.ID
+		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating submenu: %s", menuBody.Name)
-		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
+		createdMenu, err := s.sys.Menu.Create(ctx, &menuBody)
+		if err != nil {
 			logger.Errorf(ctx, "Error creating submenu %s: %v", menuBody.Name, err)
 			return fmt.Errorf("failed to create submenu '%s': %w", menuBody.Name, err)
 		}
 		createdMenus++
+
+		// Create tenant-menu relationship
+		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		if err != nil {
+			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			return err
+		}
+		relationshipCount++
 	}
 
 	// Create account menus
 	for _, menu := range menuData.Accounts {
 		menuBody := menu
-		menuBody.TenantID = tenant.ID
+		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating account menu: %s", menuBody.Name)
-		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
+		createdMenu, err := s.sys.Menu.Create(ctx, &menuBody)
+		if err != nil {
 			logger.Errorf(ctx, "Error creating account menu %s: %v", menuBody.Name, err)
 			return fmt.Errorf("failed to create account menu '%s': %w", menuBody.Name, err)
 		}
 		createdMenus++
+
+		// Create tenant-menu relationship
+		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		if err != nil {
+			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			return err
+		}
+		relationshipCount++
 	}
 
 	// Create tenant menus
 	for _, menu := range menuData.Tenants {
 		menuBody := menu
-		menuBody.TenantID = tenant.ID
+		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
 		logger.Debugf(ctx, "Creating tenant menu: %s", menuBody.Name)
-		if _, err := s.sys.Menu.Create(ctx, &menuBody); err != nil {
+		createdMenu, err := s.sys.Menu.Create(ctx, &menuBody)
+		if err != nil {
 			logger.Errorf(ctx, "Error creating tenant menu %s: %v", menuBody.Name, err)
 			return fmt.Errorf("failed to create tenant menu '%s': %w", menuBody.Name, err)
 		}
 		createdMenus++
+
+		// Create tenant-menu relationship
+		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		if err != nil {
+			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			return err
+		}
+		relationshipCount++
 	}
 
 	finalCount := s.sys.Menu.CountX(ctx, &structs.ListMenuParams{})
@@ -207,7 +250,7 @@ func (s *Service) initMenus(ctx context.Context) error {
 		logger.Warnf(ctx, "Menu count mismatch. Expected %d, got %d", createdMenus, finalCount)
 	}
 
-	logger.Infof(ctx, "Menu initialization completed successfully. Created %d menus using admin user '%s'",
-		createdMenus, adminUser.Username)
+	logger.Infof(ctx, "Menu initialization completed successfully. Created %d menus and %d relationships using admin user '%s'",
+		createdMenus, relationshipCount, adminUser.Username)
 	return nil
 }

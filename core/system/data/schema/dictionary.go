@@ -35,7 +35,6 @@ func (Dictionary) Mixin() []ent.Mixin {
 		mixin.SlugUnique,
 		mixin.Type,  // type, object, string, number, ...
 		mixin.Value, // type value
-		mixin.TenantID,
 		mixin.Description,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},

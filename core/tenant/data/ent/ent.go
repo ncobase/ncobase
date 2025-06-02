@@ -8,7 +8,10 @@ import (
 	"fmt"
 	"ncobase/tenant/data/ent/tenant"
 	"ncobase/tenant/data/ent/tenantbilling"
+	"ncobase/tenant/data/ent/tenantdictionary"
 	"ncobase/tenant/data/ent/tenantgroup"
+	"ncobase/tenant/data/ent/tenantmenu"
+	"ncobase/tenant/data/ent/tenantoptions"
 	"ncobase/tenant/data/ent/tenantquota"
 	"ncobase/tenant/data/ent/tenantsetting"
 	"ncobase/tenant/data/ent/usertenant"
@@ -79,13 +82,16 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			tenant.Table:         tenant.ValidColumn,
-			tenantbilling.Table:  tenantbilling.ValidColumn,
-			tenantgroup.Table:    tenantgroup.ValidColumn,
-			tenantquota.Table:    tenantquota.ValidColumn,
-			tenantsetting.Table:  tenantsetting.ValidColumn,
-			usertenant.Table:     usertenant.ValidColumn,
-			usertenantrole.Table: usertenantrole.ValidColumn,
+			tenant.Table:           tenant.ValidColumn,
+			tenantbilling.Table:    tenantbilling.ValidColumn,
+			tenantdictionary.Table: tenantdictionary.ValidColumn,
+			tenantgroup.Table:      tenantgroup.ValidColumn,
+			tenantmenu.Table:       tenantmenu.ValidColumn,
+			tenantoptions.Table:    tenantoptions.ValidColumn,
+			tenantquota.Table:      tenantquota.ValidColumn,
+			tenantsetting.Table:    tenantsetting.ValidColumn,
+			usertenant.Table:       usertenant.ValidColumn,
+			usertenantrole.Table:   usertenantrole.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

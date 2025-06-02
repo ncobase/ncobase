@@ -112,7 +112,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	tenantGroup := r.Group("/"+m.Group(), middleware.AuthenticatedTenant)
 
 	// Tenant endpoints
-	tenants := tenantGroup.Group("/tenants", middleware.AuthenticatedTenant)
+	tenants := tenantGroup.Group("/tenants", middleware.HasPermission("manage:tenant"), middleware.AuthenticatedTenant)
 	{
 		// Basic tenant management
 		tenants.GET("", m.h.Tenant.List)
@@ -173,6 +173,24 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		tenants.GET("/:tenantId/billing/summary", m.h.TenantBilling.GetSummary)
 		tenants.GET("/:tenantId/billing/overdue", m.h.TenantBilling.GetOverdue)
 		tenants.POST("/:tenantId/billing/invoice", m.h.TenantBilling.GenerateInvoice)
+
+		// Tenant Menu relations
+		tenants.GET("/:tenantId/menus", m.h.TenantMenu.GetTenantMenus)
+		tenants.POST("/:tenantId/menus", m.h.TenantMenu.AddMenuToTenant)
+		tenants.DELETE("/:tenantId/menus/:menuId", m.h.TenantMenu.RemoveMenuFromTenant)
+		tenants.GET("/:tenantId/menus/:menuId/check", m.h.TenantMenu.CheckMenuInTenant)
+
+		// Tenant Dictionary relations
+		tenants.GET("/:tenantId/dictionaries", m.h.TenantDictionary.GetTenantDictionaries)
+		tenants.POST("/:tenantId/dictionaries", m.h.TenantDictionary.AddDictionaryToTenant)
+		tenants.DELETE("/:tenantId/dictionaries/:dictionaryId", m.h.TenantDictionary.RemoveDictionaryFromTenant)
+		tenants.GET("/:tenantId/dictionaries/:dictionaryId/check", m.h.TenantDictionary.CheckDictionaryInTenant)
+
+		// Tenant Options relations
+		tenants.GET("/:tenantId/options", m.h.TenantOptions.GetTenantOptions)
+		tenants.POST("/:tenantId/options", m.h.TenantOptions.AddOptionsToTenant)
+		tenants.DELETE("/:tenantId/options/:optionsId", m.h.TenantOptions.RemoveOptionsFromTenant)
+		tenants.GET("/:tenantId/options/:optionsId/check", m.h.TenantOptions.CheckOptionsInTenant)
 	}
 
 	// User endpoints with tenant context

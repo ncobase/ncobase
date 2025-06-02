@@ -12,7 +12,6 @@ type OptionsBody struct {
 	Type      string  `json:"type,omitempty"`
 	Value     string  `json:"value,omitempty"`
 	Autoload  bool    `json:"autoload,omitempty"`
-	TenantID  string  `json:"tenant_id,omitempty"`
 	CreatedBy *string `json:"created_by,omitempty"`
 	UpdatedBy *string `json:"updated_by,omitempty"`
 }
@@ -35,7 +34,6 @@ type ReadOptions struct {
 	Type      string  `json:"type"`
 	Value     string  `json:"value"`
 	Autoload  bool    `json:"autoload"`
-	TenantID  string  `json:"tenant_id,omitempty"`
 	CreatedBy *string `json:"created_by,omitempty"`
 	CreatedAt *int64  `json:"created_at,omitempty"`
 	UpdatedBy *string `json:"updated_by,omitempty"`
@@ -67,7 +65,6 @@ func (r *ReadOptions) GetSortValue(field string) any {
 // FindOptions represents the parameters for finding options.
 type FindOptions struct {
 	Option string `form:"option,omitempty" json:"option,omitempty"`
-	Tenant string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Type   string `form:"type,omitempty" json:"type,omitempty"`
 	SortBy string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
@@ -78,7 +75,6 @@ type ListOptionsParams struct {
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Autoload  *bool  `form:"autoload,omitempty" json:"autoload,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 	Prefix    string `form:"prefix,omitempty" json:"prefix,omitempty"`

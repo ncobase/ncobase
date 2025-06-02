@@ -13,6 +13,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 )
 
@@ -30,7 +31,7 @@ type MenuRepositoryInterface interface {
 
 // menuRepository implements the MenuRepositoryInterface.
 type menuRepository struct {
-	ec               *ent.Client
+	data             *data.Data
 	ms               *meili.Client
 	menuCache        cache.ICache[ent.Menu]
 	slugMappingCache cache.ICache[string]     // Maps slug to menu ID
@@ -43,20 +44,21 @@ func NewMenuRepository(d *data.Data) MenuRepositoryInterface {
 	redisClient := d.GetRedis()
 
 	return &menuRepository{
-		ec:               d.GetMasterEntClient(),
+		data:             d,
 		ms:               d.GetMeilisearch(),
 		menuCache:        cache.NewCache[ent.Menu](redisClient, "ncse_system:menus"),
 		slugMappingCache: cache.NewCache[string](redisClient, "ncse_system:menu_mappings"),
 		menuTreeCache:    cache.NewCache[[]ent.Menu](redisClient, "ncse_system:menu_trees"),
-		menuTTL:          time.Hour * 6, // 6 hours cache TTL (menus change less frequently)
+		menuTTL:          time.Hour * 6, // 6 hours cache TTL
 	}
 }
 
 // Create creates a new menu
 func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*ent.Menu, error) {
-	builder := r.ec.Menu.Create()
+	// Use master for writes
+	builder := r.data.GetMasterEntClient().Menu.Create()
 
-	// Set all the fields as in original implementation
+	// Set all the fields
 	if validator.IsNotEmpty(body.Name) {
 		builder.SetNillableName(&body.Name)
 	}
@@ -93,8 +95,8 @@ func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*e
 	if validator.IsNotEmpty(body.ParentID) {
 		builder.SetNillableParentID(&body.ParentID)
 	}
-	if validator.IsNotEmpty(body.TenantID) {
-		builder.SetNillableTenantID(&body.TenantID)
+	if validator.IsNotEmpty(body.CreatedBy) {
+		builder.SetNillableCreatedBy(body.CreatedBy)
 	}
 	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
 		builder.SetExtras(*body.Extras)
@@ -114,7 +116,7 @@ func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*e
 	// Cache the menu and invalidate tree cache
 	go func() {
 		r.cacheMenu(context.Background(), menu)
-		r.invalidateMenuTreeCache(context.Background(), body.TenantID, body.Type)
+		r.invalidateMenuTreeCache(context.Background(), body.Type)
 	}()
 
 	return menu, nil
@@ -132,16 +134,11 @@ func (r *menuRepository) GetMenuTree(ctx context.Context, params *structs.FindMe
 	}
 
 	// Fallback to database
-	builder := r.ec.Menu.Query()
+	builder := r.data.GetSlaveEntClient().Menu.Query()
 
 	// Apply type filter if specified
 	if validator.IsNotEmpty(params.Type) {
 		builder.Where(menuEnt.TypeEQ(params.Type))
-	}
-
-	// Apply tenant filter if specified
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// Handle specific menu/parent requests
@@ -211,9 +208,10 @@ func (r *menuRepository) Update(ctx context.Context, body *structs.UpdateMenuBod
 		return nil, err
 	}
 
+	// Use master for writes
 	builder := menu.Update()
 
-	// Set values as in original implementation
+	// Set values
 	if validator.IsNotEmpty(body.Name) {
 		builder.SetNillableName(&body.Name)
 	}
@@ -250,8 +248,8 @@ func (r *menuRepository) Update(ctx context.Context, body *structs.UpdateMenuBod
 	if validator.IsNotEmpty(body.ParentID) {
 		builder.SetNillableParentID(&body.ParentID)
 	}
-	if validator.IsNotEmpty(body.TenantID) {
-		builder.SetNillableTenantID(&body.TenantID)
+	if validator.IsNotEmpty(body.UpdatedBy) {
+		builder.SetNillableUpdatedBy(body.UpdatedBy)
 	}
 	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
 		builder.SetExtras(*body.Extras)
@@ -263,15 +261,20 @@ func (r *menuRepository) Update(ctx context.Context, body *structs.UpdateMenuBod
 		return nil, err
 	}
 
+	// Update Meilisearch index
+	if err = r.ms.UpdateDocuments("menus", updatedMenu, updatedMenu.ID); err != nil {
+		logger.Errorf(ctx, "menuRepo.Update error updating Meilisearch index: %v", err)
+	}
+
 	// Invalidate and re-cache
 	go func() {
 		r.invalidateMenuCache(context.Background(), menu)
 		r.cacheMenu(context.Background(), updatedMenu)
 
-		// Invalidate tree caches for affected tenants/types
-		r.invalidateMenuTreeCache(context.Background(), menu.TenantID, menu.Type)
-		if updatedMenu.TenantID != menu.TenantID || updatedMenu.Type != menu.Type {
-			r.invalidateMenuTreeCache(context.Background(), updatedMenu.TenantID, updatedMenu.Type)
+		// Invalidate tree caches for affected types
+		r.invalidateMenuTreeCache(context.Background(), menu.Type)
+		if updatedMenu.Type != menu.Type {
+			r.invalidateMenuTreeCache(context.Background(), updatedMenu.Type)
 		}
 	}()
 
@@ -286,25 +289,27 @@ func (r *menuRepository) Delete(ctx context.Context, params *structs.FindMenu) e
 		return err
 	}
 
-	builder := r.ec.Menu.Delete()
+	// Use master for writes
+	builder := r.data.GetMasterEntClient().Menu.Delete()
 	builder.Where(menuEnt.Or(
 		menuEnt.IDEQ(params.Menu),
 		menuEnt.SlugEQ(params.Menu),
 	))
-
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
-	}
 
 	_, err = builder.Exec(ctx)
 	if validator.IsNotNil(err) {
 		return err
 	}
 
+	// Delete from Meilisearch index
+	if err = r.ms.DeleteDocuments("menus", menu.ID); err != nil {
+		logger.Errorf(ctx, "menuRepo.Delete index error: %v", err)
+	}
+
 	// Invalidate cache
 	go func() {
 		r.invalidateMenuCache(context.Background(), menu)
-		r.invalidateMenuTreeCache(context.Background(), menu.TenantID, menu.Type)
+		r.invalidateMenuTreeCache(context.Background(), menu.Type)
 	}()
 
 	return nil
@@ -317,14 +322,19 @@ func (r *menuRepository) List(ctx context.Context, params *structs.ListMenuParam
 		return nil, fmt.Errorf("building list query: %w", err)
 	}
 
-	builder = menuSorting(builder, params.SortBy)
+	builder = r.applySorting(builder, params.SortBy)
 
 	if params.Cursor != "" {
 		id, value, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
 			return nil, fmt.Errorf("decoding cursor: %w", err)
 		}
-		builder = menuCondition(builder, id, value, params.Direction, params.SortBy)
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		builder = r.applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
 	}
 
 	builder.Limit(params.Limit)
@@ -361,14 +371,19 @@ func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.List
 		return nil, 0, fmt.Errorf("building list query: %w", err)
 	}
 
-	builder = menuSorting(builder, params.SortBy)
+	builder = r.applySorting(builder, params.SortBy)
 
 	if params.Cursor != "" {
 		id, value, err := paging.DecodeCursor(params.Cursor)
 		if err != nil {
 			return nil, 0, fmt.Errorf("decoding cursor: %w", err)
 		}
-		builder = menuCondition(builder, id, value, params.Direction, params.SortBy)
+
+		if !nanoid.IsPrimaryKey(id) {
+			return nil, 0, fmt.Errorf("invalid id in cursor: %s", id)
+		}
+
+		builder = r.applyCursorCondition(builder, id, value, params.Direction, params.SortBy)
 	}
 
 	total, err := builder.Count(ctx)
@@ -391,105 +406,28 @@ func (r *menuRepository) ListWithCount(ctx context.Context, params *structs.List
 	return rows, total, nil
 }
 
-// cacheMenu caches a menu
-func (r *menuRepository) cacheMenu(ctx context.Context, menu *ent.Menu) {
-	// Cache by ID
-	idKey := fmt.Sprintf("id:%s", menu.ID)
-	if err := r.menuCache.Set(ctx, idKey, menu, r.menuTTL); err != nil {
-		logger.Debugf(ctx, "Failed to cache menu by ID %s: %v", menu.ID, err)
-	}
-
-	// Cache slug to ID mapping
-	if menu.Slug != "" {
-		slugKey := fmt.Sprintf("slug:%s", menu.Slug)
-		if err := r.slugMappingCache.Set(ctx, slugKey, &menu.ID, r.menuTTL); err != nil {
-			logger.Debugf(ctx, "Failed to cache slug mapping %s: %v", menu.Slug, err)
-		}
-	}
-}
-
-// invalidateMenuCache invalidates a menu cache
-func (r *menuRepository) invalidateMenuCache(ctx context.Context, menu *ent.Menu) {
-	// Invalidate ID cache
-	idKey := fmt.Sprintf("id:%s", menu.ID)
-	if err := r.menuCache.Delete(ctx, idKey); err != nil {
-		logger.Debugf(ctx, "Failed to invalidate menu ID cache %s: %v", menu.ID, err)
-	}
-
-	// Invalidate slug mapping
-	if menu.Slug != "" {
-		slugKey := fmt.Sprintf("slug:%s", menu.Slug)
-		if err := r.slugMappingCache.Delete(ctx, slugKey); err != nil {
-			logger.Debugf(ctx, "Failed to invalidate slug mapping cache %s: %v", menu.Slug, err)
-		}
-	}
-}
-
-// invalidateMenuTreeCache invalidates a menu tree cache
-func (r *menuRepository) invalidateMenuTreeCache(ctx context.Context, tenantID string, menuType string) {
-	// Invalidate various tree cache combinations
-	keys := []string{
-		"tree:all",
-		fmt.Sprintf("tree:type:%s", menuType),
-		fmt.Sprintf("tree:tenant:%s", tenantID),
-		fmt.Sprintf("tree:tenant:%s:type:%s", tenantID, menuType),
-	}
-
-	for _, key := range keys {
-		if err := r.menuTreeCache.Delete(ctx, key); err != nil {
-			logger.Debugf(ctx, "Failed to invalidate menu tree cache %s: %v", key, err)
-		}
-	}
-}
-
-// generateTreeCacheKey generates a cache key for the menu tree
-func (r *menuRepository) generateTreeCacheKey(params *structs.FindMenu) string {
-	if params.Tenant != "" && params.Type != "" {
-		return fmt.Sprintf("tree:tenant:%s:type:%s", params.Tenant, params.Type)
-	} else if params.Tenant != "" {
-		return fmt.Sprintf("tree:tenant:%s", params.Tenant)
-	} else if params.Type != "" {
-		return fmt.Sprintf("tree:type:%s", params.Type)
-	}
-	return "tree:all"
-}
-
-// getMenuIDBySlug gets a menu ID by slug
-func (r *menuRepository) getMenuIDBySlug(ctx context.Context, slug string) (string, error) {
-	cacheKey := fmt.Sprintf("slug:%s", slug)
-	menuID, err := r.slugMappingCache.Get(ctx, cacheKey)
-	if err != nil || menuID == nil {
-		return "", err
-	}
-	return *menuID, nil
-}
-
-// menuSorting applies the specified sorting to the query builder.
-func menuSorting(builder *ent.MenuQuery, sortBy string) *ent.MenuQuery {
+// applySorting applies the specified sorting to the query builder.
+func (r *menuRepository) applySorting(builder *ent.MenuQuery, sortBy string) *ent.MenuQuery {
 	switch sortBy {
 	case structs.SortByOrder:
-		// Primary: Order DESC, Fallback: Created time DESC, Final: ID ASC
 		return builder.Order(
 			ent.Desc(menuEnt.FieldOrder),
 			ent.Desc(menuEnt.FieldCreatedAt),
 			ent.Asc(menuEnt.FieldID),
 		)
 	case structs.SortByCreatedAt:
-		// Primary: Created time DESC, Fallback: Order DESC, Final: ID ASC
 		return builder.Order(
 			ent.Desc(menuEnt.FieldCreatedAt),
 			ent.Desc(menuEnt.FieldOrder),
 			ent.Asc(menuEnt.FieldID),
 		)
 	case structs.SortByName:
-		// Primary: Name ASC, Fallback: Order DESC, Final: ID ASC
 		return builder.Order(
 			ent.Asc(menuEnt.FieldName),
 			ent.Desc(menuEnt.FieldOrder),
 			ent.Asc(menuEnt.FieldID),
 		)
 	default:
-		// Default: Order DESC, Created time DESC, ID ASC
 		return builder.Order(
 			ent.Desc(menuEnt.FieldOrder),
 			ent.Desc(menuEnt.FieldCreatedAt),
@@ -498,8 +436,8 @@ func menuSorting(builder *ent.MenuQuery, sortBy string) *ent.MenuQuery {
 	}
 }
 
-// menuCondition applies the cursor-based condition to the query builder.
-func menuCondition(builder *ent.MenuQuery, id string, value any, direction string, sortBy string) *ent.MenuQuery {
+// applyCursorCondition applies the cursor-based condition to the query builder.
+func (r *menuRepository) applyCursorCondition(builder *ent.MenuQuery, id string, value any, direction string, sortBy string) *ent.MenuQuery {
 	switch sortBy {
 	case structs.SortByCreatedAt:
 		timestamp, ok := value.(int64)
@@ -553,20 +491,41 @@ func menuCondition(builder *ent.MenuQuery, id string, value any, direction strin
 				),
 			),
 		)
+	case structs.SortByName:
+		name, ok := value.(string)
+		if !ok {
+			logger.Errorf(context.Background(), "Invalid name value for cursor")
+			return builder
+		}
+		if direction == "backward" {
+			return builder.Where(
+				menuEnt.Or(
+					menuEnt.NameGT(name),
+					menuEnt.And(
+						menuEnt.NameEQ(name),
+						menuEnt.IDGT(id),
+					),
+				),
+			)
+		}
+		return builder.Where(
+			menuEnt.Or(
+				menuEnt.NameLT(name),
+				menuEnt.And(
+					menuEnt.NameEQ(name),
+					menuEnt.IDLT(id),
+				),
+			),
+		)
 	default:
-		return menuCondition(builder, id, value, direction, structs.SortByCreatedAt)
+		return r.applyCursorCondition(builder, id, value, direction, structs.SortByCreatedAt)
 	}
 }
 
 // listBuilder - create list builder.
 func (r *menuRepository) listBuilder(_ context.Context, params *structs.ListMenuParams) (*ent.MenuQuery, error) {
-	// create builder.
-	builder := r.ec.Menu.Query()
-
-	// match tenant id.
-	if params.Tenant != "" {
-		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
-	}
+	// Use slave for reads
+	builder := r.data.GetSlaveEntClient().Menu.Query()
 
 	// match type.
 	if params.Type != "" {
@@ -602,8 +561,8 @@ func (r *menuRepository) listBuilder(_ context.Context, params *structs.ListMenu
 // getMenu - get menu.
 // internal method.
 func (r *menuRepository) getMenu(ctx context.Context, params *structs.FindMenu) (*ent.Menu, error) {
-	// create builder.
-	builder := r.ec.Menu.Query()
+	// Use slave for reads
+	builder := r.data.GetSlaveEntClient().Menu.Query()
 
 	// set where conditions.
 	if validator.IsNotEmpty(params.Menu) {
@@ -611,10 +570,6 @@ func (r *menuRepository) getMenu(ctx context.Context, params *structs.FindMenu) 
 			menuEnt.IDEQ(params.Menu),
 			menuEnt.SlugEQ(params.Menu),
 		))
-	}
-	// match tenant id.
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(menuEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// execute the builder.
@@ -648,4 +603,71 @@ func (r *menuRepository) executeArrayQuery(ctx context.Context, builder *ent.Men
 		return nil, err
 	}
 	return rows, nil
+}
+
+// cacheMenu caches a menu
+func (r *menuRepository) cacheMenu(ctx context.Context, menu *ent.Menu) {
+	// Cache by ID
+	idKey := fmt.Sprintf("id:%s", menu.ID)
+	if err := r.menuCache.Set(ctx, idKey, menu, r.menuTTL); err != nil {
+		logger.Debugf(ctx, "Failed to cache menu by ID %s: %v", menu.ID, err)
+	}
+
+	// Cache slug to ID mapping
+	if menu.Slug != "" {
+		slugKey := fmt.Sprintf("slug:%s", menu.Slug)
+		if err := r.slugMappingCache.Set(ctx, slugKey, &menu.ID, r.menuTTL); err != nil {
+			logger.Debugf(ctx, "Failed to cache slug mapping %s: %v", menu.Slug, err)
+		}
+	}
+}
+
+// invalidateMenuCache invalidates a menu cache
+func (r *menuRepository) invalidateMenuCache(ctx context.Context, menu *ent.Menu) {
+	// Invalidate ID cache
+	idKey := fmt.Sprintf("id:%s", menu.ID)
+	if err := r.menuCache.Delete(ctx, idKey); err != nil {
+		logger.Debugf(ctx, "Failed to invalidate menu ID cache %s: %v", menu.ID, err)
+	}
+
+	// Invalidate slug mapping
+	if menu.Slug != "" {
+		slugKey := fmt.Sprintf("slug:%s", menu.Slug)
+		if err := r.slugMappingCache.Delete(ctx, slugKey); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate slug mapping cache %s: %v", menu.Slug, err)
+		}
+	}
+}
+
+// invalidateMenuTreeCache invalidates a menu tree cache
+func (r *menuRepository) invalidateMenuTreeCache(ctx context.Context, menuType string) {
+	// Invalidate various tree cache combinations
+	keys := []string{
+		"tree:all",
+		fmt.Sprintf("tree:type:%s", menuType),
+	}
+
+	for _, key := range keys {
+		if err := r.menuTreeCache.Delete(ctx, key); err != nil {
+			logger.Debugf(ctx, "Failed to invalidate menu tree cache %s: %v", key, err)
+		}
+	}
+}
+
+// generateTreeCacheKey generates a cache key for the menu tree
+func (r *menuRepository) generateTreeCacheKey(params *structs.FindMenu) string {
+	if params.Type != "" {
+		return fmt.Sprintf("tree:type:%s", params.Type)
+	}
+	return "tree:all"
+}
+
+// getMenuIDBySlug gets a menu ID by slug
+func (r *menuRepository) getMenuIDBySlug(ctx context.Context, slug string) (string, error) {
+	cacheKey := fmt.Sprintf("slug:%s", slug)
+	menuID, err := r.slugMappingCache.Get(ctx, cacheKey)
+	if err != nil || menuID == nil {
+		return "", err
+	}
+	return *menuID, nil
 }

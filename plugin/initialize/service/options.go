@@ -19,7 +19,7 @@ func (s *Service) checkOptionsInitialized(ctx context.Context) error {
 	return s.initOptions(ctx)
 }
 
-// initOptions initializes the default system options using current data mode
+// initOptions initializes the default system options and creates tenant relationships
 func (s *Service) initOptions(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system options in %s mode...", s.state.DataMode)
 
@@ -55,27 +55,32 @@ func (s *Service) initOptions(ctx context.Context) error {
 	dataLoader := s.getDataLoader()
 	options := dataLoader.GetOptions()
 
-	var createdCount int
+	var createdCount, relationshipCount int
+
+	// Create options and establish tenant relationships
 	for _, option := range options {
-		option.TenantID = tenant.ID
+		// Step 1: Create option (without tenant_id)
 		option.CreatedBy = &adminUser.ID
 
-		existing, err := s.sys.Options.GetByName(ctx, option.Name)
-		if err == nil && existing != nil {
-			logger.Infof(ctx, "Option %s already exists, skipping", option.Name)
-			continue
-		}
-
-		_, err = s.sys.Options.Create(ctx, &option)
+		created, err := s.sys.Options.Create(ctx, &option)
 		if err != nil {
 			logger.Errorf(ctx, "Error creating option %s: %v", option.Name, err)
 			return err
 		}
 		logger.Debugf(ctx, "Created option: %s", option.Name)
 		createdCount++
+
+		// Step 2: Create tenant-options relationship
+		_, err = s.ts.TenantOptions.AddOptionsToTenant(ctx, tenant.ID, created.ID)
+		if err != nil {
+			logger.Errorf(ctx, "Error linking options %s to tenant %s: %v", created.ID, tenant.ID, err)
+			return err
+		}
+		logger.Debugf(ctx, "Linked options %s to tenant %s", created.ID, tenant.ID)
+		relationshipCount++
 	}
 
-	logger.Infof(ctx, "System options initialization completed in %s mode, created %d options using admin user '%s'",
-		s.state.DataMode, createdCount, adminUser.Username)
+	logger.Infof(ctx, "System options initialization completed in %s mode, created %d options and %d relationships using admin user '%s'",
+		s.state.DataMode, createdCount, relationshipCount, adminUser.Username)
 	return nil
 }

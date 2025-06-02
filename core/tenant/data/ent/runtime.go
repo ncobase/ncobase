@@ -5,7 +5,10 @@ package ent
 import (
 	"ncobase/tenant/data/ent/tenant"
 	"ncobase/tenant/data/ent/tenantbilling"
+	"ncobase/tenant/data/ent/tenantdictionary"
 	"ncobase/tenant/data/ent/tenantgroup"
+	"ncobase/tenant/data/ent/tenantmenu"
+	"ncobase/tenant/data/ent/tenantoptions"
 	"ncobase/tenant/data/ent/tenantquota"
 	"ncobase/tenant/data/ent/tenantsetting"
 	"ncobase/tenant/data/ent/usertenant"
@@ -129,6 +132,51 @@ func init() {
 	tenantbilling.DefaultID = tenantbillingDescID.Default.(func() string)
 	// tenantbilling.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	tenantbilling.IDValidator = tenantbillingDescID.Validators[0].(func(string) error)
+	tenantdictionaryMixin := schema.TenantDictionary{}.Mixin()
+	tenantdictionaryMixinFields0 := tenantdictionaryMixin[0].Fields()
+	_ = tenantdictionaryMixinFields0
+	tenantdictionaryMixinFields1 := tenantdictionaryMixin[1].Fields()
+	_ = tenantdictionaryMixinFields1
+	tenantdictionaryMixinFields2 := tenantdictionaryMixin[2].Fields()
+	_ = tenantdictionaryMixinFields2
+	tenantdictionaryMixinFields3 := tenantdictionaryMixin[3].Fields()
+	_ = tenantdictionaryMixinFields3
+	tenantdictionaryMixinFields4 := tenantdictionaryMixin[4].Fields()
+	_ = tenantdictionaryMixinFields4
+	tenantdictionaryFields := schema.TenantDictionary{}.Fields()
+	_ = tenantdictionaryFields
+	// tenantdictionaryDescTenantID is the schema descriptor for tenant_id field.
+	tenantdictionaryDescTenantID := tenantdictionaryMixinFields1[0].Descriptor()
+	// tenantdictionary.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	tenantdictionary.TenantIDValidator = tenantdictionaryDescTenantID.Validators[0].(func(string) error)
+	// tenantdictionaryDescDictionaryID is the schema descriptor for dictionary_id field.
+	tenantdictionaryDescDictionaryID := tenantdictionaryMixinFields2[0].Descriptor()
+	// tenantdictionary.DictionaryIDValidator is a validator for the "dictionary_id" field. It is called by the builders before save.
+	tenantdictionary.DictionaryIDValidator = tenantdictionaryDescDictionaryID.Validators[0].(func(string) error)
+	// tenantdictionaryDescCreatedBy is the schema descriptor for created_by field.
+	tenantdictionaryDescCreatedBy := tenantdictionaryMixinFields3[0].Descriptor()
+	// tenantdictionary.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	tenantdictionary.CreatedByValidator = tenantdictionaryDescCreatedBy.Validators[0].(func(string) error)
+	// tenantdictionaryDescUpdatedBy is the schema descriptor for updated_by field.
+	tenantdictionaryDescUpdatedBy := tenantdictionaryMixinFields3[1].Descriptor()
+	// tenantdictionary.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	tenantdictionary.UpdatedByValidator = tenantdictionaryDescUpdatedBy.Validators[0].(func(string) error)
+	// tenantdictionaryDescCreatedAt is the schema descriptor for created_at field.
+	tenantdictionaryDescCreatedAt := tenantdictionaryMixinFields4[0].Descriptor()
+	// tenantdictionary.DefaultCreatedAt holds the default value on creation for the created_at field.
+	tenantdictionary.DefaultCreatedAt = tenantdictionaryDescCreatedAt.Default.(func() int64)
+	// tenantdictionaryDescUpdatedAt is the schema descriptor for updated_at field.
+	tenantdictionaryDescUpdatedAt := tenantdictionaryMixinFields4[1].Descriptor()
+	// tenantdictionary.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	tenantdictionary.DefaultUpdatedAt = tenantdictionaryDescUpdatedAt.Default.(func() int64)
+	// tenantdictionary.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	tenantdictionary.UpdateDefaultUpdatedAt = tenantdictionaryDescUpdatedAt.UpdateDefault.(func() int64)
+	// tenantdictionaryDescID is the schema descriptor for id field.
+	tenantdictionaryDescID := tenantdictionaryMixinFields0[0].Descriptor()
+	// tenantdictionary.DefaultID holds the default value on creation for the id field.
+	tenantdictionary.DefaultID = tenantdictionaryDescID.Default.(func() string)
+	// tenantdictionary.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	tenantdictionary.IDValidator = tenantdictionaryDescID.Validators[0].(func(string) error)
 	tenantgroupMixin := schema.TenantGroup{}.Mixin()
 	tenantgroupMixinFields0 := tenantgroupMixin[0].Fields()
 	_ = tenantgroupMixinFields0
@@ -180,6 +228,96 @@ func init() {
 	tenantgroup.DefaultID = tenantgroupDescID.Default.(func() string)
 	// tenantgroup.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	tenantgroup.IDValidator = tenantgroupDescID.Validators[0].(func(string) error)
+	tenantmenuMixin := schema.TenantMenu{}.Mixin()
+	tenantmenuMixinFields0 := tenantmenuMixin[0].Fields()
+	_ = tenantmenuMixinFields0
+	tenantmenuMixinFields1 := tenantmenuMixin[1].Fields()
+	_ = tenantmenuMixinFields1
+	tenantmenuMixinFields2 := tenantmenuMixin[2].Fields()
+	_ = tenantmenuMixinFields2
+	tenantmenuMixinFields3 := tenantmenuMixin[3].Fields()
+	_ = tenantmenuMixinFields3
+	tenantmenuMixinFields4 := tenantmenuMixin[4].Fields()
+	_ = tenantmenuMixinFields4
+	tenantmenuFields := schema.TenantMenu{}.Fields()
+	_ = tenantmenuFields
+	// tenantmenuDescTenantID is the schema descriptor for tenant_id field.
+	tenantmenuDescTenantID := tenantmenuMixinFields1[0].Descriptor()
+	// tenantmenu.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	tenantmenu.TenantIDValidator = tenantmenuDescTenantID.Validators[0].(func(string) error)
+	// tenantmenuDescMenuID is the schema descriptor for menu_id field.
+	tenantmenuDescMenuID := tenantmenuMixinFields2[0].Descriptor()
+	// tenantmenu.MenuIDValidator is a validator for the "menu_id" field. It is called by the builders before save.
+	tenantmenu.MenuIDValidator = tenantmenuDescMenuID.Validators[0].(func(string) error)
+	// tenantmenuDescCreatedBy is the schema descriptor for created_by field.
+	tenantmenuDescCreatedBy := tenantmenuMixinFields3[0].Descriptor()
+	// tenantmenu.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	tenantmenu.CreatedByValidator = tenantmenuDescCreatedBy.Validators[0].(func(string) error)
+	// tenantmenuDescUpdatedBy is the schema descriptor for updated_by field.
+	tenantmenuDescUpdatedBy := tenantmenuMixinFields3[1].Descriptor()
+	// tenantmenu.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	tenantmenu.UpdatedByValidator = tenantmenuDescUpdatedBy.Validators[0].(func(string) error)
+	// tenantmenuDescCreatedAt is the schema descriptor for created_at field.
+	tenantmenuDescCreatedAt := tenantmenuMixinFields4[0].Descriptor()
+	// tenantmenu.DefaultCreatedAt holds the default value on creation for the created_at field.
+	tenantmenu.DefaultCreatedAt = tenantmenuDescCreatedAt.Default.(func() int64)
+	// tenantmenuDescUpdatedAt is the schema descriptor for updated_at field.
+	tenantmenuDescUpdatedAt := tenantmenuMixinFields4[1].Descriptor()
+	// tenantmenu.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	tenantmenu.DefaultUpdatedAt = tenantmenuDescUpdatedAt.Default.(func() int64)
+	// tenantmenu.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	tenantmenu.UpdateDefaultUpdatedAt = tenantmenuDescUpdatedAt.UpdateDefault.(func() int64)
+	// tenantmenuDescID is the schema descriptor for id field.
+	tenantmenuDescID := tenantmenuMixinFields0[0].Descriptor()
+	// tenantmenu.DefaultID holds the default value on creation for the id field.
+	tenantmenu.DefaultID = tenantmenuDescID.Default.(func() string)
+	// tenantmenu.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	tenantmenu.IDValidator = tenantmenuDescID.Validators[0].(func(string) error)
+	tenantoptionsMixin := schema.TenantOptions{}.Mixin()
+	tenantoptionsMixinFields0 := tenantoptionsMixin[0].Fields()
+	_ = tenantoptionsMixinFields0
+	tenantoptionsMixinFields1 := tenantoptionsMixin[1].Fields()
+	_ = tenantoptionsMixinFields1
+	tenantoptionsMixinFields2 := tenantoptionsMixin[2].Fields()
+	_ = tenantoptionsMixinFields2
+	tenantoptionsMixinFields3 := tenantoptionsMixin[3].Fields()
+	_ = tenantoptionsMixinFields3
+	tenantoptionsMixinFields4 := tenantoptionsMixin[4].Fields()
+	_ = tenantoptionsMixinFields4
+	tenantoptionsFields := schema.TenantOptions{}.Fields()
+	_ = tenantoptionsFields
+	// tenantoptionsDescTenantID is the schema descriptor for tenant_id field.
+	tenantoptionsDescTenantID := tenantoptionsMixinFields1[0].Descriptor()
+	// tenantoptions.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	tenantoptions.TenantIDValidator = tenantoptionsDescTenantID.Validators[0].(func(string) error)
+	// tenantoptionsDescOptionsID is the schema descriptor for options_id field.
+	tenantoptionsDescOptionsID := tenantoptionsMixinFields2[0].Descriptor()
+	// tenantoptions.OptionsIDValidator is a validator for the "options_id" field. It is called by the builders before save.
+	tenantoptions.OptionsIDValidator = tenantoptionsDescOptionsID.Validators[0].(func(string) error)
+	// tenantoptionsDescCreatedBy is the schema descriptor for created_by field.
+	tenantoptionsDescCreatedBy := tenantoptionsMixinFields3[0].Descriptor()
+	// tenantoptions.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
+	tenantoptions.CreatedByValidator = tenantoptionsDescCreatedBy.Validators[0].(func(string) error)
+	// tenantoptionsDescUpdatedBy is the schema descriptor for updated_by field.
+	tenantoptionsDescUpdatedBy := tenantoptionsMixinFields3[1].Descriptor()
+	// tenantoptions.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
+	tenantoptions.UpdatedByValidator = tenantoptionsDescUpdatedBy.Validators[0].(func(string) error)
+	// tenantoptionsDescCreatedAt is the schema descriptor for created_at field.
+	tenantoptionsDescCreatedAt := tenantoptionsMixinFields4[0].Descriptor()
+	// tenantoptions.DefaultCreatedAt holds the default value on creation for the created_at field.
+	tenantoptions.DefaultCreatedAt = tenantoptionsDescCreatedAt.Default.(func() int64)
+	// tenantoptionsDescUpdatedAt is the schema descriptor for updated_at field.
+	tenantoptionsDescUpdatedAt := tenantoptionsMixinFields4[1].Descriptor()
+	// tenantoptions.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	tenantoptions.DefaultUpdatedAt = tenantoptionsDescUpdatedAt.Default.(func() int64)
+	// tenantoptions.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	tenantoptions.UpdateDefaultUpdatedAt = tenantoptionsDescUpdatedAt.UpdateDefault.(func() int64)
+	// tenantoptionsDescID is the schema descriptor for id field.
+	tenantoptionsDescID := tenantoptionsMixinFields0[0].Descriptor()
+	// tenantoptions.DefaultID holds the default value on creation for the id field.
+	tenantoptions.DefaultID = tenantoptionsDescID.Default.(func() string)
+	// tenantoptions.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	tenantoptions.IDValidator = tenantoptionsDescID.Validators[0].(func(string) error)
 	tenantquotaMixin := schema.TenantQuota{}.Mixin()
 	tenantquotaMixinFields0 := tenantquotaMixin[0].Fields()
 	_ = tenantquotaMixinFields0

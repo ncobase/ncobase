@@ -280,26 +280,6 @@ func (mu *MenuUpdate) ClearParentID() *MenuUpdate {
 	return mu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (mu *MenuUpdate) SetTenantID(s string) *MenuUpdate {
-	mu.mutation.SetTenantID(s)
-	return mu
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (mu *MenuUpdate) SetNillableTenantID(s *string) *MenuUpdate {
-	if s != nil {
-		mu.SetTenantID(*s)
-	}
-	return mu
-}
-
-// ClearTenantID clears the value of the "tenant_id" field.
-func (mu *MenuUpdate) ClearTenantID() *MenuUpdate {
-	mu.mutation.ClearTenantID()
-	return mu
-}
-
 // SetCreatedBy sets the "created_by" field.
 func (mu *MenuUpdate) SetCreatedBy(s string) *MenuUpdate {
 	mu.mutation.SetCreatedBy(s)
@@ -407,11 +387,6 @@ func (mu *MenuUpdate) check() error {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Menu.parent_id": %w`, err)}
 		}
 	}
-	if v, ok := mu.mutation.TenantID(); ok {
-		if err := menu.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Menu.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := mu.mutation.CreatedBy(); ok {
 		if err := menu.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Menu.created_by": %w`, err)}
@@ -514,12 +489,6 @@ func (mu *MenuUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if mu.mutation.ParentIDCleared() {
 		_spec.ClearField(menu.FieldParentID, field.TypeString)
-	}
-	if value, ok := mu.mutation.TenantID(); ok {
-		_spec.SetField(menu.FieldTenantID, field.TypeString, value)
-	}
-	if mu.mutation.TenantIDCleared() {
-		_spec.ClearField(menu.FieldTenantID, field.TypeString)
 	}
 	if value, ok := mu.mutation.CreatedBy(); ok {
 		_spec.SetField(menu.FieldCreatedBy, field.TypeString, value)
@@ -818,26 +787,6 @@ func (muo *MenuUpdateOne) ClearParentID() *MenuUpdateOne {
 	return muo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (muo *MenuUpdateOne) SetTenantID(s string) *MenuUpdateOne {
-	muo.mutation.SetTenantID(s)
-	return muo
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (muo *MenuUpdateOne) SetNillableTenantID(s *string) *MenuUpdateOne {
-	if s != nil {
-		muo.SetTenantID(*s)
-	}
-	return muo
-}
-
-// ClearTenantID clears the value of the "tenant_id" field.
-func (muo *MenuUpdateOne) ClearTenantID() *MenuUpdateOne {
-	muo.mutation.ClearTenantID()
-	return muo
-}
-
 // SetCreatedBy sets the "created_by" field.
 func (muo *MenuUpdateOne) SetCreatedBy(s string) *MenuUpdateOne {
 	muo.mutation.SetCreatedBy(s)
@@ -956,11 +905,6 @@ func (muo *MenuUpdateOne) check() error {
 	if v, ok := muo.mutation.ParentID(); ok {
 		if err := menu.ParentIDValidator(v); err != nil {
 			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Menu.parent_id": %w`, err)}
-		}
-	}
-	if v, ok := muo.mutation.TenantID(); ok {
-		if err := menu.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Menu.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := muo.mutation.CreatedBy(); ok {
@@ -1082,12 +1026,6 @@ func (muo *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) 
 	}
 	if muo.mutation.ParentIDCleared() {
 		_spec.ClearField(menu.FieldParentID, field.TypeString)
-	}
-	if value, ok := muo.mutation.TenantID(); ok {
-		_spec.SetField(menu.FieldTenantID, field.TypeString, value)
-	}
-	if muo.mutation.TenantIDCleared() {
-		_spec.ClearField(menu.FieldTenantID, field.TypeString)
 	}
 	if value, ok := muo.mutation.CreatedBy(); ok {
 		_spec.SetField(menu.FieldCreatedBy, field.TypeString, value)

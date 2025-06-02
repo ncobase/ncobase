@@ -19,7 +19,7 @@ import (
 type DictionaryServiceInterface interface {
 	Create(ctx context.Context, body *structs.DictionaryBody) (*structs.ReadDictionary, error)
 	Update(ctx context.Context, updates *structs.UpdateDictionaryBody) (*structs.ReadDictionary, error)
-	Get(ctx context.Context, params *structs.FindDictionary) (any, error)
+	Get(ctx context.Context, params *structs.FindDictionary) (*structs.ReadDictionary, error)
 	GetByType(ctx context.Context, typeName string) ([]*structs.ReadDictionary, error)
 	GetBySlug(ctx context.Context, slug string) (*structs.ReadDictionary, error)
 	GetValueBySlug(ctx context.Context, slug string) (any, error)
@@ -62,7 +62,7 @@ func (s *dictionaryService) Create(ctx context.Context, body *structs.Dictionary
 }
 
 // Get retrieves a dictionary by ID.
-func (s *dictionaryService) Get(ctx context.Context, params *structs.FindDictionary) (any, error) {
+func (s *dictionaryService) Get(ctx context.Context, params *structs.FindDictionary) (*structs.ReadDictionary, error) {
 	row, err := s.dictionary.Get(ctx, params)
 	if err := handleEntError(ctx, "Dictionary", err); err != nil {
 		return nil, err
@@ -99,17 +99,12 @@ func (s *dictionaryService) GetBySlug(ctx context.Context, slug string) (*struct
 		Dictionary: slug,
 	}
 
-	result, err := s.Get(ctx, params)
+	row, err := s.Get(ctx, params)
 	if err != nil {
 		return nil, err
 	}
 
-	dictionary, ok := result.(*structs.ReadDictionary)
-	if !ok {
-		return nil, errors.New(ecode.AssertionFailed("dictionary"))
-	}
-
-	return dictionary, nil
+	return row, nil
 }
 
 // GetValueBySlug retrieves and parses a dictionary's value by slug.
@@ -310,7 +305,6 @@ func (s *dictionaryService) Serialize(row *ent.Dictionary) *structs.ReadDictiona
 		Slug:      row.Slug,
 		Type:      row.Type,
 		Value:     row.Value,
-		TenantID:  row.TenantID,
 		CreatedBy: &row.CreatedBy,
 		CreatedAt: &row.CreatedAt,
 		UpdatedBy: &row.UpdatedBy,

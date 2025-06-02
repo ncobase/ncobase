@@ -107,26 +107,6 @@ func (du *DictionaryUpdate) ClearValue() *DictionaryUpdate {
 	return du
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (du *DictionaryUpdate) SetTenantID(s string) *DictionaryUpdate {
-	du.mutation.SetTenantID(s)
-	return du
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (du *DictionaryUpdate) SetNillableTenantID(s *string) *DictionaryUpdate {
-	if s != nil {
-		du.SetTenantID(*s)
-	}
-	return du
-}
-
-// ClearTenantID clears the value of the "tenant_id" field.
-func (du *DictionaryUpdate) ClearTenantID() *DictionaryUpdate {
-	du.mutation.ClearTenantID()
-	return du
-}
-
 // SetDescription sets the "description" field.
 func (du *DictionaryUpdate) SetDescription(s string) *DictionaryUpdate {
 	du.mutation.SetDescription(s)
@@ -249,11 +229,6 @@ func (du *DictionaryUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (du *DictionaryUpdate) check() error {
-	if v, ok := du.mutation.TenantID(); ok {
-		if err := dictionary.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Dictionary.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := du.mutation.CreatedBy(); ok {
 		if err := dictionary.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.created_by": %w`, err)}
@@ -302,12 +277,6 @@ func (du *DictionaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if du.mutation.ValueCleared() {
 		_spec.ClearField(dictionary.FieldValue, field.TypeString)
-	}
-	if value, ok := du.mutation.TenantID(); ok {
-		_spec.SetField(dictionary.FieldTenantID, field.TypeString, value)
-	}
-	if du.mutation.TenantIDCleared() {
-		_spec.ClearField(dictionary.FieldTenantID, field.TypeString)
 	}
 	if value, ok := du.mutation.Description(); ok {
 		_spec.SetField(dictionary.FieldDescription, field.TypeString, value)
@@ -436,26 +405,6 @@ func (duo *DictionaryUpdateOne) SetNillableValue(s *string) *DictionaryUpdateOne
 // ClearValue clears the value of the "value" field.
 func (duo *DictionaryUpdateOne) ClearValue() *DictionaryUpdateOne {
 	duo.mutation.ClearValue()
-	return duo
-}
-
-// SetTenantID sets the "tenant_id" field.
-func (duo *DictionaryUpdateOne) SetTenantID(s string) *DictionaryUpdateOne {
-	duo.mutation.SetTenantID(s)
-	return duo
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (duo *DictionaryUpdateOne) SetNillableTenantID(s *string) *DictionaryUpdateOne {
-	if s != nil {
-		duo.SetTenantID(*s)
-	}
-	return duo
-}
-
-// ClearTenantID clears the value of the "tenant_id" field.
-func (duo *DictionaryUpdateOne) ClearTenantID() *DictionaryUpdateOne {
-	duo.mutation.ClearTenantID()
 	return duo
 }
 
@@ -594,11 +543,6 @@ func (duo *DictionaryUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (duo *DictionaryUpdateOne) check() error {
-	if v, ok := duo.mutation.TenantID(); ok {
-		if err := dictionary.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Dictionary.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := duo.mutation.CreatedBy(); ok {
 		if err := dictionary.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.created_by": %w`, err)}
@@ -664,12 +608,6 @@ func (duo *DictionaryUpdateOne) sqlSave(ctx context.Context) (_node *Dictionary,
 	}
 	if duo.mutation.ValueCleared() {
 		_spec.ClearField(dictionary.FieldValue, field.TypeString)
-	}
-	if value, ok := duo.mutation.TenantID(); ok {
-		_spec.SetField(dictionary.FieldTenantID, field.TypeString, value)
-	}
-	if duo.mutation.TenantIDCleared() {
-		_spec.ClearField(dictionary.FieldTenantID, field.TypeString)
 	}
 	if value, ok := duo.mutation.Description(); ok {
 		_spec.SetField(dictionary.FieldDescription, field.TypeString, value)

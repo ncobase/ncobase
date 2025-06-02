@@ -83,11 +83,6 @@ func Autoload(v bool) predicate.Options {
 	return predicate.Options(sql.FieldEQ(FieldAutoload, v))
 }
 
-// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
-func TenantID(v string) predicate.Options {
-	return predicate.Options(sql.FieldEQ(FieldTenantID, v))
-}
-
 // CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
 func CreatedBy(v string) predicate.Options {
 	return predicate.Options(sql.FieldEQ(FieldCreatedBy, v))
@@ -351,81 +346,6 @@ func AutoloadIsNil() predicate.Options {
 // AutoloadNotNil applies the NotNil predicate on the "autoload" field.
 func AutoloadNotNil() predicate.Options {
 	return predicate.Options(sql.FieldNotNull(FieldAutoload))
-}
-
-// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
-func TenantIDEQ(v string) predicate.Options {
-	return predicate.Options(sql.FieldEQ(FieldTenantID, v))
-}
-
-// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
-func TenantIDNEQ(v string) predicate.Options {
-	return predicate.Options(sql.FieldNEQ(FieldTenantID, v))
-}
-
-// TenantIDIn applies the In predicate on the "tenant_id" field.
-func TenantIDIn(vs ...string) predicate.Options {
-	return predicate.Options(sql.FieldIn(FieldTenantID, vs...))
-}
-
-// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
-func TenantIDNotIn(vs ...string) predicate.Options {
-	return predicate.Options(sql.FieldNotIn(FieldTenantID, vs...))
-}
-
-// TenantIDGT applies the GT predicate on the "tenant_id" field.
-func TenantIDGT(v string) predicate.Options {
-	return predicate.Options(sql.FieldGT(FieldTenantID, v))
-}
-
-// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
-func TenantIDGTE(v string) predicate.Options {
-	return predicate.Options(sql.FieldGTE(FieldTenantID, v))
-}
-
-// TenantIDLT applies the LT predicate on the "tenant_id" field.
-func TenantIDLT(v string) predicate.Options {
-	return predicate.Options(sql.FieldLT(FieldTenantID, v))
-}
-
-// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
-func TenantIDLTE(v string) predicate.Options {
-	return predicate.Options(sql.FieldLTE(FieldTenantID, v))
-}
-
-// TenantIDContains applies the Contains predicate on the "tenant_id" field.
-func TenantIDContains(v string) predicate.Options {
-	return predicate.Options(sql.FieldContains(FieldTenantID, v))
-}
-
-// TenantIDHasPrefix applies the HasPrefix predicate on the "tenant_id" field.
-func TenantIDHasPrefix(v string) predicate.Options {
-	return predicate.Options(sql.FieldHasPrefix(FieldTenantID, v))
-}
-
-// TenantIDHasSuffix applies the HasSuffix predicate on the "tenant_id" field.
-func TenantIDHasSuffix(v string) predicate.Options {
-	return predicate.Options(sql.FieldHasSuffix(FieldTenantID, v))
-}
-
-// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
-func TenantIDIsNil() predicate.Options {
-	return predicate.Options(sql.FieldIsNull(FieldTenantID))
-}
-
-// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
-func TenantIDNotNil() predicate.Options {
-	return predicate.Options(sql.FieldNotNull(FieldTenantID))
-}
-
-// TenantIDEqualFold applies the EqualFold predicate on the "tenant_id" field.
-func TenantIDEqualFold(v string) predicate.Options {
-	return predicate.Options(sql.FieldEqualFold(FieldTenantID, v))
-}
-
-// TenantIDContainsFold applies the ContainsFold predicate on the "tenant_id" field.
-func TenantIDContainsFold(v string) predicate.Options {
-	return predicate.Options(sql.FieldContainsFold(FieldTenantID, v))
 }
 
 // CreatedByEQ applies the EQ predicate on the "created_by" field.

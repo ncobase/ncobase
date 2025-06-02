@@ -74,20 +74,6 @@ func (dc *DictionaryCreate) SetNillableValue(s *string) *DictionaryCreate {
 	return dc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (dc *DictionaryCreate) SetTenantID(s string) *DictionaryCreate {
-	dc.mutation.SetTenantID(s)
-	return dc
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableTenantID(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetTenantID(*s)
-	}
-	return dc
-}
-
 // SetDescription sets the "description" field.
 func (dc *DictionaryCreate) SetDescription(s string) *DictionaryCreate {
 	dc.mutation.SetDescription(s)
@@ -223,11 +209,6 @@ func (dc *DictionaryCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (dc *DictionaryCreate) check() error {
-	if v, ok := dc.mutation.TenantID(); ok {
-		if err := dictionary.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Dictionary.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := dc.mutation.CreatedBy(); ok {
 		if err := dictionary.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.created_by": %w`, err)}
@@ -293,10 +274,6 @@ func (dc *DictionaryCreate) createSpec() (*Dictionary, *sqlgraph.CreateSpec) {
 	if value, ok := dc.mutation.Value(); ok {
 		_spec.SetField(dictionary.FieldValue, field.TypeString, value)
 		_node.Value = value
-	}
-	if value, ok := dc.mutation.TenantID(); ok {
-		_spec.SetField(dictionary.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
 	}
 	if value, ok := dc.mutation.Description(); ok {
 		_spec.SetField(dictionary.FieldDescription, field.TypeString, value)

@@ -44,7 +44,6 @@ func (Menu) Mixin() []ent.Mixin {
 		mixin.Disabled,
 		mixin.ExtraProps,
 		mixin.ParentID,
-		mixin.TenantID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

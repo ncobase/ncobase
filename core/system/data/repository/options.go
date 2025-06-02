@@ -31,12 +31,11 @@ type OptionsRepositoryInterface interface {
 
 // optionsRepository implements the OptionsRepositoryInterface.
 type optionsRepository struct {
-	data               *data.Data
-	ms                 *meili.Client
-	optionsCache       cache.ICache[ent.Options]
-	nameMappingCache   cache.ICache[string]   // Maps name to option ID
-	tenantOptionsCache cache.ICache[[]string] // Maps tenant to option IDs by type/prefix
-	optionsTTL         time.Duration
+	data             *data.Data
+	ms               *meili.Client
+	optionsCache     cache.ICache[ent.Options]
+	nameMappingCache cache.ICache[string] // Maps name to option ID
+	optionsTTL       time.Duration
 }
 
 // NewOptionsRepository creates a new options repository.
@@ -44,12 +43,11 @@ func NewOptionsRepository(d *data.Data) OptionsRepositoryInterface {
 	redisClient := d.GetRedis()
 
 	return &optionsRepository{
-		data:               d,
-		ms:                 d.GetMeilisearch(),
-		optionsCache:       cache.NewCache[ent.Options](redisClient, "ncse_system:options"),
-		nameMappingCache:   cache.NewCache[string](redisClient, "ncse_system:option_mappings"),
-		tenantOptionsCache: cache.NewCache[[]string](redisClient, "ncse_system:tenant_options"),
-		optionsTTL:         time.Hour * 6, // 6 hours cache TTL (options change less frequently)
+		data:             d,
+		ms:               d.GetMeilisearch(),
+		optionsCache:     cache.NewCache[ent.Options](redisClient, "ncse_system:options"),
+		nameMappingCache: cache.NewCache[string](redisClient, "ncse_system:option_mappings"),
+		optionsTTL:       time.Hour * 6, // 6 hours cache TTL
 	}
 }
 
@@ -70,8 +68,8 @@ func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBod
 	if validator.IsNotNil(body.Autoload) {
 		builder.SetAutoload(body.Autoload)
 	}
-	if validator.IsNotEmpty(body.TenantID) {
-		builder.SetNillableTenantID(&body.TenantID)
+	if validator.IsNotEmpty(body.CreatedBy) {
+		builder.SetNillableCreatedBy(body.CreatedBy)
 	}
 
 	row, err := builder.Save(ctx)
@@ -85,13 +83,8 @@ func (r *optionsRepository) Create(ctx context.Context, body *structs.OptionsBod
 		logger.Errorf(ctx, "optionsRepo.Create error creating Meilisearch index: %v", err)
 	}
 
-	// Cache the option and invalidate related caches
-	go func() {
-		r.cacheOption(context.Background(), row)
-		if body.TenantID != "" && body.Type != "" {
-			r.invalidateTenantOptionsCache(context.Background(), body.TenantID, body.Type)
-		}
-	}()
+	// Cache the option
+	go r.cacheOption(context.Background(), row)
 
 	return row, nil
 }
@@ -147,8 +140,8 @@ func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOpti
 	if validator.IsNotNil(body.Autoload) {
 		builder.SetAutoload(body.Autoload)
 	}
-	if validator.IsNotEmpty(body.TenantID) {
-		builder.SetNillableTenantID(&body.TenantID)
+	if validator.IsNotEmpty(body.UpdatedBy) {
+		builder.SetNillableUpdatedBy(body.UpdatedBy)
 	}
 
 	row, err := builder.Save(ctx)
@@ -166,16 +159,6 @@ func (r *optionsRepository) Update(ctx context.Context, body *structs.UpdateOpti
 	go func() {
 		r.invalidateOptionCache(context.Background(), originalOption)
 		r.cacheOption(context.Background(), row)
-
-		// Invalidate tenant caches for both old and new tenants/types
-		if originalOption.TenantID != "" && originalOption.Type != "" {
-			r.invalidateTenantOptionsCache(context.Background(), originalOption.TenantID, originalOption.Type)
-		}
-		if row.TenantID != "" && row.Type != "" &&
-			(originalOption.TenantID == "" || originalOption.Type == "" ||
-				originalOption.TenantID != row.TenantID || originalOption.Type != row.Type) {
-			r.invalidateTenantOptionsCache(context.Background(), row.TenantID, row.Type)
-		}
 	}()
 
 	return row, nil
@@ -197,10 +180,6 @@ func (r *optionsRepository) Delete(ctx context.Context, params *structs.FindOpti
 		optionsEnt.NameEQ(params.Option),
 	))
 
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(optionsEnt.TenantIDEQ(params.Tenant))
-	}
-
 	_, err = builder.Exec(ctx)
 	if validator.IsNotNil(err) {
 		return err
@@ -212,12 +191,7 @@ func (r *optionsRepository) Delete(ctx context.Context, params *structs.FindOpti
 	}
 
 	// Invalidate cache
-	go func() {
-		r.invalidateOptionCache(context.Background(), option)
-		if option.TenantID != "" && option.Type != "" {
-			r.invalidateTenantOptionsCache(context.Background(), option.TenantID, option.Type)
-		}
-	}()
+	go r.invalidateOptionCache(context.Background(), option)
 
 	return nil
 }
@@ -244,9 +218,6 @@ func (r *optionsRepository) DeleteByPrefix(ctx context.Context, prefix string) e
 	go func() {
 		for _, option := range options {
 			r.invalidateOptionCache(context.Background(), option)
-			if option.TenantID != "" && option.Type != "" {
-				r.invalidateTenantOptionsCache(context.Background(), option.TenantID, option.Type)
-			}
 		}
 	}()
 
@@ -421,10 +392,6 @@ func (r *optionsRepository) listBuilder(_ context.Context, params *structs.ListO
 	// Use slave for reads
 	builder := r.data.GetSlaveEntClient().Options.Query()
 
-	if params.Tenant != "" {
-		builder.Where(optionsEnt.TenantIDEQ(params.Tenant))
-	}
-
 	if params.Type != "" {
 		builder.Where(optionsEnt.TypeEQ(params.Type))
 	}
@@ -451,9 +418,6 @@ func (r *optionsRepository) getOption(ctx context.Context, params *structs.FindO
 			optionsEnt.IDEQ(params.Option),
 			optionsEnt.NameEQ(params.Option),
 		))
-	}
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(optionsEnt.TenantIDEQ(params.Tenant))
 	}
 
 	row, err := builder.First(ctx)
@@ -505,14 +469,6 @@ func (r *optionsRepository) invalidateOptionCache(ctx context.Context, option *e
 		if err := r.nameMappingCache.Delete(ctx, nameKey); err != nil {
 			logger.Debugf(ctx, "Failed to invalidate name mapping cache %s: %v", option.Name, err)
 		}
-	}
-}
-
-// invalidateTenantOptionsCache invalidates tenant options cache
-func (r *optionsRepository) invalidateTenantOptionsCache(ctx context.Context, tenantID, optionType string) {
-	cacheKey := fmt.Sprintf("tenant:%s:type:%s", tenantID, optionType)
-	if err := r.tenantOptionsCache.Delete(ctx, cacheKey); err != nil {
-		logger.Debugf(ctx, "Failed to invalidate tenant options cache %s: %v", cacheKey, err)
 	}
 }
 

@@ -32,8 +32,7 @@ type dictionaryRepository struct {
 	data             *data.Data
 	ms               *meili.Client
 	dictionaryCache  cache.ICache[ent.Dictionary]
-	slugMappingCache cache.ICache[string]   // Maps slug to dictionary ID
-	tenantDictCache  cache.ICache[[]string] // Maps tenant to dictionary IDs by type
+	slugMappingCache cache.ICache[string] // Maps slug to dictionary ID
 	dictionaryTTL    time.Duration
 }
 
@@ -46,7 +45,6 @@ func NewDictionaryRepository(d *data.Data) DictionaryRepositoryInterface {
 		ms:               d.GetMeilisearch(),
 		dictionaryCache:  cache.NewCache[ent.Dictionary](redisClient, "ncse_system:dictionaries"),
 		slugMappingCache: cache.NewCache[string](redisClient, "ncse_system:dict_mappings"),
-		tenantDictCache:  cache.NewCache[[]string](redisClient, "ncse_system:tenant_dicts"),
 		dictionaryTTL:    time.Hour * 4, // 4 hours cache TTL
 	}
 }
@@ -69,8 +67,8 @@ func (r *dictionaryRepository) Create(ctx context.Context, body *structs.Diction
 	if validator.IsNotEmpty(body.Value) {
 		builder.SetNillableValue(&body.Value)
 	}
-	if validator.IsNotEmpty(body.TenantID) {
-		builder.SetNillableTenantID(&body.TenantID)
+	if validator.IsNotEmpty(body.Description) {
+		builder.SetNillableDescription(&body.Description)
 	}
 	if validator.IsNotEmpty(body.CreatedBy) {
 		builder.SetNillableCreatedBy(body.CreatedBy)
@@ -87,13 +85,8 @@ func (r *dictionaryRepository) Create(ctx context.Context, body *structs.Diction
 		logger.Errorf(ctx, "dictionaryRepo.Create error creating Meilisearch index: %v", err)
 	}
 
-	// Cache the dictionary and invalidate tenant cache
-	go func() {
-		r.cacheDictionary(context.Background(), row)
-		if body.TenantID != "" && body.Type != "" {
-			r.invalidateTenantDictCache(context.Background(), body.TenantID, body.Type)
-		}
-	}()
+	// Cache the dictionary
+	go r.cacheDictionary(context.Background(), row)
 
 	return row, nil
 }
@@ -150,8 +143,8 @@ func (r *dictionaryRepository) Update(ctx context.Context, body *structs.UpdateD
 	if validator.IsNotEmpty(body.Value) {
 		builder.SetNillableValue(&body.Value)
 	}
-	if validator.IsNotEmpty(body.TenantID) {
-		builder.SetNillableTenantID(&body.TenantID)
+	if validator.IsNotEmpty(body.Description) {
+		builder.SetNillableDescription(&body.Description)
 	}
 	if validator.IsNotEmpty(body.UpdatedBy) {
 		builder.SetNillableUpdatedBy(body.UpdatedBy)
@@ -172,16 +165,6 @@ func (r *dictionaryRepository) Update(ctx context.Context, body *structs.UpdateD
 	go func() {
 		r.invalidateDictionaryCache(context.Background(), originalDict)
 		r.cacheDictionary(context.Background(), row)
-
-		// Invalidate tenant caches for both old and new tenants/types
-		if originalDict.TenantID != "" && originalDict.Type != "" {
-			r.invalidateTenantDictCache(context.Background(), originalDict.TenantID, originalDict.Type)
-		}
-		if row.TenantID != "" && row.Type != "" &&
-			(originalDict.TenantID == "" || originalDict.Type == "" ||
-				originalDict.TenantID != row.TenantID || originalDict.Type != row.Type) {
-			r.invalidateTenantDictCache(context.Background(), row.TenantID, row.Type)
-		}
 	}()
 
 	return row, nil
@@ -204,11 +187,6 @@ func (r *dictionaryRepository) Delete(ctx context.Context, params *structs.FindD
 		dictionaryEnt.SlugEQ(params.Dictionary),
 	))
 
-	// Match tenant id
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(dictionaryEnt.TenantIDEQ(params.Tenant))
-	}
-
 	// Execute the builder
 	_, err = builder.Exec(ctx)
 	if validator.IsNotNil(err) {
@@ -221,12 +199,7 @@ func (r *dictionaryRepository) Delete(ctx context.Context, params *structs.FindD
 	}
 
 	// Invalidate cache
-	go func() {
-		r.invalidateDictionaryCache(context.Background(), dict)
-		if dict.TenantID != "" && dict.Type != "" {
-			r.invalidateTenantDictCache(context.Background(), dict.TenantID, dict.Type)
-		}
-	}()
+	go r.invalidateDictionaryCache(context.Background(), dict)
 
 	return nil
 }
@@ -309,11 +282,6 @@ func (r *dictionaryRepository) listBuilder(_ context.Context, params *structs.Li
 	// Use slave for reads
 	builder := r.data.GetSlaveEntClient().Dictionary.Query()
 
-	// Match tenant id
-	if params.Tenant != "" {
-		builder.Where(dictionaryEnt.TenantIDEQ(params.Tenant))
-	}
-
 	// Match type
 	if params.Type != "" {
 		builder.Where(dictionaryEnt.TypeEQ(params.Type))
@@ -334,11 +302,6 @@ func (r *dictionaryRepository) getDictionary(ctx context.Context, params *struct
 			dictionaryEnt.IDEQ(params.Dictionary),
 			dictionaryEnt.SlugEQ(params.Dictionary),
 		))
-	}
-
-	// Match tenant id
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(dictionaryEnt.TenantIDEQ(params.Tenant))
 	}
 
 	// Execute the builder
@@ -391,14 +354,6 @@ func (r *dictionaryRepository) invalidateDictionaryCache(ctx context.Context, di
 		if err := r.slugMappingCache.Delete(ctx, slugKey); err != nil {
 			logger.Debugf(ctx, "Failed to invalidate slug mapping cache %s: %v", dict.Slug, err)
 		}
-	}
-}
-
-// invalidateTenantDictCache invalidates tenant dict cache
-func (r *dictionaryRepository) invalidateTenantDictCache(ctx context.Context, tenantID, dictType string) {
-	cacheKey := fmt.Sprintf("tenant:%s:type:%s", tenantID, dictType)
-	if err := r.tenantDictCache.Delete(ctx, cacheKey); err != nil {
-		logger.Debugf(ctx, "Failed to invalidate tenant dict cache %s: %v", cacheKey, err)
 	}
 }
 

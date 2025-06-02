@@ -19,7 +19,7 @@ func (s *Service) checkDictionariesInitialized(ctx context.Context) error {
 	return s.initDictionaries(ctx)
 }
 
-// initDictionaries initializes the default dictionaries using current data mode
+// initDictionaries initializes the default dictionaries and creates tenant relationships
 func (s *Service) initDictionaries(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system dictionaries in %s mode...", s.state.DataMode)
 
@@ -55,27 +55,32 @@ func (s *Service) initDictionaries(ctx context.Context) error {
 	dataLoader := s.getDataLoader()
 	dictionaries := dataLoader.GetDictionaries()
 
-	var createdCount int
+	var createdCount, relationshipCount int
+
+	// Create dictionaries and establish tenant relationships
 	for _, dict := range dictionaries {
-		dict.TenantID = tenant.ID
+		// Step 1: Create dictionary (without tenant_id)
 		dict.CreatedBy = &adminUser.ID
 
-		existing, err := s.sys.Dictionary.Get(ctx, &systemStructs.FindDictionary{Dictionary: dict.Slug})
-		if err == nil && existing != nil {
-			logger.Infof(ctx, "Dictionary %s already exists, skipping", dict.Slug)
-			continue
-		}
-
-		_, err = s.sys.Dictionary.Create(ctx, &dict)
+		created, err := s.sys.Dictionary.Create(ctx, &dict)
 		if err != nil {
 			logger.Errorf(ctx, "Error creating dictionary %s: %v", dict.Name, err)
 			return err
 		}
 		logger.Debugf(ctx, "Created dictionary: %s", dict.Name)
 		createdCount++
+
+		// Step 2: Create tenant-dictionary relationship
+		_, err = s.ts.TenantDictionary.AddDictionaryToTenant(ctx, tenant.ID, created.ID)
+		if err != nil {
+			logger.Errorf(ctx, "Error linking dictionary %s to tenant %s: %v", created.ID, tenant.ID, err)
+			return err
+		}
+		logger.Debugf(ctx, "Linked dictionary %s to tenant %s", created.ID, tenant.ID)
+		relationshipCount++
 	}
 
-	logger.Infof(ctx, "Dictionary initialization completed in %s mode, created %d dictionaries using admin user '%s'",
-		s.state.DataMode, createdCount, adminUser.Username)
+	logger.Infof(ctx, "Dictionary initialization completed in %s mode, created %d dictionaries and %d relationships using admin user '%s'",
+		s.state.DataMode, createdCount, relationshipCount, adminUser.Username)
 	return nil
 }

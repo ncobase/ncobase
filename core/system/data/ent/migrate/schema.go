@@ -16,7 +16,6 @@ var (
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "value", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "value"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
@@ -39,11 +38,6 @@ var (
 				Unique:  true,
 				Columns: []*schema.Column{NcseSysDictionaryColumns[2]},
 			},
-			{
-				Name:    "dictionary_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{NcseSysDictionaryColumns[5]},
-			},
 		},
 	}
 	// NcseSysMenuColumns holds the columns for the "ncse_sys_menu" table.
@@ -62,7 +56,6 @@ var (
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "parent id"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
@@ -90,14 +83,9 @@ var (
 				Columns: []*schema.Column{NcseSysMenuColumns[13]},
 			},
 			{
-				Name:    "menu_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{NcseSysMenuColumns[14]},
-			},
-			{
 				Name:    "menu_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysMenuColumns[0], NcseSysMenuColumns[17]},
+				Columns: []*schema.Column{NcseSysMenuColumns[0], NcseSysMenuColumns[16]},
 			},
 		},
 	}
@@ -108,7 +96,6 @@ var (
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "value", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "value"},
 		{Name: "autoload", Type: field.TypeBool, Nullable: true, Comment: "Whether to load the option automatically", Default: true},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
@@ -129,11 +116,6 @@ var (
 				Name:    "options_name",
 				Unique:  true,
 				Columns: []*schema.Column{NcseSysOptionsColumns[1]},
-			},
-			{
-				Name:    "options_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{NcseSysOptionsColumns[5]},
 			},
 		},
 	}

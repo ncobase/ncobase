@@ -19,8 +19,6 @@ const (
 	FieldValue = "value"
 	// FieldAutoload holds the string denoting the autoload field in the database.
 	FieldAutoload = "autoload"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
 	FieldCreatedBy = "created_by"
 	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
@@ -40,7 +38,6 @@ var Columns = []string{
 	FieldType,
 	FieldValue,
 	FieldAutoload,
-	FieldTenantID,
 	FieldCreatedBy,
 	FieldUpdatedBy,
 	FieldCreatedAt,
@@ -62,8 +59,6 @@ var (
 	NameValidator func(string) error
 	// DefaultAutoload holds the default value on creation for the "autoload" field.
 	DefaultAutoload bool
-	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	TenantIDValidator func(string) error
 	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
 	CreatedByValidator func(string) error
 	// UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
@@ -106,11 +101,6 @@ func ByValue(opts ...sql.OrderTermOption) OrderOption {
 // ByAutoload orders the results by the autoload field.
 func ByAutoload(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAutoload, opts...).ToFunc()
-}
-
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }
 
 // ByCreatedBy orders the results by the created_by field.

@@ -9,38 +9,38 @@ import (
 
 // Service represents the tenant service
 type Service struct {
-	Tenant         TenantServiceInterface
-	UserTenant     UserTenantServiceInterface
-	UserTenantRole UserTenantRoleServiceInterface
-	TenantQuota    TenantQuotaServiceInterface
-	TenantSetting  TenantSettingServiceInterface
-	TenantBilling  TenantBillingServiceInterface
-	TenantGroup    TenantGroupServiceInterface
-	gsw            *wrapper.SpaceServiceWrapper
+	Tenant           TenantServiceInterface
+	UserTenant       UserTenantServiceInterface
+	UserTenantRole   UserTenantRoleServiceInterface
+	TenantQuota      TenantQuotaServiceInterface
+	TenantSetting    TenantSettingServiceInterface
+	TenantBilling    TenantBillingServiceInterface
+	TenantGroup      TenantGroupServiceInterface
+	TenantMenu       TenantMenuServiceInterface
+	TenantDictionary TenantDictionaryServiceInterface
+	TenantOptions    TenantOptionsServiceInterface
+	gsw              *wrapper.SpaceServiceWrapper
 }
 
 // New creates a new service
 func New(d *data.Data, em ext.ManagerInterface) *Service {
 	ts := NewTenantService(d)
-	uts := NewUserTenantService(d, ts)
-	utrs := NewUserTenantRoleService(d)
-	tqs := NewTenantQuotaService(d)
-	tss := NewTenantSettingService(d)
-	tbs := NewTenantBillingService(d)
 
 	// Create space service wrapper
 	gsw := wrapper.NewGroupServiceWrapper(em)
-	tgs := NewTenantGroupService(d, gsw)
 
 	return &Service{
-		Tenant:         ts,
-		UserTenant:     uts,
-		UserTenantRole: utrs,
-		TenantQuota:    tqs,
-		TenantSetting:  tss,
-		TenantBilling:  tbs,
-		TenantGroup:    tgs,
-		gsw:            gsw,
+		Tenant:           ts,
+		UserTenant:       NewUserTenantService(d, ts),
+		UserTenantRole:   NewUserTenantRoleService(d),
+		TenantQuota:      NewTenantQuotaService(d),
+		TenantSetting:    NewTenantSettingService(d),
+		TenantBilling:    NewTenantBillingService(d),
+		TenantGroup:      NewTenantGroupService(d, gsw),
+		TenantMenu:       NewTenantMenuService(d),
+		TenantDictionary: NewTenantDictionaryService(d),
+		TenantOptions:    NewTenantOptionsService(d),
+		gsw:              gsw,
 	}
 }
 

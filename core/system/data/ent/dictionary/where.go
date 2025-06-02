@@ -83,11 +83,6 @@ func Value(v string) predicate.Dictionary {
 	return predicate.Dictionary(sql.FieldEQ(FieldValue, v))
 }
 
-// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
-func TenantID(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldEQ(FieldTenantID, v))
-}
-
 // Description applies equality check predicate on the "description" field. It's identical to DescriptionEQ.
 func Description(v string) predicate.Dictionary {
 	return predicate.Dictionary(sql.FieldEQ(FieldDescription, v))
@@ -411,81 +406,6 @@ func ValueEqualFold(v string) predicate.Dictionary {
 // ValueContainsFold applies the ContainsFold predicate on the "value" field.
 func ValueContainsFold(v string) predicate.Dictionary {
 	return predicate.Dictionary(sql.FieldContainsFold(FieldValue, v))
-}
-
-// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
-func TenantIDEQ(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldEQ(FieldTenantID, v))
-}
-
-// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
-func TenantIDNEQ(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldNEQ(FieldTenantID, v))
-}
-
-// TenantIDIn applies the In predicate on the "tenant_id" field.
-func TenantIDIn(vs ...string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldIn(FieldTenantID, vs...))
-}
-
-// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
-func TenantIDNotIn(vs ...string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldNotIn(FieldTenantID, vs...))
-}
-
-// TenantIDGT applies the GT predicate on the "tenant_id" field.
-func TenantIDGT(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldGT(FieldTenantID, v))
-}
-
-// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
-func TenantIDGTE(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldGTE(FieldTenantID, v))
-}
-
-// TenantIDLT applies the LT predicate on the "tenant_id" field.
-func TenantIDLT(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldLT(FieldTenantID, v))
-}
-
-// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
-func TenantIDLTE(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldLTE(FieldTenantID, v))
-}
-
-// TenantIDContains applies the Contains predicate on the "tenant_id" field.
-func TenantIDContains(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldContains(FieldTenantID, v))
-}
-
-// TenantIDHasPrefix applies the HasPrefix predicate on the "tenant_id" field.
-func TenantIDHasPrefix(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldHasPrefix(FieldTenantID, v))
-}
-
-// TenantIDHasSuffix applies the HasSuffix predicate on the "tenant_id" field.
-func TenantIDHasSuffix(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldHasSuffix(FieldTenantID, v))
-}
-
-// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
-func TenantIDIsNil() predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldIsNull(FieldTenantID))
-}
-
-// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
-func TenantIDNotNil() predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldNotNull(FieldTenantID))
-}
-
-// TenantIDEqualFold applies the EqualFold predicate on the "tenant_id" field.
-func TenantIDEqualFold(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldEqualFold(FieldTenantID, v))
-}
-
-// TenantIDContainsFold applies the ContainsFold predicate on the "tenant_id" field.
-func TenantIDContainsFold(v string) predicate.Dictionary {
-	return predicate.Dictionary(sql.FieldContainsFold(FieldTenantID, v))
 }
 
 // DescriptionEQ applies the EQ predicate on the "description" field.

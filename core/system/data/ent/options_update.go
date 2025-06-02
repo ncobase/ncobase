@@ -107,26 +107,6 @@ func (ou *OptionsUpdate) ClearAutoload() *OptionsUpdate {
 	return ou
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ou *OptionsUpdate) SetTenantID(s string) *OptionsUpdate {
-	ou.mutation.SetTenantID(s)
-	return ou
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ou *OptionsUpdate) SetNillableTenantID(s *string) *OptionsUpdate {
-	if s != nil {
-		ou.SetTenantID(*s)
-	}
-	return ou
-}
-
-// ClearTenantID clears the value of the "tenant_id" field.
-func (ou *OptionsUpdate) ClearTenantID() *OptionsUpdate {
-	ou.mutation.ClearTenantID()
-	return ou
-}
-
 // SetCreatedBy sets the "created_by" field.
 func (ou *OptionsUpdate) SetCreatedBy(s string) *OptionsUpdate {
 	ou.mutation.SetCreatedBy(s)
@@ -234,11 +214,6 @@ func (ou *OptionsUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
 	}
-	if v, ok := ou.mutation.TenantID(); ok {
-		if err := options.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Options.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := ou.mutation.CreatedBy(); ok {
 		if err := options.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Options.created_by": %w`, err)}
@@ -287,12 +262,6 @@ func (ou *OptionsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if ou.mutation.AutoloadCleared() {
 		_spec.ClearField(options.FieldAutoload, field.TypeBool)
-	}
-	if value, ok := ou.mutation.TenantID(); ok {
-		_spec.SetField(options.FieldTenantID, field.TypeString, value)
-	}
-	if ou.mutation.TenantIDCleared() {
-		_spec.ClearField(options.FieldTenantID, field.TypeString)
 	}
 	if value, ok := ou.mutation.CreatedBy(); ok {
 		_spec.SetField(options.FieldCreatedBy, field.TypeString, value)
@@ -418,26 +387,6 @@ func (ouo *OptionsUpdateOne) ClearAutoload() *OptionsUpdateOne {
 	return ouo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ouo *OptionsUpdateOne) SetTenantID(s string) *OptionsUpdateOne {
-	ouo.mutation.SetTenantID(s)
-	return ouo
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ouo *OptionsUpdateOne) SetNillableTenantID(s *string) *OptionsUpdateOne {
-	if s != nil {
-		ouo.SetTenantID(*s)
-	}
-	return ouo
-}
-
-// ClearTenantID clears the value of the "tenant_id" field.
-func (ouo *OptionsUpdateOne) ClearTenantID() *OptionsUpdateOne {
-	ouo.mutation.ClearTenantID()
-	return ouo
-}
-
 // SetCreatedBy sets the "created_by" field.
 func (ouo *OptionsUpdateOne) SetCreatedBy(s string) *OptionsUpdateOne {
 	ouo.mutation.SetCreatedBy(s)
@@ -558,11 +507,6 @@ func (ouo *OptionsUpdateOne) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
 	}
-	if v, ok := ouo.mutation.TenantID(); ok {
-		if err := options.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Options.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := ouo.mutation.CreatedBy(); ok {
 		if err := options.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Options.created_by": %w`, err)}
@@ -628,12 +572,6 @@ func (ouo *OptionsUpdateOne) sqlSave(ctx context.Context) (_node *Options, err e
 	}
 	if ouo.mutation.AutoloadCleared() {
 		_spec.ClearField(options.FieldAutoload, field.TypeBool)
-	}
-	if value, ok := ouo.mutation.TenantID(); ok {
-		_spec.SetField(options.FieldTenantID, field.TypeString, value)
-	}
-	if ouo.mutation.TenantIDCleared() {
-		_spec.ClearField(options.FieldTenantID, field.TypeString)
 	}
 	if value, ok := ouo.mutation.CreatedBy(); ok {
 		_spec.SetField(options.FieldCreatedBy, field.TypeString, value)

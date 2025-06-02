@@ -74,20 +74,6 @@ func (oc *OptionsCreate) SetNillableAutoload(b *bool) *OptionsCreate {
 	return oc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (oc *OptionsCreate) SetTenantID(s string) *OptionsCreate {
-	oc.mutation.SetTenantID(s)
-	return oc
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableTenantID(s *string) *OptionsCreate {
-	if s != nil {
-		oc.SetTenantID(*s)
-	}
-	return oc
-}
-
 // SetCreatedBy sets the "created_by" field.
 func (oc *OptionsCreate) SetCreatedBy(s string) *OptionsCreate {
 	oc.mutation.SetCreatedBy(s)
@@ -218,11 +204,6 @@ func (oc *OptionsCreate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
 	}
-	if v, ok := oc.mutation.TenantID(); ok {
-		if err := options.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Options.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := oc.mutation.CreatedBy(); ok {
 		if err := options.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Options.created_by": %w`, err)}
@@ -288,10 +269,6 @@ func (oc *OptionsCreate) createSpec() (*Options, *sqlgraph.CreateSpec) {
 	if value, ok := oc.mutation.Autoload(); ok {
 		_spec.SetField(options.FieldAutoload, field.TypeBool, value)
 		_node.Autoload = value
-	}
-	if value, ok := oc.mutation.TenantID(); ok {
-		_spec.SetField(options.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
 	}
 	if value, ok := oc.mutation.CreatedBy(); ok {
 		_spec.SetField(options.FieldCreatedBy, field.TypeString, value)

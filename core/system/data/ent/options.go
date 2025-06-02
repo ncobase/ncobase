@@ -25,8 +25,6 @@ type Options struct {
 	Value string `json:"value,omitempty"`
 	// Whether to load the option automatically
 	Autoload bool `json:"autoload,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -47,7 +45,7 @@ func (*Options) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case options.FieldCreatedAt, options.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case options.FieldID, options.FieldName, options.FieldType, options.FieldValue, options.FieldTenantID, options.FieldCreatedBy, options.FieldUpdatedBy:
+		case options.FieldID, options.FieldName, options.FieldType, options.FieldValue, options.FieldCreatedBy, options.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -93,12 +91,6 @@ func (o *Options) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field autoload", values[i])
 			} else if value.Valid {
 				o.Autoload = value.Bool
-			}
-		case options.FieldTenantID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
-			} else if value.Valid {
-				o.TenantID = value.String
 			}
 		case options.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -171,9 +163,6 @@ func (o *Options) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("autoload=")
 	builder.WriteString(fmt.Sprintf("%v", o.Autoload))
-	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(o.TenantID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(o.CreatedBy)

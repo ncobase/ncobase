@@ -13,7 +13,6 @@ type DictionaryBody struct {
 	Slug        string  `json:"slug,omitempty"`
 	Type        string  `json:"type,omitempty"`
 	Value       string  `json:"value,omitempty"`
-	TenantID    string  `json:"tenant_id,omitempty"`
 	Description string  `json:"description,omitempty"`
 	CreatedBy   *string `json:"created_by,omitempty"`
 	UpdatedBy   *string `json:"updated_by,omitempty"`
@@ -37,7 +36,6 @@ type ReadDictionary struct {
 	Slug        string  `json:"slug"`
 	Type        string  `json:"type"`
 	Value       string  `json:"value"`
-	TenantID    string  `json:"tenant_id,omitempty"`
 	Description string  `json:"description"`
 	CreatedBy   *string `json:"created_by,omitempty"`
 	CreatedAt   *int64  `json:"created_at,omitempty"`
@@ -79,7 +77,6 @@ func (d *ReadDictionary) ParseValue() (any, error) {
 // FindDictionary represents the parameters for finding a dictionary.
 type FindDictionary struct {
 	Dictionary string `form:"dictionary,omitempty" json:"dictionary,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
 	Type       string `form:"type,omitempty" json:"type,omitempty"`
 }
 
@@ -89,5 +86,4 @@ type ListDictionaryParams struct {
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
 }

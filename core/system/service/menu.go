@@ -610,7 +610,6 @@ func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) 
 	if params.Children {
 		return s.GetMenuTree(ctx, &structs.FindMenu{
 			Children: true,
-			Tenant:   params.Tenant,
 			Menu:     params.Parent,
 			Type:     params.Type,
 			SortBy:   params.SortBy,
@@ -840,7 +839,6 @@ func (s *menuService) Serialize(row *ent.Menu) *structs.ReadMenu {
 		Disabled:  row.Disabled,
 		Extras:    &row.Extras,
 		ParentID:  row.ParentID,
-		TenantID:  row.TenantID,
 		CreatedBy: &row.CreatedBy,
 		CreatedAt: &row.CreatedAt,
 		UpdatedBy: &row.UpdatedBy,
