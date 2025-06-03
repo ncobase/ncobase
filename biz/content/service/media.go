@@ -144,7 +144,7 @@ func (s *mediaService) List(ctx context.Context, params *structs.ListMediaParams
 
 // Serializes converts multiple ent.Media to []*structs.ReadMedia.
 func (s *mediaService) Serializes(rows []*ent.Media) []*structs.ReadMedia {
-	var rs []*structs.ReadMedia
+	rs := make([]*structs.ReadMedia, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

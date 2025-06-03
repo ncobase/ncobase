@@ -382,7 +382,7 @@ func (s *userService) SendPasswordResetEmail(ctx context.Context, userID string)
 
 // Serializes serializes users
 func (s *userService) Serializes(rows []*ent.User) []*structs.ReadUser {
-	var rs []*structs.ReadUser
+	rs := make([]*structs.ReadUser, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

@@ -157,9 +157,9 @@ func (s *sessionService) Serialize(row *ent.Session) *structs.ReadSession {
 
 // Serializes converts multiple ent.Session to structs.ReadSession
 func (s *sessionService) Serializes(rows []*ent.Session) []*structs.ReadSession {
-	var sessions []*structs.ReadSession
+	rs := make([]*structs.ReadSession, 0, len(rows))
 	for _, row := range rows {
-		sessions = append(sessions, s.Serialize(row))
+		rs = append(rs, s.Serialize(row))
 	}
-	return sessions
+	return rs
 }

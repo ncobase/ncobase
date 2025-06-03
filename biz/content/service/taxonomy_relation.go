@@ -104,7 +104,7 @@ func (s *taxonomyRelationService) List(ctx context.Context, params *structs.List
 
 // Serializes serializes taxonomy relations.
 func (s *taxonomyRelationService) Serializes(rows []*ent.TaxonomyRelation) []*structs.ReadTaxonomyRelation {
-	var rs []*structs.ReadTaxonomyRelation
+	rs := make([]*structs.ReadTaxonomyRelation, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

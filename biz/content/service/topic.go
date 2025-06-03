@@ -121,7 +121,7 @@ func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams
 
 // Serializes serializes topics.
 func (s *topicService) Serializes(rows []*ent.Topic) []*structs.ReadTopic {
-	var rs []*structs.ReadTopic
+	rs := make([]*structs.ReadTopic, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

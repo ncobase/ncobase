@@ -158,7 +158,7 @@ func (s *tenantGroupService) GetTenantGroupIDs(ctx context.Context, tenantID str
 
 // Serializes serializes tenant groups
 func (s *tenantGroupService) Serializes(rows []*ent.TenantGroup) []*structs.TenantGroup {
-	var rs []*structs.TenantGroup
+	rs := make([]*structs.TenantGroup, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

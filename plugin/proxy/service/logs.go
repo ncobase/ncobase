@@ -118,9 +118,9 @@ func (s *logService) DeleteOlderThan(ctx context.Context, days int) (int, error)
 
 // Serializes serializes a list of proxy log entities to a response format.
 func (s *logService) Serializes(rows []*ent.Logs) []*structs.ReadLog {
-	rs := make([]*structs.ReadLog, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadLog, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }

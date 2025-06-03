@@ -165,9 +165,9 @@ func (s *employeeService) Serialize(row *ent.Employee) *structs.ReadEmployee {
 
 // Serializes converts multiple ent.Employee to structs.ReadEmployee
 func (s *employeeService) Serializes(rows []*ent.Employee) []*structs.ReadEmployee {
-	var employees []*structs.ReadEmployee
+	rs := make([]*structs.ReadEmployee, 0, len(rows))
 	for _, row := range rows {
-		employees = append(employees, s.Serialize(row))
+		rs = append(rs, s.Serialize(row))
 	}
-	return employees
+	return rs
 }

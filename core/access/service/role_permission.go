@@ -64,7 +64,7 @@ func (s *rolePermissionService) GetRolePermissions(ctx context.Context, r string
 
 // Serializes serializes role permissions.
 func (s *rolePermissionService) Serializes(rows []*ent.RolePermission) []*structs.RolePermission {
-	var rs []*structs.RolePermission
+	rs := make([]*structs.RolePermission, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

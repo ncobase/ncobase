@@ -193,9 +193,9 @@ func (s *tenantQuotaService) Serialize(row *ent.TenantQuota) *structs.ReadTenant
 
 // Serializes converts multiple entities to structs
 func (s *tenantQuotaService) Serializes(rows []*ent.TenantQuota) []*structs.ReadTenantQuota {
-	result := make([]*structs.ReadTenantQuota, len(rows))
-	for i, row := range rows {
-		result[i] = s.Serialize(row)
+	result := make([]*structs.ReadTenantQuota, 0, len(rows))
+	for _, row := range rows {
+		result = append(result, s.Serialize(row))
 	}
 	return result
 }

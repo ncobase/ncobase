@@ -114,7 +114,7 @@ func (s *userTenantService) IsTenantInUser(ctx context.Context, t, u string) (bo
 
 // Serializes serializes user tenants.
 func (s *userTenantService) Serializes(rows []*ent.UserTenant) []*structs.UserTenant {
-	var rs []*structs.UserTenant
+	rs := make([]*structs.UserTenant, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

@@ -119,9 +119,9 @@ func (s *userRoleService) RemoveRoleFromUser(ctx context.Context, u string, r st
 
 // SerializeUserRoles serializes user roles.
 func (s *userRoleService) SerializeUserRoles(rows []*ent.UserRole) []*structs.UserRole {
-	rs := make([]*structs.UserRole, len(rows))
-	for i, row := range rows {
-		rs[i] = s.SerializeUserRole(row)
+	rs := make([]*structs.UserRole, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.SerializeUserRole(row))
 	}
 	return rs
 }

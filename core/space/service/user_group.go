@@ -204,7 +204,7 @@ func (s *userGroupService) enrichMemberInfo(ctx context.Context, member *structs
 
 // Serializes serializes user groups.
 func (s *userGroupService) Serializes(rows []*ent.UserGroup) []*structs.UserGroup {
-	var rs []*structs.UserGroup
+	rs := make([]*structs.UserGroup, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

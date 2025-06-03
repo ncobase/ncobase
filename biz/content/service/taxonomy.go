@@ -136,7 +136,7 @@ func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomy
 
 // Serializes serializes taxonomies.
 func (s *taxonomyService) Serializes(rows []*ent.Taxonomy) []*structs.ReadTaxonomy {
-	var rs []*structs.ReadTaxonomy
+	rs := make([]*structs.ReadTaxonomy, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

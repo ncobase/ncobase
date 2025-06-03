@@ -174,10 +174,10 @@ func (r *tenantSettingRepository) GetByTenantID(ctx context.Context, tenantID st
 
 	// Cache settings and setting IDs
 	go func() {
-		settingIDs := make([]string, len(rows))
-		for i, setting := range rows {
+		settingIDs := make([]string, 0, len(rows))
+		for _, setting := range rows {
 			r.cacheSetting(context.Background(), setting)
-			settingIDs[i] = setting.ID
+			settingIDs = append(settingIDs, setting.ID)
 		}
 
 		if err := r.tenantSettingsCache.SetArray(context.Background(), cacheKey, settingIDs, r.settingTTL); err != nil {
@@ -218,10 +218,10 @@ func (r *tenantSettingRepository) GetByCategory(ctx context.Context, tenantID, c
 
 	// Cache settings and setting IDs
 	go func() {
-		settingIDs := make([]string, len(rows))
-		for i, setting := range rows {
+		settingIDs := make([]string, 0, len(rows))
+		for _, setting := range rows {
 			r.cacheSetting(context.Background(), setting)
-			settingIDs[i] = setting.ID
+			settingIDs = append(settingIDs, setting.ID)
 		}
 
 		if err := r.categorySettingsCache.SetArray(context.Background(), cacheKey, settingIDs, r.settingTTL); err != nil {

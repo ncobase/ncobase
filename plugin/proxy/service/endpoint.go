@@ -133,9 +133,9 @@ func (s *endpointService) List(ctx context.Context, params *structs.ListEndpoint
 
 // Serializes serializes a list of endpoint entities to a response format.
 func (s *endpointService) Serializes(rows []*ent.Endpoint) []*structs.ReadEndpoint {
-	rs := make([]*structs.ReadEndpoint, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadEndpoint, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }

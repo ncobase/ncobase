@@ -259,9 +259,9 @@ func (s *tenantBillingService) Serialize(row *ent.TenantBilling) *structs.ReadTe
 
 // Serializes converts multiple entities to structs
 func (s *tenantBillingService) Serializes(rows []*ent.TenantBilling) []*structs.ReadTenantBilling {
-	result := make([]*structs.ReadTenantBilling, len(rows))
-	for i, row := range rows {
-		result[i] = s.Serialize(row)
+	result := make([]*structs.ReadTenantBilling, 0, len(rows))
+	for _, row := range rows {
+		result = append(result, s.Serialize(row))
 	}
 	return result
 }

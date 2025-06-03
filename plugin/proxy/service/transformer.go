@@ -386,9 +386,9 @@ func (s *transformerService) compileMappingTransformer(content string) (Transfor
 
 // Serializes serializes a list of transformer entities to a response format.
 func (s *transformerService) Serializes(rows []*ent.Transformer) []*structs.ReadTransformer {
-	rs := make([]*structs.ReadTransformer, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadTransformer, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }

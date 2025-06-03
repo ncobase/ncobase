@@ -511,9 +511,9 @@ func (r *activityRepository) listFromDatabase(ctx context.Context, params *struc
 		return nil, 0, err
 	}
 
-	docs := make([]*structs.ActivityDocument, len(rows))
-	for i, row := range rows {
-		docs[i] = r.convertEntToDocument(row)
+	docs := make([]*structs.ActivityDocument, 0, len(rows))
+	for _, row := range rows {
+		docs = append(docs, r.convertEntToDocument(row))
 	}
 
 	return docs, total, nil
@@ -560,9 +560,9 @@ func (r *activityRepository) searchFallback(ctx context.Context, params *structs
 		return nil, 0, err
 	}
 
-	docs := make([]*structs.ActivityDocument, len(rows))
-	for i, row := range rows {
-		docs[i] = r.convertEntToDocument(row)
+	docs := make([]*structs.ActivityDocument, 0, len(rows))
+	for _, row := range rows {
+		docs = append(docs, r.convertEntToDocument(row))
 	}
 
 	return docs, total, nil

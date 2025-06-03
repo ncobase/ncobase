@@ -130,7 +130,7 @@ func (s *spaceService) List(ctx context.Context, params *structs.ListGroupParams
 
 // Serializes serializes groups.
 func (s *spaceService) Serializes(rows []*ent.Group) []*structs.ReadGroup {
-	var rs []*structs.ReadGroup
+	rs := make([]*structs.ReadGroup, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

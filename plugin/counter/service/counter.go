@@ -125,7 +125,7 @@ func (s *counterService) List(ctx context.Context, params *structs.ListCounterPa
 
 // Serializes serializes counters.
 func (s *counterService) Serializes(rows []*ent.Counter) []*structs.ReadCounter {
-	var rs []*structs.ReadCounter
+	rs := make([]*structs.ReadCounter, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

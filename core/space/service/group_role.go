@@ -58,7 +58,7 @@ func (s *groupRoleService) GetGroupRolesIds(ctx context.Context, groupID string)
 
 // Serializes serializes the group roles.
 func (s *groupRoleService) Serializes(rows []*ent.GroupRole) []*structs.GroupRole {
-	var rs []*structs.GroupRole
+	rs := make([]*structs.GroupRole, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

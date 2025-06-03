@@ -225,9 +225,9 @@ func (s *tenantSettingService) Serialize(row *ent.TenantSetting) *structs.ReadTe
 
 // Serializes converts multiple entities to structs
 func (s *tenantSettingService) Serializes(rows []*ent.TenantSetting) []*structs.ReadTenantSetting {
-	result := make([]*structs.ReadTenantSetting, len(rows))
-	for i, row := range rows {
-		result[i] = s.Serialize(row)
+	result := make([]*structs.ReadTenantSetting, 0, len(rows))
+	for _, row := range rows {
+		result = append(result, s.Serialize(row))
 	}
 	return result
 }

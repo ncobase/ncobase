@@ -199,9 +199,9 @@ func (s *routeService) List(ctx context.Context, params *structs.ListRouteParams
 
 // Serializes serializes a list of route entities to a response format.
 func (s *routeService) Serializes(rows []*ent.Route) []*structs.ReadRoute {
-	rs := make([]*structs.ReadRoute, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadRoute, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }

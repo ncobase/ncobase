@@ -166,10 +166,10 @@ func (r *tenantBillingRepository) GetByTenantID(ctx context.Context, tenantID st
 
 	// Cache billings and billing IDs
 	go func() {
-		billingIDs := make([]string, len(rows))
-		for i, billing := range rows {
+		billingIDs := make([]string, 0, len(rows))
+		for _, billing := range rows {
 			r.cacheBilling(context.Background(), billing)
-			billingIDs[i] = billing.ID
+			billingIDs = append(billingIDs, billing.ID)
 		}
 
 		if err := r.tenantBillingsCache.SetArray(context.Background(), cacheKey, billingIDs, r.billingTTL); err != nil {
@@ -211,10 +211,10 @@ func (r *tenantBillingRepository) GetOverdueByTenant(ctx context.Context, tenant
 
 	// Cache billings and overdue billing IDs
 	go func() {
-		billingIDs := make([]string, len(rows))
-		for i, billing := range rows {
+		billingIDs := make([]string, 0, len(rows))
+		for _, billing := range rows {
 			r.cacheBilling(context.Background(), billing)
-			billingIDs[i] = billing.ID
+			billingIDs = append(billingIDs, billing.ID)
 		}
 
 		if err := r.overdueBillingsCache.SetArray(context.Background(), cacheKey, billingIDs, r.billingTTL); err != nil {
@@ -253,10 +253,10 @@ func (r *tenantBillingRepository) GetByStatus(ctx context.Context, status struct
 
 	// Cache billings and status billing IDs
 	go func() {
-		billingIDs := make([]string, len(rows))
-		for i, billing := range rows {
+		billingIDs := make([]string, 0, len(rows))
+		for _, billing := range rows {
 			r.cacheBilling(context.Background(), billing)
-			billingIDs[i] = billing.ID
+			billingIDs = append(billingIDs, billing.ID)
 		}
 
 		if err := r.statusBillingsCache.SetArray(context.Background(), cacheKey, billingIDs, r.billingTTL); err != nil {

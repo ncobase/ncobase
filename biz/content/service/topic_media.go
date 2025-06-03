@@ -214,7 +214,7 @@ func (s *topicMediaService) loadMediaForTopicMedia(ctx context.Context, row *ent
 
 // Serializes converts multiple ent.TopicMedia to []*structs.ReadTopicMedia.
 func (s *topicMediaService) Serializes(rows []*ent.TopicMedia) []*structs.ReadTopicMedia {
-	var rs []*structs.ReadTopicMedia
+	rs := make([]*structs.ReadTopicMedia, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

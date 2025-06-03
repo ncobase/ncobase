@@ -220,9 +220,9 @@ func (r *userGroupRepository) GetByGroupIDAndRole(ctx context.Context, id string
 
 	// Cache user IDs for future use
 	go func() {
-		userIDs := make([]string, len(rows))
-		for i, ug := range rows {
-			userIDs[i] = ug.UserID
+		userIDs := make([]string, 0, len(rows))
+		for _, ug := range rows {
+			userIDs = append(userIDs, ug.UserID)
 			r.cacheUserGroup(context.Background(), ug)
 		}
 		if err := r.groupRoleUsersCache.SetArray(context.Background(), cacheKey, userIDs, r.relationshipTTL); err != nil {

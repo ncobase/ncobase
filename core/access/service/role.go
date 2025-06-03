@@ -166,9 +166,9 @@ func (s *roleService) CountX(ctx context.Context, params *structs.ListRoleParams
 
 // Serializes serializes a list of role entities to a response format.
 func (s *roleService) Serializes(rows []*ent.Role) []*structs.ReadRole {
-	rs := make([]*structs.ReadRole, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadRole, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }

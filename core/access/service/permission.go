@@ -141,9 +141,9 @@ func (s *permissionService) CountX(ctx context.Context, params *structs.ListPerm
 
 // Serializes serializes a list of permission entities to a response format.
 func (s *permissionService) Serializes(rows []*ent.Permission) []*structs.ReadPermission {
-	rs := make([]*structs.ReadPermission, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadPermission, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }

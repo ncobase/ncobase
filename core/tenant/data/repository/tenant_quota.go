@@ -137,10 +137,10 @@ func (r *tenantQuotaRepository) GetByTenantID(ctx context.Context, tenantID stri
 
 	// Cache quotas and quota IDs
 	go func() {
-		quotaIDs := make([]string, len(rows))
-		for i, quota := range rows {
+		quotaIDs := make([]string, 0, len(rows))
+		for _, quota := range rows {
 			r.cacheQuota(context.Background(), quota)
-			quotaIDs[i] = quota.ID
+			quotaIDs = append(quotaIDs, quota.ID)
 		}
 
 		if err := r.tenantQuotasCache.SetArray(context.Background(), cacheKey, quotaIDs, r.quotaTTL); err != nil {

@@ -153,7 +153,7 @@ func (s *apiKeyService) ValidateApiKey(ctx context.Context, key string) (*struct
 
 // Serializes converts multiple API keys to DTOs
 func (s *apiKeyService) Serializes(rows []*ent.ApiKey) []*structs.ApiKey {
-	var rs []*structs.ApiKey
+	rs := make([]*structs.ApiKey, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

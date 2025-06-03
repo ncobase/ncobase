@@ -122,7 +122,7 @@ func (s *casbinService) CountX(ctx context.Context, params *structs.ListCasbinRu
 
 // Serializes serializes a list of Casbin rule entities to a response format.
 func (s *casbinService) Serializes(rows []*ent.CasbinRule) []*structs.ReadCasbinRule {
-	var rs []*structs.ReadCasbinRule
+	rs := make([]*structs.ReadCasbinRule, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

@@ -975,9 +975,9 @@ func (s *menuService) filterActiveMenus(menus []*structs.ReadMenu) []*structs.Re
 }
 
 func (s *menuService) Serializes(rows []*ent.Menu) []*structs.ReadMenu {
-	rs := make([]*structs.ReadMenu, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadMenu, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }

@@ -126,7 +126,7 @@ func (s *channelService) List(ctx context.Context, params *structs.ListChannelPa
 
 // Serializes converts multiple ent.CMSChannel to []*structs.ReadChannel.
 func (s *channelService) Serializes(rows []*ent.CMSChannel) []*structs.ReadChannel {
-	var rs []*structs.ReadChannel
+	rs := make([]*structs.ReadChannel, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

@@ -213,7 +213,7 @@ func (s *distributionService) Cancel(ctx context.Context, id string, reason stri
 
 // Serializes converts multiple ent.Distribution to []*structs.ReadDistribution.
 func (s *distributionService) Serializes(rows []*ent.Distribution) []*structs.ReadDistribution {
-	var rs []*structs.ReadDistribution
+	rs := make([]*structs.ReadDistribution, 0, len(rows))
 	for _, row := range rows {
 		rs = append(rs, s.Serialize(row))
 	}

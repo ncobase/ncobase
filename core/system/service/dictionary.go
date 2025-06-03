@@ -290,9 +290,9 @@ func (s *dictionaryService) CountX(ctx context.Context, params *structs.ListDict
 
 // Serializes dictionarys.
 func (s *dictionaryService) Serializes(rows []*ent.Dictionary) []*structs.ReadDictionary {
-	rs := make([]*structs.ReadDictionary, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadDictionary, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }

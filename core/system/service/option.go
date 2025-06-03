@@ -301,9 +301,9 @@ func (s *optionService) CountX(ctx context.Context, params *structs.ListOptionPa
 
 // Serializes options.
 func (s *optionService) Serializes(rows []*ent.Options) []*structs.ReadOption {
-	rs := make([]*structs.ReadOption, len(rows))
-	for i, row := range rows {
-		rs[i] = s.Serialize(row)
+	rs := make([]*structs.ReadOption, 0, len(rows))
+	for _, row := range rows {
+		rs = append(rs, s.Serialize(row))
 	}
 	return rs
 }
