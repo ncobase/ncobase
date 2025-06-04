@@ -172,9 +172,6 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 		// Always create thumbnail for images
 		body.ProcessingOptions.CreateThumbnail = true
 
-		// Create a reader for the file
-		// fileReader := bytes.NewReader(fileBytes)
-
 		// Get image dimensions
 		width, height, err := s.imageProcessor.GetImageDimensions(ctx, bytes.NewReader(fileBytes), body.Name)
 		if err == nil && body.Metadata != nil {
@@ -208,9 +205,10 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 		}
 	}
 
-	// Prepare extras with extended data
+	// Prepare extras with ALL extended data - this is the key fix
 	extendedData := make(types.JSON)
 
+	// Always store these fields in extras
 	if body.FolderPath != "" {
 		extendedData["folder_path"] = body.FolderPath
 	}
@@ -232,14 +230,21 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	if body.ExpiresAt != nil {
 		extendedData["expires_at"] = *body.ExpiresAt
 	}
+	if len(body.Versions) > 0 {
+		extendedData["versions"] = body.Versions
+	}
+	if body.ProcessingOptions != nil {
+		extendedData["processing_options"] = body.ProcessingOptions
+	}
 
-	// Merge with existing extras
+	// Merge with existing extras if provided
 	if body.Extras != nil {
 		for k, v := range *body.Extras {
 			extendedData[k] = v
 		}
 	}
 
+	// Always set the extras
 	body.Extras = &extendedData
 
 	// Create the file using the repository
@@ -271,7 +276,7 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 		s.publisher.PublishFileCreated(ctx, eventData)
 	}
 
-	// Extract extended properties
+	// Extract extended properties for response
 	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, _ := extractExtendedProperties(row)
 
 	// Return file with extended properties

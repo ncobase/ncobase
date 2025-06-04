@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 	"ncobase/tenant/data"
 	"ncobase/tenant/data/ent"
 	"ncobase/tenant/data/repository"
@@ -22,7 +23,10 @@ type TenantQuotaServiceInterface interface {
 	GetByTenantAndType(ctx context.Context, tenantID string, quotaType structs.QuotaType) (*structs.ReadTenantQuota, error)
 	Delete(ctx context.Context, id string) error
 	List(ctx context.Context, params *structs.ListTenantQuotaParams) (paging.Result[*structs.ReadTenantQuota], error)
-	UpdateUsage(ctx context.Context, req *structs.QuotaUsageRequest) error
+	GetUsage(ctx context.Context, tenantID string, quotaType string) (int64, error)
+	GetQuota(ctx context.Context, tenantID string, quotaType string) (int64, error)
+	IsQuotaExceeded(ctx context.Context, tenantID string, quotaType string) (bool, error)
+	UpdateUsage(ctx context.Context, tenantID string, quotaType string, delta int64) error
 	CheckQuotaLimit(ctx context.Context, tenantID string, quotaType structs.QuotaType, requestedAmount int64) (bool, error)
 	GetTenantQuotaSummary(ctx context.Context, tenantID string) ([]*structs.ReadTenantQuota, error)
 	Serialize(row *ent.TenantQuota) *structs.ReadTenantQuota
@@ -121,14 +125,79 @@ func (s *tenantQuotaService) List(ctx context.Context, params *structs.ListTenan
 	})
 }
 
-// UpdateUsage updates quota usage for a tenant
-func (s *tenantQuotaService) UpdateUsage(ctx context.Context, req *structs.QuotaUsageRequest) error {
-	quota, err := s.repo.GetByTenantAndType(ctx, req.TenantID, req.QuotaType)
+// GetUsage gets current usage for a tenant
+func (s *tenantQuotaService) GetUsage(ctx context.Context, tenantID string, quotaType string) (int64, error) {
+	quota, err := s.repo.GetByTenantAndType(ctx, tenantID, structs.QuotaType(quotaType))
 	if err != nil {
-		return handleEntError(ctx, "TenantQuota", err)
+		if ent.IsNotFound(err) {
+			return 0, nil // No quota set, return 0 usage
+		}
+		return 0, err
 	}
 
-	newUsage := quota.CurrentUsed + req.Delta
+	return quota.CurrentUsed, nil
+}
+
+// GetQuota gets quota limit for a tenant
+func (s *tenantQuotaService) GetQuota(ctx context.Context, tenantID string, quotaType string) (int64, error) {
+	quota, err := s.repo.GetByTenantAndType(ctx, tenantID, structs.QuotaType(quotaType))
+	if err != nil {
+		if ent.IsNotFound(err) {
+			// Return default quota for storage
+			if quotaType == "storage" {
+				return 10 * 1024 * 1024 * 1024, nil // 10GB default
+			}
+			return 0, nil
+		}
+		return 0, err
+	}
+
+	return quota.MaxValue, nil
+}
+
+// IsQuotaExceeded checks if tenant's quota is exceeded
+func (s *tenantQuotaService) IsQuotaExceeded(ctx context.Context, tenantID string, quotaType string) (bool, error) {
+	quota, err := s.repo.GetByTenantAndType(ctx, tenantID, structs.QuotaType(quotaType))
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return false, nil // No quota set, not exceeded
+		}
+		return false, err
+	}
+
+	if !quota.Enabled {
+		return false, nil // Quota disabled, not exceeded
+	}
+
+	return quota.CurrentUsed >= quota.MaxValue, nil
+}
+
+// UpdateUsage updates quota usage for a tenant
+func (s *tenantQuotaService) UpdateUsage(ctx context.Context, tenantID string, quotaType string, delta int64) error {
+	quota, err := s.repo.GetByTenantAndType(ctx, tenantID, structs.QuotaType(quotaType))
+	if err != nil {
+		if ent.IsNotFound(err) {
+			// Create quota if not exists
+			createBody := &structs.CreateTenantQuotaBody{
+				TenantQuotaBody: structs.TenantQuotaBody{
+					TenantID:    tenantID,
+					QuotaType:   structs.QuotaType(quotaType),
+					QuotaName:   fmt.Sprintf("%s quota", quotaType),
+					MaxValue:    10 * 1024 * 1024 * 1024, // 10GB default
+					CurrentUsed: delta,
+					Unit:        structs.UnitBytes,
+					Description: fmt.Sprintf("Auto-created %s quota", quotaType),
+					Enabled:     true,
+				},
+			}
+
+			_, err = s.repo.Create(ctx, createBody)
+			return handleEntError(ctx, "TenantQuota", err)
+		}
+		return err
+	}
+
+	newUsage := quota.CurrentUsed + delta
 	if newUsage < 0 {
 		newUsage = 0
 	}

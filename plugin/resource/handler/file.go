@@ -9,6 +9,7 @@ import (
 	"ncobase/resource/service"
 	"ncobase/resource/structs"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -89,87 +90,129 @@ func (h *fileHandler) Create(c *gin.Context) {
 
 // handleFormDataUpload handles file upload using multipart form data
 func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
+	// Parse multipart form with increased memory limit
+	if err := c.Request.ParseMultipartForm(maxFileSize); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest("Failed to parse multipart form"))
+		return
+	}
+
+	// Handle single file upload
 	file, header, err := c.Request.FormFile("file")
 	if err == nil {
 		defer func(file multipart.File) {
-			err := file.Close()
-			if err != nil {
+			if err := file.Close(); err != nil {
 				logger.Errorf(c, "Error closing file: %v", err)
 			}
 		}(file)
+
 		body, err := processFile(c, header, file)
 		if err != nil {
-			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+			resp.Fail(c.Writer, resp.BadRequest(fmt.Sprintf("Error processing file: %v", err)))
 			return
 		}
+
 		if err := h.validateFileBody(body); err != nil {
-			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+			resp.Fail(c.Writer, resp.BadRequest(fmt.Sprintf("Validation error: %v", err)))
 			return
 		}
+
 		result, err := h.s.File.Create(c.Request.Context(), body)
 		if err != nil {
-			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			resp.Fail(c.Writer, resp.InternalServer(fmt.Sprintf("Failed to create file: %v", err)))
 			return
 		}
+
 		resp.Success(c.Writer, result)
 		return
 	}
 
-	err = c.Request.ParseMultipartForm(maxFileSize) // Set maxMemory to 32MB
-	if err != nil {
-		resp.Fail(c.Writer, resp.InternalServer("Failed to parse multipart form"))
-		return
-	}
+	// Handle multiple file upload
 	files := c.Request.MultipartForm.File["files"]
 	if len(files) == 0 {
-		resp.Fail(c.Writer, resp.BadRequest("File is required"))
+		resp.Fail(c.Writer, resp.BadRequest("No files provided"))
 		return
 	}
+
 	var results []*structs.ReadFile
 	for _, fileHeader := range files {
 		file, err := fileHeader.Open()
 		if err != nil {
-			resp.Fail(c.Writer, resp.InternalServer("Failed to open file"))
+			resp.Fail(c.Writer, resp.InternalServer(fmt.Sprintf("Failed to open file %s: %v", fileHeader.Filename, err)))
 			return
 		}
-		//goland:noinspection ALL
-		defer func(file multipart.File) {
-			err := file.Close()
-			if err != nil {
-				logger.Errorf(c, "Error closing file: %v", err)
-			}
-		}(file)
 
-		body, err := processFile(c, fileHeader, file)
-		if err != nil {
-			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-			return
-		}
-		if err := h.validateFileBody(body); err != nil {
-			resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-			return
-		}
-		result, err := h.s.File.Create(c.Request.Context(), body)
-		if err != nil {
-			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
-			return
-		}
-		results = append(results, result)
+		func(file multipart.File) {
+			defer func() {
+				if err := file.Close(); err != nil {
+					logger.Errorf(c, "Error closing file: %v", err)
+				}
+			}()
+
+			body, err := processFile(c, fileHeader, file)
+			if err != nil {
+				resp.Fail(c.Writer, resp.BadRequest(fmt.Sprintf("Error processing file %s: %v", fileHeader.Filename, err)))
+				return
+			}
+
+			if err := h.validateFileBody(body); err != nil {
+				resp.Fail(c.Writer, resp.BadRequest(fmt.Sprintf("Validation error for file %s: %v", fileHeader.Filename, err)))
+				return
+			}
+
+			result, err := h.s.File.Create(c.Request.Context(), body)
+			if err != nil {
+				resp.Fail(c.Writer, resp.InternalServer(fmt.Sprintf("Failed to create file %s: %v", fileHeader.Filename, err)))
+				return
+			}
+
+			results = append(results, result)
+		}(file)
 	}
+
 	resp.Success(c.Writer, results)
 }
 
+// validateFileBody validates the file body
 func (h *fileHandler) validateFileBody(body *structs.CreateFileBody) error {
 	if validator.IsEmpty(body.ObjectID) {
-		return errors.New("belongsTo object is required")
+		return errors.New("object_id is required")
 	}
+
+	if validator.IsEmpty(body.TenantID) {
+		return errors.New("tenant_id is required")
+	}
+
+	// Validate access level if provided
+	if body.AccessLevel != "" {
+		switch body.AccessLevel {
+		case structs.AccessLevelPublic, structs.AccessLevelPrivate, structs.AccessLevelShared:
+			// Valid access level
+		default:
+			return fmt.Errorf("invalid access_level: %s", body.AccessLevel)
+		}
+	}
+
+	// Validate processing options if provided
+	if body.ProcessingOptions != nil {
+		if body.ProcessingOptions.CompressionQuality < 1 || body.ProcessingOptions.CompressionQuality > 100 {
+			return errors.New("compression_quality must be between 1 and 100")
+		}
+		if body.ProcessingOptions.MaxWidth < 0 || body.ProcessingOptions.MaxHeight < 0 {
+			return errors.New("max_width and max_height must be non-negative")
+		}
+	}
+
 	return nil
 }
 
 // processFile processes file details and binds other fields from the form to the file body
 func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateFileBody, error) {
 	body := &structs.CreateFileBody{}
-	fileHeader := storage.GetFileHeader(header)
+
+	folderPath := c.PostForm("folder_path")
+
+	// Generate file header with folder path as prefix
+	fileHeader := storage.GetFileHeader(header, folderPath)
 	body.Path = fileHeader.Path
 	body.File = file
 	body.Type = fileHeader.Type
@@ -180,6 +223,7 @@ func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.Fi
 	if err := bindFileFields(c, body); err != nil {
 		return nil, err
 	}
+
 	return body, nil
 }
 
@@ -190,6 +234,7 @@ func bindFileFields(c *gin.Context, body *structs.CreateFileBody) error {
 		if len(values) == 0 || (key != "file" && values[0] == "") {
 			continue
 		}
+
 		switch key {
 		case "object_id":
 			body.ObjectID = values[0]
@@ -197,27 +242,44 @@ func bindFileFields(c *gin.Context, body *structs.CreateFileBody) error {
 			body.TenantID = values[0]
 		case "folder_path":
 			body.FolderPath = values[0]
-		case "extras":
-			var extras types.JSON
-			if err := json.Unmarshal([]byte(values[0]), &extras); err != nil {
-				return errors.New("invalid extras format")
-			}
-			body.Extras = &extras
 		case "access_level":
 			body.AccessLevel = structs.AccessLevel(values[0])
-		case "tags":
-			body.Tags = strings.Split(values[0], ",")
 		case "is_public":
 			isPublic := values[0] == "true" || values[0] == "1"
 			body.IsPublic = isPublic
+		case "tags":
+			// Split comma-separated tags and trim whitespace
+			tagList := strings.Split(values[0], ",")
+			cleanTags := make([]string, 0, len(tagList))
+			for _, tag := range tagList {
+				tag = strings.TrimSpace(tag)
+				if tag != "" {
+					cleanTags = append(cleanTags, tag)
+				}
+			}
+			body.Tags = cleanTags
 		case "processing_options":
 			var options structs.ProcessingOptions
 			if err := json.Unmarshal([]byte(values[0]), &options); err != nil {
-				return errors.New("invalid processing options format")
+				return fmt.Errorf("invalid processing options format: %w", err)
+			}
+			if options.CompressionQuality <= 0 || options.CompressionQuality > 100 {
+				options.CompressionQuality = 80 // Default to 80% quality
 			}
 			body.ProcessingOptions = &options
+		case "expires_at":
+			if expiresAtInt, err := strconv.ParseInt(values[0], 10, 64); err == nil {
+				body.ExpiresAt = &expiresAtInt
+			}
+		case "extras":
+			var extras types.JSON
+			if err := json.Unmarshal([]byte(values[0]), &extras); err != nil {
+				return fmt.Errorf("invalid extras format: %w", err)
+			}
+			body.Extras = &extras
 		}
 	}
+
 	return nil
 }
 
@@ -280,8 +342,11 @@ func (h *fileHandler) Update(c *gin.Context) {
 	if fileHeaders, ok := c.Request.MultipartForm.File["file"]; ok && len(fileHeaders) > 0 {
 		// Fetch file header from request
 		header := fileHeaders[0]
+
+		folderPath := c.PostForm("folder_path")
+
 		// Get file data
-		fileHeader := storage.GetFileHeader(header)
+		fileHeader := storage.GetFileHeader(header, folderPath)
 		// Add file header data to updates
 		updates["name"] = fileHeader.Name
 		updates["size"] = fileHeader.Size

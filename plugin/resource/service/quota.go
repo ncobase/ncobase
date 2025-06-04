@@ -6,9 +6,11 @@ import (
 	"ncobase/resource/data"
 	"ncobase/resource/data/repository"
 	"ncobase/resource/event"
+	"ncobase/resource/wrapper"
 	"sync"
 	"time"
 
+	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/redis/go-redis/v9"
 )
@@ -21,6 +23,8 @@ type QuotaServiceInterface interface {
 	GetQuota(ctx context.Context, tenantID string) (int64, error)
 	IsQuotaExceeded(ctx context.Context, tenantID string) (bool, error)
 	MonitorQuota(ctx context.Context) error
+	UpdateUsage(ctx context.Context, tenantID string, quotaType string, delta int64) error
+	RefreshTenantServices()
 }
 
 // QuotaConfig represents quota configuration
@@ -31,15 +35,16 @@ type QuotaConfig struct {
 	EnableEnforcement bool          `json:"enable_enforcement"` // Whether to enforce quotas
 }
 
-// quotaService handles storage quota management
+// quotaService handles storage quota management with tenant service integration
 type quotaService struct {
-	fielRepo   repository.FileRepositoryInterface
-	redis      *redis.Client
-	config     *QuotaConfig
-	publisher  event.PublisherInterface
-	quotaCache map[string]int64
-	usageCache map[string]int64
-	mu         sync.RWMutex // For cache thread safety
+	fileRepo      repository.FileRepositoryInterface
+	redis         *redis.Client
+	config        *QuotaConfig
+	publisher     event.PublisherInterface
+	tenantWrapper *wrapper.TenantServiceWrapper
+	quotaCache    map[string]int64
+	usageCache    map[string]int64
+	mu            sync.RWMutex // For cache thread safety
 }
 
 // NewQuotaService creates a new quota management service
@@ -47,6 +52,7 @@ func NewQuotaService(
 	d *data.Data,
 	publisher event.PublisherInterface,
 	config *QuotaConfig,
+	em ext.ManagerInterface,
 ) QuotaServiceInterface {
 	// Set default config values if not provided
 	if config == nil {
@@ -59,12 +65,13 @@ func NewQuotaService(
 	}
 
 	return &quotaService{
-		fielRepo:   repository.NewFileRepository(d),
-		redis:      d.GetRedis(),
-		config:     config,
-		publisher:  publisher,
-		quotaCache: make(map[string]int64),
-		usageCache: make(map[string]int64),
+		fileRepo:      repository.NewFileRepository(d),
+		redis:         d.GetRedis(),
+		config:        config,
+		publisher:     publisher,
+		tenantWrapper: wrapper.NewTenantServiceWrapper(em),
+		quotaCache:    make(map[string]int64),
+		usageCache:    make(map[string]int64),
 	}
 }
 
@@ -75,26 +82,81 @@ func (s *quotaService) CheckAndUpdateQuota(ctx context.Context, tenantID string,
 		return false, fmt.Errorf("tenant ID is required")
 	}
 
+	// Use tenant service if available, otherwise fallback to local logic
+	if s.tenantWrapper.HasTenantQuotaService() {
+		// Check quota limit using tenant service
+		allowed, err := s.tenantWrapper.CheckQuotaLimit(ctx, tenantID, "storage", int64(size))
+		if err != nil {
+			logger.Errorf(ctx, "Error checking quota limit from tenant service: %v", err)
+			// Fallback to local logic
+			return s.checkAndUpdateQuotaLocal(ctx, tenantID, size)
+		}
+
+		if !allowed && s.config.EnableEnforcement {
+			// Publish quota exceeded event
+			if s.publisher != nil {
+				usage, _ := s.GetUsage(ctx, tenantID)
+				quota, _ := s.GetQuota(ctx, tenantID)
+				eventData := &event.StorageQuotaEventData{
+					TenantID:     tenantID,
+					CurrentUsage: usage,
+					Quota:        quota,
+					UsagePercent: float64(usage) / float64(quota) * 100,
+					StorageType:  "file",
+				}
+				s.publisher.PublishStorageQuotaExceeded(ctx, eventData)
+			}
+			return false, fmt.Errorf("storage quota exceeded for tenant %s", tenantID)
+		}
+
+		// Update usage in tenant service
+		if err := s.tenantWrapper.UpdateUsage(ctx, tenantID, "storage", int64(size)); err != nil {
+			logger.Warnf(ctx, "Error updating usage in tenant service: %v", err)
+		}
+
+		// Check warning threshold
+		if allowed {
+			usage, _ := s.GetUsage(ctx, tenantID)
+			quota, _ := s.GetQuota(ctx, tenantID)
+			if quota > 0 && float64(usage+int64(size))/float64(quota) >= s.config.WarningThreshold && s.publisher != nil {
+				eventData := &event.StorageQuotaEventData{
+					TenantID:     tenantID,
+					CurrentUsage: usage + int64(size),
+					Quota:        quota,
+					UsagePercent: float64(usage+int64(size)) / float64(quota) * 100,
+					StorageType:  "file",
+				}
+				s.publisher.PublishStorageQuotaWarning(ctx, eventData)
+			}
+		}
+
+		return allowed, nil
+	}
+
+	// Fallback to local quota management
+	return s.checkAndUpdateQuotaLocal(ctx, tenantID, size)
+}
+
+// checkAndUpdateQuotaLocal handles quota checking with local logic
+func (s *quotaService) checkAndUpdateQuotaLocal(ctx context.Context, tenantID string, size int) (bool, error) {
 	// Get current usage
 	currentUsage, err := s.GetUsage(ctx, tenantID)
 	if err != nil {
 		logger.Errorf(ctx, "Error getting current usage for tenant %s: %v", tenantID, err)
-		// If we can't get usage, allow the operation but don't update usage
-		return true, nil
+		return true, nil // Allow if can't get usage
 	}
 
 	// Get quota
 	quota, err := s.GetQuota(ctx, tenantID)
 	if err != nil {
 		logger.Errorf(ctx, "Error getting quota for tenant %s: %v", tenantID, err)
-		// If we can't get quota, allow the operation but don't update usage
-		return true, nil
+		return true, nil // Allow if can't get quota
 	}
 
 	// Check if adding this file would exceed quota
 	newUsage := currentUsage + int64(size)
 	if s.config.EnableEnforcement && newUsage > quota {
-		// Exceeds quota, publish event
+		// Publish quota exceeded event
 		if s.publisher != nil {
 			eventData := &event.StorageQuotaEventData{
 				TenantID:     tenantID,
@@ -122,7 +184,7 @@ func (s *quotaService) CheckAndUpdateQuota(ctx context.Context, tenantID string,
 		}
 	}
 
-	// Check if we've crossed the warning threshold
+	// Check warning threshold
 	if float64(newUsage)/float64(quota) >= s.config.WarningThreshold && s.publisher != nil {
 		eventData := &event.StorageQuotaEventData{
 			TenantID:     tenantID,
@@ -143,6 +205,16 @@ func (s *quotaService) GetUsage(ctx context.Context, tenantID string) (int64, er
 		return 0, fmt.Errorf("tenant ID is required")
 	}
 
+	// Use tenant service if available
+	if s.tenantWrapper.HasTenantQuotaService() {
+		usage, err := s.tenantWrapper.GetUsage(ctx, tenantID, "storage")
+		if err == nil {
+			return usage, nil
+		}
+		logger.Warnf(ctx, "Error getting usage from tenant service, fallback to local: %v", err)
+	}
+
+	// Fallback to local calculation
 	// Check cache first
 	s.mu.RLock()
 	if usage, found := s.usageCache[tenantID]; found {
@@ -151,56 +223,27 @@ func (s *quotaService) GetUsage(ctx context.Context, tenantID string) (int64, er
 	}
 	s.mu.RUnlock()
 
-	// If not in cache, check Redis
-	key := fmt.Sprintf("storage:usage:%s", tenantID)
-	var usage int64
-
-	if s.redis != nil {
-		val, err := s.redis.Get(ctx, key).Int64()
-		if err == nil {
-			// Found in Redis
-			s.mu.Lock()
-			s.usageCache[tenantID] = val
-			s.mu.Unlock()
-			return val, nil
-		}
-
-		// If not found in Redis (or error), calculate from database
-		if err != redis.Nil {
-			logger.Warnf(ctx, "Error getting usage from Redis for tenant %s: %v", tenantID, err)
-		}
-	}
-
 	// Calculate from database
 	usage, err := s.calculateUsage(ctx, tenantID)
 	if err != nil {
 		return 0, err
 	}
 
-	// Update cache and Redis
+	// Update cache
 	s.mu.Lock()
 	s.usageCache[tenantID] = usage
 	s.mu.Unlock()
-
-	if s.redis != nil {
-		err = s.redis.Set(ctx, key, usage, 0).Err()
-		if err != nil {
-			logger.Warnf(ctx, "Error setting usage in Redis for tenant %s: %v", tenantID, err)
-		}
-	}
 
 	return usage, nil
 }
 
 // calculateUsage calculates the total storage usage for a tenant from the database
 func (s *quotaService) calculateUsage(ctx context.Context, tenantID string) (int64, error) {
-	// Implement database query to sum all file sizes for the tenant
-	totalSize, err := s.fielRepo.SumSizeByTenant(ctx, tenantID)
+	totalSize, err := s.fileRepo.SumSizeByTenant(ctx, tenantID)
 	if err != nil {
 		logger.Errorf(ctx, "Error calculating usage for tenant %s: %v", tenantID, err)
 		return 0, err
 	}
-
 	return totalSize, nil
 }
 
@@ -234,6 +277,16 @@ func (s *quotaService) GetQuota(ctx context.Context, tenantID string) (int64, er
 		return 0, fmt.Errorf("tenant ID is required")
 	}
 
+	// Use tenant service if available
+	if s.tenantWrapper.HasTenantQuotaService() {
+		quota, err := s.tenantWrapper.GetQuota(ctx, tenantID, "storage")
+		if err == nil {
+			return quota, nil
+		}
+		logger.Warnf(ctx, "Error getting quota from tenant service, fallback to local: %v", err)
+	}
+
+	// Fallback to local cache/redis
 	// Check cache first
 	s.mu.RLock()
 	if quota, found := s.quotaCache[tenantID]; found {
@@ -242,7 +295,7 @@ func (s *quotaService) GetQuota(ctx context.Context, tenantID string) (int64, er
 	}
 	s.mu.RUnlock()
 
-	// If not in cache, check Redis
+	// Check Redis
 	key := fmt.Sprintf("storage:quota:%s", tenantID)
 	var quota int64
 
@@ -254,11 +307,6 @@ func (s *quotaService) GetQuota(ctx context.Context, tenantID string) (int64, er
 			s.quotaCache[tenantID] = val
 			s.mu.Unlock()
 			return val, nil
-		}
-
-		// If not found in Redis (or error), use default quota
-		if err != redis.Nil {
-			logger.Warnf(ctx, "Error getting quota from Redis for tenant %s: %v", tenantID, err)
 		}
 	}
 
@@ -286,13 +334,21 @@ func (s *quotaService) IsQuotaExceeded(ctx context.Context, tenantID string) (bo
 		return false, fmt.Errorf("tenant ID is required")
 	}
 
-	// Get current usage
+	// Use tenant service if available
+	if s.tenantWrapper.HasTenantQuotaService() {
+		exceeded, err := s.tenantWrapper.IsQuotaExceeded(ctx, tenantID, "storage")
+		if err == nil {
+			return exceeded, nil
+		}
+		logger.Warnf(ctx, "Error checking quota exceeded from tenant service, fallback to local: %v", err)
+	}
+
+	// Fallback to local calculation
 	usage, err := s.GetUsage(ctx, tenantID)
 	if err != nil {
 		return false, err
 	}
 
-	// Get quota
 	quota, err := s.GetQuota(ctx, tenantID)
 	if err != nil {
 		return false, err
@@ -303,11 +359,8 @@ func (s *quotaService) IsQuotaExceeded(ctx context.Context, tenantID string) (bo
 
 // MonitorQuota starts a background task to monitor quotas for all tenants
 func (s *quotaService) MonitorQuota(ctx context.Context) error {
-	// This would typically be run as a background goroutine or scheduled task
-	// For simplicity, we'll just implement the check logic here
-
 	// Get all tenants with files
-	tenants, err := s.fielRepo.GetAllTenants(ctx)
+	tenants, err := s.fileRepo.GetAllTenants(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "Error getting tenants for quota monitoring: %v", err)
 		return err
@@ -354,4 +407,53 @@ func (s *quotaService) MonitorQuota(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+// UpdateUsage updates quota usage for a tenant (for external calls like file deletion)
+func (s *quotaService) UpdateUsage(ctx context.Context, tenantID string, quotaType string, delta int64) error {
+	if tenantID == "" {
+		return fmt.Errorf("tenant ID is required")
+	}
+
+	// Use tenant service if available
+	if s.tenantWrapper.HasTenantQuotaService() {
+		err := s.tenantWrapper.UpdateUsage(ctx, tenantID, quotaType, delta)
+		if err != nil {
+			logger.Warnf(ctx, "Error updating usage in tenant service, fallback to local: %v", err)
+		} else {
+			return nil // Success with tenant service
+		}
+	}
+
+	// Fallback to local cache update
+	s.mu.Lock()
+	if currentUsage, exists := s.usageCache[tenantID]; exists {
+		newUsage := currentUsage + delta
+		if newUsage < 0 {
+			newUsage = 0
+		}
+		s.usageCache[tenantID] = newUsage
+	}
+	s.mu.Unlock()
+
+	// Update Redis if available
+	if s.redis != nil {
+		key := fmt.Sprintf("storage:usage:%s", tenantID)
+		// Get current value and update
+		currentVal, err := s.redis.Get(ctx, key).Int64()
+		if err == nil {
+			newVal := currentVal + delta
+			if newVal < 0 {
+				newVal = 0
+			}
+			s.redis.Set(ctx, key, newVal, 0)
+		}
+	}
+
+	return nil
+}
+
+// RefreshTenantServices refreshes tenant service references
+func (s *quotaService) RefreshTenantServices() {
+	s.tenantWrapper.RefreshServices()
 }

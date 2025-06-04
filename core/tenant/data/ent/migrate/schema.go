@@ -263,7 +263,7 @@ var (
 	NcseSysTenantOptionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "option_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "option id"},
+		{Name: "option_id", Type: field.TypeString, Nullable: true, Comment: "option id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},

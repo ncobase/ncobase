@@ -117,7 +117,7 @@ func (p *Plugin) PostInit() error {
 	publisher := event.NewPublisher(p.em)
 
 	// Create services
-	p.s = service.New(p.d, publisher)
+	p.s = service.New(p.em, p.d, publisher)
 
 	// Create handlers
 	p.h = handler.New(p.s)
@@ -238,6 +238,13 @@ func (p *Plugin) Dependencies() []string {
 	return dependencies
 }
 
+// GetAllDependencies returns all dependencies with their types
+func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
+	return []ext.DependencyEntry{
+		{Name: "tenant", Type: ext.WeakDependency},
+	}
+}
+
 // Description returns the description of the plugin
 func (p *Plugin) Description() string {
 	return desc
@@ -264,6 +271,16 @@ func (p *Plugin) subscribeEvents() {
 	p.em.SubscribeEvent(event.FileDeleted, p.handleFileDeleted)
 	p.em.SubscribeEvent(event.StorageQuotaWarning, p.handleQuotaWarning)
 	p.em.SubscribeEvent(event.StorageQuotaExceeded, p.handleQuotaExceeded)
+
+	// Subscribe to tenant module events for dependency refresh
+	p.em.SubscribeEvent("exts.tenant.ready", func(data any) {
+		p.s.RefreshDependencies()
+	})
+
+	// Subscribe to all extensions registration event
+	p.em.SubscribeEvent("exts.all.registered", func(data any) {
+		p.s.RefreshDependencies()
+	})
 }
 
 // Event handlers
@@ -285,6 +302,16 @@ func (p *Plugin) handleFileDeleted(data any) {
 
 	logger.Infof(context.Background(), "File deleted: %s, tenant: %s",
 		eventData.Name, eventData.TenantID)
+
+	// Update usage in quota service when file is deleted
+	if p.s != nil && p.s.Quota != nil && eventData.Size > 0 {
+		ctx := context.Background()
+		// Use the interface method to update usage (negative delta for deletion)
+		err := p.s.Quota.UpdateUsage(ctx, eventData.TenantID, "storage", -int64(eventData.Size))
+		if err != nil {
+			logger.Warnf(ctx, "Failed to update quota usage after file deletion: %v", err)
+		}
+	}
 }
 
 func (p *Plugin) handleQuotaWarning(data any) {

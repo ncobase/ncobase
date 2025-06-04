@@ -209,7 +209,7 @@ func (h *tenantQuotaHandler) UpdateUsage(c *gin.Context) {
 		return
 	}
 
-	if err := h.s.TenantQuota.UpdateUsage(c.Request.Context(), body); err != nil {
+	if err := h.s.TenantQuota.UpdateUsage(c.Request.Context(), body.TenantID, string(body.QuotaType), body.Delta); err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}

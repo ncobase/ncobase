@@ -142,7 +142,7 @@ func (s *batchService) BatchUpload(
 
 			// Create file body
 			body := &structs.CreateFileBody{}
-			fileHeader := storage.GetFileHeader(header)
+			fileHeader := storage.GetFileHeader(header, params.FolderPath)
 			body.Path = fileHeader.Path
 			body.Type = fileHeader.Type
 			body.Name = fileHeader.Name

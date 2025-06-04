@@ -278,8 +278,6 @@ func init() {
 	_ = tenantoptionMixinFields0
 	tenantoptionMixinFields1 := tenantoptionMixin[1].Fields()
 	_ = tenantoptionMixinFields1
-	tenantoptionMixinFields2 := tenantoptionMixin[2].Fields()
-	_ = tenantoptionMixinFields2
 	tenantoptionMixinFields3 := tenantoptionMixin[3].Fields()
 	_ = tenantoptionMixinFields3
 	tenantoptionMixinFields4 := tenantoptionMixin[4].Fields()
@@ -290,10 +288,6 @@ func init() {
 	tenantoptionDescTenantID := tenantoptionMixinFields1[0].Descriptor()
 	// tenantoption.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	tenantoption.TenantIDValidator = tenantoptionDescTenantID.Validators[0].(func(string) error)
-	// tenantoptionDescOptionID is the schema descriptor for option_id field.
-	tenantoptionDescOptionID := tenantoptionMixinFields2[0].Descriptor()
-	// tenantoption.OptionIDValidator is a validator for the "option_id" field. It is called by the builders before save.
-	tenantoption.OptionIDValidator = tenantoptionDescOptionID.Validators[0].(func(string) error)
 	// tenantoptionDescCreatedBy is the schema descriptor for created_by field.
 	tenantoptionDescCreatedBy := tenantoptionMixinFields3[0].Descriptor()
 	// tenantoption.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.

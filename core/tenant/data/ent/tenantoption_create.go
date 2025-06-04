@@ -172,11 +172,6 @@ func (toc *TenantOptionCreate) check() error {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.tenant_id": %w`, err)}
 		}
 	}
-	if v, ok := toc.mutation.OptionID(); ok {
-		if err := tenantoption.OptionIDValidator(v); err != nil {
-			return &ValidationError{Name: "option_id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.option_id": %w`, err)}
-		}
-	}
 	if v, ok := toc.mutation.CreatedBy(); ok {
 		if err := tenantoption.CreatedByValidator(v); err != nil {
 			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.created_by": %w`, err)}
