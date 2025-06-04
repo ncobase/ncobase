@@ -169,7 +169,7 @@ func (h *fileHandler) validateFileBody(body *structs.CreateFileBody) error {
 // processFile processes file details and binds other fields from the form to the file body
 func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateFileBody, error) {
 	body := &structs.CreateFileBody{}
-	fileHeader := storage.GetFileHeader(header, "files")
+	fileHeader := storage.GetFileHeader(header)
 	body.Path = fileHeader.Path
 	body.File = file
 	body.Type = fileHeader.Type
@@ -281,7 +281,7 @@ func (h *fileHandler) Update(c *gin.Context) {
 		// Fetch file header from request
 		header := fileHeaders[0]
 		// Get file data
-		fileHeader := storage.GetFileHeader(header, "files")
+		fileHeader := storage.GetFileHeader(header)
 		// Add file header data to updates
 		updates["name"] = fileHeader.Name
 		updates["size"] = fileHeader.Size
