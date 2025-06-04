@@ -96,14 +96,14 @@ func (h *TenantHandler) UserOwn(c *gin.Context) {
 // @Tags sys
 // @Accept json
 // @Produce json
-// @Param slug path string true "Tenant ID"
+// @Param tenantId path string true "Tenant ID"
 // @Param body body structs.UpdateTenantBody true "UpdateTenantBody object"
 // @Success 200 {object} structs.ReadTenant "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /sys/tenants [put]
+// @Router /sys/tenants/{tenantId} [put]
 // @Security Bearer
 func (h *TenantHandler) Update(c *gin.Context) {
-	slug := c.Param("slug")
+	slug := c.Param("tenantId")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
 		return
