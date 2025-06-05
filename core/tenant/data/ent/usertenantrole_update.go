@@ -187,40 +187,7 @@ func (utru *UserTenantRoleUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (utru *UserTenantRoleUpdate) check() error {
-	if v, ok := utru.mutation.UserID(); ok {
-		if err := usertenantrole.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.user_id": %w`, err)}
-		}
-	}
-	if v, ok := utru.mutation.TenantID(); ok {
-		if err := usertenantrole.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := utru.mutation.RoleID(); ok {
-		if err := usertenantrole.RoleIDValidator(v); err != nil {
-			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.role_id": %w`, err)}
-		}
-	}
-	if v, ok := utru.mutation.CreatedBy(); ok {
-		if err := usertenantrole.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.created_by": %w`, err)}
-		}
-	}
-	if v, ok := utru.mutation.UpdatedBy(); ok {
-		if err := usertenantrole.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (utru *UserTenantRoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := utru.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(usertenantrole.Table, usertenantrole.Columns, sqlgraph.NewFieldSpec(usertenantrole.FieldID, field.TypeString))
 	if ps := utru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -464,40 +431,7 @@ func (utruo *UserTenantRoleUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (utruo *UserTenantRoleUpdateOne) check() error {
-	if v, ok := utruo.mutation.UserID(); ok {
-		if err := usertenantrole.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.user_id": %w`, err)}
-		}
-	}
-	if v, ok := utruo.mutation.TenantID(); ok {
-		if err := usertenantrole.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := utruo.mutation.RoleID(); ok {
-		if err := usertenantrole.RoleIDValidator(v); err != nil {
-			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.role_id": %w`, err)}
-		}
-	}
-	if v, ok := utruo.mutation.CreatedBy(); ok {
-		if err := usertenantrole.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.created_by": %w`, err)}
-		}
-	}
-	if v, ok := utruo.mutation.UpdatedBy(); ok {
-		if err := usertenantrole.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenantRole.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (utruo *UserTenantRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserTenantRole, err error) {
-	if err := utruo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(usertenantrole.Table, usertenantrole.Columns, sqlgraph.NewFieldSpec(usertenantrole.FieldID, field.TypeString))
 	id, ok := utruo.mutation.ID()
 	if !ok {

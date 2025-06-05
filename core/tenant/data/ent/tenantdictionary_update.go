@@ -167,35 +167,7 @@ func (tdu *TenantDictionaryUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tdu *TenantDictionaryUpdate) check() error {
-	if v, ok := tdu.mutation.TenantID(); ok {
-		if err := tenantdictionary.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tdu.mutation.DictionaryID(); ok {
-		if err := tenantdictionary.DictionaryIDValidator(v); err != nil {
-			return &ValidationError{Name: "dictionary_id", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.dictionary_id": %w`, err)}
-		}
-	}
-	if v, ok := tdu.mutation.CreatedBy(); ok {
-		if err := tenantdictionary.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tdu.mutation.UpdatedBy(); ok {
-		if err := tenantdictionary.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tdu *TenantDictionaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tdu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(tenantdictionary.Table, tenantdictionary.Columns, sqlgraph.NewFieldSpec(tenantdictionary.FieldID, field.TypeString))
 	if ps := tdu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -413,35 +385,7 @@ func (tduo *TenantDictionaryUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tduo *TenantDictionaryUpdateOne) check() error {
-	if v, ok := tduo.mutation.TenantID(); ok {
-		if err := tenantdictionary.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tduo.mutation.DictionaryID(); ok {
-		if err := tenantdictionary.DictionaryIDValidator(v); err != nil {
-			return &ValidationError{Name: "dictionary_id", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.dictionary_id": %w`, err)}
-		}
-	}
-	if v, ok := tduo.mutation.CreatedBy(); ok {
-		if err := tenantdictionary.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tduo.mutation.UpdatedBy(); ok {
-		if err := tenantdictionary.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tduo *TenantDictionaryUpdateOne) sqlSave(ctx context.Context) (_node *TenantDictionary, err error) {
-	if err := tduo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(tenantdictionary.Table, tenantdictionary.Columns, sqlgraph.NewFieldSpec(tenantdictionary.FieldID, field.TypeString))
 	id, ok := tduo.mutation.ID()
 	if !ok {

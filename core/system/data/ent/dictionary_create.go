@@ -209,16 +209,6 @@ func (dc *DictionaryCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (dc *DictionaryCreate) check() error {
-	if v, ok := dc.mutation.CreatedBy(); ok {
-		if err := dictionary.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.created_by": %w`, err)}
-		}
-	}
-	if v, ok := dc.mutation.UpdatedBy(); ok {
-		if err := dictionary.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := dc.mutation.ID(); ok {
 		if err := dictionary.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Dictionary.id": %w`, err)}

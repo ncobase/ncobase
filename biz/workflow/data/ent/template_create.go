@@ -639,21 +639,6 @@ func (tc *TemplateCreate) check() error {
 	if _, ok := tc.mutation.StrictMode(); !ok {
 		return &ValidationError{Name: "strict_mode", err: errors.New(`ent: missing required field "Template.strict_mode"`)}
 	}
-	if v, ok := tc.mutation.TenantID(); ok {
-		if err := template.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Template.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.CreatedBy(); ok {
-		if err := template.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Template.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.UpdatedBy(); ok {
-		if err := template.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Template.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := tc.mutation.TemplateKey(); !ok {
 		return &ValidationError{Name: "template_key", err: errors.New(`ent: missing required field "Template.template_key"`)}
 	}

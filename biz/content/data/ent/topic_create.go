@@ -467,26 +467,6 @@ func (tc *TopicCreate) check() error {
 	if _, ok := tc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Topic.status"`)}
 	}
-	if v, ok := tc.mutation.TaxonomyID(); ok {
-		if err := topic.TaxonomyIDValidator(v); err != nil {
-			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.TenantID(); ok {
-		if err := topic.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Topic.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.CreatedBy(); ok {
-		if err := topic.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Topic.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.UpdatedBy(); ok {
-		if err := topic.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Topic.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := tc.mutation.Version(); !ok {
 		return &ValidationError{Name: "version", err: errors.New(`ent: missing required field "Topic.version"`)}
 	}

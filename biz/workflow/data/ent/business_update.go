@@ -625,30 +625,7 @@ func (bu *BusinessUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (bu *BusinessUpdate) check() error {
-	if v, ok := bu.mutation.TenantID(); ok {
-		if err := business.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Business.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := bu.mutation.CreatedBy(); ok {
-		if err := business.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Business.created_by": %w`, err)}
-		}
-	}
-	if v, ok := bu.mutation.UpdatedBy(); ok {
-		if err := business.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Business.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (bu *BusinessUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := bu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(business.Table, business.Columns, sqlgraph.NewFieldSpec(business.FieldID, field.TypeString))
 	if ps := bu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -1501,30 +1478,7 @@ func (buo *BusinessUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (buo *BusinessUpdateOne) check() error {
-	if v, ok := buo.mutation.TenantID(); ok {
-		if err := business.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Business.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := buo.mutation.CreatedBy(); ok {
-		if err := business.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Business.created_by": %w`, err)}
-		}
-	}
-	if v, ok := buo.mutation.UpdatedBy(); ok {
-		if err := business.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Business.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (buo *BusinessUpdateOne) sqlSave(ctx context.Context) (_node *Business, err error) {
-	if err := buo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(business.Table, business.Columns, sqlgraph.NewFieldSpec(business.FieldID, field.TypeString))
 	id, ok := buo.mutation.ID()
 	if !ok {

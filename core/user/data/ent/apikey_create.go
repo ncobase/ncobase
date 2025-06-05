@@ -160,11 +160,6 @@ func (akc *ApiKeyCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (akc *ApiKeyCreate) check() error {
-	if v, ok := akc.mutation.UserID(); ok {
-		if err := apikey.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "ApiKey.user_id": %w`, err)}
-		}
-	}
 	if _, ok := akc.mutation.Key(); !ok {
 		return &ValidationError{Name: "key", err: errors.New(`ent: missing required field "ApiKey.key"`)}
 	}

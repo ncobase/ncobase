@@ -405,30 +405,7 @@ func (hu *HistoryUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (hu *HistoryUpdate) check() error {
-	if v, ok := hu.mutation.TenantID(); ok {
-		if err := history.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "History.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := hu.mutation.CreatedBy(); ok {
-		if err := history.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "History.created_by": %w`, err)}
-		}
-	}
-	if v, ok := hu.mutation.UpdatedBy(); ok {
-		if err := history.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "History.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := hu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(history.Table, history.Columns, sqlgraph.NewFieldSpec(history.FieldID, field.TypeString))
 	if ps := hu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -959,30 +936,7 @@ func (huo *HistoryUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (huo *HistoryUpdateOne) check() error {
-	if v, ok := huo.mutation.TenantID(); ok {
-		if err := history.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "History.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := huo.mutation.CreatedBy(); ok {
-		if err := history.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "History.created_by": %w`, err)}
-		}
-	}
-	if v, ok := huo.mutation.UpdatedBy(); ok {
-		if err := history.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "History.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err error) {
-	if err := huo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(history.Table, history.Columns, sqlgraph.NewFieldSpec(history.FieldID, field.TypeString))
 	id, ok := huo.mutation.ID()
 	if !ok {

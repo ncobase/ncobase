@@ -227,25 +227,7 @@ func (nu *NotificationUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (nu *NotificationUpdate) check() error {
-	if v, ok := nu.mutation.UserID(); ok {
-		if err := notification.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Notification.user_id": %w`, err)}
-		}
-	}
-	if v, ok := nu.mutation.ChannelID(); ok {
-		if err := notification.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Notification.channel_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (nu *NotificationUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := nu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(notification.Table, notification.Columns, sqlgraph.NewFieldSpec(notification.FieldID, field.TypeString))
 	if ps := nu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -545,25 +527,7 @@ func (nuo *NotificationUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (nuo *NotificationUpdateOne) check() error {
-	if v, ok := nuo.mutation.UserID(); ok {
-		if err := notification.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Notification.user_id": %w`, err)}
-		}
-	}
-	if v, ok := nuo.mutation.ChannelID(); ok {
-		if err := notification.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Notification.channel_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (nuo *NotificationUpdateOne) sqlSave(ctx context.Context) (_node *Notification, err error) {
-	if err := nuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(notification.Table, notification.Columns, sqlgraph.NewFieldSpec(notification.FieldID, field.TypeString))
 	id, ok := nuo.mutation.ID()
 	if !ok {

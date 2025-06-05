@@ -186,26 +186,6 @@ func (tgc *TenantGroupCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tgc *TenantGroupCreate) check() error {
-	if v, ok := tgc.mutation.TenantID(); ok {
-		if err := tenantgroup.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tgc.mutation.GroupID(); ok {
-		if err := tenantgroup.GroupIDValidator(v); err != nil {
-			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.group_id": %w`, err)}
-		}
-	}
-	if v, ok := tgc.mutation.CreatedBy(); ok {
-		if err := tenantgroup.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tgc.mutation.UpdatedBy(); ok {
-		if err := tenantgroup.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := tgc.mutation.RelationType(); !ok {
 		return &ValidationError{Name: "relation_type", err: errors.New(`ent: missing required field "TenantGroup.relation_type"`)}
 	}

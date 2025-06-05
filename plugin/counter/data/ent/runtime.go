@@ -26,10 +26,6 @@ func init() {
 	_ = counterMixinFields8
 	counterMixinFields9 := counterMixin[9].Fields()
 	_ = counterMixinFields9
-	counterMixinFields11 := counterMixin[11].Fields()
-	_ = counterMixinFields11
-	counterMixinFields12 := counterMixin[12].Fields()
-	_ = counterMixinFields12
 	counterMixinFields13 := counterMixin[13].Fields()
 	_ = counterMixinFields13
 	counterFields := schema.Counter{}.Fields()
@@ -58,18 +54,6 @@ func init() {
 	counterDescDisabled := counterMixinFields9[0].Descriptor()
 	// counter.DefaultDisabled holds the default value on creation for the disabled field.
 	counter.DefaultDisabled = counterDescDisabled.Default.(bool)
-	// counterDescTenantID is the schema descriptor for tenant_id field.
-	counterDescTenantID := counterMixinFields11[0].Descriptor()
-	// counter.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	counter.TenantIDValidator = counterDescTenantID.Validators[0].(func(string) error)
-	// counterDescCreatedBy is the schema descriptor for created_by field.
-	counterDescCreatedBy := counterMixinFields12[0].Descriptor()
-	// counter.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	counter.CreatedByValidator = counterDescCreatedBy.Validators[0].(func(string) error)
-	// counterDescUpdatedBy is the schema descriptor for updated_by field.
-	counterDescUpdatedBy := counterMixinFields12[1].Descriptor()
-	// counter.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	counter.UpdatedByValidator = counterDescUpdatedBy.Validators[0].(func(string) error)
 	// counterDescCreatedAt is the schema descriptor for created_at field.
 	counterDescCreatedAt := counterMixinFields13[0].Descriptor()
 	// counter.DefaultCreatedAt holds the default value on creation for the created_at field.

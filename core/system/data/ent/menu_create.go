@@ -333,21 +333,6 @@ func (mc *MenuCreate) check() error {
 	if _, ok := mc.mutation.Order(); !ok {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "Menu.order"`)}
 	}
-	if v, ok := mc.mutation.ParentID(); ok {
-		if err := menu.ParentIDValidator(v); err != nil {
-			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Menu.parent_id": %w`, err)}
-		}
-	}
-	if v, ok := mc.mutation.CreatedBy(); ok {
-		if err := menu.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Menu.created_by": %w`, err)}
-		}
-	}
-	if v, ok := mc.mutation.UpdatedBy(); ok {
-		if err := menu.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Menu.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := mc.mutation.ID(); ok {
 		if err := menu.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Menu.id": %w`, err)}

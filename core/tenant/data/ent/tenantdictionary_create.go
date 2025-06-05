@@ -167,26 +167,6 @@ func (tdc *TenantDictionaryCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tdc *TenantDictionaryCreate) check() error {
-	if v, ok := tdc.mutation.TenantID(); ok {
-		if err := tenantdictionary.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tdc.mutation.DictionaryID(); ok {
-		if err := tenantdictionary.DictionaryIDValidator(v); err != nil {
-			return &ValidationError{Name: "dictionary_id", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.dictionary_id": %w`, err)}
-		}
-	}
-	if v, ok := tdc.mutation.CreatedBy(); ok {
-		if err := tenantdictionary.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tdc.mutation.UpdatedBy(); ok {
-		if err := tenantdictionary.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tdc.mutation.ID(); ok {
 		if err := tenantdictionary.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "TenantDictionary.id": %w`, err)}

@@ -19,18 +19,12 @@ func init() {
 	activityMixin := schema.Activity{}.Mixin()
 	activityMixinFields0 := activityMixin[0].Fields()
 	_ = activityMixinFields0
-	activityMixinFields2 := activityMixin[2].Fields()
-	_ = activityMixinFields2
 	activityMixinFields4 := activityMixin[4].Fields()
 	_ = activityMixinFields4
 	activityMixinFields5 := activityMixin[5].Fields()
 	_ = activityMixinFields5
 	activityFields := schema.Activity{}.Fields()
 	_ = activityFields
-	// activityDescUserID is the schema descriptor for user_id field.
-	activityDescUserID := activityMixinFields2[0].Descriptor()
-	// activity.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	activity.UserIDValidator = activityDescUserID.Validators[0].(func(string) error)
 	// activityDescMetadata is the schema descriptor for metadata field.
 	activityDescMetadata := activityMixinFields4[0].Descriptor()
 	// activity.DefaultMetadata holds the default value on creation for the metadata field.
@@ -54,20 +48,10 @@ func init() {
 	casbinruleMixin := schema.CasbinRule{}.Mixin()
 	casbinruleMixinFields0 := casbinruleMixin[0].Fields()
 	_ = casbinruleMixinFields0
-	casbinruleMixinFields8 := casbinruleMixin[8].Fields()
-	_ = casbinruleMixinFields8
 	casbinruleMixinFields9 := casbinruleMixin[9].Fields()
 	_ = casbinruleMixinFields9
 	casbinruleFields := schema.CasbinRule{}.Fields()
 	_ = casbinruleFields
-	// casbinruleDescCreatedBy is the schema descriptor for created_by field.
-	casbinruleDescCreatedBy := casbinruleMixinFields8[0].Descriptor()
-	// casbinrule.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	casbinrule.CreatedByValidator = casbinruleDescCreatedBy.Validators[0].(func(string) error)
-	// casbinruleDescUpdatedBy is the schema descriptor for updated_by field.
-	casbinruleDescUpdatedBy := casbinruleMixinFields8[1].Descriptor()
-	// casbinrule.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	casbinrule.UpdatedByValidator = casbinruleDescUpdatedBy.Validators[0].(func(string) error)
 	// casbinruleDescCreatedAt is the schema descriptor for created_at field.
 	casbinruleDescCreatedAt := casbinruleMixinFields9[0].Descriptor()
 	// casbinrule.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -93,8 +77,6 @@ func init() {
 	_ = permissionMixinFields6
 	permissionMixinFields7 := permissionMixin[7].Fields()
 	_ = permissionMixinFields7
-	permissionMixinFields8 := permissionMixin[8].Fields()
-	_ = permissionMixinFields8
 	permissionMixinFields9 := permissionMixin[9].Fields()
 	_ = permissionMixinFields9
 	permissionFields := schema.Permission{}.Fields()
@@ -111,14 +93,6 @@ func init() {
 	permissionDescExtras := permissionMixinFields7[0].Descriptor()
 	// permission.DefaultExtras holds the default value on creation for the extras field.
 	permission.DefaultExtras = permissionDescExtras.Default.(map[string]interface{})
-	// permissionDescCreatedBy is the schema descriptor for created_by field.
-	permissionDescCreatedBy := permissionMixinFields8[0].Descriptor()
-	// permission.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	permission.CreatedByValidator = permissionDescCreatedBy.Validators[0].(func(string) error)
-	// permissionDescUpdatedBy is the schema descriptor for updated_by field.
-	permissionDescUpdatedBy := permissionMixinFields8[1].Descriptor()
-	// permission.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	permission.UpdatedByValidator = permissionDescUpdatedBy.Validators[0].(func(string) error)
 	// permissionDescCreatedAt is the schema descriptor for created_at field.
 	permissionDescCreatedAt := permissionMixinFields9[0].Descriptor()
 	// permission.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -142,8 +116,6 @@ func init() {
 	_ = roleMixinFields3
 	roleMixinFields5 := roleMixin[5].Fields()
 	_ = roleMixinFields5
-	roleMixinFields6 := roleMixin[6].Fields()
-	_ = roleMixinFields6
 	roleMixinFields7 := roleMixin[7].Fields()
 	_ = roleMixinFields7
 	roleFields := schema.Role{}.Fields()
@@ -156,14 +128,6 @@ func init() {
 	roleDescExtras := roleMixinFields5[0].Descriptor()
 	// role.DefaultExtras holds the default value on creation for the extras field.
 	role.DefaultExtras = roleDescExtras.Default.(map[string]interface{})
-	// roleDescCreatedBy is the schema descriptor for created_by field.
-	roleDescCreatedBy := roleMixinFields6[0].Descriptor()
-	// role.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	role.CreatedByValidator = roleDescCreatedBy.Validators[0].(func(string) error)
-	// roleDescUpdatedBy is the schema descriptor for updated_by field.
-	roleDescUpdatedBy := roleMixinFields6[1].Descriptor()
-	// role.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	role.UpdatedByValidator = roleDescUpdatedBy.Validators[0].(func(string) error)
 	// roleDescCreatedAt is the schema descriptor for created_at field.
 	roleDescCreatedAt := roleMixinFields7[0].Descriptor()
 	// role.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -183,32 +147,10 @@ func init() {
 	rolepermissionMixin := schema.RolePermission{}.Mixin()
 	rolepermissionMixinFields0 := rolepermissionMixin[0].Fields()
 	_ = rolepermissionMixinFields0
-	rolepermissionMixinFields1 := rolepermissionMixin[1].Fields()
-	_ = rolepermissionMixinFields1
-	rolepermissionMixinFields2 := rolepermissionMixin[2].Fields()
-	_ = rolepermissionMixinFields2
-	rolepermissionMixinFields3 := rolepermissionMixin[3].Fields()
-	_ = rolepermissionMixinFields3
 	rolepermissionMixinFields4 := rolepermissionMixin[4].Fields()
 	_ = rolepermissionMixinFields4
 	rolepermissionFields := schema.RolePermission{}.Fields()
 	_ = rolepermissionFields
-	// rolepermissionDescRoleID is the schema descriptor for role_id field.
-	rolepermissionDescRoleID := rolepermissionMixinFields1[0].Descriptor()
-	// rolepermission.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
-	rolepermission.RoleIDValidator = rolepermissionDescRoleID.Validators[0].(func(string) error)
-	// rolepermissionDescPermissionID is the schema descriptor for permission_id field.
-	rolepermissionDescPermissionID := rolepermissionMixinFields2[0].Descriptor()
-	// rolepermission.PermissionIDValidator is a validator for the "permission_id" field. It is called by the builders before save.
-	rolepermission.PermissionIDValidator = rolepermissionDescPermissionID.Validators[0].(func(string) error)
-	// rolepermissionDescCreatedBy is the schema descriptor for created_by field.
-	rolepermissionDescCreatedBy := rolepermissionMixinFields3[0].Descriptor()
-	// rolepermission.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	rolepermission.CreatedByValidator = rolepermissionDescCreatedBy.Validators[0].(func(string) error)
-	// rolepermissionDescUpdatedBy is the schema descriptor for updated_by field.
-	rolepermissionDescUpdatedBy := rolepermissionMixinFields3[1].Descriptor()
-	// rolepermission.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	rolepermission.UpdatedByValidator = rolepermissionDescUpdatedBy.Validators[0].(func(string) error)
 	// rolepermissionDescCreatedAt is the schema descriptor for created_at field.
 	rolepermissionDescCreatedAt := rolepermissionMixinFields4[0].Descriptor()
 	// rolepermission.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -228,32 +170,10 @@ func init() {
 	userroleMixin := schema.UserRole{}.Mixin()
 	userroleMixinFields0 := userroleMixin[0].Fields()
 	_ = userroleMixinFields0
-	userroleMixinFields1 := userroleMixin[1].Fields()
-	_ = userroleMixinFields1
-	userroleMixinFields2 := userroleMixin[2].Fields()
-	_ = userroleMixinFields2
-	userroleMixinFields3 := userroleMixin[3].Fields()
-	_ = userroleMixinFields3
 	userroleMixinFields4 := userroleMixin[4].Fields()
 	_ = userroleMixinFields4
 	userroleFields := schema.UserRole{}.Fields()
 	_ = userroleFields
-	// userroleDescUserID is the schema descriptor for user_id field.
-	userroleDescUserID := userroleMixinFields1[0].Descriptor()
-	// userrole.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	userrole.UserIDValidator = userroleDescUserID.Validators[0].(func(string) error)
-	// userroleDescRoleID is the schema descriptor for role_id field.
-	userroleDescRoleID := userroleMixinFields2[0].Descriptor()
-	// userrole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
-	userrole.RoleIDValidator = userroleDescRoleID.Validators[0].(func(string) error)
-	// userroleDescCreatedBy is the schema descriptor for created_by field.
-	userroleDescCreatedBy := userroleMixinFields3[0].Descriptor()
-	// userrole.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	userrole.CreatedByValidator = userroleDescCreatedBy.Validators[0].(func(string) error)
-	// userroleDescUpdatedBy is the schema descriptor for updated_by field.
-	userroleDescUpdatedBy := userroleMixinFields3[1].Descriptor()
-	// userrole.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	userrole.UpdatedByValidator = userroleDescUpdatedBy.Validators[0].(func(string) error)
 	// userroleDescCreatedAt is the schema descriptor for created_at field.
 	userroleDescCreatedAt := userroleMixinFields4[0].Descriptor()
 	// userrole.DefaultCreatedAt holds the default value on creation for the created_at field.

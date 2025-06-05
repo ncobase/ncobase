@@ -251,30 +251,7 @@ func (gu *GroupUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (gu *GroupUpdate) check() error {
-	if v, ok := gu.mutation.ParentID(); ok {
-		if err := group.ParentIDValidator(v); err != nil {
-			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Group.parent_id": %w`, err)}
-		}
-	}
-	if v, ok := gu.mutation.CreatedBy(); ok {
-		if err := group.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Group.created_by": %w`, err)}
-		}
-	}
-	if v, ok := gu.mutation.UpdatedBy(); ok {
-		if err := group.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Group.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (gu *GroupUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := gu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(group.Table, group.Columns, sqlgraph.NewFieldSpec(group.FieldID, field.TypeString))
 	if ps := gu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -606,30 +583,7 @@ func (guo *GroupUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (guo *GroupUpdateOne) check() error {
-	if v, ok := guo.mutation.ParentID(); ok {
-		if err := group.ParentIDValidator(v); err != nil {
-			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Group.parent_id": %w`, err)}
-		}
-	}
-	if v, ok := guo.mutation.CreatedBy(); ok {
-		if err := group.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Group.created_by": %w`, err)}
-		}
-	}
-	if v, ok := guo.mutation.UpdatedBy(); ok {
-		if err := group.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Group.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (guo *GroupUpdateOne) sqlSave(ctx context.Context) (_node *Group, err error) {
-	if err := guo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(group.Table, group.Columns, sqlgraph.NewFieldSpec(group.FieldID, field.TypeString))
 	id, ok := guo.mutation.ID()
 	if !ok {

@@ -806,30 +806,7 @@ func (tu *TemplateUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tu *TemplateUpdate) check() error {
-	if v, ok := tu.mutation.TenantID(); ok {
-		if err := template.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Template.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.CreatedBy(); ok {
-		if err := template.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Template.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.UpdatedBy(); ok {
-		if err := template.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Template.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tu *TemplateUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(template.Table, template.Columns, sqlgraph.NewFieldSpec(template.FieldID, field.TypeString))
 	if ps := tu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -1913,30 +1890,7 @@ func (tuo *TemplateUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tuo *TemplateUpdateOne) check() error {
-	if v, ok := tuo.mutation.TenantID(); ok {
-		if err := template.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Template.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.CreatedBy(); ok {
-		if err := template.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Template.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.UpdatedBy(); ok {
-		if err := template.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Template.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tuo *TemplateUpdateOne) sqlSave(ctx context.Context) (_node *Template, err error) {
-	if err := tuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(template.Table, template.Columns, sqlgraph.NewFieldSpec(template.FieldID, field.TypeString))
 	id, ok := tuo.mutation.ID()
 	if !ok {

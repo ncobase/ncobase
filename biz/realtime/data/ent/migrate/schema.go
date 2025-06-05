@@ -13,9 +13,9 @@ var (
 	NcseRtEventColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "channel_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "channel id"},
+		{Name: "channel_id", Type: field.TypeString, Nullable: true, Comment: "channel id"},
 		{Name: "payload", Type: field.TypeJSON, Nullable: true, Comment: "Payload"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 	}
 	// NcseRtEventTable holds the schema information for the "ncse_rt_event" table.
@@ -47,10 +47,10 @@ var (
 		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
 		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "content, big text"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "links", Type: field.TypeJSON, Nullable: true, Comment: "List of social links or profile links"},
-		{Name: "channel_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "channel id"},
+		{Name: "channel_id", Type: field.TypeString, Nullable: true, Comment: "channel id"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -104,8 +104,8 @@ var (
 	// NcseRtSubscriptionColumns holds the columns for the "ncse_rt_subscription" table.
 	NcseRtSubscriptionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
-		{Name: "channel_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "channel id"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
+		{Name: "channel_id", Type: field.TypeString, Nullable: true, Comment: "channel id"},
 		{Name: "status", Type: field.TypeInt, Comment: "status: 0 activated, 1 unactivated, 2 disabled", Default: 0},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},

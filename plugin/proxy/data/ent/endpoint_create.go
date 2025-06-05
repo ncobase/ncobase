@@ -360,16 +360,6 @@ func (ec *EndpointCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ec *EndpointCreate) check() error {
-	if v, ok := ec.mutation.CreatedBy(); ok {
-		if err := endpoint.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Endpoint.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ec.mutation.UpdatedBy(); ok {
-		if err := endpoint.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Endpoint.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := ec.mutation.BaseURL(); !ok {
 		return &ValidationError{Name: "base_url", err: errors.New(`ent: missing required field "Endpoint.base_url"`)}
 	}

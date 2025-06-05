@@ -474,21 +474,6 @@ func (bc *BusinessCreate) check() error {
 	if _, ok := bc.mutation.ModuleCode(); !ok {
 		return &ValidationError{Name: "module_code", err: errors.New(`ent: missing required field "Business.module_code"`)}
 	}
-	if v, ok := bc.mutation.TenantID(); ok {
-		if err := business.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Business.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := bc.mutation.CreatedBy(); ok {
-		if err := business.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Business.created_by": %w`, err)}
-		}
-	}
-	if v, ok := bc.mutation.UpdatedBy(); ok {
-		if err := business.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Business.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := bc.mutation.ID(); ok {
 		if err := business.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Business.id": %w`, err)}

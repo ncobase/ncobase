@@ -13,7 +13,7 @@ var (
 	NcseSysActivityColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "details", Type: field.TypeString, Nullable: true, Comment: "details"},
 		{Name: "metadata", Type: field.TypeJSON, Nullable: true, Comment: "Metadata"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
@@ -62,8 +62,8 @@ var (
 		{Name: "v3", Type: field.TypeString, Nullable: true, Comment: "version 3"},
 		{Name: "v4", Type: field.TypeString, Nullable: true, Comment: "version 4"},
 		{Name: "v5", Type: field.TypeString, Nullable: true, Comment: "version 5"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -95,8 +95,8 @@ var (
 		{Name: "default", Type: field.TypeBool, Nullable: true, Comment: "is default", Default: false},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -131,8 +131,8 @@ var (
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -162,10 +162,10 @@ var (
 	// NcseSysRolePermissionColumns holds the columns for the "ncse_sys_role_permission" table.
 	NcseSysRolePermissionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
-		{Name: "permission_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "permission id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Comment: "role id"},
+		{Name: "permission_id", Type: field.TypeString, Nullable: true, Comment: "permission id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -205,10 +205,10 @@ var (
 	// NcseSysUserRoleColumns holds the columns for the "ncse_sys_user_role" table.
 	NcseSysUserRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
-		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Comment: "role id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}

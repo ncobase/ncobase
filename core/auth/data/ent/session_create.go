@@ -240,11 +240,6 @@ func (sc *SessionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (sc *SessionCreate) check() error {
-	if v, ok := sc.mutation.UserID(); ok {
-		if err := session.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Session.user_id": %w`, err)}
-		}
-	}
 	if _, ok := sc.mutation.TokenID(); !ok {
 		return &ValidationError{Name: "token_id", err: errors.New(`ent: missing required field "Session.token_id"`)}
 	}

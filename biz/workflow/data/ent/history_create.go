@@ -309,21 +309,6 @@ func (hc *HistoryCreate) check() error {
 	if _, ok := hc.mutation.NodeType(); !ok {
 		return &ValidationError{Name: "node_type", err: errors.New(`ent: missing required field "History.node_type"`)}
 	}
-	if v, ok := hc.mutation.TenantID(); ok {
-		if err := history.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "History.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := hc.mutation.CreatedBy(); ok {
-		if err := history.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "History.created_by": %w`, err)}
-		}
-	}
-	if v, ok := hc.mutation.UpdatedBy(); ok {
-		if err := history.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "History.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := hc.mutation.NodeName(); !ok {
 		return &ValidationError{Name: "node_name", err: errors.New(`ent: missing required field "History.node_name"`)}
 	}

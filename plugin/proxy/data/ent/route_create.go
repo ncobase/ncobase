@@ -328,16 +328,6 @@ func (rc *RouteCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (rc *RouteCreate) check() error {
-	if v, ok := rc.mutation.CreatedBy(); ok {
-		if err := route.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Route.created_by": %w`, err)}
-		}
-	}
-	if v, ok := rc.mutation.UpdatedBy(); ok {
-		if err := route.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Route.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := rc.mutation.EndpointID(); !ok {
 		return &ValidationError{Name: "endpoint_id", err: errors.New(`ent: missing required field "Route.endpoint_id"`)}
 	}

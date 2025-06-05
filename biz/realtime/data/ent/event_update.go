@@ -131,25 +131,7 @@ func (eu *EventUpdate) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (eu *EventUpdate) check() error {
-	if v, ok := eu.mutation.ChannelID(); ok {
-		if err := event.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Event.channel_id": %w`, err)}
-		}
-	}
-	if v, ok := eu.mutation.UserID(); ok {
-		if err := event.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Event.user_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (eu *EventUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := eu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(event.Table, event.Columns, sqlgraph.NewFieldSpec(event.FieldID, field.TypeString))
 	if ps := eu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -322,25 +304,7 @@ func (euo *EventUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (euo *EventUpdateOne) check() error {
-	if v, ok := euo.mutation.ChannelID(); ok {
-		if err := event.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Event.channel_id": %w`, err)}
-		}
-	}
-	if v, ok := euo.mutation.UserID(); ok {
-		if err := event.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Event.user_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (euo *EventUpdateOne) sqlSave(ctx context.Context) (_node *Event, err error) {
-	if err := euo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(event.Table, event.Columns, sqlgraph.NewFieldSpec(event.FieldID, field.TypeString))
 	id, ok := euo.mutation.ID()
 	if !ok {

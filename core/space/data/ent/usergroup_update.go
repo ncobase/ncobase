@@ -183,26 +183,6 @@ func (ugu *UserGroupUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ugu *UserGroupUpdate) check() error {
-	if v, ok := ugu.mutation.UserID(); ok {
-		if err := usergroup.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.user_id": %w`, err)}
-		}
-	}
-	if v, ok := ugu.mutation.GroupID(); ok {
-		if err := usergroup.GroupIDValidator(v); err != nil {
-			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.group_id": %w`, err)}
-		}
-	}
-	if v, ok := ugu.mutation.CreatedBy(); ok {
-		if err := usergroup.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ugu.mutation.UpdatedBy(); ok {
-		if err := usergroup.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := ugu.mutation.Role(); ok {
 		if err := usergroup.RoleValidator(v); err != nil {
 			return &ValidationError{Name: "role", err: fmt.Errorf(`ent: validator failed for field "UserGroup.role": %w`, err)}
@@ -451,26 +431,6 @@ func (uguo *UserGroupUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (uguo *UserGroupUpdateOne) check() error {
-	if v, ok := uguo.mutation.UserID(); ok {
-		if err := usergroup.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.user_id": %w`, err)}
-		}
-	}
-	if v, ok := uguo.mutation.GroupID(); ok {
-		if err := usergroup.GroupIDValidator(v); err != nil {
-			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.group_id": %w`, err)}
-		}
-	}
-	if v, ok := uguo.mutation.CreatedBy(); ok {
-		if err := usergroup.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.created_by": %w`, err)}
-		}
-	}
-	if v, ok := uguo.mutation.UpdatedBy(); ok {
-		if err := usergroup.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := uguo.mutation.Role(); ok {
 		if err := usergroup.RoleValidator(v); err != nil {
 			return &ValidationError{Name: "role", err: fmt.Errorf(`ent: validator failed for field "UserGroup.role": %w`, err)}

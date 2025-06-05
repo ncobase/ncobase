@@ -243,16 +243,6 @@ func (tu *TransformerUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tu *TransformerUpdate) check() error {
-	if v, ok := tu.mutation.CreatedBy(); ok {
-		if err := transformer.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Transformer.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.UpdatedBy(); ok {
-		if err := transformer.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Transformer.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tu.mutation.GetType(); ok {
 		if err := transformer.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Transformer.type": %w`, err)}
@@ -584,16 +574,6 @@ func (tuo *TransformerUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tuo *TransformerUpdateOne) check() error {
-	if v, ok := tuo.mutation.CreatedBy(); ok {
-		if err := transformer.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Transformer.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.UpdatedBy(); ok {
-		if err := transformer.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Transformer.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tuo.mutation.GetType(); ok {
 		if err := transformer.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Transformer.type": %w`, err)}

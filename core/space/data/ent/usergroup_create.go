@@ -186,26 +186,6 @@ func (ugc *UserGroupCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ugc *UserGroupCreate) check() error {
-	if v, ok := ugc.mutation.UserID(); ok {
-		if err := usergroup.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.user_id": %w`, err)}
-		}
-	}
-	if v, ok := ugc.mutation.GroupID(); ok {
-		if err := usergroup.GroupIDValidator(v); err != nil {
-			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "UserGroup.group_id": %w`, err)}
-		}
-	}
-	if v, ok := ugc.mutation.CreatedBy(); ok {
-		if err := usergroup.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ugc.mutation.UpdatedBy(); ok {
-		if err := usergroup.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserGroup.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := ugc.mutation.Role(); !ok {
 		return &ValidationError{Name: "role", err: errors.New(`ent: missing required field "UserGroup.role"`)}
 	}

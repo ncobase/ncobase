@@ -383,30 +383,7 @@ func (mu *MediaUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (mu *MediaUpdate) check() error {
-	if v, ok := mu.mutation.TenantID(); ok {
-		if err := media.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Media.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := mu.mutation.CreatedBy(); ok {
-		if err := media.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Media.created_by": %w`, err)}
-		}
-	}
-	if v, ok := mu.mutation.UpdatedBy(); ok {
-		if err := media.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Media.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (mu *MediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := mu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(media.Table, media.Columns, sqlgraph.NewFieldSpec(media.FieldID, field.TypeString))
 	if ps := mu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -906,30 +883,7 @@ func (muo *MediaUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (muo *MediaUpdateOne) check() error {
-	if v, ok := muo.mutation.TenantID(); ok {
-		if err := media.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Media.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := muo.mutation.CreatedBy(); ok {
-		if err := media.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Media.created_by": %w`, err)}
-		}
-	}
-	if v, ok := muo.mutation.UpdatedBy(); ok {
-		if err := media.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Media.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (muo *MediaUpdateOne) sqlSave(ctx context.Context) (_node *Media, err error) {
-	if err := muo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(media.Table, media.Columns, sqlgraph.NewFieldSpec(media.FieldID, field.TypeString))
 	id, ok := muo.mutation.ID()
 	if !ok {

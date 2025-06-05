@@ -204,16 +204,6 @@ func (oc *OptionsCreate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
 	}
-	if v, ok := oc.mutation.CreatedBy(); ok {
-		if err := options.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Options.created_by": %w`, err)}
-		}
-	}
-	if v, ok := oc.mutation.UpdatedBy(); ok {
-		if err := options.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Options.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := oc.mutation.ID(); ok {
 		if err := options.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Options.id": %w`, err)}

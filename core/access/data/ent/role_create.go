@@ -209,16 +209,6 @@ func (rc *RoleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (rc *RoleCreate) check() error {
-	if v, ok := rc.mutation.CreatedBy(); ok {
-		if err := role.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Role.created_by": %w`, err)}
-		}
-	}
-	if v, ok := rc.mutation.UpdatedBy(); ok {
-		if err := role.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Role.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := rc.mutation.ID(); ok {
 		if err := role.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Role.id": %w`, err)}

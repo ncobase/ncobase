@@ -159,20 +159,7 @@ func (au *ActivityUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (au *ActivityUpdate) check() error {
-	if v, ok := au.mutation.UserID(); ok {
-		if err := activity.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Activity.user_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (au *ActivityUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := au.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(activity.Table, activity.Columns, sqlgraph.NewFieldSpec(activity.FieldID, field.TypeString))
 	if ps := au.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -382,20 +369,7 @@ func (auo *ActivityUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (auo *ActivityUpdateOne) check() error {
-	if v, ok := auo.mutation.UserID(); ok {
-		if err := activity.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Activity.user_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (auo *ActivityUpdateOne) sqlSave(ctx context.Context) (_node *Activity, err error) {
-	if err := auo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(activity.Table, activity.Columns, sqlgraph.NewFieldSpec(activity.FieldID, field.TypeString))
 	id, ok := auo.mutation.ID()
 	if !ok {

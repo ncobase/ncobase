@@ -168,11 +168,6 @@ func (ouu *OAuthUserUpdate) check() error {
 			return &ValidationError{Name: "access_token", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.access_token": %w`, err)}
 		}
 	}
-	if v, ok := ouu.mutation.UserID(); ok {
-		if err := oauthuser.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.user_id": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -393,11 +388,6 @@ func (ouuo *OAuthUserUpdateOne) check() error {
 	if v, ok := ouuo.mutation.AccessToken(); ok {
 		if err := oauthuser.AccessTokenValidator(v); err != nil {
 			return &ValidationError{Name: "access_token", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.access_token": %w`, err)}
-		}
-	}
-	if v, ok := ouuo.mutation.UserID(); ok {
-		if err := oauthuser.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.user_id": %w`, err)}
 		}
 	}
 	return nil

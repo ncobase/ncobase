@@ -222,16 +222,6 @@ func (tmu *TopicMediaUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tmu *TopicMediaUpdate) check() error {
-	if v, ok := tmu.mutation.CreatedBy(); ok {
-		if err := topicmedia.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tmu.mutation.UpdatedBy(); ok {
-		if err := topicmedia.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tmu.mutation.TopicID(); ok {
 		if err := topicmedia.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.topic_id": %w`, err)}
@@ -583,16 +573,6 @@ func (tmuo *TopicMediaUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tmuo *TopicMediaUpdateOne) check() error {
-	if v, ok := tmuo.mutation.CreatedBy(); ok {
-		if err := topicmedia.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tmuo.mutation.UpdatedBy(); ok {
-		if err := topicmedia.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tmuo.mutation.TopicID(); ok {
 		if err := topicmedia.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.topic_id": %w`, err)}

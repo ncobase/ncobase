@@ -58,14 +58,10 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	UserIDValidator func(string) error
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus int
 	// DefaultLinks holds the default value on creation for the "links" field.
 	DefaultLinks []map[string]interface{}
-	// ChannelIDValidator is a validator for the "channel_id" field. It is called by the builders before save.
-	ChannelIDValidator func(string) error
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() int64
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.

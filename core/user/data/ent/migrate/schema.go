@@ -15,7 +15,7 @@ var (
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "key", Type: field.TypeString, Unique: true},
 		{Name: "last_used", Type: field.TypeInt64, Nullable: true},
 	}
@@ -55,7 +55,7 @@ var (
 	// NcseSysEmployeeColumns holds the columns for the "ncse_sys_employee" table.
 	NcseSysEmployeeColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "employee_id", Type: field.TypeString, Nullable: true, Comment: "Employee ID/Number"},

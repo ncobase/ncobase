@@ -21,8 +21,6 @@ func init() {
 	_ = endpointMixinFields3
 	endpointMixinFields4 := endpointMixin[4].Fields()
 	_ = endpointMixinFields4
-	endpointMixinFields5 := endpointMixin[5].Fields()
-	_ = endpointMixinFields5
 	endpointMixinFields6 := endpointMixin[6].Fields()
 	_ = endpointMixinFields6
 	endpointFields := schema.Endpoint{}.Fields()
@@ -35,14 +33,6 @@ func init() {
 	endpointDescExtras := endpointMixinFields4[0].Descriptor()
 	// endpoint.DefaultExtras holds the default value on creation for the extras field.
 	endpoint.DefaultExtras = endpointDescExtras.Default.(map[string]interface{})
-	// endpointDescCreatedBy is the schema descriptor for created_by field.
-	endpointDescCreatedBy := endpointMixinFields5[0].Descriptor()
-	// endpoint.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	endpoint.CreatedByValidator = endpointDescCreatedBy.Validators[0].(func(string) error)
-	// endpointDescUpdatedBy is the schema descriptor for updated_by field.
-	endpointDescUpdatedBy := endpointMixinFields5[1].Descriptor()
-	// endpoint.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	endpoint.UpdatedByValidator = endpointDescUpdatedBy.Validators[0].(func(string) error)
 	// endpointDescCreatedAt is the schema descriptor for created_at field.
 	endpointDescCreatedAt := endpointMixinFields6[0].Descriptor()
 	// endpoint.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -125,8 +115,6 @@ func init() {
 	_ = routeMixinFields3
 	routeMixinFields4 := routeMixin[4].Fields()
 	_ = routeMixinFields4
-	routeMixinFields5 := routeMixin[5].Fields()
-	_ = routeMixinFields5
 	routeMixinFields6 := routeMixin[6].Fields()
 	_ = routeMixinFields6
 	routeFields := schema.Route{}.Fields()
@@ -139,14 +127,6 @@ func init() {
 	routeDescExtras := routeMixinFields4[0].Descriptor()
 	// route.DefaultExtras holds the default value on creation for the extras field.
 	route.DefaultExtras = routeDescExtras.Default.(map[string]interface{})
-	// routeDescCreatedBy is the schema descriptor for created_by field.
-	routeDescCreatedBy := routeMixinFields5[0].Descriptor()
-	// route.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	route.CreatedByValidator = routeDescCreatedBy.Validators[0].(func(string) error)
-	// routeDescUpdatedBy is the schema descriptor for updated_by field.
-	routeDescUpdatedBy := routeMixinFields5[1].Descriptor()
-	// route.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	route.UpdatedByValidator = routeDescUpdatedBy.Validators[0].(func(string) error)
 	// routeDescCreatedAt is the schema descriptor for created_at field.
 	routeDescCreatedAt := routeMixinFields6[0].Descriptor()
 	// route.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -194,8 +174,6 @@ func init() {
 	_ = transformerMixinFields3
 	transformerMixinFields4 := transformerMixin[4].Fields()
 	_ = transformerMixinFields4
-	transformerMixinFields5 := transformerMixin[5].Fields()
-	_ = transformerMixinFields5
 	transformerMixinFields6 := transformerMixin[6].Fields()
 	_ = transformerMixinFields6
 	transformerFields := schema.Transformer{}.Fields()
@@ -208,14 +186,6 @@ func init() {
 	transformerDescExtras := transformerMixinFields4[0].Descriptor()
 	// transformer.DefaultExtras holds the default value on creation for the extras field.
 	transformer.DefaultExtras = transformerDescExtras.Default.(map[string]interface{})
-	// transformerDescCreatedBy is the schema descriptor for created_by field.
-	transformerDescCreatedBy := transformerMixinFields5[0].Descriptor()
-	// transformer.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	transformer.CreatedByValidator = transformerDescCreatedBy.Validators[0].(func(string) error)
-	// transformerDescUpdatedBy is the schema descriptor for updated_by field.
-	transformerDescUpdatedBy := transformerMixinFields5[1].Descriptor()
-	// transformer.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	transformer.UpdatedByValidator = transformerDescUpdatedBy.Validators[0].(func(string) error)
 	// transformerDescCreatedAt is the schema descriptor for created_at field.
 	transformerDescCreatedAt := transformerMixinFields6[0].Descriptor()
 	// transformer.DefaultCreatedAt holds the default value on creation for the created_at field.

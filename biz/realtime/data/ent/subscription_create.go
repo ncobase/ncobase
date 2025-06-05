@@ -158,16 +158,6 @@ func (sc *SubscriptionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (sc *SubscriptionCreate) check() error {
-	if v, ok := sc.mutation.UserID(); ok {
-		if err := subscription.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.user_id": %w`, err)}
-		}
-	}
-	if v, ok := sc.mutation.ChannelID(); ok {
-		if err := subscription.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.channel_id": %w`, err)}
-		}
-	}
 	if _, ok := sc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Subscription.status"`)}
 	}

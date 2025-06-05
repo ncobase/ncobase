@@ -279,21 +279,6 @@ func (tqu *TenantQuotaUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tqu *TenantQuotaUpdate) check() error {
-	if v, ok := tqu.mutation.TenantID(); ok {
-		if err := tenantquota.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tqu.mutation.CreatedBy(); ok {
-		if err := tenantquota.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tqu.mutation.UpdatedBy(); ok {
-		if err := tenantquota.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tqu.mutation.QuotaType(); ok {
 		if err := tenantquota.QuotaTypeValidator(v); err != nil {
 			return &ValidationError{Name: "quota_type", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.quota_type": %w`, err)}
@@ -680,21 +665,6 @@ func (tquo *TenantQuotaUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tquo *TenantQuotaUpdateOne) check() error {
-	if v, ok := tquo.mutation.TenantID(); ok {
-		if err := tenantquota.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tquo.mutation.CreatedBy(); ok {
-		if err := tenantquota.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tquo.mutation.UpdatedBy(); ok {
-		if err := tenantquota.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tquo.mutation.QuotaType(); ok {
 		if err := tenantquota.QuotaTypeValidator(v); err != nil {
 			return &ValidationError{Name: "quota_type", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.quota_type": %w`, err)}

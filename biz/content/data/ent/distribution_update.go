@@ -348,21 +348,6 @@ func (du *DistributionUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (du *DistributionUpdate) check() error {
-	if v, ok := du.mutation.TenantID(); ok {
-		if err := distribution.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := du.mutation.CreatedBy(); ok {
-		if err := distribution.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Distribution.created_by": %w`, err)}
-		}
-	}
-	if v, ok := du.mutation.UpdatedBy(); ok {
-		if err := distribution.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Distribution.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := du.mutation.TopicID(); ok {
 		if err := distribution.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.topic_id": %w`, err)}
@@ -882,21 +867,6 @@ func (duo *DistributionUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (duo *DistributionUpdateOne) check() error {
-	if v, ok := duo.mutation.TenantID(); ok {
-		if err := distribution.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := duo.mutation.CreatedBy(); ok {
-		if err := distribution.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Distribution.created_by": %w`, err)}
-		}
-	}
-	if v, ok := duo.mutation.UpdatedBy(); ok {
-		if err := distribution.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Distribution.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := duo.mutation.TopicID(); ok {
 		if err := distribution.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.topic_id": %w`, err)}

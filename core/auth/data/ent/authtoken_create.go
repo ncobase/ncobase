@@ -143,11 +143,6 @@ func (atc *AuthTokenCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (atc *AuthTokenCreate) check() error {
-	if v, ok := atc.mutation.UserID(); ok {
-		if err := authtoken.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "AuthToken.user_id": %w`, err)}
-		}
-	}
 	if v, ok := atc.mutation.ID(); ok {
 		if err := authtoken.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "AuthToken.id": %w`, err)}

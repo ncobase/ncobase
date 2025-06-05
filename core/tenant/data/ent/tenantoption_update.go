@@ -167,30 +167,7 @@ func (tou *TenantOptionUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tou *TenantOptionUpdate) check() error {
-	if v, ok := tou.mutation.TenantID(); ok {
-		if err := tenantoption.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tou.mutation.CreatedBy(); ok {
-		if err := tenantoption.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tou.mutation.UpdatedBy(); ok {
-		if err := tenantoption.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tou *TenantOptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tou.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(tenantoption.Table, tenantoption.Columns, sqlgraph.NewFieldSpec(tenantoption.FieldID, field.TypeString))
 	if ps := tou.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -408,30 +385,7 @@ func (touo *TenantOptionUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (touo *TenantOptionUpdateOne) check() error {
-	if v, ok := touo.mutation.TenantID(); ok {
-		if err := tenantoption.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := touo.mutation.CreatedBy(); ok {
-		if err := tenantoption.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.created_by": %w`, err)}
-		}
-	}
-	if v, ok := touo.mutation.UpdatedBy(); ok {
-		if err := tenantoption.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (touo *TenantOptionUpdateOne) sqlSave(ctx context.Context) (_node *TenantOption, err error) {
-	if err := touo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(tenantoption.Table, tenantoption.Columns, sqlgraph.NewFieldSpec(tenantoption.FieldID, field.TypeString))
 	id, ok := touo.mutation.ID()
 	if !ok {

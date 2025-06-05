@@ -328,21 +328,6 @@ func (cc *CounterCreate) check() error {
 	if _, ok := cc.mutation.CurrentValue(); !ok {
 		return &ValidationError{Name: "current_value", err: errors.New(`ent: missing required field "Counter.current_value"`)}
 	}
-	if v, ok := cc.mutation.TenantID(); ok {
-		if err := counter.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Counter.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := cc.mutation.CreatedBy(); ok {
-		if err := counter.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Counter.created_by": %w`, err)}
-		}
-	}
-	if v, ok := cc.mutation.UpdatedBy(); ok {
-		if err := counter.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Counter.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := cc.mutation.ID(); ok {
 		if err := counter.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Counter.id": %w`, err)}

@@ -237,16 +237,6 @@ func (crc *CasbinRuleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (crc *CasbinRuleCreate) check() error {
-	if v, ok := crc.mutation.CreatedBy(); ok {
-		if err := casbinrule.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.created_by": %w`, err)}
-		}
-	}
-	if v, ok := crc.mutation.UpdatedBy(); ok {
-		if err := casbinrule.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := crc.mutation.ID(); ok {
 		if err := casbinrule.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.id": %w`, err)}

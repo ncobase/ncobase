@@ -214,16 +214,6 @@ func (ou *OptionsUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
 	}
-	if v, ok := ou.mutation.CreatedBy(); ok {
-		if err := options.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Options.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ou.mutation.UpdatedBy(); ok {
-		if err := options.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Options.updated_by": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -505,16 +495,6 @@ func (ouo *OptionsUpdateOne) check() error {
 	if v, ok := ouo.mutation.Name(); ok {
 		if err := options.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
-		}
-	}
-	if v, ok := ouo.mutation.CreatedBy(); ok {
-		if err := options.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Options.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ouo.mutation.UpdatedBy(); ok {
-		if err := options.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Options.updated_by": %w`, err)}
 		}
 	}
 	return nil

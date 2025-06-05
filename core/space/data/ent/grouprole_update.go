@@ -167,35 +167,7 @@ func (gru *GroupRoleUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (gru *GroupRoleUpdate) check() error {
-	if v, ok := gru.mutation.GroupID(); ok {
-		if err := grouprole.GroupIDValidator(v); err != nil {
-			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.group_id": %w`, err)}
-		}
-	}
-	if v, ok := gru.mutation.RoleID(); ok {
-		if err := grouprole.RoleIDValidator(v); err != nil {
-			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.role_id": %w`, err)}
-		}
-	}
-	if v, ok := gru.mutation.CreatedBy(); ok {
-		if err := grouprole.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.created_by": %w`, err)}
-		}
-	}
-	if v, ok := gru.mutation.UpdatedBy(); ok {
-		if err := grouprole.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (gru *GroupRoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := gru.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(grouprole.Table, grouprole.Columns, sqlgraph.NewFieldSpec(grouprole.FieldID, field.TypeString))
 	if ps := gru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -413,35 +385,7 @@ func (gruo *GroupRoleUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (gruo *GroupRoleUpdateOne) check() error {
-	if v, ok := gruo.mutation.GroupID(); ok {
-		if err := grouprole.GroupIDValidator(v); err != nil {
-			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.group_id": %w`, err)}
-		}
-	}
-	if v, ok := gruo.mutation.RoleID(); ok {
-		if err := grouprole.RoleIDValidator(v); err != nil {
-			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "GroupRole.role_id": %w`, err)}
-		}
-	}
-	if v, ok := gruo.mutation.CreatedBy(); ok {
-		if err := grouprole.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.created_by": %w`, err)}
-		}
-	}
-	if v, ok := gruo.mutation.UpdatedBy(); ok {
-		if err := grouprole.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "GroupRole.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (gruo *GroupRoleUpdateOne) sqlSave(ctx context.Context) (_node *GroupRole, err error) {
-	if err := gruo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(grouprole.Table, grouprole.Columns, sqlgraph.NewFieldSpec(grouprole.FieldID, field.TypeString))
 	id, ok := gruo.mutation.ID()
 	if !ok {

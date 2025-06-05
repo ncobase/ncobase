@@ -872,30 +872,7 @@ func (tu *TaskUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tu *TaskUpdate) check() error {
-	if v, ok := tu.mutation.TenantID(); ok {
-		if err := task.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Task.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.CreatedBy(); ok {
-		if err := task.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Task.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.UpdatedBy(); ok {
-		if err := task.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Task.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tu *TaskUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(task.Table, task.Columns, sqlgraph.NewFieldSpec(task.FieldID, field.TypeString))
 	if ps := tu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -2039,30 +2016,7 @@ func (tuo *TaskUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tuo *TaskUpdateOne) check() error {
-	if v, ok := tuo.mutation.TenantID(); ok {
-		if err := task.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Task.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.CreatedBy(); ok {
-		if err := task.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Task.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.UpdatedBy(); ok {
-		if err := task.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Task.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) {
-	if err := tuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(task.Table, task.Columns, sqlgraph.NewFieldSpec(task.FieldID, field.TypeString))
 	id, ok := tuo.mutation.ID()
 	if !ok {

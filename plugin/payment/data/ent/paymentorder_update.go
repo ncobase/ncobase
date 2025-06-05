@@ -418,16 +418,6 @@ func (pou *PaymentOrderUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (pou *PaymentOrderUpdate) check() error {
-	if v, ok := pou.mutation.CreatedBy(); ok {
-		if err := paymentorder.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentOrder.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pou.mutation.UpdatedBy(); ok {
-		if err := paymentorder.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentOrder.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := pou.mutation.OrderNumber(); ok {
 		if err := paymentorder.OrderNumberValidator(v); err != nil {
 			return &ValidationError{Name: "order_number", err: fmt.Errorf(`ent: validator failed for field "PaymentOrder.order_number": %w`, err)}
@@ -1023,16 +1013,6 @@ func (pouo *PaymentOrderUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (pouo *PaymentOrderUpdateOne) check() error {
-	if v, ok := pouo.mutation.CreatedBy(); ok {
-		if err := paymentorder.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentOrder.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pouo.mutation.UpdatedBy(); ok {
-		if err := paymentorder.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentOrder.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := pouo.mutation.OrderNumber(); ok {
 		if err := paymentorder.OrderNumberValidator(v); err != nil {
 			return &ValidationError{Name: "order_number", err: fmt.Errorf(`ent: validator failed for field "PaymentOrder.order_number": %w`, err)}

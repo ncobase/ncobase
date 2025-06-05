@@ -289,16 +289,6 @@ func (psc *PaymentSubscriptionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (psc *PaymentSubscriptionCreate) check() error {
-	if v, ok := psc.mutation.CreatedBy(); ok {
-		if err := paymentsubscription.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.created_by": %w`, err)}
-		}
-	}
-	if v, ok := psc.mutation.UpdatedBy(); ok {
-		if err := paymentsubscription.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := psc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "PaymentSubscription.status"`)}
 	}

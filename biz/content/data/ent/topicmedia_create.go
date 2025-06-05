@@ -199,16 +199,6 @@ func (tmc *TopicMediaCreate) check() error {
 	if _, ok := tmc.mutation.Order(); !ok {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "TopicMedia.order"`)}
 	}
-	if v, ok := tmc.mutation.CreatedBy(); ok {
-		if err := topicmedia.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tmc.mutation.UpdatedBy(); ok {
-		if err := topicmedia.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := tmc.mutation.TopicID(); !ok {
 		return &ValidationError{Name: "topic_id", err: errors.New(`ent: missing required field "TopicMedia.topic_id"`)}
 	}

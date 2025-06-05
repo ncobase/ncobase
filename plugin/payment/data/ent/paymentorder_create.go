@@ -335,16 +335,6 @@ func (poc *PaymentOrderCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (poc *PaymentOrderCreate) check() error {
-	if v, ok := poc.mutation.CreatedBy(); ok {
-		if err := paymentorder.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentOrder.created_by": %w`, err)}
-		}
-	}
-	if v, ok := poc.mutation.UpdatedBy(); ok {
-		if err := paymentorder.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentOrder.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := poc.mutation.OrderNumber(); !ok {
 		return &ValidationError{Name: "order_number", err: errors.New(`ent: missing required field "PaymentOrder.order_number"`)}
 	}

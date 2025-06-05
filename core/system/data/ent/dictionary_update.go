@@ -227,25 +227,7 @@ func (du *DictionaryUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (du *DictionaryUpdate) check() error {
-	if v, ok := du.mutation.CreatedBy(); ok {
-		if err := dictionary.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.created_by": %w`, err)}
-		}
-	}
-	if v, ok := du.mutation.UpdatedBy(); ok {
-		if err := dictionary.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (du *DictionaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := du.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(dictionary.Table, dictionary.Columns, sqlgraph.NewFieldSpec(dictionary.FieldID, field.TypeString))
 	if ps := du.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -541,25 +523,7 @@ func (duo *DictionaryUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (duo *DictionaryUpdateOne) check() error {
-	if v, ok := duo.mutation.CreatedBy(); ok {
-		if err := dictionary.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.created_by": %w`, err)}
-		}
-	}
-	if v, ok := duo.mutation.UpdatedBy(); ok {
-		if err := dictionary.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Dictionary.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (duo *DictionaryUpdateOne) sqlSave(ctx context.Context) (_node *Dictionary, err error) {
-	if err := duo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(dictionary.Table, dictionary.Columns, sqlgraph.NewFieldSpec(dictionary.FieldID, field.TypeString))
 	id, ok := duo.mutation.ID()
 	if !ok {

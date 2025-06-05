@@ -22,10 +22,6 @@ func init() {
 	_ = groupMixinFields5
 	groupMixinFields6 := groupMixin[6].Fields()
 	_ = groupMixinFields6
-	groupMixinFields7 := groupMixin[7].Fields()
-	_ = groupMixinFields7
-	groupMixinFields8 := groupMixin[8].Fields()
-	_ = groupMixinFields8
 	groupMixinFields9 := groupMixin[9].Fields()
 	_ = groupMixinFields9
 	groupFields := schema.Group{}.Fields()
@@ -42,18 +38,6 @@ func init() {
 	groupDescExtras := groupMixinFields6[0].Descriptor()
 	// group.DefaultExtras holds the default value on creation for the extras field.
 	group.DefaultExtras = groupDescExtras.Default.(map[string]interface{})
-	// groupDescParentID is the schema descriptor for parent_id field.
-	groupDescParentID := groupMixinFields7[0].Descriptor()
-	// group.ParentIDValidator is a validator for the "parent_id" field. It is called by the builders before save.
-	group.ParentIDValidator = groupDescParentID.Validators[0].(func(string) error)
-	// groupDescCreatedBy is the schema descriptor for created_by field.
-	groupDescCreatedBy := groupMixinFields8[0].Descriptor()
-	// group.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	group.CreatedByValidator = groupDescCreatedBy.Validators[0].(func(string) error)
-	// groupDescUpdatedBy is the schema descriptor for updated_by field.
-	groupDescUpdatedBy := groupMixinFields8[1].Descriptor()
-	// group.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	group.UpdatedByValidator = groupDescUpdatedBy.Validators[0].(func(string) error)
 	// groupDescCreatedAt is the schema descriptor for created_at field.
 	groupDescCreatedAt := groupMixinFields9[0].Descriptor()
 	// group.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -73,32 +57,10 @@ func init() {
 	grouproleMixin := schema.GroupRole{}.Mixin()
 	grouproleMixinFields0 := grouproleMixin[0].Fields()
 	_ = grouproleMixinFields0
-	grouproleMixinFields1 := grouproleMixin[1].Fields()
-	_ = grouproleMixinFields1
-	grouproleMixinFields2 := grouproleMixin[2].Fields()
-	_ = grouproleMixinFields2
-	grouproleMixinFields3 := grouproleMixin[3].Fields()
-	_ = grouproleMixinFields3
 	grouproleMixinFields4 := grouproleMixin[4].Fields()
 	_ = grouproleMixinFields4
 	grouproleFields := schema.GroupRole{}.Fields()
 	_ = grouproleFields
-	// grouproleDescGroupID is the schema descriptor for group_id field.
-	grouproleDescGroupID := grouproleMixinFields1[0].Descriptor()
-	// grouprole.GroupIDValidator is a validator for the "group_id" field. It is called by the builders before save.
-	grouprole.GroupIDValidator = grouproleDescGroupID.Validators[0].(func(string) error)
-	// grouproleDescRoleID is the schema descriptor for role_id field.
-	grouproleDescRoleID := grouproleMixinFields2[0].Descriptor()
-	// grouprole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
-	grouprole.RoleIDValidator = grouproleDescRoleID.Validators[0].(func(string) error)
-	// grouproleDescCreatedBy is the schema descriptor for created_by field.
-	grouproleDescCreatedBy := grouproleMixinFields3[0].Descriptor()
-	// grouprole.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	grouprole.CreatedByValidator = grouproleDescCreatedBy.Validators[0].(func(string) error)
-	// grouproleDescUpdatedBy is the schema descriptor for updated_by field.
-	grouproleDescUpdatedBy := grouproleMixinFields3[1].Descriptor()
-	// grouprole.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	grouprole.UpdatedByValidator = grouproleDescUpdatedBy.Validators[0].(func(string) error)
 	// grouproleDescCreatedAt is the schema descriptor for created_at field.
 	grouproleDescCreatedAt := grouproleMixinFields4[0].Descriptor()
 	// grouprole.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -118,32 +80,10 @@ func init() {
 	usergroupMixin := schema.UserGroup{}.Mixin()
 	usergroupMixinFields0 := usergroupMixin[0].Fields()
 	_ = usergroupMixinFields0
-	usergroupMixinFields1 := usergroupMixin[1].Fields()
-	_ = usergroupMixinFields1
-	usergroupMixinFields2 := usergroupMixin[2].Fields()
-	_ = usergroupMixinFields2
-	usergroupMixinFields3 := usergroupMixin[3].Fields()
-	_ = usergroupMixinFields3
 	usergroupMixinFields4 := usergroupMixin[4].Fields()
 	_ = usergroupMixinFields4
 	usergroupFields := schema.UserGroup{}.Fields()
 	_ = usergroupFields
-	// usergroupDescUserID is the schema descriptor for user_id field.
-	usergroupDescUserID := usergroupMixinFields1[0].Descriptor()
-	// usergroup.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	usergroup.UserIDValidator = usergroupDescUserID.Validators[0].(func(string) error)
-	// usergroupDescGroupID is the schema descriptor for group_id field.
-	usergroupDescGroupID := usergroupMixinFields2[0].Descriptor()
-	// usergroup.GroupIDValidator is a validator for the "group_id" field. It is called by the builders before save.
-	usergroup.GroupIDValidator = usergroupDescGroupID.Validators[0].(func(string) error)
-	// usergroupDescCreatedBy is the schema descriptor for created_by field.
-	usergroupDescCreatedBy := usergroupMixinFields3[0].Descriptor()
-	// usergroup.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	usergroup.CreatedByValidator = usergroupDescCreatedBy.Validators[0].(func(string) error)
-	// usergroupDescUpdatedBy is the schema descriptor for updated_by field.
-	usergroupDescUpdatedBy := usergroupMixinFields3[1].Descriptor()
-	// usergroup.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	usergroup.UpdatedByValidator = usergroupDescUpdatedBy.Validators[0].(func(string) error)
 	// usergroupDescCreatedAt is the schema descriptor for created_at field.
 	usergroupDescCreatedAt := usergroupMixinFields4[0].Descriptor()
 	// usergroup.DefaultCreatedAt holds the default value on creation for the created_at field.

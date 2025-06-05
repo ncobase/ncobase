@@ -167,26 +167,6 @@ func (utc *UserTenantCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (utc *UserTenantCreate) check() error {
-	if v, ok := utc.mutation.UserID(); ok {
-		if err := usertenant.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.user_id": %w`, err)}
-		}
-	}
-	if v, ok := utc.mutation.TenantID(); ok {
-		if err := usertenant.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := utc.mutation.CreatedBy(); ok {
-		if err := usertenant.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.created_by": %w`, err)}
-		}
-	}
-	if v, ok := utc.mutation.UpdatedBy(); ok {
-		if err := usertenant.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := utc.mutation.ID(); ok {
 		if err := usertenant.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.id": %w`, err)}

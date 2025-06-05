@@ -17,28 +17,16 @@ func init() {
 	eventMixin := schema.Event{}.Mixin()
 	eventMixinFields0 := eventMixin[0].Fields()
 	_ = eventMixinFields0
-	eventMixinFields2 := eventMixin[2].Fields()
-	_ = eventMixinFields2
 	eventMixinFields3 := eventMixin[3].Fields()
 	_ = eventMixinFields3
-	eventMixinFields4 := eventMixin[4].Fields()
-	_ = eventMixinFields4
 	eventMixinFields5 := eventMixin[5].Fields()
 	_ = eventMixinFields5
 	eventFields := schema.Event{}.Fields()
 	_ = eventFields
-	// eventDescChannelID is the schema descriptor for channel_id field.
-	eventDescChannelID := eventMixinFields2[0].Descriptor()
-	// event.ChannelIDValidator is a validator for the "channel_id" field. It is called by the builders before save.
-	event.ChannelIDValidator = eventDescChannelID.Validators[0].(func(string) error)
 	// eventDescPayload is the schema descriptor for payload field.
 	eventDescPayload := eventMixinFields3[0].Descriptor()
 	// event.DefaultPayload holds the default value on creation for the payload field.
 	event.DefaultPayload = eventDescPayload.Default.(map[string]interface{})
-	// eventDescUserID is the schema descriptor for user_id field.
-	eventDescUserID := eventMixinFields4[0].Descriptor()
-	// event.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	event.UserIDValidator = eventDescUserID.Validators[0].(func(string) error)
 	// eventDescCreatedAt is the schema descriptor for created_at field.
 	eventDescCreatedAt := eventMixinFields5[0].Descriptor()
 	// event.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -52,22 +40,14 @@ func init() {
 	notificationMixin := schema.Notification{}.Mixin()
 	notificationMixinFields0 := notificationMixin[0].Fields()
 	_ = notificationMixinFields0
-	notificationMixinFields4 := notificationMixin[4].Fields()
-	_ = notificationMixinFields4
 	notificationMixinFields5 := notificationMixin[5].Fields()
 	_ = notificationMixinFields5
 	notificationMixinFields6 := notificationMixin[6].Fields()
 	_ = notificationMixinFields6
-	notificationMixinFields7 := notificationMixin[7].Fields()
-	_ = notificationMixinFields7
 	notificationMixinFields8 := notificationMixin[8].Fields()
 	_ = notificationMixinFields8
 	notificationFields := schema.Notification{}.Fields()
 	_ = notificationFields
-	// notificationDescUserID is the schema descriptor for user_id field.
-	notificationDescUserID := notificationMixinFields4[0].Descriptor()
-	// notification.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	notification.UserIDValidator = notificationDescUserID.Validators[0].(func(string) error)
 	// notificationDescStatus is the schema descriptor for status field.
 	notificationDescStatus := notificationMixinFields5[0].Descriptor()
 	// notification.DefaultStatus holds the default value on creation for the status field.
@@ -76,10 +56,6 @@ func init() {
 	notificationDescLinks := notificationMixinFields6[0].Descriptor()
 	// notification.DefaultLinks holds the default value on creation for the links field.
 	notification.DefaultLinks = notificationDescLinks.Default.([]map[string]interface{})
-	// notificationDescChannelID is the schema descriptor for channel_id field.
-	notificationDescChannelID := notificationMixinFields7[0].Descriptor()
-	// notification.ChannelIDValidator is a validator for the "channel_id" field. It is called by the builders before save.
-	notification.ChannelIDValidator = notificationDescChannelID.Validators[0].(func(string) error)
 	// notificationDescCreatedAt is the schema descriptor for created_at field.
 	notificationDescCreatedAt := notificationMixinFields8[0].Descriptor()
 	// notification.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -134,24 +110,12 @@ func init() {
 	subscriptionMixin := schema.Subscription{}.Mixin()
 	subscriptionMixinFields0 := subscriptionMixin[0].Fields()
 	_ = subscriptionMixinFields0
-	subscriptionMixinFields1 := subscriptionMixin[1].Fields()
-	_ = subscriptionMixinFields1
-	subscriptionMixinFields2 := subscriptionMixin[2].Fields()
-	_ = subscriptionMixinFields2
 	subscriptionMixinFields3 := subscriptionMixin[3].Fields()
 	_ = subscriptionMixinFields3
 	subscriptionMixinFields4 := subscriptionMixin[4].Fields()
 	_ = subscriptionMixinFields4
 	subscriptionFields := schema.Subscription{}.Fields()
 	_ = subscriptionFields
-	// subscriptionDescUserID is the schema descriptor for user_id field.
-	subscriptionDescUserID := subscriptionMixinFields1[0].Descriptor()
-	// subscription.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	subscription.UserIDValidator = subscriptionDescUserID.Validators[0].(func(string) error)
-	// subscriptionDescChannelID is the schema descriptor for channel_id field.
-	subscriptionDescChannelID := subscriptionMixinFields2[0].Descriptor()
-	// subscription.ChannelIDValidator is a validator for the "channel_id" field. It is called by the builders before save.
-	subscription.ChannelIDValidator = subscriptionDescChannelID.Validators[0].(func(string) error)
 	// subscriptionDescStatus is the schema descriptor for status field.
 	subscriptionDescStatus := subscriptionMixinFields3[0].Descriptor()
 	// subscription.DefaultStatus holds the default value on creation for the status field.

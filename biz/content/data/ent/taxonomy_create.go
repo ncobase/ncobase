@@ -339,26 +339,6 @@ func (tc *TaxonomyCreate) check() error {
 	if _, ok := tc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Taxonomy.status"`)}
 	}
-	if v, ok := tc.mutation.ParentID(); ok {
-		if err := taxonomy.ParentIDValidator(v); err != nil {
-			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.parent_id": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.TenantID(); ok {
-		if err := taxonomy.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.CreatedBy(); ok {
-		if err := taxonomy.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.UpdatedBy(); ok {
-		if err := taxonomy.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tc.mutation.ID(); ok {
 		if err := taxonomy.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.id": %w`, err)}

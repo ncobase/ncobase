@@ -167,21 +167,6 @@ func (toc *TenantOptionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (toc *TenantOptionCreate) check() error {
-	if v, ok := toc.mutation.TenantID(); ok {
-		if err := tenantoption.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := toc.mutation.CreatedBy(); ok {
-		if err := tenantoption.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.created_by": %w`, err)}
-		}
-	}
-	if v, ok := toc.mutation.UpdatedBy(); ok {
-		if err := tenantoption.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantOption.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := toc.mutation.ID(); ok {
 		if err := tenantoption.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "TenantOption.id": %w`, err)}

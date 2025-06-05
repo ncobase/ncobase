@@ -168,11 +168,6 @@ func (ouc *OAuthUserCreate) check() error {
 			return &ValidationError{Name: "access_token", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.access_token": %w`, err)}
 		}
 	}
-	if v, ok := ouc.mutation.UserID(); ok {
-		if err := oauthuser.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.user_id": %w`, err)}
-		}
-	}
 	if v, ok := ouc.mutation.ID(); ok {
 		if err := oauthuser.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.id": %w`, err)}

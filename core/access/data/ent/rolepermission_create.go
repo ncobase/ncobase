@@ -167,26 +167,6 @@ func (rpc *RolePermissionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (rpc *RolePermissionCreate) check() error {
-	if v, ok := rpc.mutation.RoleID(); ok {
-		if err := rolepermission.RoleIDValidator(v); err != nil {
-			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.role_id": %w`, err)}
-		}
-	}
-	if v, ok := rpc.mutation.PermissionID(); ok {
-		if err := rolepermission.PermissionIDValidator(v); err != nil {
-			return &ValidationError{Name: "permission_id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.permission_id": %w`, err)}
-		}
-	}
-	if v, ok := rpc.mutation.CreatedBy(); ok {
-		if err := rolepermission.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "RolePermission.created_by": %w`, err)}
-		}
-	}
-	if v, ok := rpc.mutation.UpdatedBy(); ok {
-		if err := rolepermission.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "RolePermission.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := rpc.mutation.ID(); ok {
 		if err := rolepermission.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.id": %w`, err)}

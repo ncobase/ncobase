@@ -328,21 +328,6 @@ func (tbc *TenantBillingCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tbc *TenantBillingCreate) check() error {
-	if v, ok := tbc.mutation.TenantID(); ok {
-		if err := tenantbilling.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tbc.mutation.CreatedBy(); ok {
-		if err := tenantbilling.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tbc.mutation.UpdatedBy(); ok {
-		if err := tenantbilling.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := tbc.mutation.BillingPeriod(); !ok {
 		return &ValidationError{Name: "billing_period", err: errors.New(`ent: missing required field "TenantBilling.billing_period"`)}
 	}

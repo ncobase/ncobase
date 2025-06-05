@@ -21,8 +21,6 @@ func init() {
 	_ = authtokenMixinFields1
 	authtokenMixinFields2 := authtokenMixin[2].Fields()
 	_ = authtokenMixinFields2
-	authtokenMixinFields3 := authtokenMixin[3].Fields()
-	_ = authtokenMixinFields3
 	authtokenFields := schema.AuthToken{}.Fields()
 	_ = authtokenFields
 	// authtokenDescDisabled is the schema descriptor for disabled field.
@@ -39,10 +37,6 @@ func init() {
 	authtoken.DefaultUpdatedAt = authtokenDescUpdatedAt.Default.(func() int64)
 	// authtoken.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	authtoken.UpdateDefaultUpdatedAt = authtokenDescUpdatedAt.UpdateDefault.(func() int64)
-	// authtokenDescUserID is the schema descriptor for user_id field.
-	authtokenDescUserID := authtokenMixinFields3[0].Descriptor()
-	// authtoken.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	authtoken.UserIDValidator = authtokenDescUserID.Validators[0].(func(string) error)
 	// authtokenDescID is the schema descriptor for id field.
 	authtokenDescID := authtokenMixinFields0[0].Descriptor()
 	// authtoken.DefaultID holds the default value on creation for the id field.
@@ -83,8 +77,6 @@ func init() {
 	_ = oauthuserMixinFields0
 	oauthuserMixinFields2 := oauthuserMixin[2].Fields()
 	_ = oauthuserMixinFields2
-	oauthuserMixinFields4 := oauthuserMixin[4].Fields()
-	_ = oauthuserMixinFields4
 	oauthuserMixinFields5 := oauthuserMixin[5].Fields()
 	_ = oauthuserMixinFields5
 	oauthuserMixinFields6 := oauthuserMixin[6].Fields()
@@ -95,10 +87,6 @@ func init() {
 	oauthuserDescAccessToken := oauthuserMixinFields2[0].Descriptor()
 	// oauthuser.AccessTokenValidator is a validator for the "access_token" field. It is called by the builders before save.
 	oauthuser.AccessTokenValidator = oauthuserDescAccessToken.Validators[0].(func(string) error)
-	// oauthuserDescUserID is the schema descriptor for user_id field.
-	oauthuserDescUserID := oauthuserMixinFields4[0].Descriptor()
-	// oauthuser.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	oauthuser.UserIDValidator = oauthuserDescUserID.Validators[0].(func(string) error)
 	// oauthuserDescCreatedAt is the schema descriptor for created_at field.
 	oauthuserDescCreatedAt := oauthuserMixinFields5[0].Descriptor()
 	// oauthuser.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -118,16 +106,10 @@ func init() {
 	sessionMixin := schema.Session{}.Mixin()
 	sessionMixinFields0 := sessionMixin[0].Fields()
 	_ = sessionMixinFields0
-	sessionMixinFields1 := sessionMixin[1].Fields()
-	_ = sessionMixinFields1
 	sessionMixinFields2 := sessionMixin[2].Fields()
 	_ = sessionMixinFields2
 	sessionFields := schema.Session{}.Fields()
 	_ = sessionFields
-	// sessionDescUserID is the schema descriptor for user_id field.
-	sessionDescUserID := sessionMixinFields1[0].Descriptor()
-	// session.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	session.UserIDValidator = sessionDescUserID.Validators[0].(func(string) error)
 	// sessionDescCreatedAt is the schema descriptor for created_at field.
 	sessionDescCreatedAt := sessionMixinFields2[0].Descriptor()
 	// session.DefaultCreatedAt holds the default value on creation for the created_at field.

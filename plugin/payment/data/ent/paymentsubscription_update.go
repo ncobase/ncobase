@@ -358,16 +358,6 @@ func (psu *PaymentSubscriptionUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (psu *PaymentSubscriptionUpdate) check() error {
-	if v, ok := psu.mutation.CreatedBy(); ok {
-		if err := paymentsubscription.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.created_by": %w`, err)}
-		}
-	}
-	if v, ok := psu.mutation.UpdatedBy(); ok {
-		if err := paymentsubscription.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := psu.mutation.UserID(); ok {
 		if err := paymentsubscription.UserIDValidator(v); err != nil {
 			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.user_id": %w`, err)}
@@ -873,16 +863,6 @@ func (psuo *PaymentSubscriptionUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (psuo *PaymentSubscriptionUpdateOne) check() error {
-	if v, ok := psuo.mutation.CreatedBy(); ok {
-		if err := paymentsubscription.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.created_by": %w`, err)}
-		}
-	}
-	if v, ok := psuo.mutation.UpdatedBy(); ok {
-		if err := paymentsubscription.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := psuo.mutation.UserID(); ok {
 		if err := paymentsubscription.UserIDValidator(v); err != nil {
 			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.user_id": %w`, err)}

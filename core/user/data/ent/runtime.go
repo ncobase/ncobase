@@ -19,8 +19,6 @@ func init() {
 	_ = apikeyMixinFields0
 	apikeyMixinFields2 := apikeyMixin[2].Fields()
 	_ = apikeyMixinFields2
-	apikeyMixinFields3 := apikeyMixin[3].Fields()
-	_ = apikeyMixinFields3
 	apikeyFields := schema.ApiKey{}.Fields()
 	_ = apikeyFields
 	// apikeyDescCreatedAt is the schema descriptor for created_at field.
@@ -33,10 +31,6 @@ func init() {
 	apikey.DefaultUpdatedAt = apikeyDescUpdatedAt.Default.(func() int64)
 	// apikey.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	apikey.UpdateDefaultUpdatedAt = apikeyDescUpdatedAt.UpdateDefault.(func() int64)
-	// apikeyDescUserID is the schema descriptor for user_id field.
-	apikeyDescUserID := apikeyMixinFields3[0].Descriptor()
-	// apikey.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	apikey.UserIDValidator = apikeyDescUserID.Validators[0].(func(string) error)
 	// apikeyDescKey is the schema descriptor for key field.
 	apikeyDescKey := apikeyFields[0].Descriptor()
 	// apikey.KeyValidator is a validator for the "key" field. It is called by the builders before save.
@@ -50,16 +44,10 @@ func init() {
 	employeeMixin := schema.Employee{}.Mixin()
 	employeeMixinFields0 := employeeMixin[0].Fields()
 	_ = employeeMixinFields0
-	employeeMixinFields1 := employeeMixin[1].Fields()
-	_ = employeeMixinFields1
 	employeeMixinFields2 := employeeMixin[2].Fields()
 	_ = employeeMixinFields2
 	employeeFields := schema.Employee{}.Fields()
 	_ = employeeFields
-	// employeeDescTenantID is the schema descriptor for tenant_id field.
-	employeeDescTenantID := employeeMixinFields1[0].Descriptor()
-	// employee.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	employee.TenantIDValidator = employeeDescTenantID.Validators[0].(func(string) error)
 	// employeeDescCreatedAt is the schema descriptor for created_at field.
 	employeeDescCreatedAt := employeeMixinFields2[0].Descriptor()
 	// employee.DefaultCreatedAt holds the default value on creation for the created_at field.

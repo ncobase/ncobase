@@ -404,21 +404,6 @@ func (tbu *TenantBillingUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tbu *TenantBillingUpdate) check() error {
-	if v, ok := tbu.mutation.TenantID(); ok {
-		if err := tenantbilling.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tbu.mutation.CreatedBy(); ok {
-		if err := tenantbilling.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tbu.mutation.UpdatedBy(); ok {
-		if err := tenantbilling.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tbu.mutation.Amount(); ok {
 		if err := tenantbilling.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.amount": %w`, err)}
@@ -960,21 +945,6 @@ func (tbuo *TenantBillingUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tbuo *TenantBillingUpdateOne) check() error {
-	if v, ok := tbuo.mutation.TenantID(); ok {
-		if err := tenantbilling.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tbuo.mutation.CreatedBy(); ok {
-		if err := tenantbilling.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tbuo.mutation.UpdatedBy(); ok {
-		if err := tenantbilling.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tbuo.mutation.Amount(); ok {
 		if err := tenantbilling.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "TenantBilling.amount": %w`, err)}

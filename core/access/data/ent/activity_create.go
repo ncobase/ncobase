@@ -163,11 +163,6 @@ func (ac *ActivityCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ac *ActivityCreate) check() error {
-	if v, ok := ac.mutation.UserID(); ok {
-		if err := activity.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Activity.user_id": %w`, err)}
-		}
-	}
 	if v, ok := ac.mutation.ID(); ok {
 		if err := activity.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Activity.id": %w`, err)}

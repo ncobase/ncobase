@@ -380,30 +380,7 @@ func (mu *MenuUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (mu *MenuUpdate) check() error {
-	if v, ok := mu.mutation.ParentID(); ok {
-		if err := menu.ParentIDValidator(v); err != nil {
-			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Menu.parent_id": %w`, err)}
-		}
-	}
-	if v, ok := mu.mutation.CreatedBy(); ok {
-		if err := menu.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Menu.created_by": %w`, err)}
-		}
-	}
-	if v, ok := mu.mutation.UpdatedBy(); ok {
-		if err := menu.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Menu.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (mu *MenuUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := mu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(menu.Table, menu.Columns, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeString))
 	if ps := mu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -900,30 +877,7 @@ func (muo *MenuUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (muo *MenuUpdateOne) check() error {
-	if v, ok := muo.mutation.ParentID(); ok {
-		if err := menu.ParentIDValidator(v); err != nil {
-			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Menu.parent_id": %w`, err)}
-		}
-	}
-	if v, ok := muo.mutation.CreatedBy(); ok {
-		if err := menu.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Menu.created_by": %w`, err)}
-		}
-	}
-	if v, ok := muo.mutation.UpdatedBy(); ok {
-		if err := menu.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Menu.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (muo *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) {
-	if err := muo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(menu.Table, menu.Columns, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeString))
 	id, ok := muo.mutation.ID()
 	if !ok {

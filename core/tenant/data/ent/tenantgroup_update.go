@@ -183,26 +183,6 @@ func (tgu *TenantGroupUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tgu *TenantGroupUpdate) check() error {
-	if v, ok := tgu.mutation.TenantID(); ok {
-		if err := tenantgroup.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tgu.mutation.GroupID(); ok {
-		if err := tenantgroup.GroupIDValidator(v); err != nil {
-			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.group_id": %w`, err)}
-		}
-	}
-	if v, ok := tgu.mutation.CreatedBy(); ok {
-		if err := tenantgroup.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tgu.mutation.UpdatedBy(); ok {
-		if err := tenantgroup.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tgu.mutation.RelationType(); ok {
 		if err := tenantgroup.RelationTypeValidator(v); err != nil {
 			return &ValidationError{Name: "relation_type", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.relation_type": %w`, err)}
@@ -451,26 +431,6 @@ func (tguo *TenantGroupUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tguo *TenantGroupUpdateOne) check() error {
-	if v, ok := tguo.mutation.TenantID(); ok {
-		if err := tenantgroup.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tguo.mutation.GroupID(); ok {
-		if err := tenantgroup.GroupIDValidator(v); err != nil {
-			return &ValidationError{Name: "group_id", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.group_id": %w`, err)}
-		}
-	}
-	if v, ok := tguo.mutation.CreatedBy(); ok {
-		if err := tenantgroup.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tguo.mutation.UpdatedBy(); ok {
-		if err := tenantgroup.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tguo.mutation.RelationType(); ok {
 		if err := tenantgroup.RelationTypeValidator(v); err != nil {
 			return &ValidationError{Name: "relation_type", err: fmt.Errorf(`ent: validator failed for field "TenantGroup.relation_type": %w`, err)}

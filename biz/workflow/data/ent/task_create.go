@@ -774,21 +774,6 @@ func (tc *TaskCreate) check() error {
 	if _, ok := tc.mutation.StrictMode(); !ok {
 		return &ValidationError{Name: "strict_mode", err: errors.New(`ent: missing required field "Task.strict_mode"`)}
 	}
-	if v, ok := tc.mutation.TenantID(); ok {
-		if err := task.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Task.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.CreatedBy(); ok {
-		if err := task.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Task.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.UpdatedBy(); ok {
-		if err := task.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Task.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := tc.mutation.TaskKey(); !ok {
 		return &ValidationError{Name: "task_key", err: errors.New(`ent: missing required field "Task.task_key"`)}
 	}

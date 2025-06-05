@@ -361,16 +361,6 @@ func (eu *EndpointUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (eu *EndpointUpdate) check() error {
-	if v, ok := eu.mutation.CreatedBy(); ok {
-		if err := endpoint.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Endpoint.created_by": %w`, err)}
-		}
-	}
-	if v, ok := eu.mutation.UpdatedBy(); ok {
-		if err := endpoint.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Endpoint.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := eu.mutation.BaseURL(); ok {
 		if err := endpoint.BaseURLValidator(v); err != nil {
 			return &ValidationError{Name: "base_url", err: fmt.Errorf(`ent: validator failed for field "Endpoint.base_url": %w`, err)}
@@ -845,16 +835,6 @@ func (euo *EndpointUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (euo *EndpointUpdateOne) check() error {
-	if v, ok := euo.mutation.CreatedBy(); ok {
-		if err := endpoint.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Endpoint.created_by": %w`, err)}
-		}
-	}
-	if v, ok := euo.mutation.UpdatedBy(); ok {
-		if err := endpoint.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Endpoint.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := euo.mutation.BaseURL(); ok {
 		if err := endpoint.BaseURLValidator(v); err != nil {
 			return &ValidationError{Name: "base_url", err: fmt.Errorf(`ent: validator failed for field "Endpoint.base_url": %w`, err)}

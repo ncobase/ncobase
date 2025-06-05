@@ -578,26 +578,6 @@ func (fu *FileUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "File.name": %w`, err)}
 		}
 	}
-	if v, ok := fu.mutation.ObjectID(); ok {
-		if err := file.ObjectIDValidator(v); err != nil {
-			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "File.object_id": %w`, err)}
-		}
-	}
-	if v, ok := fu.mutation.TenantID(); ok {
-		if err := file.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "File.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := fu.mutation.CreatedBy(); ok {
-		if err := file.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "File.created_by": %w`, err)}
-		}
-	}
-	if v, ok := fu.mutation.UpdatedBy(); ok {
-		if err := file.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "File.updated_by": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -1369,26 +1349,6 @@ func (fuo *FileUpdateOne) check() error {
 	if v, ok := fuo.mutation.Name(); ok {
 		if err := file.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "File.name": %w`, err)}
-		}
-	}
-	if v, ok := fuo.mutation.ObjectID(); ok {
-		if err := file.ObjectIDValidator(v); err != nil {
-			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "File.object_id": %w`, err)}
-		}
-	}
-	if v, ok := fuo.mutation.TenantID(); ok {
-		if err := file.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "File.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := fuo.mutation.CreatedBy(); ok {
-		if err := file.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "File.created_by": %w`, err)}
-		}
-	}
-	if v, ok := fuo.mutation.UpdatedBy(); ok {
-		if err := file.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "File.updated_by": %w`, err)}
 		}
 	}
 	return nil

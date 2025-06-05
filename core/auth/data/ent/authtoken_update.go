@@ -127,20 +127,7 @@ func (atu *AuthTokenUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (atu *AuthTokenUpdate) check() error {
-	if v, ok := atu.mutation.UserID(); ok {
-		if err := authtoken.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "AuthToken.user_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (atu *AuthTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := atu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(authtoken.Table, authtoken.Columns, sqlgraph.NewFieldSpec(authtoken.FieldID, field.TypeString))
 	if ps := atu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -306,20 +293,7 @@ func (atuo *AuthTokenUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (atuo *AuthTokenUpdateOne) check() error {
-	if v, ok := atuo.mutation.UserID(); ok {
-		if err := authtoken.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "AuthToken.user_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (atuo *AuthTokenUpdateOne) sqlSave(ctx context.Context) (_node *AuthToken, err error) {
-	if err := atuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(authtoken.Table, authtoken.Columns, sqlgraph.NewFieldSpec(authtoken.FieldID, field.TypeString))
 	id, ok := atuo.mutation.ID()
 	if !ok {

@@ -357,21 +357,6 @@ func (cu *CounterUpdate) check() error {
 			return &ValidationError{Name: "identifier", err: fmt.Errorf(`ent: validator failed for field "Counter.identifier": %w`, err)}
 		}
 	}
-	if v, ok := cu.mutation.TenantID(); ok {
-		if err := counter.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Counter.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := cu.mutation.CreatedBy(); ok {
-		if err := counter.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Counter.created_by": %w`, err)}
-		}
-	}
-	if v, ok := cu.mutation.UpdatedBy(); ok {
-		if err := counter.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Counter.updated_by": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -838,21 +823,6 @@ func (cuo *CounterUpdateOne) check() error {
 	if v, ok := cuo.mutation.Identifier(); ok {
 		if err := counter.IdentifierValidator(v); err != nil {
 			return &ValidationError{Name: "identifier", err: fmt.Errorf(`ent: validator failed for field "Counter.identifier": %w`, err)}
-		}
-	}
-	if v, ok := cuo.mutation.TenantID(); ok {
-		if err := counter.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Counter.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := cuo.mutation.CreatedBy(); ok {
-		if err := counter.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Counter.created_by": %w`, err)}
-		}
-	}
-	if v, ok := cuo.mutation.UpdatedBy(); ok {
-		if err := counter.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Counter.updated_by": %w`, err)}
 		}
 	}
 	return nil

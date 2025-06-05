@@ -29,8 +29,6 @@ func init() {
 	_ = tenantMixinFields12
 	tenantMixinFields13 := tenantMixin[13].Fields()
 	_ = tenantMixinFields13
-	tenantMixinFields14 := tenantMixin[14].Fields()
-	_ = tenantMixinFields14
 	tenantMixinFields16 := tenantMixin[16].Fields()
 	_ = tenantMixinFields16
 	tenantFields := schema.Tenant{}.Fields()
@@ -47,14 +45,6 @@ func init() {
 	tenantDescExtras := tenantMixinFields13[0].Descriptor()
 	// tenant.DefaultExtras holds the default value on creation for the extras field.
 	tenant.DefaultExtras = tenantDescExtras.Default.(map[string]interface{})
-	// tenantDescCreatedBy is the schema descriptor for created_by field.
-	tenantDescCreatedBy := tenantMixinFields14[0].Descriptor()
-	// tenant.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenant.CreatedByValidator = tenantDescCreatedBy.Validators[0].(func(string) error)
-	// tenantDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantDescUpdatedBy := tenantMixinFields14[1].Descriptor()
-	// tenant.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenant.UpdatedByValidator = tenantDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantDescCreatedAt is the schema descriptor for created_at field.
 	tenantDescCreatedAt := tenantMixinFields16[0].Descriptor()
 	// tenant.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -74,32 +64,16 @@ func init() {
 	tenantbillingMixin := schema.TenantBilling{}.Mixin()
 	tenantbillingMixinFields0 := tenantbillingMixin[0].Fields()
 	_ = tenantbillingMixinFields0
-	tenantbillingMixinFields1 := tenantbillingMixin[1].Fields()
-	_ = tenantbillingMixinFields1
 	tenantbillingMixinFields3 := tenantbillingMixin[3].Fields()
 	_ = tenantbillingMixinFields3
-	tenantbillingMixinFields4 := tenantbillingMixin[4].Fields()
-	_ = tenantbillingMixinFields4
 	tenantbillingMixinFields5 := tenantbillingMixin[5].Fields()
 	_ = tenantbillingMixinFields5
 	tenantbillingFields := schema.TenantBilling{}.Fields()
 	_ = tenantbillingFields
-	// tenantbillingDescTenantID is the schema descriptor for tenant_id field.
-	tenantbillingDescTenantID := tenantbillingMixinFields1[0].Descriptor()
-	// tenantbilling.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	tenantbilling.TenantIDValidator = tenantbillingDescTenantID.Validators[0].(func(string) error)
 	// tenantbillingDescExtras is the schema descriptor for extras field.
 	tenantbillingDescExtras := tenantbillingMixinFields3[0].Descriptor()
 	// tenantbilling.DefaultExtras holds the default value on creation for the extras field.
 	tenantbilling.DefaultExtras = tenantbillingDescExtras.Default.(map[string]interface{})
-	// tenantbillingDescCreatedBy is the schema descriptor for created_by field.
-	tenantbillingDescCreatedBy := tenantbillingMixinFields4[0].Descriptor()
-	// tenantbilling.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenantbilling.CreatedByValidator = tenantbillingDescCreatedBy.Validators[0].(func(string) error)
-	// tenantbillingDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantbillingDescUpdatedBy := tenantbillingMixinFields4[1].Descriptor()
-	// tenantbilling.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenantbilling.UpdatedByValidator = tenantbillingDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantbillingDescCreatedAt is the schema descriptor for created_at field.
 	tenantbillingDescCreatedAt := tenantbillingMixinFields5[0].Descriptor()
 	// tenantbilling.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -135,32 +109,10 @@ func init() {
 	tenantdictionaryMixin := schema.TenantDictionary{}.Mixin()
 	tenantdictionaryMixinFields0 := tenantdictionaryMixin[0].Fields()
 	_ = tenantdictionaryMixinFields0
-	tenantdictionaryMixinFields1 := tenantdictionaryMixin[1].Fields()
-	_ = tenantdictionaryMixinFields1
-	tenantdictionaryMixinFields2 := tenantdictionaryMixin[2].Fields()
-	_ = tenantdictionaryMixinFields2
-	tenantdictionaryMixinFields3 := tenantdictionaryMixin[3].Fields()
-	_ = tenantdictionaryMixinFields3
 	tenantdictionaryMixinFields4 := tenantdictionaryMixin[4].Fields()
 	_ = tenantdictionaryMixinFields4
 	tenantdictionaryFields := schema.TenantDictionary{}.Fields()
 	_ = tenantdictionaryFields
-	// tenantdictionaryDescTenantID is the schema descriptor for tenant_id field.
-	tenantdictionaryDescTenantID := tenantdictionaryMixinFields1[0].Descriptor()
-	// tenantdictionary.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	tenantdictionary.TenantIDValidator = tenantdictionaryDescTenantID.Validators[0].(func(string) error)
-	// tenantdictionaryDescDictionaryID is the schema descriptor for dictionary_id field.
-	tenantdictionaryDescDictionaryID := tenantdictionaryMixinFields2[0].Descriptor()
-	// tenantdictionary.DictionaryIDValidator is a validator for the "dictionary_id" field. It is called by the builders before save.
-	tenantdictionary.DictionaryIDValidator = tenantdictionaryDescDictionaryID.Validators[0].(func(string) error)
-	// tenantdictionaryDescCreatedBy is the schema descriptor for created_by field.
-	tenantdictionaryDescCreatedBy := tenantdictionaryMixinFields3[0].Descriptor()
-	// tenantdictionary.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenantdictionary.CreatedByValidator = tenantdictionaryDescCreatedBy.Validators[0].(func(string) error)
-	// tenantdictionaryDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantdictionaryDescUpdatedBy := tenantdictionaryMixinFields3[1].Descriptor()
-	// tenantdictionary.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenantdictionary.UpdatedByValidator = tenantdictionaryDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantdictionaryDescCreatedAt is the schema descriptor for created_at field.
 	tenantdictionaryDescCreatedAt := tenantdictionaryMixinFields4[0].Descriptor()
 	// tenantdictionary.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -180,32 +132,10 @@ func init() {
 	tenantgroupMixin := schema.TenantGroup{}.Mixin()
 	tenantgroupMixinFields0 := tenantgroupMixin[0].Fields()
 	_ = tenantgroupMixinFields0
-	tenantgroupMixinFields1 := tenantgroupMixin[1].Fields()
-	_ = tenantgroupMixinFields1
-	tenantgroupMixinFields2 := tenantgroupMixin[2].Fields()
-	_ = tenantgroupMixinFields2
-	tenantgroupMixinFields3 := tenantgroupMixin[3].Fields()
-	_ = tenantgroupMixinFields3
 	tenantgroupMixinFields4 := tenantgroupMixin[4].Fields()
 	_ = tenantgroupMixinFields4
 	tenantgroupFields := schema.TenantGroup{}.Fields()
 	_ = tenantgroupFields
-	// tenantgroupDescTenantID is the schema descriptor for tenant_id field.
-	tenantgroupDescTenantID := tenantgroupMixinFields1[0].Descriptor()
-	// tenantgroup.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	tenantgroup.TenantIDValidator = tenantgroupDescTenantID.Validators[0].(func(string) error)
-	// tenantgroupDescGroupID is the schema descriptor for group_id field.
-	tenantgroupDescGroupID := tenantgroupMixinFields2[0].Descriptor()
-	// tenantgroup.GroupIDValidator is a validator for the "group_id" field. It is called by the builders before save.
-	tenantgroup.GroupIDValidator = tenantgroupDescGroupID.Validators[0].(func(string) error)
-	// tenantgroupDescCreatedBy is the schema descriptor for created_by field.
-	tenantgroupDescCreatedBy := tenantgroupMixinFields3[0].Descriptor()
-	// tenantgroup.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenantgroup.CreatedByValidator = tenantgroupDescCreatedBy.Validators[0].(func(string) error)
-	// tenantgroupDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantgroupDescUpdatedBy := tenantgroupMixinFields3[1].Descriptor()
-	// tenantgroup.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenantgroup.UpdatedByValidator = tenantgroupDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantgroupDescCreatedAt is the schema descriptor for created_at field.
 	tenantgroupDescCreatedAt := tenantgroupMixinFields4[0].Descriptor()
 	// tenantgroup.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -231,32 +161,10 @@ func init() {
 	tenantmenuMixin := schema.TenantMenu{}.Mixin()
 	tenantmenuMixinFields0 := tenantmenuMixin[0].Fields()
 	_ = tenantmenuMixinFields0
-	tenantmenuMixinFields1 := tenantmenuMixin[1].Fields()
-	_ = tenantmenuMixinFields1
-	tenantmenuMixinFields2 := tenantmenuMixin[2].Fields()
-	_ = tenantmenuMixinFields2
-	tenantmenuMixinFields3 := tenantmenuMixin[3].Fields()
-	_ = tenantmenuMixinFields3
 	tenantmenuMixinFields4 := tenantmenuMixin[4].Fields()
 	_ = tenantmenuMixinFields4
 	tenantmenuFields := schema.TenantMenu{}.Fields()
 	_ = tenantmenuFields
-	// tenantmenuDescTenantID is the schema descriptor for tenant_id field.
-	tenantmenuDescTenantID := tenantmenuMixinFields1[0].Descriptor()
-	// tenantmenu.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	tenantmenu.TenantIDValidator = tenantmenuDescTenantID.Validators[0].(func(string) error)
-	// tenantmenuDescMenuID is the schema descriptor for menu_id field.
-	tenantmenuDescMenuID := tenantmenuMixinFields2[0].Descriptor()
-	// tenantmenu.MenuIDValidator is a validator for the "menu_id" field. It is called by the builders before save.
-	tenantmenu.MenuIDValidator = tenantmenuDescMenuID.Validators[0].(func(string) error)
-	// tenantmenuDescCreatedBy is the schema descriptor for created_by field.
-	tenantmenuDescCreatedBy := tenantmenuMixinFields3[0].Descriptor()
-	// tenantmenu.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenantmenu.CreatedByValidator = tenantmenuDescCreatedBy.Validators[0].(func(string) error)
-	// tenantmenuDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantmenuDescUpdatedBy := tenantmenuMixinFields3[1].Descriptor()
-	// tenantmenu.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenantmenu.UpdatedByValidator = tenantmenuDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantmenuDescCreatedAt is the schema descriptor for created_at field.
 	tenantmenuDescCreatedAt := tenantmenuMixinFields4[0].Descriptor()
 	// tenantmenu.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -276,26 +184,10 @@ func init() {
 	tenantoptionMixin := schema.TenantOption{}.Mixin()
 	tenantoptionMixinFields0 := tenantoptionMixin[0].Fields()
 	_ = tenantoptionMixinFields0
-	tenantoptionMixinFields1 := tenantoptionMixin[1].Fields()
-	_ = tenantoptionMixinFields1
-	tenantoptionMixinFields3 := tenantoptionMixin[3].Fields()
-	_ = tenantoptionMixinFields3
 	tenantoptionMixinFields4 := tenantoptionMixin[4].Fields()
 	_ = tenantoptionMixinFields4
 	tenantoptionFields := schema.TenantOption{}.Fields()
 	_ = tenantoptionFields
-	// tenantoptionDescTenantID is the schema descriptor for tenant_id field.
-	tenantoptionDescTenantID := tenantoptionMixinFields1[0].Descriptor()
-	// tenantoption.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	tenantoption.TenantIDValidator = tenantoptionDescTenantID.Validators[0].(func(string) error)
-	// tenantoptionDescCreatedBy is the schema descriptor for created_by field.
-	tenantoptionDescCreatedBy := tenantoptionMixinFields3[0].Descriptor()
-	// tenantoption.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenantoption.CreatedByValidator = tenantoptionDescCreatedBy.Validators[0].(func(string) error)
-	// tenantoptionDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantoptionDescUpdatedBy := tenantoptionMixinFields3[1].Descriptor()
-	// tenantoption.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenantoption.UpdatedByValidator = tenantoptionDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantoptionDescCreatedAt is the schema descriptor for created_at field.
 	tenantoptionDescCreatedAt := tenantoptionMixinFields4[0].Descriptor()
 	// tenantoption.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -315,32 +207,16 @@ func init() {
 	tenantquotaMixin := schema.TenantQuota{}.Mixin()
 	tenantquotaMixinFields0 := tenantquotaMixin[0].Fields()
 	_ = tenantquotaMixinFields0
-	tenantquotaMixinFields1 := tenantquotaMixin[1].Fields()
-	_ = tenantquotaMixinFields1
 	tenantquotaMixinFields3 := tenantquotaMixin[3].Fields()
 	_ = tenantquotaMixinFields3
-	tenantquotaMixinFields4 := tenantquotaMixin[4].Fields()
-	_ = tenantquotaMixinFields4
 	tenantquotaMixinFields5 := tenantquotaMixin[5].Fields()
 	_ = tenantquotaMixinFields5
 	tenantquotaFields := schema.TenantQuota{}.Fields()
 	_ = tenantquotaFields
-	// tenantquotaDescTenantID is the schema descriptor for tenant_id field.
-	tenantquotaDescTenantID := tenantquotaMixinFields1[0].Descriptor()
-	// tenantquota.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	tenantquota.TenantIDValidator = tenantquotaDescTenantID.Validators[0].(func(string) error)
 	// tenantquotaDescExtras is the schema descriptor for extras field.
 	tenantquotaDescExtras := tenantquotaMixinFields3[0].Descriptor()
 	// tenantquota.DefaultExtras holds the default value on creation for the extras field.
 	tenantquota.DefaultExtras = tenantquotaDescExtras.Default.(map[string]interface{})
-	// tenantquotaDescCreatedBy is the schema descriptor for created_by field.
-	tenantquotaDescCreatedBy := tenantquotaMixinFields4[0].Descriptor()
-	// tenantquota.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenantquota.CreatedByValidator = tenantquotaDescCreatedBy.Validators[0].(func(string) error)
-	// tenantquotaDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantquotaDescUpdatedBy := tenantquotaMixinFields4[1].Descriptor()
-	// tenantquota.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenantquota.UpdatedByValidator = tenantquotaDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantquotaDescCreatedAt is the schema descriptor for created_at field.
 	tenantquotaDescCreatedAt := tenantquotaMixinFields5[0].Descriptor()
 	// tenantquota.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -386,32 +262,16 @@ func init() {
 	tenantsettingMixin := schema.TenantSetting{}.Mixin()
 	tenantsettingMixinFields0 := tenantsettingMixin[0].Fields()
 	_ = tenantsettingMixinFields0
-	tenantsettingMixinFields1 := tenantsettingMixin[1].Fields()
-	_ = tenantsettingMixinFields1
 	tenantsettingMixinFields3 := tenantsettingMixin[3].Fields()
 	_ = tenantsettingMixinFields3
-	tenantsettingMixinFields4 := tenantsettingMixin[4].Fields()
-	_ = tenantsettingMixinFields4
 	tenantsettingMixinFields5 := tenantsettingMixin[5].Fields()
 	_ = tenantsettingMixinFields5
 	tenantsettingFields := schema.TenantSetting{}.Fields()
 	_ = tenantsettingFields
-	// tenantsettingDescTenantID is the schema descriptor for tenant_id field.
-	tenantsettingDescTenantID := tenantsettingMixinFields1[0].Descriptor()
-	// tenantsetting.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	tenantsetting.TenantIDValidator = tenantsettingDescTenantID.Validators[0].(func(string) error)
 	// tenantsettingDescExtras is the schema descriptor for extras field.
 	tenantsettingDescExtras := tenantsettingMixinFields3[0].Descriptor()
 	// tenantsetting.DefaultExtras holds the default value on creation for the extras field.
 	tenantsetting.DefaultExtras = tenantsettingDescExtras.Default.(map[string]interface{})
-	// tenantsettingDescCreatedBy is the schema descriptor for created_by field.
-	tenantsettingDescCreatedBy := tenantsettingMixinFields4[0].Descriptor()
-	// tenantsetting.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	tenantsetting.CreatedByValidator = tenantsettingDescCreatedBy.Validators[0].(func(string) error)
-	// tenantsettingDescUpdatedBy is the schema descriptor for updated_by field.
-	tenantsettingDescUpdatedBy := tenantsettingMixinFields4[1].Descriptor()
-	// tenantsetting.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	tenantsetting.UpdatedByValidator = tenantsettingDescUpdatedBy.Validators[0].(func(string) error)
 	// tenantsettingDescCreatedAt is the schema descriptor for created_at field.
 	tenantsettingDescCreatedAt := tenantsettingMixinFields5[0].Descriptor()
 	// tenantsetting.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -463,32 +323,10 @@ func init() {
 	usertenantMixin := schema.UserTenant{}.Mixin()
 	usertenantMixinFields0 := usertenantMixin[0].Fields()
 	_ = usertenantMixinFields0
-	usertenantMixinFields1 := usertenantMixin[1].Fields()
-	_ = usertenantMixinFields1
-	usertenantMixinFields2 := usertenantMixin[2].Fields()
-	_ = usertenantMixinFields2
-	usertenantMixinFields3 := usertenantMixin[3].Fields()
-	_ = usertenantMixinFields3
 	usertenantMixinFields4 := usertenantMixin[4].Fields()
 	_ = usertenantMixinFields4
 	usertenantFields := schema.UserTenant{}.Fields()
 	_ = usertenantFields
-	// usertenantDescUserID is the schema descriptor for user_id field.
-	usertenantDescUserID := usertenantMixinFields1[0].Descriptor()
-	// usertenant.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	usertenant.UserIDValidator = usertenantDescUserID.Validators[0].(func(string) error)
-	// usertenantDescTenantID is the schema descriptor for tenant_id field.
-	usertenantDescTenantID := usertenantMixinFields2[0].Descriptor()
-	// usertenant.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	usertenant.TenantIDValidator = usertenantDescTenantID.Validators[0].(func(string) error)
-	// usertenantDescCreatedBy is the schema descriptor for created_by field.
-	usertenantDescCreatedBy := usertenantMixinFields3[0].Descriptor()
-	// usertenant.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	usertenant.CreatedByValidator = usertenantDescCreatedBy.Validators[0].(func(string) error)
-	// usertenantDescUpdatedBy is the schema descriptor for updated_by field.
-	usertenantDescUpdatedBy := usertenantMixinFields3[1].Descriptor()
-	// usertenant.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	usertenant.UpdatedByValidator = usertenantDescUpdatedBy.Validators[0].(func(string) error)
 	// usertenantDescCreatedAt is the schema descriptor for created_at field.
 	usertenantDescCreatedAt := usertenantMixinFields4[0].Descriptor()
 	// usertenant.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -508,38 +346,10 @@ func init() {
 	usertenantroleMixin := schema.UserTenantRole{}.Mixin()
 	usertenantroleMixinFields0 := usertenantroleMixin[0].Fields()
 	_ = usertenantroleMixinFields0
-	usertenantroleMixinFields1 := usertenantroleMixin[1].Fields()
-	_ = usertenantroleMixinFields1
-	usertenantroleMixinFields2 := usertenantroleMixin[2].Fields()
-	_ = usertenantroleMixinFields2
-	usertenantroleMixinFields3 := usertenantroleMixin[3].Fields()
-	_ = usertenantroleMixinFields3
-	usertenantroleMixinFields4 := usertenantroleMixin[4].Fields()
-	_ = usertenantroleMixinFields4
 	usertenantroleMixinFields5 := usertenantroleMixin[5].Fields()
 	_ = usertenantroleMixinFields5
 	usertenantroleFields := schema.UserTenantRole{}.Fields()
 	_ = usertenantroleFields
-	// usertenantroleDescUserID is the schema descriptor for user_id field.
-	usertenantroleDescUserID := usertenantroleMixinFields1[0].Descriptor()
-	// usertenantrole.UserIDValidator is a validator for the "user_id" field. It is called by the builders before save.
-	usertenantrole.UserIDValidator = usertenantroleDescUserID.Validators[0].(func(string) error)
-	// usertenantroleDescTenantID is the schema descriptor for tenant_id field.
-	usertenantroleDescTenantID := usertenantroleMixinFields2[0].Descriptor()
-	// usertenantrole.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	usertenantrole.TenantIDValidator = usertenantroleDescTenantID.Validators[0].(func(string) error)
-	// usertenantroleDescRoleID is the schema descriptor for role_id field.
-	usertenantroleDescRoleID := usertenantroleMixinFields3[0].Descriptor()
-	// usertenantrole.RoleIDValidator is a validator for the "role_id" field. It is called by the builders before save.
-	usertenantrole.RoleIDValidator = usertenantroleDescRoleID.Validators[0].(func(string) error)
-	// usertenantroleDescCreatedBy is the schema descriptor for created_by field.
-	usertenantroleDescCreatedBy := usertenantroleMixinFields4[0].Descriptor()
-	// usertenantrole.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	usertenantrole.CreatedByValidator = usertenantroleDescCreatedBy.Validators[0].(func(string) error)
-	// usertenantroleDescUpdatedBy is the schema descriptor for updated_by field.
-	usertenantroleDescUpdatedBy := usertenantroleMixinFields4[1].Descriptor()
-	// usertenantrole.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	usertenantrole.UpdatedByValidator = usertenantroleDescUpdatedBy.Validators[0].(func(string) error)
 	// usertenantroleDescCreatedAt is the schema descriptor for created_at field.
 	usertenantroleDescCreatedAt := usertenantroleMixinFields5[0].Descriptor()
 	// usertenantrole.DefaultCreatedAt holds the default value on creation for the created_at field.

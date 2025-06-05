@@ -267,25 +267,7 @@ func (cru *CasbinRuleUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (cru *CasbinRuleUpdate) check() error {
-	if v, ok := cru.mutation.CreatedBy(); ok {
-		if err := casbinrule.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.created_by": %w`, err)}
-		}
-	}
-	if v, ok := cru.mutation.UpdatedBy(); ok {
-		if err := casbinrule.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (cru *CasbinRuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := cru.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(casbinrule.Table, casbinrule.Columns, sqlgraph.NewFieldSpec(casbinrule.FieldID, field.TypeString))
 	if ps := cru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -633,25 +615,7 @@ func (cruo *CasbinRuleUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (cruo *CasbinRuleUpdateOne) check() error {
-	if v, ok := cruo.mutation.CreatedBy(); ok {
-		if err := casbinrule.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.created_by": %w`, err)}
-		}
-	}
-	if v, ok := cruo.mutation.UpdatedBy(); ok {
-		if err := casbinrule.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (cruo *CasbinRuleUpdateOne) sqlSave(ctx context.Context) (_node *CasbinRule, err error) {
-	if err := cruo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(casbinrule.Table, casbinrule.Columns, sqlgraph.NewFieldSpec(casbinrule.FieldID, field.TypeString))
 	id, ok := cruo.mutation.ID()
 	if !ok {

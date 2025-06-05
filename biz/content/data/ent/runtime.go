@@ -24,10 +24,6 @@ func init() {
 	_ = cmschannelMixinFields5
 	cmschannelMixinFields6 := cmschannelMixin[6].Fields()
 	_ = cmschannelMixinFields6
-	cmschannelMixinFields7 := cmschannelMixin[7].Fields()
-	_ = cmschannelMixinFields7
-	cmschannelMixinFields8 := cmschannelMixin[8].Fields()
-	_ = cmschannelMixinFields8
 	cmschannelMixinFields9 := cmschannelMixin[9].Fields()
 	_ = cmschannelMixinFields9
 	cmschannelFields := schema.CMSChannel{}.Fields()
@@ -40,18 +36,6 @@ func init() {
 	cmschannelDescExtras := cmschannelMixinFields6[0].Descriptor()
 	// cmschannel.DefaultExtras holds the default value on creation for the extras field.
 	cmschannel.DefaultExtras = cmschannelDescExtras.Default.(map[string]interface{})
-	// cmschannelDescTenantID is the schema descriptor for tenant_id field.
-	cmschannelDescTenantID := cmschannelMixinFields7[0].Descriptor()
-	// cmschannel.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	cmschannel.TenantIDValidator = cmschannelDescTenantID.Validators[0].(func(string) error)
-	// cmschannelDescCreatedBy is the schema descriptor for created_by field.
-	cmschannelDescCreatedBy := cmschannelMixinFields8[0].Descriptor()
-	// cmschannel.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	cmschannel.CreatedByValidator = cmschannelDescCreatedBy.Validators[0].(func(string) error)
-	// cmschannelDescUpdatedBy is the schema descriptor for updated_by field.
-	cmschannelDescUpdatedBy := cmschannelMixinFields8[1].Descriptor()
-	// cmschannel.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	cmschannel.UpdatedByValidator = cmschannelDescUpdatedBy.Validators[0].(func(string) error)
 	// cmschannelDescCreatedAt is the schema descriptor for created_at field.
 	cmschannelDescCreatedAt := cmschannelMixinFields9[0].Descriptor()
 	// cmschannel.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -81,10 +65,6 @@ func init() {
 	_ = distributionMixinFields0
 	distributionMixinFields1 := distributionMixin[1].Fields()
 	_ = distributionMixinFields1
-	distributionMixinFields2 := distributionMixin[2].Fields()
-	_ = distributionMixinFields2
-	distributionMixinFields3 := distributionMixin[3].Fields()
-	_ = distributionMixinFields3
 	distributionMixinFields4 := distributionMixin[4].Fields()
 	_ = distributionMixinFields4
 	distributionFields := schema.Distribution{}.Fields()
@@ -93,18 +73,6 @@ func init() {
 	distributionDescExtras := distributionMixinFields1[0].Descriptor()
 	// distribution.DefaultExtras holds the default value on creation for the extras field.
 	distribution.DefaultExtras = distributionDescExtras.Default.(map[string]interface{})
-	// distributionDescTenantID is the schema descriptor for tenant_id field.
-	distributionDescTenantID := distributionMixinFields2[0].Descriptor()
-	// distribution.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	distribution.TenantIDValidator = distributionDescTenantID.Validators[0].(func(string) error)
-	// distributionDescCreatedBy is the schema descriptor for created_by field.
-	distributionDescCreatedBy := distributionMixinFields3[0].Descriptor()
-	// distribution.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	distribution.CreatedByValidator = distributionDescCreatedBy.Validators[0].(func(string) error)
-	// distributionDescUpdatedBy is the schema descriptor for updated_by field.
-	distributionDescUpdatedBy := distributionMixinFields3[1].Descriptor()
-	// distribution.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	distribution.UpdatedByValidator = distributionDescUpdatedBy.Validators[0].(func(string) error)
 	// distributionDescCreatedAt is the schema descriptor for created_at field.
 	distributionDescCreatedAt := distributionMixinFields4[0].Descriptor()
 	// distribution.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -138,10 +106,6 @@ func init() {
 	_ = mediaMixinFields0
 	mediaMixinFields4 := mediaMixin[4].Fields()
 	_ = mediaMixinFields4
-	mediaMixinFields5 := mediaMixin[5].Fields()
-	_ = mediaMixinFields5
-	mediaMixinFields6 := mediaMixin[6].Fields()
-	_ = mediaMixinFields6
 	mediaMixinFields7 := mediaMixin[7].Fields()
 	_ = mediaMixinFields7
 	mediaFields := schema.Media{}.Fields()
@@ -150,18 +114,6 @@ func init() {
 	mediaDescExtras := mediaMixinFields4[0].Descriptor()
 	// media.DefaultExtras holds the default value on creation for the extras field.
 	media.DefaultExtras = mediaDescExtras.Default.(map[string]interface{})
-	// mediaDescTenantID is the schema descriptor for tenant_id field.
-	mediaDescTenantID := mediaMixinFields5[0].Descriptor()
-	// media.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	media.TenantIDValidator = mediaDescTenantID.Validators[0].(func(string) error)
-	// mediaDescCreatedBy is the schema descriptor for created_by field.
-	mediaDescCreatedBy := mediaMixinFields6[0].Descriptor()
-	// media.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	media.CreatedByValidator = mediaDescCreatedBy.Validators[0].(func(string) error)
-	// mediaDescUpdatedBy is the schema descriptor for updated_by field.
-	mediaDescUpdatedBy := mediaMixinFields6[1].Descriptor()
-	// media.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	media.UpdatedByValidator = mediaDescUpdatedBy.Validators[0].(func(string) error)
 	// mediaDescCreatedAt is the schema descriptor for created_at field.
 	mediaDescCreatedAt := mediaMixinFields7[0].Descriptor()
 	// media.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -201,12 +153,6 @@ func init() {
 	_ = taxonomyMixinFields11
 	taxonomyMixinFields12 := taxonomyMixin[12].Fields()
 	_ = taxonomyMixinFields12
-	taxonomyMixinFields13 := taxonomyMixin[13].Fields()
-	_ = taxonomyMixinFields13
-	taxonomyMixinFields14 := taxonomyMixin[14].Fields()
-	_ = taxonomyMixinFields14
-	taxonomyMixinFields15 := taxonomyMixin[15].Fields()
-	_ = taxonomyMixinFields15
 	taxonomyMixinFields16 := taxonomyMixin[16].Fields()
 	_ = taxonomyMixinFields16
 	taxonomyFields := schema.Taxonomy{}.Fields()
@@ -219,22 +165,6 @@ func init() {
 	taxonomyDescExtras := taxonomyMixinFields12[0].Descriptor()
 	// taxonomy.DefaultExtras holds the default value on creation for the extras field.
 	taxonomy.DefaultExtras = taxonomyDescExtras.Default.(map[string]interface{})
-	// taxonomyDescParentID is the schema descriptor for parent_id field.
-	taxonomyDescParentID := taxonomyMixinFields13[0].Descriptor()
-	// taxonomy.ParentIDValidator is a validator for the "parent_id" field. It is called by the builders before save.
-	taxonomy.ParentIDValidator = taxonomyDescParentID.Validators[0].(func(string) error)
-	// taxonomyDescTenantID is the schema descriptor for tenant_id field.
-	taxonomyDescTenantID := taxonomyMixinFields14[0].Descriptor()
-	// taxonomy.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	taxonomy.TenantIDValidator = taxonomyDescTenantID.Validators[0].(func(string) error)
-	// taxonomyDescCreatedBy is the schema descriptor for created_by field.
-	taxonomyDescCreatedBy := taxonomyMixinFields15[0].Descriptor()
-	// taxonomy.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	taxonomy.CreatedByValidator = taxonomyDescCreatedBy.Validators[0].(func(string) error)
-	// taxonomyDescUpdatedBy is the schema descriptor for updated_by field.
-	taxonomyDescUpdatedBy := taxonomyMixinFields15[1].Descriptor()
-	// taxonomy.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	taxonomy.UpdatedByValidator = taxonomyDescUpdatedBy.Validators[0].(func(string) error)
 	// taxonomyDescCreatedAt is the schema descriptor for created_at field.
 	taxonomyDescCreatedAt := taxonomyMixinFields16[0].Descriptor()
 	// taxonomy.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -254,34 +184,16 @@ func init() {
 	taxonomyrelationMixin := schema.TaxonomyRelation{}.Mixin()
 	taxonomyrelationMixinFields0 := taxonomyrelationMixin[0].Fields()
 	_ = taxonomyrelationMixinFields0
-	taxonomyrelationMixinFields1 := taxonomyrelationMixin[1].Fields()
-	_ = taxonomyrelationMixinFields1
-	taxonomyrelationMixinFields2 := taxonomyrelationMixin[2].Fields()
-	_ = taxonomyrelationMixinFields2
 	taxonomyrelationMixinFields4 := taxonomyrelationMixin[4].Fields()
 	_ = taxonomyrelationMixinFields4
-	taxonomyrelationMixinFields5 := taxonomyrelationMixin[5].Fields()
-	_ = taxonomyrelationMixinFields5
 	taxonomyrelationMixinFields6 := taxonomyrelationMixin[6].Fields()
 	_ = taxonomyrelationMixinFields6
 	taxonomyrelationFields := schema.TaxonomyRelation{}.Fields()
 	_ = taxonomyrelationFields
-	// taxonomyrelationDescObjectID is the schema descriptor for object_id field.
-	taxonomyrelationDescObjectID := taxonomyrelationMixinFields1[0].Descriptor()
-	// taxonomyrelation.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
-	taxonomyrelation.ObjectIDValidator = taxonomyrelationDescObjectID.Validators[0].(func(string) error)
-	// taxonomyrelationDescTaxonomyID is the schema descriptor for taxonomy_id field.
-	taxonomyrelationDescTaxonomyID := taxonomyrelationMixinFields2[0].Descriptor()
-	// taxonomyrelation.TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
-	taxonomyrelation.TaxonomyIDValidator = taxonomyrelationDescTaxonomyID.Validators[0].(func(string) error)
 	// taxonomyrelationDescOrder is the schema descriptor for order field.
 	taxonomyrelationDescOrder := taxonomyrelationMixinFields4[0].Descriptor()
 	// taxonomyrelation.DefaultOrder holds the default value on creation for the order field.
 	taxonomyrelation.DefaultOrder = taxonomyrelationDescOrder.Default.(int)
-	// taxonomyrelationDescCreatedBy is the schema descriptor for created_by field.
-	taxonomyrelationDescCreatedBy := taxonomyrelationMixinFields5[0].Descriptor()
-	// taxonomyrelation.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	taxonomyrelation.CreatedByValidator = taxonomyrelationDescCreatedBy.Validators[0].(func(string) error)
 	// taxonomyrelationDescCreatedAt is the schema descriptor for created_at field.
 	taxonomyrelationDescCreatedAt := taxonomyrelationMixinFields6[0].Descriptor()
 	// taxonomyrelation.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -303,14 +215,8 @@ func init() {
 	_ = topicMixinFields8
 	topicMixinFields9 := topicMixin[9].Fields()
 	_ = topicMixinFields9
-	topicMixinFields11 := topicMixin[11].Fields()
-	_ = topicMixinFields11
-	topicMixinFields12 := topicMixin[12].Fields()
-	_ = topicMixinFields12
 	topicMixinFields13 := topicMixin[13].Fields()
 	_ = topicMixinFields13
-	topicMixinFields14 := topicMixin[14].Fields()
-	_ = topicMixinFields14
 	topicMixinFields15 := topicMixin[15].Fields()
 	_ = topicMixinFields15
 	topicFields := schema.Topic{}.Fields()
@@ -331,26 +237,10 @@ func init() {
 	topicDescStatus := topicMixinFields9[0].Descriptor()
 	// topic.DefaultStatus holds the default value on creation for the status field.
 	topic.DefaultStatus = topicDescStatus.Default.(int)
-	// topicDescTaxonomyID is the schema descriptor for taxonomy_id field.
-	topicDescTaxonomyID := topicMixinFields11[0].Descriptor()
-	// topic.TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
-	topic.TaxonomyIDValidator = topicDescTaxonomyID.Validators[0].(func(string) error)
-	// topicDescTenantID is the schema descriptor for tenant_id field.
-	topicDescTenantID := topicMixinFields12[0].Descriptor()
-	// topic.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	topic.TenantIDValidator = topicDescTenantID.Validators[0].(func(string) error)
 	// topicDescExtras is the schema descriptor for extras field.
 	topicDescExtras := topicMixinFields13[0].Descriptor()
 	// topic.DefaultExtras holds the default value on creation for the extras field.
 	topic.DefaultExtras = topicDescExtras.Default.(map[string]interface{})
-	// topicDescCreatedBy is the schema descriptor for created_by field.
-	topicDescCreatedBy := topicMixinFields14[0].Descriptor()
-	// topic.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	topic.CreatedByValidator = topicDescCreatedBy.Validators[0].(func(string) error)
-	// topicDescUpdatedBy is the schema descriptor for updated_by field.
-	topicDescUpdatedBy := topicMixinFields14[1].Descriptor()
-	// topic.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	topic.UpdatedByValidator = topicDescUpdatedBy.Validators[0].(func(string) error)
 	// topicDescCreatedAt is the schema descriptor for created_at field.
 	topicDescCreatedAt := topicMixinFields15[0].Descriptor()
 	// topic.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -384,8 +274,6 @@ func init() {
 	_ = topicmediaMixinFields0
 	topicmediaMixinFields2 := topicmediaMixin[2].Fields()
 	_ = topicmediaMixinFields2
-	topicmediaMixinFields3 := topicmediaMixin[3].Fields()
-	_ = topicmediaMixinFields3
 	topicmediaMixinFields4 := topicmediaMixin[4].Fields()
 	_ = topicmediaMixinFields4
 	topicmediaFields := schema.TopicMedia{}.Fields()
@@ -394,14 +282,6 @@ func init() {
 	topicmediaDescOrder := topicmediaMixinFields2[0].Descriptor()
 	// topicmedia.DefaultOrder holds the default value on creation for the order field.
 	topicmedia.DefaultOrder = topicmediaDescOrder.Default.(int)
-	// topicmediaDescCreatedBy is the schema descriptor for created_by field.
-	topicmediaDescCreatedBy := topicmediaMixinFields3[0].Descriptor()
-	// topicmedia.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	topicmedia.CreatedByValidator = topicmediaDescCreatedBy.Validators[0].(func(string) error)
-	// topicmediaDescUpdatedBy is the schema descriptor for updated_by field.
-	topicmediaDescUpdatedBy := topicmediaMixinFields3[1].Descriptor()
-	// topicmedia.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	topicmedia.UpdatedByValidator = topicmediaDescUpdatedBy.Validators[0].(func(string) error)
 	// topicmediaDescCreatedAt is the schema descriptor for created_at field.
 	topicmediaDescCreatedAt := topicmediaMixinFields4[0].Descriptor()
 	// topicmedia.DefaultCreatedAt holds the default value on creation for the created_at field.

@@ -366,16 +366,6 @@ func (ru *RouteUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ru *RouteUpdate) check() error {
-	if v, ok := ru.mutation.CreatedBy(); ok {
-		if err := route.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Route.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ru.mutation.UpdatedBy(); ok {
-		if err := route.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Route.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := ru.mutation.PathPattern(); ok {
 		if err := route.PathPatternValidator(v); err != nil {
 			return &ValidationError{Name: "path_pattern", err: fmt.Errorf(`ent: validator failed for field "Route.path_pattern": %w`, err)}
@@ -863,16 +853,6 @@ func (ruo *RouteUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ruo *RouteUpdateOne) check() error {
-	if v, ok := ruo.mutation.CreatedBy(); ok {
-		if err := route.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Route.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ruo.mutation.UpdatedBy(); ok {
-		if err := route.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Route.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := ruo.mutation.PathPattern(); ok {
 		if err := route.PathPatternValidator(v); err != nil {
 			return &ValidationError{Name: "path_pattern", err: fmt.Errorf(`ent: validator failed for field "Route.path_pattern": %w`, err)}

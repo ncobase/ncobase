@@ -167,26 +167,6 @@ func (urc *UserRoleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (urc *UserRoleCreate) check() error {
-	if v, ok := urc.mutation.UserID(); ok {
-		if err := userrole.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserRole.user_id": %w`, err)}
-		}
-	}
-	if v, ok := urc.mutation.RoleID(); ok {
-		if err := userrole.RoleIDValidator(v); err != nil {
-			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "UserRole.role_id": %w`, err)}
-		}
-	}
-	if v, ok := urc.mutation.CreatedBy(); ok {
-		if err := userrole.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserRole.created_by": %w`, err)}
-		}
-	}
-	if v, ok := urc.mutation.UpdatedBy(); ok {
-		if err := userrole.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserRole.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := urc.mutation.ID(); ok {
 		if err := userrole.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserRole.id": %w`, err)}

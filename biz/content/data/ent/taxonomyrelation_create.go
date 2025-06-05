@@ -168,23 +168,8 @@ func (trc *TaxonomyRelationCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (trc *TaxonomyRelationCreate) check() error {
-	if v, ok := trc.mutation.ObjectID(); ok {
-		if err := taxonomyrelation.ObjectIDValidator(v); err != nil {
-			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.object_id": %w`, err)}
-		}
-	}
-	if v, ok := trc.mutation.TaxonomyID(); ok {
-		if err := taxonomyrelation.TaxonomyIDValidator(v); err != nil {
-			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
-		}
-	}
 	if _, ok := trc.mutation.Order(); !ok {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "TaxonomyRelation.order"`)}
-	}
-	if v, ok := trc.mutation.CreatedBy(); ok {
-		if err := taxonomyrelation.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.created_by": %w`, err)}
-		}
 	}
 	if v, ok := trc.mutation.ID(); ok {
 		if err := taxonomyrelation.IDValidator(v); err != nil {

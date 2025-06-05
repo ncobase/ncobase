@@ -250,21 +250,6 @@ func (tqc *TenantQuotaCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tqc *TenantQuotaCreate) check() error {
-	if v, ok := tqc.mutation.TenantID(); ok {
-		if err := tenantquota.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tqc.mutation.CreatedBy(); ok {
-		if err := tenantquota.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tqc.mutation.UpdatedBy(); ok {
-		if err := tenantquota.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantQuota.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := tqc.mutation.QuotaType(); !ok {
 		return &ValidationError{Name: "quota_type", err: errors.New(`ent: missing required field "TenantQuota.quota_type"`)}
 	}

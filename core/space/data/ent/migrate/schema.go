@@ -18,9 +18,9 @@ var (
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "leader", Type: field.TypeJSON, Nullable: true, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "parent_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "parent id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "parent_id", Type: field.TypeString, Nullable: true, Comment: "parent id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -55,10 +55,10 @@ var (
 	// NcseSysGroupRoleColumns holds the columns for the "ncse_sys_group_role" table.
 	NcseSysGroupRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "group id"},
-		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "group_id", Type: field.TypeString, Nullable: true, Comment: "group id"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Comment: "role id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -98,10 +98,10 @@ var (
 	// NcseSysUserGroupColumns holds the columns for the "ncse_sys_user_group" table.
 	NcseSysUserGroupColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
-		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "group id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
+		{Name: "group_id", Type: field.TypeString, Nullable: true, Comment: "group id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "role", Type: field.TypeString, Comment: "Role of the user in the group", Default: "member"},

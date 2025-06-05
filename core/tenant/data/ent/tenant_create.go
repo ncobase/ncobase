@@ -343,16 +343,6 @@ func (tc *TenantCreate) check() error {
 	if _, ok := tc.mutation.Order(); !ok {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "Tenant.order"`)}
 	}
-	if v, ok := tc.mutation.CreatedBy(); ok {
-		if err := tenant.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Tenant.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.UpdatedBy(); ok {
-		if err := tenant.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Tenant.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tc.mutation.ID(); ok {
 		if err := tenant.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Tenant.id": %w`, err)}

@@ -355,16 +355,6 @@ func (ppu *PaymentProductUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ppu *PaymentProductUpdate) check() error {
-	if v, ok := ppu.mutation.CreatedBy(); ok {
-		if err := paymentproduct.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ppu.mutation.UpdatedBy(); ok {
-		if err := paymentproduct.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := ppu.mutation.Price(); ok {
 		if err := paymentproduct.PriceValidator(v); err != nil {
 			return &ValidationError{Name: "price", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.price": %w`, err)}
@@ -872,16 +862,6 @@ func (ppuo *PaymentProductUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ppuo *PaymentProductUpdateOne) check() error {
-	if v, ok := ppuo.mutation.CreatedBy(); ok {
-		if err := paymentproduct.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ppuo.mutation.UpdatedBy(); ok {
-		if err := paymentproduct.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := ppuo.mutation.Price(); ok {
 		if err := paymentproduct.PriceValidator(v); err != nil {
 			return &ValidationError{Name: "price", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.price": %w`, err)}

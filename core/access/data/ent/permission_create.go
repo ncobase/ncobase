@@ -241,16 +241,6 @@ func (pc *PermissionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (pc *PermissionCreate) check() error {
-	if v, ok := pc.mutation.CreatedBy(); ok {
-		if err := permission.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Permission.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pc.mutation.UpdatedBy(); ok {
-		if err := permission.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Permission.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := pc.mutation.ID(); ok {
 		if err := permission.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Permission.id": %w`, err)}

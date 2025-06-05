@@ -366,11 +366,6 @@ func (eu *EmployeeUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (eu *EmployeeUpdate) check() error {
-	if v, ok := eu.mutation.TenantID(); ok {
-		if err := employee.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Employee.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := eu.mutation.EmploymentType(); ok {
 		if err := employee.EmploymentTypeValidator(v); err != nil {
 			return &ValidationError{Name: "employment_type", err: fmt.Errorf(`ent: validator failed for field "Employee.employment_type": %w`, err)}
@@ -875,11 +870,6 @@ func (euo *EmployeeUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (euo *EmployeeUpdateOne) check() error {
-	if v, ok := euo.mutation.TenantID(); ok {
-		if err := employee.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Employee.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := euo.mutation.EmploymentType(); ok {
 		if err := employee.EmploymentTypeValidator(v); err != nil {
 			return &ValidationError{Name: "employment_type", err: fmt.Errorf(`ent: validator failed for field "Employee.employment_type": %w`, err)}

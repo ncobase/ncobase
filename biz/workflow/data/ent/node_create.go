@@ -816,21 +816,6 @@ func (nc *NodeCreate) check() error {
 	if _, ok := nc.mutation.ReminderCount(); !ok {
 		return &ValidationError{Name: "reminder_count", err: errors.New(`ent: missing required field "Node.reminder_count"`)}
 	}
-	if v, ok := nc.mutation.TenantID(); ok {
-		if err := node.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Node.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := nc.mutation.CreatedBy(); ok {
-		if err := node.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Node.created_by": %w`, err)}
-		}
-	}
-	if v, ok := nc.mutation.UpdatedBy(); ok {
-		if err := node.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Node.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := nc.mutation.ProcessID(); !ok {
 		return &ValidationError{Name: "process_id", err: errors.New(`ent: missing required field "Node.process_id"`)}
 	}

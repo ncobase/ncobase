@@ -262,16 +262,6 @@ func (pcu *PaymentChannelUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (pcu *PaymentChannelUpdate) check() error {
-	if v, ok := pcu.mutation.CreatedBy(); ok {
-		if err := paymentchannel.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pcu.mutation.UpdatedBy(); ok {
-		if err := paymentchannel.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := pcu.mutation.Provider(); ok {
 		if err := paymentchannel.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.provider": %w`, err)}
@@ -627,16 +617,6 @@ func (pcuo *PaymentChannelUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (pcuo *PaymentChannelUpdateOne) check() error {
-	if v, ok := pcuo.mutation.CreatedBy(); ok {
-		if err := paymentchannel.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pcuo.mutation.UpdatedBy(); ok {
-		if err := paymentchannel.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := pcuo.mutation.Provider(); ok {
 		if err := paymentchannel.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.provider": %w`, err)}

@@ -994,30 +994,7 @@ func (nu *NodeUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (nu *NodeUpdate) check() error {
-	if v, ok := nu.mutation.TenantID(); ok {
-		if err := node.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Node.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := nu.mutation.CreatedBy(); ok {
-		if err := node.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Node.created_by": %w`, err)}
-		}
-	}
-	if v, ok := nu.mutation.UpdatedBy(); ok {
-		if err := node.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Node.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := nu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(node.Table, node.Columns, sqlgraph.NewFieldSpec(node.FieldID, field.TypeString))
 	if ps := nu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -2360,30 +2337,7 @@ func (nuo *NodeUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (nuo *NodeUpdateOne) check() error {
-	if v, ok := nuo.mutation.TenantID(); ok {
-		if err := node.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Node.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := nuo.mutation.CreatedBy(); ok {
-		if err := node.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Node.created_by": %w`, err)}
-		}
-	}
-	if v, ok := nuo.mutation.UpdatedBy(); ok {
-		if err := node.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Node.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) {
-	if err := nuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(node.Table, node.Columns, sqlgraph.NewFieldSpec(node.FieldID, field.TypeString))
 	id, ok := nuo.mutation.ID()
 	if !ok {

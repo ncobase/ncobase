@@ -219,25 +219,7 @@ func (ru *RoleUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (ru *RoleUpdate) check() error {
-	if v, ok := ru.mutation.CreatedBy(); ok {
-		if err := role.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Role.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ru.mutation.UpdatedBy(); ok {
-		if err := role.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Role.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := ru.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeString))
 	if ps := ru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -525,25 +507,7 @@ func (ruo *RoleUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (ruo *RoleUpdateOne) check() error {
-	if v, ok := ruo.mutation.CreatedBy(); ok {
-		if err := role.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Role.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ruo.mutation.UpdatedBy(); ok {
-		if err := role.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Role.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) {
-	if err := ruo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeString))
 	id, ok := ruo.mutation.ID()
 	if !ok {

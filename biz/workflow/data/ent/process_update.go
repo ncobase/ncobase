@@ -845,30 +845,7 @@ func (pu *ProcessUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (pu *ProcessUpdate) check() error {
-	if v, ok := pu.mutation.TenantID(); ok {
-		if err := process.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Process.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := pu.mutation.CreatedBy(); ok {
-		if err := process.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Process.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pu.mutation.UpdatedBy(); ok {
-		if err := process.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Process.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (pu *ProcessUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := pu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(process.Table, process.Columns, sqlgraph.NewFieldSpec(process.FieldID, field.TypeString))
 	if ps := pu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -1974,30 +1951,7 @@ func (puo *ProcessUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (puo *ProcessUpdateOne) check() error {
-	if v, ok := puo.mutation.TenantID(); ok {
-		if err := process.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Process.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := puo.mutation.CreatedBy(); ok {
-		if err := process.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Process.created_by": %w`, err)}
-		}
-	}
-	if v, ok := puo.mutation.UpdatedBy(); ok {
-		if err := process.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Process.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (puo *ProcessUpdateOne) sqlSave(ctx context.Context) (_node *Process, err error) {
-	if err := puo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(process.Table, process.Columns, sqlgraph.NewFieldSpec(process.FieldID, field.TypeString))
 	id, ok := puo.mutation.ID()
 	if !ok {

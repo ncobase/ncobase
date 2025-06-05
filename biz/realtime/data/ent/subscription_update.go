@@ -148,25 +148,7 @@ func (su *SubscriptionUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (su *SubscriptionUpdate) check() error {
-	if v, ok := su.mutation.UserID(); ok {
-		if err := subscription.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.user_id": %w`, err)}
-		}
-	}
-	if v, ok := su.mutation.ChannelID(); ok {
-		if err := subscription.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.channel_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (su *SubscriptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := su.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(subscription.Table, subscription.Columns, sqlgraph.NewFieldSpec(subscription.FieldID, field.TypeString))
 	if ps := su.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -359,25 +341,7 @@ func (suo *SubscriptionUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (suo *SubscriptionUpdateOne) check() error {
-	if v, ok := suo.mutation.UserID(); ok {
-		if err := subscription.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.user_id": %w`, err)}
-		}
-	}
-	if v, ok := suo.mutation.ChannelID(); ok {
-		if err := subscription.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.channel_id": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscription, err error) {
-	if err := suo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(subscription.Table, subscription.Columns, sqlgraph.NewFieldSpec(subscription.FieldID, field.TypeString))
 	id, ok := suo.mutation.ID()
 	if !ok {

@@ -299,11 +299,6 @@ func (ec *EmployeeCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ec *EmployeeCreate) check() error {
-	if v, ok := ec.mutation.TenantID(); ok {
-		if err := employee.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Employee.tenant_id": %w`, err)}
-		}
-	}
 	if _, ok := ec.mutation.EmploymentType(); !ok {
 		return &ValidationError{Name: "employment_type", err: errors.New(`ent: missing required field "Employee.employment_type"`)}
 	}

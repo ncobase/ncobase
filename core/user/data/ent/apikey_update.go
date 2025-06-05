@@ -170,11 +170,6 @@ func (aku *ApiKeyUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (aku *ApiKeyUpdate) check() error {
-	if v, ok := aku.mutation.UserID(); ok {
-		if err := apikey.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "ApiKey.user_id": %w`, err)}
-		}
-	}
 	if v, ok := aku.mutation.Key(); ok {
 		if err := apikey.KeyValidator(v); err != nil {
 			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "ApiKey.key": %w`, err)}
@@ -407,11 +402,6 @@ func (akuo *ApiKeyUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (akuo *ApiKeyUpdateOne) check() error {
-	if v, ok := akuo.mutation.UserID(); ok {
-		if err := apikey.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "ApiKey.user_id": %w`, err)}
-		}
-	}
 	if v, ok := akuo.mutation.Key(); ok {
 		if err := apikey.KeyValidator(v); err != nil {
 			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "ApiKey.key": %w`, err)}

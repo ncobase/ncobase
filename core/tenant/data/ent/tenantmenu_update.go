@@ -167,35 +167,7 @@ func (tmu *TenantMenuUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tmu *TenantMenuUpdate) check() error {
-	if v, ok := tmu.mutation.TenantID(); ok {
-		if err := tenantmenu.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantMenu.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tmu.mutation.MenuID(); ok {
-		if err := tenantmenu.MenuIDValidator(v); err != nil {
-			return &ValidationError{Name: "menu_id", err: fmt.Errorf(`ent: validator failed for field "TenantMenu.menu_id": %w`, err)}
-		}
-	}
-	if v, ok := tmu.mutation.CreatedBy(); ok {
-		if err := tenantmenu.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantMenu.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tmu.mutation.UpdatedBy(); ok {
-		if err := tenantmenu.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantMenu.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tmu *TenantMenuUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tmu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(tenantmenu.Table, tenantmenu.Columns, sqlgraph.NewFieldSpec(tenantmenu.FieldID, field.TypeString))
 	if ps := tmu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -413,35 +385,7 @@ func (tmuo *TenantMenuUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tmuo *TenantMenuUpdateOne) check() error {
-	if v, ok := tmuo.mutation.TenantID(); ok {
-		if err := tenantmenu.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantMenu.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tmuo.mutation.MenuID(); ok {
-		if err := tenantmenu.MenuIDValidator(v); err != nil {
-			return &ValidationError{Name: "menu_id", err: fmt.Errorf(`ent: validator failed for field "TenantMenu.menu_id": %w`, err)}
-		}
-	}
-	if v, ok := tmuo.mutation.CreatedBy(); ok {
-		if err := tenantmenu.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantMenu.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tmuo.mutation.UpdatedBy(); ok {
-		if err := tenantmenu.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantMenu.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tmuo *TenantMenuUpdateOne) sqlSave(ctx context.Context) (_node *TenantMenu, err error) {
-	if err := tmuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(tenantmenu.Table, tenantmenu.Columns, sqlgraph.NewFieldSpec(tenantmenu.FieldID, field.TypeString))
 	id, ok := tmuo.mutation.ID()
 	if !ok {

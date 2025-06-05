@@ -254,21 +254,6 @@ func (dc *DelegationCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (dc *DelegationCreate) check() error {
-	if v, ok := dc.mutation.TenantID(); ok {
-		if err := delegation.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Delegation.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := dc.mutation.CreatedBy(); ok {
-		if err := delegation.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Delegation.created_by": %w`, err)}
-		}
-	}
-	if v, ok := dc.mutation.UpdatedBy(); ok {
-		if err := delegation.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Delegation.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := dc.mutation.DelegatorID(); !ok {
 		return &ValidationError{Name: "delegator_id", err: errors.New(`ent: missing required field "Delegation.delegator_id"`)}
 	}

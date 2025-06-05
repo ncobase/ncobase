@@ -246,16 +246,6 @@ func (pcc *PaymentChannelCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (pcc *PaymentChannelCreate) check() error {
-	if v, ok := pcc.mutation.CreatedBy(); ok {
-		if err := paymentchannel.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pcc.mutation.UpdatedBy(); ok {
-		if err := paymentchannel.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := pcc.mutation.Provider(); !ok {
 		return &ValidationError{Name: "provider", err: errors.New(`ent: missing required field "PaymentChannel.provider"`)}
 	}

@@ -145,16 +145,6 @@ func (ec *EventCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ec *EventCreate) check() error {
-	if v, ok := ec.mutation.ChannelID(); ok {
-		if err := event.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Event.channel_id": %w`, err)}
-		}
-	}
-	if v, ok := ec.mutation.UserID(); ok {
-		if err := event.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Event.user_id": %w`, err)}
-		}
-	}
 	if v, ok := ec.mutation.ID(); ok {
 		if err := event.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Event.id": %w`, err)}

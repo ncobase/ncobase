@@ -15,7 +15,7 @@ var (
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 	}
 	// NcseAuthTokenTable holds the schema information for the "ncse_auth_token" table.
 	NcseAuthTokenTable = &schema.Table{
@@ -78,7 +78,7 @@ var (
 		{Name: "oauth_id", Type: field.TypeString, Nullable: true, Comment: "oauth id"},
 		{Name: "access_token", Type: field.TypeString, Comment: "access token"},
 		{Name: "provider", Type: field.TypeString, Nullable: true, Comment: "provider"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -113,7 +113,7 @@ var (
 	// NcseUserSessionColumns holds the columns for the "ncse_user_session" table.
 	NcseUserSessionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 64, Comment: "primary key"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "token_id", Type: field.TypeString, Comment: "Associated auth token ID"},

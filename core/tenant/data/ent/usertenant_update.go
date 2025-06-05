@@ -167,35 +167,7 @@ func (utu *UserTenantUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (utu *UserTenantUpdate) check() error {
-	if v, ok := utu.mutation.UserID(); ok {
-		if err := usertenant.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.user_id": %w`, err)}
-		}
-	}
-	if v, ok := utu.mutation.TenantID(); ok {
-		if err := usertenant.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := utu.mutation.CreatedBy(); ok {
-		if err := usertenant.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.created_by": %w`, err)}
-		}
-	}
-	if v, ok := utu.mutation.UpdatedBy(); ok {
-		if err := usertenant.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (utu *UserTenantUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := utu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(usertenant.Table, usertenant.Columns, sqlgraph.NewFieldSpec(usertenant.FieldID, field.TypeString))
 	if ps := utu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -413,35 +385,7 @@ func (utuo *UserTenantUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (utuo *UserTenantUpdateOne) check() error {
-	if v, ok := utuo.mutation.UserID(); ok {
-		if err := usertenant.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.user_id": %w`, err)}
-		}
-	}
-	if v, ok := utuo.mutation.TenantID(); ok {
-		if err := usertenant.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserTenant.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := utuo.mutation.CreatedBy(); ok {
-		if err := usertenant.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.created_by": %w`, err)}
-		}
-	}
-	if v, ok := utuo.mutation.UpdatedBy(); ok {
-		if err := usertenant.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "UserTenant.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (utuo *UserTenantUpdateOne) sqlSave(ctx context.Context) (_node *UserTenant, err error) {
-	if err := utuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(usertenant.Table, usertenant.Columns, sqlgraph.NewFieldSpec(usertenant.FieldID, field.TypeString))
 	id, ok := utuo.mutation.ID()
 	if !ok {

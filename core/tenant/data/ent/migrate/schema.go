@@ -25,8 +25,8 @@ var (
 		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "expired_at", Type: field.TypeInt64, Nullable: true, Comment: "expired at"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
@@ -57,11 +57,11 @@ var (
 	// NcseSysTenantBillingColumns holds the columns for the "ncse_sys_tenant_billing" table.
 	NcseSysTenantBillingColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "billing_period", Type: field.TypeString, Comment: "Billing period type (monthly, yearly, one_time, usage_based)", Default: "monthly"},
@@ -122,10 +122,10 @@ var (
 	// NcseSysTenantDictionaryColumns holds the columns for the "ncse_sys_tenant_dictionary" table.
 	NcseSysTenantDictionaryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "dictionary_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "dictionary id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
+		{Name: "dictionary_id", Type: field.TypeString, Nullable: true, Comment: "dictionary id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -165,10 +165,10 @@ var (
 	// NcseOrgTenantGroupColumns holds the columns for the "ncse_org_tenant_group" table.
 	NcseOrgTenantGroupColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "group_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "group id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
+		{Name: "group_id", Type: field.TypeString, Nullable: true, Comment: "group id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "relation_type", Type: field.TypeString, Comment: "Type of relationship between tenant and group", Default: "member"},
@@ -219,10 +219,10 @@ var (
 	// NcseSysTenantMenuColumns holds the columns for the "ncse_sys_tenant_menu" table.
 	NcseSysTenantMenuColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "menu_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "menu id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
+		{Name: "menu_id", Type: field.TypeString, Nullable: true, Comment: "menu id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -262,10 +262,10 @@ var (
 	// NcseSysTenantOptionColumns holds the columns for the "ncse_sys_tenant_option" table.
 	NcseSysTenantOptionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
 		{Name: "option_id", Type: field.TypeString, Nullable: true, Comment: "option id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -305,11 +305,11 @@ var (
 	// NcseSysTenantQuotaColumns holds the columns for the "ncse_sys_tenant_quota" table.
 	NcseSysTenantQuotaColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "quota_type", Type: field.TypeString, Comment: "Type of quota (users, storage, api_calls, etc.)"},
@@ -355,11 +355,11 @@ var (
 	// NcseSysTenantSettingColumns holds the columns for the "ncse_sys_tenant_setting" table.
 	NcseSysTenantSettingColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "setting_key", Type: field.TypeString, Comment: "Unique key for the setting"},
@@ -420,10 +420,10 @@ var (
 	// NcseSysUserTenantColumns holds the columns for the "ncse_sys_user_tenant" table.
 	NcseSysUserTenantColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
@@ -463,11 +463,11 @@ var (
 	// NcseSysUserTenantRoleColumns holds the columns for the "ncse_sys_user_tenant_role" table.
 	NcseSysUserTenantRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "user id"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "tenant id"},
-		{Name: "role_id", Type: field.TypeString, Nullable: true, Size: 16, Comment: "role id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Size: 16, Comment: "id of the last updater"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
+		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
+		{Name: "role_id", Type: field.TypeString, Nullable: true, Comment: "role id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}

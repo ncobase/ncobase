@@ -49,14 +49,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
-	ObjectIDValidator func(string) error
-	// TaxonomyIDValidator is a validator for the "taxonomy_id" field. It is called by the builders before save.
-	TaxonomyIDValidator func(string) error
 	// DefaultOrder holds the default value on creation for the "order" field.
 	DefaultOrder int
-	// CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	CreatedByValidator func(string) error
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() int64
 	// DefaultID holds the default value on creation for the "id" field.

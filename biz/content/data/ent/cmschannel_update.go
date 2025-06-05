@@ -367,30 +367,7 @@ func (ccu *CMSChannelUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (ccu *CMSChannelUpdate) check() error {
-	if v, ok := ccu.mutation.TenantID(); ok {
-		if err := cmschannel.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := ccu.mutation.CreatedBy(); ok {
-		if err := cmschannel.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ccu.mutation.UpdatedBy(); ok {
-		if err := cmschannel.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (ccu *CMSChannelUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := ccu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(cmschannel.Table, cmschannel.Columns, sqlgraph.NewFieldSpec(cmschannel.FieldID, field.TypeString))
 	if ps := ccu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -872,30 +849,7 @@ func (ccuo *CMSChannelUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (ccuo *CMSChannelUpdateOne) check() error {
-	if v, ok := ccuo.mutation.TenantID(); ok {
-		if err := cmschannel.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := ccuo.mutation.CreatedBy(); ok {
-		if err := cmschannel.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ccuo.mutation.UpdatedBy(); ok {
-		if err := cmschannel.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (ccuo *CMSChannelUpdateOne) sqlSave(ctx context.Context) (_node *CMSChannel, err error) {
-	if err := ccuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(cmschannel.Table, cmschannel.Columns, sqlgraph.NewFieldSpec(cmschannel.FieldID, field.TypeString))
 	id, ok := ccuo.mutation.ID()
 	if !ok {

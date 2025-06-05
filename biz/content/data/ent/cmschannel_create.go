@@ -325,21 +325,6 @@ func (ccc *CMSChannelCreate) check() error {
 	if _, ok := ccc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "CMSChannel.status"`)}
 	}
-	if v, ok := ccc.mutation.TenantID(); ok {
-		if err := cmschannel.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := ccc.mutation.CreatedBy(); ok {
-		if err := cmschannel.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.created_by": %w`, err)}
-		}
-	}
-	if v, ok := ccc.mutation.UpdatedBy(); ok {
-		if err := cmschannel.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := ccc.mutation.AutoPublish(); !ok {
 		return &ValidationError{Name: "auto_publish", err: errors.New(`ent: missing required field "CMSChannel.auto_publish"`)}
 	}

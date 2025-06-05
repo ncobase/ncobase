@@ -733,21 +733,6 @@ func (pc *ProcessCreate) check() error {
 	if _, ok := pc.mutation.StrictMode(); !ok {
 		return &ValidationError{Name: "strict_mode", err: errors.New(`ent: missing required field "Process.strict_mode"`)}
 	}
-	if v, ok := pc.mutation.TenantID(); ok {
-		if err := process.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Process.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := pc.mutation.CreatedBy(); ok {
-		if err := process.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Process.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pc.mutation.UpdatedBy(); ok {
-		if err := process.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Process.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := pc.mutation.ProcessKey(); !ok {
 		return &ValidationError{Name: "process_key", err: errors.New(`ent: missing required field "Process.process_key"`)}
 	}

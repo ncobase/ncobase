@@ -345,21 +345,6 @@ func (tsu *TenantSettingUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tsu *TenantSettingUpdate) check() error {
-	if v, ok := tsu.mutation.TenantID(); ok {
-		if err := tenantsetting.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantSetting.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tsu.mutation.CreatedBy(); ok {
-		if err := tenantsetting.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantSetting.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tsu.mutation.UpdatedBy(); ok {
-		if err := tenantsetting.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantSetting.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tsu.mutation.SettingKey(); ok {
 		if err := tenantsetting.SettingKeyValidator(v); err != nil {
 			return &ValidationError{Name: "setting_key", err: fmt.Errorf(`ent: validator failed for field "TenantSetting.setting_key": %w`, err)}
@@ -820,21 +805,6 @@ func (tsuo *TenantSettingUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tsuo *TenantSettingUpdateOne) check() error {
-	if v, ok := tsuo.mutation.TenantID(); ok {
-		if err := tenantsetting.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "TenantSetting.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tsuo.mutation.CreatedBy(); ok {
-		if err := tenantsetting.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TenantSetting.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tsuo.mutation.UpdatedBy(); ok {
-		if err := tenantsetting.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "TenantSetting.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := tsuo.mutation.SettingKey(); ok {
 		if err := tenantsetting.SettingKeyValidator(v); err != nil {
 			return &ValidationError{Name: "setting_key", err: fmt.Errorf(`ent: validator failed for field "TenantSetting.setting_key": %w`, err)}

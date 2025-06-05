@@ -322,30 +322,7 @@ func (du *DelegationUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (du *DelegationUpdate) check() error {
-	if v, ok := du.mutation.TenantID(); ok {
-		if err := delegation.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Delegation.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := du.mutation.CreatedBy(); ok {
-		if err := delegation.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Delegation.created_by": %w`, err)}
-		}
-	}
-	if v, ok := du.mutation.UpdatedBy(); ok {
-		if err := delegation.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Delegation.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (du *DelegationUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := du.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(delegation.Table, delegation.Columns, sqlgraph.NewFieldSpec(delegation.FieldID, field.TypeString))
 	if ps := du.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -767,30 +744,7 @@ func (duo *DelegationUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (duo *DelegationUpdateOne) check() error {
-	if v, ok := duo.mutation.TenantID(); ok {
-		if err := delegation.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Delegation.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := duo.mutation.CreatedBy(); ok {
-		if err := delegation.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Delegation.created_by": %w`, err)}
-		}
-	}
-	if v, ok := duo.mutation.UpdatedBy(); ok {
-		if err := delegation.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Delegation.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (duo *DelegationUpdateOne) sqlSave(ctx context.Context) (_node *Delegation, err error) {
-	if err := duo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(delegation.Table, delegation.Columns, sqlgraph.NewFieldSpec(delegation.FieldID, field.TypeString))
 	id, ok := duo.mutation.ID()
 	if !ok {

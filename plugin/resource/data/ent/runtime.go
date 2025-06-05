@@ -18,14 +18,8 @@ func init() {
 	_ = fileMixinFields1
 	fileMixinFields4 := fileMixin[4].Fields()
 	_ = fileMixinFields4
-	fileMixinFields8 := fileMixin[8].Fields()
-	_ = fileMixinFields8
-	fileMixinFields9 := fileMixin[9].Fields()
-	_ = fileMixinFields9
 	fileMixinFields10 := fileMixin[10].Fields()
 	_ = fileMixinFields10
-	fileMixinFields11 := fileMixin[11].Fields()
-	_ = fileMixinFields11
 	fileMixinFields12 := fileMixin[12].Fields()
 	_ = fileMixinFields12
 	fileFields := schema.File{}.Fields()
@@ -38,26 +32,10 @@ func init() {
 	fileDescSize := fileMixinFields4[0].Descriptor()
 	// file.DefaultSize holds the default value on creation for the size field.
 	file.DefaultSize = fileDescSize.Default.(int)
-	// fileDescObjectID is the schema descriptor for object_id field.
-	fileDescObjectID := fileMixinFields8[0].Descriptor()
-	// file.ObjectIDValidator is a validator for the "object_id" field. It is called by the builders before save.
-	file.ObjectIDValidator = fileDescObjectID.Validators[0].(func(string) error)
-	// fileDescTenantID is the schema descriptor for tenant_id field.
-	fileDescTenantID := fileMixinFields9[0].Descriptor()
-	// file.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	file.TenantIDValidator = fileDescTenantID.Validators[0].(func(string) error)
 	// fileDescExtras is the schema descriptor for extras field.
 	fileDescExtras := fileMixinFields10[0].Descriptor()
 	// file.DefaultExtras holds the default value on creation for the extras field.
 	file.DefaultExtras = fileDescExtras.Default.(map[string]interface{})
-	// fileDescCreatedBy is the schema descriptor for created_by field.
-	fileDescCreatedBy := fileMixinFields11[0].Descriptor()
-	// file.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	file.CreatedByValidator = fileDescCreatedBy.Validators[0].(func(string) error)
-	// fileDescUpdatedBy is the schema descriptor for updated_by field.
-	fileDescUpdatedBy := fileMixinFields11[1].Descriptor()
-	// file.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	file.UpdatedByValidator = fileDescUpdatedBy.Validators[0].(func(string) error)
 	// fileDescCreatedAt is the schema descriptor for created_at field.
 	fileDescCreatedAt := fileMixinFields12[0].Descriptor()
 	// file.DefaultCreatedAt holds the default value on creation for the created_at field.

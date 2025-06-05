@@ -233,21 +233,6 @@ func (gc *GroupCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (gc *GroupCreate) check() error {
-	if v, ok := gc.mutation.ParentID(); ok {
-		if err := group.ParentIDValidator(v); err != nil {
-			return &ValidationError{Name: "parent_id", err: fmt.Errorf(`ent: validator failed for field "Group.parent_id": %w`, err)}
-		}
-	}
-	if v, ok := gc.mutation.CreatedBy(); ok {
-		if err := group.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Group.created_by": %w`, err)}
-		}
-	}
-	if v, ok := gc.mutation.UpdatedBy(); ok {
-		if err := group.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Group.updated_by": %w`, err)}
-		}
-	}
 	if v, ok := gc.mutation.ID(); ok {
 		if err := group.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Group.id": %w`, err)}

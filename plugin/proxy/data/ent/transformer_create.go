@@ -226,16 +226,6 @@ func (tc *TransformerCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tc *TransformerCreate) check() error {
-	if v, ok := tc.mutation.CreatedBy(); ok {
-		if err := transformer.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Transformer.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tc.mutation.UpdatedBy(); ok {
-		if err := transformer.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Transformer.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := tc.mutation.GetType(); !ok {
 		return &ValidationError{Name: "type", err: errors.New(`ent: missing required field "Transformer.type"`)}
 	}

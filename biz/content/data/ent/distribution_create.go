@@ -276,21 +276,6 @@ func (dc *DistributionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (dc *DistributionCreate) check() error {
-	if v, ok := dc.mutation.TenantID(); ok {
-		if err := distribution.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := dc.mutation.CreatedBy(); ok {
-		if err := distribution.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Distribution.created_by": %w`, err)}
-		}
-	}
-	if v, ok := dc.mutation.UpdatedBy(); ok {
-		if err := distribution.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Distribution.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := dc.mutation.TopicID(); !ok {
 		return &ValidationError{Name: "topic_id", err: errors.New(`ent: missing required field "Distribution.topic_id"`)}
 	}

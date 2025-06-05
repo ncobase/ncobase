@@ -295,30 +295,7 @@ func (pdu *ProcessDesignUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (pdu *ProcessDesignUpdate) check() error {
-	if v, ok := pdu.mutation.TenantID(); ok {
-		if err := processdesign.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "ProcessDesign.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := pdu.mutation.CreatedBy(); ok {
-		if err := processdesign.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "ProcessDesign.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pdu.mutation.UpdatedBy(); ok {
-		if err := processdesign.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "ProcessDesign.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (pdu *ProcessDesignUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := pdu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(processdesign.Table, processdesign.Columns, sqlgraph.NewFieldSpec(processdesign.FieldID, field.TypeString))
 	if ps := pdu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -712,30 +689,7 @@ func (pduo *ProcessDesignUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (pduo *ProcessDesignUpdateOne) check() error {
-	if v, ok := pduo.mutation.TenantID(); ok {
-		if err := processdesign.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "ProcessDesign.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := pduo.mutation.CreatedBy(); ok {
-		if err := processdesign.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "ProcessDesign.created_by": %w`, err)}
-		}
-	}
-	if v, ok := pduo.mutation.UpdatedBy(); ok {
-		if err := processdesign.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "ProcessDesign.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (pduo *ProcessDesignUpdateOne) sqlSave(ctx context.Context) (_node *ProcessDesign, err error) {
-	if err := pduo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(processdesign.Table, processdesign.Columns, sqlgraph.NewFieldSpec(processdesign.FieldID, field.TypeString))
 	id, ok := pduo.mutation.ID()
 	if !ok {

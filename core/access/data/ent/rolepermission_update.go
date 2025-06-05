@@ -167,35 +167,7 @@ func (rpu *RolePermissionUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (rpu *RolePermissionUpdate) check() error {
-	if v, ok := rpu.mutation.RoleID(); ok {
-		if err := rolepermission.RoleIDValidator(v); err != nil {
-			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.role_id": %w`, err)}
-		}
-	}
-	if v, ok := rpu.mutation.PermissionID(); ok {
-		if err := rolepermission.PermissionIDValidator(v); err != nil {
-			return &ValidationError{Name: "permission_id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.permission_id": %w`, err)}
-		}
-	}
-	if v, ok := rpu.mutation.CreatedBy(); ok {
-		if err := rolepermission.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "RolePermission.created_by": %w`, err)}
-		}
-	}
-	if v, ok := rpu.mutation.UpdatedBy(); ok {
-		if err := rolepermission.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "RolePermission.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (rpu *RolePermissionUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := rpu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(rolepermission.Table, rolepermission.Columns, sqlgraph.NewFieldSpec(rolepermission.FieldID, field.TypeString))
 	if ps := rpu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -413,35 +385,7 @@ func (rpuo *RolePermissionUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (rpuo *RolePermissionUpdateOne) check() error {
-	if v, ok := rpuo.mutation.RoleID(); ok {
-		if err := rolepermission.RoleIDValidator(v); err != nil {
-			return &ValidationError{Name: "role_id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.role_id": %w`, err)}
-		}
-	}
-	if v, ok := rpuo.mutation.PermissionID(); ok {
-		if err := rolepermission.PermissionIDValidator(v); err != nil {
-			return &ValidationError{Name: "permission_id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.permission_id": %w`, err)}
-		}
-	}
-	if v, ok := rpuo.mutation.CreatedBy(); ok {
-		if err := rolepermission.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "RolePermission.created_by": %w`, err)}
-		}
-	}
-	if v, ok := rpuo.mutation.UpdatedBy(); ok {
-		if err := rolepermission.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "RolePermission.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (rpuo *RolePermissionUpdateOne) sqlSave(ctx context.Context) (_node *RolePermission, err error) {
-	if err := rpuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(rolepermission.Table, rolepermission.Columns, sqlgraph.NewFieldSpec(rolepermission.FieldID, field.TypeString))
 	id, ok := rpuo.mutation.ID()
 	if !ok {

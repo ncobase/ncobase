@@ -210,18 +210,8 @@ func (nc *NotificationCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (nc *NotificationCreate) check() error {
-	if v, ok := nc.mutation.UserID(); ok {
-		if err := notification.UserIDValidator(v); err != nil {
-			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "Notification.user_id": %w`, err)}
-		}
-	}
 	if _, ok := nc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Notification.status"`)}
-	}
-	if v, ok := nc.mutation.ChannelID(); ok {
-		if err := notification.ChannelIDValidator(v); err != nil {
-			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Notification.channel_id": %w`, err)}
-		}
 	}
 	if v, ok := nc.mutation.ID(); ok {
 		if err := notification.IDValidator(v); err != nil {

@@ -20,8 +20,6 @@ func init() {
 	_ = paymentchannelMixinFields0
 	paymentchannelMixinFields3 := paymentchannelMixin[3].Fields()
 	_ = paymentchannelMixinFields3
-	paymentchannelMixinFields4 := paymentchannelMixin[4].Fields()
-	_ = paymentchannelMixinFields4
 	paymentchannelMixinFields5 := paymentchannelMixin[5].Fields()
 	_ = paymentchannelMixinFields5
 	paymentchannelFields := schema.PaymentChannel{}.Fields()
@@ -30,14 +28,6 @@ func init() {
 	paymentchannelDescExtras := paymentchannelMixinFields3[0].Descriptor()
 	// paymentchannel.DefaultExtras holds the default value on creation for the extras field.
 	paymentchannel.DefaultExtras = paymentchannelDescExtras.Default.(map[string]interface{})
-	// paymentchannelDescCreatedBy is the schema descriptor for created_by field.
-	paymentchannelDescCreatedBy := paymentchannelMixinFields4[0].Descriptor()
-	// paymentchannel.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	paymentchannel.CreatedByValidator = paymentchannelDescCreatedBy.Validators[0].(func(string) error)
-	// paymentchannelDescUpdatedBy is the schema descriptor for updated_by field.
-	paymentchannelDescUpdatedBy := paymentchannelMixinFields4[1].Descriptor()
-	// paymentchannel.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	paymentchannel.UpdatedByValidator = paymentchannelDescUpdatedBy.Validators[0].(func(string) error)
 	// paymentchannelDescCreatedAt is the schema descriptor for created_at field.
 	paymentchannelDescCreatedAt := paymentchannelMixinFields5[0].Descriptor()
 	// paymentchannel.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -112,8 +102,6 @@ func init() {
 	_ = paymentorderMixinFields0
 	paymentorderMixinFields1 := paymentorderMixin[1].Fields()
 	_ = paymentorderMixinFields1
-	paymentorderMixinFields2 := paymentorderMixin[2].Fields()
-	_ = paymentorderMixinFields2
 	paymentorderMixinFields3 := paymentorderMixin[3].Fields()
 	_ = paymentorderMixinFields3
 	paymentorderFields := schema.PaymentOrder{}.Fields()
@@ -122,14 +110,6 @@ func init() {
 	paymentorderDescExtras := paymentorderMixinFields1[0].Descriptor()
 	// paymentorder.DefaultExtras holds the default value on creation for the extras field.
 	paymentorder.DefaultExtras = paymentorderDescExtras.Default.(map[string]interface{})
-	// paymentorderDescCreatedBy is the schema descriptor for created_by field.
-	paymentorderDescCreatedBy := paymentorderMixinFields2[0].Descriptor()
-	// paymentorder.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	paymentorder.CreatedByValidator = paymentorderDescCreatedBy.Validators[0].(func(string) error)
-	// paymentorderDescUpdatedBy is the schema descriptor for updated_by field.
-	paymentorderDescUpdatedBy := paymentorderMixinFields2[1].Descriptor()
-	// paymentorder.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	paymentorder.UpdatedByValidator = paymentorderDescUpdatedBy.Validators[0].(func(string) error)
 	// paymentorderDescCreatedAt is the schema descriptor for created_at field.
 	paymentorderDescCreatedAt := paymentorderMixinFields3[0].Descriptor()
 	// paymentorder.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -179,8 +159,6 @@ func init() {
 	_ = paymentproductMixinFields0
 	paymentproductMixinFields3 := paymentproductMixin[3].Fields()
 	_ = paymentproductMixinFields3
-	paymentproductMixinFields4 := paymentproductMixin[4].Fields()
-	_ = paymentproductMixinFields4
 	paymentproductMixinFields5 := paymentproductMixin[5].Fields()
 	_ = paymentproductMixinFields5
 	paymentproductFields := schema.PaymentProduct{}.Fields()
@@ -189,14 +167,6 @@ func init() {
 	paymentproductDescExtras := paymentproductMixinFields3[0].Descriptor()
 	// paymentproduct.DefaultExtras holds the default value on creation for the extras field.
 	paymentproduct.DefaultExtras = paymentproductDescExtras.Default.(map[string]interface{})
-	// paymentproductDescCreatedBy is the schema descriptor for created_by field.
-	paymentproductDescCreatedBy := paymentproductMixinFields4[0].Descriptor()
-	// paymentproduct.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	paymentproduct.CreatedByValidator = paymentproductDescCreatedBy.Validators[0].(func(string) error)
-	// paymentproductDescUpdatedBy is the schema descriptor for updated_by field.
-	paymentproductDescUpdatedBy := paymentproductMixinFields4[1].Descriptor()
-	// paymentproduct.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	paymentproduct.UpdatedByValidator = paymentproductDescUpdatedBy.Validators[0].(func(string) error)
 	// paymentproductDescCreatedAt is the schema descriptor for created_at field.
 	paymentproductDescCreatedAt := paymentproductMixinFields5[0].Descriptor()
 	// paymentproduct.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -238,8 +208,6 @@ func init() {
 	_ = paymentsubscriptionMixinFields0
 	paymentsubscriptionMixinFields1 := paymentsubscriptionMixin[1].Fields()
 	_ = paymentsubscriptionMixinFields1
-	paymentsubscriptionMixinFields2 := paymentsubscriptionMixin[2].Fields()
-	_ = paymentsubscriptionMixinFields2
 	paymentsubscriptionMixinFields3 := paymentsubscriptionMixin[3].Fields()
 	_ = paymentsubscriptionMixinFields3
 	paymentsubscriptionFields := schema.PaymentSubscription{}.Fields()
@@ -248,14 +216,6 @@ func init() {
 	paymentsubscriptionDescExtras := paymentsubscriptionMixinFields1[0].Descriptor()
 	// paymentsubscription.DefaultExtras holds the default value on creation for the extras field.
 	paymentsubscription.DefaultExtras = paymentsubscriptionDescExtras.Default.(map[string]interface{})
-	// paymentsubscriptionDescCreatedBy is the schema descriptor for created_by field.
-	paymentsubscriptionDescCreatedBy := paymentsubscriptionMixinFields2[0].Descriptor()
-	// paymentsubscription.CreatedByValidator is a validator for the "created_by" field. It is called by the builders before save.
-	paymentsubscription.CreatedByValidator = paymentsubscriptionDescCreatedBy.Validators[0].(func(string) error)
-	// paymentsubscriptionDescUpdatedBy is the schema descriptor for updated_by field.
-	paymentsubscriptionDescUpdatedBy := paymentsubscriptionMixinFields2[1].Descriptor()
-	// paymentsubscription.UpdatedByValidator is a validator for the "updated_by" field. It is called by the builders before save.
-	paymentsubscription.UpdatedByValidator = paymentsubscriptionDescUpdatedBy.Validators[0].(func(string) error)
 	// paymentsubscriptionDescCreatedAt is the schema descriptor for created_at field.
 	paymentsubscriptionDescCreatedAt := paymentsubscriptionMixinFields3[0].Descriptor()
 	// paymentsubscription.DefaultCreatedAt holds the default value on creation for the created_at field.

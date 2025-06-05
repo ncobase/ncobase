@@ -344,21 +344,6 @@ func (rc *RuleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (rc *RuleCreate) check() error {
-	if v, ok := rc.mutation.TenantID(); ok {
-		if err := rule.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Rule.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := rc.mutation.CreatedBy(); ok {
-		if err := rule.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Rule.created_by": %w`, err)}
-		}
-	}
-	if v, ok := rc.mutation.UpdatedBy(); ok {
-		if err := rule.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Rule.updated_by": %w`, err)}
-		}
-	}
 	if _, ok := rc.mutation.RuleKey(); !ok {
 		return &ValidationError{Name: "rule_key", err: errors.New(`ent: missing required field "Rule.rule_key"`)}
 	}

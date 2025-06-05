@@ -160,30 +160,7 @@ func (tru *TaxonomyRelationUpdate) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tru *TaxonomyRelationUpdate) check() error {
-	if v, ok := tru.mutation.ObjectID(); ok {
-		if err := taxonomyrelation.ObjectIDValidator(v); err != nil {
-			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.object_id": %w`, err)}
-		}
-	}
-	if v, ok := tru.mutation.TaxonomyID(); ok {
-		if err := taxonomyrelation.TaxonomyIDValidator(v); err != nil {
-			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
-		}
-	}
-	if v, ok := tru.mutation.CreatedBy(); ok {
-		if err := taxonomyrelation.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.created_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tru *TaxonomyRelationUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tru.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(taxonomyrelation.Table, taxonomyrelation.Columns, sqlgraph.NewFieldSpec(taxonomyrelation.FieldID, field.TypeString))
 	if ps := tru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -391,30 +368,7 @@ func (truo *TaxonomyRelationUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (truo *TaxonomyRelationUpdateOne) check() error {
-	if v, ok := truo.mutation.ObjectID(); ok {
-		if err := taxonomyrelation.ObjectIDValidator(v); err != nil {
-			return &ValidationError{Name: "object_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.object_id": %w`, err)}
-		}
-	}
-	if v, ok := truo.mutation.TaxonomyID(); ok {
-		if err := taxonomyrelation.TaxonomyIDValidator(v); err != nil {
-			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.taxonomy_id": %w`, err)}
-		}
-	}
-	if v, ok := truo.mutation.CreatedBy(); ok {
-		if err := taxonomyrelation.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "TaxonomyRelation.created_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (truo *TaxonomyRelationUpdateOne) sqlSave(ctx context.Context) (_node *TaxonomyRelation, err error) {
-	if err := truo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(taxonomyrelation.Table, taxonomyrelation.Columns, sqlgraph.NewFieldSpec(taxonomyrelation.FieldID, field.TypeString))
 	id, ok := truo.mutation.ID()
 	if !ok {

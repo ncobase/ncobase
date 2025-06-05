@@ -555,35 +555,7 @@ func (tu *TopicUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tu *TopicUpdate) check() error {
-	if v, ok := tu.mutation.TaxonomyID(); ok {
-		if err := topic.TaxonomyIDValidator(v); err != nil {
-			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.TenantID(); ok {
-		if err := topic.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Topic.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.CreatedBy(); ok {
-		if err := topic.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Topic.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tu.mutation.UpdatedBy(); ok {
-		if err := topic.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Topic.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(topic.Table, topic.Columns, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeString))
 	if ps := tu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -1310,35 +1282,7 @@ func (tuo *TopicUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tuo *TopicUpdateOne) check() error {
-	if v, ok := tuo.mutation.TaxonomyID(); ok {
-		if err := topic.TaxonomyIDValidator(v); err != nil {
-			return &ValidationError{Name: "taxonomy_id", err: fmt.Errorf(`ent: validator failed for field "Topic.taxonomy_id": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.TenantID(); ok {
-		if err := topic.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Topic.tenant_id": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.CreatedBy(); ok {
-		if err := topic.CreatedByValidator(v); err != nil {
-			return &ValidationError{Name: "created_by", err: fmt.Errorf(`ent: validator failed for field "Topic.created_by": %w`, err)}
-		}
-	}
-	if v, ok := tuo.mutation.UpdatedBy(); ok {
-		if err := topic.UpdatedByValidator(v); err != nil {
-			return &ValidationError{Name: "updated_by", err: fmt.Errorf(`ent: validator failed for field "Topic.updated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error) {
-	if err := tuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(topic.Table, topic.Columns, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeString))
 	id, ok := tuo.mutation.ID()
 	if !ok {
