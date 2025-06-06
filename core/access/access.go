@@ -6,7 +6,7 @@ import (
 	"ncobase/access/event"
 	"ncobase/access/handler"
 	"ncobase/access/service"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"sync"
 
 	"github.com/gin-gonic/gin"

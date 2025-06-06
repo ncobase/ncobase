@@ -2,7 +2,7 @@ package user
 
 import (
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"ncobase/user/data"
 	"ncobase/user/handler"
 	"ncobase/user/service"

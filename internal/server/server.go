@@ -1,4 +1,4 @@
-package provider
+package server
 
 import (
 	"context"
@@ -9,8 +9,8 @@ import (
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// NewServer creates a new server.
-func NewServer(conf *config.Config) (http.Handler, func(), error) {
+// New creates a new server.
+func New(conf *config.Config) (http.Handler, func(), error) {
 
 	// Initialize Extension Manager
 	em, err := extm.NewManager(conf)

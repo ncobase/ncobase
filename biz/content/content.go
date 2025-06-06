@@ -3,10 +3,10 @@ package content
 import (
 	"context"
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
 	"ncobase/content/data"
 	"ncobase/content/handler"
 	"ncobase/content/service"
+	"ncobase/internal/middleware"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

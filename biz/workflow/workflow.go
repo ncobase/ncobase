@@ -2,7 +2,7 @@ package workflow
 
 import (
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"ncobase/workflow/data"
 	we "ncobase/workflow/engine/core"
 	"ncobase/workflow/handler"

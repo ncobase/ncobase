@@ -3,7 +3,7 @@ package resource
 import (
 	"context"
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"ncobase/resource/data"
 	"ncobase/resource/event"
 	"ncobase/resource/handler"

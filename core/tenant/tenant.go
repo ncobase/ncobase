@@ -2,7 +2,7 @@ package tenant
 
 import (
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"ncobase/tenant/data"
 	"ncobase/tenant/handler"
 	"ncobase/tenant/service"

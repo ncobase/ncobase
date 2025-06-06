@@ -2,7 +2,7 @@ package space
 
 import (
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"ncobase/space/data"
 	"ncobase/space/handler"
 	"ncobase/space/service"

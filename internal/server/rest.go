@@ -1,4 +1,4 @@
-package provider
+package server
 
 import (
 	"net/http"

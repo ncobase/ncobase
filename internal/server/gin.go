@@ -1,8 +1,8 @@
-package provider
+package server
 
 import (
 	"context"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"net/http"
 	"time"
 

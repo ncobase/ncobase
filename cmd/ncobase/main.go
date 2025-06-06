@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ncobase/internal/server"
 	"net"
 	"net/http"
 	"os"
@@ -11,8 +12,6 @@ import (
 	"strings"
 	"syscall"
 	"time"
-
-	"ncobase/cmd/ncobase/provider"
 
 	"github.com/ncobase/ncore/config"
 	"github.com/ncobase/ncore/logging/logger"
@@ -199,7 +198,7 @@ func initializeLogger(conf *config.Config) func() {
 
 // createServer creates and initializes the server
 func createServer(conf *config.Config) (http.Handler, func(), error) {
-	handler, cleanup, err := provider.NewServer(conf)
+	handler, cleanup, err := server.New(conf)
 	if err != nil {
 		return nil, nil, err
 	}

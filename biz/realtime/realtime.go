@@ -2,7 +2,7 @@ package realtime
 
 import (
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"ncobase/realtime/data"
 	"ncobase/realtime/handler"
 	"ncobase/realtime/service"

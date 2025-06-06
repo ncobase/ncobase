@@ -2,7 +2,7 @@ package system
 
 import (
 	"fmt"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"ncobase/system/data"
 	"ncobase/system/handler"
 	"ncobase/system/service"

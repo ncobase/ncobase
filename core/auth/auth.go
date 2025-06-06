@@ -5,7 +5,7 @@ import (
 	"ncobase/auth/data"
 	"ncobase/auth/handler"
 	"ncobase/auth/service"
-	"ncobase/cmd/ncobase/middleware"
+	"ncobase/internal/middleware"
 	"sync"
 
 	"github.com/ncobase/ncore/config"
