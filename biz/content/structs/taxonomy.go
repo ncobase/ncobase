@@ -114,6 +114,6 @@ type ListTaxonomyParams struct {
 	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
 	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
 	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
-	Type      string `form:"type,omitempty" json:"type,omitempty" validate:"required"`
+	Type      string `form:"type,omitempty" json:"type,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

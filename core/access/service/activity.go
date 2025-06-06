@@ -76,12 +76,12 @@ func (s *activityService) ListActivity(ctx context.Context, params *structs.List
 	entries := s.DocumentsToEntries(result.Items)
 
 	return paging.Result[*structs.Activity]{
-		Items:       entries,
-		Total:       result.Total,
-		NextCursor:  result.NextCursor,
-		PrevCursor:  result.PrevCursor,
-		HasNextPage: result.HasNextPage,
-		HasPrevPage: result.HasPrevPage,
+		Items:      entries,
+		Total:      result.Total,
+		NextCursor: result.NextCursor,
+		PrevCursor: result.PrevCursor,
+		HasNext:    result.HasNext,
+		HasPrev:    result.HasPrev,
 	}, nil
 }
 
