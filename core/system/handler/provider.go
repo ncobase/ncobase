@@ -6,7 +6,7 @@ import "ncobase/system/service"
 type Handler struct {
 	Menu       MenuHandlerInterface
 	Dictionary DictionaryHandlerInterface
-	Options    OptionHandlerInterface
+	Option     OptionHandlerInterface
 }
 
 // New creates new system handler.
@@ -14,6 +14,6 @@ func New(svc *service.Service) *Handler {
 	return &Handler{
 		Menu:       NewMenuHandler(svc),
 		Dictionary: NewDictionaryHandler(svc),
-		Options:    NewOptionHandler(svc),
+		Option:     NewOptionHandler(svc),
 	}
 }

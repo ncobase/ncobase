@@ -11,6 +11,7 @@ import (
 type GroupBody struct {
 	Name        string      `json:"name,omitempty"`
 	Slug        string      `json:"slug,omitempty"`
+	Type        string      `json:"type,omitempty"`
 	Disabled    bool        `json:"disabled,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Leader      *types.JSON `json:"leader,omitempty"`
@@ -36,6 +37,7 @@ type ReadGroup struct {
 	ID          string           `json:"id"`
 	Name        string           `json:"name"`
 	Slug        string           `json:"slug"`
+	Type        string           `json:"type"`
 	Disabled    bool             `json:"disabled"`
 	Description string           `json:"description"`
 	Leader      *types.JSON      `json:"leader,omitempty"`

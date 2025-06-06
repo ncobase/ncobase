@@ -22,6 +22,8 @@ type Group struct {
 	Name string `json:"name,omitempty"`
 	// slug / alias
 	Slug string `json:"slug,omitempty"`
+	// type
+	Type string `json:"type,omitempty"`
 	// is disabled
 	Disabled bool `json:"disabled,omitempty"`
 	// description
@@ -54,7 +56,7 @@ func (*Group) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case group.FieldCreatedAt, group.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case group.FieldID, group.FieldName, group.FieldSlug, group.FieldDescription, group.FieldParentID, group.FieldCreatedBy, group.FieldUpdatedBy:
+		case group.FieldID, group.FieldName, group.FieldSlug, group.FieldType, group.FieldDescription, group.FieldParentID, group.FieldCreatedBy, group.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -88,6 +90,12 @@ func (gr *Group) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field slug", values[i])
 			} else if value.Valid {
 				gr.Slug = value.String
+			}
+		case group.FieldType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field type", values[i])
+			} else if value.Valid {
+				gr.Type = value.String
 			}
 		case group.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -188,6 +196,9 @@ func (gr *Group) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("slug=")
 	builder.WriteString(gr.Slug)
+	builder.WriteString(", ")
+	builder.WriteString("type=")
+	builder.WriteString(gr.Type)
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
 	builder.WriteString(fmt.Sprintf("%v", gr.Disabled))

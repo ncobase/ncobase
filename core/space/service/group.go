@@ -143,6 +143,7 @@ func (s *spaceService) Serialize(row *ent.Group) *structs.ReadGroup {
 		ID:          row.ID,
 		Name:        row.Name,
 		Slug:        row.Slug,
+		Type:        row.Type,
 		Disabled:    row.Disabled,
 		Description: row.Description,
 		Leader:      &row.Leader,

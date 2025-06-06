@@ -121,7 +121,7 @@ func (s *Service) LoadState(ctx context.Context) error {
 		return nil
 	}
 
-	option, err := s.sys.Options.GetByName(ctx, stateOptionKey)
+	option, err := s.sys.Option.GetByName(ctx, stateOptionKey)
 	if err != nil {
 		return nil
 	}
@@ -151,7 +151,7 @@ func (s *Service) SaveState(ctx context.Context) error {
 		return fmt.Errorf("failed to marshal initialization state: %w", err)
 	}
 
-	existingOption, err := s.sys.Options.GetByName(ctx, stateOptionKey)
+	existingOption, err := s.sys.Option.GetByName(ctx, stateOptionKey)
 	if err == nil && existingOption != nil {
 		updateBody := &systemStructs.UpdateOptionBody{
 			ID: existingOption.ID,
@@ -160,7 +160,7 @@ func (s *Service) SaveState(ctx context.Context) error {
 				Autoload: true,
 			},
 		}
-		_, err = s.sys.Options.Update(ctx, updateBody)
+		_, err = s.sys.Option.Update(ctx, updateBody)
 		if err != nil {
 			return fmt.Errorf("failed to update initialization state option: %w", err)
 		}
@@ -171,7 +171,7 @@ func (s *Service) SaveState(ctx context.Context) error {
 			Value:    string(stateJSON),
 			Autoload: true,
 		}
-		_, err = s.sys.Options.Create(ctx, createBody)
+		_, err = s.sys.Option.Create(ctx, createBody)
 		if err != nil {
 			return fmt.Errorf("failed to create initialization state option: %w", err)
 		}

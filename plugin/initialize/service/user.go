@@ -42,24 +42,13 @@ func (s *Service) checkUsersInitialized(ctx context.Context) error {
 func (s *Service) initUsers(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing users in %s mode...", s.state.DataMode)
 
-	// Get default tenant based on data mode
-	var tenantSlug string
-	switch s.state.DataMode {
-	case "website":
-		tenantSlug = "website-platform"
-	case "company":
-		tenantSlug = "digital-company"
-	case "enterprise":
-		tenantSlug = "digital-enterprise"
-	default:
-		tenantSlug = "website-platform"
-	}
-
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, tenantSlug)
+	// Get default tenant
+	tenant, err := s.getDefaultTenant(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "Error getting default tenant: %v", err)
 		return err
 	}
+
 	dataLoader := s.getDataLoader()
 	users := dataLoader.GetUsers()
 

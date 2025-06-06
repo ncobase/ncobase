@@ -41,7 +41,7 @@ func (s *Service) BackupState(ctx context.Context) error {
 		Autoload: false,
 	}
 
-	_, err = s.sys.Options.Create(ctx, createBody)
+	_, err = s.sys.Option.Create(ctx, createBody)
 	if err != nil {
 		return fmt.Errorf("failed to create state backup: %w", err)
 	}
@@ -61,7 +61,7 @@ func (s *Service) ListBackups(ctx context.Context) ([]initBackup, error) {
 		Prefix: "system.initialization.backup.",
 	}
 
-	options, err := s.sys.Options.List(ctx, params)
+	options, err := s.sys.Option.List(ctx, params)
 	if err != nil {
 		return nil, fmt.Errorf("failed to list backup options: %w", err)
 	}
@@ -86,7 +86,7 @@ func (s *Service) RestoreBackup(ctx context.Context, timestamp int64) error {
 	}
 
 	backupKey := fmt.Sprintf("system.initialization.backup.%d", timestamp)
-	option, err := s.sys.Options.GetByName(ctx, backupKey)
+	option, err := s.sys.Option.GetByName(ctx, backupKey)
 	if err != nil || option == nil {
 		return fmt.Errorf("backup with timestamp %d not found", timestamp)
 	}

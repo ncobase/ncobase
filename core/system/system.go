@@ -148,17 +148,17 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	options := sysGroup.Group("/options")
 	{
 		// Basic options access
-		options.GET("", m.h.Options.List)
-		options.GET("/:option", m.h.Options.Get)
-		options.GET("/name/:name", m.h.Options.GetByName)
-		options.GET("/type/:type", m.h.Options.GetByType)
-		options.POST("/batch", m.h.Options.BatchGetByNames)
+		options.GET("", m.h.Option.List)
+		options.GET("/:option", m.h.Option.Get)
+		options.GET("/name/:name", m.h.Option.GetByName)
+		options.GET("/type/:type", m.h.Option.GetByType)
+		options.POST("/batch", m.h.Option.BatchGetByNames)
 
 		// Options management - requires system management permission
-		options.POST("", middleware.HasPermission("manage:system"), m.h.Options.Create)
-		options.PUT("", middleware.HasPermission("manage:system"), m.h.Options.Update)
-		options.DELETE("/:option", middleware.HasPermission("manage:system"), m.h.Options.Delete)
-		options.DELETE("/prefix", middleware.HasPermission("manage:system"), m.h.Options.DeleteByPrefix)
+		options.POST("", middleware.HasPermission("manage:system"), m.h.Option.Create)
+		options.PUT("", middleware.HasPermission("manage:system"), m.h.Option.Update)
+		options.DELETE("/:option", middleware.HasPermission("manage:system"), m.h.Option.Delete)
+		options.DELETE("/prefix", middleware.HasPermission("manage:system"), m.h.Option.DeleteByPrefix)
 	}
 }
 

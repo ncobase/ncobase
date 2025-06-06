@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	menuData "ncobase/initialize/data"
 	"ncobase/system/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
@@ -21,11 +22,22 @@ func (s *Service) checkMenusInitialized(ctx context.Context) error {
 	return s.initMenus(ctx)
 }
 
+// getMenuData returns menu data structure
+func (s *Service) getMenuData() *struct {
+	Headers  []structs.MenuBody
+	Sidebars []structs.MenuBody
+	Submenus []structs.MenuBody
+	Accounts []structs.MenuBody
+	Tenants  []structs.MenuBody
+} {
+	return &menuData.SystemDefaultMenus
+}
+
 // verifyMenuData validates menu data before initialization
 func (s *Service) verifyMenuData(ctx context.Context) error {
-	menuData := s.getMenuData()
+	menus := s.getMenuData()
 
-	if len(menuData.Headers) == 0 {
+	if len(menus.Headers) == 0 {
 		return fmt.Errorf("no header menus defined")
 	}
 
@@ -34,7 +46,7 @@ func (s *Service) verifyMenuData(ctx context.Context) error {
 		"system":    false,
 	}
 
-	for _, header := range menuData.Headers {
+	for _, header := range menus.Headers {
 		if _, ok := requiredHeaders[header.Slug]; ok {
 			requiredHeaders[header.Slug] = true
 		}
@@ -49,7 +61,7 @@ func (s *Service) verifyMenuData(ctx context.Context) error {
 	return nil
 }
 
-// Initialize default menu structure and create tenant relationships
+// initMenus initializes default menu structure and creates tenant relationships
 func (s *Service) initMenus(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing default menus...")
 
@@ -57,20 +69,8 @@ func (s *Service) initMenus(ctx context.Context) error {
 		return fmt.Errorf("menu data verification failed: %w", err)
 	}
 
-	// Get default tenant based on data mode
-	var tenantSlug string
-	switch s.state.DataMode {
-	case "website":
-		tenantSlug = "website-platform"
-	case "company":
-		tenantSlug = "digital-company"
-	case "enterprise":
-		tenantSlug = "digital-enterprise"
-	default:
-		tenantSlug = "website-platform"
-	}
-
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, tenantSlug)
+	// Get default tenant
+	tenant, err := s.getDefaultTenant(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "initMenus error on get default tenant: %v", err)
 		return fmt.Errorf("failed to get default tenant: %w", err)
@@ -79,11 +79,6 @@ func (s *Service) initMenus(ctx context.Context) error {
 	adminUser, err := s.getAdminUser(ctx, "menu creation")
 	if err != nil {
 		return err
-	}
-
-	if adminUser == nil {
-		logger.Errorf(ctx, "initMenus error: no admin user found")
-		return fmt.Errorf("no suitable admin user found for menu creation")
 	}
 
 	defaultExtras := make(types.JSON)
@@ -95,7 +90,6 @@ func (s *Service) initMenus(ctx context.Context) error {
 	headerIDMap := make(map[string]string)
 	for _, header := range menuData.Headers {
 		menuBody := header
-		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
@@ -133,7 +127,6 @@ func (s *Service) initMenus(ctx context.Context) error {
 			}
 		}
 
-		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
@@ -173,7 +166,6 @@ func (s *Service) initMenus(ctx context.Context) error {
 			}
 		}
 
-		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
@@ -198,7 +190,6 @@ func (s *Service) initMenus(ctx context.Context) error {
 	// Create account menus
 	for _, menu := range menuData.Accounts {
 		menuBody := menu
-		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
@@ -223,7 +214,6 @@ func (s *Service) initMenus(ctx context.Context) error {
 	// Create tenant menus
 	for _, menu := range menuData.Tenants {
 		menuBody := menu
-		// Remove tenant_id from menu creation
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras

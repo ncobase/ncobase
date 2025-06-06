@@ -67,6 +67,26 @@ func (gu *GroupUpdate) ClearSlug() *GroupUpdate {
 	return gu
 }
 
+// SetType sets the "type" field.
+func (gu *GroupUpdate) SetType(s string) *GroupUpdate {
+	gu.mutation.SetType(s)
+	return gu
+}
+
+// SetNillableType sets the "type" field if the given value is not nil.
+func (gu *GroupUpdate) SetNillableType(s *string) *GroupUpdate {
+	if s != nil {
+		gu.SetType(*s)
+	}
+	return gu
+}
+
+// ClearType clears the value of the "type" field.
+func (gu *GroupUpdate) ClearType() *GroupUpdate {
+	gu.mutation.ClearType()
+	return gu
+}
+
 // SetDisabled sets the "disabled" field.
 func (gu *GroupUpdate) SetDisabled(b bool) *GroupUpdate {
 	gu.mutation.SetDisabled(b)
@@ -272,6 +292,12 @@ func (gu *GroupUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if gu.mutation.SlugCleared() {
 		_spec.ClearField(group.FieldSlug, field.TypeString)
 	}
+	if value, ok := gu.mutation.GetType(); ok {
+		_spec.SetField(group.FieldType, field.TypeString, value)
+	}
+	if gu.mutation.TypeCleared() {
+		_spec.ClearField(group.FieldType, field.TypeString)
+	}
 	if value, ok := gu.mutation.Disabled(); ok {
 		_spec.SetField(group.FieldDisabled, field.TypeBool, value)
 	}
@@ -383,6 +409,26 @@ func (guo *GroupUpdateOne) SetNillableSlug(s *string) *GroupUpdateOne {
 // ClearSlug clears the value of the "slug" field.
 func (guo *GroupUpdateOne) ClearSlug() *GroupUpdateOne {
 	guo.mutation.ClearSlug()
+	return guo
+}
+
+// SetType sets the "type" field.
+func (guo *GroupUpdateOne) SetType(s string) *GroupUpdateOne {
+	guo.mutation.SetType(s)
+	return guo
+}
+
+// SetNillableType sets the "type" field if the given value is not nil.
+func (guo *GroupUpdateOne) SetNillableType(s *string) *GroupUpdateOne {
+	if s != nil {
+		guo.SetType(*s)
+	}
+	return guo
+}
+
+// ClearType clears the value of the "type" field.
+func (guo *GroupUpdateOne) ClearType() *GroupUpdateOne {
+	guo.mutation.ClearType()
 	return guo
 }
 
@@ -620,6 +666,12 @@ func (guo *GroupUpdateOne) sqlSave(ctx context.Context) (_node *Group, err error
 	}
 	if guo.mutation.SlugCleared() {
 		_spec.ClearField(group.FieldSlug, field.TypeString)
+	}
+	if value, ok := guo.mutation.GetType(); ok {
+		_spec.SetField(group.FieldType, field.TypeString, value)
+	}
+	if guo.mutation.TypeCleared() {
+		_spec.ClearField(group.FieldType, field.TypeString)
 	}
 	if value, ok := guo.mutation.Disabled(); ok {
 		_spec.SetField(group.FieldDisabled, field.TypeBool, value)

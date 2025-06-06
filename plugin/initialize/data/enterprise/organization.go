@@ -17,17 +17,20 @@ var OrganizationStructure = struct {
 	Enterprise: structs.GroupBody{
 		Name:        "Digital Enterprise Group",
 		Slug:        "digital-enterprise",
+		Type:        "enterprise",
 		Description: "Multi-tenant digital enterprise management platform",
 	},
 	Headquarters: []structs.GroupBody{
 		{
 			Name:        "Executive Office",
 			Slug:        "executive-office",
+			Type:        "department",
 			Description: "Executive leadership and strategic management",
 		},
 		{
 			Name:        "Corporate HR",
 			Slug:        "corporate-hr",
+			Type:        "department",
 			Description: "Enterprise-wide human resources management",
 		},
 		{
@@ -38,6 +41,7 @@ var OrganizationStructure = struct {
 		{
 			Name:        "Corporate IT",
 			Slug:        "corporate-it",
+			Type:        "department",
 			Description: "Enterprise IT infrastructure and services",
 		},
 	},
@@ -45,16 +49,19 @@ var OrganizationStructure = struct {
 		{
 			Name:        "TechCorp Solutions",
 			Slug:        "techcorp",
+			Type:        "subsidiary",
 			Description: "Technology solutions and software development",
 		},
 		{
 			Name:        "MediaCorp Digital",
 			Slug:        "mediacorp",
+			Type:        "subsidiary",
 			Description: "Digital media and content creation services",
 		},
 		{
 			Name:        "ConsultCorp Advisory",
 			Slug:        "consultcorp",
+			Type:        "subsidiary",
 			Description: "Business consulting and advisory services",
 		},
 	},
@@ -65,24 +72,26 @@ var OrganizationStructure = struct {
 					Info: structs.GroupBody{
 						Name:        "Technology Department",
 						Slug:        "technology",
+						Type:        "department",
 						Description: "Software development and technical operations",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Backend Development", Slug: "backend-dev", Description: "Server-side development team"},
-						{Name: "Frontend Development", Slug: "frontend-dev", Description: "Client-side development team"},
-						{Name: "DevOps", Slug: "devops", Description: "Development operations and infrastructure"},
-						{Name: "QA Engineering", Slug: "qa-engineering", Description: "Quality assurance and testing"},
+						{Name: "Backend Development", Slug: "backend-dev", Type: "team", Description: "Server-side development team"},
+						{Name: "Frontend Development", Slug: "frontend-dev", Type: "team", Description: "Client-side development team"},
+						{Name: "DevOps", Slug: "devops", Type: "team", Description: "Development operations and infrastructure"},
+						{Name: "QA Engineering", Slug: "qa-engineering", Type: "team", Description: "Quality assurance and testing"},
 					},
 				},
 				{
 					Info: structs.GroupBody{
 						Name:        "Product Management",
 						Slug:        "product-management",
+						Type:        "department",
 						Description: "Product strategy and management",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Product Strategy", Slug: "product-strategy", Description: "Product planning and roadmap"},
-						{Name: "UX/UI Design", Slug: "ux-ui-design", Description: "User experience and interface design"},
+						{Name: "Product Strategy", Slug: "product-strategy", Type: "team", Description: "Product planning and roadmap"},
+						{Name: "UX/UI Design", Slug: "ux-ui-design", Type: "team", Description: "User experience and interface design"},
 					},
 				},
 			},
@@ -93,23 +102,25 @@ var OrganizationStructure = struct {
 					Info: structs.GroupBody{
 						Name:        "Content Production",
 						Slug:        "content-production",
+						Type:        "department",
 						Description: "Digital content creation and production",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Video Production", Slug: "video-production", Description: "Video content creation"},
-						{Name: "Editorial", Slug: "editorial", Description: "Content writing and editing"},
-						{Name: "Graphic Design", Slug: "graphic-design", Description: "Visual design and graphics"},
+						{Name: "Video Production", Slug: "video-production", Type: "team", Description: "Video content creation"},
+						{Name: "Editorial", Slug: "editorial", Type: "team", Description: "Content writing and editing"},
+						{Name: "Graphic Design", Slug: "graphic-design", Type: "team", Description: "Visual design and graphics"},
 					},
 				},
 				{
 					Info: structs.GroupBody{
 						Name:        "Digital Marketing",
 						Slug:        "digital-marketing",
+						Type:        "department",
 						Description: "Digital marketing and promotion",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Social Media", Slug: "social-media", Description: "Social media management"},
-						{Name: "SEO/SEM", Slug: "seo-sem", Description: "Search engine optimization and marketing"},
+						{Name: "Social Media", Slug: "social-media", Type: "team", Description: "Social media management"},
+						{Name: "SEO/SEM", Slug: "seo-sem", Type: "team", Description: "Search engine optimization and marketing"},
 					},
 				},
 			},
@@ -120,11 +131,12 @@ var OrganizationStructure = struct {
 					Info: structs.GroupBody{
 						Name:        "Business Consulting",
 						Slug:        "business-consulting",
+						Type:        "department",
 						Description: "Strategic business consulting services",
 					},
 					Teams: []structs.GroupBody{
-						{Name: "Strategy Consulting", Slug: "strategy-consulting", Description: "Strategic planning and advisory"},
-						{Name: "Process Optimization", Slug: "process-optimization", Description: "Business process improvement"},
+						{Name: "Strategy Consulting", Slug: "strategy-consulting", Type: "team", Description: "Strategic planning and advisory"},
+						{Name: "Process Optimization", Slug: "process-optimization", Type: "team", Description: "Business process improvement"},
 					},
 				},
 			},
@@ -135,33 +147,36 @@ var OrganizationStructure = struct {
 			Info: structs.GroupBody{
 				Name:        "Human Resources",
 				Slug:        "%s-hr", // Format with company slug
+				Type:        "department",
 				Description: "Human resources management",
 			},
 			Teams: []structs.GroupBody{
-				{Name: "Recruitment", Slug: "%s-recruitment", Description: "Talent acquisition"},
-				{Name: "Employee Relations", Slug: "%s-employee-relations", Description: "Employee support and relations"},
+				{Name: "Recruitment", Slug: "%s-recruitment", Type: "team", Description: "Talent acquisition"},
+				{Name: "Employee Relations", Slug: "%s-employee-relations", Type: "team", Description: "Employee support and relations"},
 			},
 		},
 		{
 			Info: structs.GroupBody{
 				Name:        "Finance & Accounting",
 				Slug:        "%s-finance",
+				Type:        "department",
 				Description: "Financial management and accounting",
 			},
 			Teams: []structs.GroupBody{
-				{Name: "Accounting", Slug: "%s-accounting", Description: "Financial accounting"},
-				{Name: "Financial Planning", Slug: "%s-financial-planning", Description: "Budget and planning"},
+				{Name: "Accounting", Slug: "%s-accounting", Type: "team", Description: "Financial accounting"},
+				{Name: "Financial Planning", Slug: "%s-financial-planning", Type: "team", Description: "Budget and planning"},
 			},
 		},
 		{
 			Info: structs.GroupBody{
 				Name:        "Operations",
 				Slug:        "%s-operations",
+				Type:        "department",
 				Description: "Operational management and support",
 			},
 			Teams: []structs.GroupBody{
-				{Name: "Administration", Slug: "%s-administration", Description: "Administrative support"},
-				{Name: "Facilities", Slug: "%s-facilities", Description: "Facilities management"},
+				{Name: "Administration", Slug: "%s-administration", Type: "team", Description: "Administrative support"},
+				{Name: "Facilities", Slug: "%s-facilities", Type: "team", Description: "Facilities management"},
 			},
 		},
 	},

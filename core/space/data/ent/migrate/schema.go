@@ -14,6 +14,7 @@ var (
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
+		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
 		{Name: "leader", Type: field.TypeJSON, Nullable: true, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"},
@@ -43,12 +44,12 @@ var (
 			{
 				Name:    "group_parent_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysGroupColumns[7]},
+				Columns: []*schema.Column{NcseSysGroupColumns[8]},
 			},
 			{
 				Name:    "group_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysGroupColumns[0], NcseSysGroupColumns[10]},
+				Columns: []*schema.Column{NcseSysGroupColumns[0], NcseSysGroupColumns[11]},
 			},
 		},
 	}

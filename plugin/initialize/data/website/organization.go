@@ -11,6 +11,7 @@ var OrganizationStructure = struct {
 	MainGroup: structs.GroupBody{
 		Name:        "Website",
 		Slug:        "website-platform",
+		Type:        "website",
 		Description: "Main website organization",
 	},
 }

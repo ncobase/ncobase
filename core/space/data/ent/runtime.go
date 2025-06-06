@@ -16,34 +16,34 @@ func init() {
 	groupMixin := schema.Group{}.Mixin()
 	groupMixinFields0 := groupMixin[0].Fields()
 	_ = groupMixinFields0
-	groupMixinFields3 := groupMixin[3].Fields()
-	_ = groupMixinFields3
-	groupMixinFields5 := groupMixin[5].Fields()
-	_ = groupMixinFields5
+	groupMixinFields4 := groupMixin[4].Fields()
+	_ = groupMixinFields4
 	groupMixinFields6 := groupMixin[6].Fields()
 	_ = groupMixinFields6
-	groupMixinFields9 := groupMixin[9].Fields()
-	_ = groupMixinFields9
+	groupMixinFields7 := groupMixin[7].Fields()
+	_ = groupMixinFields7
+	groupMixinFields10 := groupMixin[10].Fields()
+	_ = groupMixinFields10
 	groupFields := schema.Group{}.Fields()
 	_ = groupFields
 	// groupDescDisabled is the schema descriptor for disabled field.
-	groupDescDisabled := groupMixinFields3[0].Descriptor()
+	groupDescDisabled := groupMixinFields4[0].Descriptor()
 	// group.DefaultDisabled holds the default value on creation for the disabled field.
 	group.DefaultDisabled = groupDescDisabled.Default.(bool)
 	// groupDescLeader is the schema descriptor for leader field.
-	groupDescLeader := groupMixinFields5[0].Descriptor()
+	groupDescLeader := groupMixinFields6[0].Descriptor()
 	// group.DefaultLeader holds the default value on creation for the leader field.
 	group.DefaultLeader = groupDescLeader.Default.(map[string]interface{})
 	// groupDescExtras is the schema descriptor for extras field.
-	groupDescExtras := groupMixinFields6[0].Descriptor()
+	groupDescExtras := groupMixinFields7[0].Descriptor()
 	// group.DefaultExtras holds the default value on creation for the extras field.
 	group.DefaultExtras = groupDescExtras.Default.(map[string]interface{})
 	// groupDescCreatedAt is the schema descriptor for created_at field.
-	groupDescCreatedAt := groupMixinFields9[0].Descriptor()
+	groupDescCreatedAt := groupMixinFields10[0].Descriptor()
 	// group.DefaultCreatedAt holds the default value on creation for the created_at field.
 	group.DefaultCreatedAt = groupDescCreatedAt.Default.(func() int64)
 	// groupDescUpdatedAt is the schema descriptor for updated_at field.
-	groupDescUpdatedAt := groupMixinFields9[1].Descriptor()
+	groupDescUpdatedAt := groupMixinFields10[1].Descriptor()
 	// group.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	group.DefaultUpdatedAt = groupDescUpdatedAt.Default.(func() int64)
 	// group.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.

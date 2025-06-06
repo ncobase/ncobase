@@ -58,6 +58,7 @@ func (r *groupRepository) Create(ctx context.Context, body *structs.CreateGroupB
 	builder := r.ec.Group.Create()
 	builder.SetNillableName(&body.Name)
 	builder.SetNillableSlug(&body.Slug)
+	builder.SetNillableType(&body.Type)
 	builder.SetNillableDescription(&body.Description)
 	builder.SetDisabled(body.Disabled)
 	builder.SetNillableParentID(body.ParentID)
@@ -169,6 +170,8 @@ func (r *groupRepository) Update(ctx context.Context, slug string, updates types
 			builder.SetNillableName(convert.ToPointer(value.(string)))
 		case "slug":
 			builder.SetNillableSlug(convert.ToPointer(value.(string)))
+		case "type":
+			builder.SetNillableType(convert.ToPointer(value.(string)))
 		case "description":
 			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "leader":

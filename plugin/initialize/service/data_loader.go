@@ -2,7 +2,6 @@ package service
 
 import (
 	accessStructs "ncobase/access/structs"
-	menuData "ncobase/initialize/data"
 	companyData "ncobase/initialize/data/company"
 	enterpriseData "ncobase/initialize/data/enterprise"
 	websiteData "ncobase/initialize/data/website"
@@ -11,6 +10,7 @@ import (
 	userStructs "ncobase/user/structs"
 )
 
+// DataLoader interface for mode-specific data
 type DataLoader interface {
 	GetRoles() []accessStructs.CreateRoleBody
 	GetPermissions() []accessStructs.CreatePermissionBody
@@ -26,12 +26,74 @@ type DataLoader interface {
 	GetOrganizationStructure() any
 }
 
+// UserCreationInfo combines user data for initialization
 type UserCreationInfo struct {
 	User     userStructs.UserBody        `json:"user"`
 	Password string                      `json:"password"`
 	Profile  userStructs.UserProfileBody `json:"profile"`
 	Role     string                      `json:"role"`
 	Employee *userStructs.EmployeeBody   `json:"employee,omitempty"`
+}
+
+// WebsiteDataLoader for website mode
+type WebsiteDataLoader struct{}
+
+func (w *WebsiteDataLoader) GetRoles() []accessStructs.CreateRoleBody {
+	return websiteData.SystemDefaultRoles
+}
+
+func (w *WebsiteDataLoader) GetPermissions() []accessStructs.CreatePermissionBody {
+	return websiteData.SystemDefaultPermissions
+}
+
+func (w *WebsiteDataLoader) GetRolePermissionMapping() map[string][]string {
+	return websiteData.RolePermissionMapping
+}
+
+func (w *WebsiteDataLoader) GetCasbinPolicyRules() [][]string {
+	return websiteData.CasbinPolicyRules
+}
+
+func (w *WebsiteDataLoader) GetRoleInheritanceRules() [][]string {
+	return websiteData.RoleInheritanceRules
+}
+
+func (w *WebsiteDataLoader) GetUsers() []UserCreationInfo {
+	users := make([]UserCreationInfo, len(websiteData.SystemDefaultUsers))
+	for i, u := range websiteData.SystemDefaultUsers {
+		users[i] = UserCreationInfo{
+			User:     u.User,
+			Password: u.Password,
+			Profile:  u.Profile,
+			Role:     u.Role,
+			Employee: u.Employee,
+		}
+	}
+	return users
+}
+
+func (w *WebsiteDataLoader) GetTenants() []tenantStructs.CreateTenantBody {
+	return websiteData.SystemDefaultTenants
+}
+
+func (w *WebsiteDataLoader) GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody {
+	return websiteData.SystemDefaultTenantQuotas
+}
+
+func (w *WebsiteDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSettingBody {
+	return websiteData.SystemDefaultTenantSettings
+}
+
+func (w *WebsiteDataLoader) GetOptions() []systemStructs.OptionBody {
+	return websiteData.SystemDefaultOptions
+}
+
+func (w *WebsiteDataLoader) GetDictionaries() []systemStructs.DictionaryBody {
+	return websiteData.SystemDefaultDictionaries
+}
+
+func (w *WebsiteDataLoader) GetOrganizationStructure() any {
+	return websiteData.OrganizationStructure
 }
 
 // CompanyDataLoader for company mode
@@ -156,67 +218,6 @@ func (e *EnterpriseDataLoader) GetOrganizationStructure() any {
 	return enterpriseData.OrganizationStructure
 }
 
-// WebsiteDataLoader for website mode
-type WebsiteDataLoader struct{}
-
-func (w *WebsiteDataLoader) GetRoles() []accessStructs.CreateRoleBody {
-	return websiteData.SystemDefaultRoles
-}
-
-func (w *WebsiteDataLoader) GetPermissions() []accessStructs.CreatePermissionBody {
-	return websiteData.SystemDefaultPermissions
-}
-
-func (w *WebsiteDataLoader) GetRolePermissionMapping() map[string][]string {
-	return websiteData.RolePermissionMapping
-}
-
-func (w *WebsiteDataLoader) GetCasbinPolicyRules() [][]string {
-	return websiteData.CasbinPolicyRules
-}
-
-func (w *WebsiteDataLoader) GetRoleInheritanceRules() [][]string {
-	return websiteData.RoleInheritanceRules
-}
-
-func (w *WebsiteDataLoader) GetUsers() []UserCreationInfo {
-	users := make([]UserCreationInfo, len(websiteData.SystemDefaultUsers))
-	for i, u := range websiteData.SystemDefaultUsers {
-		users[i] = UserCreationInfo{
-			User:     u.User,
-			Password: u.Password,
-			Profile:  u.Profile,
-			Role:     u.Role,
-			Employee: u.Employee,
-		}
-	}
-	return users
-}
-
-func (w *WebsiteDataLoader) GetTenants() []tenantStructs.CreateTenantBody {
-	return websiteData.SystemDefaultTenants
-}
-
-func (w *WebsiteDataLoader) GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody {
-	return websiteData.SystemDefaultTenantQuotas
-}
-
-func (w *WebsiteDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSettingBody {
-	return websiteData.SystemDefaultTenantSettings
-}
-
-func (w *WebsiteDataLoader) GetOptions() []systemStructs.OptionBody {
-	return websiteData.SystemDefaultOptions
-}
-
-func (w *WebsiteDataLoader) GetDictionaries() []systemStructs.DictionaryBody {
-	return websiteData.SystemDefaultDictionaries
-}
-
-func (w *WebsiteDataLoader) GetOrganizationStructure() any {
-	return websiteData.OrganizationStructure
-}
-
 // getDataLoader returns appropriate data loader based on current mode
 func (s *Service) getDataLoader() DataLoader {
 	switch s.state.DataMode {
@@ -229,14 +230,4 @@ func (s *Service) getDataLoader() DataLoader {
 	default:
 		return &WebsiteDataLoader{}
 	}
-}
-
-func (s *Service) getMenuData() *struct {
-	Headers  []systemStructs.MenuBody
-	Sidebars []systemStructs.MenuBody
-	Submenus []systemStructs.MenuBody
-	Accounts []systemStructs.MenuBody
-	Tenants  []systemStructs.MenuBody
-} {
-	return &menuData.SystemDefaultMenus
 }

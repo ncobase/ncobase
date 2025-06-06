@@ -57,7 +57,7 @@ func (h *optionHandler) Create(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Options.Create(c.Request.Context(), body)
+	result, err := h.s.Option.Create(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -87,7 +87,7 @@ func (h *optionHandler) Update(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Options.Update(c.Request.Context(), body)
+	result, err := h.s.Option.Update(c.Request.Context(), body)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -118,7 +118,7 @@ func (h *optionHandler) Get(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Options.Get(c.Request.Context(), params)
+	result, err := h.s.Option.Get(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -140,7 +140,7 @@ func (h *optionHandler) Get(c *gin.Context) {
 func (h *optionHandler) GetByName(c *gin.Context) {
 	name := c.Param("name")
 
-	result, err := h.s.Options.GetByName(c.Request.Context(), name)
+	result, err := h.s.Option.GetByName(c.Request.Context(), name)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -163,7 +163,7 @@ func (h *optionHandler) GetByName(c *gin.Context) {
 func (h *optionHandler) GetByType(c *gin.Context) {
 	typeName := c.Param("type")
 
-	result, err := h.s.Options.GetByType(c.Request.Context(), typeName)
+	result, err := h.s.Option.GetByType(c.Request.Context(), typeName)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -191,7 +191,7 @@ func (h *optionHandler) BatchGetByNames(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Options.BatchGetByNames(c.Request.Context(), names)
+	result, err := h.s.Option.BatchGetByNames(c.Request.Context(), names)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -213,7 +213,7 @@ func (h *optionHandler) BatchGetByNames(c *gin.Context) {
 // @Security Bearer
 func (h *optionHandler) Delete(c *gin.Context) {
 	params := &structs.FindOptions{Option: c.Param("option")}
-	err := h.s.Options.Delete(c.Request.Context(), params)
+	err := h.s.Option.Delete(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -240,7 +240,7 @@ func (h *optionHandler) DeleteByPrefix(c *gin.Context) {
 		return
 	}
 
-	err := h.s.Options.DeleteByPrefix(c.Request.Context(), prefix)
+	err := h.s.Option.DeleteByPrefix(c.Request.Context(), prefix)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -270,7 +270,7 @@ func (h *optionHandler) List(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Options.List(c.Request.Context(), params)
+	result, err := h.s.Option.List(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

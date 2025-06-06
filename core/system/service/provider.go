@@ -11,7 +11,7 @@ import (
 type Service struct {
 	Menu       MenuServiceInterface
 	Dictionary DictionaryServiceInterface
-	Options    OptionServiceInterface
+	Option     OptionServiceInterface
 	em         ext.ManagerInterface
 }
 
@@ -22,7 +22,7 @@ func New(d *data.Data, em ext.ManagerInterface) *Service {
 	return &Service{
 		Menu:       NewMenuService(d, em, tsw),
 		Dictionary: NewDictionaryService(d),
-		Options:    NewOptionService(d),
+		Option:     NewOptionService(d),
 		em:         em,
 	}
 }

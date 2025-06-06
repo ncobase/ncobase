@@ -10,17 +10,7 @@ import (
 
 // checkTenantsInitialized checks if tenants are already initialized
 func (s *Service) checkTenantsInitialized(ctx context.Context) error {
-	var defaultSlug string
-	switch s.state.DataMode {
-	case "website":
-		defaultSlug = "website-platform"
-	case "company":
-		defaultSlug = "digital-company"
-	case "enterprise":
-		defaultSlug = "digital-enterprise"
-	default:
-		defaultSlug = "website-platform"
-	}
+	defaultSlug := s.getDefaultTenantSlug()
 
 	tenant, err := s.ts.Tenant.GetBySlug(ctx, defaultSlug)
 	if err == nil && tenant != nil {
@@ -82,16 +72,7 @@ func (s *Service) initTenants(ctx context.Context) error {
 	}
 
 	// Verify default tenant exists
-	var defaultSlug string
-	switch s.state.DataMode {
-	case "website":
-		defaultSlug = "website-platform"
-	case "company":
-		defaultSlug = "digital-company"
-	default:
-		defaultSlug = "digital-enterprise"
-	}
-
+	defaultSlug := s.getDefaultTenantSlug()
 	defaultTenant, err := s.ts.Tenant.GetBySlug(ctx, defaultSlug)
 	if err != nil || defaultTenant == nil {
 		logger.Errorf(ctx, "Default tenant '%s' does not exist after initialization", defaultSlug)
