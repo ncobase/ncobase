@@ -205,7 +205,7 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 		case "description":
 			builder.SetNillableDescription(convert.ToPointer(value.(string)))
 		case "status":
-			builder.SetStatus(value.(int))
+			builder.SetStatus(int(value.(float64)))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "parent_id":

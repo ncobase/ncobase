@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	// DistributionStatus represents the status of a distribution
+	// DistributionStatusDraft DistributionStatus represents the status of a distribution
 	DistributionStatusDraft     int = 0
 	DistributionStatusScheduled int = 1
 	DistributionStatusPublished int = 2

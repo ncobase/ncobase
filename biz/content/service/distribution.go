@@ -57,6 +57,11 @@ func (s *distributionService) Create(ctx context.Context, body *structs.CreateDi
 		return nil, errors.New(ecode.AlreadyExist("distribution for this topic and channel"))
 	}
 
+	// convert status
+	if validator.IsEmpty(body.Status) {
+		body.Status = structs.DistributionStatusScheduled
+	}
+
 	row, err := s.r.Create(ctx, body)
 	if err := handleEntError(ctx, "Distribution", err); err != nil {
 		return nil, err
