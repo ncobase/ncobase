@@ -132,7 +132,7 @@ func (h *userTenantRoleHandler) RemoveUserFromTenantRole(c *gin.Context) {
 		return
 	}
 
-	resp.Success(c.Writer, map[string]interface{}{
+	resp.Success(c.Writer, map[string]any{
 		"status":    "removed",
 		"user_id":   userID,
 		"tenant_id": tenantID,

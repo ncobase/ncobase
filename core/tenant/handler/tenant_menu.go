@@ -101,7 +101,7 @@ func (h *tenantMenuHandler) RemoveMenuFromTenant(c *gin.Context) {
 		return
 	}
 
-	resp.Success(c.Writer, map[string]interface{}{
+	resp.Success(c.Writer, map[string]any{
 		"status":    "removed",
 		"tenant_id": tenantID,
 		"menu_id":   menuID,
@@ -132,7 +132,7 @@ func (h *tenantMenuHandler) GetTenantMenus(c *gin.Context) {
 		return
 	}
 
-	resp.Success(c.Writer, map[string]interface{}{
+	resp.Success(c.Writer, map[string]any{
 		"tenant_id": tenantID,
 		"menu_ids":  menuIDs,
 		"count":     len(menuIDs),

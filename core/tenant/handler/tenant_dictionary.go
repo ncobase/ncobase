@@ -101,7 +101,7 @@ func (h *tenantDictionaryHandler) RemoveDictionaryFromTenant(c *gin.Context) {
 		return
 	}
 
-	resp.Success(c.Writer, map[string]interface{}{
+	resp.Success(c.Writer, map[string]any{
 		"status":        "removed",
 		"tenant_id":     tenantID,
 		"dictionary_id": dictionaryID,
@@ -132,7 +132,7 @@ func (h *tenantDictionaryHandler) GetTenantDictionaries(c *gin.Context) {
 		return
 	}
 
-	resp.Success(c.Writer, map[string]interface{}{
+	resp.Success(c.Writer, map[string]any{
 		"tenant_id":      tenantID,
 		"dictionary_ids": dictionaryIDs,
 		"count":          len(dictionaryIDs),

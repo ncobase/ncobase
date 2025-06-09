@@ -101,7 +101,7 @@ func (h *tenantOptionHandler) RemoveOptionsFromTenant(c *gin.Context) {
 		return
 	}
 
-	resp.Success(c.Writer, map[string]interface{}{
+	resp.Success(c.Writer, map[string]any{
 		"status":    "removed",
 		"tenant_id": tenantID,
 		"option_id": optionsID,
@@ -132,7 +132,7 @@ func (h *tenantOptionHandler) GetTenantOption(c *gin.Context) {
 		return
 	}
 
-	resp.Success(c.Writer, map[string]interface{}{
+	resp.Success(c.Writer, map[string]any{
 		"tenant_id":  tenantID,
 		"option_ids": optionsIDs,
 		"count":      len(optionsIDs),
